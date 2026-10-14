@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7600",
+   "name": "MB_SEQ_StartPartyListToTake",
    "address": "0x021C7600",
    "kind": "game",
    "region": "ov136",

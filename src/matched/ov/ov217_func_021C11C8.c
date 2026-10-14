@@ -1,5 +1,5 @@
 /*
- * function: func_021C11C8
+ * function: CircleGraph_FindSliceIndex
  * address:  0x021C11C8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C1A84.
+ * Tail-call veneer: branch to CircleGraph_FindSliceIndexImpl.
  *
  * symbols:
- *   func_021C1A84  0x021C1A84  thumb  ov217
+ *   CircleGraph_FindSliceIndexImpl  0x021C1A84  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8 func_021C1A84(u8 *p, u8 key);
+extern u8 CircleGraph_FindSliceIndexImpl(u8 *p, u8 key);
 
-u8 func_021C11C8(u8 *p, u8 key)
+u8 CircleGraph_FindSliceIndex(u8 *p, u8 key)
 {
-    return func_021C1A84(p, key);
+    return CircleGraph_FindSliceIndexImpl(p, key);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B796C
+ * function: CTVT_CAMVIEW_SetWindowLayout
  * address: 0x021B796C
  * packet: pkt_ov172_021B796C
  * region: ov172
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BE05C 0x021BE05C thumb ov172
- *   func_021B7888 0x021B7888 thumb ov172
+ *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
+ *   CTVT_CAMVIEW_SetWindowCurRect 0x021B7888 thumb ov172
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,15 +27,15 @@ typedef struct {
     u8 pad24[0x10];
     Ent ent[4];
 } Q;
-extern int func_021BE05C(void *p);
-extern void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d);
-void func_021B796C(void *p, char *q, int i)
+extern int COMM_TVT_SYS_GetLayoutMode(void *p);
+extern void CTVT_CAMVIEW_SetWindowCurRect(void *p, u16 a, u16 b, u16 c, u16 d);
+void CTVT_CAMVIEW_SetWindowLayout(void *p, char *q, int i)
 {
     Q *s;
     int sub;
     int mode;
     s = (Q *)q;
-    sub = func_021BE05C(p);
+    sub = COMM_TVT_SYS_GetLayoutMode(p);
     mode = i;
     if (sub == 1 && i != 0)
         mode = 1;
@@ -60,27 +60,27 @@ void func_021B796C(void *p, char *q, int i)
         switch (mode) {
         case 0:
             if (s->wide == 0)
-                func_021B7888(&s->ent[i], 0, 0, 0x80, 0);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0, 0, 0x80, 0);
             else
-                func_021B7888(&s->ent[i], 0, 0, 0x40, 0);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0, 0, 0x40, 0);
             break;
         case 1:
             if (s->wide == 0)
-                func_021B7888(&s->ent[i], 0x80, 0, 0, (sub == 1) ? 0xc0 : 0x60);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0x80, 0, 0, (sub == 1) ? 0xc0 : 0x60);
             else
-                func_021B7888(&s->ent[i], 0x40, 0, 0, (sub == 1) ? 0x60 : 0x30);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0x40, 0, 0, (sub == 1) ? 0x60 : 0x30);
             break;
         case 2:
             if (s->wide == 0)
-                func_021B7888(&s->ent[i], 0, 0x60, 0x80, 0);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0, 0x60, 0x80, 0);
             else
-                func_021B7888(&s->ent[i], 0, 0x30, 0x40, 0);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0, 0x30, 0x40, 0);
             break;
         case 3:
             if (s->wide == 0)
-                func_021B7888(&s->ent[i], 0x80, 0x60, 0, 0x60);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0x80, 0x60, 0, 0x60);
             else
-                func_021B7888(&s->ent[i], 0x40, 0x30, 0, 0x30);
+                CTVT_CAMVIEW_SetWindowCurRect(&s->ent[i], 0x40, 0x30, 0, 0x30);
             break;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D95A0
+ * function: POKETRADE_PROC_GetMonSpeciesFlag
  * address: 0x021D95A0
  * packet: pkt_ov119_021D95A0
  * region: ov119
@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-u32 func_021D95A0(void *mon)
+u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon)
 {
     u32 r = 0;
     if (POKE_TOOL_GetPartyValue(mon, 3, 0) == 1)

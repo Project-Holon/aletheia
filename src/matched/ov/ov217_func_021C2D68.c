@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D68
+ * function: PALETTE_ANIME_StepHold
  * address:  0x021C2D68
  * packet:   pkt_ov217_021C2D68
  * region:   ov217
@@ -23,7 +23,7 @@ typedef signed int s32;
 
 extern void PALANM_BlendColors(u32 a, u32 b, u32 c, u32 d, u32 e);
 
-void func_021C2D68(void *p)
+void PALETTE_ANIME_StepHold(void *p)
 {
     PALANM_BlendColors(*(u32 *)&((struct Obj00115 *)p)->fC, *(u32 *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, 7, ((struct Obj00115 *)p)->f12);
     (((struct Obj00115 *)p)->f1C)++;

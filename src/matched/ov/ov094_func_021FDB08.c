@@ -1,5 +1,5 @@
 /*
- * function: func_021FDB08
+ * function: BTLV_EFFVM_DeleteEmitter
  * address:  0x021FDB08
  * packet:   pkt_ov094_021FDB08
  * region:   ov094
@@ -20,7 +20,7 @@ extern void PARTICLE_DeleteSystem(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021FDB08(void *p)
+void BTLV_EFFVM_DeleteEmitter(void *p)
 {
     void *q = PARTICLE_GetWorkBase(p);
 

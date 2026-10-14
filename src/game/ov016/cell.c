@@ -29,7 +29,7 @@
  *   DWCi_LSTlDelete  0x021d6d70  arm  ov016
  *   DWCi_QUElDelete  0x021d5450  arm  ov016
  *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
- *   g_021DE670_free  0x021DE670  data
+ *   gMemCell  0x021DE670  data
  *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
  *   OS_DisableIrqMask  0x02084998  arm
  *   DWCi_LSTlInsert  0x021D6DC4  arm  ov016
@@ -147,7 +147,7 @@ void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern MEMCELL *gCellWork;
-extern MEMCELL *g_021DE670_free;
+extern MEMCELL *gMemCell;
 
 
 /*
@@ -181,7 +181,7 @@ void DWCi_CELLlEnd(void)
         DWCi_LSTlDelete(gCellWork->c[i].list);
         DWCi_QUElDelete(gCellWork->c[i].queue);
     }
-    DWCi_HEAPlFree_((void **)&g_021DE670_free);
+    DWCi_HEAPlFree_((void **)&gMemCell);
 }
 
 

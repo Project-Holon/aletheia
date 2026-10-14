@@ -1,5 +1,5 @@
 /*
- * function: func_021FFD1C
+ * function: WORLDTRADE_SUBLCD_MoveArrowToSlot
  * address:  0x021FFD1C
  * packet:   pkt_021FFD1C
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FFAEC  0x021FFAEC  thumb
+ *   WORLDTRADE_SUBLCD_SetActorSurfacePos  0x021FFAEC  thumb
  *   tbl_022038A2   0x022038A2  data  a2
  */
 
@@ -32,9 +32,9 @@ typedef struct {
 
 extern const Pos tbl_022038A2[];
 
-extern void func_021FFAEC(u32 a, int b, int c);
+extern void WORLDTRADE_SUBLCD_SetActorSurfacePos(u32 a, int b, int c);
 
-void func_021FFD1C(Obj *p, int i, int dy)
+void WORLDTRADE_SUBLCD_MoveArrowToSlot(Obj *p, int i, int dy)
 {
-    func_021FFAEC(p->spr, tbl_022038A2[i].x, dy + (tbl_022038A2[i].y + 0x20));
+    WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr, tbl_022038A2[i].x, dy + (tbl_022038A2[i].y + 0x20));
 }

@@ -15,7 +15,7 @@
  *   func_021F8F58 0x021F8F58 thumb ov185
  *   func_021F8FB0 0x021F8FB0 thumb ov185
  *   func_021FD714 0x021FD714 thumb ov186
- *   func_021FC0C8 0x021FC0C8 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -31,7 +31,7 @@ extern void func_021F8F58(char *,char *);
 extern void func_021F8FB0(char *,char *);
 struct PrintSys;
 extern void func_021FD714(void *p);
-extern void func_021FC0C8(char *p, unsigned i);
+extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void func_021FD820(char *);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -49,7 +49,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
     func_021F8FB0(p,q);
     func_021FD714((void *)(((struct Obj03337 *)p)->f24));
     func_021F8F58(p,q);
-    func_021FC0C8((char *)(*(int *)&((struct Obj04583 *)q)->fC),6);
+    BR_RES_ReleaseSprite((char *)(*(int *)&((struct Obj04583 *)q)->fC),6);
     for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+56));
     BMP_OAM_DeleteSys((void *)(((struct Obj03337 *)p)->f28));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj03337 *)p)->f2C));

@@ -1,5 +1,5 @@
 /*
- * function: func_021D614C
+ * function: GSYNC_DISP_LoadResources
  * address: 0x021D614C
  * packet: pkt_ov123_021D614C
  * region: ov123
@@ -22,7 +22,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021D6404 0x021D6404 thumb ov123
+ *   GSYNC_DISP_LoadEffectResources 0x021D6404 thumb ov123
  */
 #include "../include/Obj00343.h"
 typedef unsigned char u8;
@@ -38,8 +38,8 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021D6404(u8 *);
-void func_021D614C(u8 *p)
+extern void GSYNC_DISP_LoadEffectResources(u8 *);
+void GSYNC_DISP_LoadResources(u8 *p)
 {
     void *h;
     h=func_020490F4((u32)((void *)143),((struct Obj00343 *)p)->f43C4);
@@ -58,5 +58,5 @@ void func_021D614C(u8 *p)
     ((struct Obj00343 *)p)->f3C=(void *)CLACT_RegisterCharacter(h,10,0,2,((struct Obj00343 *)p)->f43C4);
     ((struct Obj00343 *)p)->f24=(void *)CLACT_RegisterPaletteEx(h,4,2,224,0,0,((struct Obj00343 *)p)->f43C4);
     ((struct Obj00343 *)p)->f58=(void *)CLACT_RegisterCellAnim(h,13,26,((struct Obj00343 *)p)->f43C4);
-    func_021D6404(p); ARC_TOOL_DeleteHandle(h);
+    GSYNC_DISP_LoadEffectResources(p); ARC_TOOL_DeleteHandle(h);
 }

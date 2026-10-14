@@ -1,0 +1,6 @@
+#ifndef RESEARCH_GRAPH_SHARED_TYPES_H
+#define RESEARCH_GRAPH_SHARED_TYPES_H
+
+struct U16Vec;
+
+#endif

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5CF0
+ * function: ZUKAN_DETAIL_FORM_SwapIconActor
  * address:  0x021C5CF0
  * packet:   pkt_ov208_021C5CF0
  * region:   ov208
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status: EXACT
  *
- * func_021C53E0 takes (res, obj): the image keeps obj in r1 at the call, which
+ * ZUKAN_DETAIL_FORM_DeleteIconActor takes (res, obj): the image keeps obj in r1 at the call, which
  * is what the old register-rotation residue was.
  *
  * symbols:
  *   CLACT_SetActorDrawEnable        0x0204B3DC  arm
- *   func_021C53E0        0x021C53E0  thumb
- *   ov208_func_021C57A4  0x021C57A4  thumb
+ *   ZUKAN_DETAIL_FORM_DeleteIconActor        0x021C53E0  thumb
+ *   ZUKAN_DETAIL_FORM_CreateCurrentIcon  0x021C57A4  thumb
  */
 
 typedef unsigned char  u8;
@@ -48,18 +48,18 @@ struct Ov208Menu {
 
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void func_021C53E0(int a, int b);
-extern void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
+extern void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b);
+extern void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
 
-void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)
+void ZUKAN_DETAIL_FORM_SwapIconActor(u16 *heap, struct Ov208Menu *p, int key)
 {
     if (p->obj[p->cur] != 0)
         CLACT_SetActorDrawEnable((struct Obj *)p->obj[p->cur], 0);
     p->cur = (p->cur + 1) % 2;
     if (p->obj[p->cur] != 0) {
         if (p->obj[p->cur] != 0)
-            func_021C53E0(p->res[p->cur], p->obj[p->cur]);
+            ZUKAN_DETAIL_FORM_DeleteIconActor(p->res[p->cur], p->obj[p->cur]);
         p->obj[p->cur] = 0;
     }
-    ov208_func_021C57A4(heap, p, key, p->sel);
+    ZUKAN_DETAIL_FORM_CreateCurrentIcon(heap, p, key, p->sel);
 }

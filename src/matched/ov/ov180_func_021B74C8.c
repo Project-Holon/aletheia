@@ -1,5 +1,5 @@
 /*
- * function: func_021B74C8
+ * function: HALL_OF_FAME_ResetResourceIds
  * address:  0x021B74C8
  * packet:   pkt_ov180_021B74C8
  * region:   ov180
@@ -17,7 +17,7 @@
 extern int d_021B90CC[6];
 extern int d_021B90E4[7];
 
-void func_021B74C8(int *base)
+void HALL_OF_FAME_ResetResourceIds(int *base)
 {
     unsigned i;
 

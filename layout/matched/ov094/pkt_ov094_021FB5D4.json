@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB5D4",
+   "name": "BTLV_EFFVM_CmdSetStageFieldTint",
    "address": "0x021FB5D4",
    "kind": "game",
    "region": "ov094",

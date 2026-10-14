@@ -1,5 +1,5 @@
 /*
- * function: func_021BF4C4
+ * function: ZUKAN_DETAIL_INFO_ResetButtons
  * address:  0x021BF4C4
  * packet:   pkt_021BF4C4
  * region:   ov208
@@ -24,7 +24,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 typedef unsigned short u16;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021BF4C4(int unused, char *q, int c, int *tbl)
+void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, int c, int *tbl)
 {
     unsigned char i;
 

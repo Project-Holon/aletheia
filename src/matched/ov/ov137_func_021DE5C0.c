@@ -1,5 +1,5 @@
 /*
- * function: func_021DE5C0
+ * function: GURU2_RECEIPT_ClearMessageFrame
  * address:  0x021DE5C0
  * packet:   pkt_021DE5C0
  * region:   ov137
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void func_0201F7A8(void *desc, u32 kind);
 
-void func_021DE5C0(u8 *p)
+void GURU2_RECEIPT_ClearMessageFrame(u8 *p)
 {
     func_0201F7A8(((struct Obj23734 *)p)->fD4, 0);
 }

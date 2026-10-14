@@ -11,7 +11,7 @@
  *
  * Flag getter: bit 4 of the byte at 0x1A5 (the lsls #27 / lsrs #31 pair is
  * a one-bit bitfield read).  A leaf with no lr save, so disasm.py left it as
- * .word data; filed for ov011 func_02172D70, whose only unresolved call
+ * .word data; filed for ov011 INTRUDE_COMM_MainStep, whose only unresolved call
  * site besides arm9 0x02008494 it was.
  */
 

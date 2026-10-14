@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDD80",
+   "name": "GURU2_RECEIPT_StateQuitMenu",
    "address": "0x021DDD80",
    "kind": "game",
    "region": "ov137",

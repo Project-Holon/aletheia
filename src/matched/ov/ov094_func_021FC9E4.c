@@ -1,5 +1,5 @@
 /*
- * function: func_021FC9E4
+ * function: BTLV_EFFVM_WaitTaskCallback
  * address:  0x021FC9E4
  * packet:   pkt_ov094_021FC9E4
  * region:   ov094
@@ -16,7 +16,7 @@ typedef struct {
     unsigned bit : 1;
 } Flags;
 
-int func_021FC9E4(void *a, Flags *s)
+int BTLV_EFFVM_WaitTaskCallback(void *a, Flags *s)
 {
     if (s->bit)
         return 0;

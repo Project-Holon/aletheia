@@ -1,5 +1,5 @@
 /*
- * function: func_021B681C
+ * function: HALL_OF_FAME_DeleteBackdropParticle
  * address:  0x021B681C
  * packet:   pkt_021B681C
  * region:   ov180
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 extern void PARTICLE_DeleteSystem(u8 *p);
 
-void func_021B681C(int *p)
+void HALL_OF_FAME_DeleteBackdropParticle(int *p)
 {
     PARTICLE_DeleteSystem((u8 *)(((struct Obj14401 *)p)->f2C));
     ((struct Obj14401 *)p)->f2C = 0;

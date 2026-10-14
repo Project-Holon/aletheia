@@ -13,6 +13,7 @@
  *   func_021C4674   0x021C4674  arm
  *   DWCi_BTNlSet  0x021BCB28  arm
  *   DWCi_IPTlCheckTrigger  0x021D6824  arm
+ *   DWCi_SceneOptMovWait_DetectFold  0x021C44EC  arm
  *
  * Two-stage guard around DWCi_BTNlSet.
  * Addresses are Black-image addresses.
@@ -23,7 +24,7 @@
  */
 
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int func_021C44EC(void);
+extern int DWCi_SceneOptMovWait_DetectFold(void);
 extern void DWCi_BTNlSet(signed char v);
 
 void func_021C4674(void)
@@ -33,6 +34,6 @@ void func_021C4674(void)
         DWCi_BTNlSet(0);
         return;
     }
-    if (func_021C44EC())
+    if (DWCi_SceneOptMovWait_DetectFold())
         DWCi_BTNlSet(0);
 }

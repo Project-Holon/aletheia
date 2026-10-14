@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C3B6C
+ * function: ZUKAN_DETAIL_FORM_Init
  * address: 0x021C3B6C
  * packet: pkt_ov208_021C3B6C
  * region: ov208
@@ -19,7 +19,7 @@
  *   ov208_func_021BCF4C 0x021BCF4C thumb ov208
  *   ov208_func_021BC3AC 0x021BC3AC thumb ov208
  *   func_020056A0 0x020056A0 thumb
- *   ov208_func_021C47B4 0x021C47B4 thumb ov208
+ *   ZUKAN_DETAIL_FORM_ApplyPendingDisplay 0x021C47B4 thumb ov208
  *   ov208_func_021C4AC4 0x021C4AC4 thumb ov208
  *   ov208_func_021BC448 0x021BC448 thumb ov208
  *   ov208_func_021BC518 0x021BC518 thumb ov208
@@ -37,7 +37,7 @@ extern int ov208_func_021BC3A8(int key);
 extern void *ov208_func_021BCF4C(int a);
 extern void *ov208_func_021BC3AC(int key);
 extern void *func_020056A0(void (*fn)(void), void *p, u32 c);
-extern void ov208_func_021C47B4(void);
+extern void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(void);
 extern void ov208_func_021C4AC4(u16 *heap, u8 *p, int key);
 extern void *ov208_func_021BC448(u32 heap);
 extern void ov208_func_021BC518(void *a);
@@ -47,7 +47,7 @@ extern void *ov208_func_021BC610(u32 heap);
 #define W(o) (*(u32 *)(p + (o)))
 #define PW(o) (*(void **)(p + (o)))
 
-int ov208_func_021C3B6C(void *proc, int *seq, u16 *heap, u8 *unused, int key)
+int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, int key)
 {
     u8 *p;
     u8 i;
@@ -64,7 +64,7 @@ int ov208_func_021C3B6C(void *proc, int *seq, u16 *heap, u8 *unused, int key)
         *(u32 *)(p + 0x13c + i * 4) = 0;
     W(0x144) = 0;
     W(0x124) = 1;
-    PW(0x6a0) = func_020056A0(ov208_func_021C47B4, p, 1);
+    PW(0x6a0) = func_020056A0(ZUKAN_DETAIL_FORM_ApplyPendingDisplay, p, 1);
     ov208_func_021C4AC4(heap, p, key);
     PW(0x6a4) = ov208_func_021BC448(*heap);
     PW(0x6a8) = ov208_func_021BC448(*heap);

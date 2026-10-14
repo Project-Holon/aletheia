@@ -1,5 +1,5 @@
 /*
- * function: func_021FF028
+ * function: BR_SIDEBAR_IsSlotActive
  * address: 0x021FF028
  * packet: pkt_ov186_021FF028
  * region: ov186
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-int func_021FF028(u32 *p){return *p;}
+int BR_SIDEBAR_IsSlotActive(u32 *p){return *p;}

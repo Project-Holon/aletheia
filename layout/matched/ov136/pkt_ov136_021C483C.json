@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C483C",
+   "name": "MAILSYS_StepIncompleteNotice",
    "address": "0x021C483C",
    "kind": "game",
    "region": "ov136",

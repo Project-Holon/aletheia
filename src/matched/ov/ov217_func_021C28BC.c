@@ -1,5 +1,5 @@
 /*
- * function: func_021C28BC
+ * function: PERCENTAGE_GetHundredsDigit
  * address:  0x021C28BC
  * packet:   pkt_021C28BC
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern int _s32_div_f(int, int);
 
-u8 func_021C28BC(char *p)
+u8 PERCENTAGE_GetHundredsDigit(char *p)
 {
     return (u8)(((struct Obj26026 *)p)->f2 / 100);
 }

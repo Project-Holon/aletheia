@@ -1,5 +1,5 @@
 /*
- * function: func_021BD23C
+ * function: ZKND_TBAR_UpdateButtons
  * address: 0x021BD23C
  * packet: pkt_ov208_021BD23C
  * region: ov208
@@ -9,15 +9,15 @@
  * status: EXACT*
  * extent: 162 code bytes, then two zero alignment bytes at 021BD2DE.
  * symbols:
- *   func_021BD764 0x021BD764 thumb ov208
- *   func_021BD7E4 0x021BD7E4 thumb ov208
- *   func_021BD878 0x021BD878 thumb ov208
+ *   ZKND_TBAR_UpdateButtonTouch 0x021BD764 thumb ov208
+ *   ZKND_TBAR_IsButtonAnimating 0x021BD7E4 thumb ov208
+ *   ZKND_TBAR_GetButtonCount 0x021BD878 thumb ov208
  */
 #include "../include/Obj01977.h"
-extern int func_021BD764(char *);
-extern int func_021BD7E4(int *p);
-extern void func_021BD878(char *p);
-void func_021BD23C(char *p)
+extern int ZKND_TBAR_UpdateButtonTouch(char *);
+extern int ZKND_TBAR_IsButtonAnimating(int *p);
+extern void ZKND_TBAR_GetButtonCount(char *p);
+void ZKND_TBAR_UpdateButtons(char *p)
 {
     unsigned i;
     switch(*(unsigned *)&((struct Obj01977 *)p)->f8) {
@@ -25,7 +25,7 @@ void func_021BD23C(char *p)
         *(int *)&((struct Obj01977 *)p)->f0=-1;
         if(((struct Obj01977 *)p)->fC && !((struct Obj01977 *)p)->f10) {
             for(i=0;i<((struct Obj01977 *)p)->f4;i++) {
-                if(func_021BD764(p+0x28+i*0x38)) {
+                if(ZKND_TBAR_UpdateButtonTouch(p+0x28+i*0x38)) {
                     ((struct Obj01977 *)p)->f0=i;
                     ((struct Obj01977 *)p)->f8=1;
                     ((struct Obj01977 *)p)->f10=1;
@@ -37,11 +37,11 @@ void func_021BD23C(char *p)
     case 1:
         ((struct Obj01977 *)p)->f8=2;
     case 2:
-        if(func_021BD7E4((int *)(p+0x28+((struct Obj01977 *)p)->f0*0x38)))((struct Obj01977 *)p)->f8=3;
+        if(ZKND_TBAR_IsButtonAnimating((int *)(p+0x28+((struct Obj01977 *)p)->f0*0x38)))((struct Obj01977 *)p)->f8=3;
         break;
     case 3:
         ((struct Obj01977 *)p)->f8=0;
         break;
     }
-    for(i=0;i<((struct Obj01977 *)p)->f4;i++)func_021BD878(p+0x28+i*0x38);
+    for(i=0;i<((struct Obj01977 *)p)->f4;i++)ZKND_TBAR_GetButtonCount(p+0x28+i*0x38);
 }

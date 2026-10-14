@@ -21,7 +21,7 @@
  *   (docs/notes/func_021F5904.c.txt) was this missing static.
  *
  * symbols:
- *   d_021F6F90  0x021F6F90  data
+ *   gMbWm  0x021F6F90  data
  *   mbi_life_mp 0x021F6E58  data
  *   mbi_life_cam 0x021F6E5A  data
  *   mbi_life_table_no 0x021F6E5C  data
@@ -88,7 +88,7 @@ struct MBiParam {
     u16 uname[4];
 };
 
-extern char d_021F6F90[];
+extern char gMbWm[];
 static int mbi_power_save_mode = 1;
 static u16 mbi_life_frame = 5;
 static u16 mbi_life_table_no = 0xffff;
@@ -113,8 +113,8 @@ int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma)
     u16 *c;
     int i;
 
-    if (*(struct MB_CommCommonWork **)(d_021F6F90 + 0x10) != 0
-        && (*(struct MB_CommCommonWork **)(d_021F6F90 + 0x10))->isMbInitialized != 0)
+    if (*(struct MB_CommCommonWork **)(gMbWm + 0x10) != 0
+        && (*(struct MB_CommCommonWork **)(gMbWm + 0x10))->isMbInitialized != 0)
         return 2;
     p_parm = (struct MBiParam *)(((u32)work + 0x1f) & ~0x1fu);
     p_com = (struct MB_CommCommonWork *)(((u32)p_parm + 0x1e00 + 0x1f) & ~0x1fu);
@@ -126,9 +126,9 @@ int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma)
     mbi_life_cam = 0x28;
     mbi_life_mp = 0x28;
     mbi_power_save_mode = 1;
-    *(u16 *)d_021F6F90 = dma;
-    *(struct MBiParam **)(d_021F6F90 + 0xc) = p_parm;
-    *(struct MB_CommCommonWork **)(d_021F6F90 + 0x10) = p_com;
+    *(u16 *)gMbWm = dma;
+    *(struct MBiParam **)(gMbWm + 0xc) = p_parm;
+    *(struct MB_CommCommonWork **)(gMbWm + 0x10) = p_com;
     MIi_CpuClear32(0, p_parm, 0x1e00);
     MIi_CpuClear16(0, p_com, 0x1340);
     c = p_parm->uname;

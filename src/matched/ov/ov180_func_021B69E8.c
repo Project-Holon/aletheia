@@ -1,5 +1,5 @@
 /*
- * function: func_021B69E8
+ * function: HALL_OF_FAME_OnMonAnimDone
  * address:  0x021B69E8
  * packet:   pkt_021B69E8
  * region:   ov180
@@ -23,7 +23,7 @@
 
 extern void MCSS_SetAnmStopFlag(void *p);
 
-void func_021B69E8(int *p)
+void HALL_OF_FAME_OnMonAnimDone(int *p)
 {
     MCSS_SetAnmStopFlag((void *)(((struct Obj14403 *)p)->f1C));
     ((struct Obj14403 *)p)->f24 = 1;

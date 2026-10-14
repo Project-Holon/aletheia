@@ -1,5 +1,5 @@
 /*
- * function: func_021B69D8
+ * function: CTVT_CAMERA_RequestShutterSound1
  * address:  0x021B69D8
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B69D8(void *p)
+void CTVT_CAMERA_RequestShutterSound1(void *p)
 {
     ((struct Obj24064 *)p)->f44 = 4;
 }

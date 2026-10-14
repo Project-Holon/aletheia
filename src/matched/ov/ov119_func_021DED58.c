@@ -1,5 +1,5 @@
 /*
- * function: func_021DED58
+ * function: POKETRADE_NEGO_StepWaitWipeToBrowse
  * address:  0x021DED58
  * packet:   pkt_ov119_021DED58
  * region:   ov119
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
- *   func_021D8E84  0x021D8E84  thumb  ov119
- *   func_021DECA0  0x021DECA0  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
+ *   POKETRADE_NEGO_StepBuildBrowseScene  0x021DECA0  thumb  ov119
  */
 
 extern unsigned WIPE_SYS_EndCheck(void);
-extern void func_021D8E84(void *p, int next);
-extern void func_021DECA0(char *p);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
+extern void POKETRADE_NEGO_StepBuildBrowseScene(char *p);
 
-void func_021DED58(void *p)
+void POKETRADE_NEGO_StepWaitWipeToBrowse(void *p)
 {
     if (WIPE_SYS_EndCheck() != 0) {
-        func_021D8E84(p, (int)func_021DECA0);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepBuildBrowseScene);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AF0
+ * function: MB_SEQ_StateMessageWait
  * address: 0x021C6AF0
  * packet: pkt_ov136_021C6AF0
  * region: ov136
@@ -26,7 +26,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-u32 func_021C6AF0(u8 *p)
+u32 MB_SEQ_StateMessageWait(u8 *p)
 {
     if (PRINTSYS_PrintStreamGetState(((struct Obj23609 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8) == 2) {
         if ((*(u8 **)(p + 8))[0x1dd] == 0) {

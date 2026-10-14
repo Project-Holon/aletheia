@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4528",
+   "name": "MAILSYS_OnTouchMode",
    "address": "0x021C4528",
    "kind": "game",
    "region": "ov136",

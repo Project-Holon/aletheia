@@ -12,7 +12,7 @@
  * Claims the +0x68 slot of record i and releases the +0x3dc block once.
  *
  * symbols:
- *   func_021BE1A4  0x021BE1A4  thumb  ov172
+ *   COMM_TVT_SYS_ClearNameWindows  0x021BE1A4  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021BE1A4(char *p);
+extern void COMM_TVT_SYS_ClearNameWindows(char *p);
 
 void func_021B8B00(int i, void *a, void *b, char *q)
 {
@@ -31,6 +31,6 @@ void func_021B8B00(int i, void *a, void *b, char *q)
 
     if (*p == 0) {
         *p = 1;
-        func_021BE1A4(*(char * *)&((struct Obj24087 *)q)->f3DC);
+        COMM_TVT_SYS_ClearNameWindows(*(char * *)&((struct Obj24087 *)q)->f3DC);
     }
 }

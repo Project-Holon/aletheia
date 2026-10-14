@@ -1,5 +1,5 @@
 /*
- * function: func_021D8A24
+ * function: POKETRADE_PROC_IsNetSession
  * address:  0x021D8A24
  * packet:   pkt_021D8980
  * region:   ov119
@@ -19,7 +19,7 @@
 
 extern int GFL_NET_GetRunState(void);
 
-int func_021D8A24(void *p)
+int POKETRADE_PROC_IsNetSession(void *p)
 {
     int v;
 

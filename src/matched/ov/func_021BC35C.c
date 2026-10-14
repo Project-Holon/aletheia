@@ -1,5 +1,5 @@
 /*
- * function: func_021BC35C
+ * function: ZUKAN_DETAIL_COMMON_CreateContext
  * address:  0x021BC35C
  * packet:   pkt_ov208_021BC35C
  * region:   ov208
@@ -18,7 +18,7 @@
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern int d_021C8D98;
 
-void func_021BC35C(int a, int b, int c, int d, int e, int f, int g, int h,
+void ZUKAN_DETAIL_COMMON_CreateContext(int a, int b, int c, int d, int e, int f, int g, int h,
                    unsigned short i, int j)
 {
     int *p = (int *)func_02030734(a, 0x24, 1, (const char *)&d_021C8D98, 0x60);

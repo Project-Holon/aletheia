@@ -1,5 +1,5 @@
 /*
- * function: func_021B69E0
+ * function: CTVT_ADPCM_ResetEncoder
  * address: 0x021B69E0
  * packet: pkt_ov172_021B69E0
  * region: ov172
@@ -13,7 +13,7 @@
  * as the call witness for ov172 func_021B97AC.
  *
  * symbols:
- *   d_021C88E4 0x021C88E4 data a4 ov172
+ *   gCtvtAdpcmState 0x021C88E4 data a4 ov172
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,10 +24,10 @@ struct D021C88E4 {
     u8 b6;
 };
 
-extern struct D021C88E4 d_021C88E4;
+extern struct D021C88E4 gCtvtAdpcmState;
 
-void func_021B69E0(void)
+void CTVT_ADPCM_ResetEncoder(void)
 {
-    d_021C88E4.h4 = 0;
-    d_021C88E4.b6 = 0;
+    gCtvtAdpcmState.h4 = 0;
+    gCtvtAdpcmState.b6 = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F88E0
+ * function: BTLV_EFFECT_GetFlag26
  * address:  0x021F88E0
  * packet:   pkt_ov094_021F88E0
  * region:   ov094
@@ -12,7 +12,7 @@
  * Returns flag bit 26 of the word at 0x1ec of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
 typedef struct {
     char pad[0x1ec];
@@ -20,9 +20,9 @@ typedef struct {
     unsigned b26 : 1;
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-int func_021F88E0(void)
+int BTLV_EFFECT_GetFlag26(void)
 {
-    return d_0220AF20->b26;
+    return gBtlvEff->b26;
 }

@@ -29,12 +29,12 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
- *   func_02179D3C 0x02179D3C thumb ov015
+ *   IRCNET_IsLinkAlive 0x02179D3C thumb ov015
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_0217998C  0x0217998C  thumb ov015
+ *   IRCNET_SetTimeoutLimit  0x0217998C  thumb ov015
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
@@ -221,12 +221,12 @@ extern int GFL_NET_GetRunState(void);
 extern void MI_CpuCopy8(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
-extern int func_02179D3C(void);
+extern int IRCNET_IsLinkAlive(void);
 extern int GFL_NET_Exit(int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_0217998C(int);
+extern void IRCNET_SetTimeoutLimit(int);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
@@ -423,7 +423,7 @@ void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work)
 
 void DELIVERY_IRC_StepExitParent(DeliveryIrcWork *work)
 {
-    if (func_02179D3C())
+    if (IRCNET_IsLinkAlive())
         GFL_NET_Exit(0);
     DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepFinish, 0x102);
 }
@@ -444,7 +444,7 @@ void DELIVERY_IRC_StepWaitEndSync(DeliveryIrcWork *work)
     if (GFL_NET_HANDLE_IsTimingSyncRange(link, 0x23, (u8)work->param.netCommandBase) != 0) {
         if (GFL_NET_IsParentAid() != 0) {
             k = 0x12C;
-            func_0217998C(k);
+            IRCNET_SetTimeoutLimit(k);
             k -= 0x19;
             DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepExitParent, k);
             return;

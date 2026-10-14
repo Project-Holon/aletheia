@@ -1,5 +1,5 @@
 /*
- * function: func_021F8168
+ * function: BTLV_EFFECT_GaugeRequestStop
  * address:  0x021F8168
  * packet:   pkt_ov094_021F8168
  * region:   ov094
@@ -12,13 +12,13 @@
  * Tail call to BTLV_GAUGE_RequestStop with the handle at 0x1a4 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  *   BTLV_GAUGE_RequestStop 0x022089AC thumb ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 extern void BTLV_GAUGE_RequestStop(void *);
 
-void func_021F8168(void)
+void BTLV_EFFECT_GaugeRequestStop(void)
 {
-    BTLV_GAUGE_RequestStop(*(void **)(d_0220AF20 + 0x1a4));
+    BTLV_GAUGE_RequestStop(*(void **)(gBtlvEff + 0x1a4));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6560
+ * function: BTLV_STAGE_Create
  * address: 0x021F6560
  * packet: pkt_ov094_021F6560
  * region: ov094
@@ -24,7 +24,7 @@
  *   NNS_G3dGetTex 0x0206E964 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   sub_020307B0 0x020307B0 arm
- *   d_0220AC40 0x0220AC40 data
+ *   gBtlvStageFileName 0x0220AC40 data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,7 +55,7 @@ typedef struct {
     u16 heap;
     u16 padba;
 } Obj;
-extern const char d_0220AC40[];
+extern const char gBtlvStageFileName[];
 extern void *sub_02030734(u32, u32, int, const char *, u16);
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 extern void *G3D_SYSTEM_CreateResourceArc(u32, u32);
@@ -74,13 +74,13 @@ extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_0207DCF8(void *);
 extern u32 sub_020307B0(void *p);
 
-Obj *func_021F6560(int mode, int group, int variant, u16 heap)
+Obj *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
 {
     Obj *o;
     Rec *table;
     int i, k, m;
     int bytes;
-    o = sub_02030734(heap, 0xbc, 1, d_0220AC40, 0x63);
+    o = sub_02030734(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
     table = ARC_TOOL_LoadMember(0x98, 2, (u16)((heap & 0x7fff) | 0x8000));
     o->heap = heap;
     if (mode == 3)
@@ -97,21 +97,21 @@ Obj *func_021F6560(int mode, int group, int variant, u16 heap)
     o->h1c[1] = G3D_SYSTEM_CreateRender(o->f0, 0, o->f0);
     if (mode == 3) {
         o->n = 1;
-        o->f10 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0x93);
+        o->f10 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0x93);
         *o->f10 = G3D_SYSTEM_CreateResourceArc(11, 0x57);
         for (i = 0; i < 2; i++) {
-            o->f14[i] = sub_02030734(o->heap, 4, 0, d_0220AC40, 0x98);
-            o->arr[i] = sub_02030734(o->heap, 0x10, 1, d_0220AC40, 0x99);
+            o->f14[i] = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0x98);
+            o->arr[i] = sub_02030734(o->heap, 0x10, 1, gBtlvStageFileName, 0x99);
             *o->f14[i] = G3D_SYSTEM_CreateAnime(o->h1c[i], *o->f10, 0);
             o->arr[i]->kind = 1;
             o->h24[i] = G3D_SYSTEM_CreateObject((u32)o->h1c[i], (u32 *)o->f14[i], (u16)o->n);
             G3D_SYSTEM_EnableObjectAnime(o->h24[i], (u16)0);
         }
     } else if (o->n != 0) {
-        o->f10 = sub_02030734(o->heap, o->n * 4, 0, d_0220AC40, 0xa7);
+        o->f10 = sub_02030734(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xa7);
         for (i = 0; i < 2; i++) {
-            o->f14[i] = sub_02030734(o->heap, o->n * 4, 0, d_0220AC40, 0xab);
-            o->arr[i] = sub_02030734(o->heap, o->n * 16, 1, d_0220AC40, 0xac);
+            o->f14[i] = sub_02030734(o->heap, o->n * 4, 0, gBtlvStageFileName, 0xab);
+            o->arr[i] = sub_02030734(o->heap, o->n * 16, 1, gBtlvStageFileName, 0xac);
         }
         k = 0;
         for (i = 1; i < 4; i++) {
@@ -133,10 +133,10 @@ Obj *func_021F6560(int mode, int group, int variant, u16 heap)
         o->h24[1] = G3D_SYSTEM_CreateObject((u32)o->h1c[1], 0, (u16)0);
     }
     bytes = *(u16 *)(NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(o->f0)) + 0x30) * 8;
-    o->fa4 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0xd6);
-    o->fa8 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0xd7);
+    o->fa4 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0xd6);
+    o->fa8 = sub_02030734(o->heap, 4, 0, gBtlvStageFileName, 0xd7);
     *o->fa4 = o->f0;
-    *o->fa8 = sub_02030734(o->heap, bytes, 0, d_0220AC40, 0xda);
+    *o->fa8 = sub_02030734(o->heap, bytes, 0, gBtlvStageFileName, 0xda);
     o->fac = 0;
     o->fad = 1;
     o->xf[0].f0 = 0;

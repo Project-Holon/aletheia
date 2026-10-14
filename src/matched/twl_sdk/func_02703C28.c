@@ -11,7 +11,7 @@
  *
  * 0x02FFFDFC is a fixed DSi hardware/ROM buffer address, so the original
  *   source read it through a cast constant (`(u32 *)*(volatile u32 *)`),
- *   the same shape as src/matched/func_01FF836C.c.  It is a literal pool
+ *   the same shape as src/matched/OSi_VerifyStaticSegments.c.  It is a literal pool
  *   word, not a relocation, and needs no witness.
  *
  * symbols:

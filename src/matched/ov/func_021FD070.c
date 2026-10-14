@@ -1,5 +1,5 @@
 /*
- * function: func_021FD070
+ * function: BTLV_EFFVM_ResolveSideFromVm
  * address:  0x021FD070
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -8,18 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   VM_GetUserData  0x02011324  thumb  arm9
  */
 struct OneBit {
     unsigned int v : 1;
 };
 
-extern struct OneBit *func_02011324(int a);
+extern struct OneBit *VM_GetUserData(int a);
 
-int func_021FD070(int a, int b)
+int BTLV_EFFVM_ResolveSideFromVm(int a, int b)
 {
     int r = b;
 
-    if (func_02011324(a)->v)
+    if (VM_GetUserData(a)->v)
         r ^= 1;
     return r;
 }

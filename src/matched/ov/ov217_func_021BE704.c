@@ -27,7 +27,7 @@
  *   func_021BF76C  0x021BF76C  thumb  ov217
  *   func_021BF810  0x021BF810  thumb  ov217
  *   func_021BFC60  0x021BFC60  thumb  ov217
- *   func_021C116C  0x021C116C  thumb  ov217
+ *   CircleGraph_QueueErase  0x021C116C  thumb  ov217
  *
  * Identical frame step to func_021BE678 with the sub-state delta -1.
  *
@@ -59,13 +59,13 @@ extern void func_021BF704(void *p);
 extern u8 *func_021BF76C(void *p);
 extern u32 func_021BF810(void *p);
 extern void func_021BFC60(char *p);
-extern void func_021C116C(u8 *h);
+extern void CircleGraph_QueueErase(u8 *h);
 
 void func_021BE704(char *p)
 {
     if (((struct Obj00021 *)p)->f3C8 != 0) {
         if (func_021BF810(p) != 0) {
-            func_021C116C(func_021BF76C(p));
+            CircleGraph_QueueErase(func_021BF76C(p));
         }
     }
     func_021BFC60(p);

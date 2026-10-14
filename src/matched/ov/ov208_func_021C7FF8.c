@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7FF8
+ * function: ZUKAN_DETAIL_FORM_ConvertModelPosition
  * address:  0x021C7FF8
  * packet:   pkt_ov208_021C7FF8
  * region:   ov208
@@ -41,7 +41,7 @@ struct Ov208Mdl {
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-void ov208_func_021C7FF8(struct Ov208Mdl *m, int i, VecFx32 *out)
+void ZUKAN_DETAIL_FORM_ConvertModelPosition(struct Ov208Mdl *m, int i, VecFx32 *out)
 {
     out->x = FX_F32_TO_FX32(m->pos[i].x);
     out->y = FX_F32_TO_FX32(m->pos[i].y);

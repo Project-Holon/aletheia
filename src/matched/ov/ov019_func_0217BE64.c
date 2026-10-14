@@ -11,7 +11,7 @@
  * symbols:
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
- *   func_0217EC04  0x0217EC04  thumb  ov019
+ *   UNION_MSG_GetNoReplyMsg  0x0217EC04  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
@@ -49,7 +49,7 @@ typedef struct Obj {
 typedef unsigned short u16;
 extern int UNION_ONESELF_CheckNetError(char *p);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
-extern u16 func_0217EC04(void ***ctx);
+extern u16 UNION_MSG_GetNoReplyMsg(void ***ctx);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern void UNION_COMM_RequestRestart(u8 *p);
@@ -92,7 +92,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
                 }
             }
             if (i < 5 || GFL_NET_SYSTEM_GetConnectNum() > 2) {
-                UNION_MSG_SetupPrintTalkMsg(w, a2, func_0217EC04(w));
+                UNION_MSG_SetupPrintTalkMsg(w, a2, UNION_MSG_GetNoReplyMsg(w));
                 UNION_ONESELF_SetNextPlayCategory(w, 0);
                 UNION_COMM_RequestRestart(w);
                 *state = 4;
@@ -108,7 +108,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
                 UNION_ONESELF_SetNextPlayCategory(w, 0);
                 UNION_COMM_SetSituationParam(w, 1, 0);
                 if (obj->s6C > 600) {
-                    UNION_MSG_SetupPrintTalkMsg(w, a2, func_0217EC04(w));
+                    UNION_MSG_SetupPrintTalkMsg(w, a2, UNION_MSG_GetNoReplyMsg(w));
                 } else {
                     UNION_MSG_SetupPrintTalkMsg(w, a2, 10);
                 }

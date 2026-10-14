@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDBA0
+ * function: ZUKAN_DETAIL_TOUCHBAR_ClearButtonState
  * address:  0x021BDBA0
  * packet:   pkt_ov208_021BDBA0
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021BD360  0x021BD360  thumb
+ *   ZKND_TBAR_ClearButtonState  0x021BD360  thumb
  */
 
 typedef unsigned int u32;
@@ -20,9 +20,9 @@ struct Ov208Scene {
     void *mgr;
 };
 
-extern void ov208_func_021BD360(void *mgr);
+extern void ZKND_TBAR_ClearButtonState(void *mgr);
 
-void ov208_func_021BDBA0(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p)
 {
-    ov208_func_021BD360(p->mgr);
+    ZKND_TBAR_ClearButtonState(p->mgr);
 }

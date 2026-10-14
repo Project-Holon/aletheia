@@ -1,5 +1,5 @@
 /*
- * function: func_021FF72C
+ * function: BR_NET_PollErrorMessage
  * address: 0x021FF72C
  * packet: pkt_ov186_021FF72C
  * region: ov186
@@ -16,20 +16,20 @@
  *   and case 0's after-store copy and 22002's copy become hops onto it (the image's forward hop at +002E).
  *   Earlier forms (2 B off) kept case 0's copy, the earliest original edge.
  * symbols:
- *   func_021D72EC 0x021D72EC thumb ov125
- *   func_021D72F8 0x021D72F8 thumb ov125
+ *   GDS_RAP_GetResult 0x021D72EC thumb ov125
+ *   GDS_RAP_ClearResult 0x021D72F8 thumb ov125
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  */
-extern int func_021D72EC(char *,int **);
-extern void func_021D72F8(char *);
+extern int GDS_RAP_GetResult(char *,int **);
+extern void GDS_RAP_ClearResult(char *);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
-int func_021FF72C(char *p,int *out)
+int BR_NET_PollErrorMessage(char *p,int *out)
 {
     const int *event;
     int result;
-    if(func_021D72EC(p,(int **)&event)){
+    if(GDS_RAP_GetResult(p,(int **)&event)){
         result=1;
         if(event[1]==0){
             if(event[3]){
@@ -71,7 +71,7 @@ int func_021FF72C(char *p,int *out)
             case 22003:result=0;break;
             }
         }
-        func_021D72F8(p);
+        GDS_RAP_ClearResult(p);
         if(result==3)*(int *)(p+0x5DC)=1;
         return result;
     }

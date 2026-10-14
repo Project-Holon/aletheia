@@ -1,5 +1,5 @@
 /*
- * function: func_021F88D8
+ * function: WORLDTRADE_ENTER_GetListRange
  * address:  0x021F88D8
  * packet:   pkt_021F88D8
  * region:   ov135
@@ -30,7 +30,7 @@ typedef struct {
 
 extern const Range tbl_02202F0C[];
 
-int func_021F88D8(u32 id, u32 *start)
+int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start)
 {
     int i;
 

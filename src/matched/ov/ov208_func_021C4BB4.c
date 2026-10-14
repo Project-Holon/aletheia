@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4BB4
+ * function: ZUKAN_DETAIL_FORM_DrawSpeciesLabels
  * address: 0x021C4BB4
  * packet: pkt_ov208_021C4BB4
  * region: ov208
@@ -23,7 +23,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   ov208_func_021C4B60 0x021C4B60 thumb ov208
+ *   ZUKAN_DETAIL_FORM_FlushPrintWindow 0x021C4B60 thumb ov208
  *   data_020A7370 0x020A7370 data a4
  */
 #include "../include/Obj01179.h"
@@ -60,10 +60,10 @@ extern struct U16Vec *STRBUF_Create(u32 size, u32 heap);
 extern void func_0201EFA4(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
+extern void ZUKAN_DETAIL_FORM_FlushPrintWindow(u16 *heap, struct Ov208Menu *p, int key, int i);
 extern struct MsgBank *data_020A7370;
 
-void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
+void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key)
 {
     u8 i;
     u16 species;
@@ -107,5 +107,5 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     func_0201ED04(ws2);
     p->active[1] = 1;
     for (i = 0; i <= 1; i++)
-        ov208_func_021C4B60(heap, p, key, i);
+        ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, p, key, i);
 }

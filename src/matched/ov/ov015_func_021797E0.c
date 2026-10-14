@@ -1,5 +1,5 @@
 /*
- * function: func_021797E0
+ * function: IRCNET_CbConnect
  * address:  0x021797E0
  * packet:   pkt_021797E0
  * region:   ov015
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02179FC4  0x02179FC4  arm
+ *   IRC_Connect  0x02179FC4  arm
  */
 
-void func_02179FC4(void);
+void IRC_Connect(void);
 
-int func_021797E0(void)
+int IRCNET_CbConnect(void)
 {
-    func_02179FC4();
+    IRC_Connect();
     return 1;
 }

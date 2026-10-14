@@ -1,5 +1,5 @@
 /*
- * function: func_021CD6F0
+ * function: DWCi_SceneSetTestCompletet_endScene1
  * address:  0x021CD6F0
  * packet:   pkt_ov016_021CD6F0
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettestcomp)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD6F0.c \n *       --func func_021CD6F0 --addr 0x021CD6F0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD6F0.c \n *       --func DWCi_SceneSetTestCompletet_endScene1 --addr 0x021CD6F0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_EFFlCheck  0x021D5580  arm  ov016
@@ -40,7 +40,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetList(void);
 extern void DWCi_SceneMenu(void);
 
-void func_021CD6F0(void)
+void DWCi_SceneSetTestCompletet_endScene1(void)
 {
     int scene;
     if (DWCi_EFFlCheck(1))

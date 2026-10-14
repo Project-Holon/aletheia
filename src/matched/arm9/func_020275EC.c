@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note: byte lookup in a u8 table; called from ov094 func_02204CC0 (bl at
+ * note: byte lookup in a u8 table; called from ov094 BTLV_INPUT_DrawWazaButtons (bl at
  *   +0x1EE, 0x02204EAE) with a u8 index.
  * symbols:
  *   _PokeTypePltOffset  0x0209FCF8  data

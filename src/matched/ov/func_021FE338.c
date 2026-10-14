@@ -1,5 +1,5 @@
 /*
- * function: func_021FE338
+ * function: WORLDTRADE_SEARCH_StateMainInput
  * address:  0x021FE338
  * packet:   pkt_021FE338
  * region:   ov135
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FE254  0x021FE254  thumb
+ *   WORLDTRADE_SEARCH_HitTestButtons  0x021FE254  thumb
  *   func_020355D8  0x020355D8  arm
- *   func_021FEAE0  0x021FEAE0  thumb
- *   func_021FE9B0  0x021FE9B0  thumb
+ *   WORLDTRADE_SEARCH_SelectButton  0x021FEAE0  thumb
+ *   WORLDTRADE_SEARCH_GetSelectedButton  0x021FE9B0  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
- *   func_021F7B9C  0x021F7B9C  thumb
+ *   WORLDTRADE_DEPOSIT_CheckGenderEvent  0x021F7B9C  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021FF4D0  0x021FF4D0  thumb
+ *   WORLDTRADE_SEARCH_CompareRecords  0x021FF4D0  thumb
  *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_021FE9DC  0x021FE9DC  thumb
+ *   WORLDTRADE_SEARCH_UpdateKeyCursor  0x021FE9DC  thumb
  *   tbl_02203D46   0x02203D46  data  a2
  *
- * Menu input handler. A touch on an entry (func_021FE254) selects it and
- * acts at once; otherwise the d-pad moves the cursor (func_021FE9DC) and A
+ * Menu input handler. A touch on an entry (WORLDTRADE_SEARCH_HitTestButtons) selects it and
+ * acts at once; otherwise the d-pad moves the cursor (WORLDTRADE_SEARCH_UpdateKeyCursor) and A
  * acts on the current entry, B jumps to the last entry of page 1. Entry 1
- * hands the +0xB56 record to func_021F7B9C, entry 5 compares the two
+ * hands the +0xB56 record to WORLDTRADE_DEPOSIT_CheckGenderEvent, entry 5 compares the two
  * records, entry 4 depends on the +0xD0 word; every path picks the next
  * state (+0x28) and a sound. Always returns 2.
  */
@@ -83,33 +83,33 @@ typedef struct {
 
 extern const CurPos tbl_02203D46[];
 
-extern int func_021FE254(void);
+extern int WORLDTRADE_SEARCH_HitTestButtons(void);
 extern void func_020355D8(u8 v);
-extern void func_021FEAE0(Work *p, int i);
-extern int func_021FE9B0(Work *p);
+extern void WORLDTRADE_SEARCH_SelectButton(Work *p, int i);
+extern int WORLDTRADE_SEARCH_GetSelectedButton(Work *p);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
 struct Obj;
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int func_021F7B9C(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern int func_021FF4D0(Rec *x, Rec *y, u32 m, u32 n);
+extern int WORLDTRADE_SEARCH_CompareRecords(Rec *x, Rec *y, u32 m, u32 n);
 extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
-extern void func_021FE9DC(Work *p);
+extern void WORLDTRADE_SEARCH_UpdateKeyCursor(Work *p);
 
-int func_021FE338(Work *p)
+int WORLDTRADE_SEARCH_StateMainInput(Work *p)
 {
-    int sel = func_021FE254();
+    int sel = WORLDTRADE_SEARCH_HitTestButtons();
 
     if (sel != -1) {
         func_020355D8(1);
-        func_021FEAE0(p, sel);
-        sel = func_021FE9B0(p);
+        WORLDTRADE_SEARCH_SelectButton(p, sel);
+        sel = WORLDTRADE_SEARCH_GetSelectedButton(p);
         switch (sel) {
         case 1:
             if (p->rec[0].a != 0) {
@@ -117,37 +117,37 @@ int func_021FE338(Work *p)
                 u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                 POKE_PERSONAL_Delete((void *)h);
                 p->st->f20 = v;
-                if (func_021F7B9C((u8 *)(&p->rec[0]), p->st->f20) != 0) {
+                if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                     GFL_USE_PlaySeDefaultVolume(0x557);
                     return 2;
                 }
             }
             CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
             p->next = 0x23;
             break;
         case 5:
-            if (p->rec[0].a == 0 || func_021FF4D0(&p->rec[0], &p->rec[1], p->fF84, p->fB64) != 0) {
+            if (p->rec[0].a == 0 || WORLDTRADE_SEARCH_CompareRecords(&p->rec[0], &p->rec[1], p->fF84, p->fB64) != 0) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
             } else {
                 GFL_USE_PlaySeDefaultVolume(0x54C);
             }
             CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
             p->next = 0x23;
             break;
         case 4:
             if (p->fD0 != 0) {
                 CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                 GFL_USE_PlaySeDefaultVolume(0x54C);
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                 p->next = 0x23;
             } else {
                 CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 p->next = 0x25;
             }
@@ -159,7 +159,7 @@ int func_021FE338(Work *p)
             } else {
                 GFL_USE_PlaySeDefaultVolume(0x54C);
             }
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
             p->next = 0x23;
             break;
         }
@@ -169,9 +169,9 @@ int func_021FE338(Work *p)
         GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     } else {
-        func_021FE9DC(p);
+        WORLDTRADE_SEARCH_UpdateKeyCursor(p);
         if (KEY_GetTrg() & 1) {
-            sel = func_021FE9B0(p);
+            sel = WORLDTRADE_SEARCH_GetSelectedButton(p);
             switch (sel) {
             case 1:
                 if (p->rec[0].a != 0) {
@@ -179,35 +179,35 @@ int func_021FE338(Work *p)
                     u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                     POKE_PERSONAL_Delete((void *)h);
                     p->st->f20 = v;
-                    if (func_021F7B9C((u8 *)(&p->rec[0]), p->st->f20) != 0) {
+                    if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-                        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                         GFL_USE_PlaySeDefaultVolume(0x557);
                         return 2;
                     }
                 }
                 CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                 GFL_USE_PlaySeDefaultVolume(0x54C);
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                 p->next = 0x23;
                 break;
             case 5:
-                if (p->rec[0].a == 0 || func_021FF4D0(&p->rec[0], &p->rec[1], p->fF84, p->fB64) != 0) {
+                if (p->rec[0].a == 0 || WORLDTRADE_SEARCH_CompareRecords(&p->rec[0], &p->rec[1], p->fF84, p->fB64) != 0) {
                     GFL_USE_PlaySeDefaultVolume(0x557);
                 } else {
                     GFL_USE_PlaySeDefaultVolume(0x54C);
                 }
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                 p->next = 0x23;
                 break;
             case 4:
                 if (p->fD0 != 0) {
                     GFL_USE_PlaySeDefaultVolume(0x54C);
-                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                     p->next = 0x23;
                 } else {
                     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
-                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                     GFL_USE_PlaySeDefaultVolume(0x557);
                     p->next = 0x25;
                 }
@@ -218,14 +218,14 @@ int func_021FE338(Work *p)
                 } else {
                     GFL_USE_PlaySeDefaultVolume(0x54C);
                 }
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                 p->next = 0x23;
                 break;
             }
         } else if (KEY_GetTrg() & 2) {
             p->st->page = 1;
             p->st->row1 = 2;
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
             p->next = 0x24;
             GFL_USE_PlaySeDefaultVolume(0x551);
         }

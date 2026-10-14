@@ -1,5 +1,5 @@
 /*
- * function: func_021E3230
+ * function: POKETRADE_3D_RemoveCurrentUnit
  * address:  0x021E3230
  * packet:   pkt_021E3230
  * region:   ov119
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E32C4  0x021E32C4  thumb  ov119
+ *   POKETRADE_3D_RemoveUnit  0x021E32C4  thumb  ov119
  *
  * Addresses are Black-image addresses.
  */
@@ -18,12 +18,12 @@
 
 typedef unsigned int u32;
 
-extern void func_021E32C4(char *p);
+extern void POKETRADE_3D_RemoveUnit(char *p);
 
-void func_021E3230(void *p)
+void POKETRADE_3D_RemoveCurrentUnit(void *p)
 {
     if (((struct Obj00001 *)p)->f109C != 0xFFFFFFFF) {
-        func_021E32C4(p);
+        POKETRADE_3D_RemoveUnit(p);
         ((struct Obj00001 *)p)->f109C = 0xFFFFFFFF;
     }
 }

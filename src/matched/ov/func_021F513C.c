@@ -1,5 +1,5 @@
 /*
- * function: func_021F513C
+ * function: WORLDTRADE_CancelSave
  * address:  0x021F513C
  * packet:   pkt_021F513C
  * region:   ov135
@@ -28,7 +28,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32 c);
 
-void func_021F513C(u8 *p)
+void WORLDTRADE_CancelSave(u8 *p)
 {
     GAME_DATA_SaveCancel(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)(((struct Obj18539 *)p)->f0 + 0x40))));
     func_0200F7C0(0x29);

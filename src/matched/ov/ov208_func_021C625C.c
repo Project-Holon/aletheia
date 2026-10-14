@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C625C
+ * function: ZUKAN_DETAIL_FORM_CreateArrowActors
  * address:  0x021C625C
  * packet:   pkt_ov208_021C625C
  * region:   ov208
@@ -58,7 +58,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 #define W(o) (*(u32 *)(p + (o)))
 #define RES(k) (*(u32 *)(p + (k) * 4 + 0x5c0))
 
-void ov208_func_021C625C(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, u8 *p, int key)
 {
     struct Ov208CellHdr hdr[2];
     void *h;

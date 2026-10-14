@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_CART_LANES_CallSecondEvent
+ * function: SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLane
  * address:  0x021B252C
  * packet:   pkt_ov021_021B252C
  * region:   ov021
@@ -26,7 +26,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 FIELD_GIMMICK_CART_LANES_UnlockLane(void *, u16);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_FIELD_GIMMICK_CART_LANES_CallSecondEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLane(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

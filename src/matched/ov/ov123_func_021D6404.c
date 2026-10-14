@@ -1,5 +1,5 @@
 /*
- * function: func_021D6404
+ * function: GSYNC_DISP_LoadEffectResources
  * address: 0x021D6404
  * packet: pkt_ov123_021D6404
  * region: ov123
@@ -24,7 +24,7 @@ typedef signed int     s32;
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void func_021D6404(u8 *p)
+void GSYNC_DISP_LoadEffectResources(u8 *p)
 {
     void *h;
     h = func_020490F4(7, ((struct Obj00343 *)p)->f43C4);

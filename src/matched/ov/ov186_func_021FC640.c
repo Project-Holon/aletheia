@@ -1,5 +1,5 @@
 /*
- * function: func_021FC640
+ * function: BR_GRAPHIC_End3d
  * address: 0x021FC640
  * packet: pkt_ov186_021FC640
  * region: ov186
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021FC640(void)
+void BR_GRAPHIC_End3d(void)
 {
     unsigned i,id;
     const Record *r;

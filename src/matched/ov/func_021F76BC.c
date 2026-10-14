@@ -1,5 +1,5 @@
 /*
- * function: func_021F76BC
+ * function: WORLDTRADE_DEPOSIT_ExitBgPlanes
  * address:  0x021F76BC
  * packet:   pkt_021F76BC
  * region:   ov135
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern void sub_020403F4(u32 i);
 
-void func_021F76BC(void)
+void WORLDTRADE_DEPOSIT_ExitBgPlanes(void)
 {
     sub_020403F4(2);
     sub_020403F4(1);

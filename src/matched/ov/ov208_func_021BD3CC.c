@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD3CC
+ * function: ZKND_TBAR_AddButtonPos
  * address:  0x021BD3CC
  * packet:   pkt_ov208_021BD3CC
  * region:   ov208
@@ -34,7 +34,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void ov208_func_021BD3CC(struct Ov208Mgr *p, int key, u16 *pos)
+void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *p, int key, u16 *pos)
 {
     struct Ov208Rec *r = ov208_func_021BD404(p, key);
 

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F7998 0x021F7998 thumb ov094
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
  *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
  *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
@@ -20,8 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021F7998(u32 a);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_StartEffect(u32 a);
+extern int BTLV_EFFECT_IsBusy(void);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
 extern char *BTL_SIDE_GetSlotOfClient(char *, int);
@@ -32,11 +32,11 @@ int BTL_CLIENT_StepRotatePositionsTwice(u32 *p, int *st, u32 *c)
 {
     switch (*st) {
     case 0:
-        func_021F7998(0x281);
+        BTLV_EFFECT_StartEffect(0x281);
         (*st)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             u8 a = c[0], b = c[1];
             u32 x, y, v, w;
             x = BTL_MAIN_GetClientTrainerIndex((u8 *)p[0], a, b);

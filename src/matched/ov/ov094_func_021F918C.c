@@ -1,5 +1,5 @@
 /*
- * function: func_021F918C
+ * function: BTLV_EFFECT_ComputeVectorStep
  * address:  0x021F918C
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -21,7 +21,7 @@ typedef struct {
 
 extern u32 FX_Div(u32 a, u32 b);
 
-void func_021F918C(const VecFx32 *a, const VecFx32 *b, VecFx32 *out, fx32 div)
+void BTLV_EFFECT_ComputeVectorStep(const VecFx32 *a, const VecFx32 *b, VecFx32 *out, fx32 div)
 {
     out->x = 0;
     out->y = 0;

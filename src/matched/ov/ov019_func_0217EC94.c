@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC94
+ * function: UNION_MSG_GetColosseumStartMsg
  * address:  0x0217EC94
  * packet:   pkt_ov019_0217EC94
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_0218032C[];
 
-u16 func_0217EC94(int i)
+u16 UNION_MSG_GetColosseumStartMsg(int i)
 {
     return d_0218032C[i];
 }

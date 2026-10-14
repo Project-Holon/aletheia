@@ -1,5 +1,5 @@
 /*
- * function: VCT_ResetPeerPool
+ * function: VCT_SESSION_ResetPeerPool
  * address:  0x021B23C8
  * packet:   pkt_ov013_021B23C8
  * region:   ov013
@@ -15,7 +15,7 @@
 
 extern int OSi_IrqThreadQueue;
 
-void VCT_ResetPeerPool(void)
+void VCT_SESSION_ResetPeerPool(void)
 {
     ((int *)&OSi_IrqThreadQueue)[1] = 0;
     ((int *)&OSi_IrqThreadQueue)[0] = 0;

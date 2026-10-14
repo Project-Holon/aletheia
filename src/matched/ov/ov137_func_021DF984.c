@@ -1,5 +1,5 @@
 /*
- * function: func_021DF984
+ * function: GURU2_MAIN_SetupVram
  * address: 0x021DF984
  * packet: pkt_ov137_021DF984
  * region: ov137
@@ -10,9 +10,9 @@
  * symbols:
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   d_021E1EA4 0x021E1EA4 data a4
+ *   gGuru2GameVramBanks 0x021E1EA4 data a4
  */
 typedef unsigned short u16;
-struct DispVram;extern const struct DispVram d_021E1EA4;
+struct DispVram;extern const struct DispVram gGuru2GameVramBanks;
 extern void BG_SYS_SetVramBanks(const struct DispVram *);extern void BMP_WIN_Init(u16);
-void func_021DF984(char *p){BG_SYS_SetVramBanks(&d_021E1EA4);BMP_WIN_Init(114);}
+void GURU2_MAIN_SetupVram(char *p){BG_SYS_SetVramBanks(&gGuru2GameVramBanks);BMP_WIN_Init(114);}

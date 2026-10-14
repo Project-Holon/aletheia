@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup",
+   "name": "SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop",
    "address": "0x021B268C",
    "kind": "game",
    "region": "ov021",

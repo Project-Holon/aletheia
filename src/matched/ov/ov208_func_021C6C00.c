@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6C00
+ * function: ZUKAN_DETAIL_FORM_HandleScrollTouch
  * address:  0x021C6C00
  * packet:   pkt_ov208_021C6C00
  * region:   ov208
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_021BDC48  0x021BDC48  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   ov208_func_021C6DD8  0x021C6DD8  thumb
- *   ov208_func_021C6E60  0x021C6E60  thumb
- *   ov208_func_021C5C64  0x021C5C64  thumb
+ *   ZUKAN_DETAIL_FORM_GetScrollSlotAtX  0x021C6DD8  thumb
+ *   ZUKAN_DETAIL_FORM_GetEntryIndex  0x021C6E60  thumb
+ *   ZUKAN_DETAIL_FORM_RebuildSideModels  0x021C5C64  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  */
@@ -29,21 +29,21 @@ typedef signed short   s16;
 
 struct Obj;
 struct Vec2;
-extern int func_021BC3B4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_021BDC48(void *scene, u32 on);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *scene, u32 on);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u16  ov208_func_021C6DD8(u16 n, u8 x);
-extern u16  ov208_func_021C6E60(void *a0, u8 *p, int key, u16 skip, u16 want);
-extern void ov208_func_021C5C64(void *a0, u8 *p, int key);
+extern u16  ZUKAN_DETAIL_FORM_GetScrollSlotAtX(u16 n, u8 x);
+extern u16  ZUKAN_DETAIL_FORM_GetEntryIndex(void *a0, u8 *p, int key, u16 skip, u16 want);
+extern void ZUKAN_DETAIL_FORM_RebuildSideModels(void *a0, u8 *p, int key);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020355D8(u8 v);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
+u32 ZUKAN_DETAIL_FORM_HandleScrollTouch(void *a0, u8 *p, int key)
 {
     u32 x;
     u32 y;
@@ -52,17 +52,17 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
     int moved;
     u16 old;
 
-    scene = (void *)func_021BC3B4((int *)key);
+    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     moved = 0;
     if (W(0x69c) != 0) {
         if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             W(0x69c) = 0;
-            func_021BDC48(scene, 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
         }
     } else if (H(0x548) >= 3) {
         if (TOUCHPANEL_GetPointTrg(&x, &y) != 0 && x >= 0x90 && x <= 0xe7 && y >= 0x28 && y <= 0x3f) {
             W(0x69c) = 1;
-            func_021BDC48(scene, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
             moved = 1;
         }
     }
@@ -72,10 +72,10 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
         pos[0] = x;
         pos[1] = 0x30;
         CLACT_AddActorSurfacePos((struct Obj *)W(0x5e8), (const struct Vec2 *)pos, 0);
-        H(0x550) = ov208_func_021C6E60(a0, p, key, H(0x54e),
-                                       ov208_func_021C6DD8(H(0x548) - 1, x));
+        H(0x550) = ZUKAN_DETAIL_FORM_GetEntryIndex(a0, p, key, H(0x54e),
+                                       ZUKAN_DETAIL_FORM_GetScrollSlotAtX(H(0x548) - 1, x));
         if (old != H(0x550)) {
-            ov208_func_021C5C64(a0, p, key);
+            ZUKAN_DETAIL_FORM_RebuildSideModels(a0, p, key);
             moved = 1;
         }
     }

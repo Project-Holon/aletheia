@@ -1,5 +1,5 @@
 /*
- * function: func_021F577C
+ * function: WORLDTRADE_BOX_DeleteActors
  * address: 0x021F577C
  * packet: pkt_ov135_021F577C
  * region: ov135
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021F577C(u8 *p)
+void WORLDTRADE_BOX_DeleteActors(u8 *p)
 {
     int i;
     u8 *q;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FE7F8
+ * function: BR_FADE_BlendFull
  * address: 0x021FE7F8
  * packet: pkt_ov186_021FE7F8
  * region: ov186
@@ -18,7 +18,7 @@ struct Obj02021F08;
 struct S02021D50;
 extern void PALANM_RequestFullTransfer(struct Obj02021F08 *o, int v);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-void func_021FE7F8(char *p, int mask)
+void BR_FADE_BlendFull(char *p, int mask)
 {
     if (mask & 1)
         PALANM_BlendChannelMask(*(unsigned *)&((struct Obj05507 *)p)->f20, 0, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C06A0
+ * function: ZUKAN_DETAIL_AREA_DeleteTownMarkerActors
  * address:  0x021C06A0
  * packet:   pkt_021C06A0
  * region:   ov208
@@ -25,7 +25,7 @@ typedef struct {
     int arr[0x7a];
 } S;
 
-void func_021C06A0(int unused, S *s)
+void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(int unused, S *s)
 {
     unsigned char i;
 

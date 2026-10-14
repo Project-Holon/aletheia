@@ -1,5 +1,5 @@
 /*
- * function: func_021FBFC0
+ * function: BTLV_EFFVM_CmdStartPokeCry
  * address: 0x021FBFC0
  * packet: pkt_ov094_021FBFC0
  * region: ov094
@@ -11,15 +11,15 @@
  *   func_02030734 0x02030734 arm
  *   VM_GetU32 0x0201134C thumb
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021FE8D8 0x021FE8D8 thumb ov094
- *   func_021FE6A4 0x021FE6A4 thumb ov094
- *   func_021FE750 0x021FE750 thumb ov094
- *   func_021FCA04 0x021FCA04 thumb ov094
- *   func_021FE4D0 0x021FE4D0 thumb ov094
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_021FE410 0x021FE410 thumb ov094
- *   func_02200218 0x02200218 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFVM_WaitVoiceTaskMain 0x021FE8D8 thumb ov094
+ *   BTLV_EFFVM_SeModulationTaskMain 0x021FE6A4 thumb ov094
+ *   BTLV_EFFVM_SeModulationTaskEnd 0x021FE750 thumb ov094
+ *   BTLV_EFFVM_ResolveBattlerList 0x021FCA04 thumb ov094
+ *   BTLV_EFFVM_FindFreeSeSlot 0x021FE4D0 thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_EFFVM_StartSeVolumeTweenTask 0x021FE410 thumb ov094
+ *   BTLV_MCSS_PlayCry 0x02200218 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  */
 #include "../include/Obj00177.h"
@@ -31,16 +31,16 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, int);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE8D8(void *, void *);
-extern void func_021FE6A4(void *, void *);
-extern void func_021FE750(void *);
-extern int func_021FCA04(char *, int, int *);
-extern int func_021FE4D0(char *);
-extern int func_021F8694(void);
-extern void func_021FE410(char *, int, int, int);
-extern int func_02200218(char *, int, int, int, int, int, int);
-int func_021FBFC0(void *a, char *s)
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFVM_WaitVoiceTaskMain(void *, void *);
+extern void BTLV_EFFVM_SeModulationTaskMain(void *, void *);
+extern void BTLV_EFFVM_SeModulationTaskEnd(void *);
+extern int BTLV_EFFVM_ResolveBattlerList(char *, int, int *);
+extern int BTLV_EFFVM_FindFreeSeSlot(char *);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_EFFVM_StartSeVolumeTweenTask(char *, int, int, int);
+extern int BTLV_MCSS_PlayCry(char *, int, int, int, int, int, int);
+int BTLV_EFFVM_CmdStartPokeCry(void *a, char *s)
 {
     int buf[8];
     int n;
@@ -53,7 +53,7 @@ int func_021FBFC0(void *a, char *s)
     int i;
     int slot;
     int *p;
-    n = func_021FCA04(s, VM_GetU32(a), buf);
+    n = BTLV_EFFVM_ResolveBattlerList(s, VM_GetU32(a), buf);
     x = VM_GetU32(a);
     y = VM_GetU32(a);
     z = VM_GetU32(a);
@@ -63,14 +63,14 @@ int func_021FBFC0(void *a, char *s)
     if (n != 0) {
         if (duration == 0) {
             for (i = 0; i < n; i++) {
-                slot = func_021FE4D0(s);
-                *(int *)(s + slot * 4 + 0x26c) = func_02200218((char *)func_021F8694(), buf[i], x, y, z, q, r);
+                slot = BTLV_EFFVM_FindFreeSeSlot(s);
+                *(int *)(s + slot * 4 + 0x26c) = BTLV_MCSS_PlayCry((char *)BTLV_EFFECT_GetMcss(), buf[i], x, y, z, q, r);
             }
-            func_021FE410(s, 0x7f000, 0x6b000, 10);
+            BTLV_EFFVM_StartSeVolumeTweenTask(s, 0x7f000, 0x6b000, 10);
             if (!((Flags *)s)->bit10) {
                 p = func_02030734((u16)((((struct Obj00177 *)s)->f238 & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x10f9);
                 p[0] = (int)s;
-                func_021F896C(func_02030DA8(((struct Obj00177 *)s)->f8, func_021FE8D8, p, 0), 0, 0);
+                BTLV_EFFECT_RegisterTask(func_02030DA8(((struct Obj00177 *)s)->f8, BTLV_EFFVM_WaitVoiceTaskMain, p, 0), 0, 0);
             }
         } else {
             for (i = 0; i < n; i++) {
@@ -84,7 +84,7 @@ int func_021FBFC0(void *a, char *s)
                 p[6] = r;
                 p[7] = duration;
                 ((struct Obj00177 *)s)->f0 |= 0x800;
-                func_021F896C(func_02030DA8(((struct Obj00177 *)s)->f8, func_021FE6A4, p, 0), func_021FE750, 1);
+                BTLV_EFFECT_RegisterTask(func_02030DA8(((struct Obj00177 *)s)->f8, BTLV_EFFVM_SeModulationTaskMain, p, 0), BTLV_EFFVM_SeModulationTaskEnd, 1);
             }
         }
     }

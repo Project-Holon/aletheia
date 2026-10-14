@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD30
+ * function: POKETRADE_SAVE_SetWaitCounter
  * address:  0x021DFD30
  * packet:   pkt_ov119_021DFD30
  * region:   ov119
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021DFD30(u8 *p, u32 v) { ((struct Obj22748 *)p)->fF2C = v; }
+void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32 v) { ((struct Obj22748 *)p)->fF2C = v; }

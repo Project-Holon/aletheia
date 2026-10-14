@@ -1,5 +1,5 @@
 /*
- * function: func_021E0980
+ * function: POKETRADE_SAVE_StepRegisterReceived
  * address: 0x021E0980
  * packet: pkt_ov119_021E0980
  * region: ov119
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8AA8 0x021D8AA8 thumb ov119
- *   func_021D8FA4 0x021D8FA4 thumb ov119
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
+ *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
  *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -19,10 +19,10 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021E1024 0x021E1024 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021E0958 0x021E0958 thumb ov119
- *   func_021E0A64 0x021E0A64 thumb ov119
+ *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_SAVE_StepWaitEvolutionMessage 0x021E0958 thumb ov119
+ *   POKETRADE_SAVE_StepCheckEvolution 0x021E0A64 thumb ov119
  */
 #include "../include/Obj01537.h"
 #include "../include/Obj13908.h"
@@ -34,8 +34,8 @@
 #include "../include/Obj22765.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_021D8AA8(void *);
-extern void *func_021D8FA4(void *,int);
+extern int POKETRADE_PROC_IsHostSide(void *);
+extern void *POKETRADE_PROC_GetSideMon(void *,int);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Blk37;
@@ -51,23 +51,23 @@ extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 extern u32 func_0202136C(u16 v);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E1024(void *);
-extern void func_021D8E84(void *,int);
-extern void func_021E0958(char *p);
-extern void func_021E0A64(char *p);
-void func_021E0980(char *p)
+extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_SAVE_StepWaitEvolutionMessage(char *p);
+extern void POKETRADE_SAVE_StepCheckEvolution(char *p);
+void POKETRADE_SAVE_StepRegisterReceived(char *p)
 {
     int i;
     void *mon;
     int z;
     char *t;
-    if(func_021D8AA8(p)) {
+    if(POKETRADE_PROC_IsHostSide(p)) {
         i=((struct Obj01537 *)p)->fFA0%3;
-        mon=func_021D8FA4(p,0);
+        mon=POKETRADE_PROC_GetSideMon(p,0);
         ((struct Obj22760 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=*(int *)(p+i*4+0xfbc);
         ((struct Obj22761 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=*(int *)(p+i*4+0xfa4);
     } else {
-        mon=func_021D8FA4(p,1);
+        mon=POKETRADE_PROC_GetSideMon(p,1);
         ((struct Obj22762 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=((struct Obj01537 *)p)->fF88;
         ((struct Obj22763 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=((struct Obj01537 *)p)->fF84;
     }
@@ -79,11 +79,11 @@ void func_021E0980(char *p)
         z=0;
         if(func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj13908 *)t)->f1C,0),6,0))) {
             MSGDATA_ReadString((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
-            func_021E1024(p);
-            func_021D8E84(p,(int)func_021E0958);
+            POKETRADE_SAVE_OpenMessageWindowTop(p);
+            POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitEvolutionMessage);
             ((struct Obj01537 *)p)->fF2C=z;
             return;
         }
     }
-    func_021D8E84(p,(int)func_021E0A64);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepCheckEvolution);
 }

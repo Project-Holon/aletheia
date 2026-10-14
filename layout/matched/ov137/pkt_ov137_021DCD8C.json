@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCD8C",
-    "func_021DCDA0",
-    "func_021DCDB0",
-    "func_021DCDC0",
-    "func_021DCDD8",
-    "func_021DCDF0"
+    "GURU2_COMM_RecvRoundResult",
+    "GURU2_COMM_RecvSelectedSlot",
+    "GURU2_COMM_RecvAngles",
+    "GURU2_COMM_RecvAbortVote",
+    "GURU2_COMM_RecvContinueVote",
+    "GURU2_COMM_GetRecvBuffer"
+   ],
+   "addresses": [
+    "0x021DCD8C",
+    "0x021DCDA0",
+    "0x021DCDB0",
+    "0x021DCDC0",
+    "0x021DCDD8",
+    "0x021DCDF0"
    ]
   }
  ]

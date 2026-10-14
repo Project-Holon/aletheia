@@ -1,5 +1,5 @@
 /*
- * function: func_021F73F0
+ * function: BTLV_EFFECT_CreateSetup
  * address:  0x021F73F0
  * packet:   pkt_ov094_021F73F0
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   d_0220AC90     0x0220AC90  data   ov094  a1
+ *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,15 +31,15 @@ typedef struct {
     int f28;
 } Obj;
 
-extern const char d_0220AC90[];
+extern const char gBtlvEffectFileName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-Obj *func_021F73F0(int a, int b, Q *q, int c, u16 *h, int e, int f, u16 heap)
+Obj *BTLV_EFFECT_CreateSetup(int a, int b, Q *q, int c, u16 *h, int e, int f, u16 heap)
 {
     Obj *o;
     int i = 0;
 
-    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, d_0220AC90, 0xca);
+    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
     o->f0 = a;
     o->f4 = b;
     o->q = *q;

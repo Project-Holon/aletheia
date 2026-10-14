@@ -18,20 +18,20 @@
  *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
  *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
  *   MIi_CpuCopy32 0x02082A90 arm
- *   func_021C2B74 0x021C2B74 arm ov172
- *   func_021BDFDC 0x021BDFDC thumb ov172
- *   func_021B7740 0x021B7740 thumb ov172
+ *   SSP_StartJpegEncoder 0x021C2B74 arm ov172
+ *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
+ *   CTVT_CAMVIEW_StartLayoutChange 0x021B7740 thumb ov172
  *   func_021B8454 0x021B8454 thumb ov172
- *   func_021BE1A4 0x021BE1A4 thumb ov172
- *   func_021BE078 0x021BE078 thumb ov172
+ *   COMM_TVT_SYS_ClearNameWindows 0x021BE1A4 thumb ov172
+ *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
  *   func_021B8628 0x021B8628 thumb ov172
- *   func_021BE0F8 0x021BE0F8 thumb ov172
- *   func_021BE0FC 0x021BE0FC thumb ov172
- *   func_021BE0AC 0x021BE0AC thumb ov172
- *   func_021B7818 0x021B7818 thumb ov172
- *   func_021B785C 0x021B785C thumb ov172
- *   func_021B77B8 0x021B77B8 thumb ov172
- *   func_021B77E8 0x021B77E8 thumb ov172
+ *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
+ *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
+ *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
+ *   CTVT_CAMVIEW_GetOwnSlotBuffer 0x021B7818 thumb ov172
+ *   CTVT_CAMVIEW_GetSlotBufferStep 0x021B785C thumb ov172
+ *   CTVT_CAMVIEW_GetWindowHeight 0x021B77B8 thumb ov172
+ *   CTVT_CAMVIEW_GetWindowWidth 0x021B77E8 thumb ov172
  *   func_021B8A14 0x021B8A14 thumb ov172
  *   func_021B8740 0x021B8740 thumb ov172
  *   func_021B8AD4 0x021B8AD4 thumb ov172
@@ -47,20 +47,20 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
 extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
 extern void MIi_CpuCopy32(const void *, void *, u32);
-extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
-extern u32 func_021BDFDC(void *);
-extern void func_021B7740(void *, char *, int, int);
+extern unsigned long SSP_StartJpegEncoder(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
+extern u32 COMM_TVT_SYS_GetCamView(void *);
+extern void CTVT_CAMVIEW_StartLayoutChange(void *, char *, int, int);
 extern void func_021B8454(void *, char *);
-extern void func_021BE1A4(char *p);
-extern u32 func_021BE078(void *);
+extern void COMM_TVT_SYS_ClearNameWindows(char *p);
+extern u32 COMM_TVT_SYS_GetHalfRes(void *);
 extern void func_021B8628(void *a, int b, int *t, int c);
-extern u32 func_021BE0F8(void *);
-extern void func_021BE0FC(void *, u32);
-extern u32 func_021BE0AC(void *);
-extern u32 func_021B7818(void *p, void *q);
-extern u32 func_021B785C(void *, u32);
-extern u32 func_021B77B8(void *, u32);
-extern u32 func_021B77E8(void *, u32);
+extern u32 COMM_TVT_SYS_GetCameraBusy(void *);
+extern void COMM_TVT_SYS_SetCameraBusy(void *, u32);
+extern u32 COMM_TVT_SYS_GetMessageActive(void *);
+extern u32 CTVT_CAMVIEW_GetOwnSlotBuffer(void *p, void *q);
+extern u32 CTVT_CAMVIEW_GetSlotBufferStep(void *, u32);
+extern u32 CTVT_CAMVIEW_GetWindowHeight(void *, u32);
+extern u32 CTVT_CAMVIEW_GetWindowWidth(void *, u32);
 extern u32 func_021B8A14(int unused, char *q);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021B8AD4(int unused, char *base);
@@ -80,7 +80,7 @@ void func_021B8154(void *a, char *b)
     busy = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     if (W(0x174) == 2) {
         if (W(0x64) == 0) {
-            u32 v = func_021BDFDC(a);
+            u32 v = COMM_TVT_SYS_GetCamView(a);
             W(0x64) = 1;
             W(0x68) = 1;
             W(0x6c) = 1;
@@ -91,16 +91,16 @@ void func_021B8154(void *a, char *b)
             *(S21 *)(b + 0x80) = *(S21 *)(b + 0x40);
             B(0x2c) = 1;
             B(4) = 1;
-            func_021B7740(a, (char *)v, 0, 0);
+            CTVT_CAMVIEW_StartLayoutChange(a, (char *)v, 0, 0);
         }
     } else {
         cur = GFL_NET_GetNegotiationNum();
         if (B(4) != cur) {
             func_021B8454(a, b);
-            func_021BE1A4(a);
+            COMM_TVT_SYS_ClearNameWindows(a);
             if (B(4) < cur && busy == 0) {
                 W(0x3b8) = 1;
-                W(0x3bc) = func_021BE078(a);
+                W(0x3bc) = COMM_TVT_SYS_GetHalfRes(a);
             }
             W(0x3b4) = 1;
             B(4) = cur;
@@ -115,23 +115,23 @@ void func_021B8154(void *a, char *b)
             u8 c1 = B(0x182);
             u8 c2 = B(0x183);
             if (c1 == (c1 & c2) && c1 != 0) {
-                if (func_021BE0F8(a) == 0) {
-                    func_021BE0FC(a, 1);
-                    if (func_021BE0AC(a) == 0) {
-                        r7 = func_021BDFDC(a);
-                        s18 = func_021B7818(a, (void *)r7);
-                        s1c = func_021B785C(a, r7);
+                if (COMM_TVT_SYS_GetCameraBusy(a) == 0) {
+                    COMM_TVT_SYS_SetCameraBusy(a, 1);
+                    if (COMM_TVT_SYS_GetMessageActive(a) == 0) {
+                        r7 = COMM_TVT_SYS_GetCamView(a);
+                        s18 = CTVT_CAMVIEW_GetOwnSlotBuffer(a, (void *)r7);
+                        s1c = CTVT_CAMVIEW_GetSlotBufferStep(a, r7);
                         MIi_CpuCopy32((void *)s18, (void *)W(0x18c), s1c);
-                        s20 = func_021B77B8(a, r7);
-                        s24 = func_021B77E8(a, r7);
-                        res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
+                        s20 = CTVT_CAMVIEW_GetWindowHeight(a, r7);
+                        s24 = CTVT_CAMVIEW_GetWindowWidth(a, r7);
+                        res = SSP_StartJpegEncoder((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
                         if (res != 0) {
                             GFL_NET_LOWER_DATA_SetSendData(W(0x190), res, B(0x182), 0);
                             B(0x183) = 0;
                             W(0x184) = 1;
                         }
                     }
-                    func_021BE0FC(a, 0);
+                    COMM_TVT_SYS_SetCameraBusy(a, 0);
                 }
             }
         }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1D0C",
+   "name": "ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay",
    "address": "0x021C1D0C",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1D24",
+   "name": "ZUKAN_DETAIL_AREA_RequestModeEvent4",
    "address": "0x021C1D24",
    "kind": "game",
    "region": "ov208",

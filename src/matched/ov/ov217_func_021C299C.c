@@ -1,5 +1,5 @@
 /*
- * function: func_021C299C
+ * function: PERCENTAGE_DeleteActors
  * address:  0x021C299C
  * packet:   pkt_021C299C
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C299C(int *p)
+void PERCENTAGE_DeleteActors(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)

@@ -1,5 +1,5 @@
 /*
- * function: func_021F84D0
+ * function: BTLV_EFFECT_GetPokeSlot
  * address:  0x021F84D0
  * packet:   pkt_ov094_021F84D0
  * region:   ov094
@@ -12,11 +12,11 @@
  * Returns slot a-8 of the table at 0x1f8 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 
-int func_021F84D0(int a)
+int BTLV_EFFECT_GetPokeSlot(int a)
 {
-    return ((int *)(d_0220AF20 + 0x1f8))[a - 8];
+    return ((int *)(gBtlvEff + 0x1f8))[a - 8];
 }

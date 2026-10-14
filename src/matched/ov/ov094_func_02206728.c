@@ -1,5 +1,5 @@
 /*
- * function: func_02206728
+ * function: BTLV_INPUT_DrawRunButtonText
  * address:  0x02206728
  * packet:   pkt_ov094_02206728
  * region:   ov094
@@ -20,8 +20,8 @@
  *   func_0201F250  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02204C98  0x02204C98  thumb  ov094
- *   func_021F88F4  0x021F88F4  thumb  ov094
+ *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
+ *   BTLV_EFFECT_IsRecordEnabledInComm  0x021F88F4  thumb  ov094
  */
 #include "../include/Obj05249.h"
 #include "../include/Obj21799.h"
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021F88F4(void);
+extern int BTLV_EFFECT_IsRecordEnabledInComm(void);
 typedef signed short   s16;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -43,11 +43,11 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
-extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
+extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern u32 func_0201ED04(struct WordSet *p);
 
-void func_02206728(char *s, char *b)
+void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
 {
     int h;
     void *v;
@@ -56,7 +56,7 @@ void func_02206728(char *s, char *b)
     int v14;
     u8 c[3];
 
-    if (func_021F88F4() == 0)
+    if (BTLV_EFFECT_IsRecordEnabledInComm() == 0)
         return;
     h = (int)func_0201EC64(((struct Obj05249 *)s)->f240);
     v = STRBUF_Create(6, ((struct Obj05249 *)s)->f240);
@@ -65,7 +65,7 @@ void func_02206728(char *s, char *b)
     GF_FONT_SetTextColor(1, 2, 0);
     func_0201EFA4((struct WordSet *)h, 0, ((struct Obj21799 *)b)->fC4, 2, 0, 1);
     func_0201F250((struct WordSet *)h, v, w);
-    func_02204C98((struct StrObj *)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
+    BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
     PRINTSYS_Print((void *)(((struct Obj05249 *)s)->f234), 12 - v18 / 2, 0, v, (void *)(((struct Obj05249 *)s)->f224));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
     func_0201ED04((struct WordSet *)h);

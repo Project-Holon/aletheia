@@ -1,5 +1,5 @@
 /*
- * function: func_021C7064
+ * function: MB_SEQ_BeginReturnFade
  * address:  0x021C7064
  * packet:   pkt_ov136_021C7064
  * region:   ov136
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C66B8 0x021C66B8 thumb
- *   func_021C714C 0x021C714C thumb
- *   func_021C7298 0x021C7298 thumb
+ *   MB_SEQ_SetActorVisible 0x021C66B8 thumb
+ *   MB_SEQ_StartFadeIn 0x021C714C thumb
+ *   MB_SEQ_SetButtonsEnabled 0x021C7298 thumb
  */
 #include "../include/Obj10608.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C66B8(u8 *, int, u32);
-extern void func_021C7298(void *p, int v);
-extern int func_021C714C(u8 *p, u32 v);
-void func_021C7064(u8 *p)
+extern void MB_SEQ_SetActorVisible(u8 *, int, u32);
+extern void MB_SEQ_SetButtonsEnabled(void *p, int v);
+extern int MB_SEQ_StartFadeIn(u8 *p, u32 v);
+void MB_SEQ_BeginReturnFade(u8 *p)
 {
-    func_021C66B8(*(u8 * *)&((struct Obj10608 *)p)->f8, 2, 0);
-    func_021C7298(*(u8 * *)&((struct Obj10608 *)p)->f8, 1);
-    func_021C714C(p, 0x16);
+    MB_SEQ_SetActorVisible(*(u8 * *)&((struct Obj10608 *)p)->f8, 2, 0);
+    MB_SEQ_SetButtonsEnabled(*(u8 * *)&((struct Obj10608 *)p)->f8, 1);
+    MB_SEQ_StartFadeIn(p, 0x16);
 }

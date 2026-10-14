@@ -1,5 +1,5 @@
 /*
- * function: func_021FFFF8
+ * function: BR_POKESEARCH_CreateSpeciesList
  * address: 0x021FFFF8
  * packet: pkt_ov186_021FFFF8
  * region: ov186
@@ -37,7 +37,7 @@
  *     func_02045E04(dest, index);
  *   }
  * symbols:
- *   func_021FB964 0x021FB964 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   func_02034714 0x02034714 arm
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -45,19 +45,19 @@
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FC8C8 0x021FC8C8 thumb ov186
- *   d_02200DAC 0x02200DAC data
+ *   gBrPokeSearchAssertString 0x02200DAC data
  *   gSpeciesNameBank 0x020A7370 data
- *   d_02200CA8 0x02200CA8 data
+ *   gBrPokeSearchListConfig 0x02200CA8 data
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { const void *str; u32 param; } Slot;
 typedef struct { u32 v[10]; } Config;
-extern char d_02200DAC[];
+extern char gBrPokeSearchAssertString[];
 extern void *gSpeciesNameBank;
-extern const Config d_02200CA8;
+extern const Config gBrPokeSearchListConfig;
 struct Slot;
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 struct MsgBank;
 struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -67,15 +67,15 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FC8C8(Config *,u32);
-void func_021FFFF8(char *p)
+void BR_POKESEARCH_CreateSpeciesList(char *p)
 {
     Config cfg;
     void *str;
     u32 i;
     *(u32 *)(p+0x70)=1;
-    func_021FB964((void *)(*(int *)(p+0x28)),21,*(u16 *)(p+0x24));
-    if (*(void **)(p+0x64)) func_02034714(d_02200DAC,0,d_02200DAC);
-    if (*(void **)(p+0x68)) func_02034714(d_02200DAC,0,d_02200DAC);
+    BR_RES_LoadBgGraphics((void *)(*(int *)(p+0x28)),21,*(u16 *)(p+0x24));
+    if (*(void **)(p+0x64)) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (*(void **)(p+0x68)) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     *(Slot **)(p+0x64)=BMP_MENUWORK_Create(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
     str=STRBUF_Create(11,*(u16 *)(p+0x24));
     for(i=0;i<*(u32 *)(p+0x8c);i++) {
@@ -83,7 +83,7 @@ void func_021FFFF8(char *p)
         BMP_MENUWORK_AddStrItem((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
     }
     STRBUF_Delete(str);
-    cfg=d_02200CA8;
+    cfg=gBrPokeSearchListConfig;
     cfg.v[0]=*(u32 *)(p+0x64);
     cfg.v[1]=*(u32 *)(p+0x8c);
     cfg.v[5]=*(u32 *)(p+0x28);

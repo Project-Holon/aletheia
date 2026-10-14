@@ -1,5 +1,5 @@
 /*
- * function: func_021F1C30
+ * function: MB_CommResponseRequest
  * address:  0x021F1C30
  * packet:   pkt_ov107_021F1C30
  * region:   ov107
@@ -23,7 +23,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_021F2EE8(unsigned short child_aid);
 
-int func_021F1C30(unsigned short child_aid, int ack)
+int MB_CommResponseRequest(unsigned short child_aid, int ack)
 {
     unsigned short req;
     int state;

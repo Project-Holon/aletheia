@@ -1,5 +1,5 @@
 /*
- * function: func_021C2050
+ * function: SSP_YUV422ToYUV888
  * address:  0x021C2050
  * packet:   pkt_ov172_021C2050
  * region:   ov172
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-void func_021C2050(void *src, unsigned long width, unsigned long height, void *dst)
+void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, void *dst)
 {
     unsigned long yuyv;
     unsigned long x;

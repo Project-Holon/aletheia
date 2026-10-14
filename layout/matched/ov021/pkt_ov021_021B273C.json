@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent",
+   "name": "SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent",
    "address": "0x021B273C",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1704
+ * function: MB_UTIL_MSG_PrintStream
  * address:  0x021F1704
  * packet:   pkt_ov107_021F1704
  * region:   ov107
@@ -67,7 +67,7 @@ void func_0201F73C(void *, int, int, int);
 void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, int, int);
 void func_02028470(u8 *p, u32 v);
 
-void func_021F1704(Ov107Ctx *p, int a, int b)
+void MB_UTIL_MSG_PrintStream(Ov107Ctx *p, int a, int b)
 {
     void *s;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8010
+ * function: BTLV_EFFECT_ReleasePokeSprite
  * address:  0x021F8010
  * packet:   pkt_ov094_021F8010
  * region:   ov094
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_021FF0F8 for slot a, then marks slot a-8 of the table at 0x1f8 free.
+ * Calls BTLV_MCSS_RemoveSprite for slot a, then marks slot a-8 of the table at 0x1f8 free.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021FF0F8 0x021FF0F8 thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_MCSS_RemoveSprite 0x021FF0F8 thumb ov094
  */
-extern char *d_0220AF20;
-extern void func_021FF0F8(void *, int);
+extern char *gBtlvEff;
+extern void BTLV_MCSS_RemoveSprite(void *, int);
 
-void func_021F8010(int a)
+void BTLV_EFFECT_ReleasePokeSprite(int a)
 {
-    func_021FF0F8(*(void **)(d_0220AF20 + 0x190), a);
-    ((int *)(d_0220AF20 + 0x1f8))[a - 8] = -1;
+    BTLV_MCSS_RemoveSprite(*(void **)(gBtlvEff + 0x190), a);
+    ((int *)(gBtlvEff + 0x1f8))[a - 8] = -1;
 }

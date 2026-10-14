@@ -1,5 +1,5 @@
 /*
- * function: func_021BE05C
+ * function: COMM_TVT_SYS_GetLayoutMode
  * address:  0x021BE05C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -12,7 +12,7 @@
  * 1 for states 1 and 2, else 2.
  *
  * symbols:
- *   func_021BE054  0x021BE054  thumb  ov172
+ *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8 func_021BE054(void *p);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 
-int func_021BE05C(void *p)
+int COMM_TVT_SYS_GetLayoutMode(void *p)
 {
-    u8 v = func_021BE054(p);
+    u8 v = COMM_TVT_SYS_GetMemberCount(p);
     if (v == 1) {
         return 1;
     }

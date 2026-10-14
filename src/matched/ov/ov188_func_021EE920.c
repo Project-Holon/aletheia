@@ -1,5 +1,5 @@
 /*
- * function: func_021EE920
+ * function: BATTLE_REC_TOOL_PackMon
  * address: 0x021EE920
  * packet: pkt_ov188_021EE920
  * region: ov188
@@ -28,7 +28,7 @@ struct Mon { u32 seed; Flags flags; u16 check; u8 block[0x80]; };
 extern void MI_CpuFill8(void *,int,u32);
 extern void func_02019A50(u16 *,u32,u32);
 extern void *func_02019C38(struct Mon *,u32,u32);
-void func_021EE920(struct Mon *p,char *q)
+void BATTLE_REC_TOOL_PackMon(struct Mon *p,char *q)
 {
     char *a,*b,*c,*d;
     int i;

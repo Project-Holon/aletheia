@@ -1,5 +1,5 @@
 /*
- * function: func_021C3CC0
+ * function: MAILTOOL_CreateWriteArgs
  * address: 0x021C3CC0
  * packet: pkt_ov136_021C3CC0
  * region: ov136
@@ -33,7 +33,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MAIL_Create(int a0);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 extern void func_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused, void *p);
-void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
+void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
 {
     u8 *p;
     unsigned v;

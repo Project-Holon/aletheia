@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D74
+ * function: CircleGraph_DestroyQueueImpl
  * address:  0x021C1D74
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C1E00.
+ * Tail-call veneer: branch to CircleGraph_DestroyQueue.
  *
  * symbols:
- *   func_021C1E00  0x021C1E00  thumb  ov217
+ *   CircleGraph_DestroyQueue  0x021C1E00  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C1E00(void *);
+extern void CircleGraph_DestroyQueue(void *);
 
-void func_021C1D74(u32 a0)
+void CircleGraph_DestroyQueueImpl(u32 a0)
 {
-    func_021C1E00((void *)a0);
+    CircleGraph_DestroyQueue((void *)a0);
 }

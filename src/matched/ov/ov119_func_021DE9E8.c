@@ -1,5 +1,5 @@
 /*
- * function: func_021DE9E8
+ * function: POKETRADE_NEGO_StepOpenDeclineMenu
  * address:  0x021DE9E8
  * packet:   pkt_ov119_021DE9E8
  * region:   ov119
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E12AC  0x021E12AC  thumb  ov119
+ *   POKETRADE_SAVE_IsMessagePrintDone  0x021E12AC  thumb  ov119
  *   d_021E76DC     0x021E76DC  data  a4
- *   func_021E131C  0x021E131C  thumb  ov119
- *   func_021D8E84  0x021D8E84  thumb  ov119
- *   func_021DE988  0x021DE988  thumb  ov119
+ *   POKETRADE_SAVE_OpenTaskMenuAt  0x021E131C  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
+ *   POKETRADE_NEGO_StepDeclineMenuChoice  0x021DE988  thumb  ov119
  */
 
 typedef struct {
@@ -22,18 +22,18 @@ typedef struct {
     int b;
 } Pair;
 
-extern int func_021E12AC(char *p);
+extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern const Pair d_021E76DC;
-extern void func_021E131C(char *p, int *ids, int count, int x, int y);
-extern void func_021D8E84(void *p, int next);
-extern void func_021DE988(char *p);
+extern void POKETRADE_SAVE_OpenTaskMenuAt(char *p, int *ids, int count, int x, int y);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
+extern void POKETRADE_NEGO_StepDeclineMenuChoice(char *p);
 
-void func_021DE9E8(void *p)
+void POKETRADE_NEGO_StepOpenDeclineMenu(void *p)
 {
     Pair t;
-    if (func_021E12AC(p) != 0) {
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) != 0) {
         t = d_021E76DC;
-        func_021E131C(p, (int *)&t, 2, 0x20, 12);
-        func_021D8E84(p, (int)func_021DE988);
+        POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 12);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepDeclineMenuChoice);
     }
 }

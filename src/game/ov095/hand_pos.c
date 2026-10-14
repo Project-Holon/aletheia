@@ -51,7 +51,7 @@ extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, u8 index, u32
 extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
 extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
 extern struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor);
-extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlSvFlow *flow, u32 pokeId);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, u32 pokeId);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u32 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *bpp, u8 moveIndex);
@@ -61,15 +61,15 @@ struct BtlEventFactor *HAND_POS_AddFactor(int effectId, int position, u32 userPo
 int BTL_EVENT_IsFactorKeyRegistered(int a, int b);
 int HAND_POS_IsNotRegistered(int effectId, int position);
 const BtlEventHandler *HAND_POS_GetHandlersWish(u32 *handlerCount);
-void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, HandWishWork *work);
+void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, HandWishWork *work);
 const BtlEventHandler *HAND_POS_GetHandlersLunarDance(u32 *handlerCount);
-void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 position);
+void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 position);
 const BtlEventHandler *HAND_POS_GetHandlersHealingWish(u32 *handlerCount);
-void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 position);
+void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 position);
 const BtlEventHandler *HAND_POS_GetHandlersFutureSight(u32 *handlerCount);
-void HAND_POS_FutureSightOnTurn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, HandFutureSightWork *work);
+void HAND_POS_FutureSightOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, HandFutureSightWork *work);
 const BtlEventHandler *HAND_POS_GetHandlersPending(u32 *handlerCount);
-void HAND_POS_PendingOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, u32 *work);
+void HAND_POS_PendingOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, u32 *work);
 extern const HandEffectEntry gHandPosEffectTable[BTL_POSEFF_COUNT];
 extern const BtlEventHandler gHandPosWishHandlers[1];
 extern const BtlEventHandler gHandPosLunarDanceHandlers[2];
@@ -146,7 +146,7 @@ const BtlEventHandler *HAND_POS_GetHandlersWish(u32 *handlerCount)
  * the Pokemon at the position is healed by half of the user's maximum HP (unless it is
  * at full HP) and the effect ends.
  */
-void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, HandWishWork *work)
+void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, HandWishWork *work)
 {
     if (BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) == BTL_EVENT_NO_POKE && BTL_SERVER_FLOW_CheckShowdownThunk(flow) == 0) {
         if (work->armed == 0) {
@@ -198,7 +198,7 @@ const BtlEventHandler *HAND_POS_GetHandlersLunarDance(u32 *handlerCount)
  * fully, cured of its major status and gets all PP back, but only if something needs restoring.
  * Then the effect ends.
  */
-void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 position)
+void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 position)
 {
     u32 i;
     u32 j;
@@ -287,7 +287,7 @@ const BtlEventHandler *HAND_POS_GetHandlersHealingWish(u32 *handlerCount)
  * healed fully and cured of its major status, but only if something needs restoring.
  * Then the effect ends.
  */
-void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 position)
+void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 position)
 {
     u8 enteringId;
     struct BtlPokeParam *enteringPoke;
@@ -353,7 +353,7 @@ const BtlEventHandler *HAND_POS_GetHandlersFutureSight(u32 *handlerCount)
  * The message pointer is passed live in r1 to the commit veneer, which
  * targets the two-argument BTL_SERVER_FLOW_CommitCmdRecord. Omitting it lost its r0-to-r1 copy.
  */
-void HAND_POS_FutureSightOnTurn(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, HandFutureSightWork *work)
+void HAND_POS_FutureSightOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, HandFutureSightWork *work)
 {
     if (BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) == BTL_EVENT_NO_POKE && BTL_SERVER_FLOW_CheckShowdownThunk(flow) == 0) {
         u8 turn = BTL_SERVER_FLOW_GetTurnCount(flow);
@@ -402,7 +402,7 @@ const BtlEventHandler *HAND_POS_GetHandlersPending(u32 *handlerCount)
  * reaches the two-argument BTL_SERVER_FLOW_CommitCmdRecord. A one-argument declaration loses
  * the pointer copy and leaves 18 differing bytes (62/64).
  */
-void HAND_POS_PendingOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int position, u32 *work)
+void HAND_POS_PendingOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, u32 *work)
 {
     u8 enteringId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
     struct HandExPendingEntry *cmd;

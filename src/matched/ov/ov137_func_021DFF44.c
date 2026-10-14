@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021DFF44
+ * function: GURU2_MAIN_InitActorSystem
  * address: 0x021DFF44
  * packet: pkt_ov137_021DFF44
  * region: ov137
@@ -20,4 +20,4 @@ struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern const struct Cfg gClActorInitParam;
-void func_021DFF44(u8 *p){CLACT_InitSystem(&gClActorInitParam,0x021E1EA4,114);*(struct Bank **)(p+0xd68)=CLACT_CreateUnit(30,1,114);}
+void GURU2_MAIN_InitActorSystem(u8 *p){CLACT_InitSystem(&gClActorInitParam,0x021E1EA4,114);*(struct Bank **)(p+0xd68)=CLACT_CreateUnit(30,1,114);}

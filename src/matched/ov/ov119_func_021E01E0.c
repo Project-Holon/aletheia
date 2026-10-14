@@ -1,5 +1,5 @@
 /*
- * function: func_021E01E0
+ * function: POKETRADE_SAVE_RestoreZukan
  * address: 0x021E01E0
  * packet: pkt_ov119_021E01E0
  * region: ov119
@@ -18,7 +18,7 @@ extern unsigned ZUKAN_SAVE_GetSize(void);
 extern void MI_CpuCopy8(void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E01E0(void *h, void *buf)
+void POKETRADE_SAVE_RestoreZukan(void *h, void *buf)
 {
     void *src = ZUKAN_SAVE_GetFromGameData(h);
     MI_CpuCopy8(buf, src, ZUKAN_SAVE_GetSize());

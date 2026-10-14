@@ -1,5 +1,5 @@
 /*
- * function: func_021F7E74
+ * function: WORLDTRADE_DEPOSIT_StatePrintConfirmPrompt
  * address:  0x021F7E74
  * packet:   pkt_021F7E74
  * region:   ov135
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7538  0x021F7538  thumb  ov135
- *   func_021F4E98  0x021F4E98  thumb  ov135
+ *   WORLDTRADE_DEPOSIT_PrintMessage  0x021F7538  thumb  ov135
+ *   WORLDTRADE_SetNextState  0x021F4E98  thumb  ov135
 
- * Build through func_021F7538 and publish the 0x10/0xe pair.
+ * Build through WORLDTRADE_DEPOSIT_PrintMessage and publish the 0x10/0xe pair.
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021F7538(u8 *p, u32 a, u32 b, u32 c, u32 d);
-extern void func_021F4E98(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_DEPOSIT_PrintMessage(u8 *p, u32 a, u32 b, u32 c, u32 d);
+extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
 
-int func_021F7E74(u8 *p)
+int WORLDTRADE_DEPOSIT_StatePrintConfirmPrompt(u8 *p)
 {
-    func_021F7538(p, 0x17, 1, 0, 0xf0f);
-    func_021F4E98(p, 0x10, 0xe);
+    WORLDTRADE_DEPOSIT_PrintMessage(p, 0x17, 1, 0, 0xf0f);
+    WORLDTRADE_SetNextState(p, 0x10, 0xe);
     return 2;
 }

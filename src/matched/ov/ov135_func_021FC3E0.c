@@ -1,5 +1,5 @@
 /*
- * function: func_021FC3E0
+ * function: WORLDTRADE_DETAIL_CreateWindows
  * address: 0x021FC3E0
  * packet: pkt_ov135_021FC3E0
  * region: ov135
@@ -16,7 +16,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02200BAC 0x02200BAC thumb ov135
+ *   WORLDTRADE_TITLE_CreateMenuWindow 0x02200BAC thumb ov135
  *   tbl_0220351C 0x0220351C data a4
  */
 typedef unsigned char u8;
@@ -42,8 +42,8 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void func_02200BAC(u8 *p, u32 k);
-void func_021FC3E0(Menu *p)
+extern void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k);
+void WORLDTRADE_DETAIL_CreateWindows(Menu *p)
 {
     int i;
     u32 w;
@@ -66,5 +66,5 @@ void func_021FC3E0(Menu *p)
         BMP_WIN_MakeScreen((struct Cfg *)w);
         func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     }
-    func_02200BAC((u8 *)p,2);
+    WORLDTRADE_TITLE_CreateMenuWindow((u8 *)p,2);
 }

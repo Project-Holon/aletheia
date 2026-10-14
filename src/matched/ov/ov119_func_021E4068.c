@@ -1,5 +1,5 @@
 /*
- * function: func_021E4068
+ * function: POKETRADE_2D_RegisterIconCharResources
  * address: 0x021E4068
  * packet: pkt_ov119_021E4068
  * region: ov119
@@ -29,7 +29,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E4068(char *p)
+void POKETRADE_2D_RegisterIconCharResources(char *p)
 {
     void *v;
     int a;

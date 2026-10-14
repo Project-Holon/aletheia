@@ -1,5 +1,5 @@
 /*
- * function: func_021E4AB8
+ * function: POKETRADE_2D_SetIconObjMode
  * address:  0x021E4AB8
  * packet:   pkt_021D8980
  * region:   ov119
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-void func_021E4AB8(int a0, int a1, int a2)
+void POKETRADE_2D_SetIconObjMode(int a0, int a1, int a2)
 {
     CLACT_SetActorObjMode((struct Actor *)a1, a2 != 0);
 }

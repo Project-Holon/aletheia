@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F875C",
+   "name": "WORLDTRADE_DEPOSIT_CreateSpeciesMenuList",
    "address": "0x021F875C",
    "kind": "game",
    "region": "ov135",

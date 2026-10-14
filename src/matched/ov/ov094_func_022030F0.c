@@ -1,5 +1,5 @@
 /*
- * function: func_022030F0
+ * function: BTLV_INPUT_ProcessKeyInput
  * address:  0x022030F0
  * packet:   pkt_ov094_022030F0
  * region:   ov094
@@ -15,19 +15,19 @@
  *   d_0220AEA4     0x0220AEA4  data
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   KEY_GetTrg  0x020362DC  arm
- *   func_021F8168  0x021F8168  thumb  ov094
+ *   BTLV_EFFECT_GaugeRequestStop  0x021F8168  thumb  ov094
  *   PALANM_RequestFadeOverwrite  0x02021848  thumb
- *   func_02206B74  0x02206B74  thumb  ov094
- *   func_02204B0C  0x02204B0C  thumb  ov094
+ *   BTLV_INPUT_PlayPageSe  0x02206B74  thumb  ov094
+ *   BTLV_INPUT_StartScreenTransition  0x02204B0C  thumb  ov094
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
- *   func_02206140  0x02206140  thumb  ov094
+ *   BTLV_INPUT_ProcessButtonSelection  0x02206140  thumb  ov094
  *   KEY_GetCont  0x0203630C  arm
- *   func_02206BAC  0x02206BAC  thumb  ov094
- *   func_02206908  0x02206908  thumb  ov094
- *   func_02206B90  0x02206B90  thumb  ov094
- *   func_02206B58  0x02206B58  thumb  ov094
- *   func_02206578  0x02206578  thumb  ov094
+ *   BTLV_INPUT_PlayBackSe  0x02206BAC  thumb  ov094
+ *   BTLV_INPUT_IsWazaSelectable  0x02206908  thumb  ov094
+ *   BTLV_INPUT_PlayOpenSe  0x02206B90  thumb  ov094
+ *   BTLV_INPUT_PlayCursorSe  0x02206B58  thumb  ov094
+ *   BTLV_INPUT_SetSelection  0x02206578  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -86,22 +86,22 @@ extern void *const d_0220AEA4[];
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 KEY_GetTrg(void);
-extern void func_021F8168(void);
+extern void BTLV_EFFECT_GaugeRequestStop(void);
 extern void PALANM_RequestFadeOverwrite(int a, int b, u16 c, int d, int e, int f, int g, void *h);
-extern void func_02206B74(char *p);
-extern void func_02204B0C(Main *m, int c);
+extern void BTLV_INPUT_PlayPageSe(char *p);
+extern void BTLV_INPUT_StartScreenTransition(Main *m, int c);
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct R5;
 extern int BTL_POKEPARAM_IsTransformed(struct R5 *p);
-extern int func_02206140(Main *m, const Desc *d, void *t, const u8 *k, int a, int b);
+extern int BTLV_INPUT_ProcessButtonSelection(Main *m, const Desc *d, void *t, const u8 *k, int a, int b);
 extern unsigned int KEY_GetCont(void);
-extern void func_02206BAC(char *p);
-extern int func_02206908(char *p, char *q, int i);
-extern void func_02206B90(char *p);
-extern void func_02206B58(char *p);
-extern int func_02206578(char *s, int a, int b);
+extern void BTLV_INPUT_PlayBackSe(char *p);
+extern int BTLV_INPUT_IsWazaSelectable(char *p, char *q, int i);
+extern void BTLV_INPUT_PlayOpenSe(char *p);
+extern void BTLV_INPUT_PlayCursorSe(char *p);
+extern int BTLV_INPUT_SetSelection(char *s, int a, int b);
 
-int func_022030F0(Main *m, u8 *key, int *out)
+int BTLV_INPUT_ProcessKeyInput(Main *m, u8 *key, int *out)
 {
     int i;
     int a;
@@ -111,7 +111,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
     if (m->b0 || PALANM_GetFadeRequestBits((const char *)m->f64) != 0 || m->b31)
         return 0;
     if (KEY_GetTrg() & 8)
-        func_021F8168();
+        BTLV_EFFECT_GaugeRequestStop();
     if (m->f70 != -1) {
         i = m->f70 & 0xFFFF7FFF;
         if (i < 5) {
@@ -128,23 +128,23 @@ int func_022030F0(Main *m, u8 *key, int *out)
         m->f5 = 0;
         m->tbl[m->f27c][m->f58] = 0;
         m->f6c &= ~2;
-        func_02206B74((char *)m);
-        func_02204B0C(m, i);
+        BTLV_INPUT_PlayPageSe((char *)m);
+        BTLV_INPUT_StartScreenTransition(m, i);
         m->f70 = -1;
         return 0;
     }
     if (m->f220 == 1) {
         a = TOUCHPANEL_HitTrg(sec_0220A380.db.a);
-        i = func_02206140(m, &sec_0220A380.db, d_0220AE98[m->mode], 0, a, BTL_POKEPARAM_IsTransformed(m->f2a4[m->mode]));
+        i = BTLV_INPUT_ProcessButtonSelection(m, &sec_0220A380.db, d_0220AE98[m->mode], 0, a, BTL_POKEPARAM_IsTransformed(m->f2a4[m->mode]));
     } else {
         a = TOUCHPANEL_HitTrg(sec_0220A380.da.a);
-        i = func_02206140(m, &sec_0220A380.da, d_0220AEA4[m->mode], d_0220A380, a, BTL_POKEPARAM_IsTransformed(m->f2a4[m->mode]));
+        i = BTLV_INPUT_ProcessButtonSelection(m, &sec_0220A380.da, d_0220AEA4[m->mode], d_0220A380, a, BTL_POKEPARAM_IsTransformed(m->f2a4[m->mode]));
     }
     if (i != -1) {
         held = KEY_GetCont();
         if (m->b25a[i] == 0 && !(held & 0x200)) {
             if (m->b262[i] != 0)
-                func_02206BAC((char *)m);
+                BTLV_INPUT_PlayBackSe((char *)m);
             i = -1;
         } else if (i > 4 && m->b25a[i] == 0) {
             i = -1;
@@ -156,23 +156,23 @@ int func_022030F0(Main *m, u8 *key, int *out)
     }
     if (i != -1) {
         if (m->f220 == 1) {
-            r = func_02206908((char *)m, (char *)(&sec_0220A380.db), i);
+            r = BTLV_INPUT_IsWazaSelectable((char *)m, (char *)(&sec_0220A380.db), i);
             if (r == 0 && !(m->f6c << 30 >> 31)) {
                 m->tbl[m->f27c][m->f58] = i;
-                func_02206B90((char *)m);
+                BTLV_INPUT_PlayOpenSe((char *)m);
             } else if (r == 1 && !(m->f6c << 30 >> 31)) {
-                func_02206B58((char *)m);
+                BTLV_INPUT_PlayCursorSe((char *)m);
             }
-            i = func_02206578((char *)m, i, sec_0220A380.db.c[i]);
+            i = BTLV_INPUT_SetSelection((char *)m, i, sec_0220A380.db.c[i]);
         } else {
-            r = func_02206908((char *)m, (char *)(&sec_0220A380.da), i);
+            r = BTLV_INPUT_IsWazaSelectable((char *)m, (char *)(&sec_0220A380.da), i);
             if (r == 0 && !(m->f6c << 30 >> 31)) {
                 m->tbl[m->f27c][m->f58] = i;
-                func_02206B90((char *)m);
+                BTLV_INPUT_PlayOpenSe((char *)m);
             } else if (r == 1 && !(m->f6c << 30 >> 31)) {
-                func_02206B58((char *)m);
+                BTLV_INPUT_PlayCursorSe((char *)m);
             }
-            i = func_02206578((char *)m, i, sec_0220A380.da.c[i]);
+            i = BTLV_INPUT_SetSelection((char *)m, i, sec_0220A380.da.c[i]);
         }
     }
     if (i != -1)

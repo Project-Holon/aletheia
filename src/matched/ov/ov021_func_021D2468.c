@@ -20,7 +20,7 @@
  *   func_02008B94  0x02008B94  thumb
  *   func_02008B98  0x02008B98  thumb
  *   func_020056EC  0x020056EC  thumb
- *   d_021DD6D0     0x021DD6D0  data  a2
+ *   gBirthdayTextIdTable     0x021DD6D0  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -31,7 +31,7 @@ typedef struct {
     u16 h[31];
 } Tbl;
 
-extern Tbl d_021DD6D0;
+extern Tbl gBirthdayTextIdTable;
 
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
@@ -58,7 +58,7 @@ int SCRCMD_GetBirthdayMessageIds(u32 a, u32 b)
     p6 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     p4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     p5 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    t = d_021DD6D0;
+    t = gBirthdayTextIdTable;
     z = (u32)func_02008B08(GAME_DATA_GetSaveControl((struct Big *)x));
     v = FIELD_CLOCK_GetMonth(x);
     w = FIELD_CLOCK_GetDay(x);

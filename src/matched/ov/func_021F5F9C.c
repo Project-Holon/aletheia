@@ -1,5 +1,5 @@
 /*
- * function: func_021F5F9C
+ * function: WORLDTRADE_BOX_GetColumnIndex
  * address:  0x021F5F9C
  * packet:   pkt_021F5F9C
  * region:   ov135
@@ -16,7 +16,7 @@
  * Byte-index arithmetic with 0xff as the out-of-range marker.
  */
 
-int func_021F5F9C(int a, int b, int c)
+int WORLDTRADE_BOX_GetColumnIndex(int a, int b, int c)
 {
     if (a == 0xff) {
         if (c > 0) {

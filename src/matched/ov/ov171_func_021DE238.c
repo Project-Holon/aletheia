@@ -1,5 +1,5 @@
 /*
- * function: func_021DE238
+ * function: DENDOU_VIEW_ReleaseCellAnim
  * address: 0x021DE238
  * packet: pkt_ov171_021DE238
  * region: ov171
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void CLACT_ReleaseCellAnim(u32);
-void func_021DE238(char *p,int i)
+void DENDOU_VIEW_ReleaseCellAnim(char *p,int i)
 {
     if(*(u32 *)((u32)p+0xc1c+(u32)i*4)!=(u32)-1) {
         CLACT_ReleaseCellAnim(*(u32 *)((u32)p+0xc1c+(u32)i*4));

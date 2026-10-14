@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FF88C 0x021FF88C thumb ov186
+ *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   func_021F9C6C 0x021F9C6C thumb ov186
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
@@ -20,7 +20,7 @@
 #include "../include/Obj03336.h"
 #include "../include/Obj24698.h"
 #include "../include/Obj24699.h"
-extern int func_021FF88C(char *);
+extern int BR_NET_HandleNetError(char *);
 extern void func_021F9C6C(char *);
 typedef unsigned char  u8;
 extern void func_021FD71C(u8 *p);
@@ -34,7 +34,7 @@ extern void func_021F3C50(u8 *p);
 int func_021F857C(int a,int b,int c,char *p)
 {
     int i;
-    if (func_021FF88C(*(char * *)&((struct Obj24698 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f14)==2) {
+    if (BR_NET_HandleNetError(*(char * *)&((struct Obj24698 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f14)==2) {
         func_021F9C6C(*(char * *)&((struct Obj24699 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f10);
         return 1;
     }

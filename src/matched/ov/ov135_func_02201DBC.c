@@ -1,5 +1,5 @@
 /*
- * function: func_02201DBC
+ * function: WORLDTRADE_SERVER_StateIdle
  * address: 0x02201DBC
  * packet: pkt_ov135_02201DBC
  * region: ov135
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov135/worldtrade_adapter_p04.c and filed here.
  */
 
-int func_02201DBC(void);
+int WORLDTRADE_SERVER_StateIdle(void);
 
-int func_02201DBC(void)
+int WORLDTRADE_SERVER_StateIdle(void)
 {
     return 2;
 }

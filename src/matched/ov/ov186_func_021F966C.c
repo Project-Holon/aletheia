@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
- *   func_021FC4DC   0x021FC4DC  thumb
+ *   BR_GRAPHIC_GetActorUnit   0x021FC4DC  thumb
  *   func_0200E9F4   0x0200E9F4  thumb
  *   func_0200EA04   0x0200EA04  thumb
  *
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
 
@@ -40,7 +40,7 @@ void func_021F966C(char *r5, int *r4)
     ((struct Obj05494 *)r5)->f8 = r4[1];
     ((struct Obj05494 *)r5)->f4 = r4[3];
     ((struct Obj05494 *)r5)->fC = r4[2];
-    ((struct Obj05494 *)r5)->f0 = func_021FC4DC((u8 *)r4[0]);
+    ((struct Obj05494 *)r5)->f0 = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
     ((struct Obj05494 *)r5)->f10 = *(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4);
     ((struct Obj05494 *)r5)->f14 = func_0200EA04((int)func_0200E9F4((void *)x));
 }

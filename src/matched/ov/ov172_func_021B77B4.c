@@ -1,5 +1,5 @@
 /*
- * function: func_021B77B4
+ * function: CTVT_CAMVIEW_IsLayoutChanging
  * address:  0x021B77B4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021B77B4(int unused, void *p)
+u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p)
 {
     return ((struct Obj24070 *)p)->f14;
 }

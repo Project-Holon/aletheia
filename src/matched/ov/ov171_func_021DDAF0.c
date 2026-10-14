@@ -1,5 +1,5 @@
 /*
- * function: func_021DDAF0
+ * function: DENDOU_VIEW_DrawPageCounter
  * address: 0x021DDAF0
  * packet: pkt_ov171_021DDAF0
  * region: ov171
@@ -37,7 +37,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void BMP_OAM_UploadChars(struct Obj *o);
-void func_021DDAF0(u8 *p)
+void DENDOU_VIEW_DrawPageCounter(u8 *p)
 {
     void *s1,*s2,*font,*text;
     u8 width,x;

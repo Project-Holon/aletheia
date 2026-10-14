@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdSetSurveyAnswer
+ * function: SCRCMD_RESEARCH_CmdSetSurveyAnswer
  * address:  0x0216B7B0
  * packet:   pkt_ov010_0216B7B0
  * region:   ov010
@@ -35,7 +35,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void func_0200E3E8(u8 *bits, int id, u32 value);
 extern void GAME_BEACON_SetQuestionnaire(const void *src);
 
-int FIELD_G3D_MAP_CmdSetSurveyAnswer(int c, int vm)
+int SCRCMD_RESEARCH_CmdSetSurveyAnswer(int c, int vm)
 {
     void *r6;
     int a;

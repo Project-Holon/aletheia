@@ -1,5 +1,5 @@
 /*
- * function: func_021C28DC
+ * function: PERCENTAGE_GetTensPosition
  * address:  0x021C28DC
  * packet:   pkt_ov217_021C28DC
  * region:   ov217
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021C28DC(const u32 *p, u16 *a, u16 *b)
+void PERCENTAGE_GetTensPosition(const u32 *p, u16 *a, u16 *b)
 {
     *a = p[1] + 0xF;
     *b = p[2] - 8;

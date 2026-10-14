@@ -1,5 +1,5 @@
 /*
- * function: func_021E3744
+ * function: POKETRADE_3D_SetCubeTexCoord
  * address:  0x021E3744
  * packet:   pkt_ov119_021E3744
  * region:   ov119
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u32 d_021E8168[];
 
-void func_021E3744(int n)
+void POKETRADE_3D_SetCubeTexCoord(int n)
 {
     *(u32 *)0x04000488 = d_021E8168[n];
 }

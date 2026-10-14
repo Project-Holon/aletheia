@@ -1,5 +1,5 @@
 /*
- * function: func_021C7738
+ * function: MB_SEQ_IsXPressed
  * address:  0x021C7738
  * packet:   pkt_021C7738
  * region:   ov136
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern u32 KEY_GetTrg(void);
 
-int func_021C7738(void)
+int MB_SEQ_IsXPressed(void)
 {
     return (KEY_GetTrg() & 0x400) ? 1 : 0;
 }

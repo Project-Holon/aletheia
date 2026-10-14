@@ -1,5 +1,5 @@
 /*
- * function: func_021F9364
+ * function: BTLV_EFFECT_UpdateTexturePaletteFade
  * address:  0x021F9364
  * packet:   pkt_ov094_021F9364
  * region:   ov094
@@ -44,7 +44,7 @@ extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 co
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021F9364(P *p)
+void BTLV_EFFECT_UpdateTexturePaletteFade(P *p)
 {
     int i;
     Q *q;

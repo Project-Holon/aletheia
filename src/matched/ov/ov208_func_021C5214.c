@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5214
+ * function: ZUKAN_DETAIL_FORM_StopModelAnim
  * address:  0x021C5214
  * packet:   pkt_ov208_021C5214
  * region:   ov208
@@ -34,7 +34,7 @@ extern void MCSS_SetAnmStopFlag(void *p);
 struct Obj;
 extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 
-void ov208_func_021C5214(struct Ov208Anm *p)
+void ZUKAN_DETAIL_FORM_StopModelAnim(struct Ov208Anm *p)
 {
     void *anm;
 

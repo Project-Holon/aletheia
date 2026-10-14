@@ -1,5 +1,5 @@
 /*
- * function: func_021BD030
+ * function: ZUKAN_DETAIL_GRAPHIC_NoOp
  * address:  0x021BD030
  * packet:   pkt_021BD030
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021BD030(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_NoOp(char *a0)
 {
 }
 

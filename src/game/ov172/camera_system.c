@@ -1,7 +1,7 @@
 /*
  * file:     camera_system.c
  * unit:     yes
- * function: func_021B6100, func_021B6338, func_021B63B8, func_021B644C, func_021B64AC, func_021B657C, func_021B65C4, func_021B65D8, func_021B6620, func_021B662C, func_021B66B0, func_021B6744, func_021B674C, func_021B67BC, func_021B6814, func_021B6868, func_021B688C, func_021B68A0, func_021B6938, func_021B6944, func_021B6950, func_021B697C, func_021B699C, func_021B69BC, func_021B69D0, func_021B69D8, func_021B69E0, func_021B69F0
+ * function: CTVT_CAMERA_Create, CTVT_CAMERA_OnPowerOff, CTVT_CAMERA_Delete, CTVT_CAMERA_StartFrameDma, CTVT_CAMERA_UpdateShutterSound, CTVT_CAMERA_LoadShutterSound, CTVT_CAMERA_FreeShutterSound, CTVT_CAMERA_OnBufferError, CTVT_CAMERA_OnReboot, CTVT_CAMERA_OnVsync, CTVT_CAMERA_OnFrameDmaDone, CTVT_CAMERA_SetFrameCallback, CTVT_CAMERA_AllocFrames, CTVT_CAMERA_FreeFrames, CTVT_CAMERA_StartCapture, CTVT_CAMERA_StopCapture, CTVT_CAMERA_IsShutterSoundIdle, CTVT_CAMERA_ResetTrimming, CTVT_CAMERA_GetWidth, CTVT_CAMERA_GetHeight, CTVT_CAMERA_SetSize, CTVT_CAMERA_GetSizeWidth, CTVT_CAMERA_GetSizeHeight, CTVT_CAMERA_SelectCamera, CTVT_CAMERA_RequestShutterSound0, CTVT_CAMERA_RequestShutterSound1
  * address:  0x021B6100
  * region:   ov172
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from camera_system.c, draw_system.c by tools/splitfile.py.
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -50,7 +50,6 @@
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   CAMERA_SizeToWidthCore  0x02702364  arm
  *   CAMERA_SizeToHeightCore  0x027023CC  arm
- *   d_021C88E4 0x021C88E4 data a4 ov172
  *   CAMERA_SetVsyncCallbackCore  0x027000F8  arm  twl
  *   CAMERA_SetBufferErrorCallbackCore  0x02700108  arm  twl
  *   CAMERA_SetRebootCallbackCore  0x02700118  arm  twl
@@ -65,14 +64,7 @@
  *   MI_FreeWram  0x02730B04  arm  twl
  *   MI_CancelWram  0x02730FBC  arm  twl
  */
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
+#include "camera_system_shared_types.h"
 
 typedef struct Camera {
     u16 heapId;
@@ -81,119 +73,181 @@ typedef struct Camera {
     u8 frameCount;
     u8 pad9[3];
     u32 allocated;
-    u32 f10;
-    u32 f14;
+    u32 capturing;
+    u32 transferOffset;
     u8 frameIndex;
     u8 pad19[3];
-    u32 f1C;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2C;
-    u32 f30;
+    u32 restartPending;
+    u32 switchPending;
+    u32 skipNextFrame;
+    u32 vsyncCount;
+    u32 activeCamera;
+    u32 sizeMode;
     u16 x0;
     u16 x1;
     u16 y0;
     u16 y1;
     void (*frameCb)(u32, u32);
-    u32 f40;
+    u32 frameCbArg;
     u8 state;
     u8 pad45[3];
     void *buf;
     u32 bufSize;
 } Camera;
 
-struct D021C88E4 {
-    u16 h0;
-    u8 b2;
-    u8 pad3;
-    u16 h4;
-    u8 b6;
-};
-
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern void func_02034F84(int);
+
 extern int OS_IsRunOnTwl(void);
+
 extern void OS_Terminate(void);
+
 extern void OS_EnableIrqMask(int);
+
 extern void func_020351F8(u32 a, u32 b);
+
 extern void OS_Sleep(u32 msec);
+
 extern int DSPi_IsShutterSoundPlayingCore(void);
+
 extern void DSPi_UnloadG711Core(void);
+
 extern void CAMERA_StopCore(void);
+
 extern void MI_StopNDma(int);
+
 extern void CAMERA_EndCore(void);
+
 int CAMERA_InitCore(void);
+
 int CAMERA_I2CInitCore(int);
+
 void CAMERA_I2CEffectExCore(int, int, int);
+
 void CAMERA_I2CAutoExposureCore(int, int);
+
 void CAMERA_I2CAutoWhiteBalanceCore(int, int);
+
 u32 CAMERA_I2CActivateCore(u32 a0);
+
 void CAMERA_SetVsyncCallbackCore(void *);
+
 void CAMERA_SetBufferErrorCallbackCore(void *);
+
 void CAMERA_SetRebootCallbackCore(void *);
+
 void CAMERA_SetOutputFormatCore(int);
+
 void MI_FreeWram(int, int);
+
 void MI_CancelWram(int, int);
+
 void DSPi_OpenStaticComponentG711Core(void *);
+
 int DSPi_LoadG711Core(void *, int, int);
+
 extern void func_02034FB8(u32 v);
+
 extern u32 func_020307B0(void *p);
+
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
+
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
+
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
+
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
+
 extern void GFL_NET_FreeAligned(void *p);
+
 extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
+
 void DSPi_StopSoundCore(void);
+
 u32 CAMERA_GetBytesAtOnceCore(u32 a0);
+
 void MI_Camera_NDmaRecvAsync(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(void), int s2);
+
 void DSPi_PlayShutterSoundCore(void *, int);
+
 void CAMERA_StopCaptureCore(void);
+
 void CAMERA_ClearBufferCore(void);
+
 void CAMERA_StartCaptureCore(void);
+
 int CAMERA_IsBusyCore(void);
+
 int MI_IsNDmaBusy(int ch);
+
 void CAMERA_SetTrimmingCore(int);
+
 int CAMERA_GetMaxLinesRoundCore(u32, u32);
+
 void CAMERA_SetTransferLinesCore(int);
+
 u32 CAMERA_SizeToWidthCore(u32 v);
+
 u32 CAMERA_SizeToHeightCore(u32 v);
-Camera *func_021B6100(int id);
-void func_021B6338(Camera *p);
-void func_021B63B8(Camera *p);
-void func_021B644C(Camera *p);
-void func_021B64AC(Camera *p);
-void func_021B657C(Camera *obj, int mode);
-void func_021B65C4(Camera *p);
-void func_021B65D8(void);
-void func_021B6620(int x);
-void func_021B662C(void);
-void func_021B66B0(void);
-void func_021B6744(Camera *p, void (*a)(u32, u32), u32 b);
-void func_021B674C(Camera *p, int count, u16 heap);
-void func_021B67BC(Camera *p);
-void func_021B6814(Camera *a0);
-void func_021B6868(Camera *p);
-int func_021B688C(Camera *p);
-void func_021B68A0(Camera *p);
-u16 func_021B6938(Camera *p);
-u16 func_021B6944(Camera *p);
-void func_021B6950(Camera *p, int v);
-int func_021B697C(Camera *p);
-int func_021B699C(Camera *p);
-void func_021B69BC(Camera *p, u32 v);
-void func_021B69D0(Camera *p);
-void func_021B69D8(Camera *p);
-void func_021B69E0(void);
-void func_021B69F0(void);
+
+Camera *CTVT_CAMERA_Create(int id);
+
+void CTVT_CAMERA_OnPowerOff(Camera *p);
+
+void CTVT_CAMERA_Delete(Camera *p);
+
+void CTVT_CAMERA_StartFrameDma(Camera *p);
+
+void CTVT_CAMERA_UpdateShutterSound(Camera *p);
+
+void CTVT_CAMERA_LoadShutterSound(Camera *obj, int mode);
+
+void CTVT_CAMERA_FreeShutterSound(Camera *p);
+
+void CTVT_CAMERA_OnBufferError(void);
+
+void CTVT_CAMERA_OnReboot(int x);
+
+void CTVT_CAMERA_OnVsync(void);
+
+void CTVT_CAMERA_OnFrameDmaDone(void);
+
+void CTVT_CAMERA_SetFrameCallback(Camera *p, void (*a)(u32, u32), u32 b);
+
+void CTVT_CAMERA_AllocFrames(Camera *p, int count, u16 heap);
+
+void CTVT_CAMERA_FreeFrames(Camera *p);
+
+void CTVT_CAMERA_StartCapture(Camera *a0);
+
+void CTVT_CAMERA_StopCapture(Camera *p);
+
+int CTVT_CAMERA_IsShutterSoundIdle(Camera *p);
+
+void CTVT_CAMERA_ResetTrimming(Camera *p);
+
+u16 CTVT_CAMERA_GetWidth(Camera *p);
+
+u16 CTVT_CAMERA_GetHeight(Camera *p);
+
+void CTVT_CAMERA_SetSize(Camera *p, int v);
+
+int CTVT_CAMERA_GetSizeWidth(Camera *p);
+
+int CTVT_CAMERA_GetSizeHeight(Camera *p);
+
+void CTVT_CAMERA_SelectCamera(Camera *p, u32 v);
+
+void CTVT_CAMERA_RequestShutterSound0(Camera *p);
+
+void CTVT_CAMERA_RequestShutterSound1(Camera *p);
+
 extern const char d_021C71C0[];
+
 extern Camera *g_021C88E0;
-extern struct D021C88E4 d_021C88E4;
 
-
-
-Camera *func_021B6100(int id)
+Camera *CTVT_CAMERA_Create(int id)
 {
     Camera *p;
     int r;
@@ -208,15 +262,15 @@ Camera *func_021B6100(int id)
     p->frameIndex = z;
     p->frameCount = z;
     p->allocated = z;
-    p->f10 = z;
-    p->f14 = z;
-    p->f2C = 1;
-    p->f30 = 5;
-    p->f1C = z;
-    p->f20 = z;
-    p->f24 = z;
+    p->capturing = z;
+    p->transferOffset = z;
+    p->activeCamera = 1;
+    p->sizeMode = 5;
+    p->restartPending = z;
+    p->switchPending = z;
+    p->skipNextFrame = z;
     p->frameCb = 0;
-    p->f40 = z;
+    p->frameCbArg = z;
     func_02034F84(0x40);
     if (OS_IsRunOnTwl() == 1) {
         r = CAMERA_InitCore();
@@ -226,23 +280,23 @@ Camera *func_021B6100(int id)
     }
     if (r == 7) OS_Terminate();
     if (r == 6) return 0;
-    r = p->f2C;
+    r = p->activeCamera;
     if (OS_IsRunOnTwl() == 1) CAMERA_I2CEffectExCore(r, 3, 0);
-    r = p->f2C;
+    r = p->activeCamera;
     if (OS_IsRunOnTwl() == 1) CAMERA_I2CAutoExposureCore(r, 1);
-    r = p->f2C;
+    r = p->activeCamera;
     if (OS_IsRunOnTwl() == 1) CAMERA_I2CAutoWhiteBalanceCore(r, 1);
-    r = p->f2C;
+    r = p->activeCamera;
     if (OS_IsRunOnTwl() == 1) r = CAMERA_I2CActivateCore(r);
     else r = 7;
     if (r == 7) OS_Terminate();
     if (r == 6) return 0;
-    p->f28 = 0;
+    p->vsyncCount = 0;
     OS_EnableIrqMask(0x20000000);
-    if (OS_IsRunOnTwl() == 1) CAMERA_SetVsyncCallbackCore((void *)func_021B662C);
-    if (OS_IsRunOnTwl() == 1) CAMERA_SetBufferErrorCallbackCore((void *)func_021B65D8);
-    if (OS_IsRunOnTwl() == 1) CAMERA_SetRebootCallbackCore((void *)func_021B6620);
-    func_021B68A0(p);
+    if (OS_IsRunOnTwl() == 1) CAMERA_SetVsyncCallbackCore((void *)CTVT_CAMERA_OnVsync);
+    if (OS_IsRunOnTwl() == 1) CAMERA_SetBufferErrorCallbackCore((void *)CTVT_CAMERA_OnBufferError);
+    if (OS_IsRunOnTwl() == 1) CAMERA_SetRebootCallbackCore((void *)CTVT_CAMERA_OnReboot);
+    CTVT_CAMERA_ResetTrimming(p);
     if (OS_IsRunOnTwl() == 1) CAMERA_SetOutputFormatCore(1);
     p->buf = 0;
     p->state = 0;
@@ -256,13 +310,11 @@ Camera *func_021B6100(int id)
     if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core(buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
-    func_020351F8((u32)((void *)func_021B6338), (u32)p);
+    func_020351F8((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);
     return p;
 }
 
-
-
-void func_021B6338(Camera *p)
+void CTVT_CAMERA_OnPowerOff(Camera *p)
 {
     int result;
     /* stand-in: the goto into the loop body gives the original block order; while/for forms differ */
@@ -274,46 +326,39 @@ test:
         if (OS_IsRunOnTwl() != 0) result = DSPi_IsShutterSoundPlayingCore();
     } while (result == 1);
     if (OS_IsRunOnTwl() != 0) DSPi_UnloadG711Core();
-    func_021B6868(p);
+    CTVT_CAMERA_StopCapture(p);
     if (OS_IsRunOnTwl() == 1) CAMERA_StopCore();
     MI_StopNDma(1);
     if (OS_IsRunOnTwl() == 1) CAMERA_EndCore();
 }
 
-
-
-void func_021B63B8(Camera *p)
+void CTVT_CAMERA_Delete(Camera *p)
 {
     func_020351F8(0, 0);
     if (OS_IsRunOnTwl() != 0) DSPi_StopSoundCore();
     if (OS_IsRunOnTwl() != 0) DSPi_UnloadG711Core();
-    func_021B6868(p);
+    CTVT_CAMERA_StopCapture(p);
     if (OS_IsRunOnTwl() == 1) CAMERA_StopCore();
     MI_StopNDma(1);
     if (OS_IsRunOnTwl() == 1) CAMERA_EndCore();
-    func_021B65C4(p);
-    func_021B67BC(p);
+    CTVT_CAMERA_FreeShutterSound(p);
+    CTVT_CAMERA_FreeFrames(p);
     func_02034FB8(0x40);
     func_020307B0(p);
     g_021C88E0 = 0;
 }
 
-
-
-void func_021B644C(Camera *p)
+void CTVT_CAMERA_StartFrameDma(Camera *p)
 {
-    u32 width = func_021B6938(p);
-    u32 height = func_021B6944(p);
+    u32 width = CTVT_CAMERA_GetWidth(p);
+    u32 height = CTVT_CAMERA_GetHeight(p);
     u32 offset = OS_IsRunOnTwl() == 1 ? CAMERA_GetBytesAtOnceCore(width) : 0;
     width *= 2;
     MI_Camera_NDmaRecvAsync(1, (u32)p->frames[p->frameIndex], offset >> 2,
-                 width * height, 0, func_021B66B0, 0);
+                 width * height, 0, CTVT_CAMERA_OnFrameDmaDone, 0);
 }
 
-
-
-
-void func_021B64AC(Camera *p)
+void CTVT_CAMERA_UpdateShutterSound(Camera *p)
 {
     void *b;
     int a;
@@ -322,7 +367,7 @@ void func_021B64AC(Camera *p)
     int r;
     switch (p->state) {
     case 1:
-        func_021B657C(p, 1);
+        CTVT_CAMERA_LoadShutterSound(p, 1);
         a = p->bufSize;
         b = p->buf;
         if (OS_IsRunOnTwl() != 0) DSPi_PlayShutterSoundCore(b, a);
@@ -332,12 +377,12 @@ void func_021B64AC(Camera *p)
         r = 0;
         if (OS_IsRunOnTwl() != 0) r = DSPi_IsShutterSoundPlayingCore();
         if (r == 0) {
-            func_021B65C4(p);
+            CTVT_CAMERA_FreeShutterSound(p);
             p->state = 3;
         }
         break;
     case 4:
-        func_021B657C(p, 0);
+        CTVT_CAMERA_LoadShutterSound(p, 0);
         c = p->bufSize;
         d = p->buf;
         if (OS_IsRunOnTwl() != 0) DSPi_PlayShutterSoundCore(d, c);
@@ -347,7 +392,7 @@ void func_021B64AC(Camera *p)
         r = 0;
         if (OS_IsRunOnTwl() != 0) r = DSPi_IsShutterSoundPlayingCore();
         if (r == 0) {
-            func_021B65C4(p);
+            CTVT_CAMERA_FreeShutterSound(p);
             p->state = 6;
         }
         break;
@@ -359,15 +404,13 @@ void func_021B64AC(Camera *p)
     }
 }
 
-
-
-void func_021B657C(Camera *obj, int mode)
+void CTVT_CAMERA_LoadShutterSound(Camera *obj, int mode)
 {
     Camera *p = obj;
     int which = 0;
     u32 size;
     if (mode != 1) which = 1;
-    func_021B65C4(p);
+    CTVT_CAMERA_FreeShutterSound(p);
     which = (u16)which;
     size = ARC_TOOL_GetMemberSize(0xD4, which);
     p->bufSize = size;
@@ -376,14 +419,12 @@ void func_021B657C(Camera *obj, int mode)
     DWCi_ScreenDC_FlushRange(p->buf, p->bufSize);
 }
 
-
-
 /*
  * Release the word at +0x48 through 0x0203D7FC and clear it.
  *
  * Addresses are Black-image addresses.
  */
-void func_021B65C4(Camera *p)
+void CTVT_CAMERA_FreeShutterSound(Camera *p)
 {
     void *v = p->buf;
     if (v != 0) {
@@ -392,9 +433,7 @@ void func_021B65C4(Camera *p)
     }
 }
 
-
-
-void func_021B65D8(void)
+void CTVT_CAMERA_OnBufferError(void)
 {
     Camera *p = g_021C88E0;
 
@@ -403,51 +442,45 @@ void func_021B65D8(void)
     MI_StopNDma(1);
     if (OS_IsRunOnTwl() == 1)
         CAMERA_ClearBufferCore();
-    p->f24 = 1;
-    p->f1C = 1;
+    p->skipNextFrame = 1;
+    p->restartPending = 1;
 }
 
-
-
 /*
- * Delegate to func_021B65D8 unless the argument is 7.
+ * Delegate to CTVT_CAMERA_OnBufferError unless the argument is 7.
  *
  * Addresses are Black-image addresses.
  */
-void func_021B6620(int x)
+void CTVT_CAMERA_OnReboot(int x)
 {
     if (x != 7) {
-        func_021B65D8();
+        CTVT_CAMERA_OnBufferError();
     }
 }
 
-
-
-void func_021B662C(void)
+void CTVT_CAMERA_OnVsync(void)
 {
     Camera *p = g_021C88E0;
     u32 v;
-    if (p->f10 != 0) {
-        if (p->f28 <= 30) ++p->f28;
-        if (p->f20 != 0) {
-            v = p->f2C;
+    if (p->capturing != 0) {
+        if (p->vsyncCount <= 30) ++p->vsyncCount;
+        if (p->switchPending != 0) {
+            v = p->activeCamera;
             if ((OS_IsRunOnTwl() == 1 ? CAMERA_I2CActivateCore(v) : 7) == 7)
                 OS_Terminate();
-            p->f28 = 0;
-            p->f20 = 0;
+            p->vsyncCount = 0;
+            p->switchPending = 0;
         }
-        if (p->f1C != 0) {
-            func_021B644C(p);
+        if (p->restartPending != 0) {
+            CTVT_CAMERA_StartFrameDma(p);
             if (OS_IsRunOnTwl() == 1) CAMERA_ClearBufferCore();
             if (OS_IsRunOnTwl() == 1) CAMERA_StartCaptureCore();
-            p->f1C = 0;
+            p->restartPending = 0;
         }
     }
 }
 
-
-
-void func_021B66B0(void)
+void CTVT_CAMERA_OnFrameDmaDone(void)
 {
     Camera *p = g_021C88E0;
     int one;
@@ -455,31 +488,27 @@ void func_021B66B0(void)
     if ((OS_IsRunOnTwl() == 1 ? CAMERA_IsBusyCore() : 0) == 1) {
         one = 1;
         if (MI_IsNDmaBusy(one) != 0) MI_StopNDma(one);
-        if (p->f24 != 0) {
-            p->f24 = 0;
-        } else if (p->f28 > 4) {
+        if (p->skipNextFrame != 0) {
+            p->skipNextFrame = 0;
+        } else if (p->vsyncCount > 4) {
             if (p->frameCb != 0)
-                p->frameCb((u32)p->frames[p->frameIndex], p->f40);
+                p->frameCb((u32)p->frames[p->frameIndex], p->frameCbArg);
             p->frameIndex = (p->frameIndex + 1) % p->frameCount;
         }
-        if (p->f10 == 1) func_021B644C(p);
+        if (p->capturing == 1) CTVT_CAMERA_StartFrameDma(p);
     }
 }
 
-
-
-void func_021B6744(Camera *p, void (*a)(u32, u32), u32 b)
+void CTVT_CAMERA_SetFrameCallback(Camera *p, void (*a)(u32, u32), u32 b)
 {
     p->frameCb = a;
-    p->f40 = b;
+    p->frameCbArg = b;
 }
 
-
-
-void func_021B674C(Camera *p, int count, u16 heap)
+void CTVT_CAMERA_AllocFrames(Camera *p, int count, u16 heap)
 {
-    u32 width = func_021B6938(p);
-    u32 height = func_021B6944(p);
+    u32 width = CTVT_CAMERA_GetWidth(p);
+    u32 height = CTVT_CAMERA_GetHeight(p);
     u8 i;
     if (p->frames == 0) {
         p->frames = func_02030734(p->heapId, count * 4, 0, d_021C71C0, 0x1D7);
@@ -490,12 +519,10 @@ void func_021B674C(Camera *p, int count, u16 heap)
     }
 }
 
-
-
-void func_021B67BC(Camera *p)
+void CTVT_CAMERA_FreeFrames(Camera *p)
 {
     u8 i;
-    if (p->f10 != 0) return;
+    if (p->capturing != 0) return;
     if ((OS_IsRunOnTwl() == 1 ? CAMERA_IsBusyCore() : 0) != 0) return;
     if (p->allocated == 1) {
         for (i = 0; i < p->frameCount; i++)
@@ -506,171 +533,122 @@ void func_021B67BC(Camera *p)
     p->frames = 0;
 }
 
-
-
-void func_021B6814(Camera *a0)
+void CTVT_CAMERA_StartCapture(Camera *a0)
 {
     Camera *p = a0;
     int one = 1;
 
-    if (p->f10 != 0)
+    if (p->capturing != 0)
         return;
     if ((OS_IsRunOnTwl() == 1 ? CAMERA_IsBusyCore() : 0) != 0)
         return;
     if (MI_IsNDmaBusy(one) == 1)
         MI_StopNDma(one);
-    p->f10 = one;
-    p->f1C = one;
-    p->f28 = 0;
+    p->capturing = one;
+    p->restartPending = one;
+    p->vsyncCount = 0;
 }
 
-
-
-void func_021B6868(Camera *p)
+void CTVT_CAMERA_StopCapture(Camera *p)
 {
-    if (p->f10 == 1) {
-        p->f10 = 0;
-        p->f1C = 0;
+    if (p->capturing == 1) {
+        p->capturing = 0;
+        p->restartPending = 0;
         if (OS_IsRunOnTwl() == 1) {
             CAMERA_StopCaptureCore();
         }
     }
 }
 
-
-
-int func_021B688C(Camera *p)
+int CTVT_CAMERA_IsShutterSoundIdle(Camera *p)
 {
     u8 v = p->state;
     return v == 6 || v == 0;
 }
 
-
-
-void func_021B68A0(Camera *p)
+void CTVT_CAMERA_ResetTrimming(Camera *p)
 {
     int result;
     u32 width;
     u32 height;
-    if (p->f10 != 0) return;
+    if (p->capturing != 0) return;
     if ((OS_IsRunOnTwl() == 1 ? CAMERA_IsBusyCore() : 0) != 0) return;
     if (OS_IsRunOnTwl() == 1) CAMERA_SetTrimmingCore(0);
     result = 0;
     p->x0 = 0;
-    p->x1 = func_021B697C(p);
+    p->x1 = CTVT_CAMERA_GetSizeWidth(p);
     p->y0 = 0;
-    p->y1 = func_021B699C(p);
-    width = func_021B6938(p);
-    height = func_021B6944(p);
+    p->y1 = CTVT_CAMERA_GetSizeHeight(p);
+    width = CTVT_CAMERA_GetWidth(p);
+    height = CTVT_CAMERA_GetHeight(p);
     if (OS_IsRunOnTwl() == 1) result = CAMERA_GetMaxLinesRoundCore(width, height);
     if (OS_IsRunOnTwl() == 1) CAMERA_SetTransferLinesCore(result);
-    p->f14 = 0;
+    p->transferOffset = 0;
 }
 
-
-
-u16 func_021B6938(Camera *p)
+u16 CTVT_CAMERA_GetWidth(Camera *p)
 {
     return (u16)(p->x1 - p->x0);
 }
-
-
 
 /*
  * Width of the u16 pair at +0x38/+0x3a, zero extended.
  *
  * Addresses are Black-image addresses.
  */
-u16 func_021B6944(Camera *p)
+u16 CTVT_CAMERA_GetHeight(Camera *p)
 {
     return (u16)(p->y1 - p->y0);
 }
 
-
-
-void func_021B6950(Camera *p, int v)
+void CTVT_CAMERA_SetSize(Camera *p, int v)
 {
     if (OS_IsRunOnTwl() == 1) CAMERA_I2CSizeExCore(3, 3, v);
-    p->f30 = v;
-    func_021B68A0(p);
+    p->sizeMode = v;
+    CTVT_CAMERA_ResetTrimming(p);
 }
-
-
 
 /*
  * Guard on 0x02085D3C then an arm veneer call with the field at +0x30.
  *
  * Addresses are Black-image addresses.
  */
-int func_021B697C(Camera *p)
+int CTVT_CAMERA_GetSizeWidth(Camera *p)
 {
-    u32 f = p->f30;
+    u32 f = p->sizeMode;
     if (OS_IsRunOnTwl() == 1) {
         return CAMERA_SizeToWidthCore(f);
     }
     return 0;
 }
 
-
-
-int func_021B699C(Camera *p)
+int CTVT_CAMERA_GetSizeHeight(Camera *p)
 {
-    u32 v = p->f30;
+    u32 v = p->sizeMode;
     if (OS_IsRunOnTwl() == 1) {
         return CAMERA_SizeToHeightCore(v);
     }
     return 0;
 }
 
-
-
-void func_021B69BC(Camera *p, u32 v)
+void CTVT_CAMERA_SelectCamera(Camera *p, u32 v)
 {
-    if (p->f2C == v) {
+    if (p->activeCamera == v) {
         return;
     }
-    if (p->f20 != 0) {
+    if (p->switchPending != 0) {
         return;
     }
-    p->f2C = v;
-    p->f20 = 1;
+    p->activeCamera = v;
+    p->switchPending = 1;
 }
 
-
-
-void func_021B69D0(Camera *p)
+void CTVT_CAMERA_RequestShutterSound0(Camera *p)
 {
     p->state = 1;
 }
 
-
-
-void func_021B69D8(Camera *p)
+void CTVT_CAMERA_RequestShutterSound1(Camera *p)
 {
     p->state = 4;
-}
-
-
-
-/*
- * Clear the halfword at +4 and the byte at +6 of the ov172 state block. Filed
- * as the call witness for ov172 func_021B97AC.
- */
-void func_021B69E0(void)
-{
-    d_021C88E4.h4 = 0;
-    d_021C88E4.b6 = 0;
-}
-
-
-
-/*
- * Clear the 3-byte counter at g_021C88E4.
- *
- * Addresses are Black-image addresses.
- */
-void func_021B69F0(void)
-{
-    d_021C88E4.h0 = 0;
-    d_021C88E4.b2 = 0;
 }

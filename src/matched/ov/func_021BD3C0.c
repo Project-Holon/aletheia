@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3C0
+ * function: ZKND_TBAR_GetButtonActor
  * address:  0x021BD3C0
  * packet:   pkt_021BD368
  * region:   ov208
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD404 0x021BD404  thumb  ov208
+ *   ZKND_TBAR_FindButtonActor 0x021BD404  thumb  ov208
  */
 
-extern void *func_021BD404(void *mgr, int key);
+extern void *ZKND_TBAR_FindButtonActor(void *mgr, int key);
 
-int func_021BD3C0(void *mgr, int key)
+int ZKND_TBAR_GetButtonActor(void *mgr, int key)
 {
-    return *(int *)func_021BD404(mgr, key);
+    return *(int *)ZKND_TBAR_FindButtonActor(mgr, key);
 }
 

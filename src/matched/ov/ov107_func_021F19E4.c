@@ -1,5 +1,5 @@
 /*
- * function: func_021F19E4
+ * function: MB_UTIL_MSG_OpenYesNoMenu
  * address:  0x021F19E4
  * packet:   pkt_ov107_021F19E4
  * region:   ov107
@@ -32,7 +32,7 @@ typedef struct {
 
 void *BMP_MENU_CreateYesNo(Ov107Win *win, int base, int pal, int pos, int heap);
 
-void func_021F19E4(Ov107Ctx *p)
+void MB_UTIL_MSG_OpenYesNoMenu(Ov107Ctx *p)
 {
     p->win.f00 = p->f03;
     p->win.f01 = 0x18;

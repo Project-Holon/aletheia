@@ -1,5 +1,5 @@
 /*
- * function: func_021E13F0
+ * function: GURU2_MAIN_DeleteScreenFlashTask
  * address:  0x021E13F0
  * packet:   pkt_021E13F0
  * region:   ov137
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021E13F0(u8 *p)
+void GURU2_MAIN_DeleteScreenFlashTask(u8 *p)
 {
     func_02030EAC(((struct Obj23797 *)p)->fD8C);
 }

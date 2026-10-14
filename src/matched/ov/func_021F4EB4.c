@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EB4
+ * function: WORLDTRADE_GetWifiLinkLevel
  * address:  0x021F4EB4
  * packet:   pkt_021F4EB4
  * region:   ov135
@@ -17,7 +17,7 @@
  * Return 3 minus the hardware counter read back through the arm9 veneer at 0x0205CCD8.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_021F4EB4.c --func func_021F4EB4  *       --addr 0x021F4EB4 --region ov135 --thumb --cc dsi/1.1p1 --diff
+ *   python tools/match.py one --src src/pending/WORLDTRADE_GetWifiLinkLevel.c --func WORLDTRADE_GetWifiLinkLevel  *       --addr 0x021F4EB4 --region ov135 --thumb --cc dsi/1.1p1 --diff
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int DWC_GetLinkLevel(void);
 
-int func_021F4EB4(void)
+int WORLDTRADE_GetWifiLinkLevel(void)
 {
     return 3 - DWC_GetLinkLevel();
 }

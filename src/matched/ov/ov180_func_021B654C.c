@@ -1,5 +1,5 @@
 /*
- * function: func_021B654C
+ * function: HALL_OF_FAME_LoadMonInfo
  * address: 0x021B654C
  * packet: pkt_ov180_021B654C
  * region: ov180
@@ -18,7 +18,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-void func_021B654C(char *p) {
+void HALL_OF_FAME_LoadMonInfo(char *p) {
  void *mon; unsigned saved;
  mon=*(void **)(p+(unsigned char)p[0x915D]*4+0x9140);
  saved=POKE_TOOL_DecodePartyParam(mon);

@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C09C8  0x021C09C8  thumb  ov217
- *   func_021C09CC  0x021C09CC  thumb  ov217
+ *   RESEARCH_COMMON_GetPreviousScreen  0x021C09C8  thumb  ov217
+ *   RESEARCH_COMMON_GetEntryHandled  0x021C09CC  thumb  ov217
  *
  * Classifies the record: 3 when the first query is busy and the second is
  * not, else 2.
@@ -27,13 +27,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C09C8(void *p);
-extern u32 func_021C09CC(void *p);
+extern u32 RESEARCH_COMMON_GetPreviousScreen(void *p);
+extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
 u32 func_021BE46C(u8 *a0)
 {
     u32 v = ((struct Obj25902 *)a0)->f0;
-    u32 a = func_021C09C8((void *)v);
-    u32 b = func_021C09CC((void *)v);
+    u32 a = RESEARCH_COMMON_GetPreviousScreen((void *)v);
+    u32 b = RESEARCH_COMMON_GetEntryHandled((void *)v);
     if (a != 0 && b == 0) {
     return 3;
     }

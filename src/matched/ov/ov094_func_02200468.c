@@ -1,5 +1,5 @@
 /*
- * function: func_02200468
+ * function: BTLV_MCSS_SetAnimPendingCallback
  * address:  0x02200468
  * packet:   pkt_ov094_02200468
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_SetAnimCallback  0x02015F2C  thumb
- *   func_02201894  0x02201894  thumb  ov094
+ *   BTLV_MCSS_AnimCallbackClearPending  0x02201894  thumb  ov094
  */
 typedef struct {
     void *h;                /* 0x00 */
@@ -25,17 +25,17 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_SetAnimCallback(void *h, int idx, void (*fn)(int), int v);
-extern void func_02201894(int i);
+extern void BTLV_MCSS_AnimCallbackClearPending(int i);
 
-void func_02200468(Work *w, int key)
+void BTLV_MCSS_SetAnimPendingCallback(Work *w, int key)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;
     if (w->e[idx].h == 0)
         return;
-    MCSS_SetAnimCallback(w->e[idx].h, idx, func_02201894, 1);
+    MCSS_SetAnimCallback(w->e[idx].h, idx, BTLV_MCSS_AnimCallbackClearPending, 1);
 }

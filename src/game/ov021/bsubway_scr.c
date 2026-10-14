@@ -149,7 +149,7 @@
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   FLDEFF_BTRAIN_SetAnime  0x021D024C  thumb  ov021
  *   FLDEFF_BTRAIN_SetHidden  0x021D028C  thumb  ov021
- *   func_021EEE78  0x021EEE78  thumb  ov188
+ *   BATTLE_REC_TOOL_PackSetup  0x021EEE78  thumb  ov188
  *   FIELD_GIMMICK_BSUBWAY_StartTrain  0x021F37C0  thumb  ov052
  *   FIELD_GIMMICK_BSUBWAY_GetTrainEffect  0x021F380C  thumb  ov052
  *   FIELD_GIMMICK_BSUBWAY_HaltTrainSway  0x021F388C  thumb  ov052
@@ -417,7 +417,7 @@ extern void *POKE_REGULATION_Load(int a, int b);
 extern int func_02019ED4(void *ctx, void *q);
 extern u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id);
 extern void BATTLE_REC_LoadToolOverlay(void);
-extern void func_021EEE78(void *p);
+extern void BATTLE_REC_TOOL_PackSetup(void *p);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void VM_SetWait(char *p, int val);
 extern void BATTLE_REC_FreeWork(void);
@@ -1995,7 +1995,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_SAVE_BATTLE_REC_FROM_SETUP:
         BATTLE_REC_LoadToolOverlay();
-        func_021EEE78((void *)work->btlSetup);
+        BATTLE_REC_TOOL_PackSetup((void *)work->btlSetup);
         BATTLE_REC_UnloadToolOverlay();
         break;
     case BSUBWAY_SCR_CMD_START_RESULT_MESSAGE:

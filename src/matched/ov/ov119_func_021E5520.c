@@ -1,5 +1,5 @@
 /*
- * function: func_021E5520
+ * function: POKETRADE_2D_Setup3DRenderState
  * address: 0x021E5520
  * packet: pkt_ov119_021E5520
  * region: ov119
@@ -28,7 +28,7 @@ static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(v
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
 static inline void blend(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8); else *(volatile u16 *)0x04000060 &= (u16)~0x3008; }
 static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x20); else *(volatile u16 *)0x04000060 &= (u16)~0x3020; }
-void func_021E5520(void)
+void POKETRADE_2D_Setup3DRenderState(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);

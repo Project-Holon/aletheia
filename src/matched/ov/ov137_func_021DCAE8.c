@@ -1,5 +1,5 @@
 /*
- * function: func_021DCAE8
+ * function: GURU2_EntryStateFinish
  * address: 0x021DCAE8
  * packet: pkt_ov137_021DCAE8
  * region: ov137
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021DCAE8(unsigned *p) {*p=5;return 0;}
+int GURU2_EntryStateFinish(unsigned *p) {*p=5;return 0;}

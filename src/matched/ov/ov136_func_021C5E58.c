@@ -1,5 +1,5 @@
 /*
- * function: func_021C5E58
+ * function: MB_SEQ_CreateWindows
  * address: 0x021C5E58
  * packet: pkt_ov136_021C5E58
  * region: ov136
@@ -13,7 +13,7 @@
  *   at zero. Literal zero plus separate loops reproduces that shared r6.
  *   The old j=i inside the loop incorrectly started loop two at 31.
  * symbols:
- *   func_021C5E58 0x021C5E58 thumb ov136
+ *   MB_SEQ_CreateWindows 0x021C5E58 thumb ov136
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
@@ -70,7 +70,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 typedef enum { SLOT_ZERO = 0 } SlotIndex;
 
-void func_021C5E58(u8 *p)
+void MB_SEQ_CreateWindows(u8 *p)
 {
     u32 i;
     u32 j;

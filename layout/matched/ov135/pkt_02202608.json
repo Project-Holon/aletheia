@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02202608",
+   "name": "WORLDTRADE_ADAPTER_AllocHeapBuf",
    "address": "0x02202608",
    "kind": "game",
    "region": "ov135",

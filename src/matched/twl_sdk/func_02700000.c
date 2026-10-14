@@ -11,7 +11,7 @@
  *
  * 0x02FFFDEC is a fixed DSi hardware/ROM buffer address, so the original
  *   source read it through a cast constant (`ldr r3, =0x02FFFDEC`), the same
- *   shape as src/matched/func_01FF8460.c.  It is therefore a literal pool
+ *   shape as src/matched/OSi_DoBoot.c.  It is therefore a literal pool
  *   word, not a relocation, and needs no witness.
  *
  * symbols:

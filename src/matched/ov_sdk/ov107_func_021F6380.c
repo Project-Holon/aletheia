@@ -1,5 +1,5 @@
 /*
- * function: func_021F6380
+ * function: MBi_AttachCacheBuffer
  * address:  0x021F6380
  * packet:   pkt_ov107_021F6380
  * region:   ov107
@@ -37,7 +37,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern void OS_Terminate(void);
 
-void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
+void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
 {
     u32 bak_cpsr;
     MBiCacheInfo *pi;

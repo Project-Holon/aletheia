@@ -1,5 +1,5 @@
 /*
- * function: func_021B7798
+ * function: HALL_OF_FAME_DeleteTextPlate
  * address: 0x021B7798
  * packet: pkt_ov180_021B7798
  * region: ov180
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Grid;struct Obj020437AC;
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_Delete(struct Obj020437AC *);
-void func_021B7798(int *p, int n) { if(*(void **)((u32)p+0x9120+(u32)n*8)) { BMP_OAM_Delete(*(struct Grid **)((u32)p+0x9120+(u32)n*8)); BMP_Delete(*(struct Obj020437AC **)((u32)p+0x9124+(u32)n*8)); *(u32 *)((u32)p+0x9120+(u32)n*8)=0; } }
+void HALL_OF_FAME_DeleteTextPlate(int *p, int n) { if(*(void **)((u32)p+0x9120+(u32)n*8)) { BMP_OAM_Delete(*(struct Grid **)((u32)p+0x9120+(u32)n*8)); BMP_Delete(*(struct Obj020437AC **)((u32)p+0x9124+(u32)n*8)); *(u32 *)((u32)p+0x9120+(u32)n*8)=0; } }

@@ -12,8 +12,8 @@
  *   func_02040B1C 0x02040B1C arm
  *   func_02040618 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  *   PALANM_RequestFade  0x0202173C  thumb  arm9
@@ -31,8 +31,8 @@ struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern int func_021F86E0(void);
-extern void *func_021F86D4(void);
+extern int BTLV_EFFECT_GetPalanm(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 int BTLV_SCU_ProcNamePlate(u8 *p)
@@ -89,15 +89,15 @@ int BTLV_SCU_ProcNamePlate(u8 *p)
         }
         break;
     case 4:
-        pal = (void *)func_021F86E0();
-        ctx = func_021F86D4();
+        pal = (void *)BTLV_EFFECT_GetPalanm();
+        ctx = BTLV_EFFECT_GetOwner();
         mask = 1 << (p[0xa] + 1);
         GFL_USE_PlaySeDefaultVolume(0x54d);
         PALANM_RequestFade(pal, 1, mask, 0, 16, 0, 0x7fff, ctx);
         p[0xd]++;
         break;
     case 5:
-        if (PALANM_GetFadeRequestBits((const char *)func_021F86E0()) == 0) p[0xd]++;
+        if (PALANM_GetFadeRequestBits((const char *)BTLV_EFFECT_GetPalanm()) == 0) p[0xd]++;
         break;
     case 6:
         if (GFL_USE_IsSeqPlaying(0x54d) == 0 && GFL_USE_IsSeqPlaying(0x573) == 0) return 1;

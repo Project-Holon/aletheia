@@ -1,5 +1,5 @@
 /*
- * function: func_021BF63C
+ * function: ZUKAN_DETAIL_INFO_ClearButtonHighlight
  * address:  0x021BF63C
  * packet:   pkt_021BF63C
  * region:   ov208
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-void func_021BF63C(int unused, char *p)
+void ZUKAN_DETAIL_INFO_ClearButtonHighlight(int unused, char *p)
 {
     int i = ((struct Obj00442 *)p)->f98;
 

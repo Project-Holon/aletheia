@@ -1,5 +1,5 @@
 /*
- * function: func_021F1D0C
+ * function: MBi_CommChangeParentState
  * address:  0x021F1D0C
  * packet:   pkt_ov107_021F1D0C
  * region:   ov107
@@ -21,7 +21,7 @@ extern char *g_021F6FA0;
 extern int func_021F2EE8(unsigned short child_aid);
 extern void func_021F1D58(unsigned short child, int state, void *arg);
 
-void func_021F1D0C(unsigned short child, int state, void *arg)
+void MBi_CommChangeParentState(unsigned short child, int state, void *arg)
 {
     if (func_021F2EE8(child))
         ((int *)(g_021F6FA0 + 0x14E8))[child - 1] = state;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E3F08
+ * function: POKETRADE_2D_FreeBackgroundPalette
  * address:  0x021E3F08
  * packet:   pkt_ov119_021E3F08
  * region:   ov119
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
-void func_021E3F08(char *p)
+void POKETRADE_2D_FreeBackgroundPalette(char *p)
 {
     u32 v;
 

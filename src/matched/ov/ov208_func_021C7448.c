@@ -1,5 +1,5 @@
 /*
- * function: func_021C7448
+ * function: ZUKAN_DETAIL_FORM_AdvanceSelection
  * address: 0x021C7448
  * packet: pkt_ov208_021C7448
  * region: ov208
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C51A0 0x021C51A0 thumb ov208
- *   func_021C51C8 0x021C51C8 thumb ov208
- *   ov208_func_021C569C 0x021C569C thumb ov208
+ *   ZUKAN_DETAIL_FORM_DestroyModelItem 0x021C51A0 thumb ov208
+ *   ZUKAN_DETAIL_FORM_InitAnimState 0x021C51C8 thumb ov208
+ *   ZUKAN_DETAIL_FORM_PlaceModelItem 0x021C569C thumb ov208
  *   func_021C7534 0x021C7534 thumb ov208
  *   _u32_div_f 0x0209C2B0 arm
  */
@@ -18,11 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C51A0(char *p, int a);
-extern void func_021C51C8(u32, int, u8 *);
-extern void ov208_func_021C569C(u16 *, u8 *, int, int, int, int, u16);
+extern void ZUKAN_DETAIL_FORM_DestroyModelItem(char *p, int a);
+extern void ZUKAN_DETAIL_FORM_InitAnimState(u32, int, u8 *);
+extern void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *, u8 *, int, int, int, int, u16);
 extern void func_021C7534(u16 *, u8 *, int);
-void func_021C7448(u16 *a0, u8 *p, int key)
+void ZUKAN_DETAIL_FORM_AdvanceSelection(u16 *a0, u8 *p, int key)
 {
     u16 old = ((struct Obj00147 *)p)->f550;
     int a;
@@ -41,13 +41,13 @@ void func_021C7448(u16 *a0, u8 *p, int key)
     if ((((struct Obj00147 *)p)->f124 != 0 && *(u32 *)&((struct Obj00147 *)p)->f94 == 0)
         || (((struct Obj00147 *)p)->f124 == 0 && *(u32 *)&((struct Obj00147 *)p)->fD8 == 0)
         || ((struct Obj00147 *)p)->f550 != old) {
-        func_021C51A0((char *)(p + 0x94), ((struct Obj00147 *)p)->f8);
-        func_021C51A0((char *)(p + 0xD8), ((struct Obj00147 *)p)->f8);
+        ZUKAN_DETAIL_FORM_DestroyModelItem((char *)(p + 0x94), ((struct Obj00147 *)p)->f8);
+        ZUKAN_DETAIL_FORM_DestroyModelItem((char *)(p + 0xD8), ((struct Obj00147 *)p)->f8);
         a = ((struct Obj00147 *)p)->f124 != 0 ? 2 : 4;
         b = ((struct Obj00147 *)p)->f124 != 0 ? 4 : 3;
-        ov208_func_021C569C(a0, p, key, a, b, 2, ((struct Obj00147 *)p)->f550);
-        if (a != 4) func_021C51C8(((struct Obj00147 *)p)->f98, 2, p);
-        if (b != 4) func_021C51C8(((struct Obj00147 *)p)->fDC, 3, p);
+        ZUKAN_DETAIL_FORM_PlaceModelItem(a0, p, key, a, b, 2, ((struct Obj00147 *)p)->f550);
+        if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(((struct Obj00147 *)p)->f98, 2, p);
+        if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(((struct Obj00147 *)p)->fDC, 3, p);
     }
     func_021C7534(a0, p, key);
 }

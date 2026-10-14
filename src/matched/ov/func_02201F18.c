@@ -1,5 +1,5 @@
 /*
- * function: func_02201F18
+ * function: WORLDTRADE_SERVER_GetErrorMessageId
  * address:  0x02201F18
  * packet:   pkt_02201F18
  * region:   ov135
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9088  0x021F9088  thumb  ov135
+ *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
  *
  * Maps the state word at +0x38 to one of fifteen codes (cases written in
  * descending order, which is the order MWCC lays the bodies out in) and
- * forwards to func_021F9088 with p, the +0xb6c word, the code, 1 and 0x0f0f.
+ * forwards to WORLDTRADE_INPUT_PrintStringTop with p, the +0xb6c word, the code, 1 and 0x0f0f.
  */
 #include "../include/Obj00018.h"
 
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021F9088(u8 *p, u32 a, u32 b, u32 c, u32 d);
+extern u32 WORLDTRADE_INPUT_PrintStringTop(u8 *p, u32 a, u32 b, u32 c, u32 d);
 
-u32 func_02201F18(u8 *p)
+u32 WORLDTRADE_SERVER_GetErrorMessageId(u8 *p)
 {
     u32 v;
 
@@ -79,5 +79,5 @@ u32 func_02201F18(u8 *p)
         v = 0x9f;
         break;
     }
-    return func_021F9088(p, *(u32 *)&((struct Obj00018 *)p)->fB6C, v, 1, 0x0f0f);
+    return WORLDTRADE_INPUT_PrintStringTop(p, *(u32 *)&((struct Obj00018 *)p)->fB6C, v, 1, 0x0f0f);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8324
+ * function: BTLV_EFFECT_IsStageFieldBusy
  * address:  0x021F8324
  * packet:   pkt_ov094_021F8324
  * region:   ov094
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094  a4
- *   func_021F6A18  0x021F6A18  thumb  ov094
- *   func_021F6E1C  0x021F6E1C  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094  a4
+ *   BTLV_STAGE_IsEffectActive  0x021F6A18  thumb  ov094
+ *   BTLV_FIELD_IsEffectActive  0x021F6E1C  thumb  ov094
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  */
 typedef unsigned int u32;
 
-extern char *d_0220AF20;
-extern int func_021F6A18(char *p);
-extern int func_021F6E1C(char *p);
+extern char *gBtlvEff;
+extern int BTLV_STAGE_IsEffectActive(char *p);
+extern int BTLV_FIELD_IsEffectActive(char *p);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-int func_021F8324(u32 a)
+int BTLV_EFFECT_IsStageFieldBusy(u32 a)
 {
     int x = 0;
     int y = 0;
     int z = 0;
 
     if (a == 0 || a == 2 || a == 4)
-        x = func_021F6A18((char *)(*(u32 *)(d_0220AF20 + 0x194)));
+        x = BTLV_STAGE_IsEffectActive((char *)(*(u32 *)(gBtlvEff + 0x194)));
     if (a == 1 || a == 2 || a == 4)
-        y = func_021F6E1C((char *)(*(u32 *)(d_0220AF20 + 0x198)));
+        y = BTLV_FIELD_IsEffectActive((char *)(*(u32 *)(gBtlvEff + 0x198)));
     if (a - 3 <= 1) {
-        z = PALANM_GetFadeRequestBits((const char *)(*(int *)(d_0220AF20 + 0x18C))) != 0;
+        z = PALANM_GetFadeRequestBits((const char *)(*(int *)(gBtlvEff + 0x18C))) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
         return 1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDB54",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId",
    "address": "0x021BDB54",
    "kind": "game",
    "region": "ov208",

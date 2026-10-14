@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8134",
+   "name": "BTLV_EFFECT_GaugeStartExpGain",
    "address": "0x021F8134",
    "kind": "game",
    "region": "ov094",

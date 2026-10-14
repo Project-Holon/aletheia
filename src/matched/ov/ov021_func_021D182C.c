@@ -20,7 +20,7 @@
  *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
  *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
- *   d_021DD5F0     0x021DD5F0  data    ov021  a4
+ *   gMmdlIcaSubprocTemplate     0x021DD5F0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09751.h"
@@ -36,13 +36,13 @@ extern u32 FIELDMAP_GetMapFunc(u8 *p);
 extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
 extern u32 FIELD_SUBPROC_GetWork(const void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
-extern int d_021DD5F0[];
+extern int gMmdlIcaSubprocTemplate[];
 
 u8 *SCRCMD_MMDL_ICA_CreateProc(u32 a, u16 b, struct V3 *c, u16 d)
 {
     void *t = FIELDMAP_GetMmdlSys((void *)a);
     u32 h = FIELDMAP_GetMapFunc((u8 *)a);
-    int *w = FIELD_SUBPROC_Start(-1, (int *)h, d_021DD5F0);
+    int *w = FIELD_SUBPROC_Start(-1, (int *)h, gMmdlIcaSubprocTemplate);
     u8 *p = (u8 *)FIELD_SUBPROC_GetWork(w);
 
     *(int * *)&((struct Obj09751 *)p)->f188 = w;

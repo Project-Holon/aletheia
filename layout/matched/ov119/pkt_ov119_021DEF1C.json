@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEF1C",
+   "name": "POKETRADE_NEGO_StepPollMonCheck",
    "address": "0x021DEF1C",
    "kind": "game",
    "region": "ov119",

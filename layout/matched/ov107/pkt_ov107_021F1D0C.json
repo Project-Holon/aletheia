@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F1D0C",
+   "name": "MBi_CommChangeParentState",
    "address": "0x021F1D0C",
    "kind": "sdk",
    "region": "ov107",

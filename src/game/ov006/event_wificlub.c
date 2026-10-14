@@ -1,8 +1,8 @@
 /*
  * file:     event_wificlub.c
  * unit:     yes
- * function: EVENT_WIFICLUB_ResetSound, EVENT_WIFICLUB_Main, EVENT_WIFICLUB_FreeWork, EVENT_WIFICLUB_InitWork, EVENT_WIFICLUB_Create
- * address:  0x021544D4
+ * function: EVENT_WIFICLUB_SetupBattle, EVENT_WIFICLUB_BuildBattleEntry, EVENT_WIFICLUB_ResetSound, EVENT_WIFICLUB_Main, EVENT_WIFICLUB_FreeWork, EVENT_WIFICLUB_InitWork, EVENT_WIFICLUB_Create, EVENT_WIFICLUB_Entry
+ * address:  0x021542C0
  * region:   ov006
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -12,7 +12,49 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ *   ov115_id 0x73 data a1
+ *   ov099_id 0x63 data a1
+ *   ov067_id 0x43 data a1
+ *   ov127_id 0x7f data a1
+ *   ov134_id 0x86 data a1
+ *   ov093_id 0x5d data a1
+ *   ov008_id 0x8 data a1
+ *   ov119_id 0x77 data a1
+ *   ov195_id 0xc3 data a1
+ *   ov172_id 0xac data a1
+ *   GFL_USE_SetSleepVolumeHooks  0x020057AC  thumb  arm9
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   PM_VOICE_ResetMasterVolume  0x02006740  thumb  arm9
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
+ *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb  arm9
+ * Callback adapter: unpacks a two-word argument block and tail-calls
+ * EVENT_WIFICLUB_Create (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Region
+ * ov006: the only overlay mapped at this address; Thumb code directly after
+ * the pool word of EVENT_WIFICLUB_Create, which is also its tail-call target.
+ * ov021 SCRCMD_PROC_FLD_CallOv006Event passes it as a function pointer together with the block
+ * {GAMESYSTEM_GetFieldMap(..), 0} (wave A1 witness).
+ * Addresses are Black-image addresses.
+ *
  * symbols:
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   func_0200AEE8  0x0200AEE8  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
+ *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
+ *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
+ *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
+ *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
+ *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
+ *   POKE_REGULATION_AdjustPartyLevels  0x0201A2A8  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
+ *   func_020084F4 0x020084F4 thumb
+ *   func_02008550 0x02008550 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
+ *   BTL_SETUP_SetParty 0x02013128 thumb
  *   GFL_USE_SetPlayerVolumes 0x02005CBC thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_02012138 0x02012138 thumb
@@ -27,7 +69,6 @@
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   func_02012950 0x02012950 thumb
- *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
@@ -36,21 +77,16 @@
  *   func_0203133C 0x0203133C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_IsIdle 0x0203D210 arm
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn 0x021BE92C thumb ov021
- *   EVENT_WIFICLUB_BuildBattleEntry 0x0215444C thumb ov006
- *   EVENT_WIFICLUB_SetBattleParty 0x021544BC thumb ov006
- *   EVENT_WIFICLUB_SetupBattle 0x021542C0 thumb ov006
  *   WIFICLUB_RunPeerAddrRoutine 0x021C2850 thumb ov099
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   gNetSaveRetryProc 0x021D654C data ov115 a4
@@ -71,16 +107,6 @@
  *   GFL_USE_GetBgmNo   0x02005C44  thumb
  *   func_0200ADF0   0x0200ADF0  thumb
  *   func_020122C0  0x020122C0  thumb
- *   ov115_id 0x73 data a1
- *   ov099_id 0x63 data a1
- *   ov067_id 0x43 data a1
- *   ov127_id 0x7f data a1
- *   ov134_id 0x86 data a1
- *   ov093_id 0x5d data a1
- *   ov008_id 0x8 data a1
- *   ov119_id 0x77 data a1
- *   ov195_id 0xc3 data a1
- *   ov172_id 0xac data a1
  *   GFL_USE_SetSleepVolumeHooks  0x020057AC  thumb  arm9
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
@@ -91,14 +117,25 @@
  */
 #include "event_wificlub_types.h"
 
-struct Link;
-struct NetTask;
-struct PlayerStatusRecord;
-struct BoxRecord;
 struct Reg;
+struct BattleSetup;
+struct PlayerStatusList;
+struct Link;
+struct TrainerRecordInfo;
+struct PlayerStatusRecord;
+struct NetTask;
+struct BoxRecord;
 struct GameComm;
 struct Party;
-typedef int s32;
+typedef signed int     s32_021542C0;
+
+/* View of the battle setup block: only the trainer record pointer at +0x6C is written here. */
+typedef struct BattleSetupView {
+    u8 reserved[0x6C];
+    void *trainerRecord;
+} BattleSetupView;
+
+typedef int s32_021544D4;
 
 /* Entry of the menu transition table: the menu result picks the next sequence step. */
 typedef struct MenuTransition {
@@ -112,6 +149,28 @@ typedef struct SideOrder {
     u8 first, second;
 } SideOrder;
 
+typedef struct Pair {
+    int a;
+    int b;
+} Pair;
+
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern void func_0200AEE8(struct Reg *regulation, u32 id, s32_021542C0 value);
+extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void BTL_SETUP_SetupCommSingle(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
+extern void BTL_SETUP_SetupCommDouble(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
+extern void BTL_SETUP_SetupCommTriple(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
+extern void BTL_SETUP_SetupCommRotation(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
+extern void BTL_SETUP_AllocRecordBuffer(void *battleSetup, u32 heapArg);
+extern void BTL_SETUP_ApplyRegulation(void *battleSetup, void *regulation, u32 a);
+extern void POKE_REGULATION_AdjustPartyLevels(void *dst, void *src);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
+extern u32 GFL_NET_GetHandleNetID(struct Link *handle);
+void *GAME_DATA_GetPlayerStatus(void *gameData, u32 index);
+const void *func_020084F4(const void *p);
+u8 func_02008550(const void *playerRecord);
+void POKEPARTY_Init(void *party);
+void BTL_SETUP_SetParty(void *battleSetup, void *party, int a);
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 extern void PM_VOICE_SetMasterVolume(u8 volume);
 extern u16 GFL_USE_GetBgmNo(void);
@@ -142,11 +201,7 @@ extern void func_02034A5C(int overlayId);
 extern void WIFICLUB_RunPeerAddrRoutine(char *scratchBuffer);
 extern int BTL_SETUP_Delete(int battleSetup);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
-extern void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, u32 gameData, int seq);
 extern void *BTL_SETUP_Create(u32 heapId);
-extern void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
-extern void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, u32 gameData, int seq);
-extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
@@ -154,9 +209,7 @@ extern int GFL_NET_GetRunState(void);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern u32 GFL_NET_GetHandleNetID(struct Link *handle);
 extern void *func_02012950(void *gameData, u32 index);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern void func_02009BB8(void *battleRecord, int ruleIndex, int win, int lose, int draw);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
@@ -169,11 +222,15 @@ void *POKEPARTY_Create(u32 heapId);
 void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 void *func_0200ADF0(u32 heapId);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
+void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
+void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work);
 int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work);
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
 void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hideFieldObjects);
 int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects);
+int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
 extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021F03C4[],d_021C37E8[];
 extern const char d_0215513C[],d_021E75C0[],d_02154C80[],d_02208C40[],d_021C7240[];
 extern char ov008_id[],ov067_id[],ov127_id[],ov115_id[],ov099_id[];
@@ -181,6 +238,138 @@ extern char ov134_id[],ov093_id[],ov119_id[],ov195_id[],ov172_id[];
 extern const SideOrder d_02154C2C;
 extern const MenuTransition d_02154C40[];
 extern const char d_02154C80[];
+
+
+
+void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
+{
+    struct GameData *gameData;
+    u8 useAltRule;
+    int battleKind;
+
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
+    useAltRule = work->session->useAltRule;
+    if (useAltRule)
+        func_0200AEE8(work->session->regulation, 0xd, 1);
+    else
+        func_0200AEE8(work->session->regulation, 0xd, 0);
+
+    switch (menuIndex) {
+    case 8:
+        battleKind = 1;
+        if (useAltRule)
+            battleKind = 3;
+        break;
+    case 7:
+        battleKind = 0;
+        if (useAltRule)
+            battleKind = 2;
+        break;
+    case 10:
+        battleKind = 5;
+        if (useAltRule)
+            battleKind = 7;
+        break;
+    case 9:
+        battleKind = 4;
+        if (useAltRule)
+            battleKind = 6;
+        break;
+    case 12:
+        battleKind = 9;
+        if (useAltRule)
+            battleKind = 0xb;
+        break;
+    case 11:
+        battleKind = 8;
+        if (useAltRule)
+            battleKind = 0xa;
+        break;
+    case 14:
+        battleKind = 0xd;
+        if (useAltRule)
+            battleKind = 0xf;
+        break;
+    case 13:
+        battleKind = 0xc;
+        if (useAltRule)
+            battleKind = 0xe;
+        break;
+    }
+    work->startParam.battleKind = battleKind;
+    work->startParam.reserved = 0;
+
+    switch (menuIndex) {
+    case 7:
+    case 8:
+        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        break;
+    case 9:
+    case 10:
+        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        break;
+    case 11:
+    case 12:
+        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        break;
+    case 13:
+    case 14:
+        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        break;
+    }
+    BTL_SETUP_AllocRecordBuffer(work->battleSetup, 1);
+    BTL_SETUP_ApplyRegulation(work->battleSetup, work->session->regulation, 4);
+    POKE_REGULATION_AdjustPartyLevels(work->session->regulation, work->session->party[0]);
+    POKE_REGULATION_AdjustPartyLevels(work->session->regulation, work->session->party[1]);
+    ((BattleSetupView *)work->battleSetup)->trainerRecord = GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->gameSystem));
+}
+
+
+
+/*
+ * size: 136
+ *
+ * The lead is 110 bytes, followed by two padding bytes and the 24-byte
+ * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
+ * func_020084F4 is the bx-lr identity: the original retains the pointer
+ * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
+ * identity, and stores the unchanged result. Its prior (void) extern
+ * dropped the live input and caused an 18-byte scheduling residue.
+ * GFL_NET_GetHandleNetID explicitly returns only eight bits; the caller consumes
+ * those bits without truncation. Indexed record reads retain modular
+ * unsigned address arithmetic without assuming an index domain.
+ */
+void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq)
+{
+    int selfSide, partnerSide;
+    void *partnerRecord;
+    ClubBattleEntry *entry;
+    WifiClubSession *session;
+
+    selfSide = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
+    partnerSide = 1 - selfSide;
+    partnerRecord = GAME_DATA_GetPlayerStatus(gameData, partnerSide);
+    work->battleEntry.regulation = work->session->regulation;
+    entry = &work->battleEntry;
+    entry->ownParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)selfSide);
+    entry->partnerInfo = (void *)func_020084F4(partnerRecord);
+    entry->partnerGender = func_02008550(partnerRecord);
+    entry->partnerParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)partnerSide);
+    entry->gameData = gameData;
+    entry->reserved18 = 0;
+    POKEPARTY_Init(work->battleParty);
+    entry->battleParty = work->battleParty;
+    entry->partyA = work->session->party[0];
+    entry->partyB = work->session->party[1];
+}
+
+
+
+void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int seq)
+{
+    BTL_SETUP_SetParty(work->battleSetup, work->battleParty, 0);
+}
+
 
 
 /*
@@ -193,6 +382,7 @@ void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work)
     PM_VOICE_SetMasterVolume(127);
     work->login.useSaveData = 1;
 }
+
 
 
 
@@ -326,7 +516,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         func_02034A5C((int)ov099_id);
         break;
     case 13:
-        EVENT_WIFICLUB_BuildBattleEntry(work, (u32)func_020120F4(gameSystem), step);
+        EVENT_WIFICLUB_BuildBattleEntry(work, (void *)func_020120F4(gameSystem), step);
         work->battleSetup = BTL_SETUP_Create(4);
         EVENT_WIFICLUB_SetupBattle(work, work->session->menuChoice);
         GAME_EVENT_CallProc(work->event, (u32)ov134_id, (u32)d_021DCCA4, (u32)&work->battleEntry);
@@ -342,7 +532,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
                 *seq = 9;
             }
         } else {
-            EVENT_WIFICLUB_SetBattleParty(work, (u32)func_020120F4(gameSystem), step);
+            EVENT_WIFICLUB_SetBattleParty(work, (void *)func_020120F4(gameSystem), step);
             func_02034AC4((int)ov093_id);
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 100, 10);
@@ -458,6 +648,7 @@ menu:
 
 
 
+
 /*
  * Cleanup helper. The battle setup is freed and cleared only when non-NULL;
  * the six blx sites are ARM func_020307B0. The 0x5A<<2 (0x168) field is a
@@ -465,7 +656,7 @@ menu:
  */
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
 {
-    s32 battleSetup = (s32)work->battleSetup;
+    s32_021544D4 battleSetup = (s32_021544D4)work->battleSetup;
     if (battleSetup != 0) {
         BTL_SETUP_Delete(battleSetup);
         work->battleSetup = 0;
@@ -477,6 +668,7 @@ void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
     func_020307B0(work->session->scratchBuffer);
     func_020307B0(work->session);
 }
+
 
 
 
@@ -512,6 +704,7 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
 
 
 
+
 int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects)
 {
     int event;
@@ -519,4 +712,11 @@ int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects)
     event = (int)func_020122C0((void *)gameSystem, 0, EVENT_WIFICLUB_Main, 0x174);
     EVENT_WIFICLUB_InitWork((void *)event, (void *)gameSystem, fieldMap, hideFieldObjects);
     return event;
+}
+
+
+/* Overlay entry point: unpacks the request pair and creates the event. */
+int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request)
+{
+    return EVENT_WIFICLUB_Create(gameSystem, request->a, request->b);
 }

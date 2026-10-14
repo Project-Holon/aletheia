@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CD8
+ * function: GSYNC_DISP_CreatePokeIconActor
  * address: 0x021D6CD8
  * packet: pkt_ov123_021D6CD8
  * region: ov123
@@ -32,7 +32,7 @@ extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned i
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021D6CD8(u8 *p)
+void GSYNC_DISP_CreatePokeIconActor(u8 *p)
 {
     struct Point pt;
     void *h;

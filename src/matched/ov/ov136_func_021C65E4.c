@@ -1,5 +1,5 @@
 /*
- * function: func_021C65E4
+ * function: MB_SEQ_ExitActorSystem
  * address:  0x021C65E4
  * packet:   pkt_ov136_021C65E4
  * region:   ov136
@@ -24,7 +24,7 @@ extern void CLACT_ReleasePalette(u32 i);
 struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021C65E4(u8 *p)
+void MB_SEQ_ExitActorSystem(u8 *p)
 {
     CLACT_ReleaseCellAnim((u32)(((struct Obj10606 *)p)->f230));
     CLACT_ReleasePalette((u32)(((struct Obj10606 *)p)->f250));

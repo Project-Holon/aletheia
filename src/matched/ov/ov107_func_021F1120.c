@@ -1,5 +1,5 @@
 /*
- * function: func_021F1120
+ * function: MB_COMM_SYS_GetOfferExtra
  * address:  0x021F1120
  * packet:   pkt_ov107_021F1120
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-unsigned short func_021F1120(Ov107Ctx *p)
+unsigned short MB_COMM_SYS_GetOfferExtra(Ov107Ctx *p)
 {
     return (p->f24 & 0x3FFF0000) >> 16;
 }

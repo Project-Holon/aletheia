@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCE10",
+   "name": "ZUKAN_DETAIL_GRAPHIC_InitBgGraphics",
    "address": "0x021BCE10",
    "kind": "game",
    "region": "ov208",

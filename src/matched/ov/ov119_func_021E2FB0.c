@@ -1,5 +1,5 @@
 /*
- * function: func_021E2FB0
+ * function: POKETRADE_3D_SetupParticleSystemsLow
  * address: 0x021E2FB0
  * packet: pkt_ov119_021E2FB0
  * region: ov119
@@ -20,7 +20,7 @@ extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void *func_02087A3C(int,int);
 extern int func_020056BC(void *);
 extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
-void func_021E2FB0(char *p) {
+void POKETRADE_3D_SetupParticleSystemsLow(char *p) {
     int i;
     ((struct Obj08068 *)p)->fB4=(void *)PARTICLE_LoadArchiveMember((int)0x67,(int)0x35,(u16)((((struct Obj08068 *)p)->fBA&0x7fff)|0x8000));
     for(i=0;i<4;i++) {

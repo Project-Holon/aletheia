@@ -1,5 +1,5 @@
 /*
- * function: func_021C218C
+ * function: ARROW_SetState
  * address:  0x021C218C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C218C(void *p, u32 v)
+void ARROW_SetState(void *p, u32 v)
 {
     ((struct Obj14763 *)p)->f20 = v;
     ((struct Obj14763 *)p)->f24 = 0;

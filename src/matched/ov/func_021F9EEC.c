@@ -1,5 +1,5 @@
 /*
- * function: func_021F9EEC
+ * function: WORLDTRADE_INPUT_PlayCursorSe
  * address:  0x021F9EEC
  * packet:   pkt_021F9EEC
  * region:   ov135
@@ -22,7 +22,7 @@ typedef signed int s32;
 typedef signed short s16;
 extern u32 func_0209C0A4(u8 *p, u32 n, u32 m);
 
-u32 func_021F9EEC(u8 *p, u32 n)
+u32 WORLDTRADE_INPUT_PlayCursorSe(u8 *p, u32 n)
 {
     u32 m;
 

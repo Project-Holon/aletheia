@@ -1,5 +1,5 @@
 /*
- * function: func_021FE690
+ * function: BTLV_EFFVM_SeVolumeTweenTaskEnd
  * address:  0x021FE690
  * packet:   pkt_ov094_021FE690
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_021FE690(void *h)
+void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *h)
 {
     unsigned int *p = *((unsigned int **)TCBL_GetTaskUserData(h));
 

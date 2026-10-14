@@ -1,5 +1,5 @@
 /*
- * function: func_021D9780
+ * function: POKETRADE_PROC_PlaceCursorIcon
  * address: 0x021D9780
  * packet: pkt_ov119_021D9780
  * region: ov119
@@ -14,9 +14,9 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021D8FA4 0x021D8FA4 thumb ov119
- *   func_021E5B6C 0x021E5B6C thumb ov119
- *   func_021E219C 0x021E219C thumb ov119
+ *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
+ *   POKETRADE_2D_PlaceTouchbarActors 0x021E5B6C thumb ov119
+ *   POKETRADE_SAVE_ShowSummaryMon 0x021E219C thumb ov119
  *   d_021E7580 0x021E7580 data a2
  *   d_021E757C 0x021E757C data a2
  */
@@ -33,10 +33,10 @@ typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void *func_021D8FA4(void *p, int a);
-extern void func_021E5B6C(int p, int b, int c);
-extern void func_021E219C(char *p, void *mon, int side, int flag);
-void func_021D9780(char *p, int a1, int a2)
+extern void *POKETRADE_PROC_GetSideMon(void *p, int a);
+extern void POKETRADE_2D_PlaceTouchbarActors(int p, int b, int c);
+extern void POKETRADE_SAVE_ShowSummaryMon(char *p, void *mon, int side, int flag);
+void POKETRADE_PROC_PlaceCursorIcon(char *p, int a1, int a2)
 {
     Pt t0, t1;
     if (a1 == 0) {
@@ -47,16 +47,16 @@ void func_021D9780(char *p, int a1, int a2)
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t1), 1);
     }
     if (func_020355C4()) {
-        func_021E5B6C((int)p, a1, 0);
+        POKETRADE_2D_PlaceTouchbarActors((int)p, a1, 0);
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05326 *)p)->fF0C, 0);
     } else {
-        func_021E5B6C((int)p, a1, 1);
+        POKETRADE_2D_PlaceTouchbarActors((int)p, a1, 1);
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05326 *)p)->fF0C, 1);
     }
     if (a2 != 0) {
         void *v;
 
-        v = func_021D8FA4(p, ((struct Obj05326 *)p)->f10A0);
-        func_021E219C(p, v, ((struct Obj05326 *)p)->f10A0, 1);
+        v = POKETRADE_PROC_GetSideMon(p, ((struct Obj05326 *)p)->f10A0);
+        POKETRADE_SAVE_ShowSummaryMon(p, v, ((struct Obj05326 *)p)->f10A0, 1);
     }
 }

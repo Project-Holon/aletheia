@@ -1,5 +1,5 @@
 /*
- * function: func_021FEEC0
+ * function: BR_SIDEBAR_SetVisibleBySpace
  * address: 0x021FEEC0
  * packet: pkt_ov186_021FEEC0
  * region: ov186
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FF02C 0x021FF02C thumb ov186
- *   d_02200B74 0x02200B74 data a4
+ *   BR_SIDEBAR_SetSlotVisible 0x021FF02C thumb ov186
+ *   gBrSidebarConfigTable 0x02200B74 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021FF02C(u8 *p, u32 v); extern const char d_02200B74[];
-void func_021FEEC0(char *p,int mode,u32 value) { int i; for(i=0;i<12;i++) if(mode==*(int *)((u32)d_02200B74+i*24+16)) func_021FF02C((u8 *)((u32)p+i*0x4c),value); }
+extern void BR_SIDEBAR_SetSlotVisible(u8 *p, u32 v); extern const char gBrSidebarConfigTable[];
+void BR_SIDEBAR_SetVisibleBySpace(char *p,int mode,u32 value) { int i; for(i=0;i<12;i++) if(mode==*(int *)((u32)gBrSidebarConfigTable+i*24+16)) BR_SIDEBAR_SetSlotVisible((u8 *)((u32)p+i*0x4c),value); }

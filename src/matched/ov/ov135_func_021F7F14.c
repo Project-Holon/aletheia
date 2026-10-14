@@ -1,5 +1,5 @@
 /*
- * function: func_021F7F14
+ * function: WORLDTRADE_DEPOSIT_StateStartWipeOut
  * address: 0x021F7F14
  * packet: pkt_ov135_021F7F14
  * region: ov135
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021F7F14(u8 *p)
+int WORLDTRADE_DEPOSIT_StateStartWipeOut(u8 *p)
 {
     if (((struct Obj10577 *)p)->f14 == 0) {
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);

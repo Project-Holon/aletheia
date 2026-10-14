@@ -1,5 +1,5 @@
 /*
- * function: func_021C03C4
+ * function: ZUKAN_DETAIL_AREA_DeleteMapActors
  * address: 0x021C03C4
  * packet: pkt_ov208_021C03C4
  * region: ov208
@@ -27,7 +27,7 @@ extern void CLACT_ReleasePalette(unsigned);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_DeleteRenderer(void *);
-void func_021C03C4(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteMapActors(void *unused, char *p, void *a2)
 {
     u8 i;
     for (i = 0; i < 7; i++) CLACT_DeleteActor(*(struct Obj **)(p + i * 4 + 0xbc));

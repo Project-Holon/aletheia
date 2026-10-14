@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE9CC
+ * function: ZUKAN_DETAIL_HEADBAR_FlushIcon
  * address:  0x021BE9CC
  * packet:   pkt_ov208_021BE9CC
  * region:   ov208
@@ -43,7 +43,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02041B6C(u32 layer);
 
-void ov208_func_021BE9CC(struct Ov208Icon *p)
+void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
     if (p->f30 != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->f2c, (void *)p->f18) == 0) {
         func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->f18), p->f20, p->f1c);

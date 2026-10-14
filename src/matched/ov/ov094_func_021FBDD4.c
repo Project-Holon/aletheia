@@ -1,5 +1,5 @@
 /*
- * function: func_021FBDD4
+ * function: BTLV_EFFVM_CompareAndJump
  * address:  0x021FBDD4
  * packet:   pkt_ov094_021FBDD4
  * region:   ov094
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
-void func_021FBDD4(int a, int b, int c, int op, int e)
+void BTLV_EFFVM_CompareAndJump(int a, int b, int c, int op, int e)
 {
     int t = 0;
 

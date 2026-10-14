@@ -1,5 +1,5 @@
 /*
- * function: func_021FAC94
+ * function: BTLV_EFFVM_ParticleInitCallbackSource
  * address:  0x021FAC94
  * packet:   pkt_ov094_021FAC94
  * region:   ov094
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021FDFA0 with mode 0.
+ * Tail call to BTLV_EFFVM_SetupEmitterCallbacks with mode 0.
  *
  * symbols:
- *   func_021FDFA0 0x021FDFA0 thumb ov094
+ *   BTLV_EFFVM_SetupEmitterCallbacks 0x021FDFA0 thumb ov094
  */
-extern int func_021FDFA0(void *a, char *s, int mode);
+extern int BTLV_EFFVM_SetupEmitterCallbacks(void *a, char *s, int mode);
 
-void func_021FAC94(void *a, void *b)
+void BTLV_EFFVM_ParticleInitCallbackSource(void *a, void *b)
 {
-    func_021FDFA0(a, b, 0);
+    BTLV_EFFVM_SetupEmitterCallbacks(a, b, 0);
 }

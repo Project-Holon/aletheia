@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AD4
+ * function: MB_SEQ_StateFadeWait
  * address:  0x021C6AD4
  * packet:   pkt_021C6AD4
  * region:   ov136
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021C6AD4(u8 *p)
+int MB_SEQ_StateFadeWait(u8 *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj23608 *)((u8 *)((struct Obj23607 *)p)->f8))->f308;

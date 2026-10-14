@@ -13,6 +13,7 @@
  *   func_021CADCC   0x021CADCC  arm
  *   DWCi_BTNlSet  0x021BCB28  arm
  *   DWCi_IPTlCheckTrigger  0x021D6824  arm
+ *   DWCi_SceneSetRakuButton_DetectFold  0x021CAC44  arm
  *
  * Two-stage guard around DWCi_BTNlSet.
  * Addresses are Black-image addresses.
@@ -23,7 +24,7 @@
  */
 
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int func_021CAC44(void);
+extern int DWCi_SceneSetRakuButton_DetectFold(void);
 extern void DWCi_BTNlSet(signed char v);
 
 void func_021CADCC(void)
@@ -33,6 +34,6 @@ void func_021CADCC(void)
         DWCi_BTNlSet(0);
         return;
     }
-    if (func_021CAC44())
+    if (DWCi_SceneSetRakuButton_DetectFold())
         DWCi_BTNlSet(0);
 }

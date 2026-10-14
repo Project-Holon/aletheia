@@ -1,5 +1,5 @@
 /*
- * function: func_021E4810
+ * function: POKETRADE_2D_DeleteBoxIconRow
  * address: 0x021E4810
  * packet: pkt_ov119_021E4810
  * region: ov119
@@ -16,7 +16,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
-void func_021E4810(char *p, int n)
+void POKETRADE_2D_DeleteBoxIconRow(char *p, int n)
 {
     int i;
     for (i = 0; i < 5; i++) {

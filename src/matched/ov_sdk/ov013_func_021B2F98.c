@@ -1,5 +1,5 @@
 /*
- * function: DWCi_InitReliableQueue
+ * function: VCT_POOL_Reset
  * address:  0x021B2F98
  * packet:   pkt_ov013_021B2F98
  * region:   ov013
@@ -22,7 +22,7 @@ typedef struct {
 
 extern G gVoiceFramePool;
 
-void DWCi_InitReliableQueue(void)
+void VCT_POOL_Reset(void)
 {
     gVoiceFramePool.cur = 0;
     gVoiceFramePool.buf = 0;

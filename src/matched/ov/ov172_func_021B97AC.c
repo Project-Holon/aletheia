@@ -17,7 +17,7 @@
  *   func_021B9F4C 0x021B9F4C thumb ov172
  *   func_021B9DF8 0x021B9DF8 thumb ov172
  *   func_021BA0BC 0x021BA0BC thumb ov172
- *   func_021B69E0 0x021B69E0 thumb ov172
+ *   CTVT_ADPCM_ResetEncoder 0x021B69E0 thumb ov172
  *   func_021B9E3C 0x021B9E3C thumb ov172
  *   KEY_GetCont 0x0203630C arm
  *   func_021BA120 0x021BA120 thumb ov172
@@ -25,13 +25,13 @@
  *   func_021BA170 0x021BA170 thumb ov172
  *   func_021BA15C 0x021BA15C thumb ov172
  *   func_021B9E5C 0x021B9E5C thumb ov172
- *   func_021BDFE4 0x021BDFE4 thumb ov172
+ *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   func_021B8C34 0x021B8C34 thumb ov172
  *   func_021B8B74 0x021B8B74 thumb ov172
  *   func_021BA174 0x021BA174 thumb ov172
  *   func_021B891C 0x021B891C thumb ov172
  *   func_021B8740 0x021B8740 thumb ov172
- *   func_021BDFEC 0x021BDFEC thumb ov172
+ *   COMM_TVT_SYS_GetTalkStatus 0x021BDFEC thumb ov172
  *   func_021BA244 0x021BA244 thumb ov172
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -72,7 +72,7 @@ struct Descriptor;
 extern int func_021B9F4C(int a, int b, int mode);
 extern int func_021B9DF8(void *p, int *out);
 extern int func_021BA0BC(u32 *p);
-extern void func_021B69E0(void);
+extern void CTVT_ADPCM_ResetEncoder(void);
 extern void func_021B9E3C(void *p, char *q);
 extern u32 KEY_GetCont(void);
 extern int func_021BA120(u32 *p);
@@ -81,13 +81,13 @@ extern u32 func_021BA170(u32 *p);
 extern u32 func_021BA15C(u32 *p);
 typedef short s16;
 extern void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
-extern u32 func_021BDFE4(void *ctx);
+extern u32 COMM_TVT_SYS_GetComm(void *ctx);
 extern u32 func_021B8C34(void *ctx, u8 *rec);
 extern int func_021B8B74(void *ctx, u8 *rec);
 extern int func_021BA174(int unused, void *a, void *buf, unsigned n);
 extern int func_021B891C(void *a, char *q, u16 *p);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
-extern int func_021BDFEC(void *ctx);
+extern int COMM_TVT_SYS_GetTalkStatus(void *ctx);
 extern u32 func_021BA244(void *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -112,7 +112,7 @@ void func_021B97AC(void *ctx, struct St *st)
             st->sub = 1;
             st->b18 = 0;
             st->f14 = 0;
-            func_021B69E0();
+            CTVT_ADPCM_ResetEncoder();
             func_021B9E3C(ctx, (char *)st);
             return;
         }
@@ -129,7 +129,7 @@ void func_021B97AC(void *ctx, struct St *st)
         off = 0x800;
         func_021B9E5C((int)ctx, (char *)st, (s16 *)(v + off), 9, pos, 0xC000);
     case 2:
-        id = func_021BDFE4(ctx);
+        id = COMM_TVT_SYS_GetComm(ctx);
         if (func_021B8C34(ctx, (u8 *)id) != 1)
             break;
         busy = func_021B8B74(ctx, (u8 *)id);
@@ -157,7 +157,7 @@ void func_021B97AC(void *ctx, struct St *st)
         }
         break;
     case 3:
-        id = func_021BDFE4(ctx);
+        id = COMM_TVT_SYS_GetComm(ctx);
         if (func_021B8B74(ctx, (u8 *)id) != 0)
             break;
         if (func_021B8740((int)ctx, id, 7, 0) == 1) {
@@ -169,7 +169,7 @@ void func_021B97AC(void *ctx, struct St *st)
         break;
     case 4:
         if (st->f20->h2 > 0x20) {
-            if (func_021BA244((void *)func_021BDFEC(ctx)) == 1) {
+            if (func_021BA244((void *)COMM_TVT_SYS_GetTalkStatus(ctx)) == 1) {
                 st->sub = 5;
                 return;
             }
@@ -179,8 +179,8 @@ void func_021B97AC(void *ctx, struct St *st)
         }
         break;
     case 5:
-        id = func_021BDFE4(ctx);
-        if (func_021BA244((void *)func_021BDFEC(ctx)) == 0) {
+        id = COMM_TVT_SYS_GetComm(ctx);
+        if (func_021BA244((void *)COMM_TVT_SYS_GetTalkStatus(ctx)) == 0) {
             if (func_021B8740((int)ctx, id, 8, 0) == 1)
                 st->state = 5;
         }

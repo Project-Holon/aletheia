@@ -1,5 +1,5 @@
 /*
- * function: func_021BE00C
+ * function: COMM_TVT_SYS_GetHeapId
  * address:  0x021BE00C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u16 func_021BE00C(u16 *p)
+u16 COMM_TVT_SYS_GetHeapId(u16 *p)
 {
     return *p;
 }

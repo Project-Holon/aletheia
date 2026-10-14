@@ -1,5 +1,5 @@
 /*
- * function: func_021F9890
+ * function: WORLDTRADE_INPUT_MenuCreate
  * address:  0x021F9890
  * packet:   pkt_021F9890
  * region:   ov135
@@ -13,12 +13,12 @@
  *   func_02030734  0x02030734  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_02202974  0x02202974  thumb
- *   func_022026D8  0x022026D8  thumb
+ *   WORLDTRADE_ADAPTER_InitMessageSystem  0x02202974  thumb
+ *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
  *   g_02203CD8     0x02203CD8  data  ov135
  */
 
@@ -83,16 +83,16 @@ typedef struct {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void *func_02202974(u32 a, u32 b, u32 c, u32 heap);
-extern void func_022026D8(void *ctx, u32 arg);
+extern void *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
+extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
 
-Menu *func_021F9890(Init *init, u32 a, u32 b)
+Menu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b)
 {
     Menu *m;
 
@@ -121,11 +121,11 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     m->w48 = 0;
     m->frm = BGWINFRM_Create(2, 1, 0x48);
     BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
-    func_021F4FF4(m->obj, 0x90, 0x28);
+    WORLDTRADE_SetActorPos(m->obj, 0x90, 0x28);
     CLACT_SetActorAnimSeq((struct Obj *)m->obj, 4);
     CLACT_SetActorAutoAnim((struct Obj *)m->obj, 1);
     CLACT_SetActorDrawEnable((struct Obj *)m->obj, 0);
-    m->ctx = func_02202974(0xf, 0xe, 2, 0x48);
-    func_022026D8(m->sub, init->arg);
+    m->ctx = WORLDTRADE_ADAPTER_InitMessageSystem(0xf, 0xe, 2, 0x48);
+    WORLDTRADE_ADAPTER_InitPrinter(m->sub, init->arg);
     return m;
 }

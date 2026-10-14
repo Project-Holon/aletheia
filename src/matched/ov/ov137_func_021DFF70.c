@@ -1,5 +1,5 @@
 /*
- * function: func_021DFF70
+ * function: GURU2_MAIN_LoadActorResources
  * address: 0x021DFF70
  * packet: pkt_ov137_021DFF70
  * region: ov137
@@ -25,7 +25,7 @@ extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_021DFF70(u8 *p)
+void GURU2_MAIN_LoadActorResources(u8 *p)
 {
     void *arc;
     arc = func_020490F4(184,114);

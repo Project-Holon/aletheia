@@ -1,5 +1,5 @@
 /*
- * function: func_021EFC10
+ * function: MB_COMM_SYS_WmEndCallback
  * address: 0x021EFC10
  * packet: pkt_ov107_021EFC10
  * region: ov107
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F6EA0 0x021F6EA0 data ov107 a4
+ *   gMbParentUi 0x021F6EA0 data ov107 a4
  */
-extern int d_021F6EA0[];
-int func_021EFC10(void) { d_021F6EA0[2]=1; return 1; }
+extern int gMbParentUi[];
+int MB_COMM_SYS_WmEndCallback(void) { gMbParentUi[2]=1; return 1; }

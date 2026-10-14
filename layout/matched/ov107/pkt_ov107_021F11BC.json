@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F11BC",
+   "name": "MB_COMM_SYS_HasMonsReceived",
    "address": "0x021F11BC",
    "kind": "game",
    "region": "ov107",

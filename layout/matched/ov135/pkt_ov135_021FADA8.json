@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FADA8",
+   "name": "WORLDTRADE_INPUT_StateStartFrameOut",
    "address": "0x021FADA8",
    "kind": "game",
    "region": "ov135",

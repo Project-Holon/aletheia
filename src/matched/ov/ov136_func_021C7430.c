@@ -1,5 +1,5 @@
 /*
- * function: func_021C7430
+ * function: MB_SEQ_CreatePartyListArgs
  * address: 0x021C7430
  * packet: pkt_ov136_021C7430
  * region: ov136
@@ -25,7 +25,7 @@ struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-void func_021C7430(u8 *p, int a, u16 b, u16 c)
+void MB_SEQ_CreatePartyListArgs(u8 *p, int a, u16 b, u16 c)
 {
     u8 *q = func_02030734(0x65, 0x98, 1, d_021C7F04, 0x529);
     ((struct Obj03837 *)q)->f0 = GAME_DATA_GetMyParty(**(void ** *)&((struct Obj06531 *)p)->f4);

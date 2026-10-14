@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFA18",
+   "name": "BTLV_MCSS_StartShakeTask",
    "address": "0x021FFA18",
    "kind": "game",
    "region": "ov094",

@@ -1,5 +1,5 @@
 /*
- * function: func_022047CC
+ * function: BTLV_INPUT_CursorActorTaskMain
  * address:  0x022047CC
  * packet:   pkt_ov094_022047CC
  * region:   ov094
@@ -9,20 +9,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  */
 typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_022047CC(void *a, void **s)
+void BTLV_INPUT_CursorActorTaskMain(void *a, void **s)
 {
     int i;
     for (i = 0; i < 6; i++) {
         if (s[i + 2] != 0 && CLACT_IsActorAnimActive(s[i + 2]) != 0)
             return;
     }
-    func_0220687C(s[0], a);
+    BTLV_INPUT_DeleteTask(s[0], a);
 }

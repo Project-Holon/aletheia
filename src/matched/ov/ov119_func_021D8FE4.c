@@ -1,5 +1,5 @@
 /*
- * function: func_021D8FE4
+ * function: POKETRADE_PROC_RecvMonCopy
  * address: 0x021D8FE4
  * packet: pkt_ov119_021D8FE4
  * region: ov119
@@ -22,7 +22,7 @@ extern unsigned int GFL_NET_GetHandleNetID(struct Link *p);
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(void *,void *,int);
-void func_021D8FE4(int idx,int a,int b,void *p,int id) {
+void POKETRADE_PROC_RecvMonCopy(int idx,int a,int b,void *p,int id) {
  if(id==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
  int n=POKE_TOOL_GetPartyParamSize();
  MI_CpuCopy8(*(void **)((char *)p+idx*4+0x1064),*(void **)((char *)p+idx*4+0x5dc),n);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FFF68
+ * function: BTLV_MCSS_HasPersonalParam10
  * address:  0x021FFF68
  * packet:   pkt_ov094_021FFF68
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02019C90  0x02019C90  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,12 +30,12 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
-int func_021FFF68(Work *w, int key)
+int BTLV_MCSS_HasPersonalParam10(Work *w, int key)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return 0;

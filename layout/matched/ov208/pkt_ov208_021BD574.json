@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BD574",
+   "name": "ZKND_TBAR_LoadCellArchive",
    "address": "0x021BD574",
    "kind": "game",
    "region": "ov208",

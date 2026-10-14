@@ -1,5 +1,5 @@
 /*
- * function: func_021EF0F4
+ * function: MB_COMM_SYS_LoadGraphics
  * address: 0x021EF0F4
  * packet: pkt_ov107_021EF0F4
  * region: ov107
@@ -54,7 +54,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern u32 func_020275E4(void),func_02027614(void),func_02027618(void),func_02027624(void),func_02027628(void),func_0202762C(void),func_0202761C(u32),func_02027620(u32);
-void func_021EF0F4(u8 *p) {
+void MB_COMM_SYS_LoadGraphics(u8 *p) {
  void *archive;
  u32 first;
  struct Placement placement;

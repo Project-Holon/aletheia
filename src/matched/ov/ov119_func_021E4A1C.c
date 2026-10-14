@@ -1,5 +1,5 @@
 /*
- * function: func_021E4A1C
+ * function: POKETRADE_2D_PlaceBoxIconActors
  * address: 0x021E4A1C
  * packet: pkt_ov119_021E4A1C
  * region: ov119
@@ -20,7 +20,7 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-void func_021E4A1C(char *p)
+void POKETRADE_2D_PlaceBoxIconActors(char *p)
 {
     short xy[2];
     int i, j;

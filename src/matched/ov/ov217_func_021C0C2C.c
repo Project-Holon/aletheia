@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C2C
+ * function: RESEARCH_COMMON_DeleteActor
  * address:  0x021C0C2C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C0C2C(u8 *a0)
+void RESEARCH_COMMON_DeleteActor(u8 *a0)
 {
     CLACT_DeleteActor((struct Obj *)((u32)(((struct Obj25988 *)a0)->f24)));
 }

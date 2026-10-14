@@ -1,5 +1,5 @@
 /*
- * function: func_021E1A44
+ * function: POKETRADE_SAVE_PrintNatureName
  * address: 0x021E1A44
  * packet: pkt_ov119_021E1A44
  * region: ov119
@@ -29,7 +29,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021E1A44(int a,int b,int x,int y,char *p)
+void POKETRADE_SAVE_PrintNatureName(int a,int b,int x,int y,char *p)
 {
     int s;
     s=(int)func_02045B38(0,2,24,((struct Obj00001 *)p)->f5F4);

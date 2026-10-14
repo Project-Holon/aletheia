@@ -1,5 +1,5 @@
 /*
- * function: func_02201258
+ * function: WORLDTRADE_SERVER_StartNameCheck
  * address: 0x02201258
  * packet: pkt_ov135_02201258
  * region: ov135
@@ -32,7 +32,7 @@ extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void MI_CpuFill8(void *, int, u32);
 extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
-int func_02201258(u8 *p)
+int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
 {
     struct U16Vec *s;
     u16 *text;

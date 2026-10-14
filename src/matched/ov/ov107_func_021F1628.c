@@ -1,5 +1,5 @@
 /*
- * function: func_021F1628
+ * function: MB_UTIL_MSG_SetWindowLayout
  * address:  0x021F1628
  * packet:   pkt_ov107_021F1628
  * region:   ov107
@@ -40,7 +40,7 @@ void BMP_WIN_TransferChars(struct Descriptor *d);
 void BMP_WIN_MakeScreen(struct Cfg *cfg);
 void func_020409B4(u32 index);
 
-void func_021F1628(Ov107Ctx *p, int mode)
+void MB_UTIL_MSG_SetWindowLayout(Ov107Ctx *p, int mode)
 {
     if (p->f04 != mode) {
         if (p->f10 != 0) {

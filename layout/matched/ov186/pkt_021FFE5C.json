@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFE5C",
+   "name": "BR_POKESEARCH_Open",
    "address": "0x021FFE5C",
    "kind": "game",
    "region": "ov186",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0A4
+ * function: COMM_TVT_SYS_GetSelfSlot
  * address:  0x021BE0A4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE0A4(void *p)
+u32 COMM_TVT_SYS_GetSelfSlot(void *p)
 {
     return ((struct Obj24127 *)p)->f19;
 }

@@ -11,15 +11,15 @@
  *
  * symbols:
  *   TCBL_Main  0x020310C4  arm
- *   func_021F78E4  0x021F78E4  thumb  ov094
+ *   BTLV_EFFECT_Main  0x021F78E4  thumb  ov094
  */
 #include "../include/Obj21551.h"
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_021F78E4(void);
+extern void BTLV_EFFECT_Main(void);
 
 void BTLV_CORE_Update(char *p)
 {
     TCBL_Main(((struct Obj21551 *)p)->f178);
-    func_021F78E4();
+    BTLV_EFFECT_Main();
 }

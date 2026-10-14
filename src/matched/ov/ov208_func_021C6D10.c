@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6D10
+ * function: ZUKAN_DETAIL_FORM_HandleScrollKey
  * address:  0x021C6D10
  * packet:   pkt_ov208_021C6D10
  * region:   ov208
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021C6E30  0x021C6E30  thumb
- *   ov208_func_021C6D6C  0x021C6D6C  thumb
+ *   ZUKAN_DETAIL_FORM_CountEntriesBefore  0x021C6E30  thumb
+ *   ZUKAN_DETAIL_FORM_GetScrollSlotRange  0x021C6D6C  thumb
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 
@@ -27,8 +27,8 @@ struct Ov208Cursor {
     s16 y;
 };
 
-extern u16  ov208_func_021C6E30(void *a0, u8 *p, int a2, u16 skip, u16 stop);
-extern void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi);
+extern u16  ZUKAN_DETAIL_FORM_CountEntriesBefore(void *a0, u8 *p, int a2, u16 skip, u16 stop);
+extern void ZUKAN_DETAIL_FORM_GetScrollSlotRange(int n, int i, u8 *lo, u8 *mid, u8 *hi);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -36,7 +36,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-int ov208_func_021C6D10(void *a0, u8 *p, int a2)
+int ZUKAN_DETAIL_FORM_HandleScrollKey(void *a0, u8 *p, int a2)
 {
     struct Ov208Cursor c;
     int moved;
@@ -44,8 +44,8 @@ int ov208_func_021C6D10(void *a0, u8 *p, int a2)
 
     moved = 0;
     if (W(0x698) != 0) {
-        i = ov208_func_021C6E30(a0, p, a2, H(0x54e), H(0x550));
-        ov208_func_021C6D6C((u16)(H(0x548) - 1), i, 0, &c.slot, 0);
+        i = ZUKAN_DETAIL_FORM_CountEntriesBefore(a0, p, a2, H(0x54e), H(0x550));
+        ZUKAN_DETAIL_FORM_GetScrollSlotRange((u16)(H(0x548) - 1), i, 0, &c.slot, 0);
         c.x = c.slot;
         c.y = 0x30;
         CLACT_AddActorSurfacePos((struct Obj *)W(0x5e8), (const struct Vec2 *)(&c.x), 0);

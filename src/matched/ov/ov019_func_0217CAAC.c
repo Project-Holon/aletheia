@@ -10,23 +10,23 @@
  * status: EXACT
  * symbols:
  *   UNION_CHARA_GetBeaconIndex 0x0217AEFC thumb ov019
- *   func_0217ED04 0x0217ED04 thumb ov019
- *   func_0217ED10 0x0217ED10 thumb ov019
- *   func_0217ECE8 0x0217ECE8 thumb ov019
- *   func_0217ED80 0x0217ED80 thumb ov019
- *   func_0217ED8C 0x0217ED8C thumb ov019
- *   func_0217ED64 0x0217ED64 thumb ov019
- *   func_0217ED98 0x0217ED98 thumb ov019
- *   func_0217ED2C 0x0217ED2C thumb ov019
- *   func_0217ED48 0x0217ED48 thumb ov019
- *   func_0217EDA4 0x0217EDA4 thumb ov019
- *   func_0217EE28 0x0217EE28 thumb ov019
- *   func_0217EDBC 0x0217EDBC thumb ov019
- *   func_0217EDB0 0x0217EDB0 thumb ov019
- *   func_0217EE04 0x0217EE04 thumb ov019
- *   func_0217EDD4 0x0217EDD4 thumb ov019
- *   func_0217EDC8 0x0217EDC8 thumb ov019
- *   func_0217EDE0 0x0217EDE0 thumb ov019
+ *   UNION_MSG_GetPartnerBusyMsg 0x0217ED04 thumb ov019
+ *   UNION_MSG_GetTrainerCardChatMsg 0x0217ED10 thumb ov019
+ *   UNION_MSG_GetBattleChatMsg 0x0217ECE8 thumb ov019
+ *   UNION_MSG_GetMultiBattleInviteMsg 0x0217ED80 thumb ov019
+ *   UNION_MSG_GetSpinTradeInviteMsg 0x0217ED8C thumb ov019
+ *   UNION_MSG_GetSpinTradeChatMsg 0x0217ED64 thumb ov019
+ *   UNION_MSG_GetDrawInviteMsg 0x0217ED98 thumb ov019
+ *   UNION_MSG_GetDrawChatMsg 0x0217ED2C thumb ov019
+ *   UNION_MSG_GetTradeChatMsg 0x0217ED48 thumb ov019
+ *   UNION_MSG_GetMultiBattleInviteDeclinedMsg 0x0217EDA4 thumb ov019
+ *   UNION_MSG_GetMultiBattleWaitMsg 0x0217EE28 thumb ov019
+ *   UNION_MSG_GetDrawInviteDeclinedMsg 0x0217EDBC thumb ov019
+ *   UNION_MSG_GetSpinTradeInviteDeclinedMsg 0x0217EDB0 thumb ov019
+ *   UNION_MSG_GetDrawWaitMsg 0x0217EE04 thumb ov019
+ *   UNION_MSG_GetSpinTradeBadEggMsg 0x0217EDD4 thumb ov019
+ *   UNION_MSG_GetSpinTradeNoEggMsg 0x0217EDC8 thumb ov019
+ *   UNION_MSG_GetSpinTradeWaitMsg 0x0217EDE0 thumb ov019
  *   UNION_MSG_GetCategoryTableValue 0x0217F060 thumb ov019
  *   UNION_MSG_SetupPrintTalkMsg 0x0217F210 thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd 0x0217F1EC thumb ov019
@@ -57,12 +57,12 @@ typedef struct {
 } Obj;
 typedef struct { u8 count:3; u8 flag:1; } Bits;
 u16 UNION_CHARA_GetBeaconIndex(u32);
-u16 func_0217ED04(int); u16 func_0217ED10(int); u16 func_0217ECE8(int);
-u16 func_0217ED80(int); u16 func_0217ED8C(int); u16 func_0217ED64(int);
-u16 func_0217ED98(int); u16 func_0217ED2C(int); u16 func_0217ED48(int);
-u16 func_0217EDA4(int); u16 func_0217EE28(int); u16 func_0217EDBC(int);
-u16 func_0217EDB0(int); u16 func_0217EE04(int); u16 func_0217EDD4(int);
-u16 func_0217EDC8(int); u16 func_0217EDE0(int);
+u16 UNION_MSG_GetPartnerBusyMsg(int); u16 UNION_MSG_GetTrainerCardChatMsg(int); u16 UNION_MSG_GetBattleChatMsg(int);
+u16 UNION_MSG_GetMultiBattleInviteMsg(int); u16 UNION_MSG_GetSpinTradeInviteMsg(int); u16 UNION_MSG_GetSpinTradeChatMsg(int);
+u16 UNION_MSG_GetDrawInviteMsg(int); u16 UNION_MSG_GetDrawChatMsg(int); u16 UNION_MSG_GetTradeChatMsg(int);
+u16 UNION_MSG_GetMultiBattleInviteDeclinedMsg(int); u16 UNION_MSG_GetMultiBattleWaitMsg(int); u16 UNION_MSG_GetDrawInviteDeclinedMsg(int);
+u16 UNION_MSG_GetSpinTradeInviteDeclinedMsg(int); u16 UNION_MSG_GetDrawWaitMsg(int); u16 UNION_MSG_GetSpinTradeBadEggMsg(int);
+u16 UNION_MSG_GetSpinTradeNoEggMsg(int); u16 UNION_MSG_GetSpinTradeWaitMsg(int);
 int UNION_MSG_GetCategoryTableValue(int i);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b); u32 UNION_MSG_CheckTalkPrintEnd(u8 *);
 struct Self;
@@ -85,37 +85,37 @@ int UNION_ONESELF_TalkPlayingMain(u8 *ctx, Obj *obj, u8 *a, u8 *state)
     case 0:
         obj->f2d = id;
         switch (id) {
-        case 1: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED04(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
-        case 2: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED10(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+        case 1: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetPartnerBusyMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+        case 2: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetTrainerCardChatMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
-            UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ECE8(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetBattleChatMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         case 20: case 21: case 22: case 23:
             if ((int)((Bits *)((ctx + offset) + 0x2916))->count < UNION_MSG_GetCategoryTableValue(id)) {
-                UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED80(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetMultiBattleInviteMsg(obj->f14->flag));
                 UNION_ONESELF_LoadRegulation((char *)ctx,id);
                 UNION_MSG_SetupRegulationWindow((struct Self *)ctx,(int)a,(int)0,UNION_ONESELF_GetRegulationFlag(id),0);
                 *state = 3;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ECE8(obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetBattleChatMsg(obj->f14->flag));
             UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         case 25:
             if ((int)((Bits *)(ctx + 0x2916 + offset))->count < UNION_MSG_GetCategoryTableValue(id) &&
                 ((Bits *)(ctx + 0x2916 + offset))->flag == 0) {
-                UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED8C(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeInviteMsg(obj->f14->flag));
                 *state = 10;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED64(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeChatMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         case 3:
             if ((int)((Bits *)((ctx + offset) + 0x2916))->count < UNION_MSG_GetCategoryTableValue(id)) {
-                UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED98(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetDrawInviteMsg(obj->f14->flag));
                 *state = 10;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED2C(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
-        case 24: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217ED48(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetDrawChatMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
+        case 24: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetTradeChatMsg(obj->f14->flag)); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         case 0: default: UNION_MSG_SetupPrintTalkMsg(ctx,a,0x151); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state=2; goto done;
         }
         break;
@@ -137,13 +137,13 @@ int UNION_ONESELF_TalkPlayingMain(u8 *ctx, Obj *obj, u8 *a, u8 *state)
         if (UNION_MSG_SelectYesNo(ctx,&selected) == 1) {
             UNION_MSG_DeleteYesNo(ctx);
             if (selected == 0) {
-                UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDA4(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetMultiBattleInviteDeclinedMsg(obj->f14->flag));
                 UNION_ONESELF_SetNextPlayCategory(ctx,0); *state = 2;
             } else if (UNION_ONESELF_CheckEntryParties((int)ctx,obj->f2d,&obj->f64,&obj->f68) == 0) {
                 UNION_MSG_SetupPrintTalkMsg(ctx,a,0x13e); UNION_ONESELF_SetNextPlayCategory(ctx,0); *state = 6;
             } else {
                 obj->f2e = selected; UNION_ONESELF_SetNextPlayCategory(ctx,0x26);
-                UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EE28(obj->f14->flag)); *state = 1;
+                UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetMultiBattleWaitMsg(obj->f14->flag)); *state = 1;
             }
         }
         break;
@@ -175,23 +175,23 @@ int UNION_ONESELF_TalkPlayingMain(u8 *ctx, Obj *obj, u8 *a, u8 *state)
             UNION_MSG_DeleteYesNo(ctx);
             if (selected2 == 0) {
                 switch (obj->f2d) {
-                case 3: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDBC(obj->f14->flag)); break;
-                case 25: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDB0(obj->f14->flag)); break;
+                case 3: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetDrawInviteDeclinedMsg(obj->f14->flag)); break;
+                case 25: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeInviteDeclinedMsg(obj->f14->flag)); break;
                 }
                 UNION_ONESELF_SetNextPlayCategory(ctx,0); *state = 2;
             } else {
                 obj->f2e = selected2; UNION_ONESELF_SetNextPlayCategory(ctx,0x26); *state = 1;
                 switch (obj->f2d) {
-                case 3: UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EE04(obj->f14->flag)); break;
+                case 3: UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetDrawWaitMsg(obj->f14->flag)); break;
                 case 25:
                     save = GAME_DATA_GetMyParty((void *)(*(u32 **)ctx)[2]);
                     if ((int)POKEPARTY_GetBadEggCount(save) > 0) {
-                        UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDD4(obj->f14->flag));
+                        UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeBadEggMsg(obj->f14->flag));
                         UNION_ONESELF_SetNextPlayCategory(ctx,0); *state = 2;
                     } else if (POKEPARTY_GetEggCount(save) == 0) {
-                        UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDC8(obj->f14->flag));
+                        UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeNoEggMsg(obj->f14->flag));
                         UNION_ONESELF_SetNextPlayCategory(ctx,0); *state = 2;
-                    } else UNION_MSG_SetupPrintTalkMsg(ctx,a,func_0217EDE0(obj->f14->flag));
+                    } else UNION_MSG_SetupPrintTalkMsg(ctx,a,UNION_MSG_GetSpinTradeWaitMsg(obj->f14->flag));
                     break;
                 }
             }

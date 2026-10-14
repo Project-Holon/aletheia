@@ -1,5 +1,5 @@
 /*
- * function: func_021E6544
+ * function: POKETRADE_2D_StartIconFlight
  * address: 0x021E6544
  * packet: pkt_ov119_021E6544
  * region: ov119
@@ -13,7 +13,7 @@
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0207C7B4 0x0207C7B4 arm
  *   _ll_mul 0x0209C054 arm
- *   func_021E7248 0x021E7248 thumb ov119
+ *   POKETRADE_2D_InitBezierCurve 0x021E7248 thumb ov119
  */
 #include "../include/Obj05336.h"
 typedef signed long long s64;
@@ -26,9 +26,9 @@ struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern int func_0207C7B4(int);
-extern void func_021E7248(S *,T *,T *,T *,T *,int);
+extern void POKETRADE_2D_InitBezierCurve(S *,T *,T *,T *,T *,int);
 static inline int mul(int a,int b) { return (int)(((s64)a*b+0x800LL)>>12); }
-void func_021E6544(char *p)
+void POKETRADE_2D_StartIconFlight(char *p)
 {
     T end,third,second,first;
     Pt pos;
@@ -43,6 +43,6 @@ void func_021E6544(char *p)
     x=first.x-end.x; y=first.y/2;
     speed=func_0207C7B4((int)((u32)mul(x,x)+(u32)mul(y,y)))/15;
     third.x=(int)((u32)x+(u32)mul(dx,speed)); third.y=(int)((u32)y+(u32)mul(dy,speed)); third.z=0;
-    func_021E7248((S *)(p+0x1190),&first,&second,&third,&end,19);
+    POKETRADE_2D_InitBezierCurve((S *)(p+0x1190),&first,&second,&third,&end,19);
     ((struct Obj05336 *)p)->f11DC=21;
 }

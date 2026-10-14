@@ -12,21 +12,21 @@
  * symbols:
  *   func_021DC720  0x021DC720  thumb
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   func_021E3E40  0x021E3E40  thumb
+ *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   func_02030734  0x02030734  arm
- *   func_021E5284  0x021E5284  thumb
- *   func_021D8AA8  0x021D8AA8  thumb ov119
- *   func_021D8FA4  0x021D8FA4  thumb
- *   func_021E35A0  0x021E35A0  thumb ov119
- *   func_021E36C8  0x021E36C8  thumb  ov119
+ *   POKETRADE_2D_SetupSummaryBgs  0x021E5284  thumb
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb ov119
+ *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb
+ *   POKETRADE_3D_AddPokemonMcss  0x021E35A0  thumb ov119
+ *   POKETRADE_3D_AddPokemonMcssPlain  0x021E36C8  thumb  ov119
  *   MCSS_GetScale  0x02015C94  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
- *   func_021E2F34  0x021E2F34  thumb
- *   func_021E2FB0  0x021E2FB0  thumb ov119
- *   func_021E2D70  0x021E2D70  thumb
+ *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb
+ *   POKETRADE_3D_SetupParticleSystemsLow  0x021E2FB0  thumb ov119
+ *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
  *   func_021D6738  0x021D6738  thumb
- *   func_021D8E84  0x021D8E84  thumb
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb
  *   func_021D7100  0x021D7100  thumb
  *   d_021D866C  0x021D866C  data
  *
@@ -40,22 +40,22 @@ typedef unsigned char u8;
 
 extern void func_021DC720(void *p);
 extern void CLACT_ExitSystem(void);
-extern void func_021E3E40(void *p);
+extern void POKETRADE_2D_InitClactSystemMain(void *p);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021E5284(void *p, int a);
-extern int func_021D8AA8(void *p);
-extern void *func_021D8FA4(void *, int);
-extern void func_021E35A0(void *p, int a, int b, void *mon, int c);
-extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
+extern void POKETRADE_2D_SetupSummaryBgs(void *p, int a);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void *POKETRADE_PROC_GetSideMon(void *, int);
+extern void POKETRADE_3D_AddPokemonMcss(void *p, int a, int b, void *mon, int c);
+extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, int c);
 extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetVanishFlag(void *p);
-extern void func_021E2F34(void *w);
-extern void func_021E2FB0(char *p);
-extern void func_021E2D70(void *w, int a);
+extern void POKETRADE_3D_InitParticleSystems(void *w);
+extern void POKETRADE_3D_SetupParticleSystemsLow(char *p);
+extern void POKETRADE_3D_CreateIcaStreamsForMode(void *w, int a);
 extern void func_021D6738(u8 *p, u32 v);
-extern void func_021D8E84(void *p, int next);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void func_021D7100(u8 *p);
 extern const char d_021D866C[];
 
@@ -67,21 +67,21 @@ void func_021D6F90(u8 *p)
 {
     func_021DC720(p);
     CLACT_ExitSystem();
-    func_021E3E40(p);
+    POKETRADE_2D_InitClactSystemMain(p);
     ((struct Obj00001 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D866C, 0x9D);
     *(u16 *)(WORK + 0xBA) = HEAP;
-    func_021E5284(p, 0);
+    POKETRADE_2D_SetupSummaryBgs(p, 0);
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u16 *)0x04000050 = 0;
-    if (func_021D8AA8(p)) {
-        func_021E35A0(p, 1, 0, func_021D8FA4(p, 1), 0);
-        func_021E35A0(p, 2, 0, func_021D8FA4(p, 0), 0);
-        func_021E35A0(p, 3, 1, func_021D8FA4(p, 1), 0);
+    if (POKETRADE_PROC_IsHostSide(p)) {
+        POKETRADE_3D_AddPokemonMcss(p, 1, 0, POKETRADE_PROC_GetSideMon(p, 1), 0);
+        POKETRADE_3D_AddPokemonMcss(p, 2, 0, POKETRADE_PROC_GetSideMon(p, 0), 0);
+        POKETRADE_3D_AddPokemonMcss(p, 3, 1, POKETRADE_PROC_GetSideMon(p, 1), 0);
     } else {
-        func_021E36C8(p, 1, 0, func_021D8FA4(p, 1), 0);
-        func_021E36C8(p, 2, 0, func_021D8FA4(p, 0), 0);
-        func_021E36C8(p, 3, 1, func_021D8FA4(p, 1), 0);
+        POKETRADE_3D_AddPokemonMcssPlain(p, 1, 0, POKETRADE_PROC_GetSideMon(p, 1), 0);
+        POKETRADE_3D_AddPokemonMcssPlain(p, 2, 0, POKETRADE_PROC_GetSideMon(p, 0), 0);
+        POKETRADE_3D_AddPokemonMcssPlain(p, 3, 1, POKETRADE_PROC_GetSideMon(p, 1), 0);
     }
     MCSS_GetScale((void *)OBJ(0), (u32 *)(WORK + 0x60));
     MCSS_GetScale((void *)OBJ(1), (u32 *)(WORK + 0x6C));
@@ -90,9 +90,9 @@ void func_021D6F90(u8 *p)
     MCSS_SetVanishFlag((void *)OBJ(1));
     MCSS_SetVanishFlag((void *)OBJ(2));
     MCSS_SetVanishFlag((void *)OBJ(3));
-    func_021E2F34(WORK);
-    func_021E2FB0((char *)WORK);
-    func_021E2D70(WORK, 0);
+    POKETRADE_3D_InitParticleSystems(WORK);
+    POKETRADE_3D_SetupParticleSystemsLow((char *)WORK);
+    POKETRADE_3D_CreateIcaStreamsForMode(WORK, 0);
     func_021D6738(p, 0);
-    func_021D8E84(p, (int)func_021D7100);
+    POKETRADE_PROC_SetStep(p, (int)func_021D7100);
 }

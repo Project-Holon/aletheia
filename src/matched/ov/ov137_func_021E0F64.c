@@ -1,5 +1,5 @@
 /*
- * function: func_021E0F64
+ * function: GURU2_MAIN_AddSettleEffect
  * address: 0x021E0F64
  * packet: pkt_ov137_021E0F64
  * region: ov137
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef struct { int active, state, x, y, key; } Entry;
-void func_021E0F64(char *p, int key)
+void GURU2_MAIN_AddSettleEffect(char *p, int key)
 {
     int i;
     Entry *entry;

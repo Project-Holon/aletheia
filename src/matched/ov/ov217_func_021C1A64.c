@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A64
+ * function: CircleGraph_StoreCenter
  * address:  0x021C1A64
  * packet:   pkt_ov217_021C1A64
  * region:   ov217
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef short s16;
 struct Pos { s16 x; s16 y; s16 z; };
 
-void func_021C1A64(u8 *p, const struct Pos *v)
+void CircleGraph_StoreCenter(u8 *p, const struct Pos *v)
 {
     s16 z = v->z;
     s16 y = v->y;

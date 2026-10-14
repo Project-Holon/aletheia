@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2DC8",
+   "name": "jpeg_exif_get_tag_size",
    "address": "0x021C2DC8",
    "kind": "sdk",
    "region": "ov172",

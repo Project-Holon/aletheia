@@ -1,5 +1,5 @@
 /*
- * function: func_021F896C
+ * function: BTLV_EFFECT_RegisterTask
  * address:  0x021F896C
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F8B40  0x021F8B40  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFECT_FindFreeTaskSlot  0x021F8B40  thumb  ov094
  */
 typedef struct {
     char pad[8];
@@ -20,15 +20,15 @@ typedef struct {
     int arg[32];           /* 0x108 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern int func_021F8B40(void);
+extern int BTLV_EFFECT_FindFreeTaskSlot(void);
 
-void func_021F896C(void *h, void (*cb)(void *), int arg)
+void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg)
 {
-    int i = func_021F8B40();
+    int i = BTLV_EFFECT_FindFreeTaskSlot();
 
-    d_0220AF20->handle[i] = h;
-    d_0220AF20->cb[i] = cb;
-    d_0220AF20->arg[i] = arg;
+    gBtlvEff->handle[i] = h;
+    gBtlvEff->cb[i] = cb;
+    gBtlvEff->arg[i] = arg;
 }

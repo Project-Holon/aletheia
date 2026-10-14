@@ -1,5 +1,5 @@
 /*
- * function: func_021DD964
+ * function: DENDOU_VIEW_DrawTitle
  * address: 0x021DD964
  * packet: pkt_ov171_021DD964
  * region: ov171
@@ -16,7 +16,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_021DD94C 0x021DD94C thumb ov171
+ *   DENDOU_VIEW_PresentWindow 0x021DD94C thumb ov171
  */
 #include "../include/Obj00210.h"
 #include "../include/Obj24055.h"
@@ -37,8 +37,8 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_021DD94C(int *);
-void func_021DD964(u8 *p)
+extern void DENDOU_VIEW_PresentWindow(int *);
+void DENDOU_VIEW_DrawTitle(u8 *p)
 {
     u32 offset;
     u8 *group;
@@ -66,5 +66,5 @@ void func_021DD964(u8 *p)
     width=BMP_WIN_GetDispWidth(((struct Obj00210 *)p)->fB48);
     TOUCHBAR_PrintAligned(p+0xb48,(void *)(((struct Obj00210 *)p)->fB6C),width<<3,0,*(u32 *)&((struct Obj00210 *)p)->fB68,*(u32 *)&((struct Obj00210 *)p)->fB58,0x14c0,1);
     STRBUF_Delete(s2);
-    func_021DD94C((int *)(p+0xb48));
+    DENDOU_VIEW_PresentWindow((int *)(p+0xb48));
 }

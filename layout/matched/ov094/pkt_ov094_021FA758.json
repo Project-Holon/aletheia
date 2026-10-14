@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA758",
+   "name": "BTLV_EFFVM_CmdDeleteParticleEmitter",
    "address": "0x021FA758",
    "kind": "game",
    "region": "ov094",

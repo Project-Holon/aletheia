@@ -1,5 +1,5 @@
 /*
- * function: func_021B61B4
+ * function: HALL_OF_FAME_VBlankTrainer
  * address: 0x021B61B4
  * packet: pkt_ov180_021B61B4
  * region: ov180
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern u32 SDK_AUTOLOAD_DTCM_START[];
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
-void func_021B61B4(void)
+void HALL_OF_FAME_VBlankTrainer(void)
 {
     func_020419E4();
     CLACT_VBlankSystem();

@@ -1,5 +1,5 @@
 /*
- * function: func_021F9660
+ * function: WORLDTRADE_INPUT_MenuFinish
  * address:  0x021F9660
  * packet:   pkt_021F9660
  * region:   ov135
@@ -50,7 +50,7 @@ extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6
 extern void func_020409B4(u32 layer);
 extern void func_02040DA8(u32, u32, u32);
 
-void func_021F9660(Obj *p, int mode)
+void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
 {
     s8 bright[2];
     int i = 0;

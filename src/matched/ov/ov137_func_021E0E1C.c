@@ -1,5 +1,5 @@
 /*
- * function: func_021E0E1C
+ * function: GURU2_MAIN_DeleteBounceEffectTask
  * address:  0x021E0E1C
  * packet:   pkt_021E0E1C
  * region:   ov137
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021E0E1C(u8 *p)
+void GURU2_MAIN_DeleteBounceEffectTask(u8 *p)
 {
     func_02030EAC(((struct Obj23787 *)p)->fD7C);
 }

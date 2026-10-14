@@ -192,7 +192,7 @@ typedef struct UnionChatLog {
     s32 drawnIndex;           /* 0x444 -1 empty */
 } UnionChatLog;
 
-/* Sub-event request run by func_0217416C (work + 0x3548). */
+/* Sub-event request run by UNION_MAIN_SubEventMain (work + 0x3548). */
 typedef struct UnionSubEvent {
     int active;     /* 0x00 */
     int id;         /* 0x04 index in the sub-event table */

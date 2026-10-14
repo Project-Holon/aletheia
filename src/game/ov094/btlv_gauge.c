@@ -1,7 +1,7 @@
 /*
  * file:     btlv_gauge.c
  * unit:     yes
- * function: func_02206BC8, func_02206E28, func_02206EB4, func_022070C0, func_02207288, func_02207430, func_0220778C, func_0220785C, func_0220793C, func_02207960, BTLV_GAUGE_PlaceSlot, BTLV_GAUGE_StartHpChangeAnimated, BTLV_GAUGE_StartHpChangeInstant, BTLV_GAUGE_StartExpGain, BTLV_GAUGE_RefreshForLevelUp, BTLV_GAUGE_IsAnimating, BTLV_GAUGE_SetSideVisible, BTLV_GAUGE_SetSlotVisible, BTLV_GAUGE_IsSlotOccupied, BTLV_GAUGE_TakeSlotEvent, BTLV_GAUGE_StartHpChange, BTLV_GAUGE_UpdateHpAnim, BTLV_GAUGE_StartExpChange, BTLV_GAUGE_UpdateExpAnim, BTLV_GAUGE_StepValue, BTLV_GAUGE_CalcTileFill, BTLV_GAUGE_CalcPixelChange, BTLV_GAUGE_DrawNickname, BTLV_GAUGE_DrawGender, BTLV_GAUGE_DrawBar, BTLV_GAUGE_DrawHpNumbers, BTLV_GAUGE_DrawLevel, BTLV_GAUGE_DrawCaughtIcon, BTLV_GAUGE_DrawHpLoss, BTLV_GAUGE_UpdateLevelUp, BTLV_GAUGE_BobSlot, BTLV_GAUGE_SetStatusIcon, BTLV_GAUGE_SelectSlot, BTLV_GAUGE_IsLowHpBgmPlaying, BTLV_GAUGE_SetLowHpBgmPlaying, BTLV_GAUGE_SetSavedBgmNo, BTLV_GAUGE_SetBgmReplaced, BTLV_GAUGE_SetLowHpBgmSuppressed, BTLV_GAUGE_GetSlotHealthInfo, BTLV_GAUGE_RequestStop, BTLV_GAUGE_HideSlot, BTLV_GAUGE_UpdateLowHpBgm, BTLV_GAUGE_TaskSlideSlot, BTLV_GAUGE_TaskFlashPalettes, BTLV_GAUGE_SetBgmPlayerParam, BTLV_GAUGE_CalcBarPixels, BTLV_GAUGE_SetSlotBarsVisible
+ * function: BTLV_GAUGE_Create, BTLV_GAUGE_Delete, BTLV_GAUGE_FlashTaskMain, BTLV_GAUGE_InitSlotFromBattlePoke, BTLV_GAUGE_InitSlotFromPartyPoke, BTLV_GAUGE_LoadSlotResources, BTLV_GAUGE_ReleaseSlotResources, BTLV_GAUGE_UpdateSlot, BTLV_GAUGE_UpdateHpBarPixels, BTLV_GAUGE_DeleteSlotTask, BTLV_GAUGE_PlaceSlot, BTLV_GAUGE_StartHpChangeAnimated, BTLV_GAUGE_StartHpChangeInstant, BTLV_GAUGE_StartExpGain, BTLV_GAUGE_RefreshForLevelUp, BTLV_GAUGE_IsAnimating, BTLV_GAUGE_SetSideVisible, BTLV_GAUGE_SetSlotVisible, BTLV_GAUGE_IsSlotOccupied, BTLV_GAUGE_TakeSlotEvent, BTLV_GAUGE_StartHpChange, BTLV_GAUGE_UpdateHpAnim, BTLV_GAUGE_StartExpChange, BTLV_GAUGE_UpdateExpAnim, BTLV_GAUGE_StepValue, BTLV_GAUGE_CalcTileFill, BTLV_GAUGE_CalcPixelChange, BTLV_GAUGE_DrawNickname, BTLV_GAUGE_DrawGender, BTLV_GAUGE_DrawBar, BTLV_GAUGE_DrawHpNumbers, BTLV_GAUGE_DrawLevel, BTLV_GAUGE_DrawCaughtIcon, BTLV_GAUGE_DrawHpLoss, BTLV_GAUGE_UpdateLevelUp, BTLV_GAUGE_BobSlot, BTLV_GAUGE_SetStatusIcon, BTLV_GAUGE_SelectSlot, BTLV_GAUGE_IsLowHpBgmPlaying, BTLV_GAUGE_SetLowHpBgmPlaying, BTLV_GAUGE_SetSavedBgmNo, BTLV_GAUGE_SetBgmReplaced, BTLV_GAUGE_SetLowHpBgmSuppressed, BTLV_GAUGE_GetSlotHealthInfo, BTLV_GAUGE_RequestStop, BTLV_GAUGE_HideSlot, BTLV_GAUGE_UpdateLowHpBgm, BTLV_GAUGE_TaskSlideSlot, BTLV_GAUGE_TaskFlashPalettes, BTLV_GAUGE_SetBgmPlayerParam, BTLV_GAUGE_CalcBarPixels, BTLV_GAUGE_SetSlotBarsVisible
  * address:  0x02206BC8
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -84,8 +84,8 @@
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   BTLV_GAUGE_TaskFlashPalettes 0x02208BFC thumb ov094
- *   d_0220AEC0 0x0220AEC0 data a1
- *   d_0220AABC 0x0220AABC data a2
+ *   gBtlvGaugeSourceFileName 0x0220AEC0 data a1
+ *   gBtlvGaugeSlideInOffset 0x0220AABC data a2
  *   BTLV_GAUGE_SetBgmPlayerParam  0x02208D24  thumb  ov094
  *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
  *   BTLV_GAUGE_StepValue 0x02207F6C thumb ov094
@@ -106,7 +106,7 @@
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
  *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
- *   d_0220AAC8 0x0220AAC8 data
+ *   gBtlvGaugeActorInit 0x0220AAC8 data
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   BTLV_GAUGE_DrawNickname 0x022080F4 thumb ov094
  *   BTLV_GAUGE_DrawGender 0x02208268 thumb ov094
@@ -115,7 +115,7 @@
  *   BTLV_GAUGE_DrawCaughtIcon 0x02208650 thumb ov094
  *   BTLV_GAUGE_TaskSlideSlot 0x02208B10 thumb ov094
  *   BTLV_GAUGE_CalcBarPixels 0x02208D38 thumb ov094
- *   d_0220AAB4     0x0220AAB4  data   ov094  a2
+ *   gBtlvGaugeSlideOutOffset     0x0220AAB4  data   ov094  a2
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  *   BMP_Create  0x02043678  arm  arm9
  *   BMP_Delete  0x020437AC  arm  arm9
@@ -126,37 +126,32 @@
  *   sGaugeLayout2Positions  0x0220AB0C  data  ov094  a2
  *   sGaugeLayout3Positions  0x0220AB2C  data  ov094  a2
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
- *   func_0220793C  0x0220793C  thumb  ov094
+ *   BTLV_GAUGE_UpdateHpBarPixels  0x0220793C  thumb  ov094
  *   func_0201D304 0x0201D304 thumb
  *   func_0201F35C 0x0201F35C thumb
  *   sGaugeStatusAnimTable     0x0220AAF0  data   ov094  a4
  *   sGaugeHomeOffset     0x0220AAB8  data  ov094  a2
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   func_021F882C 0x021F882C thumb ov094
+ *   BTLV_EFFECT_IsBgmSaved 0x021F882C thumb ov094
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   sGaugeFlashMasks 0x0220AB4C data a4
  *   func_0209C2B0  0x0209C2B0  arm
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
- *   func_021F8710 0x021F8710 thumb ov094
- *   func_021F8720 0x021F8720 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
+ *   BTLV_EFFECT_GetCompetitorType 0x021F8720 thumb ov094
  */
-#include "../../matched/include/Obj21804.h"
-#include "../../matched/include/Obj00380.h"
-#include "../../matched/include/Obj00974.h"
 #include "btlv_effvm_types.h"
 #include "btlv_gauge_types.h"
-#include "btlv_effect_shared_types.h"
-#include "btlv_effvm_shared_types.h"
-#include "btlv_clact_shared_types.h"
-#include "btlv_input_shared_types.h"
 
-struct Blk37;
+struct ZukanSave;
+struct BtlMain;
+struct PalAnmSystem; /* palette animation system of the battle view */
 
-typedef struct { u32 v; } Word;
+typedef struct { u32 raw; } BtlSickCont;
 
 extern u32 func_020307B0(void *p);
 
@@ -168,9 +163,9 @@ void BTLV_GAUGE_SetStatusIcon(BtlvGaugeWork *work, int status, int slotIdx);
 
 extern int GFL_USE_PopBgm(void);
 
-extern u32 TCBL_GetTaskUserData(void *task);
+extern void *TCBL_GetTaskUserData(void *task);
 
-extern u32 TCBL_GetTaskUserData(void *task);
+extern void *TCBL_GetTaskUserData(void *task);
 
 extern u32 KEY_GetTrg(void);
 
@@ -212,7 +207,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void CLACT_DeleteActor(struct ClActor *actor);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSystem *palAnm, u32 bank, u32 off, u32 size);
 
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
@@ -228,13 +223,13 @@ extern u32 func_020276C0(u32 i);
 
 extern u32 func_020276B4(void);
 
-extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned);
+extern void PALANM_BlendChannelMask(struct PalAnmSystem *palAnm, unsigned bank, u16 mask, unsigned level, unsigned color);
 
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 fileId, u32 flag, void *outFile, u16 heapId);
 
 extern u16 GFL_USE_GetBgmNo(void);
 
-void BTLV_GAUGE_TaskFlashPalettes(void *task, BtlvGaugeFlashTask *flash);
+void BTLV_GAUGE_TaskFlashPalettes(void *task, void *arg);
 
 void BTLV_GAUGE_SetBgmPlayerParam(int bgmParam);
 
@@ -260,19 +255,19 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *pp);
 
 extern u32 POKE_TOOL_GetExpForLevel(u16 species, u16 form, u16 level);
 
-extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
+extern int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, struct BtlPokeParam *pp);
 
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *pp);
 
 extern u8 POKE_TOOL_GetGender(void *);
 
-extern Word BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *, int);
+extern BtlSickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *, int);
 
-extern int BTLV_CORE_IsSlotKind1Index15(Word);
+extern int BTLV_CORE_IsSlotKind1Index15(BtlSickCont);
 
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *pp);
 
-extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, u16 species);
 
 extern u32 POKE_TOOL_GetStatusCondition(void *);
 
@@ -288,124 +283,124 @@ void BTLV_GAUGE_DrawLevel(BtlvGaugeWork *work, BtlvGaugeSlot *slot);
 
 void BTLV_GAUGE_DrawCaughtIcon(BtlvGaugeWork *work, BtlvGaugeSlot *slot);
 
-void BTLV_GAUGE_TaskSlideSlot(void *task, BtlvGaugeSlot *slot);
+void BTLV_GAUGE_TaskSlideSlot(void *task, void *arg);
 
 int BTLV_GAUGE_CalcBarPixels(int value, int maxValue, int scale);
 
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 
-extern int func_021F86E0(void);
+extern struct PalAnmSystem *BTLV_EFFECT_GetPalanm(void);
 
-int func_021F8710(void);
+int BTLV_EFFECT_GetMode(void);
 
-int func_021F8720(void);
+int BTLV_EFFECT_GetCompetitorType(void);
 
-BtlvGaugeWork *func_02206BC8(void *font, u16 heap);
+BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId);
 
-void func_02206E28(BtlvGaugeWork *work);
+void BTLV_GAUGE_Delete(BtlvGaugeWork *work);
 
-void func_02206EB4(BtlvGaugeWork *work);
+void BTLV_GAUGE_FlashTaskMain(BtlvGaugeWork *work);
 
-void func_022070C0(BtlvGaugeWork *work, void *a, struct BtlPokeParam *q, int mode, int i);
+void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, int layout, int slotIdx);
 
-void func_02207288(BtlvGaugeWork *work, void *a, void *q, int mode, int i);
+void BTLV_GAUGE_InitSlotFromPartyPoke(BtlvGaugeWork *work, struct ZukanSave *zukanSave, void *partyPoke, int layout, int slotIdx);
 
-void func_02207430(BtlvGaugeWork *work, int mode, int i);
+void BTLV_GAUGE_LoadSlotResources(BtlvGaugeWork *work, int layout, int slotIdx);
 
-void func_0220778C(BtlvGaugeWork *work, int i);
+void BTLV_GAUGE_ReleaseSlotResources(BtlvGaugeWork *work, int slotIdx);
 
-void func_0220785C(BtlvGaugeWork *work, int unused, int idx, void *data);
+void BTLV_GAUGE_UpdateSlot(BtlvGaugeWork *work, int layout, int slotIdx, void *pokeParam);
 
-extern void func_0220793C(BtlvGaugeSlot *slot);
+extern void BTLV_GAUGE_UpdateHpBarPixels(BtlvGaugeSlot *slot);
 
-void func_02207960(BtlvGaugeWork *work, int i);
+void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx);
 
-extern const char d_0220AEC0[];
+extern const char gBtlvGaugeSourceFileName[];
 
-extern const BtlvGaugePoint d_0220AABC;
+extern const BtlvGaugePoint gBtlvGaugeSlideInOffset;
 
-extern const Cfg d_0220AAC8;
+extern const BtlvGaugeActorInit gBtlvGaugeActorInit;
 
-extern const BtlvGaugePoint d_0220AAB4;
+extern const BtlvGaugePoint gBtlvGaugeSlideOutOffset;
 
-BtlvGaugeWork *func_02206BC8(void *font, u16 heap)
+BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId)
 {
     BtlvGaugeTileFile *tileFile;
     BtlvGaugePoint pos;
     BtlvGaugePoint base;
     BtlvGaugeWork *work;
     int i;
-    void *arc;
+    void *statusArc;
     BtlvGaugeFlashTask *task;
-    int lo, hi, kind;
+    int firstSlot, lastSlot, layout;
 
-    work = func_02030734(heap, sizeof(BtlvGaugeWork), 1, d_0220AEC0, 0x14b);
-    work->heapId = heap;
+    work = func_02030734(heapId, sizeof(BtlvGaugeWork), 1, gBtlvGaugeSourceFileName, 0x14b);
+    work->heapId = heapId;
     work->arcHandle = func_020490F4(0xb, (u16)work->heapId);
     work->unit = CLACT_CreateUnit(0x28, 0, work->heapId);
     for (i = 0; i < 6; i++) {
         work->palRes[i] = CLACT_RegisterPalette(work->arcHandle, 0xa2, 0, (u16)(i * 0x20), work->heapId);
-        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(work->palRes[i], 0) >> 1), 0x20);
+        PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->palRes[i], 0) >> 1), 0x20);
     }
-    arc = func_020490F4(func_020275E4(), (u16)((work->heapId & 0x7fff) | 0x8000));
-    work->statusCharRes = CLACT_RegisterCharacter(arc, func_020276B8(), 0, 0, work->heapId);
-    work->statusCellRes = CLACT_RegisterCellAnim(arc, func_020276BC(1), func_020276C0(1), work->heapId);
-    work->statusPalRes[0] = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x100, work->heapId);
-    work->statusPalRes[1] = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x120, work->heapId);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[0], 0) >> 1), 0x20);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[1], 0) >> 1), 0x20);
-    PALANM_BlendChannelMask((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
-    ARC_TOOL_DeleteHandle(arc);
+    statusArc = func_020490F4(func_020275E4(), (u16)((work->heapId & 0x7fff) | 0x8000));
+    work->statusCharRes = CLACT_RegisterCharacter(statusArc, func_020276B8(), 0, 0, work->heapId);
+    work->statusCellRes = CLACT_RegisterCellAnim(statusArc, func_020276BC(1), func_020276C0(1), work->heapId);
+    work->statusPalRes[0] = CLACT_RegisterPalette(statusArc, func_020276B4(), 0, 0x100, work->heapId);
+    work->statusPalRes[1] = CLACT_RegisterPalette(statusArc, func_020276B4(), 0, 0x120, work->heapId);
+    PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[0], 0) >> 1), 0x20);
+    PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[1], 0) >> 1), 0x20);
+    PALANM_BlendChannelMask(BTLV_EFFECT_GetPalanm(), 2, 0x200, 8, 0);
+    ARC_TOOL_DeleteHandle(statusArc);
     work->screenData = ARC_UTIL_LoadScreenDataFromHandle(work->arcHandle, 0xa4, 0, &tileFile, work->heapId);
     work->tileGfx = tileFile->pixels;
     work->font = font;
     work->savedBgmNo = GFL_USE_GetBgmNo();
-    task = func_02030734(heap, sizeof(BtlvGaugeFlashTask), 1, d_0220AEC0, 0x185);
+    task = func_02030734(heapId, sizeof(BtlvGaugeFlashTask), 1, gBtlvGaugeSourceFileName, 0x185);
     task->work = work;
-    work->flashTask = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_GAUGE_TaskFlashPalettes, task, 0);
-    switch (func_021F8710()) {
+    work->flashTask = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskFlashPalettes, task, 0);
+    switch (BTLV_EFFECT_GetMode()) {
     case 0:
-        lo = 0;
-        hi = 1;
-        kind = 0;
+        firstSlot = 0;
+        lastSlot = 1;
+        layout = 0;
         break;
     case 1:
-        lo = 2;
-        hi = 5;
-        kind = 1;
+        firstSlot = 2;
+        lastSlot = 5;
+        layout = 1;
         break;
     case 2:
     default:
-        lo = 2;
-        hi = 7;
-        kind = 2;
+        firstSlot = 2;
+        lastSlot = 7;
+        layout = 2;
         break;
     case 3:
-        lo = 2;
-        hi = 7;
-        kind = 3;
+        firstSlot = 2;
+        lastSlot = 7;
+        layout = 3;
         break;
     }
-    for (i = lo; i <= hi; i++) {
-        base = d_0220AABC;
+    for (i = firstSlot; i <= lastSlot; i++) {
+        base = gBtlvGaugeSlideInOffset;
         pos = base;
         if (i & 1)
             pos.x *= -1;
-        func_02207430(work, kind, i);
-        work->slots[i].layout = kind;
+        BTLV_GAUGE_LoadSlotResources(work, layout, i);
+        work->slots[i].layout = layout;
         BTLV_GAUGE_PlaceSlot(work, i, &pos);
     }
     return work;
 }
 
-void func_02206E28(BtlvGaugeWork *work)
+void BTLV_GAUGE_Delete(BtlvGaugeWork *work)
 {
     BtlvGaugeSlotIndex i;
     int j;
 
     for (i = BTLV_GAUGE_SLOT_FIRST; i < BTLV_GAUGE_SLOT_COUNT; i++) {
-        func_02207960(work, i);
-        func_0220778C(work, i);
+        BTLV_GAUGE_DeleteSlotTask(work, i);
+        BTLV_GAUGE_ReleaseSlotResources(work, i);
     }
     if (work->flags.lowHpBgmPlaying) {
         GFL_USE_PopBgm();
@@ -420,7 +415,7 @@ void func_02206E28(BtlvGaugeWork *work)
     CLACT_DeleteUnit(work->unit);
     func_020307B0(work->screenData);
     ARC_TOOL_DeleteHandle(work->arcHandle);
-    func_020307B0((void *)TCBL_GetTaskUserData(work->flashTask));
+    func_020307B0(TCBL_GetTaskUserData(work->flashTask));
     func_02030EAC(work->flashTask);
     func_020307B0(work);
 }
@@ -428,12 +423,12 @@ void func_02206E28(BtlvGaugeWork *work)
 /*
  * lever: int mode, i, found puts the scan index in r0 and found in r1; mode, found, i differed at seven bytes.
  */
-void func_02206EB4(BtlvGaugeWork *work)
+void BTLV_GAUGE_FlashTaskMain(BtlvGaugeWork *work)
 {
     int mode, i, found;
     KEY_GetTrg();
     if (work->flags.stopRequested) {
-        mode = func_021F8710();
+        mode = BTLV_EFFECT_GetMode();
         work->flags.stopRequested = 0;
         if (mode != 0 && mode != 1) {
             found = 0;
@@ -460,7 +455,7 @@ void func_02206EB4(BtlvGaugeWork *work)
             BTLV_GAUGE_UpdateHpAnim(work, i);
         if (work->slots[i].flags.expAnimating) {
             if (work->slots[i].flags.expStep == 0)
-                GFL_USE_PlaySeDefaultVolume(0x56d);
+                GFL_USE_PlaySeDefaultVolume(BTLV_GAUGE_SE_EXP_TICK);
             BTLV_GAUGE_UpdateExpAnim(work, i);
         }
         if (work->slots[i].flags.startPending) {
@@ -495,9 +490,9 @@ void func_02206EB4(BtlvGaugeWork *work)
 /*
  * trailing: 02207286..02207288 is two zero alignment bytes.
  *
- * Battle-side twin of func_02207288 (same slot layout).
+ * Battle-side twin of BTLV_GAUGE_InitSlotFromPartyPoke (same slot layout).
  *
- * lever: BTL_POKEPARAM_GetSickContRaw returns a one-word struct (Word) passed by value to
+ * lever: BTL_POKEPARAM_GetSickContRaw returns a one-word struct (BtlSickCont) passed by value to
  * BTLV_CORE_IsSlotKind1Index15, as in the ov093 callers. The struct-return temporary
  * reserves the extra frame word (push r3, sub sp #0x28, slot sp+0x24 never
  * touched) and that one change also flips the slot stores to share work + i*0x80
@@ -505,155 +500,155 @@ void func_02206EB4(BtlvGaugeWork *work)
  * (2026-10-01 note: slot pointer local, char* offsets, inline helpers,
  * nested sub-struct, u8 index, x/y locals were all inert).
  */
-void func_022070C0(BtlvGaugeWork *work, void *a, struct BtlPokeParam *q, int mode, int i)
+void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, int layout, int slotIdx)
 {
-    u32 exp;
+    u32 levelBaseExp;
     u16 species;
-    int item;
+    int statusIcon;
 
-    MIi_CpuClear16(0, &work->slots[i].layout, 0x40);
-    work->slots[i].hp = func_021D59B4(q, 0xd);
-    work->slots[i].maxHp = func_021D59B4(q, 0xe);
-    work->slots[i].hpAnimValue = 0x80000000;
-    work->slots[i].hpDelta = 0;
-    work->slots[i].level = func_021D59B4(q, 0xf);
-    work->slots[i].layout = mode;
-    work->slots[i].side = i & 1;
-    work->slots[i].flags.eventPending = 1;
-    if (work->slots[i].level < 100) {
-        exp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 0x13), func_021D59B4(q, 0xf));
-        work->slots[i].exp = func_021D59B4(q, 0x14) - exp;
-        work->slots[i].expMax = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 0x13), func_021D59B4(q, 0xf) + 1) - exp;
+    MIi_CpuClear16(0, &work->slots[slotIdx].layout, 0x40);
+    work->slots[slotIdx].hp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_HP);
+    work->slots[slotIdx].maxHp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_MAX_HP);
+    work->slots[slotIdx].hpAnimValue = 0x80000000;
+    work->slots[slotIdx].hpDelta = 0;
+    work->slots[slotIdx].level = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL);
+    work->slots[slotIdx].layout = layout;
+    work->slots[slotIdx].side = slotIdx & 1;
+    work->slots[slotIdx].flags.eventPending = 1;
+    if (work->slots[slotIdx].level < 100) {
+        levelBaseExp = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_FORM), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL));
+        work->slots[slotIdx].exp = func_021D59B4(battlePoke, BTLV_GAUGE_BPP_EXP) - levelBaseExp;
+        work->slots[slotIdx].expMax = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(battlePoke), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_FORM), func_021D59B4(battlePoke, BTLV_GAUGE_BPP_LEVEL) + 1) - levelBaseExp;
     } else {
-        work->slots[i].exp = 0;
-        work->slots[i].expMax = 0;
+        work->slots[slotIdx].exp = 0;
+        work->slots[slotIdx].expMax = 0;
     }
-    work->slots[i].expAnimValue = 0x80000000;
-    work->slots[i].expDelta = 0;
-    work->slots[i].unused6e = 0;
-    work->slots[i].caught = BTL_MAIN_CheckZukanSeen(a, q);
-    species = BTL_POKEPARAM_GetSpecies(q);
+    work->slots[slotIdx].expAnimValue = 0x80000000;
+    work->slots[slotIdx].expDelta = 0;
+    work->slots[slotIdx].unused6e = 0;
+    work->slots[slotIdx].caught = BTL_MAIN_CheckZukanSeen(battleMain, battlePoke);
+    species = BTL_POKEPARAM_GetSpecies(battlePoke);
     if (species != 32 && species != 29)
-        work->slots[i].gender = POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(q));
+        work->slots[slotIdx].gender = POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(battlePoke));
     else
-        work->slots[i].gender = 2;
-    if (BTLV_CORE_IsSlotKind1Index15(BTL_POKEPARAM_GetSickContRaw(q, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(q) == 5)
-        item = 6;
+        work->slots[slotIdx].gender = 2;
+    if (BTLV_CORE_IsSlotKind1Index15(BTL_POKEPARAM_GetSickContRaw(battlePoke, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(battlePoke) == 5)
+        statusIcon = 6;
     else
-        item = BTL_POKEPARAM_GetMajorStatusIndex(q);
-    BTLV_GAUGE_SetStatusIcon(work, item, i);
-    BTLV_GAUGE_PlaceSlot(work, i, 0);
-    BTLV_GAUGE_SetSlotBarsVisible(work, i, 1);
-    func_0220793C(&work->slots[i]);
-    func_0220785C(work, mode, i, BTL_POKEPARAM_GetDisplayMon(q));
+        statusIcon = BTL_POKEPARAM_GetMajorStatusIndex(battlePoke);
+    BTLV_GAUGE_SetStatusIcon(work, statusIcon, slotIdx);
+    BTLV_GAUGE_PlaceSlot(work, slotIdx, 0);
+    BTLV_GAUGE_SetSlotBarsVisible(work, slotIdx, 1);
+    BTLV_GAUGE_UpdateHpBarPixels(&work->slots[slotIdx]);
+    BTLV_GAUGE_UpdateSlot(work, layout, slotIdx, BTL_POKEPARAM_GetDisplayMon(battlePoke));
 }
 
 /*
  * trailing: 0220742E..02207430 is two zero alignment bytes.
  * lever: slots are an array member of the object; raw offset casts gave 416 bytes and the wrong field-base spills, while the member form gives exact 422 bytes.
  */
-void func_02207288(BtlvGaugeWork *work, void *a, void *q, int mode, int i)
+void BTLV_GAUGE_InitSlotFromPartyPoke(BtlvGaugeWork *work, struct ZukanSave *zukanSave, void *partyPoke, int layout, int slotIdx)
 {
-    u32 x, y, exp;
+    u32 speciesForExp, formForExp, levelBaseExp;
     u16 species;
-    MIi_CpuClear16(0, &work->slots[i].layout, 0x40);
-    work->slots[i].hp = POKE_TOOL_GetPartyValue(q, 0xa0, 0);
-    work->slots[i].maxHp = POKE_TOOL_GetPartyValue(q, 0xa1, 0);
-    work->slots[i].hpAnimValue = 0x80000000;
-    work->slots[i].hpDelta = 0;
-    work->slots[i].level = POKE_TOOL_GetPartyValue(q, 0x9e, 0);
-    work->slots[i].layout = mode;
-    work->slots[i].side = i & 1;
-    work->slots[i].flags.eventPending = 1;
-    if (work->slots[i].level < 100) {
-        x = POKE_TOOL_GetPartyValue(q, 5, 0);
-        y = POKE_TOOL_GetPartyValue(q, 0x6f, 0);
-        exp = POKE_TOOL_GetExpForLevel(x, y, work->slots[i].level);
-        work->slots[i].exp = POKE_TOOL_GetPartyValue(q, 8, 0) - exp;
-        work->slots[i].expMax = POKE_TOOL_GetExpForLevel(x, y, work->slots[i].level + 1) - exp;
+    MIi_CpuClear16(0, &work->slots[slotIdx].layout, 0x40);
+    work->slots[slotIdx].hp = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_HP, 0);
+    work->slots[slotIdx].maxHp = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_MAX_HP, 0);
+    work->slots[slotIdx].hpAnimValue = 0x80000000;
+    work->slots[slotIdx].hpDelta = 0;
+    work->slots[slotIdx].level = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_LEVEL, 0);
+    work->slots[slotIdx].layout = layout;
+    work->slots[slotIdx].side = slotIdx & 1;
+    work->slots[slotIdx].flags.eventPending = 1;
+    if (work->slots[slotIdx].level < 100) {
+        speciesForExp = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_SPECIES, 0);
+        formForExp = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_FORM, 0);
+        levelBaseExp = POKE_TOOL_GetExpForLevel(speciesForExp, formForExp, work->slots[slotIdx].level);
+        work->slots[slotIdx].exp = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_EXP, 0) - levelBaseExp;
+        work->slots[slotIdx].expMax = POKE_TOOL_GetExpForLevel(speciesForExp, formForExp, work->slots[slotIdx].level + 1) - levelBaseExp;
     } else {
-        work->slots[i].exp = 0;
-        work->slots[i].expMax = 0;
+        work->slots[slotIdx].exp = 0;
+        work->slots[slotIdx].expMax = 0;
     }
-    work->slots[i].expAnimValue = 0x80000000;
-    work->slots[i].expDelta = 0;
-    work->slots[i].unused6e = 0;
-    species = POKE_TOOL_GetPartyValue(q, 5, 0);
-    work->slots[i].caught = ZUKAN_SAVE_IsCaught(a, species);
+    work->slots[slotIdx].expAnimValue = 0x80000000;
+    work->slots[slotIdx].expDelta = 0;
+    work->slots[slotIdx].unused6e = 0;
+    species = POKE_TOOL_GetPartyValue(partyPoke, BTLV_PARTY_VALUE_SPECIES, 0);
+    work->slots[slotIdx].caught = ZUKAN_SAVE_IsCaught(zukanSave, species);
     if (species != 32 && species != 29)
-        work->slots[i].gender = POKE_TOOL_GetGender(q);
+        work->slots[slotIdx].gender = POKE_TOOL_GetGender(partyPoke);
     else
-        work->slots[i].gender = 2;
-    BTLV_GAUGE_SetStatusIcon(work, POKE_TOOL_GetStatusCondition(q), i);
-    BTLV_GAUGE_PlaceSlot(work, i, 0);
-    BTLV_GAUGE_SetSlotBarsVisible(work, i, 1);
-    func_0220793C(&work->slots[i]);
-    func_0220785C(work, mode, i, q);
+        work->slots[slotIdx].gender = 2;
+    BTLV_GAUGE_SetStatusIcon(work, POKE_TOOL_GetStatusCondition(partyPoke), slotIdx);
+    BTLV_GAUGE_PlaceSlot(work, slotIdx, 0);
+    BTLV_GAUGE_SetSlotBarsVisible(work, slotIdx, 1);
+    BTLV_GAUGE_UpdateHpBarPixels(&work->slots[slotIdx]);
+    BTLV_GAUGE_UpdateSlot(work, layout, slotIdx, partyPoke);
 }
 
-void func_02207430(BtlvGaugeWork *work, int mode, int i)
+void BTLV_GAUGE_LoadSlotResources(BtlvGaugeWork *work, int layout, int slotIdx)
 {
-    int chr, pal, cell, cpal, j, n, side;
-    Cfg cfg;
-    switch (mode) {
+    int charFileId, cellFileId, cellAnimFileId, paletteFileId, palIdx, priorityBase, side;
+    BtlvGaugeActorInit actorInit;
+    switch (layout) {
     case 0:
     case 1:
     default:
-        chr = (i & 1) ? 0xa5 : 0xa8;
-        pal = (i & 1) ? 0xa6 : 0xa9;
-        cell = (i & 1) ? 0xa7 : 0xaa;
+        charFileId = (slotIdx & 1) ? 0xa5 : 0xa8;
+        cellFileId = (slotIdx & 1) ? 0xa6 : 0xa9;
+        cellAnimFileId = (slotIdx & 1) ? 0xa7 : 0xaa;
         break;
     case 2:
     case 3:
-        chr = (i & 1) ? 0xab : 0xae;
-        pal = (i & 1) ? 0xac : 0xaf;
-        cell = (i & 1) ? 0xad : 0xb0;
+        charFileId = (slotIdx & 1) ? 0xab : 0xae;
+        cellFileId = (slotIdx & 1) ? 0xac : 0xaf;
+        cellAnimFileId = (slotIdx & 1) ? 0xad : 0xb0;
         break;
     case 4:
         break;
     }
-    if (mode == 3) {
-        j = i;
-        if (i >= 2)
-            j = i - 2;
-        cpal = (i < 4) ? 0xa2 : 0xa3;
-        CLACT_ReleasePalette(work->palRes[j]);
-        work->palRes[j] = CLACT_RegisterPaletteEx(work->arcHandle, cpal, 0, (u16)(j << 5), 0, 1, work->heapId);
-        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(work->palRes[j], 0) >> 1), 0x20);
+    if (layout == 3) {
+        palIdx = slotIdx;
+        if (slotIdx >= 2)
+            palIdx = slotIdx - 2;
+        paletteFileId = (slotIdx < 4) ? 0xa2 : 0xa3;
+        CLACT_ReleasePalette(work->palRes[palIdx]);
+        work->palRes[palIdx] = CLACT_RegisterPaletteEx(work->arcHandle, paletteFileId, 0, (u16)(palIdx << 5), 0, 1, work->heapId);
+        PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->palRes[palIdx], 0) >> 1), 0x20);
     }
-    work->slots[i].frameCharRes = CLACT_RegisterCharacter(work->arcHandle, chr, 0, 0, work->heapId);
-    work->slots[i].frameCellRes = CLACT_RegisterCellAnim(work->arcHandle, pal, cell, work->heapId);
-    work->slots[i].numberCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xba, 0, 0, work->heapId);
-    work->slots[i].numberCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xbb, 0xbc, work->heapId);
-    work->slots[i].barCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb1, 0, 0, work->heapId);
-    work->slots[i].barCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb2, 0xb3, work->heapId);
-    work->slots[i].lossCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb4, 0, 0, work->heapId);
-    work->slots[i].lossCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb5, 0xb3, work->heapId);
-    side = i & 1;
+    work->slots[slotIdx].frameCharRes = CLACT_RegisterCharacter(work->arcHandle, charFileId, 0, 0, work->heapId);
+    work->slots[slotIdx].frameCellRes = CLACT_RegisterCellAnim(work->arcHandle, cellFileId, cellAnimFileId, work->heapId);
+    work->slots[slotIdx].numberCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xba, 0, 0, work->heapId);
+    work->slots[slotIdx].numberCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xbb, 0xbc, work->heapId);
+    work->slots[slotIdx].barCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb1, 0, 0, work->heapId);
+    work->slots[slotIdx].barCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb2, 0xb3, work->heapId);
+    work->slots[slotIdx].lossCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb4, 0, 0, work->heapId);
+    work->slots[slotIdx].lossCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb5, 0xb3, work->heapId);
+    side = slotIdx & 1;
     if (side == 0) {
-        work->slots[i].expCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb7, 0, 0, work->heapId);
-        work->slots[i].expCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb8, 0xb9, work->heapId);
+        work->slots[slotIdx].expCharRes = CLACT_RegisterCharacter(work->arcHandle, 0xb7, 0, 0, work->heapId);
+        work->slots[slotIdx].expCellRes = CLACT_RegisterCellAnim(work->arcHandle, 0xb8, 0xb9, work->heapId);
     }
-    cfg = d_0220AAC8;
-    j = i;
-    if (i >= 2)
-        j = i - 2;
-    n = (7 - i) * 3;
-    cfg.pri = n + 2;
-    work->slots[i].frameActor = CLACT_CreateActor(work->unit, work->slots[i].frameCharRes, work->palRes[j], work->slots[i].frameCellRes, &cfg, 0, work->heapId);
-    cfg.pri = n + 1;
-    work->slots[i].hpNumberActor = CLACT_CreateActor(work->unit, work->slots[i].numberCharRes, work->palRes[j], work->slots[i].numberCellRes, &cfg, 0, work->heapId);
-    work->slots[i].hpBarActor = CLACT_CreateActor(work->unit, work->slots[i].barCharRes, work->palRes[j], work->slots[i].barCellRes, &cfg, 0, work->heapId);
-    if (func_021F8710() == 3 && i >= 4)
-        work->slots[i].statusActor = CLACT_CreateActor(work->unit, work->statusCharRes, work->statusPalRes[1], work->statusCellRes, &cfg, 0, work->heapId);
+    actorInit = gBtlvGaugeActorInit;
+    palIdx = slotIdx;
+    if (slotIdx >= 2)
+        palIdx = slotIdx - 2;
+    priorityBase = (7 - slotIdx) * 3;
+    actorInit.drawPriority = priorityBase + 2;
+    work->slots[slotIdx].frameActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].frameCharRes, work->palRes[palIdx], work->slots[slotIdx].frameCellRes, &actorInit, 0, work->heapId);
+    actorInit.drawPriority = priorityBase + 1;
+    work->slots[slotIdx].hpNumberActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].numberCharRes, work->palRes[palIdx], work->slots[slotIdx].numberCellRes, &actorInit, 0, work->heapId);
+    work->slots[slotIdx].hpBarActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].barCharRes, work->palRes[palIdx], work->slots[slotIdx].barCellRes, &actorInit, 0, work->heapId);
+    if (BTLV_EFFECT_GetMode() == 3 && slotIdx >= 4)
+        work->slots[slotIdx].statusActor = CLACT_CreateActor(work->unit, work->statusCharRes, work->statusPalRes[1], work->statusCellRes, &actorInit, 0, work->heapId);
     else
-        work->slots[i].statusActor = CLACT_CreateActor(work->unit, work->statusCharRes, work->statusPalRes[0], work->statusCellRes, &cfg, 0, work->heapId);
-    CLACT_SetActorAutoAnim(work->slots[i].statusActor, 1);
-    cfg.pri = n;
-    work->slots[i].hpLossActor = CLACT_CreateActor(work->unit, work->slots[i].lossCharRes, work->palRes[j], work->slots[i].lossCellRes, &cfg, 0, work->heapId);
-    CLACT_SetActorDrawEnable(work->slots[i].hpLossActor, 0);
-    if (side == 0 && mode != 2 && mode != 3)
-        work->slots[i].expBarActor = CLACT_CreateActor(work->unit, work->slots[i].expCharRes, work->palRes[j], work->slots[i].expCellRes, &cfg, 0, work->heapId);
+        work->slots[slotIdx].statusActor = CLACT_CreateActor(work->unit, work->statusCharRes, work->statusPalRes[0], work->statusCellRes, &actorInit, 0, work->heapId);
+    CLACT_SetActorAutoAnim(work->slots[slotIdx].statusActor, 1);
+    actorInit.drawPriority = priorityBase;
+    work->slots[slotIdx].hpLossActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].lossCharRes, work->palRes[palIdx], work->slots[slotIdx].lossCellRes, &actorInit, 0, work->heapId);
+    CLACT_SetActorDrawEnable(work->slots[slotIdx].hpLossActor, 0);
+    if (side == 0 && layout != 2 && layout != 3)
+        work->slots[slotIdx].expBarActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].expCharRes, work->palRes[palIdx], work->slots[slotIdx].expCellRes, &actorInit, 0, work->heapId);
 }
 
 /*
@@ -661,58 +656,58 @@ void func_02207430(BtlvGaugeWork *work, int mode, int i)
  * lever: indexed slots in the owning structure retain per-field bases;
  *   a raw offset or cast slot array caches the element and is 138/144 bytes.
  */
-void func_0220778C(BtlvGaugeWork *work, int i)
+void BTLV_GAUGE_ReleaseSlotResources(BtlvGaugeWork *work, int slotIdx)
 {
-    if (work->slots[i].frameActor == 0)
+    if (work->slots[slotIdx].frameActor == 0)
         return;
-    CLACT_ReleaseCharacter(work->slots[i].frameCharRes);
-    CLACT_ReleaseCharacter(work->slots[i].numberCharRes);
-    CLACT_ReleaseCharacter(work->slots[i].barCharRes);
-    CLACT_ReleaseCharacter(work->slots[i].lossCharRes);
-    CLACT_ReleaseCellAnim(work->slots[i].frameCellRes);
-    CLACT_ReleaseCellAnim(work->slots[i].numberCellRes);
-    CLACT_ReleaseCellAnim(work->slots[i].barCellRes);
-    CLACT_ReleaseCellAnim(work->slots[i].lossCellRes);
-    CLACT_DeleteActor(work->slots[i].frameActor);
-    CLACT_DeleteActor(work->slots[i].hpNumberActor);
-    CLACT_DeleteActor(work->slots[i].hpBarActor);
-    CLACT_DeleteActor(work->slots[i].hpLossActor);
-    CLACT_DeleteActor(work->slots[i].statusActor);
-    work->slots[i].frameActor = 0;
-    work->slots[i].hpNumberActor = 0;
-    work->slots[i].hpBarActor = 0;
-    work->slots[i].hpLossActor = 0;
-    work->slots[i].statusActor = 0;
-    if ((i & 1) == 0) {
-        CLACT_ReleaseCharacter(work->slots[i].expCharRes);
-        CLACT_ReleaseCellAnim(work->slots[i].expCellRes);
+    CLACT_ReleaseCharacter(work->slots[slotIdx].frameCharRes);
+    CLACT_ReleaseCharacter(work->slots[slotIdx].numberCharRes);
+    CLACT_ReleaseCharacter(work->slots[slotIdx].barCharRes);
+    CLACT_ReleaseCharacter(work->slots[slotIdx].lossCharRes);
+    CLACT_ReleaseCellAnim(work->slots[slotIdx].frameCellRes);
+    CLACT_ReleaseCellAnim(work->slots[slotIdx].numberCellRes);
+    CLACT_ReleaseCellAnim(work->slots[slotIdx].barCellRes);
+    CLACT_ReleaseCellAnim(work->slots[slotIdx].lossCellRes);
+    CLACT_DeleteActor(work->slots[slotIdx].frameActor);
+    CLACT_DeleteActor(work->slots[slotIdx].hpNumberActor);
+    CLACT_DeleteActor(work->slots[slotIdx].hpBarActor);
+    CLACT_DeleteActor(work->slots[slotIdx].hpLossActor);
+    CLACT_DeleteActor(work->slots[slotIdx].statusActor);
+    work->slots[slotIdx].frameActor = 0;
+    work->slots[slotIdx].hpNumberActor = 0;
+    work->slots[slotIdx].hpBarActor = 0;
+    work->slots[slotIdx].hpLossActor = 0;
+    work->slots[slotIdx].statusActor = 0;
+    if ((slotIdx & 1) == 0) {
+        CLACT_ReleaseCharacter(work->slots[slotIdx].expCharRes);
+        CLACT_ReleaseCellAnim(work->slots[slotIdx].expCellRes);
     }
-    if (work->slots[i].expBarActor != 0) {
-        CLACT_DeleteActor(work->slots[i].expBarActor);
-        work->slots[i].expBarActor = 0;
+    if (work->slots[slotIdx].expBarActor != 0) {
+        CLACT_DeleteActor(work->slots[slotIdx].expBarActor);
+        work->slots[slotIdx].expBarActor = 0;
     }
 }
 
-void func_0220785C(BtlvGaugeWork *work, int unused, int idx, void *data)
+void BTLV_GAUGE_UpdateSlot(BtlvGaugeWork *work, int layout, int slotIdx, void *pokeParam)
 {
-    BTLV_GAUGE_StepValue(work->slots[idx].maxHp, work->slots[idx].hp, 0, &work->slots[idx].hpAnimValue, 6, 1);
-    BTLV_GAUGE_DrawBar(work, idx, 0);
-    if (work->slots[idx].expBarActor != 0) {
-        BTLV_GAUGE_StepValue(work->slots[idx].expMax, work->slots[idx].exp, 0, &work->slots[idx].expAnimValue, 10, 1);
-        BTLV_GAUGE_DrawBar(work, idx, 1);
+    BTLV_GAUGE_StepValue(work->slots[slotIdx].maxHp, work->slots[slotIdx].hp, 0, &work->slots[slotIdx].hpAnimValue, 6, 1);
+    BTLV_GAUGE_DrawBar(work, slotIdx, 0);
+    if (work->slots[slotIdx].expBarActor != 0) {
+        BTLV_GAUGE_StepValue(work->slots[slotIdx].expMax, work->slots[slotIdx].exp, 0, &work->slots[slotIdx].expAnimValue, 10, 1);
+        BTLV_GAUGE_DrawBar(work, slotIdx, 1);
     }
-    BTLV_GAUGE_DrawNickname(work, &work->slots[idx], data);
-    BTLV_GAUGE_DrawGender(work, &work->slots[idx]);
-    BTLV_GAUGE_DrawHpNumbers(work, &work->slots[idx], work->slots[idx].hp);
-    BTLV_GAUGE_DrawLevel(work, &work->slots[idx]);
-    if (work->slots[idx].side != 0 && func_021F8720() == 0)
-        BTLV_GAUGE_DrawCaughtIcon(work, &work->slots[idx]);
-    work->slots[idx].flags.occupied = 1;
-    work->slots[idx].flags.slideCount = 2;
-    work->slots[idx].slideTask = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_GAUGE_TaskSlideSlot, &work->slots[idx], 0);
+    BTLV_GAUGE_DrawNickname(work, &work->slots[slotIdx], pokeParam);
+    BTLV_GAUGE_DrawGender(work, &work->slots[slotIdx]);
+    BTLV_GAUGE_DrawHpNumbers(work, &work->slots[slotIdx], work->slots[slotIdx].hp);
+    BTLV_GAUGE_DrawLevel(work, &work->slots[slotIdx]);
+    if (work->slots[slotIdx].side != 0 && BTLV_EFFECT_GetCompetitorType() == 0)
+        BTLV_GAUGE_DrawCaughtIcon(work, &work->slots[slotIdx]);
+    work->slots[slotIdx].flags.occupied = 1;
+    work->slots[slotIdx].flags.slideCount = 2;
+    work->slots[slotIdx].slideTask = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskSlideSlot, &work->slots[slotIdx], 0);
 }
 
-void func_0220793C(BtlvGaugeSlot *slot)
+void BTLV_GAUGE_UpdateHpBarPixels(BtlvGaugeSlot *slot)
 {
     int hp = slot->hp;
     int maxHp = slot->maxHp;
@@ -731,24 +726,24 @@ void func_0220793C(BtlvGaugeSlot *slot)
  * lever: the slot flags are reached through a hoisted byte pointer (work + 0x40 + 0x70) and a byte
  * offset; typed slot indexing allocates the registers differently (88 bytes instead of 96).
  */
-void func_02207960(BtlvGaugeWork *work, int i)
+void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx)
 {
-    char *q = (char *)work + 0xb0;
-    int o = i * sizeof(BtlvGaugeSlot);
+    char *slotFlagBase = (char *)work + 0xb0;
+    int slotOffset = slotIdx * sizeof(BtlvGaugeSlot);
     void *task;
 
-    if (((BtlvGaugeSlotFlags *)(q + o))->occupied) {
-        BtlvGaugePoint pt = d_0220AAB4;
+    if (((BtlvGaugeSlotFlags *)(slotFlagBase + slotOffset))->occupied) {
+        BtlvGaugePoint pt = gBtlvGaugeSlideOutOffset;
 
-        if (i & 1)
+        if (slotIdx & 1)
             pt.x *= -1;
-        BTLV_GAUGE_PlaceSlot(work, i, &pt);
-        ((BtlvGaugeSlotFlags *)(q + o))->occupied = 0;
+        BTLV_GAUGE_PlaceSlot(work, slotIdx, &pt);
+        ((BtlvGaugeSlotFlags *)(slotFlagBase + slotOffset))->occupied = 0;
     }
-    task = *(void **)((char *)work + o + 0xbc);
+    task = *(void **)((char *)work + slotOffset + 0xbc);
     if (task != 0) {
         func_02030EAC(task);
-        *(void **)((char *)work + o + 0xbc) = 0;
+        *(void **)((char *)work + slotOffset + 0xbc) = 0;
     }
 }
 
@@ -790,7 +785,7 @@ extern void CLACT_SetActorAnimSeq(struct ClActor *actor, u16 animSeq);
 
 extern int GFL_USE_IsBgmFading(void);
 
-extern int func_021F882C(void);
+extern int BTLV_EFFECT_IsBgmSaved(void);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 arg);
 
@@ -800,9 +795,9 @@ extern int GFL_USE_PushBgm(void);
 
 extern void GFL_USE_FadeOutBgm(u32 frames);
 
-extern int PALANM_RequestFade(void *palAnm, u16 bank, u16 mask, s16 arg3, u8 startLevel, u8 endLevel, u16 frames, void *arg7);
+extern int PALANM_RequestFade(struct PalAnmSystem *palAnm, u16 bank, u16 mask, s16 arg3, u8 startLevel, u8 endLevel, u16 frames, void *arg7);
 
-extern u32 PALANM_GetFadeRequestBits(const char *palAnm);
+extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSystem *palAnm);
 
 extern int func_0200F300(void);
 
@@ -1060,7 +1055,7 @@ void BTLV_GAUGE_StartHpChange(BtlvGaugeWork *work, BtlvGaugeSlot *slot, int newH
     }
     slot->flags.hpAnimating = 1;
     if (slot->hpDelta > 0) {
-        func_0220793C(slot);
+        BTLV_GAUGE_UpdateHpBarPixels(slot);
         CLACT_GetActorSurfacePos(slot->hpBarActor, &pos, 0);
         pos.x = pos.x - (s16)(0x30 - slot->hpBarPixels);
         CLACT_AddActorSurfacePos(slot->hpLossActor, &pos, 0);
@@ -1308,7 +1303,7 @@ void BTLV_GAUGE_DrawNickname(BtlvGaugeWork *work, BtlvGaugeSlot *slot, void *pok
     name = STRBUF_Create(12, (u16)((work->heapId & 0x7fff) | 0x8000));
     bmp = BMP_Create(8, 2, 32, (u16)((work->heapId & 0x7fff) | 0x8000));
     BMP_Clear(bmp, 0);
-    POKE_TOOL_GetPartyValue(pokeParam, 0x73, name);
+    POKE_TOOL_GetPartyValue(pokeParam, BTLV_PARTY_VALUE_NICKNAME, name);
     GF_FONT_GetTextColor(&textColor[2], &textColor[1], &textColor[0]);
     GF_FONT_SetTextColor(1, 4, 0);
     if (func_0201D304(name, work->font, 0) > 48)
@@ -1678,7 +1673,7 @@ void BTLV_GAUGE_UpdateLowHpBgm(BtlvGaugeWork *work)
         work->flags.bgmChangePending = 0;
         if (work->flags.lowHpBgmPlaying) {
             GFL_USE_PopBgm();
-            if (!work->flags.bgmReplaced && func_021F882C() != 0) {
+            if (!work->flags.bgmReplaced && BTLV_EFFECT_IsBgmSaved() != 0) {
                 GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xffff);
                 work->flags.bgmReplaced = 1;
             } else {
@@ -1711,8 +1706,9 @@ void BTLV_GAUGE_UpdateLowHpBgm(BtlvGaugeWork *work)
 }
 
 /* Task: slides the actors of one slot sideways, eight pixels per frame. */
-void BTLV_GAUGE_TaskSlideSlot(void *task, BtlvGaugeSlot *slot)
+void BTLV_GAUGE_TaskSlideSlot(void *task, void *arg)
 {
+    BtlvGaugeSlot *slot = arg;
     int step;
     BtlvGaugePoint pos;
     if (slot->side != 0) step = 8;
@@ -1748,11 +1744,12 @@ void BTLV_GAUGE_TaskSlideSlot(void *task, BtlvGaugeSlot *slot)
  * lever: owner->slots[i] preserves the base/index register ordering;
  *   raw-offset casts and a named raw owner leave four bytes out.
  */
-void BTLV_GAUGE_TaskFlashPalettes(void *task, BtlvGaugeFlashTask *flash)
+void BTLV_GAUGE_TaskFlashPalettes(void *task, void *arg)
 {
+    BtlvGaugeFlashTask *flash = arg;
     BtlvGaugeMaskTable masks = sGaugeFlashMasks;
     int i;
-    void *palAnm;
+    struct PalAnmSystem *palAnm;
     switch (flash->state) {
     case 0:
         flash->mask = 0;
@@ -1761,20 +1758,20 @@ void BTLV_GAUGE_TaskFlashPalettes(void *task, BtlvGaugeFlashTask *flash)
                 flash->mask |= masks.bits[i];
         }
         if (flash->mask) {
-            palAnm = (void *)func_021F86E0();
-            PALANM_RequestFade(palAnm, 4, flash->mask, 0, 0, 8, 16, func_021F86D4());
+            palAnm = BTLV_EFFECT_GetPalanm();
+            PALANM_RequestFade(palAnm, 4, flash->mask, 0, 0, 8, 16, BTLV_EFFECT_GetOwner());
             flash->state = 1;
         }
         break;
     case 1:
-        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
-            palAnm = (void *)func_021F86E0();
-            PALANM_RequestFade(palAnm, 4, flash->mask, 0, 8, 0, 16, func_021F86D4());
+        if (!PALANM_GetFadeRequestBits(BTLV_EFFECT_GetPalanm())) {
+            palAnm = BTLV_EFFECT_GetPalanm();
+            PALANM_RequestFade(palAnm, 4, flash->mask, 0, 8, 0, 16, BTLV_EFFECT_GetOwner());
             flash->state = 2;
         }
         break;
     case 2:
-        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits(BTLV_EFFECT_GetPalanm())) {
             flash->count++;
             if (flash->count == 3) {
                 flash->count = 0;

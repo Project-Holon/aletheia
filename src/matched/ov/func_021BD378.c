@@ -1,5 +1,5 @@
 /*
- * function: func_021BD378
+ * function: ZKND_TBAR_SetButtonVisible
  * address:  0x021BD378
  * packet:   pkt_021BD368
  * region:   ov208
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD404 0x021BD404  thumb  ov208
- *   func_021BD7FC 0x021BD7FC  thumb  ov208
+ *   ZKND_TBAR_FindButtonActor 0x021BD404  thumb  ov208
+ *   ZKND_TBAR_SetActorDrawEnable 0x021BD7FC  thumb  ov208
  */
 
-extern int func_021BD404(int, int);
+extern int ZKND_TBAR_FindButtonActor(int, int);
 struct Obj;
-extern void func_021BD7FC(struct Obj **p, unsigned int v);
+extern void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int v);
 
-void func_021BD378(int a, int b, int c)
+void ZKND_TBAR_SetButtonVisible(int a, int b, int c)
 {
-    func_021BD7FC((struct Obj **)func_021BD404(a, b), c);
+    ZKND_TBAR_SetActorDrawEnable((struct Obj **)ZKND_TBAR_FindButtonActor(a, b), c);
 }
 

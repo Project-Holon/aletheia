@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AF0
+ * function: RESEARCH_COMMON_ExitClact
  * address:  0x021C0AF0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void CLACT_ExitSystem(void);
 
-void func_021C0AF0(void)
+void RESEARCH_COMMON_ExitClact(void)
 {
     CLACT_ExitSystem();
 }

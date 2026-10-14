@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A28
+ * function: jpeg_encode_exif
  * address:  0x021C3A28
  * packet:   pkt_ov172_021C3A28
  * region:   ov172
@@ -17,9 +17,9 @@
  * rather than a single `lsr #8`.
  *
  * symbols:
- *   func_021C2DC8  0x021C2DC8  arm  ov172
- *   func_021C3620  0x021C3620  arm  ov172
- *   func_021C3160  0x021C3160  arm  ov172
+ *   jpeg_exif_get_tag_size  0x021C2DC8  arm  ov172
+ *   jpeg_encode_ifd  0x021C3620  arm  ov172
+ *   jpeg_encode_ifd_direct  0x021C3160  arm  ov172
  *   STD_GetStringLength  0x0208CC78  arm
  *   MI_CpuCopy           0x02082EA4  arm
  *   g_021CADF0     0x021CADF0  data ov172
@@ -63,16 +63,16 @@ typedef struct exifenc_vars {
     unsigned char *buf;         /* +0x14 */
 } exifenc_vars;
 
-extern unsigned long func_021C2DC8(exif_tag_entry *entry);
-extern void func_021C3620(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is_last);
-extern void func_021C3160(void *unused, exif_ifd_data *ifd, short is_last);
+extern unsigned long jpeg_exif_get_tag_size(exif_tag_entry *entry);
+extern void jpeg_encode_ifd(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is_last);
+extern void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last);
 extern int STD_GetStringLength(char *str);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern exifenc_vars g_021CADF0;
 
 #define PUT(v)  (g_021CADF0.buf[g_021CADF0.pos++] = (unsigned char)(v))
 
-short func_021C3A28(jpeg_exif_data_structure *jexif, short option,
+short jpeg_encode_exif(jpeg_exif_data_structure *jexif, short option,
                     unsigned char *thumb_src, unsigned long thumb_size)
 {
     char exif_header[5] = "Exif";
@@ -102,7 +102,7 @@ short func_021C3A28(jpeg_exif_data_structure *jexif, short option,
 
         for (j = 0, entry = ifd->entries; j < ifd->count; j++, entry++) {
             entry->offset = 0;
-            size = func_021C2DC8(entry);
+            size = jpeg_exif_get_tag_size(entry);
             if (size > 4 && entry->tag != 0x927c) {
                 entry->offset = jexif->app1_length - 8;
                 if (size & 1)
@@ -137,16 +137,16 @@ short func_021C3A28(jpeg_exif_data_structure *jexif, short option,
     PUT(0);
     PUT(8);
 
-    func_021C3620(jexif, &jexif->ifd[0], option);
+    jpeg_encode_ifd(jexif, &jexif->ifd[0], option);
     if (jexif->ifd[1].count > 0)
-        func_021C3620(jexif, &jexif->ifd[1], 1);
+        jpeg_encode_ifd(jexif, &jexif->ifd[1], 1);
     if (jexif->ifd[2].count > 0)
-        func_021C3160(jexif, &jexif->ifd[2], 1);
+        jpeg_encode_ifd_direct(jexif, &jexif->ifd[2], 1);
     if (jexif->ifd[3].count > 0)
-        func_021C3620(jexif, &jexif->ifd[3], 1);
+        jpeg_encode_ifd(jexif, &jexif->ifd[3], 1);
 
     if (option == 0) {
-        func_021C3620(jexif, &jexif->ifd[4], 1);
+        jpeg_encode_ifd(jexif, &jexif->ifd[4], 1);
         MI_CpuCopy(thumb_src, g_021CADF0.buf + g_021CADF0.pos, thumb_size);
         g_021CADF0.pos += thumb_size;
     }

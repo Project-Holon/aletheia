@@ -1,5 +1,5 @@
 /*
- * function: func_021BE410
+ * function: COMM_TVT_SYS_ProcExit
  * address: 0x021BE410
  * packet: pkt_ov172_021BE410
  * region: ov172
@@ -17,7 +17,7 @@ extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int h);
-int func_021BE410(void *a, void *b, int c, u32 *p)
+int COMM_TVT_SYS_ProcExit(void *a, void *b, int c, u32 *p)
 {
     func_021BD3B8((u8 *)p);
     if (c == 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021E6B90
+ * function: POKETRADE_2D_SetupCursorBg
  * address: 0x021E6B90
  * packet: pkt_ov119_021E6B90
  * region: ov119
@@ -17,7 +17,7 @@
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021E6AB0 0x021E6AB0 thumb ov119
+ *   POKETRADE_2D_SetCursorSlidePositions 0x021E6AB0 thumb ov119
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   d_021E7E44 0x021E7E44 data a4
  */
@@ -37,9 +37,9 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204047C(int idx, unsigned short val);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021E6AB0(const char *p);
+extern void POKETRADE_2D_SetCursorSlidePositions(const char *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-void func_021E6B90(char *p)
+void POKETRADE_2D_SetupCursorBg(char *p)
 {
     void *h;
     struct BgTemplate t;
@@ -58,6 +58,6 @@ void func_021E6B90(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 11, 2, 0, (u16)((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
     ARC_TOOL_DeleteHandle(h);
     ((struct Obj00001 *)p)->f11DE = 0;
-    func_021E6AB0(p);
+    POKETRADE_2D_SetCursorSlidePositions(p);
     BG_SYS_SetSubVisiblePlanes(0x1f);
 }

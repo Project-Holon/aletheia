@@ -1,5 +1,5 @@
 /*
- * function: func_021FF900
+ * function: BR_NET_StepUploadEntry
  * address: 0x021FF900
  * packet: pkt_ov186_021FF900
  * region: ov186
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D67C8 0x021D67C8 thumb ov125
+ *   GDS_RAP_RequestUploadEntry 0x021D67C8 thumb ov125
  *   func_02034714 0x02034714 arm
- *   func_021FFB68 0x021FFB68 thumb ov186
- *   func_021FF8E4 0x021FF8E4 thumb ov186
- *   d_02200D98 0x02200D98 data a1
+ *   BR_NET_SetStep 0x021FFB68 thumb ov186
+ *   BR_NET_StepWaitRequest 0x021FF8E4 thumb ov186
+ *   gBrNetAssertString 0x02200D98 data a1
  */
 #include "../include/Obj14481.h"
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct{int words[32];} Block128;
 typedef struct{int words[108];} Block432;
-extern int func_021D67C8(char*,const Block128*,const Block432*);
+extern int GDS_RAP_RequestUploadEntry(char*,const Block128*,const Block432*);
 extern void func_02034714(const char*,u32,const char*);
-extern void func_021FFB68(char*,int);
-extern void func_021FF8E4(void*,int,int);
-extern const char d_02200D98[];
-void func_021FF900(char*p,int unused,char*q){if(!func_021D67C8(q,*(const Block128* *)&((struct Obj14481 *)q)->f5A8,*(const Block432* *)&((struct Obj14481 *)q)->f5B0))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}
+extern void BR_NET_SetStep(char*,int);
+extern void BR_NET_StepWaitRequest(void*,int,int);
+extern const char gBrNetAssertString[];
+void BR_NET_StepUploadEntry(char*p,int unused,char*q){if(!GDS_RAP_RequestUploadEntry(q,*(const Block128* *)&((struct Obj14481 *)q)->f5A8,*(const Block432* *)&((struct Obj14481 *)q)->f5B0))func_02034714(gBrNetAssertString,0,gBrNetAssertString);BR_NET_SetStep(p,(int)BR_NET_StepWaitRequest);}

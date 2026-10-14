@@ -1,5 +1,5 @@
 /*
- * function: func_021DA1C8
+ * function: PDWACC_STATE_StateWaitInput
  * address: 0x021DA1C8
  * packet: pkt_ov123_021DA1C8
  * region: ov123
@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
- *   func_021DA054 0x021DA054 thumb ov123
- *   func_021DA034 0x021DA034 thumb ov123
+ *   PDWACC_STATE_StateFadeOutBgm 0x021DA054 thumb ov123
+ *   PDWACC_STATE_ChangeState 0x021DA034 thumb ov123
  */
 typedef unsigned char u8;
 extern unsigned int KEY_GetTrg(void);
-extern void func_021DA054(char *);
-extern void func_021DA034(char *,int,int);
-void func_021DA1C8(char *p) { if(KEY_GetTrg() & 3) func_021DA034(p,(int)func_021DA054,0x14b); }
+extern void PDWACC_STATE_StateFadeOutBgm(char *);
+extern void PDWACC_STATE_ChangeState(char *,int,int);
+void PDWACC_STATE_StateWaitInput(char *p) { if(KEY_GetTrg() & 3) PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StateFadeOutBgm,0x14b); }

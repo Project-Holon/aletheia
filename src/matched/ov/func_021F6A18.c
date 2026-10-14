@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A18
+ * function: BTLV_STAGE_IsEffectActive
  * address:  0x021F6A18
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F6A18   0x021F6A18  thumb
+ *   BTLV_STAGE_IsEffectActive   0x021F6A18  thumb
  *
  * lane O10 candidate
  */
 #include "../include/Obj18549.h"
 
-int func_021F6A18(char *p)
+int BTLV_STAGE_IsEffectActive(char *p)
 {
     return ((struct Obj18549 *)p)->fAC != 0;
 }

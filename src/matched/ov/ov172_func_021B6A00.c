@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A00
+ * function: CTVT_ADPCM_Encode
  * address:  0x021B6A00
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Half-length packer: runs func_021B6A30 over a1>>1 halfwords of a0 into a2, returns the rounded-up byte count.
+ * Half-length packer: runs CTVT_ADPCM_EncodeSamples over a1>>1 halfwords of a0 into a2, returns the rounded-up byte count.
  *
  * symbols:
- *   func_021B6A30  0x021B6A30  thumb  ov172
- *   g_021C88E8     0x021C88E8  data
+ *   CTVT_ADPCM_EncodeSamples  0x021B6A30  thumb  ov172
+ *   gCtvtAdpcmEncoderState     0x021C88E8  data
  *
  * Addresses are Black-image addresses.
  */
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021B6A30(short *src, unsigned char *dst, int n, int ctx);
-extern u32 g_021C88E8[];
+extern void CTVT_ADPCM_EncodeSamples(short *src, unsigned char *dst, int n, int ctx);
+extern u32 gCtvtAdpcmEncoderState[];
 
-int func_021B6A00(void *a0, unsigned a1, void *a2)
+int CTVT_ADPCM_Encode(void *a0, unsigned a1, void *a2)
 {
-    func_021B6A30((short *)a0, (unsigned char *)a2, (int)(a1 >> 1), (int)g_021C88E8);
+    CTVT_ADPCM_EncodeSamples((short *)a0, (unsigned char *)a2, (int)(a1 >> 1), (int)gCtvtAdpcmEncoderState);
     return (int)((a1 + 3) >> 2);
 }

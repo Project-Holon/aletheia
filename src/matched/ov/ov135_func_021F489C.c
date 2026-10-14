@@ -1,5 +1,5 @@
 /*
- * function: func_021F489C
+ * function: WORLDTRADE_CallStateHandler
  * address:  0x021F489C
  * packet:   pkt_021F489C
  * region:   ov135
@@ -12,7 +12,7 @@
   *
   *
  * symbols:
- *   func_021F4EC0  0x021F4EC0  thumb
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   str_02203B08  0x02203B08  data  a1
  */
 
@@ -66,12 +66,12 @@ typedef struct {
 } Work;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern const char str_02203B08[];
 
 #define ASSERT(x) if (!(x)) func_02034714(str_02203B08, 0, str_02203B08)
 
-void func_021F489C(Work *p, Args *args)
+void WORLDTRADE_CallStateHandler(Work *p, Args *args)
 {
     ASSERT(args->a3C);
     ASSERT(args->a0);
@@ -85,7 +85,7 @@ void func_021F489C(Work *p, Args *args)
     ASSERT(args->a24);
     p->args = args;
     p->x10 = 0;
-    func_021F4EC0((u8 *)p, 0, 0x13);
+    WORLDTRADE_SetStateAndReturn((u8 *)p, 0, 0x13);
     p->xC0 = 0;
     p->xB56 = 0;
     p->xB58 = 3;

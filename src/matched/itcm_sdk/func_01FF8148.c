@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8148
+ * function: OS_IrqHandler_ThreadSwitch
  * address:  0x01FF8148
  * packet:   pkt_01FF8148
  * region:   arm9_autoload0_ITCM
@@ -20,7 +20,7 @@
  *           none of the four literal words.  The four pool relocations are
  *           R_ARM_ABS32 to OSi_IrqThreadQueue, OSi_ThreadInfo, CP_SaveContext
  *           and CPi_RestoreContext.  Tail-called by name from the EXACT
- *           sibling func_01FF80F0, whose pool literal is an R_ARM_ABS32 to
+ *           sibling OS_IrqHandler, whose pool literal is an R_ARM_ABS32 to
  *           0x01FF8148.
  *
  * Two assembler facts pin three spellings in the body.  mwccarm 1.1p1's inline
@@ -33,8 +33,8 @@
  * dispatch the SDK reaches with lr preset by `mov lr, pc` -- is `bx r3`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_01FF8148.c \
- *       --func func_01FF8148 --addr 0x01FF8148 --cc 1.1p1 --arm \
+ *   python tools/match.py one --src src/matched/OS_IrqHandler_ThreadSwitch.c \
+ *       --func OS_IrqHandler_ThreadSwitch --addr 0x01FF8148 --cc 1.1p1 --arm \
  *       --region arm9_autoload0_ITCM
  * symbols:
  *   OSi_IrqThreadQueue  0x02FE00A0  data
@@ -49,7 +49,7 @@ extern void *OSi_ThreadInfo;
 extern void CP_SaveContext(void *p1, void *p2);
 extern void CPi_RestoreContext(void *p1, void *p2);
 
-asm void func_01FF8148(void)
+asm void OS_IrqHandler_ThreadSwitch(void)
 {
     ldr     ip, =OSi_IrqThreadQueue
     mov     r3, #0

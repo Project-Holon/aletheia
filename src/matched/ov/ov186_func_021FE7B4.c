@@ -1,5 +1,5 @@
 /*
- * function: func_021FE7B4
+ * function: BR_FADE_CaptureHwPalettes
  * address: 0x021FE7B4
  * packet: pkt_ov186_021FE7B4
  * region: ov186
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 struct PalAnmSlot;
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-void func_021FE7B4(char *p)
+void BR_FADE_CaptureHwPalettes(char *p)
 {
     PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot **)(p + 0x20), 0, 0, 512);
     PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot **)(p + 0x20), 2, 0, 448);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F2E58
+ * function: MBi_calc_sendblock
  * address:  0x021F2E58
  * packet:   pkt_ov107_021F2E58
  * region:   ov107
@@ -29,7 +29,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov107_func_021F2E58.c \
- *       --func func_021F2E58 --addr 0x021F2E58 --region ov107 \
+ *       --func MBi_calc_sendblock --addr 0x021F2E58 --region ov107 \
  *       --cc dsi/1.1p1 --flags=-O4,p --arm --lang c99 --diff
  *
  * symbols:
@@ -52,7 +52,7 @@ typedef struct {
 extern int g_021F6EEC;
 extern u8 *g_021F6FA0;
 
-void func_021F2E58(u8 file_id)
+void MBi_calc_sendblock(u8 file_id)
 {
     if (!(g_021F6EEC & (1 << file_id)))
         return;

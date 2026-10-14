@@ -1,5 +1,5 @@
 /*
- * function: func_021B69BC
+ * function: CTVT_CAMERA_SelectCamera
  * address:  0x021B69BC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B69BC(void *p, u32 v)
+void CTVT_CAMERA_SelectCamera(void *p, u32 v)
 {
     if (((struct Obj08254 *)p)->f2C == v) {
         return;

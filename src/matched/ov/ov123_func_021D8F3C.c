@@ -1,5 +1,5 @@
 /*
- * function: func_021D8F3C
+ * function: GSYNC_STATE_DestroyHttpConnection
  * address:  0x021D8F3C
  * packet:   pkt_021D8F3C
  * region:   ov123
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
 
-void func_021D8F3C(char *p)
+void GSYNC_STATE_DestroyHttpConnection(char *p)
 {
     if (*(u32 *)&((struct Obj08115 *)p)->f10 != 0) {
         NHTTP_RAP_DeleteConnection(((struct Obj08115 *)p)->f10);

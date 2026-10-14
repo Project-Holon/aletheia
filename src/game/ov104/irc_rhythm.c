@@ -232,17 +232,14 @@ extern u32 func_02012138(const void *gameSystem);
 extern void func_0201F73C(void *window, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
-extern struct IrcAppBar *IRC_APPBAR_Create(u32,struct Bank *unit,u16,u16,u8,u32,void *font,void *printQueue,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
 extern void func_0207D658(u32,int,int);
 extern void *func_020056A0(IrcTaskProc proc,void *work,u32 priority);
 extern void func_02030EAC(void *task);
-extern void IRC_APPBAR_Delete(struct IrcAppBar *bar);
 extern void func_020315D4(struct Proc *proc);
 extern void func_020306F0(unsigned int);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern void IRC_APPBAR_Update(struct IrcAppBar *bar);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const void *banks);
@@ -324,13 +321,10 @@ extern void func_0201F02C(void *wordSet, u32 i, void *a);
 extern void *func_02045EC0(void *messages, u32 index);
 extern void func_0201F250(void *wordSet, void *dst, void *src);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int IRC_APPBAR_GetResult(struct IrcAppBar *bar);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
-extern int IRC_APPBAR_IsBusy(struct IrcAppBar *bar);
 extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern void IRC_APPBAR_SetActive(struct IrcAppBar *bar,int enable);
 extern int OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
 extern unsigned long long func_020870D0(void);
@@ -748,7 +742,7 @@ void IRC_RHYTHM_StateTapping(IrcRhythm *work,u16 *step) {
  RecordBase base=RECORD_BASE;
  IrcPoint point;
  FAR_FIELD(u32, tappedThisFrame)=0;
- if(!IRC_APPBAR_IsBusy(FAR_FIELD(struct IrcAppBar *, appBar))) {
+ if(!IRC_APPBAR_IsBusy(FAR_FIELD(IrcAppBar *, appBar))) {
   if(IRC_RHYTHM_GetTouchTap(&point)) {
    IRC_RHYTHM_SpawnBurst(&work->particles,&point,IRC_RHYTHM_JudgeTap(RECORD_AT_BASE));
    if(!FAR_FIELD(u16, resultStep)) IRC_RHYTHM_RecordTap(RECORD_AT_BASE);

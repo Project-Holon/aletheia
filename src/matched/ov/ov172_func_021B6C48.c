@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C48
+ * function: DRAW_SYSTEM_Nop
  * address:  0x021B6C48
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B6C48(u32 a)
+void DRAW_SYSTEM_Nop(u32 a)
 {
 }

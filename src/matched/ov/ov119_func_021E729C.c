@@ -1,5 +1,5 @@
 /*
- * function: func_021E729C
+ * function: POKETRADE_2D_StepBezierCurve
  * address:  0x021E729C
  * packet:   pkt_ov119_021E729C
  * region:   ov119
@@ -24,8 +24,8 @@
  * docs/idioms/commutative-operand-order-names-the-temporary.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021E729C.c \
- *       --func func_021E729C --addr 0x021E729C --cc dsi/1.1p1 \
+ *   python tools/match.py one --src src/matched/POKETRADE_2D_StepBezierCurve.c \
+ *       --func POKETRADE_2D_StepBezierCurve --addr 0x021E729C --cc dsi/1.1p1 \
  *       --thumb --region ov119 --flags=-O4,p
  *
  * symbols:
@@ -64,7 +64,7 @@ struct Curve {
 
 extern u32 FX_Div(u32 a, u32 b);
 
-int func_021E729C(struct Curve *c)
+int POKETRADE_2D_StepBezierCurve(struct Curve *c)
 {
     fx32 t, s, t2, s2, ts2, s3, t2s, t3;
     fx32 tm3, t2m3;

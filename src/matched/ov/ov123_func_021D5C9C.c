@@ -1,5 +1,5 @@
 /*
- * function: func_021D5C9C
+ * function: GSYNC_DOWNLOAD_IsBusy
  * address:  0x021D5C9C
  * packet:   pkt_021D5C9C
  * region:   ov123
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D5C9C(char *p)
+void GSYNC_DOWNLOAD_IsBusy(char *p)
 {
     ((struct Obj13975 *)p)->fCC = 0;
     ((struct Obj13975 *)p)->fD0 = 0;

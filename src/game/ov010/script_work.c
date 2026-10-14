@@ -16,7 +16,7 @@
  * "script_work.c". 0x02158E54 is called only from the script work create and
  * reset functions, so the cut before it is likely.
  *
- * script_work.c continues in unit_021592F0.c (0x021592F0..0x0215930C) and
+ * script_work.c continues in script_work_cmd_local.c (0x021592F0..0x0215930C) and
  * script_work_cmd.c (script command handlers, 0x0215932C..0x02159B38). The
  * three ranges are contiguous and merge into this file at cut time.
  *

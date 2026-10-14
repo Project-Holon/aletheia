@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + (a1)*4 + 804)), (u32)(a0 + (a1)*4) to func_021C2A10.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + (a1)*4 + 804)), (u32)(a0 + (a1)*4) to PALETTE_ANIME_IsRunning.
  *
  * symbols:
- *   func_021C2A10  0x021C2A10  thumb  ov217
+ *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C2A10(u32, u32);
+extern void PALETTE_ANIME_IsRunning(u32, u32);
 
 void func_021BF5D0(u8 *a0, u32 a1)
 {
-    func_021C2A10((u32)(*(u32*)(a0 + (a1)*4 + 804)), (u32)(a0 + (a1)*4));
+    PALETTE_ANIME_IsRunning((u32)(*(u32*)(a0 + (a1)*4 + 804)), (u32)(a0 + (a1)*4));
 }
 

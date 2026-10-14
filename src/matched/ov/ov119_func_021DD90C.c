@@ -1,5 +1,5 @@
 /*
- * function: func_021DD90C
+ * function: POKETRADE_NEGO_DrawOfferStatusLabel
  * address: 0x021DD90C
  * packet: pkt_ov119_021DD90C
  * region: ov119
@@ -11,7 +11,7 @@
  * (w=items[i]): the pointer local stays live across the call and the forwarded value is spilled.
  * symbols:
  *   d_021E76FC 0x021E76FC data a4
- *   func_021D8AA8 0x021D8AA8 thumb ov119
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E76FC;
-extern int func_021D8AA8(void *);
+extern int POKETRADE_PROC_IsHostSide(void *);
 typedef signed short   s16;
 struct Cfg;
 struct Descriptor;
@@ -42,7 +42,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021DD90C(u8 *p,int i,int msg,int force)
+void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p,int i,int msg,int force)
 {
     Pair t=d_021E76FC;
     int w;
@@ -50,7 +50,7 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
     if(force==0) {
         if((p+i)[0x11e8]==3) return;
         if(p[0x11ea]==0) return;
-        if(func_021D8AA8(p)==0) return;
+        if(POKETRADE_PROC_IsHostSide(p)==0) return;
     }
     if(*(int *)(p+i*4+0x5bc)) BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+i*4+0x5bc)));
     items=(int *)(p+0x5bc); items[i]=(int)BMP_WIN_Create(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];

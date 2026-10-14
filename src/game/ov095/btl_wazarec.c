@@ -15,25 +15,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  */
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-/* One used move: the move id, the turn it was used in, the user, and whether it took effect. */
-typedef struct BtlWazaRecEntry {
-    u32 turn;       /* 0x00 */
-    u16 wazaId;     /* 0x04: 0 marks the end of the history */
-    u8 pokeId;      /* 0x06 */
-    u8 effective;   /* 0x07 */
-} BtlWazaRecEntry;
-
-/* Ring buffer of the moves used in battle, newest entry last written. */
-typedef struct BtlWazaRec {
-    u32 writeIndex;
-    BtlWazaRecEntry entry[120];
-} BtlWazaRec;
+#include "../ov093/btl_records_types.h"
 
 extern void MI_CpuFill8(void *, int, u32);
 void BTL_WAZAREC_Init(BtlWazaRec *p);

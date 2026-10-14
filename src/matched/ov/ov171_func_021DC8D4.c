@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8D4
+ * function: DENDOU_VIEW_StopVBlankTask
  * address:  0x021DC8D4
  * packet:   pkt_021DC8D4
  * region:   ov171
@@ -16,7 +16,7 @@
 
 extern int func_02030EAC(int);
 
-int func_021DC8D4(int *p)
+int DENDOU_VIEW_StopVBlankTask(int *p)
 {
     return func_02030EAC(((struct Obj24048 *)p)->fB28);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB614",
+   "name": "WORLDTRADE_INPUT_StateStartCategoryScreenAlt",
    "address": "0x021FB614",
    "kind": "game",
    "region": "ov135",

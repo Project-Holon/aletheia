@@ -1,5 +1,5 @@
 /*
- * function: func_021E0130
+ * function: GURU2_MAIN_PrintMessage
  * address: 0x021E0130
  * packet: pkt_ov137_021E0130
  * region: ov137
@@ -36,7 +36,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_021E0130(u8 *p,int message)
+void GURU2_MAIN_PrintMessage(u8 *p,int message)
 {
     u8 *s;
     void *window,*owner,*data;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FEC14
+ * function: BR_FADE_StepSubPlane3
  * address: 0x021FEC14
  * packet: pkt_ov186_021FEC14
  * region: ov186
@@ -30,7 +30,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern int FADE_IsActive(void);
 extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
-int func_021FEC14(char *p,int *state)
+int BR_FADE_StepSubPlane3(char *p,int *state)
 {
     switch(*state) {
     case 0: {

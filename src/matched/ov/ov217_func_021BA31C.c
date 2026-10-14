@@ -11,13 +11,13 @@
  *
  * Reconstructed from the listing.
  *
- * Promoted by the recursive unblocker lane: the +0008 ABS32 func_021C09D8
+ * Promoted by the recursive unblocker lane: the +0008 ABS32 RESEARCH_COMMON_StartPaletteAnime
  * pool word now resolves as `matched` against layout/matched/ov217/
  * pkt_ov217_021C09D8.json, which was built bottom-up
- * (func_021C2A18 -> func_021C29F8 -> func_021C0D38 -> func_021C09D8).
+ * (PALETTE_ANIME_StartImpl -> PALETTE_ANIME_Start -> RESEARCH_COMMON_StartPaletteAnimeImpl -> RESEARCH_COMMON_StartPaletteAnime).
  *
  * symbols:
- *   func_021C09D8  0x021C09D8  thumb  ov217
+ *   RESEARCH_COMMON_StartPaletteAnime  0x021C09D8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -30,8 +30,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021C09D8(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
 void func_021BA31C(u8 *a0)
 {
-    func_021C09D8((u8 *)(((struct Obj25816 *)((u8*)a0))->f0), 0);
+    RESEARCH_COMMON_StartPaletteAnime((u8 *)(((struct Obj25816 *)((u8*)a0))->f0), 0);
 }

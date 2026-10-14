@@ -1,5 +1,5 @@
 /*
- * function: func_021B756C
+ * function: HALL_OF_FAME_ReleaseAllResources
  * address: 0x021B756C
  * packet: pkt_ov180_021B756C
  * region: ov180
@@ -10,13 +10,13 @@
  * status: EXACT*
  * EXACT* tail: two zero alignment bytes after the function.
  * symbols:
- *   func_021B7510 0x021B7510 thumb ov180
- *   func_021B7530 0x021B7530 thumb ov180
- *   func_021B7550 0x021B7550 thumb ov180
+ *   HALL_OF_FAME_ReleaseCharacter 0x021B7510 thumb ov180
+ *   HALL_OF_FAME_ReleasePalette 0x021B7530 thumb ov180
+ *   HALL_OF_FAME_ReleaseCellAnim 0x021B7550 thumb ov180
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_021B7510(char *,int),func_021B7530(char *,int),func_021B7550(char *,int);
-void func_021B756C(char *p) { u32 i; for(i=0;i<6;i++) func_021B7510(p,i); for(i=0;i<7;i++) func_021B7530(p,i); for(i=0;i<6;i++) func_021B7550(p,i); }
+extern void HALL_OF_FAME_ReleaseCharacter(char *,int),HALL_OF_FAME_ReleasePalette(char *,int),HALL_OF_FAME_ReleaseCellAnim(char *,int);
+void HALL_OF_FAME_ReleaseAllResources(char *p) { u32 i; for(i=0;i<6;i++) HALL_OF_FAME_ReleaseCharacter(p,i); for(i=0;i<7;i++) HALL_OF_FAME_ReleasePalette(p,i); for(i=0;i<6;i++) HALL_OF_FAME_ReleaseCellAnim(p,i); }

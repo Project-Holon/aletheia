@@ -1,5 +1,5 @@
 /*
- * function: func_021F40F4
+ * function: MBi_InitSendFixedBeacon
  * address:  0x021F40F4
  * packet:   pkt_ov107_021F40F4
  * region:   ov107
@@ -19,7 +19,7 @@
 
 extern struct SUnlock g_021F6EF4;
 
-void func_021F40F4(void)
+void MBi_InitSendFixedBeacon(void)
 {
     if (((unsigned char *)&g_021F6EF4)[0x24] != 2)
         return;

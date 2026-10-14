@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C0E08  0x021C0E08  thumb  ov217
+ *   RingQueue_Create  0x021C0E08  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_021C0E08(int a0, int a1);
+extern int RingQueue_Create(int a0, int a1);
 void func_021BFB14(u32 a0)
 {
-    ((struct Obj14742 *)(((u8*)a0 + 0)))->f1C = func_021C0E08(10, ((struct Obj14742 *)(((u8*)a0 + 0)))->f4);
+    ((struct Obj14742 *)(((u8*)a0 + 0)))->f1C = RingQueue_Create(10, ((struct Obj14742 *)(((u8*)a0 + 0)))->f4);
 }
 

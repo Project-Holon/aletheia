@@ -1,5 +1,5 @@
 /*
- * function: func_021DD760
+ * function: GURU2_RECEIPT_DeleteWindows
  * address: 0x021DD760
  * packet: pkt_ov137_021DD760
  * region: ov137
@@ -21,4 +21,4 @@ struct Descriptor;
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021DD760(u8 *p) {if(((struct Obj05425 *)p)->fE8!=0)BMP_MENU_DeleteYesNo(((struct Obj05425 *)p)->fE8);BMP_WIN_Delete(((struct Obj05425 *)p)->fD0);BMP_WIN_Delete(((struct Obj05425 *)p)->fDC);BMP_WIN_Delete(((struct Obj05425 *)p)->fD8);BMP_WIN_Delete(((struct Obj05425 *)p)->fD4);BMP_WIN_Exit();}
+void GURU2_RECEIPT_DeleteWindows(u8 *p) {if(((struct Obj05425 *)p)->fE8!=0)BMP_MENU_DeleteYesNo(((struct Obj05425 *)p)->fE8);BMP_WIN_Delete(((struct Obj05425 *)p)->fD0);BMP_WIN_Delete(((struct Obj05425 *)p)->fDC);BMP_WIN_Delete(((struct Obj05425 *)p)->fD8);BMP_WIN_Delete(((struct Obj05425 *)p)->fD4);BMP_WIN_Exit();}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B80
+ * function: CTVT_CAMVIEW_RequestShutterSound1
  * address:  0x021B7B80
  * packet:   pkt_021B6100
  * region:   ov172
@@ -12,8 +12,8 @@
  * Guarded flag set at +0x28.
  *
  * symbols:
- *   func_021BE100  0x021BE100  thumb  ov172
- *   func_021B69D8  0x021B69D8  thumb  ov172
+ *   COMM_TVT_SYS_IsNetIdle  0x021BE100  thumb  ov172
+ *   CTVT_CAMERA_RequestShutterSound1  0x021B69D8  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021BE100(void);
-extern void func_021B69D8(void *p);
+extern int COMM_TVT_SYS_IsNetIdle(void);
+extern void CTVT_CAMERA_RequestShutterSound1(void *p);
 
-void func_021B7B80(int x, char *p)
+void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p)
 {
-    if (func_021BE100() != 1) {
+    if (COMM_TVT_SYS_IsNetIdle() != 1) {
         return;
     }
     if (((struct Obj06558 *)p)->f24 != 1) {
@@ -38,6 +38,6 @@ void func_021B7B80(int x, char *p)
     if (((struct Obj06558 *)p)->f28 != 0) {
         return;
     }
-    func_021B69D8(((struct Obj06558 *)p)->fA4);
+    CTVT_CAMERA_RequestShutterSound1(((struct Obj06558 *)p)->fA4);
     ((struct Obj06558 *)p)->f28 = 1;
 }

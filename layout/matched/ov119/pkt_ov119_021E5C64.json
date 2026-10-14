@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E5C64",
+   "name": "POKETRADE_2D_LoadSubScreenGfx",
    "address": "0x021E5C64",
    "kind": "game",
    "region": "ov119",

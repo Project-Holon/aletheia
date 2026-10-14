@@ -1,5 +1,5 @@
 /*
- * function: func_021DE55C
+ * function: GURU2_RECEIPT_IsMessageDone
  * address: 0x021DE55C
  * packet: pkt_ov137_021DE55C
  * region: ov137
@@ -28,7 +28,7 @@ extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern u32 KEY_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-int func_021DE55C(char *p) {
+int GURU2_RECEIPT_IsMessageDone(char *p) {
     int state;
     if (((struct Obj05428 *)p)->fF0 == 0) return 1;
     state = PRINTSYS_PrintStreamGetState(((struct Obj05428 *)p)->fF0);

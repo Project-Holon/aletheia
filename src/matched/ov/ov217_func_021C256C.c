@@ -1,5 +1,5 @@
 /*
- * function: func_021C256C
+ * function: ARROW_Init
  * address:  0x021C256C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C256C(void *p, u16 v)
+void ARROW_Init(void *p, u16 v)
 {
     int i;
     ((struct Obj03378 *)p)->f0 = v;

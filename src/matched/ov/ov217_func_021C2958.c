@@ -1,5 +1,5 @@
 /*
- * function: func_021C2958
+ * function: PERCENTAGE_StoreUnit
  * address:  0x021C2958
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C2958(void *p, u32 v)
+void PERCENTAGE_StoreUnit(void *p, u32 v)
 {
     ((struct Obj26033 *)p)->fC = v;
 }

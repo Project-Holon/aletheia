@@ -1,5 +1,5 @@
 /*
- * function: func_021C1710
+ * function: Yos_JpegEncodeSample2to1Component
  * address:  0x021C1710
  * packet:   pkt_ov172_021C1710
  * region:   ov172
@@ -12,7 +12,7 @@
  * sdk:      Yos_JpegEncodeSample2to1Component (libssp.TWL.HYB.a jpegenc.o)
  *
  * symbols:
- *   func_021C0D04  0x021C0D04  arm  ov172
+ *   Yos_JpegEncoderForwardDct  0x021C0D04  arm  ov172
  *
  * Static: horizontal 2:1 chroma subsampling of a component plane into 8x8 blocks, each handed to the forward DCT.
  */
@@ -24,9 +24,9 @@ typedef struct component_structure {
     long mLastDcValue;
 } component_structure;
 
-extern void func_021C0D04(unsigned char *data, long *qtable, short *output);
+extern void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output);
 
-void func_021C1710(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx)
+void Yos_JpegEncodeSample2to1Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx)
 {
     unsigned char data[64];
     unsigned long v;
@@ -55,7 +55,7 @@ void func_021C1710(unsigned char *buffer, long *qTable, component_structure *com
             data[z + 7] = (buffer[u + 14] + buffer[u + 15]) >> 1;
                 u += dx;
             }
-            func_021C0D04(data, qTable, dct_coff + v * 64);
+            Yos_JpegEncoderForwardDct(data, qTable, dct_coff + v * 64);
             v++;
         }
     }

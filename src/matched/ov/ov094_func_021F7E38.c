@@ -1,5 +1,5 @@
 /*
- * function: func_021F7E38
+ * function: BTLV_EFFECT_ResetPokeSprite
  * address:  0x021F7E38
  * packet:   pkt_ov094_021F7E38
  * region:   ov094
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021FFE48  0x021FFE48  thumb  ov094
- *   func_022003EC  0x022003EC  thumb  ov094
- *   func_022001DC  0x022001DC  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_MCSS_RefreshSpriteFromParty  0x021FFE48  thumb  ov094
+ *   BTLV_MCSS_MakeAddWorkFromPoke  0x022003EC  thumb  ov094
+ *   BTLV_MCSS_ReloadSpriteResource  0x022001DC  thumb  ov094
  */
 typedef struct {
     char pad[0x190];
     void *h190;
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern void func_021FFE48(void *h, int b, void *a);
-extern void func_022003EC(void *h, void *a, int *buf, int b);
-extern void func_022001DC(void *h, int b, int *buf);
+extern void BTLV_MCSS_RefreshSpriteFromParty(void *h, int b, void *a);
+extern void BTLV_MCSS_MakeAddWorkFromPoke(void *h, void *a, int *buf, int b);
+extern void BTLV_MCSS_ReloadSpriteResource(void *h, int b, int *buf);
 
-void func_021F7E38(void *a, int b)
+void BTLV_EFFECT_ResetPokeSprite(void *a, int b)
 {
     int buf[9];
 
-    func_021FFE48(d_0220AF20->h190, b, a);
-    func_022003EC(d_0220AF20->h190, a, buf, b);
-    func_022001DC(d_0220AF20->h190, b, buf);
+    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->h190, b, a);
+    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->h190, a, buf, b);
+    BTLV_MCSS_ReloadSpriteResource(gBtlvEff->h190, b, buf);
 }

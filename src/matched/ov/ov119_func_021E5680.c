@@ -1,5 +1,5 @@
 /*
- * function: func_021E5680
+ * function: POKETRADE_2D_SetupSubBgs
  * address: 0x021E5680
  * packet: pkt_ov119_021E5680
  * region: ov119
@@ -23,7 +23,7 @@ typedef struct BgTemplate { u32 a,b,bufSize,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u3
 extern const BgTemplate d_021E7EE4,d_021E7F04,d_021E7F64,d_021E7E04;
 extern void func_0203FCA0(u32,const BgTemplate *,u32);
 extern void func_02040C14(u32,u32,u32,u32),func_02041300(u32,int,int,int,u8,u8,u8),func_020409B4(u32);
-void func_021E5680(char *p)
+void POKETRADE_2D_SetupSubBgs(char *p)
 {
  BgTemplate a,b,c,d;
  a=d_021E7EE4;func_0203FCA0(4,&a,0);func_02041300(4,0,0,0,32,24,17);

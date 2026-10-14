@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDD98
+ * function: ZUKAN_DETAIL_TOUCHBAR_LoadBarResources
  * address:  0x021BDD98
  * packet:   pkt_ov208_021BDD98
  * region:   ov208
@@ -17,11 +17,11 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BD148  0x021BD148  thumb
- *   func_021BD3C0  0x021BD3C0  thumb
+ *   ZKND_TBAR_GetButtonActor  0x021BD3C0  thumb
  *   func_021BD3CC  0x021BD3CC  thumb
- *   func_021BD378  0x021BD378  thumb
- *   func_021BD368  0x021BD368  thumb
- *   func_021BE300  0x021BE300  thumb
+ *   ZKND_TBAR_SetButtonVisible  0x021BD378  thumb
+ *   ZKND_TBAR_SetButtonAnimSeq  0x021BD368  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind  0x021BE300  thumb
  *   func_021BE128  0x021BE128  thumb
  *   func_021BE170  0x021BE170  thumb
  *   data_021C8440  0x021C8440  data
@@ -115,17 +115,17 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
-extern int func_021BD3C0(void *mgr, int key);
+extern int ZKND_TBAR_GetButtonActor(void *mgr, int key);
 extern void func_021BD3CC(u32 mgr, int key, u16 *pos);
-extern void func_021BD378(int a, int b, int c);
-extern void func_021BD368(int a, int b, int c);
-extern int func_021BE300(int kind);
+extern void ZKND_TBAR_SetButtonVisible(int a, int b, int c);
+extern void ZKND_TBAR_SetButtonAnimSeq(int a, int b, int c);
+extern int ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind(int kind);
 extern void func_021BE128(struct Ov208Scene *p);
 extern void func_021BE170(struct Ov208Scene *p);
 extern struct Ov208ActSrc data_021C8440[];
 extern u16 data_021C83A4[][2];
 
-void ov208_func_021BDD98(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
 {
     struct Ov208ActList list;
     struct Ov208ActDesc descs[9];
@@ -189,19 +189,19 @@ void ov208_func_021BDD98(struct Ov208Scene *p)
     list.f18 = 2;
     p->mgr = func_021BD148(&list, p->heap);
     for (i = 0; i < p->count; i++)
-        p->slots[i].obj = func_021BD3C0((void *)p->mgr, p->slots[i].src->id);
+        p->slots[i].obj = ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[i].src->id);
     if (p->f4 == 0) {
         for (i = 0; i < 9; i++)
             func_021BD3CC(p->mgr, p->slots[i].src->id, data_021C83A4[i]);
-        func_021BD378(p->mgr, p->slots[3].src->id, 0);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[3].src->id, 0);
     }
-    v = func_021BE300(p->f18);
+    v = ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind(p->f18);
     if (v != 9)
-        func_021BD368(p->mgr, p->slots[v].src->id, 0);
+        ZKND_TBAR_SetButtonAnimSeq(p->mgr, p->slots[v].src->id, 0);
     func_021BE128(p);
     func_021BE170(p);
     if (p->f40 == 0) {
-        func_021BD378(p->mgr, p->slots[8].src->id, 0);
-        func_021BD378(p->mgr, p->slots[7].src->id, 0);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[8].src->id, 0);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[7].src->id, 0);
     }
 }

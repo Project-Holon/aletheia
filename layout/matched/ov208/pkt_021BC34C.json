@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC34C",
+   "name": "ZUKAN_DETAIL_PROCSYS_FreeBuffer",
    "address": "0x021BC34C",
    "kind": "game",
    "region": "ov208",

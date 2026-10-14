@@ -1,5 +1,5 @@
 /*
- * function: func_021D683C
+ * function: GDS_RAP_RequestUploadVideo
  * address: 0x021D683C
  * packet: pkt_ov125_021D683C
  * region: ov125
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7700 0x021D7700 thumb ov125
- *   func_021D730C 0x021D730C thumb ov125
- *   func_021D7154 0x021D7154 thumb ov125
- *   func_021D71CC 0x021D71CC thumb ov125
+ *   GDS_RAP_GetVideoWork 0x021D7700 thumb ov125
+ *   GDS_RAP_IsIdle 0x021D730C thumb ov125
+ *   GDS_RAP_FindMember 0x021D7154 thumb ov125
+ *   GDS_RAP_CopyNickname 0x021D71CC thumb ov125
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb  arm9
  *   MI_CpuCopy8  0x02082D44  arm  arm9
@@ -19,16 +19,16 @@
 #include "../include/Obj06472.h"
 #include "../include/Obj22996.h"
 typedef unsigned short u16;
-extern char *func_021D7700(void);
+extern char *GDS_RAP_GetVideoWork(void);
 typedef unsigned int   u32;
 struct ObjC4;
-extern int func_021D730C(char *p);
+extern int GDS_RAP_IsIdle(char *p);
 extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
-extern int func_021D7154(int, int, int *, int *);
-extern void func_021D71CC(const void *src, void *dst, u32 n);
+extern int GDS_RAP_FindMember(int, int, int *, int *);
+extern void GDS_RAP_CopyNickname(const void *src, void *dst, u32 n);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void MI_CpuCopy8(void *, const void *, unsigned int);
-int func_021D683C(char *p, void *dst)
+int GDS_RAP_RequestUploadVideo(char *p, void *dst)
 {
     char *r;
     char *out;
@@ -36,14 +36,14 @@ int func_021D683C(char *p, void *dst)
     int outer, inner;
     int n, m;
     int i;
-    r = func_021D7700();
-    if (!func_021D730C(p)) return 0;
+    r = GDS_RAP_GetVideoWork();
+    if (!GDS_RAP_IsIdle(p)) return 0;
     BATTLE_REC_GetModeLayout(((struct Obj22996 *)r)->fA6, &n, &m);
     base = r + 0xd00;
     out = p + 0x498;
     for (i = 0; i < 12; i++) {
-        if (!func_021D7154((int)p, i, &outer, &inner)) break;
-        func_021D71CC(base + outer * 676 + inner * 112 + 50, out + i * 22, 11);
+        if (!GDS_RAP_FindMember((int)p, i, &outer, &inner)) break;
+        GDS_RAP_CopyNickname(base + outer * 676 + inner * 112 + 50, out + i * 22, 11);
     }
     ((struct Obj06472 *)p)->f5A0 = 0;
     p[0x403] = 0;

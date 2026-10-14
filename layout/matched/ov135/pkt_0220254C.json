@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220254C",
+   "name": "WORLDTRADE_ADAPTER_CreateMail",
    "address": "0x0220254C",
    "kind": "game",
    "region": "ov135",

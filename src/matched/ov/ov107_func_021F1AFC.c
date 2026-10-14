@@ -1,5 +1,5 @@
 /*
- * function: func_021F1AFC
+ * function: MB_UTIL_MSG_GetMsgData
  * address:  0x021F1AFC
  * packet:   pkt_ov107_021F1AFC
  * region:   ov107
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021F1AFC(u8 *p) { return ((struct Obj22306 *)p)->f1C; }
+u32 MB_UTIL_MSG_GetMsgData(u8 *p) { return ((struct Obj22306 *)p)->f1C; }

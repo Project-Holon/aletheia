@@ -1,5 +1,5 @@
 /*
- * function: func_02205E80
+ * function: BTLV_INPUT_CreateTargetActors
  * address:  0x02205E80
  * packet:   pkt_ov094_02205E80
  * region:   ov094
@@ -40,7 +40,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *h, u32 f);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_02205E80(char *m)
+void BTLV_INPUT_CreateTargetActors(char *m)
 {
     Q q = d_0220A580;
     int o0;

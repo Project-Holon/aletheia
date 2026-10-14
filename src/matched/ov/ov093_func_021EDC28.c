@@ -18,7 +18,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTLV_SCU_HideNamePlate  0x021EDF4C  thumb  ov093
  *   BTLV_SCU_DrawNamePlate  0x021EDE54  thumb  ov093
- *   func_021F8AE8  0x021F8AE8  thumb  ov094
+ *   BTLV_EFFECT_SetPokeEffectValue  0x021F8AE8  thumb  ov094
  */
 
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTLV_SCU_HideNamePlate(struct W *w);
 extern void BTLV_SCU_DrawNamePlate(u8 *p);
-extern void func_021F8AE8(int a, u32 b);
+extern void BTLV_EFFECT_SetPokeEffectValue(int a, u32 b);
 
 void BTLV_SCU_PrepareNamePlate(struct W *w, u8 a1, int flag)
 {
@@ -66,5 +66,5 @@ void BTLV_SCU_PrepareNamePlate(struct W *w, u8 a1, int flag)
     }
     w->f22_1 = (u8)flag;
     w->f0d = 0;
-    func_021F8AE8(a1, h);
+    BTLV_EFFECT_SetPokeEffectValue(a1, h);
 }

@@ -33,19 +33,19 @@
  *   DWCi_Flag                        0x021C0EF0  arm
  *   DWCi_FOCUSlDisp4                 0x021BD4C8  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   g_021DE614                       0x021DE614  data
- *   g_021DA7D8                       0x021DA7D8  data
- *   g_021DA858                       0x021DA858  data
+ *   gSceneSetSelectWayFocus                       0x021DE614  data
+ *   gSceneSetSelectWayCommentIds                       0x021DA7D8  data
+ *   gSceneSetSelectWayFocusRects                       0x021DA858  data
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   DWCi_Char   0x021BD170  arm  ov016
  *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
- *   dat_021DA800   0x021DA800  data
- *   dat_021DB778   0x021DB778  data
- *   dat_0207F0B8   0x0207F0B8  data
- *   dat_021DB790   0x021DB790  data
- *   dat_0207E3D0   0x0207E3D0  data
- *   dat_021DB7A8   0x021DB7A8  data
- *   dat_0207EB78   0x0207EB78  data
+ *   gSceneSetSelectWayScreenName   0x021DA800  data
+ *   gSceneSetSelectWayPathChar   0x021DB778  data
+ *   GX_LoadBG2Char   0x0207F0B8  data
+ *   gSceneSetSelectWayPathPltt   0x021DB790  data
+ *   GX_LoadBGPltt   0x0207E3D0  data
+ *   gSceneSetSelectWayPathScr   0x021DB7A8  data
+ *   GX_LoadBG2Scr   0x0207EB78  data
  *   dat_021DE614   0x021DE614  data
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
@@ -68,7 +68,7 @@
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
  *   procScene                        0x021CCC70  arm
- *   g_021DA818                       0x021DA818  data
+ *   gSceneSetSelectWayButtonRects                       0x021DA818  data
  *   DWCi_BTNlEnd  0x021BCAE4  arm  ov016
  *   endScene2  0x021CCEE4  arm  ov016
  *   DWCi_BTNlIsEnd                   0x021BCB58  arm
@@ -84,11 +84,11 @@
  *   DWCi_SceneSetAossButton          0x021C4904  arm
  *   DWCi_SceneSetRakuReady           0x021CB2E8  arm
  *   DWCi_SceneSetList                0x021C82FC  arm
- *   g_021DA7DF     0x021DA7DF  data
+ *   gSceneSetSelectWayFocusMoveTable     0x021DA7DF  data
  *   g_021DA85A     0x021DA85A  data
  *   g_021DA85C     0x021DA85C  data
  *   g_021DA85E     0x021DA85E  data
- *   g_021DA7D4     0x021DA7D4  data
+ *   gSceneSetSelectWayPushPalette     0x021DA7D4  data
  */
 #include "../../matched/include/G_FocusState.h"
 #include "../../matched/include/G_SCENEMENU_BSS.h"
@@ -178,23 +178,22 @@ extern void DWCi_SceneSetList(void);
 void DWCi_SceneSetSelectWay(void);
 void DWCi_SceneSetSelectWay_procScene(void);
 void DWCi_SceneSetSelectWay_draw(void);
-extern struct FocusState g_021DE614;
-extern s8 g_021DA7D8[7];
-extern Rect g_021DA858[4][4];
-extern T22 dat_021DA800;
-extern unsigned char dat_021DB778[];
-extern unsigned char dat_0207F0B8[];
-extern unsigned char dat_021DB790[];
-extern unsigned char dat_0207E3D0[];
-extern unsigned char dat_021DB7A8[];
-extern unsigned char dat_0207EB78[];
-extern unsigned char dat_021DE614[];
+extern struct FocusState gSceneSetSelectWayFocus;
+extern s8 gSceneSetSelectWayCommentIds[7];
+extern Rect gSceneSetSelectWayFocusRects[4][4];
+extern T22 gSceneSetSelectWayScreenName;
+extern unsigned char gSceneSetSelectWayPathChar[];
+extern unsigned char GX_LoadBG2Char[];
+extern unsigned char gSceneSetSelectWayPathPltt[];
+extern unsigned char GX_LoadBGPltt[];
+extern unsigned char gSceneSetSelectWayPathScr[];
+extern unsigned char GX_LoadBG2Scr[];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
-extern Rect g_021DA818[4][4];
-extern signed char g_021DA7DF[2][4][4];
-extern Palette4 g_021DA7D4;
+extern Rect gSceneSetSelectWayButtonRects[4][4];
+extern signed char gSceneSetSelectWayFocusMoveTable[2][4][4];
+extern Palette4 gSceneSetSelectWayPushPalette;
 
 static void initGraphics(void);
 static void procInit(void);
@@ -214,23 +213,23 @@ void DWCi_SceneSetSelectWay(void)
     struct tagSETTINGINFO *info;
 
     info = DWCi_SETTIGNlGet();
-    g_021DE614.flag = 0;
-    if (g_021DE614.last == 0)
-        g_021DE614.last = 1;
+    gSceneSetSelectWayFocus.flag = 0;
+    if (gSceneSetSelectWayFocus.last == 0)
+        gSceneSetSelectWayFocus.last = 1;
     if (DWCi_Language() != 0) {
-        if (g_021DE614.cur == 2)
-            g_021DE614.cur = 0;
-        if (g_021DE614.last == 2)
-            g_021DE614.last = 1;
+        if (gSceneSetSelectWayFocus.cur == 2)
+            gSceneSetSelectWayFocus.cur = 0;
+        if (gSceneSetSelectWayFocus.last == 2)
+            gSceneSetSelectWayFocus.last = 1;
     }
     initGraphics();
     DWCi_HLlLoadSet();
-    DWCi_COMMENTlDispEx(0x32, g_021DA7D8[DWCi_Language()], info->page + 1);
+    DWCi_COMMENTlDispEx(0x32, gSceneSetSelectWayCommentIds[DWCi_Language()], info->page + 1);
     DWCi_CMNlStep(1);
-    DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].left,
-                     g_021DA858[DWCi_Flag(1)][g_021DE614.cur].right,
-                     g_021DA858[DWCi_Flag(1)][g_021DE614.cur].top,
-                     g_021DA858[DWCi_Flag(1)][g_021DE614.cur].bottom);
+    DWCi_FOCUSlDisp4(gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].left,
+                     gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].right,
+                     gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
+                     gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
     DWCi_ChangeScene(procInit);
 }
 
@@ -251,11 +250,11 @@ static void initGraphics(void)
     T22 buf;
     u16 *p;
 
-    buf = dat_021DA800;
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB778), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB790), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB7A8), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
-    ((int *)dat_021DE614)[1] = (int)DWCi_ARClReadEx((char *)((int)DWCi_Char((unsigned char *)(&buf))), 0, 4);
+    buf = gSceneSetSelectWayScreenName;
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathChar), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathPltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
+    gSceneSetSelectWayFocus.screen = DWCi_ARClReadEx((char *)((int)DWCi_Char((unsigned char *)(&buf))), 0, 4);
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -315,13 +314,13 @@ static void input(void)
     unsigned int i;
 
     for (i = 0; i < 4; i++) {
-        if (DWCi_TPlCheckTrigger(&g_021DA818[DWCi_Flag(1)][i])) {
+        if (DWCi_TPlCheckTrigger(&gSceneSetSelectWayButtonRects[DWCi_Flag(1)][i])) {
             DWCi_BTNlSet(1);
-            g_021DE614.cur = i;
-            DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].left,
-                             g_021DA858[DWCi_Flag(1)][g_021DE614.cur].right,
-                             g_021DA858[DWCi_Flag(1)][g_021DE614.cur].top,
-                             g_021DA858[DWCi_Flag(1)][g_021DE614.cur].bottom);
+            gSceneSetSelectWayFocus.cur = i;
+            DWCi_FOCUSlDisp4(gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].left,
+                             gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].right,
+                             gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
+                             gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
             return;
         }
     }
@@ -369,7 +368,7 @@ static void button(void)
     case 1:
         DWCi_SNDlPlay(6);
         DWCi_SceneSetSelectWayDispPush();
-        g_021DE614.flag = 1;
+        gSceneSetSelectWayFocus.flag = 1;
         break;
     default:
         return;
@@ -402,7 +401,7 @@ static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
-    if (g_021DE614.flag)
+    if (gSceneSetSelectWayFocus.flag)
         DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 20, 8);
@@ -420,15 +419,15 @@ static void endScene2(void)
         return;
     DWCi_FOCUSlDelete();
     DWCi_COMMENTlDelete();
-    DWCi_ARClRelease(g_021DE614.screen);
+    DWCi_ARClRelease(gSceneSetSelectWayFocus.screen);
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
-    if (g_021DE614.flag == 0) {
+    if (gSceneSetSelectWayFocus.flag == 0) {
         DWCi_SetParam_(2, 0);
         DWCi_ChangeScene(DWCi_SceneSetSelectAp);
         return;
     }
-    switch (g_021DE614.cur) {
+    switch (gSceneSetSelectWayFocus.cur) {
     case 0:
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetSearch);
@@ -459,21 +458,21 @@ static void endScene2(void)
  */
 static void moveFocus(int dir)
 {
-    signed char prev = g_021DE614.cur;
-    signed char next = g_021DA7DF[DWCi_Flag(1)][prev][dir];
+    signed char prev = gSceneSetSelectWayFocus.cur;
+    signed char next = gSceneSetSelectWayFocusMoveTable[DWCi_Flag(1)][prev][dir];
     if (next == -1)
         return;
     if (next == 0)
-        g_021DE614.last = prev;
+        gSceneSetSelectWayFocus.last = prev;
     if (next == -2)
-        g_021DE614.cur = g_021DE614.last;
+        gSceneSetSelectWayFocus.cur = gSceneSetSelectWayFocus.last;
     else
-        g_021DE614.cur = next;
+        gSceneSetSelectWayFocus.cur = next;
     DWCi_SNDlPlay(8);
-    DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].left,
-                  g_021DA858[DWCi_Flag(1)][g_021DE614.cur].right,
-                  g_021DA858[DWCi_Flag(1)][g_021DE614.cur].top,
-                  g_021DA858[DWCi_Flag(1)][g_021DE614.cur].bottom);
+    DWCi_FOCUSlDisp4(gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].left,
+                  gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].right,
+                  gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
+                  gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
 }
 
 
@@ -485,6 +484,6 @@ static void moveFocus(int dir)
  */
 static void DWCi_SceneSetSelectWayDispPush(void)
 {
-    Palette4 palette = g_021DA7D4;
-    DWCi_SCREENlCopyPalette(g_021DE614.screen, palette.b[g_021DE614.cur], palette.b[g_021DE614.cur]);
+    Palette4 palette = gSceneSetSelectWayPushPalette;
+    DWCi_SCREENlCopyPalette(gSceneSetSelectWayFocus.screen, palette.b[gSceneSetSelectWayFocus.cur], palette.b[gSceneSetSelectWayFocus.cur]);
 }

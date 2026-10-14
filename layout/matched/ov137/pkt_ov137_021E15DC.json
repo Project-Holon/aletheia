@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E15DC",
+   "name": "GURU2_MAIN_AddAngleWrapped",
    "address": "0x021E15DC",
    "kind": "game",
    "region": "ov137",

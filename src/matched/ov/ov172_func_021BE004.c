@@ -1,5 +1,5 @@
 /*
- * function: func_021BE004
+ * function: COMM_TVT_SYS_GetLaunchParams
  * address:  0x021BE004
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE004(void *p)
+u32 COMM_TVT_SYS_GetLaunchParams(void *p)
 {
     return ((struct Obj24111 *)p)->f1F8;
 }

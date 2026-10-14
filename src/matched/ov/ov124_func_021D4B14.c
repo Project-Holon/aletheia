@@ -1,5 +1,5 @@
 /*
- * function: func_021D4B14
+ * function: CG_HELP_ProcInit
  * address: 0x021D4B14
  * packet: pkt_ov124_021D4B14
  * region: ov124
@@ -13,8 +13,8 @@
  *   func_02030734 0x02030734 arm
  *   KEY_GetCont 0x0203630C arm
  *   func_0200854C 0x0200854C thumb
- *   d_021D4D4C 0x021D4D4C data ov124 a1
- *   func_021D4240 0x021D4240 thumb ov124
+ *   gCgHelpFileName 0x021D4D4C data ov124 a1
+ *   CG_HELP_Setup 0x021D4240 thumb ov124
  *   MYSTATUS_Create  0x0200846C  thumb  arm9
  */
 #include "../include/Obj00068.h"
@@ -29,9 +29,9 @@ struct Sub0200852CObj;
 extern void *MYSTATUS_Create(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
-extern void func_021D4240(char *);
-extern const char d_021D4D4C[];
-int func_021D4B14(void *a,int b,void *c)
+extern void CG_HELP_Setup(char *);
+extern const char gCgHelpFileName[];
+int CG_HELP_ProcInit(void *a,int b,void *c)
 {
     char *p;
     void **q;
@@ -39,13 +39,13 @@ int func_021D4B14(void *a,int b,void *c)
     p = PROCSYS_AllocProcWork(a,0x60,0x8a);
     q = c;
     if (!q) {
-        q = func_02030734(0x8a,8,1,d_021D4D4C,0x2f3);
+        q = func_02030734(0x8a,8,1,gCgHelpFileName,0x2f3);
         *q = MYSTATUS_Create(0x8a);
         if (KEY_GetCont() & 0x100) func_0200854C(*q,1);
         else func_0200854C(*q,0);
     }
     ((struct Obj00068 *)p)->f4 = q;
     ((struct Obj00068 *)p)->f0 = 0x8a;
-    func_021D4240(p);
+    CG_HELP_Setup(p);
     return 1;
 }

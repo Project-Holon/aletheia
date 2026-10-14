@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C57A4
+ * function: ZUKAN_DETAIL_FORM_CreateCurrentIcon
  * address:  0x021C57A4
  * packet:   pkt_ov208_021C57A4
  * region:   ov208
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3C0        0x021BC3C0  thumb
- *   ov208_func_021C535C  0x021C535C  thumb
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry        0x021BC3C0  thumb
+ *   ZUKAN_DETAIL_FORM_CreateIconActor  0x021C535C  thumb
  */
 
 typedef unsigned char  u8;
@@ -42,14 +42,14 @@ struct Ov208Menu {
     u16 sel;
 };
 
-extern u16 func_021BC3C0(int key);
-extern u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
+extern u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
                                u32 form, u32 gender, u32 isEgg);
 
-void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx)
+void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Menu *p, int key, u16 idx)
 {
-    u16 k = func_021BC3C0(key);
+    u16 k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
 
-    p->obj[p->cur] = ov208_func_021C535C(p->arc, &p->res[p->cur], p->j, p->k, p->owner, *heap, k,
+    p->obj[p->cur] = ZUKAN_DETAIL_FORM_CreateIconActor(p->arc, &p->res[p->cur], p->j, p->k, p->owner, *heap, k,
                                          p->ents[idx].species, p->ents[idx].forms, 0);
 }

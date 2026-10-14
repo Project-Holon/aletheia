@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionTargetIds
+ * function: SCRCMD_RESEARCH_GetMissionTargetIds
  * address: 0x0216BB90
  * packet: pkt_ov010_0216BB90
  * region: ov010
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 sMissionTargetId0[], sMissionTargetId1[], sMissionTargetId2[];
-void FIELD_G3D_MAP_GetMissionTargetIds(int index, u8 *out)
+void SCRCMD_RESEARCH_GetMissionTargetIds(int index, u8 *out)
 {
     out[0] = *(const u8 *)((u32)sMissionTargetId0 + (u32)index * 7u);
     out[1] = *(const u8 *)((u32)sMissionTargetId1 + (u32)index * 7u);

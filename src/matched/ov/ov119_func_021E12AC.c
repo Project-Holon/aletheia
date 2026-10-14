@@ -1,5 +1,5 @@
 /*
- * function: func_021E12AC
+ * function: POKETRADE_SAVE_IsMessagePrintDone
  * address: 0x021E12AC
  * packet: pkt_ov119_021E12AC
  * region: ov119
@@ -20,4 +20,4 @@ struct Rec3;
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern s32 func_02028484(struct Blk *blk, void *h);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-int func_021E12AC(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}
+int POKETRADE_SAVE_IsMessagePrintDone(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}

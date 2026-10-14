@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A74
+ * function: WORLDTRADE_ENTER_StateStartServerCheck
  * address:  0x021F8A74
  * packet:   pkt_021F8A74
  * region:   ov135
@@ -18,7 +18,7 @@
 
 extern void func_02168064(void);
 
-int func_021F8A74(void *a0)
+int WORLDTRADE_ENTER_StateStartServerCheck(void *a0)
 {
     func_02168064();
     return 1;

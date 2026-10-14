@@ -1,5 +1,5 @@
 /*
- * function: func_02202670
+ * function: WORLDTRADE_ADAPTER_CreateString
  * address:  0x02202670
  * packet:   pkt_02202670
  * region:   ov135
@@ -31,7 +31,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-u32 func_02202670(u32 a, u32 b, u32 c, u32 d)
+u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d)
 {
     u32 t1 = (u32)func_02045EC0((struct MsgBank *)b, c);
     u32 t2 = (u32)STRBUF_Create(0x200, d);

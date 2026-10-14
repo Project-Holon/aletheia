@@ -1,5 +1,5 @@
 /*
- * function: func_021DC888
+ * function: GURU2_EntryProcMain
  * address: 0x021DC888
  * packet: pkt_ov137_021DC888
  * region: ov137
@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   PROCSYS_Main 0x02031330 arm
- *   d_021E1A50 0x021E1A50 data a4
+ *   gGuru2EntryStateTable 0x021E1A50 data a4
  */
 #include "../include/Obj23665.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 PROCSYS_Main(void *);
-extern int (* const d_021E1A50[])(u8 *);
-int func_021DC888(void *obj,int a,int b,u8 *p) { switch(PROCSYS_Main(((struct Obj23665 *)p)->f20)) { case 0: if(d_021E1A50[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }
+extern int (* const gGuru2EntryStateTable[])(u8 *);
+int GURU2_EntryProcMain(void *obj,int a,int b,u8 *p) { switch(PROCSYS_Main(((struct Obj23665 *)p)->f20)) { case 0: if(gGuru2EntryStateTable[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }

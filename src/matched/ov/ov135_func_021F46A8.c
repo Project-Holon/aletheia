@@ -1,5 +1,5 @@
 /*
- * function: func_021F46A8
+ * function: WORLDTRADE_ProcMain
  * address: 0x021F46A8
  * packet: pkt_ov135_021F46A8
  * region: ov135
@@ -11,17 +11,17 @@
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_0205D074 0x0205D074 arm
- *   func_021F4EB4 0x021F4EB4 thumb ov135
+ *   WORLDTRADE_GetWifiLinkLevel 0x021F4EB4 thumb ov135
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   DPW_TR_Main 0x021C7C1C arm ov114
  *   PROCSYS_Main 0x02031330 arm
  *   func_02030D28 0x02030D28 arm
- *   func_02202770 0x02202770 thumb ov135
- *   func_021F49A8 0x021F49A8 thumb ov135
+ *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
+ *   WORLDTRADE_SetupWindowPlanes 0x021F49A8 thumb ov135
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_021FF6A4 0x021FF6A4 thumb ov135
- *   func_021FFB20 0x021FFB20 thumb ov135
- *   func_021F4F84 0x021F4F84 thumb ov135
+ *   WORLDTRADE_SUBLCD_CreateActors 0x021FF6A4 thumb ov135
+ *   WORLDTRADE_SUBLCD_UpdateSlotPalettes 0x021FFB20 thumb ov135
+ *   WORLDTRADE_DecrementTimer 0x021F4F84 thumb ov135
  *   CLACT_DrawSystem 0x0204A600 arm
  *   d_02203A80 0x02203A80 data a4
  */
@@ -33,32 +33,32 @@ extern const Handler d_02203A80[];
 extern int GFL_NET_GetRunState(void);
 struct Ctx;
 extern int func_0205D074(void);
-extern int func_021F4EB4(void);
+extern int WORLDTRADE_GetWifiLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void DPW_TR_Main(void);
 extern u32 PROCSYS_Main(void *);
 extern void func_02030D28(struct Ctx *c);
-extern void func_02202770(void *);
-extern void func_021F49A8(void);
+extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *);
+extern void WORLDTRADE_SetupWindowPlanes(void);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021FF6A4(u8 *);
-extern void func_021FFB20(u8 *, int, int);
-extern void func_021F4F84(u8 *);
+extern void WORLDTRADE_SUBLCD_CreateActors(u8 *);
+extern void WORLDTRADE_SUBLCD_UpdateSlotPalettes(u8 *, int, int);
+extern void WORLDTRADE_DecrementTimer(u8 *);
 extern void CLACT_DrawSystem(void *);
-int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
+int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, u8 *p)
 {
     if (GFL_NET_GetRunState() != 0) {
         func_0205D074();
-        GFL_NET_WM_ICON_EasySetLevel(func_021F4EB4());
+        GFL_NET_WM_ICON_EasySetLevel(WORLDTRADE_GetWifiLinkLevel());
     }
     DPW_TR_Main();
     ((struct Obj02853 *)p)->f12F4 = PROCSYS_Main(((struct Obj02853 *)p)->f12F0);
     func_02030D28(((struct Obj02853 *)p)->fF94);
-    func_02202770(p + 0xfa0);
+    WORLDTRADE_ADAPTER_UpdatePrinter(p + 0xfa0);
     switch (*state) {
     case 0:
         *state = d_02203A80[*(u32 *)(p + 16)].init(p, *state);
-        func_021F49A8();
+        WORLDTRADE_SetupWindowPlanes();
         break;
     case 1:
         if (WIPE_SYS_EndCheck() != 0) *state = 2;
@@ -70,8 +70,8 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
         if (WIPE_SYS_EndCheck() != 0) {
             *state = d_02203A80[*(u32 *)(p + 16)].finish(p, *state);
             if (((struct Obj02853 *)p)->fB8 != 0) {
-                func_021FF6A4(p);
-                func_021FFB20(p, ((struct Obj02853 *)p)->fD0, 0);
+                WORLDTRADE_SUBLCD_CreateActors(p);
+                WORLDTRADE_SUBLCD_UpdateSlotPalettes(p, ((struct Obj02853 *)p)->fD0, 0);
                 ((struct Obj02853 *)p)->fB8 = 0;
             }
         }
@@ -82,7 +82,7 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
     case 5:
         return 1;
     }
-    func_021F4F84(p);
+    WORLDTRADE_DecrementTimer(p);
     if (*(u32 *)&((struct Obj02853 *)p)->fBC0 != 0) CLACT_DrawSystem(((struct Obj02853 *)p)->fBC0);
     if (((struct Obj02853 *)p)->f12E8 > 0) ((struct Obj02853 *)p)->f12E8 -= 1;
     return 0;

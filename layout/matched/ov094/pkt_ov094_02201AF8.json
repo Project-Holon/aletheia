@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02201AF8",
+   "name": "BTLV_CLACT_LoadActorSimple",
    "address": "0x02201AF8",
    "kind": "game",
    "region": "ov094",

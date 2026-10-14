@@ -1,5 +1,5 @@
 /*
- * function: func_021FDF2C
+ * function: WORLDTRADE_SEARCH_CreateWindows
  * address:  0x021FDF2C
  * packet:   pkt_021FDF2C
  * region:   ov135
@@ -60,7 +60,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
 
-void func_021FDF2C(Menu *p)
+void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
 {
     int i;
     u32 v;

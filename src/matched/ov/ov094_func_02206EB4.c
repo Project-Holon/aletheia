@@ -1,5 +1,5 @@
 /*
- * function: func_02206EB4
+ * function: BTLV_GAUGE_FlashTaskMain
  * address: 0x02206EB4
  * packet: pkt_ov094_02206EB4
  * region: ov094
@@ -10,7 +10,7 @@
  * lever: int mode, i, found puts the scan index in r0 and found in r1; mode, found, i differed at seven bytes.
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
- *   func_021F8710 0x021F8710 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
  *   BTLV_GAUGE_StepValue 0x02207F6C thumb ov094
  *   BTLV_GAUGE_DrawBar 0x022082FC thumb ov094
@@ -42,7 +42,7 @@ typedef struct W {
 } W;
 typedef struct O O;
 extern u32 KEY_GetTrg(void);
-extern int func_021F8710(void);
+extern int BTLV_EFFECT_GetMode(void);
 extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
 typedef unsigned char  u8;
 extern int BTLV_GAUGE_StepValue(int n, int target, int delta, int *cur, u8 x, int speed);
@@ -55,12 +55,12 @@ extern void BTLV_GAUGE_UpdateLevelUp(O *, int);
 extern void BTLV_GAUGE_BobSlot(char *, int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void BTLV_GAUGE_UpdateLowHpBgm(W *);
-void func_02206EB4(W *p)
+void BTLV_GAUGE_FlashTaskMain(W *p)
 {
     int mode, i, found;
     KEY_GetTrg();
     if (p->flags.b22) {
-        mode = func_021F8710();
+        mode = BTLV_EFFECT_GetMode();
         p->flags.b22 = 0;
         if (mode != 0 && mode != 1) {
             found = 0;

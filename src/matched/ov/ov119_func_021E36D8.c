@@ -1,5 +1,5 @@
 /*
- * function: func_021E36D8
+ * function: POKETRADE_3D_DeleteMcssSlot
  * address:  0x021E36D8
  * packet:   pkt_ov119_021E36D8
  * region:   ov119
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern void MCSS_SetVanishFlag(void *p);
 extern void MCSS_Del(void *sys, void *obj);
 
-void func_021E36D8(void *p, int idx)
+void POKETRADE_3D_DeleteMcssSlot(void *p, int idx)
 {
     u32 v = ((u32 *)((char *)p + 0x844))[idx];
 

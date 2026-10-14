@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E71F0",
+   "name": "POKETRADE_2D_ScheduleMainPlaneVisible",
    "address": "0x021E71F0",
    "kind": "game",
    "region": "ov119",

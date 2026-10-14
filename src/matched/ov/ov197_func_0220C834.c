@@ -12,8 +12,8 @@
  * symbols:
  *   d_0220E0E0 0x0220E0E0 data a1
  *   func_02030734 0x02030734 arm
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   func_0220C914 0x0220C914 thumb ov197
  *   func_0200829C 0x0200829C thumb
@@ -28,10 +28,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_0220E0E0[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 typedef signed short   s16;
 struct MyItemSave;
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern void *func_02030DA8(void *, u32, void *, u32);
 extern void func_0220C914(void *task, char *p);
 extern void func_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b);
@@ -48,9 +48,9 @@ void func_0220C834(u8 *arg)
     int v;
     int sz = 0x5A4;
     p = func_02030734(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = func_02030DA8(func_021F86D4(), (u32)func_0220C914, p, 0x64);
+    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)func_0220C914, p, 0x64);
     *(u8 **)p = arg;
-    *(void **)(p + 8) = (void *)func_021F86E0();
+    *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
     *(int *)(p + sz - 4) = z;
     if (*(int *)(*(u8 **)p + 8) == 1) {

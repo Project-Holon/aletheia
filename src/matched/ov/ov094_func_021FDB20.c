@@ -1,5 +1,5 @@
 /*
- * function: func_021FDB20
+ * function: BTLV_EFFVM_RefreshMcssOrtho
  * address:  0x021FDB20
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FF16C  0x021FF16C  thumb  ov094
- *   func_021FF1B0  0x021FF1B0  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_EnableOrthoMode  0x021FF16C  thumb  ov094
+ *   BTLV_MCSS_DisableOrthoMode  0x021FF1B0  thumb  ov094
  */
 typedef struct {
     char pad[0x244];
     int f244;
 } State;
 
-extern int func_021F8694(void);
-extern void func_021FF16C(void *w);
-extern void func_021FF1B0(void *w);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_EnableOrthoMode(void *w);
+extern void BTLV_MCSS_DisableOrthoMode(void *w);
 
-void func_021FDB20(State *s)
+void BTLV_EFFVM_RefreshMcssOrtho(State *s)
 {
     if (s->f244 == 1)
-        func_021FF1B0((void *)func_021F8694());
+        BTLV_MCSS_DisableOrthoMode((void *)BTLV_EFFECT_GetMcss());
     else
-        func_021FF16C((void *)func_021F8694());
+        BTLV_MCSS_EnableOrthoMode((void *)BTLV_EFFECT_GetMcss());
 }

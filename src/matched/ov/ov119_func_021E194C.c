@@ -1,5 +1,5 @@
 /*
- * function: func_021E194C
+ * function: POKETRADE_SAVE_PrintAbilityLabel
  * address: 0x021E194C
  * packet: pkt_ov119_021E194C
  * region: ov119
@@ -20,7 +20,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-void func_021E194C(int a,int b,int x,int y,char *p)
+void POKETRADE_SAVE_PrintAbilityLabel(int a,int b,int x,int y,char *p)
 {
     MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),44,(void *)(*(int *)&((struct Obj00001 *)p)->f730));
     PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);

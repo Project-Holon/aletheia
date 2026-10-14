@@ -1,5 +1,5 @@
 /*
- * function: func_021E5EF8
+ * function: POKETRADE_2D_DeleteMarkingIcon
  * address: 0x021E5EF8
  * packet: pkt_ov119_021E5EF8
  * region: ov119
@@ -16,7 +16,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 
-void func_021E5EF8(void *p)
+void POKETRADE_2D_DeleteMarkingIcon(void *p)
 {
     if (((struct Obj10382 *)p)->f10) {
         CLACT_DeleteActor((struct Obj *)(((struct Obj10382 *)p)->f10));

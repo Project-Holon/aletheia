@@ -1,5 +1,5 @@
 /*
- * function: func_021DD620
+ * function: DENDOU_VIEW_StartRotation
  * address: 0x021DD620
  * packet: pkt_ov171_021DD620
  * region: ov171
@@ -11,7 +11,7 @@
  *   before multiplying. Explicit runtime calls preserve the zero divisor path.
  * symbols:
  *   _s32_div_f 0x0209C0A4 arm
- *   d_021DEB56 0x021DEB56 data
+ *   sAngleSpacingByCount 0x021DEB56 data
  */
 #include "../include/Obj00347.h"
 typedef signed char s8;
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
 extern int _s32_div_f(int, int);
-extern const u8 d_021DEB56[];
+extern const u8 sAngleSpacingByCount[];
 
-void func_021DD620(char *p, int step) {
+void DENDOU_VIEW_StartRotation(char *p, int step) {
     s16 dst = ((struct Obj00347 *)p)->fC5C;
     s16 src = dst + step;
     unsigned i;
@@ -52,6 +52,6 @@ void func_021DD620(char *p, int step) {
     angle = ((struct Obj00347 *)p)->fC61;
     if (angle < 0) angle = -angle;
     if (step < 0) step = -step;
-    angle = _s32_div_f(d_021DEB56[count - 1], angle);
+    angle = _s32_div_f(sAngleSpacingByCount[count - 1], angle);
     ((struct Obj00347 *)p)->fC62 = angle * step;
 }

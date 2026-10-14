@@ -1,5 +1,5 @@
 /*
- * function: func_021C7250
+ * function: MB_SEQ_StartArrowFlash
  * address: 0x021C7250
  * packet: pkt_ov136_021C7250
  * region: ov136
@@ -18,7 +18,7 @@ struct Control {
     u8 phase : 4;
     u8 a, b;
 };
-int func_021C7250(u8 *p, int v, int w)
+int MB_SEQ_StartArrowFlash(u8 *p, int v, int w)
 {
     struct Control *q = (struct Control *)(*(u8 * *)&((struct Obj00412 *)p)->f8 + 0x300);
     q->enabled = 0;

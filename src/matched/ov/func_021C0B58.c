@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B58
+ * function: ZUKAN_DETAIL_AREA_ReleaseMarkerResources
  * address:  0x021C0B58
  * packet:   pkt_021C0B58
  * region:   ov208
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 
-void func_021C0B58(void *a, char *q, void *a2)
+void ZUKAN_DETAIL_AREA_ReleaseMarkerResources(void *a, char *q, void *a2)
 {
     CLACT_ReleaseCellAnim(((struct Obj12127 *)q)->f58);
     CLACT_ReleasePalette(((struct Obj12127 *)q)->f54);

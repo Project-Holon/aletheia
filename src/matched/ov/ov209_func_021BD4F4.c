@@ -1,5 +1,5 @@
 /*
- * function: func_021BD4F4
+ * function: ZUKAN_LIST_ClearWindow
  * address:  0x021BD4F4
  * packet:   pkt_ov209_021BD4F4
  * region:   ov209
@@ -42,7 +42,7 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
-void func_021BD4F4(u8 *p, u32 idx)
+void ZUKAN_LIST_ClearWindow(u8 *p, u32 idx)
 {
     void *o2;
     void *o1;

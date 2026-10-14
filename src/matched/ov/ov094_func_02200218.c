@@ -1,5 +1,5 @@
 /*
- * function: func_02200218
+ * function: BTLV_MCSS_PlayCry
  * address:  0x02200218
  * packet:   pkt_ov094_02200218
  * region:   ov094
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
- *   func_021F8754  0x021F8754  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_GetBattleMain  0x021F8754  thumb  ov094
  *   BTL_MAIN_GetVoiceOfSlot  0x021B994C  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
  *   PM_VOICE_AddFrequency  0x02006AEC  thumb
- *   d_02209FC0  0x02209FC0  data  ov094
- *   d_02209FE0  0x02209FE0  data  ov094
- *   d_02209FF0  0x02209FF0  data  ov094
- *   d_0220A068  0x0220A068  data  ov094
+ *   gBtlvMcssVoiceIdSingle  0x02209FC0  data  ov094
+ *   gBtlvMcssVoiceIdDouble  0x02209FE0  data  ov094
+ *   gBtlvMcssVoiceIdRotation  0x02209FF0  data  ov094
+ *   gBtlvMcssVoiceIdTriple  0x0220A068  data  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,21 +47,21 @@ typedef struct {
     Flags flags;            /* 0x510 */
 } Work;
 
-extern u32 d_02209FC0[];
-extern u32 d_02209FE0[];
-extern u32 d_02209FF0[];
-extern u32 d_0220A068[];
+extern u32 gBtlvMcssVoiceIdSingle[];
+extern u32 gBtlvMcssVoiceIdDouble[];
+extern u32 gBtlvMcssVoiceIdRotation[];
+extern u32 gBtlvMcssVoiceIdTriple[];
 
-extern int func_022019F4(char *p, int key);
-extern int func_021F8754(void);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern int BTLV_EFFECT_GetBattleMain(void);
 extern int BTL_MAIN_GetVoiceOfSlot(void *p, int key, u32 *out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void PM_VOICE_AddVolume(u32 idx, int delta);
 extern void PM_VOICE_AddFrequency(u32 idx, u32 delta);
 
-u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
+u32 BTLV_MCSS_PlayCry(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
     u32 id;
     u32 buf;
     u32 *out;
@@ -76,28 +76,28 @@ u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
     switch (key) {
     case 0:
     case 1:
-        id = d_02209FC0[key];
+        id = gBtlvMcssVoiceIdSingle[key];
         break;
     case 2:
     case 3:
     case 4:
     case 5:
         if (w->flags.b1)
-            id = d_02209FF0[key - 2];
+            id = gBtlvMcssVoiceIdRotation[key - 2];
         else if (w->flags.b0)
-            id = d_0220A068[key - 2];
+            id = gBtlvMcssVoiceIdTriple[key - 2];
         else
-            id = d_02209FE0[key - 2];
+            id = gBtlvMcssVoiceIdDouble[key - 2];
         break;
     case 6:
     case 7:
         if (w->flags.b1)
-            id = d_02209FF0[key - 2];
+            id = gBtlvMcssVoiceIdRotation[key - 2];
         else
-            id = d_0220A068[key - 2];
+            id = gBtlvMcssVoiceIdTriple[key - 2];
         break;
     }
-    p = (void *)func_021F8754();
+    p = (void *)BTLV_EFFECT_GetBattleMain();
     out = &buf;
     flag = 0;
     if (p != 0) {

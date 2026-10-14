@@ -1,5 +1,5 @@
 /*
- * function: func_021BD844
+ * function: ZKND_TBAR_SetPressedAnim
  * address:  0x021BD844
  * packet:   pkt_021BD844
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj18242.h"
 
 
-void func_021BD844(char *p, int v)
+void ZKND_TBAR_SetPressedAnim(char *p, int v)
 {
     ((struct Obj18242 *)p)->f2C = v;
 }

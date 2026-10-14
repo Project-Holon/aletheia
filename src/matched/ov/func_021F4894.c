@@ -1,5 +1,5 @@
 /*
- * function: func_021F4894
+ * function: WORLDTRADE_SetupVramBanks
  * address:  0x021F4894
  * packet:   pkt_021F4894
  * region:   ov135
@@ -20,7 +20,7 @@
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021F4894(const struct DispVram *a0)
+void WORLDTRADE_SetupVramBanks(const struct DispVram *a0)
 {
     BG_SYS_SetVramBanks(a0);
 }

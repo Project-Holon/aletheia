@@ -17,21 +17,21 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C 0x02034A5C arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_021F73F0 0x021F73F0 thumb ov094
- *   func_021F7544 0x021F7544 thumb ov094
+ *   BTLV_EFFECT_CreateSetup 0x021F73F0 thumb ov094
+ *   BTLV_EFFECT_Init 0x021F7544 thumb ov094
  *   func_020307B0 0x020307B0 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_02202058 0x02202058 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_INPUT_CreateDefault 0x02202058 thumb ov094
  *   TCBL_Create 0x0203101C arm
  *   func_02008254 0x02008254 thumb
  *   gPdcMainSrcName 0x021B6E68 data a1
  *   gPdcViewParams 0x021B6D80 data a2
  *   TCBL_Main 0x020310C4 arm
- *   func_021F78E4 0x021F78E4 thumb ov094
- *   func_02202228 0x02202228 thumb ov094
+ *   BTLV_EFFECT_Main 0x021F78E4 thumb ov094
+ *   BTLV_INPUT_UpdateInfoWindow 0x02202228 thumb ov094
  *   TCBL_Destroy 0x02031140 arm
- *   func_021F7808 0x021F7808 thumb ov094
- *   func_022021F4 0x022021F4 thumb ov094
+ *   BTLV_EFFECT_Exit 0x021F7808 thumb ov094
+ *   BTLV_INPUT_Delete 0x022021F4 thumb ov094
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -51,22 +51,22 @@
  *   func_0203F9B4 0x0203F9B4 arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_021F7EE8  0x021F7EE8  thumb  ov094
- *   func_021F7998  0x021F7998  thumb  ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_021F8090  0x021F8090  thumb  ov094
- *   func_0220270C  0x0220270C  thumb  ov094
- *   func_02202DC4  0x02202DC4  thumb  ov094
+ *   BTLV_EFFECT_SetPokeSpriteKey  0x021F7EE8  thumb  ov094
+ *   BTLV_EFFECT_StartEffect  0x021F7998  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_GaugeInitSlotFromPartyPoke  0x021F8090  thumb  ov094
+ *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb  ov094
+ *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb  ov094
  *   gPdcMenuLayoutA     0x021B6D98  data   ov098  a4
  *   gPdcMenuLayoutB     0x021B6DC0  data   ov098  a4
  *   ov196_id 0x000000C4 data
  *   ov197_id 0x000000C5 data
- *   func_022025D8 0x022025D8 thumb ov094
- *   func_022026FC 0x022026FC thumb ov094
- *   func_0220266C 0x0220266C thumb ov094
+ *   BTLV_INPUT_StartPaletteFadeTask 0x022025D8 thumb ov094
+ *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
+ *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
  *   func_0220C834 0x0220C834 thumb ov197
- *   func_021F7CFC 0x021F7CFC thumb ov094
- *   func_021F7C0C 0x021F7C0C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
  *   func_02007F1C 0x02007F1C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
@@ -128,19 +128,19 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern int func_02034AC4(int overlayId);
 extern void func_02034A5C(int overlayId);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
-extern void *func_021F73F0(int, int, void *scene, int, u16 *params, int, int, u16 heapId);
-extern void func_021F7544(void *screen, struct GfFont *font, u16 heapId);
+extern void *BTLV_EFFECT_CreateSetup(int, int, void *scene, int, u16 *params, int, int, u16 heapId);
+extern void BTLV_EFFECT_Init(void *screen, struct GfFont *font, u16 heapId);
 extern u32 func_020307B0(void *p);
-extern int func_021F86E0(void);
-extern struct PdcMenu *func_02202058(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
+extern int BTLV_EFFECT_GetPalanm(void);
+extern struct PdcMenu *BTLV_INPUT_CreateDefault(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02008254(u32 heapId);
 extern void TCBL_Main(struct Tcbl *tcbl);
-extern void func_021F78E4(void);
-extern void func_02202228(struct PdcMenu *menu);
+extern void BTLV_EFFECT_Main(void);
+extern void BTLV_INPUT_UpdateInfoWindow(struct PdcMenu *menu);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern void func_021F7808(void);
-extern void func_022021F4(struct PdcMenu *menu);
+extern void BTLV_EFFECT_Exit(void);
+extern void BTLV_INPUT_Delete(struct PdcMenu *menu);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
@@ -157,18 +157,18 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void CLACT_ExitSystem(void);
 extern void G3D_SYSTEM_Exit(void);
-extern void func_021F7EE8(struct PokemonParam *mon, int key);
-extern void func_021F7998(u32 a);
-extern int func_021F7EB4(void);
-extern void func_021F8090(struct PokedexSave *pokedexSave, struct PokemonParam *mon, u32 c);
-extern void func_0220270C(struct PdcMenu *menu, int mode, void *arg);
-extern int func_02202DC4(struct PdcMenu *menu, char *b, char *c);
-extern void func_022025D8(struct PdcMenu *menu, int);
-extern int func_022026FC(struct PdcMenu *menu);
-extern void func_0220266C(struct PdcMenu *menu);
+extern void BTLV_EFFECT_SetPokeSpriteKey(struct PokemonParam *mon, int key);
+extern void BTLV_EFFECT_StartEffect(u32 a);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct PokedexSave *pokedexSave, struct PokemonParam *mon, u32 c);
+extern void BTLV_INPUT_ChangeScreen(struct PdcMenu *menu, int mode, void *arg);
+extern int BTLV_INPUT_ProcessTouchInput(struct PdcMenu *menu, char *b, char *c);
+extern void BTLV_INPUT_StartPaletteFadeTask(struct PdcMenu *menu, int);
+extern int BTLV_INPUT_IsScreenBusy(struct PdcMenu *menu);
+extern void BTLV_INPUT_StartScreenFadeTask(struct PdcMenu *menu);
 extern void func_0220C834(struct PdcItemSelect *select);
-extern void func_021F7CFC(u32, u16, u8, int, int);
-extern void func_021F7C0C(void);
+extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
+extern void BTLV_EFFECT_ResumeVm(void);
 extern u32 func_02007F1C(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -235,11 +235,11 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     sys->msgFont = GF_FONT_Create(23, 2, 0, 0, sys->heapId);
     sys->state = 0;
     params = gPdcViewParams;
-    screen = func_021F73F0(0, 0, PDC_GetScene(args), 0, (u16 *)&params, 0, 0, sys->heapId);
-    func_021F7544(screen, sys->msgFont, sys->heapId);
+    screen = BTLV_EFFECT_CreateSetup(0, 0, PDC_GetScene(args), 0, (u16 *)&params, 0, 0, sys->heapId);
+    BTLV_EFFECT_Init(screen, sys->msgFont, sys->heapId);
     func_020307B0(screen);
     gameData = PDC_GetGameData(args);
-    sys->menu = func_02202058(gameData, 0, func_021F86E0(), sys->font, &sys->menuWork, sys->heapId);
+    sys->menu = BTLV_INPUT_CreateDefault(gameData, 0, BTLV_EFFECT_GetPalanm(), sys->font, &sys->menuWork, sys->heapId);
     sys->tcbl = TCBL_Create(heapId, heapId, 64, 128);
     sys->mon = PDC_GetMon(args);
     sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
@@ -252,8 +252,8 @@ int PDC_MAIN_Update(struct PdcSys *sys)
 {
     PdcStep step;
     TCBL_Main(sys->tcbl);
-    func_021F78E4();
-    func_02202228(sys->menu);
+    BTLV_EFFECT_Main();
+    BTLV_INPUT_UpdateInfoWindow(sys->menu);
     step = sys->step;
     if (step != 0) return step(sys);
     return 0;
@@ -263,8 +263,8 @@ void PDC_MAIN_Delete(struct PdcSys *sys)
 {
     TCBL_Destroy(sys->tcbl);
     PDC_MSG_Delete(sys->msg);
-    func_021F7808();
-    func_022021F4(sys->menu);
+    BTLV_EFFECT_Exit();
+    BTLV_INPUT_Delete(sys->menu);
     GF_FONT_Delete(sys->font);
     GF_FONT_Delete(sys->msgFont);
     PDC_MAIN_ExitGraphics();
@@ -313,14 +313,14 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
         break;
     case 1:
         if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
-            func_021F7EE8(sys->mon, 1);
-            func_021F7998(0x231);
+            BTLV_EFFECT_SetPokeSpriteKey(sys->mon, 1);
+            BTLV_EFFECT_StartEffect(0x231);
             PDC_MAIN_StartFadeIn(2);
             sys->state++;
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             PDC_MSG_PrintMessage0(sys->msg, sys->args);
             sys->state++;
         }
@@ -328,19 +328,19 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
     case 3:
         if (PDC_MSG_Update(sys->msg) != 0) {
             pokedexSave = PDC_GetPokedexSave(sys->args);
-            func_021F8090(pokedexSave, PDC_GetMon(sys->args), 1);
+            BTLV_EFFECT_GaugeInitSlotFromPartyPoke(pokedexSave, PDC_GetMon(sys->args), 1);
             PDC_MSG_StartFadeIn(sys->msg);
             sys->state++;
         }
         break;
     case 4:
         if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
-            func_021F7998(0x23e);
+            BTLV_EFFECT_StartEffect(0x23e);
             sys->state++;
         }
         break;
     case 5:
-        if (func_021F7EB4() == 0)
+        if (BTLV_EFFECT_IsBusy() == 0)
             PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
         break;
     }
@@ -359,12 +359,12 @@ int PDC_MAIN_StepConfirm(struct PdcSys *sys)
         break;
     case 1:
         if (PDC_MSG_Update(sys->msg) != 0) {
-            func_0220270C(sys->menu, 7, 0);
+            BTLV_INPUT_ChangeScreen(sys->menu, 7, 0);
             sys->state++;
         }
         break;
     case 2:
-        choice = func_02202DC4(sys->menu, gPdcMenuLayoutA, gPdcMenuLayoutB);
+        choice = BTLV_INPUT_ProcessTouchInput(sys->menu, gPdcMenuLayoutA, gPdcMenuLayoutB);
         if (choice != -1) {
             if (choice != 0)
                 PDC_MAIN_SetStep(sys, PDC_MAIN_StepDeclined);
@@ -392,12 +392,12 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         sys->select.cursorPos = 0; sys->select.scrollPos = 0; sys->select.done = 0;
         sys->select.menuWork = (u8 *)&sys->menuWork;
         sys->select.enabled = 1;
-        func_022025D8(sys->menu, 1);
+        BTLV_INPUT_StartPaletteFadeTask(sys->menu, 1);
         func_02034AC4((int)ov196_id);
         sys->state++;
         break;
     case 1:
-        if (!func_022026FC(sys->menu)) {
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
             func_02034AC4((int)ov197_id);
             func_0220C834(&sys->select);
             sys->state++;
@@ -406,7 +406,7 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
     case 2:
         if (sys->select.done) {
             func_02034A5C((int)ov196_id); func_02034A5C((int)ov197_id);
-            func_0220266C(sys->menu);
+            BTLV_INPUT_StartScreenFadeTask(sys->menu);
             if (sys->select.chosenItem == 0) sys->state = 3;
             else {
                 func_02007F1C(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
@@ -415,22 +415,22 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         }
         break;
     case 3:
-        if (!func_022026FC(sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
         break;
     case 4:
-        if (!func_022026FC(sys->menu)) {
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
             PDC_MSG_PrintMessage1(sys->msg, sys->args);
             sys->state++;
         }
         break;
     case 5:
         if (PDC_MSG_Update(sys->msg)) {
-            func_021F7CFC(1, sys->select.chosenItem, 4, 1, 0);
+            BTLV_EFFECT_StartEffectWithColor(1, sys->select.chosenItem, 4, 1, 0);
             sys->state++;
         }
         break;
     case 6:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             PDC_MSG_PrintMessage2(sys->msg, sys->args);
             sys->state++;
         }
@@ -441,12 +441,12 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         break;
     case 8:
         if (!GFL_USE_IsBgmPlaying()) {
-            func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
+            BTLV_EFFECT_ResumeVm(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             sys->state++;
         }
         break;
     case 9:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             sys->timer = 80;
             sys->state++;
         }

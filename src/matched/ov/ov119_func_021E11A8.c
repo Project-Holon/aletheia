@@ -1,5 +1,5 @@
 /*
- * function: func_021E11A8
+ * function: POKETRADE_SAVE_DeleteMessageResources
  * address: 0x021E11A8
  * packet: pkt_ov119_021E11A8
  * region: ov119
@@ -10,8 +10,8 @@
  * symbols:
  *   func_0200566C 0x0200566C thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
- *   func_021E106C 0x021E106C thumb ov119
- *   func_021E12F8 0x021E12F8 thumb ov119
+ *   POKETRADE_SAVE_CloseMessageWindow 0x021E106C thumb ov119
+ *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -36,8 +36,8 @@ struct S02031140;
 struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
-extern void func_021E106C(char *p);
-extern void func_021E12F8(char *p);
+extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
+extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -50,14 +50,14 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-void func_021E11A8(char *p)
+void POKETRADE_SAVE_DeleteMessageResources(char *p)
 {
     int i;
     func_0200566C();
     if(*(int *)&((struct Obj00001 *)p)->f744) {
         APP_KEYCURSOR_Delete((int)(((struct Obj00001 *)p)->f74C));
-        func_021E106C(p);
-        func_021E12F8(p);
+        POKETRADE_SAVE_CloseMessageWindow(p);
+        POKETRADE_SAVE_CloseTaskMenu(p);
         if(((struct Obj00001 *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}
         if(((struct Obj00001 *)p)->f648) {APP_TASKMENU_WIN_Delete(((struct Obj00001 *)p)->f648);((struct Obj00001 *)p)->f648=0;}
         if(((struct Obj00001 *)p)->f6B0) {APP_TASKMENU_RES_Delete(((struct Obj00001 *)p)->f6B0);((struct Obj00001 *)p)->f6B0=0;}

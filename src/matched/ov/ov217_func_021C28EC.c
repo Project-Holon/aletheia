@@ -1,5 +1,5 @@
 /*
- * function: func_021C28EC
+ * function: PERCENTAGE_GetHundredsPosition
  * address:  0x021C28EC
  * packet:   pkt_ov217_021C28EC
  * region:   ov217
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021C28EC(const u32 *p, u16 *a, u16 *b)
+void PERCENTAGE_GetHundredsPosition(const u32 *p, u16 *a, u16 *b)
 {
     *a = p[1] + 0xA;
     *b = p[2] - 8;

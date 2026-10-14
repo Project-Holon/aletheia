@@ -1,5 +1,5 @@
 /*
- * function: func_021B699C
+ * function: CTVT_CAMERA_GetSizeHeight
  * address:  0x021B699C
  * packet:   pkt_021B6868
  * region:   ov172
@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern int OS_IsRunOnTwl(void *p);
 extern int func_021B69B4(void *v);
 
-int func_021B699C(void *p)
+int CTVT_CAMERA_GetSizeHeight(void *p)
 {
     void *v = ((struct Obj24062 *)p)->f30;
     if (OS_IsRunOnTwl(p) == 1) {

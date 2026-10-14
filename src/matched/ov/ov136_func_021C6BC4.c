@@ -1,5 +1,5 @@
 /*
- * function: func_021C6BC4
+ * function: MB_SEQ_StateFlashWait
  * address:  0x021C6BC4
  * packet:   pkt_021C6BC4
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5C84  0x021C5C84  thumb
+ *   MB_SEQ_StepSelectFlash  0x021C5C84  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021C5C84(u8 *p);
+extern int MB_SEQ_StepSelectFlash(u8 *p);
 
-int func_021C6BC4(u8 *p)
+int MB_SEQ_StateFlashWait(u8 *p)
 {
-    if (func_021C5C84(p) == 0)
+    if (MB_SEQ_StepSelectFlash(p) == 0)
         return ((struct Obj23617 *)p)->f28;
     return 5;
 }

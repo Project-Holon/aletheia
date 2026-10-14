@@ -1,5 +1,5 @@
 /*
- * function: func_021F6480
+ * function: MBi_TaskThread
  * address:  0x021F6480
  * packet:   pkt_ov107_021F6480
  * region:   ov107
@@ -43,7 +43,7 @@ extern void OS_RestoreInterrupts(u32 mode);
 extern void *OS_GetThreadPriority(char *p);
 extern void OS_ExitThread(void);
 
-void func_021F6480(void *arg)
+void MBi_TaskThread(void *arg)
 {
     TaskWork *p;
     Task *trg;

@@ -17,7 +17,7 @@
  *   func_021BC640  0x021BC640  thumb  ov217
  *   func_021BC758  0x021BC758  thumb  ov217
  *   func_021BC774  0x021BC774  thumb  ov217
- *   func_021C09AC  0x021C09AC  thumb  ov217
+ *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -34,10 +34,10 @@ extern void func_021BC638(void *p, u32 v);
 extern void func_021BC640(void *p, u32 v);
 extern u32 func_021BC758(u32 a0);
 extern void func_021BC774(u8 *p);
-extern u32 func_021C09AC(void *p);
+extern u32 RESEARCH_COMMON_GetHeapId(void *p);
 u32 func_021BAB80(u32 a0, u32 a1)
 {
-    u32 v1 = func_021C09AC((void *)a0);
+    u32 v1 = RESEARCH_COMMON_GetHeapId((void *)a0);
     u32 v2 = func_021BC758(v1);
     func_021BC774((u8 *)v2);
     func_021BC634(v2, v1);

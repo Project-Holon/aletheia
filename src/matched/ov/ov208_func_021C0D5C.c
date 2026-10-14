@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D5C
+ * function: ZUKAN_DETAIL_AREA_FindTownAtPoint
  * address: 0x021C0D5C
  * packet: pkt_ov208_021C0D5C
  * region: ov208
@@ -43,7 +43,7 @@ extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v)
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *,struct Ball *,struct Out *);
 #define FX(x) ((int)(((x)>0) ? ((float)((int)(x)<<12)+0.5f) : ((float)((int)(x)<<12)-0.5f)))
 #define FIELD(n) TOWNMAP_GRH_GetTownInfoValue(*(char **)(p+0x3c8),i,n)
-u8 func_021C0D5C(void *unused,char *p,int unused2,u8 x,u8 y)
+u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused,char *p,int unused2,u8 x,u8 y)
 {
     struct Ball ball;
     struct Vec point;

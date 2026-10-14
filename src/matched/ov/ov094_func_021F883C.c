@@ -1,5 +1,5 @@
 /*
- * function: func_021F883C
+ * function: BTLV_EFFECT_StopLowHpBgmAndSuppress
  * address:  0x021F883C
  * packet:   pkt_ov094_021F883C
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
  *   BTLV_GAUGE_IsLowHpBgmPlaying  0x022088F4  thumb  ov094
  *   BTLV_GAUGE_SetLowHpBgmSuppressed  0x0220893C  thumb  ov094
  *   BTLV_GAUGE_SetLowHpBgmPlaying  0x02208900  thumb  ov094
@@ -24,7 +24,7 @@ typedef struct {
     void *obj;          /* 0x1A4 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
 extern u32 BTLV_GAUGE_IsLowHpBgmPlaying(void *o);
 extern void BTLV_GAUGE_SetLowHpBgmSuppressed(void *o, u32 v);
@@ -32,11 +32,11 @@ extern void BTLV_GAUGE_SetLowHpBgmPlaying(void *o, u32 v);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 
-void func_021F883C(u32 a)
+void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32 a)
 {
-    if (BTLV_GAUGE_IsLowHpBgmPlaying(d_0220AF20->obj) == 1)
+    if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->obj) == 1)
         GFL_USE_PopBgm();
-    BTLV_GAUGE_SetLowHpBgmSuppressed(d_0220AF20->obj, 1);
-    BTLV_GAUGE_SetLowHpBgmPlaying(d_0220AF20->obj, 0);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->obj, 1);
+    BTLV_GAUGE_SetLowHpBgmPlaying(gBtlvEff->obj, 0);
     GFL_USE_CancelChangeAndPlayBgm(a, 0x0000FFFF);
 }

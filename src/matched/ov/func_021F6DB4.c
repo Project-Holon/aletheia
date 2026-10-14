@@ -1,5 +1,5 @@
 /*
- * function: func_021F6DB4
+ * function: WORLDTRADE_BOX_ScoreMatchingRecords
  * address:  0x021F6DB4
  * packet:   pkt_021F6DB4
  * region:   ov135
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F6C80  0x021F6C80  thumb
+ *   WORLDTRADE_BOX_TagMatchesRequest  0x021F6C80  thumb
  *
  * For each of the 30 four-byte records with a nonzero s16 head that
- * func_021F6C80 does not accept against `key`, add 3 to the +4 word of
+ * WORLDTRADE_BOX_TagMatchesRequest does not accept against `key`, add 3 to the +4 word of
  * the matching 0x20C-byte entry. The second argument is unused.
  */
 
@@ -32,14 +32,14 @@ typedef struct {
     u8 pad8[0x20C - 8];
 } Entry;
 
-extern int func_021F6C80(void *pa, void *pb);
+extern int WORLDTRADE_BOX_TagMatchesRequest(void *pa, void *pb);
 
-void func_021F6DB4(Rec *recs, u32 unused, void *key, Entry *ent)
+void WORLDTRADE_BOX_ScoreMatchingRecords(Rec *recs, u32 unused, void *key, Entry *ent)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
-        if (recs[i].a != 0 && func_021F6C80(&recs[i], key) == 0) {
+        if (recs[i].a != 0 && WORLDTRADE_BOX_TagMatchesRequest(&recs[i], key) == 0) {
             ent[i].f4 += 3;
         }
     }

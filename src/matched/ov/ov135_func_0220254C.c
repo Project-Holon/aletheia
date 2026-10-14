@@ -1,5 +1,5 @@
 /*
- * function: func_0220254C
+ * function: WORLDTRADE_ADAPTER_CreateMail
  * address:  0x0220254C
  * packet:   pkt_0220254C
  * region:   ov135
@@ -47,7 +47,7 @@ extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern u32 func_020307B0(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_0220254C(void *mon, u32 heap)
+void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
 {
     void *bank;
     void *str;

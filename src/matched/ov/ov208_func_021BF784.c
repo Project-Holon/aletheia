@@ -1,5 +1,5 @@
 /*
- * function: func_021BF784
+ * function: ZUKAN_DETAIL_AREA_SetHeapId
  * address: 0x021BF784
  * packet: pkt_ov208_021BF784
  * region: ov208
@@ -11,7 +11,7 @@
  * symbols:
  */
 typedef unsigned short u16;
-void func_021BF784(u16 *p, u16 v)
+void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v)
 {
     *p = v;
 }

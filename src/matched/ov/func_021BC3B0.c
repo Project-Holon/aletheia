@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3B0
+ * function: ZUKAN_DETAIL_COMMON_GetGraphics
  * address:  0x021BC3B0
  * packet:   pkt_021BC3A4
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-int func_021BC3B0(int *p)
+int ZUKAN_DETAIL_COMMON_GetGraphics(int *p)
 {
     return p[3];
 }

@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_021D94A0 0x021D94A0 thumb ov119
- *   func_021D8E80 0x021D8E80 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_ClearSideMon 0x021D94A0 thumb ov119
+ *   POKETRADE_PROC_StepNone 0x021D8E80 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DBAF8 0x021DBAF8 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 typedef unsigned short u16;
 
-extern int func_021D8A24(void *);
-extern void func_021D94A0(void *,int);
-extern void func_021D8E80(void *);
-extern void func_021D8E84(void *,int);
+extern int POKETRADE_PROC_IsNetSession(void *);
+extern void POKETRADE_PROC_ClearSideMon(void *,int);
+extern void POKETRADE_PROC_StepNone(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
 typedef unsigned int   u32;
 struct Entry;
 extern void func_021DBAF8(char *p);
@@ -29,12 +29,12 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 void func_021DBA38(void *p)
 {
-    if (func_021D8A24(p)==0) {
-        func_021D94A0(p,1);
-        func_021D8E80(p);
-        func_021D8E84(p,(int)func_021DBAF8);
+    if (POKETRADE_PROC_IsNetSession(p)==0) {
+        POKETRADE_PROC_ClearSideMon(p,1);
+        POKETRADE_PROC_StepNone(p);
+        POKETRADE_PROC_SetStep(p,(int)func_021DBAF8);
         return;
     }
     if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc06,0,0)!=0)
-        func_021D8E84(p,(int)func_021DBAF8);
+        POKETRADE_PROC_SetStep(p,(int)func_021DBAF8);
 }

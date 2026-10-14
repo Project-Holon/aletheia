@@ -1,5 +1,5 @@
 /*
- * function: func_021FA760
+ * function: WORLDTRADE_INPUT_HandlePagedKey5
  * address:  0x021FA760
  * packet:   pkt_021FA760
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FA7C4  0x021FA7C4  thumb
+ *   WORLDTRADE_INPUT_ScrollPage5  0x021FA7C4  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
@@ -42,10 +42,10 @@ typedef struct {
     u8 g[4];
 } Menu;
 
-extern void func_021FA7C4(Menu *m, int dir);
+extern void WORLDTRADE_INPUT_ScrollPage5(Menu *m, int dir);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
-int func_021FA760(Menu *m, int key)
+int WORLDTRADE_INPUT_HandlePagedKey5(Menu *m, int key)
 {
     int idx;
 
@@ -54,10 +54,10 @@ int func_021FA760(Menu *m, int key)
         GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     case 6:
-        func_021FA7C4(m, -1);
+        WORLDTRADE_INPUT_ScrollPage5(m, -1);
         return -1;
     case 7:
-        func_021FA7C4(m, 1);
+        WORLDTRADE_INPUT_ScrollPage5(m, 1);
         return -1;
     }
     idx = key + m->page * 5;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3D44
+ * function: MAILTOOL_CreateArgsFromPartyMon
  * address: 0x021C3D44
  * packet: pkt_ov136_021C3D44
  * region: ov136
@@ -26,7 +26,7 @@ extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MAIL_Create(int a0);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
-void *func_021C3D44(void *a, void *b, unsigned heap)
+void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
 {
     u8 *p;
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);

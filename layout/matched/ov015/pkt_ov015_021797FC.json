@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021797FC",
-    "func_02179808"
+    "IRCNET_CbStop",
+    "IRCNET_CbIsRunning"
+   ],
+   "addresses": [
+    "0x021797FC",
+    "0x02179808"
    ]
   }
  ]

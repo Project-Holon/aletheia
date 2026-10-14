@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED64
+ * function: UNION_MSG_GetSpinTradeChatMsg
  * address:  0x0217ED64
  * packet:   pkt_ov019_0217ED64
  * region:   ov019
@@ -14,7 +14,7 @@
  *   d_02180390     0x02180390  data  a2
  *
  * Two-column u16 table indexed by func_020056EC(4); same shape as
- * func_0217ED48 (table 0x02180360). The 204 bytes after the pool are
+ * UNION_MSG_GetTradeChatMsg (table 0x02180360). The 204 bytes after the pool are
  * seventeen unlabelled u16-table leaves, each filed on its own.
  */
 
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u32 func_020056EC(u32 v);
 extern const u16 d_02180390[][2];
 
-u16 func_0217ED64(int i)
+u16 UNION_MSG_GetSpinTradeChatMsg(int i)
 {
     return d_02180390[func_020056EC(4)][i];
 }

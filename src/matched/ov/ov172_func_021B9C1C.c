@@ -9,9 +9,9 @@
  * status: EXACT*
  * extent: Two bytes zero alignment padding follow the return.
  * symbols:
- *   func_021BE034 0x021BE034 thumb ov172
- *   func_021BE03C 0x021BE03C thumb ov172
- *   func_021BE044 0x021BE044 thumb ov172
+ *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
+ *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
+ *   COMM_TVT_SYS_GetPrintQue 0x021BE044 thumb ov172
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -24,9 +24,9 @@
  */
 #include "../include/Obj05446.h"
 typedef unsigned int u32;
-extern u32 func_021BE034(void *);
-extern u32 func_021BE03C(void *);
-extern u32 func_021BE044(void *);
+extern u32 COMM_TVT_SYS_GetFont(void *);
+extern u32 COMM_TVT_SYS_GetMsgData(void *);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *);
 typedef unsigned char  u8;
 struct Cfg;
 struct CharBuf;
@@ -46,9 +46,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 void func_021B9C1C(void *p, char *q, int id)
 {
-    u32 font = func_021BE034(p);
-    u32 msgs = func_021BE03C(p);
-    u32 sys = func_021BE044(p);
+    u32 font = COMM_TVT_SYS_GetFont(p);
+    u32 msgs = COMM_TVT_SYS_GetMsgData(p);
+    u32 sys = COMM_TVT_SYS_GetPrintQue(p);
     u32 text;
     PRINTSYS_QUE_Clear((struct PrintSys *)sys);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05446 *)q)->f7C)), 15);

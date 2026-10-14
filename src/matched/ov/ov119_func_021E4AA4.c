@@ -1,5 +1,5 @@
 /*
- * function: func_021E4AA4
+ * function: POKETRADE_2D_IsBoxIconMatch
  * address: 0x021E4AA4
  * packet: pkt_ov119_021E4AA4
  * region: ov119
@@ -11,7 +11,7 @@
  *   d_021E82A4 0x021E82A4 data
  */
 extern const unsigned char d_021E82A4[];
-int func_021E4AA4(int i, int x)
+int POKETRADE_2D_IsBoxIconMatch(int i, int x)
 {
     if (x == d_021E82A4[i]) {
         return 1;

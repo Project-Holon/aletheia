@@ -1,5 +1,5 @@
 /*
- * function: func_021F9478
+ * function: BTLV_EFFVM_Main
  * address:  0x021F9478
  * packet:   pkt_ov094_021F9478
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   VM_Control  0x02011298  thumb
- *   func_02011324  0x02011324  thumb
- *   func_021F8198  0x021F8198  thumb  ov094
- *   func_021FE410  0x021FE410  thumb  ov094
+ *   VM_GetUserData  0x02011324  thumb
+ *   BTLV_EFFECT_GaugeSetSideVisible  0x021F8198  thumb  ov094
+ *   BTLV_EFFVM_StartSeVolumeTweenTask  0x021FE410  thumb  ov094
  *   func_020307B0  0x020307B0  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -29,24 +29,24 @@ typedef struct {
 
 struct ScriptVm;
 extern int VM_Control(struct ScriptVm *vm);
-extern void *func_02011324(struct ScriptVm *vm);
-extern void func_021F8198(int a, int b);
-extern void func_021FE410(T *t, int a, int b, int c);
+extern void *VM_GetUserData(struct ScriptVm *vm);
+extern void BTLV_EFFECT_GaugeSetSideVisible(int a, int b);
+extern void BTLV_EFFVM_StartSeVolumeTweenTask(T *t, int a, int b, int c);
 extern u32 func_020307B0(void *p);
 
-int func_021F9478(void *vm)
+int BTLV_EFFVM_Main(void *vm)
 {
     int r;
     T *t;
 
     r = VM_Control(vm);
-    t = func_02011324(vm);
+    t = VM_GetUserData(vm);
     if (t->b7)
         return 0;
     if (r == 0 && t->h != 0) {
-        func_021F8198(1, 2);
+        BTLV_EFFECT_GaugeSetSideVisible(1, 2);
         if (t->b6 == 0)
-            func_021FE410(t, 0x6B000, 0x7F000, 0x14);
+            BTLV_EFFVM_StartSeVolumeTweenTask(t, 0x6B000, 0x7F000, 0x14);
         func_020307B0(t->h);
         t->h = 0;
     }

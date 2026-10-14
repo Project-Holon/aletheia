@@ -1,5 +1,5 @@
 /*
- * function: func_021BC718
+ * function: ZUKAN_DETAIL_COMMON_StartFadeIn
  * address:  0x021BC718
  * packet:   pkt_021BC6D8
  * region:   ov208
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BC6C8 0x021BC6C8  thumb  ov208
- *   func_021BC7B4 0x021BC7B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_IsFadeBusy 0x021BC6C8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_RequestFade 0x021BC7B4  thumb  ov208
 
  * Runs the idle transition with 0x10 twice and marks state 1.
  */
 #include "../include/Obj18189.h"
 
 
-extern int func_021BC6C8(char *);
-extern void func_021BC7B4(char *p, short b, unsigned char c, unsigned char d);
+extern int ZUKAN_DETAIL_COMMON_IsFadeBusy(char *);
+extern void ZUKAN_DETAIL_COMMON_RequestFade(char *p, short b, unsigned char c, unsigned char d);
 
-void func_021BC718(char *p)
+void ZUKAN_DETAIL_COMMON_StartFadeIn(char *p)
 {
-    if (func_021BC6C8(p))
+    if (ZUKAN_DETAIL_COMMON_IsFadeBusy(p))
         return;
-    func_021BC7B4(p, 0, 0x10, 0x10);
+    ZUKAN_DETAIL_COMMON_RequestFade(p, 0, 0x10, 0x10);
     ((struct Obj18189 *)p)->f10 = 1;
 }
 

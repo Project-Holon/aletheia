@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0EC
+ * function: COMM_TVT_SYS_GetHostBusy
  * address:  0x021BE0EC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE0EC(void *p)
+u32 COMM_TVT_SYS_GetHostBusy(void *p)
 {
     return ((struct Obj24138 *)p)->f30;
 }

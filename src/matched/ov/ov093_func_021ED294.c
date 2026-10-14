@@ -11,23 +11,23 @@
  *
  * symbols:
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   func_021F80E4  0x021F80E4  thumb  ov094
- *   func_021F7CE4  0x021F7CE4  thumb  ov094
- *   func_021F7F04  0x021F7F04  thumb  ov094
+ *   BTLV_EFFECT_GaugeDeleteSlot  0x021F80E4  thumb  ov094
+ *   BTLV_EFFECT_StartPokeAppearEffect  0x021F7CE4  thumb  ov094
+ *   BTLV_EFFECT_DeletePokeSprite  0x021F7F04  thumb  ov094
  */
 #include "../include/Obj21590.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
-extern void func_021F80E4(u32);
-extern void func_021F7CE4(int);
-extern void func_021F7F04(int);
+extern void BTLV_EFFECT_GaugeDeleteSlot(u32);
+extern void BTLV_EFFECT_StartPokeAppearEffect(int);
+extern void BTLV_EFFECT_DeletePokeSprite(int);
 void BTLV_SCU_StartMonExit(u8 *p, int k, u32 x)
 {
     u8 r = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj21590 *)p)->f134, k);
-    func_021F80E4(r);
+    BTLV_EFFECT_GaugeDeleteSlot(r);
     if (x == 0)
-        func_021F7CE4(r);
+        BTLV_EFFECT_StartPokeAppearEffect(r);
     else
-        func_021F7F04(r);
+        BTLV_EFFECT_DeletePokeSprite(r);
 }

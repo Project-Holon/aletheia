@@ -1,5 +1,5 @@
 /*
- * function: func_021C28A4
+ * function: PERCENTAGE_GetTensDigit
  * address:  0x021C28A4
  * packet:   pkt_021C28A4
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern int _s32_div_f(int, int);
 
-u8 func_021C28A4(char *p)
+u8 PERCENTAGE_GetTensDigit(char *p)
 {
     int t = ((struct Obj26025 *)p)->f2 % 100;
     return (u8)(t / 10);

@@ -1,5 +1,5 @@
 /*
- * function: func_0220157C
+ * function: WORLDTRADE_SERVER_WaitDownload
  * address:  0x0220157C
  * packet:   pkt_0220157C
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
- *   func_022022B8  0x022022B8  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
+ *   WORLDTRADE_ADAPTER_RegisterReceivedMon  0x022022B8  thumb  ov135
  *   func_0200ADB4  0x0200ADB4  thumb
  *   func_0200ADE0  0x0200ADE0  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
@@ -40,8 +40,8 @@ typedef signed char s8;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
-extern void func_022022B8(u8 *p, u32 a, u32 b, s32 c);
+extern void WORLDTRADE_CancelSave(u8 *p);
+extern void WORLDTRADE_ADAPTER_RegisterReceivedMon(u8 *p, u32 a, u32 b, s32 c);
 extern u32 func_0200ADB4(u32 a);
 struct RegB;
 extern u16 func_0200ADE0(struct RegB *p);
@@ -50,7 +50,7 @@ extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-int func_0220157C(u8 *p)
+int WORLDTRADE_SERVER_WaitDownload(u8 *p)
 {
     s32 n;
     s32 v;
@@ -64,7 +64,7 @@ int func_0220157C(u8 *p)
             if (v != 0) {
                 ((struct Obj01829 *)p)->f28 = 0x1c;
             } else {
-                func_022022B8(p, func_0200ADB4(*(u32 *)(((struct Obj01829 *)p)->f0)),
+                WORLDTRADE_ADAPTER_RegisterReceivedMon(p, func_0200ADB4(*(u32 *)(((struct Obj01829 *)p)->f0)),
                               func_0200ADE0((struct RegB *)(*(u32 *)(((struct Obj01829 *)p)->f0))), v);
                 ((struct Obj01829 *)p)->f28 = 0x22;
             }
@@ -98,12 +98,12 @@ int func_0220157C(u8 *p)
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 2:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {
         if (++((struct Obj01829 *)p)->fF8C == 0xe10) {
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
         }
     }
     return 2;

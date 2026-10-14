@@ -16,7 +16,7 @@
  *   DWCi_OBJlDelete  0x021D6F38  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gIconWork  0x021DE558  data
- *   g_021DE558_b  0x021DE558  data
+ *   gMemIcon  0x021DE558  data
  */
 
 #include "../include/G_MemIcon.h"
@@ -27,7 +27,7 @@ extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void DWCi_OBJlDelete(unsigned int *obj);
 extern void DWCi_HEAPlFree_(void **mem);
 extern struct MemIcon *gIconWork;
-extern struct MemIcon *g_021DE558_b;
+extern struct MemIcon *gMemIcon;
 
 void DWCi_ICONlEnd(void)
 {
@@ -35,5 +35,5 @@ void DWCi_ICONlEnd(void)
         return;
     DWCi_TSKlDeleteByIndex(0, gIconWork->task);
     DWCi_OBJlDelete(gIconWork->obj);
-    DWCi_HEAPlFree_((void **)(&g_021DE558_b));
+    DWCi_HEAPlFree_((void **)(&gMemIcon));
 }

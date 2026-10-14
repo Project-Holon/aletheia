@@ -1,5 +1,5 @@
 /*
- * function: func_021FF99C
+ * function: BR_NET_StepGetVideo
  * address: 0x021FF99C
  * packet: pkt_ov186_021FF99C
  * region: ov186
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D69DC 0x021D69DC thumb ov125
+ *   GDS_RAP_RequestGetVideo 0x021D69DC thumb ov125
  *   func_02034714 0x02034714 arm
- *   func_021FFB68 0x021FFB68 thumb ov186
- *   func_021FF8E4 0x021FF8E4 thumb ov186
- *   d_02200D98 0x02200D98 data a1
+ *   BR_NET_SetStep 0x021FFB68 thumb ov186
+ *   BR_NET_StepWaitRequest 0x021FF8E4 thumb ov186
+ *   gBrNetAssertString 0x02200D98 data a1
  */
 #include "../include/Obj14482.h"
-extern int func_021D69DC(char *,int,int);extern void func_02034714(const char *,unsigned,const char *);extern void func_021FFB68(char *,int);extern void func_021FF8E4(void *,int,int);extern const char d_02200D98[];
-void func_021FF99C(char *p,int unused,char *q) {if(!func_021D69DC(q,((struct Obj14482 *)q)->f5B0,((struct Obj14482 *)q)->f5B4))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}
+extern int GDS_RAP_RequestGetVideo(char *,int,int);extern void func_02034714(const char *,unsigned,const char *);extern void BR_NET_SetStep(char *,int);extern void BR_NET_StepWaitRequest(void *,int,int);extern const char gBrNetAssertString[];
+void BR_NET_StepGetVideo(char *p,int unused,char *q) {if(!GDS_RAP_RequestGetVideo(q,((struct Obj14482 *)q)->f5B0,((struct Obj14482 *)q)->f5B4))func_02034714(gBrNetAssertString,0,gBrNetAssertString);BR_NET_SetStep(p,(int)BR_NET_StepWaitRequest);}

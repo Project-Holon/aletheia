@@ -1,5 +1,5 @@
 /*
- * function: func_02179F28
+ * function: IRCi_Restore
  * address:  0x02179F28
  * packet:   pkt_02179F28
  * region:   ov015
@@ -15,7 +15,7 @@
 
 extern int d_0217ABA8[];
 
-void func_02179F28(void)
+void IRCi_Restore(void)
 {
     d_0217ABA8[5] = 1;
     d_0217ABA8[1] = d_0217ABA8[1] + 1;

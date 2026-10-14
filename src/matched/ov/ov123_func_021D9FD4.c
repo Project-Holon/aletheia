@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D9FD4, func_021DA030, func_021DA034
+ * function: PDWACC_STATE_HandleHttpError, PDWACC_STATE_SetState, PDWACC_STATE_ChangeState
  * address: 0x021D9FD4
  * packet: pkt_ov123_021D9FD4
  * region: ov123
@@ -10,38 +10,38 @@
  * status: EXACT
  * extent: lead with store-and-return follower 021DA030 and tailcall follower 021DA034.
  * symbols:
- *   func_021DA1EC 0x021DA1EC thumb ov123
+ *   PDWACC_STATE_StatePrintError 0x021DA1EC thumb ov123
  */
 #include "../include/Obj03804.h"
 #include "../include/Obj22984.h"
-extern void func_021DA1EC(char *p);
-void func_021DA030(char *, int, int);
-void func_021DA034(char *, int, int);
-int func_021D9FD4(char *p, int n)
+extern void PDWACC_STATE_StatePrintError(char *p);
+void PDWACC_STATE_SetState(char *, int, int);
+void PDWACC_STATE_ChangeState(char *, int, int);
+int PDWACC_STATE_HandleHttpError(char *p, int n)
 {
     switch (n) {
     case 503:
         ((struct Obj03804 *)p)->f70=0xfff1;
-        func_021DA034(p,(int)func_021DA1EC,0x99);
+        PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StatePrintError,0x99);
         return 1;
     case 502:
         ((struct Obj03804 *)p)->f70=0xfff2;
-        func_021DA034(p,(int)func_021DA1EC,0x9d);
+        PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StatePrintError,0x9d);
         return 1;
     default:
         if (n>=400) {
             ((struct Obj03804 *)p)->f70=0xfff3;
-            func_021DA034(p,(int)func_021DA1EC,0xa3);
+            PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StatePrintError,0xa3);
             return 1;
         }
         return 0;
     }
 }
-void func_021DA030(char *p, int n, int unused)
+void PDWACC_STATE_SetState(char *p, int n, int unused)
 {
     ((struct Obj22984 *)p)->f30=n;
 }
-void func_021DA034(char *p, int n, int unused)
+void PDWACC_STATE_ChangeState(char *p, int n, int unused)
 {
-    func_021DA030(p,n,unused);
+    PDWACC_STATE_SetState(p,n,unused);
 }

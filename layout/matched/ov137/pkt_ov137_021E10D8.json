@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E10D8",
-    "func_021E11A0"
+    "GURU2_MAIN_UpdateEntranceEffect",
+    "GURU2_MAIN_EntranceEffectTask"
+   ],
+   "addresses": [
+    "0x021E10D8",
+    "0x021E11A0"
    ]
   }
  ]

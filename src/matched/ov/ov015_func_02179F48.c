@@ -1,5 +1,5 @@
 /*
- * function: func_02179F48
+ * function: IRCi_ResetState
  * address:  0x02179F48
  * packet:   pkt_02179F28
  * region:   ov015
@@ -17,7 +17,7 @@
 
 extern struct G_ov015_0217ABA8 d_0217ABA8;
 
-void func_02179F48(void)
+void IRCi_ResetState(void)
 {
     *(char *)(((char *)&d_0217ABA8) + 0) = 0;
     *(int *)(((char *)&d_0217ABA8) + 0x20) = 0;

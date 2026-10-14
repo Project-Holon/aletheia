@@ -1,5 +1,5 @@
 /*
- * function: func_021B6EC4
+ * function: DRAW_SYSTEM_GetStroke
  * address:  0x021B6EC4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 *func_021B6EC4(void *p, int i)
+u8 *DRAW_SYSTEM_GetStroke(void *p, int i)
 {
     return (u8 *)((struct Obj04549 *)p)->f10 + i * 8;
 }

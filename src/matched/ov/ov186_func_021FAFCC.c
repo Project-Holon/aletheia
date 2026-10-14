@@ -1,5 +1,5 @@
 /*
- * function: func_021FAFCC
+ * function: BR_BTN_SetPos
  * address: 0x021FAFCC
  * packet: pkt_ov186_021FAFCC
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24823.h"
-void func_021FAFCC(char *p, unsigned value) { ((struct Obj24823 *)p)->f2C = value; }
+void BR_BTN_SetPos(char *p, unsigned value) { ((struct Obj24823 *)p)->f2C = value; }

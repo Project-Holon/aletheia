@@ -1,5 +1,5 @@
 /*
- * function: func_021D62D0
+ * function: GSYNC_DISP_SetSlotAnimCommand
  * address:  0x021D62D0
  * packet:   pkt_021D62D0
  * region:   ov123
@@ -24,7 +24,7 @@ struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 
-void func_021D62D0(u8 *p, int i, int v)
+void GSYNC_DISP_SetSlotAnimCommand(u8 *p, int i, int v)
 {
     CLACT_ApplyActorAnimCommand(*(void **)(p + i * 4 + 0x74), (const struct Cmd *)v);
 }

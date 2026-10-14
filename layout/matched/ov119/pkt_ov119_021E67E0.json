@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E67E0",
+   "name": "POKETRADE_2D_CreateMarkerButtonActor",
    "address": "0x021E67E0",
    "kind": "game",
    "region": "ov119",

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7F6C
+ * function: ZUKAN_DETAIL_FORM_GetModelOffsets
  * address:  0x021C7F6C
  * packet:   pkt_ov208_021C7F6C
  * region:   ov208
@@ -38,7 +38,7 @@ struct Ov208PoseEnt {
 extern const VecF data_021C87C0[5];
 extern const struct Ov208PoseEnt data_021C8854[15];
 
-void ov208_func_021C7F6C(VecF *pos, u32 species, u32 form, u32 gender, u32 shiny, u32 personality,
+void ZUKAN_DETAIL_FORM_GetModelOffsets(VecF *pos, u32 species, u32 form, u32 gender, u32 shiny, u32 personality,
                          u32 side, u32 extra)
 {
     u16 k;

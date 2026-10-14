@@ -1,5 +1,5 @@
 /*
- * function: func_021E17EC
+ * function: GURU2_MAIN_CountActiveMembers
  * address: 0x021E17EC
  * packet: pkt_ov137_021E17EC
  * region: ov137
@@ -11,7 +11,7 @@
 #include "../include/Obj03304.h"
 #include "../include/Obj23809.h"
 typedef signed short s16;
-int func_021E17EC(char *p)
+int GURU2_MAIN_CountActiveMembers(char *p)
 {
     int count = 0;
     unsigned bits = ((struct Obj23809 *)(*(char * *)&((struct Obj03304 *)p)->fDC))->f46;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F18D8
+ * function: MB_UTIL_MSG_CreateWordSet
  * address:  0x021F18D8
  * packet:   pkt_ov107_021F18D8
  * region:   ov107
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct WordSet;
 struct WordSet *func_0201EC64(u32 heap);
 
-void func_021F18D8(Ov107Ctx *p)
+void MB_UTIL_MSG_CreateWordSet(Ov107Ctx *p)
 {
     if (p->f24 == 0) {
         p->f24 = func_0201EC64(p->f00);

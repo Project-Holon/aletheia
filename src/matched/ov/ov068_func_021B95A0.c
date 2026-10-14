@@ -31,11 +31,11 @@
  *   OPTION_MENU_InitSettings  0x021BAF5C  thumb  ov068
  *   OPTION_MENU_InitRunner  0x021BB0F8  thumb  ov068
  *   OPTION_MENU_StateFadeIn  0x021BB148  thumb  ov068
- *   func_021B9950  0x021B9950  thumb  ov068
+ *   OPTION_MENU_GetScreenSpriteUnit  0x021B9950  thumb  ov068
  *   OPTION_MENU_InitButtons  0x021BA37C  thumb  ov068
  *   OPTION_MENU_InitList  0x021BA734  thumb  ov068
  *   OPTION_MENU_InitInput  0x021BA024  thumb  ov068
- *   func_021B995C  0x021B995C  thumb  ov068
+ *   OPTION_MENU_GetScreenWindow  0x021B995C  thumb  ov068
  *   OPTION_MENU_InitTextBox  0x021BA1C4  thumb  ov068
  *   OPTION_MENU_InitMessageBox  0x021BAD60  thumb  ov068
  *   ov067_id       0x00000043  data
@@ -95,11 +95,11 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void OPTION_MENU_InitSettings(u8 *p, short unsigned int *a);
 extern void  OPTION_MENU_StateFadeIn(void *unused, u32 *p);
 extern void OPTION_MENU_InitRunner(u8 *p, int value, int callback);
-extern int func_021B9950(void *p);
+extern int OPTION_MENU_GetScreenSpriteUnit(void *p);
 extern void  OPTION_MENU_InitButtons(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3);
 extern void  OPTION_MENU_InitList(u8 *p, u16 a1, u16 a2, Work *a3, u8 *src, u32 heap);
 extern void OPTION_MENU_InitInput(void *p, int heap);
-extern int func_021B995C(int *p, int i);
+extern int OPTION_MENU_GetScreenWindow(int *p, int i);
 extern void  OPTION_MENU_InitTextBox(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
 extern void OPTION_MENU_InitMessageBox(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3);
 
@@ -124,10 +124,10 @@ int OPTION_MENU_Init(void *proc, int *seq, Args *args)
     OPTION_MENU_InitSettings(w->x248, (short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)w->args->x4))));
     OPTION_MENU_InitRunner(w->xD4, (int)w, (int)OPTION_MENU_StateFadeIn);
     t = (u32)func_020120F4((const struct Ctx *)w->args->x4);
-    OPTION_MENU_InitButtons(w->x104, func_021B9950(w), w->font, w->x258, w->msg, w->x260, t, 0x1c);
+    OPTION_MENU_InitButtons(w->x104, OPTION_MENU_GetScreenSpriteUnit(w), w->font, w->x258, w->msg, w->x260, t, 0x1c);
     OPTION_MENU_InitList(w->x148, 1, 2, w, w->x248, 0x1c);
     OPTION_MENU_InitInput(w->xE4, 0x1c);
-    OPTION_MENU_InitTextBox(w->x1A0, func_021B995C((int *)w, 0x11), w->font, w->msg, w->x268, w->x258, 0x1c);
-    OPTION_MENU_InitMessageBox(w->x1D8, func_021B995C((int *)w, 0x12), w->font, (void *)w->msg, w->x268, w->x264, w->x258, 0x1c);
+    OPTION_MENU_InitTextBox(w->x1A0, OPTION_MENU_GetScreenWindow((int *)w, 0x11), w->font, w->msg, w->x268, w->x258, 0x1c);
+    OPTION_MENU_InitMessageBox(w->x1D8, OPTION_MENU_GetScreenWindow((int *)w, 0x12), w->font, (void *)w->msg, w->x268, w->x264, w->x258, 0x1c);
     return 1;
 }

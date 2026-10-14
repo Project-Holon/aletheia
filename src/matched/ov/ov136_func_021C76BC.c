@@ -1,5 +1,5 @@
 /*
- * function: func_021C76BC
+ * function: MB_SEQ_EmptyStubB
  * address: 0x021C76BC
  * packet: pkt_ov136_021C76BC
  * region: ov136
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov136/mb_seq.c and filed here.
  */
 
-void func_021C76BC(void);
+void MB_SEQ_EmptyStubB(void);
 
-void func_021C76BC(void)
+void MB_SEQ_EmptyStubB(void)
 {
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FFE34
+ * function: BR_POKESEARCH_UpdatePrint
  * address: 0x021FFE34
  * packet: pkt_ov186_021FFE34
  * region: ov186
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj24875.h"
 struct PrintSys;extern int func_021FC830(void *);extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
-unsigned func_021FFE34(char *p) {unsigned r=1;int i;for(i=0;i<9;i++){void *v=*(void **)((unsigned)p+i*4+64);if(v)r &= func_021FC830(v);}return r & PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj24875 *)p)->f3C);}
+unsigned BR_POKESEARCH_UpdatePrint(char *p) {unsigned r=1;int i;for(i=0;i<9;i++){void *v=*(void **)((unsigned)p+i*4+64);if(v)r &= func_021FC830(v);}return r & PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj24875 *)p)->f3C);}

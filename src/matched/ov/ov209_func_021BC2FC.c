@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2FC
+ * function: ZUKAN_LIST_StopHBlankTask
  * address: 0x021BC2FC
  * packet: pkt_ov209_021BC2FC
  * region: ov209
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021BC2FC(char *p)
+void ZUKAN_LIST_StopHBlankTask(char *p)
 {
     func_02030EAC(((struct Obj25536 *)p)->f8);
 }

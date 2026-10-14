@@ -11,7 +11,7 @@
  *
  * symbols:
  *   OS_InitMutex  0x02086004  arm
- *   d_021DA174    0x021DA174  data  ov125  a4
+ *   gGdsSocketMutex    0x021DA174  data  ov125  a4
  *
  * DWCi_Ndi_initLockGlobal from TwlDWC libdwcnd.TWL.HYB.a(dwci_nd.o),
  * dwci_nd.c:1644 (DWARF).  The body initialises the ov125 bss lock at
@@ -24,15 +24,15 @@
  * pkt_021D7CD4); this ARM copy is the ov125 SDK one, hence the ov-qualified
  * packet and file names.
  *
- * The neighbouring leaf wrappers func_021D7CAC and func_021D7CC0 load the
+ * The neighbouring leaf wrappers GDS_SOCKET_Lock and GDS_SOCKET_Unlock load the
  * same pointer and tail-call OS_LockMutex / OS_UnlockMutex.
  */
 
 extern void OS_InitMutex(void *mutex);
-extern char d_021DA174[];
+extern char gGdsSocketMutex[];
 
 int func_021D7CD4(void)
 {
-    OS_InitMutex(d_021DA174);
+    OS_InitMutex(gGdsSocketMutex);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2238
+ * function: ZUKAN_DETAIL_AREA_UpdateTerrainIcons
  * address: 0x021C2238
  * packet: pkt_ov208_021C2238
  * region: ov208
@@ -36,7 +36,7 @@ extern void func_02041B6C(u32 bit);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C2238(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key)
 {
     u8 on[3] = {0, 0, 0};
     u8 idx, k, i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0EF4
+ * function: POKETRADE_SAVE_OpenMessageWindow
  * address: 0x021E0EF4
  * packet: pkt_ov119_021E0EF4
  * region: ov119
@@ -10,7 +10,7 @@
  * prototype: 0201F73C arg2 is u16 because 021E0FC4..021E0FC6 truncates the loaded full word before the call.
  * prototype: 0201CCE4 forwarding wrapper leaves r0 live; caller stores it at 021E0F94 despite legacy void declaration.
  * symbols:
- *   func_021E106C 0x021E106C thumb ov119
+ *   POKETRADE_SAVE_CloseMessageWindow 0x021E106C thumb ov119
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Cfg;
 struct CharBuf;
-extern void func_021E106C(char *p);
+extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
@@ -47,10 +47,10 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
+void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
 {
     void *v;
-    func_021E106C(p);
+    POKETRADE_SAVE_CloseMessageWindow(p);
     func_02049B40(23,5,4,448,32,((struct Obj01055 *)p)->f5F4);
     v=(void *)BMP_WIN_Create(6,(u8)x,(u8)y,(u8)w,h,(u32)14,(u32)0);
     ((struct Obj01055 *)p)->f71C=v;

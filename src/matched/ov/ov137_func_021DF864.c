@@ -1,5 +1,5 @@
 /*
- * function: func_021DF864
+ * function: GURU2_MAIN_Draw3D
  * address: 0x021DF864
  * packet: pkt_ov137_021DF864
  * region: ov137
@@ -21,9 +21,9 @@
  *   NNS_G3dGlbLightColor 0x0206AA78 arm
  *   NNS_G3dGlbMaterialColorDiffAmb 0x0206AA8C arm
  *   NNS_G3dGlbMaterialColorSpecEmi 0x0206AAB0 arm
- *   func_021E0698 0x021E0698 thumb ov137
- *   func_021E05D4 0x021E05D4 thumb ov137
- *   func_021E0848 0x021E0848 thumb ov137
+ *   GURU2_MAIN_DrawBackgroundUnit 0x021E0698 thumb ov137
+ *   GURU2_MAIN_DrawCenterUnit 0x021E05D4 thumb ov137
+ *   GURU2_MAIN_DrawPlayerRecords 0x021E0848 thumb ov137
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -40,7 +40,7 @@ extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void);
 extern void NNS_G3dGlbLightVector(int,int,int,int),NNS_G3dGlbLightColor(int,u32),NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32),NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
-extern void func_021E0698(u8 *),func_021E05D4(u8 *),func_021E0848(u8 *);
+extern void GURU2_MAIN_DrawBackgroundUnit(u8 *),GURU2_MAIN_DrawCenterUnit(u8 *),GURU2_MAIN_DrawPlayerRecords(u8 *);
 struct Descriptor;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -48,7 +48,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void TIME_ICON_Update(u8 *p);
-void func_021DF864(u8 *p)
+void GURU2_MAIN_Draw3D(u8 *p)
 {
     u32 flags=0x1000000;
     void *r;
@@ -61,7 +61,7 @@ void func_021DF864(u8 *p)
     NNS_G3dGlbLightColor(0,0x7fff);
     NNS_G3dGlbMaterialColorDiffAmb(0x7fff,0x7fff,0);
     NNS_G3dGlbMaterialColorSpecEmi(0x7fff,0x7fff,0);
-    func_021E0698(p);func_021E05D4(p);func_021E0848(p);
+    GURU2_MAIN_DrawBackgroundUnit(p);GURU2_MAIN_DrawCenterUnit(p);GURU2_MAIN_DrawPlayerRecords(p);
     G3D_SYSTEM_DrawEnd();CLACT_DrawSystem();
     PRINTSYS_QUE_Main(*(void **)(p+0xd38));
     r=*(void **)(p+0xd38);

@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8414
+ * function: OSi_DoResetSystem
  * address:  0x01FF8414
  * packet:   pkt_01FF8414
  * region:   arm9_autoload0_ITCM
@@ -25,7 +25,7 @@ extern void OSi_ReloadRomData(int);
 extern void OSi_VerifyStaticSegments(void);
 extern void OSi_DoBoot(void);
 
-void func_01FF8414(void)
+void OSi_DoResetSystem(void)
 {
     while (!OS_IsResetOccurred()) {
     }

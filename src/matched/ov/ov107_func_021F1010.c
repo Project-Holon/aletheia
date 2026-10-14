@@ -1,5 +1,5 @@
 /*
- * function: func_021F1010
+ * function: MB_COMM_SYS_IsNetSessionNull
  * address:  0x021F1010
  * packet:   pkt_ov107_021F1010
  * region:   ov107
@@ -13,4 +13,4 @@
  */
 
 extern int GFL_NET_IsSessionNull(void);
-int func_021F1010(void *p) { return GFL_NET_IsSessionNull(); }
+int MB_COMM_SYS_IsNetSessionNull(void *p) { return GFL_NET_IsSessionNull(); }

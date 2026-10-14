@@ -1,5 +1,5 @@
 /*
- * function: func_021BE11C
+ * function: COMM_TVT_SYS_OpenConfirmMenu
  * address: 0x021BE11C
  * packet: pkt_ov172_021BE11C
  * region: ov172
@@ -25,7 +25,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-u32 func_021BE11C(u8 *p)
+u32 COMM_TVT_SYS_OpenConfirmMenu(u8 *p)
 {
     Descriptor x={0};
     Item items[2]={0};

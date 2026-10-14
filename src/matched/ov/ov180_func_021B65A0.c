@@ -1,5 +1,5 @@
 /*
- * function: func_021B65A0
+ * function: HALL_OF_FAME_PrepareMonVoice
  * address: 0x021B65A0
  * packet: pkt_ov180_021B65A0
  * region: ov180
@@ -14,7 +14,7 @@
 #include "../include/Obj04568.h"
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
-void func_021B65A0(char *p) {
+void HALL_OF_FAME_PrepareMonVoice(char *p) {
  unsigned value;
  if(((struct Obj04568 *)p)->f9158==441) {
   PM_VOICE_GetPerapVoiceSave((void **)(&value));

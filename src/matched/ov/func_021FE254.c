@@ -1,5 +1,5 @@
 /*
- * function: func_021FE254
+ * function: WORLDTRADE_SEARCH_HitTestButtons
  * address:  0x021FE254
  * packet:   pkt_021FE254
  * region:   ov135
@@ -20,7 +20,7 @@
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern char g_022037D4[];
 
-int func_021FE254(void)
+int WORLDTRADE_SEARCH_HitTestButtons(void)
 {
     return TOUCHPANEL_HitTrg(g_022037D4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5C84
+ * function: MB_SEQ_StepSelectFlash
  * address: 0x021C5C84
  * packet: pkt_ov136_021C5C84
  * region: ov136
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C5C84 0x021C5C84 thumb
+ *   MB_SEQ_StepSelectFlash 0x021C5C84 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
@@ -33,7 +33,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 
-int func_021C5C84(u8 *p)
+int MB_SEQ_StepSelectFlash(u8 *p)
 {
     struct Fade *s = (struct Fade *)(*(u8 * *)&((struct Obj10603 *)p)->f8 + 0x300);
     switch (s->state) {

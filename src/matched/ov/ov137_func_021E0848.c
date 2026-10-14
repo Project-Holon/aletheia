@@ -1,5 +1,5 @@
 /*
- * function: func_021E0848
+ * function: GURU2_MAIN_DrawPlayerRecords
  * address: 0x021E0848
  * packet: pkt_ov137_021E0848
  * region: ov137
@@ -33,7 +33,7 @@ extern void BUTTON_MAN_MakeRotMtxXYZ(int,int,int,struct Mtx33 *);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void func_0207ADC4(Mtx *);
 static inline void VecSet(Vec *v,int x,int y,int z){v->x=x;v->y=y;v->z=z;}
-void func_021E0848(u8 *p)
+void GURU2_MAIN_DrawPlayerRecords(u8 *p)
 {
     int i=0;
     int count=((struct Obj08222 *)p)->f30;

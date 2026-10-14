@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7D0
+ * function: ZUKAN_LIST_EnableSubWindows
  * address: 0x021BC7D0
  * packet: pkt_ov209_021BC7D0
  * region: ov209
@@ -23,7 +23,7 @@ static inline void outside(int wnd, int effect)
     if (effect) tmp |= 0x20;
     *(volatile u16 *)0x0400104A = (u16)tmp;
 }
-void func_021BC7D0(void)
+void ZUKAN_LIST_EnableSubWindows(void)
 {
     obj(27, 1);
     outside(31, 1);

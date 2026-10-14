@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED2C
+ * function: UNION_MSG_GetDrawChatMsg
  * address: 0x0217ED2C
  * packet: pkt_ov019_0217ED2C
  * region: ov019
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056EC(u32 v);
 extern const u16 d_02180370[][2];
-u16 func_0217ED2C(int i)
+u16 UNION_MSG_GetDrawChatMsg(int i)
 {
     return d_02180370[func_020056EC(4)][i];
 }

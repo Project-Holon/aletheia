@@ -1,5 +1,5 @@
 /*
- * function: func_021F1008
+ * function: MB_COMM_SYS_GetNetRunState
  * address:  0x021F1008
  * packet:   pkt_ov107_021F1008
  * region:   ov107
@@ -13,4 +13,4 @@
  */
 
 extern int GFL_NET_GetRunState(void);
-int func_021F1008(void *p) { return GFL_NET_GetRunState(); }
+int MB_COMM_SYS_GetNetRunState(void *p) { return GFL_NET_GetRunState(); }

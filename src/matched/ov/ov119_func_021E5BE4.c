@@ -1,5 +1,5 @@
 /*
- * function: func_021E5BE4
+ * function: POKETRADE_2D_DeleteTouchbarActors
  * address:  0x021E5BE4
  * packet:   pkt_ov119_021E5BE4
  * region:   ov119
@@ -20,7 +20,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021E5BE4(int a)
+void POKETRADE_2D_DeleteTouchbarActors(int a)
 {
     if (((struct Obj00001 *)a)->fF08 != 0)
         CLACT_DeleteActor((struct Obj *)(((struct Obj00001 *)a)->fF08));

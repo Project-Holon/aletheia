@@ -1,5 +1,5 @@
 /*
- * function: func_02201CD0
+ * function: BTLV_CLACT_StartMoveShort
  * address:  0x02201CD0
  * packet:   pkt_ov094_02201CD0
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_02201E04  0x02201E04  thumb  ov094
- *   func_02201F98  0x02201F98  thumb  ov094
- *   func_02201FD8  0x02201FD8  thumb  ov094
+ *   BTLV_CLACT_StartMoveTask  0x02201E04  thumb  ov094
+ *   BTLV_CLACT_MoveTaskMain  0x02201F98  thumb  ov094
+ *   BTLV_CLACT_MoveTaskEnd  0x02201FD8  thumb  ov094
  */
 #include "../include/Obj07895.h"
 typedef short s16;
@@ -26,12 +26,12 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_02201F98(void *a, void *b);
-extern void func_02201FD8(void *a);
-extern void func_02201E04(void *o, int idx, int c, Vec *v, Vec *w, int s1, int s2, int s3,
+extern void BTLV_CLACT_MoveTaskMain(void *a, void *b);
+extern void BTLV_CLACT_MoveTaskEnd(void *a);
+extern void BTLV_CLACT_StartMoveTask(void *o, int idx, int c, Vec *v, Vec *w, int s1, int s2, int s3,
                           void (*f1)(void *, void *), void (*f2)(void *));
 
-void func_02201CD0(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
+void BTLV_CLACT_StartMoveShort(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
 {
     Vec b;
     Vec a;
@@ -49,6 +49,6 @@ void func_02201CD0(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
         a.y += b.y;
         a.z += b.z;
     }
-    func_02201E04(o, idx, c, &b, &a, s1, s2, s3, func_02201F98, func_02201FD8);
+    BTLV_CLACT_StartMoveTask(o, idx, c, &b, &a, s1, s2, s3, BTLV_CLACT_MoveTaskMain, BTLV_CLACT_MoveTaskEnd);
     ((struct Obj07895 *)o)->f78 |= 1 << idx;
 }

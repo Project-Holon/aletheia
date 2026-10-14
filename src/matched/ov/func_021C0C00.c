@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C00
+ * function: ZUKAN_DETAIL_AREA_DeletePokemonIcon
  * address:  0x021C0C00
  * packet:   pkt_021C0C00
  * region:   ov208
@@ -22,7 +22,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021C0C00(void *a, void *b)
+void ZUKAN_DETAIL_AREA_DeletePokemonIcon(void *a, void *b)
 {
     CLACT_DeleteActor(b);
     CLACT_ReleaseCharacter((u32)a);

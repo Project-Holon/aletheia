@@ -1,5 +1,5 @@
 /*
- * function: func_021BE210
+ * function: COMM_TVT_SYS_PlaceSlotMarker
  * address:  0x021BE210
  * packet:   pkt_ov172_021BE210
  * region:   ov172
@@ -15,7 +15,7 @@
  * parameter is what keeps the third-call idx reload after the byte copies (wD9r lane48).
  *
  * symbols:
- *   func_021BE05C 0x021BE05C thumb ov172
+ *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
  *   func_021B8BA4 0x021B8BA4 thumb ov172
  *   func_021B8B8C 0x021B8B8C thumb ov172
  *   func_021B8B94 0x021B8B94 thumb ov172
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Q { u8 b[4]; };
 struct Pt { u16 x; u16 y; struct Q yv; struct Q xv; };
-extern int func_021BE05C(void *p);
+extern int COMM_TVT_SYS_GetLayoutMode(void *p);
 extern u32 func_021B8BA4(int unused, char *base, int i);
 extern u32 func_021B8B8C(int unused, char *base, int i);
 extern char *func_021B8B94(int unused, char *base, int i);
@@ -50,14 +50,14 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern const struct Q d_021C7048;
 extern const struct Q d_021C704C;
-void func_021BE210(char *a, u8 idx)
+void COMM_TVT_SYS_PlaceSlotMarker(char *a, u8 idx)
 {
     struct Pt rc;
     void *h;
     u32 v;
     int mode;
     u32 k;
-    mode = func_021BE05C(a);
+    mode = COMM_TVT_SYS_GetLayoutMode(a);
     k = idx;
     if (*(int *)(a + 8) == 3) return;
     if (mode == 1) k = (k == 0) ? 2 : 3;

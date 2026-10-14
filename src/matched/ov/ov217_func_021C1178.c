@@ -1,5 +1,5 @@
 /*
- * function: func_021C1178
+ * function: CircleGraph_QueueDrawMedium
  * address:  0x021C1178
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) a0, 5 to func_021C16DC.
+ * Tail-call veneer: forwards arg(s) a0, 5 to CircleGraph_QueueCommand.
  *
  * symbols:
- *   func_021C16DC  0x021C16DC  thumb  ov217
+ *   CircleGraph_QueueCommand  0x021C16DC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C16DC(u32 *p, u32 a1);
+extern void CircleGraph_QueueCommand(u32 *p, u32 a1);
 
-void func_021C1178(u8 *h)
+void CircleGraph_QueueDrawMedium(u8 *h)
 {
-    func_021C16DC((u32 *)h, 5);
+    CircleGraph_QueueCommand((u32 *)h, 5);
 }
 
 

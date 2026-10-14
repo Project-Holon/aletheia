@@ -1,5 +1,5 @@
 /*
- * function: func_021DDF64
+ * function: GURU2_RECEIPT_StateWaitMessageToStart
  * address: 0x021DDF64
  * packet: pkt_ov137_021DDF64
  * region: ov137
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE55C 0x021DE55C thumb ov137
- *   func_021DD924 0x021DD924 thumb ov137
+ *   GURU2_RECEIPT_IsMessageDone 0x021DE55C thumb ov137
+ *   GURU2_RECEIPT_Noop 0x021DD924 thumb ov137
  */
 #include "../include/Obj23726.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021DE55C(char *);
-extern void func_021DD924(char *);
-int func_021DDF64(char *p,int state) {if(func_021DE55C(p)) ((struct Obj23726 *)p)->f118=10;func_021DD924(p);return state;}
+extern int GURU2_RECEIPT_IsMessageDone(char *);
+extern void GURU2_RECEIPT_Noop(char *);
+int GURU2_RECEIPT_StateWaitMessageToStart(char *p,int state) {if(GURU2_RECEIPT_IsMessageDone(p)) ((struct Obj23726 *)p)->f118=10;GURU2_RECEIPT_Noop(p);return state;}

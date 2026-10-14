@@ -23,7 +23,7 @@
  *   BTL_SERVER_FLOW_ProcTargetChange 0x021CB1D4 thumb ov093
  *   func_021CAC24 0x021CAC24 thumb ov093
  *   func_021CAC34 0x021CAC34 thumb ov093
- *   func_021CAC44 0x021CAC44 thumb ov093
+ *   DWCi_SceneSetRakuButton_DetectFold 0x021CAC44 thumb ov093
  *   func_021CAC54 0x021CAC54 thumb ov093
  *   DWCi_SceneSetRakuButton1 0x021CAC64 thumb ov093
  *   func_021CAC74 0x021CAC74 thumb ov093
@@ -49,7 +49,7 @@ extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern u8 BTL_SERVER_FLOW_ProcTargetChange(u8 *, u8 *, u8 *, u32);
 extern void func_021CAC24(void *, void *);
 extern void func_021CAC34(void *, void *);
-extern void func_021CAC44(void *, void *);
+extern void DWCi_SceneSetRakuButton_DetectFold(void *, void *);
 extern void func_021CAC54(void *, void *);
 extern void DWCi_SceneSetRakuButton1(void *, void *);
 extern void func_021CAC74(void *, void *);
@@ -81,7 +81,7 @@ int BTL_SERVER_FLOW_DecideMoveTargetsDouble(u8 *p, u8 *a, u16 move, u8 *q, int i
         func_021CAC34(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)1));
         return 2;
     case 4:
-        func_021CAC44(out, BTL_SERVER_FLOW_GetPartnerPoke(p, n));
+        DWCi_SceneSetRakuButton_DetectFold(out, BTL_SERVER_FLOW_GetPartnerPoke(p, n));
         func_021CAC54(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)0));
         DWCi_SceneSetRakuButton1(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)1));
         return 3;

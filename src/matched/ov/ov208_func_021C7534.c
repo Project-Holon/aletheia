@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7534
+ * function: ZUKAN_DETAIL_FORM_PlaceSideModels
  * address:  0x021C7534
  * packet:   pkt_ov208_021C7534
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021C7FF8  0x021C7FF8  thumb
+ *   ZUKAN_DETAIL_FORM_ConvertModelPosition  0x021C7FF8  thumb
  *   MCSS_SetPosition        0x02015C48  thumb
  */
 #include "../include/Obj03369.h"
@@ -29,10 +29,10 @@ struct Ov208Mdl {
     u32 obj;
 };
 
-extern void ov208_func_021C7FF8(struct Ov208Mdl *m, int i, VecFx32 *out);
+extern void ZUKAN_DETAIL_FORM_ConvertModelPosition(struct Ov208Mdl *m, int i, VecFx32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-void ov208_func_021C7534(void *unused, u8 *p)
+void ZUKAN_DETAIL_FORM_PlaceSideModels(void *unused, u8 *p)
 {
     VecFx32 v;
 
@@ -41,11 +41,11 @@ void ov208_func_021C7534(void *unused, u8 *p)
         v.y = -0xde66;
         v.z = 0;
         if (((struct Ov208Mdl *)(p + 0x94))->obj != 0) {
-            ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0x94), 1, &v);
+            ZUKAN_DETAIL_FORM_ConvertModelPosition((struct Ov208Mdl *)(p + 0x94), 1, &v);
             MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
         }
         if (((struct Ov208Mdl *)(p + 0xd8))->obj != 0) {
-            ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0xd8), 1, &v);
+            ZUKAN_DETAIL_FORM_ConvertModelPosition((struct Ov208Mdl *)(p + 0xd8), 1, &v);
             MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
         }
     } else {
@@ -53,11 +53,11 @@ void ov208_func_021C7534(void *unused, u8 *p)
         v.y = -0xde66;
         v.z = 0;
         if (((struct Ov208Mdl *)(p + 0x94))->obj != 0) {
-            ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0x94), 2, &v);
+            ZUKAN_DETAIL_FORM_ConvertModelPosition((struct Ov208Mdl *)(p + 0x94), 2, &v);
             MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
         }
         if (((struct Ov208Mdl *)(p + 0xd8))->obj != 0) {
-            ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0xd8), 2, &v);
+            ZUKAN_DETAIL_FORM_ConvertModelPosition((struct Ov208Mdl *)(p + 0xd8), 2, &v);
             MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
         }
     }

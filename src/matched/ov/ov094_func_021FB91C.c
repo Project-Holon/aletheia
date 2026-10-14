@@ -1,5 +1,5 @@
 /*
- * function: func_021FB91C
+ * function: BTLV_EFFVM_CmdSetGaugeVisibility
  * address:  0x021FB91C
  * packet:   pkt_ov094_021FB91C
  * region:   ov094
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021F81B4  0x021F81B4  thumb  ov094
- *   func_021FCA04  0x021FCA04  thumb  ov094
- *   func_021F8198  0x021F8198  thumb  ov094
- *   func_021F7F1C  0x021F7F1C  thumb  ov094
- *   func_021F86B4  0x021F86B4  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetSlotVisible  0x021F81B4  thumb  ov094
+ *   BTLV_EFFVM_ResolveBattlerList  0x021FCA04  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetSideVisible  0x021F8198  thumb  ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded  0x021F7F1C  thumb  ov094
+ *   BTLV_EFFECT_GetGauge  0x021F86B4  thumb  ov094
  *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *
  * The last loop reads the list through `((int *)ids)[i]`. The cast stops
@@ -39,14 +39,14 @@ typedef struct { short x, y; } Pt;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021F81B4(u32 a, u32 b);
-extern int func_021FCA04(State *s, int id, int *out);
-extern void func_021F8198(int a, int b);
-extern int func_021F7F1C(int i);
-extern int func_021F86B4(void);
+extern void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b);
+extern int BTLV_EFFVM_ResolveBattlerList(State *s, int id, int *out);
+extern void BTLV_EFFECT_GaugeSetSideVisible(int a, int b);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
+extern int BTLV_EFFECT_GetGauge(void);
 extern void BTLV_GAUGE_PlaceSlot(char *p, int i, Pt *pt);
 
-int func_021FB91C(void *r, State *s)
+int BTLV_EFFVM_CmdSetGaugeVisibility(void *r, State *s)
 {
     int ids2[8];
     int ids[8];
@@ -60,17 +60,17 @@ int func_021FB91C(void *r, State *s)
     if (a <= 1) {
         switch (b) {
         case 3:
-            func_021F81B4(a, s->fdc);
+            BTLV_EFFECT_GaugeSetSlotVisible(a, s->fdc);
             break;
         case 4:
-            n = func_021FCA04(s, 0x10, ids2);
+            n = BTLV_EFFVM_ResolveBattlerList(s, 0x10, ids2);
             if (n != 0) {
                 for (i = 0; i < n; i++)
-                    func_021F81B4(a, ids2[n]);
+                    BTLV_EFFECT_GaugeSetSlotVisible(a, ids2[n]);
             }
             break;
         default:
-            func_021F8198(a, b);
+            BTLV_EFFECT_GaugeSetSideVisible(a, b);
             break;
         }
     } else {
@@ -78,7 +78,7 @@ int func_021FB91C(void *r, State *s)
         switch (b) {
         case 0:
             for (i = 0; i < 8; i += 2) {
-                if (func_021F7F1C(i)) {
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(i)) {
                     ids[n] = i;
                     n++;
                 }
@@ -86,7 +86,7 @@ int func_021FB91C(void *r, State *s)
             break;
         case 1:
             for (i = 1; i < 8; i += 2) {
-                if (func_021F7F1C(i)) {
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(i)) {
                     ids[n] = i;
                     n++;
                 }
@@ -94,7 +94,7 @@ int func_021FB91C(void *r, State *s)
             break;
         case 2:
             for (i = 0; i < 8; i++) {
-                if (func_021F7F1C(i)) {
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(i)) {
                     ids[n] = i;
                     n++;
                 }
@@ -105,7 +105,7 @@ int func_021FB91C(void *r, State *s)
             ids[0] = s->fdc;
             break;
         case 4:
-            n = func_021FCA04(s, 0x10, ids);
+            n = BTLV_EFFVM_ResolveBattlerList(s, 0x10, ids);
             break;
         }
         if (n != 0) {
@@ -115,7 +115,7 @@ int func_021FB91C(void *r, State *s)
                 pt.x = (a == 2) ? 0x80 : -0x10;
                 if (((int *)ids)[i] & 1)
                     pt.x *= -1;
-                BTLV_GAUGE_PlaceSlot((char *)func_021F86B4(), ((int *)ids)[i], &pt);
+                BTLV_GAUGE_PlaceSlot((char *)BTLV_EFFECT_GetGauge(), ((int *)ids)[i], &pt);
             }
         }
     }

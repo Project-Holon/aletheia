@@ -1,5 +1,5 @@
 /*
- * function: func_022033CC
+ * function: BTLV_INPUT_IsInputBlocked
  * address:  0x022033CC
  * packet:   pkt_ov094_022033CC
  * region:   ov094
@@ -17,7 +17,7 @@ typedef struct Obj { char pad[0x64]; void *h64; Bits f68; } Obj;
 typedef unsigned int   u32;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-int func_022033CC(Obj *p)
+int BTLV_INPUT_IsInputBlocked(Obj *p)
 {
     if (p->f68.b0 || PALANM_GetFadeRequestBits(p->h64) != 0 || p->f68.b31)
         return 1;

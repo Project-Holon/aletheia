@@ -1,5 +1,5 @@
 /*
- * function: func_021C232C
+ * function: ZUKAN_DETAIL_AREA_SetupSplitWindows
  * address: 0x021C232C
  * packet: pkt_ov208_021C232C
  * region: ov208
@@ -9,13 +9,13 @@
  * status: EXACT
  * volatile: hardware 0x04000000 read at 021C2332; WININ read at 021C2362/021C2372; WINOUT at 021C2384.
  * symbols:
- *   func_021C2430 0x021C2430 thumb ov208
+ *   ZUKAN_DETAIL_AREA_InitBlendPulse 0x021C2430 thumb ov208
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
 typedef unsigned char  u8;
-extern void func_021C2430(u8 *p);
+extern void ZUKAN_DETAIL_AREA_InitBlendPulse(u8 *p);
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
 static inline void GX_SetVisibleWnd(int window)
@@ -50,7 +50,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
     if (effect) tmp |= 0x20;
     REG16(0x0400004a) = (u16)tmp;
 }
-void func_021C232C(char *p)
+void ZUKAN_DETAIL_AREA_SetupSplitWindows(char *p)
 {
     GX_SetVisibleWnd(3);
     G2_SetWnd0Position(0, 0, 160, 168);
@@ -58,5 +58,5 @@ void func_021C232C(char *p)
     G2_SetWnd0InsidePlane(31, 1);
     G2_SetWnd1InsidePlane(31, 1);
     G2_SetWndOutsidePlane(31, 0);
-    func_021C2430((u8 *)p);
+    ZUKAN_DETAIL_AREA_InitBlendPulse((u8 *)p);
 }

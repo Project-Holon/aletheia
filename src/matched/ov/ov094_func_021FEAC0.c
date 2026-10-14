@@ -1,5 +1,5 @@
 /*
- * function: func_021FEAC0
+ * function: BTLV_MCSS_Create
  * address:  0x021FEAC0
  * packet:   pkt_ov094_021FEAC0
  * region:   ov094
@@ -29,7 +29,7 @@
  *   MCSS_Init  0x02014B08  thumb
  *   MCSS_SetSysParam  0x020163B0  thumb
  *   MCSS_SetSysFlag  0x020163B4  thumb
- *   d_0220AE7C     0x0220AE7C  data   ov094
+ *   gBtlvMcssSourceFileName     0x0220AE7C  data   ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,19 +59,19 @@ typedef struct {
     u16 heap;               /* 0x540 */
 } Work;
 
-extern char d_0220AE7C[];
+extern char gBtlvMcssSourceFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetSysParam(char *p, int v);
 extern void MCSS_SetSysFlag(void *o, int v);
 
-Work *func_021FEAC0(int mode, int a1, u16 a2)
+Work *BTLV_MCSS_Create(int mode, int a1, u16 a2)
 {
     Work *w;
     int v = 0xe;
     int i;
 
-    w = func_02030734(a2, 0x5b4, 1, d_0220AE7C, 0x184);
+    w = func_02030734(a2, 0x5b4, 1, gBtlvMcssSourceFileName, 0x184);
     w->obj = MCSS_Init(v, (void *)a2);
     w->cb = (int *)a1;
     w->heap = a2;

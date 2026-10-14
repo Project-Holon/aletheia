@@ -1,5 +1,5 @@
 /*
- * function: func_021FFF1C
+ * function: BR_POKESEARCH_DestroyBackButton
  * address: 0x021FFF1C
  * packet: pkt_ov186_021FFF1C
  * region: ov186
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj24877.h"
 extern void func_021FB494(char *p);
-void func_021FFF1C(char *p) {func_021FB494(((struct Obj24877 *)p)->f2C);}
+void BR_POKESEARCH_DestroyBackButton(char *p) {func_021FB494(((struct Obj24877 *)p)->f2C);}

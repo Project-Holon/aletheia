@@ -16,14 +16,14 @@
  *   OS_Terminate                     0x02088234 arm
  *   MBi_CommEnd                      0x021f5ee4 arm
  *   OS_RestoreInterrupts             0x0208799c arm
- *   d_021F6F90                       0x021F6F90 data
+ *   gMbWm                       0x021F6F90 data
  */
 
 #include "../include/G_WmBase.h"
 
 typedef unsigned long u32;
 
-extern struct WmBase d_021F6F90;
+extern struct WmBase gMbWm;
 extern u32 OS_DisableInterrupts(void);
 extern void OS_Terminate(void);
 extern int MBi_CommEnd(void);
@@ -33,7 +33,7 @@ void MB_EndToIdle(void)
 {
     u32 enabled = OS_DisableInterrupts();
 
-    if (*(u32 *)(*(char **)(((char *)&d_021F6F90) + 0x10) + 0x1320) == 0)
+    if (*(u32 *)(*(char **)(((char *)&gMbWm) + 0x10) + 0x1320) == 0)
         OS_Terminate();
     MBi_CommEnd();
     OS_RestoreInterrupts(enabled);

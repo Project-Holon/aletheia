@@ -1,5 +1,5 @@
 /*
- * function: func_021C2684
+ * function: GRAPHTABLE_FindGroup
  * address:  0x021C2684
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C2684(void *p, u32 v)
+u32 GRAPHTABLE_FindGroup(void *p, u32 v)
 {
     int i;
     for (i = 0; i < 3; i++) {

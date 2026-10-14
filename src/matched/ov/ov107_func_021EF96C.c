@@ -1,5 +1,5 @@
 /*
- * function: func_021EF96C
+ * function: MB_COMM_SYS_StartParent
  * address: 0x021EF96C
  * packet: pkt_ov107_021EF96C
  * region: ov107
@@ -14,8 +14,8 @@
  *   d_021F6C40 0x021F6C40 data ov107 a4
  *   WIH_GetMeasureChannel 0x02179024 thumb ov014
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_021F0754 0x021F0754 thumb ov107
- *   func_021F080C 0x021F080C thumb ov107
+ *   MB_PARENT_SYS_Init 0x021F0754 thumb ov107
+ *   MB_PARENT_SYS_Register 0x021F080C thumb ov107
  */
 #include "../include/Obj00072.h"
 typedef unsigned char u8;
@@ -26,9 +26,9 @@ extern const Config d_021F6C40;
 typedef unsigned short u16;
 extern u16 WIH_GetMeasureChannel(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern void func_021F0754(int,int);
-extern void func_021F080C(void *,int);
-void func_021EF96C(u8 *p) {
+extern void MB_PARENT_SYS_Init(int,int);
+extern void MB_PARENT_SYS_Register(void *,int);
+void MB_COMM_SYS_StartParent(u8 *p) {
  Pair a=d_021F6D68,b=d_021F6D70,c=d_021F6D60;
  Config cfg=d_021F6C40;
  int v=WIH_GetMeasureChannel();
@@ -36,5 +36,5 @@ void func_021EF96C(u8 *p) {
  ((struct Obj00072 *)p)->f80=p[40]==0?a.a:a.b;
  ((struct Obj00072 *)p)->f8C=b.b;((struct Obj00072 *)p)->f90=c.b;
  ((struct Obj00072 *)p)->f84=((struct Obj00072 *)p)->f50;((struct Obj00072 *)p)->f88=((struct Obj00072 *)p)->f54;
- func_021F0754(4992,65536);func_021F080C(p+128,v);
+ MB_PARENT_SYS_Init(4992,65536);MB_PARENT_SYS_Register(p+128,v);
 }

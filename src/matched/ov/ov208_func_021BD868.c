@@ -1,5 +1,5 @@
 /*
- * function: func_021BD868
+ * function: ZKND_TBAR_GetButtonSound
  * address:  0x021BD868
  * packet:   pkt_021BD868
  * region:   ov208
@@ -14,7 +14,7 @@
 typedef unsigned int   u32;
 typedef unsigned short u16;
 
-int func_021BD868(const void *p)
+int ZKND_TBAR_GetButtonSound(const void *p)
 {
     u32 r1 = ((struct Obj14647 *)p)->f8;
     u32 r0 = ((struct Obj14647 *)p)->f28;

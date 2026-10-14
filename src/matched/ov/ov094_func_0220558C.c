@@ -1,5 +1,5 @@
 /*
- * function: func_0220558C
+ * function: BTLV_INPUT_DrawSelectScreenText
  * address: 0x0220558C
  * packet: pkt_ov094_0220558C
  * region: ov094
@@ -22,7 +22,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
  */
@@ -46,10 +46,10 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int PALANM_GetDefaultWork(char *, int);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-void func_0220558C(char *s, const int *b)
+void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
 {
     int h;
     void *v;
@@ -77,5 +77,5 @@ void func_0220558C(char *s, const int *b)
     func_0201ED04((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
-    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);
 }

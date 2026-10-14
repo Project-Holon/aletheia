@@ -1,5 +1,5 @@
 /*
- * function: func_021F5E44
+ * function: WORLDTRADE_BOX_UpdateKeyCursor
  * address:  0x021F5E44
  * packet:   pkt_021F5E44
  * region:   ov135
@@ -14,9 +14,9 @@
   *
  * symbols:
  *   tbl_02202DA4  0x02202DA4  data  a1
- *   func_021F5F9C  0x021F5F9C  thumb
- *   func_021F68A4  0x021F68A4  thumb
- *   func_021F5F60  0x021F5F60  thumb
+ *   WORLDTRADE_BOX_GetColumnIndex  0x021F5F9C  thumb
+ *   WORLDTRADE_BOX_LoadBoxIcons  0x021F68A4  thumb
+ *   WORLDTRADE_BOX_MoveCursorToSlot  0x021F5F60  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
@@ -52,11 +52,11 @@ extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F5F9C(int a, int b, int c);
-extern void func_021F68A4(Work *p, int box);
-extern void func_021F5F60(u32 cursor, int i);
+extern int WORLDTRADE_BOX_GetColumnIndex(int a, int b, int c);
+extern void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box);
+extern void WORLDTRADE_BOX_MoveCursorToSlot(u32 cursor, int i);
 
-void func_021F5E44(Work *p)
+void WORLDTRADE_BOX_UpdateKeyCursor(Work *p)
 {
     int moved = 0;
     int dir = 0;
@@ -84,8 +84,8 @@ void func_021F5E44(Work *p)
                 k = dir == 0x65 ? 0 : 1;
                 CLACT_SetActorAutoAnim((struct Obj *)p->arrows[k], 1);
                 CLACT_SetActorAnimSeq((struct Obj *)p->arrows[k], k + 0x26);
-                p->box = func_021F5F9C(p->box, p->boxes, dir - 0x64);
-                func_021F68A4(p, p->box);
+                p->box = WORLDTRADE_BOX_GetColumnIndex(p->box, p->boxes, dir - 0x64);
+                WORLDTRADE_BOX_LoadBoxIcons(p, p->box);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             } else {
                 moved = 1;
@@ -96,5 +96,5 @@ void func_021F5E44(Work *p)
     if (moved) {
         GFL_USE_PlaySeDefaultVolume(0x548);
     }
-    func_021F5F60(p->cursor, p->slot);
+    WORLDTRADE_BOX_MoveCursorToSlot(p->cursor, p->slot);
 }

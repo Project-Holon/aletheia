@@ -1,5 +1,5 @@
 /*
- * function: func_021DD700
+ * function: GURU2_RECEIPT_PrintTitle
  * address: 0x021DD700
  * packet: pkt_ov137_021DD700
  * region: ov137
@@ -33,7 +33,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021DD700(void *p, void *text, void *font) {
+void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     int width;
     width = func_0201D304(text, (u32)font, 0);
     BMP_Clear(BMP_WIN_GetBmp(p), 0);

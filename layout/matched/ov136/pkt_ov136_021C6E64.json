@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6E64",
+   "name": "MB_SEQ_ShowMailDetail",
    "address": "0x021C6E64",
    "kind": "game",
    "region": "ov136",

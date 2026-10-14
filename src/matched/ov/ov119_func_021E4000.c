@@ -1,5 +1,5 @@
 /*
- * function: func_021E4000
+ * function: POKETRADE_2D_FreeMainResources
  * address: 0x021E4000
  * packet: pkt_ov119_021E4000
  * region: ov119
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E43DC 0x021E43DC thumb ov119
+ *   POKETRADE_2D_FreeBoxScreenData 0x021E43DC thumb ov119
  *   func_0203FB44 0x0203FB44 arm
  */
 #include "../include/Obj00001.h"
-extern void func_021E43DC(char *);
+extern void POKETRADE_2D_FreeBoxScreenData(char *);
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-void func_021E4000(char *p)
+void POKETRADE_2D_FreeMainResources(char *p)
 {
-    func_021E43DC(p);
+    POKETRADE_2D_FreeBoxScreenData(p);
     if (((struct Obj00001 *)p)->f870) {
         func_0203FB44((int)5, (unsigned short)(((struct Obj00001 *)p)->f870), (unsigned short)(((struct Obj00001 *)p)->f870 >> 16));
         *(int *)&((struct Obj00001 *)p)->f870 = 0;

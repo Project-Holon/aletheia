@@ -1,5 +1,5 @@
 /*
- * function: func_021DD4A8
+ * function: GURU2_RECEIPT_InitActors
  * address: 0x021DD4A8
  * packet: pkt_ov137_021DD4A8
  * region: ov137
@@ -24,10 +24,10 @@
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * gClActorInitParam 0x020A1448 data a4
- * d_021E1B40 0x021E1B40 data a4
- * d_021E1B20 0x021E1B20 data a4
- * d_021E1B30 0x021E1B30 data a4
- * d_021E1B38 0x021E1B38 data a4
+ * gGuru2LobbyVramBanks 0x021E1B40 data a4
+ * gGuru2LobbyActorResourceIds 0x021E1B20 data a4
+ * gGuru2LobbyCellIds 0x021E1B30 data a4
+ * gGuru2LobbyCellAnimIds 0x021E1B38 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,8 +44,8 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern const u32 gClActorInitParam[],d_021E1B40[],d_021E1B20[],d_021E1B30[],d_021E1B38[];
-void func_021DD4A8(const u8 *p)
+extern const u32 gClActorInitParam[],gGuru2LobbyVramBanks[],gGuru2LobbyActorResourceIds[],gGuru2LobbyCellIds[],gGuru2LobbyCellAnimIds[];
+void GURU2_RECEIPT_InitActors(const u8 *p)
 {
     u8 v;
     long i;
@@ -54,16 +54,16 @@ void func_021DD4A8(const u8 *p)
     void *arc;
     v=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=func_020490F4(31,114);
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021E1B40,114);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gGuru2LobbyVramBanks,114);
     *(void **)(p+104)=CLACT_CreateUnit(30,1,114);
     i=0;
-    table=d_021E1B20+v;
+    table=gGuru2LobbyActorResourceIds+v;
     a=table[0]; b=table[2];
     for(;i<5;i++) {
         *(int *)(p+i*4+128)=CLACT_RegisterCharacter(arc,a,0,0,114);
         *(int *)(p+i*4+108)=CLACT_RegisterPaletteEx(arc,b,0,(u16)(i*32),0,1,114);
     }
-    *(int *)(p+148)=CLACT_RegisterCellAnim(arc,d_021E1B30[v],d_021E1B38[v],114);
+    *(int *)(p+148)=CLACT_RegisterCellAnim(arc,gGuru2LobbyCellIds[v],gGuru2LobbyCellAnimIds[v],114);
     ARC_TOOL_DeleteHandle(arc);
     *(void **)(p+52)=func_020490F4(32,114);
 }

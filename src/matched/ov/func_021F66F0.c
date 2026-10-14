@@ -1,5 +1,5 @@
 /*
- * function: func_021F66F0
+ * function: WORLDTRADE_BOX_LoadPokeIcon
  * address:  0x021F66F0
  * packet:   pkt_021F66F0
  * region:   ov135
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
- *   func_021F66C8  0x021F66C8  thumb
+ *   WORLDTRADE_BOX_LoadPokeIconChar  0x021F66C8  thumb
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_020307B0  0x020307B0  arm
@@ -38,15 +38,15 @@ typedef struct {
 } IconRec;
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d);
+extern u32 WORLDTRADE_BOX_LoadPokeIconChar(u32 a, u32 b, u32 c, u32 d);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 func_020307B0(void *p);
 
-void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec)
+void WORLDTRADE_BOX_LoadPokeIcon(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec)
 {
     CharData *cd;
-    void *buf = (void *)func_021F66C8(arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), (u32)(&cd), 0x48);
+    void *buf = (void *)WORLDTRADE_BOX_LoadPokeIconChar(arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), (u32)(&cd), 0x48);
 
     MIi_CpuCopyFast(cd->pixels, rec->pixels, 0x200);
     rec->vram = (slot * 16 + 0x1c) * 32;

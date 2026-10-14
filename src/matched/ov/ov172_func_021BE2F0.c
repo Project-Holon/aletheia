@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2F0
+ * function: COMM_TVT_SYS_SavePeerRecord
  * address: 0x021BE2F0
  * packet: pkt_ov172_021BE2F0
  * region: ov172
@@ -19,7 +19,7 @@ struct L0200ED54;
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-void func_021BE2F0(u32 *p, void *q)
+void COMM_TVT_SYS_SavePeerRecord(u32 *p, void *q)
 {
     void *l = func_0200ED48((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)p[0x7e])));
     func_0200ED54(l, func_02008530(q));

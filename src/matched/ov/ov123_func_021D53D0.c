@@ -1,5 +1,5 @@
 /*
- * function: func_021D53D0
+ * function: GSYNC_MENU_ProcExit
  * address: 0x021D53D0
  * packet: pkt_ov123_021D53D0
  * region: ov123
@@ -17,7 +17,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_021D4A64 0x021D4A64 thumb ov123
+ *   GSYNC_MENU_FreeResources 0x021D4A64 thumb ov123
  *   func_020307B0 0x020307B0 arm
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -60,7 +60,7 @@ extern void CLACT_ExitSystem(void);
 extern void TIME_ICON_Delete(u8 *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-extern void func_021D4A64(char *);
+extern void GSYNC_MENU_FreeResources(char *);
 extern u32 func_020307B0(void *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void func_020403F4(u32 i);
@@ -73,7 +73,7 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
-int func_021D53D0(void *a,int b,u8 *out,char *p)
+int GSYNC_MENU_ProcExit(void *a,int b,u8 *out,char *p)
 {
     int i;
     if(!WIPE_SYS_EndCheck()) return 0;
@@ -86,7 +86,7 @@ int func_021D53D0(void *a,int b,u8 *out,char *p)
     if(((struct Obj00772 *)p)->f288) { TIME_ICON_Delete(((struct Obj00772 *)p)->f288); ((struct Obj00772 *)p)->f288=0; }
     if(((struct Obj00772 *)p)->f228) PRINTSYS_PrintStreamDelete(((struct Obj00772 *)p)->f228);
     if(((struct Obj00772 *)p)->f238) { APP_TASKMENU_CloseMenu(((struct Obj00772 *)p)->f238); ((struct Obj00772 *)p)->f238=0; }
-    func_021D4A64(p);
+    GSYNC_MENU_FreeResources(p);
     ((struct Obj22940 *)out)->f1C8=((struct Obj00772 *)p)->f8;
     func_020307B0(((struct Obj00772 *)p)->f280); func_020307B0(((struct Obj00772 *)p)->f284);
     APP_KEYCURSOR_Delete((int)(((struct Obj00772 *)p)->f22C)); func_020403F4(5);

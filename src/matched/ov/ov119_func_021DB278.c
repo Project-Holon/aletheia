@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
 extern void BG_SYS_SetSubVisiblePlanes(unsigned);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021DBE70(char *p);
 void func_021DB278(void *p) {
  BG_SYS_SetSubVisiblePlanes(30);
- func_021D8E84(p,(int)func_021DBE70);
+ POKETRADE_PROC_SetStep(p,(int)func_021DBE70);
 }

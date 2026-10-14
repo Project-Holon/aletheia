@@ -1,5 +1,5 @@
 /*
- * function: func_021C5D68
+ * function: MB_SEQ_LoadSelectedMailGraphics
  * address: 0x021C5D68
  * packet: pkt_ov136_021C5D68
  * region: ov136
@@ -27,7 +27,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C5D68(u8 *p)
+void MB_SEQ_LoadSelectedMailGraphics(u8 *p)
 {
     void *h;
     u8 *q;

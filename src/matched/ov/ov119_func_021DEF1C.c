@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF1C
+ * function: POKETRADE_NEGO_StepPollMonCheck
  * address: 0x021DEF1C
  * packet: pkt_ov119_021DEF1C
  * region: ov119
@@ -21,7 +21,7 @@
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
  *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
- *   func_021D89EC 0x021D89EC thumb ov119
+ *   POKETRADE_PROC_IsMonValid 0x021D89EC thumb ov119
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0202136C 0x0202136C thumb
@@ -34,9 +34,9 @@
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021DF0B8 0x021DF0B8 thumb ov119
- *   func_021DEEA8 0x021DEEA8 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_NEGO_StepStartMonCheck 0x021DF0B8 thumb ov119
+ *   POKETRADE_NEGO_StepSendCheckResult 0x021DEEA8 thumb ov119
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  */
@@ -56,7 +56,7 @@ struct MsgBank;
 struct Rec;
 struct Sub02008F80Obj;
 struct U16Vec;
-extern int func_021D89EC(const u8 *p);
+extern int POKETRADE_PROC_IsMonValid(const u8 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
@@ -69,12 +69,12 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-extern void func_021D8E84(void *,int);
-extern void func_021DF0B8(char *p);
-extern void func_021DEEA8(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_NEGO_StepStartMonCheck(char *p);
+extern void POKETRADE_NEGO_StepSendCheckResult(void *);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void DWC_RAP_SetErrorCallback(int a0, int a1);
-void func_021DEF1C(u8 *p)
+void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
 {
     int status, result, i, off1, off2;
     u8 n=0, error;
@@ -97,7 +97,7 @@ void func_021DEF1C(u8 *p)
                 off2-=0xb6;
                 off1-=0xb6;
                 do {
-                    if(func_021D89EC(*(void **)(p+i*4+off1))) {
+                    if(POKETRADE_PROC_IsMonValid(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
                         if(NHTTP_RAP_RecordList_GetValue((u32)data,n)) {
                             value=POKE_TOOL_GetPartyValue(mon,6,0);
@@ -120,11 +120,11 @@ void func_021DEF1C(u8 *p)
                     i++;
                 } while(i<3);
                 ((struct Obj01927 *)p)->f109A=1;
-                func_021D8E84(p,(int)func_021DF0B8);
+                POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepStartMonCheck);
                 goto cleanup;
             }
         }
-        func_021D8E84(p,(int)func_021DEEA8);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendCheckResult);
     } else goto failed;
     } else goto failed;
     goto cleanup;
@@ -140,7 +140,7 @@ failed:
         p[0x11e6]=error;
         NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj01927 *)p)->f0);
     }
-    func_021D8E84(p,(int)func_021DEEA8);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendCheckResult);
 cleanup:
     if(*(u8 * *)&((struct Obj01927 *)p)->f0) {
         NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01927 *)p)->f0);

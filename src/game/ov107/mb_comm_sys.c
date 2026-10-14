@@ -1,7 +1,7 @@
 /*
  * file:     mb_comm_sys.c
  * unit:     yes
- * function: func_021EE740, func_021EE824, func_021EE894, func_021EEEAC, func_021EEEB4, func_021EEEF8, func_021EEF28, func_021EF080, func_021EF0D0, func_021EF0F4, func_021EF444, func_021EF588, func_021EF74C, func_021EF79C, func_021EF96C, func_021EFA14, func_021EFC10, func_021EFC1C, func_021EFCA8, func_021EFD24, func_021EFD98, func_021EFE3C, func_021EFE40, func_021EFFB0, func_021F05DC, func_021F0608, func_021F0694, func_021F0728, func_021F0754, func_021F080C, func_021F0850, func_021F08E4, func_021F0938, func_021F09B0, func_021F0A28, func_021F0A64, func_021F0AE4, func_021F0B04, func_021F0B2C, func_021F0D1C, func_021F0D28, func_021F0D34, func_021F0DB4, func_021F0DDC, func_021F0DE8, func_021F0E40, func_021F0E6C, func_021F0EFC, func_021F0FE8, func_021F1008, func_021F1010, func_021F1018, func_021F1028, func_021F1040, func_021F1050, func_021F1060, func_021F1064, func_021F10D4, func_021F10DC, func_021F10E4, func_021F10EC, func_021F10F4, func_021F10FC, func_021F1104, func_021F110C, func_021F1110, func_021F1118, func_021F1120, func_021F1134, func_021F1148, func_021F115C, func_021F1164, func_021F116C, func_021F1174, func_021F1184, func_021F11BC, func_021F11C4, func_021F11CC, func_021F11E0, func_021F11F0, func_021F1230, func_021F1370, func_021F13BC
+ * function: MB_COMM_SYS_Init, MB_COMM_SYS_Exit, MB_COMM_SYS_Main, MB_COMM_SYS_VBlank, MB_COMM_SYS_VBlankRefreshBg, MB_COMM_SYS_VBlankRefreshBgStandalone, MB_COMM_SYS_InitDisplay, MB_COMM_SYS_ExitDisplay, MB_COMM_SYS_InitBgLayer, MB_COMM_SYS_LoadGraphics, MB_COMM_SYS_DrawTitle, MB_COMM_SYS_BuildGameStrings, MB_COMM_SYS_FreeGameStrings, MB_COMM_SYS_MainWireless, MB_COMM_SYS_StartParent, MB_COMM_SYS_MainRecruit, MB_COMM_SYS_WmEndCallback, MB_COMM_SYS_UpdateSaveState, MB_COMM_SYS_ResetHook, MB_COMM_SYS_FinishReceive, MB_COMM_SYS_RegisterReceivedMons, MB_COMM_SYS_NoOp, MB_COMM_SYS_MainSave, MB_COMM_SYS_MainChildFlow, MB_COMM_SYS_ShowTextPlane, MB_COMM_SYS_ProcInit, MB_COMM_SYS_ProcExit, MB_COMM_SYS_ProcMain, MB_PARENT_SYS_Init, MB_PARENT_SYS_Register, MB_PARENT_SYS_LoadFileImage, MB_PARENT_SYS_CheckRequest, MB_PARENT_SYS_RejectRequest, MB_PARENT_SYS_StartSending, MB_PARENT_SYS_AllBootable, MB_PARENT_SYS_StartBoot, MB_PARENT_SYS_Cancel, MB_PARENT_SYS_EndIfAllBootable, MB_PARENT_SYS_EventCallback, MB_PARENT_SYS_SetState, MB_PARENT_SYS_GetState, MB_PARENT_SYS_GetChildStage, MB_PARENT_SYS_FreeBuffers, MB_PARENT_SYS_IsRegistered, MB_COMM_SYS_CreateNetState, MB_COMM_SYS_DeleteNetState, MB_COMM_SYS_UpdateNetState, MB_COMM_SYS_StartNetSession, MB_COMM_SYS_StopNetSession, MB_COMM_SYS_GetNetRunState, MB_COMM_SYS_IsNetSessionNull, MB_COMM_SYS_StartNet, MB_COMM_SYS_SetSyncRange, MB_COMM_SYS_IsSyncDone, MB_COMM_SYS_IsLoginDone, MB_COMM_SYS_GetCommStage, MB_COMM_SYS_ClearRoundFlags, MB_COMM_SYS_HasKind11, MB_COMM_SYS_HasKind12, MB_COMM_SYS_HasKind12Again, MB_COMM_SYS_HasKind14, MB_COMM_SYS_HasKind1, MB_COMM_SYS_HasKind2, MB_COMM_SYS_HasKind4, MB_COMM_SYS_GetCount, MB_COMM_SYS_HasKind19, MB_COMM_SYS_GetOfferCount, MB_COMM_SYS_GetOfferExtra, MB_COMM_SYS_GetOfferFlagA, MB_COMM_SYS_GetOfferFlagB, MB_COMM_SYS_HasKind20, MB_COMM_SYS_HasKind21, MB_COMM_SYS_GetKind21Value, MB_COMM_SYS_QueuePayload, MB_COMM_SYS_ClearMonBuffer, MB_COMM_SYS_HasMonsReceived, MB_COMM_SYS_GetMonCount, MB_COMM_SYS_GetMon, MB_COMM_SYS_GetMaxSeen, MB_COMM_SYS_SendMessage, MB_COMM_SYS_OnMessage, MB_COMM_SYS_SendHeader, MB_COMM_SYS_GetHeaderBuffer
  * address:  0x021EE740
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021F1404 0x021F1404 thumb ov107
+ *   MB_UTIL_MSG_Create 0x021F1404 thumb ov107
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C1B0 0x0200C1B0 thumb
@@ -21,7 +21,7 @@
  *   func_02005654 0x02005654 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02034F84 0x02034F84 arm
- *   d_021F6EA0 0x021F6EA0 data a4
+ *   gMbParentUi 0x021F6EA0 data a4
  *   func_02034FB8 0x02034FB8 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_0200566C 0x0200566C thumb
@@ -30,17 +30,17 @@
  *   func_0201296C 0x0201296C thumb
  *   ZONEDATA_GetEventWorkAddress 0x020143CC thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021F1520 0x021F1520 thumb ov107
- *   func_021F1628 0x021F1628 thumb ov107
- *   func_021F1704 0x021F1704 thumb ov107
- *   func_021F1A58 0x021F1A58 thumb ov107
- *   func_021F1B24 0x021F1B24 thumb ov107
- *   func_021F1B14 0x021F1B14 thumb ov107
- *   func_021F19E4 0x021F19E4 thumb ov107
- *   func_021F1A2C 0x021F1A2C thumb ov107
- *   func_021F1898 0x021F1898 thumb ov107
- *   func_021F1A24 0x021F1A24 thumb ov107
- *   func_021F15B0 0x021F15B0 thumb ov107
+ *   MB_UTIL_MSG_Delete 0x021F1520 thumb ov107
+ *   MB_UTIL_MSG_SetWindowLayout 0x021F1628 thumb ov107
+ *   MB_UTIL_MSG_PrintStream 0x021F1704 thumb ov107
+ *   MB_UTIL_MSG_PrintStreamSystemMsg 0x021F1A58 thumb ov107
+ *   MB_UTIL_MSG_SetKeyWaitFlag 0x021F1B24 thumb ov107
+ *   MB_UTIL_MSG_IsStreamIdle 0x021F1B14 thumb ov107
+ *   MB_UTIL_MSG_OpenYesNoMenu 0x021F19E4 thumb ov107
+ *   MB_UTIL_MSG_ProcessYesNoMenu 0x021F1A2C thumb ov107
+ *   MB_UTIL_MSG_ClearWindow 0x021F1898 thumb ov107
+ *   MB_UTIL_MSG_ClearYesNoMenu 0x021F1A24 thumb ov107
+ *   MB_UTIL_MSG_Main 0x021F15B0 thumb ov107
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020461E4 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
@@ -134,14 +134,14 @@
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021F1B04 0x021F1B04 thumb ov107
+ *   MB_UTIL_MSG_GetFont 0x021F1B04 thumb ov107
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   func_02012944 0x02012944 thumb
- *   func_021F18D8 0x021F18D8 thumb ov107
+ *   MB_UTIL_MSG_CreateWordSet 0x021F18D8 thumb ov107
  *   func_02008534 0x02008534 thumb
- *   func_021F1918 0x021F1918 thumb ov107
- *   func_021F1AFC 0x021F1AFC thumb ov107
- *   func_021F1B00 0x021F1B00 thumb ov107
+ *   MB_UTIL_MSG_SetNumberZeroPad 0x021F1918 thumb ov107
+ *   MB_UTIL_MSG_GetMsgData 0x021F1AFC thumb ov107
+ *   MB_UTIL_MSG_GetWordSet 0x021F1B00 thumb ov107
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_GetLength 0x020458F8 arm
@@ -159,9 +159,9 @@
  *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
  *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
  *   func_020351F8 0x020351F8 arm
- *   func_021F18EC 0x021F18EC thumb ov107
- *   func_021F17E0 0x021F17E0 thumb ov107
- *   func_021F1B38 0x021F1B38 thumb ov107
+ *   MB_UTIL_MSG_DeleteWordSet 0x021F18EC thumb ov107
+ *   MB_UTIL_MSG_PrintQueued 0x021F17E0 thumb ov107
+ *   MB_UTIL_MSG_SetTimeIconPending 0x021F1B38 thumb ov107
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   WIH_End 0x02179570 thumb ov014
  *   WM_GetLinkLevel 0x0208EE9C arm
@@ -177,9 +177,9 @@
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021F1930 0x021F1930 thumb ov107
- *   func_021F19C8 0x021F19C8 thumb ov107
- *   func_021F19B8 0x021F19B8 thumb ov107
+ *   MB_UTIL_MSG_OpenYesNoTaskMenu 0x021F1930 thumb ov107
+ *   MB_UTIL_MSG_GetTaskMenuResult 0x021F19C8 thumb ov107
+ *   MB_UTIL_MSG_CloseTaskMenu 0x021F19B8 thumb ov107
  *   d_021F6AF8 0x021F6AF8 data a4
  *   func_0200C1A4 0x0200C1A4 thumb
  *   func_0208459C 0x0208459C arm
@@ -190,11 +190,11 @@
  *   func_020074D8  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
- *   func_021F1B08 0x021F1B08 thumb ov107
+ *   MB_UTIL_MSG_IsPrintQueFinished 0x021F1B08 thumb ov107
  *   func_020056EC 0x020056EC thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_021F1900  0x021F1900  thumb  ov107
+ *   MB_UTIL_MSG_SetNumberLeft  0x021F1900  thumb  ov107
  *   func_0201292C  0x0201292C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
@@ -219,25 +219,25 @@
  *   func_02087D28 0x02087D28 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_021F5904 0x021F5904 arm ov107
- *   func_021F5B4C 0x021F5B4C arm ov107
+ *   MB_SetParentCommParam 0x021F5B4C arm ov107
  *   func_021F1B3C 0x021F1B3C arm ov107
- *   d_021F6EB4 0x021F6EB4 data a4
+ *   gMbChildStageMasks 0x021F6EB4 data a4
  *   d_021F6E1C 0x021F6E1C data a4
- *   d_021F6EAC 0x021F6EAC data a4
+ *   gMbParentSys 0x021F6EAC data a4
  *   d_021F6E24 0x021F6E24 data a4
  *   func_021F5E7C 0x021F5E7C arm ov107
- *   func_021F2F1C 0x021F2F1C arm ov107
+ *   MB_GetSegmentLength 0x021F2F1C arm ov107
  *   func_021F2FA0 0x021F2FA0 arm ov107
  *   func_021F3544 0x021F3544 arm ov107
- *   func_021F1C30 0x021F1C30 arm ov107
- *   func_021F5FB0 0x021F5FB0 arm ov107
+ *   MB_CommResponseRequest 0x021F1C30 arm ov107
+ *   MB_DisconnectChild 0x021F5FB0 arm ov107
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
- *   func_021F1BE0 0x021F1BE0 arm ov107
+ *   MB_CommIsBootable 0x021F1BE0 arm ov107
  *   func_021F5F74 0x021F5F74 arm ov107
- *   func_021F1B64 0x021F1B64 arm ov107
+ *   MB_CommGetChildUser 0x021F1B64 arm ov107
  *   GFL_NET_FreeAligned 0x0203D7FC arm
- *   d_021F6EC8 0x021F6EC8 data a4
+ *   gMbChildEntries 0x021F6EC8 data a4
  *   d_021F6EDE 0x021F6EDE data a2
  *   d_021F6EDF 0x021F6EDF data a1
  *   d_021F6EE0 0x021F6EE0 data a1
@@ -269,363 +269,126 @@
  *   d_021F6EE8 0x021F6EE8 data a4
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm  arm9
  */
-#include "../../matched/include/Obj00057.h"
-#include "../../matched/include/Obj22273.h"
-#include "../../matched/include/Obj00979.h"
-#include "../../matched/include/Obj22274.h"
-#include "../../matched/include/Obj10258.h"
-#include "../../matched/include/Obj00072.h"
-#include "../../matched/include/Obj22277.h"
-#include "../../matched/include/Obj22278.h"
-#include "../../matched/include/Obj07994.h"
-#include "../../matched/include/Obj22279.h"
-#include "../../matched/include/Obj02457.h"
-#include "../../matched/include/Obj01529.h"
-#include "../../matched/include/Obj13761.h"
-#include "../../matched/include/Obj04440.h"
-#include "../../matched/include/Obj10259.h"
-#include "../../matched/include/Obj22294.h"
-#include "../../matched/include/Obj22296.h"
-#include "../../matched/include/Obj22298.h"
-#include "../../matched/include/Obj22299.h"
-#include "../../matched/include/Obj13764.h"
-#include "../../matched/include/Obj07995.h"
-#include "../../matched/include/Obj22300.h"
-#include "../../matched/include/Obj22301.h"
 
-#define P(k) (*(void **)(p+(k)))
-#define W(k) (*(u32 *)(p+(k)))
-#define H(k) (*(u16 *)(p+(k)))
-#define O P(12)
-#define M P(104)
-#define SAVE (*(void **)((u8 *)P(8)+4))
-#define PHASE (*(Phase *)(p+32))
-#define OBJ (*(void **)(p+0xc))
-#define MSG (*(void **)(p+0x68))
-#define TARGET (*(u8 **)(*(u8 **)(p+8)+4))
-struct Big;
-struct Blk34;
-struct Object;
-struct Work;
-struct Node;
-struct BigObj;
-struct Bits;
+#include "mb_comm_sys.h"
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef short s16;
+typedef signed char s8;
+
 struct FSFile;
-struct Sub02008C20Obj;
 struct DispVram;
 struct DispConfig;
 struct BgTemplate;
-struct Bank;
-struct Obj;
-struct Descriptor;
-struct MsgBank;
-struct Rec;
-struct U16Vec;
-struct CharBuf;
-struct Cfg;
-struct Sub0200852CObj;
-struct WordSet;
-struct Blk37;
-struct Mon;
-struct Sub02007454Entry;
-struct Obj0203159C;
-struct S020315D4;
-struct OSOwnerInfoEx;
-struct Link;
-struct Req;
-struct Entry;
-struct Sav;
-typedef unsigned char u8;
+struct ClActInitParam {
+    u32 header[4];
+    u16 dimensions[6];
+};
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef enum { FS_OK=0, FS_ERROR=1 } FSResult;
-
+typedef enum { FS_OK = 0, FS_ERROR = 1 } FSResult;
 typedef struct File {
- struct File *next; void *userdata; void *arc; u32 stat;
- void *argument; FSResult error; void *queue[2];
- u8 reserved1[16]; u8 arg[24];
+    struct File *next;
+    void *userdata;
+    void *arc;
+    u32 stat;
+    void *argument;
+    FSResult error;
+    void *queue[2];
+    u8 reserved1[16];
+    u8 arg[24];
 } File;
+typedef enum { SEEK_SET = 0, SEEK_CUR = 1, SEEK_END = 2 } SeekOrigin;
 
-typedef signed int     s32;
-
-typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
-
-typedef enum { Phase0=0,Phase33=33 } Phase;
-
-struct Counter { u8 f0; u8 f1; u16 f2; u32 f4; int f8; };
-
-struct Cfg { u32 prefix[4];u16 dimensions[6]; };
-
-struct Placement { u16 x,y,z;u8 f6,f7; };
-
-typedef signed int     s32_021EF444;
-
-typedef signed short s16_021EF444;
-
-struct Work {
-    u16 f0;
-    u8 pad_2[6];
-    u8 **f8;
-    u8 pad_c[0x18];
-    u8 f24;
-    u8 pad_25;
-    u8 f26;
-    u8 pad_27;
-    u8 f28;
-    u8 pad_29[7];
-    int f30;
-    u8 pad_34[0x1c];
-    u16 *f50;
-    u16 *f54;
-    u8 pad_58[0x10];
-    u8 *f68;
+/* Actor placement passed to CLACT_CreateActor. */
+struct Placement {
+    u16 x, y, z;
+    u8 animSeq;
+    u8 bgPriority;
 };
 
-typedef struct { int a,b; } Pair;
+/* Display registers and palette RAM touched directly by this screen. */
+#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
+#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
+#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
+#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
+#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
+#define PLTT_BG_MAIN ((volatile u16 *)0x05000000)
+#define PLTT_BG_SUB ((volatile u16 *)0x05000400)
 
-typedef struct { int words[15]; } Config;
+typedef struct MbPathPair {
+    const char *inGame;
+    const char *standalone;
+} MbPathPair;
 
-typedef struct {
-    int f00;
-    void *f04;
-} Ov107Save;
+/* OS owner info as returned by the OS (nickname at 0x04, its length at 0x1A). */
+typedef struct OwnerInfo {
+    u8 language;
+    u8 favoriteColor;
+    u8 birthMonth;
+    u8 birthDay;
+    u16 nickname[10];
+    u16 word18;
+    u16 nicknameLength;
+    u16 comment[26];
+    u16 word50;
+    u16 word52;
+    u8 tail;
+} OwnerInfo;
 
-typedef struct {
-    unsigned short f00;
-    unsigned char pad02[6];
-    Ov107Save *f08;
-    void *f0C;
-    unsigned char pad10[0x18];
-    unsigned char f28;
-} Ov107Ctx;
+typedef struct MBUser {
+    u8 favoriteColour : 4;
+    u8 playerNo : 4;
+    u8 nameLength;
+    u16 name[10];
+} MBUser;
 
-typedef struct {
-    unsigned short f00;
-    unsigned char pad02[6];
-    Ov107Save *f08;
-    void *f0C;
-    unsigned char pad10[0x10];
-    int f20;
-    unsigned char pad24;
-    unsigned char state;
-    unsigned char pad26[0xE];
-    int f34;
-    unsigned char pad38[8];
-    int f40;
-    int f44;
-    int f48;
-    unsigned char pad4C[0x1C];
-    void *f68;
-} Ov107Main;
-
-typedef struct {u8 f00;u8 pad[3];void *f04;} Save;
-
-typedef struct {u16 f00,pad02;u32 f04;Save *f08;u32 f0C,f10,f14,f18;u8 pad1C[160];} Ctx_021F0608;
-
-typedef struct {u16 f00,pad02;u32 f04;Save *f08;u32 f0C,f10,f14,f18;} Ctx_021F0694;
-
-typedef struct {u8 f00,f01,f02,f03;u16 f04[10];u16 f18,f1A;u16 f1C[26];u16 f50,f52;u8 f54;} User;
-
-typedef struct {u8 f00:4;u8 f00hi:4;u8 f01;u16 f02[10];} MBUser;
-
-typedef struct {u32 words[5];} Zero;
-
-struct Masks {
-    void *f00;
-    void *f04;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 f0E;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-    int f18;
-};
-
-typedef short s16_021F0B04;
-
-typedef signed char s8;
-
-typedef int s32_021F0B04;
-
-typedef struct {u16 f00,f02,f04,f06,f08,f0A,f0C,f0E,f10,f12;} Snapshot;
-
-typedef short s16;
-
-typedef int s32_021F0DB4;
-
-typedef struct {u16 f00,pad02;u32 f04,f08,f0C;void *f10;u32 f14;u16 pad18:11;u16 f18:1;u16 pad19:4;u8 pad1A[14];} Object;
-
-typedef struct {u8 pad[24];unsigned short low:11,flag:1,rest:4;} State_021F0DB4;
-
-typedef struct {u32 f00,f04,f08,f0C;} State_021F0E6C;
-
-typedef struct {
-    u32 f00,f04; u8 pad08[0x40]; u32 f48; u8 pad4c[8];
-    u16 f54,f56,f58,f5a,f5c,f5e;
-    u8 pad60,f61,pad62[3],f65,pad66,f67,pad68[8];
+/* Net session request copied from ROM data and patched with the heap id (112 bytes). */
+typedef struct Request {
+    u32 settings[21];
+    u16 heapId;
+    u8 moreSettings[26];
 } Request;
 
-typedef struct {
-    u16 b00:1,b01:1,b02:1,b03:1,b04:1,b05:1,b06:1,b07:1;
-    u16 b08:1,b09:1,b10:1,b11:1,b12:1,b13:1,b14:1,b15:1;
-} Flags;
+/* Message sent on channel 0x400. */
+typedef struct MbCommMsg {
+    u32 value;
+    u8 kind;
+} MbCommMsg;
 
-typedef struct {
-    u16 heap; u8 pad02[22]; Flags f18,f1a;
-    u8 f1c,pad1d; u16 f1e; u8 f20,pad21[3]; u32 f24;
-} State_021F0EFC;
+/* Start of the mon receive buffer. */
+typedef struct MbMonList {
+    u8 count;
+    u8 pad01;
+    u16 maxSeen;
+} MbMonList;
 
-typedef struct {u32 a; u32 f4; u8 pad[16];unsigned short low:11,flag:1,rest:4;} State_021F0FE8;
+/* Record passed to the MB parent callback. */
+typedef struct MbChildEvent {
+    u16 errorCode;
+    u8 unused02[8];
+    u8 mac[6];
+} MbChildEvent;
 
-typedef struct {
-    unsigned short b00 : 1;
-    unsigned short b01 : 1;
-    unsigned short b02 : 1;
-    unsigned short b03 : 1;
-    unsigned short b04 : 1;
-    unsigned short b05 : 1;
-    unsigned short b06 : 1;
-    unsigned short b07 : 1;
-    unsigned short b08 : 1;
-    unsigned short b09 : 1;
-    unsigned short b10 : 1;
-    unsigned short b11 : 1;
-    unsigned short b12 : 1;
-    unsigned short b13 : 1;
-    unsigned short b14 : 1;
-    unsigned short b15 : 1;
-} Ov107Flags;
-
-typedef struct {
-    unsigned char pad00[0xC];
-    int f0C;
-    unsigned char pad10[8];
-    Ov107Flags f18;
-    Ov107Flags f1A;
-    unsigned char pad1C[8];
-    unsigned int f24;
-} Ov107Ctx_021F0DB4;
-
-typedef struct { u8 pad00[0x18]; Flags f18; u16 f1a; u8 f1c; } State_021F1064;
-
-typedef struct {
-    unsigned short b00 : 1;
-    unsigned short b01 : 1;
-    unsigned short b02 : 1;
-    unsigned short b03 : 1;
-    unsigned short b04 : 1;
-    unsigned short b05 : 1;
-    unsigned short b06 : 1;
-    unsigned short b07 : 1;
-    unsigned short b08 : 1;
-    unsigned short b09 : 1;
-    unsigned short b10 : 1;
-    unsigned short b11 : 1;
-    unsigned short b12 : 1;
-    unsigned short b13 : 1;
-    unsigned short b14 : 1;
-    unsigned short b15 : 1;
-} Ov107Flags_021F116C;
-
-typedef struct {
-    unsigned char pad00[0xC];
-    void *f0C;
-    unsigned char pad10[8];
-    Ov107Flags_021F116C f18;
-    Ov107Flags_021F116C f1A;
-    unsigned char pad1C[8];
-    unsigned int f24;
-} Ov107Ctx_021F116C;
-
-typedef struct {
-    unsigned char f00;
-    unsigned char pad01;
-    unsigned short f02;
-} Ov107List;
-
-typedef struct {
-    unsigned short b0 : 1;
-    unsigned short b1 : 1;
-    unsigned short b2 : 1;
-    unsigned short rest : 13;
-} Ov107Flags_021F1184;
-
-typedef struct {
-    unsigned char pad00[0x10];
-    Ov107List *f10;
-    unsigned char pad14[4];
-    Ov107Flags_021F1184 f18;
-} Ov107Ctx_021F1184;
-
-typedef struct {
-    unsigned short b00 : 1;
-    unsigned short b01 : 1;
-    unsigned short b02 : 1;
-    unsigned short b03 : 1;
-    unsigned short b04 : 1;
-    unsigned short b05 : 1;
-    unsigned short b06 : 1;
-    unsigned short b07 : 1;
-    unsigned short b08 : 1;
-    unsigned short b09 : 1;
-    unsigned short b10 : 1;
-    unsigned short b11 : 1;
-    unsigned short b12 : 1;
-    unsigned short b13 : 1;
-    unsigned short b14 : 1;
-    unsigned short b15 : 1;
-} Ov107Flags_021F11BC;
-
-typedef struct {
-    unsigned char pad00[0xC];
-    void *f0C;
-    unsigned char pad10[8];
-    Ov107Flags_021F11BC f18;
-    Ov107Flags_021F11BC f1A;
-    unsigned char pad1C[8];
-    unsigned int f24;
-} Ov107Ctx_021F11BC;
-
-typedef struct {
-    unsigned char pad00[0x10];
-    unsigned char *f10;
-} Ov107Ctx_021F11CC;
-
-struct Bits { unsigned char pad[24]; u16 unused:2; u16 flag:1; u16 rest:13; };
-
-typedef struct {
-    unsigned int f00;
-    unsigned char f04;
-} Ov107Msg;
-
-typedef signed int     s32_021F11F0;
-
-typedef struct { u32 f00; u8 kind; } Msg_021F1230;
-
-typedef struct { u8 pad[0x0C]; u32 f0c; u8 pad2[0x08]; u16 flags; u16 flags2; u8 f1c; u8 pad3; u16 f1e; u8 f20; u8 pad4[3]; u32 f24; } State_021F1230;
-
-extern struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void *GAME_DATA_GetSaveControl(struct Big *);
+extern void *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *GAME_DATA_GetSaveControl(void *);
 extern void *func_0200C0F0(void *);
-extern void func_0200C1B0(struct Blk34 *,u32);
+extern void func_0200C1B0(void *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern int func_02005654(int,int);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void func_02034F84(u32);
 extern void func_02034FB8(u32 v);
-extern void func_02030EAC(struct Node *n);
+extern void func_02030EAC(void *n);
 extern void func_0200566C(void);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_0201296C(const void *p);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
-extern void func_021F1520(char *p);
+extern void MB_UTIL_MSG_Delete(char *p);
 extern u8 GAME_DATA_IsSaving(const u8 *);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -634,31 +397,31 @@ extern int func_0202EB44(void);
 extern signed char func_02012FFC(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_021F1628(void *,int);
-extern void func_021F1704(void *,int,int);
-extern void func_021F1A58(char *p, int a);
-extern void func_021F1B24(void *,int);
-extern int func_021F1B14(void *);
-extern int func_021F1A2C(void *);
-extern void func_021F19E4(void *,int);
-extern void func_021F1898(void *);
-extern void func_021F1A24(u8 *p);
+extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
+extern void MB_UTIL_MSG_PrintStream(void *,int,int);
+extern void MB_UTIL_MSG_PrintStreamSystemMsg(char *p, int a);
+extern void MB_UTIL_MSG_SetKeyWaitFlag(void *,int);
+extern int MB_UTIL_MSG_IsStreamIdle(void *);
+extern int MB_UTIL_MSG_ProcessYesNoMenu(void *);
+extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
+extern void MB_UTIL_MSG_ClearWindow(void *);
+extern void MB_UTIL_MSG_ClearYesNoMenu(u8 *p);
 extern u32 func_020461E4(int);
-extern u32 func_0200C184(struct Blk34 *p);
+extern u32 func_0200C184(void *p);
 extern void *func_0200575C(u32);
 extern void FS_InitFile(File *);
 extern int FS_OpenFile(File *,const char *);
 extern int FS_CloseFile(File *);
-extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern u32 FS_GetLength(struct FSFile *a0);
+extern int func_02078B44(void *file, long offset, int origin);
+extern s32 FS_ReadFile(void *file, void *buffer, s32 length);
+extern u32 FS_GetLength(void *a0);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern u32 func_0201293C(const struct BigObj *p);
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 func_0201293C(const void *p);
+extern u32 func_02008DF0(void *obj, int i);
 extern int func_02007774(void *);
-extern void *func_021F15B0(void *);
+extern void *MB_UTIL_MSG_Main(void *);
 extern void CLACT_DrawSystem(void *);
 extern void CLACT_VBlankSystem(void);
 extern void func_02040618(unsigned,unsigned,unsigned);
@@ -671,13 +434,13 @@ extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_02040588(u32 which, unsigned char enable);
-extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
-extern struct Bank *CLACT_CreateUnit(int,u8,u32);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
+extern void CLACT_InitSystem(const void *,u32,u32);
+extern void *CLACT_CreateUnit(int,u8,u32);
+extern void CLACT_SetUnitDefaultRenderer(void *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_DeleteActor(void *p);
+extern u32 CLACT_DeleteUnit(void *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_020403F4(unsigned);
 extern void BMP_WIN_Exit(void);
@@ -695,8 +458,8 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern struct Obj *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
+extern void *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
+extern void CLACT_SetActorDrawEnable(void *,u32);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
@@ -705,31 +468,31 @@ extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
-extern void *func_02045EC0(struct MsgBank *,u32);
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
-extern void BMP_Clear(struct CharBuf *,u8);
-extern unsigned int func_021F1B04(unsigned char *p);
-extern void PRINTSYS_PrintColor(void *,s16_021EF444,s16_021EF444,void *,void *,u16);
-extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void STRBUF_Delete(struct U16Vec *);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void *BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern void *func_02045B38(u32,u32,u32,u32);
+extern void *func_02045EC0(void *,u32);
+extern void *BMP_WIN_GetBmp(void *);
+extern void BMP_Clear(void *,u8);
+extern void *MB_UTIL_MSG_GetFont(void *p);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void BMP_WIN_TransferChars(void *);
+extern void BMP_WIN_MakeScreen(void *);
+extern u8 BMP_WIN_GetBgLayer(void *);
+extern void STRBUF_Delete(void *);
+extern u32 MSGDATA_Delete(void *rec);
+extern u32 BMP_WIN_Delete(void *d);
 extern u8 *func_02012944(void *p);
-extern void func_021F18D8(void *);
-extern u16 func_02008534(const struct Sub0200852CObj *obj);
-extern void func_021F1918(unsigned char *a, int b, int c, int d);
-extern u32 func_021F1AFC(u8 *p);
-extern u32 func_021F1B00(u8 *p);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern u16 STRBUF_GetLength(struct U16Vec *vec);
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern void MB_UTIL_MSG_CreateWordSet(void *);
+extern u16 func_02008534(const void *obj);
+extern void MB_UTIL_MSG_SetNumberZeroPad(unsigned char *a, int b, int c, int d);
+extern void *MB_UTIL_MSG_GetMsgData(void *p);
+extern void *MB_UTIL_MSG_GetWordSet(void *p);
+extern void *STRBUF_Create(u32 capacity, u32 heapId);
+extern void func_0201F250(void *ws, void *dst, void *src);
+extern u16 STRBUF_GetLength(void *vec);
+extern u16 *STRBUF_GetChars(void *vec);
 extern void MIi_CpuCopy16(const void *, void *, int);
-extern int func_02034AC4(s32_021EF444 handle);
+extern int func_02034AC4(s32 handle);
 extern void func_020774A0(int (*callback)(void));
 extern void func_02034A5C(int);
 extern int WIH_GetSysState(void);
@@ -740,10 +503,10 @@ extern int WIH_Initialize(u32,int,int);
 extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32);
 extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
 extern void func_020351F8(u32 a, u32 b);
-extern void func_021F18EC(void *);
-extern void func_021F17E0(void *,int);
-extern void func_021F1B38(u8 *p, u32 v);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void MB_UTIL_MSG_DeleteWordSet(void *);
+extern void MB_UTIL_MSG_PrintQueued(void *,int);
+extern void MB_UTIL_MSG_SetTimeIconPending(u8 *p, u32 v);
+extern void CLACT_SetActorAnimSeq(void *p, u16 value);
 extern int WIH_End(void (*cb)(int));
 extern int WM_GetLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
@@ -751,27 +514,27 @@ extern void GFL_NET_WM_ICON_EasyMain(void);
 extern u16 WIH_GetMeasureChannel(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern int func_021F19C8(unsigned char *a);
+extern int MB_UTIL_MSG_GetTaskMenuResult(unsigned char *a);
 extern u32 KEY_GetTrg(void);
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(void *,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_021F1930(char *p, int kind);
-extern void func_021F19B8(unsigned char *a);
-extern u8 func_0200C1A4(struct Blk34 *p);
+extern void MB_UTIL_MSG_OpenYesNoTaskMenu(char *p, int kind);
+extern void MB_UTIL_MSG_CloseTaskMenu(unsigned char *a);
+extern u8 func_0200C1A4(void *p);
 extern void func_0208459C(int clear, u32 irqFlags);
-extern void func_0200C18C(struct Blk34 *p, u32 v);
+extern void func_0200C18C(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
-u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
+u32 func_02008DAC(void *obj, int i, u32 delta);
 void func_0202F27C(void *);
-int func_020074D8(void **save, const struct Sub02007454Entry *src);
-void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
-extern int func_021F1B08(void *);
+int func_020074D8(void **save, const void *src);
+void *POKE_TOOL_CreateFromBoxParam(void *p, u32 heap);
+void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
+extern int MB_UTIL_MSG_IsPrintQueFinished(void *);
 extern u32 func_020056EC(u32);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
-void func_021F1900(void *, int, int, int);
-void *func_0201292C(const struct BigObj *p);
+void MB_UTIL_MSG_SetNumberLeft(void *, int, int, int);
+void *func_0201292C(const void *p);
 void *GAME_DATA_GetMiscSave(int *p);
 int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
@@ -780,11 +543,11 @@ extern void BG_SYS_SetMainVisiblePlanes(int);
 extern void BG_SYS_SetSubVisiblePlanes(int);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern unsigned int KEY_GetCont(void);
 extern void *GAME_DATA_Create(u16);
 extern void GAME_DATA_Delete(unsigned char *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(void *);
 extern void func_020306F0(u32);
 extern u32 func_0200FB24(void);
 extern int func_0200FBB0(void);
@@ -792,22 +555,22 @@ extern void GFL_NET_ERR_ShowScreen(int);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void UI_SoftReset(int);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02087D28(struct OSOwnerInfoEx *info);
+extern void func_02087D28(void *info);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
 extern int func_021F5904(void *,MBUser *,int,int,u16);
-extern int func_021F5B4C(u16,u16);
-extern void func_021F1B3C(void (*)(u16,u32,u8 *));
+extern int MB_SetParentCommParam(u16,u16);
+extern void func_021F1B3C(void (*)(u16,u32,MbChildEvent *));
 extern int func_021F5E7C(int);
-extern u32 func_021F2F1C(void *);
+extern u32 MB_GetSegmentLength(void *);
 extern int func_021F2FA0(void *,void *,u32);
 extern int func_021F3544(void *,void *);
-extern int func_021F1C30(u16,int);
-extern void func_021F5FB0(u16);
+extern int MB_CommResponseRequest(u16,int);
+extern void MB_DisconnectChild(u16);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32);
-extern int func_021F1BE0(u16);
+extern int MB_CommIsBootable(u16);
 extern void func_021F5F74(void);
-extern void *func_021F1B64(u16);
+extern void *MB_CommGetChildUser(u16);
 extern void GFL_NET_FreeAligned(void *);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern void GFL_NET_LOWER_DATA_Exit(void);
@@ -815,877 +578,1145 @@ extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_HANDLE_IsNegotiationDone(void *);
 extern int GFL_NET_IsHandleReady(void *);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(void *,unsigned int,unsigned int);
 extern void GFL_NET_SetLoginOption(int);
-extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(void *req, u32 a2, u32 a3);
 extern void GFL_NET_LOWER_DATA_Init(int,int);
 extern int GFL_NET_Exit(int);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartByNetType(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(void *, unsigned int, unsigned int);
 extern void GFL_NET_LOWER_DATA_SetSendData(int,int,int,int);
-void POKE_TOOL_ClearBoxParam(struct Sav *);
+void POKE_TOOL_ClearBoxParam(void *);
 u32 GFL_NET_IsParentAid(void);
-struct Entry *GFL_NET_HANDLE_GetNetHandle(s32_021F11F0 idx);
+void *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int GFL_NET_GetNegotiationNum(void);
-void func_021EE740(u8 *p);
-void func_021EE824(u8 *p);
-int func_021EE894(u8 *p);
-void func_021EEEAC(void);
-void func_021EEEB4(void);
-void func_021EEEF8(void);
-void func_021EEF28(u8 *p);
-void func_021EF080(char *p);
-void func_021EF0D0(u32 a,u32 b,u32 c);
-void func_021EF0F4(u8 *p);
-void func_021EF444(u8 *p);
-void func_021EF588(u8 *p);
-void func_021EF74C(unsigned char *p);
-int func_021EF79C(u8 *p);
-void func_021EF96C(u8 *p);
-void func_021EFA14(u8 *p);
-int func_021EFC10(void);
-void func_021EFC1C(u8 *p,int mode);
-void func_021EFCA8(u8 *p);
-void func_021EFD24(u8 *p);
-void func_021EFD98(Ov107Ctx *p);
-void func_021EFE3C(u8 *p);
-void func_021EFE40(u8 *p);
-void func_021EFFB0(Ov107Main *p);
-int func_021F05DC(void);
-int func_021F0608(void *task,void *arg,Save *save);
-int func_021F0694(void *task,int unused,int keep,Ctx_021F0694 *p);
-int func_021F0728(int a,int b,int c,u8 *p);
-void func_021F0754(int a,int b);
-void func_021F080C(void *p,int channel);
-int func_021F0850(const char **p);
-void func_021F08E4(u16 aid);
-void func_021F0938(u16 aid);
-void func_021F09B0(u16 aid);
-int func_021F0A28(void);
-void func_021F0A64(void);
-void func_021F0AE4(void);
-void func_021F0B04(void);
-void func_021F0B2C(u16 aid,u32 event,u8 *p);
-void func_021F0D1C(u16 v);
-u16 func_021F0D28(void);
-int func_021F0D34(u16 aid);
-void func_021F0DB4(void);
-u32 func_021F0DDC(void);
-Object *func_021F0DE8(u16 heap);
-void func_021F0E40(State_021F0DB4 *p);
-void func_021F0E6C(State_021F0E6C *p);
-void func_021F0EFC(State_021F0EFC *p);
-void func_021F0FE8(State_021F0FE8 *p);
-int func_021F1008(void *p);
-int func_021F1010(void *p);
-void func_021F1018(u8 *p);
-void func_021F1028(int *p);
-int func_021F1040(int *p);
-int func_021F1050(int *p);
-int func_021F1060(Ov107Ctx_021F0DB4 *p);
-void func_021F1064(unsigned char *p);
-int func_021F10D4(State_021F1064 *p);
-int func_021F10DC(State_021F1064 *p);
-int func_021F10E4(State_021F1064 *p);
-int func_021F10EC(State_021F1064 *p);
-int func_021F10F4(State_021F1064 *p);
-int func_021F10FC(State_021F1064 *p);
-int func_021F1104(State_021F1064 *p);
-int func_021F110C(State_021F1064 *p);
-int func_021F1110(Ov107Ctx_021F0DB4 *p);
-unsigned short func_021F1118(Ov107Ctx_021F0DB4 *p);
-unsigned short func_021F1120(Ov107Ctx_021F0DB4 *p);
-int func_021F1134(Ov107Ctx_021F0DB4 *p);
-int func_021F1148(Ov107Ctx_021F0DB4 *p);
-int func_021F115C(Ov107Ctx_021F0DB4 *p);
-int func_021F1164(Ov107Ctx_021F0DB4 *p);
-int func_021F116C(Ov107Ctx_021F116C *p);
-void func_021F1174(int a,int b,int c);
-void func_021F1184(Ov107Ctx_021F1184 *p);
-int func_021F11BC(Ov107Ctx_021F11BC *p);
-u8 func_021F11C4(u8 *p);
-void *func_021F11CC(Ov107Ctx_021F11CC *p, int i);
-int func_021F11E0(unsigned char *a);
-int func_021F11E8(struct Bits *a);
-int func_021F11F0(void *p, unsigned char kind, unsigned int val);
-void func_021F1230(int a, int b, Msg_021F1230 *m, State_021F1230 *s);
-int func_021F1370(void *unused,void *p);
-void func_021F13AC(int a,int b,int c,char *p);
-void *func_021F13BC(void *a,char *p);
-void func_021F13E8(int a,int b,int c,char *p);
-void *func_021F13F4(int a,char *p);
-int *func_021F13F8(void);
-int func_021F1400(void);
-extern struct Counter d_021F6EA0;
+
+extern MbParentUi gMbParentUi;
 extern const char d_021F6E08[], d_021F6E0C[];
-extern const struct Cfg gClActorInitParam;
+extern const struct ClActInitParam gClActorInitParam;
 extern const struct DispVram d_021F6C10;
 extern struct DispConfig d_021F6B00;
-extern const struct BgTemplate d_021F6B50,d_021F6B70,d_021F6B90,d_021F6BB0,d_021F6BD0,d_021F6BF0,d_021F6B10,d_021F6B30;
+extern const struct BgTemplate d_021F6B50, d_021F6B70, d_021F6B90, d_021F6BB0, d_021F6BD0, d_021F6BF0, d_021F6B10, d_021F6B30;
 extern u8 ov014_id[];
-extern const Pair d_021F6D68,d_021F6D70,d_021F6D60;
-extern const Config d_021F6C40;
+extern const MbPathPair d_021F6D68, d_021F6D70, d_021F6D60;
+extern const MbRegistryBlock d_021F6C40;
 extern u8 d_021F6AF8[];
-extern const char d_021F6E08[];
-extern Zero d_021F6EB4;
-extern struct Masks d_021F6EAC;
+extern MbChildStageMasks gMbChildStageMasks;
+extern MbParentSys gMbParentSys;
 extern const char d_021F6E1C[], d_021F6E24[];
-extern const char d_021F6E1C[];
-extern u8 d_021F6EC8[],d_021F6EDE[],d_021F6EDF[],d_021F6EE0[],d_021F6EE1[],d_021F6EE2[],d_021F6EE3[],d_021F6EE4[];
+extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
 extern const char d_021F6E28[];
 extern const Request request_021F6C94;
 extern int d_021F6EE8[];
 
+void MB_COMM_SYS_Init(MbCommSysWork *p);
+void MB_COMM_SYS_Exit(MbCommSysWork *p);
+int MB_COMM_SYS_Main(MbCommSysWork *p);
+void MB_COMM_SYS_VBlank(void);
+void MB_COMM_SYS_VBlankRefreshBg(void);
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void);
+void MB_COMM_SYS_InitDisplay(MbCommSysWork *p);
+void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p);
+void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode);
+void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p);
+void MB_COMM_SYS_DrawTitle(MbCommSysWork *p);
+void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p);
+void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p);
+int MB_COMM_SYS_MainWireless(MbCommSysWork *p);
+void MB_COMM_SYS_StartParent(MbCommSysWork *p);
+void MB_COMM_SYS_MainRecruit(MbCommSysWork *p);
+int MB_COMM_SYS_WmEndCallback(void);
+void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode);
+void MB_COMM_SYS_ResetHook(MbCommSysWork *p);
+void MB_COMM_SYS_FinishReceive(MbCommSysWork *p);
+void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p);
+void MB_COMM_SYS_NoOp(MbCommSysWork *p);
+void MB_COMM_SYS_MainSave(MbCommSysWork *p);
+void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p);
+int MB_COMM_SYS_ShowTextPlane(void);
+int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument);
+int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p);
+int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p);
+void MB_PARENT_SYS_Init(int a, int b);
+void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel);
+int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry);
+void MB_PARENT_SYS_CheckRequest(u16 aid);
+void MB_PARENT_SYS_RejectRequest(u16 aid);
+void MB_PARENT_SYS_StartSending(u16 aid);
+int MB_PARENT_SYS_AllBootable(void);
+void MB_PARENT_SYS_StartBoot(void);
+void MB_PARENT_SYS_Cancel(void);
+void MB_PARENT_SYS_EndIfAllBootable(void);
+void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info);
+void MB_PARENT_SYS_SetState(u16 state);
+u16 MB_PARENT_SYS_GetState(void);
+int MB_PARENT_SYS_GetChildStage(u16 aid);
+void MB_PARENT_SYS_FreeBuffers(void);
+u32 MB_PARENT_SYS_IsRegistered(void);
+MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId);
+void MB_COMM_SYS_DeleteNetState(MbNetState *net);
+void MB_COMM_SYS_UpdateNetState(MbNetState *net);
+void MB_COMM_SYS_StartNetSession(MbNetState *net);
+void MB_COMM_SYS_StopNetSession(MbNetState *net);
+int MB_COMM_SYS_GetNetRunState(MbNetState *net);
+int MB_COMM_SYS_IsNetSessionNull(MbNetState *net);
+void MB_COMM_SYS_StartNet(MbNetState *net);
+void MB_COMM_SYS_SetSyncRange(MbNetState *net);
+int MB_COMM_SYS_IsSyncDone(MbNetState *net);
+int MB_COMM_SYS_IsLoginDone(MbNetState *net);
+int MB_COMM_SYS_GetCommStage(MbNetState *net);
+void MB_COMM_SYS_ClearRoundFlags(MbNetState *net);
+int MB_COMM_SYS_HasKind11(MbNetState *net);
+int MB_COMM_SYS_HasKind12(MbNetState *net);
+int MB_COMM_SYS_HasKind12Again(MbNetState *net);
+int MB_COMM_SYS_HasKind14(MbNetState *net);
+int MB_COMM_SYS_HasKind1(MbNetState *net);
+int MB_COMM_SYS_HasKind2(MbNetState *net);
+int MB_COMM_SYS_HasKind4(MbNetState *net);
+int MB_COMM_SYS_GetCount(MbNetState *net);
+int MB_COMM_SYS_HasKind19(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferCount(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferExtra(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagA(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagB(MbNetState *net);
+int MB_COMM_SYS_HasKind20(MbNetState *net);
+int MB_COMM_SYS_HasKind21(MbNetState *net);
+int MB_COMM_SYS_GetKind21Value(MbNetState *net);
+void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize);
+void MB_COMM_SYS_ClearMonBuffer(MbNetState *net);
+int MB_COMM_SYS_HasMonsReceived(MbNetState *net);
+u8 MB_COMM_SYS_GetMonCount(MbNetState *net);
+void *MB_COMM_SYS_GetMon(MbNetState *net, int i);
+int MB_COMM_SYS_GetMaxSeen(MbNetState *net);
+int MB_COMM_SYS_HasKind0(MbNetState *net);
+int MB_COMM_SYS_SendMessage(void *net, unsigned char kind, unsigned int value);
+void MB_COMM_SYS_OnMessage(int a, int b, MbCommMsg *msg, MbNetState *net);
+int MB_COMM_SYS_SendHeader(void *net, MbPayloadHeader *header);
+void MB_COMM_SYS_OnHeaderReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetHeaderBuffer(void *a, MbNetState *net);
+void MB_COMM_SYS_OnMonsReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetMonBuffer(int a, MbNetState *net);
+int *MB_COMM_SYS_GetChildDataPtr(void);
+int MB_COMM_SYS_GetMemberCount(void);
 
-
-
-void func_021EE740(u8 *p) {
- p[0x25]=0;
- ((struct Obj00057 *)p)->f20=0;
- p[0x28]=**(u8 * *)&((struct Obj00057 *)p)->f8;
- func_021EEF28(p);
- func_021EF0F4(p);
- if(!p[0x28]) ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,5,5,72,0,0);
- else ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,1,1,72,0,1);
- ((struct Obj00057 *)p)->fC=func_021F0DE8(((struct Obj00057 *)p)->f0);
- ((struct Obj00057 *)p)->f2C=0;
- ((struct Obj00057 *)p)->f60=0;
- func_021EF444(p);
- if(!p[0x28]) {
-  ((struct Obj00057 *)p)->f4C=func_0200C0F0(GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
-  func_0200C1B0(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
- } else {
-  *(u32 *)&((struct Obj00057 *)p)->f4C=0;
-  d_021F6EA0.f2=0;
- }
- ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
- if(!p[0x28]) func_02005654((int)func_021EEEB4,0);
- else { func_02005654((int)func_021EEEF8,0); GFL_USE_CancelChangeAndPlayBgm(1154,0xffff); }
- ((struct Obj00057 *)p)->f1C=0;
- ((struct Obj00057 *)p)->f44=0;
- ((struct Obj00057 *)p)->f48=0;
- ((struct Obj00057 *)p)->f38=0;
- ((struct Obj00057 *)p)->f3A=0;
- ((struct Obj00057 *)p)->f3C=0;
- func_02034F84(16);
+/* Proc init: reads the argument, builds the display, message window and link state. */
+void MB_COMM_SYS_Init(MbCommSysWork *p)
+{
+    p->childPhase = 0;
+    p->phase = 0;
+    p->standalone = p->arg->standalone;
+    MB_COMM_SYS_InitDisplay(p);
+    MB_COMM_SYS_LoadGraphics(p);
+    if (!p->standalone)
+        p->msg = MB_UTIL_MSG_Create(p->heapId, 5, 5, 72, 0, 0);
+    else
+        p->msg = MB_UTIL_MSG_Create(p->heapId, 1, 1, 72, 0, 1);
+    p->net = MB_COMM_SYS_CreateNetState(p->heapId);
+    p->payloadQueued = 0;
+    p->payload = 0;
+    MB_COMM_SYS_DrawTitle(p);
+    if (!p->standalone) {
+        p->saveState = func_0200C0F0(GAME_DATA_GetSaveControl(p->arg->gameData));
+        func_0200C1B0(p->saveState, 4);
+    } else {
+        p->saveState = 0;
+        gMbParentUi.vblankCounter = 0;
+    }
+    p->vblankTask = func_020056A0((u32)MB_COMM_SYS_VBlank, (u32)p, 8);
+    if (!p->standalone) {
+        func_02005654((int)MB_COMM_SYS_VBlankRefreshBg, 0);
+    } else {
+        func_02005654((int)MB_COMM_SYS_VBlankRefreshBgStandalone, 0);
+        GFL_USE_CancelChangeAndPlayBgm(1154, 0xffff);
+    }
+    p->wmActive = 0;
+    p->receivedBonus = 0;
+    p->gotTrainerKey = 0;
+    p->bestChildCount = 0;
+    p->transferCount = 0;
+    p->receivedTotal = 0;
+    func_02034F84(16);
 }
 
+/* Proc exit: releases the VBlank task, writes the event work flags, frees the screen. */
+void MB_COMM_SYS_Exit(MbCommSysWork *p)
+{
+    void *zoneData;
+    u16 *eventWorkA;
+    u16 *eventWorkB;
 
-
-
-void func_021EE824(u8 *p) {
- void *q; u16 *a,*b;
- func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();GFL_NET_WM_ICON_EasyEnd();
- if(p[40]==1) GFL_USE_CancelChangeAndStopBgm();
- else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)ZONEDATA_GetEventWorkAddress((u32)q,16384);b=(u16 *)ZONEDATA_GetEventWorkAddress((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
- if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
- func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
+    func_02034FB8(16);
+    func_02030EAC(p->vblankTask);
+    func_0200566C();
+    GFL_NET_WM_ICON_EasyEnd();
+    if (p->standalone == 1) {
+        GFL_USE_CancelChangeAndStopBgm();
+    } else {
+        zoneData = (void *)func_0201296C(p->arg->gameData);
+        eventWorkA = (u16 *)ZONEDATA_GetEventWorkAddress((u32)zoneData, 16384);
+        eventWorkB = (u16 *)ZONEDATA_GetEventWorkAddress((u32)zoneData, 16385);
+        *eventWorkA = p->bestChildCount;
+        *eventWorkB = p->transferCount;
+    }
+    if (p->payload)
+        func_020307B0(p->payload);
+    MB_COMM_SYS_DeleteNetState(p->net);
+    MB_UTIL_MSG_Delete(p->msg);
+    MB_COMM_SYS_ExitDisplay(p);
 }
 
+/* Reads the file image named by ROM string 142 into a new buffer. */
+static inline void MbCommSys_LoadPayload(MbCommSysWork *p)
+{
+    File file;
+    void *name;
 
-
-
-static inline void load_payload(u8 *p) {
- File file; void *name;
- name=func_0200575C(142);FS_InitFile(&file);
- if(!FS_OpenFile(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
- func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
- P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
- FS_ReadFile((struct FSFile *)(&file),P(96),W(100));
- if(!FS_CloseFile(&file))func_02034714(d_021F6E08,0,d_021F6E08);
- W(32)=13;
+    name = func_0200575C(142);
+    FS_InitFile(&file);
+    if (!FS_OpenFile(&file, name))
+        func_02034714(d_021F6E08, 0, d_021F6E08);
+    func_02078B44(&file, 0, 0);
+    p->payloadSize = FS_GetLength(&file);
+    p->payload = func_02030734(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
+    FS_ReadFile(&file, p->payload, p->payloadSize);
+    if (!FS_CloseFile(&file))
+        func_02034714(d_021F6E08, 0, d_021F6E08);
+    p->phase = 13;
 }
 
+/* Proc main loop: one frame of the parent screen flow. Returns 1 when finished. */
+int MB_COMM_SYS_Main(MbCommSysWork *p)
+{
+    u32 result;
 
-
-
-int func_021EE894(u8 *p) {
- u32 result;
- func_021F0E6C(O);
- if(W(16)==1 && W(32)!=2 && W(32)!=3) {
-  W(24)=GAME_DATA_IsSaving(SAVE);
-  if(W(24)==1)GAME_DATA_SaveCancel(SAVE);
-  W(32)=2;func_021EFC1C(p,3);
- }
- switch(PHASE) {
- case 0:WIPE_SYS_Start(0,1,1,0,6,1,H(0));W(32)=1;break;
- case 1:
-  if(WIPE_SYS_EndCheck()==1) {
-   if(func_0202EB44()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
-   else {func_021F1628(M,5);func_021F1A58(M,func_02012FFC());func_021F1B24(M,1);W(32)=33;}
-  }break;
- case 2:
-  if(*(u8 *)P(8)==0)WIPE_SYS_Start(0,0,0,0,6,1,H(0));
-  else {WIPE_SYS_Start(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
-  W(32)=3;break;
- case 3:if(WIPE_SYS_EndCheck()==1)return 1;break;
- case 4:func_021F1628(M,5);func_021F1704(M,43,func_02012FFC());W(32)=5;break;
- case 5:if(func_021F1B14(M)==1){func_021F19E4(M,0);W(32)=6;}break;
- case 6:
-  result=func_021F1A2C(M);
-  if(result==1){W(32)=7;func_021F1898(M);func_021F1A24(M);}
-  else if(result==2)W(32)=2;break;
- case 7:func_021EF588(p);W(32)=8;break;
- case 8:if(func_021EF79C(p)==1)W(32)=9;break;
- case 9:
-  func_021EF74C(p);
-  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);if(p[40]==0)GFL_NET_RestartWithDefaultTimeout(0,H(0));else GFL_NET_RestartWithDefaultTimeout(1,H(0));}
-  else W(32)=2;break;
- case 10:if(func_021F1008(O)==1){W(32)=11;func_021F1018(O);}break;
- case 11:
-  H(42)++;
-  if(H(42)>=1800){func_021EFC1C(p,3);W(32)=30;}
-  else if(func_021F1050(O)==1){
-   W(88)=func_02012FFC();p[94]=func_020461E4(W(88));
-   if(p[40]==0)H(92)=func_0200C184(P(76));
-   if(func_021F1370(O,p+88)==1){if(p[40]==0)W(32)=12;else W(32)=32;}
-  }break;
- case 12:load_payload(p);break;
- case 13:W(32)=14;break;
- case 14:
-  if(func_021F1060(O)==10)goto failure;
-  if(func_021F1060(O)==2){
-   if(W(44)==0){W(44)=1;func_021F1174((int)O,(int)P(96),W(100));}
-   func_021F1704(M,2,func_02012FFC());W(32)=15;
-  }break;
- case 15:
-  if(func_021F1060(O)==3){func_021F1704(M,3,func_02012FFC());W(32)=16;}
-  else if(func_021F1060(O)==13){func_021EFC1C(p,4);func_021F1704(M,8,func_02012FFC());func_021F1028(O);W(32)=28;}
- case 16:
-  if(func_021F1060(O)==4){func_021F1184(O);func_021F1704(M,4,func_02012FFC());W(32)=17;}break;
- case 17:
-  if(func_021F1060(O)==5){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;W(32)=18;}
-  else if(func_021F1060(O)==8){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;func_021EFC1C(p,2);W(32)=23;}
-  break;
- case 18:if(func_021F11BC(O)==1 && func_021F11F0(O,0,0)==1)W(32)=19;break;
- case 19:
-  if(func_021F11E8(O)==1 || p[40]==1){
-   if(func_021F1060(O)==6)W(32)=20;
-   else if(func_021F1060(O)==10){
-    if(p[40]==0){
-failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());
-fail_tail:func_021F1028(O);W(32)=28;
-    }else {func_021F1704(M,38,func_02012FFC());func_021F1B24(M,1);W(32)=26;}
-   }
-  }break;
- case 20:func_021EFD24(p);W(32)=21;p[36]=9;break;
- case 21:func_021EFE40(p);break;
- case 22:
-  func_021EFE3C(p);
-  if(p[40]==0){func_021F1704(M,7,func_02012FFC());W(32)=23;}
-  else {func_021F1704(M,39,func_02012FFC());func_021F1B24(M,1);W(32)=27;}break;
- case 23:
-  if(func_021F1B14(M)==1) {u16 cnt=func_02007774((void *)func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
- case 24:
-  if(func_021F1060(O)==2){func_021F1064(O);W(32)=14;}
-  else if(func_021F1060(O)==9 || func_021F1060(O)==10){
-   if(func_021F1060(O)==10)func_021EFC1C(p,3);
-   func_021F1704(M,8,func_02012FFC());W(32)=27;
-  }break;
- case 27:if(func_021F11F0(O,18,0)!=1)break;goto fail_tail;
- case 28:if(func_021F1B14(M)==1 && func_021F1040(O)==1){func_021F0FE8(O);W(32)=29;}break;
- case 29:if(func_021F1010(O)==1){if(p[40]==0)W(32)=2;else W(32)=25;}break;
- case 25:
-  if(func_021F1B14(M)==1){func_021F1898(M);func_021F1628(M,1);func_021F1704(M,35,func_02012FFC());func_021F1B24(M,1);W(32)=26;}break;
- case 26:if(func_021F1010(O)==1 && func_021F1B14(M)==1)W(32)=2;break;
- case 30:func_021F1704(M,10,func_02012FFC());func_021F1B24(M,1);W(32)=31;func_021F0FE8(O);break;
- case 31:if(func_021F1B14(M)==1)W(32)=29;
- case 32:func_021EFFB0((Ov107Main *)p);break;
- case 33:if(func_021F1B14(M)==1)W(32)=2;break;
- }
- CLACT_DrawSystem(func_021F15B0(M));return 0;
+    MB_COMM_SYS_UpdateNetState(p->net);
+    if (p->errorScreenRequested == 1 && p->phase != 2 && p->phase != 3) {
+        p->wasSaving = GAME_DATA_IsSaving(p->arg->gameData);
+        if (p->wasSaving == 1)
+            GAME_DATA_SaveCancel(p->arg->gameData);
+        p->phase = 2;
+        MB_COMM_SYS_UpdateSaveState(p, 3);
+    }
+    switch (p->phase) {
+    case 0:
+        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, p->heapId);
+        p->phase = 1;
+        break;
+    case 1:
+        if (WIPE_SYS_EndCheck() == 1) {
+            if (func_0202EB44() == 1) {
+                if (p->standalone == 0)
+                    p->phase = 7;
+                else
+                    p->phase = 4;
+            } else {
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_PrintStreamSystemMsg(p->msg, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                p->phase = 33;
+            }
+        }
+        break;
+    case 2:
+        if (p->arg->standalone == 0) {
+            WIPE_SYS_Start(0, 0, 0, 0, 6, 1, p->heapId);
+        } else {
+            WIPE_SYS_Start(0, 0, 0, 32767, 6, 1, p->heapId);
+            GFL_USE_FadeOutBgm(6);
+        }
+        p->phase = 3;
+        break;
+    case 3:
+        if (WIPE_SYS_EndCheck() == 1)
+            return 1;
+        break;
+    case 4:
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+        MB_UTIL_MSG_PrintStream(p->msg, 43, func_02012FFC());
+        p->phase = 5;
+        break;
+    case 5:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 0);
+            p->phase = 6;
+        }
+        break;
+    case 6:
+        result = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (result == 1) {
+            p->phase = 7;
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_ClearYesNoMenu(p->msg);
+        } else if (result == 2) {
+            p->phase = 2;
+        }
+        break;
+    case 7:
+        MB_COMM_SYS_BuildGameStrings(p);
+        p->phase = 8;
+        break;
+    case 8:
+        if (MB_COMM_SYS_MainWireless(p) == 1)
+            p->phase = 9;
+        break;
+    case 9:
+        MB_COMM_SYS_FreeGameStrings(p);
+        if (p->lobbyAccepted == 1) {
+            p->phase = 10;
+            p->timeoutFrames = 0;
+            MB_COMM_SYS_StartNetSession(p->net);
+            if (p->standalone == 0)
+                GFL_NET_RestartWithDefaultTimeout(0, p->heapId);
+            else
+                GFL_NET_RestartWithDefaultTimeout(1, p->heapId);
+        } else {
+            p->phase = 2;
+        }
+        break;
+    case 10:
+        if (MB_COMM_SYS_GetNetRunState(p->net) == 1) {
+            p->phase = 11;
+            MB_COMM_SYS_StartNet(p->net);
+        }
+        break;
+    case 11:
+        p->timeoutFrames++;
+        if (p->timeoutFrames >= 1800) {
+            MB_COMM_SYS_UpdateSaveState(p, 3);
+            p->phase = 30;
+        } else if (MB_COMM_SYS_IsLoginDone(p->net) == 1) {
+            p->header.msgSpeed = func_02012FFC();
+            p->header.configCode = func_020461E4(p->header.msgSpeed);
+            if (p->standalone == 0)
+                p->header.savedCount = func_0200C184(p->saveState);
+            if (MB_COMM_SYS_SendHeader(p->net, &p->header) == 1) {
+                if (p->standalone == 0)
+                    p->phase = 12;
+                else
+                    p->phase = 32;
+            }
+        }
+        break;
+    case 12:
+        MbCommSys_LoadPayload(p);
+        break;
+    case 13:
+        p->phase = 14;
+        break;
+    case 14:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 10)
+            goto failure;
+        if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
+            if (p->payloadQueued == 0) {
+                p->payloadQueued = 1;
+                MB_COMM_SYS_QueuePayload((int)p->net, (int)p->payload, p->payloadSize);
+            }
+            MB_UTIL_MSG_PrintStream(p->msg, 2, func_02012FFC());
+            p->phase = 15;
+        }
+        break;
+    case 15:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 3) {
+            MB_UTIL_MSG_PrintStream(p->msg, 3, func_02012FFC());
+            p->phase = 16;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 13) {
+            MB_COMM_SYS_UpdateSaveState(p, 4);
+            MB_UTIL_MSG_PrintStream(p->msg, 8, func_02012FFC());
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 28;
+        }
+        /* falls into case 16 */
+    case 16:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 4) {
+            MB_COMM_SYS_ClearMonBuffer(p->net);
+            MB_UTIL_MSG_PrintStream(p->msg, 4, func_02012FFC());
+            p->phase = 17;
+        }
+        break;
+    case 17:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 5) {
+            func_02008DF0(GAME_DATA_GetTrainerRecord(p->arg->gameData), 120);
+            p->transferCount++;
+            p->phase = 18;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 8) {
+            func_02008DF0(GAME_DATA_GetTrainerRecord(p->arg->gameData), 120);
+            p->transferCount++;
+            MB_COMM_SYS_UpdateSaveState(p, 2);
+            p->phase = 23;
+        }
+        break;
+    case 18:
+        if (MB_COMM_SYS_HasMonsReceived(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 0, 0) == 1)
+            p->phase = 19;
+        break;
+    case 19:
+        if (MB_COMM_SYS_HasKind0(p->net) == 1 || p->standalone == 1) {
+            if (MB_COMM_SYS_GetCommStage(p->net) == 6) {
+                p->phase = 20;
+            } else if (MB_COMM_SYS_GetCommStage(p->net) == 10) {
+                if (p->standalone == 0) {
+failure:
+                    MB_COMM_SYS_UpdateSaveState(p, 3);
+                    MB_UTIL_MSG_PrintStream(p->msg, 8, func_02012FFC());
+fail_tail:
+                    MB_COMM_SYS_SetSyncRange(p->net);
+                    p->phase = 28;
+                } else {
+                    MB_UTIL_MSG_PrintStream(p->msg, 38, func_02012FFC());
+                    MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                    p->phase = 26;
+                }
+            }
+        }
+        break;
+    case 20:
+        MB_COMM_SYS_FinishReceive(p);
+        p->phase = 21;
+        p->subPhase = 9;
+        break;
+    case 21:
+        MB_COMM_SYS_MainSave(p);
+        break;
+    case 22:
+        MB_COMM_SYS_NoOp(p);
+        if (p->standalone == 0) {
+            MB_UTIL_MSG_PrintStream(p->msg, 7, func_02012FFC());
+            p->phase = 23;
+        } else {
+            MB_UTIL_MSG_PrintStream(p->msg, 39, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            p->phase = 27;
+        }
+        break;
+    case 23:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            u16 partyCount = func_02007774((void *)func_0201293C(p->arg->gameData));
+            if (MB_COMM_SYS_SendMessage(p->net, 5, partyCount) == 1) {
+                MB_UTIL_MSG_PrintStream(p->msg, 11, func_02012FFC());
+                p->phase = 24;
+            }
+        }
+        break;
+    case 24:
+        if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
+            MB_COMM_SYS_ClearRoundFlags(p->net);
+            p->phase = 14;
+        } else if (MB_COMM_SYS_GetCommStage(p->net) == 9 || MB_COMM_SYS_GetCommStage(p->net) == 10) {
+            if (MB_COMM_SYS_GetCommStage(p->net) == 10)
+                MB_COMM_SYS_UpdateSaveState(p, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 8, func_02012FFC());
+            p->phase = 27;
+        }
+        break;
+    case 27:
+        if (MB_COMM_SYS_SendMessage(p->net, 18, 0) != 1)
+            break;
+        goto fail_tail;
+    case 28:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1 && MB_COMM_SYS_IsSyncDone(p->net) == 1) {
+            MB_COMM_SYS_StopNetSession(p->net);
+            p->phase = 29;
+        }
+        break;
+    case 29:
+        if (MB_COMM_SYS_IsNetSessionNull(p->net) == 1) {
+            if (p->standalone == 0)
+                p->phase = 2;
+            else
+                p->phase = 25;
+        }
+        break;
+    case 25:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_PrintStream(p->msg, 35, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            p->phase = 26;
+        }
+        break;
+    case 26:
+        if (MB_COMM_SYS_IsNetSessionNull(p->net) == 1 && MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 2;
+        break;
+    case 30:
+        MB_UTIL_MSG_PrintStream(p->msg, 10, func_02012FFC());
+        MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+        p->phase = 31;
+        MB_COMM_SYS_StopNetSession(p->net);
+        break;
+    case 31:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 29;
+        /* falls into case 32 */
+    case 32:
+        MB_COMM_SYS_MainChildFlow(p);
+        break;
+    case 33:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->phase = 2;
+        break;
+    }
+    CLACT_DrawSystem(MB_UTIL_MSG_Main(p->msg));
+    return 0;
 }
 
-
-
-
-/*
- * note: Full 8-byte tailstub loads the even ARM target 0204A648; its own matched body takes no inputs.
- */
-void func_021EEEAC(void) { CLACT_VBlankSystem(); }
-
-
-
-void func_021EEEB4(void) {
- if(d_021F6EA0.f0>1) {
- d_021F6EA0.f0=0;
- func_02040618(3,2,1); func_02040618(3,5,1);
- func_02040618(7,2,1); func_02040618(7,5,1);
- } else d_021F6EA0.f0++;
+void MB_COMM_SYS_VBlank(void)
+{
+    CLACT_VBlankSystem();
 }
 
-
-
-
-
+/* VBlank hook, in-game mode: refreshes the BG planes of both engines every third frame. */
+void MB_COMM_SYS_VBlankRefreshBg(void)
+{
+    if (gMbParentUi.vblankDivider > 1) {
+        gMbParentUi.vblankDivider = 0;
+        func_02040618(3, 2, 1);
+        func_02040618(3, 5, 1);
+        func_02040618(7, 2, 1);
+        func_02040618(7, 5, 1);
+    } else {
+        gMbParentUi.vblankDivider++;
+    }
+}
 
 /*
  * volatile: 021EEF02 re-reads counter after 021EEF00 store.
  */
-void func_021EEEF8(void) { d_021F6EA0.f2++; if(d_021F6EA0.f2>=5){d_021F6EA0.f2=0;func_02040618(3,5,1);func_02040618(7,5,1);} }
-
-
-
-
+/* VBlank hook, standalone mode: refreshes plane 5 of both engines every fifth frame. */
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void)
+{
+    gMbParentUi.vblankCounter++;
+    if (gMbParentUi.vblankCounter >= 5) {
+        gMbParentUi.vblankCounter = 0;
+        func_02040618(3, 5, 1);
+        func_02040618(7, 5, 1);
+    }
+}
 
 /*
  * volatile: Hardware MMIO read/write at 021EEF3A..021EEF78; display and power registers.
  */
-void func_021EEF28(u8 *p) {
- struct Cfg cfg;
- BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
- *(volatile u32 *)0x04000000 &= 0xffffe0ff;
- *(volatile u32 *)0x04001000 &= 0xffffe0ff;
- WIPE_SetBrightnessFadeOut(0,0);WIPE_SetBrightnessFadeOut(1,0);
- WIPE_ResetWndMask((void *)0);WIPE_ResetWndMask((void *)1);
- *(volatile u16 *)0x04000050=0;
- *(volatile u16 *)0x04001050=0;
- *(volatile u16 *)0x04000304 |= 0x8000;
- BG_SYS_SetVramBanks(&d_021F6C10);
- func_0203F8F4(((struct Obj00057 *)p)->f0);BMP_WIN_Init(((struct Obj00057 *)p)->f0);
- func_0203FC28(&d_021F6B00);
- func_021EF0D0((u32)(&d_021F6B50),0,0);func_021EF0D0((u32)(&d_021F6B70),1,0);
- func_021EF0D0((u32)(&d_021F6B90),2,0);func_021EF0D0((u32)(&d_021F6BB0),3,0);
- func_021EF0D0((u32)(&d_021F6BD0),4,0);func_021EF0D0((u32)(&d_021F6BF0),5,0);
- func_021EF0D0((u32)(&d_021F6B10),6,0);func_021EF0D0((u32)(&d_021F6B30),7,0);
- if(!p[0x28])func_02040588(6,1);else func_02040588(6,0);
- cfg=gClActorInitParam;cfg.dimensions[0]=64;
- CLACT_InitSystem(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
- *(struct Bank * *)&((struct Obj00057 *)p)->f6C=CLACT_CreateUnit(8,0,((struct Obj00057 *)p)->f0);
- CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
- BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
+/* Resets both display engines and sets up the BG layers and the CLACT system. */
+void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
+{
+    struct ClActInitParam clactInit;
+
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
+    REG_DISPCNT_MAIN &= 0xffffe0ff;
+    REG_DISPCNT_SUB &= 0xffffe0ff;
+    WIPE_SetBrightnessFadeOut(0, 0);
+    WIPE_SetBrightnessFadeOut(1, 0);
+    WIPE_ResetWndMask((void *)0);
+    WIPE_ResetWndMask((void *)1);
+    REG_BLDCNT_MAIN = 0;
+    REG_BLDCNT_SUB = 0;
+    REG_POWCNT1 |= 0x8000;
+    BG_SYS_SetVramBanks(&d_021F6C10);
+    func_0203F8F4(p->heapId);
+    BMP_WIN_Init(p->heapId);
+    func_0203FC28(&d_021F6B00);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B50, 0, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B70, 1, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B90, 2, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BB0, 3, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BD0, 4, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6BF0, 5, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B10, 6, 0);
+    MB_COMM_SYS_InitBgLayer(&d_021F6B30, 7, 0);
+    if (!p->standalone)
+        func_02040588(6, 1);
+    else
+        func_02040588(6, 0);
+    clactInit = gClActorInitParam;
+    clactInit.dimensions[0] = 64;
+    CLACT_InitSystem(&clactInit, (u32)&d_021F6C10, p->heapId);
+    p->clactUnit = CLACT_CreateUnit(8, 0, p->heapId);
+    CLACT_SetUnitDefaultRenderer(p->clactUnit);
+    BG_SYS_SetMainPlaneVisible(16, 1);
+    BG_SYS_SetSubPlaneVisible(16, 1);
 }
-
-
-
 
 /*
  * extent: two bytes of alignment padding follow the return.
  */
-void func_021EF080(char *p) {
- CLACT_DeleteActor(((struct Obj00979 *)p)->f7C);
- CLACT_DeleteUnit(((struct Obj00979 *)p)->f6C);
- CLACT_ExitSystem();
- func_020403F4(0);func_020403F4(1);func_020403F4(2);func_020403F4(3);
- func_020403F4(7);func_020403F4(6);func_020403F4(5);func_020403F4(4);
- BMP_WIN_Exit();func_0203F9B4();
+/* Deletes the actor, CLACT unit and BG layers created by the init. */
+void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p)
+{
+    CLACT_DeleteActor(p->actor);
+    CLACT_DeleteUnit(p->clactUnit);
+    CLACT_ExitSystem();
+    func_020403F4(0);
+    func_020403F4(1);
+    func_020403F4(2);
+    func_020403F4(3);
+    func_020403F4(7);
+    func_020403F4(6);
+    func_020403F4(5);
+    func_020403F4(4);
+    BMP_WIN_Exit();
+    func_0203F9B4();
 }
 
-
-
-
-void func_021EF0D0(u32 a,u32 b,u32 c) { func_0203FCA0(b,(const struct BgTemplate *)a,c);func_02040588(b,1);func_020414AC(b);func_020409B4(b); }
-
-
-
-void func_021EF0F4(u8 *p) {
- void *archive;
- u32 first;
- struct Placement placement;
- if(!p[0x28]) {
- archive=func_020490F4(139,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),1,4,0,0,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),5,7,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),9,7,0,0,0,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),0,0,0,0,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),4,3,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),8,3,0,0,0,((struct Obj00057 *)p)->f0);
- ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),2,0,288,288,128,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),6,2,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),10,2,0,0,0,((struct Obj00057 *)p)->f0);
- ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),3,0,416,416,32,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),7,0,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),11,0,0,0,0,((struct Obj00057 *)p)->f0);
- func_020409B4(2);ARC_TOOL_DeleteHandle(archive);
- } else {
- archive=func_020490F4(34,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),6,4,0,0,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),15,7,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),31,7,0,0,0,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),6,0,0,0,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),15,3,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),31,3,0,0,0,((struct Obj00057 *)p)->f0);
- ARC_TOOL_DeleteHandle(archive);
- archive=func_020490F4(139,((struct Obj00057 *)p)->f0);
- ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),2,4,288,288,128,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),6,5,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),10,5,0,0,0,((struct Obj00057 *)p)->f0);
- ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),3,4,416,416,32,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),7,4,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),11,4,0,0,0,((struct Obj00057 *)p)->f0);
- func_020409B4(5);func_02040588(5,0);func_02040588(4,0);ARC_TOOL_DeleteHandle(archive);
- }
- archive=func_020490F4(func_020275E4(),((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),func_02027624(),4,256,32,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),func_02027628(),6,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),func_0202762C(),6,0,0,0,((struct Obj00057 *)p)->f0);
- func_020413B0(6,0,21,32,3,8);func_020409B4(6);
- *(int *)&((struct Obj00057 *)p)->f70=CLACT_RegisterPaletteEx((void *)((u32)archive),func_02027614(),1,0,0,3,((struct Obj00057 *)p)->f0);
- *(int *)&((struct Obj00057 *)p)->f74=CLACT_RegisterCharacter((void *)((u32)archive),func_02027618(),0,1,((struct Obj00057 *)p)->f0);
- first=func_0202761C(2);
- *(int *)&((struct Obj00057 *)p)->f78=CLACT_RegisterCellAnim((void *)((u32)archive),first,func_02027620(2),((struct Obj00057 *)p)->f0);
- ARC_TOOL_DeleteHandle(archive);
- placement.x=232;placement.y=168;placement.z=1;placement.f7=0;placement.f6=0;
- *(struct Obj * *)&((struct Obj00057 *)p)->f7C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00057 *)p)->f6C,((struct Obj00057 *)p)->f74,((struct Obj00057 *)p)->f70,((struct Obj00057 *)p)->f78,&placement,1,((struct Obj00057 *)p)->f0);
- if(!p[0x28]) {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,1);return;}
- else {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,0);return;}
+/* Sets up one BG layer from a template, shows it and refreshes it. */
+void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode)
+{
+    func_0203FCA0(layer, bgTemplate, mode);
+    func_02040588(layer, 1);
+    func_020414AC(layer);
+    func_020409B4(layer);
 }
 
+/* Loads the background graphics, palettes and the actor sprite for the current mode. */
+void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
+{
+    void *archive;
+    u32 firstCell;
+    struct Placement placement;
 
-
-
-
-
-
-
-
-
-
+    if (!p->standalone) {
+        archive = func_020490F4(139, p->heapId);
+        func_02049B68(archive, 1, 4, 0, 0, p->heapId);
+        func_02049658(archive, 5, 7, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 9, 7, 0, 0, 0, p->heapId);
+        func_02049B68(archive, 0, 0, 0, 0, p->heapId);
+        func_02049658(archive, 4, 3, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 8, 3, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 2, 0, 288, 288, 128, p->heapId);
+        func_02049658(archive, 6, 2, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 10, 2, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 3, 0, 416, 416, 32, p->heapId);
+        func_02049658(archive, 7, 0, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 11, 0, 0, 0, 0, p->heapId);
+        func_020409B4(2);
+        ARC_TOOL_DeleteHandle(archive);
+    } else {
+        archive = func_020490F4(34, p->heapId);
+        func_02049B68(archive, 6, 4, 0, 0, p->heapId);
+        func_02049658(archive, 15, 7, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 31, 7, 0, 0, 0, p->heapId);
+        func_02049B68(archive, 6, 0, 0, 0, p->heapId);
+        func_02049658(archive, 15, 3, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 31, 3, 0, 0, 0, p->heapId);
+        ARC_TOOL_DeleteHandle(archive);
+        archive = func_020490F4(139, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 2, 4, 288, 288, 128, p->heapId);
+        func_02049658(archive, 6, 5, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 10, 5, 0, 0, 0, p->heapId);
+        ARC_UTIL_UploadPaletteFromHandle(archive, 3, 4, 416, 416, 32, p->heapId);
+        func_02049658(archive, 7, 4, 0, 0, 0, p->heapId);
+        func_020498F4(archive, 11, 4, 0, 0, 0, p->heapId);
+        func_020409B4(5);
+        func_02040588(5, 0);
+        func_02040588(4, 0);
+        ARC_TOOL_DeleteHandle(archive);
+    }
+    archive = func_020490F4(func_020275E4(), p->heapId);
+    func_02049B68(archive, func_02027624(), 4, 256, 32, p->heapId);
+    func_02049658(archive, func_02027628(), 6, 0, 0, 0, p->heapId);
+    func_020498F4(archive, func_0202762C(), 6, 0, 0, 0, p->heapId);
+    func_020413B0(6, 0, 21, 32, 3, 8);
+    func_020409B4(6);
+    p->paletteId = CLACT_RegisterPaletteEx(archive, func_02027614(), 1, 0, 0, 3, p->heapId);
+    p->charId = CLACT_RegisterCharacter(archive, func_02027618(), 0, 1, p->heapId);
+    firstCell = func_0202761C(2);
+    p->cellAnimId = CLACT_RegisterCellAnim(archive, firstCell, func_02027620(2), p->heapId);
+    ARC_TOOL_DeleteHandle(archive);
+    placement.x = 232;
+    placement.y = 168;
+    placement.z = 1;
+    placement.bgPriority = 0;
+    placement.animSeq = 0;
+    p->actor = CLACT_CreateActor(p->clactUnit, p->charId, p->paletteId, p->cellAnimId, &placement, 1, p->heapId);
+    if (!p->standalone) {
+        CLACT_SetActorDrawEnable(p->actor, 1);
+        return;
+    } else {
+        CLACT_SetActorDrawEnable(p->actor, 0);
+        return;
+    }
+}
 
 /*
  * extent: two bytes of alignment padding follow the return.
  */
-
-
-
-
-
-
-
-
 /*
  * volatile: MMIO palette halfword stores at 021EF56E and 021EF572.
  */
-void func_021EF444(u8 *p) {
- u8 bg;
- u32 window;
- void *archive,*text;
- struct MsgBank *bank;
- if(!p[0x28]) {d_021F6EA0.f4=1;bg=4;}
- else {d_021F6EA0.f4=0;bg=2;}
- func_02040588(bg,0);
- archive=func_020490F4(22,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),0,4,224,32,((struct Obj00057 *)p)->f0);
- func_02049B68((void *)((u32)archive),0,0,224,32,((struct Obj00057 *)p)->f0);
- func_02049658((void *)((u32)archive),1,bg,0,0,0,((struct Obj00057 *)p)->f0);
- func_020498F4((void *)((u32)archive),2,bg,0,0,0,((struct Obj00057 *)p)->f0);
- func_020413B0(bg,0,0,32,24,7);func_020409B4(bg);ARC_TOOL_DeleteHandle(archive);
- window=BMP_WIN_Create(bg,1,4,30,8,7,1);
- bank=func_02045B38(0,2,0x52,((struct Obj00057 *)p)->f0);
- text=func_02045EC0(bank,1);
- BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)window),7);
- PRINTSYS_PrintColor(BMP_WIN_GetBmp((struct Descriptor *)window),0,0,text,(void *)func_021F1B04(*(u8 * *)&((struct Obj00057 *)p)->f68),0x1167);
- BMP_WIN_TransferChars((struct Descriptor *)window);BMP_WIN_MakeScreen((struct Cfg *)window);
- func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
- STRBUF_Delete((struct U16Vec *)text);MSGDATA_Delete((struct Rec *)bank);BMP_WIN_Delete((struct Descriptor *)window);
- *(volatile u16 *)0x05000000=0x7eea;*(volatile u16 *)0x05000400=0x7eea;
+/* Draws the title text window on the text BG and sets the backdrop colour. */
+void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
+{
+    u8 textBg;
+    void *window;
+    void *archive;
+    void *text;
+    void *bank;
+
+    if (!p->standalone) {
+        gMbParentUi.textOnSubScreen = 1;
+        textBg = 4;
+    } else {
+        gMbParentUi.textOnSubScreen = 0;
+        textBg = 2;
+    }
+    func_02040588(textBg, 0);
+    archive = func_020490F4(22, p->heapId);
+    func_02049B68(archive, 0, 4, 224, 32, p->heapId);
+    func_02049B68(archive, 0, 0, 224, 32, p->heapId);
+    func_02049658(archive, 1, textBg, 0, 0, 0, p->heapId);
+    func_020498F4(archive, 2, textBg, 0, 0, 0, p->heapId);
+    func_020413B0(textBg, 0, 0, 32, 24, 7);
+    func_020409B4(textBg);
+    ARC_TOOL_DeleteHandle(archive);
+    window = BMP_WIN_Create(textBg, 1, 4, 30, 8, 7, 1);
+    bank = func_02045B38(0, 2, 0x52, p->heapId);
+    text = func_02045EC0(bank, 1);
+    BMP_Clear(BMP_WIN_GetBmp(window), 7);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), 0, 0, text, (void *)MB_UTIL_MSG_GetFont(p->msg), 0x1167);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
+    func_020409B4(BMP_WIN_GetBgLayer(window));
+    STRBUF_Delete(text);
+    MSGDATA_Delete(bank);
+    BMP_WIN_Delete(window);
+    PLTT_BG_MAIN[0] = 0x7eea;
+    PLTT_BG_SUB[0] = 0x7eea;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * 2026-10-05 (integrator): the fullwidth-to-ASCII constants are plain literals (0xFF29, 0xFF24, 0xFF10..0xFF19, c - 0xFEE0); mwcc derives them from one held value itself, so the earlier `u32 k = 0xFF24` local was not needed. EXACT in c99 and c.
  */
-void func_021EF588(u8 *p)
+/* Builds the game name and description strings (with the player name) for the registry. */
+void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
 {
-    struct Work *w = (struct Work *)p;
-    u8 *q;
-    struct U16Vec *a;
-    struct U16Vec *b;
-    void *m;
-    u16 la;
-    u16 lb;
+    void *ownerData;
+    void *nameStr;
+    void *introStr;
+    void *msgPiece;
+    u16 nameLength;
+    u16 introLength;
     int i;
     u16 *dst;
     u16 *src;
 
-
-    q = func_02012944(w->f8[1]);
-    w->f24 = 0;
-    w->f26 = 0;
-    w->f50 = func_02030734(w->f0, 0x60, 1, d_021F6E0C, 0x553);
-    w->f54 = func_02030734(w->f0, 0xC0, 1, d_021F6E0C, 0x554);
-    func_021F1628(w->f68, 1);
-    func_021F18D8(w->f68);
-    func_021F1918(w->f68, 0, func_02008534((const struct Sub0200852CObj *)q), 5);
-    if (w->f28 == 0)
-        m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xC);
+    ownerData = func_02012944(p->arg->gameData);
+    p->subPhase = 0;
+    p->recruitPhase = 0;
+    p->gameNameBuf = func_02030734(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
+    p->gameIntroBuf = func_02030734(p->heapId, 0xC0, 1, d_021F6E0C, 0x554);
+    MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+    MB_UTIL_MSG_CreateWordSet(p->msg);
+    MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+    if (p->standalone == 0)
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xC);
     else
-        m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xF);
-    a = STRBUF_Create(0x100, w->f0);
-    func_0201F250((struct WordSet *)func_021F1B00(w->f68), a, m);
-    STRBUF_Delete((struct U16Vec *)m);
-    if (w->f28 == 0)
-        m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xD);
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xF);
+    nameStr = STRBUF_Create(0x100, p->heapId);
+    func_0201F250(MB_UTIL_MSG_GetWordSet(p->msg), nameStr, msgPiece);
+    STRBUF_Delete(msgPiece);
+    if (p->standalone == 0)
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0xD);
     else
-        m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0x10);
-    b = (struct U16Vec *)m;
-    la = (u32)STRBUF_GetLength(a);
-    lb = (u32)STRBUF_GetLength(b);
-    dst = w->f50;
-    src = STRBUF_GetChars(a);
-    MIi_CpuCopy16(src, dst, la * 2);
-    dst = w->f54;
-    src = STRBUF_GetChars(b);
-    MIi_CpuCopy16(src, dst, lb * 2);
-    STRBUF_Delete(a);
-    STRBUF_Delete(b);
-    w->f50[la] = 0;
-    w->f54[lb] = 0;
+        msgPiece = func_02045EC0(MB_UTIL_MSG_GetMsgData(p->msg), 0x10);
+    introStr = msgPiece;
+    nameLength = (u32)STRBUF_GetLength(nameStr);
+    introLength = (u32)STRBUF_GetLength(introStr);
+    dst = p->gameNameBuf;
+    src = STRBUF_GetChars(nameStr);
+    MIi_CpuCopy16(src, dst, nameLength * 2);
+    dst = p->gameIntroBuf;
+    src = STRBUF_GetChars(introStr);
+    MIi_CpuCopy16(src, dst, introLength * 2);
+    STRBUF_Delete(nameStr);
+    STRBUF_Delete(introStr);
+    p->gameNameBuf[nameLength] = 0;
+    p->gameIntroBuf[introLength] = 0;
     for (i = 0; i < 0x60; i++) {
-        if (w->f54[i] == 0xFFFE)
-            w->f54[i] = 0xA;
+        if (p->gameIntroBuf[i] == 0xFFFE)
+            p->gameIntroBuf[i] = 0xA;
     }
     for (i = 0; i < 0x30; i++) {
-        u16 c = w->f50[i];
+        u16 c = p->gameNameBuf[i];
         if (c == 0xFF29)
-            w->f50[i] = 0x49;
+            p->gameNameBuf[i] = 0x49;
         else if (c == 0xFF24)
-            w->f50[i] = 0x44;
+            p->gameNameBuf[i] = 0x44;
         else if (c >= 0xFF10 && c <= 0xFF19)
-            w->f50[i] = c - 0xFEE0;
+            p->gameNameBuf[i] = c - 0xFEE0;
     }
-    w->f30 = 0;
+    p->lobbyAccepted = 0;
     func_02034AC4((int)ov014_id);
-    if (w->f28 == 0) {
+    if (p->standalone == 0) {
         func_02040588(2, 1);
         func_02040588(0, 1);
     } else {
         func_02040588(5, 1);
         func_02040588(4, 1);
     }
-    func_020774A0(func_021F05DC);
+    func_020774A0(MB_COMM_SYS_ShowTextPlane);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021EF74C(unsigned char *p) {
- func_02034A5C((int)ov014_id);func_020774A0(0);
- func_020307B0(((struct Obj10258 *)p)->f50);func_020307B0(((struct Obj10258 *)p)->f54);
- if(!p[40]) {func_02040588(2,0);func_02040588(0,0);}
- else {func_02040588(5,0);func_02040588(4,0);}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021EF79C(u8 *p)
+/* Frees the game name and description strings and hides the BG layers they used. */
+void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p)
 {
- void *q;
- if(WIH_GetSysState()==9 || WIH_GetSysState()==10){
-  ((struct Obj00072 *)p)->f30=0;((struct Obj00072 *)p)->f14=1;
-  if(WIH_Finalize()==1){func_021F0DB4();WIH_FreeWork();return 1;}return 0;
- }
- switch(p[0x24]){
- case 0:
-  d_021F6EA0.f8=0;((struct Obj00072 *)p)->f1C=1;
-  WIH_Initialize(((struct Obj00072 *)p)->f0,(int)func_021EFC10,0);
-  GFL_NET_WM_ICON_EasyStart(240,0,0,((struct Obj00072 *)p)->f0);
-  if(p[0x28]==0)GFL_NET_WM_ICON_EasySetScreen(0,((struct Obj00072 *)p)->f0);
-  else GFL_NET_WM_ICON_EasySetScreen(1,((struct Obj00072 *)p)->f0);
-  p[0x24]=1;func_020351F8((u32)func_021EFCA8,(u32)p);break;
- case 1:
-  if(WIH_GetSysState()==1 && WIH_StartMeasureChannel()==1)p[0x24]=2;break;
- default:break;
- case 2:
-  if(WIH_GetSysState()==7){
-   q=func_02012944(((struct Obj22277 *)(*(u8 * *)&((struct Obj00072 *)p)->f8))->f4);func_021EF96C(p);
-   func_021F1898(((struct Obj00072 *)p)->f68);
-   if(p[0x28]==0)func_021F1628(((struct Obj00072 *)p)->f68,2);
-   else func_021F1628(((struct Obj00072 *)p)->f68,3);
-   func_021F18D8(((struct Obj00072 *)p)->f68);func_021F1918(((struct Obj00072 *)p)->f68,0,func_02008534(q),5);
-   if(p[0x28]==0)func_021F1704(((struct Obj00072 *)p)->f68,0,func_02012FFC());
-   else func_021F1704(((struct Obj00072 *)p)->f68,20,func_02012FFC());
-   func_021F18EC(((struct Obj00072 *)p)->f68);p[0x24]=3;
-  }break;
- case 3:func_021EFA14(p);break;
- case 4:
-  func_021F1898(((struct Obj00072 *)p)->f68);func_021F1628(((struct Obj00072 *)p)->f68,1);
-  if(p[0x28]==0)func_021F17E0(((struct Obj00072 *)p)->f68,1);
-  else func_021F17E0(((struct Obj00072 *)p)->f68,21);
-  func_021F1B38(((struct Obj00072 *)p)->f68,1);CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,15);p[0x24]=5;break;
- case 5:((struct Obj00072 *)p)->f30=1;p[0x24]=6;break;
- case 8:p[0x24]=6;break;
- case 6:d_021F6EA0.f8=0;WIH_End((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
- case 7:if(d_021F6EA0.f8==1){func_020351F8(0,0);WIH_FreeWork();return 1;}break;
- }
- GFL_NET_WM_ICON_EasySetLevel(3-WM_GetLinkLevel());GFL_NET_WM_ICON_EasyMain();return 0;
+    func_02034A5C((int)ov014_id);
+    func_020774A0(0);
+    func_020307B0(p->gameNameBuf);
+    func_020307B0(p->gameIntroBuf);
+    if (!p->standalone) {
+        func_02040588(2, 0);
+        func_02040588(0, 0);
+    } else {
+        func_02040588(5, 0);
+        func_02040588(4, 0);
+    }
 }
 
+/* Wireless start-up and teardown state machine (WIH). Returns 1 when WM is down again. */
+int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
+{
+    void *ownerData;
 
-
-
-
-
-
-
-
-
-
-
-void func_021EF96C(u8 *p) {
- Pair a=d_021F6D68,b=d_021F6D70,c=d_021F6D60;
- Config cfg=d_021F6C40;
- int v=WIH_GetMeasureChannel();
- MI_CpuCopy8(&cfg,p+128,60);
- ((struct Obj00072 *)p)->f80=p[40]==0?a.a:a.b;
- ((struct Obj00072 *)p)->f8C=b.b;((struct Obj00072 *)p)->f90=c.b;
- ((struct Obj00072 *)p)->f84=((struct Obj00072 *)p)->f50;((struct Obj00072 *)p)->f88=((struct Obj00072 *)p)->f54;
- func_021F0754(4992,65536);func_021F080C(p+128,v);
+    if (WIH_GetSysState() == 9 || WIH_GetSysState() == 10) {
+        p->lobbyAccepted = 0;
+        p->wirelessFailed = 1;
+        if (WIH_Finalize() == 1) {
+            MB_PARENT_SYS_FreeBuffers();
+            WIH_FreeWork();
+            return 1;
+        }
+        return 0;
+    }
+    switch (p->subPhase) {
+    case 0:
+        gMbParentUi.wmEndDone = 0;
+        p->wmActive = 1;
+        WIH_Initialize(p->heapId, (int)MB_COMM_SYS_WmEndCallback, 0);
+        GFL_NET_WM_ICON_EasyStart(240, 0, 0, p->heapId);
+        if (p->standalone == 0)
+            GFL_NET_WM_ICON_EasySetScreen(0, p->heapId);
+        else
+            GFL_NET_WM_ICON_EasySetScreen(1, p->heapId);
+        p->subPhase = 1;
+        func_020351F8((u32)MB_COMM_SYS_ResetHook, (u32)p);
+        break;
+    case 1:
+        if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() == 1)
+            p->subPhase = 2;
+        break;
+    default:
+        break;
+    case 2:
+        if (WIH_GetSysState() == 7) {
+            ownerData = func_02012944(p->arg->gameData);
+            MB_COMM_SYS_StartParent(p);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 2);
+            else
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 3);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_PrintStream(p->msg, 0, func_02012FFC());
+            else
+                MB_UTIL_MSG_PrintStream(p->msg, 20, func_02012FFC());
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->subPhase = 3;
+        }
+        break;
+    case 3:
+        MB_COMM_SYS_MainRecruit(p);
+        break;
+    case 4:
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+        if (p->standalone == 0)
+            MB_UTIL_MSG_PrintQueued(p->msg, 1);
+        else
+            MB_UTIL_MSG_PrintQueued(p->msg, 21);
+        MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
+        CLACT_SetActorAnimSeq(p->actor, 15);
+        p->subPhase = 5;
+        break;
+    case 5:
+        p->lobbyAccepted = 1;
+        p->subPhase = 6;
+        break;
+    case 8:
+        p->subPhase = 6;
+        break;
+    case 6:
+        gMbParentUi.wmEndDone = 0;
+        WIH_End((void (*)(int))((int (*)(int))MB_COMM_SYS_WmEndCallback));
+        p->wmActive = 0;
+        p->subPhase = 7;
+        break;
+    case 7:
+        if (gMbParentUi.wmEndDone == 1) {
+            func_020351F8(0, 0);
+            WIH_FreeWork();
+            return 1;
+        }
+        break;
+    }
+    GFL_NET_WM_ICON_EasySetLevel(3 - WM_GetLinkLevel());
+    GFL_NET_WM_ICON_EasyMain();
+    return 0;
 }
 
+/* Builds the registry block, then starts the parent and registers the game. */
+void MB_COMM_SYS_StartParent(MbCommSysWork *p)
+{
+    MbPathPair romPaths = d_021F6D68;
+    MbPathPair iconCharPaths = d_021F6D70;
+    MbPathPair iconPalettePaths = d_021F6D60;
+    MbRegistryBlock registry = d_021F6C40;
+    int channel = WIH_GetMeasureChannel();
 
-
-
-
-
-
-
-
+    MI_CpuCopy8(&registry, &p->registry, 60);
+    p->registry.romPath = p->standalone == 0 ? romPaths.inGame : romPaths.standalone;
+    p->registry.iconCharPath = iconCharPaths.standalone;
+    p->registry.iconPalettePath = iconPalettePaths.standalone;
+    p->registry.gameName = p->gameNameBuf;
+    p->registry.gameIntro = p->gameIntroBuf;
+    MB_PARENT_SYS_Init(4992, 65536);
+    MB_PARENT_SYS_Register(&p->registry, channel);
+}
 
 /*
  * extent: follower 021EFC10 already has its own matched source/shard.
  * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
  */
-void func_021EFA14(u8 *p)
+/* Recruiting screen: shows the child count prompts and handles start or cancel. */
+void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
 {
- int a;void *q;
- func_021F0D28();
- switch(func_021F0D28()){
- case 2:
-  if(p[0x26]==0){
-   a=TOUCHPANEL_HitTrg(d_021F6AF8);
-   if(KEY_GetTrg()==2 || (a==0 && p[0x28]==0)){
-    p[0x26]=1;CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,9);CLACT_SetActorAutoAnim(((struct Obj00072 *)p)->f7C,1);GFL_USE_PlaySeDefaultVolume(1361);
-   }else if(func_021F0A28()){func_021F0A64();}
-  }break;
- case 5:p[0x24]=4;break;
- case 7:func_021F0AE4();break;
- case 0:p[0x24]=8;break;
- case 1:case 3:case 4:case 6:default:break;
- }
- switch(p[0x26]){
- case 1:
-  func_021F1898(((struct Obj00072 *)p)->f68);CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,15);
-  if(p[0x28]==0){func_021F1628(((struct Obj00072 *)p)->f68,7);func_021F1704(((struct Obj00072 *)p)->f68,9,func_02012FFC());}
-  else {func_021F1628(((struct Obj00072 *)p)->f68,5);func_021F1704(((struct Obj00072 *)p)->f68,42,func_02012FFC());}
-  p[0x26]=2;break;
- case 2:
-  if(func_021F1B14(((struct Obj00072 *)p)->f68)==1){
-   if(p[0x28]==0)func_021F1930(((struct Obj00072 *)p)->f68,0);
-   else func_021F19E4(((struct Obj00072 *)p)->f68,0);
-   p[0x26]=3;
-  }break;
- case 3:
-  if(p[0x28]==0)a=func_021F19C8(((struct Obj00072 *)p)->f68);
-  else a=func_021F1A2C(((struct Obj00072 *)p)->f68);
-  if(a==1){
-   if(func_021F0D28()!=2)func_02034714(d_021F6E08,0,d_021F6E08);
-   func_021EFC1C(p,4);func_021F0AE4();p[0x26]=4;
-  }else if(a==2){
-   q=func_02012944(((struct Obj22278 *)(*(u8 * *)&((struct Obj00072 *)p)->f8))->f4);
-   if(p[0x28]==0)func_021F19B8(((struct Obj00072 *)p)->f68);else func_021F1A24(((struct Obj00072 *)p)->f68);
-   func_021F1898(((struct Obj00072 *)p)->f68);
-   if(p[0x28]==0)func_021F1628(((struct Obj00072 *)p)->f68,2);else func_021F1628(((struct Obj00072 *)p)->f68,3);
-   func_021F18D8(((struct Obj00072 *)p)->f68);func_021F1918(((struct Obj00072 *)p)->f68,0,func_02008534(q),5);
-   CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,1);
-   if(p[0x28]==0)func_021F1704(((struct Obj00072 *)p)->f68,0,func_02012FFC());else func_021F1704(((struct Obj00072 *)p)->f68,20,func_02012FFC());
-   func_021F18EC(((struct Obj00072 *)p)->f68);p[0x26]=0;
-  }break;
- }
+    int answer;
+    void *ownerData;
+
+    MB_PARENT_SYS_GetState();
+    switch (MB_PARENT_SYS_GetState()) {
+    case 2:
+        if (p->recruitPhase == 0) {
+            answer = TOUCHPANEL_HitTrg(d_021F6AF8);
+            if (KEY_GetTrg() == 2 || (answer == 0 && p->standalone == 0)) {
+                p->recruitPhase = 1;
+                CLACT_SetActorAnimSeq(p->actor, 9);
+                CLACT_SetActorAutoAnim(p->actor, 1);
+                GFL_USE_PlaySeDefaultVolume(1361);
+            } else if (MB_PARENT_SYS_AllBootable()) {
+                MB_PARENT_SYS_StartBoot();
+            }
+        }
+        break;
+    case 5:
+        p->subPhase = 4;
+        break;
+    case 7:
+        MB_PARENT_SYS_Cancel();
+        break;
+    case 0:
+        p->subPhase = 8;
+        break;
+    case 1:
+    case 3:
+    case 4:
+    case 6:
+    default:
+        break;
+    }
+    switch (p->recruitPhase) {
+    case 1:
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        CLACT_SetActorAnimSeq(p->actor, 15);
+        if (p->standalone == 0) {
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 7);
+            MB_UTIL_MSG_PrintStream(p->msg, 9, func_02012FFC());
+        } else {
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+            MB_UTIL_MSG_PrintStream(p->msg, 42, func_02012FFC());
+        }
+        p->recruitPhase = 2;
+        break;
+    case 2:
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            if (p->standalone == 0)
+                MB_UTIL_MSG_OpenYesNoTaskMenu(p->msg, 0);
+            else
+                MB_UTIL_MSG_OpenYesNoMenu(p->msg, 0);
+            p->recruitPhase = 3;
+        }
+        break;
+    case 3:
+        if (p->standalone == 0)
+            answer = MB_UTIL_MSG_GetTaskMenuResult(p->msg);
+        else
+            answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (answer == 1) {
+            if (MB_PARENT_SYS_GetState() != 2)
+                func_02034714(d_021F6E08, 0, d_021F6E08);
+            MB_COMM_SYS_UpdateSaveState(p, 4);
+            MB_PARENT_SYS_Cancel();
+            p->recruitPhase = 4;
+        } else if (answer == 2) {
+            ownerData = func_02012944(p->arg->gameData);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_CloseTaskMenu(p->msg);
+            else
+                MB_UTIL_MSG_ClearYesNoMenu(p->msg);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 2);
+            else
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 3);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, func_02008534(ownerData), 5);
+            CLACT_SetActorAnimSeq(p->actor, 1);
+            if (p->standalone == 0)
+                MB_UTIL_MSG_PrintStream(p->msg, 0, func_02012FFC());
+            else
+                MB_UTIL_MSG_PrintStream(p->msg, 20, func_02012FFC());
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->recruitPhase = 0;
+        }
+        break;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-int func_021EFC10(void) { d_021F6EA0.f8=1; return 1; }
-
-
-
-
-
-
-
-
-
-
-void func_021EFC1C(u8 *p,int mode) {
- unsigned cur; int change;
- if(p[40]==0) {
- cur=func_0200C1A4(((struct Obj07994 *)p)->f4C);change=0;
- switch(mode) {
- case 0: if(cur!=1&&cur!=3&&cur!=5) change=1;break;
- case 1: if(cur!=3&&cur!=5) change=1;break;
- case 2: if(cur!=0&&cur!=1&&cur!=3&&cur!=5) change=1;break;
- case 3: change=1;if(((struct Obj07994 *)p)->f3C!=0) mode=5;break;
- case 4: if(cur!=2&&cur!=0&&cur!=1&&cur!=3&&cur!=5) change=1;break;
- }
- if(change==1) func_0200C1B0(((struct Obj07994 *)p)->f4C,mode);
- }
+/* WM end callback: tells the main loop that WM has finished shutting down. */
+int MB_COMM_SYS_WmEndCallback(void)
+{
+    gMbParentUi.wmEndDone = 1;
+    return 1;
 }
 
+/* Moves the save state value to mode unless the current state already covers it. */
+void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode)
+{
+    unsigned cur;
+    int change;
 
-
-
-
-
-
-
-
+    if (p->standalone == 0) {
+        cur = func_0200C1A4(p->saveState);
+        change = 0;
+        switch (mode) {
+        case 0:
+            if (cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 1:
+            if (cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 2:
+            if (cur != 0 && cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        case 3:
+            change = 1;
+            if (p->receivedTotal != 0)
+                mode = 5;
+            break;
+        case 4:
+            if (cur != 2 && cur != 0 && cur != 1 && cur != 3 && cur != 5)
+                change = 1;
+            break;
+        }
+        if (change == 1)
+            func_0200C1B0(p->saveState, mode);
+    }
+}
 
 /*
  * extent: follower 021EFC10 already has its own matched source/shard.
  * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
  */
+/* Reset hook: stops recruiting and waits for WM to shut down before the reset goes on. */
+void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
+{
+    unsigned registered = MB_PARENT_SYS_IsRegistered();
 
-
-
-
-
-
-
-
-
-
-void func_021EFCA8(u8 *p) {
- unsigned v=func_021F0DDC();
- if(v==1) func_021F0AE4();
- while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
- if(((struct Obj22279 *)p)->f1C==1) {
- d_021F6EA0.f8=0;
- while(WIH_End((void (*)(int))((int)func_021EFC10))) func_0208459C(1,1);
- while(d_021F6EA0.f8==0) func_0208459C(1,1);
- }
+    if (registered == 1)
+        MB_PARENT_SYS_Cancel();
+    while (MB_PARENT_SYS_GetState() != 0 && MB_PARENT_SYS_GetState() != 5)
+        func_0208459C(1, 1);
+    if (p->wmActive == 1) {
+        gMbParentUi.wmEndDone = 0;
+        while (WIH_End((void (*)(int))((int)MB_COMM_SYS_WmEndCallback)))
+            func_0208459C(1, 1);
+        while (gMbParentUi.wmEndDone == 0)
+            func_0208459C(1, 1);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * extent: two bytes of alignment padding after the return.
  */
-void func_021EFD24(u8 *p) {
- unsigned v=func_021F11C4(((struct Obj02457 *)p)->fC);
- unsigned old,cur;
- func_021F17E0(((struct Obj02457 *)p)->f68,6);func_021F1B38(((struct Obj02457 *)p)->f68,1);func_021EFD98((Ov107Ctx *)p);
- if(p[40]==0) {
- old=(u16)func_0200C184(((struct Obj02457 *)p)->f4C);cur=func_021F11E0(((struct Obj02457 *)p)->fC);
- if(old<cur) {func_0200C18C(((struct Obj02457 *)p)->f4C,cur);func_021EFC1C(p,1);}
- else if(v==0) func_021EFC1C(p,2);else func_021EFC1C(p,0);
- if(((struct Obj02457 *)p)->f38<cur) ((struct Obj02457 *)p)->f38=cur;
- ((struct Obj02457 *)p)->f3C=((struct Obj02457 *)p)->f3C+v;
- }
+/* Counts the mons the children sent, records them and updates the save state. */
+void MB_COMM_SYS_FinishReceive(MbCommSysWork *p)
+{
+    unsigned received = MB_COMM_SYS_GetMonCount(p->net);
+    unsigned oldCount;
+    unsigned newCount;
+
+    MB_UTIL_MSG_PrintQueued(p->msg, 6);
+    MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
+    MB_COMM_SYS_RegisterReceivedMons(p);
+    if (p->standalone == 0) {
+        oldCount = (u16)func_0200C184(p->saveState);
+        newCount = MB_COMM_SYS_GetMaxSeen(p->net);
+        if (oldCount < newCount) {
+            func_0200C18C(p->saveState, newCount);
+            MB_COMM_SYS_UpdateSaveState(p, 1);
+        } else if (received == 0) {
+            MB_COMM_SYS_UpdateSaveState(p, 2);
+        } else {
+            MB_COMM_SYS_UpdateSaveState(p, 0);
+        }
+        if (p->bestChildCount < newCount)
+            p->bestChildCount = newCount;
+        p->receivedTotal = p->receivedTotal + received;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021EFD98(Ov107Ctx *p)
+/* Registers each received mon in the Pokedex and adds it to the party. */
+void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
 {
     void *party;
-    void *box;
-    unsigned int n;
     void *dex;
+    unsigned int received;
+    void *trainerRecord;
     void *mon;
-    int ok;
+    int added;
     unsigned char i;
 
-    party = (void *)func_0201293C(p->f08->f04);
-    box = ZUKAN_SAVE_GetFromGameData(p->f08->f04);
-    n = func_021F11C4(p->f0C);
-    if (p->f28 == 0) {
-        dex = GAME_DATA_GetTrainerRecord(p->f08->f04);
-        func_02008DAC(dex, 7, n);
-        func_02008DAC(dex, 0x54, n);
+    party = (void *)func_0201293C(p->arg->gameData);
+    dex = ZUKAN_SAVE_GetFromGameData(p->arg->gameData);
+    received = MB_COMM_SYS_GetMonCount(p->net);
+    if (p->standalone == 0) {
+        trainerRecord = GAME_DATA_GetTrainerRecord(p->arg->gameData);
+        func_02008DAC(trainerRecord, 7, received);
+        func_02008DAC(trainerRecord, 0x54, received);
     }
-    for (i = 0; i < n; i++) {
-        mon = func_021F11CC(p->f0C, i);
+    for (i = 0; i < received; i++) {
+        mon = MB_COMM_SYS_GetMon(p->net, i);
         func_0202F27C(mon);
-        ok = func_020074D8(party, mon);
-        mon = POKE_TOOL_CreateFromBoxParam(mon, p->f00);
-        ZUKAN_SAVE_RegisterCaught(box, mon);
+        added = func_020074D8(party, mon);
+        mon = POKE_TOOL_CreateFromBoxParam(mon, p->heapId);
+        ZUKAN_SAVE_RegisterCaught(dex, mon);
         func_020307B0(mon);
-        if (ok != 1) {
+        if (added != 1)
             func_02034714(d_021F6E08, 0, d_021F6E08);
-        }
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021EFE3C(u8 *p) {}
-
-
-
-
-
-
-
-
-
-
-
-
+/* Empty hook called between receiving and the closing prompt. */
+void MB_COMM_SYS_NoOp(MbCommSysWork *p)
+{
+}
 
 /*
  * evidence: caller-only TU/split was MATCH with nine overlay-only leaves;
@@ -1695,692 +1726,872 @@ void func_021EFE3C(u8 *p) {}
  * original supplies only r0; full body forwards only r0 to02012CE0 and
  * no inputs to0201042C, then replaces r0/r1 before remaining calls.
  */
-void func_021EFE40(u8 *p)
+/* Save sequence after the transfer: message, save start, wait, save main, closing messages. */
+void MB_COMM_SYS_MainSave(MbCommSysWork *p)
 {
-    switch(p[0x24]) {
+    switch (p->subPhase) {
     case 9:
-        if(func_021F1B08(MSG)==1 && func_021F1B14(MSG)==1 && func_021F10D4(OBJ)==1) {
-            if(func_021F11F0(OBJ,1,func_020056EC(20)+10)==1) p[0x24]=10;
+        if (MB_UTIL_MSG_IsPrintQueFinished(p->msg) == 1 && MB_UTIL_MSG_IsStreamIdle(p->msg) == 1 && MB_COMM_SYS_HasKind11(p->net) == 1) {
+            if (MB_COMM_SYS_SendMessage(p->net, 1, func_020056EC(20) + 10) == 1)
+                p->subPhase = 10;
         }
         break;
-    case 10: if(func_021F10F4(OBJ)==1) p[0x24]=11; break;
-    case 11: GAME_DATA_SaveStart((int)TARGET); p[0x24]=12; break;
-    case 12: if(GAME_DATA_SaveMain(TARGET)==1) p[0x24]=13; break;
+    case 10:
+        if (MB_COMM_SYS_HasKind1(p->net) == 1)
+            p->subPhase = 11;
+        break;
+    case 11:
+        GAME_DATA_SaveStart((int)p->arg->gameData);
+        p->subPhase = 12;
+        break;
+    case 12:
+        if (GAME_DATA_SaveMain(p->arg->gameData) == 1)
+            p->subPhase = 13;
+        break;
     case 13:
-        if(func_021F10DC(OBJ)==1 && func_021F11F0(OBJ,2,func_020056EC(20)+10)==1) {
-            p[0x24]=14; p[0x27]=0;
+        if (MB_COMM_SYS_HasKind12(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 2, func_020056EC(20) + 10) == 1) {
+            p->subPhase = 14;
+            p->waitCounter = 0;
         }
         break;
     case 14:
-        if(func_021F10FC(OBJ)==1) {
-            p[0x27]++;
-            if(p[0x27]>(u32)func_021F110C(OBJ)) p[0x24]=15;
+        if (MB_COMM_SYS_HasKind2(p->net) == 1) {
+            p->waitCounter++;
+            if (p->waitCounter > (u32)MB_COMM_SYS_GetCount(p->net))
+                p->subPhase = 15;
         }
         break;
-    case 15: if(GAME_DATA_SaveMain(TARGET)==2) p[0x24]=16; break;
+    case 15:
+        if (GAME_DATA_SaveMain(p->arg->gameData) == 2)
+            p->subPhase = 16;
+        break;
     case 16:
-        if(func_021F10E4(OBJ)==1 && func_021F11F0(OBJ,3,0)==1) {
-            p[0x24]=17; p[0x27]=0;
+        if (MB_COMM_SYS_HasKind12Again(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 3, 0) == 1) {
+            p->subPhase = 17;
+            p->waitCounter = 0;
         }
         break;
     case 17:
-        if(func_021F10EC(OBJ)==1 && func_021F11F0(OBJ,4,0)==1) p[0x24]=19;
+        if (MB_COMM_SYS_HasKind14(p->net) == 1 && MB_COMM_SYS_SendMessage(p->net, 4, 0) == 1)
+            p->subPhase = 19;
         break;
-    case 18: break;
-    case 19: if(func_021F1104(OBJ)==1) ((struct Obj01529 *)p)->f20=22; break;
+    case 18:
+        break;
+    case 19:
+        if (MB_COMM_SYS_HasKind4(p->net) == 1)
+            p->phase = 22;
+        break;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021EFFB0(Ov107Main *p)
+/* Child-side flow after the link is up (phase 32): offer prompts, mon exchange, trainer key. */
+void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p)
 {
     int a;
     int b;
-    void *c;
-    void *d;
-    void *e;
+    void *saveTrainerKey;
+    void *ownerData;
+    void *miscSave;
 
-    switch (p->state) {
+    switch (p->childPhase) {
     case 0:
-        if (func_021F1060(p->f0C) == 10 || func_021F1060(p->f0C) == 12) {
-            func_021F1704(p->f68, 0x29, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F1028(p->f0C);
-            p->f20 = 0x1B;
+        if (MB_COMM_SYS_GetCommStage(p->net) == 10 || MB_COMM_SYS_GetCommStage(p->net) == 12) {
+            MB_UTIL_MSG_PrintStream(p->msg, 0x29, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 0x1B;
         }
-        if (func_021F1060(p->f0C) == 11) {
-            func_021F1704(p->f68, 0x2C, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F1028(p->f0C);
-            p->f20 = 0x1B;
+        if (MB_COMM_SYS_GetCommStage(p->net) == 11) {
+            MB_UTIL_MSG_PrintStream(p->msg, 0x2C, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_COMM_SYS_SetSyncRange(p->net);
+            p->phase = 0x1B;
         }
-        if (func_021F1110(p->f0C) == 1) {
-            a = func_021F1118(p->f0C);
-            b = func_021F1120(p->f0C);
+        if (MB_COMM_SYS_HasKind19(p->net) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            b = MB_COMM_SYS_GetOfferExtra(p->net);
             if (a != 0) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 5);
-                func_021F18D8(p->f68);
-                func_021F1900(p->f68, 0, a + b, 3);
-                func_021F1704(p->f68, 0x16, func_02012FFC());
-                func_021F1B24(p->f68, 1);
-                func_021F18EC(p->f68);
-                p->state = 1;
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_CreateWordSet(p->msg);
+                MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a + b, 3);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x16, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                MB_UTIL_MSG_DeleteWordSet(p->msg);
+                p->childPhase = 1;
             } else {
-                p->state = 0x13;
+                p->childPhase = 0x13;
             }
         }
         break;
     case 1:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
-            p->state = 2;
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 2;
         }
         break;
     case 2:
-        p->f34 = func_021F1A2C(p->f68);
-        if (p->f34 == 1) {
-            b = func_021F1118(p->f0C);
-            a = (unsigned short)func_02007774((void *)func_0201293C(p->f08->f04));
-            func_021F1A24(p->f68);
+        p->answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (p->answer == 1) {
+            b = MB_COMM_SYS_GetOfferCount(p->net);
+            a = (unsigned short)func_02007774((void *)func_0201293C(p->arg->gameData));
+            MB_UTIL_MSG_ClearYesNoMenu(p->msg);
             if ((unsigned int)a < (unsigned int)b) {
-                p->f40 = 1;
-                p->state = 0xD;
+                p->notEnoughRoom = 1;
+                p->childPhase = 0xD;
             } else {
-                p->f40 = 0;
-                p->state = 3;
+                p->notEnoughRoom = 0;
+                p->childPhase = 3;
             }
-        } else if (p->f34 == 2) {
-            p->state = 0xD;
+        } else if (p->answer == 2) {
+            p->childPhase = 0xD;
         }
         break;
     case 3:
-        if (func_021F1120(p->f0C) != 0) {
-            a = func_021F1118(p->f0C);
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 1);
-            func_021F18D8(p->f68);
-            func_021F1900(p->f68, 0, a, 3);
-            func_021F1704(p->f68, 0x24, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F18EC(p->f68);
-            p->state = 4;
+        if (MB_COMM_SYS_GetOfferExtra(p->net) != 0) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x24, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->childPhase = 4;
         } else {
-            p->state = 5;
+            p->childPhase = 5;
         }
         break;
     case 4:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 5;
-        }
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 5;
         break;
     case 5:
-        if (func_021F1134(p->f0C) == 1) {
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 5);
-            func_021F1704(p->f68, 0x1A, func_02012FFC());
-            p->state = 6;
+        if (MB_COMM_SYS_GetOfferFlagA(p->net) == 1) {
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x1A, func_02012FFC());
+            p->childPhase = 6;
         } else {
-            p->state = 0xD;
+            p->childPhase = 0xD;
         }
         break;
     case 6:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
-            p->state = 7;
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 7;
         }
         break;
     case 7:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (a == 1) {
-            if (func_021F1148(p->f0C) == 1) {
-                func_021F1704(p->f68, 0x1B, func_02012FFC());
-                p->state = 8;
+            if (MB_COMM_SYS_GetOfferFlagB(p->net) == 1) {
+                MB_UTIL_MSG_PrintStream(p->msg, 0x1B, func_02012FFC());
+                p->childPhase = 8;
             } else {
-                p->state = 0xD;
+                p->childPhase = 0xD;
             }
         } else if (a == 2) {
-            p->state = 0xA;
+            p->childPhase = 0xA;
         }
         break;
     case 8:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
-            p->state = 9;
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 9;
         }
         break;
     case 9:
-        a = func_021F1A2C(p->f68);
-        if (a == 1) {
-            p->state = 0xD;
-        } else if (a == 2) {
-            p->state = 0xA;
-        }
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
+        if (a == 1)
+            p->childPhase = 0xD;
+        else if (a == 2)
+            p->childPhase = 0xA;
         break;
     case 10:
-        func_021F1704(p->f68, 0x1C, func_02012FFC());
-        p->state = 0xB;
+        MB_UTIL_MSG_PrintStream(p->msg, 0x1C, func_02012FFC());
+        p->childPhase = 0xB;
         break;
     case 11:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
-            p->state = 0xC;
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
+            p->childPhase = 0xC;
         }
         break;
     case 12:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (a == 1) {
-            p->f34 = 2;
-            p->state = 0xD;
+            p->answer = 2;
+            p->childPhase = 0xD;
         } else if (a == 2) {
-            p->state = 5;
+            p->childPhase = 5;
         }
         break;
     case 13:
-        if (p->f34 == 1) {
-            if (p->f40 == 1) {
+        if (p->answer == 1) {
+            if (p->notEnoughRoom == 1)
                 a = 2;
-            } else {
+            else
                 a = 0;
-            }
         } else {
             a = 1;
         }
-        if (func_021F11F0(p->f0C, 0xF, a) == 1) {
+        if (MB_COMM_SYS_SendMessage(p->net, 0xF, a) == 1) {
             if (a == 0) {
-                p->state = 0xE;
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F17E0(p->f68, 0x19);
-                func_021F1B38(p->f68, 1);
+                p->childPhase = 0xE;
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintQueued(p->msg, 0x19);
+                MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
             } else if (a == 2) {
-                p->state = 0x11;
+                p->childPhase = 0x11;
             } else {
-                p->state = 0x13;
+                p->childPhase = 0x13;
             }
         }
         break;
     case 14:
-        if (func_021F11BC(p->f0C) == 1) {
-            func_021EFD98((Ov107Ctx *)p);
-            p->state = 0xF;
+        if (MB_COMM_SYS_HasMonsReceived(p->net) == 1) {
+            MB_COMM_SYS_RegisterReceivedMons(p);
+            p->childPhase = 0xF;
         }
-        if (func_021F115C(p->f0C) == 1) {
-            a = func_021F1118(p->f0C);
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 1);
-            func_021F18D8(p->f68);
-            func_021F1900(p->f68, 0, a, 3);
-            func_021F1704(p->f68, 0x1E, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F18EC(p->f68);
-            p->state = 0x10;
-            p->f44 = 1;
+        if (MB_COMM_SYS_HasKind20(p->net) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->net);
+            MB_UTIL_MSG_ClearWindow(p->msg);
+            MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+            MB_UTIL_MSG_CreateWordSet(p->msg);
+            MB_UTIL_MSG_SetNumberLeft(p->msg, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->msg, 0x1E, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->msg);
+            p->childPhase = 0x10;
+            p->receivedBonus = 1;
         }
         break;
     case 15:
-        if (func_021F11F0(p->f0C, 0, 0) == 1) {
-            func_021F1184(p->f0C);
-            p->state = 0xE;
+        if (MB_COMM_SYS_SendMessage(p->net, 0, 0) == 1) {
+            MB_COMM_SYS_ClearMonBuffer(p->net);
+            p->childPhase = 0xE;
         }
         break;
     case 16:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 0x13;
-        }
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x13;
         break;
     case 17:
-        func_021F1898(p->f68);
-        func_021F1628(p->f68, 5);
-        func_021F1704(p->f68, 0x18, func_02012FFC());
-        p->state = 0x12;
+        MB_UTIL_MSG_ClearWindow(p->msg);
+        MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+        MB_UTIL_MSG_PrintStream(p->msg, 0x18, func_02012FFC());
+        p->childPhase = 0x12;
         break;
     case 18:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 0x13;
-        }
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x13;
         break;
     case 19:
-        if (func_021F1164(p->f0C) == 1) {
-            if (func_021F116C(p->f0C) == 1) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 5);
-                func_021F1704(p->f68, 0x1F, func_02012FFC());
-                p->state = 0x14;
+        if (MB_COMM_SYS_HasKind21(p->net) == 1) {
+            if (MB_COMM_SYS_GetKind21Value(p->net) == 1) {
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 5);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x1F, func_02012FFC());
+                p->childPhase = 0x14;
             } else {
-                p->state = 0x19;
+                p->childPhase = 0x19;
             }
         }
         break;
     case 20:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 0x15;
-            func_021F19E4(p->f68, 1);
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1) {
+            p->childPhase = 0x15;
+            MB_UTIL_MSG_OpenYesNoMenu(p->msg, 1);
         }
         break;
     case 21:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (a == 1 || a == 2) {
-            c = func_0201292C(p->f08->f04);
-            d = func_02012944(p->f08->f04);
-            e = GAME_DATA_GetMiscSave(p->f08->f04);
-            if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(e, 0, d) == 1) {
-                p->f34 = 2;
-                p->state = 0x16;
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x25, func_02012FFC());
-                func_021F1B24(p->f68, 1);
+            saveTrainerKey = func_0201292C(p->arg->gameData);
+            ownerData = func_02012944(p->arg->gameData);
+            miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
+            if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 0, ownerData) == 1) {
+                p->answer = 2;
+                p->childPhase = 0x16;
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x25, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
             } else {
-                p->f34 = a;
-                p->state = 0x17;
+                p->answer = a;
+                p->childPhase = 0x17;
             }
         }
         break;
     case 22:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 0x17;
-        }
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x17;
         break;
     case 23:
         a = 1;
-        if (p->f34 != 1) {
+        if (p->answer != 1)
             a = 0;
-        }
-        if (func_021F11F0(p->f0C, 0x10, a) == 1) {
+        if (MB_COMM_SYS_SendMessage(p->net, 0x10, a) == 1) {
             if (a == 1) {
-                c = func_0201292C(p->f08->f04);
-                d = func_02012944(p->f08->f04);
-                e = GAME_DATA_GetMiscSave(p->f08->f04);
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x21, func_02012FFC());
-                func_021F1B24(p->f68, 1);
-                FIELD_G3D_MAP_StoreBeaconTrainerKey(e, 0, d);
-                func_02007E50(c, 0x215, 1, p->f00);
-                p->f48 = 1;
-                p->state = 0x18;
+                saveTrainerKey = func_0201292C(p->arg->gameData);
+                ownerData = func_02012944(p->arg->gameData);
+                miscSave = GAME_DATA_GetMiscSave(p->arg->gameData);
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x21, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
+                FIELD_G3D_MAP_StoreBeaconTrainerKey(miscSave, 0, ownerData);
+                func_02007E50(saveTrainerKey, 0x215, 1, p->heapId);
+                p->gotTrainerKey = 1;
+                p->childPhase = 0x18;
             } else {
-                p->state = 0x19;
+                p->childPhase = 0x19;
             }
         }
         break;
     case 24:
-        if (func_021F1B14(p->f68) == 1) {
-            p->state = 0x19;
-        }
+        if (MB_UTIL_MSG_IsStreamIdle(p->msg) == 1)
+            p->childPhase = 0x19;
         break;
     case 25:
-        if (p->f44 == 1 || p->f48 == 1) {
-            if (func_021F11F0(p->f0C, 0x11, 0) == 1) {
-                p->f20 = 0x13;
-            }
+        if (p->receivedBonus == 1 || p->gotTrainerKey == 1) {
+            if (MB_COMM_SYS_SendMessage(p->net, 0x11, 0) == 1)
+                p->phase = 0x13;
         } else {
-            if (func_021F1118(p->f0C) == 0 && func_021F116C(p->f0C) == 0) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x28, func_02012FFC());
-                func_021F1B24(p->f68, 1);
+            if (MB_COMM_SYS_GetOfferCount(p->net) == 0 && MB_COMM_SYS_GetKind21Value(p->net) == 0) {
+                MB_UTIL_MSG_ClearWindow(p->msg);
+                MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
+                MB_UTIL_MSG_PrintStream(p->msg, 0x28, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->msg, 1);
             }
-            p->f20 = 0x1B;
+            p->phase = 0x1B;
         }
         break;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021F05DC(void) { BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);func_02040588(d_021F6EA0.f4==1?4:2,1);return 1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021F0608(void *task,void *arg,Save *save){Ctx_021F0608 *p;
-if(!GFL_NET_IsSessionNull())return 0;
-GFL_HEAP_CreateChildHeap(1,93,0x130000);p=PROCSYS_AllocProcWork(task,188,93);
-if(!save){save=func_02030734(93,8,0,d_021F6E0C,2788);if(KEY_GetCont()&256)save->f00=1;else{save->f00=0;save->f04=GAME_DATA_Create(93);}}
-if(save->f00==1)save->f04=GAME_DATA_Create(93);
-p->f00=93;p->f08=save;p->f10=0;p->f14=0;p->f18=0;func_021EE740((u8 *)p);return 1;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * extent: two zero padding bytes follow the epilogue.
- */
-int func_021F0694(void *task,int unused,int keep,Ctx_021F0694 *p){int mode;u32 a,b,c;
-a=p->f10;mode=0;c=p->f18;b=p->f14;if(p->f08->f00==1)mode=1;func_021EE824((u8 *)p);
-if(!keep){GAME_DATA_Delete(p->f08->f04);func_020307B0(p->f08);}else if(p->f08->f00==1){GAME_DATA_Delete(p->f08->f04);func_020307B0(p->f08);}
-func_020315D4(task);func_020306F0(93);
-if(a==1){if(mode){if(c==1||func_0200FB24()==1){func_0200FBB0();GFL_NET_ERR_ShowScreen(1);}else GFL_NET_ERR_ShowScreen(0);}else if(c==1){func_0200FBB0();GFL_NET_ERR_ShowScreen(1);}}
-if(b==1)GFL_NET_ERR_ShowSimpleScreen();if(mode==1)UI_SoftReset(0);return 1;}
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021F0728(int a,int b,int c,u8 *p) { if(func_021EE894(p)==1)return 1;if(func_0200FB24()!=0 && ((struct Obj13761 *)p)->f10==0){GFL_NET_ERR_RequestScreen();((struct Obj13761 *)p)->f10=1;}return 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021F0754(int a,int b){User user;MBUser mb;u8 buffer[20];Zero *zero;
-func_02087D28((struct OSOwnerInfoEx *)(&user));mb.f00=user.f01;mb.f01=user.f1A;MI_CpuCopy8(user.f04,mb.f02,user.f1A*2);mb.f00hi=0;
-zero=(Zero *)buffer;zero->words[0]=0;zero->words[1]=0;zero->words[2]=0;zero->words[3]=0;zero->words[4]=0;d_021F6EB4=*zero;
-d_021F6EAC.f04=GFL_NET_AllocAligned(93,45312,d_021F6E1C,158);
-if(func_021F5904(d_021F6EAC.f04,&mb,a,b,1))func_02034714(d_021F6E24, 0, d_021F6E24);
-func_021F5B4C(256,1);func_021F1B3C(func_021F0B2C);func_021F0D1C(1);}
-
-
-
-
-
-
-
-
-
-
-void func_021F080C(void *p,int channel){
- func_021F0D1C(2);
- if(func_021F5E7C(channel)){func_021F0D1C(7);return;}
- d_021F6EAC.f18=1;
- if(!func_021F0850(p))func_02034714(d_021F6E24,0,d_021F6E24);
-}
-
-
-
-
-
-
-
-int func_021F0850(const char **p){File file;File *fp;int result;
-result=0;if(!*p)fp=0;else{fp=&file;FS_InitFile(fp);if(!FS_OpenFile(fp,*p))return 0;}
-if(func_021F2F1C(fp)){d_021F6EAC.f00=func_02030734(93,65536,1,d_021F6E1C,287);if(d_021F6EAC.f00){if(func_021F2FA0(fp,d_021F6EAC.f00,65536)){if(func_021F3544(p,d_021F6EAC.f00))result=1;}if(!result)func_020307B0(d_021F6EAC.f00);}}
-if(fp==&file)FS_CloseFile(&file);return result;}
-
-
-
-
-
-
-
-void func_021F08E4(u16 aid){
- u16 mask; u32 state;
- if(!func_021F1C30(aid,1)){
- mask=~(1<<aid);state=OS_DisableInterrupts();
- d_021F6EAC.f0A&=mask;
- d_021F6EAC.f0C&=mask;
- d_021F6EAC.f0E&=mask;
- d_021F6EAC.f10&=mask;
- d_021F6EAC.f12&=mask;
- d_021F6EAC.f14&=mask;
- OS_RestoreInterrupts(state);func_021F5FB0(aid);
- }
-}
-
-
-
-
-
-
-
-
-void func_021F0938(u16 aid){u16 mask;u32 state;
-if(!func_021F1C30(aid,0)){mask=~(1<<aid);state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}
-else {state=OS_DisableInterrupts();d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0A&=(u16)~(1<<aid);OS_RestoreInterrupts(state);}}
-
-
-
-
-
-
-
-
-void func_021F09B0(u16 aid){u16 mask;u32 state;u16 bit;
-if(!func_021F1C30(aid,2)){mask=~(1<<aid);state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}
-else {state=OS_DisableInterrupts();mask=~(1<<aid);bit=1<<aid;d_021F6EAC.f0E&=mask;d_021F6EAC.f10|=bit;OS_RestoreInterrupts(state);}}
-
-
-
-
-
-
-
-
-int func_021F0A28(void) { u16 i; if(!d_021F6EAC.f0A)return 0;for(i=1;i<16;i++){if(d_021F6EAC.f0A&(1<<i)){if(!func_021F1BE0(i))return 0;}}return 1; }
-
-
-
-
-
-
-
-
-void func_021F0A64(void){u32 active;u16 aid;int bit;u16 mask;u32 state;
-active=0;for(aid=1;aid<16;aid++){bit=1<<aid;if(d_021F6EAC.f12&bit){if(!func_021F1C30(aid,3)){mask=~bit;state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}else active|=(u16)bit;}}
-if(!active){func_021F0D1C(7);return;}func_021F0D1C(4);}
-
-
-
-
-
-
-
-
-void func_021F0AE4(void) { func_021F0D1C(6);if(d_021F6EAC.f18==1){d_021F6EAC.f18=0;func_021F5F74();} }
-
-
-
-
-
-
-void func_021F0B04(void) { if(d_021F6EAC.f08==4 && d_021F6EAC.f0A==d_021F6EAC.f14 && d_021F6EAC.f18==1){d_021F6EAC.f18=0;func_021F5F74();} }
-
-
-
-
-
-
-void func_021F0B2C(u16 aid,u32 event,u8 *p)
+/* Visibility hook: hides both text planes, then shows the one this mode uses. */
+int MB_COMM_SYS_ShowTextPlane(void)
 {
- u32 state;u16 mask;void *q;u32 offset;
- switch(event){
- case 2:
-  if(func_021F0D28()!=2)break;
-  state=OS_DisableInterrupts();d_021F6EAC.f0A|=(u16)(1<<aid);OS_RestoreInterrupts(state);
-  offset=30*(aid-1);
-  *(u8 *)((u32)d_021F6EDE+offset)=p[10];
-  *(u8 *)((u32)d_021F6EDF+offset)=p[11];
-  *(u8 *)((u32)d_021F6EE0+offset)=p[12];
-  *(u8 *)((u32)d_021F6EE1+offset)=p[13];
-  *(u8 *)((u32)d_021F6EE2+offset)=p[14];
-  *(u8 *)((u32)d_021F6EE3+offset)=p[15];
-  *(u16 *)((u32)d_021F6EE4+offset)=aid;break;
- case 3:
-  if(func_021F0D34(aid)==6)break;
-  mask=~(1<<aid);state=OS_DisableInterrupts();
-  d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;
-  OS_RestoreInterrupts(state);func_021F0B04();break;
- case 10:
-  if(func_021F0D28()!=2){func_021F0938(aid);break;}
-  d_021F6EAC.f0C|=(u16)(1<<aid);func_021F08E4(aid);
-  q=func_021F1B64(aid);if(q)MI_CpuCopy8(q,(void *)((u32)d_021F6EC8+30*(aid-1)),22);break;
- case 14:
-  d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0E|=(u16)(1<<aid);func_021F09B0(aid);break;
- case 7:
-  d_021F6EAC.f10&=(u16)~(1<<aid);d_021F6EAC.f12|=(u16)(1<<aid);break;
- case 9:
-  d_021F6EAC.f12&=(u16)~(1<<aid);d_021F6EAC.f14|=(u16)(1<<aid);func_021F0B04();break;
- case 12:
-  if(func_021F0D28()==4)func_021F0D1C(5);else func_021F0D1C(0);
-  if(d_021F6EAC.f00){func_020307B0(d_021F6EAC.f00);d_021F6EAC.f00=0;}
-  if(d_021F6EAC.f04){GFL_NET_FreeAligned(d_021F6EAC.f04);d_021F6EAC.f04=0;}break;
- case 13:
-  switch(((struct Obj04440 *)p)->f0){case 1:case 2:case 9:func_021F0D1C(7);break;case 8:break;}break;
- case 1:case 4:case 5:case 6:case 8:case 11:
- break;
- case 0:
- default:func_02034714(d_021F6E24,0,d_021F6E24);break;
- }
-}
-
-
-
-
-
-
-void func_021F0D1C(u16 v) { d_021F6EAC.f08 = v; }
-
-
-
-
-
-
-u16 func_021F0D28(void) { return d_021F6EAC.f08; }
-
-
-
-
-int func_021F0D34(u16 aid)
-{
-    u32 state;
-    Snapshot snap;
-    u16 bit;
-    bit = 1 << aid;
-    state = OS_DisableInterrupts();
-    if (!(d_021F6EAC.f0A & bit)) {
-        OS_RestoreInterrupts(state);
-        return 0;
-    }
-    MI_CpuCopy8(((u8 *)&d_021F6EB4), &snap, 20);
-    OS_RestoreInterrupts(state);
-    if (snap.f04 & bit) return 2;
-    if (snap.f06 & bit) return 3;
-    if (snap.f08 & bit) return 4;
-    if (snap.f0A & bit) return 5;
-    if (snap.f0C & bit) return 6;
+    BG_SYS_SetMainVisiblePlanes(0);
+    BG_SYS_SetSubVisiblePlanes(0);
+    func_02040588(gMbParentUi.textOnSubScreen == 1 ? 4 : 2, 1);
     return 1;
 }
 
+/* Proc entry: creates the heap and work, loads or creates the argument, then runs init. */
+int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument)
+{
+    MbCommSysWork *p;
 
-
-
-
-
-
-
-
-void func_021F0DB4(void) {if(d_021F6EAC.f00) {func_020307B0(d_021F6EAC.f00);d_021F6EAC.f00=0;}if(d_021F6EAC.f04) {GFL_NET_FreeAligned(d_021F6EAC.f04);d_021F6EAC.f04=0;}}
-
-
-
-
-
-
-
-
-
-
-u32 func_021F0DDC(void) { return d_021F6EAC.f18; }
-
-
-
-
-
-
-
-
-
-
-Object *func_021F0DE8(u16 heap){Object *p;p=func_02030734(heap,40,1,d_021F6E28,159);p->f00=heap;p->f04=0;p->f14=0;p->f18=0;p->f0C=0;p->f08=0;p->f10=func_02030734(p->f00,6*POKE_TOOL_GetBoxParamSize()+4,1,d_021F6E28,169);return p;}
-
-
-
-
-
-
-
-
-
-
-void func_021F0E40(State_021F0DB4 *p) { if(((struct Obj10259 *)p)->f14)func_020307B0(((struct Obj10259 *)p)->f14);if(p->flag==1)GFL_NET_LOWER_DATA_Exit();func_020307B0(((struct Obj10259 *)p)->f10);func_020307B0(p); }
-
-
-
-
-
-
-
-
+    if (!GFL_NET_IsSessionNull())
+        return 0;
+    GFL_HEAP_CreateChildHeap(1, 93, 0x130000);
+    p = PROCSYS_AllocProcWork(task, 188, 93);
+    if (!argument) {
+        argument = func_02030734(93, 8, 0, d_021F6E0C, 2788);
+        if (KEY_GetCont() & 256) {
+            argument->standalone = 1;
+        } else {
+            argument->standalone = 0;
+            argument->gameData = GAME_DATA_Create(93);
+        }
+    }
+    if (argument->standalone == 1)
+        argument->gameData = GAME_DATA_Create(93);
+    p->heapId = 93;
+    p->arg = argument;
+    p->errorScreenRequested = 0;
+    p->wirelessFailed = 0;
+    p->wasSaving = 0;
+    MB_COMM_SYS_Init(p);
+    return 1;
+}
 
 /*
  * extent: two zero padding bytes follow the epilogue.
  */
-void func_021F0E6C(State_021F0E6C *p){switch(p->f04){case 0:break;case 1:if(GFL_NET_HANDLE_CheckNegotiation()==1)p->f04=2;break;case 2:if(GFL_NET_HANDLE_IsNegotiationDone(GFL_NET_HANDLE_GetCurrentHandle())==1)p->f04=3;break;case 3:if(GFL_NET_IsHandleReady(GFL_NET_HANDLE_GetCurrentHandle())==1){p->f04=6;GFL_NET_SetLoginOption(1);}break;case 4:if(GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),64,4)==1){p->f04=5;GFL_NET_SetLoginOption(0);}break;case 5:case 6:default:break;}
-if(p->f0C!=p->f08&&p->f08!=0){if(func_021F11F0(p,10,p->f08)==1)p->f0C=p->f08;}}
+/* Proc end: runs exit, frees the game data when owned, shows the net error screens if needed. */
+int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p)
+{
+    int standalone;
+    u32 errorRequested;
+    u32 wasSaving;
+    u32 wirelessFailed;
 
+    errorRequested = p->errorScreenRequested;
+    standalone = 0;
+    wasSaving = p->wasSaving;
+    wirelessFailed = p->wirelessFailed;
+    if (p->arg->standalone == 1)
+        standalone = 1;
+    MB_COMM_SYS_Exit(p);
+    if (!keep) {
+        GAME_DATA_Delete(p->arg->gameData);
+        func_020307B0(p->arg);
+    } else if (p->arg->standalone == 1) {
+        GAME_DATA_Delete(p->arg->gameData);
+        func_020307B0(p->arg);
+    }
+    func_020315D4(task);
+    func_020306F0(93);
+    if (errorRequested == 1) {
+        if (standalone) {
+            if (wasSaving == 1 || func_0200FB24() == 1) {
+                func_0200FBB0();
+                GFL_NET_ERR_ShowScreen(1);
+            } else {
+                GFL_NET_ERR_ShowScreen(0);
+            }
+        } else if (wasSaving == 1) {
+            func_0200FBB0();
+            GFL_NET_ERR_ShowScreen(1);
+        }
+    }
+    if (wirelessFailed == 1)
+        GFL_NET_ERR_ShowSimpleScreen();
+    if (standalone == 1)
+        UI_SoftReset(0);
+    return 1;
+}
 
+/* Proc update: runs the main loop and requests the net error screen when an error shows up. */
+int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p)
+{
+    if (MB_COMM_SYS_Main(p) == 1)
+        return 1;
+    if (func_0200FB24() != 0 && p->errorScreenRequested == 0) {
+        GFL_NET_ERR_RequestScreen();
+        p->errorScreenRequested = 1;
+    }
+    return 0;
+}
 
+/* Initializes the MB parent: owner info, MB work buffer, comm params and the event callback. */
+void MB_PARENT_SYS_Init(int a, int b)
+{
+    OwnerInfo owner;
+    MBUser userInfo;
+    u8 zeroBuffer[20];
+    MbChildStageMasks *zero;
 
+    func_02087D28(&owner);
+    userInfo.favoriteColour = owner.favoriteColor;
+    userInfo.nameLength = owner.nicknameLength;
+    MI_CpuCopy8(owner.nickname, userInfo.name, owner.nicknameLength * 2);
+    userInfo.playerNo = 0;
+    zero = (MbChildStageMasks *)zeroBuffer;
+    zero->words[0] = 0;
+    zero->words[1] = 0;
+    zero->words[2] = 0;
+    zero->words[3] = 0;
+    zero->words[4] = 0;
+    gMbChildStageMasks = *zero;
+    gMbParentSys.mbWork = GFL_NET_AllocAligned(93, 45312, d_021F6E1C, 158);
+    if (func_021F5904(gMbParentSys.mbWork, &userInfo, a, b, 1))
+        func_02034714(d_021F6E24, 0, d_021F6E24);
+    MB_SetParentCommParam(256, 1);
+    func_021F1B3C(MB_PARENT_SYS_EventCallback);
+    MB_PARENT_SYS_SetState(1);
+}
 
+/* Registers the game: starts recruiting on the channel, loads the file image. */
+void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel)
+{
+    MB_PARENT_SYS_SetState(2);
+    if (func_021F5E7C(channel)) {
+        MB_PARENT_SYS_SetState(7);
+        return;
+    }
+    gMbParentSys.registered = 1;
+    if (!MB_PARENT_SYS_LoadFileImage(registry))
+        func_02034714(d_021F6E24, 0, d_021F6E24);
+}
 
+/* Opens the ROM file named by the registry, reads its header and image into the file buffer. */
+int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry)
+{
+    File file;
+    File *fp;
+    int result;
 
+    result = 0;
+    if (!registry->romPath) {
+        fp = 0;
+    } else {
+        fp = &file;
+        FS_InitFile(fp);
+        if (!FS_OpenFile(fp, registry->romPath))
+            return 0;
+    }
+    if (MB_GetSegmentLength(fp)) {
+        gMbParentSys.fileBuffer = func_02030734(93, 65536, 1, d_021F6E1C, 287);
+        if (gMbParentSys.fileBuffer) {
+            if (func_021F2FA0(fp, gMbParentSys.fileBuffer, 65536)) {
+                if (func_021F3544(registry, gMbParentSys.fileBuffer))
+                    result = 1;
+            }
+            if (!result)
+                func_020307B0(gMbParentSys.fileBuffer);
+        }
+    }
+    if (fp == &file)
+        FS_CloseFile(&file);
+    return result;
+}
 
+/* Clears one child from every state mask under an interrupt lock. */
+static inline void MbCommSys_ClearChild(u16 aid)
+{
+    u16 mask;
+    u32 irq;
+
+    mask = ~(1 << aid);
+    irq = OS_DisableInterrupts();
+    gMbParentSys.connectedMask &= mask;
+    gMbParentSys.requestedMask &= mask;
+    gMbParentSys.waitToSendMask &= mask;
+    gMbParentSys.sendingMask &= mask;
+    gMbParentSys.sendCompleteMask &= mask;
+    gMbParentSys.bootStartableMask &= mask;
+    OS_RestoreInterrupts(irq);
+}
+
+/* Child asked to download: drops it when the MB library refuses stage 1. */
+void MB_PARENT_SYS_CheckRequest(u16 aid)
+{
+    if (!MB_CommResponseRequest(aid, 1)) {
+        MbCommSys_ClearChild(aid);
+        MB_DisconnectChild(aid);
+    }
+}
+
+/* Child is waiting to send: on refusal drops it, otherwise moves it back to connected only. */
+void MB_PARENT_SYS_RejectRequest(u16 aid)
+{
+    u32 irq;
+
+    if (!MB_CommResponseRequest(aid, 0)) {
+        MbCommSys_ClearChild(aid);
+        MB_DisconnectChild(aid);
+    } else {
+        irq = OS_DisableInterrupts();
+        gMbParentSys.requestedMask &= (u16)~(1 << aid);
+        gMbParentSys.connectedMask &= (u16)~(1 << aid);
+        OS_RestoreInterrupts(irq);
+    }
+}
+
+/* Child moved to sending: on refusal drops it, otherwise moves it from waitToSend to sending. */
+void MB_PARENT_SYS_StartSending(u16 aid)
+{
+    u16 mask;
+    u32 irq;
+    u16 bit;
+
+    if (!MB_CommResponseRequest(aid, 2)) {
+        MbCommSys_ClearChild(aid);
+        MB_DisconnectChild(aid);
+    } else {
+        irq = OS_DisableInterrupts();
+        mask = ~(1 << aid);
+        bit = 1 << aid;
+        gMbParentSys.waitToSendMask &= mask;
+        gMbParentSys.sendingMask |= bit;
+        OS_RestoreInterrupts(irq);
+    }
+}
+
+/* Returns 1 when every connected child (AID 1 to 15) is bootable and at least one is connected. */
+int MB_PARENT_SYS_AllBootable(void)
+{
+    u16 aid;
+
+    if (!gMbParentSys.connectedMask)
+        return 0;
+    for (aid = 1; aid < 16; aid++) {
+        if (gMbParentSys.connectedMask & (1 << aid)) {
+            if (!MB_CommIsBootable(aid))
+                return 0;
+        }
+    }
+    return 1;
+}
+
+/* Starts the boot: drops children that cannot boot, fails when none are left. */
+void MB_PARENT_SYS_StartBoot(void)
+{
+    u32 active;
+    u16 aid;
+    int bit;
+
+    active = 0;
+    for (aid = 1; aid < 16; aid++) {
+        bit = 1 << aid;
+        if (gMbParentSys.sendCompleteMask & bit) {
+            if (!MB_CommResponseRequest(aid, 3)) {
+                MbCommSys_ClearChild(aid);
+                MB_DisconnectChild(aid);
+            } else {
+                active |= (u16)bit;
+            }
+        }
+    }
+    if (!active) {
+        MB_PARENT_SYS_SetState(7);
+        return;
+    }
+    MB_PARENT_SYS_SetState(4);
+}
+
+/* Cancels recruiting and ends the MB session when it was registered. */
+void MB_PARENT_SYS_Cancel(void)
+{
+    MB_PARENT_SYS_SetState(6);
+    if (gMbParentSys.registered == 1) {
+        gMbParentSys.registered = 0;
+        func_021F5F74();
+    }
+}
+
+/* Ends the MB session when starting and every connected child can boot. */
+void MB_PARENT_SYS_EndIfAllBootable(void)
+{
+    if (gMbParentSys.state == 4 && gMbParentSys.connectedMask == gMbParentSys.bootStartableMask && gMbParentSys.registered == 1) {
+        gMbParentSys.registered = 0;
+        func_021F5F74();
+    }
+}
+
+/* MB parent event callback: updates the masks and the child table for one child event. */
+void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info)
+{
+    u32 irq;
+    u16 mask;
+    void *userInfo;
+    u32 offset;
+
+    switch (event) {
+    case 2:
+        if (MB_PARENT_SYS_GetState() != 2)
+            break;
+        irq = OS_DisableInterrupts();
+        gMbParentSys.connectedMask |= (u16)(1 << aid);
+        OS_RestoreInterrupts(irq);
+        offset = 30 * (aid - 1);
+        *(u8 *)((u32)d_021F6EDE + offset) = info->mac[0];
+        *(u8 *)((u32)d_021F6EDF + offset) = info->mac[1];
+        *(u8 *)((u32)d_021F6EE0 + offset) = info->mac[2];
+        *(u8 *)((u32)d_021F6EE1 + offset) = info->mac[3];
+        *(u8 *)((u32)d_021F6EE2 + offset) = info->mac[4];
+        *(u8 *)((u32)d_021F6EE3 + offset) = info->mac[5];
+        *(u16 *)((u32)d_021F6EE4 + offset) = aid;
+        break;
+    case 3:
+        if (MB_PARENT_SYS_GetChildStage(aid) == 6)
+            break;
+        mask = ~(1 << aid);
+        irq = OS_DisableInterrupts();
+        gMbParentSys.connectedMask &= mask;
+        gMbParentSys.requestedMask &= mask;
+        gMbParentSys.waitToSendMask &= mask;
+        gMbParentSys.sendingMask &= mask;
+        gMbParentSys.sendCompleteMask &= mask;
+        gMbParentSys.bootStartableMask &= mask;
+        OS_RestoreInterrupts(irq);
+        MB_PARENT_SYS_EndIfAllBootable();
+        break;
+    case 10:
+        if (MB_PARENT_SYS_GetState() != 2) {
+            MB_PARENT_SYS_RejectRequest(aid);
+            break;
+        }
+        gMbParentSys.requestedMask |= (u16)(1 << aid);
+        MB_PARENT_SYS_CheckRequest(aid);
+        userInfo = MB_CommGetChildUser(aid);
+        if (userInfo)
+            MI_CpuCopy8(userInfo, (void *)((u32)gMbChildEntries + 30 * (aid - 1)), 22);
+        break;
+    case 14:
+        gMbParentSys.requestedMask &= (u16)~(1 << aid);
+        gMbParentSys.waitToSendMask |= (u16)(1 << aid);
+        MB_PARENT_SYS_StartSending(aid);
+        break;
+    case 7:
+        gMbParentSys.sendingMask &= (u16)~(1 << aid);
+        gMbParentSys.sendCompleteMask |= (u16)(1 << aid);
+        break;
+    case 9:
+        gMbParentSys.sendCompleteMask &= (u16)~(1 << aid);
+        gMbParentSys.bootStartableMask |= (u16)(1 << aid);
+        MB_PARENT_SYS_EndIfAllBootable();
+        break;
+    case 12:
+        if (MB_PARENT_SYS_GetState() == 4)
+            MB_PARENT_SYS_SetState(5);
+        else
+            MB_PARENT_SYS_SetState(0);
+        if (gMbParentSys.fileBuffer) {
+            func_020307B0(gMbParentSys.fileBuffer);
+            gMbParentSys.fileBuffer = 0;
+        }
+        if (gMbParentSys.mbWork) {
+            GFL_NET_FreeAligned(gMbParentSys.mbWork);
+            gMbParentSys.mbWork = 0;
+        }
+        break;
+    case 13:
+        switch (info->errorCode) {
+        case 1:
+        case 2:
+        case 9:
+            MB_PARENT_SYS_SetState(7);
+            break;
+        case 8:
+            break;
+        }
+        break;
+    case 1:
+    case 4:
+    case 5:
+    case 6:
+    case 8:
+    case 11:
+        break;
+    case 0:
+    default:
+        func_02034714(d_021F6E24, 0, d_021F6E24);
+        break;
+    }
+}
+
+/* Sets the parent state. */
+void MB_PARENT_SYS_SetState(u16 state)
+{
+    gMbParentSys.state = state;
+}
+
+/* Returns the parent state. */
+u16 MB_PARENT_SYS_GetState(void)
+{
+    return gMbParentSys.state;
+}
+
+/* Returns the stage of a connected child (1 to 6), or 0 when it is not connected. */
+int MB_PARENT_SYS_GetChildStage(u16 aid)
+{
+    u32 irq;
+    MbChildStageMasks snap;
+    u16 bit;
+
+    bit = 1 << aid;
+    irq = OS_DisableInterrupts();
+    if (!(gMbParentSys.connectedMask & bit)) {
+        OS_RestoreInterrupts(irq);
+        return 0;
+    }
+    MI_CpuCopy8(((u8 *)&gMbChildStageMasks), &snap, 20);
+    OS_RestoreInterrupts(irq);
+    if (snap.stageMask[2] & bit)
+        return 2;
+    if (snap.stageMask[3] & bit)
+        return 3;
+    if (snap.stageMask[4] & bit)
+        return 4;
+    if (snap.stageMask[5] & bit)
+        return 5;
+    if (snap.stageMask[6] & bit)
+        return 6;
+    return 1;
+}
+
+/* Frees the file buffer and the MB work buffer. */
+void MB_PARENT_SYS_FreeBuffers(void)
+{
+    if (gMbParentSys.fileBuffer) {
+        func_020307B0(gMbParentSys.fileBuffer);
+        gMbParentSys.fileBuffer = 0;
+    }
+    if (gMbParentSys.mbWork) {
+        GFL_NET_FreeAligned(gMbParentSys.mbWork);
+        gMbParentSys.mbWork = 0;
+    }
+}
+
+/* Returns whether the file is registered with the MB library. */
+u32 MB_PARENT_SYS_IsRegistered(void)
+{
+    return gMbParentSys.registered;
+}
+
+/* Allocates the link state and its receive buffer for six box params. */
+MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId)
+{
+    MbNetState *net;
+
+    net = func_02030734(heapId, 40, 1, d_021F6E28, 159);
+    net->heapId = heapId;
+    net->netStage = 0;
+    net->headerBuffer = 0;
+    net->flagsA.bits.lowerDataActive = 0;
+    net->commStage = 0;
+    net->nextCommStage = 0;
+    net->monBuffer = func_02030734(net->heapId, 6 * POKE_TOOL_GetBoxParamSize() + 4, 1, d_021F6E28, 169);
+    return net;
+}
+
+/* Frees the link state and its buffers, shutting the lower data layer down when active. */
+void MB_COMM_SYS_DeleteNetState(MbNetState *net)
+{
+    if (net->headerBuffer)
+        func_020307B0(net->headerBuffer);
+    if (net->flagsA.bits.lowerDataActive == 1)
+        GFL_NET_LOWER_DATA_Exit();
+    func_020307B0(net->monBuffer);
+    func_020307B0(net);
+}
+
+/*
+ * extent: two zero padding bytes follow the epilogue.
+ */
+/* Steps the network bring-up and announces the next stage to the peer when it changed. */
+void MB_COMM_SYS_UpdateNetState(MbNetState *net)
+{
+    switch (net->netStage) {
+    case 0:
+        break;
+    case 1:
+        if (GFL_NET_HANDLE_CheckNegotiation() == 1)
+            net->netStage = 2;
+        break;
+    case 2:
+        if (GFL_NET_HANDLE_IsNegotiationDone(GFL_NET_HANDLE_GetCurrentHandle()) == 1)
+            net->netStage = 3;
+        break;
+    case 3:
+        if (GFL_NET_IsHandleReady(GFL_NET_HANDLE_GetCurrentHandle()) == 1) {
+            net->netStage = 6;
+            GFL_NET_SetLoginOption(1);
+        }
+        break;
+    case 4:
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 64, 4) == 1) {
+            net->netStage = 5;
+            GFL_NET_SetLoginOption(0);
+        }
+        break;
+    case 5:
+    case 6:
+    default:
+        break;
+    }
+    if (net->commStage != net->nextCommStage && net->nextCommStage != 0) {
+        if (MB_COMM_SYS_SendMessage(net, 10, net->nextCommStage) == 1)
+            net->commStage = net->nextCommStage;
+    }
+}
 
 /*
  * evidence: 112-byte request copy, heap halfword at54, and own matched
@@ -2388,492 +2599,380 @@ if(p->f0C!=p->f08&&p->f08!=0){if(func_021F11F0(p,10,p->f08)==1)p->f0C=p->f08;}}
  * CBAC input carries the unchanged pointer word through its u32 parameter.
  * Halfword flag fields reproduce every original read/store without volatile.
  */
-void func_021F0EFC(State_021F0EFC *p)
+/* Starts the net session and resets every message flag of the link state. */
+void MB_COMM_SYS_StartNetSession(MbNetState *net)
 {
-    Request q=request_021F6C94;
-    q.f54=p->heap;
-    GFL_NET_StartSession((struct Req *)(&q),0,(u32)p);
-    p->f24=0;
-    p->f18.b00=0;
-    p->f1e=0;
-    p->f18.b03=0;
-    p->f1c=0;
-    p->f18.b04=0;
-    p->f18.b05=0;
-    p->f18.b06=0;
-    p->f18.b07=0;
-    p->f18.b08=0;
-    p->f18.b09=0;
-    p->f18.b10=0;
-    p->f18.b11=1;
-    p->f18.b14=0;
-    p->f18.b13=0;
-    p->f18.b15=0;
-    p->f1a.b00=0;
-    p->f1a.b01=0;
-    p->f1a.b02=0;
-    p->f1a.b03=0;
-    p->f1a.b04=0;
-    p->f1a.b05=0;
-    p->f20=0;
-    GFL_NET_LOWER_DATA_Init(p->heap,0);
+    Request request = request_021F6C94;
+
+    request.heapId = net->heapId;
+    GFL_NET_StartSession(&request, 0, (u32)net);
+    net->offer = 0;
+    net->flagsA.bits.headerReceived = 0;
+    net->childSaveCount = 0;
+    net->flagsA.bits.rxKind11 = 0;
+    net->count = 0;
+    net->flagsA.bits.rxKind12 = 0;
+    net->flagsA.bits.rxKind13 = 0;
+    net->flagsA.bits.rxKind14 = 0;
+    net->flagsA.bits.rxKind1 = 0;
+    net->flagsA.bits.rxKind2 = 0;
+    net->flagsA.bits.rxKind3 = 0;
+    net->flagsA.bits.rxKind4 = 0;
+    net->flagsA.bits.lowerDataActive = 1;
+    net->flagsA.bits.rxKind19 = 0;
+    net->flagsA.bits.rxKind15 = 0;
+    net->flagsA.bits.rxKind20 = 0;
+    net->flagsB.bits.rxKind21 = 0;
+    net->flagsB.bits.kind21Value = 0;
+    net->flagsB.bits.rxKind16 = 0;
+    net->flagsB.bits.kind16Value = 0;
+    net->flagsB.bits.rxKind17 = 0;
+    net->flagsB.bits.rxKind18 = 0;
+    net->result = 0;
+    GFL_NET_LOWER_DATA_Init(net->heapId, 0);
 }
 
-
-
-
-
-
-
-
-
-void func_021F0FE8(State_021F0FE8 *p) { GFL_NET_Exit(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }
-
-
-
-
-
-
-
-
-
-int func_021F1008(void *p) { return GFL_NET_GetRunState(); }
-
-
-
-
-
-
-
-
-
-int func_021F1010(void *p) { return GFL_NET_IsSessionNull(); }
-
-
-
-
-
-
-
-
-
-void func_021F1018(u8 *p) { GFL_NET_StartByNetType();((struct Obj22294 *)p)->f4=1; }
-
-
-
-
-
-
-
-
-
-
-void func_021F1028(int *p)
+/* Shuts the net session and the lower data layer down. */
+void MB_COMM_SYS_StopNetSession(MbNetState *net)
 {
-    int r = (int)GFL_NET_HANDLE_GetCurrentHandle();
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)r, 0x40, 4);
-    p[1] = 4;
+    GFL_NET_Exit(0);
+    GFL_NET_LOWER_DATA_Exit();
+    net->flagsA.bits.lowerDataActive = 0;
+    net->netStage = 0;
 }
 
-
-
-
-
-
-
-
-
-int func_021F1040(int *p) { return p[1] == 5; }
-
-
-
-
-
-
-
-
-
-int func_021F1050(int *p) { return p[1] >= 6; }
-
-
-
-
-
-
-
-
-
-
-int func_021F1060(Ov107Ctx_021F0DB4 *p)
+/* Returns the net run state. */
+int MB_COMM_SYS_GetNetRunState(MbNetState *net)
 {
-    return p->f0C;
+    return GFL_NET_GetRunState();
 }
 
-
-
-
-
-
-
-
-void func_021F1064(unsigned char *p)
+/* Returns whether no net session exists. */
+int MB_COMM_SYS_IsNetSessionNull(MbNetState *net)
 {
-    unsigned short *h = (unsigned short *)(p + 0x18);
-    *h = *h & ~(unsigned short)2;
-    *h = *h & ~(unsigned short)4;
-    *h = *h & ~(unsigned short)8;
-    *h = *h & ~(unsigned short)0x10;
-    *h = *h & ~(unsigned short)0x20;
-    *h = *h & ~(unsigned short)0x40;
-    *h = *h & ~(unsigned short)0x80;
-    *h = *h & ~0x100;
-    *h = *h & ~0x200;
-    *h = *h & ~0x400;
-    *h = *h & ~0x1000;
-    p[0x1C] = 0;
+    return GFL_NET_IsSessionNull();
 }
 
+/* Starts the net layer by type and enters stage 1. */
+void MB_COMM_SYS_StartNet(MbNetState *net)
+{
+    GFL_NET_StartByNetType();
+    net->netStage = 1;
+}
 
+/* Sets the timing sync range of the current handle and enters stage 4. */
+void MB_COMM_SYS_SetSyncRange(MbNetState *net)
+{
+    int handle = (int)GFL_NET_HANDLE_GetCurrentHandle();
 
+    GFL_NET_HANDLE_SetTimingSyncRange((void *)handle, 0x40, 4);
+    net->netStage = 4;
+}
 
+/* Returns whether the sync range is set (stage 5). */
+int MB_COMM_SYS_IsSyncDone(MbNetState *net)
+{
+    return net->netStage == 5;
+}
 
+/* Returns whether login is complete (stage 6 or later). */
+int MB_COMM_SYS_IsLoginDone(MbNetState *net)
+{
+    return net->netStage >= 6;
+}
 
+/* Returns the last announced or received stage. */
+int MB_COMM_SYS_GetCommStage(MbNetState *net)
+{
+    return net->commStage;
+}
 
+/* Clears the per-round message flags and the count. */
+void MB_COMM_SYS_ClearRoundFlags(MbNetState *net)
+{
+    unsigned short *flags = &net->flagsA.raw;
+
+    *flags = *flags & ~(unsigned short)2;
+    *flags = *flags & ~(unsigned short)4;
+    *flags = *flags & ~(unsigned short)8;
+    *flags = *flags & ~(unsigned short)0x10;
+    *flags = *flags & ~(unsigned short)0x20;
+    *flags = *flags & ~(unsigned short)0x40;
+    *flags = *flags & ~(unsigned short)0x80;
+    *flags = *flags & ~0x100;
+    *flags = *flags & ~0x200;
+    *flags = *flags & ~0x400;
+    *flags = *flags & ~0x1000;
+    net->count = 0;
+}
 
 /*
  * leaf: parent cleared all eight original Thumb starts; 60 bytes stop
  * before existing 021F1110. Both 10DC and10E4 read bit4 in the ROM.
  */
-int func_021F10D4(State_021F1064 *p) { return p->f18.b03; }
-
-
-
-
-
-
-
-
-int func_021F10DC(State_021F1064 *p) { return p->f18.b04; }
-
-
-
-
-
-
-
-
-int func_021F10E4(State_021F1064 *p) { return p->f18.b04; }
-
-
-
-
-
-
-
-
-int func_021F10EC(State_021F1064 *p) { return p->f18.b06; }
-
-
-
-
-
-
-
-
-int func_021F10F4(State_021F1064 *p) { return p->f18.b07; }
-
-
-
-
-
-
-
-
-int func_021F10FC(State_021F1064 *p) { return p->f18.b08; }
-
-
-
-
-
-
-
-
-int func_021F1104(State_021F1064 *p) { return p->f18.b10; }
-
-
-
-
-
-
-
-
-int func_021F110C(State_021F1064 *p) { return p->f1c; }
-
-
-
-
-
-
-
-
-
-int func_021F1110(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind11(MbNetState *net)
 {
-    return p->f18.b14;
+    return net->flagsA.bits.rxKind11;
 }
 
-
-
-
-
-
-
-
-
-unsigned short func_021F1118(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind12(MbNetState *net)
 {
-    return p->f24;
+    return net->flagsA.bits.rxKind12;
 }
 
-
-
-
-
-
-
-
-
-unsigned short func_021F1120(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind12Again(MbNetState *net)
 {
-    return (p->f24 & 0x3FFF0000) >> 16;
+    return net->flagsA.bits.rxKind12;
 }
 
-
-
-
-
-
-
-
-
-int func_021F1134(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind14(MbNetState *net)
 {
-    if (p->f24 & 0x40000000) {
+    return net->flagsA.bits.rxKind14;
+}
+
+int MB_COMM_SYS_HasKind1(MbNetState *net)
+{
+    return net->flagsA.bits.rxKind1;
+}
+
+int MB_COMM_SYS_HasKind2(MbNetState *net)
+{
+    return net->flagsA.bits.rxKind2;
+}
+
+int MB_COMM_SYS_HasKind4(MbNetState *net)
+{
+    return net->flagsA.bits.rxKind4;
+}
+
+/* Returns the value of the last message of kinds 2 and 3. */
+int MB_COMM_SYS_GetCount(MbNetState *net)
+{
+    return net->count;
+}
+
+int MB_COMM_SYS_HasKind19(MbNetState *net)
+{
+    return net->flagsA.bits.rxKind19;
+}
+
+/* Returns the offered mon count (low half of the offer). */
+unsigned short MB_COMM_SYS_GetOfferCount(MbNetState *net)
+{
+    return net->offer;
+}
+
+/* Returns the extra count of the offer. */
+unsigned short MB_COMM_SYS_GetOfferExtra(MbNetState *net)
+{
+    return (net->offer & MB_OFFER_EXTRA_MASK) >> MB_OFFER_EXTRA_SHIFT;
+}
+
+int MB_COMM_SYS_GetOfferFlagA(MbNetState *net)
+{
+    if (net->offer & MB_OFFER_FLAG_A)
         return 1;
-    }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-int func_021F1148(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_GetOfferFlagB(MbNetState *net)
 {
-    if (p->f24 & 0x80000000) {
+    if (net->offer & MB_OFFER_FLAG_B)
         return 1;
-    }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-int func_021F115C(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind20(MbNetState *net)
 {
-    return p->f18.b15;
+    return net->flagsA.bits.rxKind20;
 }
 
-
-
-
-
-
-
-
-
-int func_021F1164(Ov107Ctx_021F0DB4 *p)
+int MB_COMM_SYS_HasKind21(MbNetState *net)
 {
-    return p->f1A.b00;
+    return net->flagsB.bits.rxKind21;
 }
 
-
-
-
-
-
-
-
-int func_021F116C(Ov107Ctx_021F116C *p)
+int MB_COMM_SYS_GetKind21Value(MbNetState *net)
 {
-    return p->f1A.b01;
+    return net->flagsB.bits.kind21Value;
 }
 
-
-
-
-
-
-
-void func_021F1174(int a,int b,int c) { GFL_NET_LOWER_DATA_SetSendData(b,c,2,1); }
-
-
-
-
-
-
-
-
-void func_021F1184(Ov107Ctx_021F1184 *p)
+/* Queues the payload for sending on the lower data layer. */
+void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize)
 {
-    Ov107List *list;
+    GFL_NET_LOWER_DATA_SetSendData(payload, payloadSize, 2, 1);
+}
+
+/* Clears the receive buffer and its six box params, and the mons-received and kind 0 flags. */
+void MB_COMM_SYS_ClearMonBuffer(MbNetState *net)
+{
+    MbMonList *list;
     unsigned char i;
 
-    list = p->f10;
-    list->f00 = 0;
-    list->f02 = 0;
+    list = (MbMonList *)net->monBuffer;
+    list->count = 0;
+    list->maxSeen = 0;
     for (i = 0; i < 6; i++) {
-        POKE_TOOL_ClearBoxParam((struct Sav *)((unsigned char *)p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4));
+        POKE_TOOL_ClearBoxParam(net->monBuffer + i * POKE_TOOL_GetBoxParamSize() + 4);
     }
-    p->f18.b1 = 0;
-    p->f18.b2 = 0;
+    net->flagsA.bits.monsReceived = 0;
+    net->flagsA.bits.rxKind0 = 0;
 }
 
-
-
-
-
-
-
-
-int func_021F11BC(Ov107Ctx_021F11BC *p)
+int MB_COMM_SYS_HasMonsReceived(MbNetState *net)
 {
-    return p->f18.b01;
+    return net->flagsA.bits.monsReceived;
 }
 
-
-
-
-
-
-
-
-u8 func_021F11C4(u8 *p) { return *(u8 *)(((struct Obj22296 *)p)->f10); }
-
-
-
-
-
-
-
-void *func_021F11CC(Ov107Ctx_021F11CC *p, int i)
+/* Returns how many mons the receive buffer holds. */
+u8 MB_COMM_SYS_GetMonCount(MbNetState *net)
 {
-    return p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4;
+    return *net->monBuffer;
 }
 
-
-
-
-
-
-int func_021F11E0(unsigned char *a) { return ((struct Obj22299 *)(*(unsigned char * *)&((struct Obj22298 *)a)->f10))->f2; }
-
-
-
-
-
-
-int func_021F11E8(struct Bits *a) { return a->flag; }
-
-
-
-
-
-int func_021F11F0(void *p, unsigned char kind, unsigned int val)
+/* Returns the box param of mon i in the receive buffer. */
+void *MB_COMM_SYS_GetMon(MbNetState *net, int i)
 {
-    Ov107Msg msg;
-    void *obj;
-
-    if (GFL_NET_IsParentAid() == 1) {
-        obj = GFL_NET_HANDLE_GetNetHandle(0xFF);
-    } else {
-        obj = GFL_NET_HANDLE_GetCurrentHandle();
-    }
-    msg.f04 = kind;
-    msg.f00 = val;
-    return GFL_NET_SendData((u32)obj, 0xFF, 0x400, 8, (u32)(&msg), 1, 0, 0);
+    return net->monBuffer + i * POKE_TOOL_GetBoxParamSize() + 4;
 }
 
-
-void func_021F1230(int a, int b, Msg_021F1230 *m, State_021F1230 *s)
+/* Returns the second halfword of the receive buffer. */
+int MB_COMM_SYS_GetMaxSeen(MbNetState *net)
 {
-    switch (m->kind) {
-    case 0: s->flags |= 0x4; break;
-    case 1: s->flags |= 0x80; break;
-    case 2: s->flags |= 0x100; s->f1c = *(u32 *)m; break;
-    case 3: s->flags |= 0x200; s->f1c = *(u32 *)m; break;
-    case 4: s->flags |= 0x400; break;
-    case 5: s->f1e = *(u32 *)m; s->flags |= 0x1000; break;
-    case 10: s->f0c = *(u32 *)m; break;
-    case 11: s->flags |= 0x8; break;
-    case 12: s->flags |= 0x10; break;
-    case 13: s->flags |= 0x20; break;
-    case 14: s->flags |= 0x40; break;
-    case 15: s->flags |= 0x2000; s->f20 = *(u32 *)m; break;
+    return ((MbMonList *)net->monBuffer)->maxSeen;
+}
+
+int MB_COMM_SYS_HasKind0(MbNetState *net)
+{
+    return net->flagsA.bits.rxKind0;
+}
+
+/* Sends a message of the given kind and value to the parent or current handle. */
+int MB_COMM_SYS_SendMessage(void *net, unsigned char kind, unsigned int value)
+{
+    MbCommMsg msg;
+    void *handle;
+
+    if (GFL_NET_IsParentAid() == 1)
+        handle = GFL_NET_HANDLE_GetNetHandle(0xFF);
+    else
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
+    msg.kind = kind;
+    msg.value = value;
+    return GFL_NET_SendData((u32)handle, 0xFF, 0x400, 8, (u32)(&msg), 1, 0, 0);
+}
+
+/* Receive handler for messages on channel 0x400: records the kind and its value. */
+void MB_COMM_SYS_OnMessage(int a, int b, MbCommMsg *msg, MbNetState *net)
+{
+    switch (msg->kind) {
+    case 0:
+        net->flagsA.raw |= MB_FLAGA_KIND0;
+        break;
+    case 1:
+        net->flagsA.raw |= MB_FLAGA_KIND1;
+        break;
+    case 2:
+        net->flagsA.raw |= MB_FLAGA_KIND2;
+        net->count = *(u32 *)msg;
+        break;
+    case 3:
+        net->flagsA.raw |= MB_FLAGA_KIND3;
+        net->count = *(u32 *)msg;
+        break;
+    case 4:
+        net->flagsA.raw |= MB_FLAGA_KIND4;
+        break;
+    case 5:
+        net->childSaveCount = *(u32 *)msg;
+        net->flagsA.raw |= MB_FLAGA_KIND5;
+        break;
+    case 10:
+        net->commStage = *(u32 *)msg;
+        break;
+    case 11:
+        net->flagsA.raw |= MB_FLAGA_KIND11;
+        break;
+    case 12:
+        net->flagsA.raw |= MB_FLAGA_KIND12;
+        break;
+    case 13:
+        net->flagsA.raw |= MB_FLAGA_KIND13;
+        break;
+    case 14:
+        net->flagsA.raw |= MB_FLAGA_KIND14;
+        break;
+    case 15:
+        net->flagsA.raw |= MB_FLAGA_KIND15;
+        net->result = *(u32 *)msg;
+        break;
     case 16:
-        s->flags2 |= 0x4;
-        s->flags2 = (s->flags2 & ~0x8) | (((u16)*(u32 *)m & 1) << 3);
+        net->flagsB.raw |= MB_FLAGB_KIND16;
+        net->flagsB.raw = (net->flagsB.raw & ~MB_FLAGB_KIND16_VALUE) | (((u16)*(u32 *)msg & 1) << 3);
         break;
-    case 17: s->flags2 |= 0x10; break;
-    case 18: s->flags2 |= 0x20; break;
-    case 19: s->flags |= 0x4000; s->f24 = *(u32 *)m; break;
-    case 20: s->flags |= 0x8000; break;
+    case 17:
+        net->flagsB.raw |= MB_FLAGB_KIND17;
+        break;
+    case 18:
+        net->flagsB.raw |= MB_FLAGB_KIND18;
+        break;
+    case 19:
+        net->flagsA.raw |= MB_FLAGA_KIND19;
+        net->offer = *(u32 *)msg;
+        break;
+    case 20:
+        net->flagsA.raw |= MB_FLAGA_KIND20;
+        break;
     case 21:
-        s->flags2 = (s->flags2 & ~0x1) | 0x1;
-        s->flags2 = (s->flags2 & ~0x2) | (((u16)*(u32 *)m & 1) << 1);
+        net->flagsB.raw = (net->flagsB.raw & ~MB_FLAGB_KIND21) | MB_FLAGB_KIND21;
+        net->flagsB.raw = (net->flagsB.raw & ~MB_FLAGB_KIND21_VALUE) | (((u16)*(u32 *)msg & 1) << 1);
         break;
     }
 }
 
-
-int func_021F1370(void *unused,void *p)
+/* Sends the payload header to the first peer once at least two nodes negotiated. */
+int MB_COMM_SYS_SendHeader(void *net, MbPayloadHeader *header)
 {
-    void *obj;
-    obj=GFL_NET_HANDLE_GetNetHandle(255);
-    if(GFL_NET_GetNegotiationNum()<2) return 0;
-    return GFL_NET_SendData((u32)obj,1,0x401,8,(u32)p,1,0,1);
+    void *handle;
+
+    handle = GFL_NET_HANDLE_GetNetHandle(255);
+    if (GFL_NET_GetNegotiationNum() < 2)
+        return 0;
+    return GFL_NET_SendData((u32)handle, 1, 0x401, 8, (u32)header, 1, 0, 1);
 }
 
-
-void func_021F13AC(int a,int b,int c,char *p)
+/* Receive callback: the header message arrived. */
+void MB_COMM_SYS_OnHeaderReceived(int a, int b, int c, MbNetState *net)
 {
-    ((struct Obj13764 *)p)->f18=(((struct Obj13764 *)p)->f18&~1)|1;
+    net->flagsA.bits.headerReceived = 1;
 }
 
-
-void *func_021F13BC(void *a,char *p)
+/* Receive buffer getter for the 8 byte header message, allocated on first use. */
+void *MB_COMM_SYS_GetHeaderBuffer(void *a, MbNetState *net)
 {
-    if(!((struct Obj07995 *)p)->f14) ((struct Obj07995 *)p)->f14=func_02030734(((struct Obj07995 *)p)->f0,8,1,d_021F6E28,862);
-    return ((struct Obj07995 *)p)->f14;
+    if (!net->headerBuffer)
+        net->headerBuffer = func_02030734(net->heapId, 8, 1, d_021F6E28, 862);
+    return net->headerBuffer;
 }
 
+/* Receive callback: the mon data arrived. */
+void MB_COMM_SYS_OnMonsReceived(int a, int b, int c, MbNetState *net)
+{
+    net->flagsA.bits.monsReceived = 1;
+}
 
-void func_021F13E8(int a,int b,int c,char *p){((struct Obj22300 *)p)->f18|=2;}
+/* Receive buffer getter for the mon data. */
+void *MB_COMM_SYS_GetMonBuffer(int a, MbNetState *net)
+{
+    return net->monBuffer;
+}
 
+int *MB_COMM_SYS_GetChildDataPtr(void)
+{
+    return d_021F6EE8;
+}
 
-void *func_021F13F4(int a,char *p){return ((struct Obj22301 *)p)->f10;}
-
-
-int *func_021F13F8(void){return d_021F6EE8;}
-
-
-int func_021F1400(void){return 2;}
+int MB_COMM_SYS_GetMemberCount(void)
+{
+    return 2;
+}

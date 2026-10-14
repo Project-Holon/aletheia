@@ -12,13 +12,13 @@
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021E5EF8 0x021E5EF8 thumb ov119
- *   func_021E5D84 0x021E5D84 thumb ov119
+ *   POKETRADE_2D_DeleteMarkingIcon 0x021E5EF8 thumb ov119
+ *   POKETRADE_2D_ClearSubScreen 0x021E5D84 thumb ov119
  *   func_021DC720 0x021DC720 thumb ov119
  *   BEACON_STATUS_DoNothing 0x020275E0 thumb
- *   func_021D8A24 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
- *   func_021E31BC 0x021E31BC thumb ov119
+ *   POKETRADE_3D_Delete3DScene 0x021E31BC thumb ov119
  *   func_02030EAC 0x02030EAC arm
  *   func_021DC5D0 0x021DC5D0 thumb ov119
  *   func_021DC428 0x021DC428 thumb ov119
@@ -35,16 +35,16 @@
 extern unsigned WIPE_SYS_EndCheck(void);
 extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
 extern unsigned int func_020307B0(void *p);
-extern void func_021E5EF8(void *);
-extern void func_021E5D84(char *);
+extern void POKETRADE_2D_DeleteMarkingIcon(void *);
+extern void POKETRADE_2D_ClearSubScreen(char *);
 extern void func_021DC720(char *);
 extern void BEACON_STATUS_DoNothing(void);
-extern int func_021D8A24(void *);
+extern int POKETRADE_PROC_IsNetSession(void *);
 struct S020315D4;
 typedef unsigned int   u32;
 struct Node;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern void func_021E31BC(char *);
+extern void POKETRADE_3D_Delete3DScene(char *);
 extern void func_02030EAC(struct Node *n);
 extern void func_021DC5D0(char *p, int a1);
 extern void func_021DC428(char *p);
@@ -58,10 +58,10 @@ int func_021DCF24(void *owner,int unused,int keep,char *p)
     if(WIPE_SYS_EndCheck()==0)return 0;
     func_020307B0(((struct Obj00001 *)p)->f10A4);
     func_020307B0(((struct Obj00001 *)p)->f10A8);
-    func_021E5EF8(p+0x950);func_021E5EF8(p+0x964);func_021E5EF8(p+0x978);
-    func_021E5D84(p);func_021DC720(p);BEACON_STATUS_DoNothing();
-    if(func_021D8A24(p))GFL_NET_COMMAND_DeleteCommandTable(0xc00);
-    func_021E31BC(p);
+    POKETRADE_2D_DeleteMarkingIcon(p+0x950);POKETRADE_2D_DeleteMarkingIcon(p+0x964);POKETRADE_2D_DeleteMarkingIcon(p+0x978);
+    POKETRADE_2D_ClearSubScreen(p);func_021DC720(p);BEACON_STATUS_DoNothing();
+    if(POKETRADE_PROC_IsNetSession(p))GFL_NET_COMMAND_DeleteCommandTable(0xc00);
+    POKETRADE_3D_Delete3DScene(p);
     func_020307B0(((struct Obj00001 *)p)->f5DC);func_020307B0(((struct Obj00001 *)p)->f5E0);
     func_02030EAC(((struct Obj00001 *)p)->f9C8);
     func_021DC5D0(p,keep!=0);

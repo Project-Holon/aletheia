@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FFA98",
-    "func_021FFACC",
-    "func_021FFAD8",
-    "func_021FFAE4",
-    "func_021FFAF0",
-    "func_021FFAFC",
-    "func_021FFB08"
+    "BR_NET_StepMarkVideo",
+    "BR_NET_OnUploadEntry",
+    "BR_NET_OnDownloadEntries",
+    "BR_NET_OnUploadVideo",
+    "BR_NET_OnSearchVideos",
+    "BR_NET_OnGetVideo",
+    "BR_NET_OnMarkVideo"
+   ],
+   "addresses": [
+    "0x021FFA98",
+    "0x021FFACC",
+    "0x021FFAD8",
+    "0x021FFAE4",
+    "0x021FFAF0",
+    "0x021FFAFC",
+    "0x021FFB08"
    ],
    "evidence": {
     "sole-ref": [

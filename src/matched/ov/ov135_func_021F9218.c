@@ -1,5 +1,5 @@
 /*
- * function: func_021F9218
+ * function: WORLDTRADE_INPUT_PrintCentered
  * address:  0x021F9218
  * packet:   pkt_021F9218
  * region:   ov135
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_021F91A0  0x021F91A0  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   tbl_022031EC   0x022031EC  data
  */
 
@@ -28,13 +28,13 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
-void func_021F9218(void *win, void *bank, int idx, void *g)
+void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g)
 {
     void *str;
 
     str = func_02045EC0(bank, tbl_022031EC[idx]);
-    func_021F91A0(win, (u32)str, 0, 0, 0, 0x440, (u32)g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)g);
     STRBUF_Delete(str);
 }

@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DFE6C",
-    "func_021DFEA0",
-    "func_021DFEAC",
-    "func_021DFEB8"
+    "GURU2_MAIN_LoadScreen",
+    "GURU2_MAIN_LoadScreen26",
+    "GURU2_MAIN_LoadScreen24",
+    "GURU2_MAIN_LoadScreen25"
+   ],
+   "addresses": [
+    "0x021DFE6C",
+    "0x021DFEA0",
+    "0x021DFEAC",
+    "0x021DFEB8"
    ]
   }
  ]

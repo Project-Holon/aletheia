@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_021C3E24 0x021C3E24 thumb ov136
+ *   MAILTOOL_DeleteArgs 0x021C3E24 thumb ov136
  *   func_02034A5C 0x02034A5C arm
  *   ov136_id 0x88 data a1
  */
@@ -19,5 +19,5 @@ extern unsigned char ov136_id[];
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void func_021C3E24(unsigned char *);
-void EVENT_FIELD_PROCLINK_UnloadMailOverlay(unsigned char *p) { func_02034AC4((u32)ov136_id); func_021C3E24(p); func_02034A5C((u32)ov136_id); }
+extern void MAILTOOL_DeleteArgs(unsigned char *);
+void EVENT_FIELD_PROCLINK_UnloadMailOverlay(unsigned char *p) { func_02034AC4((u32)ov136_id); MAILTOOL_DeleteArgs(p); func_02034A5C((u32)ov136_id); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C587C
+ * function: MB_SEQ_CreateFrames
  * address: 0x021C587C
  * packet: pkt_ov136_021C587C
  * region: ov136
@@ -26,7 +26,7 @@ extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 m
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void MI_CpuCopy8(void *,void *,u32);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-void func_021C587C(u8 *p)
+void MB_SEQ_CreateFrames(u8 *p)
 {
     u32 i;
     void *first;

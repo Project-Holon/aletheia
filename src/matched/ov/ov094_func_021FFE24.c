@@ -1,5 +1,5 @@
 /*
- * function: func_021FFE24
+ * function: BTLV_MCSS_StartPaletteCopy
  * address:  0x021FFE24
  * packet:   pkt_ov094_021FFE24
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_CreatePaletteCopyTask  0x0201624C  thumb
  */
 
@@ -32,13 +32,13 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 typedef unsigned char  u8;
 extern void MCSS_CreatePaletteCopyTask(u8 *a0, u8 *a1);
 
-void func_021FFE24(Work *w, int key)
+void BTLV_MCSS_StartPaletteCopy(Work *w, int key)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;

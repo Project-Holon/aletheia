@@ -1,5 +1,5 @@
 /*
- * function: func_021B6EBC
+ * function: DRAW_SYSTEM_GetPlane
  * address:  0x021B6EBC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void *func_0207E008(void);
 
-void *func_021B6EBC(void)
+void *DRAW_SYSTEM_GetPlane(void)
 {
     return func_0207E008();
 }

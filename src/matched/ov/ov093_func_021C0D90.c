@@ -10,8 +10,8 @@
  * symbols:
  *   func_021C0EC4 0x021C0EC4 thumb ov093
  *   func_021C0ED4 0x021C0ED4 thumb ov093
- *   func_021C0EE4 0x021C0EE4 thumb ov093
- *   func_021C0EF4 0x021C0EF4 thumb ov093
+ *   RingQueue_IsEmptyImpl 0x021C0EE4 thumb ov093
+ *   BgTextLabel_Create 0x021C0EF4 thumb ov093
  *   BTL_SERVER_FLOW_BuildDamageList 0x021C0A4C thumb ov093
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
  *   func_021C0F04 0x021C0F04 thumb ov093
@@ -26,8 +26,8 @@ typedef unsigned int u32;
 typedef struct Flags { u32 a:1; u32 b:1; } Flags;
 extern u32 func_021C0EC4(u8 *);
 extern u32 func_021C0ED4(u8 *);
-extern void func_021C0EE4(u8 *, u8 *, u8 *);
-extern void func_021C0EF4(u8 *, u8 *, u8 *);
+extern void RingQueue_IsEmptyImpl(u8 *, u8 *, u8 *);
+extern void BgTextLabel_Create(u8 *, u8 *, u8 *);
 extern void BTL_SERVER_FLOW_BuildDamageList(u8 *, u8 *, u8 *, u8 *, u32, u32, u8 *);
 extern u32 BTL_SERVER_CMD_Reserve(u8 *, u32);
 extern u32 func_021C0F04(u8 *);
@@ -45,8 +45,8 @@ u32 BTL_SERVER_FLOW_ProcDamageTargets(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *ou
     result = 0;
     f.a = func_021C0ED4(b) > 1;
     f.b = d;
-    func_021C0EE4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f858);
-    func_021C0EF4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f85C);
+    RingQueue_IsEmptyImpl(b, a, *(u8 * *)&((struct Obj01373 *)p)->f858);
+    BgTextLabel_Create(b, a, *(u8 * *)&((struct Obj01373 *)p)->f85C);
     BTL_SERVER_FLOW_BuildDamageList(p, a, *(u8 * *)&((struct Obj01373 *)p)->f858, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f86C);
     BTL_SERVER_FLOW_BuildDamageList(p, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f870);
     *out = BTL_SERVER_CMD_Reserve(*(u8 * *)&((struct Obj01373 *)p)->fC, 0x30);

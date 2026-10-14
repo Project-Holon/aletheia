@@ -1,5 +1,5 @@
 /*
- * function: func_021C5974
+ * function: MB_SEQ_OpenTwoEntryMenu
  * address: 0x021C5974
  * packet: pkt_ov136_021C5974
  * region: ov136
@@ -19,7 +19,7 @@ typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
-void func_021C5974(u8 *p)
+void MB_SEQ_OpenTwoEntryMenu(u8 *p)
 {
     Template t;
     t.heap = 102;

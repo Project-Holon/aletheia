@@ -1,5 +1,5 @@
 /*
- * function: func_021FC360
+ * function: WORLDTRADE_DETAIL_CreateActors
  * address: 0x021FC360
  * packet: pkt_ov135_021FC360
  * region: ov135
@@ -30,7 +30,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorBgPriority(void *, int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_021FC360(char *p)
+void WORLDTRADE_DETAIL_CreateActors(char *p)
 {
     ObjPos pos;
     MI_CpuFill8(&pos, 0, sizeof(pos));

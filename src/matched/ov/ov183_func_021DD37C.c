@@ -15,7 +15,7 @@
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   func_021DDE2C 0x021DDE2C thumb ov183
  *   func_021DD5C8 0x021DD5C8 thumb ov183
  */
@@ -31,7 +31,7 @@ extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 typedef unsigned int   u32;
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void func_021FBE54(char *, unsigned int, unsigned int);
+extern void BR_RES_LoadSprite(char *, unsigned int, unsigned int);
 extern void func_021DDE2C(char *, char *);
 extern void func_021DD5C8(char *, char *);
 int func_021DD37C(void *a, int unused, char *q)
@@ -42,7 +42,7 @@ int func_021DD37C(void *a, int unused, char *q)
     ((struct Obj00631 *)p)->f0 = BMP_OAM_CreateSys(((struct Obj00631 *)p)->f7C, ((struct Obj00632 *)q)->f4);
     ((struct Obj00631 *)p)->f4 = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj00631 *)p)->f7C));
     ((struct Obj00631 *)p)->f74 = func_021FD760((unsigned int)(((struct Obj00632 *)q)->f4), (char *)(*(int *)&((struct Obj00632 *)q)->f8), 1, ((struct Obj00631 *)p)->f7C);
-    func_021FBE54(*(char * *)&((struct Obj00632 *)q)->f8, 13, ((struct Obj00631 *)p)->f7C);
+    BR_RES_LoadSprite(*(char * *)&((struct Obj00632 *)q)->f8, 13, ((struct Obj00631 *)p)->f7C);
     func_021DDE2C(p, q);
     func_021DD5C8(p, q);
     return 1;

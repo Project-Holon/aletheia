@@ -1,5 +1,5 @@
 /*
- * function: func_021BC34C
+ * function: ZUKAN_DETAIL_PROCSYS_FreeBuffer
  * address:  0x021BC34C
  * packet:   pkt_021BC34C
  * region:   ov208
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC34C(char *p)
+void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *p)
 {
     func_020307B0((void *)(((struct Obj12110 *)p)->f10));
     ((struct Obj12110 *)p)->f10 = 0;

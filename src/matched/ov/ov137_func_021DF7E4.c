@@ -1,5 +1,5 @@
 /*
- * function: func_021DF7E4
+ * function: GURU2_MAIN_StateFinished
  * address: 0x021DF7E4
  * packet: pkt_ov137_021DF7E4
  * region: ov137
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021DF7E4(void) {return 2;}
+int GURU2_MAIN_StateFinished(void) {return 2;}

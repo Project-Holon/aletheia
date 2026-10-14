@@ -1,5 +1,5 @@
 /*
- * function: func_021F7F80
+ * function: WORLDTRADE_DEPOSIT_GetModeColor
  * address:  0x021F7F80
  * packet:   pkt_021F7F80
  * region:   ov135
@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021F7F80(int mode)
+u16 WORLDTRADE_DEPOSIT_GetModeColor(int mode)
 {
     switch (mode) {
     case 0:

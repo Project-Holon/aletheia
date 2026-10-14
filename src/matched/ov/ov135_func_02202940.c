@@ -1,5 +1,5 @@
 /*
- * function: func_02202940
+ * function: WORLDTRADE_ADAPTER_DeletePrintStream
  * address: 0x02202940
  * packet: pkt_ov135_02202940
  * region: ov135
@@ -19,7 +19,7 @@ struct Ent { u32 a; u32 b; u32 c; };
 struct Obj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; struct Ent e[24]; };
 struct Rec3;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-void func_02202940(struct Obj *p) {
+void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p) {
     int i;
     for (i = 0; i < 24; i++) {
         struct Ent *e = p->e + i;

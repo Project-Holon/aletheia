@@ -1,5 +1,5 @@
 /*
- * function: func_021DF8A0
+ * function: POKETRADE_NEGO_FlashMarker
  * address: 0x021DF8A0
  * packet: pkt_ov119_021DF8A0
  * region: ov119
@@ -9,20 +9,20 @@
  * status: EXACT
  * lever: Add index to object base before the far timer offset.
  * symbols:
- *   func_021D8AA8 0x021D8AA8 thumb ov119
- *   func_021E67E0 0x021E67E0 thumb ov119
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
+ *   POKETRADE_2D_CreateMarkerButtonActor 0x021E67E0 thumb ov119
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
-extern int func_021D8AA8(void *);
-extern void func_021E67E0(void *, int, int);
+extern int POKETRADE_PROC_IsHostSide(void *);
+extern void POKETRADE_2D_CreateMarkerButtonActor(void *, int, int);
 typedef unsigned int   u32;
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021DF8A0(void *p, int a, int b)
+void POKETRADE_NEGO_FlashMarker(void *p, int a, int b)
 {
-    if (func_021D8AA8(p)) {
-        func_021E67E0(p,a,b);
+    if (POKETRADE_PROC_IsHostSide(p)) {
+        POKETRADE_2D_CreateMarkerButtonActor(p,a,b);
         ((unsigned char *)p+b)[0x11e4]=60;
         if (!GFL_USE_IsSeqPlaying(0x54a)) GFL_USE_PlaySeDefaultVolume(0x54a);
     }

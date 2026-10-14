@@ -1,5 +1,5 @@
 /*
- * function: func_021C5480
+ * function: MB_SEQ_ProcInit
  * address: 0x021C5480
  * packet: pkt_ov136_021C5480
  * region: ov136
@@ -24,7 +24,7 @@ extern void MIi_CpuClearFast(int,void *,int);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *PROCSYS_Create(int);
-int func_021C5480(void *a, int unused, void **arg)
+int MB_SEQ_ProcInit(void *a, int unused, void **arg)
 {
     u8 *p;
     GFL_HEAP_CreateChildHeap(1,101,65536);

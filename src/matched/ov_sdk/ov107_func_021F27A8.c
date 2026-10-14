@@ -1,5 +1,5 @@
 /*
- * function: func_021F27A8
+ * function: MBi_CommParentSendDLFileInfo
  * address:  0x021F27A8
  * packet:   pkt_ov107_021F27A8
  * region:   ov107
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021F6890  0x021F6890  arm  ov107
+ *   MBi_MakeParentSendBuffer  0x021F6890  arm  ov107
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F3C80  0x021F3C80  arm  ov107
  *   g_021F6FA0     0x021F6FA0  data
@@ -53,11 +53,11 @@ extern MBiParam *g_021F6FA0;
 extern u8 g_021F6E48;
 
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern u8 *func_021F6890(MBCommParentBlockHeader *hdr, u8 *sendbuf);
+extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern int func_021F3C80(int body_len, u16 pollbmp, u32 *sendbuf);
 
-int func_021F27A8(void)
+int MBi_CommParentSendDLFileInfo(void)
 {
     MBCommParentBlockHeader hd;
     u8 *databuf;
@@ -90,7 +90,7 @@ int func_021F27A8(void)
     }
     hd.type = 3;
     hd.fid = send_candidate_fid;
-    databuf = func_021F6890(&hd, (u8 *)g_021F6FA0->sendbuf);
+    databuf = MBi_MakeParentSendBuffer(&hd, (u8 *)g_021F6FA0->sendbuf);
     if (databuf)
         MI_CpuCopy8(g_021F6FA0->fileinfo[send_candidate_fid].dl_fileinfo, databuf, 0xe4);
     return func_021F3C80(0xea, pollbmp, g_021F6FA0->sendbuf);

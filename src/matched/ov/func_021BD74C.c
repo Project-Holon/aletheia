@@ -1,5 +1,5 @@
 /*
- * function: func_021BD74C
+ * function: ZKND_TBAR_DeleteButton
  * address:  0x021BD74C
  * packet:   pkt_021BD74C
  * region:   ov208
@@ -23,7 +23,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void MI_CpuFill8(char *, int, int);
 
-void func_021BD74C(char *p)
+void ZKND_TBAR_DeleteButton(char *p)
 {
     CLACT_DeleteActor((struct Obj *)(((struct Obj18236 *)p)->f0));
     MI_CpuFill8(p, 0, 0x38);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C16C4
+ * function: CircleGraph_TickHold
  * address:  0x021C16C4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C16C4(void *p)
+void CircleGraph_TickHold(void *p)
 {
     u32 v;
     if (((struct Obj04640 *)p)->f14 == 0)

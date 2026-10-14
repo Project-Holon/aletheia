@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_G3D_MAP_AreMissionTargetsAtCap",
+   "name": "SCRCMD_RESEARCH_AreMissionTargetsAtCap",
    "address": "0x0216BA40",
    "kind": "game",
    "region": "ov010",

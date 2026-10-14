@@ -1,5 +1,5 @@
 /*
- * function: func_021FFB00
+ * function: WORLDTRADE_SUBLCD_CheckButtonTouch
  * address: 0x021FFB00
  * packet: pkt_ov135_021FFB00
  * region: ov135
@@ -14,4 +14,4 @@
  */
 extern int TOUCHPANEL_HitTrg(const void *);
 extern char d_022038BE;
-int func_021FFB00(int n) { int r=TOUCHPANEL_HitTrg(&d_022038BE); if(r==-1 || r>=n) return -1; return r; }
+int WORLDTRADE_SUBLCD_CheckButtonTouch(int n) { int r=TOUCHPANEL_HitTrg(&d_022038BE); if(r==-1 || r>=n) return -1; return r; }

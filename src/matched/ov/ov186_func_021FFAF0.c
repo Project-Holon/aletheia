@@ -1,5 +1,5 @@
 /*
- * function: func_021FFAF0
+ * function: BR_NET_OnSearchVideos
  * address: 0x021FFAF0
  * packet: pkt_ov186_021FFAF0
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24870.h"
-void func_021FFAF0(char *p) {((struct Obj24870 *)p)->f5C8=1;}
+void BR_NET_OnSearchVideos(char *p) {((struct Obj24870 *)p)->f5C8=1;}

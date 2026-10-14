@@ -1,5 +1,5 @@
 /*
- * function: func_0217A718
+ * function: IRCi_CommRead
  * address:  0x0217A718
  * packet:   pkt_ov015_0217A718
  * region:   ov015
@@ -24,7 +24,7 @@ typedef struct {
 
 extern unsigned long long func_020870D0(void);
 
-void func_0217A718(IRCParam *p)
+void IRCi_CommRead(IRCParam *p)
 {
     unsigned long long time;
 

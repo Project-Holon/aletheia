@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE82C
+ * function: ZUKAN_DETAIL_HEADBAR_SetIconKind
  * address:  0x021BE82C
  * packet:   pkt_ov208_021BE82C
  * region:   ov208
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE9C8        0x021BE9C8  thumb
- *   ov208_func_021BE920  0x021BE920  thumb
+ *   ZUKAN_DETAIL_HEADBAR_ClearIcon        0x021BE9C8  thumb
+ *   ZUKAN_DETAIL_HEADBAR_DrawIcon  0x021BE920  thumb
  */
 
 typedef unsigned int u32;
@@ -21,12 +21,12 @@ struct Ov208Icon {
     int fc;
 };
 
-extern void func_021BE9C8(void);
-extern void ov208_func_021BE920(struct Ov208Icon *p);
+extern void ZUKAN_DETAIL_HEADBAR_ClearIcon(void);
+extern void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p);
 
-void ov208_func_021BE82C(struct Ov208Icon *p, int kind)
+void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind)
 {
     p->fc = kind;
-    func_021BE9C8();
-    ov208_func_021BE920(p);
+    ZUKAN_DETAIL_HEADBAR_ClearIcon();
+    ZUKAN_DETAIL_HEADBAR_DrawIcon(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220171C
+ * function: WORLDTRADE_SERVER_WaitTrade
  * address: 0x0220171C
  * packet: pkt_ov135_0220171C
  * region: ov135
@@ -11,11 +11,11 @@
  * symbols:
  *   DPW_TR_IsAsyncEnd 0x021C866C arm ov114
  *   DPW_TR_GetAsyncResult 0x021C86A8 arm ov114
- *   func_022021F8 0x022021F8 thumb ov135
- *   func_022023A4 0x022023A4 thumb ov135
- *   func_022024B0 0x022024B0 thumb ov135
- *   func_02201B44 0x02201B44 thumb ov135
- *   func_021F513C 0x021F513C thumb ov135
+ *   WORLDTRADE_ADAPTER_RemovePartyMon 0x022021F8 thumb ov135
+ *   WORLDTRADE_ADAPTER_RegisterReceivedMonB 0x022023A4 thumb ov135
+ *   WORLDTRADE_ADAPTER_RegisterLanguageVersion 0x022024B0 thumb ov135
+ *   WORLDTRADE_SERVER_RecordTradeResult 0x02201B44 thumb ov135
+ *   WORLDTRADE_CancelSave 0x021F513C thumb ov135
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  */
@@ -26,16 +26,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int DPW_TR_IsAsyncEnd(void);
 extern int DPW_TR_GetAsyncResult(void);
-extern void func_022021F8(u8 *,int);
-extern void func_022023A4(u8 *p, void *mon, void *unused2, void *unused3, u32 index);
-extern void func_022024B0(void *obj, u8 *p);
-extern void func_02201B44(u8 *,void *,u8 *,void *);
-extern void func_021F513C(u8 *p);
+extern void WORLDTRADE_ADAPTER_RemovePartyMon(u8 *,int);
+extern void WORLDTRADE_ADAPTER_RegisterReceivedMonB(u8 *p, void *mon, void *unused2, void *unused3, u32 index);
+extern void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj, u8 *p);
+extern void WORLDTRADE_SERVER_RecordTradeResult(u8 *,void *,u8 *,void *);
+extern void WORLDTRADE_CancelSave(u8 *p);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
-int func_0220171C(u8 *p)
+int WORLDTRADE_SERVER_WaitTrade(u8 *p)
 {
     int r;
     if(DPW_TR_IsAsyncEnd()) {
@@ -44,10 +44,10 @@ int func_0220171C(u8 *p)
         switch(r) {
         case 0:
             ((struct Obj01943 *)p)->f28=0x22;
-            func_022021F8(p,0);
-            func_022023A4(p,p+0xA24,p+0xE4,p+0xA24,((struct Obj01943 *)p)->fC4);
-            func_022024B0(((struct Obj23444 *)(*(u8 * *)&((struct Obj01943 *)p)->f0))->f18,p+0xA24);
-            func_02201B44(p,p+0xA24,p+0xA24,p+0xE4);
+            WORLDTRADE_ADAPTER_RemovePartyMon(p,0);
+            WORLDTRADE_ADAPTER_RegisterReceivedMonB(p,p+0xA24,p+0xE4,p+0xA24,((struct Obj01943 *)p)->fC4);
+            WORLDTRADE_ADAPTER_RegisterLanguageVersion(((struct Obj23444 *)(*(u8 * *)&((struct Obj01943 *)p)->f0))->f18,p+0xA24);
+            WORLDTRADE_SERVER_RecordTradeResult(p,p+0xA24,p+0xA24,p+0xE4);
             break;
         case -5:
             ((struct Obj01943 *)p)->f38=r;
@@ -67,11 +67,11 @@ int func_0220171C(u8 *p)
             func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode();
             break;
         case -13:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {
-        if(++((struct Obj01943 *)p)->fF8C==0xE10) func_021F513C(p);
+        if(++((struct Obj01943 *)p)->fF8C==0xE10) WORLDTRADE_CancelSave(p);
     }
     return 2;
 }

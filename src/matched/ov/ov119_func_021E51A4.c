@@ -1,5 +1,5 @@
 /*
- * function: func_021E51A4
+ * function: POKETRADE_2D_HitTestBoxIcons
  * address: 0x021E51A4
  * packet: pkt_ov119_021E51A4
  * region: ov119
@@ -17,8 +17,8 @@
  * subtracts the origin, itself written through 0204CF74/0204B0C8.
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_021D8AF4 0x021D8AF4 thumb ov119
- *   func_021D8B0C 0x021D8B0C thumb ov119
+ *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb ov119
+ *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb ov119
  */
 typedef signed short s16;
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern int func_021D8AF4(int,char *),func_021D8B0C(int,int);
-int func_021E51A4(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow)
+extern int POKETRADE_PROC_GetBoxIndexForSlot(int,char *),POKETRADE_PROC_GetSlotIndexInBox(int,int);
+int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow)
 {
  Pt pos;
  int column,slot,row;
@@ -42,9 +42,9 @@ int func_021E51A4(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outC
     if(outA) {
      slot=*(u8 *)(p+0xd90+row*5+column);
      if(slot==255)return 0;
-     if(func_021D8B0C(slot,column)!=-1) {
-      *outA=func_021D8AF4(slot,p);
-      *outB=func_021D8B0C(slot,column);
+     if(POKETRADE_PROC_GetSlotIndexInBox(slot,column)!=-1) {
+      *outA=POKETRADE_PROC_GetBoxIndexForSlot(slot,p);
+      *outB=POKETRADE_PROC_GetSlotIndexInBox(slot,column);
      } else return 0;
     }
     if(outSlot) {*outSlot=slot;*outColumn=column;*outRow=row;}

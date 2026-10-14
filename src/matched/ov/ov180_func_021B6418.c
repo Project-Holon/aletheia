@@ -1,5 +1,5 @@
 /*
- * function: func_021B6418
+ * function: HALL_OF_FAME_InitText
  * address: 0x021B6418
  * packet: pkt_ov180_021B6418
  * region: ov180
@@ -21,7 +21,7 @@ struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap); extern void *STRBUF_Create(unsigned,unsigned);
-void func_021B6418(char *p) {
+void HALL_OF_FAME_InitText(char *p) {
  ((struct Obj02515 *)p)->f9038=func_02045B38(0,2,32,141);
  ((struct Obj02515 *)p)->f9030=GF_FONT_Create(23,0,0,0,141);
  ((struct Obj02515 *)p)->f9034=GF_FONT_Create(23,3,0,0,141);

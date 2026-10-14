@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02201E04",
+   "name": "BTLV_CLACT_StartMoveTask",
    "address": "0x02201E04",
    "kind": "game",
    "region": "ov094",

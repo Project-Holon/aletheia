@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D18
+ * function: GSYNC_STATE_BuildMonEntry
  * address: 0x021D7D18
  * packet: pkt_ov123_021D7D18
  * region: ov123
@@ -35,7 +35,7 @@ extern int func_0202A19C(u32, void *, u16, u16, int);
 extern void *func_0200E0B0(void *);
 extern void func_0200E1A8(void *, u16, u16, u8, int, u8, u32);
 extern void func_0202A170(void *);
-void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, int value)
+void GSYNC_STATE_BuildMonEntry(u8 *p, int unused, int species, int gender, int form, int n, int value)
 {
     int f;
     u8 v = value;

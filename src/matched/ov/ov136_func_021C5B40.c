@@ -1,5 +1,5 @@
 /*
- * function: func_021C5B40
+ * function: MB_SEQ_CollectMails
  * address: 0x021C5B40
  * packet: pkt_ov136_021C5B40
  * region: ov136
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern int func_02008EF8(const struct Sub02008F80Obj *obj);
-void func_021C5B40(u8 *p)
+void MB_SEQ_CollectMails(u8 *p)
 {
     unsigned i;
     u8 *q;

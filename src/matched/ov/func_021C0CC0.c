@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CC0
+ * function: ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible
  * address:  0x021C0CC0
  * packet:   pkt_021C0CC0
  * region:   ov208
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-void func_021C0CC0(int unused, char *p)
+void ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(int unused, char *p)
 {
     CLACT_GetActorDrawEnable((struct Obj *)(((struct Obj18273 *)p)->fD4));
 }

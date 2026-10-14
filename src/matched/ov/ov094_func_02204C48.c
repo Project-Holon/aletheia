@@ -1,5 +1,5 @@
 /*
- * function: func_02204C48
+ * function: BTLV_INPUT_WindowCloseTaskMain
  * address:  0x02204C48
  * packet:   pkt_ov094_02204C48
  * region:   ov094
@@ -11,7 +11,7 @@
  * volatile: sub-engine DISPCNT 0x04001000, WININ 0x04001048, WINOUT 0x0400104A read-modify-written by the SDK inlines (0x02204C4C..0x02204C76)
  * symbols:
  *   func_0207D658  0x0207D658  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 
 typedef unsigned short u16;
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef int BOOL;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
 #define reg_GXS_DB_DISPCNT (*(volatile u32 *)0x04001000)
 #define reg_G2S_DB_WININ   (*(volatile u16 *)0x04001048)
@@ -66,12 +66,12 @@ static inline void G2S_BlendNone(void)
     func_0207D658((u32)&reg_G2S_DB_BLDCNT, 0, 0);
 }
 
-void func_02204C48(void *a0, int *c)
+void BTLV_INPUT_WindowCloseTaskMain(void *a0, int *c)
 {
     GXS_SetVisibleWnd(0);
     G2S_SetWnd0InsidePlane(0, 0);
     G2S_SetWnd1InsidePlane(0, 0);
     G2S_SetWndOutsidePlane(0, 0);
     G2S_BlendNone();
-    func_0220687C((void *)c[0], a0);
+    BTLV_INPUT_DeleteTask((void *)c[0], a0);
 }

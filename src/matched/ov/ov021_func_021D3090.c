@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_StartEffectTaskC
+ * function: SCRCMD_WaitArcEffectPeak
  * address:  0x021D3090
  * packet:   pkt_ov021_021D3090
  * region:   ov021
@@ -29,7 +29,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *a);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int SCRCMD_StartEffectTaskC(u32 a, u32 b)
+int SCRCMD_WaitArcEffectPeak(u32 a, u32 b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     void *t = FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(SCRCMD_WORK_GetGameSystem((void *)b));

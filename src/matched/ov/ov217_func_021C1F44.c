@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F44
+ * function: CircleGraph_ProjectToScreen
  * address:  0x021C1F44
  * packet:   pkt_ov217_021C1F44
  * region:   ov217
@@ -35,7 +35,7 @@ extern void func_0206DF3C(const VecFx32 *pos, s32 *px, s32 *py);
 #define FX_FX32_TO_F32(x) ((f32)((x) / 4096.0f))
 #define FX32_CONST(x) ((s32)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 
-void func_021C1F44(const s16 *p, s32 *px, s32 *py)
+void CircleGraph_ProjectToScreen(const s16 *p, s32 *px, s32 *py)
 {
     VecFx32 v;
     v.x = FX32_CONST(FX_FX32_TO_F32(p[0]));

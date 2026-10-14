@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FF7B0",
+   "name": "BTLV_MCSS_SwapSprites",
    "address": "0x021FF7B0",
    "kind": "game",
    "region": "ov094",

@@ -13,7 +13,7 @@
  * the load stays after the 0x50 store.
  *
  * symbols:
- *   func_0220793C  0x0220793C  thumb  ov094
+ *   BTLV_GAUGE_UpdateHpBarPixels  0x0220793C  thumb  ov094
  *   BTLV_GAUGE_DrawHpLoss  0x0220868C  thumb  ov094
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -42,7 +42,7 @@ typedef struct S {
 
 struct Obj;
 struct Vec2;
-extern void func_0220793C(char *p);
+extern void BTLV_GAUGE_UpdateHpBarPixels(char *p);
 extern void BTLV_GAUGE_DrawHpLoss(void *obj, S *q, int n);
 struct Actor;
 struct PtS;
@@ -66,7 +66,7 @@ void BTLV_GAUGE_StartHpChange(void *obj, S *q, int n)
     }
     q->lo = 1;
     if (q->f68 > 0) {
-        func_0220793C((char *)q);
+        BTLV_GAUGE_UpdateHpBarPixels((char *)q);
         CLACT_GetActorSurfacePos(q->f8, (struct PtS *)v, 0);
         v[0] = v[0] - (s16)(0x30 - q->f78);
         CLACT_AddActorSurfacePos(q->fc, (const struct Vec2 *)v, 0);

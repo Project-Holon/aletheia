@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C0DDC  0x021C0DDC  thumb  ov217
+ *   ListViewState_Destroy  0x021C0DDC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C0DDC(void *a0);
+extern void ListViewState_Destroy(void *a0);
 u32 func_021B98A8(u32 a0)
 {
-    func_021C0DDC((void *)(((struct Obj08431 *)(((u8*)a0)))->f1C));
+    ListViewState_Destroy((void *)(((struct Obj08431 *)(((u8*)a0)))->f1C));
     ((struct Obj08431 *)(((u8*)a0)))->f1C = 0;
     return 0;
 }

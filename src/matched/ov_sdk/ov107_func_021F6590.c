@@ -1,5 +1,5 @@
 /*
- * function: func_021F6590
+ * function: MBi_InitTaskThread
  * address:  0x021F6590
  * packet:   pkt_ov107_021F6590
  * region:   ov107
@@ -18,7 +18,7 @@
  *   OS_WakeupThreadDirect 0x02085868 arm
  *   OS_RestoreInterrupts 0x0208799C arm
  *   g_021F7004 0x021F7004 data
- *   func_021F6480 0x021F6480 arm ov107
+ *   MBi_TaskThread 0x021F6480 arm ov107
  */
 
 typedef struct {
@@ -33,9 +33,9 @@ extern void func_021F662C(void *pt);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_021F6480(void *arg);
+extern void MBi_TaskThread(void *arg);
 
-void func_021F6590(void *p_work, unsigned long size)
+void MBi_InitTaskThread(void *p_work, unsigned long size)
 {
     unsigned long bak_cpsr = OS_DisableInterrupts();
 
@@ -44,7 +44,7 @@ void func_021F6590(void *p_work, unsigned long size)
         g_021F7004 = p;
         func_021F662C((char *)p + 0xC4);
         p->f_c0 = 0;
-        OS_CreateThread(p, func_021F6480, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
+        OS_CreateThread(p, MBi_TaskThread, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
         OS_WakeupThreadDirect(p);
     }
     OS_RestoreInterrupts(bak_cpsr);

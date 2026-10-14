@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F745C  0x021F745C  thumb  ov094
- *   func_021F7544  0x021F7544  thumb  ov094
+ *   BTLV_EFFECT_CreateSetupFromBattleMain  0x021F745C  thumb  ov094
+ *   BTLV_EFFECT_Init  0x021F7544  thumb  ov094
  *   func_020307B0  0x020307B0  arm
  *   BTLV_SCU_SetupDisplay  0x021EB028  thumb  ov093
  *   func_021E91C8  0x021E91C8  thumb  ov093
@@ -29,8 +29,8 @@ typedef unsigned int u32;
 
 struct Param;
 
-extern void *func_021F745C(u8 *p, int a, u16 heap);
-extern void func_021F7544(void *p, int arg, u16 heap);
+extern void *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap);
+extern void BTLV_EFFECT_Init(void *p, int arg, u16 heap);
 extern u32 func_020307B0(void *p);
 extern void BTLV_SCU_SetupDisplay(u8 *p);
 extern void func_021E91C8(void *p);
@@ -48,8 +48,8 @@ int BTLV_CORE_StepOpeningEntry(u8 *p, int *st)
 
     switch (*st) {
     case 0:
-        r = func_021F745C(*(u8 * *)&((struct Obj01136 *)p)->f0, *(int *)&((struct Obj01136 *)p)->f17C, ((struct Obj01136 *)p)->f184);
-        func_021F7544(r, ((struct Obj01136 *)p)->fB4, ((struct Obj01136 *)p)->f184);
+        r = BTLV_EFFECT_CreateSetupFromBattleMain(*(u8 * *)&((struct Obj01136 *)p)->f0, *(int *)&((struct Obj01136 *)p)->f17C, ((struct Obj01136 *)p)->f184);
+        BTLV_EFFECT_Init(r, ((struct Obj01136 *)p)->fB4, ((struct Obj01136 *)p)->f184);
         func_020307B0(r);
         BTLV_SCU_SetupDisplay(*(u8 * *)&((struct Obj01136 *)p)->f17C);
         func_021E91C8(((struct Obj01136 *)p)->f180);

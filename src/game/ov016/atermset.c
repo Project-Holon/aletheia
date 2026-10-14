@@ -1,7 +1,7 @@
 /*
  * file:     atermset.c
  * unit:     yes
- * function: APCi_Notify, APCi_MoveIdleState, func_021B93AC, APC_SearchStart, APC_Disconnect, APC_End, APC_Connect, APC_Init, APC_GetState, soAlloc, soFree, AtermApc_InitEventBuf, AtermApc_GetEvent, AtermApc_callback, alarmCallback, InitAtermApcNetwork, FreeAtermApcNetwork, ConnectAP, DisconnectAP, CheckAccessPoint, ScanAP, SendFrameViaInterface, SendBroadcast, SendFrame, GetFrameData, GetElementData, GetFirstElement, SetFrameData, SetElementData, SetSingleElement, IsSearchCommand, GetCommandElement, SetSearchRes, func_021BA2EC, GetMacEncKey, GetWLanSetElement, AsciiToHex, StoreNetParam, AutoConfigThreadEx, AutoConfigThread, keywrap_encrypt, keywrap_decrypt, aeskw_xor64, rijndaelKeySetupEnc, rijndaelKeySetupDec, rijndaelEncrypt, rijndaelDecrypt, MY_MD5Init, MY_MD5Update, MY_MD5Final, MD5Transform, Encode, Decode, MD5_memcpy, MD5_memset, MD5Encode, GetTickCount, Calloc, Free, PutHex, PutMac, DWCi_RakurakuATERMi_ApConfigStart, ATERMi_ApConfigEnd, ATERMi_ApConfigGetState, DWCi_RakurakuATERMi_ApConfigGetResult, SendNotify
+ * function: APCi_Notify, APCi_MoveIdleState, CopyApList, APC_SearchStart, APC_Disconnect, APC_End, APC_Connect, APC_Init, APC_GetState, soAlloc, soFree, AtermApc_InitEventBuf, AtermApc_GetEvent, AtermApc_callback, alarmCallback, InitAtermApcNetwork, FreeAtermApcNetwork, ConnectAP, DisconnectAP, CheckAccessPoint, ScanAP, SendFrameViaInterface, SendBroadcast, SendFrame, GetFrameData, GetElementData, GetFirstElement, SetFrameData, SetElementData, SetSingleElement, IsSearchCommand, GetCommandElement, SetSearchRes, GetOwnMacAddress, GetMacEncKey, GetWLanSetElement, AsciiToHex, StoreNetParam, AutoConfigThreadEx, AutoConfigThread, keywrap_encrypt, keywrap_decrypt, aeskw_xor64, rijndaelKeySetupEnc, rijndaelKeySetupDec, rijndaelEncrypt, rijndaelDecrypt, MY_MD5Init, MY_MD5Update, MY_MD5Final, MD5Transform, Encode, Decode, MD5_memcpy, MD5_memset, MD5Encode, GetTickCount, Calloc, Free, PutHex, PutMac, DWCi_RakurakuATERMi_ApConfigStart, ATERMi_ApConfigEnd, ATERMi_ApConfigGetState, DWCi_RakurakuATERMi_ApConfigGetResult, SendNotify
  * address:  0x021B9038
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -445,7 +445,7 @@ extern OSThread gAtermThread;
 
 static void APCi_Notify(WCMNotice *notice);
 static int APCi_MoveIdleState(void);
-static int func_021B93AC(WMBssDesc *buf, int max);
+static int CopyApList(WMBssDesc *buf, int max);
 static int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
 static int APC_Disconnect(void);
 static int APC_End(void);
@@ -473,7 +473,7 @@ static int SetSingleElement(unsigned char *lpbuff, int eid, unsigned char *pele,
 static int IsSearchCommand(unsigned char *lpframe, int *pdual);
 static int GetCommandElement(unsigned char *lpframe, int cmdid, unsigned char *lpelement, unsigned char *lpkey);
 static int SetSearchRes(unsigned char *lpframe);
-static int func_021BA2EC(unsigned char *mac);
+static int GetOwnMacAddress(unsigned char *mac);
 static int GetWLanSetElement(u8 *lpelement);
 static int AsciiToHex(unsigned char *byDest, char *szStr, int nLen);
 static int StoreNetParam(void);
@@ -662,7 +662,7 @@ static int APCi_MoveIdleState(void)
     return 1;
 }
 
-static int func_021B93AC(WMBssDesc *buf, int max)
+static int CopyApList(WMBssDesc *buf, int max)
 {
     int n;
     int i;
@@ -1202,7 +1202,7 @@ static int ScanAP(void)
                     loop_flag = 0;
                     break;
                 case 5:
-                    nfound = func_021B93AC(atermset_bss.ap_list, atermset_bss.gMaxApList);
+                    nfound = CopyApList(atermset_bss.ap_list, atermset_bss.gMaxApList);
                     if (nfound > ap_count) {
                         ap_count = nfound;
                         OS_CancelAlarm(&alarm);
@@ -1509,7 +1509,7 @@ static int SetSearchRes(unsigned char *lpframe)
     return SetFrameData(lpframe, 2, ElementData, (lpb - atermset_data.lpElementData) + 8, 0);
 }
 
-static int func_021BA2EC(unsigned char *mac)
+static int GetOwnMacAddress(unsigned char *mac)
 {
     OS_GetMacAddress(mac);
     return 1;
@@ -1530,7 +1530,7 @@ static int GetMacEncKey(lpkey)
     memcpy(lpkey + 12, sAtermsetTable2, 4);
     memcpy(ap_mac, gAPMac, 6);
     ap_mac[0] &= 0xfd;
-    func_021BA2EC(sta_mac);
+    GetOwnMacAddress(sta_mac);
     memcpy(btAdapterMAC, sta_mac, 6);
     ret = memcmp(ap_mac, sta_mac, 6);
     if (ret <= 0) {

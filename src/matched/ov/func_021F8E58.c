@@ -1,5 +1,5 @@
 /*
- * function: func_021F8E58
+ * function: WORLDTRADE_ENTER_StateWaitWifiError
  * address:  0x021F8E58
  * packet:   pkt_021F8E58
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4EC0  0x021F4EC0  thumb  ov135
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb  ov135
 
  * While the +0x12f4 word is clear, publish +0x10dc, reset the mode pair and latch state 1.
  */
@@ -21,13 +21,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern u32 func_020307B0(void *p);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 
-int func_021F8E58(u8 *p)
+int WORLDTRADE_ENTER_StateWaitWifiError(u8 *p)
 {
     if (((struct Obj09233 *)p)->f12F4 == 0) {
         func_020307B0((void *)(((struct Obj09233 *)p)->f10DC));
-        func_021F4EC0(p, 0, 0);
+        WORLDTRADE_SetStateAndReturn(p, 0, 0);
         ((struct Obj09233 *)p)->f28 = 1;
     }
     return 2;

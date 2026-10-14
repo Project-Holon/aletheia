@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021F7998  0x021F7998  thumb  ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_StartEffect  0x021F7998  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_CORE_PrintSideMessage  0x021EA678  thumb  ov093
  *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  *   gWeatherEffects     0x021EFFAE  data   ov093  a2
@@ -25,8 +25,8 @@ typedef struct { u16 a; u16 b; } Pair16;
 
 extern int *BTL_FIELD_StoreCountdown(int *p, int a, int b);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021F7998(u32 a);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_StartEffect(u32 a);
+extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_CORE_PrintSideMessage(char *p, u16 k, int *c);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern Pair16 gWeatherEffects[5];
@@ -41,11 +41,11 @@ int BTL_CLIENT_StepStartWeather(u8 *p, int *st, u32 *c)
         if (BTL_CLIENT_IsMainStepActive(p))
             return 1;
         if (id < 5)
-            func_021F7998(gWeatherEffects[id].b);
+            BTLV_EFFECT_StartEffect(gWeatherEffects[id].b);
         (*st)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             BTLV_CORE_PrintSideMessage(((struct Obj10019 *)p)->f54, gWeatherEffects[id].a, 0);
             (*st)++;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DEA70
+ * function: GURU2_MAIN_StateStart
  * address:  0x021DEA70
  * packet:   pkt_021DEA70
  * region:   ov137
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E0130  0x021E0130  thumb
+ *   GURU2_MAIN_PrintMessage  0x021E0130  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021E0130(u8 *p, int message);
+extern void GURU2_MAIN_PrintMessage(u8 *p, int message);
 
-int func_021DEA70(u8 *p)
+int GURU2_MAIN_StateStart(u8 *p)
 {
-    func_021E0130(p, 0);
+    GURU2_MAIN_PrintMessage(p, 0);
     ((struct Obj23743 *)p)->f0 = 1;
     return 0;
 }

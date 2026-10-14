@@ -1,5 +1,5 @@
 /*
- * function: func_021D9468
+ * function: POKETRADE_PROC_SetSideMon
  * address:  0x021D9468
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,26 +12,26 @@
  * Start a transfer on the object when the length is non-zero.
  *
  * symbols:
- *   func_021E36D8  0x021E36D8  thumb  ov119
- *   func_021D8AA8  0x021D8AA8  thumb  ov119
- *   func_021E36A8  0x021E36A8  thumb  ov119
- *   func_021E1B14  0x021E1B14  thumb  ov119
+ *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
+ *   POKETRADE_3D_AddPokemonMcssFlipped  0x021E36A8  thumb  ov119
+ *   POKETRADE_SAVE_DrawOfferCardWindow  0x021E1B14  thumb  ov119
  */
 
-extern void func_021E36D8(void *p, int idx);
-extern int func_021D8AA8(void *p);
-extern void func_021E36A8(void *p, int a, int b, void *c, int d, int e);
-extern void func_021E1B14(char *p, int i, void *mon);
+extern void POKETRADE_3D_DeleteMcssSlot(void *p, int idx);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void POKETRADE_3D_AddPokemonMcssFlipped(void *p, int a, int b, void *c, int d, int e);
+extern void POKETRADE_SAVE_DrawOfferCardWindow(char *p, int i, void *mon);
 
-void func_021D9468(void *p, int a, void *b)
+void POKETRADE_PROC_SetSideMon(void *p, int a, void *b)
 {
     int t;
 
     if (b == 0)
         return;
-    func_021E36D8(p, a);
-    t = func_021D8AA8(p);
-    func_021E36A8(p, a, 1 - a, b, 1, t);
-    func_021E1B14(p, a, b);
+    POKETRADE_3D_DeleteMcssSlot(p, a);
+    t = POKETRADE_PROC_IsHostSide(p);
+    POKETRADE_3D_AddPokemonMcssFlipped(p, a, 1 - a, b, 1, t);
+    POKETRADE_SAVE_DrawOfferCardWindow(p, a, b);
 }
 

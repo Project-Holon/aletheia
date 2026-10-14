@@ -1,5 +1,5 @@
 /*
- * function: func_021BD75C
+ * function: ZUKAN_LIST_PrintListRow
  * address: 0x021BD75C
  * packet: pkt_ov209_021BD75C
  * region: ov209
@@ -32,7 +32,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
+void ZUKAN_LIST_PrintListRow(char *p, unsigned char *dest, unsigned text0, unsigned index)
 {
     unsigned ps;
     void *text;

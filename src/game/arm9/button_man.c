@@ -286,7 +286,7 @@ extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
 
 
 /*
- * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
+ * Returns the word at offset 0x20. Filed as the witness for ov094 BTLV_EFFVM_CmdStartParticleEffectTargeted.
  */
 int BUTTON_MAN_GetBlock(struct Obj3D *p)
 {
@@ -295,7 +295,7 @@ int BUTTON_MAN_GetBlock(struct Obj3D *p)
 
 
 /*
- * Copies the vector at offset 0x34 out. Filed as the witness for ov094 func_021FD1CC.
+ * Copies the vector at offset 0x34 out. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out)
 {
@@ -304,7 +304,7 @@ void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out)
 
 
 /*
- * Stores a vector at offset 0x34. Filed as the witness for ov094 func_021FD1CC.
+ * Stores a vector at offset 0x34. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v)
 {
@@ -313,7 +313,7 @@ void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v)
 
 
 /*
- * Copies the three halfwords at offset 0x50 out. Filed as the witness for ov094 func_021FD1CC.
+ * Copies the three halfwords at offset 0x50 out. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out)
 {
@@ -322,7 +322,7 @@ void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out)
 
 
 /*
- * Returns the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x5c. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 int BUTTON_MAN_GetScaleX(struct Obj3D *p)
 {
@@ -331,7 +331,7 @@ int BUTTON_MAN_GetScaleX(struct Obj3D *p)
 
 
 /*
- * Stores the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
+ * Stores the word at offset 0x5c. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v)
 {
@@ -340,7 +340,7 @@ void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v)
 
 
 /*
- * Returns the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x60. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 int BUTTON_MAN_GetScaleY(struct Obj3D *p)
 {
@@ -349,7 +349,7 @@ int BUTTON_MAN_GetScaleY(struct Obj3D *p)
 
 
 /*
- * Stores the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
+ * Stores the word at offset 0x60. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v)
 {
@@ -358,7 +358,7 @@ void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v)
 
 
 /*
- * Returns the word at offset 0x64 as a short. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x64 as a short. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 short BUTTON_MAN_GetOffsetX(struct Obj3D *p)
 {
@@ -367,7 +367,7 @@ short BUTTON_MAN_GetOffsetX(struct Obj3D *p)
 
 
 /*
- * Stores the word at offset 0x64. Filed as the witness for ov094 func_021FD1CC.
+ * Stores the word at offset 0x64. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v)
 {
@@ -376,7 +376,7 @@ void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v)
 
 
 /*
- * Returns the word at offset 0x68 as a short. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x68 as a short. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 short BUTTON_MAN_GetOffsetY(struct Obj3D *p)
 {
@@ -385,7 +385,7 @@ short BUTTON_MAN_GetOffsetY(struct Obj3D *p)
 
 
 /*
- * Stores the word at offset 0x68. Filed as the witness for ov094 func_021FD1CC.
+ * Stores the word at offset 0x68. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v)
 {
@@ -394,7 +394,7 @@ void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v)
 
 
 /*
- * Returns the word at offset 0x6c as a short. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x6c as a short. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 short BUTTON_MAN_GetAngle(struct Obj3D *p)
 {
@@ -403,7 +403,7 @@ short BUTTON_MAN_GetAngle(struct Obj3D *p)
 
 
 /*
- * Returns the halfword at offset 0x70. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the halfword at offset 0x70. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 unsigned short BUTTON_MAN_GetAlpha(struct Obj3D *p)
 {

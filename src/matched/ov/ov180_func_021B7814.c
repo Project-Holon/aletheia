@@ -1,5 +1,5 @@
 /*
- * function: func_021B7814
+ * function: HALL_OF_FAME_CreateMonPlates
  * address: 0x021B7814
  * packet: pkt_ov180_021B7814
  * region: ov180
@@ -16,7 +16,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021B77DC 0x021B77DC thumb ov180
+ *   HALL_OF_FAME_PrintToPlate 0x021B77DC thumb ov180
  */
 #include "../include/Obj00547.h"
 typedef unsigned int u32;
@@ -32,8 +32,8 @@ extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *);
-extern void func_021B77DC(u8 *p, int n, void *w, void *s, int x, int y);
-void func_021B7814(char *p) {
+extern void HALL_OF_FAME_PrintToPlate(u8 *p, int n, void *w, void *s, int x, int y);
+void HALL_OF_FAME_CreateMonPlates(char *p) {
     Param d;
     struct U16Vec *s;
     Holder *h;
@@ -45,7 +45,7 @@ void func_021B7814(char *p) {
     *(struct Grid * *)&((struct Obj00547 *)p)->f9120=BMP_OAM_Create(*(struct Sys * *)&((struct Obj00547 *)p)->f911C,(const struct Param *)(&d));
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00547 *)p)->f9124,0);
     s=func_02045EC0(*(struct MsgBank * *)&((struct Obj00547 *)p)->f9038,0);
-    func_021B77DC((u8 *)p,0,((struct Obj00547 *)p)->f9030,s,12,0);
+    HALL_OF_FAME_PrintToPlate((u8 *)p,0,((struct Obj00547 *)p)->f9030,s,12,0);
     STRBUF_Delete(s);
     h=(Holder *)(p+0x9128);
     h->bmp=BMP_Create(22,2,32,141);

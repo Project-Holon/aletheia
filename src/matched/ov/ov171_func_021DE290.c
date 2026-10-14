@@ -1,5 +1,5 @@
 /*
- * function: func_021DE290
+ * function: DENDOU_VIEW_CreateActor
  * address: 0x021DE290
  * packet: pkt_ov171_021DE290
  * region: ov171
@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-struct Obj *func_021DE290(char *p, const char *q)
+struct Obj *DENDOU_VIEW_CreateActor(char *p, const char *q)
 {
     return CLACT_CreateActor((void *)((struct Obj24058 *)p)->fB70, *(int *)(p + 0xbb4 + ((struct Obj08251 *)q)->f8 * 4),
         *(int *)(p + 0xbe8 + ((struct Obj08251 *)q)->fC * 4), *(int *)(p + 0xc1c + ((struct Obj08251 *)q)->f10 * 4),

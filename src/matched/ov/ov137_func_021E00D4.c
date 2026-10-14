@@ -1,5 +1,5 @@
 /*
- * function: func_021E00D4
+ * function: GURU2_MAIN_DeleteWindows
  * address: 0x021E00D4
  * packet: pkt_ov137_021E00D4
  * region: ov137
@@ -13,7 +13,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021E03A0 0x021E03A0 thumb ov137
+ *   GURU2_MAIN_DeleteNameWindows 0x021E03A0 thumb ov137
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021E03A0(u8 *);
+extern void GURU2_MAIN_DeleteNameWindows(u8 *);
 struct Rec;
 struct U16Vec;
 struct WordSet;
@@ -37,7 +37,7 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_Exit(void);
-void func_021E00D4(u8 *p)
+void GURU2_MAIN_DeleteWindows(u8 *p)
 {
     u8 *s;
     void *obj;
@@ -47,7 +47,7 @@ void func_021E00D4(u8 *p)
     BMP_WIN_ClearScreen(obj);
     func_020409B4(BMP_WIN_GetBgLayer(obj));
     BMP_WIN_Delete(((struct Obj05432 *)s)->f10);
-    func_021E03A0(p);
+    GURU2_MAIN_DeleteNameWindows(p);
     MSGDATA_Delete(((struct Obj05432 *)s)->f8);
     func_0201ED04(((struct Obj05432 *)s)->fC);
     GF_FONT_Delete(((struct Obj05432 *)s)->f4);

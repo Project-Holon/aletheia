@@ -1,5 +1,5 @@
 /*
- * function: func_021E66E8
+ * function: POKETRADE_2D_DeleteFloatingIconActor
  * address: 0x021E66E8
  * packet: pkt_ov119_021E66E8
  * region: ov119
@@ -14,7 +14,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021E66E8(void *p)
+void POKETRADE_2D_DeleteFloatingIconActor(void *p)
 {
     if (((struct Obj10383 *)p)->fF20) {
         CLACT_DeleteActor((struct Obj *)(((struct Obj10383 *)p)->fF20));

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1194
+ * function: CircleGraph_SetCenter
  * address:  0x021C1194
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C18F8  0x021C18F8  thumb  ov217
- *   func_021C1A64  0x021C1A64  thumb  ov217
+ *   CircleGraph_BuildVertices  0x021C18F8  thumb  ov217
+ *   CircleGraph_StoreCenter  0x021C1A64  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,11 +26,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Pos;
-extern void func_021C18F8(u8 *p);
-extern void func_021C1A64(u8 *p, const struct Pos *v);
-void func_021C1194(u8 *p, struct Pos *v)
+extern void CircleGraph_BuildVertices(u8 *p);
+extern void CircleGraph_StoreCenter(u8 *p, const struct Pos *v);
+void CircleGraph_SetCenter(u8 *p, struct Pos *v)
 {
-    func_021C1A64(p, v);
-    func_021C18F8(p);
+    CircleGraph_StoreCenter(p, v);
+    CircleGraph_BuildVertices(p);
 }
 

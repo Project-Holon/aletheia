@@ -1,5 +1,5 @@
 /*
- * function: func_021D8DFC
+ * function: GSYNC_STATE_StateTransferAnimationStep
  * address: 0x021D8DFC
  * packet: pkt_ov123_021D8DFC
  * region: ov123
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D62B4 0x021D62B4 thumb ov123
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D8D98 0x021D8D98 thumb ov123
+ *   GSYNC_DISP_CreateSlotActor 0x021D62B4 thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateStartTransferAnimation 0x021D8D98 thumb ov123
  */
 #include "../include/Obj10451.h"
 typedef unsigned char  u8;
-extern void func_021D62B4(u8 *p, unsigned int i);
+extern void GSYNC_DISP_CreateSlotActor(u8 *p, unsigned int i);
 typedef unsigned int   u32;
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D8D98(char *p);
-void func_021D8DFC(char *p) { if(--((struct Obj10451 *)p)->f60==0) { func_021D62B4(((struct Obj10451 *)p)->f14,4); ((struct Obj10451 *)p)->f60=60; func_021D6EE0((u8 *)p,(int)func_021D8D98,0x9b9); } }
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateStartTransferAnimation(char *p);
+void GSYNC_STATE_StateTransferAnimationStep(char *p) { if(--((struct Obj10451 *)p)->f60==0) { GSYNC_DISP_CreateSlotActor(((struct Obj10451 *)p)->f14,4); ((struct Obj10451 *)p)->f60=60; GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateStartTransferAnimation,0x9b9); } }

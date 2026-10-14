@@ -1,5 +1,5 @@
 /*
- * function: func_021C4DA8
+ * function: MAILVIEW_DeletePmsDraw
  * address:  0x021C4DA8
  * packet:   pkt_ov136_021C4DA8
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4DA8 0x021C4DA8 thumb
+ *   MAILVIEW_DeletePmsDraw 0x021C4DA8 thumb
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -24,7 +24,7 @@ extern void PMS_DRAW_Delete(struct Obj *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_021C4DA8(u8 *p)
+void MAILVIEW_DeletePmsDraw(u8 *p)
 {
     PMS_DRAW_Delete(((struct Obj01751 *)p)->f148);
     PRINTSYS_QUE_Delete(((struct Obj01751 *)p)->f158);

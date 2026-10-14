@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC240",
+   "name": "BR_RES_LoadFadePalettes",
    "address": "0x021FC240",
    "kind": "game",
    "region": "ov186",

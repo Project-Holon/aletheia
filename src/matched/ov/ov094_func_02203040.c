@@ -1,5 +1,5 @@
 /*
- * function: func_02203040
+ * function: BTLV_INPUT_GetScreenButtonTable
  * address:  0x02203040
  * packet:   pkt_ov094_02203040
  * region:   ov094
@@ -14,7 +14,7 @@
  *   BTLV_FINGER_CURSOR_Create  0x02209A7C  thumb  ov094
  *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
  *   BTLV_FINGER_CURSOR_IsActive  0x02209C2C  thumb  ov094
- *   func_02206B30  0x02206B30  thumb  ov094
+ *   BTLV_INPUT_PlaySelectSe  0x02206B30  thumb  ov094
  */
 typedef unsigned short u16;
 
@@ -47,9 +47,9 @@ extern const Tbl d_0220A598;
 extern int BTLV_FINGER_CURSOR_Create(int a, int b, int c);
 extern int BTLV_FINGER_CURSOR_Start(int h, int x, int y, int k, int m, int n);
 extern int BTLV_FINGER_CURSOR_IsActive(int h);
-extern void func_02206B30(char *p);
+extern void BTLV_INPUT_PlaySelectSe(char *p);
 
-int func_02203040(Main *m)
+int BTLV_INPUT_GetScreenButtonTable(Main *m)
 {
     int r = 0;
     Tbl t;
@@ -67,7 +67,7 @@ int func_02203040(Main *m)
     case 1:
         r = BTLV_FINGER_CURSOR_IsActive(m->f60);
         if (r == 1)
-            func_02206B30((char *)m);
+            BTLV_INPUT_PlaySelectSe((char *)m);
         break;
     }
     return r;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_021C3A28  0x021C3A28  data  a4
- *   func_021C29E8  0x021C29E8  thumb  ov217
+ *   PALETTE_ANIME_Bind  0x021C29E8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -27,11 +27,11 @@ struct Ent {
 };
 
 extern const struct Ent d_021C3A28[];
-extern void func_021C29E8(void *p, u32 b, u32 c, u32 d);
+extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
 
 void func_021C0878(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        func_021C29E8((void *)(*(int *)(p + i * 4 + 0x324)), d_021C3A28[i].a, d_021C3A28[i].b, d_021C3A28[i].c);
+        PALETTE_ANIME_Bind((void *)(*(int *)(p + i * 4 + 0x324)), d_021C3A28[i].a, d_021C3A28[i].b, d_021C3A28[i].c);
 }

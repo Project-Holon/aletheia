@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF9C
+ * function: ZUKAN_DETAIL_INFO_NoOp
  * address: 0x021BEF9C
  * packet: pkt_ov208_021BEF9C
  * region: ov208
@@ -10,6 +10,6 @@
  * status: EXACT*
  * symbols:
  */
-void func_021BEF9C(void *p)
+void ZUKAN_DETAIL_INFO_NoOp(void *p)
 {
 }

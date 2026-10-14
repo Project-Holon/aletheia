@@ -1,5 +1,5 @@
 /*
- * function: func_021BF664
+ * function: ZUKAN_DETAIL_INFO_UpdateHighlightBlink
  * address: 0x021BF664
  * packet: pkt_ov208_021BF664
  * region: ov208
@@ -35,7 +35,7 @@ struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021BF664(int a0, Ent *e)
+void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(int a0, Ent *e)
 {
     if (e->f10c != 0) {
         int v = e->f98;

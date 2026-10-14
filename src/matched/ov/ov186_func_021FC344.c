@@ -1,5 +1,5 @@
 /*
- * function: func_021FC344
+ * function: BR_RES_GetCharFileId
  * address: 0x021FC344
  * packet: pkt_ov186_021FC344
  * region: ov186
@@ -16,4 +16,4 @@ extern char d_02200D48[];
 extern const unsigned d_022008A0[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-unsigned short func_021FC344(unsigned i) { if(i>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008A0[i]; }
+unsigned short BR_RES_GetCharFileId(unsigned i) { if(i>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008A0[i]; }

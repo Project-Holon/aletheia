@@ -15,7 +15,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_021F5904 0x021F5904 arm
  *   OS_Terminate 0x02088234 arm
- *   func_021F5B4C 0x021F5B4C arm
+ *   MB_SetParentCommParam 0x021F5B4C arm
  *   func_021F1B3C 0x021F1B3C arm
  *   DWCi_MOV_MBP_ChangeState 0x021D276C arm ov016
  *   func_021D2450 0x021D2450 arm ov016
@@ -46,7 +46,7 @@ extern Wb *gDwcMovMbpWork;
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern int func_021F5904(void *work, MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
 extern void OS_Terminate(void);
-extern int func_021F5B4C(u16 sendSize, u16 maxChildren);
+extern int MB_SetParentCommParam(u16 sendSize, u16 maxChildren);
 extern void func_021F1B3C(void (*cb)(u16, u32, void *));
 extern void DWCi_MOV_MBP_ChangeState(u16 state);
 extern void func_021D2450(u16, u32, void *);
@@ -66,7 +66,7 @@ void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid)
     *(void **)((char *)gDwcMovMbpWork + 0x1b140) = (char *)gDwcMovMbpWork + 0x10040;
     if (func_021F5904(*(void **)((char *)gDwcMovMbpWork + 0x1b140), &myUser, ggid, tgid, 2))
         OS_Terminate();
-    func_021F5B4C(0x100, 1);
+    MB_SetParentCommParam(0x100, 1);
     func_021F1B3C(func_021D2450);
     DWCi_MOV_MBP_ChangeState(1);
 }

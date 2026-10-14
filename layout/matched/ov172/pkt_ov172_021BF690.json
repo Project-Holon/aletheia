@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF690",
+   "name": "hloadbit",
    "address": "0x021BF690",
    "kind": "sdk",
    "region": "ov172",

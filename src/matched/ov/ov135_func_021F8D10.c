@@ -1,5 +1,5 @@
 /*
- * function: func_021F8D10
+ * function: WORLDTRADE_ENTER_PushWifiSetup
  * address: 0x021F8D10
  * packet: pkt_ov135_021F8D10
  * region: ov135
@@ -12,7 +12,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Push 0x02031348 arm
- *   func_021F8E88 0x021F8E88 thumb ov135
+ *   WORLDTRADE_ENTER_RunDialog 0x021F8E88 thumb ov135
  *   str_02203C34 0x02203C34 data a1
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data
@@ -32,7 +32,7 @@ typedef struct {
 } State;
 extern const char str_02203C34[], ov115_id[];
 extern const u32 gNetSaveMainProc[];
-extern int func_021F8E88(void *dialog, u8 *p);
+extern int WORLDTRADE_ENTER_RunDialog(void *dialog, u8 *p);
 typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -40,7 +40,7 @@ extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
 extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-int func_021F8D10(u8 *p)
+int WORLDTRADE_ENTER_PushWifiSetup(u8 *p)
 {
     State *s;
     *(State * *)&((struct Obj03294 *)p)->f10DC = func_02030734(0x48, sizeof(State), 0, str_02203C34, 0x263);
@@ -51,7 +51,7 @@ int func_021F8D10(u8 *p)
     s->f8 = 1;
     s->f10 = p + 0x116C;
     s->fc = 30;
-    s->callback = (void (*)(void *, void *))func_021F8E88;
+    s->callback = (void (*)(void *, void *))WORLDTRADE_ENTER_RunDialog;
     s->user = p;
     ((struct Obj03294 *)p)->f12EC = 0;
     if (((struct Obj03294 *)p)->f20 == 21) s->f14 = 1;

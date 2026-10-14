@@ -1,5 +1,5 @@
 /*
- * function: func_021D71CC
+ * function: GDS_RAP_CopyNickname
  * address: 0x021D71CC
  * packet: pkt_ov125_021D71CC
  * region: ov125
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuCopy8(const void *,void *,u32);
-void func_021D71CC(const void *src,void *dst,u32 n) {MI_CpuCopy8(src,dst,n*2);}
+void GDS_RAP_CopyNickname(const void *src,void *dst,u32 n) {MI_CpuCopy8(src,dst,n*2);}

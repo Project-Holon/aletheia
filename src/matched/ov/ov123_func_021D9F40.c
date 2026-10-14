@@ -1,5 +1,5 @@
 /*
- * function: func_021D9F40
+ * function: PDWACC_DISP_PaletteTask
  * address: 0x021D9F40
  * packet: pkt_ov123_021D9F40
  * region: ov123
@@ -20,7 +20,7 @@ extern void GX_LoadBGPltt(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021D9F40(void *unused, char *p)
+void PDWACC_DISP_PaletteTask(void *unused, char *p)
 {
     if (((struct Obj03274 *)p)->f4) {
         ((struct Obj03274 *)p)->f96B^=1;

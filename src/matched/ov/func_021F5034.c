@@ -1,5 +1,5 @@
 /*
- * function: func_021F5034
+ * function: WORLDTRADE_SetBrightnessOut
  * address:  0x021F5034
  * packet:   pkt_021F5034
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021F5034(u32 x)
+void WORLDTRADE_SetBrightnessOut(u32 x)
 {
     if (x != 0) {
         func_0207D658(0x04000050, 0x1b, -7);

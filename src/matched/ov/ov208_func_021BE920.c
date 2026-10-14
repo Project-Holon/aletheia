@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE920
+ * function: ZUKAN_DETAIL_HEADBAR_DrawIcon
  * address:  0x021BE920
  * packet:   pkt_ov208_021BE920
  * region:   ov208
@@ -19,7 +19,7 @@
  *   func_02045EC0        0x02045EC0  arm
  *   PRINTSYS_PrintQueColor        0x0201C724  thumb
  *   STRBUF_Delete        0x02045808  arm
- *   ov208_func_021BE9CC  0x021BE9CC  thumb
+ *   ZUKAN_DETAIL_HEADBAR_FlushIcon  0x021BE9CC  thumb
  *   data_021C84F4        0x021C84F4  data
  */
 
@@ -55,7 +55,7 @@ extern void BMP_Delete(struct Obj020437AC *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void ov208_func_021BE9CC(struct Ov208Icon *p);
+extern void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p);
 
 struct Ov208PalTbl {
     u32 v[5];
@@ -63,7 +63,7 @@ struct Ov208PalTbl {
 
 extern const struct Ov208PalTbl data_021C84F4;
 
-void ov208_func_021BE920(struct Ov208Icon *p)
+void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
 {
     struct Ov208PalTbl pal;
     void *h;
@@ -82,5 +82,5 @@ void ov208_func_021BE920(struct Ov208Icon *p)
     PRINTSYS_PrintQueColor((void *)p->f2c, p->f18, 0x18, 5, s, p->f4, 0x3dc0);
     STRBUF_Delete((struct U16Vec *)s);
     p->f30 = 1;
-    ov208_func_021BE9CC(p);
+    ZUKAN_DETAIL_HEADBAR_FlushIcon(p);
 }

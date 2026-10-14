@@ -1,5 +1,5 @@
 /*
- * function: func_02202A50
+ * function: WORLDTRADE_ADAPTER_PrintNumber
  * address:  0x02202A50
  * packet:   pkt_02202A50
  * region:   ov135
@@ -55,7 +55,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_02202A50(Ctx *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y)
+void WORLDTRADE_ADAPTER_PrintNumber(Ctx *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y)
 {
     void *str;
     void *fmt;

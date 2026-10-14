@@ -1,5 +1,5 @@
 /*
- * function: func_021C2E20
+ * function: PALETTE_ANIME_ReleaseOriginal
  * address:  0x021C2E20
  * packet:   pkt_021C2E20
  * region:   ov217
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void ENV_SetResourceSet(u32 p);
 
-void func_021C2E20(char *p)
+void PALETTE_ANIME_ReleaseOriginal(char *p)
 {
     ENV_SetResourceSet(((struct Obj14769 *)p)->fC);
     ((struct Obj14769 *)p)->f4 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6898
+ * function: BTLV_STAGE_Delete
  * address:  0x021F6898
  * packet:   pkt_ov094_021F6898
  * region:   ov094
@@ -38,7 +38,7 @@ extern u32 func_020307B0(void *p);
 extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 
-void func_021F6898(Obj *o)
+void BTLV_STAGE_Delete(Obj *o)
 {
     int i;
     int j;

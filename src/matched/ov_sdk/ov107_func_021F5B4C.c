@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B4C
+ * function: MB_SetParentCommParam
  * address:  0x021F5B4C
  * packet:   pkt_ov107_021F5B4C
  * region:   ov107
@@ -26,7 +26,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 
-int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren)
+int MB_SetParentCommParam(unsigned short sendSize, unsigned short maxChildren)
 {
     unsigned long enabled = OS_DisableInterrupts();
 

@@ -19,7 +19,7 @@
  *   func_02041300 0x02041300 arm
  *   func_02040C14 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -52,7 +52,7 @@ extern struct WordSet *func_0201EC64(u32);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -76,7 +76,7 @@ u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
     func_02041300(1, 0, 0, 0, 32, 32, 17);
     func_02040C14(1, 0, 1, 0);
     idx = func_020496E4(11, 89, 1, 0, 0, ((struct Obj01704 *)p)->f44);
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
     *(u32 *)&((struct Obj01704 *)p)->f1C = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
     BMP_WIN_MakeScreen(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C);
     BMP_WIN_DrawFrame(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);

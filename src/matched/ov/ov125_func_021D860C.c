@@ -1,5 +1,5 @@
 /*
- * function: func_021D860C
+ * function: GDS_SOCKET_SendUploadEntry
  * address: 0x021D860C
  * packet: pkt_ov125_021D860C
  * region: ov125
@@ -8,12 +8,12 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   func_021D7A10 0x021D7A10 arm ov125
+ *   GDS_SOCKET_SendRequest 0x021D7A10 arm ov125
  */
 typedef struct { unsigned words[0x230/4]; } Packet;
-extern int func_021D7A10(int id, void *buf, int x, int sz);
-int func_021D860C(const Packet *p, int n) {
+extern int GDS_SOCKET_SendRequest(int id, void *buf, int x, int sz);
+int GDS_SOCKET_SendUploadEntry(const Packet *p, int n) {
  Packet copy;
  copy = *p;
- return func_021D7A10(0x5208, &copy, n, -1);
+ return GDS_SOCKET_SendRequest(0x5208, &copy, n, -1);
 }

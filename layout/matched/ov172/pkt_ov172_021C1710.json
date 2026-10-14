@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1710",
+   "name": "Yos_JpegEncodeSample2to1Component",
    "address": "0x021C1710",
    "kind": "sdk",
    "region": "ov172",

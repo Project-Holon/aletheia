@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7EF8
+ * function: ZUKAN_DETAIL_FORM_SetActorsAlphaMode
  * address:  0x021C7EF8
  * packet:   pkt_ov208_021C7EF8
  * region:   ov208
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_SetActorObjMode  0x0204B688  arm
- *   func_021BC518  0x021BC518  thumb
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget  0x021BC518  thumb
  */
 
 typedef unsigned char u8;
@@ -19,11 +19,11 @@ typedef unsigned int  u32;
 
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void func_021BC518(int *p);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C7EF8(void *a0, u8 *p)
+void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(void *a0, u8 *p)
 {
     u8 i;
 
@@ -35,6 +35,6 @@ void ov208_func_021C7EF8(void *a0, u8 *p)
     CLACT_SetActorObjMode((struct Actor *)W(0x5e8), 1);
     for (i = 0; i < 4; i++)
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + i * 0x28 + 0x618)), 1);
-    func_021BC518((int *)W(0x6a4));
-    func_021BC518((int *)W(0x6a8));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget((int *)W(0x6a4));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget((int *)W(0x6a8));
 }

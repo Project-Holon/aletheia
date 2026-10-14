@@ -1,5 +1,5 @@
 /*
- * function: func_021FE4D8
+ * function: BR_UTIL_Init
  * address: 0x021FE4D8
  * packet: pkt_ov186_021FE4D8
  * region: ov186
@@ -15,7 +15,7 @@
  *   _ffix 0x0209C494 arm
  */
 extern void MI_CpuFill8(void *, unsigned, unsigned);
-void func_021FE4D8(int *p, int a, const int *values, int duration)
+void BR_UTIL_Init(int *p, int a, const int *values, int duration)
 {
     float value;
     MI_CpuFill8(p, 0, 0x14);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D88
+ * function: RESEARCH_COMMON_InitTouchRects
  * address:  0x021C0D88
  * packet:   pkt_ov217_021C0D88
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 
 extern const u8 d_021C3F48[];
 
-void func_021C0D88(u8 *p)
+void RESEARCH_COMMON_InitTouchRects(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

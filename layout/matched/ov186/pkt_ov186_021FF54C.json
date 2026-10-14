@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FF54C",
+   "name": "BR_NET_StartRequest",
    "address": "0x021FF54C",
    "kind": "game",
    "region": "ov186",

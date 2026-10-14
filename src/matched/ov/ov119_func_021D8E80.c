@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E80
+ * function: POKETRADE_PROC_StepNone
  * address:  0x021D8E80
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,6 +12,6 @@
  * Empty stub.
  */
 
-void func_021D8E80(void *a0)
+void POKETRADE_PROC_StepNone(void *a0)
 {
 }

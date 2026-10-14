@@ -1,5 +1,5 @@
 /*
- * function: func_02202770
+ * function: WORLDTRADE_ADAPTER_UpdatePrinter
  * address:  0x02202770
  * packet:   pkt_02202770
  * region:   ov135
@@ -69,7 +69,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 
-void func_02202770(Printer *p)
+void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
 {
     int i;
     Ent *e;

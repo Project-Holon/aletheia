@@ -12,8 +12,8 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C0DC4  0x021C0DC4  thumb  ov217
- *   func_021C0DE4  0x021C0DE4  thumb  ov217
+ *   ListViewState_Create  0x021C0DC4  thumb  ov217
+ *   ListViewState_Reset  0x021C0DE4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,12 +26,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0DC4(u32 a0);
-extern void func_021C0DE4(void *p);
+extern u32 ListViewState_Create(u32 a0);
+extern void ListViewState_Reset(void *p);
 void func_021B9894(u32 a0)
 {
-    u32 r = func_021C0DC4(((struct Obj01438 *)((u8*)a0))->f0);
+    u32 r = ListViewState_Create(((struct Obj01438 *)((u8*)a0))->f0);
     ((struct Obj01438 *)(((u8*)a0 + 0)))->f1C = r;
-    func_021C0DE4((void *)r);
+    ListViewState_Reset((void *)r);
 }
 

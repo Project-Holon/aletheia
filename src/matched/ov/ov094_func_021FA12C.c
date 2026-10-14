@@ -1,5 +1,5 @@
 /*
- * function: func_021FA12C
+ * function: BTLV_EFFVM_CmdLoadParticleResource
  * address: 0x021FA12C
  * packet: pkt_ov094_021FA12C
  * region: ov094
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * witness: arm9 PARTICLE_SetupSystemNoHandlers filed as src/matched/arm9/PARTICLE_SetupSystemNoHandlers.c.
- * witness: func_021FC9F4 filed as src/matched/ov/ov094_func_021FC9F4.c.
+ * witness: BTLV_EFFVM_WaitParticleCallback filed as src/matched/ov/ov094_func_021FC9F4.c.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   VM_SetWait 0x020113D0 thumb
@@ -18,12 +18,12 @@
  *   PARTICLE_CreateSystem 0x02050C30 arm
  *   PARTICLE_SetupSystemNoHandlers 0x02051380 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021FE38C 0x021FE38C thumb ov094
- *   func_021FD15C 0x021FD15C thumb ov094
- *   func_021FD19C 0x021FD19C thumb ov094
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021FE9BC 0x021FE9BC thumb ov094
- *   func_021FC9F4 0x021FC9F4 thumb ov094
+ *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
+ *   BTLV_EFFVM_AllocEmitterSlot 0x021FD15C thumb ov094
+ *   BTLV_EFFVM_SetEmitterHandle 0x021FD19C thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFVM_ParticleLoadTaskMain 0x021FE9BC thumb ov094
+ *   BTLV_EFFVM_WaitParticleCallback 0x021FC9F4 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  */
 #include "../include/Obj00325.h"
@@ -40,14 +40,14 @@ extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern void PARTICLE_SetupSystemNoHandlers(void *, void *);
 extern void *func_020056A0(void (*)(void), void *, int);
-extern unsigned int func_021FE38C(char *, unsigned int);
-extern int func_021FD15C(char *, unsigned int, int *);
-extern void func_021FD19C(char *p, int i, char *q);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE9BC(void);
-extern void func_021FC9F4(void);
+extern unsigned int BTLV_EFFVM_ResolveParticleKey(char *, unsigned int);
+extern int BTLV_EFFVM_AllocEmitterSlot(char *, unsigned int, int *);
+extern void BTLV_EFFVM_SetEmitterHandle(char *p, int i, char *q);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFVM_ParticleLoadTaskMain(void);
+extern void BTLV_EFFVM_WaitParticleCallback(void);
 
-int func_021FA12C(void *a, char *s)
+int BTLV_EFFVM_CmdLoadParticleResource(void *a, char *s)
 {
     int slot;
     int key;
@@ -56,8 +56,8 @@ int func_021FA12C(void *a, char *s)
     Callback *cb;
     int line;
 
-    key = func_021FE38C(s, VM_GetU32(a));
-    if (func_021FD15C(s, key, &slot) == 1) {
+    key = BTLV_EFFVM_ResolveParticleKey(s, VM_GetU32(a));
+    if (BTLV_EFFVM_AllocEmitterSlot(s, key, &slot) == 1) {
         line = 0x715;
         buffer = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
         resource = (void *)PARTICLE_LoadArchiveMember(6, key, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
@@ -71,9 +71,9 @@ int func_021FA12C(void *a, char *s)
                 cb->emitter = *(void **)(s + 12 + slot * 4);
                 cb->resource = resource;
                 ((struct Obj00325 *)s)->f0 |= 0x10000;
-                func_021F896C(func_020056A0(func_021FE9BC, cb, 0), 0, 1);
-                VM_SetWait(a, (int)func_021FC9F4);
-                func_021FD19C(s, slot, resource);
+                BTLV_EFFECT_RegisterTask(func_020056A0(BTLV_EFFVM_ParticleLoadTaskMain, cb, 0), 0, 1);
+                VM_SetWait(a, (int)BTLV_EFFVM_WaitParticleCallback);
+                BTLV_EFFVM_SetEmitterHandle(s, slot, resource);
             }
         }
         if (*(void **)(s + 12 + slot * 4) == 0) {

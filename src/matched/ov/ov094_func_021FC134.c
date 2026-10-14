@@ -1,5 +1,5 @@
 /*
- * function: func_021FC134
+ * function: BTLV_EFFVM_CmdSetTypeSource
  * address:  0x021FC134
  * packet:   pkt_ov094_021FC134
  * region:   ov094
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FC134(void *a, char *s)
+int BTLV_EFFVM_CmdSetTypeSource(void *a, char *s)
 {
     ((struct Obj13596 *)s)->f25C = VM_GetU32(a);
     return ((struct Obj13596 *)s)->f23C;

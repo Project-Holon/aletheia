@@ -1,5 +1,5 @@
 /*
- * function: func_021F7374
+ * function: WORLDTRADE_DEMO_InitSlotRecord
  * address:  0x021F7374
  * packet:   pkt_021F7374
  * region:   ov135
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F7338  0x021F7338  thumb
+ *   WORLDTRADE_DEMO_GetSlotRecord  0x021F7338  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   func_0220262C  0x0220262C  thumb
+ *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   func_02007664  0x02007664  thumb
  *   func_020076D0  0x020076D0  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_0200752C  0x0200752C  thumb
  *
  * Fill the slot record for the current kind (+0x20). A +0xDC source of
- * 0xFF copies party member +0xE0 into it (func_0220262C); otherwise the
+ * 0xFF copies party member +0xE0 into it (WORLDTRADE_ADAPTER_CopyMon); otherwise the
  * box/slot pair (+0xDC, +0xE0) is looked up in the storage at +0xC of
  * the context and the found entry is written into the record.
  */
@@ -42,21 +42,21 @@ typedef struct {
     u32 slot;
 } Obj;
 
-extern u32 func_021F7338(Obj *p, int kind);
+extern u32 WORLDTRADE_DEMO_GetSlotRecord(Obj *p, int kind);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void func_0220262C(u32 a, u32 b);
+extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 struct Sub02007454Entry;
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 
-void func_021F7374(Obj *p)
+void WORLDTRADE_DEMO_InitSlotRecord(Obj *p)
 {
-    u32 e = func_021F7338(p, p->kind);
+    u32 e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
     if (p->box == 0xff) {
-        func_0220262C(e, (u32)POKEPARTY_GetMember(p->ctx->party, p->slot));
+        WORLDTRADE_ADAPTER_CopyMon(e, (u32)POKEPARTY_GetMember(p->ctx->party, p->slot));
     } else {
         u32 a;
         u32 b;

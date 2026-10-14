@@ -1,5 +1,5 @@
 /*
- * function: func_021B7408
+ * function: HALL_OF_FAME_GetActorPos
  * address: 0x021B7408
  * packet: pkt_ov180_021B7408
  * region: ov180
@@ -19,4 +19,4 @@ typedef struct { s16 x,y; } Pair;
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-void func_021B7408(u8 *p,int n,s16 *x,s16 *y) { Pair s; CLACT_GetActorSurfacePos(*(void **)(p+n*4+0x9048),(struct PtS *)&s,0); *x=s.x; *y=s.y; }
+void HALL_OF_FAME_GetActorPos(u8 *p,int n,s16 *x,s16 *y) { Pair s; CLACT_GetActorSurfacePos(*(void **)(p+n*4+0x9048),(struct PtS *)&s,0); *x=s.x; *y=s.y; }

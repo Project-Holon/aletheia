@@ -1,5 +1,5 @@
 /*
- * function: func_02200AB4
+ * function: WORLDTRADE_TITLE_LoadMainBgSwap
  * address: 0x02200AB4
  * packet: pkt_ov135_02200AB4
  * region: ov135
@@ -25,7 +25,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *, u32, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_02200AB4(u8 *p)
+void WORLDTRADE_TITLE_LoadMainBgSwap(u8 *p)
 {
     void *h;
     if (((struct Obj00137 *)p)->f12E0 == 1 && ((struct Obj00137 *)p)->f12E4 == 0) {

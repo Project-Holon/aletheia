@@ -1,5 +1,5 @@
 /*
- * function: func_021F875C
+ * function: WORLDTRADE_DEPOSIT_CreateSpeciesMenuList
  * address: 0x021F875C
  * packet: pkt_ov135_021F875C
  * region: ov135
@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021F86A8 0x021F86A8 thumb ov135
+ *   WORLDTRADE_DEPOSIT_CreateSpeciesMenu 0x021F86A8 thumb ov135
  *   d_02202ED8 0x02202ED8 data a4
  *   BMP_MENULIST_Create  0x0201FF30  thumb  arm9
  */
@@ -26,19 +26,19 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
+extern int WORLDTRADE_DEPOSIT_CreateSpeciesMenu(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
 extern void func_0201F73C(void *win, int a, int b, int c);
 struct Obj;
 struct Src;
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
-void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8 *cfg, void *bag)
+void *WORLDTRADE_DEPOSIT_CreateSpeciesMenuList(Work *p, void **menu, void *win, void *endmsg, void *msg, u8 *cfg, void *bag)
 {
     int kind;
     int count;
     Menu src;
     BMP_Clear(BMP_WIN_GetBmp(win), 15);
     kind = ((struct Obj06512 *)cfg)->f6 + ((struct Obj06512 *)cfg)->f4;
-    count = func_021F86A8(menu, msg, endmsg, *(u16 * *)&((struct Obj06512 *)cfg)->f18, ((struct Obj06512 *)cfg)->f14, ((struct Obj06512 *)cfg)->f1C, kind, bag);
+    count = WORLDTRADE_DEPOSIT_CreateSpeciesMenu(menu, msg, endmsg, *(u16 * *)&((struct Obj06512 *)cfg)->f18, ((struct Obj06512 *)cfg)->f14, ((struct Obj06512 *)cfg)->f1C, kind, bag);
     src = d_02202ED8;
     src.count = count;
     src.w[0] = (u32)*menu;

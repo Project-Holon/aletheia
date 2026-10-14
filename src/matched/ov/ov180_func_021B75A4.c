@@ -1,5 +1,5 @@
 /*
- * function: func_021B75A4
+ * function: HALL_OF_FAME_CreateActorFromTemplate
  * address: 0x021B75A4
  * packet: pkt_ov180_021B75A4
  * region: ov180
@@ -15,6 +15,6 @@
 #include "../include/Obj24493.h"
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-struct Obj *func_021B75A4(char *p,const char *q) {
+struct Obj *HALL_OF_FAME_CreateActorFromTemplate(char *p,const char *q) {
     return CLACT_CreateActor((void *)((struct Obj24493 *)p)->f9044,*(int *)(p+0x90cc+*(const int *)&((struct Obj08299 *)q)->f8*4),*(int *)(p+0x90e4+*(const int *)&((struct Obj08299 *)q)->fC*4),*(int *)(p+0x9100+*(const int *)&((struct Obj08299 *)q)->f10*4),(void *)q,*(const unsigned short *)&((struct Obj08299 *)q)->f16,141);
 }

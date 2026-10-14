@@ -1,5 +1,5 @@
 /*
- * function: func_021D8598
+ * function: GDS_SOCKET_Begin
  * address:  0x021D8598
  * packet:   pkt_021D8598
  * region:   ov125
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7770  0x021D7770  arm
+ *   GDS_SOCKET_Start  0x021D7770  arm
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D7770(int, int, int);
+extern void GDS_SOCKET_Start(int, int, int);
 
-void func_021D8598(int a, int b, int c)
+void GDS_SOCKET_Begin(int a, int b, int c)
 {
-    func_021D7770(b, c, a);
+    GDS_SOCKET_Start(b, c, a);
 }

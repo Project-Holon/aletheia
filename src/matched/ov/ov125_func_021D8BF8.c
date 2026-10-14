@@ -1,5 +1,5 @@
 /*
- * function: func_021D8BF8
+ * function: GDS_SOCKET_SetRootCa
  * address:  0x021D8BF8
  * packet:   pkt_021D8BF8
  * region:   ov125
@@ -14,15 +14,15 @@
  * overlay start, so the ABS32 pool relocation resolves.
  *
  * symbols:
- *   d_021DAA88  0x021DAA88  data  a4
+ *   gGdsSslTemplatePtr  0x021DAA88  data  a4
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int d_021DAA88;
+extern unsigned int gGdsSslTemplatePtr;
 
-void func_021D8BF8(int a, int b)
+void GDS_SOCKET_SetRootCa(int a, int b)
 {
-    *(unsigned int *)(d_021DAA88 + 0x814) = a;
-    *(unsigned int *)(d_021DAA88 + 0x818) = b;
+    *(unsigned int *)(gGdsSslTemplatePtr + 0x814) = a;
+    *(unsigned int *)(gGdsSslTemplatePtr + 0x818) = b;
 }

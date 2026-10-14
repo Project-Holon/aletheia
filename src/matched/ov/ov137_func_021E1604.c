@@ -1,5 +1,5 @@
 /*
- * function: func_021E1604
+ * function: GURU2_MAIN_RotateAll
  * address: 0x021E1604
  * packet: pkt_ov137_021E1604
  * region: ov137
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E0634 0x021E0634 thumb ov137
- *   func_021E0980 0x021E0980 thumb ov137
+ *   GURU2_MAIN_AddAngle 0x021E0634 thumb ov137
+ *   GURU2_MAIN_RotatePlayerRecords 0x021E0980 thumb ov137
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021E0634(u8 *p, int a);
-extern void func_021E0980(char *, int);
-void func_021E1604(char *p, int v)
+extern void GURU2_MAIN_AddAngle(u8 *p, int a);
+extern void GURU2_MAIN_RotatePlayerRecords(char *, int);
+void GURU2_MAIN_RotateAll(char *p, int v)
 {
-    func_021E0634((u8 *)(p + 0xe0), v);
-    func_021E0980(p, v);
+    GURU2_MAIN_AddAngle((u8 *)(p + 0xe0), v);
+    GURU2_MAIN_RotatePlayerRecords(p, v);
 }

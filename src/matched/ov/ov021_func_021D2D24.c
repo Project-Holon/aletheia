@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DD738     0x021DD738  data  ov021  a4
+ *   gGreetingRandomMessageIds     0x021DD738  data  ov021  a4
  *   func_020056EC  0x020056EC  thumb
  */
 
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020056EC(u32 v);
-extern u32 d_021DD738[];
+extern u32 gGreetingRandomMessageIds[];
 
 u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *a, u32 v, int c)
 {
@@ -27,7 +27,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *a, u32 v, int c)
 
     if (c == 0) {
         for (i = 0; i < 0xf; i++) {
-            if (v == d_021DD738[i]) {
+            if (v == gGreetingRandomMessageIds[i]) {
                 return func_020056EC(0x14) + 0x6e;
             }
         }

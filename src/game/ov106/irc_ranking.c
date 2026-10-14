@@ -158,9 +158,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "../ov101/irc_appbar.h"
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
@@ -202,7 +200,6 @@ struct ClactActor;
 struct BmpOamSys;
 struct BmpOam;
 struct SaveControl;
-struct IrcAppBar;
 struct IrcRankSave;
 struct IrcRankEntry;
 
@@ -412,7 +409,7 @@ typedef struct IrcRankingWork {
     IrcRankingList list;
     IrcRankingInput input;
     IrcRankingInertia inertia;
-    struct IrcAppBar *appBar;
+    IrcAppBar *appBar;
     struct GfFont *font;
     struct PrintQue *printQue;
     struct MsgBank *msgBank;
@@ -433,11 +430,9 @@ extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
-extern struct IrcAppBar *IRC_APPBAR_Create(u32 a, struct ClactUnit *unit, u16 layer, u16 x, u8 y, u32 extra, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void IRC_APPBAR_Delete(struct IrcAppBar *bar);
 extern void CLACT_ReleasePalette(u32 i);
 extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
@@ -450,11 +445,8 @@ extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void MI_CpuFill8(void *, unsigned char, unsigned int);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern int IRC_APPBAR_IsBusy(struct IrcAppBar *bar);
-extern int IRC_APPBAR_GetResult(struct IrcAppBar *bar);
 extern int func_0207CA68(const Vec3 *, const Vec3 *);
 extern int func_0207C768(int, int);
-extern void IRC_APPBAR_Update(struct IrcAppBar *bar);
 extern void func_0203F8F4(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *);

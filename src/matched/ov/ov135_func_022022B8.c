@@ -1,5 +1,5 @@
 /*
- * function: func_022022B8
+ * function: WORLDTRADE_ADAPTER_RegisterReceivedMon
  * address:  0x022022B8
  * packet:   pkt_022022B8
  * region:   ov135
@@ -15,10 +15,10 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
- *   func_0220246C  0x0220246C  thumb
+ *   WORLDTRADE_ADAPTER_GetDateTime  0x0220246C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020076D0  0x020076D0  thumb
- *   func_022026BC  0x022026BC  thumb
+ *   WORLDTRADE_ADAPTER_GetBoxParam  0x022026BC  thumb
  *   func_0200752C  0x0200752C  thumb
  *   func_0200AD94  0x0200AD94  thumb
  */
@@ -53,15 +53,15 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
-extern void func_0220246C(void *p, int which);
+extern void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
-extern u32 func_022026BC(void *mon);
+extern u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 
-void func_022022B8(Work *p, void *mon, u32 box, int hatch)
+void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hatch)
 {
     u32 pos;
     u32 species;
@@ -79,7 +79,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
         species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
         POKE_TOOL_SetPartyValue(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, POKE_TOOL_GetPartyValue(mon, 0, 0)));
-        func_0220246C(p->ctx->sys, 0);
+        WORLDTRADE_ADAPTER_GetDateTime(p->ctx->sys, 0);
     }
     if (box == 0xFF) {
         POKEPARTY_Add(p->ctx->party, mon);
@@ -89,7 +89,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
     } else {
         pos = 0;
         func_020076D0((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
-        func_0200752C((void **)p->ctx->box, box, (const struct Sub02007454Entry *)func_022026BC(mon));
+        func_0200752C((void **)p->ctx->box, box, (const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->boxId = box;
         slot = pos;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5E8C
+ * function: GSYNC_DISP_Exit
  * address: 0x021D5E8C
  * packet: pkt_ov123_021D5E8C
  * region: ov123
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D63E4 0x021D63E4 thumb ov123
+ *   GSYNC_DISP_DeleteMainActor 0x021D63E4 thumb ov123
  *   func_020307B0 0x020307B0 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 typedef enum { C0 = 0 } Counter;
 extern unsigned char ov_id[];
-extern void func_021D63E4(u8 *);
+extern void GSYNC_DISP_DeleteMainActor(u8 *);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 struct Bank;
@@ -46,10 +46,10 @@ extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0203F9B4(void);
 extern void func_02034A5C(int);
-void func_021D5E8C(u8 *p)
+void GSYNC_DISP_Exit(u8 *p)
 {
     Counter i;
-    func_021D63E4(p);
+    GSYNC_DISP_DeleteMainActor(p);
     func_020307B0(((struct Obj04499 *)p)->f1C);
     CLACT_DeleteActor(((struct Obj04499 *)p)->fB4);
     CLACT_DeleteActor(((struct Obj04499 *)p)->fB8);

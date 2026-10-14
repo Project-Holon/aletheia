@@ -1,5 +1,5 @@
 /*
- * function: func_021F87D4
+ * function: BTLV_EFFECT_SetLowHpBgmSuppressed
  * address:  0x021F87D4
  * packet:   pkt_ov094_021F87D4
  * region:   ov094
@@ -12,7 +12,7 @@
  * Witness leaf for ov093 BTLV_SCU_HideMonPair: tail call (obj, v) to BTLV_GAUGE_SetLowHpBgmSuppressed.
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
  *   BTLV_GAUGE_SetLowHpBgmSuppressed  0x0220893C  thumb  ov094
  */
 typedef unsigned int u32;
@@ -22,11 +22,11 @@ typedef struct {
     void *obj;          /* 0x1A4 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
 extern void BTLV_GAUGE_SetLowHpBgmSuppressed(void *o, u32 v);
 
-void func_021F87D4(u32 v)
+void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 v)
 {
-    BTLV_GAUGE_SetLowHpBgmSuppressed(d_0220AF20->obj, v);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->obj, v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0200
+ * function: POKETRADE_SAVE_BackupBlock1F
  * address:  0x021E0200
  * packet:   pkt_ov119_021E0200
  * region:   ov119
@@ -35,7 +35,7 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
     MI_CpuCopy8(src, dst, size);
 }
 
-void *func_021E0200(void *sys, u16 heapId)
+void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId)
 {
     void *buf = sub_02030734(heapId, sub_02009D9C(), 0, d_021E8130, 0x1DA);
 

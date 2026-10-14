@@ -1,5 +1,5 @@
 /*
- * function: func_021D5CAC
+ * function: GSYNC_DOWNLOAD_CancelAsync
  * address: 0x021D5CAC
  * packet: pkt_ov123_021D5CAC
  * region: ov123
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj06460.h"
 extern int DWC_NdCancelAsync(void);
-int func_021D5CAC(char *p)
+int GSYNC_DOWNLOAD_CancelAsync(char *p)
 {
     if (((struct Obj06460 *)p)->fD0) return 0;
     if (((struct Obj06460 *)p)->fCC) {

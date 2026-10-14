@@ -1,5 +1,5 @@
 /*
- * function: func_021E121C
+ * function: GURU2_MAIN_CenterActorTask
  * address: 0x021E121C
  * packet: pkt_ov137_021E121C
  * region: ov137
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E203C 0x021E203C data a4
+ *   gGuru2CountSeTable 0x021E203C data a4
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef struct { int v[4]; } Table;
 struct Actor;
-extern const Table d_021E203C;
+extern const Table gGuru2CountSeTable;
 struct Node;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Obj;
@@ -28,12 +28,12 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
-void func_021E121C(void *task, int *p)
+void GURU2_MAIN_CenterActorTask(void *task, int *p)
 {
     switch (p[0]) {
     case 0:
         if (p[3] < 4) {
-            Table sounds = d_021E203C;
+            Table sounds = gGuru2CountSeTable;
             p[1]--;
             if (p[1] <= 0) {
                 p[1] = 30;

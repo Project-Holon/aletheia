@@ -1,5 +1,5 @@
 /*
- * function: func_02205F40
+ * function: BTLV_INPUT_DeleteTargetActors
  * address:  0x02205F40
  * packet:   pkt_ov094_02205F40
  * region:   ov094
@@ -18,7 +18,7 @@ typedef struct { char pad[0x180]; E a[6]; } W;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02205F40(W *p)
+void BTLV_INPUT_DeleteTargetActors(W *p)
 {
     int i;
 

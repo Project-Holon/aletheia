@@ -40,7 +40,7 @@
  * corrected to ov212 and 13 of 14 relocations now resolve.  The two differing
  * bytes are the image's `ldrb r1,[r4,r5] / cmp r1,#0x79` versus the compile's
  * `ldrb r0,... / cmp r0,#0x79` (the dead argument register is reused for the
- * load) -- the same allocator tell as func_021B6984/func_021BEA54.  The last
+ * load) -- the same allocator tell as HALL_OF_FAME_DeleteMonSprite/func_021BEA54.  The last
  * site, func_021C9460, is a Thumb-shaped linker stub (`ldr r3,[pc,#0];
  * bx r3; .word 0x020307B0`) that disasm emits as an unlabelled .word run, so
  * the `veneer` class cannot attest it; only the ARM stub shape attests

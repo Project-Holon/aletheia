@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0D0
+ * function: COMM_TVT_SYS_GetEndRequested
  * address:  0x021BE0D0
  * packet:   pkt_ov172_021BE0D0
  * region:   ov172
@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-u32 func_021BE0D0(void *p)
+u32 COMM_TVT_SYS_GetEndRequested(void *p)
 {
     return ((struct Obj24134 *)p)->f2C;
 }

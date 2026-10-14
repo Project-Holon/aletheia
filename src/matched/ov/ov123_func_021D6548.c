@@ -1,5 +1,5 @@
 /*
- * function: func_021D6548
+ * function: GSYNC_DISP_PaletteWaveTask
  * address: 0x021D6548
  * packet: pkt_ov123_021D6548
  * region: ov123
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void GX_LoadBGPltt(const void *, int, int);
 extern const u16 d_021DAA88[10];
-void func_021D6548(void *unused, u8 *p)
+void GSYNC_DISP_PaletteWaveTask(void *unused, u8 *p)
 {
     int line;
     int idx;

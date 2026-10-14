@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FLDMMDL_StartPlayerAnimeAndWait
+ * function: SCRCMD_FLDMMDL_StartPlayerFormChangeAndWait
  * address:  0x021B1D20
  * packet:   pkt_ov021_021B1D20
  * region:   ov021
@@ -17,7 +17,7 @@
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  *   VM_SetWait  0x020113D0  thumb
- *   SCRCMD_FLDMMDL_CheckPlayerAnimeDone  0x021B1CFC  thumb  ov021
+ *   SCRCMD_FLDMMDL_CheckPlayerFormChangeDone  0x021B1CFC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -34,9 +34,9 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
 extern void VM_SetWait(char *p, int val);
-extern int SCRCMD_FLDMMDL_CheckPlayerAnimeDone(u32 a, u32 b, u32 c, u32 d);
+extern int SCRCMD_FLDMMDL_CheckPlayerFormChangeDone(u32 a, u32 b, u32 c, u32 d);
 
-int SCRCMD_FLDMMDL_StartPlayerAnimeAndWait(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartPlayerFormChangeAndWait(u32 a, u32 b)
 {
     u32 *e;
     u32 v;
@@ -48,6 +48,6 @@ int SCRCMD_FLDMMDL_StartPlayerAnimeAndWait(u32 a, u32 b)
     FIELD_PLAYER_StartFormChange(o, v);
     if (FIELD_PLAYER_StepFormChange(o) == 1)
         return 0;
-    VM_SetWait((char *)a, (int)SCRCMD_FLDMMDL_CheckPlayerAnimeDone);
+    VM_SetWait((char *)a, (int)SCRCMD_FLDMMDL_CheckPlayerFormChangeDone);
     return 1;
 }

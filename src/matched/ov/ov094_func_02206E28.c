@@ -1,5 +1,5 @@
 /*
- * function: func_02206E28
+ * function: BTLV_GAUGE_Delete
  * address:  0x02206E28
  * packet:   pkt_ov094_02206E28
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02207960  0x02207960  thumb  ov094
- *   func_0220778C  0x0220778C  thumb  ov094
+ *   BTLV_GAUGE_DeleteSlotTask  0x02207960  thumb  ov094
+ *   BTLV_GAUGE_ReleaseSlotResources  0x0220778C  thumb  ov094
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   BTLV_GAUGE_SetBgmPlayerParam  0x02208D24  thumb  ov094
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -33,8 +33,8 @@ typedef struct {
     unsigned int b2 : 1;
 } Bf;
 
-extern void func_02207960(char *p, int i);
-extern void func_0220778C(char *p, int i);
+extern void BTLV_GAUGE_DeleteSlotTask(char *p, int i);
+extern void BTLV_GAUGE_ReleaseSlotResources(char *p, int i);
 extern int GFL_USE_PopBgm(void);
 extern void BTLV_GAUGE_SetBgmPlayerParam(int a);
 struct Node;
@@ -49,14 +49,14 @@ extern void ARC_TOOL_DeleteHandle(u32 h);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern void func_02030EAC(struct Node *n);
 
-void func_02206E28(char *p)
+void BTLV_GAUGE_Delete(char *p)
 {
     Slot i;
     int j;
 
     for (i = SLOT_0; i < SLOT_MAX; i++) {
-        func_02207960(p, i);
-        func_0220778C(p, i);
+        BTLV_GAUGE_DeleteSlotTask(p, i);
+        BTLV_GAUGE_ReleaseSlotResources(p, i);
     }
     if (((Bf *)(p + 0x440))->b2) {
         GFL_USE_PopBgm();

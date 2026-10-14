@@ -1,5 +1,5 @@
 /*
- * function: func_021C2630
+ * function: ARROW_SetResources
  * address:  0x021C2630
  * packet:   pkt_021C2630
  * region:   ov217
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021C2630(char *p, char *q)
+void ARROW_SetResources(char *p, char *q)
 {
     struct S { int a, b, c, d, e, f; };
 

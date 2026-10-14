@@ -1,5 +1,5 @@
 /*
- * function: func_021E57A4
+ * function: POKETRADE_2D_ExitSubBgs
  * address: 0x021E57A4
  * packet: pkt_ov119_021E57A4
  * region: ov119
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
-void func_021E57A4(int p)
+void POKETRADE_2D_ExitSubBgs(int p)
 {
     if (((struct Obj00001 *)p)->f11EB == 1) {
         func_02040DA8(4, 1, 0);

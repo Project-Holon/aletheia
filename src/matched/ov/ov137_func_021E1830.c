@@ -1,5 +1,5 @@
 /*
- * function: func_021E1830
+ * function: GURU2_MAIN_IsAngleInRangeList
  * address: 0x021E1830
  * packet: pkt_ov137_021E1830
  * region: ov137
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E15DC 0x021E15DC thumb ov137
- *   d_021E1F04 0x021E1F04 data a4
+ *   GURU2_MAIN_AddAngleWrapped 0x021E15DC thumb ov137
+ *   gGuru2PlayerAngleRangeLists 0x021E1F04 data a4
  */
 #include "../include/Obj02497.h"
 typedef unsigned short u16;
 struct Range { u16 lo, hi; };
 struct Entry { unsigned count; struct Range *ranges; };
-extern struct Entry d_021E1F04[];
-extern void func_021E15DC(int *, int);
-int func_021E1830(char *p, int angle, int index)
+extern struct Entry gGuru2PlayerAngleRangeLists[];
+extern void GURU2_MAIN_AddAngleWrapped(int *, int);
+int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index)
 {
     int tmp;
     unsigned a;
@@ -25,15 +25,15 @@ int func_021E1830(char *p, int angle, int index)
     unsigned b;
     struct Range *r;
     struct Entry *e;
-    func_021E15DC(&angle, -((struct Obj02497 *)p)->f11C);
-    func_021E15DC(&angle, -((struct Obj02497 *)p)->f124);
+    GURU2_MAIN_AddAngleWrapped(&angle, -((struct Obj02497 *)p)->f11C);
+    GURU2_MAIN_AddAngleWrapped(&angle, -((struct Obj02497 *)p)->f124);
     tmp = angle;
-    func_021E15DC(&tmp, -0x4000);
+    GURU2_MAIN_AddAngleWrapped(&tmp, -0x4000);
     a = tmp / 0x1000;
     tmp = angle;
-    func_021E15DC(&tmp, 0x5000);
+    GURU2_MAIN_AddAngleWrapped(&tmp, 0x5000);
     b = tmp / 0x1000;
-    e = &d_021E1F04[index];
+    e = &gGuru2PlayerAngleRangeLists[index];
     count = e->count;
     r = e->ranges;
     while (count) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0BA4
+ * function: GURU2_MAIN_ActivateCardUnit
  * address:  0x021E0BA4
  * packet:   pkt_021E0BA4
  * region:   ov137
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E0BA4(char *p, char *q)
+void GURU2_MAIN_ActivateCardUnit(char *p, char *q)
 {
     char *r = p + 0x8D0 + ((struct Obj23784 *)q)->f10 * 0x68;
 

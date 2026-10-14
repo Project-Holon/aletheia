@@ -1,5 +1,5 @@
 /*
- * function: func_021F9CB8
+ * function: BR_BTN_Create
  * address: 0x021F9CB8
  * packet: pkt_ov186_021F9CB8
  * region: ov186
@@ -14,17 +14,17 @@
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FB5E4 0x021FB5E4 thumb ov186
- *   func_021FB788 0x021FB788 thumb ov186
- *   func_021FB760 0x021FB760 thumb ov186
- *   func_021FB704 0x021FB704 thumb ov186
- *   func_021FB7D0 0x021FB7D0 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
+ *   BR_BTN_DATA_Create 0x021FB5E4 thumb ov186
+ *   BR_BTN_DATA_GetMaxSectionCount 0x021FB788 thumb ov186
+ *   BR_BTN_DATA_GetSectionCount 0x021FB760 thumb ov186
+ *   BR_BTN_DATA_GetRow 0x021FB704 thumb ov186
+ *   BR_BTN_DATA_CreateLabel 0x021FB7D0 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   func_021FAC20 0x021FAC20 thumb ov186
  *   func_021FA020 0x021FA020 thumb ov186
  *   func_021FAEC0 0x021FAEC0 thumb ov186
  *   func_021FAF08 0x021FAF08 thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FA274 0x021FA274 thumb ov186
@@ -71,24 +71,24 @@ struct U16Vec;
 extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_021FB5E4(int *ctx, int heap);
-extern unsigned func_021FB788(void *);
-extern unsigned short func_021FB760(void *, int);
-extern void *func_021FB704(char *ctx, int section, unsigned item);
+extern void *BR_BTN_DATA_Create(int *ctx, int heap);
+extern unsigned BR_BTN_DATA_GetMaxSectionCount(void *);
+extern unsigned short BR_BTN_DATA_GetSectionCount(void *, int);
+extern void *BR_BTN_DATA_GetRow(char *ctx, int section, unsigned item);
 struct MsgBank;
-extern void *func_021FB7D0(unsigned * const *p, void *record, struct MsgBank *archive, unsigned short heap);
-extern void func_021FBE54(char *base, u32 idx, u32 area);
+extern void *BR_BTN_DATA_CreateLabel(unsigned * const *p, void *record, struct MsgBank *archive, unsigned short heap);
+extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
 extern void func_021FAC20(void *ctx, void *object, int a, void *b, int owner, void *arg, int index, u32 heap);
 extern void func_021FA020(u8 *ctx, int a1, int a2);
 extern void func_021FAEC0(char *p, unsigned index);
 extern void func_021FAF08(char *p, int a1);
-extern int func_021FC214(char *p);
+extern int BR_RES_GetMsgData(char *p);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021FA274(void *p);
 extern void func_021FA920(int *task, int *state, u8 *ctx);
 extern void func_021FAAD0(void *p, int *state, unsigned char *ctx);
-struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
+struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap)
 {
     struct Obj *p;
     int tmp;
@@ -109,12 +109,12 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f14 = 1;
     MI_CpuFill8(&tmp, 0, 4);
     tmp = d;
-    p->f44 = func_021FB5E4(&tmp, heap);
+    p->f44 = BR_BTN_DATA_Create(&tmp, heap);
     if (a >= 10) p->f10 = 2;
     else p->f10 = 0;
-    func_021FBE54((char *)p->f4, p->f10, heap);
-    func_021FBE54((char *)p->f4, p->f10 + 1, heap);
-    p->f38 = func_021FB788(p->f44);
+    BR_RES_LoadSprite((char *)p->f4, p->f10, heap);
+    BR_RES_LoadSprite((char *)p->f4, p->f10 + 1, heap);
+    p->f38 = BR_BTN_DATA_GetMaxSectionCount(p->f44);
     size = p->f38 * 0x44;
     p->f40 = func_02030734(heap, size, 0, d_02200D1C, 0x167);
     MI_CpuFill8(p->f40, 0, size);
@@ -123,10 +123,10 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     MI_CpuFill8(p->f3c, 0, 0x198);
     p->fC = func_021FD6D8((int)p, (int)func_021FA274, heap);
     if (p->f5c->count != 0) {
-        arch = func_021FC214((char *)c);
+        arch = BR_RES_GetMsgData((char *)c);
         for (i = 0; i < p->f5c->count; i++) {
-            void *q = func_021FB704(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
-            void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
+            void *q = BR_BTN_DATA_GetRow(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
+            void *rec = BR_BTN_DATA_CreateLabel(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             MI_CpuFill8(buf, 0, 0x44);
             func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
             func_021FA020((u8 *)p, (int)buf, 0);
@@ -137,11 +137,11 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
         func_021FD73C(p->fC, (int)func_021FA920);
         p->f1C = 2;
     } else {
-        arch = func_021FC214((char *)c);
-        p->f39 = func_021FB760(p->f44, a);
+        arch = BR_RES_GetMsgData((char *)c);
+        p->f39 = BR_BTN_DATA_GetSectionCount(p->f44, a);
         for (i = 0; i < p->f39; i++) {
-            void *q = func_021FB704(p->f44, a, (unsigned short)i);
-            void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
+            void *q = BR_BTN_DATA_GetRow(p->f44, a, (unsigned short)i);
+            void *rec = BR_BTN_DATA_CreateLabel(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             func_021FAC20(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
             STRBUF_Delete(rec);
         }

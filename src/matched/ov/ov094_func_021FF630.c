@@ -1,5 +1,5 @@
 /*
- * function: func_021FF630
+ * function: BTLV_MCSS_StartScaleTween
  * address:  0x021FF630
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   MCSS_GetScale  0x02015C94  thumb
- *   func_021F935C  0x021F935C  thumb  ov094
- *   func_0220074C  0x0220074C  thumb  ov094
- *   func_02200A84  0x02200A84  thumb  ov094
- *   func_02200B10  0x02200B10  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
+ *   BTLV_MCSS_CreateTweenTask  0x0220074C  thumb  ov094
+ *   BTLV_MCSS_ScaleTweenTaskMain  0x02200A84  thumb  ov094
+ *   BTLV_MCSS_ScaleTweenTaskEnd  0x02200B10  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef unsigned int u32;
 typedef int fx32;
@@ -50,17 +50,17 @@ typedef struct {
     fx32 x, y, z;
 } VecFx32;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_GetScale(void *p, u32 *out);
-extern int func_021F935C(int x);
-extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
+extern int BTLV_EFFECT_GetBitMask(int x);
+extern void BTLV_MCSS_CreateTweenTask(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                           int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
-extern void func_02200A84(void);
-extern void func_02200B10(void *p);
+extern void BTLV_MCSS_ScaleTweenTaskMain(void);
+extern void BTLV_MCSS_ScaleTweenTaskEnd(void *p);
 
-void func_021FF630(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
+void BTLV_MCSS_StartScaleTween(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
 {
-    int idx = func_022019F4((char *)w, i);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, i);
     VecFx32 cur;
 
     if (idx == -1)
@@ -69,6 +69,6 @@ void func_021FF630(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c
         return;
     MCSS_GetScale(w->e[idx].h, (u32 *)(&cur));
     w->cnt[i]++;
-    func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_02200A84, func_02200B10, 0, w->cnt[i]);
-    w->mask |= func_021F935C(i);
+    BTLV_MCSS_CreateTweenTask(w, i, kind, &cur, q, n, f48, f4c, (void *)BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, 0, w->cnt[i]);
+    w->mask |= BTLV_EFFECT_GetBitMask(i);
 }

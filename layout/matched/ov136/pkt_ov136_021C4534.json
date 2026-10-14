@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4534",
+   "name": "MAILSYS_OnKeyModeNoOp",
    "address": "0x021C4534",
    "kind": "game",
    "region": "ov136",

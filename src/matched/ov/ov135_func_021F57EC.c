@@ -1,5 +1,5 @@
 /*
- * function: func_021F57EC
+ * function: WORLDTRADE_BOX_CreateWindows
  * address:  0x021F57EC
  * packet:   pkt_021F57EC
  * region:   ov135
@@ -12,8 +12,8 @@
   *
   *
  * symbols:
- *   func_021F91A0  0x021F91A0  thumb
- *   func_02200BAC  0x02200BAC  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
+ *   WORLDTRADE_TITLE_CreateMenuWindow  0x02200BAC  thumb
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   BMP_WIN_Create  0x020450F0  arm  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
@@ -56,10 +56,10 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-extern void func_02200BAC(u8 *p, u32 k);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k);
 
-void func_021F57EC(Work *p)
+void WORLDTRADE_BOX_CreateWindows(Work *p)
 {
     void *w;
 
@@ -91,10 +91,10 @@ void func_021F57EC(Work *p)
     BMP_WIN_MakeScreen(w);
     func_020409B4(BMP_WIN_GetBgLayer(w));
 
-    func_021F91A0(p->win3, (u32)p->strs, 0, 1, 1, 0x3DC4, (u32)p->g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(p->win3, (u32)p->strs, 0, 1, 1, 0x3DC4, (u32)p->g);
     if (p->mode == 5) {
-        func_02200BAC((u8 *)p, 3);
+        WORLDTRADE_TITLE_CreateMenuWindow((u8 *)p, 3);
     } else {
-        func_02200BAC((u8 *)p, 1);
+        WORLDTRADE_TITLE_CreateMenuWindow((u8 *)p, 1);
     }
 }

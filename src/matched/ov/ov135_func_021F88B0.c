@@ -1,5 +1,5 @@
 /*
- * function: func_021F88B0
+ * function: WORLDTRADE_ENTER_ClearFlags
  * address: 0x021F88B0
  * packet: pkt_ov135_021F88B0
  * region: ov135
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern const u16 d_022030E8[];
-void func_021F88B0(u8 *p,u32 n) { if(n==0){((struct Obj02204 *)p)->fF84=0;return;}n--;if(n<130)((struct Obj02204 *)p)->fF84=d_022030E8[n]; }
+void WORLDTRADE_ENTER_ClearFlags(u8 *p,u32 n) { if(n==0){((struct Obj02204 *)p)->fF84=0;return;}n--;if(n<130)((struct Obj02204 *)p)->fF84=d_022030E8[n]; }

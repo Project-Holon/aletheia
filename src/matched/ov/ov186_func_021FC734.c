@@ -1,5 +1,5 @@
 /*
- * function: func_021FC734
+ * function: BR_UTIL_Delete
  * address: 0x021FC734
  * packet: pkt_ov186_021FC734
  * region: ov186
@@ -24,4 +24,4 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021FC734(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);BMP_WIN_Delete(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}
+void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);BMP_WIN_Delete(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}

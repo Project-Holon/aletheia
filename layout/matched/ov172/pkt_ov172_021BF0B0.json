@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF0B0",
+   "name": "get_matrix_sub",
    "address": "0x021BF0B0",
    "kind": "sdk",
    "region": "ov172",

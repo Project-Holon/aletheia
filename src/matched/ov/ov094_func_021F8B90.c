@@ -1,5 +1,5 @@
 /*
- * function: func_021F8B90
+ * function: BTLV_EFFECT_VBlankTask
  * address:  0x021F8B90
  * packet:   pkt_ov094_021F8B90
  * region:   ov094
@@ -12,17 +12,17 @@
  * Calls CLACT_VBlankSystem, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 extern void CLACT_VBlankSystem(void);
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
-void func_021F8B90(void)
+void BTLV_EFFECT_VBlankTask(void)
 {
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes(*(void **)(d_0220AF20 + 0x18c));
+    PALANM_TransferPalettes(*(void **)(gBtlvEff + 0x18c));
 }

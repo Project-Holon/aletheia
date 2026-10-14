@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Stores the word at offset 0x68. Filed as the witness for ov094 func_021FD1CC.
+ * Stores the word at offset 0x68. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 #include "../include/Obj16176.h"
 

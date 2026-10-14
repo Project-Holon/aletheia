@@ -1,5 +1,5 @@
 /*
- * function: func_021C675C
+ * function: MB_SEQ_RegisterSystemActorResources
  * address: 0x021C675C
  * packet: pkt_ov136_021C675C
  * region: ov136
@@ -32,7 +32,7 @@ extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C675C(u8 *p)
+void MB_SEQ_RegisterSystemActorResources(u8 *p)
 {
     void *arc;
     u32 i;

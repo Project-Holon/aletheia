@@ -15,7 +15,7 @@
  * An unlabelled accessor (its bytes print as a `.word` run after the pool
  * of func_0200ECF0): the header of ring entry `count - 1 - idx`, a tail call
  * to sub_0200EC98 through a pool word. Same shape as sub_0200ECD0 in
- * unit_0200ECB4.c. Its only caller is ov171 func_021DCCC8.
+ * unit_0200ECB4.c. Its only caller is ov171 DENDOU_VIEW_LoadHallOfFame.
  */
 typedef unsigned char u8;
 

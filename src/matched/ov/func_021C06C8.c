@@ -1,5 +1,5 @@
 /*
- * function: func_021C06C8
+ * function: ZUKAN_DETAIL_AREA_CreatePrintQueues
  * address:  0x021C06C8
  * packet:   pkt_021C06C8
  * region:   ov208
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 extern u32 PRINTSYS_QUE_Create(void *p);
 
-void func_021C06C8(unsigned short *a, char *b, int a2)
+void ZUKAN_DETAIL_AREA_CreatePrintQueues(unsigned short *a, char *b, int a2)
 {
     unsigned char i;
 

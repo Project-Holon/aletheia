@@ -1,5 +1,5 @@
 /*
- * function: func_021C6594
+ * function: MB_SEQ_DrawActors
  * address:  0x021C6594
  * packet:   pkt_ov136_021C6594
  * region:   ov136
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 extern void CLACT_DrawSystem(void *);
-void func_021C6594(u8 *p)
+void MB_SEQ_DrawActors(u8 *p)
 {
     void *q = ((struct Obj23592 *)p)->f1EC;
     if (q != 0) {

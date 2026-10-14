@@ -1,5 +1,5 @@
 /*
- * function: func_021FBA84
+ * function: WORLDTRADE_INPUT_DrawConditionListScreen
  * address: 0x021FBA84
  * packet: pkt_ov135_021FBA84
  * region: ov135
@@ -16,12 +16,12 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021F9260 0x021F9260 thumb ov135
- *   func_021F8908 0x021F8908 thumb ov135
- *   func_021FB364 0x021FB364 thumb ov135
- *   func_021F9EEC 0x021F9EEC thumb ov135
- *   func_021FBF04 0x021FBF04 thumb ov135
- *   func_021FBEB8 0x021FBEB8 thumb ov135
- *   func_021F4FF4 0x021F4FF4 thumb ov135
+ *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
+ *   WORLDTRADE_INPUT_PrintPageNumberB 0x021FB364 thumb ov135
+ *   WORLDTRADE_INPUT_PlayCursorSe 0x021F9EEC thumb ov135
+ *   WORLDTRADE_INPUT_PrintPageLabel 0x021FBF04 thumb ov135
+ *   WORLDTRADE_INPUT_PrintFrameStringAlt 0x021FBEB8 thumb ov135
+ *   WORLDTRADE_SetActorPos 0x021F4FF4 thumb ov135
  *   tbl_02203324 0x02203324 data a4
  *   tbl_02203236 0x02203236 data a1
  */
@@ -46,28 +46,28 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void func_021F9260(void *,u32);
-extern int func_021F8908(void **menu, void *msg, int id);
-extern void func_021FB364(void *,int,int);
-extern u32 func_021F9EEC(u8 *p, u32 n);
-extern void func_021FBF04(void *,void *,void *,int,u32);
-extern void func_021FBEB8(void *,void *,void *,u32,void *);
-extern void func_021F4FF4(u32,u32,u32);
-int func_021FBA84(u8 *p)
+extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
+extern void WORLDTRADE_INPUT_PrintPageNumberB(void *,int,int);
+extern u32 WORLDTRADE_INPUT_PlayCursorSe(u8 *p, u32 n);
+extern void WORLDTRADE_INPUT_PrintPageLabel(void *,void *,void *,int,u32);
+extern void WORLDTRADE_INPUT_PrintFrameStringAlt(void *,void *,void *,u32,void *);
+extern void WORLDTRADE_SetActorPos(u32,u32,u32);
+int WORLDTRADE_INPUT_DrawConditionListScreen(u8 *p)
 {
     u8 pages;
     BGWINFRM_SetFrameDataArc(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
     func_021F9260(p,3);
-    ((struct Obj00437 *)p)->f58=func_021F8908((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
-    func_021FB364(p,0,((struct Obj00437 *)p)->f58);
+    ((struct Obj00437 *)p)->f58=WORLDTRADE_ENTER_CreateListMenu((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
+    WORLDTRADE_INPUT_PrintPageNumberB(p,0,((struct Obj00437 *)p)->f58);
     ((struct Obj00437 *)p)->f56=0;
-    pages=func_021F9EEC((u8 *)(((struct Obj00437 *)p)->f58),5);
-    func_021FBF04(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f34,((struct Obj23404 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f14,((struct Obj00437 *)p)->f56,pages);
-    func_021FBEB8(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f20,((struct Obj23405 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f38,0x4A,p+0x7C);
+    pages=WORLDTRADE_INPUT_PlayCursorSe((u8 *)(((struct Obj00437 *)p)->f58),5);
+    WORLDTRADE_INPUT_PrintPageLabel(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f34,((struct Obj23404 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f14,((struct Obj00437 *)p)->f56,pages);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f20,((struct Obj23405 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f38,0x4A,p+0x7C);
     BGWINFRM_PutFrame(((struct Obj00437 *)p)->f18,0,1,0);
     ((struct Obj00437 *)p)->f44=0;
-    func_021F4FF4(((struct Obj00437 *)p)->f8,tbl_02203236[*(int *)(p+0x44)].x,tbl_02203236[*(int *)(p+0x44)].y);
-    func_021F4FF4(((struct Obj00437 *)p)->fC,0xB0,0x88);
-    func_021F4FF4(((struct Obj00437 *)p)->f10,0x58,0x88);
+    WORLDTRADE_SetActorPos(((struct Obj00437 *)p)->f8,tbl_02203236[*(int *)(p+0x44)].x,tbl_02203236[*(int *)(p+0x44)].y);
+    WORLDTRADE_SetActorPos(((struct Obj00437 *)p)->fC,0xB0,0x88);
+    WORLDTRADE_SetActorPos(((struct Obj00437 *)p)->f10,0x58,0x88);
     if(func_020355C4()==1)
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00437 *)p)->f8,0);
     else

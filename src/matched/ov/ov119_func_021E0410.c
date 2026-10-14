@@ -1,5 +1,5 @@
 /*
- * function: func_021E0410
+ * function: POKETRADE_SAVE_ConsumePerapVoice
  * address:  0x021E0410
  * packet:   pkt_ov119_021E0410
  * region:   ov119
@@ -32,7 +32,7 @@ extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
-int func_021E0410(char *p, void *party, int idx)
+int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx)
 {
     int count = 0;
     int i, n;

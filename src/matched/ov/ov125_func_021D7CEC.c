@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CEC
+ * function: GDS_SOCKET_Nop
  * address: 0x021D7CEC
  * packet: pkt_ov125_021D7CEC
  * region: ov125
@@ -9,4 +9,4 @@
  * isa: arm
  * status: EXACT
  */
-int func_021D7CEC(void *p){return 1;}
+int GDS_SOCKET_Nop(void *p){return 1;}

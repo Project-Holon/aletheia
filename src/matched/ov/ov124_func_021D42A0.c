@@ -1,5 +1,5 @@
 /*
- * function: func_021D42A0
+ * function: CG_HELP_Main
  * address: 0x021D42A0
  * packet: pkt_ov124_021D42A0
  * region: ov124
@@ -9,8 +9,8 @@
  * status: EXACT*
  * extent: existing follower 021D43F0 remains in its separately verified file.
  * symbols:
- *   func_021D48A4 0x021D48A4 thumb ov124
- *   func_021D49C8 0x021D49C8 thumb ov124
+ *   CG_HELP_HandleTouchInput 0x021D48A4 thumb ov124
+ *   CG_HELP_UpdatePageGraphics 0x021D49C8 thumb ov124
  *   KEY_GetTrg 0x020362DC arm
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -36,7 +36,7 @@ struct Descriptor;
 struct Obj;
 struct PrintSys;
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_021D48A4(char *);
+extern void CG_HELP_HandleTouchInput(char *);
 extern u32 KEY_GetTrg(void);
 extern void func_02041B6C(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -44,12 +44,12 @@ extern void CLACT_DrawSystem(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_021D49C8(char *,u32);
+extern void CG_HELP_UpdatePageGraphics(char *,u32);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-int func_021D42A0(char *p)
+int CG_HELP_Main(char *p)
 {
     switch(((struct Obj00122 *)p)->f10) {
     case 0:
@@ -69,7 +69,7 @@ int func_021D42A0(char *p)
         if(WIPE_SYS_EndCheck()==1) return 1;
         break;
     case 4:
-        if(!((struct Obj00122 *)p)->f1C) func_021D48A4(p);
+        if(!((struct Obj00122 *)p)->f1C) CG_HELP_HandleTouchInput(p);
         if(KEY_GetTrg()&4) func_02041B6C(4);
         break;
     }
@@ -84,7 +84,7 @@ int func_021D42A0(char *p)
         BMP_WIN_TransferChars(((struct Obj00122 *)p)->f24);
         ((struct Obj00122 *)p)->f1C=0;
         ((struct Obj00122 *)p)->fC=0;
-        func_021D49C8(p,((struct Obj00122 *)p)->f18);
+        CG_HELP_UpdatePageGraphics(p,((struct Obj00122 *)p)->f18);
         if(((struct Obj00122 *)p)->f18==11) {
             APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f3C);
             APP_TASKMENU_WIN_ClearScreen(((struct Obj00122 *)p)->f3C);

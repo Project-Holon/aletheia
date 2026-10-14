@@ -1,5 +1,5 @@
 /*
- * function: func_021E04E0
+ * function: GURU2_MAIN_AddCenterUnit
  * address: 0x021E04E0
  * packet: pkt_ov137_021E04E0
  * region: ov137
@@ -10,8 +10,8 @@
  * lever: Enum zero preserves its early definition; halfword stores use literal zero to avoid truncation.
  * symbols:
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   d_021E20EC 0x021E20EC data a4
- *   d_021E1DE8 0x021E1DE8 data a4
+ *   gGuru2PlayerUnitSetupTable 0x021E20EC data a4
+ *   gGuru2PlayerUnitHeightTable 0x021E1DE8 data a4
  */
 #include "../include/Obj02499.h"
 #include "../include/Obj10625.h"
@@ -20,19 +20,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { int a[4]; } Descriptor;
-extern const Descriptor d_021E20EC[];
-extern const int d_021E1DE8[];
+extern const Descriptor gGuru2PlayerUnitSetupTable[];
+extern const int gGuru2PlayerUnitHeightTable[];
 extern int G3D_UTIL_AddUnit(void *,const void *);
-void func_021E04E0(u8 *p)
+void GURU2_MAIN_AddCenterUnit(u8 *p)
 {
     int index;
     enum { ZERO } zero;
     u8 *s;
     index=((struct Obj23775 *)(*(u8 * *)&((struct Obj10625 *)p)->fD8))->f8;
     s=p+224;
-    ((struct Obj02499 *)s)->fBC=G3D_UTIL_AddUnit(((struct Obj10625 *)p)->fAF4,&d_021E20EC[index-2]);
+    ((struct Obj02499 *)s)->fBC=G3D_UTIL_AddUnit(((struct Obj10625 *)p)->fAF4,&gGuru2PlayerUnitSetupTable[index-2]);
     zero=0;
-    ((struct Obj02499 *)s)->f44=d_021E1DE8[index];
+    ((struct Obj02499 *)s)->f44=gGuru2PlayerUnitHeightTable[index];
     ((struct Obj02499 *)s)->f18=4096;
     ((struct Obj02499 *)s)->f1C=4096;
     ((struct Obj02499 *)s)->f20=4096;

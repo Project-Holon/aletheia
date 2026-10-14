@@ -1,5 +1,5 @@
 /*
- * function: func_02201FD8
+ * function: BTLV_CLACT_MoveTaskEnd
  * address:  0x02201FD8
  * packet:   pkt_ov094_02201FD8
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_02201FD8(void *h)
+void BTLV_CLACT_MoveTaskEnd(void *h)
 {
     int *q = (int *)TCBL_GetTaskUserData(h);
     char *p = (char *)q[0];

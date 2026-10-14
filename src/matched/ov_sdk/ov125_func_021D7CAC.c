@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CAC
+ * function: GDS_SOCKET_Lock
  * address:  0x021D7CAC
  * packet:   pkt_021D7CAC
  * region:   ov125
@@ -16,15 +16,15 @@
  *
  * symbols:
  *   func_02086028  0x02086028  arm
- *   d_021DA174     0x021DA174  data  a4
+ *   gGdsSocketMutex     0x021DA174  data  a4
  *
  * Addresses are Black-image addresses.
  */
 
 extern void func_02086028(void *);
-extern char d_021DA174[];
+extern char gGdsSocketMutex[];
 
-void func_021D7CAC(void)
+void GDS_SOCKET_Lock(void)
 {
-    func_02086028(d_021DA174);
+    func_02086028(gGdsSocketMutex);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFFC
+ * function: COMM_TVT_SYS_GetSprites
  * address:  0x021BDFFC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BDFFC(void *p)
+u32 COMM_TVT_SYS_GetSprites(void *p)
 {
     return ((struct Obj24110 *)p)->f1F4;
 }

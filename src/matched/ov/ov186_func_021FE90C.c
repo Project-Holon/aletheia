@@ -1,5 +1,5 @@
 /*
- * function: func_021FE90C
+ * function: BR_FADE_StepFadeBgA
  * address: 0x021FE90C
  * packet: pkt_ov186_021FE90C
  * region: ov186
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-int func_021FE90C(u32 *p, u32 *state)
+int BR_FADE_StepFadeBgA(u32 *p, u32 *state)
 {
     u32 mask;
     s32 start, end;

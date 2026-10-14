@@ -1,5 +1,5 @@
 /*
- * function: func_021F08E4
+ * function: MB_PARENT_SYS_CheckRequest
  * address: 0x021F08E4
  * packet: pkt_ov107_021F08E4
  * region: ov107
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F1C30 0x021F1C30 arm ov107
- *   func_021F5FB0 0x021F5FB0 arm ov107
+ *   MB_CommResponseRequest 0x021F1C30 arm ov107
+ *   MB_DisconnectChild 0x021F5FB0 arm ov107
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
- *   d_021F6EAC 0x021F6EAC data a4
+ *   gMbParentSys 0x021F6EAC data a4
  */
 
 #include "../include/G_Masks.h"
@@ -20,22 +20,22 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021F1C30(u16,int);
-extern void func_021F5FB0(u16);
+extern int MB_CommResponseRequest(u16,int);
+extern void MB_DisconnectChild(u16);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32);
 typedef struct {u8 pad[10];u16 f0A,f0C,f0E,f10,f12,f14;} Masks;
-extern struct Masks d_021F6EAC;
-void func_021F08E4(u16 aid){
+extern struct Masks gMbParentSys;
+void MB_PARENT_SYS_CheckRequest(u16 aid){
  u16 mask; u32 state;
- if(!func_021F1C30(aid,1)){
+ if(!MB_CommResponseRequest(aid,1)){
  mask=~(1<<aid);state=OS_DisableInterrupts();
- d_021F6EAC.f0A&=mask;
- d_021F6EAC.f0C&=mask;
- d_021F6EAC.f0E&=mask;
- d_021F6EAC.f10&=mask;
- d_021F6EAC.f12&=mask;
- d_021F6EAC.f14&=mask;
- OS_RestoreInterrupts(state);func_021F5FB0(aid);
+ gMbParentSys.f0A&=mask;
+ gMbParentSys.f0C&=mask;
+ gMbParentSys.f0E&=mask;
+ gMbParentSys.f10&=mask;
+ gMbParentSys.f12&=mask;
+ gMbParentSys.f14&=mask;
+ OS_RestoreInterrupts(state);MB_DisconnectChild(aid);
  }
 }

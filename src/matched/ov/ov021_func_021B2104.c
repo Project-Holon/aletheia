@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FLDMMDL_StartMmdlEvent
+ * function: SCRCMD_FLDMMDL_StartMmdlRailSlipDown
  * address:  0x021B2104
  * packet:   pkt_ov021_021B2104
  * region:   ov021
@@ -34,7 +34,7 @@ extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_FLDMMDL_StartMmdlEvent(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartMmdlRailSlipDown(u32 a, u32 b)
 {
     void *t;
     u32 v;

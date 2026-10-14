@@ -1,5 +1,5 @@
 /*
- * function: func_021F4864
+ * function: WORLDTRADE_VBlankTask
  * address:  0x021F4864
  * packet:   pkt_021F4864
  * region:   ov135
@@ -31,7 +31,7 @@ typedef struct {
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
 
-void func_021F4864(void *unused, Work *p)
+void WORLDTRADE_VBlankTask(void *unused, Work *p)
 {
     func_020419E4();
     CLACT_VBlankSystem();

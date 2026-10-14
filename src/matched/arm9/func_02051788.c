@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT*
  *
- * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
+ * Returns the word at offset 0x20. Filed as the witness for ov094 BTLV_EFFVM_CmdStartParticleEffectTargeted.
  */
 #include "../include/Obj16168.h"
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE6C0
+ * function: GURU2_RECEIPT_LoadCharBuffer
  * address: 0x021DE6C0
  * packet: pkt_ov137_021DE6C0
  * region: ov137
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
-void func_021DE6C0(char *p, void *a1) { ((struct Obj23735 *)p)->f110=ARC_UTIL_LoadPaletteBlockFromArchive(32,0,(u32)(p+276),114); }
+void GURU2_RECEIPT_LoadCharBuffer(char *p, void *a1) { ((struct Obj23735 *)p)->f110=ARC_UTIL_LoadPaletteBlockFromArchive(32,0,(u32)(p+276),114); }

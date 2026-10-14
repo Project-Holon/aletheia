@@ -1,5 +1,5 @@
 /*
- * function: func_02201098
+ * function: BTLV_MCSS_ShakeTaskEnd
  * address:  0x02201098
  * packet:   pkt_ov094_02201098
  * region:   ov094
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_021F935C  0x021F935C  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
  *
  *
  * 2026-10-02 EXACT: the call argument is spelled as a raw offset load
  * (*(int *)((char *)c + 4)) while the tag index uses c->key, as in sibling
- * func_022011FC. With one spelling CSE hoists key ahead of the index and it
+ * BTLV_MCSS_BounceTaskEnd. With one spelling CSE hoists key ahead of the index and it
  * loads first (the +0x50 twins' order); with two spellings key is
  * copy-propagated and c->w loads first, as the image does.
  */
@@ -58,12 +58,12 @@ typedef struct {
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int func_021F935C(int x);
+extern int BTLV_EFFECT_GetBitMask(int x);
 
-void func_02201098(void *h)
+void BTLV_MCSS_ShakeTaskEnd(void *h)
 {
     Ctx *c = (Ctx *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
-        c->w->mask &= func_021F935C(((struct Obj06318 *)c)->f4) ^ 0xFFFFFFFF;
+        c->w->mask &= BTLV_EFFECT_GetBitMask(((struct Obj06318 *)c)->f4) ^ 0xFFFFFFFF;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6BAC",
+   "name": "HALL_OF_FAME_StateMonSequence",
    "address": "0x021B6BAC",
    "kind": "game",
    "region": "ov180",

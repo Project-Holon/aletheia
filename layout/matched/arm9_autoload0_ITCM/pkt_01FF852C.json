@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_01FF852C",
+   "name": "OSi_CpuClear32",
    "address": "0x01FF852C",
    "kind": "sdk",
    "region": "arm9_autoload0_ITCM",

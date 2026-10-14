@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021C23BC",
+   "name": "ZUKAN_DETAIL_AREA_UpdateBlendPulse",
    "address": "0x021C23BC",
    "kind": "game",
    "region": "ov208",

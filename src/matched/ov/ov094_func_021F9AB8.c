@@ -1,5 +1,5 @@
 /*
- * function: func_021F9AB8
+ * function: BTLV_EFFVM_CmdSetupCamera
  * address:  0x021F9AB8
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -14,15 +14,15 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021FDB20  0x021FDB20  thumb  ov094
- *   func_021F8710  0x021F8710  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FF16C  0x021FF16C  thumb  ov094
- *   func_021FE9F0  0x021FE9F0  thumb  ov094
- *   func_021F7208  0x021F7208  thumb  ov094
- *   func_021F8684  0x021F8684  thumb  ov094
- *   func_021F6EDC  0x021F6EDC  thumb  ov094
- *   func_021F6F48  0x021F6F48  thumb  ov094
+ *   BTLV_EFFVM_RefreshMcssOrtho  0x021FDB20  thumb  ov094
+ *   BTLV_EFFECT_GetMode  0x021F8710  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_EnableOrthoMode  0x021FF16C  thumb  ov094
+ *   BTLV_EFFVM_SpriteCleanupTaskMain  0x021FE9F0  thumb  ov094
+ *   BTLV_CAMERA_GetDefaultEyeAndTarget  0x021F7208  thumb  ov094
+ *   BTLV_EFFECT_GetCamera  0x021F8684  thumb  ov094
+ *   BTLV_CAMERA_SetEyeAndTarget  0x021F6EDC  thumb  ov094
+ *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
  *   d_0220ACA0  0x0220ACA0  data  a4
  *   d_0220ACE8  0x0220ACE8  data  a4
  *   d_0220AD00  0x0220AD00  data  a4
@@ -66,15 +66,15 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021FDB20(Ctx *c);
-extern int func_021F8710(void);
-extern int func_021F8694(void);
-extern void func_021FF16C(void *w);
-extern void func_021FE9F0(int a, int b, int n, int s, int z);
-extern void func_021F7208(VecFx32 *a, VecFx32 *b);
-extern int func_021F8684(void);
-extern void func_021F6EDC(int *p, int *a, int *b);
-extern void func_021F6F48(int cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
+extern void BTLV_EFFVM_RefreshMcssOrtho(Ctx *c);
+extern int BTLV_EFFECT_GetMode(void);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_EnableOrthoMode(void *w);
+extern void BTLV_EFFVM_SpriteCleanupTaskMain(int a, int b, int n, int s, int z);
+extern void BTLV_CAMERA_GetDefaultEyeAndTarget(VecFx32 *a, VecFx32 *b);
+extern int BTLV_EFFECT_GetCamera(void);
+extern void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b);
+extern void BTLV_CAMERA_StartMove(int cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
 
 extern const VecFx32 d_0220ACA0[2];
 extern const VecFx32 d_0220ACE8[];
@@ -84,7 +84,7 @@ extern const VecFx32 d_0220ADA8[];
 extern const VecFx32 d_0220ADD8[];
 extern const VecFx32 d_0220AE20[];
 
-int func_021F9AB8(void *r, Ctx *c)
+int BTLV_EFFVM_CmdSetupCamera(void *r, Ctx *c)
 {
     VecFx32 A;
     VecFx32 B;
@@ -108,14 +108,14 @@ int func_021F9AB8(void *r, Ctx *c)
         mode = 8;
     }
     if (mode != 8 && mode != 15 && mode != 16 && mode != 14 && mode != 17) {
-        func_021FDB20(c);
+        BTLV_EFFVM_RefreshMcssOrtho(c);
     } else {
         c->flags.f1 = 1;
     }
     switch (mode) {
     case 15:
     case 16:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         if (mode == 15) {
             v = c->dc;
         } else {
@@ -164,21 +164,21 @@ int func_021F9AB8(void *r, Ctx *c)
         }
         break;
     case 14:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         if (k == 0 || k == 3) {
             return c->ret;
         }
         break;
     case 20:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         if (k == 0 || k == 3) {
-            func_021FF16C((void *)func_021F8694());
+            BTLV_MCSS_EnableOrthoMode((void *)BTLV_EFFECT_GetMcss());
             return c->ret;
         }
         mode = 14;
         break;
     case 21:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         if (k == 0 || k == 3) {
             mode = c->dc;
         } else if (c->dc & 1) {
@@ -192,7 +192,7 @@ int func_021F9AB8(void *r, Ctx *c)
         break;
     case 9:
     case 10:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         mode = c->dc;
         if (k == 3 && (mode == 4 || mode == 6)) {
             mode = 19;
@@ -228,7 +228,7 @@ int func_021F9AB8(void *r, Ctx *c)
         case 4:
         case 8:
         case 10:
-            k = func_021F8710();
+            k = BTLV_EFFECT_GetMode();
             if (k == 0 || k == 3) {
                 mode = (c->dc & 1) ^ 1;
             } else {
@@ -252,7 +252,7 @@ int func_021F9AB8(void *r, Ctx *c)
     case 3:
     case 4:
     case 5:
-        k = func_021F8710();
+        k = BTLV_EFFECT_GetMode();
         if (k == 3) {
             A.x = d_0220ACE8[mode - 2].x;
             A.y = d_0220ACE8[mode - 2].y;
@@ -301,7 +301,7 @@ int func_021F9AB8(void *r, Ctx *c)
         B.y = d_0220ACA0[2].y;
         B.z = d_0220ACA0[2].z;
         if (c->flags.f1) {
-            func_021FE9F0(0xa66, 0xb9a, n, s, 0);
+            BTLV_EFFVM_SpriteCleanupTaskMain(0xa66, 0xb9a, n, s, 0);
             c->flags.f13 = 1;
         }
         break;
@@ -313,7 +313,7 @@ int func_021F9AB8(void *r, Ctx *c)
         B.y = d_0220ACA0[1].y;
         B.z = d_0220ACA0[1].z;
         if (c->flags.f1) {
-            func_021FE9F0(0xa66, 0xb9a, n, s, 0);
+            BTLV_EFFVM_SpriteCleanupTaskMain(0xa66, 0xb9a, n, s, 0);
             c->flags.f13 = 1;
         }
         break;
@@ -326,19 +326,19 @@ int func_021F9AB8(void *r, Ctx *c)
         B.z = d_0220ACA0[4].z;
         break;
     default:
-        func_021F7208(&A, &B);
+        BTLV_CAMERA_GetDefaultEyeAndTarget(&A, &B);
         if (c->flags.f13) {
-            func_021FE9F0(0x1000, 0x1000, n, s, 0);
+            BTLV_EFFVM_SpriteCleanupTaskMain(0x1000, 0x1000, n, s, 0);
             c->flags.f13 = 0;
         }
         break;
     }
     switch (type) {
     case 0:
-        func_021F6EDC((int *)func_021F8684(), (int *)(&A), (int *)(&B));
+        BTLV_CAMERA_SetEyeAndTarget((int *)BTLV_EFFECT_GetCamera(), (int *)(&A), (int *)(&B));
         break;
     case 1:
-        func_021F6F48(func_021F8684(), &A, &B, n, s, t);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &A, &B, n, s, t);
         break;
     }
     return c->ret;

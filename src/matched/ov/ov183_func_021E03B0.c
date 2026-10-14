@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_02045EC0 0x02045EC0 arm
@@ -32,9 +32,9 @@ extern int gSpeciesNameBank;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
 extern void func_021FC754(char *,void *,void *,void *,u16);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -48,8 +48,8 @@ void func_021E03B0(char *p,char *q,int mode)
 {
     int first,second,ws;
     void *data,*text;
-    first=func_021FC20C(*(char * *)&((struct Obj00351 *)q)->f8);
-    second=func_021FC214(*(char * *)&((struct Obj00351 *)q)->f8);
+    first=BR_RES_GetFont(*(char * *)&((struct Obj00351 *)q)->f8);
+    second=BR_RES_GetMsgData(*(char * *)&((struct Obj00351 *)q)->f8);
     switch(mode) {
     case 0:
         if(((struct Obj00351 *)q)->f18!=19)func_021FC754(*(char * *)&((struct Obj00277 *)p)->f24,(void *)second,(void *)(((struct Obj00351 *)q)->f18+205),(void *)first,0x3da0);
@@ -64,7 +64,7 @@ void func_021E03B0(char *p,char *q,int mode)
             func_021FC754(*(char * *)&((struct Obj00277 *)p)->f34,(void *)second,(void *)117,(void *)first,0x3da0);
             return;
         }
-        ws=func_021FC21C(*(char * *)&((struct Obj00351 *)q)->f8);
+        ws=BR_RES_GetWordSet(*(char * *)&((struct Obj00351 *)q)->f8);
         data=func_02045EC0((void *)second,24);
         text=STRBUF_Create(128,((struct Obj00277 *)p)->f54);
         if(!func_02025B64(((struct Obj00351 *)q)->f16))func_0201F048((void *)ws,0,((struct Obj00351 *)q)->f16);

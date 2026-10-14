@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C112C 0x021C112C thumb ov217
+ *   CircleGraph_Draw 0x021C112C thumb ov217
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C112C(u8 *p);
+extern void CircleGraph_Draw(u8 *p);
 void func_021BEDC4(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        func_021C112C(*(u8 **)(p + i * 4 + 0x2bc));
-        func_021C112C(*(u8 **)(p + i * 4 + 0x2c4));
+        CircleGraph_Draw(*(u8 **)(p + i * 4 + 0x2bc));
+        CircleGraph_Draw(*(u8 **)(p + i * 4 + 0x2c4));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7830
+ * function: CTVT_CAMVIEW_GetSlotBuffer
  * address:  0x021B7830
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Scaled offset: func_021B785C's value times a2 when the state probe passes and a2 is non-zero.
+ * Scaled offset: CTVT_CAMVIEW_GetSlotBufferStep's value times a2 when the state probe passes and a2 is non-zero.
  *
  * symbols:
- *   func_021B785C  0x021B785C  thumb  ov172
- *   func_021BE05C  0x021BE05C  thumb  ov172
+ *   CTVT_CAMVIEW_GetSlotBufferStep  0x021B785C  thumb  ov172
+ *   COMM_TVT_SYS_GetLayoutMode  0x021BE05C  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -24,14 +24,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021B785C(void *p);
-extern int func_021BE05C(void *p);
+extern u32 CTVT_CAMVIEW_GetSlotBufferStep(void *p);
+extern int COMM_TVT_SYS_GetLayoutMode(void *p);
 
-int func_021B7830(void *a0, char *a1, int a2)
+int CTVT_CAMVIEW_GetSlotBuffer(void *a0, char *a1, int a2)
 {
-    int n = (int)func_021B785C(a0);
+    int n = (int)CTVT_CAMVIEW_GetSlotBufferStep(a0);
 
-    if (func_021BE05C(a0) == 1 && a2 != 0)
+    if (COMM_TVT_SYS_GetLayoutMode(a0) == 1 && a2 != 0)
         return ((struct Obj06553 *)a1)->f4 + n;
     return ((struct Obj06553 *)a1)->f4 + n * a2;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D562C",
+   "name": "GSYNC_MESSAGE_UpdateSystem",
    "address": "0x021D562C",
    "kind": "game",
    "region": "ov123",

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0FAC
+ * function: GURU2_MAIN_UpdateWobbleEffect
  * address: 0x021E0FAC
  * packet: pkt_ov137_021E0FAC
  * region: ov137
@@ -16,16 +16,16 @@
  *   }
  *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  * symbols:
- *   func_021E15DC 0x021E15DC thumb ov137
+ *   GURU2_MAIN_AddAngleWrapped 0x021E15DC thumb ov137
  *   func_0203F5FC 0x0203F5FC arm
  *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned short u16;
-extern void func_021E15DC(int *, int);
+extern void GURU2_MAIN_AddAngleWrapped(int *, int);
 typedef unsigned int   u32;
 extern int func_0203F5FC(u32 x);
 extern void MI_CpuFill8(void *, int, unsigned);
-void func_021E0FAC(int *p)
+void GURU2_MAIN_UpdateWobbleEffect(int *p)
 {
     int *q = (int *)p[5];
     int old;
@@ -40,9 +40,9 @@ void func_021E0FAC(int *p)
     case 1:
         amount = func_0203F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
         q[13] = 0;
-        func_021E15DC(q + 13, amount);
+        GURU2_MAIN_AddAngleWrapped(q + 13, amount);
         old = p[4];
-        func_021E15DC(p + 4, p[3]);
+        GURU2_MAIN_AddAngleWrapped(p + 4, p[3]);
         if (p[4] < old) {
             p[2] = (unsigned)p[2] >> 1;
             if (p[2] == 0) {

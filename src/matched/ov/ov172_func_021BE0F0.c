@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0F0
+ * function: COMM_TVT_SYS_ClearHostBusy
  * address:  0x021BE0F0
  * packet:   pkt_ov172_021BE0F0
  * region:   ov172
@@ -13,7 +13,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BE0F0(u8 *c)
+void COMM_TVT_SYS_ClearHostBusy(u8 *c)
 {
     *(u32 *)(c + 0x30) = 0;
 }

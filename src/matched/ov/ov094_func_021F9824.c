@@ -1,5 +1,5 @@
 /*
- * function: func_021F9824
+ * function: BTLV_EFFVM_GetFallbackScriptFlag
  * address:  0x021F9824
  * packet:   pkt_ov094_021F9824
  * region:   ov094
@@ -12,7 +12,7 @@
  * Returns flag bit 6 of the owner's work when the handle at 0x1e8 is set, else -1.
  *
  * symbols:
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  */
 #include "../include/Obj21656.h"
 typedef struct {
@@ -21,11 +21,11 @@ typedef struct {
 } Flags;
 
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 
-int func_021F9824(void *a)
+int BTLV_EFFVM_GetFallbackScriptFlag(void *a)
 {
-    Flags *s = func_02011324(a);
+    Flags *s = VM_GetUserData(a);
     int r = -1;
 
     if (((struct Obj21656 *)s)->f1E8 != 0)

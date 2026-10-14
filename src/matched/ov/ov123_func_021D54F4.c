@@ -1,5 +1,5 @@
 /*
- * function: func_021D54F4
+ * function: GSYNC_MESSAGE_InitSystem
  * address: 0x021D54F4
  * packet: pkt_ov123_021D54F4
  * region: ov123
@@ -47,7 +47,7 @@ extern u32 func_02028590(u32,u32,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_0201F5DC(void *,u32,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-u8 *func_021D54F4(u32 heap,u32 bank)
+u8 *GSYNC_MESSAGE_InitSystem(u32 heap,u32 bank)
 {
     u8 *p;
     p=func_02030734(heap,0xb4,1,d_021DAA30,0x96);

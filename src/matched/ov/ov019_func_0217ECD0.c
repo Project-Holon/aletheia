@@ -1,5 +1,5 @@
 /*
- * function: func_0217ECD0
+ * function: UNION_MSG_GetBadEggNoticeMsg
  * address: 0x0217ECD0
  * packet: pkt_ov019_0217ECD0
  * region: ov019
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern const u16 d_02180324[];
-u16 func_0217ECD0(void ***ctx)
+u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx)
 {
     return d_02180324[func_02008550(**ctx)];
 }

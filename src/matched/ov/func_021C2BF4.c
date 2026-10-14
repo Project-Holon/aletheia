@@ -1,5 +1,5 @@
 /*
- * function: func_021C2BF4
+ * function: ZUKAN_DETAIL_VOICE_RestoreBgm
  * address:  0x021C2BF4
  * packet:   pkt_021C2BF4
  * region:   ov208
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_021C2BF4(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, char *p, void *a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 2) {
         GFL_USE_PopBgm();

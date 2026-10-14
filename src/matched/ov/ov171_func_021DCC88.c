@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC88
+ * function: DENDOU_VIEW_ExitText
  * address: 0x021DCC88
  * packet: pkt_ov171_021DCC88
  * region: ov171
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 #define PTR(p,n) (*(void **)((p)+(n)))
-void func_021DCC88(char *p)
+void DENDOU_VIEW_ExitText(char *p)
 {
     STRBUF_Delete(PTR(p,0xb68));
     PRINTSYS_QUE_Delete(PTR(p,0xb6c));

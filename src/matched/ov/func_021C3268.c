@@ -1,5 +1,5 @@
 /*
- * function: func_021C3268
+ * function: ZUKAN_DETAIL_VOICE_DeleteTimerWindow
  * address:  0x021C3268
  * packet:   pkt_021C3268
  * region:   ov208
@@ -25,7 +25,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_021C3268(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, char *p, void *a2)
 {
     ((struct Obj09209 *)p)->f10 = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj09209 *)p)->f8));

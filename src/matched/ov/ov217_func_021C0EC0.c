@@ -1,5 +1,5 @@
 /*
- * function: func_021C0EC0
+ * function: RingQueue_PopImpl
  * address:  0x021C0EC0
  * packet:   pkt_ov217_021C0EC0
  * region:   ov217
@@ -24,7 +24,7 @@ struct Ring {
     u32 pos;
 };
 
-u32 func_021C0EC0(struct Ring *r)
+u32 RingQueue_PopImpl(struct Ring *r)
 {
     u32 v;
     v = r->buf[r->pos];

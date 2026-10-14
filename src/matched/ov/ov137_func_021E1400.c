@@ -1,5 +1,5 @@
 /*
- * function: func_021E1400
+ * function: GURU2_MAIN_GetScreenFlashFlag
  * address: 0x021E1400
  * packet: pkt_ov137_021E1400
  * region: ov137
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-u16 func_021E1400(char *p)
+u16 GURU2_MAIN_GetScreenFlashFlag(char *p)
 {
     return ((struct Obj23798 *)p)->fC8A;
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   BTL_SERVER_FLOW_SetSickCont 0x021C5C1C thumb ov093
  *   BTL_SERVER_FLOW_PushPokeEffectAnim 0x021C5480 thumb ov093
- *   func_021C2AA0 0x021C2AA0 thumb ov093
+ *   PALETTE_ANIME_StepSinePulse60 0x021C2AA0 thumb ov093
  *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
  *   BTL_SERVER_FLOW_ClearMsgRecord 0x021C8810 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
@@ -38,7 +38,7 @@ typedef struct { int x; } S;
 struct Msg { u16 a; u16 kind:8; u16 n:7; u16 flag:1; u8 data[0x1c]; u32 w20; };
 extern void BTL_SERVER_FLOW_SetSickCont(u8 *, u8 *, int, S);
 extern void BTL_SERVER_FLOW_PushPokeEffectAnim(u8 *, u8 *, int);
-extern void func_021C2AA0(int, S, u8 *, struct Msg *);
+extern void PALETTE_ANIME_StepSinePulse60(int, S, u8 *, struct Msg *);
 extern int BTL_SERVER_FLOW_PushMsgRecord(void *, const struct Msg *);
 struct QF;
 extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p);
@@ -73,7 +73,7 @@ void BTL_SERVER_FLOW_ProcSickAdded(u8 *p, u8 *a, u8 *b, int kind, S value, int f
     case 0: break;
     }
     if (f) {
-        func_021C2AA0(kind, value, a, (struct Msg *)(p + 0x1ae4));
+        PALETTE_ANIME_StepSinePulse60(kind, value, a, (struct Msg *)(p + 0x1ae4));
         BTL_SERVER_FLOW_PushMsgRecord(p, (struct Msg *)(p + 0x1ae4));
         BTL_SERVER_FLOW_ClearMsgRecord((u8 *)(p + 0x1ae4));
     } else if (m) BTL_SERVER_FLOW_PushMsgRecord(p, m);

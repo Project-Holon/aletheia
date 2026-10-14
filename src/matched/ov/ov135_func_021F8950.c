@@ -1,5 +1,5 @@
 /*
- * function: func_021F8950
+ * function: WORLDTRADE_ENTER_UpdateListMenu
  * address: 0x021F8950
  * packet: pkt_ov135_021F8950
  * region: ov135
@@ -20,7 +20,7 @@ struct Obj;
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-int func_021F8950(void *p, u16 *old)
+int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old)
 {
     u16 current;
     int result;

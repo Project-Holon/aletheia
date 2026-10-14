@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A30
+ * function: PALETTE_ANIME_UpdateImpl
  * address:  0x021C2A30
  * packet:   pkt_021B9850
  * region:   ov217
@@ -13,16 +13,16 @@
  * record, chosen by the word at offset 0x18.
  *
  * symbols:
- *   func_021C2AA0  0x021C2AA0  thumb  ov217
- *   func_021C2B10  0x021C2B10  thumb  ov217
- *   func_021C2B80  0x021C2B80  thumb  ov217
- *   func_021C2BF0  0x021C2BF0  thumb  ov217
- *   func_021C2C30  0x021C2C30  thumb  ov217
- *   func_021C2C70  0x021C2C70  thumb  ov217
- *   func_021C2CB0  0x021C2CB0  thumb  ov217
- *   func_021C2CF0  0x021C2CF0  thumb  ov217
- *   func_021C2D28  0x021C2D28  thumb  ov217
- *   func_021C2D68  0x021C2D68  thumb  ov217
+ *   PALETTE_ANIME_StepSinePulse60  0x021C2AA0  thumb  ov217
+ *   PALETTE_ANIME_StepSinePulse30  0x021C2B10  thumb  ov217
+ *   PALETTE_ANIME_StepSinePulse90  0x021C2B80  thumb  ov217
+ *   PALETTE_ANIME_StepBlink20  0x021C2BF0  thumb  ov217
+ *   PALETTE_ANIME_StepBlink10  0x021C2C30  thumb  ov217
+ *   PALETTE_ANIME_StepBlink30  0x021C2C70  thumb  ov217
+ *   PALETTE_ANIME_StepBlinkStrong20  0x021C2CB0  thumb  ov217
+ *   PALETTE_ANIME_StepFadeIn  0x021C2CF0  thumb  ov217
+ *   PALETTE_ANIME_StepFadeOut  0x021C2D28  thumb  ov217
+ *   PALETTE_ANIME_StepHold  0x021C2D68  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -42,18 +42,18 @@ typedef struct {
     u32 kind;
 } Rec;
 
-extern void func_021C2AA0(u8 *p);
-extern void func_021C2B10(u8 *p);
-extern void func_021C2B80(u8 *p);
-extern void func_021C2BF0(u8 *p);
-extern void func_021C2C30(u8 *p);
-extern void func_021C2C70(char *p);
-extern void func_021C2CB0(char *p);
-extern void func_021C2CF0(void *p);
-extern void func_021C2D28(char *p);
-extern void func_021C2D68(void *p);
+extern void PALETTE_ANIME_StepSinePulse60(u8 *p);
+extern void PALETTE_ANIME_StepSinePulse30(u8 *p);
+extern void PALETTE_ANIME_StepSinePulse90(u8 *p);
+extern void PALETTE_ANIME_StepBlink20(u8 *p);
+extern void PALETTE_ANIME_StepBlink10(u8 *p);
+extern void PALETTE_ANIME_StepBlink30(char *p);
+extern void PALETTE_ANIME_StepBlinkStrong20(char *p);
+extern void PALETTE_ANIME_StepFadeIn(void *p);
+extern void PALETTE_ANIME_StepFadeOut(char *p);
+extern void PALETTE_ANIME_StepHold(void *p);
 
-void func_021C2A30(Rec *p)
+void PALETTE_ANIME_UpdateImpl(Rec *p)
 {
     if (p->w4 == 0)
         return;
@@ -61,34 +61,34 @@ void func_021C2A30(Rec *p)
         return;
     switch (p->kind) {
     case 0:
-        func_021C2AA0((u8 *)p);
+        PALETTE_ANIME_StepSinePulse60((u8 *)p);
         break;
     case 1:
-        func_021C2B10((u8 *)p);
+        PALETTE_ANIME_StepSinePulse30((u8 *)p);
         break;
     case 2:
-        func_021C2B80((u8 *)p);
+        PALETTE_ANIME_StepSinePulse90((u8 *)p);
         break;
     case 3:
-        func_021C2BF0((u8 *)p);
+        PALETTE_ANIME_StepBlink20((u8 *)p);
         break;
     case 4:
-        func_021C2C30((u8 *)p);
+        PALETTE_ANIME_StepBlink10((u8 *)p);
         break;
     case 5:
-        func_021C2C70((char *)p);
+        PALETTE_ANIME_StepBlink30((char *)p);
         break;
     case 6:
-        func_021C2CB0((char *)p);
+        PALETTE_ANIME_StepBlinkStrong20((char *)p);
         break;
     case 7:
-        func_021C2CF0(p);
+        PALETTE_ANIME_StepFadeIn(p);
         break;
     case 8:
-        func_021C2D28((char *)p);
+        PALETTE_ANIME_StepFadeOut((char *)p);
         break;
     case 9:
-        func_021C2D68(p);
+        PALETTE_ANIME_StepHold(p);
         break;
     }
 }

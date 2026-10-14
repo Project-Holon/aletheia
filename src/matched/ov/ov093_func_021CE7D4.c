@@ -11,16 +11,16 @@
  *   BTL_MAIN_GetOwnOpponentClient 0x021B904C thumb ov093
  *   BTL_MAIN_GetTrainerId 0x021BA004 thumb ov093
  *   BTL_MAIN_GetTrainerType 0x021BA020 thumb ov093
- *   func_021F7F58 0x021F7F58 thumb ov094
- *   func_021F7998 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_AddPokeSprite 0x021F7F58 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
  *   BTLV_CORE_PrintTrainerMessage 0x021EA6B0 thumb ov093
  *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
- *   func_021F87EC 0x021F87EC thumb ov094
- *   func_021F8774 0x021F8774 thumb ov094
+ *   BTLV_EFFECT_SaveBgmNo 0x021F87EC thumb ov094
+ *   BTLV_EFFECT_PollLowHpBgm 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   BTL_CLIENT_StepSelectAction 0x021CE4D0 thumb ov093
@@ -33,16 +33,16 @@ typedef struct { u8 flag : 1; u8 rest : 7; } Flags;
 extern u8 BTL_MAIN_GetOwnOpponentClient(u8 *p, int k);
 extern u16 BTL_MAIN_GetTrainerId(char *p, int i);
 extern unsigned short BTL_MAIN_GetTrainerType(char *p, int i);
-extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void func_021F7998(u32 a);
+extern void BTLV_EFFECT_AddPokeSprite(int, u32, u32, u32, u32);
+extern void BTLV_EFFECT_StartEffect(u32 a);
 extern int BTLV_CORE_PrintTrainerMessage(char *, u16, u16);
 extern int BTL_CALC_IsGymLeaderTrainer(u32 n);
-extern void func_021F87EC(u32);
-extern int func_021F8774(void);
+extern void BTLV_EFFECT_SaveBgmNo(u32);
+extern int BTLV_EFFECT_PollLowHpBgm(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u16, u16);
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 extern int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st);
@@ -57,13 +57,13 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(u8 *p, int *st)
         z = 0;
         i = BTL_MAIN_GetOwnOpponentClient(((struct Obj02785 *)p)->f0, 0);
         k = BTL_MAIN_GetTrainerId(((struct Obj02785 *)p)->f0, i);
-        func_021F7F58(BTL_MAIN_GetTrainerType(((struct Obj02785 *)p)->f0, i), 9, 0, 0, z);
-        func_021F7998(0x270);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(((struct Obj02785 *)p)->f0, i), 9, 0, 0, z);
+        BTLV_EFFECT_StartEffect(0x270);
         BTLV_CORE_PrintTrainerMessage(*(char * *)&((struct Obj02785 *)p)->f54, k, ((struct Obj02785 *)p)->f19E);
         if ((u16)(((struct Obj02785 *)p)->f19E + 0xffed) <= 1 &&
             BTL_CALC_IsGymLeaderTrainer(BTL_MAIN_GetTrainerType(((struct Obj02785 *)p)->f0, i)) && !((Flags *)(p + 0x1b2))->flag) {
-            func_021F87EC(0x47b);
-            if (!func_021F8774()) {
+            BTLV_EFFECT_SaveBgmNo(0x47b);
+            if (!BTLV_EFFECT_PollLowHpBgm()) {
                 GFL_USE_FadeOutBgm(8);
                 *st = 1;
                 break;
@@ -79,13 +79,13 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(u8 *p, int *st)
         }
         break;
     case 2:
-        if (!func_021F7EB4() && BTLV_CORE_WaitMessage(((struct Obj02785 *)p)->f54)) {
-            func_021F7998(0x271);
+        if (!BTLV_EFFECT_IsBusy() && BTLV_CORE_WaitMessage(((struct Obj02785 *)p)->f54)) {
+            BTLV_EFFECT_StartEffect(0x271);
             ++*st;
         }
         break;
     case 3:
-        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
+        if (!BTLV_EFFECT_IsBusy()) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
         break;
     }
     return 0;

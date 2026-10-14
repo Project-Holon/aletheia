@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CF8
+ * function: RESEARCH_COMMON_CreatePaletteAnime
  * address:  0x021C0CF8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C29C8  0x021C29C8  thumb  ov217
+ *   PALETTE_ANIME_Create  0x021C29C8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C29C8(u32 a0);
-void func_021C0CF8(u32 a0)
+extern u32 PALETTE_ANIME_Create(u32 a0);
+void RESEARCH_COMMON_CreatePaletteAnime(u32 a0)
 {
-    ((struct Obj00791 *)(((u8*)a0 + 0)))->f2C = func_021C29C8(((struct Obj00791 *)((u8*)a0))->f0);
+    ((struct Obj00791 *)(((u8*)a0 + 0)))->f2C = PALETTE_ANIME_Create(((struct Obj00791 *)((u8*)a0))->f0);
 }
 

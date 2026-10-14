@@ -1,5 +1,5 @@
 /*
- * function: func_021B70A8
+ * function: CTVT_CAMVIEW_Delete
  * address: 0x021B70A8
  * packet: pkt_ov172_021B70A8
  * region: ov172
@@ -11,8 +11,8 @@
  *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_020307B0 0x020307B0 arm
- *   func_021BE100 0x021BE100 thumb ov172
- *   func_021B63B8 0x021B63B8 thumb ov172
+ *   COMM_TVT_SYS_IsNetIdle 0x021BE100 thumb ov172
+ *   CTVT_CAMERA_Delete 0x021B63B8 thumb ov172
  *   func_020306F0 0x020306F0 arm
  */
 #include "../include/Obj04550.h"
@@ -20,10 +20,10 @@ extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern int func_021BE100(void);
-extern void func_021B63B8(char *p);
+extern int COMM_TVT_SYS_IsNetIdle(void);
+extern void CTVT_CAMERA_Delete(char *p);
 extern void func_020306F0(unsigned int);
-void func_021B70A8(int unused, char *q)
+void CTVT_CAMVIEW_Delete(int unused, char *q)
 {
     int matrix[4];
     matrix[0] = FX_Inv(4096);
@@ -34,11 +34,11 @@ void func_021B70A8(int unused, char *q)
     func_020307B0(((struct Obj04550 *)q)->f4);
     func_020307B0(((struct Obj04550 *)q)->fC);
     func_020307B0(((struct Obj04550 *)q)->f8);
-    if (func_021BE100() == 1) {
+    if (COMM_TVT_SYS_IsNetIdle() == 1) {
         func_020307B0(((struct Obj04550 *)q)->fB0);
         func_020307B0(((struct Obj04550 *)q)->fA8);
         func_020307B0(((struct Obj04550 *)q)->fAC);
-        func_021B63B8(((struct Obj04550 *)q)->fA4);
+        CTVT_CAMERA_Delete(((struct Obj04550 *)q)->fA4);
         func_020306F0(110);
     }
     func_020307B0(q);

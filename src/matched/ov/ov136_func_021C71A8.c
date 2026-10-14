@@ -1,5 +1,5 @@
 /*
- * function: func_021C71A8
+ * function: MB_SEQ_SetMessageWait
  * address:  0x021C71A8
  * packet:   pkt_021C71A8
  * region:   ov136
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021C71A8(char *p, int v, int w)
+int MB_SEQ_SetMessageWait(char *p, int v, int w)
 {
     ((struct Obj23639 *)(*(char * *)&((struct Obj00127 *)p)->f8))->f1DD = v;
     *(int *)&((struct Obj00127 *)p)->f28 = w;

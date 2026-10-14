@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFD0C",
+   "name": "POKETRADE_MCSS_StopAnimation",
    "address": "0x021DFD0C",
    "kind": "game",
    "region": "ov119",

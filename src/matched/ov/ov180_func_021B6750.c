@@ -1,5 +1,5 @@
 /*
- * function: func_021B6750
+ * function: HALL_OF_FAME_InitParticleHeap
  * address: 0x021B6750
  * packet: pkt_ov180_021B6750
  * region: ov180
@@ -13,4 +13,4 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0204E8C0(u32 heap);
-void func_021B6750(void) {func_0204E8C0(141);}
+void HALL_OF_FAME_InitParticleHeap(void) {func_0204E8C0(141);}

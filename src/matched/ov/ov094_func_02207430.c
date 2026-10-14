@@ -1,5 +1,5 @@
 /*
- * function: func_02207430
+ * function: BTLV_GAUGE_LoadSlotResources
  * address: 0x02207430
  * packet: pkt_ov094_02207430
  * region: ov094
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_0220AAC8 0x0220AAC8 data
+ *   gBtlvGaugeActorInit 0x0220AAC8 data
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_021F8710 0x021F8710 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
@@ -40,11 +40,11 @@ typedef struct {
     char pad440[8];
     u16 heap;
 } Work;
-extern const Cfg d_0220AAC8;
+extern const Cfg gBtlvGaugeActorInit;
 extern void CLACT_ReleasePalette(u32);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 struct PalAnmSlot;
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
@@ -52,11 +52,11 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern int func_021F8710(void);
+extern int BTLV_EFFECT_GetMode(void);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-void func_02207430(Work *p, int mode, int i)
+void BTLV_GAUGE_LoadSlotResources(Work *p, int mode, int i)
 {
     int chr, pal, cell, cpal, j, n, side;
     Cfg cfg;
@@ -84,7 +84,7 @@ void func_02207430(Work *p, int mode, int i)
         cpal = (i < 4) ? 0xa2 : 0xa3;
         CLACT_ReleasePalette(p->pal[j]);
         p->pal[j] = CLACT_RegisterPaletteEx((void *)p->f4, cpal, 0, (u16)(j << 5), 0, 1, p->heap);
-        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(p->pal[j], 0) >> 1), 0x20);
+        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(p->pal[j], 0) >> 1), 0x20);
     }
     p->entries[i].f58 = CLACT_RegisterCharacter((void *)p->f4, chr, 0, 0, p->heap);
     p->entries[i].f5c = CLACT_RegisterCellAnim((void *)p->f4, pal, cell, p->heap);
@@ -99,7 +99,7 @@ void func_02207430(Work *p, int mode, int i)
         p->entries[i].f78 = CLACT_RegisterCharacter((void *)p->f4, 0xb7, 0, 0, p->heap);
         p->entries[i].f7c = CLACT_RegisterCellAnim((void *)p->f4, 0xb8, 0xb9, p->heap);
     }
-    cfg = d_0220AAC8;
+    cfg = gBtlvGaugeActorInit;
     j = i;
     if (i >= 2)
         j = i - 2;
@@ -109,7 +109,7 @@ void func_02207430(Work *p, int mode, int i)
     cfg.pri = n + 1;
     p->entries[i].f44 = (u32)CLACT_CreateActor((void *)p->f0, p->entries[i].f60, p->pal[j], p->entries[i].f64, &cfg, 0, p->heap);
     p->entries[i].f48 = (u32)CLACT_CreateActor((void *)p->f0, p->entries[i].f68, p->pal[j], p->entries[i].f6c, &cfg, 0, p->heap);
-    if (func_021F8710() == 3 && i >= 4)
+    if (BTLV_EFFECT_GetMode() == 3 && i >= 4)
         p->entries[i].f54 = (u32)CLACT_CreateActor((void *)p->f0, p->f30, p->f3c, p->f34, &cfg, 0, p->heap);
     else
         p->entries[i].f54 = (u32)CLACT_CreateActor((void *)p->f0, p->f30, p->f38, p->f34, &cfg, 0, p->heap);

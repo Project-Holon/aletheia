@@ -19,14 +19,14 @@
  *   DWCi_STEPlEnd  0x021D0580  arm  ov016
  *   DWCi_EFFlFade  0x021D55A4  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
- *   func_021CD6F0  0x021CD6F0  arm  ov016
+ *   DWCi_SceneSetTestCompletet_endScene1  0x021CD6F0  arm  ov016
  */
 
 extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void DWCi_STEPlEnd(void);
 extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
-extern void func_021CD6F0(void);
+extern void DWCi_SceneSetTestCompletet_endScene1(void);
 
 void func_021CD690(void)
 {
@@ -36,5 +36,5 @@ void func_021CD690(void)
         DWCi_STEPlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 21, 8);
-    DWCi_ChangeScene((unsigned int)func_021CD6F0);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTestCompletet_endScene1);
 }

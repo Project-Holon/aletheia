@@ -1,5 +1,5 @@
 /*
- * function: func_021FFFD8
+ * function: BTLV_MCSS_SetSubstituteSprite
  * address:  0x021FFFD8
  * packet:   pkt_ov094_021FFFD8
  * region:   ov094
@@ -9,30 +9,30 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_022019F4 0x022019F4 thumb ov094
+ *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
  *   MCSS_TOOL_SetSpindaSpotHook 0x020172AC thumb
  *   MCSS_ReloadResource 0x02014CF8 thumb
  *   MCSS_SetAnimCallback 0x02015F2C thumb
- *   func_02201718 0x02201718 thumb ov094
+ *   BTLV_MCSS_IdleAnimCallback 0x02201718 thumb ov094
  *   POKEGRA_GetArcID 0x0202D060 thumb
- *   func_021FFE24 0x021FFE24 thumb ov094
+ *   BTLV_MCSS_StartPaletteCopy 0x021FFE24 thumb ov094
  */
 #include "../include/Obj01047.h"
 typedef unsigned int u32;
 typedef struct { u32 v[9]; } Rec;
-extern int func_022019F4(char *, int);
+extern int BTLV_MCSS_FindSpriteIndex(char *, int);
 extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 struct Sub02014CF8Ctx;
 struct Sub02014CF8Rec;
 extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 extern void MCSS_SetAnimCallback(void *, int, void (*)(int), int);
-extern void func_02201718(int);
+extern void BTLV_MCSS_IdleAnimCallback(int);
 extern int POKEGRA_GetArcID(void);
-extern void func_021FFE24(char *, int);
+extern void BTLV_MCSS_StartPaletteCopy(char *, int);
 
-void func_021FFFD8(char *w, int key, int flag, int clear)
+void BTLV_MCSS_SetSubstituteSprite(char *w, int key, int flag, int clear)
 {
-    int idx = func_022019F4(w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex(w, key);
     char *e;
     int off;
     Rec r;
@@ -48,7 +48,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
     if (flag == 0) {
         MCSS_TOOL_SetSpindaSpotHook((int)(((struct Obj01047 *)w)->f4), *(u32 *)(w + off + 0x3c));
         MCSS_ReloadResource(((struct Obj01047 *)w)->f4, *(void **)(w + 8 + off), (const struct Sub02014CF8Rec *)(w + 0xc + off));
-        MCSS_SetAnimCallback(*(void **)(w + 8 + off), idx, func_02201718, 1);
+        MCSS_SetAnimCallback(*(void **)(w + 8 + off), idx, BTLV_MCSS_IdleAnimCallback, 1);
         if (clear)
             *(u32 *)(w + 0x48 + off) &= ~1u;
         *(u32 *)(w + 0x48 + off) &= ~4u;
@@ -64,7 +64,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
         r.v[7] = odd ? 0x37a5 : 0x37ab;
         r.v[8] = 0;
         MCSS_ReloadResource(((struct Obj01047 *)w)->f4, *(void **)(e + off), (const struct Sub02014CF8Rec *)(&r));
-        func_021FFE24(w, key);
+        BTLV_MCSS_StartPaletteCopy(w, key);
         if (clear)
             *(u32 *)(w + 0x48 + off) |= 1;
         *(u32 *)(w + 0x48 + off) |= 4;

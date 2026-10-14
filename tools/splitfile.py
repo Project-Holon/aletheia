@@ -892,6 +892,22 @@ def render(chunks):
 
 # ---------------------------------------------------------------- main
 
+def piece_name(name):
+    """Output piece names always end in .c (a missing or other extension is replaced)."""
+    base = os.path.basename(name)
+    d = name[:len(name) - len(base)]
+    if base.lower().endswith('.c'):
+        base = base[:-2] + '.c'
+    else:
+        base = os.path.splitext(base)[0] + '.c' if '.' in base else base + '.c'
+    return d + base
+
+
+def lf(text):
+    """Output text always uses LF line ends."""
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def read_cuts(path):
     cuts = []
     for ln in open(path):
@@ -899,7 +915,7 @@ def read_cuts(path):
         if not ln:
             continue
         a, name = ln.split()[:2]
-        cuts.append((int(a, 16), name))
+        cuts.append((int(a, 16), piece_name(name)))
     cuts.sort()
     names = [n for _a, n in cuts]
     if len(set(names)) != len(names):
@@ -907,7 +923,26 @@ def read_cuts(path):
     return cuts
 
 
+def selftest():
+    """piece_name keeps .c; lf strips CR; a cut table without extensions still yields .c pieces."""
+    import shutil
+    import tempfile
+    assert piece_name('a') == 'a.c' and piece_name('a.c') == 'a.c' and piece_name('a.C') == 'a.c'
+    assert piece_name('a.txt') == 'a.c' and piece_name('dir/b') == 'dir/b.c'
+    assert lf("x\r\ny\rz\n") == "x\ny\nz\n"
+    d = tempfile.mkdtemp(prefix='splitfile_selftest_')
+    t = os.path.join(d, 'cuts.tsv')
+    with open(t, 'w', newline='') as f:
+        f.write("02000000 first\n02000100 second.txt\n")
+    assert [n for _a, n in read_cuts(t)] == ['first.c', 'second.c']
+    shutil.rmtree(d, ignore_errors=True)
+    print('splitfile selftest: PASS')
+
+
 def main():
+    if sys.argv[1:] == ['--selftest']:
+        selftest()
+        return
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('files', nargs='+')
     ap.add_argument('--cuts', required=True)
@@ -955,8 +990,8 @@ def main():
         outdir = a.out or u.dir
     os.makedirs(outdir, exist_ok=True)
     for name, text in outputs.items():
-        with open(os.path.join(outdir, name), 'w', newline='') as f:
-            f.write(text)
+        with open(os.path.join(outdir, name), 'w', newline='', encoding='latin1') as f:
+            f.write(lf(text))
     if a.install:
         keep = set(outputs)
         for p in a.files:

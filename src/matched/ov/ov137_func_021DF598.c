@@ -1,5 +1,5 @@
 /*
- * function: func_021DF598
+ * function: GURU2_MAIN_StateWaitTimerToEnd
  * address: 0x021DF598
  * packet: pkt_ov137_021DF598
  * region: ov137
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021DF598(int *p) {if(p[3]<180){p[3]+=1;}else{p[3]=0;p[0]=42;}return 0;}
+int GURU2_MAIN_StateWaitTimerToEnd(int *p) {if(p[3]<180){p[3]+=1;}else{p[3]=0;p[0]=42;}return 0;}

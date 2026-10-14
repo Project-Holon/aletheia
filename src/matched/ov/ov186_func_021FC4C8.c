@@ -1,5 +1,5 @@
 /*
- * function: func_021FC4C8
+ * function: BR_GRAPHIC_Draw
  * address:  0x021FC4C8
  * packet:   pkt_021FC4C8
  * region:   ov186
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FC5FC  0x021FC5FC  thumb  ov186
- *   func_021FC594  0x021FC594  thumb  ov186
+ *   BR_GRAPHIC_DrawActors  0x021FC5FC  thumb  ov186
+ *   BR_GRAPHIC_DrawBg  0x021FC594  thumb  ov186
  */
 
-extern void func_021FC5FC(void *);
-extern void func_021FC594(void *);
+extern void BR_GRAPHIC_DrawActors(void *);
+extern void BR_GRAPHIC_DrawBg(void *);
 
-void func_021FC4C8(char *p)
+void BR_GRAPHIC_Draw(char *p)
 {
-    func_021FC5FC(p + 4);
-    func_021FC594(p);
+    BR_GRAPHIC_DrawActors(p + 4);
+    BR_GRAPHIC_DrawBg(p);
 }

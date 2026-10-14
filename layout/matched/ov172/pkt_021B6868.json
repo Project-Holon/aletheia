@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6868",
+   "name": "CTVT_CAMERA_StopCapture",
    "address": "0x021B6868",
    "kind": "game",
    "region": "ov172",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B699C",
+   "name": "CTVT_CAMERA_GetSizeHeight",
    "address": "0x021B699C",
    "kind": "game",
    "region": "ov172",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6C34",
+   "name": "DRAW_SYSTEM_DeleteCanvas",
    "address": "0x021B6C34",
    "kind": "game",
    "region": "ov172",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B6E5C",
+   "name": "DRAW_SYSTEM_PutPixel",
    "address": "0x021B6E5C",
    "kind": "game",
    "region": "ov172",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B6E88",
+   "name": "DRAW_SYSTEM_PushStroke",
    "address": "0x021B6E88",
    "kind": "game",
    "region": "ov172",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA280",
+   "name": "CTVT_DRAW_Create",
    "address": "0x021BA280",
    "kind": "game",
    "region": "ov172",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE1A4",
+   "name": "COMM_TVT_SYS_ClearNameWindows",
    "address": "0x021BE1A4",
    "kind": "game",
    "region": "ov172",

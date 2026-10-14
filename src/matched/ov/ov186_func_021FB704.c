@@ -1,5 +1,5 @@
 /*
- * function: func_021FB704
+ * function: BR_BTN_DATA_GetRow
  * address: 0x021FB704
  * packet: pkt_ov186_021FB704
  * region: ov186
@@ -17,7 +17,7 @@ extern const unsigned short d_022007F0[][6];
 extern char d_02200D38[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-void *func_021FB704(char *ctx, int section, unsigned item)
+void *BR_BTN_DATA_GetRow(char *ctx, int section, unsigned item)
 {
     int i;
     int total;

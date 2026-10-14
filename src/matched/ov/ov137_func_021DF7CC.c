@@ -1,5 +1,5 @@
 /*
- * function: func_021DF7CC, func_021DF7E4
+ * function: GURU2_MAIN_StateWaitWipeOut, GURU2_MAIN_StateFinished
  * unit: yes
  * address: 0x021DF7CC
  * packet: pkt_ov137_021DF7CC
@@ -13,5 +13,5 @@
  */
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
-int func_021DF7CC(int *p){if(WIPE_SYS_EndCheck()){*p=52;return 1;}return 0;}
-int func_021DF7E4(void){return 2;}
+int GURU2_MAIN_StateWaitWipeOut(int *p){if(WIPE_SYS_EndCheck()){*p=52;return 1;}return 0;}
+int GURU2_MAIN_StateFinished(void){return 2;}

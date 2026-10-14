@@ -1,5 +1,5 @@
 /*
- * function: func_021FB614
+ * function: WORLDTRADE_INPUT_StateStartCategoryScreenAlt
  * address: 0x021FB614
  * packet: pkt_ov135_021FB614
  * region: ov135
@@ -11,8 +11,8 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021FA9C8 0x021FA9C8 thumb ov135
- *   func_021F4FF4 0x021F4FF4 thumb ov135
+ *   WORLDTRADE_INPUT_DrawFrame 0x021FA9C8 thumb ov135
+ *   WORLDTRADE_SetActorPos 0x021F4FF4 thumb ov135
  *   tbl_02203298 0x02203298 data a1
  *   BGWINFRM_StartMove  0x0202CD64  thumb  arm9
  */
@@ -27,21 +27,21 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021FA9C8(u8 *p, int mode, int pos);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_INPUT_DrawFrame(u8 *p, int mode, int pos);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern const u8 tbl_02203298[][2];
-int func_021FB614(u8 *p)
+int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(u8 *p)
 {
-    func_021FA9C8(p, 6, 0x20);
+    WORLDTRADE_INPUT_DrawFrame(p, 6, 0x20);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02858 *)p)->f8), 18);
     BGWINFRM_StartMove(((struct Obj02858 *)p)->f18, 0, -4, 0, 4);
     ((struct Obj02858 *)p)->f48 = 1;
     ((struct Obj02858 *)p)->f4C = 19;
     ((struct Obj02858 *)p)->f44 = 10;
     ((struct Obj02858 *)p)->f38 = -1;
-    func_021F4FF4(((struct Obj02858 *)p)->f8, (tbl_02203298[((struct Obj02858 *)p)->f44][0] + 16) * 8, tbl_02203298[((struct Obj02858 *)p)->f44][1] * 8);
+    WORLDTRADE_SetActorPos(((struct Obj02858 *)p)->f8, (tbl_02203298[((struct Obj02858 *)p)->f44][0] + 16) * 8, tbl_02203298[((struct Obj02858 *)p)->f44][1] * 8);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02858 *)p)->f8), 6);
     return -1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7700
+ * function: GDS_RAP_GetVideoWork
  * address: 0x021D7700
  * packet: pkt_ov125_021D7700
  * region: ov125
@@ -14,4 +14,4 @@
 #include "../include/G_BattleRec.h"
 
 extern struct BattleRec *d_0214616C;
-char *func_021D7700(void) { return ((char *)d_0214616C); }
+char *GDS_RAP_GetVideoWork(void) { return ((char *)d_0214616C); }

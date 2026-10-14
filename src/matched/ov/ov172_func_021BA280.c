@@ -1,5 +1,5 @@
 /*
- * function: func_021BA280
+ * function: CTVT_DRAW_Create
  * address:  0x021BA280
  * packet:   pkt_021B6868
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
-void func_021BA280(void *a, void *b)
+void CTVT_DRAW_Create(void *a, void *b)
 {
     char *v = func_02030734((u32)b, 0x98, 1, (void *)0x021C7228, 0xcf);
 

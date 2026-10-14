@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFA8
+ * function: ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources
  * address: 0x021BDFA8
  * packet: pkt_ov208_021BDFA8
  * region: ov208
@@ -10,8 +10,8 @@
  * status: EXACT*
  * symbols:
  *   func_021BE1BC 0x021BE1BC thumb
- *   func_021BE16C 0x021BE16C thumb
- *   func_021BD208 0x021BD208 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag 0x021BE16C thumb
+ *   ZKND_TBAR_DeleteButtonList 0x021BD208 thumb
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -20,18 +20,18 @@
 struct Ov208Mgr;
 struct Ov208Eff { char pad[0x30]; struct Ov208Mgr *mgr; char pad2[0x10]; void *f44; void *f48; void *f4c; };
 extern void func_021BE1BC(struct Ov208Eff *e);
-extern void func_021BE16C(struct Ov208Eff *e);
-extern void func_021BD208(struct Ov208Mgr *m);
+extern void ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag(struct Ov208Eff *e);
+extern void ZKND_TBAR_DeleteButtonList(struct Ov208Mgr *m);
 typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021BDFA8(struct Ov208Eff *e)
+void ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources(struct Ov208Eff *e)
 {
     if (e->mgr != 0) {
         func_021BE1BC(e);
-        func_021BE16C(e);
-        func_021BD208(e->mgr);
+        ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag(e);
+        ZKND_TBAR_DeleteButtonList(e->mgr);
         CLACT_ReleasePalette((u32)e->f44);
         CLACT_ReleaseCharacter((u32)e->f48);
         CLACT_ReleaseCellAnim((u32)e->f4c);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DDE90
+ * function: POKETRADE_NEGO_StepShowWaitMessageB
  * address: 0x021DDE90
  * packet: pkt_ov119_021DDE90
  * region: ov119
@@ -11,10 +11,10 @@
  *   func_021DD080 0x021DD080 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021E1024 0x021E1024 thumb ov119
- *   func_021E1030 0x021E1030 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021DDDF4 0x021DDDF4 thumb ov119
+ *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
+ *   POKETRADE_SAVE_ShowTimeIcon 0x021E1030 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_NEGO_StepWaitCancelSync 0x021DDDF4 thumb ov119
  */
 #include "../include/Obj10360.h"
 
@@ -24,12 +24,12 @@ extern void func_021DD080(void *a, void *b, void *c);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E1024(void *);
-extern void func_021E1030(char *p);
-extern void func_021D8E84(void *,int);
-extern void func_021DDDF4(unsigned char *p);
+extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
+extern void POKETRADE_SAVE_ShowTimeIcon(char *p);
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_NEGO_StepWaitCancelSync(unsigned char *p);
 
-void func_021DDE90(unsigned char *p)
+void POKETRADE_NEGO_StepShowWaitMessageB(unsigned char *p)
 {
-    func_021DD080((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(((struct Obj10360 *)p)->f720),0x88,(void *)(((struct Obj10360 *)p)->f738)); func_021E1024(p); func_021E1030((char *)p); p[0x11f1]=120; func_021D8E84(p,(int)func_021DDDF4);
+    func_021DD080((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(((struct Obj10360 *)p)->f720),0x88,(void *)(((struct Obj10360 *)p)->f738)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitCancelSync);
 }

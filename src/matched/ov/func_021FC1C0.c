@@ -1,5 +1,5 @@
 /*
- * function: func_021FC1C0
+ * function: WORLDTRADE_DETAIL_SetupBgPlanes
  * address:  0x021FC1C0
  * packet:   pkt_021FC1C0
  * region:   ov135
@@ -74,7 +74,7 @@ extern struct BgTemplate g_022034DC;
 extern struct BgTemplate g_022034BC;
 extern struct BgTemplate g_022034FC;
 
-void func_021FC1C0(void)
+void WORLDTRADE_DETAIL_SetupBgPlanes(void)
 {
     struct DispConfig c = g_022034AC;
     u32 v = BG_SYS_GetSubVisiblePlanes();

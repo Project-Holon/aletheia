@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC04
+ * function: UNION_MSG_GetNoReplyMsg
  * address: 0x0217EC04
  * packet: pkt_ov019_0217EC04
  * region: ov019
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern const u16 d_0218031C[];
-u16 func_0217EC04(void ***ctx)
+u16 UNION_MSG_GetNoReplyMsg(void ***ctx)
 {
     return d_0218031C[func_02008550(**ctx)];
 }

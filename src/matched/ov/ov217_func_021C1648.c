@@ -1,5 +1,5 @@
 /*
- * function: func_021C1648
+ * function: CircleGraph_UpdateErase
  * address:  0x021C1648
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C16FC  0x021C16FC  thumb  ov217
+ *   CircleGraph_SetState  0x021C16FC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_021C16FC(void *p, u32 v);
-void func_021C1648(u8 *a0)
+extern void *CircleGraph_SetState(void *p, u32 v);
+void CircleGraph_UpdateErase(u8 *a0)
 {
     if (((struct Obj04641 *)(((u8*)a0)))->f10 >= 20) {
-    func_021C16FC(a0, 0);
+    CircleGraph_SetState(a0, 0);
     }
 }
 

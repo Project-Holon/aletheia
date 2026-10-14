@@ -90,9 +90,9 @@ typedef struct HandExPlayEffect {
     u8 mode;
 } HandExPlayEffect;
 
-extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlSvFlow *flow, int pokeId);
-extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlSvFlow *flow, u8 pokeId);
-extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlSvFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlServerFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlServerFlow *flow, u8 pokeId);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, int pokeId);
 extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int typeId);
 extern u32 BTLV_CORE_MakeSlotKind1Empty(void);
 extern u32 BTLV_CORE_MakeSlotKind1Index15(void);

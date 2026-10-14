@@ -24,7 +24,7 @@
  *   WAZA_TOOL_CreateCache 0x0201C328 thumb
  *   gTrAiAllocSite 0x0218A7A0 data
  *   gTrAiVmParams 0x0218A574 data
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -82,7 +82,7 @@
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   BTL_SERVER_FLOW_CheckFieldEffectActive  0x021C82F4  thumb  ov093
  *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
- *   func_021F8AFC 0x021F8AFC thumb ov094
+ *   BTLV_EFFECT_GetPokeEffectValue 0x021F8AFC thumb ov094
  *   func_02019C90 0x02019C90 thumb
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
@@ -110,7 +110,7 @@ extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_CreateCache(int n, u32 heap);
-extern TrAiWork *func_02011324(ScriptVm *vm);
+extern TrAiWork *VM_GetUserData(ScriptVm *vm);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
 extern u32 func_0203F0A8(void);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -166,7 +166,7 @@ extern u32 BTL_POKEPARAM_HasSubstitute(struct BtlPokeParam *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *p);
 extern int BTL_SERVER_FLOW_CheckFieldEffectActive(void *, int, int);
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
-extern int func_021F8AFC(int);
+extern int BTLV_EFFECT_GetPokeEffectValue(int);
 extern u32 func_02019C90(u16, u16, u32);
 extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(void *q, u8 b);
 extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(void *p, u32 i);
@@ -373,7 +373,7 @@ int TR_AI_Think(ScriptVm *vm) {
     int candidates[3];
     u64 r;
     int result;
-    ai = func_02011324(vm);
+    ai = VM_GetUserData(vm);
     if (ai->rule == 0) {
         ai->targetPos = ai->selfPos ^ 1;
         return TR_AI_ThinkSingle(vm, ai);
@@ -403,7 +403,7 @@ int TR_AI_Think(ScriptVm *vm) {
  */
 void TR_AI_Delete(ScriptVm *vm) {
     TrAiWork *ai;
-    ai = func_02011324(vm);
+    ai = VM_GetUserData(vm);
     ARC_TOOL_DeleteHandle(ai->scriptArchive);
     ARC_TOOL_DeleteHandle(ai->itemArchive);
     func_020307B0(ai);
@@ -418,7 +418,7 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
     int i;
     int zero;
 
-    ai = func_02011324(vm);
+    ai = VM_GetUserData(vm);
     ai->phase = 0;
     ai->moveId = 0;
     ai->moveIndex = 0;
@@ -439,9 +439,9 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
     ai->randomByte = (u32)(((u64)func_0203F0A8() * 0x100) >> 32);
 }
 
-u8 TR_AI_GetChosenMove(ScriptVm *vm) { return func_02011324(vm)->chosenMove; }
+u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetUserData(vm)->chosenMove; }
 
-u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return func_02011324(vm)->chosenTarget; }
+u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return VM_GetUserData(vm)->chosenTarget; }
 
 inline static u32 draw_below(u32 n) {
     u32 r = func_0203F0A8();
@@ -2153,8 +2153,8 @@ u8 TR_AI_GetPosition(TrAiWork *ai, int kind) {
 }
 
 /*
- * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is func_021F8AFC (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/ov094_func_021F8AE8.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
- * its parsed function list: four repeated keys leave only func_021F8B28.
+ * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is BTLV_EFFECT_GetPokeEffectValue (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/ov094_func_021F8AE8.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
+ * its parsed function list: four repeated keys leave only BTLV_EFFECT_ResumeVmWait.
  * Concrete bytes correct; caller-only tu suggest-split has no viable cut.
  * lever: advance p itself before indexed store; random draw helper owns
  * its u64 temporary and returns u32 (random-below-n existing idiom).
@@ -2168,7 +2168,7 @@ int TR_AI_GetAbility(TrAiWork *ai, int kind, u8 pos) {
     if (BTL_POKEPARAM_HasSick(poke, 0x10) != 0)
         return 0;
     if (kind == 0 || kind == 2) {
-        ai->abilityCache[pos] = func_021F8AFC(pos);
+        ai->abilityCache[pos] = BTLV_EFFECT_GetPokeEffectValue(pos);
         if (ai->abilityCache[pos] != 0)
             return ai->abilityCache[pos];
         value = func_021D59B4(poke, 0x10);

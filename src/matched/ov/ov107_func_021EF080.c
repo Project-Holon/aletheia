@@ -1,5 +1,5 @@
 /*
- * function: func_021EF080
+ * function: MB_COMM_SYS_ExitDisplay
  * address: 0x021EF080
  * packet: pkt_ov107_021EF080
  * region: ov107
@@ -26,7 +26,7 @@ extern void CLACT_ExitSystem(void);
 extern void func_020403F4(unsigned);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-void func_021EF080(char *p) {
+void MB_COMM_SYS_ExitDisplay(char *p) {
  CLACT_DeleteActor(((struct Obj00979 *)p)->f7C);
  CLACT_DeleteUnit(((struct Obj00979 *)p)->f6C);
  CLACT_ExitSystem();

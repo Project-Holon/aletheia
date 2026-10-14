@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2A0
+ * function: GURU2_MAIN_StateStartSync3
  * address: 0x021DF2A0
  * packet: pkt_ov137_021DF2A0
  * region: ov137
@@ -16,4 +16,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
-int func_021DF2A0(int *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40); *p=32; return 0; }
+int GURU2_MAIN_StateStartSync3(int *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40); *p=32; return 0; }

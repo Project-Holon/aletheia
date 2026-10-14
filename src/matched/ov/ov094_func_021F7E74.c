@@ -1,5 +1,5 @@
 /*
- * function: func_021F7E74
+ * function: BTLV_EFFECT_StartPokeEffectId285
  * address:  0x021F7E74
  * packet:   pkt_ov094_021F7E74
  * region:   ov094
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  *
  * symbols:
- *   func_021F7A28  0x021F7A28  thumb  ov094
+ *   BTLV_EFFECT_StartEffectOnPoke  0x021F7A28  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021F7A28(int a, u32 b);
+extern void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
 
-void func_021F7E74(u32 a)
+void BTLV_EFFECT_StartPokeEffectId285(u32 a)
 {
-    func_021F7A28(a, 0x285);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x285);
 }

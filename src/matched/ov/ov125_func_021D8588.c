@@ -1,5 +1,5 @@
 /*
- * function: func_021D8588
+ * function: GDS_SOCKET_NopBegin
  * address: 0x021D8588
  * packet: pkt_ov125_021D8588
  * region: ov125
@@ -9,4 +9,4 @@
  * isa: arm
  * status: EXACT
  */
-void func_021D8588(void){}
+void GDS_SOCKET_NopBegin(void){}

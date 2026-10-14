@@ -1,5 +1,5 @@
 /*
- * function: func_021C47C4
+ * function: MAILSYS_PrintMessageText
  * address: 0x021C47C4
  * packet: pkt_ov136_021C47C4
  * region: ov136
@@ -35,7 +35,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021C47C4(u8 *p, int n)
+void MAILSYS_PrintMessageText(u8 *p, int n)
 {
     void *q;
     func_0201F73C(((struct Obj02206 *)p)->f5C, 2, 13, 4);

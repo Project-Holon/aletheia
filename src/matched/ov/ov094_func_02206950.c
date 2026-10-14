@@ -1,5 +1,5 @@
 /*
- * function: func_02206950
+ * function: BTLV_INPUT_UpdateWazaRow
  * address:  0x02206950
  * packet:   pkt_ov094_02206950
  * region:   ov094
@@ -28,7 +28,7 @@ typedef struct {
     int k;
 } W;
 
-void func_02206950(W *p)
+void BTLV_INPUT_UpdateWazaRow(W *p)
 {
     u8 b;
 

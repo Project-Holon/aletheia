@@ -1,5 +1,5 @@
 /*
- * function: func_02206BAC
+ * function: BTLV_INPUT_PlayBackSe
  * address:  0x02206BAC
  * packet:   pkt_ov094_02206BAC
  * region:   ov094
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_02206BAC(char *p)
+void BTLV_INPUT_PlayBackSe(char *p)
 {
     if (((struct Obj00823 *)p)->f54 != 3 || ((struct Obj00823 *)p)->f58 == 6)
         GFL_USE_PlaySeDefaultVolume(0x557);

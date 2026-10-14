@@ -1,5 +1,5 @@
 /*
- * function: func_021BE100
+ * function: COMM_TVT_SYS_IsNetIdle
  * address:  0x021BE100
  * packet:   pkt_021B6100
  * region:   ov172
@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern u32 sub_0202EB0C(void);
 extern int unit_0202EB14(void);
 
-int func_021BE100(void)
+int COMM_TVT_SYS_IsNetIdle(void)
 {
     if (sub_0202EB0C() == 1 && unit_0202EB14() == 0) {
         return 1;

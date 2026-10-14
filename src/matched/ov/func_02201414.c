@@ -1,5 +1,5 @@
 /*
- * function: func_02201414
+ * function: WORLDTRADE_SERVER_WaitUploadResult
  * address:  0x02201414
  * packet:   pkt_02201414
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
- *   func_022021F8  0x022021F8  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
+ *   WORLDTRADE_ADAPTER_RemovePartyMon  0x022021F8  thumb  ov135
  *   func_02008DF0  0x02008DF0  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
@@ -22,7 +22,7 @@
  *
  * Switch on the 0x021C86A8 index (case value = index + 15): state
  * 0x22 with the 0x022021F8/0x02008DF0 pair, state 0x2b with the four
- * middleware calls, state 0x2d alone, or a plain func_021F513C redraw.
+ * middleware calls, state 0x2d alone, or a plain WORLDTRADE_CancelSave redraw.
  * The shape is settled and every concrete byte is reproduced; the site is
  * parked because TWO of its callees have no witness anywhere in the tree.
  * Both BLX sites resolve as "(arm, from name) has no witness outside
@@ -50,8 +50,8 @@ typedef signed int s32;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
-extern void func_022021F8(u8 *p, int flag);
+extern void WORLDTRADE_CancelSave(u8 *p);
+extern void WORLDTRADE_ADAPTER_RemovePartyMon(u8 *p, int flag);
 struct Sub02008C20Obj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 func_0200FBB0(void);
@@ -59,7 +59,7 @@ extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-int func_02201414(u8 *p)
+int WORLDTRADE_SERVER_WaitUploadResult(u8 *p)
 {
     s32 n;
 
@@ -68,7 +68,7 @@ int func_02201414(u8 *p)
         ((struct Obj02054 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:
-            func_022021F8(p, 1);
+            WORLDTRADE_ADAPTER_RemovePartyMon(p, 1);
             func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(((struct Obj02054 *)p)->f0 + 0x24)), 0x1c);
             ((struct Obj02054 *)p)->f28 = 0x22;
             break;
@@ -106,12 +106,12 @@ int func_02201414(u8 *p)
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 2:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {
         if (++((struct Obj02054 *)p)->fF8C == 0xe10) {
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
         }
     }
     return 2;

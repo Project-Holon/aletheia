@@ -1,5 +1,5 @@
 /*
- * function: func_021D95D0
+ * function: POKETRADE_PROC_IsHostSideAlt
  * address:  0x021D95D0
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,22 +12,22 @@
  * Select the alternate buffer when the object is idle.
  *
  * symbols:
- *   func_021D8AA8  0x021D8AA8  thumb  ov119
- *   func_021D8FA4  0x021D8FA4  thumb  ov119
- *   func_021D95A0  0x021D95A0  thumb  ov119
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
+ *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
+ *   POKETRADE_PROC_GetMonSpeciesFlag  0x021D95A0  thumb  ov119
  */
 
-extern int func_021D8AA8(void *p);
-extern void *func_021D8FA4(void *p, int i);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void *POKETRADE_PROC_GetSideMon(void *p, int i);
 typedef unsigned int   u32;
-extern u32 func_021D95A0(void *mon);
+extern u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon);
 
-int func_021D95D0(void *p)
+int POKETRADE_PROC_IsHostSideAlt(void *p)
 {
     int b = 0;
 
-    if (func_021D8AA8(p))
+    if (POKETRADE_PROC_IsHostSide(p))
         b = 1;
-    return func_021D95A0(func_021D8FA4(p, b));
+    return POKETRADE_PROC_GetMonSpeciesFlag(POKETRADE_PROC_GetSideMon(p, b));
 }
 

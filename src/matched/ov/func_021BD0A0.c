@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A0
+ * function: ZUKAN_DETAIL_GRAPHIC_VBlankActors
  * address:  0x021BD0A0
  * packet:   pkt_021BD0A0
  * region:   ov208
@@ -21,7 +21,7 @@
 
 extern void CLACT_VBlankSystem(void);
 
-void func_021BD0A0(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *a0)
 {
     CLACT_VBlankSystem();
 }

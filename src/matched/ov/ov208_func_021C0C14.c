@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0C14
+ * function: ZUKAN_DETAIL_AREA_FindPlayerTownIndex
  * address:  0x021C0C14
  * packet:   pkt_ov208_021C0C14
  * region:   ov208
@@ -30,7 +30,7 @@ extern u16  GAME_DATA_GetPlayerZoneId(const struct Rec44 *a);
 extern u32  SYMBOL_MAP_ResolveZoneId(int a, u32 b);
 extern int TOWNMAP_GRH_FindRecordIndex(int a0, int a1);
 
-u8 ov208_func_021C0C14(u16 *heap, u8 *p, int key)
+u8 ZUKAN_DETAIL_AREA_FindPlayerTownIndex(u16 *heap, u8 *p, int key)
 {
     int a;
     u32 m;

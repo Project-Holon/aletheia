@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FADC0",
+   "name": "BTLV_EFFVM_CmdStartPokeBounce",
    "address": "0x021FADC0",
    "kind": "game",
    "region": "ov094",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D94A0
+ * function: POKETRADE_PROC_ClearSideMon
  * address:  0x021D94A0
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,27 +12,27 @@
  * Arm or re-arm the three receivers depending on the object state.
  *
  * symbols:
- *   func_021D8AA8  0x021D8AA8  thumb  ov119
- *   func_021E36D8  0x021E36D8  thumb  ov119
- *   func_021E2438  0x021E2438  thumb  ov119
- *   func_021E62D4  0x021E62D4  thumb  ov119
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
+ *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
+ *   POKETRADE_SAVE_DeleteOfferCardWindow  0x021E2438  thumb  ov119
+ *   POKETRADE_2D_DeleteOfferIconActor  0x021E62D4  thumb  ov119
  */
 
-extern int func_021D8AA8(void *p);
-extern void func_021E36D8(void *p, int a);
-extern void func_021E2438(char *p, int i);
-extern void func_021E62D4(void *p, int a, int i);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void POKETRADE_3D_DeleteMcssSlot(void *p, int a);
+extern void POKETRADE_SAVE_DeleteOfferCardWindow(char *p, int i);
+extern void POKETRADE_2D_DeleteOfferIconActor(void *p, int a, int i);
 
-void func_021D94A0(void *p, int a)
+void POKETRADE_PROC_ClearSideMon(void *p, int a)
 {
     int i;
 
-    if (func_021D8AA8(p) == 0) {
-        func_021E36D8(p, a);
-        func_021E2438(p, a);
+    if (POKETRADE_PROC_IsHostSide(p) == 0) {
+        POKETRADE_3D_DeleteMcssSlot(p, a);
+        POKETRADE_SAVE_DeleteOfferCardWindow(p, a);
         return;
     }
     for (i = 0; i < 3; i++)
-        func_021E62D4(p, a, i);
+        POKETRADE_2D_DeleteOfferIconActor(p, a, i);
 }
 

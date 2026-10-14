@@ -1,5 +1,5 @@
 /*
- * function: func_02205AB8
+ * function: BTLV_INPUT_DeleteActionButtonActors
  * address: 0x02205AB8
  * packet: pkt_ov094_02205AB8
  * region: ov094
@@ -16,8 +16,8 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_0220684C 0x0220684C thumb ov094
- *   func_02204C48 0x02204C48 thumb ov094
+ *   BTLV_INPUT_RegisterTask 0x0220684C thumb ov094
+ *   BTLV_INPUT_WindowCloseTaskMain 0x02204C48 thumb ov094
  *   d_0220AEB0 0x0220AEB0 data ov094 a1
  */
 #include "../include/Obj01049.h"
@@ -31,10 +31,10 @@ extern void CLACT_ReleaseCellAnim(unsigned int h);
 extern void CLACT_ReleasePalette(unsigned int h);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_02204C48(void *, int *);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_WindowCloseTaskMain(void *, int *);
 extern const char d_0220AEB0[];
-void func_02205AB8(char *p)
+void BTLV_INPUT_DeleteActionButtonActors(char *p)
 {
     int i;
     int empty = 1;
@@ -59,6 +59,6 @@ void func_02205AB8(char *p)
     if (!empty) {
         ctx = func_02030734((u16)((((struct Obj01049 *)p)->f240 & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
         ctx[0] = (int)p;
-        func_0220684C(p, (int)func_020056A0((void *)func_02204C48, ctx, 0), 0);
+        BTLV_INPUT_RegisterTask(p, (int)func_020056A0((void *)BTLV_INPUT_WindowCloseTaskMain, ctx, 0), 0);
     }
 }

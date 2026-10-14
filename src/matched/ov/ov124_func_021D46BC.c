@@ -1,5 +1,5 @@
 /*
- * function: func_021D46BC
+ * function: CG_HELP_InitWindows
  * address: 0x021D46BC
  * packet: pkt_ov124_021D46BC
  * region: ov124
@@ -58,7 +58,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
-void func_021D46BC(char *p)
+void CG_HELP_InitWindows(char *p)
 {
     Request req;
     ((struct Obj00068 *)p)->f28 = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00068 *)p)->f0);

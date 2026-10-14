@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B14
+ * function: MB_UTIL_MSG_IsStreamIdle
  * address:  0x021F1B14
  * packet:   pkt_ov107_021F1B14
  * region:   ov107
@@ -15,7 +15,7 @@ typedef struct {
     void *f18;
 } Ov107Ctx;
 
-int func_021F1B14(Ov107Ctx *p)
+int MB_UTIL_MSG_IsStreamIdle(Ov107Ctx *p)
 {
     if (p->f18 == 0) {
         return 1;

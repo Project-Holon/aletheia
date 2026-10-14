@@ -29,8 +29,8 @@
  *   func_021BAAF4  0x021BAAF4  thumb  ov217
  *   func_021BAB38  0x021BAB38  thumb  ov217
  *   func_021BAB68  0x021BAB68  thumb  ov217
- *   func_021C09E0  0x021C09E0  thumb  ov217
- *   func_021C09EC  0x021C09EC  thumb  ov217
+ *   RESEARCH_COMMON_StopPaletteAnime  0x021C09E0  thumb  ov217
+ *   RESEARCH_COMMON_RestorePaletteAnime  0x021C09EC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -60,13 +60,13 @@ extern void func_021BAAB8(u8 *a0);
 extern void func_021BAAF4(int *p);
 extern void func_021BAB38(char *self);
 extern void func_021BAB68(void);
-extern void func_021C09E0(u32 a0);
-extern void func_021C09EC(u32 a0);
+extern void RESEARCH_COMMON_StopPaletteAnime(u32 a0);
+extern void RESEARCH_COMMON_RestorePaletteAnime(u32 a0);
 u32 func_021BA0C4(u32 a0)
 {
     func_021BAB68();
-    func_021C09E0(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
-    func_021C09EC(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
+    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
+    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
     func_021BAB38((char *)a0);
     func_021BAAF4((int *)a0);
     func_021BAAB8((u8 *)a0);

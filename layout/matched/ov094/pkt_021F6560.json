@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F69E8",
+   "name": "BTLV_STAGE_InitLayerEntry",
    "address": "0x021F69E8",
    "kind": "game",
    "region": "ov094",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F6A18",
+   "name": "BTLV_STAGE_IsEffectActive",
    "address": "0x021F6A18",
    "kind": "game",
    "region": "ov094",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F6DEC",
+   "name": "BTLV_FIELD_InitEntry",
    "address": "0x021F6DEC",
    "kind": "game",
    "region": "ov094",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F6E1C",
+   "name": "BTLV_FIELD_IsEffectActive",
    "address": "0x021F6E1C",
    "kind": "game",
    "region": "ov094",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F722C",
+   "name": "BTLV_CAMERA_IsMoving",
    "address": "0x021F722C",
    "kind": "game",
    "region": "ov094",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021F935C",
+   "name": "BTLV_EFFECT_GetBitMask",
    "address": "0x021F935C",
    "kind": "game",
    "region": "ov094",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F9844",
+   "name": "BTLV_EFFVM_InitParams",
    "address": "0x021F9844",
    "kind": "game",
    "region": "ov094",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FA108",
+   "name": "BTLV_EFFVM_CmdSaveCameraPosition",
    "address": "0x021FA108",
    "kind": "game",
    "region": "ov094",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FBFA0",
+   "name": "BTLV_EFFVM_CmdCopyPokeSpriteState",
    "address": "0x021FBFA0",
    "kind": "game",
    "region": "ov094",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FD19C",
+   "name": "BTLV_EFFVM_SetEmitterHandle",
    "address": "0x021FD19C",
    "kind": "game",
    "region": "ov094",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FD1A8",
+   "name": "BTLV_EFFVM_FindEmitterSlot",
    "address": "0x021FD1A8",
    "kind": "game",
    "region": "ov094",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FD1C0",
+   "name": "BTLV_EFFVM_GetEmitterHandle",
    "address": "0x021FD1C0",
    "kind": "game",
    "region": "ov094",
@@ -151,7 +151,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FE4D0",
+   "name": "BTLV_EFFVM_FindFreeSeSlot",
    "address": "0x021FE4D0",
    "kind": "game",
    "region": "ov094",
@@ -163,7 +163,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FF134",
+   "name": "BTLV_MCSS_SetSideScale",
    "address": "0x021FF134",
    "kind": "game",
    "region": "ov094",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FF470",
+   "name": "BTLV_MCSS_SetShadowVanish",
    "address": "0x021FF470",
    "kind": "game",
    "region": "ov094",
@@ -187,7 +187,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FF498",
+   "name": "BTLV_MCSS_SetAnimSpeed",
    "address": "0x021FF498",
    "kind": "game",
    "region": "ov094",
@@ -199,7 +199,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FFD9C",
+   "name": "BTLV_MCSS_IsSpriteLoaded",
    "address": "0x021FFD9C",
    "kind": "game",
    "region": "ov094",
@@ -211,7 +211,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FFF0C",
+   "name": "BTLV_MCSS_GetSpritePersonalParam26",
    "address": "0x021FFF0C",
    "kind": "game",
    "region": "ov094",
@@ -223,7 +223,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FFF38",
+   "name": "BTLV_MCSS_GetSpriteAttrFlags",
    "address": "0x021FFF38",
    "kind": "game",
    "region": "ov094",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_022003C4",
+   "name": "BTLV_MCSS_GetSpriteColorCode",
    "address": "0x022003C4",
    "kind": "game",
    "region": "ov094",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02200494",
+   "name": "BTLV_MCSS_IsAnimPending",
    "address": "0x02200494",
    "kind": "game",
    "region": "ov094",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_022019F4",
+   "name": "BTLV_MCSS_FindSpriteIndex",
    "address": "0x022019F4",
    "kind": "game",
    "region": "ov094",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02204BAC",
+   "name": "BTLV_INPUT_VisibilityTaskMain",
    "address": "0x02204BAC",
    "kind": "game",
    "region": "ov094",
@@ -283,7 +283,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220684C",
+   "name": "BTLV_INPUT_RegisterTask",
    "address": "0x0220684C",
    "kind": "game",
    "region": "ov094",
@@ -295,7 +295,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_022068C4",
+   "name": "BTLV_INPUT_AllocTaskSlot",
    "address": "0x022068C4",
    "kind": "game",
    "region": "ov094",
@@ -307,7 +307,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_022068E8",
+   "name": "BTLV_INPUT_DeleteAllTasks",
    "address": "0x022068E8",
    "kind": "game",
    "region": "ov094",
@@ -319,7 +319,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220793C",
+   "name": "BTLV_GAUGE_UpdateHpBarPixels",
    "address": "0x0220793C",
    "kind": "game",
    "region": "ov094",

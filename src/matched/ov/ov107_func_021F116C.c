@@ -1,5 +1,5 @@
 /*
- * function: func_021F116C
+ * function: MB_COMM_SYS_GetKind21Value
  * address:  0x021F116C
  * packet:   pkt_ov107_021F116C
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-int func_021F116C(Ov107Ctx *p)
+int MB_COMM_SYS_GetKind21Value(Ov107Ctx *p)
 {
     return p->f1A.b01;
 }

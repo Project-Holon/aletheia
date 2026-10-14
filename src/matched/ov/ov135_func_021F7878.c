@@ -1,5 +1,5 @@
 /*
- * function: func_021F7878
+ * function: WORLDTRADE_DEPOSIT_CreateActors
  * address: 0x021F7878
  * packet: pkt_ov135_021F7878
  * region: ov135
@@ -32,7 +32,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021F7878(u8 *p)
+void WORLDTRADE_DEPOSIT_CreateActors(u8 *p)
 {
     Pos pos;
     MI_CpuFill8(&pos,0,8);

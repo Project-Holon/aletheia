@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AA8
+ * function: GSYNC_DISP_SetIconRecordSpecies
  * address:  0x021D6AA8
  * packet:   pkt_021D6AA8
  * region:   ov123
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D6AA8(char *p, int i, u16 v)
+void GSYNC_DISP_SetIconRecordSpecies(char *p, int i, u16 v)
 {
     *(u16 *)(p + i * 0x18 + 0x4104) = v;
 }

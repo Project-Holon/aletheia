@@ -11,7 +11,7 @@
  * symbols:
  *   func_021FE444 0x021FE444 thumb ov186
  *   func_021FE478 0x021FE478 thumb ov186
- *   func_021FE4D8 0x021FE4D8 thumb ov186
+ *   BR_UTIL_Init 0x021FE4D8 thumb ov186
  *   func_021FE54C 0x021FE54C thumb ov186
  *   func_021FE3B4 0x021FE3B4 thumb ov186
  *   func_021FE3E4 0x021FE3E4 thumb ov186
@@ -25,7 +25,7 @@ typedef struct { short x,y; } ShortPair;
 typedef struct { Pair first,second,third; } Table;
 typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12]; } Motion;
 extern const Table d_02200AD0;
-extern void func_021FE444(int *,Pair *,const Pair *,int,int),func_021FE4D8(int *,int,const int *,int);
+extern void func_021FE444(int *,Pair *,const Pair *,int,int),BR_UTIL_Init(int *,int,const int *,int);
 extern int func_021FE478(int *,Pair *,int);
 extern int func_021FE54C(char *p, int *out);
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ void func_021FDBF4(int unused,int *state,Motion *p)
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         func_021FE444((int *)p->record[0],&p->positions[0],&d_02200AD0.second,0,36);
-        for(i=1;i<6;i++) func_021FE4D8((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
+        for(i=1;i<6;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
         *state=1;
     case 1:
         p->done[1]=func_021FE478((int *)p->record[0],&p->positions[0],p->timer);

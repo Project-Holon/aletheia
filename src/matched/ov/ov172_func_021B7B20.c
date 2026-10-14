@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B20
+ * function: CTVT_CAMVIEW_RequestWindowAnimation
  * address:  0x021B7B20
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B7B20(int unused, char *base, int i)
+void CTVT_CAMVIEW_RequestWindowAnimation(int unused, char *base, int i)
 {
     *(u32 *)(base + i * 0x1c + 0x38) = 1;
     *(u32 *)((char *)base + i * 0x1c + 0x3c) = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD51C
+ * function: DENDOU_VIEW_StepRow
  * address: 0x021DD51C
  * packet: pkt_ov171_021DD51C
  * region: ov171
@@ -12,7 +12,7 @@
 #include "../include/Obj00347.h"
 typedef signed char s8;
 typedef unsigned char u8;
-int func_021DD51C(char *p, s8 step)
+int DENDOU_VIEW_StepRow(char *p, s8 step)
 {
     int old;
     old = ((struct Obj00347 *)p)->fC5E;

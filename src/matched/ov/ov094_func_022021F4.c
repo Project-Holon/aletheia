@@ -1,5 +1,5 @@
 /*
- * function: func_022021F4
+ * function: BTLV_INPUT_Delete
  * address:  0x022021F4
  * packet:   pkt_ov094_022021F4
  * region:   ov094
@@ -9,8 +9,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022068E8  0x022068E8  thumb  ov094
- *   func_022023D0  0x022023D0  thumb  ov094
+ *   BTLV_INPUT_DeleteAllTasks  0x022068E8  thumb  ov094
+ *   BTLV_INPUT_ReleaseScreenResources  0x022023D0  thumb  ov094
  *   BTLV_FINGER_CURSOR_Delete  0x02209B30  thumb  ov094
  *   MSGDATA_Delete  0x02045C04  arm  arm9
  */
@@ -21,8 +21,8 @@ typedef struct Obj {
     void *h5c;
     void *h60;
 } Obj;
-extern void func_022068E8(char *p);
-extern void func_022023D0(char *p);
+extern void BTLV_INPUT_DeleteAllTasks(char *p);
+extern void BTLV_INPUT_ReleaseScreenResources(char *p);
 struct Rec;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void BTLV_FINGER_CURSOR_Delete(void *);
@@ -30,12 +30,12 @@ extern void func_02030DA4(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_022021F4(Obj *p)
+void BTLV_INPUT_Delete(Obj *p)
 {
     if (p == 0)
         return;
-    func_022068E8((char *)p);
-    func_022023D0((char *)p);
+    BTLV_INPUT_DeleteAllTasks((char *)p);
+    BTLV_INPUT_ReleaseScreenResources((char *)p);
     MSGDATA_Delete(p->h5c);
     if (p->h60 != 0)
         BTLV_FINGER_CURSOR_Delete(p->h60);

@@ -1,5 +1,5 @@
 /*
- * function: func_0220255C
+ * function: BTLV_INPUT_InitBgLayers
  * address:  0x0220255C
  * packet:   pkt_ov094_0220255C
  * region:   ov094
@@ -9,7 +9,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02204960  0x02204960  thumb  ov094
+ *   BTLV_INPUT_StartBgScrollOffsetTask  0x02204960  thumb  ov094
  *   d_0220A8BC  0x0220A8BC  data  a4
  */
 typedef unsigned char u8;
@@ -20,15 +20,15 @@ struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_0204152C(int channel, u16 val);
 struct Main;
-extern void func_02204960(struct Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+extern void BTLV_INPUT_StartBgScrollOffsetTask(struct Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern const Ent d_0220A8BC[];
 
-void func_0220255C(void *p)
+void BTLV_INPUT_InitBgLayers(void *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
         func_0203FCA0((u8)(i + 4), (const struct BgTemplate *)(&d_0220A8BC[i]), (u8)d_0220A8BC[i].f20);
         func_0204152C((u8)(i + 4), (int)0x3ff);
-        func_02204960(p, i + 4, 0, 0, 2, 2, 2, 2);
+        BTLV_INPUT_StartBgScrollOffsetTask(p, i + 4, 0, 0, 2, 2, 2, 2);
     }
 }

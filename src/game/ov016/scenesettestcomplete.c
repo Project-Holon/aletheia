@@ -1,7 +1,7 @@
 /*
  * file:     scenesettestcomplete.c
  * unit:     yes
- * function: DWCi_SceneSetTestCompletet, initGraphics, procInit, func_021CD658, DWCi_SceneSetTestCompletet_procScene, DWCi_SceneSetTestCompletet_draw, endScene, func_021CD6F0, wait
+ * function: DWCi_SceneSetTestCompletet, initGraphics, procInit, DWCi_SceneSetTestCompletet_procInit1, DWCi_SceneSetTestCompletet_procScene, DWCi_SceneSetTestCompletet_draw, endScene, DWCi_SceneSetTestCompletet_endScene1, wait
  * address:  0x021CD580
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -16,10 +16,10 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD580.c \n *       --func DWCi_SceneSetTestCompletet --addr 0x021CD580 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD658.c \n *       --func func_021CD658 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD658.c \n *       --func DWCi_SceneSetTestCompletet_procInit1 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   g_021DE620     0x021DE620  data
+ *   gSceneSetTestCompleteWaitCount     0x021DE620  data
  *   initGraphics  0x021CD5B0  arm  ov016
  *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
@@ -77,11 +77,11 @@ extern void DWCi_SceneMenu(void);
 extern unsigned int DWCi_Entry(void);
 extern void DWCi_SceneEnd(void);
 void DWCi_SceneSetTestCompletet(void);
-void func_021CD658(void);
+void DWCi_SceneSetTestCompletet_procInit1(void);
 void DWCi_SceneSetTestCompletet_procScene(void);
 void DWCi_SceneSetTestCompletet_draw(void);
-void func_021CD6F0(void);
-extern unsigned char g_021DE620;
+void DWCi_SceneSetTestCompletet_endScene1(void);
+extern unsigned char gSceneSetTestCompleteWaitCount;
 /* sceneoptmovdisco .bss */
 extern unsigned char Count;
 /* the resource file name, the compiler's @20611 in .rodata */
@@ -95,7 +95,7 @@ static void wait(void);
 
 void DWCi_SceneSetTestCompletet(void)
 {
-    g_021DE620 = 0;
+    gSceneSetTestCompleteWaitCount = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(45);
     DWCi_ChangeScene(procInit);
@@ -129,7 +129,7 @@ static void procInit(void)
 }
 
 
-void func_021CD658(void)
+void DWCi_SceneSetTestCompletet_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
@@ -179,11 +179,11 @@ static void endScene(void)
         DWCi_STEPlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 21, 8);
-    DWCi_ChangeScene(func_021CD6F0);
+    DWCi_ChangeScene(DWCi_SceneSetTestCompletet_endScene1);
 }
 
 
-void func_021CD6F0(void)
+void DWCi_SceneSetTestCompletet_endScene1(void)
 {
     int scene;
     if (DWCi_EFFlCheck(1))
@@ -217,7 +217,7 @@ static void wait(void)
 {
     int scene;
     int r;
-    if (++g_021DE620 < 180)
+    if (++gSceneSetTestCompleteWaitCount < 180)
         return;
     DWCi_GetParam2_(0, (unsigned int *)((void **)&scene));
     r = DWCi_Entry();

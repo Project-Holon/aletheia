@@ -1,5 +1,5 @@
 /*
- * function: func_021BC520
+ * function: ZUKAN_DETAIL_COMMON_ApplyBrightness
  * address:  0x021BC520
  * packet:   pkt_ov208_021BC520
  * region:   ov208
@@ -15,7 +15,7 @@
 
 extern void func_0207D67C(unsigned int, int, int, int, int, int);
 
-void func_021BC520(int flag, int *p)
+void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, int *p)
 {
     if (flag == 0) {
         func_0207D67C(0x04000050, p[0], p[1], p[2], 0, p[2] - 0x10);

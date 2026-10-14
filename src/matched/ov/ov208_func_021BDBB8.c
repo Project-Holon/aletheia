@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDBB8
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind
  * address:  0x021BDBB8
  * packet:   pkt_ov208_021BDBB8
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021BE1BC  0x021BE1BC  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight  0x021BE1BC  thumb
  *   func_021BE170  0x021BE170  thumb
  */
 
@@ -94,10 +94,10 @@ struct Ov208Scene {
     struct Ov208Slot slots[10];
 };
 
-extern void ov208_func_021BE1BC(struct Ov208Scene *p);
+extern void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(struct Ov208Scene *p);
 extern void func_021BE170(struct Ov208Scene *p);
 
-void ov208_func_021BDBB8(struct Ov208Scene *p, u32 kind)
+void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind)
 {
     u32 saved;
     int restore;
@@ -111,7 +111,7 @@ void ov208_func_021BDBB8(struct Ov208Scene *p, u32 kind)
             restore = 1;
             p->f1c = 4;
         }
-        ov208_func_021BE1BC(p);
+        ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(p);
         func_021BE170(p);
         if (restore)
             p->f1c = saved;

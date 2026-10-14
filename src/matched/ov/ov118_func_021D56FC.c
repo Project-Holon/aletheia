@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_021D5694  0x021D5694  thumb  ov118
- *   func_021D8E84  0x021D8E84  thumb  ov119
- *   func_021E3034  0x021E3034  thumb  ov119
- *   func_021E2F2C  0x021E2F2C  thumb  ov119
- *   func_021DFDA0  0x021DFDA0  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
+ *   POKETRADE_3D_ExitParticleManager  0x021E3034  thumb  ov119
+ *   POKETRADE_3D_FreeParticleResources  0x021E2F2C  thumb  ov119
+ *   POKETRADE_SAVE_ResetClactAndBeginEvent  0x021DFDA0  thumb  ov119
  *   func_020307B0  0x020307B0  arm
  *
  * Same body as ov118 func_021D6C78 (third copy of this module); the first
@@ -26,18 +26,18 @@
 
 extern void func_021D5694(void *);
 typedef unsigned int   u32;
-extern void func_021E3034(u32 *p, int a1);
-extern void func_021E2F2C(void *);
+extern void POKETRADE_3D_ExitParticleManager(u32 *p, int a1);
+extern void POKETRADE_3D_FreeParticleResources(void *);
 extern u32 func_020307B0(void *p);
-extern void func_021D8E84(void *, int);
-extern void func_021DFDA0(void *p);
+extern void POKETRADE_PROC_SetStep(void *, int);
+extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 
 void func_021D56FC(void *p)
 {
     func_021D5694(p);
-    func_021E3034(((struct Obj01724 *)p)->fC, 6);
-    func_021E2F2C(((struct Obj01724 *)p)->fC);
+    POKETRADE_3D_ExitParticleManager(((struct Obj01724 *)p)->fC, 6);
+    POKETRADE_3D_FreeParticleResources(((struct Obj01724 *)p)->fC);
     func_020307B0(((struct Obj01724 *)p)->fC);
     ((struct Obj01724 *)p)->fC = 0;
-    func_021D8E84(p, (int)func_021DFDA0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_ResetClactAndBeginEvent);
 }

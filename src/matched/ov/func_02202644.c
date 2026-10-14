@@ -1,5 +1,5 @@
 /*
- * function: func_02202644
+ * function: WORLDTRADE_ADAPTER_ClearWindowScreen
  * address:  0x02202644
  * packet:   pkt_02202644
  * region:   ov135
@@ -30,7 +30,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 
-void func_02202644(u32 a, int kind)
+void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind)
 {
     BMP_WIN_ClearScreen((struct Descriptor *)a);
     switch (kind) {

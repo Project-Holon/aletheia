@@ -1,5 +1,5 @@
 /*
- * function: func_021FE6A0
+ * function: WORLDTRADE_SEARCH_StartDownloadMatchData
  * address: 0x021FE6A0
  * packet: pkt_ov135_021FE6A0
  * region: ov135
@@ -21,7 +21,7 @@ typedef struct { short id; s8 a, b, c, d; u8 mode, flag; } Request;
 extern void DPW_TR_DownloadMatchDataAsync(void *, int, void *);
 extern void DPW_TR_DownloadMatchDataRawAsync(const void *p, unsigned int x);
 extern void MI_CpuFill8(void *, int, u32);
-int func_021FE6A0(u8 *p)
+int WORLDTRADE_SEARCH_StartDownloadMatchData(u8 *p)
 {
     Request q;
     if (((struct Obj01161 *)p)->fF84 == 0) {

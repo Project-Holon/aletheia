@@ -1,5 +1,5 @@
 /*
- * function: func_021FF470
+ * function: BTLV_MCSS_SetShadowVanish
  * address:  0x021FF470
  * packet:   pkt_021F6560
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MCSS_SetShadowVanishFlag  0x02015FF0  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
  * Byte-identical to the original; parked because the +0014 call to 0x02015FF0
  * (an unlabelled ARM9 leaf, no traced label) has no witness outside the
@@ -20,12 +20,12 @@
 #include "../include/Obj12219.h"
 
 
-extern int  func_022019F4(char *p, int key);
+extern int  BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
 
-void func_021FF470(char *p, int key, void *v)
+void BTLV_MCSS_SetShadowVanish(char *p, int key, void *v)
 {
-    int i = func_022019F4(p, key);
+    int i = BTLV_MCSS_FindSpriteIndex(p, key);
     char *e;
 
     if (i == -1)

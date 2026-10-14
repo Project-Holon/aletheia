@@ -1,5 +1,5 @@
 /*
- * function: func_021E5998
+ * function: POKETRADE_2D_CreateTouchbarActors
  * address:  0x021E5998
  * packet:   pkt_ov119_021E5998
  * region:   ov119
@@ -13,7 +13,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020355C4 0x020355C4 arm
  *   func_020490F4 0x020490F4 arm
- *   func_021D8FA4 0x021D8FA4 thumb ov119
+ *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -33,7 +33,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u8 func_020355C4(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_021D8FA4(void *p, int a);
+extern void *POKETRADE_PROC_GetSideMon(void *p, int a);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 typedef signed int     s32;
@@ -41,7 +41,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int POKE_TOOL_GetIconPalette(void *);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E5998(char *p)
+void POKETRADE_2D_CreateTouchbarActors(char *p)
 {
     void *arc;
     void *a, *b;
@@ -69,8 +69,8 @@ void func_021E5998(char *p)
     }
     arc = func_020490F4(7, ((struct Obj00285 *)p)->f5F4);
     z = 0;
-    a = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 0));
-    b = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 1));
+    a = POKE_TOOL_GetBoxParam(POKETRADE_PROC_GetSideMon(p, 0));
+    b = POKE_TOOL_GetBoxParam(POKETRADE_PROC_GetSideMon(p, 1));
     ((struct Obj00285 *)p)->f89C = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(a), z, 1, ((struct Obj00285 *)p)->f5F4);
     ((struct Obj00285 *)p)->f8A0 = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(b), z, 1, ((struct Obj00285 *)p)->f5F4);
     t.x = 0x60;

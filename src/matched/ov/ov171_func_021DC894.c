@@ -1,5 +1,5 @@
 /*
- * function: func_021DC894
+ * function: DENDOU_VIEW_ProcMain
  * address:  0x021DC894
  * packet:   pkt_021DC894
  * region:   ov171
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DCE70  0x021DCE70  thumb  ov171
+ *   DENDOU_VIEW_RunState  0x021DCE70  thumb  ov171
  */
 
 typedef unsigned char  u8;
-extern int func_021DCE70(u8 *p);
+extern int DENDOU_VIEW_RunState(u8 *p);
 
-int func_021DC894(int a, int b, int c, int d)
+int DENDOU_VIEW_ProcMain(int a, int b, int c, int d)
 {
-    if (func_021DCE70((u8 *)d))
+    if (DENDOU_VIEW_RunState((u8 *)d))
         return 0;
     return 1;
 }

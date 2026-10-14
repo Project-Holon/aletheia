@@ -1,5 +1,5 @@
 /*
- * function: func_021FA5D0
+ * function: BTLV_EFFVM_CmdStartParticleEffectForEachInstance
  * address: 0x021FA5D0
  * packet: pkt_ov094_021FA5D0
  * region: ov094
@@ -14,10 +14,10 @@
  *   func_020307B0 0x020307B0 arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   BUTTON_MAN_GetBlock 0x02051788 arm
- *   func_021FE38C 0x021FE38C thumb ov094
- *   func_021FD1A8 0x021FD1A8 thumb ov094
- *   func_021FD1C0 0x021FD1C0 thumb ov094
- *   func_021FDD60 0x021FDD60 thumb ov094
+ *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
+ *   BTLV_EFFVM_FindEmitterSlot 0x021FD1A8 thumb ov094
+ *   BTLV_EFFVM_GetEmitterHandle 0x021FD1C0 thumb ov094
+ *   BTLV_EFFVM_StartParticleEffectInternal 0x021FDD60 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  *   d_02209D78 0x02209D78 data a4
  *   d_02209E04 0x02209E04 data a4
@@ -37,12 +37,12 @@ struct Dst648;
 struct Src648;
 extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int BUTTON_MAN_GetBlock(char *p);
-extern unsigned int func_021FE38C(char *, unsigned int);
-extern int func_021FD1A8(char *p, int v);
-extern int func_021FD1C0(char *, int);
-extern void func_021FDD60(char *, int *, int, int);
+extern unsigned int BTLV_EFFVM_ResolveParticleKey(char *, unsigned int);
+extern int BTLV_EFFVM_FindEmitterSlot(char *p, int v);
+extern int BTLV_EFFVM_GetEmitterHandle(char *, int);
+extern void BTLV_EFFVM_StartParticleEffectInternal(char *, int *, int, int);
 
-int func_021FA5D0(void *a, char *s)
+int BTLV_EFFVM_CmdStartParticleEffectForEachInstance(void *a, char *s)
 {
     Desc desc;
     int *p;
@@ -52,8 +52,8 @@ int func_021FA5D0(void *a, char *s)
     int i;
 
     p = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7ff);
-    slot = func_021FD1A8(s, func_021FE38C(s, VM_GetU32(a)));
-    count = func_021FD1C0(s, slot);
+    slot = BTLV_EFFVM_FindEmitterSlot(s, BTLV_EFFVM_ResolveParticleKey(s, VM_GetU32(a)));
+    count = BTLV_EFFVM_GetEmitterHandle(s, slot);
     p[0] = (int)a;
     p[1] = VM_GetU32(a);
     p[2] = VM_GetU32(a);
@@ -88,7 +88,7 @@ int func_021FA5D0(void *a, char *s)
         if (p[2] == 8)
             p[2] = p[1];
         for (i = 0; i < count; i++)
-            func_021FDD60(s, p, slot, i);
+            BTLV_EFFVM_StartParticleEffectInternal(s, p, slot, i);
     }
     func_020307B0(p);
     return ((struct Obj00325 *)s)->f23C;

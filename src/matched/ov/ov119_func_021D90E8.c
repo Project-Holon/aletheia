@@ -1,5 +1,5 @@
 /*
- * function: func_021D90E8
+ * function: POKETRADE_PROC_RecvOfferMonCommon
  * address: 0x021D90E8
  * packet: pkt_ov119_021D90E8
  * region: ov119
@@ -17,7 +17,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021D90E8(u32 a, u32 b, u32 c, u8 *base, void *e)
+void POKETRADE_PROC_RecvOfferMonCommon(u32 a, u32 b, u32 c, u8 *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (c == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()))

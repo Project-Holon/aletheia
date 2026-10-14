@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4EAC
+ * function: ZUKAN_DETAIL_FORM_DrawFormLabelSub
  * address:  0x021C4EAC
  * packet:   pkt_ov208_021C4EAC
  * region:   ov208
@@ -14,7 +14,7 @@
  *   BMP_WIN_GetBmp        0x02045770  arm
  *   BMP_Clear        0x02043B5C  arm
  *   BMP_WIN_TransferChars        0x02045334  arm
- *   ov208_func_021C4D68  0x021C4D68  thumb
+ *   ZUKAN_DETAIL_FORM_DrawFormLabel  0x021C4D68  thumb
  */
 
 typedef unsigned char  u8;
@@ -44,10 +44,10 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *win);
-extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
+extern void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                                 u32 *active, u16 idx);
 
-void ov208_func_021C4EAC(u16 *heap, struct Ov208Menu *p, int key)
+void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Menu *p, int key)
 {
     p->active[4] = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)p->print[4]);
@@ -58,7 +58,7 @@ void ov208_func_021C4EAC(u16 *heap, struct Ov208Menu *p, int key)
         break;
     case 4:
         if (p->count >= 2)
-            ov208_func_021C4D68(heap, p, key, 4, p->print[4], p->win[4], &p->active[4], p->sel2);
+            ZUKAN_DETAIL_FORM_DrawFormLabel(heap, p, key, 4, p->print[4], p->win[4], &p->active[4], p->sel2);
         break;
     }
 }

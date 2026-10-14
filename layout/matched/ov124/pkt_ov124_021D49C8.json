@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D49C8",
+   "name": "CG_HELP_UpdatePageGraphics",
    "address": "0x021D49C8",
    "kind": "game",
    "region": "ov124",

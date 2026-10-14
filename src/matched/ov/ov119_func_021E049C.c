@@ -1,5 +1,5 @@
 /*
- * function: func_021E049C
+ * function: POKETRADE_SAVE_ApplyTradeResult
  * address:  0x021E049C
  * packet:   pkt_ov119_021E049C
  * region:   ov119
@@ -18,11 +18,11 @@
  * destination load, then the source call.
  *
  * symbols:
- *   func_021D8AA8  0x021D8AA8  thumb
- *   func_021E0138  0x021E0138  thumb
- *   func_021E01A0  0x021E01A0  thumb
- *   func_021E0200  0x021E0200  thumb
- *   func_021E0410  0x021E0410  thumb
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb
+ *   POKETRADE_SAVE_BackupSaveControl  0x021E0138  thumb
+ *   POKETRADE_SAVE_BackupZukan  0x021E01A0  thumb
+ *   POKETRADE_SAVE_BackupBlock1F  0x021E0200  thumb
+ *   POKETRADE_SAVE_ConsumePerapVoice  0x021E0410  thumb
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -95,11 +95,11 @@ struct Sub02008F80Obj;
 struct Sub02009470Obj;
 struct Sub020097BCObj;
 struct Sub02009D9CObj;
-extern int func_021D8AA8(void *p);
-extern void *func_021E0138(void *sys, u16 heapId);
-extern void *func_021E01A0(void *src, u16 heapId);
-extern void *func_021E0200(void *sys, u16 heapId);
-extern int func_021E0410(char *p, void *party, int idx);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void *POKETRADE_SAVE_BackupSaveControl(void *sys, u16 heapId);
+extern void *POKETRADE_SAVE_BackupZukan(void *src, u16 heapId);
+extern void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId);
+extern int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
@@ -189,7 +189,7 @@ static inline void *copy_b(void *sys, u16 heapId)
     return buf;
 }
 
-void func_021E049C(char *p)
+void POKETRADE_SAVE_ApplyTradeResult(char *p)
 {
     void *mon;
     void *obj;
@@ -197,17 +197,17 @@ void func_021E049C(char *p)
     int i;
     int out;
 
-    if (func_021D8AA8(p) == 0) {
+    if (POKETRADE_PROC_IsHostSide(p) == 0) {
         I(p, 0x60C) = copy_a(I(p, 0x82C), H(p, 0x5F4));
         I(p, 0x610) = copy_b(I(p, 0x82C), H(p, 0x5F4));
-        I(p, 0x614) = func_021E0138(I(p, 0x82C), H(p, 0x5F4));
-        I(p, 0x618) = func_021E01A0(I(p, 0x82C), H(p, 0x5F4));
-        I(p, 0x61C) = func_021E0200(I(p, 0x82C), H(p, 0x5F4));
+        I(p, 0x614) = POKETRADE_SAVE_BackupSaveControl(I(p, 0x82C), H(p, 0x5F4));
+        I(p, 0x618) = POKETRADE_SAVE_BackupZukan(I(p, 0x82C), H(p, 0x5F4));
+        I(p, 0x61C) = POKETRADE_SAVE_BackupBlock1F(I(p, 0x82C), H(p, 0x5F4));
         PLAYTIME_GetStamp((void *)GAME_DATA_GetPlayTime((int)I(p, 0x82C)), (struct PlayTimeStamp *)(p + 0x628));
         if (T(p)->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
             I(p, 0x620) = POKEPARTY_Create(H(p, 0x5F4));
             POKEPARTY_Copy(I(p, 0x838), I(p, 0x620));
-            W(p, 0x62C) = func_021E0410(p, I(p, 0x838), T(p)->slot);
+            W(p, 0x62C) = POKETRADE_SAVE_ConsumePerapVoice(p, I(p, 0x838), T(p)->slot);
         } else {
             I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
             GFL_STD_MemCopy(BOX_SAVEDATA_GetBoxPokemon(I(p, 0x828), T(p)->box), I(p, 0x624), BOX_SAVEDATA_GetBoxPageSize());
@@ -215,7 +215,7 @@ void func_021E049C(char *p)
     } else {
         Trade *t = T(p);
         if (t->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828)))
-            func_021E0410(p, I(p, 0x838), t->slot);
+            POKETRADE_SAVE_ConsumePerapVoice(p, I(p, 0x838), t->slot);
         p[0x11F7] = 1;
     }
 

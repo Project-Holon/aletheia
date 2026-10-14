@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A8
+ * function: ZUKAN_DETAIL_GRAPHIC_ResetCameraState
  * address: 0x021BD0A8
  * packet: pkt_ov208_021BD0A8
  * region: ov208
@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Unlabelled Thumb leaf (ldr r0,[r0]; bx lr); not a function start in layout yet. Witness for func_021BCF4C.
+ * Unlabelled Thumb leaf (ldr r0,[r0]; bx lr); not a function start in layout yet. Witness for ZUKAN_DETAIL_GRAPHIC_Reset3dState.
  */
-int func_021BD0A8(int *p)
+int ZUKAN_DETAIL_GRAPHIC_ResetCameraState(int *p)
 {
     return *p;
 }

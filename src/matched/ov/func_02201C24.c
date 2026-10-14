@@ -1,5 +1,5 @@
 /*
- * function: func_02201C24
+ * function: WORLDTRADE_SERVER_WaitCancel
  * address:  0x02201C24
  * packet:   pkt_02201C24
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   DPW_TR_IsAsyncEnd  0x021C866C  arm
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
@@ -37,9 +37,9 @@ typedef signed int s32;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
+extern void WORLDTRADE_CancelSave(u8 *p);
 
-int func_02201C24(u8 *p)
+int WORLDTRADE_SERVER_WaitCancel(u8 *p)
 {
     s32 n;
 
@@ -55,7 +55,7 @@ int func_02201C24(u8 *p)
             ((struct Obj07255 *)p)->f28 = 0x30;
             break;
         case -13:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {

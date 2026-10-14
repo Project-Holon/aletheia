@@ -13,7 +13,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -28,7 +28,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeInSlot(void *, int);
-extern void func_021F89BC(void *);
+extern void BTLV_EFFECT_DeleteTask(void *);
 void BTLV_B_GAUGE_TaskPartyBallBar(void *task, Context *c)
 {
     int i;
@@ -87,7 +87,7 @@ void BTLV_B_GAUGE_TaskPartyBallBar(void *task, Context *c)
             }
             CLACT_AddActorSurfacePos(c->owner->entries[i].h, (const struct Vec2 *)(&c->owner->entries[i].pos), 0);
         }
-        if (!busy) func_021F89BC(task);
+        if (!busy) BTLV_EFFECT_DeleteTask(task);
         break;
     }
 }

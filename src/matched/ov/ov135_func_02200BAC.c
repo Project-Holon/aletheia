@@ -1,5 +1,5 @@
 /*
- * function: func_02200BAC
+ * function: WORLDTRADE_TITLE_CreateMenuWindow
  * address:  0x02200BAC
  * packet:   pkt_02200BAC
  * region:   ov135
@@ -13,7 +13,7 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_021F9218  0x021F9218  thumb
+ *   WORLDTRADE_INPUT_PrintCentered  0x021F9218  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -33,19 +33,19 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021F9218(void *win, void *bank, int idx, void *g);
+extern void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 v);
 
-void func_02200BAC(u8 *p, u32 k)
+void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k)
 {
     u32 v;
 
     ((struct Obj00345 *)p)->fDE0 = BMP_WIN_Create(4, 0xc, 0x13, 0x12, 4, 1, 1);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00345 *)p)->fDE0)), 0);
-    func_021F9218((void *)(((struct Obj00345 *)p)->fDE0), (void *)(((struct Obj00345 *)p)->fB6C), k, p + 0xfa0);
+    WORLDTRADE_INPUT_PrintCentered((void *)(((struct Obj00345 *)p)->fDE0), (void *)(((struct Obj00345 *)p)->fB6C), k, p + 0xfa0);
     v = ((struct Obj00345 *)p)->fDE0;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);

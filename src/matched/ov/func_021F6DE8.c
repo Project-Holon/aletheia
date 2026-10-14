@@ -1,5 +1,5 @@
 /*
- * function: func_021F6DE8
+ * function: WORLDTRADE_BOX_IsSpeciesFlagged
  * address:  0x021F6DE8
  * packet:   pkt_021F6DE8
  * region:   ov135
@@ -24,7 +24,7 @@ typedef signed int s32;
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern u32 func_0202136C(u16 v);
 
-int func_021F6DE8(u32 handle)
+int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
 {
     int ok = 0;
     u16 v = (u16)POKE_TOOL_GetPartyValue((void *)handle, 6, 0);

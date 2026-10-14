@@ -1,5 +1,5 @@
 /*
- * function: func_021D67B4
+ * function: GSYNC_DISP_SpawnParticleRight
  * address: 0x021D67B4
  * packet: pkt_ov123_021D67B4
  * region: ov123
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D6C90 0x021D6C90 thumb ov123
+ *   GSYNC_DISP_CopyIconPaletteSub 0x021D6C90 thumb ov123
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -25,7 +25,7 @@ struct Pos { short x,y; };
 struct Pair { int a,b; };
 extern const struct Pos d_021DA734;
 extern const struct Pair d_021DA740;
-extern void func_021D6C90(char *p, int i, void *h);
+extern void GSYNC_DISP_CopyIconPaletteSub(char *p, int i, void *h);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
@@ -37,12 +37,12 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void func_021D67B4(u8 *p, int i)
+void GSYNC_DISP_SpawnParticleRight(u8 *p, int i)
 {
     struct Pos pos;
     struct Pair pair;
     void *h;
-    func_021D6C90((char *)p,i,((struct Obj13980 *)p)->fB8);
+    GSYNC_DISP_CopyIconPaletteSub((char *)p,i,((struct Obj13980 *)p)->fB8);
     h = ((struct Obj13980 *)p)->fB8;
     pos = d_021DA734; pair = d_021DA740;
     CLACT_AddActorSurfacePos(h,(const struct Vec2 *)(&pos),0); CLACT_SetActorScale(h,&pair);

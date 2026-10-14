@@ -1,5 +1,5 @@
 /*
- * function: func_021BD07C
+ * function: ZUKAN_DETAIL_GRAPHIC_ExitActorSystem
  * address:  0x021BD07C
  * packet:   pkt_021BD07C
  * region:   ov208
@@ -25,7 +25,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BD07C(char *p)
+void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj18205 *)p)->f0));
     CLACT_ExitSystem();

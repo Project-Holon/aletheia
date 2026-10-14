@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCAB4",
-    "func_021DCAE8"
+    "GURU2_EntryStateReopenPartyList",
+    "GURU2_EntryStateFinish"
+   ],
+   "addresses": [
+    "0x021DCAB4",
+    "0x021DCAE8"
    ]
   }
  ]

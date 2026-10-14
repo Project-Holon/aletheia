@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6844",
+   "name": "HALL_OF_FAME_SetParticleCamera",
    "address": "0x021B6844",
    "kind": "game",
    "region": "ov180",

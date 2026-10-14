@@ -1,5 +1,5 @@
 /*
- * function: func_021E4E0C
+ * function: POKETRADE_2D_GetVisibleColumnRange
  * address: 0x021E4E0C
  * packet: pkt_ov119_021E4E0C
  * region: ov119
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E4DBC 0x021E4DBC thumb ov119
+ *   POKETRADE_2D_GetScrollColumn 0x021E4DBC thumb ov119
  */
 #include "../include/Obj08070.h"
-extern int func_021E4DBC(char *);
-int func_021E4E0C(char *p, int *out)
+extern int POKETRADE_2D_GetScrollColumn(char *);
+int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out)
 {
     int x, hi, n, t;
-    x = func_021E4DBC(p);
+    x = POKETRADE_2D_GetScrollColumn(p);
     *out = x + 2;
     hi = x + 10;
     n = ((struct Obj08070 *)p)->f634;

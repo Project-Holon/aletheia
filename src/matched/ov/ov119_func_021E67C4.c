@@ -1,5 +1,5 @@
 /*
- * function: func_021E67C4
+ * function: POKETRADE_2D_SetMarkerActorAnim
  * address: 0x021E67C4
  * packet: pkt_ov119_021E67C4
  * region: ov119
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021E67C4(void *p, int i)
+void POKETRADE_2D_SetMarkerActorAnim(void *p, int i)
 {
     CLACT_SetActorAnimSeq((struct Obj *)(*(int *)((char *)p + i * 4 + 0x10bc)), (u16)(i + 15));
 }

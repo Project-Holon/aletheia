@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C09B8 0x021C09B8 thumb ov217
+ *   RESEARCH_COMMON_GetTouchRects 0x021C09B8 thumb ov217
  *   func_021BC6D0 0x021BC6D0 thumb ov217
  *   func_021BBAD0 0x021BBAD0 thumb ov217
  *   func_021BB934 0x021BB934 thumb ov217
@@ -36,7 +36,7 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void *func_021C09B8(void *);
+extern void *RESEARCH_COMMON_GetTouchRects(void *);
 extern u32 func_021BC6D0(void *);
 extern void func_021BBAD0(u32);
 extern void func_021BB934(u8 *,u32);
@@ -57,7 +57,7 @@ void func_021BAE00(u8 *p)
     int sel=TOUCHPANEL_HitTrg(p+0x64);
     int flag;
     u32 a,b;
-    flag=TOUCHPANEL_HitTrg(func_021C09B8(*(void **)p));
+    flag=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(*(void **)p));
     TOUCHPANEL_GetPointCont(&a,&b);
     if(func_021BC6D0(p)!=0 || flag==0) {
         GFL_USE_PlaySeDefaultVolume(0x551);

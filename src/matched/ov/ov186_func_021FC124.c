@@ -1,5 +1,5 @@
 /*
- * function: func_021FC124
+ * function: BR_RES_GetSprite
  * address: 0x021FC124
  * packet: pkt_ov186_021FC124
  * region: ov186
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef struct {unsigned a,b,c;} Triple;
-int func_021FC124(char *p,unsigned i,Triple *out) { if(*(int *)((unsigned)(p+0xb0)+i*4)) *out=*(Triple *)((unsigned)p+i*12+8);return *(int *)((unsigned)(p+0xb0)+i*4); }
+int BR_RES_GetSprite(char *p,unsigned i,Triple *out) { if(*(int *)((unsigned)(p+0xb0)+i*4)) *out=*(Triple *)((unsigned)p+i*12+8);return *(int *)((unsigned)(p+0xb0)+i*4); }

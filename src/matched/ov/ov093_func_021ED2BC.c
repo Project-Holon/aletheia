@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  */
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 int BTLV_SCU_IsMonExitDone(void)
 {
-    if (func_021F7EB4() == 0)
+    if (BTLV_EFFECT_IsBusy() == 0)
         return 1;
     return 0;
 }

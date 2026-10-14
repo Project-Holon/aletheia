@@ -1,5 +1,5 @@
 /*
- * function: func_021D8520
+ * function: GSYNC_STATE_StateSendResponse
  * address: 0x021D8520
  * packet: pkt_ov123_021D8520
  * region: ov123
@@ -25,8 +25,8 @@
  *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D8490 0x021D8490 thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateReceiveResponse 0x021D8490 thumb ov123
  */
 extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
@@ -39,9 +39,9 @@ extern int NHTTP_RAP_StartConnection(u8 *p);
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 struct Ctrl020071D8;
 extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D8490(char *p);
-void func_021D8520(char *p)
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateReceiveResponse(char *p);
+void GSYNC_STATE_StateSendResponse(char *p)
 {
     int x;
     unsigned int v;
@@ -50,10 +50,10 @@ void func_021D8520(char *p)
             v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
             NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(void **)(p+0x10)),(void *)v,0x80000);
             if (!NHTTP_RAP_StartConnection(*(void **)(p+0x10)))
-                func_021D6EE0((u8 *)p,(int)func_021D8490,0x6fa);
+                GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateReceiveResponse,0x6fa);
         }
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-            func_021D6EE0((u8 *)p,(int)func_021D8490,0x700);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateReceiveResponse,0x700);
     }
 }

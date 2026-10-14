@@ -1,5 +1,5 @@
 /*
- * function: func_021E35A0
+ * function: POKETRADE_3D_AddPokemonMcss
  * address: 0x021E35A0
  * packet: pkt_ov119_021E35A0
  * region: ov119
@@ -17,7 +17,7 @@
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
- *   func_021E33FC 0x021E33FC thumb ov119
+ *   POKETRADE_3D_SetMcssOffsetForSpecies 0x021E33FC thumb ov119
  *   data_021E7B00 0x021E7B00 data a4
  *   data_021E7B0C 0x021E7B0C data a4
  */
@@ -46,8 +46,8 @@ extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
 extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
-extern void func_021E33FC(void *p0, int *dir, int p2, void *mon);
-void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
+extern void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon);
+void POKETRADE_3D_AddPokemonMcss(Work *p, int idx, int side, void *mon, int flag)
 {
     Vec v = data_021E7B00;
     Table t = data_021E7B0C;
@@ -71,5 +71,5 @@ void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
     MCSS_TOOL_SetAnimeStopCallback((int)p->obj[idx]);
     MCSS_SetScale(p->obj[idx], (u32 *)(&v));
     MCSS_SetShadowVanishFlag(p->obj[idx], 1);
-    func_021E33FC(p->obj[idx], (int *)(&v), side, mon);
+    POKETRADE_3D_SetMcssOffsetForSpecies(p->obj[idx], (int *)(&v), side, mon);
 }

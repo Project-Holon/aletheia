@@ -1,5 +1,5 @@
 /*
- * function: func_021C51C8
+ * function: ZUKAN_DETAIL_FORM_InitAnimState
  * address:  0x021C51C8
  * packet:   pkt_021C51C8
  * region:   ov208
@@ -24,7 +24,7 @@ typedef struct {
     int wc;
 } S;
 
-void func_021C51C8(S *p, int a, int b)
+void ZUKAN_DETAIL_FORM_InitAnimState(S *p, int a, int b)
 {
     p->w0 = a;
     p->w4 = b;

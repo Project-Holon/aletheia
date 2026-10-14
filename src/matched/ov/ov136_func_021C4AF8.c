@@ -1,5 +1,5 @@
 /*
- * function: func_021C4AF8
+ * function: MAILVIEW_HideAllPlanes
  * address: 0x021C4AF8
  * packet: pkt_ov136_021C4AF8
  * region: ov136
@@ -18,7 +18,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 typedef unsigned int   u32;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-void func_021C4AF8(void)
+void MAILVIEW_HideAllPlanes(void)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

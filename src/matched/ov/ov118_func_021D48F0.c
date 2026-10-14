@@ -16,12 +16,12 @@
  *   MCSS_ResetVanishFlag  0x02015EB0  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
- *   func_021E12AC  0x021E12AC  thumb  ov119
- *   func_021E1098  0x021E1098  thumb  ov119
- *   func_021E36D8  0x021E36D8  thumb  ov119
+ *   POKETRADE_SAVE_IsMessagePrintDone  0x021E12AC  thumb  ov119
+ *   POKETRADE_SAVE_CloseMessageWindowClear  0x021E1098  thumb  ov119
+ *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
  *   func_020307B0  0x020307B0  arm
- *   func_021D8E84  0x021D8E84  thumb  ov119
- *   func_021DFC68  0x021DFC68  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
+ *   POKETRADE_MCSS_SlideUpdate  0x021DFC68  thumb  ov119
  *   func_021D4B14  0x021D4B14  thumb  ov118
  *
  * Addresses are Black-image addresses.
@@ -42,12 +42,12 @@ extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_ResetVanishFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
 extern void MCSS_ResetAnmStopFlag(void *p);
-extern int func_021E12AC(char *p);
-extern void func_021E1098(char *p);
-extern void func_021E36D8(void *p, int a);
+extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
+extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
+extern void POKETRADE_3D_DeleteMcssSlot(void *p, int a);
 extern u32 func_020307B0(void *p);
-extern void func_021D8E84(void *p, int next);
-extern void func_021DFC68(void *p, int a1);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
+extern void POKETRADE_MCSS_SlideUpdate(void *p, int a1);
 extern void func_021D4B14(u8 *p);
 
 #define FRAME (*(s32 *)(p + 0xF2C))
@@ -69,10 +69,10 @@ void func_021D48F0(u8 *p)
         MCSS_ResetAnmStopFlag((void *)OBJ(2));
         *(u32 *)SLOT0 = OBJ(2);
     }
-    if (FRAME > 0xC8 && func_021E12AC((char *)p) != 0) {
-        func_021E1098((char *)p);
+    if (FRAME > 0xC8 && POKETRADE_SAVE_IsMessagePrintDone((char *)p) != 0) {
+        POKETRADE_SAVE_CloseMessageWindowClear((char *)p);
         if (((struct Obj00983 *)p)->f11ED == 0) {
-            func_021E36D8(p, 0);
+            POKETRADE_3D_DeleteMcssSlot(p, 0);
             OBJ(0) = OBJ(2);
             OBJ(2) = 0;
         }
@@ -80,7 +80,7 @@ void func_021D48F0(u8 *p)
             func_020307B0((void *)SLOT0);
             SLOT0 = 0;
         }
-        func_021D8E84(p, (int)func_021D4B14);
+        POKETRADE_PROC_SetStep(p, (int)func_021D4B14);
     }
-    func_021DFC68((void *)SLOT0, (int)p);
+    POKETRADE_MCSS_SlideUpdate((void *)SLOT0, (int)p);
 }

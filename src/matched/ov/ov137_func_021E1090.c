@@ -1,5 +1,5 @@
 /*
- * function: func_021E1090
+ * function: GURU2_MAIN_AddWobbleEffect
  * address: 0x021E1090
  * packet: pkt_ov137_021E1090
  * region: ov137
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef struct { int active, state, x, y, z, key; } Entry;
-void func_021E1090(char *p, int key)
+void GURU2_MAIN_AddWobbleEffect(char *p, int key)
 {
     int i;
     Entry *entry;

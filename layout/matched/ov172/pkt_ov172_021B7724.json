@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7724",
+   "name": "CTVT_CAMVIEW_ClearWindowDirty",
    "address": "0x021B7724",
    "kind": "game",
    "region": "ov172",

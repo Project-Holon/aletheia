@@ -1,5 +1,5 @@
 /*
- * function: func_021D5D94
+ * function: GSYNC_DISP_Init
  * address: 0x021D5D94
  * packet: pkt_ov123_021D5D94
  * region: ov123
@@ -22,11 +22,11 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_021D5F4C 0x021D5F4C thumb ov123
- *   func_021D614C 0x021D614C thumb ov123
- *   func_021D6CD8 0x021D6CD8 thumb ov123
- *   func_021D6D5C 0x021D6D5C thumb ov123
- *   func_021D60F8 0x021D60F8 thumb ov123
+ *   GSYNC_DISP_InitBgLayers 0x021D5F4C thumb ov123
+ *   GSYNC_DISP_LoadResources 0x021D614C thumb ov123
+ *   GSYNC_DISP_CreatePokeIconActor 0x021D6CD8 thumb ov123
+ *   GSYNC_DISP_CreateBackdropActors 0x021D6D5C thumb ov123
+ *   GSYNC_DISP_VBlankTask 0x021D60F8 thumb ov123
  *   d_021DAB68 0x021DAB68 data a1
  *   d_021DAA9C 0x021DAA9C data a4
  *   d_020A1464 0x020A1464 data a4
@@ -54,13 +54,13 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_021D5F4C(u8 *);
-extern void func_021D614C(u8 *);
-extern void func_021D6CD8(u8 *);
-extern void func_021D6D5C(u8 *);
-extern void func_021D60F8(void *,u8 *);
+extern void GSYNC_DISP_InitBgLayers(u8 *);
+extern void GSYNC_DISP_LoadResources(u8 *);
+extern void GSYNC_DISP_CreatePokeIconActor(u8 *);
+extern void GSYNC_DISP_CreateBackdropActors(u8 *);
+extern void GSYNC_DISP_VBlankTask(void *,u8 *);
 extern void *func_020056A0(void *,void *,int);
-u8 *func_021D5D94(u32 heap)
+u8 *GSYNC_DISP_Init(u32 heap)
 {
     u8 *p;
     p=func_02030734(heap,0x4568,1,d_021DAB68,0xfe);
@@ -73,8 +73,8 @@ u8 *func_021D5D94(u32 heap)
     CLACT_InitSystem((const struct Cfg *)d_020A1464,(u32)d_021DAA9C,((struct Obj04498 *)p)->f43C4);
     ((struct Obj04498 *)p)->fC=CLACT_CreateUnit(40,0,((struct Obj04498 *)p)->f43C4);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DAA9C); func_0203FC28((struct DispConfig *)d_021DAA78);
-    func_021D5F4C(p); func_021D614C(p); func_021D6CD8(p); func_021D6D5C(p);
-    ((struct Obj04498 *)p)->f10=func_020056A0(func_021D60F8,p,0);
+    GSYNC_DISP_InitBgLayers(p); GSYNC_DISP_LoadResources(p); GSYNC_DISP_CreatePokeIconActor(p); GSYNC_DISP_CreateBackdropActors(p);
+    ((struct Obj04498 *)p)->f10=func_020056A0(GSYNC_DISP_VBlankTask,p,0);
     ((struct Obj04498 *)p)->f455C=200;
     BG_SYS_SetSubVisiblePlanes(31); BG_SYS_SetMainVisiblePlanes(27);
     return p;

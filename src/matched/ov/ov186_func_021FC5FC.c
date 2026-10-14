@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5FC
+ * function: BR_GRAPHIC_DrawActors
  * address: 0x021FC5FC
  * packet: pkt_ov186_021FC5FC
  * region: ov186
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_021FC5FC(void *a0){CLACT_DrawSystem();}
+void BR_GRAPHIC_DrawActors(void *a0){CLACT_DrawSystem();}

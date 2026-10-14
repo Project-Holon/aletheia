@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB220",
+   "name": "WORLDTRADE_INPUT_StateRestoreCursor",
    "address": "0x021FB220",
    "kind": "game",
    "region": "ov135",

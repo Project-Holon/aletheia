@@ -1,5 +1,5 @@
 /*
- * function: func_021FF468
+ * function: BTLV_MCSS_GetSlotScale
  * address:  0x021FF468
  * packet:   pkt_021FF468
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02201934  0x02201934  thumb  ov094
+ *   BTLV_MCSS_CalcSlotScale  0x02201934  thumb  ov094
  */
 
-int func_02201934(void *u, int i, int mode);
+int BTLV_MCSS_CalcSlotScale(void *u, int i, int mode);
 
-int func_021FF468(void *u, int i, int mode)
+int BTLV_MCSS_GetSlotScale(void *u, int i, int mode)
 {
-    return func_02201934(u, i, mode);
+    return BTLV_MCSS_CalcSlotScale(u, i, mode);
 }

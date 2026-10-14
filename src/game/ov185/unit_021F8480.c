@@ -19,20 +19,20 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   func_02040588 0x02040588 arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021FD714 0x021FD714 thumb ov186
- *   func_021FC0C8 0x021FC0C8 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021FF88C 0x021FF88C thumb ov186
+ *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   func_021F9C6C 0x021F9C6C thumb ov186
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
@@ -42,51 +42,51 @@
  *   func_021FD6B0 0x021FD6B0 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_021F3C50 0x021F3C50 thumb ov112
- *   func_021FFE34 0x021FFE34 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_POKESEARCH_UpdatePrint 0x021FFE34 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FD744 0x021FD744 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
- *   func_021FFC9C   0x021FFC9C  thumb
- *   func_021FFE90   0x021FFE90  thumb
+ *   BR_POKESEARCH_Main   0x021FFC9C  thumb
+ *   BR_POKESEARCH_GetResult   0x021FFE90  thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021F9048 0x021F9048 thumb ov185
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF660 0x021FF660 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetDownloadEntries 0x021FF660 thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
- *   func_021FEEC0   0x021FEEC0  thumb
- *   func_021FBDA4   0x021FBDA4  thumb
- *   func_021FC1F8   0x021FC1F8  thumb
- *   func_021FC610   0x021FC610  thumb  ov135
+ *   BR_SIDEBAR_SetVisibleBySpace   0x021FEEC0  thumb
+ *   BR_RES_ApplyBgSet   0x021FBDA4  thumb
+ *   BR_RES_ReleaseUiPalette   0x021FC1F8  thumb
+ *   WORLDTRADE_DETAIL_StateStartWipeOut   0x021FC610  thumb  ov135
  *   func_021F3AF0   0x021F3AF0  thumb
  *   func_021F3BF0 0x021F3BF0 thumb ov112
- *   func_021FC640 0x021FC640 thumb ov186
- *   func_021FC148 0x021FC148 thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_GRAPHIC_End3d 0x021FC640 thumb ov186
+ *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
- *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_02034714 0x02034714 arm
  *   func_021FB494 0x021FB494 thumb ov186
- *   func_021FC734 0x021FC734 thumb ov186
+ *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   func_021FD1C4 0x021FD1C4 thumb ov186
  *   func_021FD640  0x021FD640  thumb  ov186
  *   func_021FD12C 0x021FD12C thumb ov186
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
- *   func_021FFBD4 0x021FFBD4 thumb ov186
- *   func_021FFE5C 0x021FFE5C thumb ov186
- *   func_021FFE70 0x021FFE70 thumb ov186
- *   func_021FFC6C 0x021FFC6C thumb ov186
+ *   BR_POKESEARCH_Create 0x021FFBD4 thumb ov186
+ *   BR_POKESEARCH_Open 0x021FFE5C thumb ov186
+ *   BR_POKESEARCH_Close 0x021FFE70 thumb ov186
+ *   BR_POKESEARCH_Destroy 0x021FFC6C thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   func_021FD15C 0x021FD15C thumb ov186
  */
@@ -157,20 +157,20 @@ extern unsigned func_021F9B9C(struct Obj24810 *p);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void func_021FBE54(char *base, u32 idx, u32 area);
+extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021FD714(void *p);
-extern void func_021FC0C8(char *p, unsigned i);
+extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void func_021FD820(char *);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_02034A5C(int);
-extern int func_021FF88C(char *);
+extern int BR_NET_HandleNetError(char *);
 extern void func_021F9C6C(char *);
 extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *);
@@ -180,49 +180,49 @@ extern int func_021FC830(u8 *p);
 extern int func_021FD6B0(u8 *p);
 extern void func_021FD1BC(void *p);
 extern void func_021F3C50(u8 *p);
-extern unsigned func_021FFE34(char *p);
-extern void func_021FE784(int a, int b, int c, int d);
-extern int func_021FE7B0(int *p);
+extern unsigned BR_POKESEARCH_UpdatePrint(char *p);
+extern void BR_FADE_Start(int a, int b, int c, int d);
+extern int BR_FADE_GetResult(int *p);
 extern int *func_021FD73C(int *p, int v);
 extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
-extern void func_021FFC9C(int);
-extern int func_021FFE90(int, unsigned short *);
+extern void BR_POKESEARCH_Main(int);
+extern int BR_POKESEARCH_GetResult(int, unsigned short *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern int func_021F9048(char *p, unsigned x, unsigned y);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *),BR_NET_PollErrorMessage(char *,int *),BR_NET_GetDownloadEntries(char *,int,int,int *);
 extern void func_021FD170(char *p, char *q, void *text);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
-extern void func_021FEEC0(int, int, int);
-extern void func_021FBDA4(int, int);
-extern void func_021FC1F8(int, int);
-extern int func_021FC610(u8 *p, int a1);
+extern void BR_SIDEBAR_SetVisibleBySpace(int, int, int);
+extern void BR_RES_ApplyBgSet(int, int);
+extern void BR_RES_ReleaseUiPalette(int, int);
+extern int WORLDTRADE_DETAIL_StateStartWipeOut(u8 *p, int a1);
 extern int func_021F3AF0(int, int);
 extern void func_021F3BF0(u8 *);
-extern void func_021FC640(void *,unsigned);
-extern void func_021FC148(char *,unsigned,unsigned);
-extern void func_021FB964(void *,unsigned,u16);
-extern int func_021FC124(void *,unsigned,void *);
+extern void BR_GRAPHIC_End3d(void *,unsigned);
+extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
+extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
+extern int BR_RES_GetSprite(void *,unsigned,void *);
 extern void func_02034714(const char *,unsigned,const char *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
-extern void *func_021FC6A4(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
+extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
 extern void func_021FB494(char *p);
-extern void func_021FC734(u8 *p);
+extern void BR_UTIL_Delete(u8 *p);
 extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
 extern void func_021FD640(int *p);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern char *func_021FFBD4(void *owner, void *table, int a, int b, int c, int d, int e, unsigned short heap);
-extern void func_021FFE5C(char *);
-extern void func_021FFE70(char *p);
-extern void func_021FFC6C(char *p);
+extern char *BR_POKESEARCH_Create(void *owner, void *table, int a, int b, int c, int d, int e, unsigned short heap);
+extern void BR_POKESEARCH_Open(char *);
+extern void BR_POKESEARCH_Close(char *p);
+extern void BR_POKESEARCH_Destroy(char *p);
 extern void func_020409B4(unsigned);
 extern void func_021FD15C(void *,int);
 int func_021F8480(void *obj,int b,char *q);
@@ -274,10 +274,10 @@ int func_021F8480(void *obj,int b,char *q)
     *(char * *)&((struct Obj00278 *)p)->f34=q;
     ((struct Obj00278 *)p)->f30=func_021F9B9C(((struct Obj02526 *)q)->f10);
     ((struct Obj00278 *)p)->f2C=PRINTSYS_QUE_Create((void *)(unsigned int)((struct Obj00278 *)p)->f30);
-    v=(void *)func_021FC4DC(((struct Obj02526 *)q)->f8);
+    v=(void *)BR_GRAPHIC_GetActorUnit(((struct Obj02526 *)q)->f8);
     ((struct Obj00278 *)p)->f28=BMP_OAM_CreateSys(((struct Obj00278 *)p)->f30,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+56)=func_021FD760((unsigned int)v,(char *)(((struct Obj02526 *)q)->fC),i,((struct Obj00278 *)p)->f30);
-    func_021FBE54((char *)(((struct Obj02526 *)q)->fC),6,((struct Obj00278 *)p)->f30);
+    BR_RES_LoadSprite((char *)(((struct Obj02526 *)q)->fC),6,((struct Obj00278 *)p)->f30);
     func_02040588(0,1);
     func_021F8EFC(p,(int *)q);
     ((struct Obj00278 *)p)->f24=func_021FD6D8((int)p,(int)func_021F8604,((struct Obj00278 *)p)->f30);
@@ -304,7 +304,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
     func_021F8FB0(p,q);
     func_021FD714((void *)(((struct Obj03337 *)p)->f24));
     func_021F8F58(p,q);
-    func_021FC0C8((char *)(*(int *)&((struct Obj04583 *)q)->fC),6);
+    BR_RES_ReleaseSprite((char *)(*(int *)&((struct Obj04583 *)q)->fC),6);
     for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+56));
     BMP_OAM_DeleteSys((void *)(((struct Obj03337 *)p)->f28));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj03337 *)p)->f2C));
@@ -326,7 +326,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
 int func_021F8590(int a,int b,int c,char *p)
 {
     int i;
-    if (func_021FF88C(*(char * *)&((struct Obj24716 *)(*(char * *)&((struct Obj01966 *)p)->f34))->f14)==2) {
+    if (BR_NET_HandleNetError(*(char * *)&((struct Obj24716 *)(*(char * *)&((struct Obj01966 *)p)->f34))->f14)==2) {
         func_021F9C6C(*(char * *)&((struct Obj24717 *)(*(char * *)&((struct Obj01966 *)p)->f34))->f10);
         return 1;
     }
@@ -353,8 +353,8 @@ int func_021F8590(int a,int b,int c,char *p)
 void func_021F8604(int a,int *state,char *p)
 {
     switch (*state) {
-    case 0: if (func_021FFE34((char *)(((struct Obj10769 *)p)->f0))) { func_021FE784(**(int * *)&((struct Obj10769 *)p)->f34,2,3,0); *state=1; } break;
-    case 1: if (func_021FE7B0((int *)(**(int * *)&((struct Obj10769 *)p)->f34))) *state=2; break;
+    case 0: if (BR_POKESEARCH_UpdatePrint((char *)(((struct Obj10769 *)p)->f0))) { BR_FADE_Start(**(int * *)&((struct Obj10769 *)p)->f34,2,3,0); *state=1; } break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&((struct Obj10769 *)p)->f34))) *state=2; break;
     case 2: func_021FD73C((int *)a,(int)func_021F86A4); break;
     }
 }
@@ -371,8 +371,8 @@ void func_021F8604(int a,int *state,char *p)
 void func_021F8658(int a,int *state,char *p)
 {
     switch (*state) {
-    case 0: func_021FE784(**(int * *)&((struct Obj08320 *)p)->f34,2,3,1); *state=1; break;
-    case 1: if (func_021FE7B0((int *)(**(int * *)&((struct Obj08320 *)p)->f34))) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&((struct Obj08320 *)p)->f34,2,3,1); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&((struct Obj08320 *)p)->f34))) *state=2; break;
     case 2: func_021FD744((int *)(((struct Obj08320 *)p)->f24)); func_021F9BA0((unsigned int *)(((struct Obj24722 *)(*(char * *)&((struct Obj08320 *)p)->f34))->f10)); break;
     }
 }
@@ -391,8 +391,8 @@ void func_021F86A4(int a, int b, char *p)
 {
     unsigned short buf;
     int r;
-    func_021FFC9C(((struct Obj10771 *)p)->f0);
-    r = func_021FFE90(((struct Obj10771 *)p)->f0, &buf);
+    BR_POKESEARCH_Main(((struct Obj10771 *)p)->f0);
+    r = BR_POKESEARCH_GetResult(((struct Obj10771 *)p)->f0, &buf);
     if (r == 0)
         return;
     if (r == 2) {
@@ -452,18 +452,18 @@ void func_021F8790(int *task,unsigned *state,char *p)
         MI_CpuFill8(&cfg,0,8);
         cfg.heap=((struct Obj01276 *)p)->f8;
         ((struct Obj01276 *)p)->fA=0;
-        func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
+        BR_NET_StartRequest(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
         *state=1; break;
     case 1:
         ((struct Obj01276 *)p)->fA=((struct Obj01276 *)p)->fA+1;
-        if(func_021FF648(*(char * *)&((struct Obj24724 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14) && ((struct Obj01276 *)p)->fA>0x60) {
+        if(BR_NET_IsIdle(*(char * *)&((struct Obj24724 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14) && ((struct Obj01276 *)p)->fA>0x60) {
             func_021FD860(((struct Obj01276 *)p)->f38, 0, (int *)0);
             *state=2;
         }
         break;
     case 2:
-        if(!func_021FF72C(*(char * *)&((struct Obj24725 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,&out)) {
-            if(func_021FF660(*(char * *)&((struct Obj24726 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,(int)(p+0x40),5,(int *)(p+0x54)) && ((struct Obj01276 *)p)->f54) {
+        if(!BR_NET_PollErrorMessage(*(char * *)&((struct Obj24725 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,&out)) {
+            if(BR_NET_GetDownloadEntries(*(char * *)&((struct Obj24726 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,(int)(p+0x40),5,(int *)(p+0x54)) && ((struct Obj01276 *)p)->f54) {
                 ((struct Obj01276 *)p)->fC=0;
                 func_021FD73C(task,(int)func_021F88B0);
                 break;
@@ -497,11 +497,11 @@ void func_021F8790(int *task,unsigned *state,char *p)
 void func_021F88B0(int a,int *state,char *p)
 {
     switch (*state) {
-    case 0: func_021FE784(**(int * *)&((struct Obj03886 *)p)->f34,4,3,1); *state=1; break;
-    case 1: if (func_021FE7B0((int *)(**(int * *)&((struct Obj03886 *)p)->f34))) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&((struct Obj03886 *)p)->f34,4,3,1); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&((struct Obj03886 *)p)->f34))) *state=2; break;
     case 2: func_021F8FB0(p,*(char * *)&((struct Obj03886 *)p)->f34); func_021F8D18(p,*(int * *)&((struct Obj03886 *)p)->f34); func_021F8D98(p,*(char * *)&((struct Obj03886 *)p)->f34); *state=3; break;
-    case 3: func_021FE784(**(int * *)&((struct Obj03886 *)p)->f34,4,3,0); *state=4; break;
-    case 4: if (func_021FE7B0((int *)(**(int * *)&((struct Obj03886 *)p)->f34))) *state=5; break;
+    case 3: BR_FADE_Start(**(int * *)&((struct Obj03886 *)p)->f34,4,3,0); *state=4; break;
+    case 4: if (BR_FADE_GetResult((int *)(**(int * *)&((struct Obj03886 *)p)->f34))) *state=5; break;
     case 5: ((struct Obj03886 *)p)->f20=1; func_021FD73C((int *)a,(int)func_021F86E4); break;
     }
 }
@@ -516,10 +516,10 @@ void func_021F8950(int *sys,int *state,char *p)
 {
     switch(*state) {
     case 0:
-        if(((struct Obj00278 *)p)->f20) func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,4,3,1);
-        else func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,2,3,1);
+        if(((struct Obj00278 *)p)->f20) BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,4,3,1);
+        else BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,2,3,1);
         *state=1; break;
-    case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=2; break;
+    case 1: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=2; break;
     case 2:
         func_021F8EE8(p,*(int * *)&((struct Obj00278 *)p)->f34);
         func_021F8D5C(p,(char *)(*(int * *)&((struct Obj00278 *)p)->f34));
@@ -527,10 +527,10 @@ void func_021F8950(int *sys,int *state,char *p)
         func_021F8EFC(p,*(int * *)&((struct Obj00278 *)p)->f34);
         *state=3; break;
     case 3:
-        if(((struct Obj00278 *)p)->f20) func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,4,3,0);
-        else func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,2,3,0);
+        if(((struct Obj00278 *)p)->f20) BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,4,3,0);
+        else BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,2,3,0);
         *state=4; break;
-    case 4: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=5; break;
+    case 4: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=5; break;
     case 5: func_021FD73C(sys,(int)func_021F86A4); break;
     }
 }
@@ -544,11 +544,11 @@ void func_021F8950(int *sys,int *state,char *p)
 void func_021F8A0C(int *sys,int *state,char *p)
 {
     switch(*state) {
-    case 0: func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,2,3,1); *state=1; break;
-    case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,2,3,1); *state=1; break;
+    case 1: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=2; break;
     case 2: func_021F8FB0(p,(char *)(*(int * *)&((struct Obj00278 *)p)->f34)); func_021F8EFC(p,*(int * *)&((struct Obj00278 *)p)->f34); *state=3; break;
-    case 3: if(func_021FFE34((char *)(*(int *)&((struct Obj00278 *)p)->f0))) {func_021FE784(**(int * *)&((struct Obj00278 *)p)->f34,2,3,0); *state=4;} break;
-    case 4: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=5; break;
+    case 3: if(BR_POKESEARCH_UpdatePrint((char *)(*(int *)&((struct Obj00278 *)p)->f0))) {BR_FADE_Start(**(int * *)&((struct Obj00278 *)p)->f34,2,3,0); *state=4;} break;
+    case 4: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=5; break;
     case 5: func_021FD73C(sys,(int)func_021F86A4); break;
     }
 }
@@ -563,15 +563,15 @@ void func_021F8AA8(int *sys,int *state,char *p)
 {
     int pair[2];
     switch(*state) {
-    case 0: func_021FE784(**(int * *)&((struct Obj04582 *)p)->f34,2,3,1); *state=1; break;
-    case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj04582 *)p)->f34)) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&((struct Obj04582 *)p)->f34,2,3,1); *state=1; break;
+    case 1: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj04582 *)p)->f34)) *state=2; break;
     case 2:
         func_021F8F58(p,(char *)(*(int * *)&((struct Obj04582 *)p)->f34));
         func_021F8F88(p,*(int * *)&((struct Obj04582 *)p)->f34);
         pair[0]=0x80;pair[1]=0x60;
         func_021FD860((int)(((struct Obj04582 *)p)->f38), 4, pair); *state=3; break;
-    case 3: func_021FE784(**(int * *)&((struct Obj04582 *)p)->f34,2,3,0); *state=4; break;
-    case 4: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj04582 *)p)->f34)) *state=5; break;
+    case 3: BR_FADE_Start(**(int * *)&((struct Obj04582 *)p)->f34,2,3,0); *state=4; break;
+    case 4: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj04582 *)p)->f34)) *state=5; break;
     case 5: func_021FD73C(sys,(int)func_021F8790); break;
     }
 }
@@ -589,10 +589,10 @@ void func_021F8B5C(int *task,int *state,char *p)
 {
     switch (*state) {
     case 0:
-        if (((struct Obj01568 *)p)->f20) func_021FE784(**(int * *)&((struct Obj01568 *)p)->f34,1,1,1);
-        else func_021FE784(**(int * *)&((struct Obj01568 *)p)->f34,2,1,1);
+        if (((struct Obj01568 *)p)->f20) BR_FADE_Start(**(int * *)&((struct Obj01568 *)p)->f34,1,1,1);
+        else BR_FADE_Start(**(int * *)&((struct Obj01568 *)p)->f34,2,1,1);
         *state=1;break;
-    case 1: if (func_021FE7B0(*(int **)*(int * *)&((struct Obj01568 *)p)->f34)) *state=2;break;
+    case 1: if (BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj01568 *)p)->f34)) *state=2;break;
     case 2:
         if (((struct Obj01568 *)p)->f20) {
             func_021F8EE8(p,*(int * *)&((struct Obj01568 *)p)->f34);
@@ -605,10 +605,10 @@ void func_021F8B5C(int *task,int *state,char *p)
         }
         *state=3;break;
     case 3:
-        if (((struct Obj01568 *)p)->f20) func_021FE784(**(int * *)&((struct Obj01568 *)p)->f34,1,1,0);
-        else func_021FE784(**(int * *)&((struct Obj01568 *)p)->f34,2,1,0);
+        if (((struct Obj01568 *)p)->f20) BR_FADE_Start(**(int * *)&((struct Obj01568 *)p)->f34,1,1,0);
+        else BR_FADE_Start(**(int * *)&((struct Obj01568 *)p)->f34,2,1,0);
         *state=4;break;
-    case 4: if (func_021FE7B0(*(int **)*(int * *)&((struct Obj01568 *)p)->f34)) *state=5;break;
+    case 4: if (BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj01568 *)p)->f34)) *state=5;break;
     case 5: func_021FD73C(task,(int)func_021F86E4);break;
     }
 }
@@ -624,8 +624,8 @@ void func_021F8C30(int *task,int *state,char *p)
 {
     int flag,a,b,c;
     switch (*state) {
-    case 0: func_021FE784(**(int * *)&((struct Obj01769 *)p)->f34,1,1,1);*state=1;break;
-    case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj01769 *)p)->f34)) *state=2;break;
+    case 0: BR_FADE_Start(**(int * *)&((struct Obj01769 *)p)->f34,1,1,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj01769 *)p)->f34)) *state=2;break;
     case 2:
         flag=1;
         if(!((struct Obj01769 *)p)->f14) flag=0;
@@ -636,14 +636,14 @@ void func_021F8C30(int *task,int *state,char *p)
             func_021F8EE8(p,*(int * *)&((struct Obj01769 *)p)->f34);
             func_021F8D18(p,*(int * *)&((struct Obj01769 *)p)->f34);
         }
-        a=func_021FC20C(*(char * *)&((struct Obj24755 *)(*(char * *)&((struct Obj01769 *)p)->f34))->fC);
-        b=func_021FC214(*(char * *)&((struct Obj24756 *)(*(char * *)&((struct Obj01769 *)p)->f34))->fC);
+        a=BR_RES_GetFont(*(char * *)&((struct Obj24755 *)(*(char * *)&((struct Obj01769 *)p)->f34))->fC);
+        b=BR_RES_GetMsgData(*(char * *)&((struct Obj24756 *)(*(char * *)&((struct Obj01769 *)p)->f34))->fC);
         if(flag) {((struct Obj01769 *)p)->f20=0;c=0x72;}
         else {((struct Obj01769 *)p)->f20=1;c=0x71;}
         func_021FC754(*(char * *)&((struct Obj01769 *)p)->f1C,(void *)b,(void *)c,(void *)a,0x3da0);
         *state=3;break;
-    case 3: func_021FE784(**(int * *)&((struct Obj01769 *)p)->f34,1,1,0);*state=4;break;
-    case 4: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj01769 *)p)->f34)) *state=5;break;
+    case 3: BR_FADE_Start(**(int * *)&((struct Obj01769 *)p)->f34,1,1,0);*state=4;break;
+    case 4: if(BR_FADE_GetResult(*(int **)*(int * *)&((struct Obj01769 *)p)->f34)) *state=5;break;
     case 5: func_021FD73C(task,(int)func_021F86E4);break;
     }
 }
@@ -659,10 +659,10 @@ void func_021F8C30(int *task,int *state,char *p)
 void func_021F8D18(char *a, int *r4)
 {
     if (((struct Obj06622 *)a)->f14 == 0) {
-        func_021FEEC0(r4[1], 0, 0);
-        func_021FBDA4(r4[3], 0);
-        func_021FC1F8(r4[3], 0);
-        func_021FC610((u8 *)r4[2], ((struct Obj06622 *)a)->f30);
+        BR_SIDEBAR_SetVisibleBySpace(r4[1], 0, 0);
+        BR_RES_ApplyBgSet(r4[3], 0);
+        BR_RES_ReleaseUiPalette(r4[3], 0);
+        WORLDTRADE_DETAIL_StateStartWipeOut((u8 *)r4[2], ((struct Obj06622 *)a)->f30);
         ((struct Obj06622 *)a)->f14 = func_021F3AF0(
             *(int *)(a + 0x40 + ((struct Obj06622 *)a)->fC * 4) + 0x80,
             ((struct Obj06622 *)a)->f30);
@@ -671,7 +671,7 @@ void func_021F8D18(char *a, int *r4)
 
 
 
-void func_021F8D5C(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;func_021FC640(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);func_021FC148(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);func_021FB964(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);func_021FEEC0((int)((char *)(((struct Obj04583 *)q)->f4)), 0, 1);} }
+void func_021F8D5C(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;BR_GRAPHIC_End3d(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);BR_RES_LoadUiPalette(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_RES_LoadBgGraphics(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_SIDEBAR_SetVisibleBySpace((int)((char *)(((struct Obj04583 *)q)->f4)), 0, 1);} }
 
 
 
@@ -682,23 +682,23 @@ void func_021F8D98(char *p,char *q)
     Config cfg;
     Triple triple;
     if (!*(int *)&((struct Obj03338 *)p)->f1C) {
-        a=func_021FC20C(*(char * *)&((struct Obj05490 *)q)->fC);
-        b=func_021FC214(*(char * *)&((struct Obj05490 *)q)->fC);
-        func_021FC4DC(((struct Obj05490 *)q)->f8);
+        a=BR_RES_GetFont(*(char * *)&((struct Obj05490 *)q)->fC);
+        b=BR_RES_GetMsgData(*(char * *)&((struct Obj05490 *)q)->fC);
+        BR_GRAPHIC_GetActorUnit(((struct Obj05490 *)q)->f8);
         MI_CpuFill8(&cfg,0,8);
         cfg.x=0x50;cfg.y=0xa8;cfg.z=0;cfg.a=1;
-        v=(void *)func_021FC4DC(((struct Obj05490 *)q)->f8);
-        if (!func_021FC124(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714("",0,"");
+        v=(void *)BR_GRAPHIC_GetActorUnit(((struct Obj05490 *)q)->f8);
+        if (!BR_RES_GetSprite(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714("",0,"");
         ((struct Obj03338 *)p)->f18=func_021FB378(&cfg,4,0x60,1,(int)v,((struct Obj03338 *)p)->f28,a,b,&triple,((struct Obj03338 *)p)->f30);
-        ((struct Obj03338 *)p)->f1C=func_021FC6A4(4,8,3,0x10,2,0xe,((struct Obj03338 *)p)->f2C,((struct Obj03338 *)p)->f30);
+        ((struct Obj03338 *)p)->f1C=BR_UTIL_Create(4,8,3,0x10,2,0xe,((struct Obj03338 *)p)->f2C,((struct Obj03338 *)p)->f30);
         func_021FC754(*(char * *)&((struct Obj03338 *)p)->f1C,(void *)b,(void *)0x71,(void *)a,0x3da0);
-        func_021FB964((void *)(*(int *)&((struct Obj05490 *)q)->fC),0x16,((struct Obj03338 *)p)->f30);
+        BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj05490 *)q)->fC),0x16,((struct Obj03338 *)p)->f30);
     }
 }
 
 
 
-void func_021F8E60(char *p,char *q) { if(((struct Obj06623 *)p)->f1C){func_021FBDA4(*(int *)&((struct Obj04583 *)q)->fC,22);func_021FB494(((struct Obj06623 *)p)->f18);((struct Obj06623 *)p)->f18=0;func_021FC734(((struct Obj06623 *)p)->f1C);((struct Obj06623 *)p)->f1C=0;func_021FBDA4(*(int *)&((struct Obj04583 *)q)->fC,22);} }
+void func_021F8E60(char *p,char *q) { if(((struct Obj06623 *)p)->f1C){BR_RES_ApplyBgSet(*(int *)&((struct Obj04583 *)q)->fC,22);func_021FB494(((struct Obj06623 *)p)->f18);((struct Obj06623 *)p)->f18=0;BR_UTIL_Delete(((struct Obj06623 *)p)->f1C);((struct Obj06623 *)p)->f1C=0;BR_RES_ApplyBgSet(*(int *)&((struct Obj04583 *)q)->fC,22);} }
 
 
 
@@ -714,9 +714,9 @@ void func_021F8E60(char *p,char *q) { if(((struct Obj06623 *)p)->f1C){func_021FB
 void func_021F8E90(char *p,int *source)
 {
     if(*(int *)(p+0x10)==0) {
-        int a=func_021FC20C((char *)source[3]);
-        int b=func_021FC214((char *)source[3]);
-        int c=func_021FC4DC((u8 *)source[2]);
+        int a=BR_RES_GetFont((char *)source[3]);
+        int b=BR_RES_GetMsgData((char *)source[3]);
+        int c=BR_GRAPHIC_GetActorUnit((u8 *)source[2]);
         *(void **)(p+0x10)=func_021FD1C4(((void **)(p+0x40))[*(unsigned short *)(p+0xc)],(char *)source[3],(void *)c,(void *)(*(int *)(p+0x2c)),1,*(unsigned short *)(p+0x30));
         func_021FC754(*(char **)(p+0x1c),(void *)b,(void *)0x72,(void *)a,0x3da0);
     }
@@ -736,19 +736,19 @@ void func_021F8EE8(char *p, int *a1)
 void func_021F8EFC(char *p,int *source)
 {
     if(*(int *)&((struct Obj00278 *)p)->f0==0) {
-        int c=func_021FC4DC((u8 *)source[2]);
+        int c=BR_GRAPHIC_GetActorUnit((u8 *)source[2]);
         char *result;
         if(*(int *)&((struct Obj00278 *)p)->f4==0)
             ((struct Obj00278 *)p)->f4=func_021FD12C((int)((void *)source[3]),(void *)(*(int *)&((struct Obj00278 *)p)->f2C),((struct Obj00278 *)p)->f30);
         func_021FD170(((struct Obj00278 *)p)->f4,(void *)source[3],(void *)0x2c);
-        result=func_021FFBD4(ZUKAN_SAVE_GetFromGameData((void *)source[6]),(void *)source[3],c,*(int *)&((struct Obj00278 *)p)->f28,source[0],((struct Obj00278 *)p)->f38,((struct Obj00278 *)p)->f3C,((struct Obj00278 *)p)->f30);
+        result=BR_POKESEARCH_Create(ZUKAN_SAVE_GetFromGameData((void *)source[6]),(void *)source[3],c,*(int *)&((struct Obj00278 *)p)->f28,source[0],((struct Obj00278 *)p)->f38,((struct Obj00278 *)p)->f3C,((struct Obj00278 *)p)->f30);
         *(char * *)&((struct Obj00278 *)p)->f0=result;
-        func_021FFE5C(result);
+        BR_POKESEARCH_Open(result);
     }
 }
 
 
-void func_021F8F58(char *p,char *q) { if(((struct Obj04584 *)p)->f0){func_021FFE70(((struct Obj04584 *)p)->f0);func_021FFC6C(((struct Obj04584 *)p)->f0);((struct Obj04584 *)p)->f0=0;func_020409B4(4);if(((struct Obj04584 *)p)->f4){func_021FD15C(((struct Obj04584 *)p)->f4,((struct Obj24759 *)q)->fC);((struct Obj04584 *)p)->f4=0;}} }
+void func_021F8F58(char *p,char *q) { if(((struct Obj04584 *)p)->f0){BR_POKESEARCH_Close(((struct Obj04584 *)p)->f0);BR_POKESEARCH_Destroy(((struct Obj04584 *)p)->f0);((struct Obj04584 *)p)->f0=0;func_020409B4(4);if(((struct Obj04584 *)p)->f4){func_021FD15C(((struct Obj04584 *)p)->f4,((struct Obj24759 *)q)->fC);((struct Obj04584 *)p)->f4=0;}} }
 
 
 void func_021F8F88(char *p, int *q) { if(!((struct Obj06624 *)p)->f4)((struct Obj06624 *)p)->f4=func_021FD12C((int)(((struct Obj14448 *)q)->fC),(void *)(((struct Obj06624 *)p)->f2C),((struct Obj06624 *)p)->f30);func_021FD170(((struct Obj06624 *)p)->f4,((struct Obj14448 *)q)->fC,(void *)0x146); }

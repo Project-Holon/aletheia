@@ -1,5 +1,5 @@
 /*
- * function: func_021DD558
+ * function: DENDOU_VIEW_StepCursor
  * address: 0x021DD558
  * packet: pkt_ov171_021DD558
  * region: ov171
@@ -12,7 +12,7 @@
 #include "../include/Obj03310.h"
 typedef signed char s8;
 typedef unsigned short u16;
-int func_021DD558(char *p, s8 step)
+int DENDOU_VIEW_StepCursor(char *p, s8 step)
 {
     int old;
     old = ((struct Obj03310 *)p)->fC5C;

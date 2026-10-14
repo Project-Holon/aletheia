@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3A4
+ * function: ZKND_TBAR_SetButtonAnimSeqOnce
  * address:  0x021BD3A4
  * packet:   pkt_021BD368
  * region:   ov208
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD404 0x021BD404  thumb  ov208
- *   func_021BD848 0x021BD848  thumb  ov208
+ *   ZKND_TBAR_FindButtonActor 0x021BD404  thumb  ov208
+ *   ZKND_TBAR_SetAnimByState 0x021BD848  thumb  ov208
  */
 
-extern int func_021BD404(int, int);
-extern void func_021BD848(char *p, int which);
+extern int ZKND_TBAR_FindButtonActor(int, int);
+extern void ZKND_TBAR_SetAnimByState(char *p, int which);
 
-void func_021BD3A4(int a, int b, int c)
+void ZKND_TBAR_SetButtonAnimSeqOnce(int a, int b, int c)
 {
-    func_021BD848((char *)func_021BD404(a, b), c);
+    ZKND_TBAR_SetAnimByState((char *)ZKND_TBAR_FindButtonActor(a, b), c);
 }
 

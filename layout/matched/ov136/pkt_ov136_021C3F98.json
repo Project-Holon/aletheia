@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C3F98",
+   "name": "MAILTOOL_ProcExit",
    "address": "0x021C3F98",
    "kind": "game",
    "region": "ov136",

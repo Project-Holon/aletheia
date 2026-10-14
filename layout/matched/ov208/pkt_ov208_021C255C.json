@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C255C",
+   "name": "ZUKAN_DETAIL_VOICE_SetHeapId",
    "address": "0x021C255C",
    "kind": "game",
    "region": "ov208",

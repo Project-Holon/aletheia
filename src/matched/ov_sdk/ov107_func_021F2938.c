@@ -1,5 +1,5 @@
 /*
- * function: func_021F2938
+ * function: MBi_ReloadCache
  * address:  0x021F2938
  * packet:   pkt_ov107_021F2938
  * region:   ov107
@@ -71,7 +71,7 @@ struct FSFile;
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int FS_CloseFile(void *file);
 
-void func_021F2938(TaskInfo *p_task)
+void MBi_ReloadCache(TaskInfo *p_task)
 {
     CacheInfo *p_info;
     CacheList *p_list;

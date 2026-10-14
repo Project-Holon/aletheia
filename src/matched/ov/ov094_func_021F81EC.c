@@ -1,5 +1,5 @@
 /*
- * function: func_021F81EC
+ * function: BTLV_EFFECT_GaugeSelectSlot
  * address: 0x021F81EC
  * packet: pkt_ov094_021F81EC
  * region: ov094
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov094/btlv_effvm.c and filed here.
  *
  * symbols:
- *   d_0220AF20 0x0220AF20 data a4
+ *   gBtlvEff 0x0220AF20 data a4
  *   func_02030DA8 0x02030DA8 arm
  *   BTLV_GAUGE_SelectSlot 0x02208870 thumb ov094
- *   func_021F896C 0x021F896C thumb
- *   func_0220074C 0x0220074C thumb
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb
+ *   BTLV_MCSS_CreateTweenTask 0x0220074C thumb
  */
 
 typedef unsigned char u8;
@@ -79,12 +79,12 @@ typedef struct {
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 void BTLV_GAUGE_SelectSlot(void *w, int sel);
-void func_021F81EC(int sel);
-void func_021F896C(void *h, void (*cb)(void *), int arg);
-void func_0220074C(Work_0220074C *w, int i, int kind, VecFx32_vFE48 *p, VecFx32_vFE48 *q, int n, int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
-extern BtlvEff *d_0220AF20;
+void BTLV_EFFECT_GaugeSelectSlot(int sel);
+void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+void BTLV_MCSS_CreateTweenTask(Work_0220074C *w, int i, int kind, VecFx32_vFE48 *p, VecFx32_vFE48 *q, int n, int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
+extern BtlvEff *gBtlvEff;
 
-void func_021F81EC(int sel)
+void BTLV_EFFECT_GaugeSelectSlot(int sel)
 {
-    BTLV_GAUGE_SelectSlot((void *)d_0220AF20->h1a4, sel);
+    BTLV_GAUGE_SelectSlot((void *)gBtlvEff->h1a4, sel);
 }

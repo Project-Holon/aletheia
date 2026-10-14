@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0B04",
+   "name": "MB_PARENT_SYS_EndIfAllBootable",
    "address": "0x021F0B04",
    "kind": "game",
    "region": "ov107",

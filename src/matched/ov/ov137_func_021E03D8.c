@@ -1,5 +1,5 @@
 /*
- * function: func_021E03D8
+ * function: GURU2_MAIN_PrintNameWindow
  * address: 0x021E03D8
  * packet: pkt_ov137_021E03D8
  * region: ov137
@@ -35,7 +35,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_021E03D8(u8 *p,void *text,int index,int color)
+void GURU2_MAIN_PrintNameWindow(u8 *p,void *text,int index,int color)
 {
     u8 *s;
     void *window,*owner,*data;

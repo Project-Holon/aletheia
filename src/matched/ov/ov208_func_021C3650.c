@@ -1,5 +1,5 @@
 /*
- * function: func_021C3650
+ * function: ZUKAN_DETAIL_VOICE_UpdateWaveformDelay
  * address: 0x021C3650
  * packet: pkt_ov208_021C3650
  * region: ov208
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021C36CC(u16 *heap, u8 *p, int key);
-void func_021C3650(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *heap, u8 *p, int key)
 {
     if (p[0x24] != 0) {
         p[0x24]--;

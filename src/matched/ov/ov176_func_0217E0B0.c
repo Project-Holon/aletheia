@@ -11,7 +11,7 @@
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
- *   func_021799C0 0x021799C0 thumb ov015
+ *   IRCNET_SetFilter 0x021799C0 thumb ov015
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   d_0217E564 0x0217E564 data a4
@@ -24,7 +24,7 @@ extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int 
 extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void func_021799C0(int);
+extern void IRCNET_SetFilter(int);
 extern int GFL_NET_StartChangeoverChild(int a0);
 extern int GFL_NET_GetNegotiationNum(void);
 extern const unsigned d_0217E564[];
@@ -45,7 +45,7 @@ int func_0217E0B0(unsigned *p)
         break;
     case 2:
         GFL_NET_COMMAND_AddCommandTable(0x1F00, (u32)d_0217E544, 4, (u32)p);
-        func_021799C0((int)func_0217E524);
+        IRCNET_SetFilter((int)func_0217E524);
         *p = 3;
         break;
     case 3:
@@ -59,10 +59,10 @@ int func_0217E0B0(unsigned *p)
             *p = 6;
         break;
     case 5:
-        func_021799C0(0);
+        IRCNET_SetFilter(0);
         return 1;
     case 6:
-        func_021799C0(0);
+        IRCNET_SetFilter(0);
         return 2;
     }
     return 0;

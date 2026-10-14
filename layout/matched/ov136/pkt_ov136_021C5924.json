@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5924",
+   "name": "MB_SEQ_CreateMessageResources",
    "address": "0x021C5924",
    "kind": "game",
    "region": "ov136",

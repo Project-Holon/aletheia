@@ -1,5 +1,5 @@
 /*
- * function: func_021C2BA8
+ * function: ZUKAN_DETAIL_VOICE_ApplyPendingDisplay
  * address:  0x021C2BA8
  * packet:   pkt_ov208_021C2BA8
  * region:   ov208
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02040618  0x02040618  arm
  *   func_020409B4  0x020409B4  arm
- *   func_021BC6BC  0x021BC6BC  thumb
+ *   ZUKAN_DETAIL_COMMON_TransferPalettes  0x021BC6BC  thumb
  */
 #include "../include/Obj08403.h"
 
@@ -24,9 +24,9 @@ typedef signed int     s32;
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020409B4(u32 index);
-extern void func_021BC6BC(char *p);
+extern void ZUKAN_DETAIL_COMMON_TransferPalettes(char *p);
 
-void func_021C2BA8(void *unused, u8 *p)
+void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, u8 *p)
 {
     if (((struct Obj08403 *)p)->f1C != 0) {
         func_02040618(3, 0, ((struct Obj08403 *)p)->f18 - 1);
@@ -34,5 +34,5 @@ void func_021C2BA8(void *unused, u8 *p)
         func_020409B4(3);
         ((struct Obj08403 *)p)->f1C = 0;
     }
-    func_021BC6BC(*(char * *)&((struct Obj08403 *)p)->fC8);
+    ZUKAN_DETAIL_COMMON_TransferPalettes(*(char * *)&((struct Obj08403 *)p)->fC8);
 }

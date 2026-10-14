@@ -1,5 +1,5 @@
 /*
- * function: func_021D580C
+ * function: GSYNC_MESSAGE_UpdateStream
  * address: 0x021D580C
  * packet: pkt_ov123_021D580C
  * region: ov123
@@ -21,7 +21,7 @@ typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-int func_021D580C(char *p)
+int GSYNC_MESSAGE_UpdateStream(char *p)
 {
     if (((struct Obj04496 *)p)->f80) {
         APP_KEYCURSOR_Update(((struct Obj04496 *)p)->f40, ((struct Obj04496 *)p)->f80, ((struct Obj04496 *)p)->f44);

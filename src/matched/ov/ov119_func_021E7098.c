@@ -1,5 +1,5 @@
 /*
- * function: func_021E7098
+ * function: POKETRADE_2D_FadePaletteBank
  * address: 0x021E7098
  * packet: pkt_ov119_021E7098
  * region: ov119
@@ -41,7 +41,7 @@ extern void func_0207E5D0(void *,u32,u32);
 extern void func_0207E468(void *,u32,u32);
 extern void GX_LoadOBJPltt(void *,u32,u32);
 extern void GX_LoadBGPltt(void *,u32,u32);
-void func_021E7098(char *p, int bank, int mask)
+void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
 {
     Slot *s;
     char *buf;

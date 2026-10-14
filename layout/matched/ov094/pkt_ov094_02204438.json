@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02204438",
+   "name": "BTLV_INPUT_BgScrollTaskMain",
    "address": "0x02204438",
    "kind": "game",
    "region": "ov094",

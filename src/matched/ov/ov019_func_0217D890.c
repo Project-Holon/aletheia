@@ -13,8 +13,8 @@
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   COLOSSEUM_Create  0x02174F4C  thumb  ov012
- *   func_0217EC94  0x0217EC94  thumb  ov019
- *   func_0217EE34  0x0217EE34  thumb  ov019
+ *   UNION_MSG_GetColosseumStartMsg  0x0217EC94  thumb  ov019
+ *   UNION_MSG_GetMultiBattleStartMsg  0x0217EE34  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -50,8 +50,8 @@ typedef struct {
 extern int UNION_ONESELF_CheckNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern int COLOSSEUM_Create(int a, int b, int c, int d);
-extern u16 func_0217EC94(int i);
-extern u16 func_0217EE34(int i);
+extern u16 UNION_MSG_GetColosseumStartMsg(int i);
+extern u16 UNION_MSG_GetMultiBattleStartMsg(int i);
 typedef unsigned int   u32;
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
@@ -74,9 +74,9 @@ int UNION_ONESELF_ColosseumEnterChildMain(u8 *a, Obj *b, u8 *c, u8 *d)
     switch (*d) {
     case 0:
         if (b->b1 == 0)
-            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EC94(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetColosseumStartMsg(b->f14->b3));
         else
-            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE34(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetMultiBattleStartMsg(b->f14->b3));
         (*d)++;
         break;
     case 1:

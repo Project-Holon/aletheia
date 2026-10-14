@@ -20,7 +20,7 @@
  *   func_02008990  0x02008990  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
- *   data_021DD6BC  0x021DD6BC  data
+ *   gStepMilestoneTable  0x021DD6BC  data
  * Addresses are Black-image addresses.
  */
 
@@ -34,7 +34,7 @@ struct Milestone {
     u16 msg;
 };
 
-extern const struct Milestone data_021DD6BC[5];
+extern const struct Milestone gStepMilestoneTable[5];
 
 struct Big;
 struct Ctx;
@@ -53,8 +53,8 @@ int SCRCMD_ShowStepMilestoneMessage(void *msg, u8 *pos)
     u32 i;
 
     for (i = 0; i < 5; i++) {
-        if (n == data_021DD6BC[i].count)
-            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, data_021DD6BC[i].msg, 0, FIELDMAP_GetHeapId(pos));
+        if (n == gStepMilestoneTable[i].count)
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, gStepMilestoneTable[i].msg, 0, FIELDMAP_GetHeapId(pos));
     }
     if (n > 500)
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, 0x28E1, 0, FIELDMAP_GetHeapId(pos));

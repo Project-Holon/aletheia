@@ -1,5 +1,5 @@
 /*
- * function: func_021C66C8
+ * function: ZUKAN_DETAIL_FORM_DeleteArrowActors
  * address: 0x021C66C8
  * packet: pkt_ov208_021C66C8
  * region: ov208
@@ -21,7 +21,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021C66C8(void *unused,u8 *p)
+void ZUKAN_DETAIL_FORM_DeleteArrowActors(void *unused,u8 *p)
 {
     u8 i;
     for(i=0;i<4;i++)CLACT_DeleteActor(*(struct Obj **)(p+i*0x28+0x618));

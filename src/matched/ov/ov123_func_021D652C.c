@@ -1,5 +1,5 @@
 /*
- * function: func_021D652C
+ * function: GSYNC_DISP_RestartActorAnim
  * address:  0x021D652C
  * packet:   pkt_021D652C
  * region:   ov123
@@ -24,7 +24,7 @@ struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
-void func_021D652C(char *p)
+void GSYNC_DISP_RestartActorAnim(char *p)
 {
     CLACT_SetActorAnimSeq(((struct Obj13977 *)p)->fA8, 1);
     CLACT_SetActorAutoAnim(((struct Obj13977 *)p)->fA8, 1);

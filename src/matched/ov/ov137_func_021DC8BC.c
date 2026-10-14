@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8BC
+ * function: GURU2_EntryProcExit
  * address: 0x021DC8BC
  * packet: pkt_ov137_021DC8BC
  * region: ov137
@@ -20,4 +20,4 @@ struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-int func_021DC8BC(void *obj,int a,int b,u8 *p) { func_0203133C(((struct Obj23666 *)p)->f20); func_020315D4(obj); return 1; }
+int GURU2_EntryProcExit(void *obj,int a,int b,u8 *p) { func_0203133C(((struct Obj23666 *)p)->f20); func_020315D4(obj); return 1; }

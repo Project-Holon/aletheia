@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   func_021F882C 0x021F882C thumb ov094
+ *   BTLV_EFFECT_IsBgmSaved 0x021F882C thumb ov094
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BTLV_GAUGE_SetBgmPlayerParam 0x02208D24 thumb ov094
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
@@ -24,7 +24,7 @@ typedef struct { char p0[0x40]; int f40, f44, f48, f4c; char p50[0x20]; u32 b0:1
 typedef struct { char p0[0x40]; E e[8]; u32 b0:1, b1:1, b2:1, b3:1, hi:28; int f444; } O;
 extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PopBgm(void);
-extern int func_021F882C(void);
+extern int BTLV_EFFECT_IsBgmSaved(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void BTLV_GAUGE_SetBgmPlayerParam(int);
 extern void GFL_USE_FadeInBgmFull(u32);
@@ -41,7 +41,7 @@ void BTLV_GAUGE_UpdateLowHpBgm(O *o)
         o->b1 = 0;
         if (o->b2) {
             GFL_USE_PopBgm();
-            if (!o->b3 && func_021F882C() != 0) {
+            if (!o->b3 && BTLV_EFFECT_IsBgmSaved() != 0) {
                 GFL_USE_CancelChangeAndPlayBgm(o->f444, 0xffff);
                 o->b3 = 1;
             } else {

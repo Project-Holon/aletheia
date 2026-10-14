@@ -1,5 +1,5 @@
 /*
- * function: func_021798C4
+ * function: IRCNET_CbSetTimeoutLimit
  * address: 0x021798C4
  * packet: pkt_ov015_021798C4
  * region: ov015
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_0217998C 0x0217998C thumb
+ *   IRCNET_SetTimeoutLimit 0x0217998C thumb
  */
 
-void func_021798C4(int v);
-void func_0217998C(int v);
+void IRCNET_CbSetTimeoutLimit(int v);
+void IRCNET_SetTimeoutLimit(int v);
 
-void func_021798C4(int v)
+void IRCNET_CbSetTimeoutLimit(int v)
 {
-    func_0217998C(v);
+    IRCNET_SetTimeoutLimit(v);
 }

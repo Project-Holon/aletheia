@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022009C8",
+   "name": "BTLV_MCSS_ShadowScaleTweenTaskMain",
    "address": "0x022009C8",
    "kind": "game",
    "region": "ov094",

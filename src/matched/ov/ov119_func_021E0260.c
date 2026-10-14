@@ -1,5 +1,5 @@
 /*
- * function: func_021E0260
+ * function: POKETRADE_SAVE_FreeBackups
  * address: 0x021E0260
  * packet: pkt_ov119_021E0260
  * region: ov119
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *,int,int);
-void func_021E0260(char *p)
+void POKETRADE_SAVE_FreeBackups(char *p)
 {
     int zero;
     if (((struct Obj01536 *)p)->f60C) func_020307B0(((struct Obj01536 *)p)->f60C);

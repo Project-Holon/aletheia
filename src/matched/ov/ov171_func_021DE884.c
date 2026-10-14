@@ -1,5 +1,5 @@
 /*
- * function: func_021DE884
+ * function: DENDOU_VIEW_ExitPageCounterOam
  * address: 0x021DE884
  * packet: pkt_ov171_021DE884
  * region: ov171
@@ -22,4 +22,4 @@ struct Obj020437AC;
 extern void BMP_OAM_Delete(struct Grid *g);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void BMP_OAM_DeleteSys(void *);
-void func_021DE884(int *p) { BMP_OAM_Delete(((struct Obj08252 *)p)->fC54); BMP_Delete(((struct Obj08252 *)p)->fC58); BMP_OAM_DeleteSys(((struct Obj08252 *)p)->fC50); }
+void DENDOU_VIEW_ExitPageCounterOam(int *p) { BMP_OAM_Delete(((struct Obj08252 *)p)->fC54); BMP_Delete(((struct Obj08252 *)p)->fC58); BMP_OAM_DeleteSys(((struct Obj08252 *)p)->fC50); }

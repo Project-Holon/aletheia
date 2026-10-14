@@ -14,7 +14,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -40,7 +40,7 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *);
 typedef unsigned char  u8;
 struct Big;
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -61,7 +61,7 @@ int func_021F8480(void *obj,int b,char *q)
     ((struct Obj02898 *)p)->f24=func_021F9B9C(((struct Obj06617 *)q)->f10);
     *(char * *)&((struct Obj02898 *)p)->f30=q;
     ((struct Obj02898 *)p)->f20=PRINTSYS_QUE_Create((void *)(unsigned int)((struct Obj02898 *)p)->f24);
-    v=(void *)func_021FC4DC(((struct Obj06617 *)q)->f8);
+    v=(void *)BR_GRAPHIC_GetActorUnit(((struct Obj06617 *)q)->f8);
     ((struct Obj02898 *)p)->f1C=BMP_OAM_CreateSys(((struct Obj02898 *)p)->f24,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760((unsigned int)v,(char *)(((struct Obj06617 *)q)->fC),i,((struct Obj02898 *)p)->f24);
     ((struct Obj02898 *)p)->f28=func_0200A640((int)func_0200A5F8((void *)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj06617 *)q)->f18))));

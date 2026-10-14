@@ -1,7 +1,7 @@
 /*
  * file:     report.c
  * unit:     yes
- * function: REPORT_Create, REPORT_Delete, REPORT_ShowPartyIcons, REPORT_UpdateWindows, REPORT_IsReady, REPORT_PrepareSave, REPORT_CheckSaveCounter, REPORT_StartSaveAnim, REPORT_IsSaveAnimDone, REPORT_StopSaveAnim, REPORT_InitBgs, REPORT_ExitBgs, REPORT_LoadBgGraphics, REPORT_InitWindows, REPORT_ExitWindows, REPORT_InitActors, REPORT_ExitActors
+ * function: REPORT_Create, REPORT_Delete, REPORT_ShowPartyIcons, REPORT_UpdateWindows, REPORT_IsReady, REPORT_PrepareSave, REPORT_CheckSaveCounter, REPORT_StartSaveAnim, REPORT_IsSaveAnimDone, REPORT_StopSaveAnim, REPORT_InitBgs, REPORT_ExitBgs, REPORT_LoadBgGraphics, REPORT_InitWindows, REPORT_ExitWindows, REPORT_InitActors, REPORT_ExitActors, REPORT_UpdateSaveAnim
  * address:  0x021EFEC0
  * region:   ov034
  * compiler: dsi/1.1p1
@@ -12,12 +12,24 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * blocker:  label (arm9 leaf). Every byte agrees; the one wildcard is the
+ *   bl to SAVE_CONTROL_GetWrittenSize, an unlabelled arm9 Thumb tail-call stub
+ *   (ldr r0,[r0,#0x10]; ldr r3,[pc]; bx r3; .word 0x02031E69) with no
+ *   witness outside this range. It is the integrator's. Verified leaf C
+ *   (match.py one --thumb, no --region: MATCH, byte-correct, its own
+ *   pool word to BACKUP_SYSTEM_GetWrittenSize unwitnessed):
+ *     extern u32 BACKUP_SYSTEM_GetWrittenSize(void *p);
+ *     u32 SAVE_CONTROL_GetWrittenSize(char *p) { return BACKUP_SYSTEM_GetWrittenSize(*(void **)(p + 0x10)); }
+ * note 2026-10-05: the blocker leaf is now filed as src/matched/arm9/SAVE_CONTROL_GetWrittenSize.c
+ * (EXACT, verified with match.py one; its pool word to BACKUP_SYSTEM_GetWrittenSize needs the arm symbols line). This
+ * file stays MATCH until the integrator regenerates the manifest so the witness resolves;
+ * then it is EXACT with no change to the C.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   sReportAllocSite    0x021F0B20 data ov034 a1
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
- *   REPORT_UpdateSaveAnim 0x021F09BC thumb ov034
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -116,6 +128,12 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   SAVE_CONTROL_GetWrittenSize 0x020071C0 thumb
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 #include "report_types.h"
 
@@ -137,25 +155,25 @@ struct PalRes;
 struct CellRes;
 struct ArcHandle;
 struct PartyMon;
-
 typedef signed short s16;
+
 typedef signed int s32;
 
 struct BgTemplate {
-    u32 scrollX;
-    u32 scrollY;
-    u32 bufSize;
-    u32 baseTile;
-    u8 screenSize;
-    u8 colorMode;
-    u8 screenBase;
-    u8 charBase;
-    u32 extPaletteSlot;
-    u8 priority;
-    u8 areaOver;
-    u8 dummy;
-    u8 mosaicFlag;
-    u32 mosaic;
+    u32 x;                  /* 0x00 */
+    u32 y;                  /* 0x04 */
+    u32 bufSize;            /* 0x08 */
+    u32 baseTile;           /* 0x0C */
+    u8 screenSize;          /* 0x10 */
+    u8 colorMode;           /* 0x11 */
+    u8 screenBase;          /* 0x12 */
+    u8 charBase;            /* 0x13 */
+    u32 extPaletteSlot;     /* 0x14 */
+    u8 priority;            /* 0x18 */
+    u8 areaOver;            /* 0x19 */
+    u8 dummy;               /* 0x1A */
+    u8 mosaic;              /* 0x1B */
+    u32 bgType;             /* 0x1C */
 };
 
 struct RTCDate {
@@ -181,7 +199,6 @@ typedef struct {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern struct Task *func_020056A0(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
-extern void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work);
 extern void func_02030EAC(struct Task *task);
 extern u32 func_020307B0(void *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *printQue);
@@ -273,7 +290,12 @@ extern void CLACT_ReleaseCharacter(struct CharRes *charRes);
 extern void CLACT_ReleasePalette(struct PalRes *palRes);
 extern void CLACT_ReleaseCellAnim(struct CellRes *cellRes);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-
+extern u32 SAVE_CONTROL_GetWrittenSize(void *saveControl);
+extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 ReportWork *REPORT_Create(void *gameSystem, int heapId);
 void REPORT_Delete(ReportWork *work);
 void REPORT_ShowPartyIcons(ReportWork *work);
@@ -291,12 +313,14 @@ void REPORT_InitWindows(ReportWork *work);
 void REPORT_ExitWindows(ReportWork *work);
 void REPORT_InitActors(ReportWork *work);
 void REPORT_ExitActors(ReportWork *work);
+void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work);
 extern char sReportAllocSite[];
 extern struct BgTemplate sReportBgTemplate6;
 extern struct BgTemplate sReportBgTemplate5;
 extern struct BgTemplate sReportBgTemplate4;
 extern const u8 sReportWindowLayouts[];
 extern const Rect sReportActorPositions[2];
+
 
 
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
@@ -315,6 +339,7 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     return work;
 }
 
+
 void REPORT_Delete(ReportWork *work)
 {
     func_02030EAC(work->tcb);
@@ -323,6 +348,7 @@ void REPORT_Delete(ReportWork *work)
     REPORT_ExitBgs();
     func_020307B0(work);
 }
+
 
 
 void REPORT_ShowPartyIcons(ReportWork *work)
@@ -337,6 +363,7 @@ void REPORT_ShowPartyIcons(ReportWork *work)
         work->shownFlags |= REPORT_SHOWN_ICONS;
     }
 }
+
 
 
 /*
@@ -371,6 +398,7 @@ void REPORT_UpdateWindows(ReportWork *work)
     }
 }
 
+
 /*
  * True when both shown bits (icons and windows) are set, which is the state
  * word at +0x128 being 3.
@@ -390,6 +418,7 @@ int REPORT_IsReady(ReportWork *work)
 }
 
 
+
 void REPORT_PrepareSave(ReportWork *work)
 {
     int step;
@@ -405,7 +434,9 @@ void REPORT_PrepareSave(ReportWork *work)
     work->pieceFrameDelay = 0;
 }
 
+
 unsigned REPORT_CheckSaveCounter(ReportWork *work) { return work->saveCountCurrent >= work->saveCountMax / 3; }
+
 
 
 void REPORT_StartSaveAnim(ReportWork *work)
@@ -419,6 +450,7 @@ void REPORT_StartSaveAnim(ReportWork *work)
         CLACT_SetActorDrawEnable(work->actors[i], 1);
     work->saveAnimRunning = 1;
 }
+
 
 
 /*
@@ -440,6 +472,7 @@ int REPORT_IsSaveAnimDone(ReportWork *work)
     return 0;
 }
 
+
 /*
  * Clears the flag at +0x110 that REPORT_StartSaveAnim sets.
  * Region ov034: of the ten overlays mapped here, ov034 holds a Thumb leaf at
@@ -453,6 +486,7 @@ void REPORT_StopSaveAnim(ReportWork *work)
 {
     work->saveAnimRunning = 0;
 }
+
 
 
 void REPORT_InitBgs(u32 heapId)
@@ -487,7 +521,9 @@ void REPORT_InitBgs(u32 heapId)
     func_020409B4(6);
 }
 
+
 void REPORT_ExitBgs(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); func_020403F4(6); func_020403F4(5); func_020403F4(4); }
+
 
 
 void REPORT_LoadBgGraphics(int heapId)
@@ -501,6 +537,7 @@ void REPORT_LoadBgGraphics(int heapId)
     ARC_TOOL_DeleteHandle(arc);
 }
 
+
 static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *buf, struct Strbuf *msg, u32 y, u16 color, u32 pending)
 {
     struct PrintQue *printQue = work->printQue;
@@ -508,6 +545,7 @@ static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *b
     work->windows[index].printPending = pending;
     STRBUF_Delete(msg);
 }
+
 
 /*
  * lever: inline printRecordLine binds printQue before the bitmap getter; named one
@@ -591,6 +629,7 @@ void REPORT_InitWindows(ReportWork *work)
     MSGDATA_Delete(msgBank);
 }
 
+
 void REPORT_ExitWindows(ReportWork *work)
 {
     unsigned i;
@@ -599,6 +638,7 @@ void REPORT_ExitWindows(ReportWork *work)
         BMP_WIN_Delete(work->windows[i].bmpWin);
     PRINTSYS_QUE_Delete(work->printQue);
 }
+
 
 
 void REPORT_InitActors(ReportWork *work)
@@ -647,6 +687,7 @@ void REPORT_InitActors(ReportWork *work)
 }
 
 
+
 void REPORT_ExitActors(ReportWork *work)
 {
     unsigned int i;
@@ -666,4 +707,27 @@ void REPORT_ExitActors(ReportWork *work)
     CLACT_ReleaseCellAnim(work->barCellRes);
     CLACT_DeleteUnit(work->unit);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
+}
+
+
+void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work)
+{
+    u32 writtenSize;
+
+    if (work->saveAnimRunning != 0) {
+        writtenSize = SAVE_CONTROL_GetWrittenSize(work->saveControl) << 8;
+        if (work->pieceFrameDelay != 8)
+            work->pieceFrameDelay++;
+        if (writtenSize >= work->progressTarget && work->pieceFrameDelay == 8
+            && work->barPiecesLit < REPORT_BAR_PIECE_COUNT) {
+            work->progressTarget += work->progressStep;
+            work->pieceFrameDelay = 0;
+            CLACT_SetActorAnimFrame(work->actors[work->barPiecesLit + 6], 0);
+            CLACT_SetActorAnimSeq(work->actors[work->barPiecesLit + 6], 1);
+            CLACT_SetActorAutoAnim(work->actors[work->barPiecesLit + 6], 1);
+            work->barPiecesLit++;
+        }
+        CLACT_DrawSystem();
+        CLACT_VBlankSystem();
+    }
 }

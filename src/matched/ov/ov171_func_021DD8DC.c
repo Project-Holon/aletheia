@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8DC
+ * function: DENDOU_VIEW_FlushWindows
  * address: 0x021DD8DC
  * packet: pkt_ov171_021DD8DC
  * region: ov171
@@ -29,7 +29,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021DD8DC(char *p)
+void DENDOU_VIEW_FlushWindows(char *p)
 {
     int a, b, c, d;
     unsigned i;

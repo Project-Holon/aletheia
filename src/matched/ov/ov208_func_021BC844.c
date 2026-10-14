@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC844
+ * function: ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc
  * address:  0x021BC844
  * packet:   pkt_ov208_021BC844
  * region:   ov208
@@ -53,7 +53,7 @@ extern const u8 data_021C80E0[2][4];
 extern const u8 data_021C80E8[2][4];
 extern const struct Ov208BgArc data_021C80F0[2];
 
-struct Ov208Win *ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal)
+struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal)
 {
     struct Ov208Win *w;
     void *h;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC24
+ * function: GURU2_COMM_RecvJoinRequest
  * address: 0x021DCC24
  * packet: pkt_ov137_021DCC24
  * region: ov137
@@ -10,12 +10,12 @@
  * volatile: packet byte +2 is read at 0x021DCC42 and again at 0x021DCC50.
  * symbols:
  * GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- * func_021DCAFC 0x021DCAFC thumb ov137
+ * GURU2_GetUnionApp 0x021DCAFC thumb ov137
  * UNION_APP_GetMemberCount 0x021841A4 thumb ov022
  * UNION_APP_GetJoinedBits 0x021841A0 thumb ov022
  * func_02080D24 0x02080D24 arm
- * func_021DCBC4 0x021DCBC4 thumb ov137
- * func_021DE08C 0x021DE08C thumb ov137
+ * GURU2_COMM_Send 0x021DCBC4 thumb ov137
+ * GURU2_RECEIPT_SetStateFromParent 0x021DE08C thumb ov137
  */
 #include "../include/Obj03839.h"
 #include "../include/Obj23674.h"
@@ -26,13 +26,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Packet {u8 a,b; volatile u8 c; u8 d;};
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void *func_021DCAFC(u8 *p);
+extern void *GURU2_GetUnionApp(u8 *p);
 extern int UNION_APP_GetMemberCount(unsigned char *p);
 extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern u32 func_02080D24(int);
-extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
-extern void func_021DE08C(char *,int,int);
-void func_021DCC24(int a,int b,u8 *c,u8 *p)
+extern void GURU2_COMM_Send(void *p, u32 a, const void *b, u32 c);
+extern void GURU2_RECEIPT_SetStateFromParent(char *,int,int);
+void GURU2_COMM_RecvJoinRequest(int a,int b,u8 *c,u8 *p)
 {
     struct Packet s;
     if(a!=0) {
@@ -41,22 +41,22 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
         s.a=a; s.b=((struct Obj03839 *)p)->f2C;
         switch(((struct Packet *)c)->c) {
         case 0:
-            if(((struct Obj03839 *)p)->f2C!=UNION_APP_GetMemberCount(func_021DCAFC(p)) ||
-               ((struct Obj03839 *)p)->f2C!=func_02080D24(UNION_APP_GetJoinedBits(func_021DCAFC(p)))) s.d=0;
+            if(((struct Obj03839 *)p)->f2C!=UNION_APP_GetMemberCount(GURU2_GetUnionApp(p)) ||
+               ((struct Obj03839 *)p)->f2C!=func_02080D24(UNION_APP_GetJoinedBits(GURU2_GetUnionApp(p)))) s.d=0;
             else { ((struct Obj03839 *)p)->f30|=1<<a; s.d=1; }
             break;
         case 1: break;
         }
-        func_021DCBC4(p,0x2801,&s,4);
+        GURU2_COMM_Send(p,0x2801,&s,4);
     } else {
         switch(c[2]) {
         case 0:
             a=c[0];
             if(a!=GFL_NET_SYSTEM_GetCurrentAid()) return;
-            if(c[3]==0) func_021DE08C(*(char * *)&((struct Obj23674 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,8,a);
-            else { ((struct Obj03839 *)p)->f38=c[1]; func_021DE08C(*(char * *)&((struct Obj23675 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,7,a); }
+            if(c[3]==0) GURU2_RECEIPT_SetStateFromParent(*(char * *)&((struct Obj23674 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,8,a);
+            else { ((struct Obj03839 *)p)->f38=c[1]; GURU2_RECEIPT_SetStateFromParent(*(char * *)&((struct Obj23675 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,7,a); }
             break;
-        case 1: func_021DE08C(*(char * *)&((struct Obj23676 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,19,c[0]); break;
+        case 1: GURU2_RECEIPT_SetStateFromParent(*(char * *)&((struct Obj23676 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,19,c[0]); break;
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F90A0
+ * function: WORLDTRADE_INPUT_PrintStringPlain
  * address:  0x021F90A0
  * packet:   pkt_021F90A0
  * region:   ov135
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F90B8  0x021F90B8  thumb  ov135
+ *   WORLDTRADE_INPUT_PrintBankString  0x021F90B8  thumb  ov135
  *
 
  *
- * Forward the u16 stack argument to func_021F90B8 with mode 0.
+ * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 0.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int slow);
+extern void WORLDTRADE_INPUT_PrintBankString(u8 *p, void *bank, u32 index, int unused1, int unused2, int slow);
 
-void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e)
+void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_021F90B8((u8 *)a, (void *)b, c, d, e, 0);
+    WORLDTRADE_INPUT_PrintBankString((u8 *)a, (void *)b, c, d, e, 0);
 }

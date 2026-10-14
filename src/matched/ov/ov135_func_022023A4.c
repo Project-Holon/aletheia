@@ -1,5 +1,5 @@
 /*
- * function: func_022023A4
+ * function: WORLDTRADE_ADAPTER_RegisterReceivedMonB
  * address: 0x022023A4
  * packet: pkt_ov135_022023A4
  * region: ov135
@@ -15,8 +15,8 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_CalcGender 0x02017F50 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
- *   func_022026BC 0x022026BC thumb ov135
- *   func_0220246C 0x0220246C thumb ov135
+ *   WORLDTRADE_ADAPTER_GetBoxParam 0x022026BC thumb ov135
+ *   WORLDTRADE_ADAPTER_GetDateTime 0x0220246C thumb ov135
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb  arm9
  */
 #include "../include/Obj02864.h"
@@ -41,9 +41,9 @@ extern u32 POKEPARTY_Add(struct Party *,const struct PartyMon *);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
-extern u32 func_022026BC(void *);
-extern void func_0220246C(void *,int);
-void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
+extern u32 WORLDTRADE_ADAPTER_GetBoxParam(void *);
+extern void WORLDTRADE_ADAPTER_GetDateTime(void *,int);
+void WORLDTRADE_ADAPTER_RegisterReceivedMonB(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
     ZUKAN_SAVE_RegisterCaught(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f10,mon);
@@ -61,10 +61,10 @@ void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
     } else {
         u32 slot=0;
         func_020076D0(((struct Obj23480 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->fC,(int *)(&index),(int *)(&slot));
-        func_0200752C(((struct Obj23481 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->fC,index,(const struct Sub02007454Entry *)func_022026BC(mon));
+        func_0200752C(((struct Obj23481 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->fC,index,(const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         ((struct Obj02864 *)p)->fDC=index;
         pos=slot;
     }
     ((struct Obj02864 *)p)->fE0=pos;
-    func_0220246C(*(void **)*(u8 * *)&((struct Obj02864 *)p)->f0,1);
+    WORLDTRADE_ADAPTER_GetDateTime(*(void **)*(u8 * *)&((struct Obj02864 *)p)->f0,1);
 }

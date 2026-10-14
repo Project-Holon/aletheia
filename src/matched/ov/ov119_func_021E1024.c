@@ -1,5 +1,5 @@
 /*
- * function: func_021E1024
+ * function: POKETRADE_SAVE_OpenMessageWindowTop
  * address:  0x021E1024
  * packet:   pkt_ov119_021E1024
  * region:   ov119
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0FF4  0x021E0FF4  thumb  ov119
+ *   POKETRADE_SAVE_OpenMessageWindowAtPos  0x021E0FF4  thumb  ov119
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021E0FF4(void *, int, int);
-void func_021E1024(void *p) { func_021E0FF4(p, 0, 0); }
+extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *, int, int);
+void POKETRADE_SAVE_OpenMessageWindowTop(void *p) { POKETRADE_SAVE_OpenMessageWindowAtPos(p, 0, 0); }

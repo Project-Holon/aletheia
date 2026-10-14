@@ -1,5 +1,5 @@
 /*
- * function: func_021FD8BC
+ * function: WORLDTRADE_LIST_VBlank
  * address:  0x021FD8BC
  * packet:   pkt_021FD8BC
  * region:   ov135
@@ -26,7 +26,7 @@ typedef struct {
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-void func_021FD8BC(Work *p)
+void WORLDTRADE_LIST_VBlank(Work *p)
 {
     func_02040618(0, 3, p->scroll);
     func_02040618(1, 3, p->scroll);

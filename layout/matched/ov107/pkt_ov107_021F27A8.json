@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F27A8",
+   "name": "MBi_CommParentSendDLFileInfo",
    "address": "0x021F27A8",
    "kind": "sdk",
    "region": "ov107",

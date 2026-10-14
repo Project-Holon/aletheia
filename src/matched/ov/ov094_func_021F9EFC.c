@@ -1,5 +1,5 @@
 /*
- * function: func_021F9EFC
+ * function: BTLV_EFFVM_CmdMoveCameraTo
  * address:  0x021F9EFC
  * packet:   pkt_ov094_021F9EFC
  * region:   ov094
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021FDB20  0x021FDB20  thumb  ov094
- *   func_021F8684  0x021F8684  thumb  ov094
- *   func_021F6EDC  0x021F6EDC  thumb  ov094
- *   func_021F6F48  0x021F6F48  thumb  ov094
- *   func_021F70F0  0x021F70F0  thumb  ov094
+ *   BTLV_EFFVM_RefreshMcssOrtho  0x021FDB20  thumb  ov094
+ *   BTLV_EFFECT_GetCamera  0x021F8684  thumb  ov094
+ *   BTLV_CAMERA_SetEyeAndTarget  0x021F6EDC  thumb  ov094
+ *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
+ *   BTLV_CAMERA_GetEyeAndUp  0x021F70F0  thumb  ov094
  *   func_0207C9D0  0x0207C9D0  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -27,14 +27,14 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021FDB20(Ctx *c);
-extern int func_021F8684(void);
-extern void func_021F6EDC(int *p, int *a, int *b);
-extern void func_021F6F48(int cam, int *a, int *b, int n, int s, int t);
-extern void func_021F70F0(void **p, void *b, int c);
+extern void BTLV_EFFVM_RefreshMcssOrtho(Ctx *c);
+extern int BTLV_EFFECT_GetCamera(void);
+extern void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b);
+extern void BTLV_CAMERA_StartMove(int cam, int *a, int *b, int n, int s, int t);
+extern void BTLV_CAMERA_GetEyeAndUp(void **p, void *b, int c);
 extern void func_0207C9D0(int *a, int *b, int *c);
 
-int func_021F9EFC(void *r, Ctx *c)
+int BTLV_EFFVM_CmdMoveCameraTo(void *r, Ctx *c)
 {
     int A[3];
     int B[3];
@@ -55,19 +55,19 @@ int func_021F9EFC(void *r, Ctx *c)
     n = VM_GetU32(r);
     s = VM_GetU32(r);
     t = VM_GetU32(r);
-    func_021FDB20(c);
+    BTLV_EFFVM_RefreshMcssOrtho(c);
     switch (type) {
     case 0:
-        func_021F6EDC((int *)func_021F8684(), A, B);
+        BTLV_CAMERA_SetEyeAndTarget((int *)BTLV_EFFECT_GetCamera(), A, B);
         break;
     case 1:
-        func_021F6F48(func_021F8684(), A, B, n, s, t);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), A, B, n, s, t);
         break;
     case 2:
-        func_021F70F0((void **)func_021F8684(), C, (int)D);
+        BTLV_CAMERA_GetEyeAndUp((void **)BTLV_EFFECT_GetCamera(), C, (int)D);
         func_0207C9D0(C, A, A);
         func_0207C9D0(D, B, B);
-        func_021F6F48(func_021F8684(), A, B, n, s, t);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), A, B, n, s, t);
         break;
     }
     return c->ret;

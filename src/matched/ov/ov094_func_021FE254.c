@@ -1,5 +1,5 @@
 /*
- * function: func_021FE254
+ * function: BTLV_EFFVM_TransformVecByMtx43
  * address:  0x021FE254
  * packet:   pkt_ov094_021FE254
  * region:   ov094
@@ -18,7 +18,7 @@ typedef long long fx64;
 typedef struct { fx32 x, y, z; } VecFx32;
 typedef struct { fx32 m[4][4]; } MtxFx44;
 
-void func_021FE254(const VecFx32 *v, const MtxFx44 *m, fx32 *out, fx32 *w)
+void BTLV_EFFVM_TransformVecByMtx43(const VecFx32 *v, const MtxFx44 *m, fx32 *out, fx32 *w)
 {
     fx64 y = v->y;
     fx64 x = v->x;

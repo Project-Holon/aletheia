@@ -1,5 +1,5 @@
 /*
- * function: func_0220B008
+ * function: BR_MAIN_InitSceneManager
  * address:  0x0220B008
  * packet:   pkt_0220B008
  * region:   ov187
@@ -29,7 +29,7 @@ struct S {
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *PROCSYS_Create(int a0);
 
-void func_0220B008(struct S *p, u32 a, u32 b, u32 c)
+void BR_MAIN_InitSceneManager(struct S *p, u32 a, u32 b, u32 c)
 {
     MI_CpuFill8(p, 0, 0x28);
     p->f0 = PROCSYS_Create(c);

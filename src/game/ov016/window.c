@@ -65,7 +65,7 @@
  *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
  *   DWCi_FNTlDelete  0x021D5A2C  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
- *   g_021DE658_b   0x021DE658  data
+ *   gMemWindow   0x021DE658  data
  */
 #include "../../matched/include/G_MemWinT.h"
 #include "../../matched/include/G_CoordT.h"
@@ -170,7 +170,7 @@ extern signed char sWindowTable5[][2];
 extern signed char sWindowTable6[][2];
 extern u16 sWindowTable13[][2];
 extern u16 sWindowTable12[][2];
-extern struct MemWinT *g_021DE658_b;
+extern struct MemWinT *gMemWindow;
 
 
 /*
@@ -525,5 +525,5 @@ static void taskEnd3(void *task)
     }
     DWCi_FNTlDelete(gWindowWork->canv);
     DWCi_TSKlDelete(1, task);
-    DWCi_HEAPlFree_((void **)(&g_021DE658_b));
+    DWCi_HEAPlFree_((void **)(&gMemWindow));
 }

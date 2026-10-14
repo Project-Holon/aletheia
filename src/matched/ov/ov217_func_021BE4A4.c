@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_021BE4CC  0x021BE4CC  thumb  ov217
- *   func_021C0E54  0x021C0E54  thumb  ov217
- *   func_021C0E64  0x021C0E64  thumb  ov217
+ *   RingQueue_Pop  0x021C0E54  thumb  ov217
+ *   RingQueue_IsEmpty  0x021C0E64  thumb  ov217
  *
  * When the +0x3DC guard word is set and the +0x1c handle is idle, hand it
- * to func_021BE4CC with the value func_021C0E54() reports.
+ * to func_021BE4CC with the value RingQueue_Pop() reports.
  *
  * Addresses are Black-image addresses.
  */
@@ -30,13 +30,13 @@ typedef signed int     s32;
 
 struct Ring;
 extern void func_021BE4CC(void *p, u32 v);
-extern u32 func_021C0E54(struct Ring *r);
-extern u32 func_021C0E64();
+extern u32 RingQueue_Pop(struct Ring *r);
+extern u32 RingQueue_IsEmpty();
 void func_021BE4A4(u32 a0)
 {
     if (((struct Obj00021 *)(((u8*)a0)))->f3DC != 0) {
-    if (func_021C0E64(((struct Obj00021 *)(((u8*)a0)))->f1C) == 0) {
-    func_021BE4CC((void *)a0, func_021C0E54((struct Ring *)(((struct Obj00021 *)(((u8*)a0)))->f1C)));
+    if (RingQueue_IsEmpty(((struct Obj00021 *)(((u8*)a0)))->f1C) == 0) {
+    func_021BE4CC((void *)a0, RingQueue_Pop((struct Ring *)(((struct Obj00021 *)(((u8*)a0)))->f1C)));
     }
     }
 }

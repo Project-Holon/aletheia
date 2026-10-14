@@ -1,5 +1,5 @@
 /*
- * function: func_021C09F8
+ * function: RESEARCH_COMMON_GetInputFlag
  * address:  0x021C09F8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C09F8(void *p)
+u32 RESEARCH_COMMON_GetInputFlag(void *p)
 {
     return ((struct Obj25982 *)p)->f3C;
 }

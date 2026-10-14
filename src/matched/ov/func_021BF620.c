@@ -1,5 +1,5 @@
 /*
- * function: func_021BF620
+ * function: ZUKAN_DETAIL_INFO_StartHighlightBlink
  * address:  0x021BF620
  * packet:   pkt_021BF620
  * region:   ov208
@@ -18,7 +18,7 @@
 
 struct Ov208Heap;
 
-void func_021BF620(struct Ov208Heap *unused, int *p, int *ctx)
+void ZUKAN_DETAIL_INFO_StartHighlightBlink(struct Ov208Heap *unused, int *p, int *ctx)
 {
     if (p[0x26] == 6)
         return;

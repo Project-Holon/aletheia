@@ -1,5 +1,5 @@
 /*
- * function: func_021FFCD4
+ * function: WORLDTRADE_SUBLCD_FreeResources
  * address:  0x021FFCD4
  * packet:   pkt_021FFCD4
  * region:   ov135
@@ -30,7 +30,7 @@ typedef struct {
 
 extern u32 func_020307B0(void *p);
 
-void func_021FFCD4(Work *p)
+void WORLDTRADE_SUBLCD_FreeResources(Work *p)
 {
     int i;
 

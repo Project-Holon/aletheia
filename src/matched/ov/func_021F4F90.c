@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F90
+ * function: WORLDTRADE_ClearSelectedSpecies
  * address:  0x021F4F90
  * packet:   pkt_021F4F90
  * region:   ov135
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F4F90(u8 *p)
+void WORLDTRADE_ClearSelectedSpecies(u8 *p)
 {
     ((struct Obj02863 *)p)->fEB2 = 1;
     ((struct Obj02863 *)p)->fEB0 = 0;

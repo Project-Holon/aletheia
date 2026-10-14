@@ -1,5 +1,5 @@
 /*
- * function: func_021FEC00
+ * function: WORLDTRADE_SEARCH_StateNameMenuInput
  * address:  0x021FEC00
  * packet:   pkt_021FEC00
  * region:   ov135
@@ -12,12 +12,12 @@
   *
   *
  * symbols:
- *   func_021F99F0  0x021F99F0  thumb
- *   func_021FF570  0x021FF570  thumb
- *   func_021F89A8  0x021F89A8  thumb
- *   func_021F7F9C  0x021F7F9C  thumb
- *   func_021F7B9C  0x021F7B9C  thumb
- *   func_021F8098  0x021F8098  thumb
+ *   WORLDTRADE_INPUT_MenuUpdate  0x021F99F0  thumb
+ *   WORLDTRADE_SEARCH_SetBlendEffect  0x021FF570  thumb
+ *   WORLDTRADE_ENTER_SetListRangeEntry  0x021F89A8  thumb
+ *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
+ *   WORLDTRADE_DEPOSIT_CheckGenderEvent  0x021F7B9C  thumb
+ *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
@@ -64,49 +64,49 @@ typedef struct {
     u8 g[4];
 } Work;
 
-extern int func_021F99F0(void *obj);
-extern void func_021FF570(u32 v);
+extern int WORLDTRADE_INPUT_MenuUpdate(void *obj);
+extern void WORLDTRADE_SEARCH_SetBlendEffect(u32 v);
 struct CharBuf;
 struct Descriptor;
-extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
+extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
+extern void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
 extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int func_021F7B9C(u8 *p, int event);
-extern void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
+extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
 
-int func_021FEC00(Work *p)
+int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
 {
-    int r = func_021F99F0(p->obj);
+    int r = WORLDTRADE_INPUT_MenuUpdate(p->obj);
     u32 h;
     u32 v;
 
     switch (r) {
     case -2:
-        func_021FF570(0);
+        WORLDTRADE_SEARCH_SetBlendEffect(0);
         p->state = 0;
-        func_021F89A8(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
+        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
         break;
     case -1:
         break;
     default:
-        func_021FF570(0);
+        WORLDTRADE_SEARCH_SetBlendEffect(0);
         p->sel = r;
         p->state = 0;
         BMP_Clear(BMP_WIN_GetBmp(p->winA), 0);
-        func_021F7F9C(p->winA, p->bankB, r, 0, 0, 0x3C40, p->g);
+        WORLDTRADE_DEPOSIT_PrintName(p->winA, p->bankB, r, 0, 0, 0x3C40, p->g);
         h = (u32)POKE_PERSONAL_Create((u16)r, 0, 0x48);
         v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
         POKE_PERSONAL_Delete((void *)h);
         p->target->x20 = v;
-        func_021F89A8(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
-        if (func_021F7B9C((u8 *)(&p->sel), p->target->x20) != 0) {
+        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
+        if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->sel), p->target->x20) != 0) {
             BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
-            func_021F8098(p->winB, p->bankA, p->mode, 1, 0, 0, 0x3C40, p->g);
+            WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->winB, p->bankA, p->mode, 1, 0, 0, 0x3C40, p->g);
         }
         break;
     }

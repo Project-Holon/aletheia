@@ -1,5 +1,5 @@
 /*
- * function: func_021FE8A8
+ * function: WORLDTRADE_SEARCH_StateCountdownMessage
  * address: 0x021FE8A8
  * packet: pkt_ov135_021FE8A8
  * region: ov135
@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FF318 0x021FF318 thumb ov135
- *   func_021F4E98 0x021F4E98 thumb ov135
+ *   WORLDTRADE_SEARCH_PrintMessage 0x021FF318 thumb ov135
+ *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  */
 #include "../include/Obj14176.h"
-extern void func_021FF318(unsigned char *p, unsigned int k, int b, int c, int d);
+extern void WORLDTRADE_SEARCH_PrintMessage(unsigned char *p, unsigned int k, int b, int c, int d);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021F4E98(u8 *p, u32 a, u32 b);
-int func_021FE8A8(char *p)
+extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
+int WORLDTRADE_SEARCH_StateCountdownMessage(char *p)
 {
     if (++((struct Obj14176 *)p)->fDFC > 45) {
-        func_021FF318((unsigned char *)p, 38, 1, 0, 0xf0f);
-        func_021F4E98((u8 *)p, 23, 1);
+        WORLDTRADE_SEARCH_PrintMessage((unsigned char *)p, 38, 1, 0, 0xf0f);
+        WORLDTRADE_SetNextState((u8 *)p, 23, 1);
         ((struct Obj14176 *)p)->fE1A = 1;
     }
     return 2;

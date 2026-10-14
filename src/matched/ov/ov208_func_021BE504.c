@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE504
+ * function: ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources
  * address:  0x021BE504
  * packet:   pkt_ov208_021BE504
  * region:   ov208
@@ -17,9 +17,9 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BD148  0x021BD148  thumb
- *   func_021BD3C0  0x021BD3C0  thumb
- *   func_021BD394  0x021BD394  thumb
- *   func_021BD378  0x021BD378  thumb
+ *   ZKND_TBAR_GetButtonActor  0x021BD3C0  thumb
+ *   ZKND_TBAR_SetButtonAnimSeqLoop  0x021BD394  thumb
+ *   ZKND_TBAR_SetButtonVisible  0x021BD378  thumb
  *   data_021C83C8  0x021C83C8  data
  */
 typedef unsigned char  u8;
@@ -110,12 +110,12 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
-extern int func_021BD3C0(void *mgr, int key);
-extern void func_021BD394(int a, int b, int c);
-extern void func_021BD378(int a, int b, int c);
+extern int ZKND_TBAR_GetButtonActor(void *mgr, int key);
+extern void ZKND_TBAR_SetButtonAnimSeqLoop(int a, int b, int c);
+extern void ZKND_TBAR_SetButtonVisible(int a, int b, int c);
 extern struct Ov208ActSrc data_021C83C8[];
 
-void ov208_func_021BE504(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(struct Ov208Scene *p)
 {
     struct Ov208ActList list;
     struct Ov208ActDesc descs[6];
@@ -156,11 +156,11 @@ void ov208_func_021BE504(struct Ov208Scene *p)
     list.f18 = 2;
     p->mgr = func_021BD148(&list, p->heap);
     for (i = 0; i < p->count; i++)
-        p->slots[i].obj = func_021BD3C0((void *)p->mgr, p->slots[i].src->id);
-    func_021BD394(p->mgr, p->slots[1].src->id, 0x110);
-    func_021BD394(p->mgr, p->slots[2].src->id, 0x220);
+        p->slots[i].obj = ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[i].src->id);
+    ZKND_TBAR_SetButtonAnimSeqLoop(p->mgr, p->slots[1].src->id, 0x110);
+    ZKND_TBAR_SetButtonAnimSeqLoop(p->mgr, p->slots[2].src->id, 0x220);
     if (p->f40 == 0) {
-        func_021BD378(p->mgr, p->slots[5].src->id, 0);
-        func_021BD378(p->mgr, p->slots[4].src->id, 0);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[5].src->id, 0);
+        ZKND_TBAR_SetButtonVisible(p->mgr, p->slots[4].src->id, 0);
     }
 }

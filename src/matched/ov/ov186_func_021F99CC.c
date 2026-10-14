@@ -1,5 +1,5 @@
 /*
- * function: func_021F99CC
+ * function: BR_PROC_SYS_Create
  * address: 0x021F99CC
  * packet: pkt_ov186_021F99CC
  * region: ov186
@@ -30,7 +30,7 @@ typedef struct {
     unsigned *list;
     unsigned loaded;
 } Context;
-Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
+Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
 {
     Context *ctx;
     unsigned i = 0;

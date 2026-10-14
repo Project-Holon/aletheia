@@ -1,5 +1,5 @@
 /*
- * function: func_021FC60C
+ * function: BR_GRAPHIC_GetUnitFromActorSys
  * address: 0x021FC60C
  * packet: pkt_ov186_021FC60C
  * region: ov186
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021FC60C(unsigned *p) {return *p;}
+unsigned BR_GRAPHIC_GetUnitFromActorSys(unsigned *p) {return *p;}

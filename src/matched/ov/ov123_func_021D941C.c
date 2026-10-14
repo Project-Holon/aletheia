@@ -1,5 +1,5 @@
 /*
- * function: func_021D941C
+ * function: PDWACC_MESSAGE_ExitSystem
  * address: 0x021D941C
  * packet: pkt_ov123_021D941C
  * region: ov123
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: inline the first high-half argument; a separate first assignment colours the word r1.
  * symbols:
- *   func_021D92B8 0x021D92B8 thumb ov123
+ *   PDWACC_MESSAGE_DeleteButtonManager 0x021D92B8 thumb ov123
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0203FB44 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D92B8(u8 *);
+extern void PDWACC_MESSAGE_DeleteButtonManager(u8 *);
 struct Descriptor;
 struct PrintSys;
 struct Rec;
@@ -52,7 +52,7 @@ extern void TIME_ICON_Delete(u8 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void BMP_WIN_Exit(void);
 extern u32 func_020307B0(void *p);
-void func_021D941C(u8 *p)
+void PDWACC_MESSAGE_ExitSystem(u8 *p)
 {
     u32 a;
     int i;
@@ -61,7 +61,7 @@ void func_021D941C(u8 *p)
     func_0203FB44(5,(u16)(((struct Obj00534 *)p)->f8),(u16)a);
     a=((struct Obj00534 *)p)->f4>>16;
     func_0203FB44(6,(u16)(((struct Obj00534 *)p)->f4),(u16)a);
-    func_021D92B8(p);
+    PDWACC_MESSAGE_DeleteButtonManager(p);
     func_0201DD68();
     MSGDATA_Delete(((struct Obj00534 *)p)->f20);
     GF_FONT_Delete(((struct Obj00534 *)p)->f28);

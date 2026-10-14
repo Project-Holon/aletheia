@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: passes the word at offset 0x14 on to func_021C0E3C.
+ * Tail-call veneer: passes the word at offset 0x14 on to RingQueue_Destroy.
  *
  * symbols:
- *   func_021C0E3C  0x021C0E3C  thumb  ov217
+ *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -27,9 +27,9 @@ typedef struct {
     u32 a;
 } Rec;
 
-extern void func_021C0E3C(void *p);
+extern void RingQueue_Destroy(void *p);
 
 void func_021BA68C(Rec *p)
 {
-    func_021C0E3C((void *)p->a);
+    RingQueue_Destroy((void *)p->a);
 }

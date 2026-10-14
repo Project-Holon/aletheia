@@ -1,5 +1,5 @@
 /*
- * function: func_021F9FC0
+ * function: BTLV_EFFVM_CmdRotateCameraOrbit
  * address:  0x021F9FC0
  * packet:   pkt_ov094_021F9FC0
  * region:   ov094
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021FDB20  0x021FDB20  thumb  ov094
- *   func_021F8684  0x021F8684  thumb  ov094
- *   func_021F6F20  0x021F6F20  thumb  ov094
- *   func_021F7108  0x021F7108  thumb  ov094
- *   func_021F6F48  0x021F6F48  thumb  ov094
+ *   BTLV_EFFVM_RefreshMcssOrtho  0x021FDB20  thumb  ov094
+ *   BTLV_EFFECT_GetCamera  0x021F8684  thumb  ov094
+ *   BTLV_CAMERA_RotateOrbit  0x021F6F20  thumb  ov094
+ *   BTLV_CAMERA_ComputeOrbitOffset  0x021F7108  thumb  ov094
+ *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -26,13 +26,13 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021FDB20(Ctx *c);
-extern int func_021F8684(void);
-extern void func_021F6F20(int cam, int a, int b);
-extern void func_021F7108(int *p, int a, int b, int *out, int *base);
-extern void func_021F6F48(int cam, int *a, int *b, int n, int s, int t);
+extern void BTLV_EFFVM_RefreshMcssOrtho(Ctx *c);
+extern int BTLV_EFFECT_GetCamera(void);
+extern void BTLV_CAMERA_RotateOrbit(int cam, int a, int b);
+extern void BTLV_CAMERA_ComputeOrbitOffset(int *p, int a, int b, int *out, int *base);
+extern void BTLV_CAMERA_StartMove(int cam, int *a, int *b, int n, int s, int t);
 
-int func_021F9FC0(void *r, Ctx *c)
+int BTLV_EFFVM_CmdRotateCameraOrbit(void *r, Ctx *c)
 {
     int E[3];
     int F[3];
@@ -49,14 +49,14 @@ int func_021F9FC0(void *r, Ctx *c)
     v3 = VM_GetU32(r);
     v4 = VM_GetU32(r);
     v5 = VM_GetU32(r);
-    func_021FDB20(c);
+    BTLV_EFFVM_RefreshMcssOrtho(c);
     switch (type) {
     case 0:
-        func_021F6F20(func_021F8684(), v1, v2);
+        BTLV_CAMERA_RotateOrbit(BTLV_EFFECT_GetCamera(), v1, v2);
         break;
     case 1:
-        func_021F7108((int *)func_021F8684(), v1, v2, E, F);
-        func_021F6F48(func_021F8684(), E, F, v3, v4, v5);
+        BTLV_CAMERA_ComputeOrbitOffset((int *)BTLV_EFFECT_GetCamera(), v1, v2, E, F);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), E, F, v3, v4, v5);
         break;
     }
     return c->ret;

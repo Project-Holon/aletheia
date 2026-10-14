@@ -1,5 +1,5 @@
 /*
- * function: func_021FC3BC
+ * function: BR_GRAPHIC_Create
  * address: 0x021FC3BC
  * packet: pkt_ov186_021FC3BC
  * region: ov186
@@ -23,9 +23,9 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021FC4FC 0x021FC4FC thumb ov186
- *   func_021FC5A0 0x021FC5A0 thumb ov186
- *   func_021FC4E8 0x021FC4E8 thumb ov186
+ *   BR_GRAPHIC_InitBgWindows 0x021FC4FC thumb ov186
+ *   BR_GRAPHIC_InitActors 0x021FC5A0 thumb ov186
+ *   BR_GRAPHIC_VBlankTask 0x021FC4E8 thumb ov186
  *   func_020056A0 0x020056A0 thumb
  *   d_02200D4C 0x02200D4C data a1
  *   d_0220093C 0x0220093C data a4
@@ -41,11 +41,11 @@ extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0204363C(unsigned);
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),func_0201DD60(void);
-extern void func_021FC4FC(void *,unsigned);
-extern void func_021FC5A0(int *,int,int);
-extern void func_021FC4E8(int,char *);
+extern void BR_GRAPHIC_InitBgWindows(void *,unsigned);
+extern void BR_GRAPHIC_InitActors(int *,int,int);
+extern void BR_GRAPHIC_VBlankTask(int,char *);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
-void *func_021FC3BC(unsigned mode,int setting,unsigned heap)
+void *BR_GRAPHIC_Create(unsigned mode,int setting,unsigned heap)
 {
     const struct DispVram *config;
     char *p;
@@ -58,8 +58,8 @@ void *func_021FC3BC(unsigned mode,int setting,unsigned heap)
     *(volatile unsigned *)0x04001000&=~0xe000;
     BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);func_0204363C(setting);
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();func_0201DD60();
-    func_021FC4FC(p,heap);
-    func_021FC5A0((int *)(p+4),(int)config,heap);
-    *(void **)(p+12)=func_020056A0((unsigned)func_021FC4E8,(unsigned)p,0);
+    BR_GRAPHIC_InitBgWindows(p,heap);
+    BR_GRAPHIC_InitActors((int *)(p+4),(int)config,heap);
+    *(void **)(p+12)=func_020056A0((unsigned)BR_GRAPHIC_VBlankTask,(unsigned)p,0);
     return p;
 }

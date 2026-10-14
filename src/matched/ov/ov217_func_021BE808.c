@@ -25,10 +25,10 @@
  *   func_021BEF98 0x021BEF98 thumb ov217
  *   func_021BEF30 0x021BEF30 thumb ov217
  *   func_021BEFD4 0x021BEFD4 thumb ov217
- *   func_021C116C 0x021C116C thumb ov217
- *   func_021C118C 0x021C118C thumb ov217
- *   func_021C1160 0x021C1160 thumb ov217
- *   func_021C1184 0x021C1184 thumb ov217
+ *   CircleGraph_QueueErase 0x021C116C thumb ov217
+ *   CircleGraph_HoldUpdate 0x021C118C thumb ov217
+ *   CircleGraph_QueueDrawFast 0x021C1160 thumb ov217
+ *   CircleGraph_SetEnabled 0x021C1184 thumb ov217
  *   func_021BF810 0x021BF810 thumb ov217
  *   func_021BF76C 0x021BF76C thumb ov217
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -55,10 +55,10 @@ extern void func_021BEEA4(char *p);
 extern void func_021BEF98(char *p);
 extern void func_021BEF30(char *p);
 extern void func_021BEFD4(char *p);
-extern void func_021C116C(u8 *h);
-extern void func_021C118C(u8 *h, u32 v);
-extern void func_021C1160(u8 *h);
-extern void func_021C1184(u8 *h, u32 v);
+extern void CircleGraph_QueueErase(u8 *h);
+extern void CircleGraph_HoldUpdate(u8 *h, u32 v);
+extern void CircleGraph_QueueDrawFast(u8 *h);
+extern void CircleGraph_SetEnabled(u8 *h, u32 v);
 extern u32 func_021BF810(void *p);
 extern u8 *func_021BF76C(void *p);
 
@@ -71,7 +71,7 @@ void func_021BE808(char *p)
         return;
     }
     if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {
-        func_021C116C(func_021BF76C(p));
+        CircleGraph_QueueErase(func_021BF76C(p));
         flag = 1;
     }
     switch (((struct Obj00021 *)p)->f2CC) {
@@ -100,10 +100,10 @@ void func_021BE808(char *p)
     }
     if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {
         if (flag != 0) {
-            func_021C118C(func_021BF76C(p), 0x14);
+            CircleGraph_HoldUpdate(func_021BF76C(p), 0x14);
         }
-        func_021C1160(func_021BF76C(p));
-        func_021C1184(func_021BF76C(p), 1);
+        CircleGraph_QueueDrawFast(func_021BF76C(p));
+        CircleGraph_SetEnabled(func_021BF76C(p), 1);
     }
     GFL_USE_PlaySeDefaultVolume(0x548);
 }

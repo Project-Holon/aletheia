@@ -25,17 +25,17 @@
  *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B86B8  0x021B86B8  thumb
  *   BTL_MAIN_GetGameData  0x021B8748  thumb
- *   func_021F86E0  0x021F86E0  thumb
+ *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb
  *   func_0220207C  0x0220207C  thumb
- *   func_022025D8  0x022025D8  thumb
+ *   BTLV_INPUT_StartPaletteFadeTask  0x022025D8  thumb
  *   BTLV_SCD_Nop  0x06899D38  thumb  ov095
- *   func_022026FC  0x022026FC  thumb
- *   func_0220266C  0x0220266C  thumb  ov094
- *   func_021F81EC  0x021F81EC  thumb
- *   func_021F8A78  0x021F8A78  thumb
- *   func_0220270C  0x0220270C  thumb
- *   func_022033F0  0x022033F0  thumb
- *   func_022033CC  0x022033CC  thumb
+ *   BTLV_INPUT_IsScreenBusy  0x022026FC  thumb
+ *   BTLV_INPUT_StartScreenFadeTask  0x0220266C  thumb  ov094
+ *   BTLV_EFFECT_GaugeSelectSlot  0x021F81EC  thumb
+ *   BTLV_EFFECT_StartIntroEffect  0x021F8A78  thumb
+ *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb
+ *   BTLV_INPUT_GetPendingResult  0x022033F0  thumb
+ *   BTLV_INPUT_IsInputBlocked  0x022033CC  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MIi_CpuClear16  0x02082A48  arm
  *   func_021B8D8C  0x021B8D8C  thumb
@@ -58,7 +58,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_022021F4  0x022021F4  thumb
+ *   BTLV_INPUT_Delete  0x022021F4  thumb
  *   BTL_CALC_ActionSetNone  0x021D8434  thumb
  *   BTLV_SCD_WaitActionTouchStep  0x0689A76C  thumb  ov095
  *   BTLV_SCD_WaitBackTouchStep  0x0689A84C  thumb  ov095
@@ -69,11 +69,11 @@
  *   BTLV_SCD_OpenTargetMenuStep  0x0689B0D4  thumb  ov095
  *   BTLV_SCD_WaitTargetTouchStep  0x0689B1E4  thumb  ov095
  *   BTL_ACTION_SetEscape  0x021D8414  thumb
- *   func_02202DC4  0x02202DC4  thumb
+ *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb
  *   gBtlvScdActionRegionsA  0x0689D8D4  data  ov095
  *   gBtlvScdActionRegionsB  0x0689DF64  data  ov095
  *   gBtlvScdActionButtonByRegion  0x0689D828  data  ov095
- *   func_02203040  0x02203040  thumb
+ *   BTLV_INPUT_GetScreenButtonTable  0x02203040  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   func_021D5528  0x021D5528  thumb
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb
@@ -87,7 +87,7 @@
  *   gBtlvScdMoveRegionsSingleB  0x0689E054  data  a4
  *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
  *   BTL_ACTION_SetRotate  0x021D83FC  thumb
- *   func_022030F0  0x022030F0  thumb
+ *   BTLV_INPUT_ProcessKeyInput  0x022030F0  thumb
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
@@ -119,21 +119,21 @@
 
 /* Services of the input module (ov094), which draws the touch screen menus. */
 extern struct BtlvInput *func_0220207C(u32 gameData, u32 rule, u32 competitor, int bgMode, void *fontMain, u8 *inputFlags, int viewParam, u16 heapId);
-extern void func_022021F4(struct BtlvInput *input);
-extern void func_0220266C(struct BtlvInput *input);
-extern int func_022026FC(struct BtlvInput *input);
-extern void func_022025D8(struct BtlvInput *input, u32 mode);
-extern void func_0220270C(struct BtlvInput *input, int screen, void *payload);
-extern int func_02202DC4(struct BtlvInput *input, const void *regionsA, const void *regionsB);
-extern int func_02203040(struct BtlvInput *input);
-extern int func_022030F0(struct BtlvInput *input, u8 *outKey, u32 *outValue);
-extern int func_022033CC(struct BtlvInput *input);
-extern int func_022033F0(struct BtlvInput *input);
+extern void BTLV_INPUT_Delete(struct BtlvInput *input);
+extern void BTLV_INPUT_StartScreenFadeTask(struct BtlvInput *input);
+extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
+extern void BTLV_INPUT_StartPaletteFadeTask(struct BtlvInput *input, u32 mode);
+extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int screen, void *payload);
+extern int BTLV_INPUT_ProcessTouchInput(struct BtlvInput *input, const void *regionsA, const void *regionsB);
+extern int BTLV_INPUT_GetScreenButtonTable(struct BtlvInput *input);
+extern int BTLV_INPUT_ProcessKeyInput(struct BtlvInput *input, u8 *outKey, u32 *outValue);
+extern int BTLV_INPUT_IsInputBlocked(struct BtlvInput *input);
+extern int BTLV_INPUT_GetPendingResult(struct BtlvInput *input);
 
 /* Services of the battle viewer effects (ov094). */
-extern int func_021F86E0(void);
-extern void func_021F81EC(int sel);
-extern void func_021F8A78(void);
+extern int BTLV_EFFECT_GetPalanm(void);
+extern void BTLV_EFFECT_GaugeSelectSlot(int sel);
+extern void BTLV_EFFECT_StartIntroEffect(void);
 
 /* Services of the battle main module. */
 extern u32 BTL_MAIN_GetGameData(struct BtlMain *main);
@@ -157,7 +157,7 @@ extern struct BtlPokeParam *func_021B9C00(struct BtlParty *party, u8 index);
 extern u8 BTL_SLOT_GetCount(struct BtlParty *party);
 extern u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind);
 extern int BTL_CLIENT_GetClientId(void);
-extern u8 BTL_CLIENT_GetFieldCountdownByte(struct BtlNetCtx *netCtx);
+extern u8 BTL_CLIENT_GetFieldCountdownByte(struct BtlClient *client);
 
 /* Services of the poke parameter. */
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
@@ -215,7 +215,7 @@ extern const char *const gBtlvScdTargetRegionsSingleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleB[][15];
 
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlNetCtx *netCtx, int viewParam, u16 heapId);
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
 void BTLV_SCD_CreateInput(BtlvAuxView *view);
 void BTLV_SCD_StartInputSlideIn(BtlvAuxView *view, u32 mode);
 void BTLV_SCD_StartInputSlideOut(BtlvAuxView *view);
@@ -272,7 +272,7 @@ void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload);
 void BTLV_SCD_PollCounterTouch(BtlvAuxView *view);
 
 /* Creates the view: allocates it, takes the party of the local client and resets the task stack. */
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlNetCtx *netCtx, int viewParam, u16 heapId)
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId)
 {
     BtlvAuxView *view;
 
@@ -282,7 +282,7 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
     view->pokeCon = pokeCon;
     view->heapId = heapId;
     view->fontMain = fontMain;
-    view->netCtx = netCtx;
+    view->client = client;
     view->ownParty = func_021B9AF8(pokeCon, BTL_CLIENT_GetClientId());
     view->msgBuffer = STRBUF_Create(0x80, heapId);
     view->cursorIndex = 0;
@@ -307,7 +307,7 @@ void BTLV_SCD_CreateInput(BtlvAuxView *view)
     gameData = BTL_MAIN_GetGameData(view->mainModule);
     rule = BTL_MAIN_GetRule(view->mainModule);
     competitor = func_021B86B8(view->mainModule);
-    bgMode = func_021F86E0();
+    bgMode = BTLV_EFFECT_GetPalanm();
     view->input = func_0220207C(gameData, rule, competitor, bgMode, view->fontMain, &view->inputFlags, view->viewParam, view->heapId);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BTLV_SCD_Nop(view);
@@ -319,7 +319,7 @@ void BTLV_SCD_StartInputSlideIn(BtlvAuxView *view, u32 mode)
     view->slideX = 0;
     view->slideY = -16;
     view->slideStep = -1;
-    func_022025D8(view->input, mode);
+    BTLV_INPUT_StartPaletteFadeTask(view->input, mode);
 }
 
 /* Starts the slide-out of the touch screen input. */
@@ -328,13 +328,13 @@ void BTLV_SCD_StartInputSlideOut(BtlvAuxView *view)
     view->slideX = -16;
     view->slideY = 0;
     view->slideStep = 1;
-    func_0220266C(view->input);
+    BTLV_INPUT_StartScreenFadeTask(view->input);
 }
 
 /* Returns 1 when the input module no longer reports a slide in progress. */
 int BTLV_SCD_IsInputSlideDone(BtlvAuxView *view)
 {
-    if (func_022026FC(view->input) == 0)
+    if (BTLV_INPUT_IsScreenBusy(view->input) == 0)
         return 1;
     return 0;
 }
@@ -358,22 +358,22 @@ void BTLV_SCD_Nop(BtlvAuxView *view)
 /* Closes the input screen when the input module reports it open. */
 void BTLV_SCD_CloseInputIfOpen(BtlvAuxView *view)
 {
-    if (func_022033F0(view->input) != 0)
+    if (BTLV_INPUT_GetPendingResult(view->input) != 0)
         BTLV_SCD_CloseInput(view);
 }
 
 /* Clears the input screen and plays the close effect. */
 void BTLV_SCD_CloseInput(BtlvAuxView *view)
 {
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
-    func_021F81EC(8);
-    func_021F8A78();
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
+    BTLV_EFFECT_GaugeSelectSlot(8);
+    BTLV_EFFECT_StartIntroEffect();
 }
 
 /* Returns 1 when the input module is idle. */
 int BTLV_SCD_IsInputIdle(BtlvAuxView *view)
 {
-    return func_022033CC(view->input) == 0;
+    return BTLV_INPUT_IsInputBlocked(view->input) == 0;
 }
 
 /* Deletes the view: print queue, message buffer, input module, then the view itself. */
@@ -381,7 +381,7 @@ void BTLV_SCD_Delete(BtlvAuxView *view)
 {
     PRINTSYS_QUE_Delete(view->printQueue);
     STRBUF_Delete(view->msgBuffer);
-    func_022021F4(view->input);
+    BTLV_INPUT_Delete(view->input);
     func_020307B0(view);
 }
 
@@ -562,7 +562,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
     first = BTL_POKEPARAM_GetPokeId(view->pokeParam);
     first = func_021B8D8C(view->mainModule, view->pokeCon, first);
     info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, first);
-    func_021F81EC(info.userViewPos);
+    BTLV_EFFECT_GaugeSelectSlot(info.userViewPos);
     rule = BTL_MAIN_GetRule(view->mainModule);
     for (; pass < 2; pass++) {
         parties[0] = 0;
@@ -652,8 +652,8 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
         }
     }
     info.canBack = view->canBack;
-    info.countdown = BTL_CLIENT_GetFieldCountdownByte(view->netCtx);
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_ACTION, &info);
+    info.countdown = BTL_CLIENT_GetFieldCountdownByte(view->client);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_ACTION, &info);
     return 1;
 }
 
@@ -665,22 +665,22 @@ int BTLV_SCD_WaitActionTouchStep(int *state, BtlvAuxView *view)
 
     switch (*state) {
     case 0:
-        touched = func_02202DC4(view->input, gBtlvScdActionRegionsA, gBtlvScdActionRegionsB);
+        touched = BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdActionRegionsA, gBtlvScdActionRegionsB);
         if (touched == -1)
             break;
         button = gBtlvScdActionButtonByRegion[touched];
         view->result = button;
         if (button == 4) {
             BTL_ACTION_SetEscape(view->action);
-            func_0220270C(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
-            func_021F81EC(8);
-            func_021F8A78();
+            BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
+            BTLV_EFFECT_GaugeSelectSlot(8);
+            BTLV_EFFECT_StartIntroEffect();
             (*state)++;
             break;
         }
         return 1;
     case 1:
-        if (func_022033CC(view->input) == 0)
+        if (BTLV_INPUT_IsInputBlocked(view->input) == 0)
             return 1;
         break;
     }
@@ -692,7 +692,7 @@ int BTLV_SCD_WaitBackTouchStep(int *state, BtlvAuxView *view)
 {
     int touched;
 
-    touched = func_02203040(view->input);
+    touched = BTLV_INPUT_GetScreenButtonTable(view->input);
     if (touched == 1) {
         view->result = 1;
     }
@@ -722,7 +722,7 @@ int BTLV_SCD_OpenMoveMenuStep(int *state, BtlvAuxView *view)
     info.userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule,
                         func_021B8D8C(view->mainModule, view->pokeCon,
                                       BTL_POKEPARAM_GetPokeId(view->pokeParam)));
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_MOVE, &info);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_MOVE, &info);
     return 1;
 }
 
@@ -739,7 +739,7 @@ int BTLV_SCD_WaitMoveTouchStep(int *state, BtlvAuxView *view)
     else regionsA = gBtlvScdMoveRegionsSingleA;
     if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsB = gBtlvScdMoveRegionsDoubleB;
     else regionsB = gBtlvScdMoveRegionsSingleB;
-    choice = func_02202DC4(view->input, regionsA, regionsB);
+    choice = BTLV_INPUT_ProcessTouchInput(view->input, regionsA, regionsB);
     if (choice != -1) {
         if (choice & 0x8000) slotFlag = 1;
         else slotFlag = 0;
@@ -773,7 +773,7 @@ int BTLV_SCD_OpenRotateMenuStep(int *state, BtlvAuxView *view)
         for (j = 0; j < 4; j++)
             info.info[i][j] = view->rotateSet->cand[i].info[j];
     }
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_ROTATE, &info);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_ROTATE, &info);
     return 1;
 }
 
@@ -788,7 +788,7 @@ int BTLV_SCD_WaitRotateTouchStep(int *state, BtlvAuxView *view)
     u32 value;
     u32 moveId;
 
-    if (func_022030F0(view->input, &touch.key, &touch.value)) {
+    if (BTLV_INPUT_ProcessKeyInput(view->input, &touch.key, &touch.value)) {
         slotFlag = (touch.value & 0x8000) != 0;
         touch.value &= ~0x8000;
         value = touch.value;
@@ -905,7 +905,7 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
         } else row->state = 2;
         slots++;
     }
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_TARGET, &info);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_TARGET, &info);
 }
 
 /* Shows the target menu for the target set: the main list, else the alternate list of its kind. */
@@ -970,7 +970,7 @@ int BTLV_SCD_WaitTargetTouchStep(int *state, BtlvAuxView *view)
             regionsB = gBtlvScdTargetRegionsDoubleB[row][kind];
             stopIndex = 6;
         }
-        choice = func_02202DC4(view->input, regionsA, regionsB);
+        choice = BTLV_INPUT_ProcessTouchInput(view->input, regionsA, regionsB);
         if (choice != -1) {
             if (choice != stopIndex) {
                 if (BTLV_SCD_PickTargetFromTouch(&view->targets, choice, view->mainModule, &targetPos)) {
@@ -1044,7 +1044,7 @@ void BTLV_SCD_BuildTargetSet(BtlvTargetSet *targets, BtlvAuxView *view)
 /* Shows the rotation screen with a payload built by the caller. */
 void BTLV_SCD_ShowRotateScreen(BtlvAuxView *view, void *payload)
 {
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_ROTATE, payload);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_ROTATE, payload);
 }
 
 /* Reads the touched key; returns 1 and the key when one was touched. */
@@ -1052,7 +1052,7 @@ int BTLV_SCD_PollTouchKey(BtlvAuxView *view, u8 *outKey)
 {
     int value;
 
-    value = func_02202DC4(view->input, 0, 0);
+    value = BTLV_INPUT_ProcessTouchInput(view->input, 0, 0);
     if (value != -1) {
         *outKey = value;
         return 1;
@@ -1063,15 +1063,15 @@ int BTLV_SCD_PollTouchKey(BtlvAuxView *view, u8 *outKey)
 /* Clears the input screen and plays the close effect. */
 void BTLV_SCD_CloseInputScreen(BtlvAuxView *view)
 {
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
-    func_021F81EC(8);
-    func_021F8A78();
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
+    BTLV_EFFECT_GaugeSelectSlot(8);
+    BTLV_EFFECT_StartIntroEffect();
 }
 
 /* Shows the choice screen with a value and resets its step. */
 void BTLV_SCD_OpenChoiceScreen(BtlvAuxView *view, int value)
 {
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_CHOICE, (void *)value);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CHOICE, (void *)value);
     view->choiceStep = 0;
 }
 
@@ -1082,15 +1082,15 @@ int BTLV_SCD_PollChoiceScreen(BtlvAuxView *view, u32 *outChoice)
 
     switch (view->choiceStep) {
     case 0:
-        touched = func_02202DC4(view->input, gBtlvScdChoiceRegionsA, gBtlvScdChoiceRegionsB);
+        touched = BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdChoiceRegionsA, gBtlvScdChoiceRegionsB);
         if (touched == -1)
             break;
         view->choiceIndex = touched;
-        func_0220270C(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
+        BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
         view->choiceStep++;
         break;
     case 1:
-        if (func_022033CC(view->input) == 0) {
+        if (BTLV_INPUT_IsInputBlocked(view->input) == 0) {
             *outChoice = view->choiceIndex;
             return 1;
         }
@@ -1119,17 +1119,17 @@ int BTLV_SCD_RunCloseSequence(BtlvAuxView *view)
 {
     switch (view->status.bits.step) {
     case 0:
-        if (func_022033CC(view->input) == 0)
+        if (BTLV_INPUT_IsInputBlocked(view->input) == 0)
             view->status.bits.step++;
         break;
     case 1:
-        func_0220270C(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
-        func_021F81EC(8);
-        func_021F8A78();
+        BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CLOSE, 0);
+        BTLV_EFFECT_GaugeSelectSlot(8);
+        BTLV_EFFECT_StartIntroEffect();
         view->status.bits.step++;
         break;
     case 2:
-        if (func_022033CC(view->input) == 0)
+        if (BTLV_INPUT_IsInputBlocked(view->input) == 0)
             view->status.bits.step++;
         break;
     case 3:
@@ -1142,11 +1142,11 @@ int BTLV_SCD_RunCloseSequence(BtlvAuxView *view)
 /* Shows the counter screen. */
 void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload)
 {
-    func_0220270C(view->input, BTLV_INPUT_SCREEN_COUNTER, payload);
+    BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_COUNTER, payload);
 }
 
 /* Polls the touch regions of the counter screen. */
 void BTLV_SCD_PollCounterTouch(BtlvAuxView *view)
 {
-    func_02202DC4(view->input, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
+    BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
 }

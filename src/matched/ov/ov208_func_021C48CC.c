@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C48CC
+ * function: ZUKAN_DETAIL_FORM_CreateTextWindows
  * address:  0x021C48CC
  * packet:   pkt_ov208_021C48CC
  * region:   ov208
@@ -20,7 +20,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   ov208_func_021C4B60  0x021C4B60  thumb
+ *   ZUKAN_DETAIL_FORM_FlushPrintWindow  0x021C4B60  thumb
  *   data_021C8830  0x021C8830  data
  *   data_021C8794  0x021C8794  data
  */
@@ -60,11 +60,11 @@ extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out)
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
+extern void ZUKAN_DETAIL_FORM_FlushPrintWindow(u16 *heap, struct Ov208Menu *p, int key, int i);
 extern const struct Ov208WinTbl data_021C8830;
 extern const u16 data_021C8794[6];
 
-void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key)
+void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Menu *p, int key)
 {
     struct Ov208WinTbl t;
     u32 size;
@@ -92,7 +92,7 @@ void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key)
     PRINTSYS_PrintQueColor((void *)p->print[2], bmp, 0, 0x11, s, p->f4, 0x3c40);
     STRBUF_Delete((struct U16Vec *)s);
     p->active[2] = 1;
-    ov208_func_021C4B60(heap, p, key, 2);
+    ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, p, key, 2);
     for (i = 0; i < 6; i++)
         p->str[i] = (u32)func_02045EC0((struct MsgBank *)p->msg, data_021C8794[i]);
 }

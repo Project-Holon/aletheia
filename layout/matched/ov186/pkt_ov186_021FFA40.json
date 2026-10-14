@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFA40",
+   "name": "BR_NET_StepSearchKind3",
    "address": "0x021FFA40",
    "kind": "game",
    "region": "ov186",

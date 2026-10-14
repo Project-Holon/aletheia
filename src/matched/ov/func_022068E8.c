@@ -1,5 +1,5 @@
 /*
- * function: func_022068E8
+ * function: BTLV_INPUT_DeleteAllTasks
  * address:  0x022068E8
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022068E8   0x022068E8  thumb
- *   func_0220687C 0x0220687C thumb ov094
+ *   BTLV_INPUT_DeleteAllTasks   0x022068E8  thumb
+ *   BTLV_INPUT_DeleteTask 0x0220687C thumb ov094
 
  *
  * lane O10 candidate
  */
 
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_022068E8(char *p)
+void BTLV_INPUT_DeleteAllTasks(char *p)
 {
     int i;
 
@@ -27,7 +27,7 @@ void func_022068E8(char *p)
         int v = *(int *)(p + 8 + i * 4);
 
         if (v != 0)
-            func_0220687C(p, (void *)v);
+            BTLV_INPUT_DeleteTask(p, (void *)v);
     }
 }
 

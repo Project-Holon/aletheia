@@ -1,5 +1,5 @@
 /*
- * function: func_021F1060
+ * function: MB_COMM_SYS_GetCommStage
  * address:  0x021F1060
  * packet:   pkt_ov107_021F1060
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-void *func_021F1060(Ov107Ctx *p)
+void *MB_COMM_SYS_GetCommStage(Ov107Ctx *p)
 {
     return p->f0C;
 }

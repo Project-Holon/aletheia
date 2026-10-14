@@ -1,7 +1,7 @@
 /*
  * file:     btlv_clact.c
  * unit:     yes
- * function: func_02201A8C, func_02201AC4, func_02201AF0, func_02201AF8, func_02201B20, func_02201CA4, func_02201CD0, func_02201D5C, func_02201DA0, func_02201DB4, func_02201E04, func_02201F98, func_02201FD8, func_02201FF4, func_0220203C
+ * function: BTLV_CLACT_Create, BTLV_CLACT_Delete, BTLV_CLACT_Draw, BTLV_CLACT_LoadActorSimple, BTLV_CLACT_LoadActor, BTLV_CLACT_ReleaseActor, BTLV_CLACT_StartMoveShort, BTLV_CLACT_StartMoveDefault, BTLV_CLACT_SetActorAnimSeq, BTLV_CLACT_RequestPaletteFade, BTLV_CLACT_StartMoveTask, BTLV_CLACT_MoveTaskMain, BTLV_CLACT_MoveTaskEnd, BTLV_CLACT_MoveTaskMainWide, BTLV_CLACT_MoveTaskEndWide
  * address:  0x02201A8C
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -23,9 +23,9 @@
  *   PALANM_RequestFade  0x0202173C  thumb
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_02030734  0x02030734  arm
- *   d_0220AE88  0x0220AE88  data  a4
+ *   gBtlvClactFileName  0x0220AE88  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
- *   d_0220A368 0x0220A368 data a4
+ *   gBtlvClactDefaultActorInit 0x0220A368 data a4
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -47,42 +47,28 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F89BC 0x021F89BC thumb ov094
- *   func_021F918C 0x021F918C thumb ov094
- *   func_021F9260  0x021F9260  thumb  ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
  */
-#include "../../matched/include/Obj03216.h"
-#include "../../matched/include/Obj07895.h"
-#include "../../matched/include/Obj21735.h"
-#include "../../matched/include/Obj21736.h"
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
 #include "btlv_effect_shared_types.h"
 #include "btlv_effvm_shared_types.h"
 #include "btlv_clact_shared_types.h"
 
-typedef struct Config { s16_02201B20 x, y; u32 rest[2]; u32 a, b, last; } Config;
-
-typedef struct {
-    int x, y, z;
-} Vec_v1B20;
-
-typedef struct { void *owner; Vec start; int idx, mode; Vec a, b, delta; int n1, n2, zero, s2, s3; } Job;
-
 extern u32 func_020307B0(void *p);
 
 extern u32 func_0207C768(u32 a, u32 b);
 
-extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
 
-extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *ctx);
+extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *owner);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(void *task);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -94,305 +80,300 @@ extern float _fsub(float, float);
 
 extern int _ffix(float);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
+extern unsigned int CLACT_DeleteUnit(struct Unit *unit);
 
 void CLACT_DrawSystem(void);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heap);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 fileIdx, u32 vramMode, u32 vramOffset, u16 heap);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileIdx, u32 animFileIdx, u32 heap);
 
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 heap, u32 slotIdx, u32 byteSize, u16 dstOffset);
 
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Actor *CLACT_CreateActor(struct Unit *unit, u32 charIdx, u32 palIdx, u32 cellIdx, const BtlvClactActorInit *init, u16 space, u16 heap);
 
-extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+extern struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 charIdx, u32 palIdx, u32 cellIdx, const BtlvClactActorInit *init, u16 space, u16 heap);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCharacter(u32 idx);
 
-extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleasePalette(u32 idx);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 idx);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, s16 *out, u16 space);
 
-extern u32 CLACT_SetActorAnimSeq(void *obj, u16 v);
+extern u32 CLACT_SetActorAnimSeq(struct Actor *actor, u16 seq);
 
-extern void CLACT_AddActorSurfacePos(struct Obj_02201DA0 *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const s16 *delta, u32 which);
 
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
-extern void CLACT_SetActorScale(struct Obj_02201DA0 *dst, struct Pair_02201B20 *src);
+extern void CLACT_SetActorScale(struct Actor *actor, const int *scale);
 
-void *func_021F86D4(void);
+void *BTLV_EFFECT_GetOwner(void);
 
-int func_021F86E0(void);
+struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
-void func_021F896C(void *h, void (*cb)(void *), int arg);
+void BTLV_EFFECT_RegisterTask(void *task, void (*cb)(void *), int arg);
 
-void func_021F89BC(void *h);
+void BTLV_EFFECT_DeleteTask(void *task);
 
-void func_021F918C(const VecFx32_021F8F30 *a, const VecFx32_021F8F30 *b, VecFx32_021F8F30 *out, fx32 div);
+void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames);
 
-int func_021F9260(Mover_v8204 *m, VecFx32_021F8F30 *out);
+int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
 
-Res_02201894 *func_02201A8C(void *owner, u16 heap);
+BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap);
 
-void func_02201AC4(Res_02201AC4 *r);
+void BTLV_CLACT_Delete(BtlvClact *clact);
 
-void func_02201AF0(void *a0);
+void BTLV_CLACT_Draw(void *unused);
 
-int func_02201AF8(int a, int b, int c, short d, short e, int f, int g);
+int BTLV_CLACT_LoadActorSimple(BtlvClact *clact, int archiveId, int firstFile, s16 x, s16 y, int scaleX, int scaleY);
 
-int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16_02201B20 x, s16_02201B20 y, u32 e, u32 f);
+int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palFile, int cellFile, int animFile, s16 x, s16 y, u32 scaleX, u32 scaleY);
 
-void func_02201CA4(Res_02201B20 *r, int i);
+void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot);
 
-void func_02201CD0(char *o, int idx, int c, s16_02201B20 *p, int s1, int s2, int s3);
+void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
 
-void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3);
+void BTLV_CLACT_StartMoveDefault(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
 
-u32 func_02201DA0(char *p, int i, int v);
+u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
 
-void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d);
+void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 b, u8 c, s8 step, u16 d);
 
-void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3, void (*f1)(void *, void *), void (*f2)(void *));
+void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *start, BtlvVec3 *end, int frames, int waitTicks, int repeats,
+                   void (*taskMain)(void *, void *), void (*taskEnd)(void *));
 
-void func_02201F98(void *a, void *b);
+void BTLV_CLACT_MoveTaskMain(void *task, void *work);
 
-void func_02201FD8(void *h);
+void BTLV_CLACT_MoveTaskEnd(void *task);
 
-void func_02201FF4(void *a, void *b);
+void BTLV_CLACT_MoveTaskMainWide(void *task, void *work);
 
-void func_0220203C(void *h);
+void BTLV_CLACT_MoveTaskEndWide(void *task);
 
-extern const char d_0220AE88[];
+extern const char gBtlvClactFileName[];
 
-extern const Config d_0220A368;
+extern const BtlvClactActorInit gBtlvClactDefaultActorInit;
 
-Res_02201894 *func_02201A8C(void *owner, u16 heap)
+BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap)
 {
-    Res_02201894 *r = func_02030734(heap, 0x84, 1, d_0220AE88, 0x4f);
-    r->owner = owner;
-    r->heap = heap;
-    r->h = CLACT_CreateUnit(7, 0, heap);
-    return r;
+    BtlvClact *clact = func_02030734(heap, 0x84, 1, gBtlvClactFileName, 0x4f);
+    clact->owner = owner;
+    clact->heap = heap;
+    clact->unit = CLACT_CreateUnit(7, 0, heap);
+    return clact;
 }
 
-void func_02201AC4(Res_02201AC4 *r)
+void BTLV_CLACT_Delete(BtlvClact *clact)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        if (r->e[i].h8 != 0)
-            func_02201CA4((Res_02201B20 *)((struct Res *)r), i);
+        if (clact->slot[i].actor != 0)
+            BTLV_CLACT_ReleaseActor(clact, i);
     }
-    CLACT_DeleteUnit(r->h);
-    func_020307B0(r);
+    CLACT_DeleteUnit(clact->unit);
+    func_020307B0(clact);
 }
 
-void func_02201AF0(void *a0)
+void BTLV_CLACT_Draw(void *unused)
 {
     CLACT_DrawSystem();
 }
 
-int func_02201AF8(int a, int b, int c, short d, short e, int f, int g)
+int BTLV_CLACT_LoadActorSimple(BtlvClact *clact, int archiveId, int firstFile, s16 x, s16 y, int scaleX, int scaleY)
 {
-    return func_02201B20((char *)a, b, c, c + 1, c + 2, c + 3, d, e, f, g);
+    return BTLV_CLACT_LoadActor(clact, archiveId, firstFile, firstFile + 1, firstFile + 2, firstFile + 3, x, y, scaleX, scaleY);
 }
 
-int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16_02201B20 x, s16_02201B20 y, u32 e, u32 f)
+int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palFile, int cellFile, int animFile, s16 x, s16 y, u32 scaleX, u32 scaleY)
 {
-    Config cfg = d_0220A368;
-    void *archive = func_020490F4(archiveId, (u16)((((struct Obj03216 *)p)->f80 & 0x7fff) | 0x8000));
-    int i, off;
-    void *slots;
-    u32 pal;
+    BtlvClactActorInit init = gBtlvClactDefaultActorInit;
+    void *archive = func_020490F4(archiveId, (u16)((clact->heap & 0x7fff) | 0x8000));
+    int i;
+    struct PalAnmSlot *palanm;
+    u32 vramAddr;
     for (i = 0; i < 7; i++) {
-        if (*(u32 *)(p + i * 16 + 8) == 0) break;
+        if (clact->slot[i].actor == 0) break;
     }
-    off = i * 16;
-    *(int *)(p + 12 + off) = CLACT_RegisterCharacter(archive, a, 0, 0, ((struct Obj03216 *)p)->f80);
-    *(int *)(p + 16 + off) = CLACT_RegisterPaletteCompressed(archive, b, 0, (u16)(i * 32 + 0x140), ((struct Obj03216 *)p)->f80);
-    *(int *)(p + 20 + off) = CLACT_RegisterCellAnim(archive, c, d, ((struct Obj03216 *)p)->f80);
-    slots = (void *)func_021F86E0();
-    pal = CLACT_GetPaletteVramAddress(*(int *)(p + 16 + off), 0);
-    PALANM_LoadArcPaletteToSlot(slots, archiveId, b, ((struct Obj03216 *)p)->f80, 2, 32, (pal & 0x3ff) >> 1);
-    cfg.x = x;
-    cfg.y = y;
-    if (e == 0 && f == 0) {
-        *(u32 *)(p + 8 + off) = (u32)CLACT_CreateActor((void *)((struct Obj03216 *)p)->f4, *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, ((struct Obj03216 *)p)->f80);
+    clact->slot[i].charId = CLACT_RegisterCharacter(archive, charFile, 0, 0, clact->heap);
+    clact->slot[i].paletteId = CLACT_RegisterPaletteCompressed(archive, palFile, 0, (u16)(i * 32 + 0x140), clact->heap);
+    clact->slot[i].cellId = CLACT_RegisterCellAnim(archive, cellFile, animFile, clact->heap);
+    palanm = BTLV_EFFECT_GetPalanm();
+    vramAddr = CLACT_GetPaletteVramAddress(clact->slot[i].paletteId, 0);
+    PALANM_LoadArcPaletteToSlot(palanm, archiveId, palFile, clact->heap, 2, 32, (vramAddr & 0x3ff) >> 1);
+    init.x = x;
+    init.y = y;
+    if (scaleX == 0 && scaleY == 0) {
+        clact->slot[i].actor = CLACT_CreateActor(clact->unit, clact->slot[i].charId, clact->slot[i].paletteId, clact->slot[i].cellId, &init, 0, clact->heap);
     } else {
-        cfg.a = e;
-        cfg.b = f;
-        *(u32 *)(p + 8 + off) = (u32)CLACT_CreateAffineActor(((struct Obj03216 *)p)->f4, *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), (u32)(&cfg), 0, ((struct Obj03216 *)p)->f80);
+        init.scaleX = scaleX;
+        init.scaleY = scaleY;
+        clact->slot[i].actor = CLACT_CreateAffineActor(clact->unit, clact->slot[i].charId, clact->slot[i].paletteId, clact->slot[i].cellId, &init, 0, clact->heap);
     }
-    CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(p + 8 + off), 1);
+    CLACT_SetActorAutoAnim(clact->slot[i].actor, 1);
     ARC_TOOL_DeleteHandle(archive);
     return i;
 }
 
-void func_02201CA4(Res_02201B20 *r, int i)
+void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot)
 {
-    CLACT_ReleaseCharacter((u32)r->e[i].hc);
-    CLACT_ReleasePalette((u32)r->e[i].h10);
-    CLACT_ReleaseCellAnim((u32)r->e[i].h14);
-    CLACT_DeleteActor(r->e[i].h8);
-    r->e[i].h8 = 0;
+    CLACT_ReleaseCharacter(clact->slot[slot].charId);
+    CLACT_ReleasePalette(clact->slot[slot].paletteId);
+    CLACT_ReleaseCellAnim(clact->slot[slot].cellId);
+    CLACT_DeleteActor(clact->slot[slot].actor);
+    clact->slot[slot].actor = 0;
 }
 
-void func_02201CD0(char *o, int idx, int c, s16_02201B20 *p, int s1, int s2, int s3)
+void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats)
 {
-    Vec_v1B20 b;
-    Vec_v1B20 a;
-    s16_02201B20 t[2];
+    BtlvVec3 current;
+    BtlvVec3 end;
+    s16 pos[2];
 
-    a.x = p[0] << 12;
-    a.y = p[1] << 12;
-    a.z = 0;
-    CLACT_GetActorSurfacePos(*(void **)(o + idx * 16 + 8), (struct PtS *)t, 0);
-    b.x = t[0] << 12;
-    b.y = t[1] << 12;
-    b.z = 0;
-    if (c == 1) {
-        a.x += b.x;
-        a.y += b.y;
-        a.z += b.z;
+    end.x = offset[0] << 12;
+    end.y = offset[1] << 12;
+    end.z = 0;
+    CLACT_GetActorSurfacePos(clact->slot[slot].actor, pos, 0);
+    current.x = pos[0] << 12;
+    current.y = pos[1] << 12;
+    current.z = 0;
+    if (mode == 1) {
+        end.x += current.x;
+        end.y += current.y;
+        end.z += current.z;
     }
-    func_02201E04((char *)o, idx, c, (Vec *)&b, (Vec *)&a, s1, s2, s3, func_02201F98, func_02201FD8);
-    ((struct Obj07895 *)o)->f78 |= 1 << idx;
+    BTLV_CLACT_StartMoveTask(clact, slot, mode, &current, &end, frames, waitTicks, repeats, BTLV_CLACT_MoveTaskMain, BTLV_CLACT_MoveTaskEnd);
+    clact->moveMask |= 1 << slot;
 }
 
 /*
- * lever: a brace-initialised Vec_v1B20 local compiles to an @N rodata template; three field stores do not.
+ * lever: a brace-initialised BtlvVec3 local compiles to an @N rodata template; three field stores do not.
  */
-/*
- * lever: a brace-initialised Vec local compiles to an @N rodata template; three field stores do not.
- */
-void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3)
+void BTLV_CLACT_StartMoveDefault(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats)
 {
-    Vec_v1B20 v;
+    BtlvVec3 scaleStart;
 
-    v.x = 0x1000;
-    v.y = 0x1000;
-    v.z = 0x1000;
+    scaleStart.x = 0x1000;
+    scaleStart.y = 0x1000;
+    scaleStart.z = 0x1000;
 
-    func_02201E04((char *)o, idx, c, (Vec *)&v, (Vec *)d, s1, s2, s3, func_02201FF4, func_0220203C);
-    ((struct Obj07895 *)o)->f7C |= 1 << idx;
+    BTLV_CLACT_StartMoveTask(clact, slot, mode, &scaleStart, scaleEnd, frames, waitTicks, repeats, BTLV_CLACT_MoveTaskMainWide, BTLV_CLACT_MoveTaskEndWide);
+    clact->scaleMask |= 1 << slot;
 }
 
-u32 func_02201DA0(char *p, int i, int v)
+u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq)
 {
-    return CLACT_SetActorAnimSeq(*(void **)(p + i * 16 + 8), (u16)v);
+    return CLACT_SetActorAnimSeq(clact->slot[slot].actor, (u16)seq);
 }
 
-void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d)
+void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 b, u8 c, s8 step, u16 d)
 {
-    u16 m = 1 << (((u32)CLACT_GetPaletteVramAddress((u32)(*(void **)(base + idx * 16 + 0x10)), (int)0) & 0x3FF) >> 5);
-    void *p = (void *)func_021F86E0();
+    u16 mask = 1 << (((u32)CLACT_GetPaletteVramAddress(clact->slot[slot].paletteId, (int)0) & 0x3FF) >> 5);
+    struct PalAnmSlot *palanm = BTLV_EFFECT_GetPalanm();
 
-    PALANM_RequestFade(p, 4, m, step, b, c, d, func_021F86D4());
+    PALANM_RequestFade(palanm, 4, mask, step, b, c, d, BTLV_EFFECT_GetOwner());
 }
 
-static inline int Round(int x)
+static inline int FxFromInt(int x)
 {
     if (x > 0) return _ffix(_fadd(0.5f, _fflt(x << 12)));
     else return _ffix(_fsub(_fflt(x << 12), 0.5f));
 }
 
-void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
-                   void (*f1)(void *, void *), void (*f2)(void *))
+void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *start, BtlvVec3 *end, int frames, int waitTicks, int repeats,
+                   void (*taskMain)(void *, void *), void (*taskEnd)(void *))
 {
-    Job *p;
-    p = func_02030734((u16)((((struct Obj07895 *)o)->f80 & 0x7fff) | 0x8000), 0x50, 0, d_0220AE88, 0x197);
-    p->owner = o;
-    p->idx = idx;
-    p->start.x = v->x;
-    p->start.y = v->y;
-    p->start.z = v->z;
-    p->mode = mode;
-    p->n1 = s1;
-    p->n2 = s1;
-    p->zero = 0;
-    p->s2 = s2;
-    p->s3 = s3 * 2;
-    p->a.x = v->x;
-    p->a.y = v->y;
-    p->a.z = v->z;
-    p->b.x = w->x;
-    p->b.y = w->y;
-    p->b.z = w->z;
+    BtlvClactMoveTask *job;
+    job = func_02030734((u16)((clact->heap & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
+    job->clact = clact;
+    job->slot = slot;
+    job->pos.x = start->x;
+    job->pos.y = start->y;
+    job->pos.z = start->z;
+    job->mover.mode = mode;
+    job->mover.count = frames;
+    job->mover.countReset = frames;
+    job->mover.wait = 0;
+    job->mover.waitReset = waitTicks;
+    job->mover.repeat = repeats * 2;
+    job->mover.start.x = start->x;
+    job->mover.start.y = start->y;
+    job->mover.start.z = start->z;
+    job->mover.end.x = end->x;
+    job->mover.end.y = end->y;
+    job->mover.end.z = end->z;
     switch (mode) {
     case 1:
-        func_021F918C((const VecFx32_021F8F30 *)(&p->a), (const VecFx32_021F8F30 *)w, (VecFx32_021F8F30 *)(&p->delta), Round(s1));
+        BTLV_EFFECT_ComputeVectorStep(&job->mover.start, end, &job->mover.step, FxFromInt(frames));
         break;
     case 3:
-        p->n2 *= 2;
-        p->s3 *= 2;
+        job->mover.countReset *= 2;
+        job->mover.repeat *= 2;
     case 2:
-        p->delta.x = func_0207C768(w->x, Round(s1));
-        p->delta.y = func_0207C768(w->y, Round(s1));
-        p->delta.z = func_0207C768(w->z, Round(s1));
+        job->mover.step.x = func_0207C768(end->x, FxFromInt(frames));
+        job->mover.step.y = func_0207C768(end->y, FxFromInt(frames));
+        job->mover.step.z = func_0207C768(end->z, FxFromInt(frames));
         break;
     case 0:
     default:
         break;
     }
-    func_021F896C(func_02030DA8(((struct Obj07895 *)o)->f0, f1, p, 0), f2, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(clact->owner, taskMain, job, 0), taskEnd, 0);
 }
 
-void func_02201F98(void *a, void *b)
+void BTLV_CLACT_MoveTaskMain(void *task, void *work)
 {
-    Obj_02201DA0 *o = (Obj_02201DA0 *)b;
-    Ent_02201DA0 *t = o->tbl;
-    int r = func_021F9260((Mover_v8204 *)o->mover, (VecFx32_021F8F30 *)(&o->x));
-    short v[2];
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)work;
+    BtlvClact *clact = job->clact;
+    int done = BTLV_EFFECT_StepMover(&job->mover, &job->pos);
+    s16 delta[2];
 
-    v[0] = o->x >> 12;
-    v[1] = o->y >> 12;
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(t[o->idx].h), (const struct Vec2 *)v, 0);
-    if (r == 1)
-        func_021F89BC(a);
+    delta[0] = job->pos.x >> 12;
+    delta[1] = job->pos.y >> 12;
+    CLACT_AddActorSurfacePos(clact->slot[job->slot].actor, delta, 0);
+    if (done == 1)
+        BTLV_EFFECT_DeleteTask(task);
 }
 
-void func_02201FD8(void *h)
+void BTLV_CLACT_MoveTaskEnd(void *task)
 {
-    int *q = (int *)TCBL_GetTaskUserData(h);
-    char *p = (char *)q[0];
-    ((struct Obj21735 *)p)->f78 &= (1 << q[4]) ^ -1;
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetTaskUserData(task);
+    job->clact->moveMask &= (1 << job->slot) ^ -1;
 }
 
-void func_02201FF4(void *a, void *b)
+void BTLV_CLACT_MoveTaskMainWide(void *task, void *work)
 {
-    Obj_02201DA0 *o = (Obj_02201DA0 *)b;
-    Ent_02201DA0 *t = o->tbl;
-    int r = func_021F9260((Mover_v8204 *)o->mover, (VecFx32_021F8F30 *)(&o->x));
-    int v[2];
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)work;
+    BtlvClact *clact = job->clact;
+    int done = BTLV_EFFECT_StepMover(&job->mover, &job->pos);
+    int scale[2];
 
-    v[0] = o->x;
-    v[1] = o->y;
-    CLACT_SetActorAffineMode(t[o->idx].h, 1);
-    CLACT_SetActorScale((struct Obj_02201DA0 *)(t[o->idx].h), (struct Pair_02201B20 *)v);
-    if (r == 1)
-        func_021F89BC(a);
+    scale[0] = job->pos.x;
+    scale[1] = job->pos.y;
+    CLACT_SetActorAffineMode(clact->slot[job->slot].actor, 1);
+    CLACT_SetActorScale(clact->slot[job->slot].actor, scale);
+    if (done == 1)
+        BTLV_EFFECT_DeleteTask(task);
 }
 
-void func_0220203C(void *h)
+void BTLV_CLACT_MoveTaskEndWide(void *task)
 {
-    int *q = (int *)TCBL_GetTaskUserData(h);
-    char *p = (char *)q[0];
-    ((struct Obj21736 *)p)->f7C &= (1 << q[4]) ^ -1;
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetTaskUserData(task);
+    job->clact->scaleMask &= (1 << job->slot) ^ -1;
 }

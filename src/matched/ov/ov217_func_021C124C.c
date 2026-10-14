@@ -1,5 +1,5 @@
 /*
- * function: func_021C124C
+ * function: CircleGraph_DrawSlices
  * address: 0x021C124C
  * packet: pkt_ov217_021C124C
  * region: ov217
@@ -31,7 +31,7 @@ static inline void G3_Vtx(s16 x,s16 y,s16 z)
     *(volatile u32 *)0x0400048c=(u32)(u16)z;
 }
 static inline void G3_End(void) { *(volatile u32 *)0x04000504=0; }
-void func_021C124C(u8 *p)
+void CircleGraph_DrawSlices(u8 *p)
 {
     int n,i,index;
     u32 rest=(u32)p;

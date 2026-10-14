@@ -1,5 +1,5 @@
 /*
- * function: func_02179D68
+ * function: IRCNET_HasPeer
  * address: 0x02179D68
  * packet: pkt_ov015_02179D68
  * region: ov015
@@ -26,7 +26,7 @@ struct flags_ab80 {
     u8 b1 : 1;
 };
 
-u8 func_02179D68(void);
+u8 IRCNET_HasPeer(void);
 extern struct State d_0217AB80;
 
-u8 func_02179D68(void) { return ((struct flags_ab80 *)&d_0217AB80)->b1; }
+u8 IRCNET_HasPeer(void) { return ((struct flags_ab80 *)&d_0217AB80)->b1; }

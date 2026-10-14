@@ -1,5 +1,5 @@
 /*
- * function: func_021C4590
+ * function: MAILSYS_SwitchInputModeOnTrigger
  * address:  0x021C4590
  * packet:   pkt_ov136_021C4590
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4590 0x021C4590 thumb
+ *   MAILSYS_SwitchInputModeOnTrigger 0x021C4590 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021C4590(u8 *p)
+int MAILSYS_SwitchInputModeOnTrigger(u8 *p)
 {
     if (KEY_GetTrg()) {
         p[0xA] = 1;

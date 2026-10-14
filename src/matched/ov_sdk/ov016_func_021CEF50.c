@@ -12,13 +12,13 @@
  * sdk:      DWCi_SEARCHlEnd (libdwcutil.TWL.HYB.a(search.o))
  *
  * notes:    the two pool words are the same address (MemSearch); the second
- *           extern g_021DE640_b keeps them apart.
+ *           extern gMemSearch keeps them apart.
  *
  * symbols:
  *   WM_GetAllowedChannel  0x0208EE60  arm
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gSearchWork  0x021DE640  data
- *   g_021DE640_b  0x021DE640  data
+ *   gMemSearch  0x021DE640  data
  */
 
 typedef struct {
@@ -38,13 +38,13 @@ typedef struct {
 extern unsigned short WM_GetAllowedChannel(void);
 extern void DWCi_HEAPlFree_(void **mem);
 extern MS *gSearchWork;
-extern MS *g_021DE640_b;
+extern MS *gMemSearch;
 
 void DWCi_SEARCHlEnd(void)
 {
 	if (gSearchWork != 0) {
 		while (WM_GetAllowedChannel() != 0x8000) {
 		}
-		DWCi_HEAPlFree_((void **)&g_021DE640_b);
+		DWCi_HEAPlFree_((void **)&gMemSearch);
 	}
 }

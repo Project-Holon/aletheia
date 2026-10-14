@@ -1,5 +1,5 @@
 /*
- * function: func_021F11F0
+ * function: MB_COMM_SYS_SendMessage
  * address:  0x021F11F0
  * packet:   pkt_ov107_021F11F0
  * region:   ov107
@@ -28,7 +28,7 @@ struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-int func_021F11F0(void *p, unsigned char kind, unsigned int val)
+int MB_COMM_SYS_SendMessage(void *p, unsigned char kind, unsigned int val)
 {
     Ov107Msg msg;
     void *obj;

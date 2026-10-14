@@ -1,5 +1,5 @@
 /*
- * function: func_021BE468
+ * function: Mel_JPEGDecodeExif
  * address:  0x021BE468
  * packet:   pkt_ov172_021BE468
  * region:   ov172
@@ -24,7 +24,7 @@
  *
  * symbols:
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_021C0BB4  0x021C0BB4  arm  ov172
+ *   SSP_ExifDecode  0x021C0BB4  arm  ov172
  *   g_021C88F0     0x021C88F0  data
  *   g_021C8D1C     0x021C8D1C  data ov172
  *   g_021C8C1C     0x021C8C1C  data ov172
@@ -80,9 +80,9 @@ extern BitState g_021C88F0;
 extern short g_021C8B1C[];
 extern unsigned char g_021C959C[];
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
-extern long func_021C0BB4(unsigned char *src, unsigned long src_size, int *cur, int option);
+extern long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int option);
 
-int func_021BE468(unsigned char *a, unsigned long length, int option)
+int Mel_JPEGDecodeExif(unsigned char *a, unsigned long length, int option)
 {
     int p;
     int s;
@@ -105,7 +105,7 @@ int func_021BE468(unsigned char *a, unsigned long length, int option)
             if ((unsigned long)(p + 1) >= length) return 0;
             s = (a[p] << 8) | a[p + 1];
             if (b == 0xE1) {
-                result = func_021C0BB4(a, length, &p, option);
+                result = SSP_ExifDecode(a, length, &p, option);
                 if (result != 0 && result != 1) return 0;
                 break;
             }

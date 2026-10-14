@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB18
+ * function: ZUKAN_DETAIL_INFO_Main
  * address: 0x021BEB18
  * packet: pkt_ov208_021BEB18
  * region: ov208
@@ -23,8 +23,8 @@
  *   both state and ctx `*volatile` (882 bytes, worse). Root residue is still ctx kept in r7 instead of its
  *   home slot. Also blocked: func_021B9E68, func_021BA7C8, func_021BA374 have no label (ov093 low, pengy).
  * symbols:
- *   func_021BC3B4 0x021BC3B4 thumb
- *   func_021BC3B8 0x021BC3B8 thumb
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
+ *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02040618 0x02040618 arm
@@ -34,36 +34,36 @@
  *   func_021BDAAC 0x021BDAAC thumb
  *   func_021BDAD4 0x021BDAD4 thumb
  *   func_021BDBB8 0x021BDBB8 thumb
- *   func_021BDC48 0x021BDC48 thumb
- *   func_021BC3A4 0x021BC3A4 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb
+ *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   func_021BDC14 0x021BDC14 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq 0x021BDC14 thumb
  *   func_021BE840 0x021BE840 thumb
  *   func_021BE82C 0x021BE82C thumb
  *   func_021BE844 0x021BE844 thumb
- *   func_021BF308 0x021BF308 thumb
+ *   ZUKAN_DETAIL_INFO_CreateLanguageButtons 0x021BF308 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
- *   func_021BC3A8 0x021BC3A8 thumb
- *   func_021BCF4C 0x021BCF4C thumb
+ *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
+ *   ZUKAN_DETAIL_GRAPHIC_Reset3dState 0x021BCF4C thumb
  *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
- *   func_021BF4FC 0x021BF4FC thumb
- *   func_021BC3B0 0x021BC3B0 thumb
+ *   ZUKAN_DETAIL_INFO_GetPanelParams 0x021BF4FC thumb
+ *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
  *   func_021B9E68 0x021B9E68 thumb ov206
  *   func_021BA7C8 0x021BA7C8 thumb ov206
- *   func_021BF4C4 0x021BF4C4 thumb
- *   func_021BF5B8 0x021BF5B8 thumb
- *   func_021BF620 0x021BF620 thumb
+ *   ZUKAN_DETAIL_INFO_ResetButtons 0x021BF4C4 thumb
+ *   ZUKAN_DETAIL_INFO_LoadHighlightPalettes 0x021BF5B8 thumb
+ *   ZUKAN_DETAIL_INFO_StartHighlightBlink 0x021BF620 thumb
  *   func_021BC4D8 0x021BC4D8 thumb
  *   func_021BC4C8 0x021BC4C8 thumb
  *   func_021BDBA0 0x021BDBA0 thumb
  *   func_021BC4E4 0x021BC4E4 thumb
  *   func_021BE854 0x021BE854 thumb
- *   func_021BDAE8 0x021BDAE8 thumb
- *   func_021BEFA0 0x021BEFA0 thumb
- *   func_021BF088 0x021BF088 thumb
- *   func_021BF450 0x021BF450 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled 0x021BDAE8 thumb
+ *   ZUKAN_DETAIL_INFO_HandleTouchLanguageButton 0x021BEFA0 thumb
+ *   ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect 0x021BF088 thumb
+ *   ZUKAN_DETAIL_INFO_UpdateButtonPressAnim 0x021BF450 thumb
  *   func_021BA374 0x021BA374 thumb ov206
- *   func_021BF664 0x021BF664 thumb
+ *   ZUKAN_DETAIL_INFO_UpdateHighlightBlink 0x021BF664 thumb
  *   func_021BC46C 0x021BC46C thumb
  * 2026-10-02 (lane C2-01): control flow, callees and frame layout recovered (tbl[6] at sp+0x58 gives the 0x70 frame);
  * the six-state task body is complete. Still DIFF in register allocation: the image keeps the stack argument ctx in
@@ -91,8 +91,8 @@ struct Blk37;
 struct GfFont;
 struct MsgBank;
 struct S;
-extern int func_021BC3B4(int *p);
-extern int func_021BC3B8(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -102,41 +102,41 @@ extern u16 func_021BC3BC(int *ctx);
 extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
 extern void func_021BDAD4(void *s, int a);
 extern void func_021BDBB8(void *s, u32 a);
-extern void func_021BDC48(void *s, u32 a);
-extern int func_021BC3A4(int *ctx);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 a);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
 extern int GAME_DATA_CheckSaveFlag(int a, int b);
-extern void func_021BDC14(char *p, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
 extern void func_021BE844(void *s);
-extern void func_021BF308(u16 *heap, char *p, int key);
+extern void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, int key);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern int func_021BC3A8(int *ctx);
-extern int func_021BCF4C(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *ctx);
+extern int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
-extern void func_021BF4FC(const u16 *heap, u8 *p, int key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
-extern int func_021BC3B0(int *ctx);
+extern void ZUKAN_DETAIL_INFO_GetPanelParams(const u16 *heap, u8 *p, int key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
+extern int ZUKAN_DETAIL_COMMON_GetGraphics(int *ctx);
 extern void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
 extern void func_021BA7C8(void *p);
-extern void func_021BF4C4(int unused, char *q, int c, int *tbl);
-extern void func_021BF5B8(u16 *heap, u8 *p, int *ctx);
-extern void func_021BF620(struct Ov208Heap *unused, int *p, int *ctx);
+extern void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, int c, int *tbl);
+extern void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, int *ctx);
+extern void ZUKAN_DETAIL_INFO_StartHighlightBlink(struct Ov208Heap *unused, int *p, int *ctx);
 extern void func_021BC4D8(struct Ov208Blend *b);
 extern int func_021BC4C8(struct Ov208Blend *b);
 extern void func_021BDBA0(void *s);
 extern void func_021BC4E4(struct Ov208Blend *b);
 extern void func_021BE854(void *s);
-extern void func_021BDAE8(char *p, int v);
-extern int func_021BEFA0(void *a0, struct S *st, int *obj);
-extern int func_021BF088(void *first, char *p, int key);
-extern void func_021BF450(void *unused, char *p, int key);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(char *p, int v);
+extern int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S *st, int *obj);
+extern int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first, char *p, int key);
+extern void ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(void *unused, char *p, int key);
 extern void func_021BA374(char *p);
-extern void func_021BF664(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
+extern void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
 extern void func_021BC46C(struct Ov208Blend *a, struct Ov208Blend *b);
-int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn *p, int *ctx)
+int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn *p, int *ctx)
 {
-    void *scn = (void *)func_021BC3B4(ctx);
-    void *icon = (void *)func_021BC3B8((char *)ctx);
+    void *scn = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
+    void *icon = (void *)ZUKAN_DETAIL_COMMON_GetCursorValue((char *)ctx);
     int v40;
     int v44;
     u32 v54;
@@ -165,23 +165,23 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         } else {
             func_021BDBB8(scn, 0);
         }
-        func_021BDC48(scn, 0);
-        func_021BDC14(scn, GAME_DATA_CheckSaveFlag(func_021BC3A4(ctx), 0x11));
+        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 0);
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
         if (func_021BE840(icon) != 2) {
             func_021BE82C(icon, 0);
             func_021BE844(icon);
         }
-        func_021BF308((u16 *)h, (char *)p, (int)ctx);
-        t = (int)ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(ctx));
-        v40 = func_021BCF4C((char *)func_021BC3A8(ctx));
+        ZUKAN_DETAIL_INFO_CreateLanguageButtons((u16 *)h, (char *)p, (int)ctx);
+        t = (int)ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
+        v40 = ZUKAN_DETAIL_GRAPHIC_Reset3dState((char *)ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
         v44 = ZUKAN_SAVE_GetViewMode((void *)t);
-        func_021BF4FC((const u16 *)h, (u8 *)p, (int)ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
-        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
-        p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
+        ZUKAN_DETAIL_INFO_GetPanelParams((const u16 *)h, (u8 *)p, (int)ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
+        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
+        p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
         func_021BA7C8(p->f8);
-        func_021BF4C4((int)h, (char *)p, (int)ctx, (int *)tbl);
-        func_021BF5B8((u16 *)h, (u8 *)p, ctx);
-        func_021BF620(h, (int *)p, ctx);
+        ZUKAN_DETAIL_INFO_ResetButtons((int)h, (char *)p, (int)ctx, (int *)tbl);
+        ZUKAN_DETAIL_INFO_LoadHighlightPalettes((u16 *)h, (u8 *)p, ctx);
+        ZUKAN_DETAIL_INFO_StartHighlightBlink(h, (int *)p, ctx);
         break;
     case 1:
         *state = 2;
@@ -191,7 +191,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
     case 2:
         if (func_021BC4C8(p->fc) == 0 && func_021BDAD0(scn) == 2 && func_021BE840(icon) == 2) {
             func_021BDBA0(scn);
-            func_021BDC48(scn, 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 1);
             *state = 3;
         }
         break;
@@ -202,10 +202,10 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BC4E4(p->f10);
             func_021BE854(icon);
             if (p->f14 == 2)
-                func_021BDAE8(scn, 0);
+                ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scn, 0);
         } else if (p->f18 != 0) {
-            if (func_021BEFA0(h, (struct S *)p, ctx) == 0)
-                func_021BF088(h, (char *)p, (int)ctx);
+            if (ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(h, (struct S *)p, ctx) == 0)
+                ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(h, (char *)p, (int)ctx);
         }
         break;
     case 4:
@@ -222,11 +222,11 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         return 1;
     }
     if (*state >= 2) {
-        func_021BF450(h, (char *)p, (int)ctx);
+        ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(h, (char *)p, (int)ctx);
         func_021BA374(p->f4);
         func_021BA374(p->f8);
         if (p->f94 == 6)
-            func_021BF664(h, p, ctx);
+            ZUKAN_DETAIL_INFO_UpdateHighlightBlink(h, p, ctx);
     }
     func_021BC46C(p->fc, p->f10);
     return 0;

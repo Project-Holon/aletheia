@@ -1,5 +1,5 @@
 /*
- * function: func_021C5918
+ * function: MB_SEQ_DeleteFrames
  * address:  0x021C5918
  * packet:   pkt_ov136_021C5918
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5918 0x021C5918 thumb
+ *   MB_SEQ_DeleteFrames 0x021C5918 thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
  */
 #include "../include/Obj23511.h"
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
-void func_021C5918(u8 *p)
+void MB_SEQ_DeleteFrames(u8 *p)
 {
     BGWINFRM_Delete(**(struct WinMgr ** *)&((struct Obj23511 *)p)->f8);
 }

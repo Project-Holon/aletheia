@@ -1,5 +1,5 @@
 /*
- * function: func_021D85B4
+ * function: GDS_SOCKET_Shutdown
  * address:  0x021D85B4
  * packet:   pkt_ov125_021D85B4
  * region:   ov125
@@ -12,12 +12,12 @@
  * ARM tail call: ldr ip, =target; bx ip.
  *
  * symbols:
- *   func_021D770C  0x021D770C  arm ov125
+ *   GDS_SOCKET_Reset  0x021D770C  arm ov125
  */
 
-extern void func_021D770C(void);
+extern void GDS_SOCKET_Reset(void);
 
-void func_021D85B4(void)
+void GDS_SOCKET_Shutdown(void)
 {
-    func_021D770C();
+    GDS_SOCKET_Reset();
 }

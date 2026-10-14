@@ -1,5 +1,5 @@
 /*
- * function: func_021D4940
+ * function: CG_HELP_DrawPageText
  * address: 0x021D4940
  * packet: pkt_ov124_021D4940
  * region: ov124
@@ -29,7 +29,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021D4940(char *p,int n)
+void CG_HELP_DrawPageText(char *p,int n)
 {
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00068 *)p)->f24),1);

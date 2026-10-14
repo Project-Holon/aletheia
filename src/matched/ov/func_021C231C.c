@@ -1,5 +1,5 @@
 /*
- * function: func_021C231C
+ * function: ZUKAN_DETAIL_AREA_ApplyBrightness
  * address:  0x021C231C
  * packet:   pkt_021C231C
  * region:   ov208
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC518 0x021BC518  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518  thumb  ov208
  *
- * Loads the word at +0x418 and tail-calls func_021BC518 with it.
+ * Loads the word at +0x418 and tail-calls ZUKAN_DETAIL_COMMON_InitBrightnessTarget with it.
  */
 #include "../include/Obj18287.h"
 
-extern void func_021BC518(int *p);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p);
 
-void func_021C231C(char *p)
+void ZUKAN_DETAIL_AREA_ApplyBrightness(char *p)
 {
-    func_021BC518((int *)(((struct Obj18287 *)p)->f418));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget((int *)(((struct Obj18287 *)p)->f418));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7550
+ * function: HALL_OF_FAME_ReleaseCellAnim
  * address:  0x021B7550
  * packet:   pkt_021B7550
  * region:   ov180
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void func_021B7550(char *p, int i)
+void HALL_OF_FAME_ReleaseCellAnim(char *p, int i)
 {
     if (*(int *)(p + 0x9100 + i * 4) != -1) {
         CLACT_ReleaseCellAnim(*(int *)(p + 0x9100 + i * 4));

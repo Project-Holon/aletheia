@@ -26,7 +26,7 @@
  *   func_021BF6D4  0x021BF6D4  thumb  ov217
  *   func_021BF710  0x021BF710  thumb  ov217
  *   func_021BED9C  0x021BED9C  thumb  ov217
- *   func_021C20C4  0x021C20C4  thumb  ov217
+ *   ARROW_Update  0x021C20C4  thumb  ov217
  *   func_021BF600  0x021BF600  thumb  ov217
  *   func_021BF5E4  0x021BF5E4  thumb  ov217
  *   func_021BEDC4  0x021BEDC4  thumb  ov217
@@ -58,7 +58,7 @@ extern void func_021BF6D4(char *p);
 extern void func_021BF710(void *p);
 extern void CLACT_DrawSystem(void *h);
 extern void func_021BED9C(char *p);
-extern void func_021C20C4(void *h);
+extern void ARROW_Update(void *h);
 extern void func_021BF600(u8 *a0);
 extern void func_021BF5E4(int *p);
 extern void func_021BEDC4(char *p);
@@ -89,7 +89,7 @@ void func_021BD62C(unsigned char *p)
     if (((struct Obj00021 *)p)->f3C4 != 0) {
         CLACT_DrawSystem(((struct Obj00021 *)p)->f3C4);
         func_021BED9C((char *)p);
-        func_021C20C4(((struct Obj00021 *)p)->f2D0);
+        ARROW_Update(((struct Obj00021 *)p)->f2D0);
         func_021BF600(p);
         func_021BF5E4((int *)p);
         func_021BEDC4((char *)p);

@@ -1,5 +1,5 @@
 /*
- * function: func_022026FC
+ * function: BTLV_INPUT_IsScreenBusy
  * address:  0x022026FC
  * packet:   pkt_ov094_022026FC
  * region:   ov094
@@ -14,7 +14,7 @@
 
 struct W { unsigned char pad[0x68]; unsigned int pad15 : 15; unsigned int f : 2; };
 
-int func_022026FC(struct W *p)
+int BTLV_INPUT_IsScreenBusy(struct W *p)
 {
     if (p->f) return 1;
     return 0;

@@ -68,7 +68,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb
- *   func_02175BE4  0x02175BE4  thumb  ov011
+ *   INTRUDE_COMM_IsSessionAcceptedOrResultReady  0x02175BE4  thumb  ov011
  *   INTRUDE_COMM_PickDefaultObjCode  0x02175548  thumb
  *   INTRUDE_FIELD_InitMmdlCopyAnime  0x0217C758  thumb
  *   INTRUDE_FIELD_MainMmdlCopyAnime  0x0217C820  thumb
@@ -78,7 +78,7 @@
  *   func_021BC5A0  0x021BC5A0  thumb
  *   func_020120F8  0x020120F8  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   FIELD_G3D_MAP_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
  *   INTRUDE_FIELD_gSymbolMarkerPos     0x02182B90  data   a4
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_0201210C  0x0201210C  thumb
@@ -113,7 +113,7 @@
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   INTRUDE_COMM_AdjustAllRemotePositions  0x02175274  thumb  ov011
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_02175710  0x02175710  thumb  ov011
+ *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
  *   EVENT_FIELD_PROCLINK_SetReturnLinkId  0x02161FEC  thumb  ov010
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
@@ -195,6 +195,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 #include "../ov011/intrude_comm_types.h"
+#include "intrude_field_types.h"
 #include "../ov010/fldmmdl_types.h"
 
 struct GameSystem;
@@ -229,21 +230,6 @@ typedef struct PlayerLook {
     u16 objCode;
 } PlayerLook;
 
-/* Work of the player spin that changes the appearance (0x18 bytes). */
-typedef struct PlayerSpinWork {
-    struct GameSystem *gameSystem;  /* 0x00 */
-    struct FieldMap *fieldMap;      /* 0x04 */
-    s16 shownStep;                  /* 0x08 */
-    s16 stepFrames;                 /* 0x0A: counts down from 15, the turn gets faster */
-    u16 objCode;                    /* 0x0C: appearance to switch to */
-    u8 kind;                        /* 0x0E */
-    u8 flag;                        /* 0x0F */
-    u8 state;                       /* 0x10 */
-    u8 dirIndex;                    /* 0x11: index into the turn command list */
-    u8 switched;                    /* 0x12: set once the appearance changed */
-    u8 pad13;
-    int reserved14;
-} PlayerSpinWork;
 
 /* Task that bounces the player off the edge of the map (0x18 bytes). */
 typedef struct EdgeBlockWork {
@@ -465,7 +451,7 @@ extern int COMM_PLAYER_ForwardRequest(struct CommPlayerWork *commPlayer, int gri
 extern int SYMBOL_MAP_IsHomeCell(int cellKind);
 extern int SYMBOL_MAP_IsPlainCell(int cellKind);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *returnSlots, u16 linkId);
-extern struct GameEvent *FIELD_G3D_MAP_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
+extern struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -486,12 +472,12 @@ extern void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work);
 extern void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int posX);
 extern void INTRUDE_COMM_PickDefaultObjCode(struct PlayerStatus *status, u16 *objCode, u8 *kind, u8 *flag);
 extern u16 INTRUDE_COMM_GetPlayerObjCode(const IntrudePeer *peer, struct PlayerStatus *status);
-extern void func_02175710(IntrudeCommSys *work, u32 intrudeId);
+extern void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId);
 extern int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session);
 extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionFinished(IntrudeSession *session);
-extern int func_02175BE4(IntrudeSession *session);
+extern int INTRUDE_COMM_IsSessionAcceptedOrResultReady(IntrudeSession *session);
 extern int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *work, IntrudeSession *session);
 extern int INTRUDE_COMM_HasResultReward(IntrudeCommSys *work, IntrudeSession *session);
 extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
@@ -836,7 +822,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
             *seq = 6;
             break;
         }
-        if (func_02175BE4(&intrudeWork->session) == 1) {
+        if (INTRUDE_COMM_IsSessionAcceptedOrResultReady(&intrudeWork->session) == 1) {
             work->sessionBusy = 1;
             INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
         } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
@@ -925,7 +911,7 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
         if (playerPos.x >= areaBaseX && playerPos.x < areaBaseX + 0x20000 && playerPos.z == 0x158000) {
             markerPos = INTRUDE_FIELD_gSymbolMarkerPos;
             markerPos.x += playerPos.x - areaBaseX;
-            return (int)FIELD_G3D_MAP_CreateSymbolEntryEvent(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
+            return (int)FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
         }
         areaBaseX += 0x400000;
     }
@@ -964,7 +950,7 @@ struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, st
     if (edgeDir != 9) {
         if (work == 0 || GFL_NET_GetNegotiationNum() <= 1 || work->memberCount < 2)
             return INTRUDE_FIELD_CreateEdgeBlockTask(gameSystem, fieldMap, player, moveDir, edgeDir, 0);
-        if (func_02175BE4(&work->session) == 1)
+        if (INTRUDE_COMM_IsSessionAcceptedOrResultReady(&work->session) == 1)
             return INTRUDE_FIELD_CreateEdgeBlockTask(gameSystem, fieldMap, player, moveDir, edgeDir, 1);
         return INTRUDE_FIELD_CreateAreaChangeTask(gameSystem, fieldMap, player, edgeDir);
     }
@@ -1319,7 +1305,7 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
         areaIndex -= work->lastAreaIndex + 1;
     if (prevAreaId == areaIndex)
         return;
-    func_02175710(work, areaIndex);
+    INTRUDE_COMM_SetIntrudeId(work, areaIndex);
     work->peerStatusDirty = 1;
     EVENT_FIELD_PROCLINK_SetReturnLinkId(work->returnSlots, (u8)areaIndex);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FCA04
+ * function: BTLV_EFFVM_ResolveBattlerList
  * address: 0x021FCA04
  * packet: pkt_ov094_021FCA04
  * region: ov094
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F8710 0x021F8710 thumb ov094
- *   func_021F7F1C 0x021F7F1C thumb ov094
- *   func_021FD04C 0x021FD04C thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded 0x021F7F1C thumb ov094
+ *   BTLV_EFFVM_ResolveSide 0x021FD04C thumb ov094
  *   d_02209E58 0x02209E58 data a4
  */
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef struct {
 } State;
 typedef struct { int v[4][3]; } Targets;
 extern const Targets d_02209E58;
-extern int func_021F8710(void);
-extern int func_021F7F1C(int);
-extern int func_021FD04C(State *, int);
+extern int BTLV_EFFECT_GetMode(void);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int);
+extern int BTLV_EFFVM_ResolveSide(State *, int);
 
-int func_021FCA04(State *s, int cmd, int *out)
+int BTLV_EFFVM_ResolveBattlerList(State *s, int cmd, int *out)
 {
     Key k;
     int n = 1;
@@ -47,13 +47,13 @@ int func_021FCA04(State *s, int cmd, int *out)
     case 14:
         out[0] = s->dc;
         if (out[0] == 0xff) {
-            if (func_021F7F1C(0) == 1) {
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(0) == 1) {
                 out[0] = 0;
-            } else if (func_021F7F1C(2) == 1) {
+            } else if (BTLV_EFFECT_IsPokeSpriteLoaded(2) == 1) {
                 out[0] = 2;
-            } else if (func_021F7F1C(4) == 1) {
+            } else if (BTLV_EFFECT_IsPokeSpriteLoaded(4) == 1) {
                 out[0] = 4;
-            } else if (func_021F7F1C(4) == 1) {
+            } else if (BTLV_EFFECT_IsPokeSpriteLoaded(4) == 1) {
                 out[0] = 6;
             }
         }
@@ -68,20 +68,20 @@ int func_021FCA04(State *s, int cmd, int *out)
     case 16:
         out[0] = s->e0;
         if (out[0] == 0xff) {
-            mode = func_021F8710();
+            mode = BTLV_EFFECT_GetMode();
             n = 0;
             if (mode == 0 || mode == 3) {
                 if (s->kind == 8 || s->kind == 10) {
                     out[0] = s->dc;
                     n = 1;
-                    if (func_021F7F1C(s->dc ^ 1)) {
+                    if (BTLV_EFFECT_IsPokeSpriteLoaded(s->dc ^ 1)) {
                         out[1] = s->dc ^ 1;
                         n++;
                     }
                 } else {
                     k = KEY_ONE;
                     n = 0;
-                    if (func_021F7F1C(s->dc ^ k)) {
+                    if (BTLV_EFFECT_IsPokeSpriteLoaded(s->dc ^ k)) {
                         out[0] = s->dc ^ k;
                         n++;
                     }
@@ -97,14 +97,14 @@ int func_021FCA04(State *s, int cmd, int *out)
                         i = 0;
                         p = t.v[(s->dc & 1) + group];
                         for (; i < 3; i++) {
-                            if (func_021F7F1C(p[i])) {
+                            if (BTLV_EFFECT_IsPokeSpriteLoaded(p[i])) {
                                 out[n] = p[i];
                                 n++;
                             }
                         }
                     } else {
                         for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                            if (s->dc != k && func_021F7F1C(k)) {
+                            if (s->dc != k && BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                                 out[n] = k;
                                 n++;
                             }
@@ -121,7 +121,7 @@ int func_021FCA04(State *s, int cmd, int *out)
                             hi -= 2;
                     }
                     for (; k <= hi; k += 2) {
-                        if (func_021F7F1C(k)) {
+                        if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                             out[n] = k;
                             n++;
                         }
@@ -130,7 +130,7 @@ int func_021FCA04(State *s, int cmd, int *out)
                 case 11:
                     k = (s->dc & 1) ? KEY_TWO : KEY_THREE;
                     for (; k <= KEY_MAX; k += 2) {
-                        if (func_021F7F1C(k)) {
+                        if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                             out[n] = k;
                             n++;
                         }
@@ -139,7 +139,7 @@ int func_021FCA04(State *s, int cmd, int *out)
                 case 6: case 12:
                     k = (s->dc & 1) ? KEY_THREE : KEY_TWO;
                     for (; k <= KEY_MAX; k += 2) {
-                        if (func_021F7F1C(k)) {
+                        if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                             out[n] = k;
                             n++;
                         }
@@ -147,7 +147,7 @@ int func_021FCA04(State *s, int cmd, int *out)
                     break;
                 case 8: case 10:
                     for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                        if (func_021F7F1C(k)) {
+                        if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                             out[n] = k;
                             n++;
                         }
@@ -167,7 +167,7 @@ int func_021FCA04(State *s, int cmd, int *out)
     case 18:
         n = 0;
         for (k = KEY_ZERO; k <= KEY_MAX; k++) {
-            if (func_021F7F1C(k)) {
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                 out[n] = k;
                 n++;
             }
@@ -177,7 +177,7 @@ int func_021FCA04(State *s, int cmd, int *out)
         k = (cmd == 19) ? KEY_ZERO : (Key)n;
         n = 0;
         for (; k <= KEY_MAX; k += 2) {
-            if (func_021F7F1C(k)) {
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(k)) {
                 out[n] = k;
                 n++;
             }
@@ -185,8 +185,8 @@ int func_021FCA04(State *s, int cmd, int *out)
         break;
     }
     if (out[0] != 0xff && out[0] < 8) {
-        if (func_021F7F1C(out[0]) == 1) {
-            out[0] = func_021FD04C(s, out[0]);
+        if (BTLV_EFFECT_IsPokeSpriteLoaded(out[0]) == 1) {
+            out[0] = BTLV_EFFVM_ResolveSide(s, out[0]);
         } else {
             out[0] = 0xff;
             n = 0;

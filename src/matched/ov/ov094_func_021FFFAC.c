@@ -1,5 +1,5 @@
 /*
- * function: func_021FFFAC
+ * function: BTLV_MCSS_GetStopCellFlags
  * address:  0x021FFFAC
  * packet:   pkt_ov094_021FFFAC
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_GetStopCellFlags  0x02015F24  thumb
  */
 
@@ -32,12 +32,12 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern int MCSS_GetStopCellFlags(void *h);
 
-int func_021FFFAC(Work *w, int key)
+int BTLV_MCSS_GetStopCellFlags(Work *w, int key)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return 0;

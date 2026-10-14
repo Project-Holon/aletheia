@@ -1,5 +1,5 @@
 /*
- * function: func_021FC448
+ * function: BTLV_EFFVM_ReleaseScriptResources
  * address:  0x021FC448
  * packet:   pkt_ov094_021FC448
  * region:   ov094
@@ -13,28 +13,28 @@
  * pending script at 0x1ec or reloads script 0x34 when the follow-up conditions hold.
  *
  * symbols:
- *   func_021FDB08 0x021FDB08 thumb ov094
- *   func_021F86F0 0x021F86F0 thumb ov094
- *   func_02201CA4 0x02201CA4 thumb ov094
+ *   BTLV_EFFVM_DeleteEmitter 0x021FDB08 thumb ov094
+ *   BTLV_EFFECT_GetClact 0x021F86F0 thumb ov094
+ *   BTLV_CLACT_ReleaseActor 0x02201CA4 thumb ov094
  *   func_020307B0 0x020307B0 arm
- *   func_021F8A10 0x021F8A10 thumb ov094
- *   func_021FE4F8 0x021FE4F8 thumb ov094
- *   func_021FE520 0x021FE520 thumb ov094
- *   func_021F8934 0x021F8934 thumb ov094
+ *   BTLV_EFFECT_DeleteTasksByArg 0x021F8A10 thumb ov094
+ *   BTLV_EFFVM_ResetPokePositionIfLoaded 0x021FE4F8 thumb ov094
+ *   BTLV_EFFVM_SetShadowVanishIfLoaded 0x021FE520 thumb ov094
+ *   BTLV_EFFECT_SetAllPokeSpriteAnim 0x021F8934 thumb ov094
  *   func_02011290 0x02011290 thumb
- *   func_021F8764 0x021F8764 thumb ov094
+ *   BTLV_EFFECT_GetRule 0x021F8764 thumb ov094
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
  *   func_0204047C 0x0204047C arm
  *   func_02040618 0x02040618 arm
  *   func_0207D63C 0x0207D63C arm
  *   GFL_USE_StopAllSe 0x02006210 thumb
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_021FFD9C 0x021FFD9C thumb ov094
- *   func_021FFF38 0x021FFF38 thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_MCSS_IsSpriteLoaded 0x021FFD9C thumb ov094
+ *   BTLV_MCSS_GetSpriteAttrFlags 0x021FFF38 thumb ov094
  *   func_02040588 0x02040588 arm
  *   VM_Start 0x0201127C thumb
  *   ARC_TOOL_LoadMember 0x02048F60 arm
- *   func_021FF374 0x021FF374 thumb ov094
+ *   BTLV_MCSS_SetVanishMode 0x021FF374 thumb ov094
  */
 #include "../include/Obj13598.h"
 typedef unsigned short u16;
@@ -80,33 +80,33 @@ typedef struct {
     int f268;
 } State;
 
-extern void func_021FDB08(void *);
-extern int func_021F86F0(void);
+extern void BTLV_EFFVM_DeleteEmitter(void *);
+extern int BTLV_EFFECT_GetClact(void);
 typedef unsigned int   u32;
 struct Res;
 struct ScriptVm;
-extern void func_02201CA4(struct Res *r, int i);
+extern void BTLV_CLACT_ReleaseActor(struct Res *r, int i);
 extern u32 func_020307B0(void *p);
-extern void func_021F8A10(int);
-extern void func_021FE4F8(State *);
-extern void func_021FE520(State *);
-extern void func_021F8934(int);
+extern void BTLV_EFFECT_DeleteTasksByArg(int);
+extern void BTLV_EFFVM_ResetPokePositionIfLoaded(State *);
+extern void BTLV_EFFVM_SetShadowVanishIfLoaded(State *);
+extern void BTLV_EFFECT_SetAllPokeSpriteAnim(int);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern int func_021F8764(void);
+extern int BTLV_EFFECT_GetRule(void);
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
 extern void GFL_USE_StopAllSe(void);
-extern int func_021F8694(void);
-extern int func_021FFD9C(char *p, int key);
-extern int func_021FFF38(char *p, int key);
+extern int BTLV_EFFECT_GetMcss(void);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern int BTLV_MCSS_GetSpriteAttrFlags(char *p, int key);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
-extern void func_021FF374(void *, int, int);
+extern void BTLV_MCSS_SetVanishMode(void *, int, int);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
-int func_021FC448(void *a, State *s)
+int BTLV_EFFVM_ReleaseScriptResources(void *a, State *s)
 {
     int i;
     int v;
@@ -119,29 +119,29 @@ int func_021FC448(void *a, State *s)
 
     for (i = 0; i < 16; i++) {
         if (s->objects[i] != 0) {
-            func_021FDB08(s->objects[i]);
+            BTLV_EFFVM_DeleteEmitter(s->objects[i]);
             s->objects[i] = 0;
         }
         s->ids[i] = -1;
     }
     for (i = 0; i < 4; i++) {
         if (s->res[i] != -1) {
-            func_02201CA4((struct Res *)func_021F86F0(), s->res[i]);
+            BTLV_CLACT_ReleaseActor((struct Res *)BTLV_EFFECT_GetClact(), s->res[i]);
             s->res[i] = -1;
         }
     }
     for (i = 0; i < s->nbufs; i++)
         func_020307B0(s->bufs[i]);
     s->nbufs = 0;
-    func_021F8A10(1);
-    func_021FE4F8(s);
-    func_021FE520(s);
+    BTLV_EFFECT_DeleteTasksByArg(1);
+    BTLV_EFFVM_ResetPokePositionIfLoaded(s);
+    BTLV_EFFVM_SetShadowVanishIfLoaded(s);
     if (s->flags.bit.b18 == 0)
-        func_021F8934(1);
+        BTLV_EFFECT_SetAllPokeSpriteAnim(1);
     func_02011290(a);
     s->f23c = 1;
     if (s->flags.bit.b4) {
-        q = (void *)func_021F8764();
+        q = (void *)BTLV_EFFECT_GetRule();
         if (q != 0)
             BTLV_SCU_ReloadGraphics(q);
         func_0204047C(3, 0);
@@ -156,11 +156,11 @@ int func_021FC448(void *a, State *s)
     if (s->flags.bit.b12)
         GFL_USE_StopAllSe();
     v = 0;
-    if (func_021FFD9C((char *)func_021F8694(), s->fdc) != 0) {
+    if (BTLV_MCSS_IsSpriteLoaded((char *)BTLV_EFFECT_GetMcss(), s->fdc) != 0) {
         id = s->h258;
         if (((id == 0xf8 || id == 0x161) && s->b249 == 1) || id == 0x90 || id == 0x77 || id == 0x10b) {
         } else {
-            v = func_021FFF38((char *)func_021F8694(), s->fdc) & 1;
+            v = BTLV_MCSS_GetSpriteAttrFlags((char *)BTLV_EFFECT_GetMcss(), s->fdc) & 1;
         }
     }
     if (s->f1ec != 0) {
@@ -192,7 +192,7 @@ int func_021FC448(void *a, State *s)
     id2 = s->h258;
     if ((id2 == 0x286 || s->flags.bit.b6 == 0) && id2 != 0x90 && id2 != 0xe2 && b == 0 && v != 0) {
         if (id2 == 0x1f6)
-            func_021FF374((void *)func_021F8694(), s->fdc, 0);
+            BTLV_MCSS_SetVanishMode((void *)BTLV_EFFECT_GetMcss(), s->fdc, 0);
         func_020307B0(s->f1e8);
         s->h258 = 0x34;
         p = ARC_TOOL_LoadMember(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));

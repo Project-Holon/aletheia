@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DE0
+ * function: PALETTE_ANIME_BindImpl
  * address: 0x021C2DE0
  * packet: pkt_ov217_021C2DE0
  * region: ov217
@@ -14,7 +14,7 @@
 #include "../include/Obj06721.h"
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern char d_021C408C[];
-void func_021C2DE0(char *p, unsigned short *dst, unsigned short *src, int count)
+void PALETTE_ANIME_BindImpl(char *p, unsigned short *dst, unsigned short *src, int count)
 {
     int i;
     ((struct Obj06721 *)p)->f4 = 1;

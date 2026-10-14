@@ -1,5 +1,5 @@
 /*
- * function: func_02179D3C
+ * function: IRCNET_IsLinkAlive
  * address:  0x02179D3C
  * packet:   pkt_ov015_02179D3C
  * region:   ov015
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern int func_0217A024(void);
 extern struct s_ab40 d_0217AB40;
 
-int func_02179D3C(void)
+int IRCNET_IsLinkAlive(void)
 {
     u32 a;
     u32 b;

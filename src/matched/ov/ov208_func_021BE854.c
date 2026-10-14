@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE854
+ * function: ZUKAN_DETAIL_HEADBAR_SetIconForm
  * address:  0x021BE854
  * packet:   pkt_ov208_021BE854
  * region:   ov208
@@ -22,7 +22,7 @@ struct Ov208Icon {
     u8  step;
 };
 
-void ov208_func_021BE854(struct Ov208Icon *p)
+void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p)
 {
     if (p->state != 0) {
         p->state = 3;

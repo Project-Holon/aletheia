@@ -1,5 +1,5 @@
 /*
- * function: func_021FFEB4
+ * function: WORLDTRADE_TITLE_CallStateHandler
  * address:  0x021FFEB4
  * packet:   pkt_021FFEB4
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void *g_02203E58[];
 
-void func_021FFEB4(u8 *p)
+void WORLDTRADE_TITLE_CallStateHandler(u8 *p)
 {
     ((void (*)(u8 *))g_02203E58[*(u32 *)(p + 0x28)])(p);
 }

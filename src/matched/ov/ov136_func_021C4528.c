@@ -1,5 +1,5 @@
 /*
- * function: func_021C4528
+ * function: MAILSYS_OnTouchMode
  * address:  0x021C4528
  * packet:   pkt_ov136_021C4528
  * region:   ov136
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4528 0x021C4528 thumb
- *   func_021C44FC 0x021C44FC thumb
+ *   MAILSYS_OnTouchMode 0x021C4528 thumb
+ *   MAILSYS_ResetCursorBlend 0x021C44FC thumb
  */
 typedef unsigned char  u8;
-extern void func_021C44FC(u8 *p);
-int func_021C4528(void *a)
+extern void MAILSYS_ResetCursorBlend(u8 *p);
+int MAILSYS_OnTouchMode(void *a)
 {
-    func_021C44FC(a);
+    MAILSYS_ResetCursorBlend(a);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5248
+ * function: ZUKAN_DETAIL_FORM_OnAnimStopRequest
  * address:  0x021C5248
  * packet:   pkt_ov208_021C5248
  * region:   ov208
@@ -26,7 +26,7 @@ struct Ov208Turn {
 
 extern void MCSS_RequestAnimeStopAtStart(void *o);
 
-void ov208_func_021C5248(struct Ov208Turn *t)
+void ZUKAN_DETAIL_FORM_OnAnimStopRequest(struct Ov208Turn *t)
 {
     u8 *scene = t->scene;
 

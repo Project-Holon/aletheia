@@ -1,5 +1,5 @@
 /*
- * function: func_021DE064
+ * function: DENDOU_VIEW_SetActorVisible
  * address:  0x021DE064
  * packet:   pkt_021DE064
  * region:   ov171
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
-void func_021DE064(int *p, int i, int a)
+void DENDOU_VIEW_SetActorVisible(int *p, int i, int a)
 {
     int v = *(int *)((char *)p + i * 4 + 0xB74);
 

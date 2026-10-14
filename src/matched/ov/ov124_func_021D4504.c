@@ -1,5 +1,5 @@
 /*
- * function: func_021D4504
+ * function: CG_HELP_ExitDisplay
  * address: 0x021D4504
  * packet: pkt_ov124_021D4504
  * region: ov124
@@ -25,4 +25,4 @@ extern void CLACT_ExitSystem(void);
 extern void func_020403F4(u32);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-void func_021D4504(char *p) {CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00991 *)p)->f4C);CLACT_ExitSystem();func_020403F4(4);func_020403F4(5);func_020403F4(6);func_020403F4(7);BMP_WIN_Exit();func_0203F9B4();}
+void CG_HELP_ExitDisplay(char *p) {CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj00991 *)p)->f4C);CLACT_ExitSystem();func_020403F4(4);func_020403F4(5);func_020403F4(6);func_020403F4(7);BMP_WIN_Exit();func_0203F9B4();}

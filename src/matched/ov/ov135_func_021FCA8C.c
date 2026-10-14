@@ -1,5 +1,5 @@
 /*
- * function: func_021FCA8C
+ * function: WORLDTRADE_DETAIL_PrintMonName
  * address:  0x021FCA8C
  * packet:   pkt_021FCA8C
  * region:   ov135
@@ -14,7 +14,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_SetString  0x02045924  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_021F91A0  0x021F91A0  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   STRBUF_Delete  0x02045808  arm
  */
 
@@ -36,10 +36,10 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *g)
+void WORLDTRADE_DETAIL_PrintMonName(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2, void *g)
 {
     void *s0;
     void *s1;
@@ -52,10 +52,10 @@ void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2,
     STRBUF_SetString(s0, name);
     t1 = func_02045EC0(bank, 0xC2);
     POKE_TOOL_GetPartyValue(mon, 0x8D, (u32)s1);
-    func_021F91A0(pane->win0, t0, 0, 0, 0, 0x3C40, g);
-    func_021F91A0(pane->win1, s0, 0, 0, 0, 0x440, g);
-    func_021F91A0(pane2->win0, t1, 0, 0, 0, 0x3C40, g);
-    func_021F91A0(pane2->win1, s1, 1, 0, 0, 0x440, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, t0, 0, 0, 0, 0x3C40, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s0, 0, 0, 0, 0x440, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win0, t1, 0, 0, 0, 0x3C40, g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win1, s1, 1, 0, 0, 0x440, g);
     STRBUF_Delete(t0);
     STRBUF_Delete(s0);
     STRBUF_Delete(t1);

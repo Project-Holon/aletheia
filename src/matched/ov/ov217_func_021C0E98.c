@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E98
+ * function: RingQueue_FreeBuffer
  * address:  0x021C0E98
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C0E98(u8 *a0)
+void RingQueue_FreeBuffer(u8 *a0)
 {
     func_020307B0((void *)((u32)(((struct Obj26003 *)a0)->f0)));
 }

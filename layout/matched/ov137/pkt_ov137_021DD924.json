@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD924",
+   "name": "GURU2_RECEIPT_Noop",
    "address": "0x021DD924",
    "kind": "game",
    "region": "ov137",

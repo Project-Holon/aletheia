@@ -1,5 +1,5 @@
 /*
- * function: func_021C20C0
+ * function: ZUKAN_DETAIL_AREA_DrawNoDataMessage
  * address:  0x021C20C0
  * packet:   pkt_ov208_021C20C0
  * region:   ov208
@@ -19,7 +19,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   func_021C0740  0x021C0740  thumb  ov208
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_021C0CC0  0x021C0CC0  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible  0x021C0CC0  thumb  ov208
  *   func_021C0C8C  0x021C0C8C  thumb  ov208
  */
 #include "../include/Obj00081.h"
@@ -46,10 +46,10 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021C0740(void *a0, u8 *st, void *a2, u8 i);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
-extern int func_021C0CC0(void *a0, u8 *st, void *a2);
+extern int ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(void *a0, u8 *st, void *a2);
 extern void func_021C0C8C(void *a0, u8 *st, void *a2, int on);
 
-void func_021C20C0(void *a0, u8 *st, void *a2)
+void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *a0, u8 *st, void *a2)
 {
     int res = CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Obj00081 *)st)->fC8));
 
@@ -84,7 +84,7 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
                 CLACT_SetActorDrawEnable((struct Obj *)*(int *)(st + 0xdc + i * 4), 1);
             }
         }
-        if (func_021C0CC0(a0, st, a2) == 0) {
+        if (ZUKAN_DETAIL_AREA_IsPlayerMarkerVisible(a0, st, a2) == 0) {
             func_021C0C8C(a0, st, a2, 1);
         }
     }

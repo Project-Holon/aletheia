@@ -14,12 +14,12 @@
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E1DF0 0x021E1DF0 thumb ov183
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF67C 0x021FF67C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetUploadedDataNumber 0x021FF67C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   _ll_udiv 0x0209C00C arm
@@ -60,11 +60,11 @@ typedef unsigned char  u8;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *p);
-extern int func_021FF72C(char *p, int *out);
-extern u32 func_021FF67C(u8 *p, unsigned long long *out);
-extern int func_021FC214(char *),func_021FC21C(char *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *p);
+extern int BR_NET_PollErrorMessage(char *p, int *out);
+extern u32 BR_NET_GetUploadedDataNumber(u8 *p, unsigned long long *out);
+extern int BR_RES_GetMsgData(char *),BR_RES_GetWordSet(char *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -90,17 +90,17 @@ void func_021E1E3C(int *task,int *state,char *p) {
         BATTLE_REC_Load(GAME_DATA_GetSaveControl(((struct Obj24638 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f14),89,&out,0);
         if(out==1)*state=1;else func_021FD73C((int *)task,(int)func_021E1DF0);break;
     case 1:
-        ((struct Obj01275 *)p)->f1C=0;func_021FF54C(((struct Obj24639 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,2,0);*state=2;break;
+        ((struct Obj01275 *)p)->f1C=0;BR_NET_StartRequest(((struct Obj24639 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,2,0);*state=2;break;
     case 2:
         ++((struct Obj01275 *)p)->f1C;
-        if(func_021FF648(((struct Obj24640 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10)) {
+        if(BR_NET_IsIdle(((struct Obj24640 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10)) {
             total=0;
             if(((struct Obj01275 *)p)->f1C>=96) {
-                result=func_021FF72C(((struct Obj24641 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,(int *)(&msg));
+                result=BR_NET_PollErrorMessage(((struct Obj24641 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,(int *)(&msg));
                 if(result==0) {
-                    if(func_021FF67C(((struct Obj24642 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,&total)) {
-                        bank=(void *)func_021FC214(*(char * *)&((struct Obj24643 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f8);
-                        ws=(void *)func_021FC21C(*(char * *)&((struct Obj24644 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f8);
+                    if(BR_NET_GetUploadedDataNumber(((struct Obj24642 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,&total)) {
+                        bank=(void *)BR_RES_GetMsgData(*(char * *)&((struct Obj24643 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f8);
+                        ws=(void *)BR_RES_GetWordSet(*(char * *)&((struct Obj24644 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f8);
                         str=func_02045EC0(bank,334);expanded=STRBUF_Create(128,0x8059);
                         copy=total;quotient=copy/100000;
                         func_0201EFA4(ws,2,(u32)(copy%100000),5,2,1);

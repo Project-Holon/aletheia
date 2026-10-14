@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F34CC",
+   "name": "MBi_ReadSegmentHeader",
    "address": "0x021F34CC",
    "kind": "sdk",
    "region": "ov107",

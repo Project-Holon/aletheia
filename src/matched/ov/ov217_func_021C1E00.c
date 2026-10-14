@@ -1,5 +1,5 @@
 /*
- * function: func_021C1E00
+ * function: CircleGraph_DestroyQueue
  * address:  0x021C1E00
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Tail-call veneer with one argument load: passes the word at offset 0xc on
- * to func_021C0E3C.  Reached from func_021C1D74's veneer.
+ * to RingQueue_Destroy.  Reached from CircleGraph_DestroyQueueImpl's veneer.
  *
  * symbols:
- *   func_021C0E3C  0x021C0E3C  thumb  ov217
+ *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -28,9 +28,9 @@ typedef struct {
     u32 a;
 } Rec;
 
-extern void func_021C0E3C(void *p);
+extern void RingQueue_Destroy(void *p);
 
-void func_021C1E00(Rec *p)
+void CircleGraph_DestroyQueue(Rec *p)
 {
-    func_021C0E3C((void *)p->a);
+    RingQueue_Destroy((void *)p->a);
 }

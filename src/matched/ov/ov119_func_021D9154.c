@@ -1,5 +1,5 @@
 /*
- * function: func_021D9154
+ * function: POKETRADE_PROC_RecvOfferMon2
  * address:  0x021D9154
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,14 +12,14 @@
  * Encoder session getter on the byte pointed at by the third argument.
  *
  * symbols:
- *   func_021D90E8  0x021D90E8  thumb  ov119
+ *   POKETRADE_PROC_RecvOfferMonCommon  0x021D90E8  thumb  ov119
  */
 #include "../include/Obj22710.h"
 
-extern int func_021D90E8(int a, int b, int c, int d, int e);
+extern int POKETRADE_PROC_RecvOfferMonCommon(int a, int b, int c, int d, int e);
 
-int func_021D9154(int a, int b, int c, int d, int e)
+int POKETRADE_PROC_RecvOfferMon2(int a, int b, int c, int d, int e)
 {
-    return func_021D90E8(((struct Obj22710 *)c)->f0, 2, a, d, e);
+    return POKETRADE_PROC_RecvOfferMonCommon(((struct Obj22710 *)c)->f0, 2, a, d, e);
 }
 

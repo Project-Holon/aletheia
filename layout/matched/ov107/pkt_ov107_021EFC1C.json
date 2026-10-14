@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EFC1C",
+   "name": "MB_COMM_SYS_UpdateSaveState",
    "address": "0x021EFC1C",
    "kind": "game",
    "region": "ov107",

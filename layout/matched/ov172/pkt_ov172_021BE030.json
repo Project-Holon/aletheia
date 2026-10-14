@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE030",
+   "name": "COMM_TVT_SYS_SetReturnedFromChild",
    "address": "0x021BE030",
    "kind": "game",
    "region": "ov172",

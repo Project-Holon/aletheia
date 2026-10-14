@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A18
+ * function: PALETTE_ANIME_StartImpl
  * address:  0x021C2A18
  * packet:   pkt_ov217_021C09D8
  * region:   ov217
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021C2A18(u8 *p, u32 b, u16 c)
+void PALETTE_ANIME_StartImpl(u8 *p, u32 b, u16 c)
 {
     ((struct Obj08447 *)p)->f14 = 1;
     ((struct Obj08447 *)p)->f18 = b;

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FLDMMDL_GetPlayerAnimeState
+ * function: SCRCMD_FLDMMDL_CheckPlayerFormModel
  * address:  0x021B2040
  * packet:   pkt_ov021_021B2040
  * region:   ov021
@@ -28,7 +28,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int FIELD_PLAYER_CheckFormModel(u8 *p);
 
-int SCRCMD_FLDMMDL_GetPlayerAnimeState(u32 a, u32 b)
+int SCRCMD_FLDMMDL_CheckPlayerFormModel(u32 a, u32 b)
 {
     void *x = FIELDMAP_GetFieldPlayer((struct Obj00020 *)(((u32 *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))[1]));
     u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

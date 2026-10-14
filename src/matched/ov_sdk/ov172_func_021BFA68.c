@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA68
+ * function: writeblock
  * address:  0x021BFA68
  * packet:   pkt_ov172_021BFA68
  * region:   ov172
@@ -141,7 +141,7 @@ extern s32 Crgtab[256];
 extern s16 Cbbtab[256];
 extern s32 Cbgtab[256];
 
-void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
+void writeblock(u8 *d, int x, int y, int dx, int dy)
 {
     int e, m, n, s, t, z, rr;
     int g, b, cb, cr;

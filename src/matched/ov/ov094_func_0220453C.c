@@ -1,5 +1,5 @@
 /*
- * function: func_0220453C
+ * function: BTLV_INPUT_BgWipeTaskMain
  * address:  0x0220453C
  * packet:   pkt_ov094_0220453C
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02040618  0x02040618  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef struct Ctx {
     char *main;
@@ -24,9 +24,9 @@ typedef struct Ctx {
 
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_0220453C(int a0, Ctx *c)
+void BTLV_INPUT_BgWipeTaskMain(int a0, Ctx *c)
 {
     if (c->state == 0) {
         func_02040618(4, 0, c->a8);
@@ -38,5 +38,5 @@ void func_0220453C(int a0, Ctx *c)
     func_02040618(4, 3, c->ac);
     c->cnt = c->cnt - 1;
     if (c->cnt == 0)
-        func_0220687C(c->main, (void *)a0);
+        BTLV_INPUT_DeleteTask(c->main, (void *)a0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C68A0
+ * function: MB_SEQ_Update
  * address:  0x021C68A0
  * packet:   pkt_ov136_021C68A0
  * region:   ov136
@@ -17,7 +17,7 @@
  *   TCBL_Main            0x020310C4  arm
  *   BMP_WIN_TransferChars            0x02045334  arm
  *   BMP_WIN_GetBmp            0x02045770  arm
- *   func_021C6594 0x021C6594 thumb
+ *   MB_SEQ_DrawActors 0x021C6594 thumb
  *   d_021C7DA8 0x021C7DA8 data a4
  */
 #include "../include/Obj01752.h"
@@ -38,7 +38,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern int (*const d_021C7DA8[])(u8 *);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
-extern void func_021C6594(u8 *);
+extern void MB_SEQ_DrawActors(u8 *);
 struct Descriptor;
 struct PrintSys;
 struct Tcbl;
@@ -48,7 +48,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void TCBL_Main(struct Tcbl *p);
 extern void PMS_DRAW_Main(u8 *p);
-int func_021C68A0(u8 *p, int *st)
+int MB_SEQ_Update(u8 *p, int *st)
 {
     int i;
     int j;
@@ -58,7 +58,7 @@ int func_021C68A0(u8 *p, int *st)
     }
     if (*(u8 * *)&((struct Obj01752 *)p)->f8 != 0) {
         BGWINFRM_UpdateMoves(**(struct WinMgr ** *)&((struct Obj01752 *)p)->f8);
-        func_021C6594(*(u8 * *)&((struct Obj01752 *)p)->f8);
+        MB_SEQ_DrawActors(*(u8 * *)&((struct Obj01752 *)p)->f8);
         if (((struct Obj23598 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4 != 0) {
             PRINTSYS_QUE_Main(((struct Obj23599 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4);
             for (i = 0; i < 0x1B; i++) {

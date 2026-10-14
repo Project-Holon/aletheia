@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A80
+ * function: SSP_GetJpegEncoderBufferSize
  * address:  0x021C1A80
  * packet:   pkt_ov172_021C1A80
  * region:   ov172
@@ -12,12 +12,12 @@
  * sdk:      SSP_GetJpegEncoderBufferSize (jpegenc.o)
  *
  * symbols:
- *   func_021C19E4  0x021C19E4  arm  ov172
+ *   Yos_JPEGGetMemorySize  0x021C19E4  arm  ov172
  */
 
-extern unsigned long func_021C19E4(unsigned long width, unsigned long height, unsigned long sampling);
+extern unsigned long Yos_JPEGGetMemorySize(unsigned long width, unsigned long height, unsigned long sampling);
 
-unsigned long func_021C1A80(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option)
+unsigned long SSP_GetJpegEncoderBufferSize(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option)
 {
     unsigned long thumb;
     unsigned long mainSize;
@@ -30,8 +30,8 @@ unsigned long func_021C1A80(unsigned long width, unsigned long height, unsigned 
         if (height < 120)
             height = 120;
     }
-    mainSize = func_021C19E4(width, height, sampling);
-    thumbSize = func_021C19E4(160, 120, 1);
+    mainSize = Yos_JPEGGetMemorySize(width, height, sampling);
+    thumbSize = Yos_JPEGGetMemorySize(160, 120, 1);
     if (mainSize > thumbSize)
         return mainSize + (thumb ? 0x12c00 : 0);
     return thumbSize + (thumb ? 0x12c00 : 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5420
+ * function: WORLDTRADE_BOX_CreateActors
  * address:  0x021F5420
  * packet:   pkt_021F5420
  * region:   ov135
@@ -19,7 +19,7 @@
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_StopActorAnim  0x0204B974  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   func_021F4EA0  0x021F4EA0  thumb
+ *   WORLDTRADE_SetActorSurfacePos  0x021F4EA0  thumb
  *   tbl_02202D24   0x02202D24  data  a2
  *   tbl_02202C50   0x02202C50  data  a2
  */
@@ -82,9 +82,9 @@ extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_SetActorBgPriority(u32, int);
 extern void CLACT_StopActorAnim(struct Actor *a);
-extern void func_021F4EA0(u32, u16, u16);
+extern void WORLDTRADE_SetActorSurfacePos(u32, u16, u16);
 
-void func_021F5420(Work *p)
+void WORLDTRADE_BOX_CreateActors(Work *p)
 {
     Local s;
     int i;
@@ -151,5 +151,5 @@ void func_021F5420(Work *p)
     CLACT_StopActorAnim((struct Actor *)p->sub.f3C);
     CLACT_SetActorDrawEnable((struct Obj *)p->sub.f3C, 0);
     CLACT_SetActorDrawEnable((struct Obj *)p->fD38, 1);
-    func_021F4EA0(p->fD38, 0x37, 0xa8);
+    WORLDTRADE_SetActorSurfacePos(p->fD38, 0x37, 0xa8);
 }

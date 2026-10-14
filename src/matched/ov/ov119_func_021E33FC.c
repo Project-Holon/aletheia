@@ -1,5 +1,5 @@
 /*
- * function: func_021E33FC
+ * function: POKETRADE_3D_SetMcssOffsetForSpecies
  * address: 0x021E33FC
  * packet: pkt_ov119_021E33FC
  * region: ov119
@@ -59,7 +59,7 @@ extern void MCSS_SetOfsPosition(void *p, u32 *src);
 
 #define F32_TO_FX32(f) ((int)(((f) > 0) ? ((f) * 4096.0f + 0.5f) : ((f) * 4096.0f - 0.5f)))
 
-void func_021E33FC(void *p0, int *dir, int p2, void *mon)
+void POKETRADE_3D_SetMcssOffsetForSpecies(void *p0, int *dir, int p2, void *mon)
 {
     Vec v;
     int flag = 0;

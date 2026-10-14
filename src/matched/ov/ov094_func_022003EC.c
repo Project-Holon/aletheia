@@ -1,5 +1,5 @@
 /*
- * function: func_022003EC
+ * function: BTLV_MCSS_MakeAddWorkFromPoke
  * address:  0x022003EC
  * packet:   pkt_ov094_022003EC
  * region:   ov094
@@ -26,7 +26,7 @@ extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 
-void func_022003EC(Work *w, void *p, int *a, int flags)
+void BTLV_MCSS_MakeAddWorkFromPoke(Work *w, void *p, int *a, int flags)
 {
     int v = 1;
 

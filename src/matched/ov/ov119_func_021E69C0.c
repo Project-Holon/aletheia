@@ -1,5 +1,5 @@
 /*
- * function: func_021E69C0
+ * function: POKETRADE_2D_StepCursorSlide
  * address: 0x021E69C0
  * packet: pkt_ov119_021E69C0
  * region: ov119
@@ -26,7 +26,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-int func_021E69C0(char *p)
+int POKETRADE_2D_StepCursorSlide(char *p)
 {
     Pt a,b,c;
     int i;

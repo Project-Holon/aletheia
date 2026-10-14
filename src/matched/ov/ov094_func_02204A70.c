@@ -1,5 +1,5 @@
 /*
- * function: func_02204A70
+ * function: BTLV_INPUT_WaitFadeTaskEnd
  * address:  0x02204A70
  * packet:   pkt_ov094_02204A70
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_02204A70(void *h)
+void BTLV_INPUT_WaitFadeTaskEnd(void *h)
 {
     char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits *)(p + 0x68))->mode = 0;

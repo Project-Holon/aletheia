@@ -1,5 +1,5 @@
 /*
- * function: func_021BC824
+ * function: ZUKAN_LIST_CreateFontAndPrinter
  * address: 0x021BC824
  * packet: pkt_ov209_021BC824
  * region: ov209
@@ -28,7 +28,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-void func_021BC824(char *p)
+void ZUKAN_LIST_CreateFontAndPrinter(char *p)
 {
     ((struct Obj00123 *)p)->f3C = func_02045B38(0, 2, 0x114, 0x6B);
     ((struct Obj00123 *)p)->f38 = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);

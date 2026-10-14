@@ -1,5 +1,5 @@
 /*
- * function: func_021F9948
+ * function: BTLV_EFFVM_StartSeVolumeTask
  * address: 0x021F9948
  * packet: pkt_ov094_021F9948
  * region: ov094
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  *   func_02030734 0x02030734 arm
  *   func_02030DA8 0x02030DA8 arm
  *   func_0207C768 0x0207C768 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021FE594 0x021FE594 thumb ov094
- *   func_021FE690 0x021FE690 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFVM_SeVolumeTweenTaskMain 0x021FE594 thumb ov094
+ *   BTLV_EFFVM_SeVolumeTweenTaskEnd 0x021FE690 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -47,23 +47,23 @@ typedef struct {
     int duration;
 } Job;
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE594(void *h, int *s);
-extern void func_021FE690(void *);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFVM_SeVolumeTweenTaskMain(void *h, int *s);
+extern void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *);
 extern const char d_0220AE68[];
 #define FX(x) ((int)(((x) > 0) ? (0.5f + (float)((x) << 12)) : ((float)((x) << 12) - 0.5f)))
 
-void func_021F9948(void *vm, u32 a, int mode, int c, int x, int dest, int e, int f, int g, int duration)
+void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 a, int mode, int c, int x, int dest, int e, int f, int g, int duration)
 {
     Work *w;
     Job *j;
     float ff;
     int fd;
-    w = func_02011324(vm);
+    w = VM_GetUserData(vm);
     j = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0x455);
     j->work = w;
     j->a = a;
@@ -86,6 +86,6 @@ void func_021F9948(void *vm, u32 a, int mode, int c, int x, int dest, int e, int
         ff = (float)(j->f << 12) - 0.5f;
     fd = FX(j->dest - j->x);
     j->delta = func_0207C768(fd, (int)ff);
-    func_021F896C(func_02030DA8(w->owner, (void (*)(void *, void *))func_021FE594, j, 0), func_021FE690, 1);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(w->owner, (void (*)(void *, void *))BTLV_EFFVM_SeVolumeTweenTaskMain, j, 0), BTLV_EFFVM_SeVolumeTweenTaskEnd, 1);
     w->flags |= 8;
 }

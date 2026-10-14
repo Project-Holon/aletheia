@@ -1,5 +1,5 @@
 /*
- * function: func_021C6C34
+ * function: MB_SEQ_StateList
  * address: 0x021C6C34
  * packet: pkt_ov136_021C6C34
  * region: ov136
@@ -12,11 +12,11 @@
  *   func_02025DE8 0x02025DE8 thumb
  *   func_020260E0 0x020260E0 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021C7648 0x021C7648 thumb
- *   func_021C7250 0x021C7250 thumb
- *   func_021C71D0 0x021C71D0 thumb
- *   func_021C66A0 0x021C66A0 thumb
- *   func_021C7738 0x021C7738 thumb
+ *   MB_SEQ_GetPageButtonHit 0x021C7648 thumb
+ *   MB_SEQ_StartArrowFlash 0x021C7250 thumb
+ *   MB_SEQ_StartMailFlash 0x021C71D0 thumb
+ *   MB_SEQ_SetActorAnim 0x021C66A0 thumb
+ *   MB_SEQ_IsXPressed 0x021C7738 thumb
  */
 #include "../include/Obj00412.h"
 #include "../include/Obj23618.h"
@@ -31,16 +31,16 @@ typedef unsigned int u32;
 struct PrintSys;
 struct Sound;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern int func_021C7648(u8 *p);
+extern int MB_SEQ_GetPageButtonHit(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern int func_021C7250(u8 *p, int v, int w);
-extern int func_021C71D0(u8 *p, int v, int w);
-extern void func_021C66A0(u8 *p, int i, u32 v);
+extern int MB_SEQ_StartArrowFlash(u8 *p, int v, int w);
+extern int MB_SEQ_StartMailFlash(u8 *p, int v, int w);
+extern void MB_SEQ_SetActorAnim(u8 *p, int i, u32 v);
 extern int func_02025DE8(struct Sound *obj);
 extern u8 func_020260E0(struct Sound *obj);
-extern int func_021C7738(void);
+extern int MB_SEQ_IsXPressed(void);
 
-int func_021C6C34(u8 *p)
+int MB_SEQ_StateList(u8 *p)
 {
     u32 k;
     u8 *r;
@@ -48,29 +48,29 @@ int func_021C6C34(u8 *p)
     if (PRINTSYS_QUE_IsFinished(((struct Obj23618 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f1C4) == 0) {
         return 9;
     }
-    switch (func_021C7648(p)) {
+    switch (MB_SEQ_GetPageButtonHit(p)) {
     case 0:
         if (((struct Obj00412 *)p)->f1C != 0) {
             ((struct Obj00412 *)p)->f1C -= 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            return func_021C7250(p, 0, 0xB);
+            return MB_SEQ_StartArrowFlash(p, 0, 0xB);
         }
         return 9;
     case 1:
         if (((struct Obj00412 *)p)->f1C != ((struct Obj23619 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f2FE) {
             ((struct Obj00412 *)p)->f1C += 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            return func_021C7250(p, 1, 0xB);
+            return MB_SEQ_StartArrowFlash(p, 1, 0xB);
         }
         return 9;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_021C66A0(((struct Obj00412 *)p)->f8, 3, 9);
+        MB_SEQ_SetActorAnim(((struct Obj00412 *)p)->f8, 3, 9);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x18;
     case 3:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        func_021C66A0(((struct Obj00412 *)p)->f8, 7, 8);
+        MB_SEQ_SetActorAnim(((struct Obj00412 *)p)->f8, 7, 8);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x19;
     }
@@ -93,10 +93,10 @@ int func_021C6C34(u8 *p)
         p[0x1E] = k;
         p[0x1F] = r[0x2E8];
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        return func_021C71D0(p, k, 0xC);
+        return MB_SEQ_StartMailFlash(p, k, 0xC);
     case (u32)-2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_021C66A0(((struct Obj00412 *)p)->f8, 3, 9);
+        MB_SEQ_SetActorAnim(((struct Obj00412 *)p)->f8, 3, 9);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x18;
     case (u32)-5:
@@ -104,7 +104,7 @@ int func_021C6C34(u8 *p)
         if (((struct Obj00412 *)p)->f1C != ((struct Obj23622 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f2FE) {
             ((struct Obj00412 *)p)->f1C += 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            return func_021C7250(p, 1, 0xB);
+            return MB_SEQ_StartArrowFlash(p, 1, 0xB);
         }
         break;
     case (u32)-6:
@@ -112,7 +112,7 @@ int func_021C6C34(u8 *p)
         if (((struct Obj00412 *)p)->f1C != 0) {
             ((struct Obj00412 *)p)->f1C -= 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            return func_021C7250(p, 0, 0xB);
+            return MB_SEQ_StartArrowFlash(p, 0, 0xB);
         }
         break;
     case (u32)-3:
@@ -121,9 +121,9 @@ int func_021C6C34(u8 *p)
     case (u32)-4:
         break;
     default:
-        if (func_021C7738()) {
+        if (MB_SEQ_IsXPressed()) {
             GFL_USE_PlaySeDefaultVolume(0x556);
-            func_021C66A0(((struct Obj00412 *)p)->f8, 7, 8);
+            MB_SEQ_SetActorAnim(((struct Obj00412 *)p)->f8, 7, 8);
             ((struct Obj00412 *)p)->f28 = 10;
             return 0x19;
         }

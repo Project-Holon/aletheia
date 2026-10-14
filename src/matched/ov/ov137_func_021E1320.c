@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E1320, func_021E13A8
+ * function: GURU2_MAIN_UpdateScreenFlash, GURU2_MAIN_ScreenFlashTask
  * address: 0x021E1320
  * packet: pkt_ov137_021E1320
  * region: ov137
@@ -10,25 +10,25 @@
  * status: EXACT
  * follower: 021E13A8 tail-forwards r1 and r1+0xC88 to this callback.
  * symbols:
- *   func_021DFEA0 0x021DFEA0 thumb ov137
- *   func_021DFEAC 0x021DFEAC thumb ov137
- *   func_021DFEB8 0x021DFEB8 thumb ov137
+ *   GURU2_MAIN_LoadScreen26 0x021DFEA0 thumb ov137
+ *   GURU2_MAIN_LoadScreen24 0x021DFEAC thumb ov137
+ *   GURU2_MAIN_LoadScreen25 0x021DFEB8 thumb ov137
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned short u16;
 typedef struct { u16 state, flag; int count; } State;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021DFEA0(u8 *p);
-extern void func_021DFEAC(u8 *p);
-extern void func_021DFEB8(u8 *p);
+extern void GURU2_MAIN_LoadScreen26(u8 *p);
+extern void GURU2_MAIN_LoadScreen24(u8 *p);
+extern void GURU2_MAIN_LoadScreen25(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021E1320(void *task, State *p)
+void GURU2_MAIN_UpdateScreenFlash(void *task, State *p)
 {
     switch (p->state) {
     case 0: break;
     case 1:
-        func_021DFEA0(task);
+        GURU2_MAIN_LoadScreen26(task);
         GFL_USE_PlaySeDefaultVolume(1832);
         p->count = 0;
         p->state++;
@@ -37,13 +37,13 @@ void func_021E1320(void *task, State *p)
         if (p->count >= 2) {
             p->count = 0;
             p->state++;
-            func_021DFEB8(task);
+            GURU2_MAIN_LoadScreen25(task);
         }
         break;
     case 3:
         p->count++;
         if (p->count >= 4) {
-            func_021DFEA0(task);
+            GURU2_MAIN_LoadScreen26(task);
             p->count = 0;
             p->state++;
         }
@@ -51,14 +51,14 @@ void func_021E1320(void *task, State *p)
     case 4:
         p->count++;
         if (p->count >= 2) {
-            func_021DFEAC(task);
+            GURU2_MAIN_LoadScreen24(task);
             p->flag = 0;
             p->state = 0;
         }
         break;
     }
 }
-void func_021E13A8(void *unused, char *p)
+void GURU2_MAIN_ScreenFlashTask(void *unused, char *p)
 {
-    func_021E1320(p, (State *)(p + 0xc88));
+    GURU2_MAIN_UpdateScreenFlash(p, (State *)(p + 0xc88));
 }

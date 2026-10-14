@@ -1,5 +1,5 @@
 /*
- * function: func_021F34CC
+ * function: MBi_ReadSegmentHeader
  * address:  0x021F34CC
  * packet:   pkt_ov107_021F34CC
  * region:   ov107
@@ -29,7 +29,7 @@ typedef struct {
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
-void func_021F34CC(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
+void MBi_ReadSegmentHeader(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
 {
     if (top < 0x4000)
         top = 0x4000;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E62D4
+ * function: POKETRADE_2D_DeleteOfferIconActor
  * address: 0x021E62D4
  * packet: pkt_ov119_021E62D4
  * region: ov119
@@ -22,7 +22,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021E62D4(Work *p, int a, int b)
+void POKETRADE_2D_DeleteOfferIconActor(Work *p, int a, int b)
 {
     if (p->h[a][b]) {
         CLACT_DeleteActor((struct Obj *)p->h[a][b]);

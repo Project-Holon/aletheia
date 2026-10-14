@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDE0
+ * function: ZUKAN_LIST_StateWaitFade
  * address: 0x021BCDE0
  * packet: pkt_ov209_021BCDE0
  * region: ov209
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 PALANM_GetFadeRequestBits(const char *);
-int func_021BCDE0(char *p) { if(PALANM_GetFadeRequestBits(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }
+int ZUKAN_LIST_StateWaitFade(char *p) { if(PALANM_GetFadeRequestBits(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }

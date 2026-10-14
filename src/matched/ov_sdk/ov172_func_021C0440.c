@@ -31,8 +31,8 @@
  * placeholder), declared in the order that reproduces the vendor offsets.
  *
  * symbols:
- *   func_021C0370  0x021C0370  arm   ov172
- *   func_021C03C0  0x021C03C0  arm   ov172
+ *   GetWord  0x021C0370  arm   ov172
+ *   GetLong  0x021C03C0  arm   ov172
  *   MI_CpuCopy     0x02082EA4  arm
  *   SSPiMakerNoteBufferSize      0x021CAD9C  data
  *   SSPiMakerNoteUserBufferSize  0x021CAD9E  data
@@ -49,8 +49,8 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef signed short s16;
 
-extern u16 func_021C0370(u8 *src, u32 cur, s16 Endian);
-extern u32 func_021C03C0(u8 *src, u32 cur, s16 Endian);
+extern u16 GetWord(u8 *src, u32 cur, s16 Endian);
+extern u32 GetLong(u8 *src, u32 cur, s16 Endian);
 extern void MI_CpuCopy(void *src, void *dst, u32 size);
 static u16 SSPiSoftwareBufferSize = 0;
 static u16 SSPiMakerNoteUserBufferSize = 0;
@@ -78,7 +78,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
     if (cur + 18 >= src_size)
         return 2;
 
-    AppLen = func_021C0370(src, cur, 1);
+    AppLen = GetWord(src, cur, 1);
     cur += 2;
 
     if (src[cur++] != 'E') return 2;
@@ -88,7 +88,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
     if (src[cur++] != 0) return 2;
     if (src[cur++] != 0) return 2;
 
-    tag = func_021C0370(src, cur, 1);
+    tag = GetWord(src, cur, 1);
     cur += 2;
     if (tag == 0x4949)
         Endian = 0;
@@ -99,19 +99,19 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
 
     cur += 6;
 
-    len = func_021C0370(src, cur, Endian);
+    len = GetWord(src, cur, Endian);
     cur += 2;
     if (cur + len * 12 + 4 >= src_size)
         return 2;
 
     while (len != 0) {
-        tag = func_021C0370(src, cur, Endian);
+        tag = GetWord(src, cur, Endian);
         cur += 2;
-        type = func_021C0370(src, cur, Endian);
+        type = GetWord(src, cur, Endian);
         cur += 2;
-        count = func_021C03C0(src, cur, Endian);
+        count = GetLong(src, cur, Endian);
         cur += 4;
-        ValueOffset = func_021C03C0(src, cur, Endian);
+        ValueOffset = GetLong(src, cur, Endian);
         cur += 4;
 
         if (tag == 0x8769)
@@ -135,7 +135,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
         len--;
     }
 
-    next_ifd_offset = func_021C03C0(src, cur, Endian);
+    next_ifd_offset = GetLong(src, cur, Endian);
     cur += 4;
 
     if (next_ifd_offset == 0)
@@ -150,19 +150,19 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
         if (cur + 2 >= src_size)
             return 2;
 
-        len = func_021C0370(src, cur, Endian);
+        len = GetWord(src, cur, Endian);
         cur += 2;
         if (cur + len * 12 >= src_size)
             return 2;
 
         while (len != 0) {
-            tag = func_021C0370(src, cur, Endian);
+            tag = GetWord(src, cur, Endian);
             cur += 2;
-            type = func_021C0370(src, cur, Endian);
+            type = GetWord(src, cur, Endian);
             cur += 2;
-            count = func_021C03C0(src, cur, Endian);
+            count = GetLong(src, cur, Endian);
             cur += 4;
-            ValueOffset = func_021C03C0(src, cur, Endian);
+            ValueOffset = GetLong(src, cur, Endian);
             cur += 4;
 
             if (tag == 0x927c) {
@@ -181,15 +181,15 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 if (cur + 0xe >= src_size)
                     return 2;
 
-                len = func_021C0370(src, cur, Endian);
+                len = GetWord(src, cur, Endian);
                 cur += 2;
-                tag = func_021C0370(src, cur, Endian);
+                tag = GetWord(src, cur, Endian);
                 cur += 2;
-                type = func_021C0370(src, cur, Endian);
+                type = GetWord(src, cur, Endian);
                 cur += 2;
-                count = func_021C03C0(src, cur, Endian);
+                count = GetLong(src, cur, Endian);
                 cur += 4;
-                ValueOffset = func_021C03C0(src, cur, Endian);
+                ValueOffset = GetLong(src, cur, Endian);
                 cur += 4;
 
                 if (tag == 0x1000 && type == 7 && count == 0x1c) {
@@ -198,13 +198,13 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                         return 2;
 
                     while (len != 0) {
-                        tag = func_021C0370(src, cur, Endian);
+                        tag = GetWord(src, cur, Endian);
                         cur += 2;
-                        type = func_021C0370(src, cur, Endian);
+                        type = GetWord(src, cur, Endian);
                         cur += 2;
-                        count = func_021C03C0(src, cur, Endian);
+                        count = GetLong(src, cur, Endian);
                         cur += 4;
-                        ValueOffset = func_021C03C0(src, cur, Endian);
+                        ValueOffset = GetLong(src, cur, Endian);
                         cur += 4;
 
                         if (tag == 0x1001) {
@@ -243,19 +243,19 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 if (cur + 2 >= src_size)
                     return 2;
 
-                len = func_021C0370(src, cur, Endian);
+                len = GetWord(src, cur, Endian);
                 cur += 2;
                 if (cur + len * 12 >= src_size)
                     return 2;
 
                 while (len != 0) {
-                    tag = func_021C0370(src, cur, Endian);
+                    tag = GetWord(src, cur, Endian);
                     cur += 2;
-                    type = func_021C0370(src, cur, Endian);
+                    type = GetWord(src, cur, Endian);
                     cur += 2;
-                    count = func_021C03C0(src, cur, Endian);
+                    count = GetLong(src, cur, Endian);
                     cur += 4;
-                    ValueOffset = func_021C03C0(src, cur, Endian);
+                    ValueOffset = GetLong(src, cur, Endian);
                     cur += 4;
 
                     len--;
@@ -269,19 +269,19 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 if (cur + 2 >= src_size)
                     return 2;
 
-                len = func_021C0370(src, cur, Endian);
+                len = GetWord(src, cur, Endian);
                 cur += 2;
                 if (cur + len * 12 >= src_size)
                     return 2;
 
                 while (len != 0) {
-                    tag = func_021C0370(src, cur, Endian);
+                    tag = GetWord(src, cur, Endian);
                     cur += 2;
-                    type = func_021C0370(src, cur, Endian);
+                    type = GetWord(src, cur, Endian);
                     cur += 2;
-                    count = func_021C03C0(src, cur, Endian);
+                    count = GetLong(src, cur, Endian);
                     cur += 4;
-                    ValueOffset = func_021C03C0(src, cur, Endian);
+                    ValueOffset = GetLong(src, cur, Endian);
                     cur += 4;
 
                     if (tag == 0x201) {

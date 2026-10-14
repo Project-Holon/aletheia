@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD56C",
+   "name": "ZKND_TBAR_GetResourceSlot",
    "address": "0x021BD56C",
    "kind": "game",
    "region": "ov208",

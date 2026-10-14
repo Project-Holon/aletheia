@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DCC
+ * function: PALETTE_ANIME_Clear
  * address:  0x021C2DCC
  * packet:   pkt_021C2DCC
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021C2DCC(char *p)
+void PALETTE_ANIME_Clear(char *p)
 {
     u16 t = ((struct Obj14768 *)p)->f0;
     MI_CpuFill8(p, 0, 0x20);

@@ -17,7 +17,7 @@
  *   func_021BC4A0 0x021BC4A0 thumb ov217
  *   func_021BC50C 0x021BC50C thumb ov217
  *   func_021BC55C 0x021BC55C thumb ov217
- *   func_021C1038 0x021C1038 thumb ov217
+ *   BgTextLabel_SetPalette 0x021C1038 thumb ov217
  *   func_021BB91C 0x021BB91C thumb ov217
  *   func_021BB910 0x021BB910 thumb ov217
  */
@@ -30,7 +30,7 @@ extern void func_021BC490(void);
 extern int func_021BC4A0(void);
 extern void func_021BC50C(char *p);
 extern unsigned func_021BC55C(unsigned);
-extern void func_021C1038(u8 *p, u8 palette);
+extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
 extern void func_021BB91C(void *);
 extern void func_021BB910(u8 *, unsigned);
 void func_021BB69C(u8 *p)
@@ -50,7 +50,7 @@ void func_021BB69C(u8 *p)
         break;
     case 2:
         if (func_021BC55C((unsigned)p)) {
-            func_021C1038((u8 *)(*(unsigned *)(p + p[0x32] * 4 + 0xb4)), 15);
+            BgTextLabel_SetPalette((u8 *)(*(unsigned *)(p + p[0x32] * 4 + 0xb4)), 15);
             func_021BB91C(p);
             func_021BB910(p, 13);
         }

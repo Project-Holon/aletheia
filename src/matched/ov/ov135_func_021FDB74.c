@@ -1,5 +1,5 @@
 /*
- * function: func_021FDB74
+ * function: WORLDTRADE_SEARCH_Exit
  * address: 0x021FDB74
  * packet: pkt_ov135_021FDB74
  * region: ov135
@@ -8,39 +8,39 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F99D0 0x021F99D0 thumb ov135
- *   func_021FDEFC 0x021FDEFC thumb ov135
- *   func_021FE178 0x021FE178 thumb ov135
- *   func_021FE0BC 0x021FE0BC thumb ov135
- *   func_021FDCE4 0x021FDCE4 thumb ov135
- *   func_022000E4 0x022000E4 thumb ov135
- *   func_021F4EC8 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_INPUT_MenuDelete 0x021F99D0 thumb ov135
+ *   WORLDTRADE_SEARCH_DeleteActors 0x021FDEFC thumb ov135
+ *   WORLDTRADE_SEARCH_DeleteStrings 0x021FE178 thumb ov135
+ *   WORLDTRADE_SEARCH_DeleteWindows 0x021FE0BC thumb ov135
+ *   WORLDTRADE_SEARCH_ExitBgPlanes 0x021FDCE4 thumb ov135
+ *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
+ *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00287.h"
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern void func_021F99D0(u8 *p);
-extern void func_021FDEFC(char *p);
-extern void func_021FE178(char *p);
-extern void func_021FE0BC(unsigned char *p);
-extern void func_021FDCE4(void);
-extern void func_022000E4(char *p);
-extern void func_021F4EC8(u8 *p);
+extern void WORLDTRADE_INPUT_MenuDelete(u8 *p);
+extern void WORLDTRADE_SEARCH_DeleteActors(char *p);
+extern void WORLDTRADE_SEARCH_DeleteStrings(char *p);
+extern void WORLDTRADE_SEARCH_DeleteWindows(unsigned char *p);
+extern void WORLDTRADE_SEARCH_ExitBgPlanes(void);
+extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
+extern void WORLDTRADE_ClearBusyFlag(u8 *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-int func_021FDB74(unsigned char *p)
+int WORLDTRADE_SEARCH_Exit(unsigned char *p)
 {
     ((struct Obj00287 *)p)->fEC0 = 0;
-    func_021F99D0(((struct Obj00287 *)p)->fDE4);
-    func_021FDEFC((char *)p);
-    func_021FE178((char *)p);
-    func_021FE0BC(p);
-    func_021FDCE4();
+    WORLDTRADE_INPUT_MenuDelete(((struct Obj00287 *)p)->fDE4);
+    WORLDTRADE_SEARCH_DeleteActors((char *)p);
+    WORLDTRADE_SEARCH_DeleteStrings((char *)p);
+    WORLDTRADE_SEARCH_DeleteWindows(p);
+    WORLDTRADE_SEARCH_ExitBgPlanes();
     if (*(int *)&((struct Obj00287 *)p)->f14 == 1)
         *(int *)&((struct Obj00287 *)p)->f12E4 = 1;
-    func_022000E4((char *)p);
+    WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
-    func_021F4EC8(p);
+    WORLDTRADE_ClearBusyFlag(p);
     return 0;
 }

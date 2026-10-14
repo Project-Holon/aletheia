@@ -34,11 +34,11 @@
  * symbols:
  *   func_021DD228 0x021DD228 thumb ov183
  *   func_021DD25C 0x021DD25C thumb ov183
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
- *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_021DCBD8 0x021DCBD8 thumb ov183
@@ -69,11 +69,11 @@ typedef struct GdsRecord GdsRecord;
 typedef struct RecGet RecGet;
 extern const Descriptor d_021E32C8[];
 extern int func_021DD228(void *),func_021DD25C(void *);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
-extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
+extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern void func_021DCBD8(char *,void *,void *,u16);
@@ -100,15 +100,15 @@ void func_021DC8EC(char *p,char *q)
     U16Vec *text;
     if(!*(int *)(p+0xd4)) {
         *(int *)(p+0xd4)=1;
-        if(func_021DD228(*(void **)(p+0xc4))) func_021FB964((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
-        else func_021FB964((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
-        font=(void *)func_021FC20C(*(char **)(q+0x10));
-        bank=(MsgBank *)func_021FC214(*(char **)(q+0x10));
-        words=(WordSet *)func_021FC21C(*(char **)(q+0x10));
+        if(func_021DD228(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
+        else BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
+        font=(void *)BR_RES_GetFont(*(char **)(q+0x10));
+        bank=(MsgBank *)BR_RES_GetMsgData(*(char **)(q+0x10));
+        words=(WordSet *)BR_RES_GetWordSet(*(char **)(q+0x10));
         for(i=0;i<5;i++) {
             d=&d_021E32C8[i];
             slot=p+i*4;
-            *(void **)(slot+0x30)=func_021FC6A4(1,d->x,d->y,d->w,d->h,14,*(void **)(p+4),*(u16 *)(p+0xb4));
+            *(void **)(slot+0x30)=BR_UTIL_Create(1,d->x,d->y,d->w,d->h,14,*(void **)(p+4),*(u16 *)(p+0xb4));
             switch(i) {
             case 0:
                 {

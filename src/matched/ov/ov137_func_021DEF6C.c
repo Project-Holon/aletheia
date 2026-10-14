@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF6C
+ * function: GURU2_MAIN_RegisterPlayerRecords
  * address: 0x021DEF6C
  * packet: pkt_ov137_021DEF6C
  * region: ov137
@@ -28,7 +28,7 @@ extern void *func_0200ED48(void *);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-void func_021DEF6C(Obj *obj)
+void GURU2_MAIN_RegisterPlayerRecords(Obj *obj)
 {
     u8 *p = (u8 *)obj;
     void *q;

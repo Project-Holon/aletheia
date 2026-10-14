@@ -1,5 +1,5 @@
 /*
- * function: func_021C73C8
+ * function: MB_SEQ_CheckBagForItem
  * address: 0x021C73C8
  * packet: pkt_ov136_021C73C8
  * region: ov136
@@ -23,7 +23,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
-void func_021C73C8(u8 *p)
+void MB_SEQ_CheckBagForItem(u8 *p)
 {
     void *q = GAME_DATA_GetMyItem(**(void ** *)&((struct Obj00127 *)p)->f4);
     ((struct Obj00127 *)p)->f22 = func_020213AC(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + p[0x1F]*4 + 0x298)));

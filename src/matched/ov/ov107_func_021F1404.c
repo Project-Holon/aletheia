@@ -1,5 +1,5 @@
 /*
- * function: func_021F1404
+ * function: MB_UTIL_MSG_Create
  * address: 0x021F1404
  * packet: pkt_ov107_021F1404
  * region: ov107
@@ -82,7 +82,7 @@ extern unsigned func_02028590(int, int, int, unsigned);
 extern int func_02034AC4(int);
 extern void *TALKMSGWIN_Create(u16 *a);
 
-struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e)
+struct Work *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     struct Work *w;
     struct Arg t;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5518
+ * function: MB_SEQ_InitBgs
  * address: 0x021C5518
  * packet: pkt_ov136_021C5518
  * region: ov136
@@ -47,7 +47,7 @@ extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-void func_021C5518(u8 *a0)
+void MB_SEQ_InitBgs(u8 *a0)
 {
     func_0203F8F4(0x66);
     {

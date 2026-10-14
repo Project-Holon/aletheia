@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021C7F6C",
+   "name": "ZUKAN_DETAIL_FORM_GetModelOffsets",
    "address": "0x021C7F6C",
    "kind": "game",
    "region": "ov208",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8694
+ * function: BTLV_EFFECT_GetMcss
  * address:  0x021F8694
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data
+ *   gBtlvEff  0x0220AF20  data
  */
 
 #include "../include/G_0220AF20.h"
 
-extern struct G_0220AF20 *d_0220AF20;
+extern struct G_0220AF20 *gBtlvEff;
 
-int func_021F8694(void)
+int BTLV_EFFECT_GetMcss(void)
 {
-    return *(int *)((char *)((void *)d_0220AF20) + 0x190);
+    return *(int *)((char *)((void *)gBtlvEff) + 0x190);
 }

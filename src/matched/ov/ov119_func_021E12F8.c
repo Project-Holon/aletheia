@@ -1,5 +1,5 @@
 /*
- * function: func_021E12F8
+ * function: POKETRADE_SAVE_CloseTaskMenu
  * address: 0x021E12F8
  * packet: pkt_ov119_021E12F8
  * region: ov119
@@ -13,7 +13,7 @@
 #include "../include/Obj00001.h"
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-void func_021E12F8(char *p)
+void POKETRADE_SAVE_CloseTaskMenu(char *p)
 {
     if (((struct Obj00001 *)p)->f64C) {
         *(volatile unsigned short *)0x04000050 = 0;

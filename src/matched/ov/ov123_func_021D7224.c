@@ -1,5 +1,5 @@
 /*
- * function: func_021D7224
+ * function: GSYNC_STATE_LoadReceivedMon
  * address: 0x021D7224
  * packet: pkt_ov123_021D7224
  * region: ov123
@@ -42,7 +42,7 @@ extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
 extern const char d_021DAB78[];
-void func_021D7224(char *p)
+void GSYNC_STATE_LoadReceivedMon(char *p)
 {
     void *g;
     void *q;

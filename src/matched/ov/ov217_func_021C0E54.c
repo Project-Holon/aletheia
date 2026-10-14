@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E54
+ * function: RingQueue_Pop
  * address:  0x021C0E54
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C0EC0.
+ * Tail-call veneer: branch to RingQueue_PopImpl.
  *
  * symbols:
- *   func_021C0EC0  0x021C0EC0  thumb  ov217
+ *   RingQueue_PopImpl  0x021C0EC0  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +24,9 @@ typedef signed int     s32;
 
 struct Ring;
 
-extern u32 func_021C0EC0(struct Ring *r);
+extern u32 RingQueue_PopImpl(struct Ring *r);
 
-u32 func_021C0E54(struct Ring *r)
+u32 RingQueue_Pop(struct Ring *r)
 {
-    return func_021C0EC0(r);
+    return RingQueue_PopImpl(r);
 }

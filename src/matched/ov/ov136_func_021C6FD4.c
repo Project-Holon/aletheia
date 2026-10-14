@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C6FD4, func_021C7018
+ * function: MB_SEQ_CloseMailDetail, MB_SEQ_OpenConfirmMenuKind0
  * address: 0x021C6FD4
  * packet: pkt_ov136_021C6FD4
  * region: ov136
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C7360 0x021C7360 thumb ov136
- *   func_021C76D0 0x021C76D0 thumb ov136
- *   func_021C61D0 0x021C61D0 thumb ov136
- *   func_021C66B8 0x021C66B8 thumb ov136
- *   func_021C7298 0x021C7298 thumb ov136
- *   func_021C71BC 0x021C71BC thumb ov136
+ *   MB_SEQ_ClearMailDetailText 0x021C7360 thumb ov136
+ *   MB_SEQ_MoveCursorToPosition 0x021C76D0 thumb ov136
+ *   MB_SEQ_EmptyHookDetailReturn 0x021C61D0 thumb ov136
+ *   MB_SEQ_SetActorVisible 0x021C66B8 thumb ov136
+ *   MB_SEQ_SetButtonsEnabled 0x021C7298 thumb ov136
+ *   MB_SEQ_OpenMenuKind 0x021C71BC thumb ov136
  *   func_020260E0 0x020260E0 thumb
  *   BGWINFRM_HideFrame  0x0202CC70  thumb  arm9
  */
@@ -23,26 +23,26 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_021C7360(u8 *);
+extern void MB_SEQ_ClearMailDetailText(u8 *);
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_021C76D0(u8 *p, u32 v);
-extern void func_021C61D0(void *);
+extern void MB_SEQ_MoveCursorToPosition(u8 *p, u32 v);
+extern void MB_SEQ_EmptyHookDetailReturn(void *);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
-extern void func_021C66B8(u8 *p, int i, u32 v);
-extern void func_021C7298(void *, int);
-extern int func_021C71BC(u8 *p, int v);
-int func_021C6FD4(u8 *p)
+extern void MB_SEQ_SetActorVisible(u8 *p, int i, u32 v);
+extern void MB_SEQ_SetButtonsEnabled(void *, int);
+extern int MB_SEQ_OpenMenuKind(u8 *p, int v);
+int MB_SEQ_CloseMailDetail(u8 *p)
 {
-    func_021C7360(p);
-    func_021C76D0(p, func_020260E0(((struct Obj23628 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
-    func_021C61D0(((struct Obj01066 *)p)->f8);
+    MB_SEQ_ClearMailDetailText(p);
+    MB_SEQ_MoveCursorToPosition(p, func_020260E0(((struct Obj23628 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
+    MB_SEQ_EmptyHookDetailReturn(((struct Obj01066 *)p)->f8);
     BGWINFRM_HideFrame(**(void ** *)&((struct Obj01066 *)p)->f8, 10);
-    func_021C66B8(((struct Obj01066 *)p)->f8, 2, 1);
-    func_021C7298(((struct Obj01066 *)p)->f8, 0);
+    MB_SEQ_SetActorVisible(((struct Obj01066 *)p)->f8, 2, 1);
+    MB_SEQ_SetButtonsEnabled(((struct Obj01066 *)p)->f8, 0);
     return 9;
 }
-int func_021C7018(char *p)
+int MB_SEQ_OpenConfirmMenuKind0(char *p)
 {
-    return func_021C71BC((u8 *)p, 0);
+    return MB_SEQ_OpenMenuKind((u8 *)p, 0);
 }

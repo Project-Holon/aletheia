@@ -1,5 +1,5 @@
 /*
- * function: func_02202094
+ * function: WORLDTRADE_SERVER_WaitSave
  * address:  0x02202094
  * packet:   pkt_02202094
  * region:   ov135
@@ -26,7 +26,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int GAME_DATA_SaveMain(u8 *p);
 
-int func_02202094(u8 *p)
+int WORLDTRADE_SERVER_WaitSave(u8 *p)
 {
     if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)(((struct Obj09249 *)p)->f0 + 0x40)))) == 1) {
         ((struct Obj09249 *)p)->f28 = ((struct Obj09249 *)p)->fE0C;

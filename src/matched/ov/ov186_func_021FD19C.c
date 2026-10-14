@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern unsigned func_021FC20C(char *p);
+extern unsigned BR_RES_GetFont(char *p);
 extern void func_021FC7C4(char *,void *,void *,u16);
 void func_021FD19C(char *p,void *q,void *text)
 {
-    func_021FC7C4(p,text,(void *)func_021FC20C(q),0x3dac);
+    func_021FC7C4(p,text,(void *)BR_RES_GetFont(q),0x3dac);
 }

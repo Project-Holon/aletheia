@@ -13,7 +13,7 @@
  *   TOUCHBAR_SetButtonEnabled  0x021B6548  thumb
  *
  * Seeded start (layout/function_starts.txt): no lr-saving prologue, so the
- * listing showed it as data.  Referenced by ov119 func_021D8980, which does
+ * listing showed it as data.  Referenced by ov119 POKETRADE_PROC_ResetTouchbarBackButton, which does
  * bl 0x021B65B4 (r0 = object, r1 = 1) at 0x021D898C right before its calls
  * to 0x021B6558 and 0x021B6548; those two are ov067-only starts, so the
  * window is ov067 (ov071's own 0x021B65B4 is unrelated code).

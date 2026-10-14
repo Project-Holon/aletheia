@@ -1,5 +1,5 @@
 /*
- * function: func_021D8B44
+ * function: GDS_SOCKET_InitSslTemplate
  * address: 0x021D8B44
  * packet: pkt_ov125_021D8B44
  * region: ov125
@@ -12,35 +12,35 @@
  *   func_02088168 0x02088168 arm
  *   func_02162248 0x02162248 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D8BC0 0x021D8BC0 arm ov125
- *   func_021D8BF8 0x021D8BF8 arm ov125
- *   func_021D8BE4 0x021D8BE4 arm ov125
- *   d_021DAA8C 0x021DAA8C data a4
- *   d_021DAA88 0x021DAA88 data a4
- *   d_021DAAAC 0x021DAAAC data a4
- *   d_021D8D38 0x021D8D38 data a4
- *   func_021D8B3C 0x021D8B3C arm ov125
+ *   GDS_SOCKET_SetSslTemplate 0x021D8BC0 arm ov125
+ *   GDS_SOCKET_SetRootCa 0x021D8BF8 arm ov125
+ *   GDS_SOCKET_SetSslAuthCallback 0x021D8BE4 arm ov125
+ *   gGdsEntropyBuffer 0x021DAA8C data a4
+ *   gGdsSslTemplatePtr 0x021DAA88 data a4
+ *   gGdsSslTemplate 0x021DAAAC data a4
+ *   sGdsRootCaList 0x021D8D38 data a4
+ *   GDS_SOCKET_SslAuthCallback 0x021D8B3C arm ov125
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 d_021DAA8C[], d_021DAAAC[];
-extern u32 d_021DAA88;
+extern u8 gGdsEntropyBuffer[], gGdsSslTemplate[];
+extern u32 gGdsSslTemplatePtr;
 extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, u32);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_021D8BC0(u32 value);
-extern void func_021D8BF8(int a, int b);
-extern void func_021D8BE4(int a);
-extern const u32 d_021D8D38[];
-extern int func_021D8B3C(void);
-void func_021D8B44(void)
+extern void GDS_SOCKET_SetSslTemplate(u32 value);
+extern void GDS_SOCKET_SetRootCa(int a, int b);
+extern void GDS_SOCKET_SetSslAuthCallback(int a);
+extern const u32 sGdsRootCaList[];
+extern int GDS_SOCKET_SslAuthCallback(void);
+void GDS_SOCKET_InitSslTemplate(void)
 {
-    func_02088168((u32 *)d_021DAA8C);
-    func_02162248(d_021DAA8C, 32);
-    if (d_021DAA88) return;
-    MI_CpuFill8(d_021DAAAC, 0, 0x830);
-    *(u32 *)(d_021DAAAC + 0x800) = 0;
-    func_021D8BC0((u32)d_021DAAAC);
-    func_021D8BF8((int)((void *)d_021D8D38), 1);
-    func_021D8BE4((int)func_021D8B3C);
+    func_02088168((u32 *)gGdsEntropyBuffer);
+    func_02162248(gGdsEntropyBuffer, 32);
+    if (gGdsSslTemplatePtr) return;
+    MI_CpuFill8(gGdsSslTemplate, 0, 0x830);
+    *(u32 *)(gGdsSslTemplate + 0x800) = 0;
+    GDS_SOCKET_SetSslTemplate((u32)gGdsSslTemplate);
+    GDS_SOCKET_SetRootCa((int)((void *)sGdsRootCaList), 1);
+    GDS_SOCKET_SetSslAuthCallback((int)GDS_SOCKET_SslAuthCallback);
 }

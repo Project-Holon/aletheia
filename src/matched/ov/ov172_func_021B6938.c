@@ -1,5 +1,5 @@
 /*
- * function: func_021B6938
+ * function: CTVT_CAMERA_GetWidth
  * address:  0x021B6938
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u16 func_021B6938(void *p)
+u16 CTVT_CAMERA_GetWidth(void *p)
 {
     return (u16)(((struct Obj01264 *)p)->f36 - ((struct Obj01264 *)p)->f34);
 }

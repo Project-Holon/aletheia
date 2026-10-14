@@ -1,5 +1,5 @@
 /*
- * function: func_021FF5B0
+ * function: BTLV_MCSS_StartShadowScaleTween
  * address:  0x021FF5B0
  * packet:   pkt_ov094_021FF5B0
  * region:   ov094
@@ -14,11 +14,11 @@
  *
  * symbols:
  *   MCSS_GetShadowScale  0x02015CC4  thumb
- *   func_021F935C  0x021F935C  thumb  ov094
- *   func_0220074C  0x0220074C  thumb  ov094
- *   func_022009C8  0x022009C8  thumb  ov094
- *   func_02200A50  0x02200A50  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
+ *   BTLV_MCSS_CreateTweenTask  0x0220074C  thumb  ov094
+ *   BTLV_MCSS_ShadowScaleTweenTaskMain  0x022009C8  thumb  ov094
+ *   BTLV_MCSS_ShadowScaleTweenTaskEnd  0x02200A50  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
  * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (the integrator's; no
  * witness outside the range): MCSS_GetShadowScale (copies three words from +0x128).
@@ -30,7 +30,7 @@
  *       out[1] = *(u32 *)((char *)p + 0x12C);
  *       out[2] = *(u32 *)((char *)p + 0x130);
  *   }
- * Twin of matched func_021FF630 (other cnt/mask row and callbacks).
+ * Twin of matched BTLV_MCSS_StartScaleTween (other cnt/mask row and callbacks).
  */
 typedef unsigned char u8;
 typedef int fx32;
@@ -55,17 +55,17 @@ typedef struct {
 } Work;
 
 typedef unsigned int   u32;
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_GetShadowScale(void *p, u32 *out);
-extern int func_021F935C(int x);
-extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
+extern int BTLV_EFFECT_GetBitMask(int x);
+extern void BTLV_MCSS_CreateTweenTask(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                           int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
-extern void func_022009C8(void);
-extern void func_02200A50(void *p);
+extern void BTLV_MCSS_ShadowScaleTweenTaskMain(void);
+extern void BTLV_MCSS_ShadowScaleTweenTaskEnd(void *p);
 
-void func_021FF5B0(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
+void BTLV_MCSS_StartShadowScaleTween(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
 {
-    int idx = func_022019F4((char *)w, i);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, i);
     VecFx32 cur;
 
     if (idx == -1)
@@ -74,6 +74,6 @@ void func_021FF5B0(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c
         return;
     MCSS_GetShadowScale(w->e[idx].h, (u32 *)(&cur));
     w->cnt[0][i]++;
-    func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_022009C8, func_02200A50, 0, w->cnt[0][i]);
-    w->mask[0] |= func_021F935C(i);
+    BTLV_MCSS_CreateTweenTask(w, i, kind, &cur, q, n, f48, f4c, (void *)BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, 0, w->cnt[0][i]);
+    w->mask[0] |= BTLV_EFFECT_GetBitMask(i);
 }

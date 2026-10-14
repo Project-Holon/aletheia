@@ -1,5 +1,5 @@
 /*
- * function: func_021FB644
+ * function: BR_BTN_DATA_Fill
  * address: 0x021FB644
  * packet: pkt_ov186_021FB644
  * region: ov186
@@ -20,7 +20,7 @@ extern const Descriptor d_022007F0[];
 extern char d_02200D38[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-void func_021FB644(char *ctx)
+void BR_BTN_DATA_Fill(char *ctx)
 {
     int i;
     unsigned count;

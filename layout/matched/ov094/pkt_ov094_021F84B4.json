@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F84B4",
+   "name": "BTLV_EFFECT_SetPokeSpriteVisible",
    "address": "0x021F84B4",
    "kind": "game",
    "region": "ov094",

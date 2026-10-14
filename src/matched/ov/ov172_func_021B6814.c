@@ -1,5 +1,5 @@
 /*
- * function: func_021B6814
+ * function: CTVT_CAMERA_StartCapture
  * address:  0x021B6814
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -31,7 +31,7 @@ extern int func_021B6850(void);
 extern int func_021B6858(int a);
 extern int func_021B6860(int a);
 
-void func_021B6814(void *a0)
+void CTVT_CAMERA_StartCapture(void *a0)
 {
     char *p = (char *)a0;
     int one = 1;

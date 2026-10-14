@@ -1,5 +1,5 @@
 /*
- * function: func_021C4134
+ * function: MAILSYS_DeleteMessage
  * address:  0x021C4134
  * packet:   pkt_021C4134
  * region:   ov136
@@ -26,7 +26,7 @@ struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 
-void func_021C4134(u8 *p)
+void MAILSYS_DeleteMessage(u8 *p)
 {
     if (((struct Obj14182 *)p)->fC)
         STRBUF_Delete(((struct Obj14182 *)p)->fC);

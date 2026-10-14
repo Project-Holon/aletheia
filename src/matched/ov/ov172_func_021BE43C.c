@@ -1,5 +1,5 @@
 /*
- * function: func_021BE43C
+ * function: COMM_TVT_SYS_ProcMain
  * address: 0x021BE43C
  * packet: pkt_ov172_021BE43C
  * region: ov172
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern int func_021BD43C(char *ctx); /* ov172 definition: src/pending/ov/ov172_func_021BD43C.c (one argument; r1 is overwritten before use) */
-int func_021BE43C(void *a, void *b, void *c, u32 *p)
+int COMM_TVT_SYS_ProcMain(void *a, void *b, void *c, u32 *p)
 {
     if (func_0200FB24() != 0 && p[5] == 0) {
         GFL_NET_ERR_RequestScreen();

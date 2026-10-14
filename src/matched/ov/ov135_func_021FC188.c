@@ -1,5 +1,5 @@
 /*
- * function: func_021FC188
+ * function: WORLDTRADE_DETAIL_Exit
  * address: 0x021FC188
  * packet: pkt_ov135_021FC188
  * region: ov135
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC3D0 0x021FC3D0 thumb ov135
- *   func_021FC568 0x021FC568 thumb ov135
- *   func_021FC4E4 0x021FC4E4 thumb ov135
- *   func_021FC2A4 0x021FC2A4 thumb ov135
- *   func_022000E4 0x022000E4 thumb ov135
+ *   WORLDTRADE_DETAIL_DeleteActors 0x021FC3D0 thumb ov135
+ *   WORLDTRADE_DETAIL_DeleteStrings 0x021FC568 thumb ov135
+ *   WORLDTRADE_DETAIL_DeleteWindows 0x021FC4E4 thumb ov135
+ *   WORLDTRADE_DETAIL_ExitBgPlanes 0x021FC2A4 thumb ov135
+ *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021F4EC8 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_021FC3D0(u8 *p);
-extern void func_021FC568(char *p);
-extern void func_021FC4E4(char *);
-extern void func_021FC2A4(void);
-extern void func_022000E4(char *p);
+extern void WORLDTRADE_DETAIL_DeleteActors(u8 *p);
+extern void WORLDTRADE_DETAIL_DeleteStrings(char *p);
+extern void WORLDTRADE_DETAIL_DeleteWindows(char *);
+extern void WORLDTRADE_DETAIL_ExitBgPlanes(void);
+extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021F4EC8(u8 *p);
-int func_021FC188(u8 *p) {func_021FC3D0(p);func_021FC568((char *)p);func_021FC4E4((char *)p);func_021FC2A4();func_022000E4((char *)p);CLACT_SetActorDrawEnable(((struct Obj00287 *)p)->fD38,0);func_021F4EC8(p);return 0;}
+extern void WORLDTRADE_ClearBusyFlag(u8 *p);
+int WORLDTRADE_DETAIL_Exit(u8 *p) {WORLDTRADE_DETAIL_DeleteActors(p);WORLDTRADE_DETAIL_DeleteStrings((char *)p);WORLDTRADE_DETAIL_DeleteWindows((char *)p);WORLDTRADE_DETAIL_ExitBgPlanes();WORLDTRADE_TITLE_ExitBgPlanes((char *)p);CLACT_SetActorDrawEnable(((struct Obj00287 *)p)->fD38,0);WORLDTRADE_ClearBusyFlag(p);return 0;}

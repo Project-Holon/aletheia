@@ -1,5 +1,5 @@
 /*
- * function: func_021E198C
+ * function: POKETRADE_SAVE_PrintMoveNames
  * address: 0x021E198C
  * packet: pkt_ov119_021E198C
  * region: ov119
@@ -25,7 +25,7 @@ extern unsigned int POKE_TOOL_GetPartyValue(void *,unsigned int,unsigned int);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-void func_021E198C(int a,int b,int x,int y,char *p)
+void POKETRADE_SAVE_PrintMoveNames(int a,int b,int x,int y,char *p)
 {
     int i,v;
     for(i=0;i<4;i++) {

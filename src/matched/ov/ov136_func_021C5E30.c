@@ -1,5 +1,5 @@
 /*
- * function: func_021C5E30
+ * function: MB_SEQ_DeletePmsDraw
  * address:  0x021C5E30
  * packet:   pkt_ov136_021C5E30
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5E30 0x021C5E30 thumb
+ *   MB_SEQ_DeletePmsDraw 0x021C5E30 thumb
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -27,7 +27,7 @@ extern void PMS_DRAW_Delete(struct Obj *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_021C5E30(u8 *p)
+void MB_SEQ_DeletePmsDraw(u8 *p)
 {
     PMS_DRAW_Delete(((struct Obj23539 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f35C);
     PRINTSYS_QUE_Delete(((struct Obj23540 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f36C);

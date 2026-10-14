@@ -1,5 +1,5 @@
 /*
- * function: func_02200B34
+ * function: WORLDTRADE_TITLE_LoadSubBgSwap
  * address:  0x02200B34
  * packet:   pkt_02200B34
  * region:   ov135
@@ -33,7 +33,7 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
-void func_02200B34(u8 *p)
+void WORLDTRADE_TITLE_LoadSubBgSwap(u8 *p)
 {
     void *h;
 

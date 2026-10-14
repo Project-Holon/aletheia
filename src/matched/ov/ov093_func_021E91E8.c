@@ -10,13 +10,13 @@
  * status: EXACT*
  *
  * symbols:
- *   func_021F745C  0x021F745C  thumb  ov094
- *   func_021F7544  0x021F7544  thumb  ov094
- *   func_021F7C0C  0x021F7C0C  thumb  ov094
- *   func_021F7C2C  0x021F7C2C  thumb  ov094
- *   func_021F7CFC  0x021F7CFC  thumb  ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_021F80FC  0x021F80FC  thumb  ov094
+ *   BTLV_EFFECT_CreateSetupFromBattleMain  0x021F745C  thumb  ov094
+ *   BTLV_EFFECT_Init  0x021F7544  thumb  ov094
+ *   BTLV_EFFECT_ResumeVm  0x021F7C0C  thumb  ov094
+ *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
+ *   BTLV_EFFECT_StartEffectWithColor  0x021F7CFC  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
  *   func_020307B0  0x020307B0  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
@@ -97,8 +97,8 @@ typedef struct Work {
 struct L;
 struct MsgBank;
 struct Rec;
-extern void *func_021F745C(u8 *p, int a, u16 heap);
-extern void func_021F7544(u32 a, u32 b, u16 c);
+extern void *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap);
+extern void BTLV_EFFECT_Init(u32 a, u32 b, u16 c);
 extern u32 func_020307B0(void *p);
 extern void BTLV_SCU_SetupDisplay(u8 *p);
 extern void func_021E95B4(u32 a);
@@ -127,8 +127,8 @@ extern void BTLV_SCU_StartWazaEffect(u8 *p, int a, int b, u32 c, u32 d, int e, u
 extern int BTLV_SCU_RunWazaProc(char *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
-extern void func_021F80FC(u32 a, u32 b);
-extern void func_021F7C2C(int a, int b);
+extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
+extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
 extern void func_021EAF00(u8 *p, int a);
 extern int BTLV_SCU_IsMonDamageAnimDone(u32 a);
 extern void BTLV_CORE_StartViewEffect262(void *ctx, int a);
@@ -138,20 +138,20 @@ extern void BTLV_CORE_StartPrintMessage(char *p, u32 a, u16 b, u32 c);
 extern int func_021E9614(u32 a);
 extern void BTLV_CORE_StartBagMenu(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
 extern int BTLV_CORE_PollBagMenu(u8 *p);
-extern int func_021F7EB4(void);
-extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 extern int GFL_USE_IsBgmPlaying(void);
-extern void func_021F7C0C(void);
+extern void BTLV_EFFECT_ResumeVm(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
 int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
 {
     switch (*state) {
     case 0: {
-        u32 h = (u32)func_021F745C((u8 *)p->x0, p->x17C, p->h184);
-        func_021F7544(h, p->xB4, p->h184);
+        u32 h = (u32)BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)p->x0, p->x17C, p->h184);
+        BTLV_EFFECT_Init(h, p->xB4, p->h184);
         func_020307B0((void *)h);
         BTLV_SCU_SetupDisplay((u8 *)p->x17C);
         func_021E95B4(p->x180);
@@ -205,8 +205,8 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         break;
     case 7:
         if (BTLV_SCU_RunWazaProc((char *)p->x17C)) {
-            func_021F80FC(1, func_0209C0A4(func_021D59B4(BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1), 0xE), 6));
-            func_021F7C2C(1, 1);
+            BTLV_EFFECT_GaugeStartHpChangeAnimated(1, func_0209C0A4(func_021D59B4(BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1), 0xE), 6));
+            BTLV_EFFECT_StartDamageTintTask(1, 1);
             func_021EAF00((u8 *)p, 0x564);
             (*state)++;
         }
@@ -269,13 +269,13 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         }
         break;
     case 16:
-        if (BTLV_CORE_WaitMessage((u32 *)p) && !func_021F7EB4()) {
-            func_021F7CFC(1, 4, 3, 1, 0);
+        if (BTLV_CORE_WaitMessage((u32 *)p) && !BTLV_EFFECT_IsBusy()) {
+            BTLV_EFFECT_StartEffectWithColor(1, 4, 3, 1, 0);
             (*state)++;
         }
         break;
     case 17:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             u8 msg[0x24];
             u8 *v = BTLV_CORE_GetPokeParamAtViewPos((struct Pair *)p, 1);
             func_021EAF18((struct L *)msg, 1, 0x41);
@@ -294,7 +294,7 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         break;
     case 19:
         if (!GFL_USE_IsBgmPlaying()) {
-            func_021F7C0C();
+            BTLV_EFFECT_ResumeVm();
             MSGDATA_Delete((struct Rec *)w->heap);
             (*state)++;
         }

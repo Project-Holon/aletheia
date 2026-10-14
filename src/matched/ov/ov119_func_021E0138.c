@@ -1,5 +1,5 @@
 /*
- * function: func_021E0138
+ * function: POKETRADE_SAVE_BackupSaveControl
  * address:  0x021E0138
  * packet:   pkt_ov119_021E0138
  * region:   ov119
@@ -38,7 +38,7 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
     MI_CpuCopy8(src, dst, size);
 }
 
-void *func_021E0138(void *sys, u16 heapId)
+void *POKETRADE_SAVE_BackupSaveControl(void *sys, u16 heapId)
 {
     void *h = GAME_DATA_GetSaveControl(sys);
     void *buf = sub_02030734(heapId, sub_02009454(), 0, d_021E8130, 0x1A0);

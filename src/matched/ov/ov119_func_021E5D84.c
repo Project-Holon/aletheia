@@ -1,5 +1,5 @@
 /*
- * function: func_021E5D84
+ * function: POKETRADE_2D_ClearSubScreen
  * address: 0x021E5D84
  * packet: pkt_ov119_021E5D84
  * region: ov119
@@ -27,7 +27,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-void func_021E5D84(char *p)
+void POKETRADE_2D_ClearSubScreen(char *p)
 {
     unsigned i;
     func_02040588(4, 0);

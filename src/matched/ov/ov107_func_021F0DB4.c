@@ -1,5 +1,5 @@
 /*
- * function: func_021F0DB4
+ * function: MB_PARENT_SYS_FreeBuffers
  * address: 0x021F0DB4
  * packet: pkt_ov107_021F0DB4
  * region: ov107
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F6EAC 0x021F6EAC data a4
+ *   gMbParentSys 0x021F6EAC data a4
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  */
-extern void *d_021F6EAC[];
+extern void *gMbParentSys[];
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);extern void GFL_NET_FreeAligned(void *);
-void func_021F0DB4(void) {if(d_021F6EAC[0]) {func_020307B0(d_021F6EAC[0]);d_021F6EAC[0]=0;}if(d_021F6EAC[1]) {GFL_NET_FreeAligned(d_021F6EAC[1]);d_021F6EAC[1]=0;}}
+void MB_PARENT_SYS_FreeBuffers(void) {if(gMbParentSys[0]) {func_020307B0(gMbParentSys[0]);gMbParentSys[0]=0;}if(gMbParentSys[1]) {GFL_NET_FreeAligned(gMbParentSys[1]);gMbParentSys[1]=0;}}

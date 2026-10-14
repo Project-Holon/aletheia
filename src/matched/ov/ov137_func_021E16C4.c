@@ -1,5 +1,5 @@
 /*
- * function: func_021E16C4
+ * function: GURU2_MAIN_IsMemberFlagSet
  * address:  0x021E16C4
  * packet:   pkt_021E16C4
  * region:   ov137
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021E16C4(char *p, int mask)
+int GURU2_MAIN_IsMemberFlagSet(char *p, int mask)
 {
     return (((struct Obj23803 *)(*(char * *)&((struct Obj01753 *)p)->fDC))->f40 & mask) != 0;
 }

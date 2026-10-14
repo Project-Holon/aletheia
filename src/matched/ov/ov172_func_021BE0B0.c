@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0B0
+ * function: COMM_TVT_SYS_SetMessageActive
  * address:  0x021BE0B0
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE0B0(void *p, u32 v)
+void COMM_TVT_SYS_SetMessageActive(void *p, u32 v)
 {
     ((struct Obj24130 *)p)->f20 = v;
 }

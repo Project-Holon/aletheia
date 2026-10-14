@@ -1,5 +1,5 @@
 /*
- * function: func_021D8958
+ * function: GSYNC_STATE_StateSendFinalRequest
  * address: 0x021D8958
  * packet: pkt_ov123_021D8958
  * region: ov123
@@ -16,9 +16,9 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D81E4 0x021D81E4 thumb ov123
- *   func_021D88C0 0x021D88C0 thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateWaitMessageThenPrintSecond 0x021D81E4 thumb ov123
+ *   GSYNC_STATE_StateReceiveFinalResponse 0x021D88C0 thumb ov123
  */
 #include "../include/Obj06468.h"
 typedef unsigned char u8;
@@ -38,16 +38,16 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
 extern int NHTTP_RAP_StartConnection(u8 *p);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D81E4(char *);
-extern void func_021D88C0(char *);
-void func_021D8958(char *p)
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateWaitMessageThenPrintSecond(char *);
+extern void GSYNC_STATE_StateReceiveFinalResponse(char *);
+void GSYNC_STATE_StateSendFinalRequest(char *p)
 {
     struct RtcDate saved, current;
     u32 value;
     int day;
     if (func_02008BD0(func_02008B14(((struct Obj06468 *)p)->f28)) && ((struct Obj06468 *)p)->fAC) {
-        func_021D6EE0((u8 *)p,(int)func_021D81E4,0x85c);
+        GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
         return;
     }
     value=func_020093C8((const struct Sub02009210Obj *)func_02009448(((struct Obj06468 *)p)->f28));
@@ -58,14 +58,14 @@ void func_021D8958(char *p)
     func_0203F4E4(&current);
     day=func_0203F540(&saved);
     if (day==func_0203F540(&current)) {
-        func_021D6EE0((u8 *)p,(int)func_021D81E4,0x869);
+        GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }
     if (GFL_NET_GetRunState()) {
         if (NHTTP_RAP_CreateRequest(1,((struct Obj06468 *)p)->f10) && !NHTTP_RAP_StartConnection(((struct Obj06468 *)p)->f10))
-            func_021D6EE0((u8 *)p,(int)func_021D88C0,0x871);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateReceiveFinalResponse,0x871);
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
-            func_021D6EE0((u8 *)p,(int)func_021D88C0,0x878);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateReceiveFinalResponse,0x878);
     }
 }

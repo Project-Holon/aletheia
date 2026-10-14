@@ -1,5 +1,5 @@
 /*
- * function: func_021C666C
+ * function: MB_SEQ_DeleteActor
  * address:  0x021C666C
  * packet:   pkt_021C666C
  * region:   ov136
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C666C(u8 *p, int i)
+void MB_SEQ_DeleteActor(u8 *p, int i)
 {
     if (*(u32 *)(p + 0x1f0 + i * 4)) {
         CLACT_DeleteActor(*(void **)(p + 0x1f0 + i * 4));

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AD4
+ * function: CircleGraph_SumValues
  * address:  0x021C1AD4
  * packet:   pkt_ov217_021C1AD4
  * region:   ov217
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-int func_021C1AD4(u8 *p)
+int CircleGraph_SumValues(u8 *p)
 {
     int i;
     int n;

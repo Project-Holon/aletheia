@@ -10,13 +10,13 @@
  * Lever: compute ctx+0x20 before storing the getter result, then read ctx+0x1c.
  * Direct getter store leaves an 8-byte scheduling/register residue.
  * symbols:
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  */
 #include "../include/Obj10774.h"
 typedef unsigned char  u8;
-extern unsigned int func_021FC4DC(u8 *p);
+extern unsigned int BR_GRAPHIC_GetActorUnit(u8 *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
@@ -29,7 +29,7 @@ void func_021F9810(int *out,int *source,const char *ctx,int type)
     out[0]=source[3];
     out[3]=source[5];
     out[4]=source[2];
-    result=func_021FC4DC((u8 *)source[0]);
+    result=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     a=((struct Obj10774 *)ctx)->f20;
     out[1]=result;
     b=((struct Obj10774 *)ctx)->f1C;

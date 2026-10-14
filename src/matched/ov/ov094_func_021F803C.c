@@ -1,5 +1,5 @@
 /*
- * function: func_021F803C
+ * function: BTLV_EFFECT_GaugeInitSlotFromBattlePoke
  * address:  0x021F803C
  * packet:   pkt_ov094_021F803C
  * region:   ov094
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094  a4
- *   func_022070C0  0x022070C0  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094  a4
+ *   BTLV_GAUGE_InitSlotFromBattlePoke  0x022070C0  thumb  ov094
  */
 typedef unsigned int u32;
 
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 struct W;
-extern void func_022070C0(struct W *p, void *a, void *q, int mode, int i);
+extern void BTLV_GAUGE_InitSlotFromBattlePoke(struct W *p, void *a, void *q, int mode, int i);
 
-void func_021F803C(u32 a, void *m, u32 c)
+void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(u32 a, void *m, u32 c)
 {
-    switch (*(u32 *)(d_0220AF20 + 0x1BC)) {
+    switch (*(u32 *)(gBtlvEff + 0x1BC)) {
     case 2:
-        func_022070C0((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, m, 2, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke((struct W *)(*(u32 *)(gBtlvEff + 0x1A4)), (void *)a, m, 2, c);
         break;
     case 3:
-        func_022070C0((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, m, 3, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke((struct W *)(*(u32 *)(gBtlvEff + 0x1A4)), (void *)a, m, 3, c);
         break;
     default:
-        func_022070C0((struct W *)(*(u32 *)(d_0220AF20 + 0x1A4)), (void *)a, m, 0, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke((struct W *)(*(u32 *)(gBtlvEff + 0x1A4)), (void *)a, m, 0, c);
         break;
     }
 }

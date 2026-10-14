@@ -1,5 +1,5 @@
 /*
- * function: func_021BC274
+ * function: ZUKAN_LIST_ProcMain
  * address:  0x021BC274
  * packet:   pkt_021BC274
  * region:   ov209
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCC58 0x021BCC58 thumb
+ *   ZUKAN_LIST_RunState 0x021BCC58 thumb
  */
 
-extern int func_021BCC58(char *p);
+extern int ZUKAN_LIST_RunState(char *p);
 
-int func_021BC274(int a, int b, int c, int d)
+int ZUKAN_LIST_ProcMain(int a, int b, int c, int d)
 {
-    if (func_021BCC58((char *)d) == 0)
+    if (ZUKAN_LIST_RunState((char *)d) == 0)
         return 1;
     return 0;
 }

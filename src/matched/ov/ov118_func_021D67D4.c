@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   func_021D8E84  0x021D8E84  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   func_021D67F8  0x021D67F8  thumb  ov118
  *
  * Addresses are Black-image addresses.
@@ -25,12 +25,12 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
-extern void func_021D8E84(void *p, int next);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void func_021D67F8(u8 *p);
 
 void func_021D67D4(u8 *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
-        func_021D8E84(p, (int)func_021D67F8);
+        POKETRADE_PROC_SetStep(p, (int)func_021D67F8);
     }
 }

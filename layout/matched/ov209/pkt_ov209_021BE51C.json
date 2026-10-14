@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE51C",
+   "name": "ZUKAN_LIST_MoveCursorActor",
    "address": "0x021BE51C",
    "kind": "game",
    "region": "ov209",

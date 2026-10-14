@@ -1,5 +1,5 @@
 /*
- * function: func_021D76D8
+ * function: GDS_RAP_StepVideoSave
  * address: 0x021D76D8
  * packet: pkt_ov125_021D76D8
  * region: ov125
@@ -15,4 +15,4 @@
 struct Sub020072A4Ctrl;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p); extern int GAME_DATA_PartSaveMain(char *,int); extern void func_020072A4(struct Sub020072A4Ctrl *,unsigned int);
-int func_021D76D8(char *p,int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); int r=GAME_DATA_PartSaveMain(p,id); if(r==2 || r==3) func_020072A4(s,id); return r;}
+int GDS_RAP_StepVideoSave(char *p,int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); int r=GAME_DATA_PartSaveMain(p,id); if(r==2 || r==3) func_020072A4(s,id); return r;}

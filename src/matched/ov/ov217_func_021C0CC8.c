@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CC8
+ * function: RESEARCH_COMMON_FreeSlotBuffers
  * address:  0x021C0CC8
  * packet:   pkt_ov217_021C0CC8
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-void func_021C0CC8(int *p)
+void RESEARCH_COMMON_FreeSlotBuffers(int *p)
 {
     int obj;
     obj = p[10];

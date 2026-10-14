@@ -1,5 +1,5 @@
 /*
- * function: func_021FEB78
+ * function: BTLV_MCSS_Delete
  * address:  0x021FEB78
  * packet:   pkt_ov094_021FEB78
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
- *   func_021FF0F8  0x021FF0F8  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
+ *   BTLV_MCSS_RemoveSprite  0x021FF0F8  thumb  ov094
  *   MCSS_Exit  0x02014BA8  thumb
  *   func_020307B0  0x020307B0  arm
  */
@@ -30,20 +30,20 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_021FFD9C(char *p, int key);
-extern void func_021FF0F8(Work *w, int key);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern void BTLV_MCSS_RemoveSprite(Work *w, int key);
 typedef unsigned char  u8;
 extern void MCSS_Exit(u8 *a0);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021FEB78(Work *w)
+void BTLV_MCSS_Delete(Work *w)
 {
     Key i;
 
     for (i = 0; i < 14; i++) {
-        if (func_021FFD9C((char *)w, i))
-            func_021FF0F8(w, i);
+        if (BTLV_MCSS_IsSpriteLoaded((char *)w, i))
+            BTLV_MCSS_RemoveSprite(w, i);
     }
     MCSS_Exit(w->obj);
     func_020307B0(w);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A24
+ * function: MB_UTIL_MSG_ClearYesNoMenu
  * address:  0x021F1A24
  * packet:   pkt_ov107_021F1A24
  * region:   ov107
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021F1A24(u8 *p) { ((struct Obj22305 *)p)->f50 = 0; }
+void MB_UTIL_MSG_ClearYesNoMenu(u8 *p) { ((struct Obj22305 *)p)->f50 = 0; }

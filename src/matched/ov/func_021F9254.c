@@ -1,5 +1,5 @@
 /*
- * function: func_021F9254
+ * function: WORLDTRADE_ENTER_RestartNetTimeout
  * address:  0x021F9254
  * packet:   pkt_021F9254
  * region:   ov135
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-void func_021F9254(u8 *a0)
+void WORLDTRADE_ENTER_RestartNetTimeout(u8 *a0)
 {
     GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

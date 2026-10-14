@@ -1,5 +1,5 @@
 /*
- * function: func_02201DF0
+ * function: WORLDTRADE_SERVER_StatePrintMessage9
  * address:  0x02201DF0
  * packet:   pkt_02201DF0
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4EC0  0x021F4EC0  thumb  ov135
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb  ov135
 
  * Set the mode pair and latch state 0x28.
  */
@@ -20,11 +20,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 
-int func_02201DF0(u8 *p)
+int WORLDTRADE_SERVER_StatePrintMessage9(u8 *p)
 {
-    func_021F4EC0(p, 0x9, 0x9);
+    WORLDTRADE_SetStateAndReturn(p, 0x9, 0x9);
     ((struct Obj18613 *)p)->f28 = 0x28;
     return 2;
 }

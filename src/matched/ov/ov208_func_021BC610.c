@@ -1,5 +1,5 @@
 /*
- * function: func_021BC610
+ * function: ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault
  * address: 0x021BC610
  * packet: pkt_ov208_021BC610
  * region: ov208
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC560 0x021BC560 thumb
+ *   ZUKAN_DETAIL_COMMON_CreatePaletteAnim 0x021BC560 thumb
  */
 typedef unsigned int u32;
-extern void *func_021BC560(u32 heap, unsigned short mask);
-void *func_021BC610(u32 heap)
+extern void *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap, unsigned short mask);
+void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap)
 {
-    return func_021BC560(heap, 0xf);
+    return ZUKAN_DETAIL_COMMON_CreatePaletteAnim(heap, 0xf);
 }

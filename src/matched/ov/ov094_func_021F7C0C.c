@@ -1,5 +1,5 @@
 /*
- * function: func_021F7C0C
+ * function: BTLV_EFFECT_ResumeVm
  * address:  0x021F7C0C
  * packet:   pkt_ov094_021F7C0C
  * region:   ov094
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_021F9814 on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 1.
+ * Calls BTLV_EFFVM_ClearBlockedFlag on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 1.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021F9814 0x021F9814 thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_EFFVM_ClearBlockedFlag 0x021F9814 thumb ov094
  */
-extern char *d_0220AF20;
-extern void func_021F9814(void *);
+extern char *gBtlvEff;
+extern void BTLV_EFFVM_ClearBlockedFlag(void *);
 
-void func_021F7C0C(void)
+void BTLV_EFFECT_ResumeVm(void)
 {
-    func_021F9814(*(void **)(d_0220AF20 + 0x188));
-    *(int *)(d_0220AF20 + 0x1e8) = 1;
+    BTLV_EFFVM_ClearBlockedFlag(*(void **)(gBtlvEff + 0x188));
+    *(int *)(gBtlvEff + 0x1e8) = 1;
 }

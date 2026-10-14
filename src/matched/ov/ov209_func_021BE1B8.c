@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1B8
+ * function: ZUKAN_LIST_TransferSpeciesGraphics
  * address: 0x021BE1B8
  * packet: pkt_ov209_021BE1B8
  * region: ov209
@@ -33,7 +33,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
 extern void CLACT_SetActorPaletteOffset(struct Obj *,unsigned,unsigned);
-void func_021BE1B8(char *p, int index, unsigned species, u16 form, u16 half, int mode)
+void ZUKAN_LIST_TransferSpeciesGraphics(char *p, int index, unsigned species, u16 form, u16 half, int mode)
 {
     void *owner;
     void *data;

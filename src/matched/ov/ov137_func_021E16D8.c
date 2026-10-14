@@ -1,5 +1,5 @@
 /*
- * function: func_021E16D8
+ * function: GURU2_MAIN_AreAllOthersReady
  * address: 0x021E16D8
  * packet: pkt_ov137_021E16D8
  * region: ov137
@@ -12,7 +12,7 @@
  * Direct bound use left a four-byte zero/subtraction scheduling swap; bounded permuter found the copy spelling.
  * trailing: Two zero alignment bytes.
  */
-int func_021E16D8(const char *p)
+int GURU2_MAIN_AreAllOthersReady(const char *p)
 {
   unsigned int count;
   int bound;

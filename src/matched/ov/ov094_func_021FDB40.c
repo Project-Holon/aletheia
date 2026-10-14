@@ -1,5 +1,5 @@
 /*
- * function: func_021FDB40
+ * function: BTLV_EFFVM_PlaySeWithParams
  * address:  0x021FDB40
  * packet:   pkt_ov094_021FDB40
  * region:   ov094
@@ -32,7 +32,7 @@ extern void NNS_SndHandleSetVolume(char *p, unsigned int v);
 extern void NNS_SndHandleSetTrackModDepth(struct Obj *o, u32 v, u32 w);
 extern void NNS_SndHandleSetTrackModSpeed(struct Obj *o, u32 v, u32 w);
 
-void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g)
+void BTLV_EFFVM_PlaySeWithParams(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g)
 {
     if (m == 5) {
         GFL_USE_PlaySeDefaultVolume(a0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FF660
+ * function: BR_NET_GetDownloadEntries
  * address:  0x021FF660
  * packet:   pkt_021FF660
  * region:   ov186
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7374  0x021D7374  thumb  ov125
+ *   GDS_RAP_GetDownloadEntries  0x021D7374  thumb  ov125
  */
 #include "../include/Obj24856.h"
 
-extern int func_021D7374(char *a, void **out, int max);
+extern int GDS_RAP_GetDownloadEntries(char *a, void **out, int max);
 
-int func_021FF660(char *p, int a1, int a2, int *out)
+int BR_NET_GetDownloadEntries(char *p, int a1, int a2, int *out)
 {
     int v = ((struct Obj24856 *)p)->f5BC;
 
     if (v != 0)
-        *out = func_021D7374((char *)p, (void **)a1, a2);
+        *out = GDS_RAP_GetDownloadEntries((char *)p, (void **)a1, a2);
     return v;
 }

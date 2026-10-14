@@ -1,5 +1,5 @@
 /*
- * function: func_021BD974
+ * function: ZUKAN_DETAIL_TOUCHBAR_Update
  * address: 0x021BD974
  * packet: pkt_ov208_021BD974
  * region: ov208
@@ -11,12 +11,12 @@
  * symbols:
  *   func_02040804 0x02040804 arm
  *   func_02041EE4 0x02041EE4 arm
- *   func_021BDD48 0x021BDD48 thumb
- *   func_021BD358 0x021BD358 thumb
- *   func_021BD23C 0x021BD23C thumb
- *   func_021BDFDC 0x021BDFDC thumb
- *   func_021BE20C 0x021BE20C thumb
- *   func_021BE6A8 0x021BE6A8 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos 0x021BDD48 thumb
+ *   ZKND_TBAR_SetTouchEnable 0x021BD358 thumb
+ *   ZKND_TBAR_UpdateButtons 0x021BD23C thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_UpdateInput 0x021BDFDC thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable 0x021BE20C thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_UpdateArrowInput 0x021BE6A8 thumb
  *   d_021C8388 0x021C8388 data a4
  *   d_021C8384 0x021C8384 data a1
  */
@@ -36,15 +36,15 @@ extern const u8 d_021C8384[];
 struct Ov208Menu;
 extern u32 func_02040804(u32 layer);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_021BDD48(char *p, short offset);
-extern void func_021BD358(char *p, int v);
-extern void func_021BD23C(char *p);
-extern void func_021BDFDC(struct Ov208Menu *m);
+extern void ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos(char *p, short offset);
+extern void ZKND_TBAR_SetTouchEnable(char *p, int v);
+extern void ZKND_TBAR_UpdateButtons(char *p);
+extern void ZUKAN_DETAIL_TOUCHBAR_UpdateInput(struct Ov208Menu *m);
 typedef signed int     s32;
 struct Ov208Pal;
-extern s32 func_021BE20C(struct Ov208Pal *m);
-extern void func_021BE6A8(char *p);
-void func_021BD974(struct Ov208Fade *m)
+extern s32 ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable(struct Ov208Pal *m);
+extern void ZUKAN_DETAIL_TOUCHBAR_UpdateArrowInput(char *p);
+void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Fade *m)
 {
     int v;
     switch (m->state) {
@@ -56,15 +56,15 @@ void func_021BD974(struct Ov208Fade *m)
             if ((int)func_02040804((int)1) >= 0) {
                 func_02041EE4(1, 3, 0);
                 m->pos = 0;
-                func_021BDD48((char *)m, m->pos);
+                ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 2;
                 if (m->f34 != 0)
-                    func_021BD358(m->f30, 1);
+                    ZKND_TBAR_SetTouchEnable(m->f30, 1);
                 break;
             }
             func_02041EE4(1, 4, d_021C8388[m->idx]);
             m->pos = m->pos - (s16)d_021C8388[m->idx];
-            func_021BDD48((char *)m, m->pos);
+            ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
             m->cnt = d_021C8384[m->idx];
         } else {
             m->cnt--;
@@ -75,12 +75,12 @@ void func_021BD974(struct Ov208Fade *m)
             if ((int)func_02040804((int)1) <= -24) {
                 func_02041EE4(1, 3, -24);
                 m->pos = 24;
-                func_021BDD48((char *)m, m->pos);
+                ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 0;
             } else {
                 func_02041EE4(1, 5, d_021C8388[m->idx]);
                 m->pos = m->pos + (s16)d_021C8388[m->idx];
-                func_021BDD48((char *)m, m->pos);
+                ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->cnt = d_021C8384[m->idx];
             }
         } else {
@@ -88,11 +88,11 @@ void func_021BD974(struct Ov208Fade *m)
         }
         break;
     }
-    func_021BD23C(m->f30);
+    ZKND_TBAR_UpdateButtons(m->f30);
     if (m->mode == 0) {
-        func_021BDFDC((struct Ov208Menu *)m);
-        func_021BE20C((struct Ov208Pal *)m);
+        ZUKAN_DETAIL_TOUCHBAR_UpdateInput((struct Ov208Menu *)m);
+        ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable((struct Ov208Pal *)m);
     } else if (m->mode == 2) {
-        func_021BE6A8((char *)m);
+        ZUKAN_DETAIL_TOUCHBAR_UpdateArrowInput((char *)m);
     }
 }

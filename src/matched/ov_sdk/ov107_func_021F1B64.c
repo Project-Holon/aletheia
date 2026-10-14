@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B64
+ * function: MB_CommGetChildUser
  * address:  0x021F1B64
  * packet:   pkt_ov107_021F1B64
  * region:   ov107
@@ -25,7 +25,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int func_021F2EE8(unsigned short child_aid);
 
-void *func_021F1B64(unsigned short child_aid)
+void *MB_CommGetChildUser(unsigned short child_aid)
 {
     unsigned long enabled = OS_DisableInterrupts();
 

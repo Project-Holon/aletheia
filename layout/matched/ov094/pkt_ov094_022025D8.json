@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022025D8",
+   "name": "BTLV_INPUT_StartPaletteFadeTask",
    "address": "0x022025D8",
    "kind": "game",
    "region": "ov094",

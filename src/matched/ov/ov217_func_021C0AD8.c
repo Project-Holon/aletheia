@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AD8
+ * function: RESEARCH_COMMON_InitClact
  * address:  0x021C0AD8
  * packet:   pkt_ov217_021C0AD8
  * region:   ov217
@@ -36,7 +36,7 @@ struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u8 d_021C3F64[];
 extern u8 d_021C3F9C[];
-void func_021C0AD8(u32 a0)
+void RESEARCH_COMMON_InitClact(u32 a0)
 {
     CLACT_InitSystem((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, ((struct Obj25984 *)((u8*)a0))->f0);
 }

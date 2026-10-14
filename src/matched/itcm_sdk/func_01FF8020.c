@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8020
+ * function: MIi_DmaSetParameters
  * address:  0x01FF8020
  * packet:   pkt_01FF8020
  * region:   arm9_autoload0_ITCM
@@ -26,7 +26,7 @@ typedef union
     u16 b16;
 } MIiDmaClearSrc;
 
-void func_01FF8020(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
+void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
 {
     int enabled;
     vu32 *p;

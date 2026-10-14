@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A80
+ * function: WORLDTRADE_ENTER_StatePollServerCheck
  * address: 0x021F8A80
  * packet: pkt_ov135_021F8A80
  * region: ov135
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int func_02168124(void);
-int func_021F8A80(u8 *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+int WORLDTRADE_ENTER_StatePollServerCheck(u8 *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }

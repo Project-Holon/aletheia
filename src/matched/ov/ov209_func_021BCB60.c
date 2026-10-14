@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB60
+ * function: ZUKAN_LIST_DeleteFrameList
  * address: 0x021BCB60
  * packet: pkt_ov209_021BCB60
  * region: ov209
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S;struct U16Vec;
 extern void FRAME_LIST_Delete(struct S *);extern void STRBUF_Delete(struct U16Vec *);
-void func_021BCB60(char *p) { u32 i;FRAME_LIST_Delete(*(struct S * *)&((struct Obj00088 *)p)->fC2C);for(i=0;i<649;i++){struct U16Vec *q=*(struct U16Vec **)((u32)p+i*4+76);if(q)STRBUF_Delete(q);} }
+void ZUKAN_LIST_DeleteFrameList(char *p) { u32 i;FRAME_LIST_Delete(*(struct S * *)&((struct Obj00088 *)p)->fC2C);for(i=0;i<649;i++){struct U16Vec *q=*(struct U16Vec **)((u32)p+i*4+76);if(q)STRBUF_Delete(q);} }

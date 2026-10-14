@@ -1,5 +1,5 @@
 /*
- * function: func_021C09EC
+ * function: RESEARCH_COMMON_RestorePaletteAnime
  * address:  0x021C09EC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) a0, 0 to func_021C0D6C.
+ * Tail-call veneer: forwards arg(s) a0, 0 to RESEARCH_COMMON_RestorePaletteAnimeImpl.
  *
  * symbols:
- *   func_021C0D6C  0x021C0D6C  thumb  ov217
+ *   RESEARCH_COMMON_RestorePaletteAnimeImpl  0x021C0D6C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0D6C(u8 *p, u32 i);
+extern void RESEARCH_COMMON_RestorePaletteAnimeImpl(u8 *p, u32 i);
 
-void func_021C09EC(u32 a0)
+void RESEARCH_COMMON_RestorePaletteAnime(u32 a0)
 {
-    func_021C0D6C((u8 *)a0, 0);
+    RESEARCH_COMMON_RestorePaletteAnimeImpl((u8 *)a0, 0);
 }
 

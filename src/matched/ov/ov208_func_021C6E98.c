@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6E98
+ * function: ZUKAN_DETAIL_FORM_UpdateSlideLeft
  * address:  0x021C6E98
  * packet:   pkt_ov208_021C6E98
  * region:   ov208
@@ -17,18 +17,18 @@
  * first; passed straight as `!= 0` the flag is evaluated before the forms.
  *
  * symbols:
- *   ov208_func_021C5F34  0x021C5F34  thumb  ov208
- *   func_021C80AC        0x021C80AC  thumb
- *   func_021C80CC        0x021C80CC  thumb
+ *   ZUKAN_DETAIL_FORM_HandleStateEvent  0x021C5F34  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_SelectModelPosition        0x021C80AC  thumb
+ *   ZUKAN_DETAIL_FORM_CopyModelPosition        0x021C80CC  thumb
  *   MCSS_SetPosition        0x02015C48  thumb
  *   func_021C50F8        0x021C50F8  thumb
  *   func_021C7D80        0x021C7D80  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
  *   func_021C4E54        0x021C4E54  thumb
  *   func_021C4EAC        0x021C4EAC  thumb
- *   ov208_func_021C6A10  0x021C6A10  thumb  ov208
- *   func_021BC3C0        0x021BC3C0  thumb
- *   func_021BC3A4        0x021BC3A4  thumb
+ *   ZUKAN_DETAIL_FORM_UpdateCursorMarkers  0x021C6A10  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry        0x021BC3C0  thumb
+ *   ZUKAN_DETAIL_COMMON_GetSource        0x021BC3A4  thumb
  *   ZUKAN_SAVE_GetFromGameData        0x0200CA1C  thumb
  *   ZUKAN_SAVE_UpdateViewFlags        0x0200CA98  thumb
  *   FX_SinCosTable_         0x020A1B38  data
@@ -59,19 +59,19 @@ typedef struct {
     float z;
 } VecF;
 
-extern void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev);
-extern void func_021C80AC(int a, int b, int c);
-extern void func_021C80CC(void *u, int k, VecF *v);
+extern void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev);
+extern void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c);
+extern void ZUKAN_DETAIL_FORM_CopyModelPosition(void *u, int k, VecF *v);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021C50F8(u32 obj, Vec *out);
 extern void func_021C7D80(void *a0, u8 *p, void *ctx);
 extern void func_021C5CF0(void *a0, u8 *p, void *ctx);
 extern void func_021C4E54(void *a0, u8 *p, void *ctx);
 extern void func_021C4EAC(void *a0, u8 *p, void *ctx);
-extern void ov208_func_021C6A10(void *a0, u8 *p, void *ctx);
-extern u16  func_021BC3C0(void *ctx);
+extern void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(void *a0, u8 *p, void *ctx);
+extern u16  ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *ctx);
 struct Blk37;
-extern int func_021BC3A4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern s16  FX_SinCosTable_[];
@@ -84,7 +84,7 @@ extern s16  FX_SinCosTable_[];
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
+void ZUKAN_DETAIL_FORM_UpdateSlideLeft(void *a0, u8 *p, void *ctx)
 {
     Vec u;
     VecF a;
@@ -107,33 +107,33 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
         if (I(0x6c0) >= 0x8000) {
             I(0x6c0) = 0x8000;
             I(0x6bc) = 0;
-            ov208_func_021C5F34(a0, p, ctx, 4);
+            ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 4);
             if (H(0x548) >= 2) {
                 if (W(0x94) != 0) {
-                    func_021C80AC((int)(p + 0x94), 1, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x94), 1, (int)(&u));
                     MCSS_SetPosition((void *)W(0x94), (u32 *)(&u));
                 }
                 if (W(0xd8) != 0) {
-                    func_021C80AC((int)(p + 0xd8), 1, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xd8), 1, (int)(&u));
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&u));
                 }
                 idx = W(0x124) != 0 ? 2 : 3;
                 func_021C50F8(*(u32 *)(p + idx * 0x44 + 0xc), &u);
                 if (W(0xc) != 0) {
-                    func_021C80AC((int)(p + 0xc), 2, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xc), 2, (int)(&u));
                     MCSS_SetPosition((void *)W(0xc), (u32 *)(&u));
                 }
                 if (W(0x50) != 0) {
-                    func_021C80AC((int)(p + 0x50), 2, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x50), 2, (int)(&u));
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&u));
                 }
                 func_021C7D80(a0, p, ctx);
                 func_021C5CF0(a0, p, ctx);
                 func_021C4E54(a0, p, ctx);
                 func_021C4EAC(a0, p, ctx);
-                ov208_func_021C6A10(a0, p, ctx);
-                id = func_021BC3C0(ctx);
-                obj = ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(ctx));
+                ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
+                id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
+                obj = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource(ctx));
                 f = *(p + H(0x54e) * 16 + 0x152);
                 sh = *(p + H(0x54e) * 16 + 0x153) != 0 ? 1 : 0;
                 ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, *(u16 *)(p + H(0x54e) * 16 + 0x154));
@@ -143,8 +143,8 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
         } else {
             t = FX_SinCosTable_[(I(0x6c0) >> 4) * 2] / 4096.0f;
             if (W(0xc) != 0) {
-                func_021C80CC(p + 0xc, 3, &a);
-                func_021C80CC(p + 0xc, 4, &b);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc, 3, &a);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xc, 4, &b);
                 x = a.x + I(0x6c0) * (b.x - a.x) / 32768.0f;
                 y = a.y + 16.0f * t;
                 v.x = FX_F32_TO_FX32(x);
@@ -153,8 +153,8 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0xc), (u32 *)(&v));
             }
             if (W(0x50) != 0) {
-                func_021C80CC(p + 0x50, 3, &a);
-                func_021C80CC(p + 0x50, 4, &b);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0x50, 3, &a);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0x50, 4, &b);
                 x = a.x + I(0x6c0) * (b.x - a.x) / 32768.0f;
                 y = a.y + 16.0f * t;
                 v.x = FX_F32_TO_FX32(x);
@@ -163,8 +163,8 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0x50), (u32 *)(&v));
             }
             if (W(0x94) != 0) {
-                func_021C80CC(p + 0x94, 3, &c);
-                func_021C80CC(p + 0x94, 4, &d);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0x94, 3, &c);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0x94, 4, &d);
                 x = d.x + I(0x6c0) * (c.x - d.x) / 32768.0f;
                 y = d.y + -16.0f * t;
                 w.x = FX_F32_TO_FX32(x);
@@ -173,8 +173,8 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0x94), (u32 *)(&w));
             }
             if (W(0xd8) != 0) {
-                func_021C80CC(p + 0xd8, 3, &c);
-                func_021C80CC(p + 0xd8, 4, &d);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xd8, 3, &c);
+                ZUKAN_DETAIL_FORM_CopyModelPosition(p + 0xd8, 4, &d);
                 x = d.x + I(0x6c0) * (c.x - d.x) / 32768.0f;
                 y = d.y + -16.0f * t;
                 w.x = FX_F32_TO_FX32(x);

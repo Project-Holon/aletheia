@@ -1,5 +1,5 @@
 /*
- * function: func_021D62F8
+ * function: GSYNC_DISP_CreateEffectActorAt
  * address: 0x021D62F8
  * packet: pkt_ov123_021D62F8
  * region: ov123
@@ -23,7 +23,7 @@ extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021D62F8(u8 *p, int x, int y)
+void GSYNC_DISP_CreateEffectActorAt(u8 *p, int x, int y)
 {
     struct Point pt;
     if (((struct Obj03266 *)p)->fAC == 0) {

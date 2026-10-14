@@ -1,5 +1,5 @@
 /*
- * function: func_021B6868
+ * function: CTVT_CAMERA_StopCapture
  * address:  0x021B6868
  * packet:   pkt_021B6868
  * region:   ov172
@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern int  OS_IsRunOnTwl(void *p, int b);
 extern void func_021B6884(void);
 
-void func_021B6868(char *p)
+void CTVT_CAMERA_StopCapture(char *p)
 {
     if (((struct Obj02504 *)p)->f10 == 1) {
         ((struct Obj02504 *)p)->f10 = 0;

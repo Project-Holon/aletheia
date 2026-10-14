@@ -1,5 +1,5 @@
 /*
- * function: func_021BD488
+ * function: ZUKAN_LIST_PrintTouchbarLabelClone
  * address: 0x021BD488
  * packet: pkt_ov209_021BD488
  * region: ov209
@@ -25,7 +25,7 @@ extern void func_0201F250(struct WordSet *, void *, void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-void func_021BD488(char *p, unsigned index, unsigned msg, unsigned x, unsigned y, u16 color, unsigned mode)
+void ZUKAN_LIST_PrintTouchbarLabelClone(char *p, unsigned index, unsigned msg, unsigned x, unsigned y, u16 color, unsigned mode)
 {
     void *text;
     text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00123 *)p)->f3C, msg);

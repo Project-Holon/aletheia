@@ -1,5 +1,5 @@
 /*
- * function: func_021BF308
+ * function: ZUKAN_DETAIL_INFO_CreateLanguageButtons
  * address: 0x021BF308
  * packet: pkt_ov208_021BF308
  * region: ov208
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC3B4 0x021BC3B4 thumb ov208
- *   func_021BC3A8 0x021BC3A8 thumb ov208
- *   func_021BCF4C 0x021BCF4C thumb ov208
- *   func_021BDC80 0x021BDC80 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Reset3dState 0x021BCF4C thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot 0x021BDC80 thumb ov208
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -32,10 +32,10 @@ enum Index { INDEX_ZERO = 0 };
 struct Pos { u16 x, y, z, pad; };
 extern const u8 d_021C851C[];
 struct Actor;
-extern int func_021BC3B4(int *p);
-extern int func_021BC3A8(int *p);
-extern int func_021BCF4C(char *);
-extern int func_021BDC80(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetDisplay(int *p);
+extern int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *);
+extern int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -46,7 +46,7 @@ extern u32 CLACT_CreateActor(u32,u32,u32,u32,struct Pos *,u16,u16);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021BF308(u16 *heap, char *p, int key)
+void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, int key)
 {
     struct Pos pos;
     void *scene;
@@ -54,11 +54,11 @@ void func_021BF308(u16 *heap, char *p, int key)
     void *arc;
     enum Index i;
     u16 flag;
-    scene = (void *)func_021BC3B4((int *)key);
-    owner = func_021BCF4C((char *)func_021BC3A8((int *)key));
+    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    owner = ZUKAN_DETAIL_GRAPHIC_Reset3dState((char *)ZUKAN_DETAIL_COMMON_GetDisplay((int *)key));
     i = 0;
     arc = func_020490F4(0x9f, *heap);
-    ((struct Obj05538 *)p)->f9C = func_021BDC80(scene);
+    ((struct Obj05538 *)p)->f9C = ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(scene);
     ((struct Obj05538 *)p)->fA0 = CLACT_RegisterCharacter(arc, 0xd, 0, 0, *heap);
     ((struct Obj05538 *)p)->fA4 = CLACT_RegisterCellAnim(arc, 0x1b, 0x2c, *heap);
     ARC_TOOL_DeleteHandle(arc);

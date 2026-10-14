@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE28
+ * function: DENDOU_VIEW_FreeHallOfFame
  * address: 0x021DCE28
  * packet: pkt_ov171_021DCE28
  * region: ov171
@@ -13,7 +13,7 @@
 #include "../include/Obj14285.h"
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021DCE28(char *p)
+void DENDOU_VIEW_FreeHallOfFame(char *p)
 {
     unsigned short i, j;
     char *row;

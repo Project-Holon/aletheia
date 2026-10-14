@@ -1,5 +1,5 @@
 /*
- * function: func_021C59B8
+ * function: MB_SEQ_CreateMenuEntries
  * address: 0x021C59B8
  * packet: pkt_ov136_021C59B8
  * region: ov136
@@ -11,7 +11,7 @@
  *   its live address keeps r7 and frees the far-offset constants into the original stack slots.
  * retry: wave77 R24 recovered in 3 scratch runs; own callee prototypes copied before matching.
  * symbols:
- *   func_021C59B8 0x021C59B8 thumb
+ *   MB_SEQ_CreateMenuEntries 0x021C59B8 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   g_78C0 0x021C78C0 data
@@ -33,7 +33,7 @@ extern struct R *APP_TASKMENU_RES_Create(u16, u16, u32, u32, u16);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *, u32);
 
-void func_021C59B8(u8 *p)
+void MB_SEQ_CreateMenuEntries(u8 *p)
 {
     u16 i;
     const struct Pair *t;

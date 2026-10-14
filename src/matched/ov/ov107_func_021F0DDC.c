@@ -1,5 +1,5 @@
 /*
- * function: func_021F0DDC
+ * function: MB_PARENT_SYS_IsRegistered
  * address:  0x021F0DDC
  * packet:   pkt_ov107_021F0DDC
  * region:   ov107
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F6EAC  0x021F6EAC  data
+ *   gMbParentSys  0x021F6EAC  data
  */
 
 #include "../include/G_Masks.h"
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern struct Masks d_021F6EAC;
-u32 func_021F0DDC(void) { return *(u32 *)(((u8 *)&d_021F6EAC) + 0x18); }
+extern struct Masks gMbParentSys;
+u32 MB_PARENT_SYS_IsRegistered(void) { return *(u32 *)(((u8 *)&gMbParentSys) + 0x18); }

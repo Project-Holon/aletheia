@@ -1,5 +1,5 @@
 /*
- * function: func_021C67D4
+ * function: MB_SEQ_RegisterMailActorResources
  * address: 0x021C67D4
  * packet: pkt_ov136_021C67D4
  * region: ov136
@@ -33,7 +33,7 @@ extern u32 func_02027618(void);
 extern u32 func_02027614(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-void func_021C67D4(u8 *p)
+void MB_SEQ_RegisterMailActorResources(u8 *p)
 {
     void *arc;
     u32 first;

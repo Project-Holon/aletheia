@@ -1,5 +1,5 @@
 /*
- * function: func_021D4440
+ * function: GSYNC_MENU_StateStartFadeOut
  * address: 0x021D4440
  * packet: pkt_ov123_021D4440
  * region: ov123
@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021D4244 0x021D4244 thumb ov123
- *   func_021D4AB4 0x021D4AB4 thumb ov123
+ *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
+ *   GSYNC_MENU_StateWaitFadeOut 0x021D4AB4 thumb ov123
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb  arm9
@@ -23,8 +23,8 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct Comm;
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern void func_021D4244(char *, void *, int);
-extern void func_021D4AB4(char *p);
+extern void GSYNC_MENU_ChangeState(char *, void *, int);
+extern void GSYNC_MENU_StateWaitFadeOut(char *p);
 typedef struct {
     char pad00[8];
     int f08;
@@ -34,7 +34,7 @@ typedef struct {
     char pad268[0x24];
     int f28c;
 } Object;
-void func_021D4440(Object *p)
+void GSYNC_MENU_StateStartFadeOut(Object *p)
 {
     p->f28c = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, p->f0c);
@@ -45,5 +45,5 @@ void func_021D4440(Object *p)
             GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(p->f264));
         break;
     }
-    func_021D4244((char *)p, func_021D4AB4, 0x1aa);
+    GSYNC_MENU_ChangeState((char *)p, GSYNC_MENU_StateWaitFadeOut, 0x1aa);
 }

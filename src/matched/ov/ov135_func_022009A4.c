@@ -1,5 +1,5 @@
 /*
- * function: func_022009A4
+ * function: WORLDTRADE_TITLE_PrintMessage
  * address: 0x022009A4
  * packet: pkt_ov135_022009A4
  * region: ov135
@@ -15,7 +15,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02202858 0x02202858 thumb ov135
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor 0x02202858 thumb ov135
  */
 #include "../include/Obj02863.h"
 typedef unsigned char u8;
@@ -33,8 +33,8 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
-void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4)
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+void WORLDTRADE_TITLE_PrintMessage(u8 *p, u32 n, int a2, int a3, int a4)
 {
     u32 w;
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj02863 *)p)->fB6C), n, ((struct Obj02863 *)p)->fB88);
@@ -44,5 +44,5 @@ void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4)
     BMP_WIN_MakeScreen((struct Cfg *)w);
     func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     func_0201F73C((void *)(((struct Obj02863 *)p)->fD40), 0, 1, 0xe);
-    func_02202858((void *)(((struct Obj02863 *)p)->fD40), 0, ((struct Obj02863 *)p)->fB88, 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj02863 *)p)->fD40), 0, ((struct Obj02863 *)p)->fB88, 0, 0, p + 0xfa0);
 }

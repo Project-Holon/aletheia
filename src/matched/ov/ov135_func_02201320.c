@@ -1,5 +1,5 @@
 /*
- * function: func_02201320
+ * function: WORLDTRADE_SERVER_WaitNameCheck
  * address: 0x02201320
  * packet: pkt_ov135_02201320
  * region: ov135
@@ -38,7 +38,7 @@ extern u32 func_0200FBB0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
-int func_02201320(u8 *p)
+int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
 {
     int done;
     int positive;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D24
+ * function: ZUKAN_DETAIL_AREA_RequestModeEvent4
  * address:  0x021C1D24
  * packet:   pkt_021C1D0C
  * region:   ov208
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C1920 0x021C1920  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleModeEvent 0x021C1920  thumb  ov208
  *
- * Region-qualified name: src/matched/func_021C1D24.c is ov217's function at the
+ * Region-qualified name: src/matched/ZUKAN_DETAIL_AREA_RequestModeEvent4.c is ov217's function at the
  * same load address; this is ov208's.
  *
  * Thin forwarder: hands its first three arguments straight through to
- * func_021C1920 with a literal fourth argument of 4.
+ * ZUKAN_DETAIL_AREA_HandleModeEvent with a literal fourth argument of 4.
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
+extern void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode);
 
-void func_021C1D24(void *a, int b, int c)
+void ZUKAN_DETAIL_AREA_RequestModeEvent4(void *a, int b, int c)
 {
-    func_021C1920(a, (u8 *)b, c, 4);
+    ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 4);
 }

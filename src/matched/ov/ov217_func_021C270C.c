@@ -1,5 +1,5 @@
 /*
- * function: func_021C270C
+ * function: PERCENTAGE_Destroy
  * address:  0x021C270C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C2914  0x021C2914  thumb  ov217
- *   func_021C2950  0x021C2950  thumb  ov217
+ *   PERCENTAGE_Free  0x021C2914  thumb  ov217
+ *   PERCENTAGE_Exit  0x021C2950  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C2914(void *a0);
-extern void func_021C2950(u32);
-u32 func_021C270C(void *a0)
+extern u32 PERCENTAGE_Free(void *a0);
+extern void PERCENTAGE_Exit(u32);
+u32 PERCENTAGE_Destroy(void *a0)
 {
-    func_021C2950((u32)a0);
-    return func_021C2914(a0);
+    PERCENTAGE_Exit((u32)a0);
+    return PERCENTAGE_Free(a0);
 }
 

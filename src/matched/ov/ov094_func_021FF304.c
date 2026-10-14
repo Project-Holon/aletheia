@@ -1,5 +1,5 @@
 /*
- * function: func_021FF304
+ * function: BTLV_MCSS_SetAnimStopMode
  * address:  0x021FF304
  * packet:   pkt_ov094_021FF304
  * region:   ov094
@@ -25,7 +25,7 @@
  *   MCSS_SetAnmStopFlagAlways  0x02015E28  thumb
  *   MCSS_ResetAnmStopFlagAlways  0x02015E70  thumb
  *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef struct {
     void *h;
@@ -37,15 +37,15 @@ typedef struct {
     Entry e[14];
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetAnmStopFlagAlways(void *p);
 extern void MCSS_ResetAnmStopFlagAlways(void *p);
 extern void MCSS_ResetAnmStopFlag(void *p);
 
-void func_021FF304(Work *w, int key, int mode)
+void BTLV_MCSS_SetAnimStopMode(Work *w, int key, int mode)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_02179880
+ * function: IRCNET_CbHasPeer
  * address: 0x02179880
  * packet: pkt_ov015_02179880
  * region: ov015
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_02179D68 0x02179D68 thumb ov015
+ *   IRCNET_HasPeer 0x02179D68 thumb ov015
  */
 
-extern unsigned char func_02179D68(void);
-unsigned char func_02179880(void);
+extern unsigned char IRCNET_HasPeer(void);
+unsigned char IRCNET_CbHasPeer(void);
 
-unsigned char func_02179880(void)
+unsigned char IRCNET_CbHasPeer(void)
 {
-    return func_02179D68();
+    return IRCNET_HasPeer();
 }

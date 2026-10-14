@@ -1,5 +1,5 @@
 /*
- * function: func_021BC274
+ * function: ZUKAN_DETAIL_PROCSYS_RunStateCallbacks
  * address: 0x021BC274
  * packet: pkt_ov208_021BC274
  * region: ov208
@@ -12,7 +12,7 @@
 struct State;
 typedef int (*Callback)(struct State *,int *,int,int,int);
 struct State { Callback *callbacks; int state,counter,a,b; };
-int func_021BC274(struct State *p,int arg)
+int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct State *p,int arg)
 {
     int result=1;
     switch(p->state) {

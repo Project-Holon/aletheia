@@ -1,5 +1,5 @@
 /*
- * function: func_021C3208
+ * function: ZUKAN_DETAIL_VOICE_FinishScaleAnim
  * address:  0x021C3208
  * packet:   pkt_021C3208
  * region:   ov208
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int state;
 } S;
 
-void func_021C3208(int unused, S *p)
+void ZUKAN_DETAIL_VOICE_FinishScaleAnim(int unused, S *p)
 {
     unsigned int v = p->state;
 

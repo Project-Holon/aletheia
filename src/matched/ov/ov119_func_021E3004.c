@@ -1,5 +1,5 @@
 /*
- * function: func_021E3004
+ * function: POKETRADE_3D_SetupParticleSystemsHigh
  * address:  0x021E3004
  * packet:   pkt_ov119_021E3004
  * region:   ov119
@@ -22,7 +22,7 @@ extern void func_02087A3C(int clear, u32 flags);
 extern u32 func_020056BC(void);
 extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
 
-void func_021E3004(char *p)
+void POKETRADE_3D_SetupParticleSystemsHigh(char *p)
 {
     int i;
 

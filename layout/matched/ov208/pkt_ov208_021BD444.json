@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BD444",
+   "name": "ZKND_TBAR_LoadButtonResources",
    "address": "0x021BD444",
    "kind": "game",
    "region": "ov208",

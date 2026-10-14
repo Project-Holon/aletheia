@@ -1,5 +1,5 @@
 /*
- * function: func_021D9514
+ * function: PDWACC_MESSAGE_PrintStream
  * address: 0x021D9514
  * packet: pkt_ov123_021D9514
  * region: ov123
@@ -38,7 +38,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D9514(char *p, int n)
+void PDWACC_MESSAGE_PrintStream(char *p, int n)
 {
     void *q;
     MSGDATA_ReadString(((struct Obj02477 *)p)->f20,n,((struct Obj02477 *)p)->f2C);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FE9DC",
+   "name": "WORLDTRADE_SEARCH_UpdateKeyCursor",
    "address": "0x021FE9DC",
    "kind": "game",
    "region": "ov135",

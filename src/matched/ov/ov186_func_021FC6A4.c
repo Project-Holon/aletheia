@@ -1,5 +1,5 @@
 /*
- * function: func_021FC6A4
+ * function: BR_UTIL_Create
  * address: 0x021FC6A4
  * packet: pkt_ov186_021FC6A4
  * region: ov186
@@ -38,7 +38,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)
+void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)
 {
     char *p;
     void *bmp;

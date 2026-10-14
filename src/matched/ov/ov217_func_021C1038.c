@@ -1,5 +1,5 @@
 /*
- * function: func_021C1038
+ * function: BgTextLabel_SetPalette
  * address: 0x021C1038
  * packet: pkt_ov217_021C1038
  * region: ov217
@@ -29,7 +29,7 @@ extern u8 BMP_WIN_GetDispWidth(struct Descriptor *);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
-void func_021C1038(u8 *p,u8 palette)
+void BgTextLabel_SetPalette(u8 *p,u8 palette)
 {
     u32 layer;
     u8 x,y,width,height;

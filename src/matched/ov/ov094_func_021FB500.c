@@ -1,5 +1,5 @@
 /*
- * function: func_021FB500
+ * function: BTLV_EFFVM_CmdNop4
  * address:  0x021FB500
  * packet:   pkt_ov094_021FB500
  * region:   ov094
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FB500(void *a, char *s)
+int BTLV_EFFVM_CmdNop4(void *a, char *s)
 {
     VM_GetU32(a);
     VM_GetU32(a);

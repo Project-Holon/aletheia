@@ -1,5 +1,5 @@
 /*
- * function: func_021E11F4
+ * function: GURU2_MAIN_StartEntranceEffect
  * address:  0x021E11F4
  * packet:   pkt_021E11F4
  * region:   ov137
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E11F4(char *p)
+void GURU2_MAIN_StartEntranceEffect(char *p)
 {
     char *q = p + 0xC74;
 

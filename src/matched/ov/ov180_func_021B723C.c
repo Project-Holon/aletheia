@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B723C, func_021B7268
+ * function: HALL_OF_FAME_BeginFadeOut, HALL_OF_FAME_BeginCountdown
  * address: 0x021B723C
  * packet: pkt_ov180_021B723C
  * region: ov180
@@ -16,12 +16,12 @@
 #include "../include/Obj24489.h"
 typedef unsigned int   u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021B723C(char *p,int value,int duration) {
+int HALL_OF_FAME_BeginFadeOut(char *p,int value,int duration) {
     WIPE_SYS_Start(0,0,0,0,duration,1,141);
     ((struct Obj24489 *)p)->f9194=value;
     return 2;
 }
-int func_021B7268(char *p,int value) {
+int HALL_OF_FAME_BeginCountdown(char *p,int value) {
     ((struct Obj00299 *)p)->f9188=value;
     ((struct Obj00299 *)p)->f9194=((struct Obj00299 *)p)->f918C;
     return 3;

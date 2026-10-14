@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3FC
+ * function: ZUKAN_LIST_FlushWindows
  * address: 0x021BD3FC
  * packet: pkt_ov209_021BD3FC
  * region: ov209
@@ -25,7 +25,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Context { char pad[72]; int ps; };
-void func_021BD3FC(const struct Context *p)
+void ZUKAN_LIST_FlushWindows(const struct Context *p)
 {
     int ps;
     long i;

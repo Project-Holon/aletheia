@@ -1,5 +1,5 @@
 /*
- * function: func_021C3FC8
+ * function: MAILTOOL_StartWordInput
  * address:  0x021C3FC8
  * packet:   pkt_ov136_021C3FC8
  * region:   ov136
@@ -12,7 +12,7 @@
  * note:     2026-10-02 only unresolved arm9 Thumb leaf witnesses (02024104, 02024108, 02024450 unmanifested); C is complete
  *
  * symbols:
- *   func_021C3FC8 0x021C3FC8 thumb
+ *   MAILTOOL_StartWordInput 0x021C3FC8 thumb
  *   PMSI_PARAM_ClearSentence 0x0202428C thumb
  *   PMSI_PARAM_Create 0x02024044 thumb
  *   PMSI_PARAM_SetWord 0x02024104 thumb
@@ -37,7 +37,7 @@ extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
-void func_021C3FC8(u8 *ctx, u8 *arg)
+void MAILTOOL_StartWordInput(u8 *ctx, u8 *arg)
 {
     u8 *p = *(u8 * *)&((struct Obj01412 *)ctx)->f10;
     u32 k = p[2];

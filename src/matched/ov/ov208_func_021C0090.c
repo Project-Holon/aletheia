@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0090
+ * function: ZUKAN_DETAIL_AREA_LoadMapGraphics
  * address:  0x021C0090
  * packet:   pkt_ov208_021C0090
  * region:   ov208
@@ -28,7 +28,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void ov208_func_021C0090(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key)
 {
     void *h;
 

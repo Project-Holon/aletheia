@@ -1,5 +1,5 @@
 /*
- * function: func_021DE030
+ * function: DENDOU_VIEW_UpdateActors
  * address: 0x021DE030
  * packet: pkt_ov171_021DE030
  * region: ov171
@@ -21,7 +21,7 @@ struct Obj;
 extern u32 CLACT_GetActorAutoAnim(struct Obj *);
 extern void CLACT_AddActorAnimFrame(struct Obj *,u32);
 extern void CLACT_DrawSystem(void);
-void func_021DE030(u8 *p)
+void DENDOU_VIEW_UpdateActors(u8 *p)
 {
     unsigned i;
     u8 *element;

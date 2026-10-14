@@ -1,5 +1,5 @@
 /*
- * function: func_021E5098
+ * function: POKETRADE_2D_LoadBoxIconGfx
  * address: 0x021E5098
  * packet: pkt_ov119_021E5098
  * region: ov119
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_021D8DD0 0x021D8DD0 thumb ov119
+ *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb ov119
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 extern char d_021E8530[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
@@ -34,7 +34,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3,
 extern void MI_CpuCopy8(void *, const void *, int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E5098(char *p, int b)
+void POKETRADE_2D_LoadBoxIconGfx(char *p, int b)
 {
     int i, n, x, t, out;
     void *a;
@@ -46,7 +46,7 @@ body:
         n = b * 30;
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
-            x = (int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
+            x = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
             if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
             t = (int)ARC_UTIL_LoadBgCharDataFromHandle(a, x, 0, (u32)(&out), ((struct Obj00001 *)p)->f5F4);

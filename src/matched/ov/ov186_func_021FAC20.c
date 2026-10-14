@@ -14,9 +14,9 @@
  *   func_02034714 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Clone 0x02045874 arm
- *   func_021FB7B0 0x021FB7B0 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
+ *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_021FB3BC 0x021FB3BC thumb ov186
  *   d_02200D18 0x02200D18 data a1
  */
@@ -33,9 +33,9 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void MI_CpuFill8(void *, int, unsigned);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
-extern int func_021FB7B0(void *p, int i);
-extern void func_021FC124(void *, unsigned, void *);
-extern unsigned func_021FC20C(char *p);
+extern int BR_BTN_DATA_GetRowField(void *p, int i);
+extern void BR_RES_GetSprite(void *, unsigned, void *);
+extern unsigned BR_RES_GetFont(char *p);
 extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
 extern char d_02200D18[];
 void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *owner, const void *arg, unsigned index, unsigned short heap)
@@ -58,10 +58,10 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     ctx->b = b;
     ctx->work = (unsigned)STRBUF_Clone((struct U16Vec *)work, heap_value);
     MI_CpuFill8(&config, 0, 8);
-    config.x = func_021FB7B0((void *)ctx->object, 0);
-    config.y = func_021FB7B0((void *)ctx->object, 1);
-    config.z = func_021FB7B0((void *)ctx->object, 4);
+    config.x = BR_BTN_DATA_GetRowField((void *)ctx->object, 0);
+    config.y = BR_BTN_DATA_GetRowField((void *)ctx->object, 1);
+    config.z = BR_BTN_DATA_GetRowField((void *)ctx->object, 4);
     config.flag = 1;
-    func_021FC124(owner, ctx->index + 1, info);
-    ctx->result = (unsigned)func_021FB3BC(&config, (void *)ctx->work, 0xa0, ctx->enabled, a, b, func_021FC20C(owner), info, (unsigned short)((heap & 0x7fff) | 0x8000));
+    BR_RES_GetSprite(owner, ctx->index + 1, info);
+    ctx->result = (unsigned)func_021FB3BC(&config, (void *)ctx->work, 0xa0, ctx->enabled, a, b, BR_RES_GetFont(owner), info, (unsigned short)((heap & 0x7fff) | 0x8000));
 }

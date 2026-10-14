@@ -49,7 +49,7 @@
  *   func_02012B58  0x02012B58  thumb
  *   func_02012B8C  0x02012B8C  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_02175710  0x02175710  thumb  ov011
+ *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
@@ -263,6 +263,8 @@ typedef signed int s32;
 
 #include "../ov011/intrude_comm_types.h"
 #include "intrude_subdisp_types.h"
+#include "intrude_field_types.h"
+#include "../ov010/fldmmdl_types.h"
 
 typedef struct VecFx32 {
     s32 x;
@@ -271,69 +273,37 @@ typedef struct VecFx32 {
 } VecFx32;
 
 
-/* Record of the player copy that plays the split animation (0x18 bytes). */
-typedef struct {
-    void *f0;
-    void *f4;
-    s16 f8;
-    s16 fA;
-    u16 fC;
-    u8 fE;
-    u8 fF;
-    u8 f10;
-    u8 f11;
-    u8 f12;
-    u8 f13;
-    void *f14;
-} Rec;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u8 pad04[8];
-    u16 fC;
-} Tmpl_0217C758;
-
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec;
-
-typedef struct { int x, y, z; } V12;
+/* Work of the brightness fade event (12 bytes, allocated by INTRUDE_SUBDISP_CreateBrightFadeEvent). */
+typedef struct IntrudeBrightFadeWork {
+    struct FieldMap *fieldMap;  /* 0x00 */
+    void *subscreen;            /* 0x04: sub screen that is switched back to mode 0 */
+    int frame;                  /* 0x08: frames since the fade started */
+} IntrudeBrightFadeWork;
 
 /* Work of the disconnect event (0x28 bytes, allocated by INTRUDE_SUBDISP_CreateDisconnectEvent). */
 typedef struct {
     void *msgData;          /* 0x00 */
     void *msgBox;           /* 0x04 */
-    unsigned char copyRecord[0x18]; /* 0x08: record of the player copy animation */
+    PlayerSpinWork copyRecord;      /* 0x08: record of the player copy animation */
     int cause;              /* 0x20: 0 = own choice, 1 and 2 = peer left */
     int alone;              /* 0x24 */
-} Ov018Work_0217CAFC;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-} Obj_0217CF0C;
-
-typedef struct { u8 a : 7; u8 b : 1; } FlagsF8_0217C758;
+} IntrudeDisconnectWork;
 
 struct BgTemplate {
-    u32 unk_00;
-    u32 unk_04;
-    u32 bufSize;
-    u32 unk_0c;
-    u8  unk_10;
-    u8  unk_11;
-    u8  unk_12;
-    u8  unk_13;
-    u32 unk_14;
-    u8  unk_18;
-    u8  unk_19;
-    u8  unk_1a;
-    u8  unk_1b;
-    u32 unk_1c;
+    u32 x;                  /* 0x00 */
+    u32 y;                  /* 0x04 */
+    u32 bufSize;            /* 0x08 */
+    u32 baseTile;           /* 0x0C */
+    u8 screenSize;          /* 0x10 */
+    u8 colorMode;           /* 0x11 */
+    u8 screenBase;          /* 0x12 */
+    u8 charBase;            /* 0x13 */
+    u32 extPaletteSlot;     /* 0x14 */
+    u8 priority;            /* 0x18 */
+    u8 areaOver;            /* 0x19 */
+    u8 dummy;               /* 0x1A */
+    u8 mosaic;              /* 0x1B */
+    u32 bgType;             /* 0x1C */
 };
 extern void MI_CpuFill8(void *, int, int);
 extern void *func_020120F4(const void *p);
@@ -345,8 +315,8 @@ extern u16 FLDMMDL_GetObjCode(void *);
 extern int FLDMMDL_GetGridNowX(void *);
 extern int FLDMMDL_GetGridNowZ(void *);
 extern u32 FLDMMDL_GetPosY(void *p);
-extern void FLDMMDL_InitPosRecord(void *, u16, u16, int);
-extern void *FLDMMDL_AddMmdl(int, void *, int);
+extern void FLDMMDL_InitPosRecord(MmdlHeader *, u16, u16, int);
+extern void *FLDMMDL_AddMmdl(int, MmdlHeader *, int);
 extern void INTRUDE_FIELD_ChangePlayerLook(void *p, void *a1, int id, u8 kind, u8 flag);
 extern void FLDMMDL_SetStatusBitVanish(void *, unsigned int);
 extern void FLDMMDL_SetAcmd(void *, int);
@@ -369,7 +339,7 @@ extern unsigned int func_02012138(const void *p);
 extern u8 func_02012B58(const void *p);
 extern void func_02012B8C(void *p, unsigned int v);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
-extern void func_02175710(void *o, u32 v);
+extern void INTRUDE_COMM_SetIntrudeId(void *o, u32 v);
 struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 void *func_020124E8(void *p);
 u32 GAME_COMM_GetKind(void *obj);
@@ -548,19 +518,19 @@ extern void func_02041300(unsigned int, int, int, int, u8, u8, u8);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const void *palette, u8 a6, u8 a7, u8 a8, u8 a9);
 extern int INTRUDE_COMM_HasUnlockFlags(void *);
 
-void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind, u8 flag, u16 idx, int place);
-int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r);
+void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void *a3, u16 id, u8 kind, u8 flag, u16 idx, int place);
+int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0);
 int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
-int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work_0217CAFC *work);
+int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work);
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p);
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state);
 void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3);
 void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2);
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
-int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, Obj_0217CF0C *o);
+int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, IntrudeBrightFadeWork *o);
 int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p);
 int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1);
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
@@ -621,8 +591,8 @@ int EVENT_COMM_COMMON_IsKeyTrg(void);
 int EVENT_COMM_COMMON_GetMissionState(void *session);
 extern IntrudeSubdispSel *INTRUDE_COMM_GetActiveSessionRequest(void *session);
 
-extern Tmpl_0217C758 d_02183AF0;
-extern Tmpl_0217C758 g_02183AF0;
+extern MmdlHeader d_02183AF0;
+extern MmdlHeader g_02183AF0;
 extern char str_02183B14[];
 extern char str_02183B28[];
 extern unsigned char d_021836B4[];
@@ -645,7 +615,7 @@ extern const s8 d_021836A4[3][2];
  * 0x02183AF0 twice (stores, then call arguments), so two extern names:
  * see docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
  */
-void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
+void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
     int sys;
@@ -655,27 +625,27 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 i
     int y;
 
     MI_CpuFill8(r, 0, 0x18);
-    r->f0 = a1;
-    r->f4 = a2;
-    r->fC = id;
-    r->fE = kind;
-    r->fF = flag;
-    r->fA = 15;
-    r->f8 = r->fA;
-    r->f13 = idx;
+    r->gameSystem = a1;
+    r->fieldMap = a2;
+    r->objCode = id;
+    r->kind = kind;
+    r->flag = flag;
+    r->stepFrames = 15;
+    r->shownStep = r->stepFrames;
+    r->copyIndex = idx;
     if (place != 0) {
         sys = func_02012964(func_020120F4(a1));
         obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
         zone = FIELDMAP_GetZoneId(a2);
-        d_02183AF0.f2 = FLDMMDL_GetObjCode(obj);
-        d_02183AF0.fC = idx;
+        d_02183AF0.objCode = FLDMMDL_GetObjCode(obj);
+        d_02183AF0.dirHeader = idx;
         x = FLDMMDL_GetGridNowX(obj);
         y = FLDMMDL_GetGridNowZ(obj);
-        FLDMMDL_InitPosRecord(((Tmpl_0217C758 *)&g_02183AF0), x, y, FLDMMDL_GetPosY(obj));
-        r->f14 = FLDMMDL_AddMmdl(sys, ((Tmpl_0217C758 *)&g_02183AF0), zone);
-        INTRUDE_FIELD_ChangePlayerLook(a3, r->f0, r->fC, r->fE, r->fF);
+        FLDMMDL_InitPosRecord((&g_02183AF0), x, y, FLDMMDL_GetPosY(obj));
+        r->copyMmdl = FLDMMDL_AddMmdl(sys, (&g_02183AF0), zone);
+        INTRUDE_FIELD_ChangePlayerLook(a3, r->gameSystem, r->objCode, r->kind, r->flag);
         FLDMMDL_SetStatusBitVanish(obj, 1);
-        FLDMMDL_SetStatusBitVanish(r->f14, 0);
+        FLDMMDL_SetStatusBitVanish(r->copyMmdl, 0);
     }
 }
 void EVENT_COMM_COMMON_ChangeTalkedItemSaleEvent(void *a, void *b);
@@ -685,52 +655,52 @@ void EVENT_COMM_COMMON_ChangeTalkedItemPurchaseEvent(void *a, void *b);
 /*
  * Per-frame step of the 0x18-byte record (same layout as INTRUDE_FIELD_StepPlayerSpin's).
  */
-int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r)
+int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r)
 {
     void *fld;
     void *obj;
     u16 anim;
-    Vec v;
+    VecFx32 v;
 
-    fld = FIELDMAP_GetFieldPlayer(r->f4);
+    fld = FIELDMAP_GetFieldPlayer(r->fieldMap);
     obj = FIELD_PLAYER_GetMmdl((void *)fld);
-    switch (r->f10) {
+    switch (r->state) {
     case 0:
-        anim = r->f13 == 3 ? 7 : 6;
+        anim = r->copyIndex == 3 ? 7 : 6;
         FLDMMDL_SetAcmd(obj, anim);
-        if (r->f14 != 0)
-            FLDMMDL_SetAcmd(r->f14, anim);
+        if (r->copyMmdl != 0)
+            FLDMMDL_SetAcmd(r->copyMmdl, anim);
         FIELD_PLAYER_GetPos(fld, &v);
-        if (r->f13 == 3)
+        if (r->copyIndex == 3)
             v.x += 0x8000;
         else
             v.x -= 0x8000;
-        FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt((int)r->f4, &v);
+        FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt((int)r->fieldMap, &v);
         GFL_USE_PlaySeDefaultVolume(0x774);
-        r->f10++;
+        r->state++;
         break;
     case 1:
-        r->fA--;
-        if (r->fA <= 0) {
-            if (r->f14 != 0) {
+        r->stepFrames--;
+        if (r->stepFrames <= 0) {
+            if (r->copyMmdl != 0) {
                 FLDMMDL_SetStatusBitVanish(obj, 0);
-                FLDMMDL_SetStatusBitVanish(r->f14, 1);
+                FLDMMDL_SetStatusBitVanish(r->copyMmdl, 1);
             }
-            r->f10++;
+            r->state++;
         }
         break;
     case 2:
-        if (FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(r->f4) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
+        if (FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(r->fieldMap) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
             FLDMMDL_EndAcmd(obj);
-            if (r->f14 != 0)
-                FLDMMDL_EndAcmd(r->f14);
-            r->f10++;
+            if (r->copyMmdl != 0)
+                FLDMMDL_EndAcmd(r->copyMmdl);
+            r->state++;
         }
         break;
     case 3:
-        if (r->f14 != 0) {
-            FLDMMDL_DeleteMmdl((int)r->f14);
-            r->f14 = 0;
+        if (r->copyMmdl != 0) {
+            FLDMMDL_DeleteMmdl((int)r->copyMmdl);
+            r->copyMmdl = 0;
         }
         return 1;
     }
@@ -801,7 +771,7 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state)
 
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p)
 {
-    V12 v;
+    VecFx32 v;
     INTRUDE_FIELD_GetZoneAnchor(0x117, &v);
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(p, 0x117, (&v));
 }
@@ -817,7 +787,7 @@ void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0)
     gameData = func_020120F4((void *)a0);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys != 0) {
-        func_02175710(sys, func_02012B58(gameData));
+        INTRUDE_COMM_SetIntrudeId(sys, func_02012B58(gameData));
     } else {
         func_02012B8C(gameData, func_02012B58(gameData));
     }
@@ -829,7 +799,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
 {
     void *sys;
     int ret;
-    Ov018Work_0217CAFC *work;
+    IntrudeDisconnectWork *work;
     unsigned char *x;
 
     sys = (void *)func_02012138(a);
@@ -853,7 +823,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b)
 }
 
 
-int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work_0217CAFC *work)
+int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work)
 {
     void *x;
     void *s2;
@@ -969,7 +939,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work_0217CAFC *w
         y = func_0201210C(x);
         if (FIELDMAP_IsReady(y) == 1) {
             if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(y)) == 0) {
-                INTRUDE_FIELD_InitPlayerSpin(work->copyRecord, x, y, 0, 0, 0);
+                INTRUDE_FIELD_InitPlayerSpin(&work->copyRecord, x, y, 0, 0, 0);
                 (*seq)++;
             } else {
                 *seq = 10;
@@ -977,7 +947,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work_0217CAFC *w
         }
         break;
     case 8:
-        if (INTRUDE_FIELD_StepPlayerSpin(work->copyRecord, 0) == 1) {
+        if (INTRUDE_FIELD_StepPlayerSpin(&work->copyRecord, 0) == 1) {
             if (work->alone == 1) {
                 *seq = 10;
             } else {
@@ -1052,7 +1022,7 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3)
 {
     void *gameComm;
     void *c;
-    V12 v;
+    VecFx32 v;
 
     gameComm = (void *)func_02012138(a0);
     c = func_020120F4((void *)a0);
@@ -1069,7 +1039,7 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
 {
     u8 *p;
     IntrudeZoneInfo *q;
-    V12 v;
+    VecFx32 v;
     u16 s;
 
     p = (u8 *)INTRUDE_COMM_GetWorkIfRunning((void *)func_02012138(a0));
@@ -1079,7 +1049,7 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
     if (q == 0)
         return 0;
     s = q->townId;
-    v = *(V12 *)(p + a2 * 0x1C + 0x90);
+    v = *(VecFx32 *)(p + a2 * 0x1C + 0x90);
     v.z += 0x20000;
     return EVENT_MAPCHANGE_CreateWarpEvent(a0, (int)a1, s, (const int *)(&v), 0, 0);
 }
@@ -1097,22 +1067,22 @@ void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b)
 }
 
 
-int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, Obj_0217CF0C *o)
+int INTRUDE_SUBDISP_BrightFadeEventMain(int a0, int *state, IntrudeBrightFadeWork *o)
 {
     switch (*state) {
     case 0:
-        o->f8 += 1;
-        if (o->f8 > 15) {
-            BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->f0), -16);
+        o->frame += 1;
+        if (o->frame > 15) {
+            BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->fieldMap), -16);
             *state += 1;
         }
         break;
     case 1:
-        FIELD_SUBSCREEN_ChangeModeNow((u32 *)o->f4, 0);
+        FIELD_SUBSCREEN_ChangeModeNow((u32 *)o->subscreen, 0);
         *state += 1;
         break;
     case 2:
-        BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->f0), 0);
+        BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)o->fieldMap), 0);
         *state += 1;
         break;
     case 3:

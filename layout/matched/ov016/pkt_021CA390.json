@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CAC44",
+   "name": "DWCi_SceneSetRakuButton_DetectFold",
    "address": "0x021CAC44",
    "kind": "sdk",
    "region": "ov016",

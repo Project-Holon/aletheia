@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE00C 0x021BE00C thumb ov172
+ *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_021B8050 0x021B8050 thumb ov172
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -41,7 +41,7 @@ typedef struct {
     u8 b1 : 1;
     u8 rest : 6;
 } Flags;
-extern u16 func_021BE00C(u16 *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
 extern void GFL_NET_SetWaitMode(int a);
 extern void func_021B8050(void *a, void *b);
 extern int GFL_NET_GetRunState(void);
@@ -71,7 +71,7 @@ void func_021B7E34(void *p, char *q)
     u32 h;
     u8 i;
     u8 j;
-    func_021BE00C(p);
+    COMM_TVT_SYS_GetHeapId(p);
     switch (((struct Obj00289 *)q)->f8) {
     case 0:
         if (((struct Obj00289 *)q)->f178 == 0)

@@ -81,7 +81,7 @@
  *   INTRUDE_COMM_GetMarkerPosForPartner  0x021767F0  thumb  ov011
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  *   SYMBOL_MAP_GetSelectedNeighborCell  0x021665F0  thumb  ov010
- *   FIELD_G3D_MAP_StartSymbolEntry  0x0216B3A8  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_StartSymbolEntry  0x0216B3A8  thumb  ov010
  *   SCRIPT_WORK_GetWorkValue 0x0215901C thumb ov010
  *   INTRUDE_FIELD_GetMmdlParamPair 0x0217C274 thumb ov018
  *   INTRUDE_FIELD_CreateSymbolMon   0x0217C2A0  thumb
@@ -306,7 +306,7 @@ extern int SYMBOL_MAP_MoveRecordToPairedBand(struct SymbolSave *save, u32 index)
 extern int SYMBOL_MAP_IsHomeCell(int symbolMapFlag);
 extern int SYMBOL_MAP_IsBlankCell(int symbolMapFlag);
 extern int SYMBOL_MAP_GetSelectedNeighborCell(struct GameSystem *gameSystem, int cellId, int direction);
-extern struct GameEvent *FIELD_G3D_MAP_StartSymbolEntry(struct GameSystem *gameSystem, int direction, int cell);
+extern struct GameEvent *FIELD_INTRUDE_EVENT_StartSymbolEntry(struct GameSystem *gameSystem, int direction, int cell);
 extern void INTRUDE_FIELD_GetMmdlParamPair(SymbolKey *outKey, struct Mmdl *mmdl);
 extern int INTRUDE_FIELD_GetMmdlParam0(struct Mmdl *mmdl);
 extern struct PokemonParam *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, SymbolKey *key);
@@ -1097,7 +1097,7 @@ int SCRCMD_SYMBOL_StartEntryEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     } else {
         if (direction != 9)
             cell = SYMBOL_MAP_GetSelectedNeighborCell(gameSystem, GAME_DATA_GetSymbolMapFlag(gameData), direction);
-        event = FIELD_G3D_MAP_StartSymbolEntry(gameSystem, direction, cell);
+        event = FIELD_INTRUDE_EVENT_StartSymbolEntry(gameSystem, direction, cell);
     }
     SCRIPT_SYS_CallEvent(scriptWork, event);
     return 1;

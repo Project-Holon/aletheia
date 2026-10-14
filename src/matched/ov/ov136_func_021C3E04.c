@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E04
+ * function: MAILTOOL_StoreMailToPartyMon
  * address:  0x021C3E04
  * packet:   pkt_ov136_021C3E04
  * region:   ov136
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3E04 0x021C3E04 thumb
- *   func_021C3E00 0x021C3E00 thumb
+ *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb
+ *   MAILTOOL_HasMail 0x021C3E00 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 typedef unsigned int u32;
-extern u32 func_021C3E00(u32 *p);
+extern u32 MAILTOOL_HasMail(u32 *p);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-int func_021C3E04(u32 *p, void *q)
+int MAILTOOL_StoreMailToPartyMon(u32 *p, void *q)
 {
-    if (func_021C3E00(p) == 0) return 0;
+    if (MAILTOOL_HasMail(p) == 0) return 0;
     POKE_TOOL_SetPartyValue(q, 0xa7, p[5]);
     return 1;
 }

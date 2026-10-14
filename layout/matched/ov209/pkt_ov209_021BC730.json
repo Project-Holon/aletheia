@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC730",
+   "name": "ZUKAN_LIST_RequestFade",
    "address": "0x021BC730",
    "kind": "game",
    "region": "ov209",

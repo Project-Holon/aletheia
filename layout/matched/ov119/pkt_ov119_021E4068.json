@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E4068",
+   "name": "POKETRADE_2D_RegisterIconCharResources",
    "address": "0x021E4068",
    "kind": "game",
    "region": "ov119",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D7C
+ * function: CircleGraph_InitFields
  * address:  0x021C1D7C
  * packet:   pkt_021C1D7C
  * region:   ov217
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj02555.h"
 
-void func_021C1D7C(unsigned char *p, short a)
+void CircleGraph_InitFields(unsigned char *p, short a)
 {
     ((struct Obj02555 *)p)->f0 = a;
     ((struct Obj02555 *)p)->f4 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF610
+ * function: loadbit
  * address:  0x021BF610
  * packet:   pkt_021C2AD0
  * region:   ov172
@@ -28,7 +28,7 @@ typedef int s32;
 
 extern struct BCode2 g_021C88F0[];
 
-int func_021BF610(u8 *a0, int *a1)
+int loadbit(u8 *a0, int *a1)
 {
     if (g_021C88F0[0].bits == 0) {
         int i = *a1;

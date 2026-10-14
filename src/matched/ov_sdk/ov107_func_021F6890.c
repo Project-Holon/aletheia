@@ -1,5 +1,5 @@
 /*
- * function: func_021F6890
+ * function: MBi_MakeParentSendBuffer
  * address:  0x021F6890
  * packet:   pkt_ov107_021F6890
  * region:   ov107
@@ -28,7 +28,7 @@ typedef struct {
     u16 b;
 } ParentBlockHeader;
 
-u8 *func_021F6890(const ParentBlockHeader *hdr, u8 *sendbuf)
+u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf)
 {
     u8 *ptr = sendbuf;
 

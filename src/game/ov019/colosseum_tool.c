@@ -39,13 +39,6 @@
  *   COMM_PLAYER_SetPackage   0x02167848  thumb  ov010
  */
 
-struct Entry;
-struct Ctx_0217BD9C;
-struct Self;
-struct Obj_0217E188;
-struct Sub02008700Obj;
-struct Rec;
-struct Pair;
 struct VecFx32;
 typedef unsigned char u8;
 
@@ -63,98 +56,13 @@ typedef struct { int x,y,z; } VecFx32;
 #define NULL ((void *)0)
 #endif
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-} Sys_0217BD9C;
-
-typedef struct {
-    Sys_0217BD9C *sys;
-} Ctx_0217BD9C;
-
-typedef struct {
-    u8 f00;
-    u8 pad01[0x6e - 1];
-    s16 f6e;
-} Obj_0217E188;
-
-typedef struct {
-    u8 b0 : 1;
-    u8 b1 : 1;
-} Bits_0217DC94;
-
-typedef struct Rec {
-    u8  pad0[7];
-    u8  lo7 : 3;
-    u8  flag7 : 1;
-    u8  hi7 : 4;
-    u8  pad8;
-    u8  f9;
-    u8  padA[2];
-    u16 name[13];
-    u8  f26;
-    u8  f27;
-} Rec;
-
-typedef struct Sys {
-    u32 f0;
-    u32 pad4;
-    u32 f8;
-} Sys;
-
-typedef struct Sub_0217DC94 {
-    u8   pad0[0x14];
-    Rec *rec;
-} Sub_0217DC94;
-
-typedef struct Pair {
-    u32 f0;
-    u32 f4;
-} Pair;
-
-typedef struct Tiles {
-    u32 f0;
-    u32 a[6];
-    u32 b[6];
-} Tiles;
-
-typedef struct Self {
-    Sys   *sys;
-    u8     pad4[0x2800];
-    void  *win2804;
-    void  *msg2808;
-    u8     pad280C[0xc];
-    void  *f2818;
-    u8     pad281C[0x2830 - 0x281C];
-    Sub_0217DC94    sub;
-    u8     pad2848[0x352C - 0x2848];
-    void  *f352C;
-    Tiles *f3530;
-} Self;
-
-struct Bits_0217DC94 { u8 pad[7]; unsigned char low:3; unsigned char kind:1; unsigned char high:4; };
-
-
-/* One effect model over a field model (0x14 bytes, union_eff.c). */
-
-/* Animated reaction effect (0x20 bytes). */
-
-/* Still icons over players (0xD4 bytes). */
-
-/* union_eff work (0xF4 bytes, heap tag 0x8E). */
-
-/* Draw parameters of G3D_SYSTEM_DrawObjectCulling (0x3C bytes). */
-
 extern int  GFL_NET_GetNegotiationNum(void);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern unsigned int func_02080D24(int a);
 extern u32 GFL_NET_GetHandleNetID(void *p);
 extern u8 func_02008550(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
-struct Sub02008700Obj *func_0200873C(void *sys);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void sub_02034714(const char *expr, u32 line, const char *file);
@@ -162,13 +70,12 @@ extern void MTX_Identity33_(void *m);
 extern int FLDMMDL_GetGridNowX(void *);
 extern int FLDMMDL_GetGridNowZ(void *);
 extern u16 FIELDMAP_GetZoneId(void *p);
-int UNION_ONESELF_ColosseumPartyExchangeMain(u8 *w, void *obj, int a2, u8 *state);
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
 int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
 int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out);
-int COLOSSEUM_CheckAllFinished(u8 *p);
+int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsOnCounterPos(void *a);
 extern s16 d_02180794[][2];
@@ -291,18 +198,20 @@ int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out)
 
 
 
-int COLOSSEUM_CheckAllFinished(u8 *p)
+int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum)
 {
-    int n=0; int i; int value=p[0x16e];
-    for (i=0;i<4;i++) { if(p[0x162+i] == 1) n++; }
-    if (n >= GFL_NET_GetNegotiationNum() || n >= (int)func_02080D24(value)) return 1;
+    int n = 0;
+    int i;
+    int value = colosseum->entryBits;
+
+    for (i = 0; i < 4; i++) {
+        if (colosseum->finished[i] == 1)
+            n++;
+    }
+    if (n >= GFL_NET_GetNegotiationNum() || n >= (int)func_02080D24(value))
+        return 1;
     return 0;
 }
-
-
-
-
-
 
 
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum)

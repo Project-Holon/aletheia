@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B662C",
+   "name": "CTVT_CAMERA_OnVsync",
    "address": "0x021B662C",
    "kind": "game",
    "region": "ov172",

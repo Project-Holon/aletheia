@@ -1,5 +1,5 @@
 /*
- * function: func_021BD538
+ * function: ZKND_TBAR_ReleaseButtonResources
  * address:  0x021BD538
  * packet:   pkt_021BD538
  * region:   ov208
@@ -28,7 +28,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void MI_CpuFill8(int, int, int);
 
-void func_021BD538(char *p)
+void ZKND_TBAR_ReleaseButtonResources(char *p)
 {
     unsigned int w;
 

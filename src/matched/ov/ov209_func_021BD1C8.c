@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1C8
+ * function: ZUKAN_LIST_StateCursorFlash
  * address: 0x021BD1C8
  * packet: pkt_ov209_021BD1C8
  * region: ov209
@@ -19,7 +19,7 @@ extern int FRAME_LIST_GetCursor(char *);
 typedef unsigned int   u32;
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
 extern void func_02041B6C(unsigned);
-int func_021BD1C8(char *p)
+int ZUKAN_LIST_StateCursorFlash(char *p)
 {
     switch (((struct Obj01435 *)p)->fC26) {
     case 0:

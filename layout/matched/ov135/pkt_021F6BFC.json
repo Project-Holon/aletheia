@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F6BFC",
+   "name": "WORLDTRADE_BOX_CheckMonRestrictionA",
    "address": "0x021F6BFC",
    "kind": "game",
    "region": "ov135",

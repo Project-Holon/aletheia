@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFAFC",
+   "name": "BR_NET_OnGetVideo",
    "address": "0x021FFAFC",
    "kind": "game",
    "region": "ov186",

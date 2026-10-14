@@ -1,5 +1,5 @@
 /*
- * function: func_02200EB0
+ * function: WORLDTRADE_SERVER_CreateStrings
  * address:  0x02200EB0
  * packet:   pkt_02200EB0
  * region:   ov135
@@ -24,7 +24,7 @@ typedef signed int s32;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-void func_02200EB0(u8 *p)
+void WORLDTRADE_SERVER_CreateStrings(u8 *p)
 {
     ((struct Obj18610 *)p)->fB88 = (u32)STRBUF_Create(0xb4, 0x48);
 }

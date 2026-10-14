@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "VCT_ResetPeerPool",
+   "name": "VCT_SESSION_ResetPeerPool",
    "address": "0x021B23C8",
    "kind": "sdk",
    "region": "ov013",

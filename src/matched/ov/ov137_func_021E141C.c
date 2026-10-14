@@ -1,5 +1,5 @@
 /*
- * function: func_021E141C
+ * function: GURU2_MAIN_UpdatePulseEffect
  * address: 0x021E141C
  * packet: pkt_ov137_021E141C
  * region: ov137
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E2278 0x021E2278 data a4
+ *   gGuru2PulseScaleTable 0x021E2278 data a4
  */
-extern const int d_021E2278[];
-void func_021E141C(void *unused, int *p)
+extern const int gGuru2PulseScaleTable[];
+void GURU2_MAIN_UpdatePulseEffect(void *unused, int *p)
 {
     switch (p[0]) {
     case 0: break;
     case 1:
-        *(int *)(p[3] + 0x54) = d_021E2278[p[1]] << 12;
+        *(int *)(p[3] + 0x54) = gGuru2PulseScaleTable[p[1]] << 12;
         p[1]++;
         if (p[1] >= 16) {
             p[1] = 0;

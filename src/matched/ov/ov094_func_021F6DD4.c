@@ -1,5 +1,5 @@
 /*
- * function: func_021F6DD4
+ * function: BTLV_FIELD_Draw
  * address:  0x021F6DD4
  * packet:   pkt_ov094_021F6DD4
  * region:   ov094
@@ -25,7 +25,7 @@ typedef struct {
 struct Arg;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021F6DD4(Obj *p)
+void BTLV_FIELD_Draw(Obj *p)
 {
     if (!p->b0)
         G3D_SYSTEM_DrawObject(p->h, (struct Arg *)p->v);

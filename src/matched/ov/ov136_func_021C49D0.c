@@ -1,5 +1,5 @@
 /*
- * function: func_021C49D0
+ * function: MAILSYS_StepQuitConfirm
  * address:  0x021C49D0
  * packet:   pkt_ov136_021C49D0
  * region:   ov136
@@ -23,10 +23,10 @@
  *   func_020409B4 0x020409B4 arm
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
- *   func_021C47C4 0x021C47C4 thumb ov136
- *   func_021C44FC 0x021C44FC thumb ov136
- *   func_021C48FC 0x021C48FC thumb ov136
- *   func_021C4998 0x021C4998 thumb ov136
+ *   MAILSYS_PrintMessageText 0x021C47C4 thumb ov136
+ *   MAILSYS_ResetCursorBlend 0x021C44FC thumb ov136
+ *   MAILSYS_OpenConfirmMenu 0x021C48FC thumb ov136
+ *   MAILSYS_PollConfirmMenu 0x021C4998 thumb ov136
  */
 #include "../include/Obj00275.h"
 typedef unsigned char u8;
@@ -49,12 +49,12 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
-extern void func_021C47C4(u8 *p, int n);
-extern void func_021C44FC(u8 *p);
-extern void func_021C48FC(u8 *p);
-extern int func_021C4998(u8 *p);
+extern void MAILSYS_PrintMessageText(u8 *p, int n);
+extern void MAILSYS_ResetCursorBlend(u8 *p);
+extern void MAILSYS_OpenConfirmMenu(u8 *p);
+extern int MAILSYS_PollConfirmMenu(u8 *p);
 
-int func_021C49D0(u8 *p)
+int MAILSYS_StepQuitConfirm(u8 *p)
 {
     int r;
     void *w;
@@ -69,8 +69,8 @@ int func_021C49D0(u8 *p)
             APP_TASKMENU_WIN_ResetDecide(((struct Obj00275 *)p)->f12C);
             APP_TASKMENU_WIN_SetActive(((struct Obj00275 *)p)->f12C, 1);
             ((struct Obj00275 *)p)->f10 = 1;
-            func_021C47C4(p, 3);
-            func_021C44FC(p);
+            MAILSYS_PrintMessageText(p, 3);
+            MAILSYS_ResetCursorBlend(p);
             p[0x1B] = p[0x1A];
             break;
         }
@@ -78,13 +78,13 @@ int func_021C49D0(u8 *p)
     case 2:
         if (PRINTSYS_PrintStreamGetState(((struct Obj00275 *)p)->f9C) == 2) {
             PRINTSYS_PrintStreamDelete(((struct Obj00275 *)p)->f9C);
-            func_021C48FC(p);
+            MAILSYS_OpenConfirmMenu(p);
             ((struct Obj00275 *)p)->f8 = 3;
         }
         return 0;
     case 3:
         APP_TASKMENU_UpdateMenu(((struct Obj00275 *)p)->f10C);
-        r = func_021C4998(p);
+        r = MAILSYS_PollConfirmMenu(p);
         if (r < 0)
             return 0;
         func_0201F7A8(((struct Obj00275 *)p)->f5C, 2);

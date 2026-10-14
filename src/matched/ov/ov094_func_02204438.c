@@ -1,5 +1,5 @@
 /*
- * function: func_02204438
+ * function: BTLV_INPUT_BgScrollTaskMain
  * address:  0x02204438
  * packet:   pkt_ov094_02204438
  * region:   ov094
@@ -12,7 +12,7 @@
  * symbols:
  *   func_0207AD58  0x0207AD58  thumb
  *   func_02040820  0x02040820  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef unsigned int u32;
 
@@ -26,9 +26,9 @@ typedef struct Ctx {
 
 extern void func_0207AD58(void *dst, int a, int b);
 extern void func_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_02204438(int a0, Ctx *c)
+void BTLV_INPUT_BgScrollTaskMain(int a0, Ctx *c)
 {
     int m[4];
 
@@ -41,5 +41,5 @@ void func_02204438(int a0, Ctx *c)
     func_02040820(7, 0, 0x80, (u32)m, 0x100, 0x100);
     func_02040820(7, 3, c->ang, (u32)m, 0x100, 0x100);
     if (c->cur == c->target)
-        func_0220687C(c->main, (void *)a0);
+        BTLV_INPUT_DeleteTask(c->main, (void *)a0);
 }

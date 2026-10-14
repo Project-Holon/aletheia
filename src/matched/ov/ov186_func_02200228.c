@@ -1,5 +1,5 @@
 /*
- * function: func_02200228
+ * function: BR_MEMBER_COUNT_GetU16Count
  * address:  0x02200228
  * packet:   pkt_02200228
  * region:   ov186
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 
-int func_02200228(void *a, unsigned *out)
+int BR_MEMBER_COUNT_GetU16Count(void *a, unsigned *out)
 {
     int local;
     int r;

@@ -10,8 +10,8 @@
  * lever: owner->entries[i] preserves the base/index register ordering;
  *   raw-offset EntryFlags casts and a named raw owner leave four bytes out.
  * symbols:
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   sGaugeFlashMasks 0x0220AB4C data a4
@@ -25,8 +25,8 @@ typedef struct { int health; char pad4[4]; u32 active:1; char padc[0x74]; } Entr
 typedef struct { char pad[0xa8]; EntryFlags entries[8]; } Owner;
 typedef struct { Owner *owner; int state, mask, count; } State;
 extern const Masks sGaugeFlashMasks;
-extern int func_021F86E0(void);
-extern void *func_021F86D4(void);
+extern int BTLV_EFFECT_GetPalanm(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 void BTLV_GAUGE_TaskFlashPalettes(void *unused, State *s)
@@ -42,20 +42,20 @@ void BTLV_GAUGE_TaskFlashPalettes(void *unused, State *s)
                 s->mask |= masks.bits[i];
         }
         if (s->mask) {
-            pal = (void *)func_021F86E0();
-            PALANM_RequestFade(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
+            pal = (void *)BTLV_EFFECT_GetPalanm();
+            PALANM_RequestFade(pal, 4, s->mask, 0, 0, 8, 16, BTLV_EFFECT_GetOwner());
             s->state = 1;
         }
         break;
     case 1:
-        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
-            pal = (void *)func_021F86E0();
-            PALANM_RequestFade(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
+        if (!PALANM_GetFadeRequestBits((const char *)BTLV_EFFECT_GetPalanm())) {
+            pal = (void *)BTLV_EFFECT_GetPalanm();
+            PALANM_RequestFade(pal, 4, s->mask, 0, 8, 0, 16, BTLV_EFFECT_GetOwner());
             s->state = 2;
         }
         break;
     case 2:
-        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits((const char *)BTLV_EFFECT_GetPalanm())) {
             s->count++;
             if (s->count == 3) {
                 s->count = 0;

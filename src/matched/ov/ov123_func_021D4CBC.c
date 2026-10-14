@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CBC
+ * function: GSYNC_MENU_FadePaletteSlot
  * address: 0x021D4CBC
  * packet: pkt_ov123_021D4CBC
  * region: ov123
@@ -36,7 +36,7 @@ extern void func_0207E5D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-void func_021D4CBC(char *p, int n, int count)
+void GSYNC_MENU_FadePaletteSlot(char *p, int n, int count)
 {
     void *obj;
     void *buffer;

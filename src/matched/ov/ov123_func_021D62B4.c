@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021D62B4
+ * function: GSYNC_DISP_CreateSlotActor
  * address: 0x021D62B4
  * packet: pkt_ov123_021D62B4
  * region: ov123
@@ -10,10 +10,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D634C 0x021D634C thumb ov123
+ *   GSYNC_DISP_CreateSlotActorAt 0x021D634C thumb ov123
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_021D634C(u8 *,unsigned int);
-void func_021D62B4(u8 *p,unsigned int i){func_021D634C(p,i);}
+extern void GSYNC_DISP_CreateSlotActorAt(u8 *,unsigned int);
+void GSYNC_DISP_CreateSlotActor(u8 *p,unsigned int i){GSYNC_DISP_CreateSlotActorAt(p,i);}

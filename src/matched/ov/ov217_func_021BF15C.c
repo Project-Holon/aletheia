@@ -14,10 +14,10 @@
  *   func_021BF810 0x021BF810 thumb ov217
  *   func_021BF7F4 0x021BF7F4 thumb ov217
  *   func_021BF854 0x021BF854 thumb ov217
- *   func_021C0FF8 0x021C0FF8 thumb ov217
- *   func_021C0F78 0x021C0F78 thumb ov217
- *   func_021C11C8 0x021C11C8 thumb ov217
- *   func_021C11DC 0x021C11DC thumb ov217
+ *   BgTextLabel_SetVisible 0x021C0FF8 thumb ov217
+ *   BgTextLabel_PrintText 0x021C0F78 thumb ov217
+ *   CircleGraph_FindSliceIndex 0x021C11C8 thumb ov217
+ *   CircleGraph_GetPercentByKey 0x021C11DC thumb ov217
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -39,10 +39,10 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern u32 func_021BF854(char *p);
-extern void func_021C0FF8(u8 *p, int visible);
-extern void func_021C0F78(u8 *p, struct U16Vec *text);
-extern u8 func_021C11C8(u8 *p, u8 key);
-extern u8 func_021C11DC(u8 *p, u8 key);
+extern void BgTextLabel_SetVisible(u8 *p, int visible);
+extern void BgTextLabel_PrintText(u8 *p, struct U16Vec *text);
+extern u8 CircleGraph_FindSliceIndex(u8 *p, u8 key);
+extern u8 CircleGraph_GetPercentByKey(u8 *p, u8 key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -57,18 +57,18 @@ void func_021BF15C(char *p)
     u32 a, b, c;
     void *x, *y, *z;
     if (((struct Obj00021 *)p)->f3C8 == 0 || ((struct Obj00021 *)p)->f3D0 == 1) {
-        func_021C0FF8((u8 *)t, 0);
+        BgTextLabel_SetVisible((u8 *)t, 0);
         return;
     }
     if (func_021BF810(p) == 0) {
-        func_021C0FF8((u8 *)t, 0);
+        BgTextLabel_SetVisible((u8 *)t, 0);
         return;
     }
     k = func_021BF7F4(p);
-    a = func_021C11C8(o, (u8)k);
+    a = CircleGraph_FindSliceIndex(o, (u8)k);
 
     b = func_021BF854(p);
-    c = func_021C11DC(o, (u8)k);
+    c = CircleGraph_GetPercentByKey(o, (u8)k);
     x = func_02045EC0(((struct Obj00021 *)p)->fC, 0xd);
     y = func_02045EC0(((struct Obj00021 *)p)->f14, k);
     z = STRBUF_Create(0x80, ((struct Obj00021 *)p)->f4);
@@ -77,8 +77,8 @@ void func_021BF15C(char *p)
     func_0201EFA4(((struct Obj00021 *)p)->f18, 2, b, 5, 1, 1);
     func_0201EFA4(((struct Obj00021 *)p)->f18, 3, c, 3, 1, 1);
     func_0201F250(((struct Obj00021 *)p)->f18, z, x);
-    func_021C0F78((u8 *)t, z);
-    func_021C0FF8((u8 *)t, 1);
+    BgTextLabel_PrintText((u8 *)t, z);
+    BgTextLabel_SetVisible((u8 *)t, 1);
     STRBUF_Delete(x);
     STRBUF_Delete(z);
     STRBUF_Delete(y);

@@ -16,7 +16,7 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   func_021E02F8 0x021E02F8 thumb ov183
  */
 #include "../include/Obj01765.h"
@@ -34,7 +34,7 @@ extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void func_021FBE54(char *base, u32 idx, u32 area);
+extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
 extern void func_021E02F8(char *p, int *q);
 int func_021DF920(void *obj, int unused, char *q)
 {
@@ -54,7 +54,7 @@ int func_021DF920(void *obj, int unused, char *q)
     ((struct Obj02230 *)q)->f16 = 0xFF;
     ((struct Obj02230 *)q)->f17 = 0xFF;
     ((struct Obj02230 *)q)->f18 = 0x13;
-    func_021FBE54((char *)(((struct Obj02230 *)q)->f8), 6, ((struct Obj01765 *)p)->f54);
+    BR_RES_LoadSprite((char *)(((struct Obj02230 *)q)->f8), 6, ((struct Obj01765 *)p)->f54);
     func_021E02F8(p, (int *)q);
     return 1;
 }

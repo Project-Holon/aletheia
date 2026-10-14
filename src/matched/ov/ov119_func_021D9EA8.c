@@ -1,5 +1,5 @@
 /*
- * function: func_021D9EA8
+ * function: POKETRADE_PROC_SetDragTarget
  * address: 0x021D9EA8
  * packet: pkt_ov119_021D9EA8
  * region: ov119
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8B38 0x021D8B38 thumb ov119
+ *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void func_021D8B38(char *p);
-void func_021D9EA8(char *p,int a,int b) {
+extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
+void POKETRADE_PROC_SetDragTarget(char *p,int a,int b) {
  ((struct Obj00001 *)p)->fF74=a;
  ((struct Obj00001 *)p)->fF78=b;
- func_021D8B38(p);
+ POKETRADE_PROC_RequestBoxRedraw(p);
 }

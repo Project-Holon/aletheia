@@ -1,5 +1,5 @@
 /*
- * function: func_021D8600
+ * function: GDS_SOCKET_GetMaxReplySize
  * address:  0x021D8600
  * packet:   pkt_ov125_021D8600
  * region:   ov125
@@ -12,12 +12,12 @@
  * ARM tail call: ldr ip, =target; bx ip.
  *
  * symbols:
- *   func_021D89EC  0x021D89EC  arm ov125
+ *   GDS_SOCKET_GetMaxReplySizeOf  0x021D89EC  arm ov125
  */
 
-extern int func_021D89EC(int n);
+extern int GDS_SOCKET_GetMaxReplySizeOf(int n);
 
-int func_021D8600(int n)
+int GDS_SOCKET_GetMaxReplySize(int n)
 {
-    return func_021D89EC(n);
+    return GDS_SOCKET_GetMaxReplySizeOf(n);
 }

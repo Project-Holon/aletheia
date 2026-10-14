@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F1370,func_021F13AC
+ * function: MB_COMM_SYS_SendHeader,MB_COMM_SYS_OnHeaderReceived
  * address: 0x021F1370
  * packet: pkt_ov107_021F1370
  * region: ov107
@@ -21,14 +21,14 @@ extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern int GFL_NET_GetNegotiationNum(void);
 typedef unsigned int   u32;
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_021F1370(void *unused,void *p)
+int MB_COMM_SYS_SendHeader(void *unused,void *p)
 {
     void *obj;
     obj=GFL_NET_HANDLE_GetNetHandle(255);
     if(GFL_NET_GetNegotiationNum()<2) return 0;
     return GFL_NET_SendData((u32)obj,1,0x401,8,(u32)p,1,0,1);
 }
-void func_021F13AC(int a,int b,int c,char *p)
+void MB_COMM_SYS_OnHeaderReceived(int a,int b,int c,char *p)
 {
     ((struct Obj13764 *)p)->f18=(((struct Obj13764 *)p)->f18&~1)|1;
 }

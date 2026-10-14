@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The bound block after func_021E4DBC closes only with its six locals
+ * The bound block after POKETRADE_2D_GetScrollColumn closes only with its six locals
  * declared without initialisers and assigned afterwards; about a fifth of
  * the declaration orders then match (docs/notes/pkt_ov119_021DBE70.c.txt).
  *
@@ -20,37 +20,37 @@
  *   func_020355C4 0x020355C4 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_021E4E0C 0x021E4E0C thumb
+ *   POKETRADE_2D_GetVisibleColumnRange 0x021E4E0C thumb
  *   func_021DB4EC 0x021DB4EC thumb
- *   func_021E4DBC 0x021E4DBC thumb
+ *   POKETRADE_2D_GetScrollColumn 0x021E4DBC thumb
  *   func_021DB4B4 0x021DB4B4 thumb
  *   func_021DB7AC 0x021DB7AC thumb
- *   func_021D8B38 0x021D8B38 thumb
- *   func_021D8C84 0x021D8C84 thumb
- *   func_021D8B54 0x021D8B54 thumb
- *   func_021D8C0C 0x021D8C0C thumb
+ *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb
+ *   POKETRADE_PROC_ShowDragIcon 0x021D8C84 thumb
+ *   POKETRADE_PROC_UpdateDragState 0x021D8B54 thumb
+ *   POKETRADE_PROC_UpdateDragIcon 0x021D8C0C thumb
  *   func_021DB52C 0x021DB52C thumb
- *   func_021DF7F0 0x021DF7F0 thumb
- *   func_021D8AF4 0x021D8AF4 thumb
- *   func_021D8B0C 0x021D8B0C thumb
- *   func_021D8DD0 0x021D8DD0 thumb
+ *   POKETRADE_NEGO_PollMarkerTouch 0x021DF7F0 thumb
+ *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb
+ *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb
+ *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_021DD0CC 0x021DD0CC thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021E0FF4 0x021E0FF4 thumb
- *   func_021D8E84 0x021D8E84 thumb
- *   func_021DA064 0x021DA064 thumb
- *   func_021D8AA8 0x021D8AA8 thumb
- *   func_021DD34C 0x021DD34C thumb
+ *   POKETRADE_SAVE_OpenMessageWindowAtPos 0x021E0FF4 thumb
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb
+ *   POKETRADE_PROC_StepWaitKeyAfterMessage 0x021DA064 thumb
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb
+ *   POKETRADE_NEGO_FindOfferIndex 0x021DD34C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021DF708 0x021DF708 thumb
- *   func_021E4A1C 0x021E4A1C thumb
+ *   POKETRADE_NEGO_StepSendOfferRemoval 0x021DF708 thumb
+ *   POKETRADE_2D_PlaceBoxIconActors 0x021E4A1C thumb
  *   func_021DBDB4 0x021DBDB4 thumb
- *   func_021D9F24 0x021D9F24 thumb
+ *   POKETRADE_PROC_PollGridTouchDrag 0x021D9F24 thumb
  *   func_021D9548 0x021D9548 thumb
- *   func_021D8C6C 0x021D8C6C thumb
- *   func_021DA0CC 0x021DA0CC thumb
- *   func_021E6544 0x021E6544 thumb
+ *   POKETRADE_PROC_ClearDragIcon 0x021D8C6C thumb
+ *   POKETRADE_PROC_ShowCancelMessage 0x021DA0CC thumb
+ *   POKETRADE_2D_StartIconFlight 0x021E6544 thumb
  *   func_021DBD3C 0x021DBD3C thumb
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021DB89C 0x021DB89C thumb
@@ -72,37 +72,37 @@ extern unsigned int KEY_GetCont(void);
 extern u8 func_020355C4(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern int func_021E4E0C(char *p, int *out);
+extern int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out);
 extern int func_021DB4EC(char *p, int v);
-extern int func_021E4DBC(char *p);
+extern int POKETRADE_2D_GetScrollColumn(char *p);
 extern int func_021DB4B4(int v);
 extern void func_021DB7AC(char *p, int v, int w);
-extern void func_021D8B38(char *p);
-extern void func_021D8C84(void *p);
-extern void func_021D8B54(void *p);
-extern void func_021D8C0C(void *p);
+extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
+extern void POKETRADE_PROC_ShowDragIcon(void *p);
+extern void POKETRADE_PROC_UpdateDragState(void *p);
+extern void POKETRADE_PROC_UpdateDragIcon(void *p);
 extern void func_021DB52C(char *p);
-extern void func_021DF7F0(void *p);
-extern int func_021D8AF4(int v, char *p);
-extern int func_021D8B0C(int a, int b);
-extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern void POKETRADE_NEGO_PollMarkerTouch(void *p);
+extern int POKETRADE_PROC_GetBoxIndexForSlot(int v, char *p);
+extern int POKETRADE_PROC_GetSlotIndexInBox(int a, int b);
+extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021DD0CC(char *p, int e);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E0FF4(void *p, int a, int flag);
-extern void func_021D8E84(void *p, int next);
-extern void func_021DA064(char *p);
-extern int func_021D8AA8(void *p);
-extern int func_021DD34C(char *p, int a, int b);
+extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *p, int a, int flag);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
+extern void POKETRADE_PROC_StepWaitKeyAfterMessage(char *p);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021DF708(void *p);
-extern void func_021E4A1C(char *p);
+extern void POKETRADE_NEGO_StepSendOfferRemoval(void *p);
+extern void POKETRADE_2D_PlaceBoxIconActors(char *p);
 extern int func_021DBDB4(char *p);
-extern int func_021D9F24(char *p, int v);
+extern int POKETRADE_PROC_PollGridTouchDrag(char *p, int v);
 extern int func_021D9548(char *p, int a, int b);
-extern void func_021D8C6C(void *p);
-extern void func_021DA0CC(char *p);
-extern void func_021E6544(char *p);
+extern void POKETRADE_PROC_ClearDragIcon(void *p);
+extern void POKETRADE_PROC_ShowCancelMessage(char *p);
+extern void POKETRADE_2D_StartIconFlight(char *p);
 extern void func_021DBD3C(char *p);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
@@ -144,7 +144,7 @@ void func_021DBE70(char *p)
     }
     if (func_020355C4() && poll_a()) {
         func_020355D8(0);
-        if (func_021E4E0C(p, &n) == 0) {
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &n) == 0) {
             int v = n;
             I(p, 0xF74) = v;
             if (v < 2 && I(p, 0xF78) >= 3)
@@ -156,7 +156,7 @@ void func_021DBE70(char *p)
             int cur;
             int b;
             int lim;
-            t = func_021E4DBC(p);
+            t = POKETRADE_2D_GetScrollColumn(p);
             cur = I(p, 0xF74);
             a = t + 5;
             b = t + 10;
@@ -174,24 +174,24 @@ void func_021DBE70(char *p)
             H(p, 0x107A) = 0;
             return;
         }
-        func_021D8B38(p);
+        POKETRADE_PROC_RequestBoxRedraw(p);
         H(p, 0x107A) = 0;
         return;
     }
     if (poll_a() || poll_b())
         H(p, 0x107A) = 0;
     if (poll_b()) {
-        func_021D8C84(p);
+        POKETRADE_PROC_ShowDragIcon(p);
         I(p, 0xF98) = -1;
         I(p, 0xF94) = -1;
     }
-    func_021D8B54(p);
-    func_021D8C0C(p);
+    POKETRADE_PROC_UpdateDragState(p);
+    POKETRADE_PROC_UpdateDragIcon(p);
     func_021DB52C(p);
-    func_021DF7F0(p);
+    POKETRADE_NEGO_PollMarkerTouch(p);
     if (poll_a() == 1) {
         func_020355D8(0);
-        if (func_021E4E0C(p, &n) == 0) {
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &n) == 0) {
             int v = n;
             I(p, 0xF74) = v;
             if (v < 2) {
@@ -200,30 +200,30 @@ void func_021DBE70(char *p)
             } else if (I(p, 0xF78) >= 5)
                 I(p, 0xF78) = 0;
         }
-        e = (int)func_021D8DD0((void *)I(p, 0x828), func_021D8AF4(I(p, 0xF74), p), func_021D8B0C(I(p, 0xF74), I(p, 0xF78)), p);
+        e = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)I(p, 0x828), POKETRADE_PROC_GetBoxIndexForSlot(I(p, 0xF74), p), POKETRADE_PROC_GetSlotIndexInBox(I(p, 0xF74), I(p, 0xF78)), p);
         if (e && func_02017E88((void *)e, 0xA9, 0)) {
             if (func_021DD0CC(p, e)) {
                 MSGDATA_ReadString((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
-                func_021E0FF4(p, 1, 0);
-                func_021D8E84(p, (int)func_021DA064);
+                POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);
+                POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepWaitKeyAfterMessage);
                 return;
             }
-            I(p, 0xF98) = func_021D8AF4(I(p, 0xF74), p);
-            I(p, 0xF94) = func_021D8B0C(I(p, 0xF74), I(p, 0xF78));
+            I(p, 0xF98) = POKETRADE_PROC_GetBoxIndexForSlot(I(p, 0xF74), p);
+            I(p, 0xF94) = POKETRADE_PROC_GetSlotIndexInBox(I(p, 0xF74), I(p, 0xF78));
             func_020355D8(0);
-            if (func_021D8AA8(p) && func_021DD34C(p, I(p, 0xF98), I(p, 0xF94)) != -1) {
+            if (POKETRADE_PROC_IsHostSide(p) && POKETRADE_NEGO_FindOfferIndex(p, I(p, 0xF98), I(p, 0xF94)) != -1) {
                 GFL_USE_PlaySeDefaultVolume(0x626);
-                func_021D8E84(p, (int)func_021DF708);
+                POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepSendOfferRemoval);
                 return;
             }
-            func_021D8DD0((void *)I(p, 0x828), I(p, 0xF98), I(p, 0xF94), p);
-            func_021D8C84(p);
-            func_021E4A1C(p);
+            POKETRADE_PROC_LoadSlotMonAlt((void *)I(p, 0x828), I(p, 0xF98), I(p, 0xF94), p);
+            POKETRADE_PROC_ShowDragIcon(p);
+            POKETRADE_2D_PlaceBoxIconActors(p);
             func_021DBDB4(p);
             return;
         }
     }
-    switch (func_021D9F24(p, 0)) {
+    switch (POKETRADE_PROC_PollGridTouchDrag(p, 0)) {
     case 3:
         return;
     case 2:
@@ -239,8 +239,8 @@ void func_021DBE70(char *p)
                 if (func_021D9548(p, I(p, 0xF80), I(p, 0xF7C))) {
                     I(p, 0xF80) = -1;
                     I(p, 0xF7C) = -1;
-                    func_021D8C6C(p);
-                    func_021D8E84(p, (int)func_021DA0CC);
+                    POKETRADE_PROC_ClearDragIcon(p);
+                    POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_ShowCancelMessage);
                     return;
                 }
                 I(p, 0xF98) = I(p, 0xF80);
@@ -250,9 +250,9 @@ void func_021DBE70(char *p)
                 I(p, 0xF60) = 0;
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(p, 0x9C0), 8, 1);
                 TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
-                func_021E6544(p);
+                POKETRADE_2D_StartIconFlight(p);
                 GFL_USE_PlaySeDefaultVolume(0x72A);
-                func_021D8E84(p, (int)func_021DBD3C);
+                POKETRADE_PROC_SetStep(p, (int)func_021DBD3C);
                 return;
             }
             if (I(p, 0x1088) && I(p, 0xF60) && I(p, 0xF70)) {
@@ -262,10 +262,10 @@ void func_021DBE70(char *p)
                 return;
             }
             if (I(p, 0xF7C) != -1 && I(p, 0xF80) != -1) {
-                func_021D8C84(p);
-                func_021D8B38(p);
+                POKETRADE_PROC_ShowDragIcon(p);
+                POKETRADE_PROC_RequestBoxRedraw(p);
             } else {
-                func_021D8C84(p);
+                POKETRADE_PROC_ShowDragIcon(p);
             }
             I(p, 0x1088) = 0;
             I(p, 0xF5C) = 0;
@@ -279,7 +279,7 @@ void func_021DBE70(char *p)
         case 1:
         case 7:
         case 8:
-            func_021D8E84(p, (int)func_021DC2B0);
+            POKETRADE_PROC_SetStep(p, (int)func_021DC2B0);
             break;
         }
         break;

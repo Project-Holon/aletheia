@@ -1,5 +1,5 @@
 /*
- * function: func_021DDC28
+ * function: DENDOU_VIEW_DrawMemberInfo
  * address: 0x021DDC28
  * packet: pkt_ov171_021DDC28
  * region: ov171
@@ -19,7 +19,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_021DD94C 0x021DD94C thumb ov171
+ *   DENDOU_VIEW_PresentWindow 0x021DD94C thumb ov171
  */
 #include "../include/Obj00142.h"
 #include "../include/Obj05441.h"
@@ -45,8 +45,8 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_021DD94C(int *);
-void func_021DDC28(u8 *p)
+extern void DENDOU_VIEW_PresentWindow(int *);
+void DENDOU_VIEW_DrawMemberInfo(u8 *p)
 {
     u8 *row;
     void *s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7;
@@ -97,5 +97,5 @@ void func_021DDC28(u8 *p)
         TOUCHBAR_PrintAligned(p+0xb50,(void *)(((struct Obj00142 *)p)->fB6C),(i&1)*96,(i>>1)*16+88,*(u32 *)&((struct Obj00142 *)p)->fB68,((struct Obj00142 *)p)->fB58,0x440,0);
         STRBUF_Delete(s7);
     }
-    func_021DD94C((int *)(p+0xb50));
+    DENDOU_VIEW_PresentWindow((int *)(p+0xb50));
 }

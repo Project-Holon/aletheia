@@ -27,14 +27,14 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_021BE00C 0x021BE00C thumb ov172
- *   func_021BE010 0x021BE010 thumb ov172
- *   func_021BE018 0x021BE018 thumb ov172
- *   func_021BE024 0x021BE024 thumb ov172
- *   func_021BE0B4 0x021BE0B4 thumb ov172
- *   func_021BDFE4 0x021BDFE4 thumb ov172
+ *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
+ *   COMM_TVT_SYS_GetArc 0x021BE010 thumb ov172
+ *   COMM_TVT_SYS_GetResId 0x021BE018 thumb ov172
+ *   COMM_TVT_SYS_GetClactUnit 0x021BE024 thumb ov172
+ *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
+ *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   func_021B8B68 0x021B8B68 thumb ov172
- *   func_021BE210 0x021BE210 thumb ov172
+ *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
  *   func_021BA270 0x021BA270 thumb ov172
  */
 typedef unsigned char  u8;
@@ -57,14 +57,14 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u16 func_021BE00C(u16 *p);
-extern u32 func_021BE010(void *p);
-extern u32 func_021BE018(void *p, int i);
-extern u32 func_021BE024(void *p);
-extern u32 func_021BE0B4(void *p);
-extern u32 func_021BDFE4(void *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32 COMM_TVT_SYS_GetArc(void *p);
+extern u32 COMM_TVT_SYS_GetResId(void *p, int i);
+extern u32 COMM_TVT_SYS_GetClactUnit(void *p);
+extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u8 func_021B8B68(int unused, char *p);
-extern void func_021BE210(void *a, u32 b);
+extern void COMM_TVT_SYS_PlaceSlotMarker(void *a, u32 b);
 extern int func_021BA270(void *p);
 
 void func_021B8CC8(void *a, char *p)
@@ -73,8 +73,8 @@ void func_021B8CC8(void *a, char *p)
     void *g;
     struct Rect rc;
 
-    h = func_021BE00C(a);
-    g = (void *)func_021BE010(a);
+    h = COMM_TVT_SYS_GetHeapId(a);
+    g = (void *)COMM_TVT_SYS_GetArc(a);
     func_02049658(g, 0xB, 6, 0, 0, 0, h);
     func_020498F4(g, 0x11, 6, 0, 0, 0, h);
     func_02049658(g, 0xB, 5, 0, 0x5000, 0, h);
@@ -87,26 +87,26 @@ void func_021B8CC8(void *a, char *p)
     rc.z = *(u8 *)(p + 0xD) + 0x19;
     rc.a = 0;
     rc.b = 2;
-    *(struct Obj **)(p + 0x90) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x90) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x90), 1);
-    if (func_021BE0B4(a) == 1)
+    if (COMM_TVT_SYS_GetViewSwapped(a) == 1)
         rc.z = 0x15;
     else
         rc.z = 0x16;
-    *(struct Obj **)(p + 0x94) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x94) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x94), 1);
     rc.z = 0x14;
-    *(struct Obj **)(p + 0x9C) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x9C) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x9C), 1);
     rc.z = 0x18;
-    *(struct Obj **)(p + 0xA0) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0xA0) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 5), COMM_TVT_SYS_GetResId(a, 1), COMM_TVT_SYS_GetResId(a, 9), &rc, 1, h);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0xA0), 1);
     rc.x = 0xE8;
     rc.y = 0xA8;
     rc.z = 1;
     rc.a = 0;
     rc.b = 0;
-    *(struct Obj **)(p + 0x98) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 6), func_021BE018(a, 2), func_021BE018(a, 10), &rc, 1, h);
+    *(struct Obj **)(p + 0x98) = CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(a), COMM_TVT_SYS_GetResId(a, 6), COMM_TVT_SYS_GetResId(a, 2), COMM_TVT_SYS_GetResId(a, 10), &rc, 1, h);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x98), 1);
     CLACT_SetActorAutoAnim(*(struct Obj **)(p + 0x98), 1);
     *(u32 *)(p + 0) = 0;
@@ -127,9 +127,9 @@ void func_021B8CC8(void *a, char *p)
     *(u32 *)(p + 0x8C) = 0;
     *(u8 *)(p + 0xC) = 0;
     {
-        u32 r = (u8)func_021B8B68((int)a, (char *)func_021BDFE4(a));
+        u32 r = (u8)func_021B8B68((int)a, (char *)COMM_TVT_SYS_GetComm(a));
         if (r != 0xFF) {
-            func_021BE210(a, r);
+            COMM_TVT_SYS_PlaceSlotMarker(a, r);
             *(u32 *)(p + 0xA4) = 2;
         }
     }

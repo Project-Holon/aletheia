@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F38
+ * function: HALL_OF_FAME_SpawnSparkles
  * address:  0x021B7F38
  * packet:   pkt_ov180_021B7F38
  * region:   ov180
@@ -29,22 +29,22 @@
  *  once after the join. Making y an int flips p/i to r4/r5 and moves y to ip (tried with
  *  and without a in each arm). Not closed.
  *
- * 2026-10-05 (D9-14): closed, EXACT. Five changes: (1) func_021B7488 takes an int third
+ * 2026-10-05 (D9-14): closed, EXACT. Five changes: (1) HALL_OF_FAME_PlayActorAnim takes an int third
  *  argument (its matched source), so n + 4 is not truncated; (2) local.a and local.b are
  *  written in each arm, with local.b = y - 0x18 in the second arm (y an int holding the s16
  *  result); (3) a declared at the top before i and n, which puts n at [sp] and a at [sp+4];
  *  (4) the slot table read and written as ((int *)(p + 0x9048))[i]: this shares i*4 only
- *  and re-adds p at the store, as the original does; (5) tbl_021B821C as `data a4` (the
+ *  and re-adds p at the store, as the original does; (5) gHallOfFameSparkleTemplateA as `data a4` (the
  *  ov180 token is contested).
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_021B74B4  0x021B74B4  thumb
- *   func_021B75E8  0x021B75E8  thumb
- *   func_021B75A4  0x021B75A4  thumb
- *   func_021B7488  0x021B7488  thumb
- *   tbl_021B821C   0x021B821C  data  a4
- *   tbl_021B8234   0x021B8234  data  ov180
+ *   HALL_OF_FAME_IsActorAnimActive  0x021B74B4  thumb
+ *   HALL_OF_FAME_DeleteActor  0x021B75E8  thumb
+ *   HALL_OF_FAME_CreateActorFromTemplate  0x021B75A4  thumb
+ *   HALL_OF_FAME_PlayActorAnim  0x021B7488  thumb
+ *   gHallOfFameSparkleTemplateA   0x021B821C  data  a4
+ *   gHallOfFameSparkleTemplateB   0x021B8234  data  ov180
  */
 
 typedef unsigned short u16;
@@ -64,15 +64,15 @@ struct S24 {
 
 typedef unsigned char  u8;
 extern u32 func_020056EC(u32 range);
-extern int func_021B74B4(int *p, int i);
-extern void func_021B75E8(char *, int);
+extern int HALL_OF_FAME_IsActorAnimActive(int *p, int i);
+extern void HALL_OF_FAME_DeleteActor(char *, int);
 struct Obj;
-extern struct Obj *func_021B75A4(char *p, const char *q);
-extern void func_021B7488(u8 *p, int n, int v);
-extern struct S24 tbl_021B821C;
-extern struct S24 tbl_021B8234;
+extern struct Obj *HALL_OF_FAME_CreateActorFromTemplate(char *p, const char *q);
+extern void HALL_OF_FAME_PlayActorAnim(u8 *p, int n, int v);
+extern struct S24 gHallOfFameSparkleTemplateA;
+extern struct S24 gHallOfFameSparkleTemplateB;
 
-void func_021B7F38(char *p)
+void HALL_OF_FAME_SpawnSparkles(char *p)
 {
     s16 a;
     u16 i;
@@ -80,8 +80,8 @@ void func_021B7F38(char *p)
 
     for (i = 9; i < 0x21; i++) {
         if (((int *)(p + 0x9048))[i] != 0) {
-            if (func_021B74B4((int *)p, i) != 1)
-                func_021B75E8(p, i);
+            if (HALL_OF_FAME_IsActorAnimActive((int *)p, i) != 1)
+                HALL_OF_FAME_DeleteActor(p, i);
         }
     }
 
@@ -98,16 +98,16 @@ void func_021B7F38(char *p)
             y = (s16)func_020056EC(0xd8);
 
             if (y < 0xc0) {
-                local = tbl_021B821C;
+                local = gHallOfFameSparkleTemplateA;
                 local.a = a;
                 local.b = y;
             } else {
-                local = tbl_021B8234;
+                local = gHallOfFameSparkleTemplateB;
                 local.a = a;
                 local.b = y - 0x18;
             }
-            ((int *)(p + 0x9048))[i] = (int)func_021B75A4(p, (const char *)(&local));
-            func_021B7488((u8 *)p, i, n + 4);
+            ((int *)(p + 0x9048))[i] = (int)HALL_OF_FAME_CreateActorFromTemplate(p, (const char *)(&local));
+            HALL_OF_FAME_PlayActorAnim((u8 *)p, i, n + 4);
             return;
         }
     }

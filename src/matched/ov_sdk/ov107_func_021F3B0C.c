@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B0C
+ * function: MBi_IsAbleToRecv
  * address:  0x021F3B0C
  * packet:   pkt_ov107_021F3B0C
  * region:   ov107
@@ -26,7 +26,7 @@ typedef enum {
 
 extern SegType g_021F6D04[3];
 
-int func_021F3B0C(u8 segment_no, u32 address, u32 size)
+int MBi_IsAbleToRecv(u8 segment_no, u32 address, u32 size)
 {
     SegType seg_type = g_021F6D04[segment_no];
 

@@ -27,8 +27,8 @@
  *   p (= &out[idx]) is live into the tail, where only the x read uses it.
  *
  * symbols:
- *   d_021DB9A0     0x021DB9A0  data
- *   d_021DC158     0x021DC158  data
+ *   gTileNormalTable     0x021DB9A0  data
+ *   gTilePlaneDistTable     0x021DC158  data
  *   _ll_mul        0x0209C054  arm
  *   func_0207C768  0x0207C768  arm
  */
@@ -85,9 +85,9 @@ typedef struct Plane021D14C4 {
 } Plane021D14C4;
 
 extern u32 func_0207C768(u32 a, u32 b);
-extern Norm021D14C4 d_021DB9A0[];
-#define NRM(i) ((s16 *)d_021DB9A0)[i]
-extern const fx32 d_021DC158[];
+extern Norm021D14C4 gTileNormalTable[];
+#define NRM(i) ((s16 *)gTileNormalTable)[i]
+extern const fx32 gTilePlaneDistTable[];
 
 static inline fx32 FX_MUL(fx32 a, fx32 b)
 {
@@ -118,7 +118,7 @@ void FIELD_G3D_MAPPER_GetTilePlane(Plane021D14C4 *out, int idx, Map021D14C4 *map
         int n = t->norm * 3;
         int di = t->d;
         VecSet021D14C4(p = &out[idx], NRM(n), NRM(n + 1), -NRM(n + 2));
-        d = d_021DC158[di];
+        d = gTilePlaneDistTable[di];
     } else if (type == 2) {
         Sub021D14C4 *s = (Sub021D14C4 *)(map->tiles + map->w * map->h) + t->d;
         int n;
@@ -141,7 +141,7 @@ void FIELD_G3D_MAPPER_GetTilePlane(Plane021D14C4 *out, int idx, Map021D14C4 *map
             }
         }
         VecSet021D14C4(p = &out[idx], NRM(n), NRM(n + 1), -NRM(n + 2));
-        d = d_021DC158[di];
+        d = gTilePlaneDistTable[di];
     } else {
         VecSet021D14C4(p = &out[idx], 0, 0x1000, 0);
         d = 0;

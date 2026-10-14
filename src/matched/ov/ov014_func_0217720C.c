@@ -1,5 +1,5 @@
 /*
- * function: func_0217720C
+ * function: NET_WHPIPE_QueryConnectBitmap
  * address: 0x0217720C
  * packet: pkt_ov014_0217720C
  * region: ov014
@@ -16,9 +16,9 @@
  */
 
 extern unsigned int NET_WHPIPE_GetConnectBitmap(void);
-unsigned int func_0217720C(void);
+unsigned int NET_WHPIPE_QueryConnectBitmap(void);
 
-unsigned int func_0217720C(void)
+unsigned int NET_WHPIPE_QueryConnectBitmap(void)
 {
     return NET_WHPIPE_GetConnectBitmap();
 }

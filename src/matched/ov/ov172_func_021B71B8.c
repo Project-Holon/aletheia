@@ -1,5 +1,5 @@
 /*
- * function: func_021B71B8
+ * function: CTVT_CAMVIEW_UploadWindows
  * address: 0x021B71B8
  * packet: pkt_ov172_021B71B8
  * region: ov172
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE05C 0x021BE05C thumb ov172
- *   func_021BE078 0x021BE078 thumb ov172
- *   func_021BDFE4 0x021BDFE4 thumb ov172
- *   func_021BE054 0x021BE054 thumb ov172
- *   func_021BE1E4 0x021BE1E4 thumb ov172
+ *   COMM_TVT_SYS_GetLayoutMode 0x021BE05C thumb ov172
+ *   COMM_TVT_SYS_GetHalfRes 0x021BE078 thumb ov172
+ *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
+ *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
+ *   COMM_TVT_SYS_ClearAndTransferNameWindows 0x021BE1E4 thumb ov172
  *   func_021B8B8C 0x021B8B8C thumb ov172
  *   func_021B8BAC 0x021B8BAC thumb ov172
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
@@ -69,11 +69,11 @@ typedef struct Q {
     Ent ent[4];
 } Q;
 
-extern int func_021BE05C(void *p);
-extern u32 func_021BE078(void *p);
-extern u32 func_021BDFE4(void *p);
-extern u8 func_021BE054(void *p);
-extern void func_021BE1E4(u8 *p);
+extern int COMM_TVT_SYS_GetLayoutMode(void *p);
+extern u32 COMM_TVT_SYS_GetHalfRes(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
+extern void COMM_TVT_SYS_ClearAndTransferNameWindows(u8 *p);
 extern u32 func_021B8B8C(int unused, char *base, int i);
 extern u8 func_021B8BAC(void *unused, char *base, int i);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
@@ -84,7 +84,7 @@ extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern int func_0202EB14(void);
 
-void func_021B71B8(void *p, Q *q)
+void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
 {
     int sub;
     u32 wide;
@@ -95,10 +95,10 @@ void func_021B71B8(void *p, Q *q)
     u8 i;
     int m[4];
 
-    sub = func_021BE05C(p);
-    wide = func_021BE078(p);
-    base = func_021BDFE4(p);
-    if (func_021BE054(p) < 2)
+    sub = COMM_TVT_SYS_GetLayoutMode(p);
+    wide = COMM_TVT_SYS_GetHalfRes(p);
+    base = COMM_TVT_SYS_GetComm(p);
+    if (COMM_TVT_SYS_GetMemberCount(p) < 2)
         return;
     if (sub == 0) {
         if (q->f10 != 0) {
@@ -113,7 +113,7 @@ void func_021B71B8(void *p, Q *q)
                 if ((1 << i) & q->f10)
                     n++;
             }
-            if (n != func_021BE054(p))
+            if (n != COMM_TVT_SYS_GetMemberCount(p))
                 return;
             if (q->f2c < 2) {
                 q->f10 = 0;
@@ -137,12 +137,12 @@ void func_021B71B8(void *p, Q *q)
             }
             if (q->f1c == 1) {
                 q->f1c = 0;
-                func_021BE1E4(p);
+                COMM_TVT_SYS_ClearAndTransferNameWindows(p);
             }
             func_02082A7C(0, func_0207E100(), 0x18000);
             q->f14 = 0;
-            if (q->f20 != func_021BE078(p)) {
-                q->f20 = func_021BE078(p);
+            if (q->f20 != COMM_TVT_SYS_GetHalfRes(p)) {
+                q->f20 = COMM_TVT_SYS_GetHalfRes(p);
                 if (q->f20 == 1) {
                     m[0] = FX_Inv(0x2000);
                     m[3] = FX_Inv(0x2000);

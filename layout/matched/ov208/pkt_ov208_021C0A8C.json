@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021C0A8C",
+   "name": "ZUKAN_DETAIL_AREA_UpdateSelectorAnim",
    "address": "0x021C0A8C",
    "kind": "game",
    "region": "ov208",

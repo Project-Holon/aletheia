@@ -1,5 +1,5 @@
 /*
- * function: func_021EF0F4
+ * function: BATTLE_REC_TOOL_PackPlayerProfile
  * address: 0x021EF0F4
  * packet: pkt_ov188_021EF0F4
  * region: ov188
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
-void func_021EF0F4(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_PackPlayerProfile(u8 *a, u8 *b)
 {
     unsigned i;
     ((struct Obj02528 *)b)->f4 = ((struct Obj02238 *)a)->f0;

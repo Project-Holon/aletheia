@@ -1,5 +1,5 @@
 /*
- * function: func_021FD104
+ * function: WORLDTRADE_LIST_CreateWindows
  * address:  0x021FD104
  * packet:   pkt_021FD104
  * region:   ov135
@@ -53,7 +53,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 v);
 
-void func_021FD104(Menu *p)
+void WORLDTRADE_LIST_CreateWindows(Menu *p)
 {
     int i;
     const WinDef *d;

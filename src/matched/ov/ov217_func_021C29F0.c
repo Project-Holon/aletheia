@@ -1,5 +1,5 @@
 /*
- * function: func_021C29F0
+ * function: PALETTE_ANIME_Update
  * address:  0x021C29F0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: passes its argument through to func_021C2A30.
+ * Tail-call veneer: passes its argument through to PALETTE_ANIME_UpdateImpl.
  *
  * symbols:
- *   func_021C2A30  0x021C2A30  thumb  ov217
+ *   PALETTE_ANIME_UpdateImpl  0x021C2A30  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,9 +26,9 @@ typedef struct {
     u32 w[8];
 } Rec;
 
-extern void func_021C2A30(Rec *);
+extern void PALETTE_ANIME_UpdateImpl(Rec *);
 
-void func_021C29F0(Rec *p)
+void PALETTE_ANIME_Update(Rec *p)
 {
-    func_021C2A30(p);
+    PALETTE_ANIME_UpdateImpl(p);
 }

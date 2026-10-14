@@ -1,5 +1,5 @@
 /*
- * function: func_0217A5B4
+ * function: IRCi_WaitCommand
  * address:  0x0217A5B4
  * packet:   pkt_ov015_0217A5B4
  * region:   ov015
@@ -18,7 +18,7 @@
 
 extern unsigned long long func_020870D0(void);
 
-void func_0217A5B4(void)
+void IRCi_WaitCommand(void)
 {
     unsigned long long time;
 

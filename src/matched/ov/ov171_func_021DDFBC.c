@@ -1,5 +1,5 @@
 /*
- * function: func_021DDFBC
+ * function: DENDOU_VIEW_ClearInfoWindow
  * address: 0x021DDFBC
  * packet: pkt_ov171_021DDFBC
  * region: ov171
@@ -28,7 +28,7 @@ extern void func_02041B6C(u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021DDFBC(u8 *p)
+void DENDOU_VIEW_ClearInfoWindow(u8 *p)
 {
     BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj08250 *)p)->fB50);
     func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj08250 *)p)->fB50));

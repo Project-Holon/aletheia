@@ -1,5 +1,5 @@
 /*
- * function: func_02201C08
+ * function: WORLDTRADE_SERVER_StartCancel
  * address:  0x02201C08
  * packet:   pkt_02201C08
  * region:   ov135
@@ -18,7 +18,7 @@
 
 extern void DPW_TR_CancelAsync(void);
 
-int func_02201C08(char *p)
+int WORLDTRADE_SERVER_StartCancel(char *p)
 {
     ((struct Obj12238 *)p)->fF8C = 0;
     DPW_TR_CancelAsync();

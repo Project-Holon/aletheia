@@ -1,5 +1,5 @@
 /*
- * function: func_021BF1E0
+ * function: decode_block_sub
  * address:  0x021BF1E0
  * packet:   pkt_ov172_021BF1E0
  * region:   ov172
@@ -25,7 +25,7 @@ extern short g_021C8A1C[128];
 extern unsigned char g_021C80AC[];
 extern short g_021C8B1C[5][64];
 
-void func_021BF1E0(short *s, short *d, int n)
+void decode_block_sub(short *s, short *d, int n)
 {
     int tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
     int tmp10, tmp11, tmp12, tmp13;

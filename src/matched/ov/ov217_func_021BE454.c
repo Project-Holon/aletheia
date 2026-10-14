@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0)) to func_021C09C4.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0)) to RESEARCH_COMMON_SetEntryHandled.
  *
  * symbols:
- *   func_021C09C4  0x021C09C4  thumb  ov217
+ *   RESEARCH_COMMON_SetEntryHandled  0x021C09C4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C09C4(u8 *, u32);
+extern void RESEARCH_COMMON_SetEntryHandled(u8 *, u32);
 
 void func_021BE454(u8 *a0, u32 a1)
 {
-    func_021C09C4(*(u8 * *)&((struct Obj25899 *)a0)->f0, a1);
+    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct Obj25899 *)a0)->f0, a1);
 }
 

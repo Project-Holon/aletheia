@@ -1,5 +1,5 @@
 /*
- * function: func_021BE8FC
+ * function: ZUKAN_DETAIL_HEADBAR_DeleteWindows
  * address:  0x021BE8FC
  * packet:   pkt_021BE8FC
  * region:   ov208
@@ -29,7 +29,7 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_021BE8FC(char *p)
+void ZUKAN_DETAIL_HEADBAR_DeleteWindows(char *p)
 {
     MSGDATA_Delete((struct Rec *)(((struct Obj05867 *)p)->f24));
     func_0203FB44(5, ((struct Obj05867 *)p)->f1C, ((struct Obj05867 *)p)->f20);

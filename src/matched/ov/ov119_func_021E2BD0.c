@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E2BD0, func_021E2C34
+ * function: POKETRADE_SAVE_SetCameraTrade, POKETRADE_SAVE_Update3DParticles
  * address: 0x021E2BD0
  * packet: pkt_ov119_021E2BD0
  * region: ov119
@@ -14,7 +14,7 @@
  *   G3D_CAMERA_SetScale 0x02048B60 arm
  *   G3D_CAMERA_SetRoll 0x02048B6C arm
  *   G3D_CAMERA_SetTarget 0x02048B20 arm
- *   func_021E3A40 0x021E3A40 thumb ov119
+ *   POKETRADE_3D_DrawRotatingCube 0x021E3A40 thumb ov119
  */
 #include "../include/Obj06427.h"
 typedef struct {int x,y,z;} Vec;
@@ -26,7 +26,7 @@ struct Light;
 extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetTarget(void *,Vec *);
-void func_021E2BD0(char *p) {
+void POKETRADE_SAVE_SetCameraTrade(char *p) {
     Vec a;
     Vec b;
     int c=0x1f40000;
@@ -40,5 +40,5 @@ void func_021E2BD0(char *p) {
     b.x=0; b.y=0x10000; b.z=0x1000;
     G3D_CAMERA_SetTarget(((struct Obj06427 *)p)->f83C,&b);
 }
-extern void func_021E3A40(const u8 *p);
-void func_021E2C34(char *p) {func_021E3A40((const u8 *)p);}
+extern void POKETRADE_3D_DrawRotatingCube(const u8 *p);
+void POKETRADE_SAVE_Update3DParticles(char *p) {POKETRADE_3D_DrawRotatingCube((const u8 *)p);}

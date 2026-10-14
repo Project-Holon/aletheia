@@ -1,5 +1,5 @@
 /*
- * function: func_022021F8
+ * function: WORLDTRADE_ADAPTER_RemovePartyMon
  * address: 0x022021F8
  * packet: pkt_ov135_022021F8
  * region: ov135
@@ -9,9 +9,9 @@
  * status: EXACT*
  * tail: 022022B6..022022B8 zero alignment padding.
  * symbols:
- *   func_02202608 0x02202608 thumb ov135
+ *   WORLDTRADE_ADAPTER_AllocHeapBuf 0x02202608 thumb ov135
  *   func_02007A18 0x02007A18 thumb
- *   func_022026A0 0x022026A0 thumb ov135
+ *   WORLDTRADE_ADAPTER_CopyBoxMon 0x022026A0 thumb ov135
  *   func_0200ADB8 0x0200ADB8 thumb
  *   func_02007664 0x02007664 thumb
  *   func_020307B0 0x020307B0 arm
@@ -34,7 +34,7 @@
 #include "../include/Obj23467.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_02202608(unsigned);
+extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct BigObj;
@@ -44,7 +44,7 @@ struct PerapVoice;
 struct Rec0200AD94;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void func_022026A0(u8 *p, u32 k);
+extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 extern void func_0200ADB8(void *dest, const void *src, u32 a2);
 extern void func_02007664(void *, unsigned, unsigned);
 extern u32 func_020307B0(void *p);
@@ -56,14 +56,14 @@ extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void func_02007C34(struct PerapVoice *p, void *a);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
-void func_022021F8(u8 *p, int flag)
+void WORLDTRADE_ADAPTER_RemovePartyMon(u8 *p, int flag)
 {
     void *mon;
     void *save;
     void *box;
     if (((struct Obj01260 *)p)->fC4 != 0xFF) {
-        mon = func_02202608(0x48);
-        func_022026A0((u8 *)func_02007A18(((struct Obj23460 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->fC, ((struct Obj01260 *)p)->fC4, ((struct Obj01260 *)p)->fC6), (u32)mon);
+        mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
+        WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)func_02007A18(((struct Obj23460 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->fC, ((struct Obj01260 *)p)->fC4, ((struct Obj01260 *)p)->fC6), (u32)mon);
         if (flag) func_0200ADB8(((struct Obj23461 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, mon, ((struct Obj01260 *)p)->fC4);
         func_02007664(((struct Obj23462 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->fC, ((struct Obj01260 *)p)->fC4, ((struct Obj01260 *)p)->fC6);
         func_020307B0(mon);

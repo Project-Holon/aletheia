@@ -1,5 +1,5 @@
 /*
- * function: func_021BF61C
+ * function: ZUKAN_DETAIL_INFO_NoOpHighlight
  * address:  0x021BF61C
  * packet:   pkt_021BF61C
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021BF61C(void)
+void ZUKAN_DETAIL_INFO_NoOpHighlight(void)
 {
 }
 

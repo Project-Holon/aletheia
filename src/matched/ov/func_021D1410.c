@@ -26,10 +26,10 @@
  *   BTLV_CORE_WaitMessage   0x021EA710  thumb ov093
  *   func_021EAF18   0x021EAF18  thumb ov093
  *   func_021EAF50   0x021EAF50  thumb ov093
- *   func_021F7998   0x021F7998  thumb ov094
- *   func_021F7EB4   0x021F7EB4  thumb ov094
- *   func_021F7F58   0x021F7F58  thumb ov094
- *   func_021F878C   0x021F878C  thumb ov094
+ *   BTLV_EFFECT_StartEffect   0x021F7998  thumb ov094
+ *   BTLV_EFFECT_IsBusy   0x021F7EB4  thumb ov094
+ *   BTLV_EFFECT_AddPokeSprite   0x021F7F58  thumb ov094
+ *   BTLV_EFFECT_StopLowHpBgm   0x021F878C  thumb ov094
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ typedef struct {
 
 extern int BTL_CLIENT_GetOutcomeForClient(BattleSeq *s);
 extern u16 BTL_MAIN_GetWinBgm(void **p);
-extern void func_021F878C(u32 a);
+extern void BTLV_EFFECT_StopLowHpBgm(u32 a);
 extern u8 BTL_MAIN_GetOwnOpponentClient(u8 *p, int k);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
@@ -62,9 +62,9 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern int BTLV_CORE_PrintTrainerMessage(char *p, u16 a, u16 b);
-extern int func_021F7EB4(void);
-extern void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021F7998(u32 a);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFECT_AddPokeSprite(int a, u32 b, u32 c, u32 d, u32 e);
+extern void BTLV_EFFECT_StartEffect(u32 a);
 
 int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
 {
@@ -74,7 +74,7 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
     switch (*state) {
     case 0:
         if (BTL_CLIENT_GetOutcomeForClient(s) == 1) {
-            func_021F878C(BTL_MAIN_GetWinBgm(s->battle));
+            BTLV_EFFECT_StopLowHpBgm(BTL_MAIN_GetWinBgm(s->battle));
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 0);
             b = BTL_MAIN_GetOwnOpponentClient(s->battle, 1);
             if (a == b) {
@@ -101,13 +101,13 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
     case 1:
         if (BTLV_CORE_WaitMessage(s->msgWin)) {
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 0);
-            func_021F7F58(BTL_MAIN_GetTrainerType(s->battle, a), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(s->battle, a), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             *state = 2;
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 0);
             BTLV_CORE_PrintTrainerMessage(s->msgWin, BTL_MAIN_GetTrainerId(s->battle, a), 1);
             *state = 3;
@@ -117,7 +117,7 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
         if (BTLV_CORE_WaitMessage(s->msgWin)) {
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 0);
             if (a != BTL_MAIN_GetOwnOpponentClient(s->battle, 1)) {
-                func_021F7998(0x271);
+                BTLV_EFFECT_StartEffect(0x271);
                 *state = 4;
             } else {
                 *state = 7;
@@ -125,15 +125,15 @@ int BTL_CLIENT_StepShowTrainerResult(BattleSeq *s, int *state)
         }
         break;
     case 4:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 1);
-            func_021F7F58(BTL_MAIN_GetTrainerType(s->battle, a), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(s->battle, a), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             a = BTL_MAIN_GetOwnOpponentClient(s->battle, 1);
             BTLV_CORE_PrintTrainerMessage(s->msgWin, BTL_MAIN_GetTrainerId(s->battle, a), 1);
             *state = 6;

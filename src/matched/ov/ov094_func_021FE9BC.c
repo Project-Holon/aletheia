@@ -1,5 +1,5 @@
 /*
- * function: func_021FE9BC
+ * function: BTLV_EFFVM_ParticleLoadTaskMain
  * address:  0x021FE9BC
  * packet:   pkt_ov094_021FE9BC
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef unsigned short u16;
 
@@ -22,15 +22,15 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern void PARTICLE_ApplyLoadHandlers(u32 *p);
-extern void func_021F89BC(void *h);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021FE9BC(void *h, Ctx *c)
+void BTLV_EFFVM_ParticleLoadTaskMain(void *h, Ctx *c)
 {
     u16 line = *(volatile u16 *)0x04000006;
 
     if (line >= 0xc0 && line <= 0xc8) {
         PARTICLE_ApplyLoadHandlers(c->obj);
         *c->reg &= ~0x10000u;
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
     }
 }

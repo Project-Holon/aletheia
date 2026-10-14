@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6E30
+ * function: ZUKAN_DETAIL_FORM_CountEntriesBefore
  * address:  0x021C6E30
  * packet:   pkt_ov208_021C6E30
  * region:   ov208
@@ -16,7 +16,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 ov208_func_021C6E30(void *unused, u8 *p, int unused2, u16 skip, u16 stop)
+u16 ZUKAN_DETAIL_FORM_CountEntriesBefore(void *unused, u8 *p, int unused2, u16 skip, u16 stop)
 {
     u16 n = 0;
     u16 i;

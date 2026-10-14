@@ -1,5 +1,5 @@
 /*
- * function: func_021B64D0
+ * function: HALL_OF_FAME_ReleaseWaveArc
  * address: 0x021B64D0
  * packet: pkt_ov180_021B64D0
  * region: ov180
@@ -14,4 +14,4 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02005B04(const u32 *arg);
-void func_021B64D0(char *p) {func_02005B04(((struct Obj05469 *)p)->fC);}
+void HALL_OF_FAME_ReleaseWaveArc(char *p) {func_02005B04(((struct Obj05469 *)p)->fC);}

@@ -1,7 +1,7 @@
 /*
  * file:     fld_faceup.c
  * unit:     yes
- * function: FLD_FACEUP_Create, FLD_FACEUP_OpenEventMain, FLD_FACEUP_SetupBg, FLD_FACEUP_StartClose, FLD_FACEUP_Delete, FLD_FACEUP_ResumeLipSync, FLD_FACEUP_CloseEventMain, FLD_FACEUP_Release, FLD_FACEUP_SaveBgPriorities, FLD_FACEUP_SaveVisiblePlanes, FLD_FACEUP_RestoreBgPriorities, FLD_FACEUP_RestoreVisiblePlanes, FLD_FACEUP_StepFadeIn, FLD_FACEUP_UpdateTaskMain, FLD_FACEUP_VBlankUpload, FLD_FACEUP_StepAnim
+ * function: FLD_FACEUP_Create, FLD_FACEUP_OpenEventMain, FLD_FACEUP_SetupBg, FLD_FACEUP_StartClose, FLD_FACEUP_Delete, FLD_FACEUP_ResumeLipSync, FLD_FACEUP_CloseEventMain, FLD_FACEUP_Release, FLD_FACEUP_SaveBgPriorities, FLD_FACEUP_SaveVisiblePlanes, FLD_FACEUP_RestoreBgPriorities, FLD_FACEUP_RestoreVisiblePlanes, FLD_FACEUP_StepFadeIn, FLD_FACEUP_UpdateTaskMain, FLD_FACEUP_VBlankUpload, FLD_FACEUP_StepAnim, FLD_FACEUP_InitAnim
  * address:  0x021F5260
  * region:   ov082
  * compiler: dsi/1.1p1
@@ -16,7 +16,6 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetFaceUpWorkPtr  0x02189A60  thumb  ov021
- *   FLD_FACEUP_InitAnim  0x021F58C0  thumb  ov082
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -64,11 +63,9 @@
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
 #define reg_G2_BLDCNT  (*(volatile u16 *)0x04000050)
-
 #define FACEUP_HEAP_ID      0x50
 #define FACEUP_BG_HEAP_ID   0x8015
 #define FACEUP_ARC_ID       0xbb
-
 struct GameSystem;
 struct GameEvent;
 struct FieldMap;
@@ -79,7 +76,6 @@ struct GameData;
 struct SaveControl;
 struct Config;
 struct TcbSys;
-
 typedef struct FaceupBgTemplate {
     u32 word[8];
 } FaceupBgTemplate;
@@ -113,7 +109,6 @@ typedef enum { GX_BG_CHARBASE_0x00000 = 0, GX_BG_CHARBASE_0x04000 = 1 } GXBGChar
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern FaceupWork **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
-extern void FLD_FACEUP_InitAnim(FaceupAnim *anim);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
@@ -169,10 +164,12 @@ int FLD_FACEUP_StepFadeIn(FaceupWork *work);
 void FLD_FACEUP_UpdateTaskMain(void *tcb, FaceupWork *work);
 void FLD_FACEUP_VBlankUpload(void *tcb, FaceupWork *work);
 void FLD_FACEUP_StepAnim(const FaceupAnimFrame *frames, unsigned frameCount, unsigned firstTile, unsigned tileStride, unsigned long tileWidth, FaceupAnim *anim);
+void FLD_FACEUP_InitAnim(FaceupAnim *anim);
 extern const char gFldFaceupFileName[];
 extern const FaceupBgTemplate gFldFaceupBgTemplate;
 extern const FaceupAnimFrame gFldFaceupMouthFrames[];
 extern const FaceupAnimFrame gFldFaceupBlinkFrames[];
+
 
 
 
@@ -215,6 +212,7 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
 
 
 
+
 int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq)
 {
     struct FieldMap *fieldMap;
@@ -252,12 +250,14 @@ int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq)
 
 
 
+
 static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode,
                                         GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     reg_G2_BG3CNT = (u16)((reg_G2_BG3CNT & 0x43) | (screenSize << 14) |
                           (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
+
 
 
 
@@ -334,6 +334,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
 
 
 
+
 struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -342,6 +343,7 @@ struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem)
         return 0;
     return func_020122C0(gameSystem, 0, FLD_FACEUP_CloseEventMain, 0);
 }
+
 
 
 
@@ -356,6 +358,7 @@ void FLD_FACEUP_Delete(struct FieldMap *fieldMap)
 
 
 
+
 void FLD_FACEUP_ResumeLipSync(struct FieldMap *fieldMap)
 {
     FaceupWork *work = *FIELDMAP_GetFaceUpWorkPtr(fieldMap);
@@ -363,6 +366,7 @@ void FLD_FACEUP_ResumeLipSync(struct FieldMap *fieldMap)
     work->lipSyncStopped = 0;
     work->waitingForText = 1;
 }
+
 
 
 
@@ -413,6 +417,7 @@ int FLD_FACEUP_CloseEventMain(struct GameEvent *event, int *seq)
 
 
 
+
 /*
  * volatile: BG3CNT 0x0400000E read-modify-written by the SDK inline G2_SetBG3ControlText; BLDCNT 0x04000050 store
  */
@@ -436,6 +441,7 @@ void FLD_FACEUP_Release(struct FieldMap *fieldMap, FaceupWork *work)
 
 
 
+
 void FLD_FACEUP_SaveBgPriorities(FaceupWork *work)
 {
     int bgId;
@@ -449,10 +455,12 @@ void FLD_FACEUP_SaveBgPriorities(FaceupWork *work)
 
 
 
+
 void FLD_FACEUP_SaveVisiblePlanes(FaceupWork *work)
 {
     work->savedVisiblePlanes = BG_SYS_GetMainVisiblePlanes();
 }
+
 
 
 
@@ -471,10 +479,12 @@ void FLD_FACEUP_RestoreBgPriorities(FaceupWork *work)
 
 
 
+
 void FLD_FACEUP_RestoreVisiblePlanes(FaceupWork *work)
 {
     BG_SYS_SetMainVisiblePlanes(work->savedVisiblePlanes);
 }
+
 
 
 
@@ -491,6 +501,7 @@ int FLD_FACEUP_StepFadeIn(FaceupWork *work)
         return 1;
     return 0;
 }
+
 
 
 
@@ -526,6 +537,7 @@ void FLD_FACEUP_UpdateTaskMain(void *tcb, FaceupWork *work)
 
 
 
+
 void FLD_FACEUP_VBlankUpload(void *tcb, FaceupWork *work)
 {
     FaceupAnim *blink = &work->blink;
@@ -543,6 +555,7 @@ void FLD_FACEUP_VBlankUpload(void *tcb, FaceupWork *work)
         mouth->uploadPending = 0;
     }
 }
+
 
 
 
@@ -577,4 +590,14 @@ void FLD_FACEUP_StepAnim(const FaceupAnimFrame *frames, unsigned frameCount, uns
     } else {
         anim->delay--;
     }
+}
+
+
+void FLD_FACEUP_InitAnim(FaceupAnim *anim)
+{
+    anim->idle = 1;
+    anim->uploadPending = 0;
+    anim->delay = 0;
+    anim->delayReload = 0;
+    anim->frame = 0;
 }

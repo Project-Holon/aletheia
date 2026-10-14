@@ -3690,7 +3690,7 @@ u16 WAZA_TOOL_GetPower(u16 move)
 
 
 /*
- * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
+ * Tail call with argument 2. Filed as the witness for ov094 BTLV_EFFECT_StartDamageTintTask.
  */
 int WAZA_TOOL_GetDamageType(u16 move)
 {

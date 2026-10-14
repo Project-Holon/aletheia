@@ -1,5 +1,5 @@
 /*
- * function: func_021BC39C
+ * function: ZUKAN_DETAIL_COMMON_DeleteContext
  * address:  0x021BC39C
  * packet:   pkt_021BC39C
  * region:   ov208
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC39C(void *a0)
+void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0)
 {
     func_020307B0(a0);
 }

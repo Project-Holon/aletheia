@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionElapsedHours
+ * function: SCRCMD_RESEARCH_GetMissionElapsedHours
  * address:  0x0216BB18
  * packet:   pkt_ov010_0216BB18
  * region:   ov010
@@ -31,7 +31,7 @@ struct RTCDate;
 struct RTCTime;
 extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
 
-int FIELD_G3D_MAP_GetMissionElapsedHours(void *sys)
+int SCRCMD_RESEARCH_GetMissionElapsedHours(void *sys)
 {
     u32 a[7];
     void *r4;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD94C
+ * function: DENDOU_VIEW_PresentWindow
  * address:  0x021DD94C
  * packet:   pkt_021DD94C
  * region:   ov171
@@ -25,7 +25,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021DD94C(int *p)
+void DENDOU_VIEW_PresentWindow(int *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj14291 *)p)->f0));
     func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj14291 *)p)->f0)));

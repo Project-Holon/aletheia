@@ -1,5 +1,5 @@
 /*
- * function: func_021C5AA8
+ * function: MB_SEQ_DeleteMenuEntries
  * address: 0x021C5AA8
  * packet: pkt_ov136_021C5AA8
  * region: ov136
@@ -21,7 +21,7 @@ struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-void func_021C5AA8(u8 *p)
+void MB_SEQ_DeleteMenuEntries(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)

@@ -32,7 +32,7 @@
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
  *   DWCi_IsFold                    0x021CE050  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
- *   g_021DE62C     0x021DE62C  data
+ *   gSceneSetUsbReady1UsbState     0x021DE62C  data
  *   DWCi_HLlLoad  0x021BD674  arm  ov016
  *   DWCi_CMNlStep  0x021BD214  arm  ov016
  *   OS_GetOwnerInfo  0x02087C88  arm
@@ -45,12 +45,12 @@
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   procInit  0x021CE1B0  arm  ov016
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
- *   dat_021DB880    0x021DB880  data
- *   dat_021DB898    0x021DB898  data
- *   dat_021DB8B0    0x021DB8B0  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_0207EB78    0x0207EB78  data
+ *   gSceneSetUsbReady1PathChar    0x021DB880  data
+ *   gSceneSetUsbReady1PathPltt    0x021DB898  data
+ *   gSceneSetUsbReady1PathScr    0x021DB8B0  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
  *   Choose                           0x021DE62C  data
  *   DWCi_ANIMElEnd                   0x021BC8EC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
@@ -153,13 +153,13 @@ extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_SceneSetUsbReady1Update(void);
 void DWCi_SceneSetUsbReady1UpdateNop(void);
-extern unsigned char g_021DE62C;
-extern unsigned short dat_021DB880[];
-extern unsigned short dat_021DB898[];
-extern unsigned short dat_021DB8B0[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_0207EB78[];
+extern unsigned char gSceneSetUsbReady1UsbState;
+extern unsigned short gSceneSetUsbReady1PathChar[];
+extern unsigned short gSceneSetUsbReady1PathPltt[];
+extern unsigned short gSceneSetUsbReady1PathScr[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short GX_LoadBG2Scr[];
 /* this member's .bss at 0x021DE62C: the choice that picks the next scene */
 extern unsigned char Choose;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
@@ -184,7 +184,7 @@ void DWCi_SceneSetUsbReady1(void)
 {
     OwnerInfo info;
     unsigned short buf[11];
-    g_021DE62C = 0;
+    gSceneSetUsbReady1UsbState = 0;
     initGraphics();
     DWCi_HLlLoad(8);
     DWCi_CMNlStep(2);
@@ -203,9 +203,9 @@ static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB880), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB898), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    DWCi_CMNlLoadResource((char *)((int)dat_021DB8B0), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetUsbReady1PathChar), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetUsbReady1PathPltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)gSceneSetUsbReady1PathScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -338,11 +338,11 @@ static void endScene2(void)
  */
 static void cbUsb(int state)
 {
-    if (g_021DE62C != 0)
+    if (gSceneSetUsbReady1UsbState != 0)
         return;
     switch (state) {
     case 0:
-        g_021DE62C = 3;
+        gSceneSetUsbReady1UsbState = 3;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(0x12);
         DWCi_WINlInitEx(0x10, 1, 1, -1, 0);
@@ -350,7 +350,7 @@ static void cbUsb(int state)
         DWCi_ChangeScene(procNotFound);
         break;
     case 1:
-        g_021DE62C = 1;
+        gSceneSetUsbReady1UsbState = 1;
         DWCi_SNDlStop();
         DWCi_ChangeScene(endScene);
         break;
@@ -362,7 +362,7 @@ static void cbUsb(int state)
         DWCi_ChangeScene(procBoth);
         break;
     case 3:
-        g_021DE62C = 2;
+        gSceneSetUsbReady1UsbState = 2;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(9);
         DWCi_ChangeScene(endScene);

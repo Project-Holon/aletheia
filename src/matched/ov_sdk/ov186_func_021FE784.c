@@ -1,5 +1,5 @@
 /*
- * function: func_021FE784
+ * function: BR_FADE_Start
  * address:  0x021FE784
  * packet:   pkt_021FE784
  * region:   ov186
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FE794  0x021FE794  thumb  ov186
+ *   BR_FADE_StartTimed  0x021FE794  thumb  ov186
  */
 
 typedef unsigned int   u32;
-extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
+extern void BR_FADE_StartTimed(char *p, u32 index, u32 a, u32 b, u32 c);
 
-void func_021FE784(int a, int b, int c, int d)
+void BR_FADE_Start(int a, int b, int c, int d)
 {
-    func_021FE794((char *)a, b, c, d, 0);
+    BR_FADE_StartTimed((char *)a, b, c, d, 0);
 }

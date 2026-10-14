@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC4D8
+ * function: ZUKAN_DETAIL_COMMON_StartBlendIn
  * address:  0x021BC4D8
  * packet:   pkt_ov208_021BC4D8
  * region:   ov208
@@ -19,7 +19,7 @@ struct Ov208Blend {
     int wait;
 };
 
-void ov208_func_021BC4D8(struct Ov208Blend *p)
+void ZUKAN_DETAIL_COMMON_StartBlendIn(struct Ov208Blend *p)
 {
     p->ev = 0;
     p->step = 2;

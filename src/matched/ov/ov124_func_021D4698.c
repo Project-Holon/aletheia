@@ -1,5 +1,5 @@
 /*
- * function: func_021D4698
+ * function: CG_HELP_FreeActorResources
  * address: 0x021D4698
  * packet: pkt_ov124_021D4698
  * region: ov124
@@ -25,4 +25,4 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
-void func_021D4698(char *p) {func_020307B0(((struct Obj00991 *)p)->f44);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj00991 *)p)->f5C);CLACT_ReleasePalette(((struct Obj00991 *)p)->f50);CLACT_ReleaseCharacter(((struct Obj00991 *)p)->f54);CLACT_ReleaseCellAnim(((struct Obj00991 *)p)->f58);}
+void CG_HELP_FreeActorResources(char *p) {func_020307B0(((struct Obj00991 *)p)->f44);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj00991 *)p)->f5C);CLACT_ReleasePalette(((struct Obj00991 *)p)->f50);CLACT_ReleaseCharacter(((struct Obj00991 *)p)->f54);CLACT_ReleaseCellAnim(((struct Obj00991 *)p)->f58);}

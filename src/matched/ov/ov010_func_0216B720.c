@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdGetTopTallyEntry
+ * function: SCRCMD_RESEARCH_CmdGetTopTallyEntry
  * address:  0x0216B720
  * packet:   pkt_ov010_0216B720
  * region:   ov010
@@ -39,7 +39,7 @@ extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
 extern u8 sTallyCategoryEntryCount[];
 extern u8 sTallyCategoryEntryIds[];
 
-int FIELD_G3D_MAP_CmdGetTopTallyEntry(int c, int vm)
+int SCRCMD_RESEARCH_CmdGetTopTallyEntry(int c, int vm)
 {
     int i;
     int r5;

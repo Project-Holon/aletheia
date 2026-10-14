@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_0203FCA0 0x0203FCA0 arm
@@ -68,7 +68,7 @@ struct PalAnmSlot;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_0203FCA0(u32 layer, const struct BgTemplate *template, u32 mode);
@@ -153,7 +153,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     func_02041300(1, 0, 0, 0, 32, 32, 17);
     func_02040C14(1, 0, 1, 0);
     frameIndex = func_020496E4(11, 89, 1, 0, 0, msg->heapId);
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 11, 90, msg->heapId, 0, 32, 0, 0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 11, 90, msg->heapId, 0, 32, 0, 0);
     msg->window = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
     BMP_WIN_MakeScreen(msg->window);
     BMP_WIN_DrawFrame(msg->window, frameIndex, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A10
+ * function: BTLV_EFFECT_DeleteTasksByArg
  * address:  0x021F8A10
  * packet:   pkt_ov094_021F8A10
  * region:   ov094
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Runs func_021F89BC on each live object owned by a.
+ * Runs BTLV_EFFECT_DeleteTask on each live object owned by a.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
 typedef struct {
     char pad[8];
@@ -22,15 +22,15 @@ typedef struct {
     int owner[32];          /* 0x108 */
 } Work;
 
-extern Work *d_0220AF20;
-extern void func_021F89BC(void *);
+extern Work *gBtlvEff;
+extern void BTLV_EFFECT_DeleteTask(void *);
 
-void func_021F8A10(int a)
+void BTLV_EFFECT_DeleteTasksByArg(int a)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (d_0220AF20->obj[i] != 0 && a == d_0220AF20->owner[i])
-            func_021F89BC(d_0220AF20->obj[i]);
+        if (gBtlvEff->obj[i] != 0 && a == gBtlvEff->owner[i])
+            BTLV_EFFECT_DeleteTask(gBtlvEff->obj[i]);
     }
 }

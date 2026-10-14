@@ -1,5 +1,5 @@
 /*
- * function: func_021F50EC
+ * function: WORLDTRADE_ExitPlanes
  * address:  0x021F50EC
  * packet:   pkt_021F50EC
  * region:   ov135
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
- *   func_021F4EFC  0x021F4EFC  thumb
+ *   WORLDTRADE_ReleaseGraphics  0x021F4EFC  thumb
  *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  */
@@ -28,11 +28,11 @@ typedef volatile unsigned int vu32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021F4EFC(u8 *p);
+extern void WORLDTRADE_ReleaseGraphics(u8 *p);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 
-void func_021F50EC(u8 *p)
+void WORLDTRADE_ExitPlanes(u8 *p)
 {
     if (((struct Obj05413 *)p)->fF90 != 0) {
         func_02030EAC(((struct Obj05413 *)p)->fF90);
@@ -40,7 +40,7 @@ void func_021F50EC(u8 *p)
     }
     *(vu16 *)0x04000050 = 0;
     *(vu16 *)0x04001050 = 0;
-    func_021F4EFC(p);
+    WORLDTRADE_ReleaseGraphics(p);
     BMP_WIN_Exit();
     func_0203F9B4();
     *(vu32 *)0x04000000 &= 0xFFFF1FFF;

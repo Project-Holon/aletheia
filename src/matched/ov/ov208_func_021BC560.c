@@ -1,5 +1,5 @@
 /*
- * function: func_021BC560
+ * function: ZUKAN_DETAIL_COMMON_CreatePaletteAnim
  * address: 0x021BC560
  * packet: pkt_ov208_021BC560
  * region: ov208
@@ -29,7 +29,7 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-PalFade *func_021BC560(u32 heap,u16 mask)
+PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
 {
     PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);
     p->memory=func_02030734(heap,func_02030CB0(2),1,d_021C8D98,0x1e8);

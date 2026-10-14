@@ -1,5 +1,5 @@
 /*
- * function: func_021C5114
+ * function: MAILVIEW_FreeGraphics
  * address: 0x021C5114
  * packet: pkt_ov136_021C5114
  * region: ov136
@@ -26,7 +26,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
 extern void func_0207D63C(void *, int, int, int, int);
-void func_021C5114(u8 *p)
+void MAILVIEW_FreeGraphics(u8 *p)
 {
     PALANM_FreeSlotBuffers(((struct Obj05421 *)p)->f38, 0);
     PALANM_Delete(((struct Obj05421 *)p)->f38);

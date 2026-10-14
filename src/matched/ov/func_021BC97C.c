@@ -1,5 +1,5 @@
 /*
- * function: func_021BC97C
+ * function: ZUKAN_DETAIL_COMMON_FreeBgPalette
  * address:  0x021BC97C
  * packet:   pkt_021BC97C
  * region:   ov208
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern u32 func_020307B0(void *p);
 
-void func_021BC97C(char *p)
+void ZUKAN_DETAIL_COMMON_FreeBgPalette(char *p)
 {
     unsigned int w;
 

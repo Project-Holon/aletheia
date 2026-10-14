@@ -8,16 +8,16 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is func_021F8AFC (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/ov094_func_021F8AE8.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
- * blocker: existing ov094_func_021F8AE8.c unit omits func_021F8AFC from
- * its parsed function list: four repeated keys leave only func_021F8B28.
+ * 2026-10-04 (wave D2 lane 08): re-tested, still MATCH: 11 of 12 relocations resolve; the only open site is BTLV_EFFECT_GetPokeEffectValue (+002E). The symbols line already carries 'thumb ov094', but the sole witness src/matched/ov/ov094_func_021F8AE8.c lists four 'function:' keys and the parser keeps only the last, so 0x021F8AFC has no witness. Fix belongs in that unit's header or the parser (outside this lane's write set); bytes are correct.
+ * blocker: existing ov094_func_021F8AE8.c unit omits BTLV_EFFECT_GetPokeEffectValue from
+ * its parsed function list: four repeated keys leave only BTLV_EFFECT_ResumeVmWait.
  * Concrete bytes correct; caller-only tu suggest-split has no viable cut.
  * lever: advance p itself before indexed store; random draw helper owns
  * its u64 temporary and returns u32 (random-below-n existing idiom).
  * symbols:
  *   TR_AI_GetPoke 0x0218A2FC thumb ov096
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
- *   func_021F8AFC 0x021F8AFC thumb ov094
+ *   BTLV_EFFECT_GetPokeEffectValue 0x021F8AFC thumb ov094
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   func_02019C90 0x02019C90 thumb
@@ -32,7 +32,7 @@ extern int TR_AI_GetPoke(u8 *, int);
 struct QF;
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern int func_021F8AFC(int);
+extern int BTLV_EFFECT_GetPokeEffectValue(int);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 func_02019C90(u16, u16, u32);
@@ -54,7 +54,7 @@ int TR_AI_GetAbility(u8 *p, int k, int slot)
         return 0;
     if (k == 0 || k == 2) {
         p += 0x7c;
-        p[slot] = func_021F8AFC(slot);
+        p[slot] = BTLV_EFFECT_GetPokeEffectValue(slot);
         if (p[slot] != 0)
             return p[slot];
         a = func_021D59B4(mon, 0x10);

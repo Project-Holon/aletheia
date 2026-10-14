@@ -1,5 +1,5 @@
 /*
- * function: func_021E68F4
+ * function: POKETRADE_2D_MovePickedIconActor
  * address: 0x021E68F4
  * packet: pkt_ov119_021E68F4
  * region: ov119
@@ -28,7 +28,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E68F4(int p, int i) {
+void POKETRADE_2D_MovePickedIconActor(int p, int i) {
     Table t=d_021E7DEC;
     Create c;
     if(i==-1) {

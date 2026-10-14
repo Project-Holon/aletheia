@@ -1,5 +1,5 @@
 /*
- * function: func_021D9384
+ * function: POKETRADE_PROC_RecvPeerHalf
  * address: 0x021D9384
  * packet: pkt_ov119_021D9384
  * region: ov119
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-void func_021D9384(u32 a, u32 b, short *src, u8 *base, void *e)
+void POKETRADE_PROC_RecvPeerHalf(u32 a, u32 b, short *src, u8 *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (a != GFL_NET_SYSTEM_GetCurrentAid())

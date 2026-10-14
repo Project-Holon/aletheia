@@ -1,5 +1,5 @@
 /*
- * function: func_021BC678
+ * function: ZUKAN_DETAIL_COMMON_UpdatePaletteAnim
  * address:  0x021BC678
  * packet:   pkt_021BC678
  * region:   ov208
@@ -23,7 +23,7 @@ struct Ctx;
 extern void func_02030D28(struct Ctx *c);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-void func_021BC678(char *p)
+void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p)
 {
     func_02030D28((struct Ctx *)(((struct Obj04893 *)p)->f0));
     switch (((struct Obj04893 *)p)->f10) {

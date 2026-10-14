@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Returns word 2 of the object at *p. Filed as the witness for ov094 func_021FC744.
+ * Returns word 2 of the object at *p. Filed as the witness for ov094 BTLV_EFFVM_IsAllIdle.
  */
 
 int PARTICLE_GetEffectCount(int **p)

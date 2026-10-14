@@ -1,5 +1,5 @@
 /*
- * function: func_021B65C4
+ * function: CTVT_CAMERA_FreeShutterSound
  * address:  0x021B65C4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void GFL_NET_FreeAligned(void *p);
 
-void func_021B65C4(void *p)
+void CTVT_CAMERA_FreeShutterSound(void *p)
 {
     u32 v = ((struct Obj02504 *)p)->f48;
     if (v != 0) {

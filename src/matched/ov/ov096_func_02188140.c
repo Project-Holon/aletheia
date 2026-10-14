@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   VM_GetUserData  0x02011324  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 *func_02011324(u8 *);
-u8 TR_AI_GetChosenTarget(u8 *p) { return func_02011324(p)[0x47]; }
+extern u8 *VM_GetUserData(u8 *);
+u8 TR_AI_GetChosenTarget(u8 *p) { return VM_GetUserData(p)[0x47]; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C5C
+ * function: RESEARCH_COMMON_AllocSlotBuffers
  * address: 0x021C0C5C
  * packet: pkt_ov217_021C0C5C
  * region: ov217
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct PalAnmSlot;
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *, u32, u32, u32);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
-void func_021C0C5C(u8 *p)
+void RESEARCH_COMMON_AllocSlotBuffers(u8 *p)
 {
     struct PalAnmSlot *slots = *(struct PalAnmSlot * *)&((struct Obj00791 *)p)->f28;
     PALANM_AllocSlotBuffers(slots, 0, 512, ((struct Obj00791 *)p)->f0);

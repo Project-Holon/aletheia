@@ -1,5 +1,5 @@
 /*
- * function: func_021FFB20
+ * function: WORLDTRADE_SUBLCD_UpdateSlotPalettes
  * address: 0x021FFB20
  * packet: pkt_ov135_021FFB20
  * region: ov135
@@ -17,7 +17,7 @@
  * superseded.
  *
  * symbols:
- *   func_021FFC8C 0x021FFC8C thumb ov135
+ *   WORLDTRADE_SUBLCD_LoadSlotPalette 0x021FFC8C thumb ov135
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -25,13 +25,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021FFC8C(u8 **p, u8 *q, int k, int n, int a4);
+extern void WORLDTRADE_SUBLCD_LoadSlotPalette(u8 **p, u8 *q, int k, int n, int a4);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021FFB20(u8 *p, int count, int flag)
+void WORLDTRADE_SUBLCD_UpdateSlotPalettes(u8 *p, int count, int flag)
 {
     int i;
     int b, a;
@@ -40,7 +40,7 @@ void func_021FFB20(u8 *p, int count, int flag)
     b = 0x32E;
     for (i = 0; i < 7; i++) {
         if (i < count) {
-            func_021FFC8C((u8 **)(p + 0xE5C), *(void **)(p + a), i, *(u8 *)(p + i * 0x128 + b), *(u8 *)(p + i * 0x128 + 0x302));
+            WORLDTRADE_SUBLCD_LoadSlotPalette((u8 **)(p + 0xE5C), *(void **)(p + a), i, *(u8 *)(p + i * 0x128 + b), *(u8 *)(p + i * 0x128 + 0x302));
             if (flag != 0) CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p + i * 4 + 0xD10)), i * 4 + 14);
             else CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p + i * 4 + 0xD10)), i * 4 + 17);
             CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0xD10), 1);

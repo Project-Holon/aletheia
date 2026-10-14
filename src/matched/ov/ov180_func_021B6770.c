@@ -1,5 +1,5 @@
 /*
- * function: func_021B6770
+ * function: HALL_OF_FAME_ExitParticleManager
  * address: 0x021B6770
  * packet: pkt_ov180_021B6770
  * region: ov180
@@ -13,4 +13,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void PARTICLE_ExitManager(void);
-void func_021B6770(void) {PARTICLE_ExitManager();}
+void HALL_OF_FAME_ExitParticleManager(void) {PARTICLE_ExitManager();}

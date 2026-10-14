@@ -15,13 +15,13 @@
  * symbols:
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_MAIN_GetViewPosOfPoke 0x021B8DC0 thumb ov093
- *   func_021F8204 0x021F8204 thumb ov094
+ *   BTLV_EFFECT_GaugeIsSlotOccupied 0x021F8204 thumb ov094
  *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
- *   func_021F8134 0x021F8134 thumb ov094
- *   func_021F8180 0x021F8180 thumb ov094
+ *   BTLV_EFFECT_GaugeStartExpGain 0x021F8134 thumb ov094
+ *   BTLV_EFFECT_GaugeIsAnimating 0x021F8180 thumb ov094
  *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
- *   func_021F8150 0x021F8150 thumb ov094
+ *   BTLV_EFFECT_GaugeRefreshForLevelUp 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
  *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
@@ -66,17 +66,17 @@ typedef struct {
 } LearnSeq;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p, void *a, unsigned int b);
-extern int func_021F8204(int);
+extern int BTLV_EFFECT_GaugeIsSlotOccupied(int);
 struct H;
 struct L;
 struct Obj;
 struct Result;
 extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
-extern void func_021F8134(int, u32);
-extern int func_021F8180(void);
+extern void BTLV_EFFECT_GaugeStartExpGain(int, u32);
+extern int BTLV_EFFECT_GaugeIsAnimating(void);
 extern void BTL_EVENT_ReleaseClientHandle(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
-extern void func_021F8150(int, void *);
+extern void BTLV_EFFECT_GaugeRefreshForLevelUp(int, void *);
 extern int GFL_USE_IsAnySeBusy(void);
 extern void BTLV_CORE_StartViewEffect(char *ctx, int a, int b);
 extern int BTLV_CORE_WaitViewEffect(void *);
@@ -116,7 +116,7 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
     obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00268 *)p)->f4, id);
     index = BTL_MAIN_GetViewPosOfPoke(((struct Obj00268 *)p)->f0, ((struct Obj00268 *)p)->f4, id);
     enabled = 0;
-    if (index != 0xff && func_021F8204(index)) enabled = 1;
+    if (index != 0xff && BTLV_EFFECT_GaugeIsSlotOccupied(index)) enabled = 1;
     switch (*state) {
     case 0:
         gExpGainWork.remaining = args[1];
@@ -129,7 +129,7 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
                 *state = 3;
             } else {
                 if (enabled) {
-                    func_021F8134(index, gExpGainWork.remaining);
+                    BTLV_EFFECT_GaugeStartExpGain(index, gExpGainWork.remaining);
                     *state = 2;
                 } else *state = 13;
                 remaining = 0;
@@ -138,18 +138,18 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         } else *state = 13;
         break;
     case 2:
-        if (!func_021F8180()) *state = 13;
+        if (!BTLV_EFFECT_GaugeIsAnimating()) *state = 13;
         break;
     case 3:
         BTL_EVENT_ReleaseClientHandle(obj);
         BTL_POKEPARAM_ReloadFromParam(obj);
         if (enabled) {
-            func_021F8150(index, obj);
+            BTLV_EFFECT_GaugeRefreshForLevelUp(index, obj);
             *state = 4;
         } else *state = 6;
         break;
     case 4:
-        if (!func_021F8180() && !GFL_USE_IsAnySeBusy()) {
+        if (!BTLV_EFFECT_GaugeIsAnimating() && !GFL_USE_IsAnySeBusy()) {
             BTLV_CORE_StartViewEffect(((struct Obj00268 *)p)->f54, index, 0x25d);
             *state = 5;
         }

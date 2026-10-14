@@ -1,7 +1,7 @@
 /*
  * file:     msl_console_io.c
  * unit:     yes
- * function: func_0209D724, func_0209D728, func_0209D774, func_0209D778, func_0209D77C, func_0209D784, func_0209D7D4, func_0209D818, func_0209D820
+ * function: func_0209D724, func_0209D728, func_0209D774, func_0209D778, func_0209D77C, func_0209D784, func_0209D7D4, func_0209D818, func_0209D820, __register_global_object
  * address:  0x0209D724
  * region:   arm9
  * compiler: dsi/1.2
@@ -10,33 +10,50 @@
  * isa:      arm
  * status:   EXACT
  *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * MSL C console I/O tail after the runtime.a routines: the empty finaliser
  * at 0x0209D724, a 64-entry table writer, the console read/write/close
  * hooks and the callback-table walker at 0x0209D820.
  * func_0209D818 is the close hook: the FILE tables at 0x020A876C and
  * 0x020A87B8 hold func_0209D784, func_0209D7D4, func_0209D818 in a row.
+ * note:     EXACT* not EXACT: scan_listing finds no func_ label between
+ *           0x0209D850 and 0x020A8FE6, so target_extent reports 46998 bytes
+ *           while the compiled function is 32.  The next real label after
+ *           this run of list nodes and descriptor data is far below.
  *
  * symbols:
  *   g_02153FB4  0x02153FB4  data
  *   g_02153FB8  0x02153FB8  data
- *   __register_global_object  0x0209D850  arm
+ *   __global_destructor_chain  0x021542B8  data
  */
-struct Node;
 typedef unsigned char u8;
-
-typedef struct
-{
-    u8 b[12];
-} Ent;
 
 typedef unsigned int   u32;
 
-extern void __register_global_object(u32 a, u32 b, struct Node *node);
+typedef void (*Handler)(void);
+
+struct DestructorChain
+{
+    struct DestructorChain *next;
+    u32 destructor;
+    u32 object;
+};
+
 void func_0209D724(void);
 int func_0209D728(int a);
 void func_0209D774(void *p);
+void func_0209D778(void *str);
+int func_0209D77C(void);
+u32 func_0209D784(u32 a, char *dest, u32 *count);
+int func_0209D7D4(int handle, u8 *buffer, u32 *count);
+int func_0209D818(int handle);
+void func_0209D820(void);
+void __register_global_object(u32 object, u32 destructor, struct DestructorChain *chain);
 extern int   g_02153FB4;
-extern Ent   g_02153FB8[];
+extern struct DestructorChain g_02153FB8[];
+extern struct DestructorChain *__global_destructor_chain;
+
 
 /*
  * layout/runtime_arm9.txt lists 0x0209D724 as _runtime_null_stub and claims
@@ -48,6 +65,7 @@ extern Ent   g_02153FB8[];
 void func_0209D724(void)
 {
 }
+
 
 /*
  * blocked:  the only occurrences of 0x02153FB4 and 0x02153FB8 in the image are the two
@@ -61,16 +79,17 @@ int func_0209D728(int a)
     if (g_02153FB4 == 0x40)
         return -1;
 
-    __register_global_object(r, a, (struct Node *)(&g_02153FB8[g_02153FB4++]));
+    __register_global_object(r, a, &g_02153FB8[g_02153FB4++]);
     return r;
 }
+
 void func_0209D774(void *p){ }
-void func_0209D778(void *str);
-int func_0209D77C(void);
+
 
 void func_0209D778(void *str){ }
+
 int func_0209D77C(void){ return 0; }
-extern int func_0209D77C(void);
+
 
 u32 func_0209D784(u32 a, char *dest, u32 *count)
 {
@@ -88,8 +107,7 @@ u32 func_0209D784(u32 a, char *dest, u32 *count)
     }
     return 0;
 }
-extern void func_0209D778(void *str);
-extern void func_0209D774(void *p);
+
 
 /*
  * MSL console write hook (the __write_console shape: handle, buffer,
@@ -124,12 +142,12 @@ int func_0209D7D4(int handle, u8 *buffer, u32 *count)
     return 0;
 }
 
+
 int func_0209D818(int handle)
 {
     return 0;
 }
 
-typedef void (*Handler)(void);
 
 void func_0209D820(void)
 {
@@ -139,4 +157,13 @@ void func_0209D820(void)
         (*p)();
         p++;
     }
+}
+
+
+void __register_global_object(u32 object, u32 destructor, struct DestructorChain *chain)
+{
+    chain->next = __global_destructor_chain;
+    chain->destructor = destructor;
+    chain->object = object;
+    __global_destructor_chain = chain;
 }

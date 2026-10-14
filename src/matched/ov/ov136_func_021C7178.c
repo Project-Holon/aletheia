@@ -1,5 +1,5 @@
 /*
- * function: func_021C7178
+ * function: MB_SEQ_StartFadeOut
  * address:  0x021C7178
  * packet:   pkt_ov136_021C7178
  * region:   ov136
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021C7178(u8 *p, u32 v)
+int MB_SEQ_StartFadeOut(u8 *p, u32 v)
 {
     WIPE_SYS_Start((void *)0, 0, 0, 0, 6, 1, 0x66);
     ((struct Obj23638 *)(*(u8 * *)&((struct Obj23637 *)p)->f8))->f308 = v;

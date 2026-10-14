@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021BF750  0x021BF750  thumb  ov217
- *   func_021C09F8  0x021C09F8  thumb  ov217
+ *   RESEARCH_COMMON_GetInputFlag  0x021C09F8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,9 +26,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_021BF750(void *);
-extern u32 func_021C09F8(void *);
+extern u32 RESEARCH_COMMON_GetInputFlag(void *);
 u32 func_021BF758(void *p)
 {
-    return func_021C09F8((void *)func_021BF750(p));
+    return RESEARCH_COMMON_GetInputFlag((void *)func_021BF750(p));
 }
 

@@ -14,7 +14,7 @@
  *   BTL_POKEPARAM_IsTransformed 0x021D6D54 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
- *   func_021E0A64 0x021E0A64 thumb ov093
+ *   POKETRADE_SAVE_StepCheckEvolution 0x021E0A64 thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   BTL_EVENT_GetFactorKey 0x021D70A8 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
@@ -34,7 +34,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_IsTransformed(struct R5 *p);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *p);
-extern int func_021E0A64(int);
+extern int POKETRADE_SAVE_StepCheckEvolution(int);
 extern u8 BTL_POKEPARAM_FindMoveSlot(void *, int);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
@@ -57,7 +57,7 @@ void HAND_WAZA_MimicCopyTargetMove(void *a, void *q, int id)
         move = BTL_POKEPARAM_GetLastUsedMoveId(t);
         other = BTL_POKEPARAM_GetLastSelectedMoveId(t);
         if (other != move) move = other;
-        if (move == 0 || func_021E0A64(move) != 0 || BTL_POKEPARAM_FindMoveSlot(m, move) != 4) return;
+        if (move == 0 || POKETRADE_SAVE_StepCheckEvolution(move) != 0 || BTL_POKEPARAM_FindMoveSlot(m, move) != 4) return;
         slot = BTL_POKEPARAM_FindMoveSlot(m, BTL_EVENT_GetFactorKey(a));
         if (slot == 4) return;
         r = BTL_SERVER_FLOW_AllocCmdRecord(q, 37, id);

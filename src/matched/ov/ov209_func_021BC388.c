@@ -1,5 +1,5 @@
 /*
- * function: func_021BC388
+ * function: ZUKAN_LIST_InitBgSystem
  * address: 0x021BC388
  * packet: pkt_ov209_021BC388
  * region: ov209
@@ -43,7 +43,7 @@ extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-void func_021BC388(void)
+void ZUKAN_LIST_InitBgSystem(void)
 {
     struct Display display;
     struct BgTemplate b0,b1,b2,b3,b4,b5,b6,b7;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F5C
+ * function: GSYNC_STATE_UpdateCurrentEntry
  * address: 0x021D7F5C
  * packet: pkt_ov123_021D7F5C
  * region: ov123
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-int func_021D7F5C(char *p)
+int GSYNC_STATE_UpdateCurrentEntry(char *p)
 {
     int i, j;
     char *q;

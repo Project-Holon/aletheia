@@ -1,5 +1,5 @@
 /*
- * function: func_021BE04C
+ * function: COMM_TVT_SYS_GetTaskMenu
  * address:  0x021BE04C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE04C(void *p)
+u32 COMM_TVT_SYS_GetTaskMenu(void *p)
 {
     return ((struct Obj24120 *)p)->f1D4;
 }

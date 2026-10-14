@@ -1,5 +1,5 @@
 /*
- * function: func_021C574C
+ * function: MB_SEQ_LoadFrameCharData
  * address: 0x021C574C
  * packet: pkt_ov136_021C574C
  * region: ov136
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C574C 0x021C574C thumb
+ *   MB_SEQ_LoadFrameCharData 0x021C574C thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
@@ -32,7 +32,7 @@ extern void MIi_CpuCopyFast(void *, const void *, u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021C574C(u8 *p)
+void MB_SEQ_LoadFrameCharData(u8 *p)
 {
     void *h;
     void *buf;

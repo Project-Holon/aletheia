@@ -1,5 +1,5 @@
 /*
- * function: func_021E10D8
+ * function: POKETRADE_SAVE_CreateMessageResources
  * address: 0x021E10D8
  * packet: pkt_ov119_021E10D8
  * region: ov119
@@ -37,7 +37,7 @@ extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(u32,u32,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-void func_021E10D8(char *p)
+void POKETRADE_SAVE_CreateMessageResources(char *p)
 {
     ((struct Obj00001 *)p)->f724=func_0201EC64(((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f720=func_02045B38(0,2,159,((struct Obj00001 *)p)->f5F4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE960
+ * function: DENDOU_VIEW_ReadTouchedMember
  * address: 0x021DE960
  * packet: pkt_ov171_021DE960
  * region: ov171
@@ -13,8 +13,8 @@
  *   explicit selection arms retain the original best-index register web.
  *   Listing after the 228-byte function and pool is rodata from 021DEA44.
  * symbols:
- *   func_021DE0E4  0x021DE0E4  thumb ov171
- *   func_021DE5F4  0x021DE5F4  thumb ov171
+ *   DENDOU_VIEW_GetActorPos  0x021DE0E4  thumb ov171
+ *   DENDOU_VIEW_GetActiveActorBase  0x021DE5F4  thumb ov171
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_0209C0A4  0x0209C0A4  arm
  */
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef signed short s16;
 
 extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *, unsigned int *);
-extern int func_021DE5F4(char *);
-extern void func_021DE0E4(unsigned char *, int, s16 *, s16 *);
+extern int DENDOU_VIEW_GetActiveActorBase(char *);
+extern void DENDOU_VIEW_GetActorPos(unsigned char *, int, s16 *, s16 *);
 extern int func_0209C0A4(int, int);
 
-int func_021DE960(char *obj)
+int DENDOU_VIEW_ReadTouchedMember(char *obj)
 {
     unsigned int out1;
     unsigned int out2;
@@ -44,7 +44,7 @@ int func_021DE960(char *obj)
     if (TOUCHPANEL_GetPointTrg(&out1, &out2) == 0)
         return 0xff;
 
-    i = (s16)func_021DE5F4(obj);
+    i = (s16)DENDOU_VIEW_GetActiveActorBase(obj);
     best = -1;
     sentinel = -1;
     end = i + 6;
@@ -53,7 +53,7 @@ int func_021DE960(char *obj)
         start = i;
         do {
             if (*(int *)(obj + 0x0b74 + i * 4) != 0) {
-                func_021DE0E4((unsigned char *)obj, i, &win[1], &win[0]);
+                DENDOU_VIEW_GetActorPos((unsigned char *)obj, i, &win[1], &win[0]);
 
                 p1 = win[1];
 

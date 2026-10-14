@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FF260",
+   "name": "BTLV_MCSS_SetBlinkMode",
    "address": "0x021FF260",
    "kind": "game",
    "region": "ov094",

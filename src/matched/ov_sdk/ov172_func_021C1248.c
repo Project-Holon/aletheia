@@ -1,5 +1,5 @@
 /*
- * function: func_021C1248
+ * function: Yos_JpegEncoderHuffmanEncoderPrintTable
  * address:  0x021C1248
  * packet:   pkt_021C2AD0
  * region:   ov172
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern volatile u32 g_021CADE4[];
 
-int func_021C1248(u8 *a0, u8 *a1, u32 *a2)
+int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
 {
     u32 v;
     u32 i;

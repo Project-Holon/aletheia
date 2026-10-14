@@ -1,5 +1,5 @@
 /*
- * function: func_021DD4A4
+ * function: DENDOU_VIEW_StartWipeIn
  * address: 0x021DD4A4
  * packet: pkt_ov171_021DD4A4
  * region: ov171
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void*,u32,u32,u32,u32,u32,u32);
-int func_021DD4A4(u8*p,int v){WIPE_SYS_Start(0,1,1,0,6,1,0x8c);((struct Obj24053 *)p)->fC74=v;return 2;}
+int DENDOU_VIEW_StartWipeIn(u8*p,int v){WIPE_SYS_Start(0,1,1,0,6,1,0x8c);((struct Obj24053 *)p)->fC74=v;return 2;}

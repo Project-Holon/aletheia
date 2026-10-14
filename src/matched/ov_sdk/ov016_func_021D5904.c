@@ -16,7 +16,7 @@
  *   DWCi_QUElDelete                  0x021D5450  arm  ov016
  *   DWCi_HEAPlFree_                  0x021D6438  arm  ov016
  *   gFontWork                       0x021DE680  data
- *   g_021DE680_free                  0x021DE680  data
+ *   gMemFont                  0x021DE680  data
  */
 
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ typedef struct {
 } MemFont;
 
 extern MemFont *gFontWork;
-extern MemFont *g_021DE680_free;
+extern MemFont *gMemFont;
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_QUElDelete(void *queue);
 extern void DWCi_HEAPlFree_(void **mem);
@@ -53,5 +53,5 @@ void DWCi_FNTlEnd(void)
     for (i = 0; i < 2; i++)
         DWCi_ARClRelease(gFontWork->file[i]);
     DWCi_QUElDelete(gFontWork->unused);
-    DWCi_HEAPlFree_((void **)&g_021DE680_free);
+    DWCi_HEAPlFree_((void **)&gMemFont);
 }

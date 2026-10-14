@@ -1,5 +1,5 @@
 /*
- * function: func_021B74B4
+ * function: HALL_OF_FAME_IsActorAnimActive
  * address:  0x021B74B4
  * packet:   pkt_021B74B4
  * region:   ov180
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-int func_021B74B4(int *p, int i)
+int HALL_OF_FAME_IsActorAnimActive(int *p, int i)
 {
     return CLACT_IsActorAnimActive((struct Actor *)(*(int *)((char *)p + i * 4 + 0x9048)));
 }

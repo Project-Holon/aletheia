@@ -1,5 +1,5 @@
 /*
- * function: func_021F1230
+ * function: MB_COMM_SYS_OnMessage
  * address: 0x021F1230
  * packet: pkt_ov107_021F1230
  * region: ov107
@@ -17,9 +17,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f00; u8 kind; } Msg_021F1230;
 typedef struct { u8 pad[0x0C]; u32 f0c; u8 pad2[0x08]; u16 flags; u16 flags2; u8 f1c; u8 pad3; u16 f1e; u8 f20; u8 pad4[3]; u32 f24; } State_021F1230;
-void func_021F1230(int a, int b, Msg_021F1230 *m, State_021F1230 *s);
+void MB_COMM_SYS_OnMessage(int a, int b, Msg_021F1230 *m, State_021F1230 *s);
 
-void func_021F1230(int a, int b, Msg_021F1230 *m, State_021F1230 *s)
+void MB_COMM_SYS_OnMessage(int a, int b, Msg_021F1230 *m, State_021F1230 *s)
 {
     switch (m->kind) {
     case 0: s->flags |= 0x4; break;

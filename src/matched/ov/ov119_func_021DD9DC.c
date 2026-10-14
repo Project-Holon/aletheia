@@ -1,5 +1,5 @@
 /*
- * function: func_021DD9DC
+ * function: POKETRADE_NEGO_DeleteHeaderWindows
  * address: 0x021DD9DC
  * packet: pkt_ov119_021DD9DC
  * region: ov119
@@ -20,7 +20,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
-void func_021DD9DC(unsigned char *p)
+void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *p)
 {
     if(((struct Obj00001 *)p)->f5BC){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));BMP_WIN_Delete((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));((struct Obj00001 *)p)->f5BC=0;}if(((struct Obj00001 *)p)->f5C0){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));BMP_WIN_Delete((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));((struct Obj00001 *)p)->f5C0=0;}if(((struct Obj00001 *)p)->f5D4){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));BMP_WIN_Delete((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));((struct Obj00001 *)p)->f5D4=0;}if(((struct Obj00001 *)p)->f5D8){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));BMP_WIN_Delete((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));((struct Obj00001 *)p)->f5D8=0;}func_02041B6C(3);
 }

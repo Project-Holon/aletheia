@@ -1,5 +1,5 @@
 /*
- * function: func_021D562C
+ * function: GSYNC_MESSAGE_UpdateSystem
  * address:  0x021D562C
  * packet:   pkt_021D562C
  * region:   ov123
@@ -24,7 +24,7 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-void func_021D562C(char *p)
+void GSYNC_MESSAGE_UpdateSystem(char *p)
 {
     TCBL_Main(((struct Obj13971 *)p)->f84);
     PRINTSYS_QUE_Main(((struct Obj13971 *)p)->f88);

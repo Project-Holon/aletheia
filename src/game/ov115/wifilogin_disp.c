@@ -1466,7 +1466,7 @@ void func_021D5214(void *unused, unsigned long base)
 
 
 /*
- * note 2026-10-05 (wD9r lane S5): twin of ov123 func_021D9D3C (same callees, same loop); offsets differ only.
+ * note 2026-10-05 (wD9r lane S5): twin of ov123 PDWACC_DISP_LoadResources (same callees, same loop); offsets differ only.
  */
 void func_021D532C(char *p)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1064
+ * function: MB_COMM_SYS_ClearRoundFlags
  * address:  0x021F1064
  * packet:   pkt_ov107_021F1064
  * region:   ov107
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021F1064(unsigned char *p)
+void MB_COMM_SYS_ClearRoundFlags(unsigned char *p)
 {
     unsigned short *h = (unsigned short *)(p + 0x18);
     *h = *h & ~(unsigned short)2;

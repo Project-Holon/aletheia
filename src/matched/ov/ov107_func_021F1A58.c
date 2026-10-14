@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A58
+ * function: MB_UTIL_MSG_PrintStreamSystemMsg
  * address: 0x021F1A58
  * packet: pkt_ov107_021F1A58
  * region: ov107
@@ -41,7 +41,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,int,void *,int,int,int);
 #define P(k) (*(void **)(p+(k)))
 #define I(k) (*(int *)(p+(k)))
-void func_021F1A58(char *p,int a)
+void MB_UTIL_MSG_PrintStreamSystemMsg(char *p,int a)
 {
     void *s;
     s=func_02045B38(0,3,158,((struct Obj13767 *)p)->f0);

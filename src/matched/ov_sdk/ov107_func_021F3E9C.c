@@ -1,5 +1,5 @@
 /*
- * function: func_021F3E9C
+ * function: MB_UpdateGameInfoMember
  * address:  0x021F3E9C
  * packet:   pkt_ov107_021F3E9C
  * region:   ov107
@@ -17,7 +17,7 @@
 
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 
-void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag)
+void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag)
 {
     unsigned char playerNum = 1;
     int i;

@@ -17,26 +17,26 @@
  *   a real 1148-byte function in pengy's ov186 split; outside this lane's write set. No change.
  *
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   func_021FD1C4 0x021FD1C4 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern u32 func_021FC4DC(u8 *p);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
 void func_021F8E90(char *p,int *source)
 {
     if(*(int *)(p+0x10)==0) {
-        int a=func_021FC20C((char *)source[3]);
-        int b=func_021FC214((char *)source[3]);
-        int c=func_021FC4DC((u8 *)source[2]);
+        int a=BR_RES_GetFont((char *)source[3]);
+        int b=BR_RES_GetMsgData((char *)source[3]);
+        int c=BR_GRAPHIC_GetActorUnit((u8 *)source[2]);
         *(void **)(p+0x10)=func_021FD1C4(((void **)(p+0x40))[*(unsigned short *)(p+0xc)],(char *)source[3],(void *)c,(void *)(*(int *)(p+0x2c)),1,*(unsigned short *)(p+0x30));
         func_021FC754(*(char **)(p+0x1c),(void *)b,(void *)0x72,(void *)a,0x3da0);
     }

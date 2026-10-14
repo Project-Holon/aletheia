@@ -1,5 +1,5 @@
 /*
- * function: func_021C09BC
+ * function: RESEARCH_COMMON_SetScreen
  * address:  0x021C09BC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C09BC(void *p, u32 v)
+void RESEARCH_COMMON_SetScreen(void *p, u32 v)
 {
     ((struct Obj10963 *)p)->f30 = ((struct Obj10963 *)p)->f34;
     ((struct Obj10963 *)p)->f34 = v;

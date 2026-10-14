@@ -1,5 +1,5 @@
 /*
- * function: func_021C1610
+ * function: CircleGraph_UpdateHidden
  * address:  0x021C1610
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C0E64  0x021C0E64  thumb  ov217
- *   func_021C16E8  0x021C16E8  thumb  ov217
+ *   RingQueue_IsEmpty  0x021C0E64  thumb  ov217
+ *   CircleGraph_NextCommand  0x021C16E8  thumb  ov217
  *
- * When the +0x0c handle is idle, runs func_021C16E8().
+ * When the +0x0c handle is idle, runs CircleGraph_NextCommand().
  *
  * Addresses are Black-image addresses.
  */
@@ -26,11 +26,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0E64();
-extern void func_021C16E8(u32 a0);
-void func_021C1610(u32 a0)
+extern u32 RingQueue_IsEmpty();
+extern void CircleGraph_NextCommand(u32 a0);
+void CircleGraph_UpdateHidden(u32 a0)
 {
-    if (func_021C0E64(((struct Obj26010 *)(((u8*)a0)))->fC) == 0) {
-    func_021C16E8(a0);
+    if (RingQueue_IsEmpty(((struct Obj26010 *)(((u8*)a0)))->fC) == 0) {
+    CircleGraph_NextCommand(a0);
     }
 }

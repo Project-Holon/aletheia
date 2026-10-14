@@ -1,5 +1,5 @@
 /*
- * function: func_021F86D4
+ * function: BTLV_EFFECT_GetOwner
  * address:  0x021F86D4
  * packet:   pkt_021F86D4
  * region:   ov094
@@ -17,7 +17,7 @@
 
 extern struct G_0220AF20 *g_0220AF20;
 
-void *func_021F86D4(void)
+void *BTLV_EFFECT_GetOwner(void)
 {
     return *(void **)g_0220AF20;
 }

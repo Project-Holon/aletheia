@@ -1,5 +1,5 @@
 /*
- * function: func_021C1B74
+ * function: CircleGraph_GetSliceMiddle
  * address: 0x021C1B74
  * packet: pkt_ov217_021C1B74
  * region: ov217
@@ -11,7 +11,7 @@
  * matching: the last block as a ternary on the float then one cast lets the ffix tail be shared;
  *   max kept in an int local loaded before min.
  * symbols:
- *   func_021C1B28 0x021C1B28 thumb ov217
+ *   CircleGraph_GetPointRange 0x021C1B28 thumb ov217
  *   _fflt 0x0209BDBC arm
  *   _fmul 0x0209C77C arm
  *   _fsub 0x0209CB8C arm
@@ -26,16 +26,16 @@
  */
 typedef unsigned char u8;
 typedef signed short s16;
-extern void func_021C1B28(u8 *, u8 *, u8 *);
+extern void CircleGraph_GetPointRange(u8 *, u8 *, u8 *);
 extern double cos(double);
 extern double sin(double);
 struct Range { u8 max, min; };
-void func_021C1B74(u8 *p, u8 *rec, s16 *out)
+void CircleGraph_GetSliceMiddle(u8 *p, u8 *rec, s16 *out)
 {
     struct Range r;
     int mx;
     float f1, ang, cs, sn, pz, cx, cy, cz;
-    func_021C1B28(rec, &r.min, &r.max);
+    CircleGraph_GetPointRange(rec, &r.min, &r.max);
     mx = r.max;
     f1 = (float)(r.min + mx + 1);
     ang = 1.5707964f - 0.01f * (3.1415927f * f1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC94
+ * function: ZUKAN_LIST_StateInit
  * address: 0x021BCC94
  * packet: pkt_ov209_021BCC94
  * region: ov209
@@ -17,22 +17,22 @@
  *   func_0207D534 0x0207D534 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_021BC6C4 0x021BC6C4 thumb ov209
- *   func_021BC370 0x021BC370 thumb ov209
- *   func_021BC388 0x021BC388 thumb ov209
- *   func_021BC574 0x021BC574 thumb ov209
- *   func_021BC824 0x021BC824 thumb ov209
- *   func_021BD398 0x021BD398 thumb ov209
- *   func_021BD7F8 0x021BD7F8 thumb ov209
- *   func_021BC88C 0x021BC88C thumb ov209
- *   func_021BC9A8 0x021BC9A8 thumb ov209
- *   func_021BD628 0x021BD628 thumb ov209
- *   func_021BD704 0x021BD704 thumb ov209
- *   func_021BC7B8 0x021BC7B8 thumb ov209
- *   func_021BC7D0 0x021BC7D0 thumb ov209
- *   func_021BC8B4 0x021BC8B4 thumb ov209
- *   func_021BC298 0x021BC298 thumb ov209
- *   func_021BC2E4 0x021BC2E4 thumb ov209
+ *   ZUKAN_LIST_InitPaletteAnim 0x021BC6C4 thumb ov209
+ *   ZUKAN_LIST_SetVramBanks 0x021BC370 thumb ov209
+ *   ZUKAN_LIST_InitBgSystem 0x021BC388 thumb ov209
+ *   ZUKAN_LIST_LoadBgGraphics 0x021BC574 thumb ov209
+ *   ZUKAN_LIST_CreateFontAndPrinter 0x021BC824 thumb ov209
+ *   ZUKAN_LIST_CreateWindows 0x021BD398 thumb ov209
+ *   ZUKAN_LIST_InitActors 0x021BD7F8 thumb ov209
+ *   ZUKAN_LIST_LoadFormTable 0x021BC88C thumb ov209
+ *   ZUKAN_LIST_CreateFrameList 0x021BC9A8 thumb ov209
+ *   ZUKAN_LIST_DrawHeaderCounts 0x021BD628 thumb ov209
+ *   ZUKAN_LIST_DrawHeaderNational 0x021BD704 thumb ov209
+ *   ZUKAN_LIST_SetSubScreenBlendAlpha 0x021BC7B8 thumb ov209
+ *   ZUKAN_LIST_EnableSubWindows 0x021BC7D0 thumb ov209
+ *   ZUKAN_LIST_MoveScrollBarActorsIn 0x021BC8B4 thumb ov209
+ *   ZUKAN_LIST_StartVBlankTask 0x021BC298 thumb ov209
+ *   ZUKAN_LIST_StartHBlankTask 0x021BC2E4 thumb ov209
  */
 #include "../include/Obj00123.h"
 #include "../include/Obj25546.h"
@@ -45,24 +45,24 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 extern int func_02034AC4(int);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
-extern void func_021BC370(void);
-extern void func_021BC388(void);
-extern void func_021BC574(void);
-extern void func_021BC7B8(void);
-extern void func_021BC6C4(char *);
-extern void func_021BC824(char *);
-extern void func_021BD398(char *);
-extern void func_021BD7F8(char *);
-extern void func_021BC88C(char *);
+extern void ZUKAN_LIST_SetVramBanks(void);
+extern void ZUKAN_LIST_InitBgSystem(void);
+extern void ZUKAN_LIST_LoadBgGraphics(void);
+extern void ZUKAN_LIST_SetSubScreenBlendAlpha(void);
+extern void ZUKAN_LIST_InitPaletteAnim(char *);
+extern void ZUKAN_LIST_CreateFontAndPrinter(char *);
+extern void ZUKAN_LIST_CreateWindows(char *);
+extern void ZUKAN_LIST_InitActors(char *);
+extern void ZUKAN_LIST_LoadFormTable(char *);
 struct Context;
-extern void func_021BC9A8(struct Context *p);
-extern void func_021BD628(char *);
-extern void func_021BD704(char *);
-extern void func_021BC8B4(char *);
-extern void func_021BC298(char *);
-extern void func_021BC2E4(char *);
-extern void func_021BC7D0(void);
-int func_021BCC94(char *p)
+extern void ZUKAN_LIST_CreateFrameList(struct Context *p);
+extern void ZUKAN_LIST_DrawHeaderCounts(char *);
+extern void ZUKAN_LIST_DrawHeaderNational(char *);
+extern void ZUKAN_LIST_MoveScrollBarActorsIn(char *);
+extern void ZUKAN_LIST_StartVBlankTask(char *);
+extern void ZUKAN_LIST_StartHBlankTask(char *);
+extern void ZUKAN_LIST_EnableSubWindows(void);
+int ZUKAN_LIST_StateInit(char *p)
 {
     func_02034AC4((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
@@ -72,22 +72,22 @@ int func_021BCC94(char *p)
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
     BG_SYS_SetLcdSwap(0);
-    func_021BC6C4(p);
-    func_021BC370();
-    func_021BC388();
-    func_021BC574();
-    func_021BC824(p);
-    func_021BD398(p);
-    func_021BD7F8(p);
-    func_021BC88C(p);
-    func_021BC9A8((struct Context *)p);
-    if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) func_021BD628(p);
-    else func_021BD704(p);
+    ZUKAN_LIST_InitPaletteAnim(p);
+    ZUKAN_LIST_SetVramBanks();
+    ZUKAN_LIST_InitBgSystem();
+    ZUKAN_LIST_LoadBgGraphics();
+    ZUKAN_LIST_CreateFontAndPrinter(p);
+    ZUKAN_LIST_CreateWindows(p);
+    ZUKAN_LIST_InitActors(p);
+    ZUKAN_LIST_LoadFormTable(p);
+    ZUKAN_LIST_CreateFrameList((struct Context *)p);
+    if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) ZUKAN_LIST_DrawHeaderCounts(p);
+    else ZUKAN_LIST_DrawHeaderNational(p);
     GFL_NET_RestartWithDefaultTimeout(1, 0x6B);
-    func_021BC7B8();
-    func_021BC7D0();
-    func_021BC8B4(p);
-    func_021BC298(p);
-    func_021BC2E4(p);
+    ZUKAN_LIST_SetSubScreenBlendAlpha();
+    ZUKAN_LIST_EnableSubWindows();
+    ZUKAN_LIST_MoveScrollBarActorsIn(p);
+    ZUKAN_LIST_StartVBlankTask(p);
+    ZUKAN_LIST_StartHBlankTask(p);
     return 3;
 }

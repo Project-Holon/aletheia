@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02200B34",
+   "name": "WORLDTRADE_TITLE_LoadSubBgSwap",
    "address": "0x02200B34",
    "kind": "game",
    "region": "ov135",

@@ -1,5 +1,5 @@
 /*
- * function: func_021FF6DC
+ * function: BR_NET_GetSearchResultsForRanking
  * address: 0x021FF6DC
  * packet: pkt_ov186_021FF6DC
  * region: ov186
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7414 0x021D7414 thumb ov125
+ *   GDS_RAP_GetSearchResults 0x021D7414 thumb ov125
  */
 #include "../include/Obj24861.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_021D7414(char *unused, char *dst, int n);
-int func_021FF6DC(char*p,void*buffer,int count,int*out){int present;present=((struct Obj24861 *)p)->f5C8;if(present)*out=func_021D7414(p,buffer,count);if(*out!=0 && present!=0)return 1;return 0;}
+extern int GDS_RAP_GetSearchResults(char *unused, char *dst, int n);
+int BR_NET_GetSearchResultsForRanking(char*p,void*buffer,int count,int*out){int present;present=((struct Obj24861 *)p)->f5C8;if(present)*out=GDS_RAP_GetSearchResults(p,buffer,count);if(*out!=0 && present!=0)return 1;return 0;}

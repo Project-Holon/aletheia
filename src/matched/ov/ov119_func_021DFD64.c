@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD64
+ * function: POKETRADE_SAVE_PopBgm
  * address:  0x021DFD64
  * packet:   pkt_ov119_021DFD64
  * region:   ov119
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern int GFL_USE_PopBgm(void);
 
-void func_021DFD64(void *p)
+void POKETRADE_SAVE_PopBgm(void *p)
 {
     u8 *b = p;
 

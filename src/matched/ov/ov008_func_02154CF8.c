@@ -35,7 +35,7 @@
  *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
  *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
  *   BATTLE_REC_IsVersionSupported  0x0200BA38  thumb
- *   func_021EEE78  0x021EEE78  thumb  ov188
+ *   BATTLE_REC_TOOL_PackSetup  0x021EEE78  thumb  ov188
  *   ov093_id       0x0000005D  data   a1
  *   ov097_id       0x00000061  data   a1
  *   ov213_id       0x000000D5  data   a1
@@ -118,7 +118,7 @@ extern int  GFL_NET_CheckTimingSync(int a, int b);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
-extern void func_021EEE78(void *p);
+extern void BATTLE_REC_TOOL_PackSetup(void *p);
 
 extern char ov093_id[];
 extern char ov097_id[];
@@ -229,7 +229,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *task, int *mode, Obj *obj, Ctx *ctx)
         func_02034A5C((u32)ov093_id);
         ctx->w10 = 0;
         BATTLE_REC_LoadToolOverlay();
-        func_021EEE78(obj->p4);
+        BATTLE_REC_TOOL_PackSetup(obj->p4);
         BATTLE_REC_UnloadToolOverlay();
         *mode = 13;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8A4
+ * function: ZUKAN_LIST_FreeFormTable
  * address: 0x021BC8A4
  * packet: pkt_ov209_021BC8A4
  * region: ov209
@@ -14,4 +14,4 @@
 #include "../include/Obj00088.h"
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BC8A4(char *p) { func_020307B0(((struct Obj00088 *)p)->fC38); }
+void ZUKAN_LIST_FreeFormTable(char *p) { func_020307B0(((struct Obj00088 *)p)->fC38); }

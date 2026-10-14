@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallSecondEvent
+ * function: SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent
  * address:  0x021B27B4
  * packet:   pkt_ov021_021B27B4
  * region:   ov021
@@ -24,7 +24,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern int FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(void *a, int b, int c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallSecondEvent(int a, int b)
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(int a, int b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     void *y = SCRCMD_WORK_GetGameSystem((void *)b);

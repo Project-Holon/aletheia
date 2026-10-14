@@ -1,5 +1,5 @@
 /*
- * function: func_021F69B0
+ * function: BTLV_STAGE_DrawLayers
  * address:  0x021F69B0
  * packet:   pkt_ov094_021F69B0
  * region:   ov094
@@ -25,7 +25,7 @@ typedef struct {
 struct Arg;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021F69B0(Obj *p)
+void BTLV_STAGE_DrawLayers(Obj *p)
 {
     int i;
 

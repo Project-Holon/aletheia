@@ -1,5 +1,5 @@
 /*
- * function: func_021F8180
+ * function: BTLV_EFFECT_GaugeIsAnimating
  * address:  0x021F8180
  * packet:   pkt_ov094_021F8180
  * region:   ov094
@@ -12,14 +12,14 @@
  * Tail call to BTLV_GAUGE_IsAnimating with the handle at 0x1a4 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  *   BTLV_GAUGE_IsAnimating 0x02207C94 thumb ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 typedef unsigned char  u8;
 extern int BTLV_GAUGE_IsAnimating(u8 *p);
 
-int func_021F8180(void)
+int BTLV_EFFECT_GaugeIsAnimating(void)
 {
-    return BTLV_GAUGE_IsAnimating(*(void **)(d_0220AF20 + 0x1a4));
+    return BTLV_GAUGE_IsAnimating(*(void **)(gBtlvEff + 0x1a4));
 }

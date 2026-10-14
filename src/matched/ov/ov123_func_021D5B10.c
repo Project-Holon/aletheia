@@ -1,5 +1,5 @@
 /*
- * function: func_021D5B10
+ * function: GSYNC_DOWNLOAD_AllocWork
  * address: 0x021D5B10
  * packet: pkt_ov123_021D5B10
  * region: ov123
@@ -10,24 +10,24 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02034714 0x02034714 arm
- *   d_021DAA40 0x021DAA40 data ov123 a1
- *   d_021DAA54 0x021DAA54 data ov123 a1
- *   g_021DAC20 0x021DAC20 data ov123 a4
+ *   sGsyncDownloadFileName 0x021DAA40 data ov123 a1
+ *   sGsyncDownloadAssertText 0x021DAA54 data ov123 a1
+ *   gGsyncDownloadWork 0x021DAC20 data ov123 a4
  */
 #include "../include/Obj13974.h"
 typedef unsigned short u16;
-extern char d_021DAA40[], d_021DAA54[];
-extern char *g_021DAC20;
+extern char sGsyncDownloadFileName[], sGsyncDownloadAssertText[];
+extern char *gGsyncDownloadWork;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-char *func_021D5B10(int heap,int size)
+char *GSYNC_DOWNLOAD_AllocWork(int heap,int size)
 {
     char *p;
-    p=func_02030734(heap,0xd4,1,d_021DAA40,0x88);
-    if (g_021DAC20) func_02034714(d_021DAA54,0,d_021DAA54);
-    g_021DAC20=p;
-    ((struct Obj13974 *)p)->fB8=func_02030734(heap,size+0x40,0,d_021DAA40,0x8c);
+    p=func_02030734(heap,0xd4,1,sGsyncDownloadFileName,0x88);
+    if (gGsyncDownloadWork) func_02034714(sGsyncDownloadAssertText,0,sGsyncDownloadAssertText);
+    gGsyncDownloadWork=p;
+    ((struct Obj13974 *)p)->fB8=func_02030734(heap,size+0x40,0,sGsyncDownloadFileName,0x8c);
     ((struct Obj13974 *)p)->fBC=size;
     return p;
 }

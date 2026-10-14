@@ -1,5 +1,5 @@
 /*
- * function: func_021F7EA4
+ * function: BTLV_EFFECT_StartPokeEffectId26F
  * address:  0x021F7EA4
  * packet:   pkt_ov094_021F7EA4
  * region:   ov094
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed for the caller ov093 BTL_CLIENT_StepPlayEffectOnMonFast (lane S16).
  *
  * symbols:
- *   func_021F7A28  0x021F7A28  thumb  ov094
+ *   BTLV_EFFECT_StartEffectOnPoke  0x021F7A28  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021F7A28(int a, u32 b);
+extern void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
 
-void func_021F7EA4(u32 a)
+void BTLV_EFFECT_StartPokeEffectId26F(u32 a)
 {
-    func_021F7A28(a, 0x26F);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x26F);
 }

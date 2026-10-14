@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F13BC,func_021F13E8,func_021F13F4,func_021F13F8,func_021F1400
+ * function: MB_COMM_SYS_GetHeaderBuffer,MB_COMM_SYS_OnMonsReceived,MB_COMM_SYS_GetMonBuffer,MB_COMM_SYS_GetChildDataPtr,MB_COMM_SYS_GetMemberCount
  * address: 0x021F13BC
  * packet: pkt_ov107_021F13BC
  * region: ov107
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
 extern const char d_021F6E28[];
 extern int d_021F6EE8[];
-void *func_021F13BC(void *a,char *p)
+void *MB_COMM_SYS_GetHeaderBuffer(void *a,char *p)
 {
     if(!((struct Obj07995 *)p)->f14) ((struct Obj07995 *)p)->f14=func_02030734(((struct Obj07995 *)p)->f0,8,1,d_021F6E28,862);
     return ((struct Obj07995 *)p)->f14;
 }
-void func_021F13E8(int a,int b,int c,char *p){((struct Obj22300 *)p)->f18|=2;}
-void *func_021F13F4(int a,char *p){return ((struct Obj22301 *)p)->f10;}
-int *func_021F13F8(void){return d_021F6EE8;}
-int func_021F1400(void){return 2;}
+void MB_COMM_SYS_OnMonsReceived(int a,int b,int c,char *p){((struct Obj22300 *)p)->f18|=2;}
+void *MB_COMM_SYS_GetMonBuffer(int a,char *p){return ((struct Obj22301 *)p)->f10;}
+int *MB_COMM_SYS_GetChildDataPtr(void){return d_021F6EE8;}
+int MB_COMM_SYS_GetMemberCount(void){return 2;}

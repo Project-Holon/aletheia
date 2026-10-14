@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021DF388 0x021DF388 thumb ov183
- *   func_021FC734 0x021FC734 thumb ov186
+ *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   func_021FB494 0x021FB494 thumb ov186
- *   func_021FC0C8 0x021FC0C8 thumb ov186
- *   func_021FBDA4 0x021FBDA4 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
+ *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   func_021FD714 0x021FD714 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
@@ -28,10 +28,10 @@ typedef unsigned char  u8;
 struct PrintSys;
 struct S020315D4;
 extern void func_021DF388(char *p);
-extern void func_021FC734(u8 *p);
+extern void BR_UTIL_Delete(u8 *p);
 extern void func_021FB494(char *p);
-extern void func_021FC0C8(char *p, unsigned i);
-extern void func_021FBDA4(int a, unsigned mode);
+extern void BR_RES_ReleaseSprite(char *p, unsigned i);
+extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_021FD714(void *);
 extern void func_021FD15C(void *, int);
 extern void func_021FD820(char *r5);
@@ -46,11 +46,11 @@ int func_021DEA30(void *a, int b, char *q, char *p)
         ((struct Obj00923 *)p)->f100 = 0;
     }
     if (((struct Obj00923 *)p)->fC != 0) {
-        func_021FC734(((struct Obj00923 *)p)->fC);
+        BR_UTIL_Delete(((struct Obj00923 *)p)->fC);
         ((struct Obj00923 *)p)->fC = 0;
     }
     if (((struct Obj00923 *)p)->f8 != 0) {
-        func_021FC734(((struct Obj00923 *)p)->f8);
+        BR_UTIL_Delete(((struct Obj00923 *)p)->f8);
         ((struct Obj00923 *)p)->f8 = 0;
     }
     if (((struct Obj00923 *)p)->f4 != 0) {
@@ -58,8 +58,8 @@ int func_021DEA30(void *a, int b, char *q, char *p)
         ((struct Obj00923 *)p)->f4 = 0;
     }
     if (((struct Obj00923 *)p)->f104 != 0) {
-        func_021FC0C8(((struct Obj24583 *)(*(char * *)&((struct Obj00923 *)p)->f108))->f10, 6);
-        func_021FBDA4((int)(((struct Obj24584 *)(*(char * *)&((struct Obj00923 *)p)->f108))->f10), 24);
+        BR_RES_ReleaseSprite(((struct Obj24583 *)(*(char * *)&((struct Obj00923 *)p)->f108))->f10, 6);
+        BR_RES_ApplyBgSet((int)(((struct Obj24584 *)(*(char * *)&((struct Obj00923 *)p)->f108))->f10), 24);
         ((struct Obj00923 *)p)->f104 = 0;
     }
     func_021FD714(((struct Obj00923 *)p)->f10);

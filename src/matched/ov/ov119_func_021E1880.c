@@ -1,5 +1,5 @@
 /*
- * function: func_021E1880
+ * function: POKETRADE_SAVE_PrintStatValues
  * address: 0x021E1880
  * packet: pkt_ov119_021E1880
  * region: ov119
@@ -30,7 +30,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
-void func_021E1880(int a, int b, int c, int d, char *p)
+void POKETRADE_SAVE_PrintStatValues(int a, int b, int c, int d, char *p)
 {
     int i = 0;
     T5 t = d_021E7984;

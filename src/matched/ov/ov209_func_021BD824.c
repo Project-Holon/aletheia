@@ -1,5 +1,5 @@
 /*
- * function: func_021BD824
+ * function: ZUKAN_LIST_ExitActors
  * address:  0x021BD824
  * packet:   pkt_021BD824
  * region:   ov209
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BDD5C 0x021BDD5C thumb
- *   func_021BDBA8 0x021BDBA8 thumb
+ *   ZUKAN_LIST_DeleteActorUnit 0x021BDD5C thumb
+ *   ZUKAN_LIST_ReleaseActorResources 0x021BDBA8 thumb
  *   CLACT_ExitSystem 0x0204A5AC arm
  */
 
-extern void func_021BDD5C(char *p);
-extern void func_021BDBA8(char *p);
+extern void ZUKAN_LIST_DeleteActorUnit(char *p);
+extern void ZUKAN_LIST_ReleaseActorResources(char *p);
 extern void CLACT_ExitSystem(void);
 
-void func_021BD824(char *a)
+void ZUKAN_LIST_ExitActors(char *a)
 {
-    func_021BDD5C(a);
-    func_021BDBA8(a);
+    ZUKAN_LIST_DeleteActorUnit(a);
+    ZUKAN_LIST_ReleaseActorResources(a);
     CLACT_ExitSystem();
 }

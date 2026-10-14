@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1B8
+ * function: POKETRADE_NEGO_ClearOfferSlots
  * address: 0x021DD1B8
  * packet: pkt_ov119_021DD1B8
  * region: ov119
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
 extern void MI_CpuFill8(void *, int, int);
-void func_021DD1B8(char *p)
+void POKETRADE_NEGO_ClearOfferSlots(char *p)
 {
     int i, j;
     for (i = 0; i < 2; i++) {

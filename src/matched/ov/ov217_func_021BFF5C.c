@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C270C  0x021C270C  thumb  ov217
+ *   PERCENTAGE_Destroy  0x021C270C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern u32 func_021C270C(void *a0);
+extern u32 PERCENTAGE_Destroy(void *a0);
 
 void func_021BFF5C(int *p)
 {
     int i;
     for (i = 0; i < 10; i++)
-        func_021C270C((void *)p[i + 0xB5]);
+        PERCENTAGE_Destroy((void *)p[i + 0xB5]);
 }

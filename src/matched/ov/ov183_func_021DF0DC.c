@@ -11,8 +11,8 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DEE7C 0x021DEE7C thumb ov183
  */
@@ -26,8 +26,8 @@ typedef unsigned short u16;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int, int, int *);
-extern void func_021FE784(int a, int b, int c, int d);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int a, int b, int c, int d);
+extern int BR_FADE_GetResult(int *);
 extern int *func_021FD73C(int *p, int v);
 typedef unsigned int   u32;
 extern void func_021DEE7C(int *task, u32 *state, char *p);
@@ -50,11 +50,11 @@ void func_021DF0DC(int *p, int *state, char *q)
         *state = 1;
         break;
     case 1:
-        func_021FE784((int)(*(int * *)&((struct Obj24615 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8), 2, 3, 0);
+        BR_FADE_Start((int)(*(int * *)&((struct Obj24615 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8), 2, 3, 0);
         *state = 2;
         break;
     case 2:
-        if (func_021FE7B0(*(int * *)&((struct Obj24616 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8) != 0) *state = 3;
+        if (BR_FADE_GetResult(*(int * *)&((struct Obj24616 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8) != 0) *state = 3;
         break;
     case 3:
         func_021FD73C(p, (int)func_021DEE7C);

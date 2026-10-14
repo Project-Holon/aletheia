@@ -1,5 +1,5 @@
 /*
- * function: func_021E3758
+ * function: POKETRADE_3D_FillTextureCell
  * address: 0x021E3758
  * packet: pkt_ov119_021E3758
  * region: ov119
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: 126-byte body followed by two zero padding bytes at 0x021E37D6.
  */
-void func_021E3758(unsigned short *p, int x, int y, int colour)
+void POKETRADE_3D_FillTextureCell(unsigned short *p, int x, int y, int colour)
 {
     int end;
     int col;

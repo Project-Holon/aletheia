@@ -1,5 +1,5 @@
 /*
- * function: func_021FCFD8
+ * function: WORLDTRADE_LIST_LoadBgGraphics
  * address:  0x021FCFD8
  * packet:   pkt_021FCFD8
  * region:   ov135
@@ -36,7 +36,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_021FCFD8(u8 *p)
+void WORLDTRADE_LIST_LoadBgGraphics(u8 *p)
 {
     void *h;
 

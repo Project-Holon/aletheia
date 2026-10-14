@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FEB1C",
+   "name": "BR_FADE_StepPalette",
    "address": "0x021FEB1C",
    "kind": "game",
    "region": "ov186",

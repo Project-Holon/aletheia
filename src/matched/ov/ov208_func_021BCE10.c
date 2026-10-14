@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE10
+ * function: ZUKAN_DETAIL_GRAPHIC_InitBgGraphics
  * address: 0x021BCE10
  * packet: pkt_ov208_021BCE10
  * region: ov208
@@ -18,11 +18,11 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021BCF98 0x021BCF98 thumb ov208
- *   func_021BD03C 0x021BD03C thumb ov208
- *   func_021BCF58 0x021BCF58 thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_CreateWindows 0x021BCF98 thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_InitActorSystem 0x021BD03C thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Init3dSystem 0x021BCF58 thumb ov208
  *   func_020056A0 0x020056A0 thumb
- *   func_021BCF84 0x021BCF84 thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_VBlankTransfer 0x021BCF84 thumb ov208
  *   d_021C8DC0 0x021C8DC0 data a1
  *   d_021C8184 0x021C8184 data a4
  */
@@ -39,12 +39,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021BCF98(void *,unsigned);
-extern void func_021BD03C(unsigned char *,int,int);
-extern void func_021BCF58(char *p, int x);
-extern void func_021BCF84(int unused, char *p);
+extern void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *,unsigned);
+extern void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *,int,int);
+extern void ZUKAN_DETAIL_GRAPHIC_Init3dSystem(char *p, int x);
+extern void ZUKAN_DETAIL_GRAPHIC_VBlankTransfer(int unused, char *p);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
-char *func_021BCE10(unsigned display,unsigned heap,int threeD)
+char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned heap,int threeD)
 {
     char *p=func_02030734(heap,20,0,d_021C8DC0,0x1db);
     MI_CpuFill8(p,0,20);
@@ -60,9 +60,9 @@ char *func_021BCE10(unsigned display,unsigned heap,int threeD)
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
     ((struct Obj04613 *)p)->f10=0;
-    func_021BCF98(p,heap);
-    func_021BD03C((unsigned char *)p+4,(int)d_021C8184,heap);
-    if(threeD)func_021BCF58(p,heap);
-    ((struct Obj04613 *)p)->fC=func_020056A0((unsigned)func_021BCF84,(unsigned)p,0);
+    ZUKAN_DETAIL_GRAPHIC_CreateWindows(p,heap);
+    ZUKAN_DETAIL_GRAPHIC_InitActorSystem((unsigned char *)p+4,(int)d_021C8184,heap);
+    if(threeD)ZUKAN_DETAIL_GRAPHIC_Init3dSystem(p,heap);
+    ((struct Obj04613 *)p)->fC=func_020056A0((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer,(unsigned)p,0);
     return p;
 }

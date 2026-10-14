@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CA0
+ * function: GSYNC_MENU_StateButtonsActive
  * address:  0x021D4CA0
  * packet:   pkt_021D4CA0
  * region:   ov123
@@ -12,7 +12,7 @@
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
- *   func_021D4C4C  0x021D4C4C  thumb
+ *   GSYNC_MENU_UpdateCursorAnimFromKeys  0x021D4C4C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ extern u32 WIPE_SYS_EndCheck(void);
 typedef signed int     s32;
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
-extern void func_021D4C4C(char *);
+extern void GSYNC_MENU_UpdateCursorAnimFromKeys(char *);
 
-void func_021D4CA0(char *p)
+void GSYNC_MENU_StateButtonsActive(char *p)
 {
     if (WIPE_SYS_EndCheck() != 0)
         BUTTON_MAN_UpdateSlots(((struct Obj05360 *)p)->f20);
-    func_021D4C4C(p);
+    GSYNC_MENU_UpdateCursorAnimFromKeys(p);
 }

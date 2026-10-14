@@ -1,5 +1,5 @@
 /*
- * function: func_021FA108
+ * function: BTLV_EFFVM_CmdSaveCameraPosition
  * address:  0x021FA108
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FA108   0x021FA108  thumb
- *   func_021F8684 0x021F8684 thumb ov094
- *   func_021F70F0 0x021F70F0 thumb ov094
+ *   BTLV_EFFVM_CmdSaveCameraPosition   0x021FA108  thumb
+ *   BTLV_EFFECT_GetCamera 0x021F8684 thumb ov094
+ *   BTLV_CAMERA_GetEyeAndUp 0x021F70F0 thumb ov094
 
  *
  * lane O10 candidate
  */
 #include "../include/Obj12208.h"
 
-extern int  func_021F8684(void);
-extern void func_021F70F0(void **p, void *b, int c);
+extern int  BTLV_EFFECT_GetCamera(void);
+extern void BTLV_CAMERA_GetEyeAndUp(void **p, void *b, int c);
 
-int func_021FA108(int a, char *b)
+int BTLV_EFFVM_CmdSaveCameraPosition(int a, char *b)
 {
     ((struct Obj12208 *)b)->f284 = 1;
-    func_021F70F0((void **)func_021F8684(), b + 0x288, (int)(b + 0x294));
+    BTLV_CAMERA_GetEyeAndUp((void **)BTLV_EFFECT_GetCamera(), b + 0x288, (int)(b + 0x294));
     return ((struct Obj12208 *)b)->f23C;
 }
 

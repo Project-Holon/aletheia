@@ -1,5 +1,5 @@
 /*
- * function: func_021E6CB8
+ * function: POKETRADE_2D_CreateOfferWindows
  * address: 0x021E6CB8
  * packet: pkt_ov119_021E6CB8
  * region: ov119
@@ -37,7 +37,7 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E6CB8(char *p)
+void POKETRADE_2D_CreateOfferWindows(char *p)
 {
     Table t = d_021E7E64;
     void *h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);

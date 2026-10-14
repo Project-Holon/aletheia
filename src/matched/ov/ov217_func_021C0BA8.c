@@ -1,5 +1,5 @@
 /*
- * function: func_021C0BA8
+ * function: RESEARCH_COMMON_DeleteClactUnit
  * address:  0x021C0BA8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021C0BA8(u8 *a0)
+void RESEARCH_COMMON_DeleteClactUnit(u8 *a0)
 {
     CLACT_DeleteUnit((struct Bank *)((u32)(((struct Obj25986 *)a0)->f20)));
 }

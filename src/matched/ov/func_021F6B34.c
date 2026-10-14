@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B34
+ * function: WORLDTRADE_BOX_ClampSlot
  * address:  0x021F6B34
  * packet:   pkt_021F6B34
  * region:   ov135
@@ -16,7 +16,7 @@
  * True only for the 0xff sentinel.
  */
 
-int func_021F6B34(int v)
+int WORLDTRADE_BOX_ClampSlot(int v)
 {
     if (v == 0xff) {
         return 1;

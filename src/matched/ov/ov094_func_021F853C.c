@@ -1,5 +1,5 @@
 /*
- * function: func_021F853C
+ * function: BTLV_EFFECT_GetPokeSpriteState
  * address:  0x021F853C
  * packet:   pkt_ov094_021F853C
  * region:   ov094
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021FF348 with the handle at 0x190 of the global work block.
+ * Tail call to BTLV_MCSS_IsVanished with the handle at 0x190 of the global work block.
  * Unlabelled; filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021FF348  0x021FF348  thumb  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_MCSS_IsVanished  0x021FF348  thumb  ov094
  */
-extern char *d_0220AF20;
-extern int func_021FF348(void *, int);
+extern char *gBtlvEff;
+extern int BTLV_MCSS_IsVanished(void *, int);
 
-int func_021F853C(int a)
+int BTLV_EFFECT_GetPokeSpriteState(int a)
 {
-    return func_021FF348(*(void **)(d_0220AF20 + 0x190), a);
+    return BTLV_MCSS_IsVanished(*(void **)(gBtlvEff + 0x190), a);
 }

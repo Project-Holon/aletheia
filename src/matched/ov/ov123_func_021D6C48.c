@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C48
+ * function: GSYNC_DISP_CopyIconPaletteMain
  * address: 0x021D6C48
  * packet: pkt_ov123_021D6C48
  * region: ov123
@@ -21,7 +21,7 @@ struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void MI_CpuCopy8(void *,void *,int);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021D6C48(char *p,int i,void *h)
+void GSYNC_DISP_CopyIconPaletteMain(char *p,int i,void *h)
 {
     Desc d;
     CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));

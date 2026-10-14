@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_021BE03C  0x021BE03C  thumb  ov172
- *   func_021BE04C  0x021BE04C  thumb  ov172
+ *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
+ *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
+ *   COMM_TVT_SYS_GetTaskMenu  0x021BE04C  thumb  ov172
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -38,9 +38,9 @@ struct Prompt {
     u32 flags;
 };
 
-extern u16 func_021BE00C(u16 *p);
-extern u32 func_021BE03C(void *p);
-extern u32 func_021BE04C(void *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32 COMM_TVT_SYS_GetMsgData(void *p);
+extern u32 COMM_TVT_SYS_GetTaskMenu(void *p);
 struct Descriptor;
 struct MsgBank;
 struct U16Vec;
@@ -64,9 +64,9 @@ void func_021BCEF8(void *ctx, u8 *st)
 {
     u8 n = 0;
     u8 i;
-    u16 heap = func_021BE00C(ctx);
-    u32 msgs = func_021BE03C(ctx);
-    u32 sys = func_021BE04C(ctx);
+    u16 heap = COMM_TVT_SYS_GetHeapId(ctx);
+    u32 msgs = COMM_TVT_SYS_GetMsgData(ctx);
+    u32 sys = COMM_TVT_SYS_GetTaskMenu(ctx);
 
     for (i = 0; i < 3; i++) {
         if (st[i] != 0xff)

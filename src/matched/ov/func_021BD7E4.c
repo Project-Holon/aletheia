@@ -1,5 +1,5 @@
 /*
- * function: func_021BD7E4
+ * function: ZKND_TBAR_IsButtonAnimating
  * address:  0x021BD7E4
  * packet:   pkt_021BD7E4
  * region:   ov208
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-int func_021BD7E4(int *p)
+int ZKND_TBAR_IsButtonAnimating(int *p)
 {
     return CLACT_IsActorAnimActive((struct Actor *)(*p)) == 0;
 }

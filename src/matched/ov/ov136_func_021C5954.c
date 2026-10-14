@@ -1,5 +1,5 @@
 /*
- * function: func_021C5954
+ * function: MB_SEQ_DeleteMessageResources
  * address:  0x021C5954
  * packet:   pkt_ov136_021C5954
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5954 0x021C5954 thumb
+ *   MB_SEQ_DeleteMessageResources 0x021C5954 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -24,7 +24,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021C5954(u8 *p)
+void MB_SEQ_DeleteMessageResources(u8 *p)
 {
     STRBUF_Delete(((struct Obj10601 *)p)->f1D8);
     func_0201ED04(((struct Obj10601 *)p)->f1D4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FB760
+ * function: BR_BTN_DATA_GetSectionCount
  * address: 0x021FB760
  * packet: pkt_ov186_021FB760
  * region: ov186
@@ -17,4 +17,4 @@ extern const Descriptor d_022007F0[];
 extern char d_02200D38[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-unsigned short func_021FB760(void *p,int i) { if(i>=12)func_02034714(d_02200D38,0,d_02200D38);return d_022007F0[i].count; }
+unsigned short BR_BTN_DATA_GetSectionCount(void *p,int i) { if(i>=12)func_02034714(d_02200D38,0,d_02200D38);return d_022007F0[i].count; }

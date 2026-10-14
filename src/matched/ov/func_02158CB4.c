@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011324  0x02011324  thumb
+ *   VM_GetUserData  0x02011324  thumb
  *   SCRCMD_WORK_Delete  0x0215A5A4  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   VM_Delete  0x02011264  thumb
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern int SCRCMD_WORK_Delete(int a0);
 extern int func_020307B0();
 extern int VM_Delete();
@@ -33,7 +33,7 @@ int SCRIPT_SYS_DeleteVm(int a0)
     void *p;
 
 t4 = a0 + 0;
-    p = func_02011324((struct ScriptVm *)a0);
+    p = VM_GetUserData((struct ScriptVm *)a0);
 loc_02158CBC:
     a0 = SCRCMD_WORK_Delete((int)p);
 loc_02158CC0:

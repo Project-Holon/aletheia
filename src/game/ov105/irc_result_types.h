@@ -69,7 +69,7 @@ typedef struct IrcResult {
     IrcTextWindow captionWindow;
     IrcResultScoreDisplay scoreDisplay;
     IrcResultRankFade rankFade;
-    struct IrcAppBar *appBar;
+    IrcAppBar *appBar;
     IrcResultStateFn stateFn;
     u16 stateStep;
     u16 reserved192;

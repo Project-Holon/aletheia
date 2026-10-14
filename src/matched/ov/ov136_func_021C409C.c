@@ -1,5 +1,5 @@
 /*
- * function: func_021C409C
+ * function: MAILSYS_CreateMessage
  * address: 0x021C409C
  * packet: pkt_ov136_021C409C
  * region: ov136
@@ -43,7 +43,7 @@ extern u8 func_02008FB8(const struct Sub02008F80Obj *obj);
 extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
-void *func_021C409C(void *a, unsigned heap)
+void *MAILSYS_CreateMessage(void *a, unsigned heap)
 {
     u8 *p;
     u16 i;

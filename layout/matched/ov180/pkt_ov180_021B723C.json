@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B723C",
-    "func_021B7268"
+    "HALL_OF_FAME_BeginFadeOut",
+    "HALL_OF_FAME_BeginCountdown"
+   ],
+   "addresses": [
+    "0x021B723C",
+    "0x021B7268"
    ]
   }
  ]

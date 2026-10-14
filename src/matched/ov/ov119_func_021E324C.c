@@ -1,5 +1,5 @@
 /*
- * function: func_021E324C
+ * function: POKETRADE_3D_AddUnit
  * address: 0x021E324C
  * packet: pkt_ov119_021E324C
  * region: ov119
@@ -25,7 +25,7 @@ extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 struct G3dSys;
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-void func_021E324C(char *p,int n) {
+void POKETRADE_3D_AddUnit(char *p,int n) {
     void *q;
     int i,count;
     if(d_021E7B3C[n].d) ((struct Obj03779 *)p)->f824=G3D_UTIL_AddUnit(((struct Obj03779 *)p)->f820,&d_021E7B3C[n]);

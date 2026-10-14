@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BE3C4",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources",
    "address": "0x021BE3C4",
    "kind": "game",
    "region": "ov208",

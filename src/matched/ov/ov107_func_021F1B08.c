@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B08
+ * function: MB_UTIL_MSG_IsPrintQueFinished
  * address: 0x021F1B08
  * packet: pkt_ov107_021F1B08
  * region: ov107
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct PrintSys;
 typedef struct { u8 pad00[0x30]; struct PrintSys *f30; } Context;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
-int func_021F1B08(Context *p)
+int MB_UTIL_MSG_IsPrintQueFinished(Context *p)
 {
     return PRINTSYS_QUE_IsFinished(p->f30);
 }

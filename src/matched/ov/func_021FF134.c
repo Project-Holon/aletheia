@@ -1,5 +1,5 @@
 /*
- * function: func_021FF134
+ * function: BTLV_MCSS_SetSideScale
  * address:  0x021FF134
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FF134   0x021FF134  thumb
+ *   BTLV_MCSS_SetSideScale   0x021FF134  thumb
  *   BODY
 
  *
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj12218.h"
 
-void func_021FF134(char *p, int a, int b)
+void BTLV_MCSS_SetSideScale(char *p, int a, int b)
 {
     ((struct Obj12218 *)p)->f538 = a;
     ((struct Obj12218 *)p)->f53C = b;

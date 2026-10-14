@@ -58,7 +58,7 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
- *   func_021F8B10 0x021F8B10 thumb ov094
+ *   BTLV_EFFECT_SuspendVmWait 0x021F8B10 thumb ov094
  *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
  *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4

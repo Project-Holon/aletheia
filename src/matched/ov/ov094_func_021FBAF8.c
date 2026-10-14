@@ -1,5 +1,5 @@
 /*
- * function: func_021FBAF8
+ * function: BTLV_EFFVM_CmdStartSeVolumeTween
  * address: 0x021FBAF8
  * packet: pkt_ov094_021FBAF8
  * region: ov094
@@ -10,12 +10,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   VM_GetU32 0x0201134C thumb
- *   func_021FCF2C 0x021FCF2C thumb ov094
+ *   BTLV_EFFVM_ResolveSlotKey 0x021FCF2C thumb ov094
  *   func_0207C768 0x0207C768 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021FE594 0x021FE594 thumb ov094
- *   func_021FE690 0x021FE690 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFVM_SeVolumeTweenTaskMain 0x021FE594 thumb ov094
+ *   BTLV_EFFVM_SeVolumeTweenTaskEnd 0x021FE690 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -29,17 +29,17 @@ extern char d_0220AE68[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FCF2C(int, int);
+extern int BTLV_EFFVM_ResolveSlotKey(int, int);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_02030DA8(void *, void (*)(void *, int *), int *, int);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE594(void *, int *);
-extern void func_021FE690(void *);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFVM_SeVolumeTweenTaskMain(void *, int *);
+extern void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *);
 extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
-int func_021FBAF8(void *a, char *s)
+int BTLV_EFFVM_CmdStartSeVolumeTween(void *a, char *s)
 {
     int *p;
     int x;
@@ -52,8 +52,8 @@ int func_021FBAF8(void *a, char *s)
     p[1] = VM_GetU32(a);
     p[2] = VM_GetU32(a);
     p[3] = 2;
-    x = func_021FCF2C((int)a, VM_GetU32(a));
-    y = func_021FCF2C((int)a, VM_GetU32(a));
+    x = BTLV_EFFVM_ResolveSlotKey((int)a, VM_GetU32(a));
+    y = BTLV_EFFVM_ResolveSlotKey((int)a, VM_GetU32(a));
     p[4] = (x & 1) ? 127 : -128;
     p[5] = (y & 1) ? 127 : -128;
     p[8] = VM_GetU32(a);
@@ -73,7 +73,7 @@ int func_021FBAF8(void *a, char *s)
     x = _ffix(g);
     y = _ffix(f);
     p[7] = func_0207C768(x, y);
-    func_021F896C(func_02030DA8(((struct Obj07880 *)s)->f8, func_021FE594, p, 0), func_021FE690, 1);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(((struct Obj07880 *)s)->f8, BTLV_EFFVM_SeVolumeTweenTaskMain, p, 0), BTLV_EFFVM_SeVolumeTweenTaskEnd, 1);
     ((struct Obj07880 *)s)->f0 |= 8;
     return ((struct Obj07880 *)s)->f23C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E026C
+ * function: GURU2_MAIN_PrintMessageWithNumber
  * address: 0x021E026C
  * packet: pkt_ov137_021E026C
  * region: ov137
@@ -46,7 +46,7 @@ extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E026C(u8 *p,int message,unsigned value)
+void GURU2_MAIN_PrintMessageWithNumber(u8 *p,int message,unsigned value)
 {
     u8 *s;
     void *window,*text,*owner,*data;

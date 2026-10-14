@@ -1,5 +1,5 @@
 /*
- * function: func_021FB220
+ * function: WORLDTRADE_INPUT_StateRestoreCursor
  * address:  0x021FB220
  * packet:   pkt_021FB220
  * region:   ov135
@@ -26,7 +26,7 @@ extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
-int func_021FB220(u8 *p)
+int WORLDTRADE_INPUT_StateRestoreCursor(u8 *p)
 {
     u32 v;
     int n;

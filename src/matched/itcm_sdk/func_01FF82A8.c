@@ -1,5 +1,5 @@
 /*
- * function: func_01FF82A8
+ * function: OSi_VerifyStaticSegmentHash
  * address:  0x01FF82A8
  * packet:   pkt_01FF82A8
  * region:   arm9_autoload0_ITCM
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int BOOL;
 
-asm BOOL func_01FF82A8(const u8 *src, u32 len, const void *digest)
+asm BOOL OSi_VerifyStaticSegmentHash(const u8 *src, u32 len, const void *digest)
 {
     PUSH    {R3, R4, R5, R6, R7, LR}
     SUB     SP, #0xB8

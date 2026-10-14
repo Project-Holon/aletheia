@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7AAC  0x021F7AAC  thumb  ov094
+ *   BTLV_EFFECT_StartEffectBetweenPokes  0x021F7AAC  thumb  ov094
  */
 typedef unsigned int u32;
 
-extern void func_021F7AAC(int a, int b, u32 c);
+extern void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c);
 
 void BTLV_CORE_StartViewEffectEx(void *ctx, int a, int b, u32 c)
 {
-    func_021F7AAC(a, b, c);
+    BTLV_EFFECT_StartEffectBetweenPokes(a, b, c);
 }

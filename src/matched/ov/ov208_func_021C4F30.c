@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4F30
+ * function: ZUKAN_DETAIL_FORM_UpdateBgScrollForState
  * address:  0x021C4F30
  * packet:   pkt_ov208_021C4F30
  * region:   ov208
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
-void ov208_func_021C4F30(void *unused, u8 *p)
+void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, u8 *p)
 {
     switch (((struct Obj14663 *)p)->f6B8) {
     case 0:

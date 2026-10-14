@@ -1,5 +1,5 @@
 /*
- * function: func_021C29D8
+ * function: PALETTE_ANIME_Destroy
  * address:  0x021C29D8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C2DC4  0x021C2DC4  thumb  ov217
- *   func_021C2E20  0x021C2E20  thumb  ov217
+ *   PALETTE_ANIME_Free  0x021C2DC4  thumb  ov217
+ *   PALETTE_ANIME_ReleaseOriginal  0x021C2E20  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C2DC4(void *a0);
-extern void func_021C2E20(char *p);
-u32 func_021C29D8(void *a0)
+extern u32 PALETTE_ANIME_Free(void *a0);
+extern void PALETTE_ANIME_ReleaseOriginal(char *p);
+u32 PALETTE_ANIME_Destroy(void *a0)
 {
-    func_021C2E20((char *)a0);
-    return func_021C2DC4(a0);
+    PALETTE_ANIME_ReleaseOriginal((char *)a0);
+    return PALETTE_ANIME_Free(a0);
 }
 

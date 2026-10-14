@@ -1,5 +1,5 @@
 /*
- * function: func_021DF648
+ * function: GURU2_MAIN_StateWaitSaveDone
  * address: 0x021DF648
  * packet: pkt_ov137_021DF648
  * region: ov137
@@ -32,7 +32,7 @@ extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void WIPE_SetBrightnessFadeOut(unsigned, unsigned);
 extern void TIME_ICON_Delete(u8 *p);
 extern void func_02010934(struct Sub0201088CObj *p);
-int func_021DF648(u8 *p)
+int GURU2_MAIN_StateWaitSaveDone(u8 *p)
 {
     int ready;
     ready = func_02010904(*(void **)(p + 3488));

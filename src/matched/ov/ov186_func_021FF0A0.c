@@ -1,5 +1,5 @@
 /*
- * function: func_021FF0A0
+ * function: BR_SIDEBAR_UpdateBounce
  * address: 0x021FF0A0
  * packet: pkt_ov186_021FF0A0
  * region: ov186
@@ -15,7 +15,7 @@
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
  *   func_0203F684 0x0203F684 arm
- *   func_021FF038 0x021FF038 thumb ov186
+ *   BR_SIDEBAR_SetSlotMode 0x021FF038 thumb ov186
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -33,8 +33,8 @@ extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
 extern s16 func_0203F684(u16);
-extern void func_021FF038(u8 *p, u32 mode);
-void func_021FF0A0(char *p)
+extern void BR_SIDEBAR_SetSlotMode(u8 *p, u32 mode);
+void BR_SIDEBAR_UpdateBounce(char *p)
 {
     int direction;
     s16 x;
@@ -89,7 +89,7 @@ void func_021FF0A0(char *p)
         }
         CLACT_SetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,x,(u16)(((struct Obj00153 *)p)->f44),0);
         break;
-    case 4:func_021FF038((u8 *)p,2);break;
+    case 4:BR_SIDEBAR_SetSlotMode((u8 *)p,2);break;
     }
     if(((struct Obj00153 *)p)->f1C==3){
         if(((struct Obj00153 *)p)->f14>410){

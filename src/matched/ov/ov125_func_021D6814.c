@@ -1,5 +1,5 @@
 /*
- * function: func_021D6814
+ * function: GDS_RAP_RequestDownloadEntries
  * address: 0x021D6814
  * packet: pkt_ov125_021D6814
  * region: ov125
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D730C 0x021D730C thumb ov125
+ *   GDS_RAP_IsIdle 0x021D730C thumb ov125
  */
 #include "../include/Obj02838.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D730C(char *);
-int func_021D6814(char *p,int v) {if(!func_021D730C(p))return 0;*(u16 *)&((struct Obj02838 *)p)->f3A4=v;((struct Obj02838 *)p)->f3D8=0x5209;return 1;}
+extern int GDS_RAP_IsIdle(char *);
+int GDS_RAP_RequestDownloadEntries(char *p,int v) {if(!GDS_RAP_IsIdle(p))return 0;*(u16 *)&((struct Obj02838 *)p)->f3A4=v;((struct Obj02838 *)p)->f3D8=0x5209;return 1;}

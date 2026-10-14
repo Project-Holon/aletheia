@@ -1,5 +1,5 @@
 /*
- * function: func_021C0EDC
+ * function: RingQueue_ResetImpl
  * address:  0x021C0EDC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Clears two words of a record.  Reached only from the tail-call veneer
- * func_021C0E5C.
+ * RingQueue_Reset.
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef struct {
     u32 b;
 } Rec;
 
-void func_021C0EDC(Rec *p)
+void RingQueue_ResetImpl(Rec *p)
 {
     p->a = 0;
     p->b = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022057CC",
+   "name": "BTLV_INPUT_CreateActionButtons",
    "address": "0x022057CC",
    "kind": "game",
    "region": "ov094",

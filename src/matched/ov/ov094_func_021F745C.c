@@ -1,5 +1,5 @@
 /*
- * function: func_021F745C
+ * function: BTLV_EFFECT_CreateSetupFromBattleMain
  * address: 0x021F745C
  * packet: pkt_ov094_021F745C
  * region: ov094
@@ -17,7 +17,7 @@
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
- *   func_021F73F0 0x021F73F0 thumb ov094
+ *   BTLV_EFFECT_CreateSetup 0x021F73F0 thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,9 +32,9 @@ extern u8 BTL_MAIN_GetOwnOpponentClient(u8 *p, int k);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***);
 extern char *BTL_MAIN_GetFieldSituation(char **);
-extern void *func_021F73F0(int, int, Q *, int, u16 *, int, int, u16);
+extern void *BTLV_EFFECT_CreateSetup(int, int, Q *, int, u16 *, int, int, u16);
 
-void *func_021F745C(u8 *p, int a, u16 heap)
+void *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap)
 {
     u16 h[4];
     unsigned int i;
@@ -59,5 +59,5 @@ void *func_021F745C(u8 *p, int a, u16 heap)
     mode = BTL_MAIN_GetRule((void **)p);
     type = (int)BTL_MAIN_GetCompetitor((void ***)p);
     q = (Q *)BTL_MAIN_GetFieldSituation((char **)p);
-    return func_021F73F0(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, (int)p, a, heap);
+    return BTLV_EFFECT_CreateSetup(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, (int)p, a, heap);
 }

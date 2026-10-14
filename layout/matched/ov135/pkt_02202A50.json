@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02202A50",
+   "name": "WORLDTRADE_ADAPTER_PrintNumber",
    "address": "0x02202A50",
    "kind": "game",
    "region": "ov135",

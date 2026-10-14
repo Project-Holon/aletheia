@@ -1,5 +1,5 @@
 /*
- * function: func_021DD2F4
+ * function: POKETRADE_NEGO_HasOffer
  * address: 0x021DD2F4
  * packet: pkt_ov119_021DD2F4
  * region: ov119
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8AA8 0x021D8AA8 thumb ov119
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern int func_021D8AA8(void *);
-int func_021DD2F4(char *p)
+extern int POKETRADE_PROC_IsHostSide(void *);
+int POKETRADE_NEGO_HasOffer(char *p)
 {
     int i;
-    if (func_021D8AA8(p)) {
+    if (POKETRADE_PROC_IsHostSide(p)) {
         for (i = 0; i < 3; i++) {
             if (*(int *)(p + i * 4 + 0xfa4) != -1 && *(int *)(p + i * 4 + 0xfbc) != -1) return 1;
         }

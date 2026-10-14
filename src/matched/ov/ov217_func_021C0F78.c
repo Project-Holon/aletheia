@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F78
+ * function: BgTextLabel_PrintText
  * address:  0x021C0F78
  * packet:   pkt_ov217_021C0F78
  * region:   ov217
@@ -14,7 +14,7 @@
  * symbols:
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_021C1090  0x021C1090  thumb  ov217
+ *   BgTextLabel_GetCenterOffset  0x021C1090  thumb  ov217
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -32,7 +32,7 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern int func_021C1090(u8 *p, void *text);
+extern int BgTextLabel_GetCenterOffset(u8 *p, void *text);
 extern void PRINTSYS_PrintColor(void *w, s16 x, s16 y, void *text, void *font, u16 color);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -41,7 +41,7 @@ extern void func_02041B6C(unsigned int bit);
 
 struct U16Vec;
 
-void func_021C0F78(u8 *p, struct U16Vec *text)
+void BgTextLabel_PrintText(u8 *p, struct U16Vec *text)
 {
     u16 color;
     void *w;
@@ -53,7 +53,7 @@ void func_021C0F78(u8 *p, struct U16Vec *text)
     w = BMP_WIN_GetBmp(*(void **)(p + 0x18));
     BMP_Clear(w, p[10]);
     if (*(int *)(p + 0xC) != 0) {
-        x = p[5] + func_021C1090(p, text);
+        x = p[5] + BgTextLabel_GetCenterOffset(p, text);
         y = p[6];
     } else {
         x = p[5];

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1028
+ * function: MB_COMM_SYS_SetSyncRange
  * address:  0x021F1028
  * packet:   pkt_ov107_021F1028
  * region:   ov107
@@ -26,7 +26,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 
-void func_021F1028(int *p)
+void MB_COMM_SYS_SetSyncRange(int *p)
 {
     int r = (int)GFL_NET_HANDLE_GetCurrentHandle();
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)r, 0x40, 4);

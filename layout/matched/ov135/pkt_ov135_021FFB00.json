@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFB00",
+   "name": "WORLDTRADE_SUBLCD_CheckButtonTouch",
    "address": "0x021FFB00",
    "kind": "game",
    "region": "ov135",

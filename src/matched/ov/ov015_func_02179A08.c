@@ -1,5 +1,5 @@
 /*
- * function: func_02179A08
+ * function: IRCNET_IsClosing
  * address: 0x02179A08
  * packet: pkt_ov015_02179A08
  * region: ov015
@@ -26,7 +26,7 @@ struct flags_ab80 {
     u8 b1 : 1;
 };
 
-u8 func_02179A08(void);
+u8 IRCNET_IsClosing(void);
 extern struct State d_0217AB80;
 
-u8 func_02179A08(void) { return ((struct flags_ab80 *)&d_0217AB80)->b0; }
+u8 IRCNET_IsClosing(void) { return ((struct flags_ab80 *)&d_0217AB80)->b0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA054
+ * function: PDWACC_STATE_StateFadeOutBgm
  * address: 0x021DA054
  * packet: pkt_ov123_021DA054
  * region: ov123
@@ -11,13 +11,13 @@
  * symbols:
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021DA034 0x021DA034 thumb ov123
- *   func_021DA03C 0x021DA03C thumb ov123
+ *   PDWACC_STATE_ChangeState 0x021DA034 thumb ov123
+ *   PDWACC_STATE_StateWaitFade 0x021DA03C thumb ov123
  */
 #include "../include/Obj22985.h"
 extern void WIPE_SYS_Start(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern void func_021DA034(char *,int,int);
-extern void func_021DA03C(char *p);
-void func_021DA054(char *p) { WIPE_SYS_Start(0,0,0,0x7fff,6,1,((struct Obj22985 *)p)->f0); GFL_USE_FadeOutBgm(6); func_021DA034(p,(int)func_021DA03C,0xe7); }
+extern void PDWACC_STATE_ChangeState(char *,int,int);
+extern void PDWACC_STATE_StateWaitFade(char *p);
+void PDWACC_STATE_StateFadeOutBgm(char *p) { WIPE_SYS_Start(0,0,0,0x7fff,6,1,((struct Obj22985 *)p)->f0); GFL_USE_FadeOutBgm(6); PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StateWaitFade,0xe7); }

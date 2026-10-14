@@ -1,5 +1,5 @@
 /*
- * function: func_021C5360
+ * function: MAILVIEW_PrintSentences
  * address: 0x021C5360
  * packet: pkt_ov136_021C5360
  * region: ov136
@@ -9,7 +9,7 @@
  * status: EXACT
  * note: 2026-10-02 byte-exact; waiting on arm9 witness shard for PMSI_PARAM_IsEnabled
  * symbols:
- *   func_021C5360 0x021C5360 thumb
+ *   MAILVIEW_PrintSentences 0x021C5360 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   PMS_DRAW_Print 0x0202DC48 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -36,7 +36,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
-void func_021C5360(u8 *p)
+void MAILVIEW_PrintSentences(u8 *p)
 {
     int i;
     u8 *q;

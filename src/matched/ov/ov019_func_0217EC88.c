@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC88
+ * function: UNION_MSG_GetTalkMenuPromptMsg
  * address:  0x0217EC88
  * packet:   pkt_ov019_0217EC88
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_02180300[];
 
-u16 func_0217EC88(int i)
+u16 UNION_MSG_GetTalkMenuPromptMsg(int i)
 {
     return d_02180300[i];
 }

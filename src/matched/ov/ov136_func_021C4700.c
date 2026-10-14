@@ -1,5 +1,5 @@
 /*
- * function: func_021C4700
+ * function: MAILSYS_HandleTouchInput
  * address: 0x021C4700
  * packet: pkt_ov136_021C4700
  * region: ov136
@@ -10,7 +10,7 @@
  * symbols:
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_021C446C 0x021C446C thumb ov136
+ *   MAILSYS_IsMessageIncomplete 0x021C446C thumb ov136
  *   d_021C7784 0x021C7784 data a4
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -22,11 +22,11 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned int   u32;
 struct Obj;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int func_021C446C(void *a);
+extern int MAILSYS_IsMessageIncomplete(void *a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern u8 d_021C7784[];
-int func_021C4700(u8 *p)
+int MAILSYS_HandleTouchInput(u8 *p)
 {
     int n;
     n = TOUCHPANEL_HitTrg(d_021C7784);
@@ -43,7 +43,7 @@ int func_021C4700(u8 *p)
         GFL_USE_PlaySeDefaultVolume(0x54D);
         return 1;
     }
-    if (func_021C446C(p)) {
+    if (MAILSYS_IsMessageIncomplete(p)) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         p[0xB] = 2;
         return 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B65C4",
+   "name": "CTVT_CAMERA_FreeShutterSound",
    "address": "0x021B65C4",
    "kind": "game",
    "region": "ov172",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6620",
+   "name": "CTVT_CAMERA_OnReboot",
    "address": "0x021B6620",
    "kind": "game",
    "region": "ov172",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6744",
+   "name": "CTVT_CAMERA_SetFrameCallback",
    "address": "0x021B6744",
    "kind": "game",
    "region": "ov172",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B688C",
+   "name": "CTVT_CAMERA_IsShutterSoundIdle",
    "address": "0x021B688C",
    "kind": "game",
    "region": "ov172",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6938",
+   "name": "CTVT_CAMERA_GetWidth",
    "address": "0x021B6938",
    "kind": "game",
    "region": "ov172",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6944",
+   "name": "CTVT_CAMERA_GetHeight",
    "address": "0x021B6944",
    "kind": "game",
    "region": "ov172",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B697C",
+   "name": "CTVT_CAMERA_GetSizeWidth",
    "address": "0x021B697C",
    "kind": "game",
    "region": "ov172",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B69BC",
+   "name": "CTVT_CAMERA_SelectCamera",
    "address": "0x021B69BC",
    "kind": "game",
    "region": "ov172",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B69D0",
+   "name": "CTVT_CAMERA_RequestShutterSound0",
    "address": "0x021B69D0",
    "kind": "game",
    "region": "ov172",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B69D8",
+   "name": "CTVT_CAMERA_RequestShutterSound1",
    "address": "0x021B69D8",
    "kind": "game",
    "region": "ov172",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B69F0",
+   "name": "CTVT_ADPCM_ResetDecoder",
    "address": "0x021B69F0",
    "kind": "game",
    "region": "ov172",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6C48",
+   "name": "DRAW_SYSTEM_Nop",
    "address": "0x021B6C48",
    "kind": "game",
    "region": "ov172",
@@ -151,7 +151,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B6EBC",
+   "name": "DRAW_SYSTEM_GetPlane",
    "address": "0x021B6EBC",
    "kind": "game",
    "region": "ov172",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6EC4",
+   "name": "DRAW_SYSTEM_GetStroke",
    "address": "0x021B6EC4",
    "kind": "game",
    "region": "ov172",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6ECC",
+   "name": "DRAW_SYSTEM_AdvanceIndex",
    "address": "0x021B6ECC",
    "kind": "game",
    "region": "ov172",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B7578",
+   "name": "CTVT_CAMVIEW_StopCapture",
    "address": "0x021B7578",
    "kind": "game",
    "region": "ov172",
@@ -199,7 +199,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B7590",
+   "name": "CTVT_CAMVIEW_IsShutterIdle",
    "address": "0x021B7590",
    "kind": "game",
    "region": "ov172",
@@ -211,7 +211,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B77B4",
+   "name": "CTVT_CAMVIEW_IsLayoutChanging",
    "address": "0x021B77B4",
    "kind": "game",
    "region": "ov172",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B7818",
+   "name": "CTVT_CAMVIEW_GetOwnSlotBuffer",
    "address": "0x021B7818",
    "kind": "sdk",
    "region": "ov172",
@@ -235,7 +235,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B785C",
+   "name": "CTVT_CAMVIEW_GetSlotBufferStep",
    "address": "0x021B785C",
    "kind": "game",
    "region": "ov172",
@@ -252,7 +252,7 @@
    }
   },
   {
-   "name": "func_021B7888",
+   "name": "CTVT_CAMVIEW_SetWindowCurRect",
    "address": "0x021B7888",
    "kind": "game",
    "region": "ov172",
@@ -264,7 +264,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B78A0",
+   "name": "CTVT_CAMVIEW_SetWindowTargetRect",
    "address": "0x021B78A0",
    "kind": "game",
    "region": "ov172",
@@ -276,7 +276,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B7B20",
+   "name": "CTVT_CAMVIEW_RequestWindowAnimation",
    "address": "0x021B7B20",
    "kind": "game",
    "region": "ov172",
@@ -288,7 +288,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B7B30",
+   "name": "CTVT_CAMVIEW_IsWindowMoving",
    "address": "0x021B7B30",
    "kind": "game",
    "region": "ov172",
@@ -300,7 +300,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B7B3C",
+   "name": "CTVT_CAMVIEW_SetCameraEffect",
    "address": "0x021B7B3C",
    "kind": "game",
    "region": "ov172",
@@ -312,7 +312,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B7B64",
+   "name": "CTVT_CAMVIEW_RequestShutterSound0",
    "address": "0x021B7B64",
    "kind": "game",
    "region": "ov172",
@@ -324,7 +324,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B7B80",
+   "name": "CTVT_CAMVIEW_RequestShutterSound1",
    "address": "0x021B7B80",
    "kind": "game",
    "region": "ov172",
@@ -612,7 +612,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BA2B8",
+   "name": "CTVT_DRAW_Free",
    "address": "0x021BA2B8",
    "kind": "game",
    "region": "ov172",
@@ -648,7 +648,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDFDC",
+   "name": "COMM_TVT_SYS_GetCamView",
    "address": "0x021BDFDC",
    "kind": "game",
    "region": "ov172",
@@ -660,7 +660,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDFE4",
+   "name": "COMM_TVT_SYS_GetComm",
    "address": "0x021BDFE4",
    "kind": "game",
    "region": "ov172",
@@ -672,7 +672,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDFEC",
+   "name": "COMM_TVT_SYS_GetTalkStatus",
    "address": "0x021BDFEC",
    "kind": "game",
    "region": "ov172",
@@ -684,7 +684,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDFFC",
+   "name": "COMM_TVT_SYS_GetSprites",
    "address": "0x021BDFFC",
    "kind": "game",
    "region": "ov172",
@@ -696,7 +696,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE004",
+   "name": "COMM_TVT_SYS_GetLaunchParams",
    "address": "0x021BE004",
    "kind": "game",
    "region": "ov172",
@@ -708,7 +708,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE00C",
+   "name": "COMM_TVT_SYS_GetHeapId",
    "address": "0x021BE00C",
    "kind": "game",
    "region": "ov172",
@@ -720,7 +720,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE010",
+   "name": "COMM_TVT_SYS_GetArc",
    "address": "0x021BE010",
    "kind": "game",
    "region": "ov172",
@@ -732,7 +732,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE018",
+   "name": "COMM_TVT_SYS_GetResId",
    "address": "0x021BE018",
    "kind": "game",
    "region": "ov172",
@@ -744,7 +744,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE024",
+   "name": "COMM_TVT_SYS_GetClactUnit",
    "address": "0x021BE024",
    "kind": "game",
    "region": "ov172",
@@ -756,7 +756,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE034",
+   "name": "COMM_TVT_SYS_GetFont",
    "address": "0x021BE034",
    "kind": "game",
    "region": "ov172",
@@ -768,7 +768,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE03C",
+   "name": "COMM_TVT_SYS_GetMsgData",
    "address": "0x021BE03C",
    "kind": "game",
    "region": "ov172",
@@ -780,7 +780,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE044",
+   "name": "COMM_TVT_SYS_GetPrintQue",
    "address": "0x021BE044",
    "kind": "game",
    "region": "ov172",
@@ -792,7 +792,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE04C",
+   "name": "COMM_TVT_SYS_GetTaskMenu",
    "address": "0x021BE04C",
    "kind": "game",
    "region": "ov172",
@@ -804,7 +804,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE054",
+   "name": "COMM_TVT_SYS_GetMemberCount",
    "address": "0x021BE054",
    "kind": "game",
    "region": "ov172",
@@ -816,7 +816,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE058",
+   "name": "COMM_TVT_SYS_SetMemberCount",
    "address": "0x021BE058",
    "kind": "game",
    "region": "ov172",
@@ -828,7 +828,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE05C",
+   "name": "COMM_TVT_SYS_GetLayoutMode",
    "address": "0x021BE05C",
    "kind": "game",
    "region": "ov172",
@@ -840,7 +840,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BE078",
+   "name": "COMM_TVT_SYS_GetHalfRes",
    "address": "0x021BE078",
    "kind": "game",
    "region": "ov172",
@@ -852,7 +852,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE08C",
+   "name": "COMM_TVT_SYS_ToggleHalfRes",
    "address": "0x021BE08C",
    "kind": "game",
    "region": "ov172",
@@ -864,7 +864,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0A4",
+   "name": "COMM_TVT_SYS_GetSelfSlot",
    "address": "0x021BE0A4",
    "kind": "game",
    "region": "ov172",
@@ -876,7 +876,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0A8",
+   "name": "COMM_TVT_SYS_SetSelfSlot",
    "address": "0x021BE0A8",
    "kind": "game",
    "region": "ov172",
@@ -888,7 +888,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0AC",
+   "name": "COMM_TVT_SYS_GetMessageActive",
    "address": "0x021BE0AC",
    "kind": "game",
    "region": "ov172",
@@ -900,7 +900,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0B0",
+   "name": "COMM_TVT_SYS_SetMessageActive",
    "address": "0x021BE0B0",
    "kind": "game",
    "region": "ov172",
@@ -912,7 +912,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0B4",
+   "name": "COMM_TVT_SYS_GetViewSwapped",
    "address": "0x021BE0B4",
    "kind": "game",
    "region": "ov172",
@@ -924,7 +924,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0B8",
+   "name": "COMM_TVT_SYS_ToggleViewSwapped",
    "address": "0x021BE0B8",
    "kind": "game",
    "region": "ov172",
@@ -936,7 +936,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0C8",
+   "name": "COMM_TVT_SYS_GetInputLocked",
    "address": "0x021BE0C8",
    "kind": "game",
    "region": "ov172",
@@ -948,7 +948,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0D8",
+   "name": "COMM_TVT_SYS_IsLaunchModeCall",
    "address": "0x021BE0D8",
    "kind": "game",
    "region": "ov172",
@@ -960,7 +960,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0EC",
+   "name": "COMM_TVT_SYS_GetHostBusy",
    "address": "0x021BE0EC",
    "kind": "game",
    "region": "ov172",
@@ -972,7 +972,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0F8",
+   "name": "COMM_TVT_SYS_GetCameraBusy",
    "address": "0x021BE0F8",
    "kind": "game",
    "region": "ov172",
@@ -984,7 +984,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE0FC",
+   "name": "COMM_TVT_SYS_SetCameraBusy",
    "address": "0x021BE0FC",
    "kind": "game",
    "region": "ov172",
@@ -996,7 +996,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE100",
+   "name": "COMM_TVT_SYS_IsNetIdle",
    "address": "0x021BE100",
    "kind": "sdk",
    "region": "ov172",
@@ -1008,7 +1008,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BE2E0",
+   "name": "COMM_TVT_SYS_HideSlotMarker",
    "address": "0x021BE2E0",
    "kind": "game",
    "region": "ov172",
@@ -1020,7 +1020,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE34C",
+   "name": "COMM_TVT_SYS_DeleteTimeIcon",
    "address": "0x021BE34C",
    "kind": "game",
    "region": "ov172",
@@ -1032,7 +1032,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0C20",
+   "name": "Yos_BitInit",
    "address": "0x021C0C20",
    "kind": "sdk",
    "region": "ov172",
@@ -1049,7 +1049,7 @@
    }
   },
   {
-   "name": "func_021C2D0C",
+   "name": "SSP_GetDateTime",
    "address": "0x021C2D0C",
    "kind": "sdk",
    "region": "ov172",

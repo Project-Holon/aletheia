@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 720)), 720 to func_021C209C.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 720)), 720 to ARROW_Destroy.
  *
  * symbols:
- *   func_021C209C  0x021C209C  thumb  ov217
+ *   ARROW_Destroy  0x021C209C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021C209C(void *a0);
+extern u32 ARROW_Destroy(void *a0);
 
 void func_021BFED4(u8 *a0)
 {
-    func_021C209C((void *)(((struct Obj25956 *)a0)->f2D0));
+    ARROW_Destroy((void *)(((struct Obj25956 *)a0)->f2D0));
 }
 

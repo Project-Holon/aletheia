@@ -1,5 +1,5 @@
 /*
- * function: func_021F19C8
+ * function: MB_UTIL_MSG_GetTaskMenuResult
  * address: 0x021F19C8
  * packet: pkt_ov107_021F19C8
  * region: ov107
@@ -17,4 +17,4 @@ typedef unsigned int   u32;
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern unsigned char APP_TASKMENU_GetCursorPos(const unsigned char *);
-int func_021F19C8(unsigned char *a) { if(APP_TASKMENU_IsFinish(((struct Obj13766 *)a)->f3C)==1) return APP_TASKMENU_GetCursorPos(((struct Obj13766 *)a)->f3C)+1; return 0; }
+int MB_UTIL_MSG_GetTaskMenuResult(unsigned char *a) { if(APP_TASKMENU_IsFinish(((struct Obj13766 *)a)->f3C)==1) return APP_TASKMENU_GetCursorPos(((struct Obj13766 *)a)->f3C)+1; return 0; }

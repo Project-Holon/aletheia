@@ -1,5 +1,5 @@
 /*
- * function: func_021E3D04
+ * function: POKETRADE_2D_GetMonMarkingIcon
  * address: 0x021E3D04
  * packet: pkt_ov119_021E3D04
  * region: ov119
@@ -24,7 +24,7 @@ extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *POKE_PERSONAL_Create(unsigned int, int, unsigned int);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *);
-unsigned char func_021E3D04(void *mon, unsigned int heap)
+unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap)
 {
     int old;
     unsigned short result;

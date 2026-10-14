@@ -1,5 +1,5 @@
 /*
- * function: func_021D8C5C
+ * function: GDS_SOCKET_FreeSslServerName
  * address:  0x021D8C5C
  * packet:   pkt_021D8C5C
  * region:   ov125
@@ -9,22 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * If the object's 0x800 field is set, hand it to func_021D7C90 and clear it.
+ * If the object's 0x800 field is set, hand it to GDS_SOCKET_Free and clear it.
  *
  * symbols:
- *   func_021D7C90  0x021D7C90  arm  ov125
+ *   GDS_SOCKET_Free  0x021D7C90  arm  ov125
  */
 #include "../include/Obj14014.h"
 
-void func_021D7C90(int x);
+void GDS_SOCKET_Free(int x);
 
-void func_021D8C5C(void *p)
+void GDS_SOCKET_FreeSslServerName(void *p)
 {
     int v;
 
     v = ((struct Obj14014 *)p)->f800;
     if (v == 0)
         return;
-    func_021D7C90(v);
+    GDS_SOCKET_Free(v);
     ((struct Obj14014 *)p)->f800 = 0;
 }

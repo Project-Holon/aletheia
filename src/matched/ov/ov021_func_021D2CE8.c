@@ -16,7 +16,7 @@
  * (a fresh int index rotates them by one).
  *
  * symbols:
- *   d_021DD718     0x021DD718  data  a4
+ *   gGreetingMiscMessageIds     0x021DD718  data  a4
  *   func_020056EC  0x020056EC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C234  0x0200C234  thumb
@@ -32,7 +32,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *p);
 extern int func_0200C234(void *p);
 extern u32 func_020056EC(u32 v);
-extern u32 d_021DD718[];
+extern u32 gGreetingMiscMessageIds[];
 
 u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i)
 {
@@ -40,7 +40,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i)
     void *h = func_0200C0F0(GAME_DATA_GetSaveControl(a));
 
     for (i = 0; i < 8; i++) {
-        if (v == d_021DD718[i]) {
+        if (v == gGreetingMiscMessageIds[i]) {
             if (func_0200C234(h)) {
                 return v;
             } else {

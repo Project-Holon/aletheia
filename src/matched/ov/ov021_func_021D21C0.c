@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FindRegisteredEntry
+ * function: FIELD_SOUND_SYSTEM_FindSlotSound
  * address:  0x021D21C0
  * packet:   pkt_ov021_021D21C0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DD614     0x021DD614  data  ov021  a4
+ *   gFieldSoundSlotTable     0x021DD614  data  ov021  a4
  */
 
 #include "../include/G_Ent021DD614.h"
@@ -21,14 +21,14 @@ typedef unsigned int u32;
 
 typedef struct Ent021DD614 Ent021DD614;
 
-extern struct Ent021DD614 d_021DD614[];
+extern struct Ent021DD614 gFieldSoundSlotTable[];
 
-int SCRCMD_FindRegisteredEntry(u32 id)
+int FIELD_SOUND_SYSTEM_FindSlotSound(u32 id)
 {
     u32 i;
 
     for (i = 0; i < 0x15; i++) {
-        if (id == d_021DD614[i].id) {
+        if (id == gFieldSoundSlotTable[i].id) {
             return 1;
         }
     }

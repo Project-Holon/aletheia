@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetTallyTotal
+ * function: SCRCMD_RESEARCH_GetTallyTotal
  * address: 0x0216B970
  * packet: pkt_ov010_0216B970
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 func_0200E458(const u16 *, int);
 extern u32 func_0200E47C(u8 *p, int i);
-u32 FIELD_G3D_MAP_GetTallyTotal(const u16 *p, int index)
+u32 SCRCMD_RESEARCH_GetTallyTotal(const u16 *p, int index)
 {
     u32 x = func_0200E458(p, index);
     x += func_0200E47C((u8 *)p, index);

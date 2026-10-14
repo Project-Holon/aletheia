@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FDBCC",
+   "name": "WORLDTRADE_SEARCH_SetupBgPlanes",
    "address": "0x021FDBCC",
    "kind": "game",
    "region": "ov135",

@@ -1,5 +1,5 @@
 /*
- * function: func_02179D78
+ * function: IRCNET_IsConnected
  * address: 0x02179D78
  * packet: pkt_ov015_02179D78
  * region: ov015
@@ -16,9 +16,9 @@
  */
 
 extern int func_0217A024(void);
-int func_02179D78(void);
+int IRCNET_IsConnected(void);
 
-int func_02179D78(void)
+int IRCNET_IsConnected(void)
 {
     return func_0217A024();
 }

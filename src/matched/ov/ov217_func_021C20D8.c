@@ -1,5 +1,5 @@
 /*
- * function: func_021C20D8
+ * function: ARROW_Reset
  * address:  0x021C20D8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C218C  0x021C218C  thumb  ov217
- *   func_021C2260  0x021C2260  thumb  ov217
+ *   ARROW_SetState  0x021C218C  thumb  ov217
+ *   ARROW_HideAll  0x021C2260  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C218C(void *p, u32 v);
-extern u32 func_021C2260();
-u32 func_021C20D8(u32 a0)
+extern void ARROW_SetState(void *p, u32 v);
+extern u32 ARROW_HideAll();
+u32 ARROW_Reset(u32 a0)
 {
-    func_021C218C((void *)a0, 0);
-    return func_021C2260(a0);
+    ARROW_SetState((void *)a0, 0);
+    return ARROW_HideAll(a0);
 }
 

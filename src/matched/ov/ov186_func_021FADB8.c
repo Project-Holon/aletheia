@@ -13,10 +13,10 @@
  *   func_021FB594 0x021FB594 thumb ov186
  *   func_021FB5B8 0x021FB5B8 thumb ov186
  *   func_021FB494 0x021FB494 thumb ov186
- *   func_021FB7B0 0x021FB7B0 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_021FB3BC 0x021FB3BC thumb ov186
  */
 #include "../include/Obj00080.h"
@@ -27,10 +27,10 @@ extern void func_021FB548(char *p, short *x, short *y);
 extern int func_021FB594(char *p);
 extern unsigned func_021FB5B8(char *p);
 extern void func_021FB494(char *p);
-extern int func_021FB7B0(void *, int);
-extern void func_021FC124(void *, unsigned, void *);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
+extern int BR_BTN_DATA_GetRowField(void *, int);
+extern void BR_RES_GetSprite(void *, unsigned, void *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
 extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
 void func_021FADB8(char *ctx, int mode)
 {
@@ -52,12 +52,12 @@ void func_021FADB8(char *ctx, int mode)
     memset(&placement, 0, sizeof(placement));
     placement.x = x;
     placement.y = y + shift;
-    placement.animation = func_021FB7B0(((struct Obj00080 *)ctx)->fC, 4);
+    placement.animation = BR_BTN_DATA_GetRowField(((struct Obj00080 *)ctx)->fC, 4);
     placement.priority = priority;
     placement.attr = attr;
-    func_021FC124(((struct Obj00080 *)ctx)->f30, ((struct Obj00080 *)ctx)->f28 + mode, &config);
-    resource = func_021FC20C(((struct Obj00080 *)ctx)->f30);
-    func_021FC214(*(char * *)&((struct Obj00080 *)ctx)->f30);
-    func_021FB7B0(((struct Obj00080 *)ctx)->fC, 3);
+    BR_RES_GetSprite(((struct Obj00080 *)ctx)->f30, ((struct Obj00080 *)ctx)->f28 + mode, &config);
+    resource = BR_RES_GetFont(((struct Obj00080 *)ctx)->f30);
+    BR_RES_GetMsgData(*(char * *)&((struct Obj00080 *)ctx)->f30);
+    BR_BTN_DATA_GetRowField(((struct Obj00080 *)ctx)->fC, 3);
     ((struct Obj00080 *)ctx)->f8 = func_021FB3BC(&placement, ((struct Obj00080 *)ctx)->f40, 160, mode, ((struct Obj00080 *)ctx)->f38, ((struct Obj00080 *)ctx)->f3C, resource, &config, ((struct Obj00080 *)ctx)->f34);
 }

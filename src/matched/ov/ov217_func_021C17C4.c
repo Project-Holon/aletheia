@@ -1,5 +1,5 @@
 /*
- * function: func_021C17C4
+ * function: CircleGraph_SortSlices
  * address:  0x021C17C4
  * packet:   pkt_ov217_021C17C4
  * region:   ov217
@@ -25,7 +25,7 @@ typedef struct {
     u32 f4;
 } Rec;
 
-void func_021C17C4(u8 *p)
+void CircleGraph_SortSlices(u8 *p)
 {
     int i;
     int n;

@@ -14,7 +14,7 @@
  * symbols:
  *   gDwcMovMbpWork  0x021de65c  data
  *   sDwcMovMbpTable  0x021db9d4  data
- *   g_021DB9D4_b  0x021DB9D4  data
+ *   gMovMbpBuffers  0x021DB9D4  data
  */
 
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ typedef struct {
 extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 
 extern u16 *sDwcMovMbpTable[6];
-extern u16 *g_021DB9D4_b[6];
+extern u16 *gMovMbpBuffers[6];
 
 u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
 {
@@ -55,5 +55,5 @@ u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
     sDwcMovMbpTable[3] = &gDwcMovMbpWork->mbpState.downloadBmp;
     sDwcMovMbpTable[4] = &gDwcMovMbpWork->mbpState.bootBmp;
     sDwcMovMbpTable[5] = &gDwcMovMbpWork->mbpState.endBmp;
-    return *g_021DB9D4_b[bmpType];
+    return *gMovMbpBuffers[bmpType];
 }

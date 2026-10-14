@@ -1,5 +1,5 @@
 /*
- * function: func_021FFCB0
+ * function: BTLV_MCSS_IsSpriteBusy
  * address:  0x021FFCB0
  * packet:   pkt_ov094_021FFCB0
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   MCSS_CheckPaletteFade  0x0201600C  thumb
- *   func_021F935C  0x021F935C  thumb  ov094
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef struct {
     void *h;                /* 0x00 */
@@ -36,25 +36,25 @@ typedef struct {
     int m530;               /* 0x530 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
-extern int func_021FFD9C(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
 extern int MCSS_CheckPaletteFade(void *h);
-extern int func_021F935C(int x);
+extern int BTLV_EFFECT_GetBitMask(int x);
 
-int func_021FFCB0(Work *w, int key)
+int BTLV_MCSS_IsSpriteBusy(Work *w, int key)
 {
     int r = 0;
 
-    if (func_021FFD9C((char *)w, key))
-        r = MCSS_CheckPaletteFade(w->e[func_022019F4((char *)w, key)].h);
-    if (func_021F935C(key) & w->m514
-        || func_021F935C(key) & w->m518
-        || func_021F935C(key) & w->m524
-        || func_021F935C(key) & w->m520
-        || func_021F935C(key) & w->m51c
-        || func_021F935C(key) & w->m528
-        || func_021F935C(key) & w->m52c
-        || func_021F935C(key) & w->m530
+    if (BTLV_MCSS_IsSpriteLoaded((char *)w, key))
+        r = MCSS_CheckPaletteFade(w->e[BTLV_MCSS_FindSpriteIndex((char *)w, key)].h);
+    if (BTLV_EFFECT_GetBitMask(key) & w->m514
+        || BTLV_EFFECT_GetBitMask(key) & w->m518
+        || BTLV_EFFECT_GetBitMask(key) & w->m524
+        || BTLV_EFFECT_GetBitMask(key) & w->m520
+        || BTLV_EFFECT_GetBitMask(key) & w->m51c
+        || BTLV_EFFECT_GetBitMask(key) & w->m528
+        || BTLV_EFFECT_GetBitMask(key) & w->m52c
+        || BTLV_EFFECT_GetBitMask(key) & w->m530
         || w->f510
         || r)
         return 1;

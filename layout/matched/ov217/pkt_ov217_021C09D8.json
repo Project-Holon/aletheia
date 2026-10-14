@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C09D8",
+   "name": "RESEARCH_COMMON_StartPaletteAnime",
    "address": "0x021C09D8",
    "kind": "game",
    "region": "ov217",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D38",
+   "name": "RESEARCH_COMMON_StartPaletteAnimeImpl",
    "address": "0x021C0D38",
    "kind": "game",
    "region": "ov217",
@@ -37,7 +37,7 @@
    }
   },
   {
-   "name": "func_021C29F8",
+   "name": "PALETTE_ANIME_Start",
    "address": "0x021C29F8",
    "kind": "game",
    "region": "ov217",
@@ -49,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2A18",
+   "name": "PALETTE_ANIME_StartImpl",
    "address": "0x021C2A18",
    "kind": "game",
    "region": "ov217",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7130
+ * function: GSYNC_STATE_StateWaitEndingBgm
  * address: 0x021D7130
  * packet: pkt_ov123_021D7130
  * region: ov123
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D580C 0x021D580C thumb ov123
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D70BC 0x021D70BC thumb ov123
+ *   GSYNC_MESSAGE_UpdateStream 0x021D580C thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateClearMessageExit 0x021D70BC thumb ov123
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
@@ -20,17 +20,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D580C(char *);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D70BC(char *);
+extern int GSYNC_MESSAGE_UpdateStream(char *);
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateClearMessageExit(char *);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 v);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-void func_021D7130(char *p)
+void GSYNC_STATE_StateWaitEndingBgm(char *p)
 {
-    if (func_021D580C(*(char **)(p + 0x18)) != 0) {
+    if (GSYNC_MESSAGE_UpdateStream(*(char **)(p + 0x18)) != 0) {
         int n = *(int *)(p + 0x78) - 1;
         *(int *)(p + 0x78) = n;
         if (n <= 0) {
@@ -40,7 +40,7 @@ void func_021D7130(char *p)
                 GFL_USE_FadeInBgmFull(6);
             }
             if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
-                func_021D6EE0((u8 *)p, (int)func_021D70BC, 0x20B);
+                GSYNC_STATE_ChangeState((u8 *)p, (int)GSYNC_STATE_StateClearMessageExit, 0x20B);
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C09B8
+ * function: RESEARCH_COMMON_GetTouchRects
  * address:  0x021C09B8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void *func_021C09B8(void *p)
+void *RESEARCH_COMMON_GetTouchRects(void *p)
 {
     return (char *)p + 0xc;
 }

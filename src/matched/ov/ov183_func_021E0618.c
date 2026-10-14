@@ -9,8 +9,8 @@
  * status: EXACT*
  * extent: 021E06CE alignment padding.
  * symbols:
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021E0754 0x021E0754 thumb ov183
  *   func_021E075C 0x021E075C thumb ov183
  *   func_021E0764 0x021E0764 thumb ov183
@@ -22,8 +22,8 @@
  */
 #include "../include/Obj04576.h"
 typedef unsigned long long u64;
-extern void func_021FE784(int, int, int, int);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int, int, int, int);
+extern int BR_FADE_GetResult(int *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern void func_021E0754(char *p);
@@ -38,11 +38,11 @@ int func_021E0618(int unused, int *state, int *q, int *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784(q[0], 2, 3, 0);
+        BR_FADE_Start(q[0], 2, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0((int *)q[0])) *state = 2;
+        if (BR_FADE_GetResult((int *)q[0])) *state = 2;
         break;
     case 2:
         func_021E0754((char *)p[1]);
@@ -52,11 +52,11 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         }
         break;
     case 3:
-        func_021FE784(q[0], 2, 3, 1);
+        BR_FADE_Start(q[0], 2, 3, 1);
         *state = 4;
         break;
     case 4:
-        if (func_021FE7B0((int *)q[0])) *state = 5;
+        if (BR_FADE_GetResult((int *)q[0])) *state = 5;
         break;
     case 5: return 1;
     }

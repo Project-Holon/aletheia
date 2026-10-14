@@ -1,5 +1,5 @@
 /*
- * function: func_021C70EC
+ * function: MB_SEQ_StateCloseButtonDone
  * address:  0x021C70EC
  * packet:   pkt_ov136_021C70EC
  * region:   ov136
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-int func_021C70EC(u8 *p)
+int MB_SEQ_StateCloseButtonDone(u8 *p)
 {
     if (CLACT_IsActorAnimActive(((struct Obj23632 *)(*(u8 * *)&((struct Obj10609 *)p)->f8))->f20C) == 0) {
         ((struct Obj23633 *)(*(u8 * *)&((struct Obj10609 *)p)->f4))->f4 = 1;

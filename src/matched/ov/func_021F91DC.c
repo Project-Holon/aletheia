@@ -1,5 +1,5 @@
 /*
- * function: func_021F91DC
+ * function: WORLDTRADE_INPUT_PrintStringAlignedWrapped
  * address:  0x021F91DC
  * packet:   pkt_021F91DC
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F914C  0x021F914C  thumb  ov135
- *   func_022028C8  0x022028C8  thumb  ov135
+ *   WORLDTRADE_INPUT_PrintStringAligned  0x021F914C  thumb  ov135
+ *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb  ov135
 
  * Seven-argument wrapper: forwards the object, three words, the 0 and the u16/g pair to the two helpers.
  */
@@ -19,12 +19,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021F914C(void *win, void *str, int x, int align, int unused, int font, void *ctx);
-extern u32 func_022028C8(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
+extern int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx);
+extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 
-int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
+int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
 {
-    u32 r = func_021F914C(p, (void *)b, c, e, f, 0, (void *)g);
+    u32 r = WORLDTRADE_INPUT_PrintStringAligned(p, (void *)b, c, e, f, 0, (void *)g);
 
-    return func_022028C8(p, 0, b, r, d, 0, f, g);
+    return WORLDTRADE_ADAPTER_PrintQueColor(p, 0, b, r, d, 0, f, g);
 }

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C68D4
+ * function: ZUKAN_DETAIL_FORM_UpdateArrowVisibility
  * address:  0x021C68D4
  * packet:   pkt_ov208_021C68D4
  * region:   ov208
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void ov208_func_021C68D4(void *unused, u8 *p)
+void ZUKAN_DETAIL_FORM_UpdateArrowVisibility(void *unused, u8 *p)
 {
     int on = 0;
 

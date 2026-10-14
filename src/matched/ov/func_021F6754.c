@@ -1,5 +1,5 @@
 /*
- * function: func_021F6754
+ * function: WORLDTRADE_BOX_TransferIconPalette
  * address:  0x021F6754
  * packet:   pkt_021F6754
  * region:   ov135
@@ -15,7 +15,7 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_020307B0  0x020307B0  arm
  *
- * Deferred icon upload (installed at +0xEBC by func_021F68A4): for each
+ * Deferred icon upload (installed at +0xEBC by WORLDTRADE_BOX_LoadBoxIcons): for each
  * of the 30 icon records at +0xEB8 that has a sprite (+8), flush and
  * load its 0x200 pixel bytes to its OBJ VRAM offset and set the sprite's
  * palette; then free the record block.
@@ -42,7 +42,7 @@ struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 func_020307B0(void *p);
 
-void func_021F6754(Work *p)
+void WORLDTRADE_BOX_TransferIconPalette(Work *p)
 {
     int i;
     IconRec *e;

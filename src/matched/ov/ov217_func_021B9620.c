@@ -15,7 +15,7 @@
  * symbols:
  *   func_021B96A0 0x021B96A0 thumb ov217
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
- *   func_021C09FC 0x021C09FC thumb ov217
+ *   RESEARCH_COMMON_SetInputFlag 0x021C09FC thumb ov217
  *   func_021B97B8 0x021B97B8 thumb ov217
  *   func_021B97BC 0x021B97BC thumb ov217
  *   func_021B97F8 0x021B97F8 thumb ov217
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 struct Ctx;
 extern void func_021B96A0(u32);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
-extern void func_021C09FC(void *);
+extern void RESEARCH_COMMON_SetInputFlag(void *);
 extern int func_021B97B8(void *a0);
 extern u32 func_021B97BC(u8 *);
 extern u32 func_021B97F8(u32);
@@ -42,7 +42,7 @@ int func_021B9620(void *unused, u32 *state, u32 unused2, u32 *p)
     u32 next;
     func_021B96A0((u32)p);
     if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)p[1]) != 0)
-        func_021C09FC((void *)p[3]);
+        RESEARCH_COMMON_SetInputFlag((void *)p[3]);
     switch (*state) {
     case 0: next = func_021B97B8(p); break;
     case 1: next = func_021B97BC((u8 *)p); break;

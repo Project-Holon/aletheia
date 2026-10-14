@@ -1,5 +1,5 @@
 /*
- * function: func_021FF02C
+ * function: BR_SIDEBAR_SetSlotVisible
  * address: 0x021FF02C
  * packet: pkt_ov186_021FF02C
  * region: ov186
@@ -18,4 +18,4 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021FF02C(u8 *p,u32 v){CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj24854 *)p)->f4,v);}
+void BR_SIDEBAR_SetSlotVisible(u8 *p,u32 v){CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj24854 *)p)->f4,v);}

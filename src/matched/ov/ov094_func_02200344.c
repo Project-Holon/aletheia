@@ -1,5 +1,5 @@
 /*
- * function: func_02200344
+ * function: BTLV_MCSS_StartRotation
  * address:  0x02200344
  * packet:   pkt_ov094_02200344
  * region:   ov094
@@ -12,10 +12,10 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_021F896C  0x021F896C  thumb  ov094
- *   func_02201408  0x02201408  thumb  ov094
- *   func_02201700  0x02201700  thumb  ov094
- *   d_0220AE7C     0x0220AE7C  data   ov094  a1
+ *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
+ *   BTLV_MCSS_RotationTaskMain  0x02201408  thumb  ov094
+ *   BTLV_MCSS_RotationTaskEnd  0x02201700  thumb  ov094
+ *   gBtlvMcssSourceFileName     0x0220AE7C  data   ov094  a1
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,16 +36,16 @@ typedef struct {
     int fc;                 /* 0x0c */
 } Obj;
 
-extern const char d_0220AE7C[];
+extern const char gBtlvMcssSourceFileName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_02201408(void *h);
-extern void func_02201700(void *h);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_MCSS_RotationTaskMain(void *h);
+extern void BTLV_MCSS_RotationTaskEnd(void *h);
 
-void func_02200344(Work *w, int a, int b, int flag)
+void BTLV_MCSS_StartRotation(Work *w, int a, int b, int flag)
 {
-    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x24, 0, d_0220AE7C, 0x8f2);
+    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
 
     o->w = w;
     o->a = 0;
@@ -53,5 +53,5 @@ void func_02200344(Work *w, int a, int b, int flag)
     o->f8 = a;
     o->fc = b;
     w->flags |= 4;
-    func_021F896C(func_02030DA8(w->owner, func_02201408, o, 0), func_02201700, 2);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(w->owner, BTLV_MCSS_RotationTaskMain, o, 0), BTLV_MCSS_RotationTaskEnd, 2);
 }

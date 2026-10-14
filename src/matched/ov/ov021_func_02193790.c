@@ -1,5 +1,5 @@
 /*
- * function: func_02193790
+ * function: FIELD_G3D_MAP_BLOCK_GetCollisionPlane
  * address:  0x02193790
  * packet:   pkt_ov021_02193790
  * region:   ov021
@@ -61,7 +61,7 @@ static inline void VecSet(Plane *p, int x, int y, int z)
     p->z = z;
 }
 
-void func_02193790(Plane *out, const int *map, Vec *pos, fx32 size, fx32 base)
+void FIELD_G3D_MAP_BLOCK_GetCollisionPlane(Plane *out, const int *map, Vec *pos, fx32 size, fx32 base)
 {
     fx32 half = size / 2;
     fx32 z = pos->z + half;

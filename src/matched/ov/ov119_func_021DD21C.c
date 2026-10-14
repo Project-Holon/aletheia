@@ -1,5 +1,5 @@
 /*
- * function: func_021DD21C
+ * function: POKETRADE_NEGO_CountOwnOffers
  * address: 0x021DD21C
  * packet: pkt_ov119_021DD21C
  * region: ov119
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  */
-int func_021DD21C(char *p)
+int POKETRADE_NEGO_CountOwnOffers(char *p)
 {
     int i, n = 0;
     for (i = 0; i < 3; i++) {

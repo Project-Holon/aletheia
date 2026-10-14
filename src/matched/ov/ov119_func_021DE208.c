@@ -1,5 +1,5 @@
 /*
- * function: func_021DE208
+ * function: POKETRADE_NEGO_PollOfferCursorKeys
  * address: 0x021DE208
  * packet: pkt_ov119_021DE208
  * region: ov119
@@ -23,7 +23,7 @@ static inline int poll(void)
     if(v) func_020355D8(0);
     return v;
 }
-int func_021DE208(char *p)
+int POKETRADE_NEGO_PollOfferCursorKeys(char *p)
 {
     int changed=0;
     int v;

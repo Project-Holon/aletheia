@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * note: 2026-10-05 EXACT. heap is a u8 parameter (TCBL_Create takes it as u16 with no
- *   narrowing). func_02202058 (ov094) returns its callee's pointer, but ov094_func_02202058.c
+ *   narrowing). BTLV_INPUT_CreateDefault (ov094) returns its callee's pointer, but ov094_func_02202058.c
  *   declares it void; this file declares it int. Owner file needs the return fixed.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   PDC_MAIN_InitGraphics 0x021B636C thumb ov098
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PDC_GetScene 0x021B6144 thumb ov098
- *   func_021F73F0 0x021F73F0 thumb ov094
- *   func_021F7544 0x021F7544 thumb ov094
+ *   BTLV_EFFECT_CreateSetup 0x021F73F0 thumb ov094
+ *   BTLV_EFFECT_Init 0x021F7544 thumb ov094
  *   func_020307B0 0x020307B0 arm
  *   PDC_GetGameData 0x021B613C thumb ov098
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_02202058 0x02202058 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_INPUT_CreateDefault 0x02202058 thumb ov094
  *   TCBL_Create 0x0203101C arm
  *   PDC_GetMon 0x021B6140 thumb ov098
  *   PDC_GetConfig 0x021B6150 thumb ov098
@@ -44,13 +44,13 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void PDC_MAIN_InitGraphics(u16);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern int PDC_GetScene(void *);
-extern void *func_021F73F0(int,int,void *,int,u16 *,int,int,u16);
-extern void func_021F7544(void *,int,u16);
+extern void *BTLV_EFFECT_CreateSetup(int,int,void *,int,u16 *,int,int,u16);
+extern void BTLV_EFFECT_Init(void *,int,u16);
 extern u32 func_020307B0(void *p);
 extern int PDC_GetGameData(void *);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 struct Obj;
-extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
+extern struct Obj *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern int PDC_GetMon(void *);
 extern u32 PDC_GetConfig(u8 *);
@@ -74,11 +74,11 @@ u8 *PDC_MAIN_Create(void *input,u8 heap)
     P(12)=GF_FONT_Create(23,2,0,0,H(0x6c));
     *(u32 *)(p+0x60)=0;
     h=gPdcViewParams;
-    q=func_021F73F0(0,0,(void *)PDC_GetScene(input),0,(u16 *)&h,0,0,H(0x6c));
-    func_021F7544(q,(int)P(12),H(0x6c));
+    q=BTLV_EFFECT_CreateSetup(0,0,(void *)PDC_GetScene(input),0,(u16 *)&h,0,0,H(0x6c));
+    BTLV_EFFECT_Init(q,(int)P(12),H(0x6c));
     func_020307B0(q);
     ctx=PDC_GetGameData(input);
-    P(16)=(void *)func_02202058(ctx,0,func_021F86E0(),(int)P(8),(int)(p+0x74),H(0x6c));
+    P(16)=(void *)BTLV_INPUT_CreateDefault(ctx,0,BTLV_EFFECT_GetPalanm(),(int)P(8),(int)(p+0x74),H(0x6c));
     P(24)=TCBL_Create(heap,heap,64,128);
     *(int *)(p+4)=PDC_GetMon(input);
     P(20)=PDC_MSG_Create(P(8),(void *)PDC_GetConfig(input),P(24),H(0x6c));

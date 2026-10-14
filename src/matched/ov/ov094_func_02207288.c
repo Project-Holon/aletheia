@@ -1,5 +1,5 @@
 /*
- * function: func_02207288
+ * function: BTLV_GAUGE_InitSlotFromPartyPoke
  * address: 0x02207288
  * packet: pkt_ov094_02207288
  * region: ov094
@@ -19,8 +19,8 @@
  *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
  *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
  *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
- *   func_0220793C 0x0220793C thumb ov094
- *   func_0220785C 0x0220785C thumb ov094
+ *   BTLV_GAUGE_UpdateHpBarPixels 0x0220793C thumb ov094
+ *   BTLV_GAUGE_UpdateSlot 0x0220785C thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,9 +40,9 @@ extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
 extern void BTLV_GAUGE_PlaceSlot(char *, int, Pt *);
 extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
-extern void func_0220793C(char *p);
-extern void func_0220785C(struct O *o, int unused, int idx, void *data);
-void func_02207288(W *p, void *a, void *q, int mode, int i)
+extern void BTLV_GAUGE_UpdateHpBarPixels(char *p);
+extern void BTLV_GAUGE_UpdateSlot(struct O *o, int unused, int idx, void *data);
+void BTLV_GAUGE_InitSlotFromPartyPoke(W *p, void *a, void *q, int mode, int i)
 {
     u32 x, y, exp;
     u16 species;
@@ -77,6 +77,6 @@ void func_02207288(W *p, void *a, void *q, int mode, int i)
     BTLV_GAUGE_SetStatusIcon((O *)p, POKE_TOOL_GetStatusCondition(q), i);
     BTLV_GAUGE_PlaceSlot((char *)p, i, 0);
     BTLV_GAUGE_SetSlotBarsVisible((W *)p, i, 1);
-    func_0220793C((char *)((S *)&p->rows[i]));
-    func_0220785C((struct O *)p, mode, i, q);
+    BTLV_GAUGE_UpdateHpBarPixels((char *)((S *)&p->rows[i]));
+    BTLV_GAUGE_UpdateSlot((struct O *)p, mode, i, q);
 }

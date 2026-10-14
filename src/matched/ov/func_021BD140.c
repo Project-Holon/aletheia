@@ -1,5 +1,5 @@
 /*
- * function: func_021BD140
+ * function: ZUKAN_DETAIL_GRAPHIC_EndDraw
  * address:  0x021BD140
  * packet:   pkt_021BD140
  * region:   ov208
@@ -17,7 +17,7 @@
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-void func_021BD140(char *p)
+void ZUKAN_DETAIL_GRAPHIC_EndDraw(char *p)
 {
     G3D_SYSTEM_DrawEnd();
 }

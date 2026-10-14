@@ -1,5 +1,5 @@
 /*
- * function: func_022018A8
+ * function: BTLV_MCSS_CalcSlotPosition
  * address:  0x022018A8
  * packet:   pkt_ov094_022018A8
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220A050  0x0220A050  data  ov094
- *   d_0220A080  0x0220A080  data  ov094
- *   d_0220A110  0x0220A110  data  ov094
- *   d_0220A158  0x0220A158  data  ov094
- *   d_0220A1A0  0x0220A1A0  data  ov094
+ *   gBtlvMcssSlotPosSingle  0x0220A050  data  ov094
+ *   gBtlvMcssSlotPosDouble  0x0220A080  data  ov094
+ *   gBtlvMcssSlotPosTrainer  0x0220A110  data  ov094
+ *   gBtlvMcssSlotPosTriple  0x0220A158  data  ov094
+ *   gBtlvMcssSlotPosRotation  0x0220A1A0  data  ov094
  */
 typedef struct {
     int x, y, z;
@@ -30,38 +30,38 @@ typedef struct {
     Flags flags;
 } Unit;
 
-extern const Vec d_0220A050[];
-extern const Vec d_0220A080[];
-extern const Vec d_0220A110[];
-extern const Vec d_0220A158[];
-extern const Vec d_0220A1A0[];
+extern const Vec gBtlvMcssSlotPosSingle[];
+extern const Vec gBtlvMcssSlotPosDouble[];
+extern const Vec gBtlvMcssSlotPosTrainer[];
+extern const Vec gBtlvMcssSlotPosTriple[];
+extern const Vec gBtlvMcssSlotPosRotation[];
 
-void func_022018A8(Unit *u, Vec *out, int i)
+void BTLV_MCSS_CalcSlotPosition(Unit *u, Vec *out, int i)
 {
     const Vec *t = (const Vec *)u;
 
     switch (i) {
     case 0:
     case 1:
-        t = &d_0220A050[i];
+        t = &gBtlvMcssSlotPosSingle[i];
         break;
     case 2:
     case 3:
     case 4:
     case 5:
         if (u->flags.b1)
-            t = &d_0220A1A0[i - 2];
+            t = &gBtlvMcssSlotPosRotation[i - 2];
         else if (u->flags.b0)
-            t = &d_0220A158[i - 2];
+            t = &gBtlvMcssSlotPosTriple[i - 2];
         else
-            t = &d_0220A080[i - 2];
+            t = &gBtlvMcssSlotPosDouble[i - 2];
         break;
     case 6:
     case 7:
         if (u->flags.b1)
-            t = &d_0220A1A0[i - 2];
+            t = &gBtlvMcssSlotPosRotation[i - 2];
         else
-            t = &d_0220A158[i - 2];
+            t = &gBtlvMcssSlotPosTriple[i - 2];
         break;
     case 8:
     case 9:
@@ -69,7 +69,7 @@ void func_022018A8(Unit *u, Vec *out, int i)
     case 11:
     case 12:
     case 13:
-        t = &d_0220A110[i - 8];
+        t = &gBtlvMcssSlotPosTrainer[i - 8];
         break;
     }
     out->x = t->x;

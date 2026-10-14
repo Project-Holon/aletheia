@@ -1,5 +1,5 @@
 /*
- * function: func_021D5020
+ * function: GSYNC_MENU_StateSaveStart
  * address: 0x021D5020
  * packet: pkt_ov123_021D5020
  * region: ov123
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4E7C 0x021D4E7C thumb ov123
+ *   GSYNC_MENU_UpdateMessageStream 0x021D4E7C thumb ov123
  *   GAME_DATA_SaveStart 0x02012DAC thumb
- *   func_021D4244 0x021D4244 thumb ov123
- *   func_021D4FEC 0x021D4FEC thumb ov123
+ *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
+ *   GSYNC_MENU_StateSaveFinish 0x021D4FEC thumb ov123
  */
 #include "../include/Obj22939.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D4E7C(char *);
+extern int GSYNC_MENU_UpdateMessageStream(char *);
 extern int GAME_DATA_SaveStart(int a0);
-extern void func_021D4244(char *,void *,int);
-extern void func_021D4FEC(char *);
-void func_021D5020(char *p) { if(func_021D4E7C(p)) { GAME_DATA_SaveStart((int)(((struct Obj22939 *)p)->f260)); func_021D4244(p,func_021D4FEC,0x4fa); } }
+extern void GSYNC_MENU_ChangeState(char *,void *,int);
+extern void GSYNC_MENU_StateSaveFinish(char *);
+void GSYNC_MENU_StateSaveStart(char *p) { if(GSYNC_MENU_UpdateMessageStream(p)) { GAME_DATA_SaveStart((int)(((struct Obj22939 *)p)->f260)); GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateSaveFinish,0x4fa); } }

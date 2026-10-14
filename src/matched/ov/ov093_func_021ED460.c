@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_SCU_ShowMonSlot  0x021EDA04  thumb  ov093
  *   TCBL_DeleteTask  0x02031194  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Q { u8 *a; u16 state; u8 *cnt; };
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 struct E;
 extern void BTLV_SCU_ShowMonSlot(struct E *e);
 struct TcblNode;
@@ -26,7 +26,7 @@ void BTLV_SCU_TaskMonSendOut(void *task, struct Q *q)
 {
     switch (q->state) {
     case 0:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTLV_SCU_ShowMonSlot((struct E *)q->a);
             q->state = q->state + 1;
         }

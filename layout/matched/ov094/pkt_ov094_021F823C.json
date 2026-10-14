@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F823C",
+   "name": "BTLV_EFFECT_CreatePartyBallBar",
    "address": "0x021F823C",
    "kind": "game",
    "region": "ov094",

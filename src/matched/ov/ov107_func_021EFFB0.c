@@ -1,5 +1,5 @@
 /*
- * function: func_021EFFB0
+ * function: MB_COMM_SYS_MainChildFlow
  * address:  0x021EFFB0
  * packet:   pkt_ov107_021EFFB0
  * region:   ov107
@@ -9,36 +9,36 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021F1060  0x021F1060  thumb  ov107
+ *   MB_COMM_SYS_GetCommStage  0x021F1060  thumb  ov107
  *   func_02012FFC  0x02012FFC  thumb
- *   func_021F1704  0x021F1704  thumb  ov107
- *   func_021F1B24  0x021F1B24  thumb  ov107
- *   func_021F1028  0x021F1028  thumb  ov107
- *   func_021F1110  0x021F1110  thumb  ov107
- *   func_021F1118  0x021F1118  thumb  ov107
- *   func_021F1120  0x021F1120  thumb  ov107
- *   func_021F1134  0x021F1134  thumb  ov107
- *   func_021F1148  0x021F1148  thumb  ov107
- *   func_021F115C  0x021F115C  thumb  ov107
- *   func_021F1164  0x021F1164  thumb  ov107
- *   func_021F116C  0x021F116C  thumb  ov107
- *   func_021F11BC  0x021F11BC  thumb  ov107
- *   func_021F1898  0x021F1898  thumb  ov107
- *   func_021F1628  0x021F1628  thumb  ov107
- *   func_021F18D8  0x021F18D8  thumb  ov107
- *   func_021F1900  0x021F1900  thumb  ov107
- *   func_021F18EC  0x021F18EC  thumb  ov107
- *   func_021F1B14  0x021F1B14  thumb  ov107
- *   func_021F19E4  0x021F19E4  thumb  ov107
- *   func_021F1A2C  0x021F1A2C  thumb  ov107
+ *   MB_UTIL_MSG_PrintStream  0x021F1704  thumb  ov107
+ *   MB_UTIL_MSG_SetKeyWaitFlag  0x021F1B24  thumb  ov107
+ *   MB_COMM_SYS_SetSyncRange  0x021F1028  thumb  ov107
+ *   MB_COMM_SYS_HasKind19  0x021F1110  thumb  ov107
+ *   MB_COMM_SYS_GetOfferCount  0x021F1118  thumb  ov107
+ *   MB_COMM_SYS_GetOfferExtra  0x021F1120  thumb  ov107
+ *   MB_COMM_SYS_GetOfferFlagA  0x021F1134  thumb  ov107
+ *   MB_COMM_SYS_GetOfferFlagB  0x021F1148  thumb  ov107
+ *   MB_COMM_SYS_HasKind20  0x021F115C  thumb  ov107
+ *   MB_COMM_SYS_HasKind21  0x021F1164  thumb  ov107
+ *   MB_COMM_SYS_GetKind21Value  0x021F116C  thumb  ov107
+ *   MB_COMM_SYS_HasMonsReceived  0x021F11BC  thumb  ov107
+ *   MB_UTIL_MSG_ClearWindow  0x021F1898  thumb  ov107
+ *   MB_UTIL_MSG_SetWindowLayout  0x021F1628  thumb  ov107
+ *   MB_UTIL_MSG_CreateWordSet  0x021F18D8  thumb  ov107
+ *   MB_UTIL_MSG_SetNumberLeft  0x021F1900  thumb  ov107
+ *   MB_UTIL_MSG_DeleteWordSet  0x021F18EC  thumb  ov107
+ *   MB_UTIL_MSG_IsStreamIdle  0x021F1B14  thumb  ov107
+ *   MB_UTIL_MSG_OpenYesNoMenu  0x021F19E4  thumb  ov107
+ *   MB_UTIL_MSG_ProcessYesNoMenu  0x021F1A2C  thumb  ov107
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_02007774  0x02007774  thumb
- *   func_021F1A24  0x021F1A24  thumb  ov107
- *   func_021F11F0  0x021F11F0  thumb  ov107
- *   func_021F17E0  0x021F17E0  thumb  ov107
- *   func_021F1B38  0x021F1B38  thumb  ov107
- *   func_021EFD98  0x021EFD98  thumb  ov107
- *   func_021F1184  0x021F1184  thumb  ov107
+ *   MB_UTIL_MSG_ClearYesNoMenu  0x021F1A24  thumb  ov107
+ *   MB_COMM_SYS_SendMessage  0x021F11F0  thumb  ov107
+ *   MB_UTIL_MSG_PrintQueued  0x021F17E0  thumb  ov107
+ *   MB_UTIL_MSG_SetTimeIconPending  0x021F1B38  thumb  ov107
+ *   MB_COMM_SYS_RegisterReceivedMons  0x021EFD98  thumb  ov107
+ *   MB_COMM_SYS_ClearMonBuffer  0x021F1184  thumb  ov107
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
@@ -71,40 +71,40 @@ typedef struct {
     void *f68;
 } Ov107Main;
 
-int func_021F1060(void *);
+int MB_COMM_SYS_GetCommStage(void *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 signed char func_02012FFC(void);
-void func_021F1704(void *, int, int);
-void func_021F1B24(void *, int);
-void func_021F1028(int *p);
-int func_021F1110(void *);
-int func_021F1118(void *);
-int func_021F1120(void *);
-int func_021F1134(void *);
-int func_021F1148(void *);
-int func_021F115C(void *);
-int func_021F1164(void *);
-int func_021F116C(void *);
-int func_021F11BC(void *);
-void func_021F1898(void *);
-void func_021F1628(void *, int);
-void func_021F18D8(void *);
-void func_021F1900(void *, int, int, int);
-void func_021F18EC(void *);
-int func_021F1B14(void *);
-void func_021F19E4(void *, int);
-int func_021F1A2C(void *);
+void MB_UTIL_MSG_PrintStream(void *, int, int);
+void MB_UTIL_MSG_SetKeyWaitFlag(void *, int);
+void MB_COMM_SYS_SetSyncRange(int *p);
+int MB_COMM_SYS_HasKind19(void *);
+int MB_COMM_SYS_GetOfferCount(void *);
+int MB_COMM_SYS_GetOfferExtra(void *);
+int MB_COMM_SYS_GetOfferFlagA(void *);
+int MB_COMM_SYS_GetOfferFlagB(void *);
+int MB_COMM_SYS_HasKind20(void *);
+int MB_COMM_SYS_HasKind21(void *);
+int MB_COMM_SYS_GetKind21Value(void *);
+int MB_COMM_SYS_HasMonsReceived(void *);
+void MB_UTIL_MSG_ClearWindow(void *);
+void MB_UTIL_MSG_SetWindowLayout(void *, int);
+void MB_UTIL_MSG_CreateWordSet(void *);
+void MB_UTIL_MSG_SetNumberLeft(void *, int, int, int);
+void MB_UTIL_MSG_DeleteWordSet(void *);
+int MB_UTIL_MSG_IsStreamIdle(void *);
+void MB_UTIL_MSG_OpenYesNoMenu(void *, int);
+int MB_UTIL_MSG_ProcessYesNoMenu(void *);
 u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 int func_02007774(void *);
-void func_021F1A24(u8 *p);
-int func_021F11F0(void *p, unsigned char kind, unsigned int val);
-void func_021F17E0(void *, int);
-void func_021F1B38(u8 *p, u32 v);
-void func_021EFD98(Ov107Main *);
-void func_021F1184(void *);
+void MB_UTIL_MSG_ClearYesNoMenu(u8 *p);
+int MB_COMM_SYS_SendMessage(void *p, unsigned char kind, unsigned int val);
+void MB_UTIL_MSG_PrintQueued(void *, int);
+void MB_UTIL_MSG_SetTimeIconPending(u8 *p, u32 v);
+void MB_COMM_SYS_RegisterReceivedMons(Ov107Main *);
+void MB_COMM_SYS_ClearMonBuffer(void *);
 void *GAME_DATA_GetMyItem(const struct BigObj *p);
 u8 *GAME_DATA_GetMyStatus(void *p);
 void *GAME_DATA_GetMiscSave(int *p);
@@ -112,7 +112,7 @@ int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
 u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 
-void func_021EFFB0(Ov107Main *p)
+void MB_COMM_SYS_MainChildFlow(Ov107Main *p)
 {
     int a;
     int b;
@@ -122,29 +122,29 @@ void func_021EFFB0(Ov107Main *p)
 
     switch (p->state) {
     case 0:
-        if (func_021F1060(p->f0C) == 10 || func_021F1060(p->f0C) == 12) {
-            func_021F1704(p->f68, 0x29, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F1028(p->f0C);
+        if (MB_COMM_SYS_GetCommStage(p->f0C) == 10 || MB_COMM_SYS_GetCommStage(p->f0C) == 12) {
+            MB_UTIL_MSG_PrintStream(p->f68, 0x29, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
+            MB_COMM_SYS_SetSyncRange(p->f0C);
             p->f20 = 0x1B;
         }
-        if (func_021F1060(p->f0C) == 11) {
-            func_021F1704(p->f68, 0x2C, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F1028(p->f0C);
+        if (MB_COMM_SYS_GetCommStage(p->f0C) == 11) {
+            MB_UTIL_MSG_PrintStream(p->f68, 0x2C, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
+            MB_COMM_SYS_SetSyncRange(p->f0C);
             p->f20 = 0x1B;
         }
-        if (func_021F1110(p->f0C) == 1) {
-            a = func_021F1118(p->f0C);
-            b = func_021F1120(p->f0C);
+        if (MB_COMM_SYS_HasKind19(p->f0C) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->f0C);
+            b = MB_COMM_SYS_GetOfferExtra(p->f0C);
             if (a != 0) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 5);
-                func_021F18D8(p->f68);
-                func_021F1900(p->f68, 0, a + b, 3);
-                func_021F1704(p->f68, 0x16, func_02012FFC());
-                func_021F1B24(p->f68, 1);
-                func_021F18EC(p->f68);
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
+                MB_UTIL_MSG_CreateWordSet(p->f68);
+                MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a + b, 3);
+                MB_UTIL_MSG_PrintStream(p->f68, 0x16, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
+                MB_UTIL_MSG_DeleteWordSet(p->f68);
                 p->state = 1;
             } else {
                 p->state = 0x13;
@@ -152,17 +152,17 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 1:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->f68, 1);
             p->state = 2;
         }
         break;
     case 2:
-        p->f34 = func_021F1A2C(p->f68);
+        p->f34 = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (p->f34 == 1) {
-            b = func_021F1118(p->f0C);
+            b = MB_COMM_SYS_GetOfferCount(p->f0C);
             a = (unsigned short)func_02007774((void *)GAME_DATA_GetBoxManager(p->f08->f04));
-            func_021F1A24(p->f68);
+            MB_UTIL_MSG_ClearYesNoMenu(p->f68);
             if ((unsigned int)a < (unsigned int)b) {
                 p->f40 = 1;
                 p->state = 0xD;
@@ -175,46 +175,46 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 3:
-        if (func_021F1120(p->f0C) != 0) {
-            a = func_021F1118(p->f0C);
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 1);
-            func_021F18D8(p->f68);
-            func_021F1900(p->f68, 0, a, 3);
-            func_021F1704(p->f68, 0x24, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F18EC(p->f68);
+        if (MB_COMM_SYS_GetOfferExtra(p->f0C) != 0) {
+            a = MB_COMM_SYS_GetOfferCount(p->f0C);
+            MB_UTIL_MSG_ClearWindow(p->f68);
+            MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+            MB_UTIL_MSG_CreateWordSet(p->f68);
+            MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->f68, 0x24, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->f68);
             p->state = 4;
         } else {
             p->state = 5;
         }
         break;
     case 4:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 5;
         }
         break;
     case 5:
-        if (func_021F1134(p->f0C) == 1) {
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 5);
-            func_021F1704(p->f68, 0x1A, func_02012FFC());
+        if (MB_COMM_SYS_GetOfferFlagA(p->f0C) == 1) {
+            MB_UTIL_MSG_ClearWindow(p->f68);
+            MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
+            MB_UTIL_MSG_PrintStream(p->f68, 0x1A, func_02012FFC());
             p->state = 6;
         } else {
             p->state = 0xD;
         }
         break;
     case 6:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->f68, 1);
             p->state = 7;
         }
         break;
     case 7:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (a == 1) {
-            if (func_021F1148(p->f0C) == 1) {
-                func_021F1704(p->f68, 0x1B, func_02012FFC());
+            if (MB_COMM_SYS_GetOfferFlagB(p->f0C) == 1) {
+                MB_UTIL_MSG_PrintStream(p->f68, 0x1B, func_02012FFC());
                 p->state = 8;
             } else {
                 p->state = 0xD;
@@ -224,13 +224,13 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 8:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->f68, 1);
             p->state = 9;
         }
         break;
     case 9:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (a == 1) {
             p->state = 0xD;
         } else if (a == 2) {
@@ -238,17 +238,17 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 10:
-        func_021F1704(p->f68, 0x1C, func_02012FFC());
+        MB_UTIL_MSG_PrintStream(p->f68, 0x1C, func_02012FFC());
         p->state = 0xB;
         break;
     case 11:
-        if (func_021F1B14(p->f68) == 1) {
-            func_021F19E4(p->f68, 1);
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
+            MB_UTIL_MSG_OpenYesNoMenu(p->f68, 1);
             p->state = 0xC;
         }
         break;
     case 12:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (a == 1) {
             p->f34 = 2;
             p->state = 0xD;
@@ -266,13 +266,13 @@ void func_021EFFB0(Ov107Main *p)
         } else {
             a = 1;
         }
-        if (func_021F11F0(p->f0C, 0xF, a) == 1) {
+        if (MB_COMM_SYS_SendMessage(p->f0C, 0xF, a) == 1) {
             if (a == 0) {
                 p->state = 0xE;
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F17E0(p->f68, 0x19);
-                func_021F1B38(p->f68, 1);
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+                MB_UTIL_MSG_PrintQueued(p->f68, 0x19);
+                MB_UTIL_MSG_SetTimeIconPending(p->f68, 1);
             } else if (a == 2) {
                 p->state = 0x11;
             } else {
@@ -281,51 +281,51 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 14:
-        if (func_021F11BC(p->f0C) == 1) {
-            func_021EFD98(p);
+        if (MB_COMM_SYS_HasMonsReceived(p->f0C) == 1) {
+            MB_COMM_SYS_RegisterReceivedMons(p);
             p->state = 0xF;
         }
-        if (func_021F115C(p->f0C) == 1) {
-            a = func_021F1118(p->f0C);
-            func_021F1898(p->f68);
-            func_021F1628(p->f68, 1);
-            func_021F18D8(p->f68);
-            func_021F1900(p->f68, 0, a, 3);
-            func_021F1704(p->f68, 0x1E, func_02012FFC());
-            func_021F1B24(p->f68, 1);
-            func_021F18EC(p->f68);
+        if (MB_COMM_SYS_HasKind20(p->f0C) == 1) {
+            a = MB_COMM_SYS_GetOfferCount(p->f0C);
+            MB_UTIL_MSG_ClearWindow(p->f68);
+            MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+            MB_UTIL_MSG_CreateWordSet(p->f68);
+            MB_UTIL_MSG_SetNumberLeft(p->f68, 0, a, 3);
+            MB_UTIL_MSG_PrintStream(p->f68, 0x1E, func_02012FFC());
+            MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
+            MB_UTIL_MSG_DeleteWordSet(p->f68);
             p->state = 0x10;
             p->f44 = 1;
         }
         break;
     case 15:
-        if (func_021F11F0(p->f0C, 0, 0) == 1) {
-            func_021F1184(p->f0C);
+        if (MB_COMM_SYS_SendMessage(p->f0C, 0, 0) == 1) {
+            MB_COMM_SYS_ClearMonBuffer(p->f0C);
             p->state = 0xE;
         }
         break;
     case 16:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 0x13;
         }
         break;
     case 17:
-        func_021F1898(p->f68);
-        func_021F1628(p->f68, 5);
-        func_021F1704(p->f68, 0x18, func_02012FFC());
+        MB_UTIL_MSG_ClearWindow(p->f68);
+        MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
+        MB_UTIL_MSG_PrintStream(p->f68, 0x18, func_02012FFC());
         p->state = 0x12;
         break;
     case 18:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 0x13;
         }
         break;
     case 19:
-        if (func_021F1164(p->f0C) == 1) {
-            if (func_021F116C(p->f0C) == 1) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 5);
-                func_021F1704(p->f68, 0x1F, func_02012FFC());
+        if (MB_COMM_SYS_HasKind21(p->f0C) == 1) {
+            if (MB_COMM_SYS_GetKind21Value(p->f0C) == 1) {
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 5);
+                MB_UTIL_MSG_PrintStream(p->f68, 0x1F, func_02012FFC());
                 p->state = 0x14;
             } else {
                 p->state = 0x19;
@@ -333,13 +333,13 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 20:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 0x15;
-            func_021F19E4(p->f68, 1);
+            MB_UTIL_MSG_OpenYesNoMenu(p->f68, 1);
         }
         break;
     case 21:
-        a = func_021F1A2C(p->f68);
+        a = MB_UTIL_MSG_ProcessYesNoMenu(p->f68);
         if (a == 1 || a == 2) {
             c = GAME_DATA_GetMyItem(p->f08->f04);
             d = GAME_DATA_GetMyStatus(p->f08->f04);
@@ -347,10 +347,10 @@ void func_021EFFB0(Ov107Main *p)
             if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(e, 0, d) == 1) {
                 p->f34 = 2;
                 p->state = 0x16;
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x25, func_02012FFC());
-                func_021F1B24(p->f68, 1);
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+                MB_UTIL_MSG_PrintStream(p->f68, 0x25, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             } else {
                 p->f34 = a;
                 p->state = 0x17;
@@ -358,7 +358,7 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 22:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 0x17;
         }
         break;
@@ -367,15 +367,15 @@ void func_021EFFB0(Ov107Main *p)
         if (p->f34 != 1) {
             a = 0;
         }
-        if (func_021F11F0(p->f0C, 0x10, a) == 1) {
+        if (MB_COMM_SYS_SendMessage(p->f0C, 0x10, a) == 1) {
             if (a == 1) {
                 c = GAME_DATA_GetMyItem(p->f08->f04);
                 d = GAME_DATA_GetMyStatus(p->f08->f04);
                 e = GAME_DATA_GetMiscSave(p->f08->f04);
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x21, func_02012FFC());
-                func_021F1B24(p->f68, 1);
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+                MB_UTIL_MSG_PrintStream(p->f68, 0x21, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
                 FIELD_G3D_MAP_StoreBeaconTrainerKey(e, 0, d);
                 func_02007E50(c, 0x215, 1, p->f00);
                 p->f48 = 1;
@@ -386,21 +386,21 @@ void func_021EFFB0(Ov107Main *p)
         }
         break;
     case 24:
-        if (func_021F1B14(p->f68) == 1) {
+        if (MB_UTIL_MSG_IsStreamIdle(p->f68) == 1) {
             p->state = 0x19;
         }
         break;
     case 25:
         if (p->f44 == 1 || p->f48 == 1) {
-            if (func_021F11F0(p->f0C, 0x11, 0) == 1) {
+            if (MB_COMM_SYS_SendMessage(p->f0C, 0x11, 0) == 1) {
                 p->f20 = 0x13;
             }
         } else {
-            if (func_021F1118(p->f0C) == 0 && func_021F116C(p->f0C) == 0) {
-                func_021F1898(p->f68);
-                func_021F1628(p->f68, 1);
-                func_021F1704(p->f68, 0x28, func_02012FFC());
-                func_021F1B24(p->f68, 1);
+            if (MB_COMM_SYS_GetOfferCount(p->f0C) == 0 && MB_COMM_SYS_GetKind21Value(p->f0C) == 0) {
+                MB_UTIL_MSG_ClearWindow(p->f68);
+                MB_UTIL_MSG_SetWindowLayout(p->f68, 1);
+                MB_UTIL_MSG_PrintStream(p->f68, 0x28, func_02012FFC());
+                MB_UTIL_MSG_SetKeyWaitFlag(p->f68, 1);
             }
             p->f20 = 0x1B;
         }

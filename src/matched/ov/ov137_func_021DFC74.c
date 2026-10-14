@@ -1,5 +1,5 @@
 /*
- * function: func_021DFC74
+ * function: GURU2_MAIN_LoadBgPalette
  * address: 0x021DFC74
  * packet: pkt_ov137_021DFC74
  * region: ov137
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E1634 0x021E1634 thumb ov137
+ *   GURU2_MAIN_LoadArcMember 0x021E1634 thumb ov137
  *   func_02062A98 0x02062A98 arm
  *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_020307B0 0x020307B0 arm
@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021E1634(char *,u32,int);
+extern void *GURU2_MAIN_LoadArcMember(char *,u32,int);
 typedef signed int     s32;
 struct NitroFileHeader;
 struct PalAnmSlot;
@@ -40,53 +40,53 @@ extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern int func_02062B30(void *,void **);
 extern void func_02040AE0(u32,const void *,u32);
 extern void func_020409B4(u32);
-void func_021DFC74(char *p)
+void GURU2_MAIN_LoadBgPalette(char *p)
 {
     void *buf;
     u8 *data;
-    buf=func_021E1634(p,17,0);
+    buf=GURU2_MAIN_LoadArcMember(p,17,0);
     func_02062A98(buf,(void **)(p+0xd64));
     PALANM_CopyToSlot(((struct Obj00835 *)p)->fD78,((struct Obj23767 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,0,0,64);
     func_020307B0(buf);
-    buf=func_021E1634(p,20,0);
+    buf=GURU2_MAIN_LoadArcMember(p,20,0);
     func_02062A98(buf,(void **)(p+0xd64));
     PALANM_CopyToSlot(((struct Obj00835 *)p)->fD78,((struct Obj23768 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,1,0,64);
     func_020307B0(buf);
     PALANM_BlendChannelMask(*(u32 *)&((struct Obj00835 *)p)->fD78,1,65535,8,0);
-    buf=func_021E1634(p,16,0);
+    buf=GURU2_MAIN_LoadArcMember(p,16,0);
     func_02062A00(buf,(void **)(p+0xd60));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
     func_02040B1C(3,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
-    buf=func_021E1634(p,22,0);
+    buf=GURU2_MAIN_LoadArcMember(p,22,0);
     func_02062A00(buf,(void **)(p+0xd60));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
     func_02040B1C(6,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
-    buf=func_021E1634(p,21,0);
+    buf=GURU2_MAIN_LoadArcMember(p,21,0);
     func_02062A00(buf,(void **)(p+0xd60));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
     func_02040B1C(7,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
-    buf=func_021E1634(p,19,0);
+    buf=GURU2_MAIN_LoadArcMember(p,19,0);
     func_02062B30(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     func_02040AE0(2,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(2);
     func_020307B0(buf);
-    buf=func_021E1634(p,18,0);
+    buf=GURU2_MAIN_LoadArcMember(p,18,0);
     func_02062B30(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     func_02040AE0(3,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(3);
     func_020307B0(buf);
-    buf=func_021E1634(p,24,0);
+    buf=GURU2_MAIN_LoadArcMember(p,24,0);
     func_02062B30(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     func_02040AE0(6,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(6);
     func_020307B0(buf);
-    buf=func_021E1634(p,23,0);
+    buf=GURU2_MAIN_LoadArcMember(p,23,0);
     func_02062B30(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     func_02040AE0(7,data+12,((struct Obj02870 *)data)->f8);

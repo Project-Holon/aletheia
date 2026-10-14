@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA68
+ * function: GURU2_MAIN_Setup3dState
  * address: 0x021DFA68
  * packet: pkt_ov137_021DFA68
  * region: ov137
@@ -11,14 +11,14 @@
  * symbols:
  *   func_0207DCF8 0x0207DCF8 arm
  *   G3X_SetClearColor 0x0207DD24 arm
- *   d_021E1D90 0x021E1D90 data a2
+ *   gGuru2ToonTable 0x021E1D90 data a2
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
 extern void func_0207DCF8(const u16 *);
 extern void G3X_SetClearColor(u16, int, int, int, int);
-extern const u16 d_021E1D90[];
+extern const u16 gGuru2ToonTable[];
 #define DISP3D (*(volatile u16 *)0x04000060)
 static inline void G3X_SetShading(GXShading shading)
 {
@@ -46,14 +46,14 @@ static inline void G3X_EdgeMarking(int enable)
     if (enable) DISP3D = (u16)((DISP3D & ~0x3000) | 32);
     else DISP3D &= (u16)~0x3020;
 }
-void func_021DFA68(void)
+void GURU2_MAIN_Setup3dState(void)
 {
     G3X_SetShading(GX_SHADING_TOON);
     G3X_AntiAlias(1);
     G3X_AlphaTest(0, 0);
     G3X_AlphaBlend(1);
     G3X_EdgeMarking(1);
-    func_0207DCF8(d_021E1D90);
+    func_0207DCF8(gGuru2ToonTable);
     G3X_SetClearColor(0x7fff, 0, 0x7fff, 63, 0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
 }

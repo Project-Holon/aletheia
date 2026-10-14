@@ -1,5 +1,5 @@
 /*
- * function: func_021FEAA0
+ * function: BTLV_EFFVM_IsMultiSideResourceId
  * address:  0x021FEAA0
  * packet:   pkt_ov094_021FEAA0
  * region:   ov094
@@ -14,7 +14,7 @@
  */
 extern int d_02209DD8[];
 
-int func_021FEAA0(int v)
+int BTLV_EFFVM_IsMultiSideResourceId(int v)
 {
     unsigned int i;
 

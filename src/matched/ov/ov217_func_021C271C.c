@@ -1,5 +1,5 @@
 /*
- * function: func_021C271C
+ * function: PERCENTAGE_SetPosition
  * address:  0x021C271C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C278C  0x021C278C  thumb  ov217
- *   func_021C288C  0x021C288C  thumb  ov217
+ *   PERCENTAGE_Layout  0x021C278C  thumb  ov217
+ *   PERCENTAGE_StorePosition  0x021C288C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C278C();
-extern void func_021C288C(void *p, u32 a, u32 b);
-u32 func_021C271C(u32 a0, u32 a1, u32 a2)
+extern u32 PERCENTAGE_Layout();
+extern void PERCENTAGE_StorePosition(void *p, u32 a, u32 b);
+u32 PERCENTAGE_SetPosition(u32 a0, u32 a1, u32 a2)
 {
-    func_021C288C((void *)a0, a1, a2);
-    return func_021C278C(a0);
+    PERCENTAGE_StorePosition((void *)a0, a1, a2);
+    return PERCENTAGE_Layout(a0);
 }
 

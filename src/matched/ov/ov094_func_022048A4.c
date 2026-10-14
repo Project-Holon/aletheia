@@ -1,5 +1,5 @@
 /*
- * function: func_022048A4
+ * function: BTLV_INPUT_PaletteFlashTaskMain
  * address:  0x022048A4
  * packet:   pkt_ov094_022048A4
  * region:   ov094
@@ -12,7 +12,7 @@
  *   d_0220A3B4     0x0220A3B4  data   ov094  a4
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef short s16;
 typedef unsigned int u32;
@@ -35,9 +35,9 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_022048A4(int a0, Ctx *c)
+void BTLV_INPUT_PaletteFlashTaskMain(int a0, Ctx *c)
 {
     int k;
     int changed = 0;
@@ -69,6 +69,6 @@ void func_022048A4(int a0, Ctx *c)
         }
     }
     if (changed == 0) {
-        func_0220687C((char *)c->main, (void *)a0);
+        BTLV_INPUT_DeleteTask((char *)c->main, (void *)a0);
     }
 }

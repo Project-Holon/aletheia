@@ -1,5 +1,5 @@
 /*
- * function: func_01FF836C
+ * function: OSi_VerifyStaticSegments
  * address:  0x01FF836C
  * packet:   pkt_01FF836C
  * region:   arm9_autoload0_ITCM
@@ -43,7 +43,7 @@
  *   +0x94 399  while (result == FALSE) -- the fail-stop spin
  *
  * symbols:
- *   func_01FF82A8    0x01FF82A8  thumb
+ *   OSi_VerifyStaticSegmentHash    0x01FF82A8  thumb
  */
 
 typedef unsigned char u8;
@@ -51,9 +51,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
 
-extern BOOL func_01FF82A8(const u8 *src, u32 len, const void *digest);
+extern BOOL OSi_VerifyStaticSegmentHash(const u8 *src, u32 len, const void *digest);
 
-void func_01FF836C(void)
+void OSi_VerifyStaticSegments(void)
 {
     BOOL result = 1;
     const u8 *header = (const u8 *)0x02FFE000;
@@ -82,7 +82,7 @@ void func_01FF836C(void)
                 address += 0x4000;
                 size -= 0x4000;
             }
-            result &= func_01FF82A8(address, size, compareDigests[i]);
+            result &= OSi_VerifyStaticSegmentHash(address, size, compareDigests[i]);
         }
     }
     while (result == 0)

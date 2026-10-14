@@ -1,5 +1,5 @@
 /*
- * function: func_021B6210
+ * function: HALL_OF_FAME_InitGraphicsSystem
  * address: 0x021B6210
  * packet: pkt_ov180_021B6210
  * region: ov180
@@ -10,4 +10,4 @@
  */
 typedef unsigned short u16;
 extern void func_0203F8F4(u16);
-void func_021B6210(void) { func_0203F8F4(141); }
+void HALL_OF_FAME_InitGraphicsSystem(void) { func_0203F8F4(141); }

@@ -2052,7 +2052,7 @@ u8 MCSS_GetStopCellIndex(McssWork *work, u8 i)
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the u16 at
  * +4 of the table the word at +0x2C points to (`ldrh` proves unsigned).
- * Witness for the call from ov119 func_021E33FC at 0x021E3520.
+ * Witness for the call from ov119 POKETRADE_3D_SetMcssOffsetForSpecies at 0x021E3520.
  */
 u16 MCSS_GetSizeX(McssWork *work)
 {

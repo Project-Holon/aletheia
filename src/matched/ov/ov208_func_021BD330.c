@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD330
+ * function: ZKND_TBAR_SetButtonDrawEnable
  * address:  0x021BD330
  * packet:   pkt_ov208_021BD330
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD7FC  0x021BD7FC  thumb
+ *   ZKND_TBAR_SetActorDrawEnable  0x021BD7FC  thumb
  */
 
 typedef unsigned int u32;
@@ -21,12 +21,12 @@ struct Ov208Mgr {
 };
 
 struct Obj;
-extern void func_021BD7FC(struct Obj **p, unsigned int v);
+extern void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int v);
 
-void ov208_func_021BD330(struct Ov208Mgr *p, int v)
+void ZKND_TBAR_SetButtonDrawEnable(struct Ov208Mgr *p, int v)
 {
     u32 i;
 
     for (i = 0; i < p->count; i++)
-        func_021BD7FC((void *)((u32)p + 0x28 + i * 0x38), v);
+        ZKND_TBAR_SetActorDrawEnable((void *)((u32)p + 0x28 + i * 0x38), v);
 }

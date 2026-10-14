@@ -1,5 +1,5 @@
 /*
- * function: func_021E707C
+ * function: POKETRADE_2D_ClearCursorIfDisabled
  * address: 0x021E707C
  * packet: pkt_ov119_021E707C
  * region: ov119
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E7058 0x021E7058 thumb ov119
+ *   POKETRADE_2D_DeleteCursorActor 0x021E7058 thumb ov119
  */
-extern void func_021E7058(void *p);
+extern void POKETRADE_2D_DeleteCursorActor(void *p);
 
-int func_021E707C(void *p)
+int POKETRADE_2D_ClearCursorIfDisabled(void *p)
 {
     if (*((unsigned char *)p + 0x11f5)) {
-        func_021E7058(p);
+        POKETRADE_2D_DeleteCursorActor(p);
         return 0;
     }
     return 1;

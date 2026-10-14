@@ -19,7 +19,7 @@
  *   BTL_MAIN_GetWinBgm 0x021B86DC thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   BTL_SERVER_FLOW_ProcExpForFaintedPoke 0x021C5308 thumb ov093
- *   func_021C52F8 0x021C52F8 thumb ov093
+ *   MAILVIEW_DeleteWindows 0x021C52F8 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern int BTL_SERVER_FLOW_CheckPlayerSideAlive(u8 *);
 extern u16 BTL_MAIN_GetWinBgm(void **p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern int BTL_SERVER_FLOW_ProcExpForFaintedPoke(u8 *, u8 *);
-extern void func_021C52F8(u8 *, int, u8);
+extern void MAILVIEW_DeleteWindows(u8 *, int, u8);
 int BTL_SERVER_FLOW_ProcFaintRewards(u8 *p)
 {
     int result = 0;
@@ -54,7 +54,7 @@ int BTL_SERVER_FLOW_ProcFaintRewards(u8 *p)
                     ((struct Flags *)(p + 0x78a))->b = 1;
                 }
                 if (BTL_SERVER_FLOW_ProcExpForFaintedPoke(p, a)) result = 1;
-                func_021C52F8(p + 0x3e0, 0, i);
+                MAILVIEW_DeleteWindows(p + 0x3e0, 0, i);
             }
         }
     }

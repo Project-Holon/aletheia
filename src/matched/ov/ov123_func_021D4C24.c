@@ -1,5 +1,5 @@
 /*
- * function: func_021D4C24
+ * function: GSYNC_MENU_SetCursorAnimIfChanged
  * address: 0x021D4C24
  * packet: pkt_ov123_021D4C24
  * region: ov123
@@ -21,4 +21,4 @@ struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-void func_021D4C24(u8 *p, int v) { if(v!=CLACT_GetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0)) { CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,1); CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,v); } }
+void GSYNC_MENU_SetCursorAnimIfChanged(u8 *p, int v) { if(v!=CLACT_GetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0)) { CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,1); CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,v); } }

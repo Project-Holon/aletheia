@@ -1,5 +1,5 @@
 /*
- * function: func_021FFB68
+ * function: BR_NET_SetStep
  * address:  0x021FFB68
  * packet:   pkt_021FFB68
  * region:   ov186
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021FFB68(char *p, int v)
+void BR_NET_SetStep(char *p, int v)
 {
     ((struct Obj14485 *)p)->f0 = v;
     ((struct Obj14485 *)p)->f4 = 0;

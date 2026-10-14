@@ -1,5 +1,5 @@
 /*
- * function: func_021FC214
+ * function: BR_RES_GetMsgData
  * address:  0x021FC214
  * packet:   pkt_021FC214
  * region:   ov186
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021FC214(char *p)
+int BR_RES_GetMsgData(char *p)
 {
     return ((struct Obj24830 *)p)->fEC;
 }

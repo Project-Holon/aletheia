@@ -1,5 +1,5 @@
 /*
- * function: func_021D9D3C
+ * function: PDWACC_DISP_LoadResources
  * address: 0x021D9D3C
  * packet: pkt_ov123_021D9D3C
  * region: ov123
@@ -24,7 +24,7 @@
  *   PALANM_BlendColors 0x02021F64 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021D9F40 0x021D9F40 thumb ov123
+ *   PDWACC_DISP_PaletteTask 0x021D9F40 thumb ov123
  *   func_0207D63C 0x0207D63C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -42,10 +42,10 @@ extern u32 func_020307B0(void *p);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 extern void DWCi_ScreenDC_FlushRange(void *, int);
 extern void *func_020056A0(void *, void *, int);
-extern void func_021D9F40(void *, char *);
+extern void PDWACC_DISP_PaletteTask(void *, char *);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021D9D3C(char *p)
+void PDWACC_DISP_LoadResources(char *p)
 {
     void *record;
     u16 *base0;
@@ -101,7 +101,7 @@ void func_021D9D3C(char *p)
     }
     DWCi_ScreenDC_FlushRange(p + 0x1f0, 0x780);
     *(u32 *)(p + 0xc) = 1;
-    *(void **)(p + 8) = func_020056A0((void *)func_021D9F40, p + 8, 0x14);
+    *(void **)(p + 8) = func_020056A0((void *)PDWACC_DISP_PaletteTask, p + 8, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     *(u8 *)(p + 0x974) = 0;
     ARC_TOOL_DeleteHandle(h);

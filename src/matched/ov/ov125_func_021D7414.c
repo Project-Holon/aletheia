@@ -1,5 +1,5 @@
 /*
- * function: func_021D7414
+ * function: GDS_RAP_GetSearchResults
  * address: 0x021D7414
  * packet: pkt_ov125_021D7414
  * region: ov125
@@ -10,26 +10,26 @@
  * status: EXACT
  * note: 2026-10-05 (D4-14): the xor/orr equality is a 64-bit compare; written as u64 loads, EXACT.
  * symbols:
- *   func_021D85E8 0x021D85E8 arm ov125
+ *   GDS_SOCKET_GetReply 0x021D85E8 arm ov125
  *   func_02034714 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F1FC 0x0203F1FC arm
- *   d_021D8D2C 0x021D8D2C data a4
+ *   sGdsEmptyString2 0x021D8D2C data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u32 w[49]; } Rec;
-extern char *func_021D85E8(void);
+extern char *GDS_SOCKET_GetReply(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void MI_CpuFill8(void *, int, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern char d_021D8D2C[];
+extern char sGdsEmptyString2[];
 
-int func_021D7414(char *unused, char *dst, int n)
+int GDS_RAP_GetSearchResults(char *unused, char *dst, int n)
 {
-    int *g = (int *)func_021D85E8();
+    int *g = (int *)GDS_SOCKET_GetReply();
     int *hdr = g + 1;
     char *base;
     int cnt;
@@ -38,7 +38,7 @@ int func_021D7414(char *unused, char *dst, int n)
     cnt = hdr[0];
     if (cnt > n) {
         cnt = n;
-        func_02034714(d_021D8D2C, 0, d_021D8D2C);
+        func_02034714(sGdsEmptyString2, 0, sGdsEmptyString2);
     }
     MI_CpuFill8(dst, 0, n * 0xC4);
     i = 0;

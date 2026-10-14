@@ -30,7 +30,7 @@
  *   func_0220D8C4 0x0220D8C4 thumb ov197
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_021F86D4 0x021F86D4 thumb
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb
  *   PALANM_RequestFade 0x0202173C thumb
  */
 #include "../include/Obj01076.h"
@@ -64,7 +64,7 @@ extern void func_0220AFDC(char *, void *);
 extern void func_0220D8C4(u8 *, unsigned, unsigned);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 int func_0220CAAC(char *p)
 {
@@ -90,7 +90,7 @@ int func_0220CAAC(char *p)
     func_0220D8C4((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj01076 *)p)->f8, 3, 0xe0, 0x20);
-    PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, func_021F86D4());
+    PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
     ((struct Obj01076 *)p)->f5A0 = 1;
     return 2;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02202878
+ * function: WORLDTRADE_ADAPTER_StartPrintStream
  * address: 0x02202878
  * packet: pkt_ov135_02202878
  * region: ov135
@@ -20,7 +20,7 @@ struct Rec3;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
-void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
+void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {
     int v;
     if (((struct Obj04532 *)p)->f10) {

@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * Lever: second state writes f0c separately in each arm; cross-jumping
- * retains the dead branch after func_021C3E04 rather than after movs #0.
+ * retains the dead branch after MAILTOOL_StoreMailToPartyMon rather than after movs #0.
  * symbols:
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02034A5C 0x02034A5C arm
- *   func_021C3E00 0x021C3E00 thumb ov136
- *   func_021C3E04 0x021C3E04 thumb ov136
+ *   MAILTOOL_HasMail 0x021C3E00 thumb ov136
+ *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
  *   ov136_id 0x00000088 data
  */
 typedef unsigned char u8;
@@ -40,8 +40,8 @@ struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *a, u32 b);
 extern void func_02034A5C(s32 handle);
-extern u32 func_021C3E00(u32 *p);
-extern int func_021C3E04(u32 *p, void *q);
+extern u32 MAILTOOL_HasMail(u32 *p);
+extern int MAILTOOL_StoreMailToPartyMon(u32 *p, void *q);
 int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
 {
     void *sv;
@@ -49,8 +49,8 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     sv = GAMESYSTEM_GetGameData((const struct Ctx *)(*c->f18));
     if (c->f08 == 0) {
         if (c->f68 == 0 || c->f68 == 2) {
-            if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
+            if (MAILTOOL_HasMail(p) == 1) {
+                MAILTOOL_StoreMailToPartyMon(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 v = 0;
             } else if (c->f68 == 0) {
                 v = 2;
@@ -66,8 +66,8 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     }
     if (c->f08 == 2) {
         if (c->f68 == 2) {
-            if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
+            if (MAILTOOL_HasMail(p) == 1) {
+                MAILTOOL_StoreMailToPartyMon(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 c->f0c = 0;
             } else {
                 c->f0c = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC7C4",
+   "name": "WORLDTRADE_DETAIL_StateWaitMessage",
    "address": "0x021FC7C4",
    "kind": "game",
    "region": "ov135",

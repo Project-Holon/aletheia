@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A58
+ * function: CircleGraph_SetEnabledImpl
  * address:  0x021C1A58
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Stores one word at offset 4.  Reached only from the tail-call veneer
- * func_021C1184.
+ * CircleGraph_SetEnabled.
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef struct {
     u32 a;
 } Rec;
 
-void func_021C1A58(Rec *p, u32 v)
+void CircleGraph_SetEnabledImpl(Rec *p, u32 v)
 {
     p->a = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02201D14
+ * function: WORLDTRADE_SERVER_StartDelete
  * address:  0x02201D14
  * packet:   pkt_02201D14
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void DPW_TR_DeleteAsync(u8 *p);
 
-int func_02201D14(u8 *p)
+int WORLDTRADE_SERVER_StartDelete(u8 *p)
 {
     DPW_TR_DeleteAsync(p);
     ((struct Obj12239 *)p)->f28 = 0x18;

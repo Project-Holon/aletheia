@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220207C",
+   "name": "WORLDTRADE_SERVER_StateCountdown",
    "address": "0x0220207C",
    "kind": "game",
    "region": "ov135",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1090
+ * function: BgTextLabel_GetCenterOffset
  * address:  0x021C1090
  * packet:   pkt_ov217_021C1090
  * region:   ov217
@@ -28,7 +28,7 @@ struct StrObj;
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-int func_021C1090(u8 *p, void *a1)
+int BgTextLabel_GetCenterOffset(u8 *p, void *a1)
 {
     int r;
     int x;

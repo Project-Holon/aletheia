@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC0C
+ * function: DENDOU_VIEW_InitBlend
  * address:  0x021DCC0C
  * packet:   pkt_021DCC0C
  * region:   ov171
@@ -15,7 +15,7 @@
 
 extern void func_0207D63C(int, int, int, int, int);
 
-void func_021DCC0C(void)
+void DENDOU_VIEW_InitBlend(void)
 {
     func_0207D63C(0x04000050, 6, 0x11, 0x10, 8);
 }

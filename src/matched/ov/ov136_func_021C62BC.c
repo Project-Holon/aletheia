@@ -1,5 +1,5 @@
 /*
- * function: func_021C62BC
+ * function: MB_SEQ_ShowMessageWindow
  * address:  0x021C62BC
  * packet:   pkt_ov136_021C62BC
  * region:   ov136
@@ -29,7 +29,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_021C62BC(u8 *p)
+void MB_SEQ_ShowMessageWindow(u8 *p)
 {
     void *q;
     func_0201F73C(((struct Obj23566 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8, 2, 0x3E2, 0xD);

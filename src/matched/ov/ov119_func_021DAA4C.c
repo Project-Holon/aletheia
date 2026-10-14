@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8A24 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_021E31FC 0x021E31FC thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_3D_UploadCubeTextures 0x021E31FC thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DAA18 0x021DAA18 thumb ov119
  */
-extern int func_021D8A24(void *);
+extern int POKETRADE_PROC_IsNetSession(void *);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern void func_021E31FC(void *);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_3D_UploadCubeTextures(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021DAA18(char *p);
 void func_021DAA4C(void *p) {
- if(!func_021D8A24(p) || GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,8)!=0) {
-  func_021E31FC(p);
-  func_021D8E84(p,(int)func_021DAA18);
+ if(!POKETRADE_PROC_IsNetSession(p) || GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,8)!=0) {
+  POKETRADE_3D_UploadCubeTextures(p);
+  POKETRADE_PROC_SetStep(p,(int)func_021DAA18);
  }
 }

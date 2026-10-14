@@ -1,5 +1,5 @@
 /*
- * function: func_021E5B6C
+ * function: POKETRADE_2D_PlaceTouchbarActors
  * address: 0x021E5B6C
  * packet: pkt_ov119_021E5B6C
  * region: ov119
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E5B6C(int p, int b, int c)
+void POKETRADE_2D_PlaceTouchbarActors(int p, int b, int c)
 {
     Pos pos;
     if (c) {

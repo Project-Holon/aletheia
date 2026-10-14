@@ -10,8 +10,8 @@
  * lever: direct indexed assignment computes and spills the destination before allocation; a handle temporary first gave 116 bytes and 47 differing bytes.
  * prototype: keep caller's visible second argument to 021C0F5C despite its legacy one-argument source (021C021C loads r1 before call).
  * symbols:
- *   func_021C0EF4 0x021C0EF4 thumb ov217
- *   func_021C0F5C 0x021C0F5C thumb ov217
+ *   BgTextLabel_Create 0x021C0EF4 thumb ov217
+ *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C3B7C 0x021C3B7C data ov217
  */
 #include "../include/Obj14750.h"
@@ -22,8 +22,8 @@ struct Config { u8 a,b,c,d,e,f,g,h,i,j,k; u32 extra; };
 struct Entry { u8 a,b,c,d,e,f,g,h,i,j,k; u32 index, mode, extra; };
 extern const struct Entry d_021C3B7C[];
 struct Record;
-extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
-extern u32 func_021C0F5C(u32, u32);
+extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
+extern u32 BgTextLabel_PrintMessage(u32, u32);
 void func_021C01B8(char *p)
 {
     struct Config args;
@@ -42,8 +42,8 @@ void func_021C01B8(char *p)
         args.j = d_021C3B7C[i].j;
         args.k = d_021C3B7C[i].k;
         args.extra = d_021C3B7C[i].extra;
-        *(u32 *)(p + i * 4 + 0x344) = (u32)func_021C0EF4(&args, ((struct Obj14750 *)p)->f8, *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), ((struct Obj14750 *)p)->f4);
+        *(u32 *)(p + i * 4 + 0x344) = (u32)BgTextLabel_Create(&args, ((struct Obj14750 *)p)->f8, *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), ((struct Obj14750 *)p)->f4);
         handle = *(u32 *)(p + i * 4 + 0x344);
-        func_021C0F5C(handle, d_021C3B7C[i].mode);
+        BgTextLabel_PrintMessage(handle, d_021C3B7C[i].mode);
     }
 }

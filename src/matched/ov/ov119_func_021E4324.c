@@ -1,5 +1,5 @@
 /*
- * function: func_021E4324
+ * function: POKETRADE_2D_LoadBoxScreenData
  * address:  0x021E4324
  * packet:   pkt_ov119_021E4324
  * region:   ov119
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_021E42B4  0x021E42B4  thumb  ov119
+ *   POKETRADE_2D_DrawBoxGridScreen  0x021E42B4  thumb  ov119
  */
 #include "../include/Obj00908.h"
 
@@ -27,9 +27,9 @@ typedef struct {
 } Buf;
 
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern void func_021E42B4(char *p);
+extern void POKETRADE_2D_DrawBoxGridScreen(char *p);
 
-void func_021E4324(char *p, int d)
+void POKETRADE_2D_LoadBoxScreenData(char *p, int d)
 {
     int i;
     u16 e;
@@ -46,5 +46,5 @@ void func_021E4324(char *p, int d)
         (*(Buf **)(p + 0x1180))->v[i] += (int)e;
     }
     ((struct Obj00908 *)p)->f107C = ((struct Obj00908 *)p)->f63C - 0x50;
-    func_021E42B4(p);
+    POKETRADE_2D_DrawBoxGridScreen(p);
 }

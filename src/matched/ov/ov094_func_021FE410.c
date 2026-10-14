@@ -1,5 +1,5 @@
 /*
- * function: func_021FE410
+ * function: BTLV_EFFVM_StartSeVolumeTweenTask
  * address:  0x021FE410
  * packet:   pkt_ov094_021FE410
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * Sets/clears the 0x200/0x400 flag bits of *o, allocates a 0x10-byte record
  * (heap from the u16 at +0x238), converts n to fx32 (n<<12, +-0.5 rounding)
- * and registers func_021FE768 as a task callback through func_02030DA8.
+ * and registers BTLV_EFFVM_DelayTaskMain as a task callback through func_02030DA8.
  *
  * symbols:
  *   _fflt          0x0209BDBC  arm
@@ -20,9 +20,9 @@
  *   _fsub          0x0209CB8C  arm
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_021F9154  0x021F9154  thumb  ov094
- *   func_021F896C  0x021F896C  thumb  ov094
- *   func_021FE768  0x021FE768  thumb  ov094
+ *   BTLV_EFFECT_ComputeScalarStep  0x021F9154  thumb  ov094
+ *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
+ *   BTLV_EFFVM_DelayTaskMain  0x021FE768  thumb  ov094
  *   d_0220AE68     0x0220AE68  data   ov094
  */
 #include "../include/Obj13601.h"
@@ -57,11 +57,11 @@ extern float _fsub(float, float);
 extern int _ffix(float);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(int owner, void *fn, void *arg, int n);
-extern void func_021F9154(int a, int b, int *out, int c);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE768(void *h, int *s);
+extern void BTLV_EFFECT_ComputeScalarStep(int a, int b, int *out, int c);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFVM_DelayTaskMain(void *h, int *s);
 
-void func_021FE410(Obj *o, int a, int b, int n)
+void BTLV_EFFVM_StartSeVolumeTweenTask(Obj *o, int a, int b, int n)
 {
     Rec *r;
     int fx;
@@ -83,6 +83,6 @@ void func_021FE410(Obj *o, int a, int b, int n)
         fx = _ffix(_fadd(0.5f, _fflt(n << 12)));
     else
         fx = _ffix(_fsub(_fflt(n << 12), 0.5f));
-    func_021F9154(r->a, r->b, r->v, fx);
-    func_021F896C((void *)func_02030DA8(((struct Obj13601 *)o)->f8, (void *)func_021FE768, r, 0), 0, 1);
+    BTLV_EFFECT_ComputeScalarStep(r->a, r->b, r->v, fx);
+    BTLV_EFFECT_RegisterTask((void *)func_02030DA8(((struct Obj13601 *)o)->f8, (void *)BTLV_EFFVM_DelayTaskMain, r, 0), 0, 1);
 }

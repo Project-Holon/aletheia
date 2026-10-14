@@ -1,5 +1,5 @@
 /*
- * function: func_0217EDBC
+ * function: UNION_MSG_GetDrawInviteDeclinedMsg
  * address:  0x0217EDBC
  * packet:   pkt_ov019_0217EDBC
  * region:   ov019
@@ -13,14 +13,14 @@
  *   d_02180344  0x02180344  data a2
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run)
- * inside the listing extent of func_0217ED64.
+ * inside the listing extent of UNION_MSG_GetSpinTradeChatMsg.
  */
 
 typedef unsigned short u16;
 
 extern const u16 d_02180344[];
 
-u16 func_0217EDBC(int i)
+u16 UNION_MSG_GetDrawInviteDeclinedMsg(int i)
 {
     return d_02180344[i];
 }

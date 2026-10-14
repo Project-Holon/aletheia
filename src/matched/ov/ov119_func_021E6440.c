@@ -1,5 +1,5 @@
 /*
- * function: func_021E6440
+ * function: POKETRADE_2D_UpdateOfferIconHighlight
  * address: 0x021E6440
  * packet: pkt_ov119_021E6440
  * region: ov119
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E6440(int p, int a, int b) {
+void POKETRADE_2D_UpdateOfferIconHighlight(int p, int a, int b) {
     int i,j;
     Pt pos;
     for (i=0;i<2;i++) {

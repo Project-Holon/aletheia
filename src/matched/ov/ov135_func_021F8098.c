@@ -1,5 +1,5 @@
 /*
- * function: func_021F8098
+ * function: WORLDTRADE_DEPOSIT_PrintModeLabelAligned
  * address:  0x021F8098
  * packet:   pkt_021F8098
  * region:   ov135
@@ -12,8 +12,8 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_021F8078  0x021F8078  thumb
- *   func_021F91A0  0x021F91A0  thumb
+ *   WORLDTRADE_DEPOSIT_GetModeFontColor  0x021F8078  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   tbl_02202EB0   0x02202EB0  data
  */
 
@@ -27,19 +27,19 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u16 func_021F8078(int mode, u16 color);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern u16 WORLDTRADE_DEPOSIT_GetModeFontColor(int mode, u16 color);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
-void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g)
+void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g)
 {
     void *str;
 
     if (force != 0 || mode != 3) {
         str = func_02045EC0(bank, tbl_02202EB0[mode]);
         if (y > 3) {
-            func_021F91A0(win, (u32)str, y, x, 0, func_021F8078(mode, color), (u32)g);
+            WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, y, x, 0, WORLDTRADE_DEPOSIT_GetModeFontColor(mode, color), (u32)g);
         } else {
-            func_021F91A0(win, (u32)str, 0, x, y, func_021F8078(mode, color), (u32)g);
+            WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, x, y, WORLDTRADE_DEPOSIT_GetModeFontColor(mode, color), (u32)g);
         }
         STRBUF_Delete(str);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E64DC
+ * function: POKETRADE_2D_CreateFloatingIconActor
  * address: 0x021E64DC
  * packet: pkt_ov119_021E64DC
  * region: ov119
@@ -21,7 +21,7 @@ extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned i
 extern int POKE_TOOL_GetIconPalette(void *);
 typedef unsigned int   u32;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021E64DC(int p, int i, int j, int x, int y, void *q) {
+void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, void *q) {
     Create c;
     c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
     ((struct Obj05335 *)p)->fF20=(int)CLACT_CreateActor((void *)((struct Obj05335 *)p)->f9C4,*(int *)(p+i*20+j*4+0x9cc),((struct Obj05335 *)p)->f87C,((struct Obj05335 *)p)->f8AC,&c,1,((struct Obj05335 *)p)->f5F4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E01B0
+ * function: GURU2_MAIN_PrintMessageWithName
  * address: 0x021E01B0
  * packet: pkt_ov137_021E01B0
  * region: ov137
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: Two zero alignment bytes at 021E026A.
  * symbols:
- *   func_021DEB10 0x021DEB10 thumb ov137
+ *   GURU2_MAIN_GetUnionApp 0x021DEB10 thumb ov137
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_0201F02C 0x0201F02C thumb
@@ -50,17 +50,17 @@ extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_021DEB10(char *p);
+extern void *GURU2_MAIN_GetUnionApp(char *p);
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_021E01B0(u8 *p,int message,void *value)
+void GURU2_MAIN_PrintMessageWithName(u8 *p,int message,void *value)
 {
     u8 *s;
     void *window,*text,*owner,*data;
     s=p+3296;
     window=((struct Obj02498 *)s)->f10;
-    func_0201F02C(((struct Obj02498 *)s)->fC,1,UNION_APP_GetMemberEntry(func_021DEB10((char *)p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
+    func_0201F02C(((struct Obj02498 *)s)->fC,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp((char *)p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
     func_0201F02C(((struct Obj02498 *)s)->fC,2,value);
     text=STRBUF_Create(256,114);
     MSGDATA_ReadString(((struct Obj02498 *)s)->f8,message,text);

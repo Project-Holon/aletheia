@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AB8
+ * function: GSYNC_DISP_LoadIconResources
  * address: 0x021D6AB8
  * packet: pkt_ov123_021D6AB8
  * region: ov123
@@ -43,7 +43,7 @@ extern u32 func_020307B0(void *p);
 extern u32 func_02019D30(u32 a, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-void func_021D6AB8(u8 *p)
+void GSYNC_DISP_LoadIconResources(u8 *p)
 {
     void *h;
     void *h2;

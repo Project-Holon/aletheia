@@ -1,5 +1,5 @@
 /*
- * function: func_021F0EFC
+ * function: MB_COMM_SYS_StartNetSession
  * address: 0x021F0EFC
  * packet: pkt_ov107_021F0EFC
  * region: ov107
@@ -36,7 +36,7 @@ extern const Request request_021F6C94;
 struct Req;
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void GFL_NET_LOWER_DATA_Init(int,int);
-void func_021F0EFC(State *p)
+void MB_COMM_SYS_StartNetSession(State *p)
 {
     Request q=request_021F6C94;
     q.f54=p->heap;

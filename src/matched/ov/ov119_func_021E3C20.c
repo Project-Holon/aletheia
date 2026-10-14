@@ -1,5 +1,5 @@
 /*
- * function: func_021E3C20
+ * function: POKETRADE_3D_CreateTouchbar
  * address: 0x021E3C20
  * packet: pkt_ov119_021E3C20
  * region: ov119
@@ -26,7 +26,7 @@ extern void *TOUCHBAR_Create(Config *, int);
 typedef unsigned char  u8;
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v);
-void func_021E3C20(char *p)
+void POKETRADE_3D_CreateTouchbar(char *p)
 {
     Template t = d_021E7C0C;
     Config c;

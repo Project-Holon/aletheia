@@ -17,9 +17,9 @@
  *   func_021FA0FC 0x021FA0FC thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FA210 0x021FA210 thumb ov186
- *   func_021FA0A8 0x021FA0A8 thumb ov186
+ *   BR_BTN_Init 0x021FA0A8 thumb ov186
  *   func_02034714 0x02034714 arm
- *   func_021FB7B0 0x021FB7B0 thumb ov186
+ *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
  *   func_021FAFA0 0x021FAFA0 thumb ov186
  *   func_021FACE0 0x021FACE0 thumb ov186
  *   func_021FA7FC 0x021FA7FC thumb ov186
@@ -37,11 +37,11 @@ extern void func_021FA1DC(char *p, int x, int y);
 extern void func_021FA210(char *p);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_021FA0FC(u8 *,int,const int *);
-extern int func_021FA0A8(u8 *,Record *);
+extern int BR_BTN_Init(u8 *,Record *);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_02200D18[];
-extern int func_021FB7B0(void *p, int i);
+extern int BR_BTN_DATA_GetRowField(void *p, int i);
 extern int func_021FAFA0(void *,int);
 extern void func_021FACE0(char *p);
 extern int *func_021FD73C(int *p, int v);
@@ -64,15 +64,15 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   func_021FD73C(p,(int)func_021FA7FC);
  }else if(((struct Obj00684 *)ctx)->f1C==2){
   func_021FA210(((struct Obj00684 *)ctx)->f5C);
-  if(func_021FA0A8(ctx,&record)){
+  if(BR_BTN_Init(ctx,&record)){
    section=func_021FAF24((char *)&record,4);
    if(!record.words[0])func_02034714(d_02200D18,0,d_02200D18);
-   other[0]=func_021FB7B0((void *)record.words[3],0);
-   other[1]=func_021FB7B0((void *)record.words[3],1);
+   other[0]=BR_BTN_DATA_GetRowField((void *)record.words[3],0);
+   other[1]=BR_BTN_DATA_GetRowField((void *)record.words[3],1);
    func_021FA0FC(ctx,section,other);
-   y=func_021FB7B0((void *)record.words[3],1);
+   y=BR_BTN_DATA_GetRowField((void *)record.words[3],1);
    for(i=0;i<ctx[0x39];i++){
-    if(y==func_021FB7B0((void *)(*(int *)(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44+0xc)),1))
+    if(y==BR_BTN_DATA_GetRowField((void *)(*(int *)(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44+0xc)),1))
      func_021FAFA0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44,1);
    }
    func_021FACE0((char *)(&record));

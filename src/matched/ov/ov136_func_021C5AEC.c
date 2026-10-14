@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C5AEC,func_021C5B30
+ * function: MB_SEQ_OpenFourEntryMenu,MB_SEQ_CloseMenu
  * address: 0x021C5AEC
  * packet: pkt_ov136_021C5AEC
  * region: ov136
@@ -25,7 +25,7 @@ struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-void func_021C5AEC(u8 *p)
+void MB_SEQ_OpenFourEntryMenu(u8 *p)
 {
     Template t;
     t.heap = 102;
@@ -38,7 +38,7 @@ void func_021C5AEC(u8 *p)
     t.h = 3;
     ((struct Obj23523 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f310 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct Obj23522 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f30C);
 }
-void func_021C5B30(u8 *p)
+void MB_SEQ_CloseMenu(u8 *p)
 {
     APP_TASKMENU_CloseMenu(((struct Obj23525 *)(*(u8 * *)&((struct Obj23524 *)p)->f8))->f310);
 }

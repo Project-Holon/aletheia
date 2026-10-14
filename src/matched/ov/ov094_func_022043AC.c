@@ -1,5 +1,5 @@
 /*
- * function: func_022043AC
+ * function: BTLV_INPUT_TaskEndClearBusyBit
  * address:  0x022043AC
  * packet:   pkt_ov094_022043AC
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_022043AC(void *h)
+void BTLV_INPUT_TaskEndClearBusyBit(void *h)
 {
     char *p = *((char **)TCBL_GetTaskUserData(h));
     ((struct Obj21763 *)p)->f68 &= ~1;

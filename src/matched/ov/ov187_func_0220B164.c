@@ -1,5 +1,5 @@
 /*
- * function: func_0220B164
+ * function: BR_MAIN_CreateReplayScene
  * address: 0x0220B164
  * packet: pkt_ov187_0220B164
  * region: ov187
@@ -21,10 +21,10 @@
  *   BTL_SETUP_InitWithSlots 0x020138C4 thumb
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
- *   func_021EEEA8 0x021EEEA8 thumb ov188
+ *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
- *   func_0220B240 0x0220B240 thumb ov187
+ *   BR_MAIN_SanitizeBgmIds 0x0220B240 thumb ov187
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_0220B2E4 0x0220B2E4 data a4
  */
@@ -36,23 +36,23 @@ extern void MI_CpuFill8(void *,int,int);
 extern void BTL_SETUP_InitWithSlots(void *,int,void *);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
-extern void func_021EEEA8(void *,u32);
+extern void BATTLE_REC_TOOL_UnpackSetup(void *,u32);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
-extern void func_0220B240(u16 *,u16 *);
+extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 extern char d_0220B2E4[];
-void *func_0220B164(u32 a,u8 *b)
+void *BR_MAIN_CreateReplayScene(u32 a,u8 *b)
 {
     u8 *p = func_02030734(a,240,0,d_0220B2E4,542);
     MI_CpuFill8(p,0,240);
     BTL_SETUP_InitWithSlots(p,*(int *)(*(u8 **)(b+0x17F0)+4),(void *)a);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEEA8(p,a);
+    BATTLE_REC_TOOL_UnpackSetup(p,a);
     BATTLE_REC_UnloadToolOverlay();
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();
-    func_0220B240((u16 *)(p+24),(u16 *)(p+26));
+    BR_MAIN_SanitizeBgmIds((u16 *)(p+24),(u16 *)(p+26));
     GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(p+24),65535);
     return p;
 }

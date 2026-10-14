@@ -1,5 +1,5 @@
 /*
- * function: func_021FEE4C
+ * function: BR_SIDEBAR_StartWobble
  * address: 0x021FEE4C
  * packet: pkt_ov186_021FEE4C
  * region: ov186
@@ -10,11 +10,11 @@
  * status: EXACT*
  * extent: two zero alignment bytes at 0x021FEE72 follow; no follower.
  * symbols:
- *   func_021FF028 0x021FF028 thumb ov186
- *   func_021FF038 0x021FF038 thumb ov186
+ *   BR_SIDEBAR_IsSlotActive 0x021FF028 thumb ov186
+ *   BR_SIDEBAR_SetSlotMode 0x021FF038 thumb ov186
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021FF028(u32 *p); extern void func_021FF038(char *,u32);
-void func_021FEE4C(char *p) { int i; for(i=0;i<12;i++) if(func_021FF028((u32 *)((u32)p+i*0x4c))) func_021FF038((char *)((u32)p+i*0x4c),2); }
+extern int BR_SIDEBAR_IsSlotActive(u32 *p); extern void BR_SIDEBAR_SetSlotMode(char *,u32);
+void BR_SIDEBAR_StartWobble(char *p) { int i; for(i=0;i<12;i++) if(BR_SIDEBAR_IsSlotActive((u32 *)((u32)p+i*0x4c))) BR_SIDEBAR_SetSlotMode((char *)((u32)p+i*0x4c),2); }

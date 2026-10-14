@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C76BC",
+   "name": "MB_SEQ_EmptyStubB",
    "address": "0x021C76BC",
    "kind": "game",
    "region": "ov136",

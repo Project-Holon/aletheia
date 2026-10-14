@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD368",
+   "name": "WORLDTRADE_LIST_SelectCursorEntry",
    "address": "0x021FD368",
    "kind": "game",
    "region": "ov135",

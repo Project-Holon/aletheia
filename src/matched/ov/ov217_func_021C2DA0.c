@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DA0
+ * function: PALETTE_ANIME_Alloc
  * address:  0x021C2DA0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C2DA0  0x021C2DA0  thumb  ov217
+ *   PALETTE_ANIME_Alloc  0x021C2DA0  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-u32 func_021C2DA0(u32 a0)
+u32 PALETTE_ANIME_Alloc(u32 a0)
 {
     u8 s[4];
     u32 p1 = (u32)func_02030734(a0, 32, 0, (const char *)0x21C408C, 667);

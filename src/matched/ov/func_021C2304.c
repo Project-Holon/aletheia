@@ -1,5 +1,5 @@
 /*
- * function: func_021C2304
+ * function: ZUKAN_DETAIL_AREA_ResetBlendAlpha
  * address:  0x021C2304
  * packet:   pkt_021C2304
  * region:   ov208
@@ -23,7 +23,7 @@
 
 extern void func_0207D63C(void *, int, int, int, int);
 
-void func_021C2304(char *a0)
+void ZUKAN_DETAIL_AREA_ResetBlendAlpha(char *a0)
 {
     func_0207D63C((void *)0x04000050, 0, 0x3f, 0xc, 4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3DF4
+ * function: MBi_ReadIconInfo
  * address:  0x021F3DF4
  * packet:   pkt_ov107_021F3DF4
  * region:   ov107
@@ -32,7 +32,7 @@ extern u32 func_02078A94(struct FSFile *file);
 extern int FS_CloseFile(FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
-int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
+int MBi_ReadIconInfo(char *filePathp, unsigned char *iconp, int char_flag)
 {
     FSFile file;
     long size;

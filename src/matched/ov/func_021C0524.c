@@ -1,5 +1,5 @@
 /*
- * function: func_021C0524
+ * function: ZUKAN_DETAIL_AREA_DeleteTownIconActors
  * address:  0x021C0524
  * packet:   pkt_021C0524
  * region:   ov208
@@ -20,7 +20,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C0524(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteTownIconActors(void *unused, char *p, void *a2)
 {
     unsigned char i;
 

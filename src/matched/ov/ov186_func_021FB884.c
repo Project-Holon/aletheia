@@ -1,5 +1,5 @@
 /*
- * function: func_021FB884
+ * function: BR_RES_Create
  * address: 0x021FB884
  * packet: pkt_ov186_021FB884
  * region: ov186
@@ -14,7 +14,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
- *   func_021FC148 0x021FC148 thumb ov186
+ *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
  *   d_02200D3C 0x02200D3C data a1
  */
 typedef struct Object {char pad[0xe8];void *a,*b,*c;volatile unsigned flag,mode;} Object;
@@ -27,8 +27,8 @@ struct MsgBank;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC74(unsigned,unsigned,unsigned);
-extern void func_021FC148(char *,unsigned,unsigned);
-void *func_021FB884(unsigned mode,unsigned flag,unsigned heap)
+extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
+void *BR_RES_Create(unsigned mode,unsigned flag,unsigned heap)
 {
     Object *p;
     p=func_02030734(heap,0xfc,0,d_02200D3C,0x60);
@@ -39,7 +39,7 @@ void *func_021FB884(unsigned mode,unsigned flag,unsigned heap)
     p->a=GF_FONT_Create(0x17,0,0,0,heap);
     p->b=func_02045B38(0,2,5,heap);
     p->c=func_0201EC74(8,0x40,heap);
-    func_021FC148((char *)p,0,heap);
-    func_021FC148((char *)p,1,heap);
+    BR_RES_LoadUiPalette((char *)p,0,heap);
+    BR_RES_LoadUiPalette((char *)p,1,heap);
     return p;
 }

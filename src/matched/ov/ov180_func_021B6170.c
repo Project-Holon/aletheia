@@ -1,5 +1,5 @@
 /*
- * function: func_021B6170
+ * function: HALL_OF_FAME_AddVBlankTaskTrainer
  * address:  0x021B6170
  * packet:   pkt_021B6170
  * region:   ov180
@@ -16,7 +16,7 @@
 
 extern int func_020056A0(void *, int *, int);
 
-void func_021B6170(int *p)
+void HALL_OF_FAME_AddVBlankTaskTrainer(int *p)
 {
     ((struct Obj24480 *)p)->f4 = func_020056A0((void *)0x021B61B5, p, 0);
 }

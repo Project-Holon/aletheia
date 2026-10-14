@@ -1,5 +1,5 @@
 /*
- * function: func_02200ED8
+ * function: WORLDTRADE_SERVER_StartRequest
  * address:  0x02200ED8
  * packet:   pkt_02200ED8
  * region:   ov135
@@ -12,9 +12,9 @@
   *
   *
  * symbols:
- *   func_021F90A0  0x021F90A0  thumb
- *   func_021F4E98  0x021F4E98  thumb
- *   func_021F4FA4  0x021F4FA4  thumb
+ *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
+ *   WORLDTRADE_SetNextState  0x021F4E98  thumb
+ *   WORLDTRADE_CreateTimeIcon  0x021F4FA4  thumb
  *   str_02203F58  0x02203F58  data  a1
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  */
@@ -43,43 +43,43 @@ typedef struct {
     u32 x1328;
 } Work;
 
-extern void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void func_021F4E98(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F4FA4(u8 *p);
+extern void WORLDTRADE_CreateTimeIcon(u8 *p);
 extern const char str_02203F58[];
 
-int func_02200ED8(Work *p)
+int WORLDTRADE_SERVER_StartRequest(Work *p)
 {
     switch (p->mode) {
     case 7:
-        func_021F90A0((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
-        func_021F4E98((u8 *)p, 0x29, 2);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
+        WORLDTRADE_SetNextState((u8 *)p, 0x29, 2);
         p->x1328 = 0;
         p->next = 6;
         break;
     case 8:
-        func_021F90A0((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
-        func_021F4E98((u8 *)p, 0x29, 0xB);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
+        WORLDTRADE_SetNextState((u8 *)p, 0x29, 0xB);
         break;
     case 9:
-        func_021F90A0((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
-        func_021F4E98((u8 *)p, 0x29, 2);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
+        WORLDTRADE_SetNextState((u8 *)p, 0x29, 2);
         p->x1328 = 0;
         p->next = 0x10;
         break;
     case 10:
-        func_021F90A0((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
-        func_021F4E98((u8 *)p, 0x29, 0x16);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
+        WORLDTRADE_SetNextState((u8 *)p, 0x29, 0x16);
         p->xEB4 = 1;
         break;
     case 11:
-        func_021F90A0((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
-        func_021F4E98((u8 *)p, 0x29, 0x1C);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x18, 1, 0xF0F);
+        WORLDTRADE_SetNextState((u8 *)p, 0x29, 0x1C);
         break;
     case 12:
-        func_021F90A0((u32)p, (u32)p->msg, 0x9A, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x9A, 1, 0xF0F);
         p->state = 0x21;
         p->x14 = 1;
         GFL_NET_RestartWithDefaultTimeout(1, 0x48);
@@ -88,6 +88,6 @@ int func_02200ED8(Work *p)
         func_02034714(str_02203F58, 0, str_02203F58);
         break;
     }
-    func_021F4FA4((u8 *)p);
+    WORLDTRADE_CreateTimeIcon((u8 *)p);
     return 2;
 }

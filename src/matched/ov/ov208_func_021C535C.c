@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C535C
+ * function: ZUKAN_DETAIL_FORM_CreateIconActor
  * address:  0x021C535C
  * packet:   pkt_ov208_021C535C
  * region:   ov208
@@ -44,7 +44,7 @@ extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
+u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
                         u32 form, u32 gender, u32 isEgg)
 {
     Ov208ObjPos pos;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B24
+ * function: MB_UTIL_MSG_SetKeyWaitFlag
  * address:  0x021F1B24
  * packet:   pkt_ov107_021F1B24
  * region:   ov107
@@ -28,7 +28,7 @@ struct Cfg;
 void BMP_WIN_MakeScreen(struct Cfg *cfg);
 void func_020409B4(u32 index);
 
-void func_021F1B24(Ov107Ctx *p, int x)
+void MB_UTIL_MSG_SetKeyWaitFlag(Ov107Ctx *p, int x)
 {
     p->f38 = x;
     BMP_WIN_MakeScreen(p->f10);

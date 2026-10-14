@@ -1,5 +1,5 @@
 /*
- * function: func_021FBE90
+ * function: BTLV_EFFVM_CmdSetParam
  * address:  0x021FBE90
  * packet:   pkt_ov094_021FBE90
  * region:   ov094
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FBE90(struct Cursor *a, State *s)
+int BTLV_EFFVM_CmdSetParam(struct Cursor *a, State *s)
 {
     int sel = VM_GetU32(a);
     int v = VM_GetU32(a);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F8934
+ * function: BTLV_EFFECT_SetAllPokeSpriteAnim
  * address:  0x021F8934
  * packet:   pkt_ov094_021F8934
  * region:   ov094
@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Runs func_0220055C with a (enum counter keeps the entry guard) on each of the first 8 active slots of the handle at 0x190.
+ * Runs BTLV_MCSS_SetSpriteWorkFlagForRule with a (enum counter keeps the entry guard) on each of the first 8 active slots of the handle at 0x190.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021FFD9C 0x021FFD9C thumb ov094
- *   func_0220055C 0x0220055C thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_MCSS_IsSpriteLoaded 0x021FFD9C thumb ov094
+ *   BTLV_MCSS_SetSpriteWorkFlagForRule 0x0220055C thumb ov094
  */
 typedef enum { SLOT_ZERO } Slot;
 
-extern char *d_0220AF20;
-extern int func_021FFD9C(char *p, int key);
-extern void func_0220055C(void *, int, int);
+extern char *gBtlvEff;
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern void BTLV_MCSS_SetSpriteWorkFlagForRule(void *, int, int);
 
-void func_021F8934(int a)
+void BTLV_EFFECT_SetAllPokeSpriteAnim(int a)
 {
     Slot i;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(*(void **)(d_0220AF20 + 0x190), i) != 0)
-            func_0220055C(*(void **)(d_0220AF20 + 0x190), i, a);
+        if (BTLV_MCSS_IsSpriteLoaded(*(void **)(gBtlvEff + 0x190), i) != 0)
+            BTLV_MCSS_SetSpriteWorkFlagForRule(*(void **)(gBtlvEff + 0x190), i, a);
     }
 }

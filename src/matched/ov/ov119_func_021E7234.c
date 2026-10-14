@@ -1,5 +1,5 @@
 /*
- * function: func_021E7234
+ * function: POKETRADE_2D_TaskSetSubPlaneVisible
  * address: 0x021E7234
  * packet: pkt_ov119_021E7234
  * region: ov119
@@ -16,7 +16,7 @@ struct Node;
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02030EAC(struct Node *n);
 
-void func_021E7234(void *p, int a)
+void POKETRADE_2D_TaskSetSubPlaneVisible(void *p, int a)
 {
     BG_SYS_SetSubVisiblePlanes(a);
     func_02030EAC(p);

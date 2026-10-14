@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E24
+ * function: POKETRADE_PROC_GetSlotMonPtr
  * address: 0x021D8E24
  * packet: pkt_ov119_021D8E24
  * region: ov119
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj22705.h"
 
-char *func_021D8E24(int a, int b, char *p)
+char *POKETRADE_PROC_GetSlotMonPtr(int a, int b, char *p)
 {
     int n;
 

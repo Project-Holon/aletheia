@@ -11,8 +11,8 @@
  * symbols:
  *   func_021BF9F0 0x021BF9F0 thumb ov217
  *   func_021BF9FC 0x021BF9FC thumb ov217
- *   func_021C26E8 0x021C26E8 thumb ov217
- *   func_021C2740 0x021C2740 thumb ov217
+ *   PERCENTAGE_Create 0x021C26E8 thumb ov217
+ *   PERCENTAGE_SetVisible 0x021C2740 thumb ov217
  */
 #include "../include/Obj25957.h"
 typedef unsigned int u32;
@@ -20,8 +20,8 @@ typedef unsigned short u16;
 struct Params { u32 handles[3]; u16 a, b, c; };
 extern u32 func_021BF9F0(void *, u32);
 extern u32 func_021BF9FC(void *, u32);
-extern u32 func_021C26E8(u32, u32, u32);
-extern void func_021C2740(u32, u32);
+extern u32 PERCENTAGE_Create(u32, u32, u32);
+extern void PERCENTAGE_SetVisible(u32, u32);
 void func_021BFF00(char *p)
 {
     struct Params args;
@@ -33,7 +33,7 @@ void func_021BFF00(char *p)
     args.b = 12;
     args.c = 13;
     for (i = 0; i < 10; i++) {
-        *(u32 *)(p + i * 4 + 0x2d4) = func_021C26E8(((struct Obj25957 *)p)->f4, (u32)&args, func_021BF9FC(p, 3));
-        func_021C2740(*(u32 *)(p + i * 4 + 0x2d4), 0);
+        *(u32 *)(p + i * 4 + 0x2d4) = PERCENTAGE_Create(((struct Obj25957 *)p)->f4, (u32)&args, func_021BF9FC(p, 3));
+        PERCENTAGE_SetVisible(*(u32 *)(p + i * 4 + 0x2d4), 0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FCC40
+ * function: WORLDTRADE_LIST_Init
  * address:  0x021FCC40
  * packet:   pkt_021FCC40
  * region:   ov135
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FD270  0x021FD270  thumb
- *   func_021FCF28  0x021FCF28  thumb
+ *   WORLDTRADE_LIST_CreateStrings  0x021FD270  thumb
+ *   WORLDTRADE_LIST_SetupBgPlanes  0x021FCF28  thumb
  *   func_0207D55C  0x0207D55C  arm
- *   func_021FFFE8  0x021FFFE8  thumb
- *   func_021FCFD8  0x021FCFD8  thumb
- *   func_021FD104  0x021FD104  thumb
- *   func_021FD08C  0x021FD08C  thumb
+ *   WORLDTRADE_TITLE_ScrollBg  0x021FFFE8  thumb
+ *   WORLDTRADE_LIST_LoadBgGraphics  0x021FCFD8  thumb
+ *   WORLDTRADE_LIST_CreateWindows  0x021FD104  thumb
+ *   WORLDTRADE_LIST_CreateActors  0x021FD08C  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_021FC8CC  0x021FC8CC  thumb
- *   func_021FCA8C  0x021FCA8C  thumb
- *   func_021FCB54  0x021FCB54  thumb
- *   func_021FD760  0x021FD760  thumb
- *   func_021FD790  0x021FD790  thumb
- *   func_021FD5F0  0x021FD5F0  thumb
- *   func_021FFD1C  0x021FFD1C  thumb
- *   func_021FD8BC  0x021FD8BC  thumb
+ *   WORLDTRADE_DETAIL_PrintMonInfo  0x021FC8CC  thumb
+ *   WORLDTRADE_DETAIL_PrintMonName  0x021FCA8C  thumb
+ *   WORLDTRADE_DETAIL_LoadMonGraphics  0x021FCB54  thumb
+ *   WORLDTRADE_LIST_PrintLabel  0x021FD760  thumb
+ *   WORLDTRADE_LIST_PrintHeader  0x021FD790  thumb
+ *   WORLDTRADE_LIST_DrawSelectedRecord  0x021FD5F0  thumb
+ *   WORLDTRADE_SUBLCD_MoveArrowToSlot  0x021FFD1C  thumb
+ *   WORLDTRADE_LIST_VBlank  0x021FD8BC  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  */
@@ -78,49 +78,49 @@ typedef struct {
     u32 flag;
 } Work;
 
-extern void func_021FD270(Work *p);
-extern void func_021FCF28(int y);
+extern void WORLDTRADE_LIST_CreateStrings(Work *p);
+extern void WORLDTRADE_LIST_SetupBgPlanes(int y);
 extern int func_0207D55C(vu16 *reg);
-extern void func_021FFFE8(u8 *p, u32 a, u32 b);
-extern void func_021FCFD8(u8 *p);
-extern void func_021FD104(Work *p);
-extern void func_021FD08C(Work *p);
+extern void WORLDTRADE_TITLE_ScrollBg(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_LIST_LoadBgGraphics(u8 *p);
+extern void WORLDTRADE_LIST_CreateWindows(Work *p);
+extern void WORLDTRADE_LIST_CreateActors(Work *p);
 extern void *POKE_TOOL_GetBoxParam(void *mon);
-extern void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, void *rec, void *g);
-extern void func_021FCA8C(void *bank, void *pane, void *name, void *mon, void *pane2, void *g);
-extern void func_021FCB54(void *mon);
-extern void func_021FD760(void *bank, void *pane, u32 index, void *g, u16 color);
-extern void func_021FD790(void *bank, void *pane, u32 index, void *g);
-extern void func_021FD5F0(Work *p);
-extern void func_021FFD1C(Work *p, int i, int dy);
-extern void func_021FD8BC(void *p);
+extern void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, void *rec, void *g);
+extern void WORLDTRADE_DETAIL_PrintMonName(void *bank, void *pane, void *name, void *mon, void *pane2, void *g);
+extern void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon);
+extern void WORLDTRADE_LIST_PrintLabel(void *bank, void *pane, u32 index, void *g, u16 color);
+extern void WORLDTRADE_LIST_PrintHeader(void *bank, void *pane, u32 index, void *g);
+extern void WORLDTRADE_LIST_DrawSelectedRecord(Work *p);
+extern void WORLDTRADE_SUBLCD_MoveArrowToSlot(Work *p, int i, int dy);
+extern void WORLDTRADE_LIST_VBlank(void *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021FCC40(Work *p)
+int WORLDTRADE_LIST_Init(Work *p)
 {
-    func_021FD270(p);
-    func_021FCF28(-32 - p->scroll);
+    WORLDTRADE_LIST_CreateStrings(p);
+    WORLDTRADE_LIST_SetupBgPlanes(-32 - p->scroll);
     if (func_0207D55C((vu16 *)0x0400106C) == 0) {
-        func_021FFFE8((u8 *)p, -32 - p->scroll, 1);
+        WORLDTRADE_TITLE_ScrollBg((u8 *)p, -32 - p->scroll, 1);
     } else {
-        func_021FFFE8((u8 *)p, -32 - p->scroll, 0);
+        WORLDTRADE_TITLE_ScrollBg((u8 *)p, -32 - p->scroll, 0);
     }
-    func_021FCFD8((u8 *)p);
-    func_021FD104(p);
-    func_021FD08C(p);
-    func_021FC8CC(p->bank, p->names, p->words, p->win, POKE_TOOL_GetBoxParam(&p->arr[p->cur]), p->arr[p->cur].rec, p->fFA0);
-    func_021FCA8C(p->bank, &p->win[7], p->arr[p->cur].name, &p->arr[p->cur], p->pane3, p->fFA0);
-    func_021FCB54(&p->arr[p->cur]);
-    func_021FD760(p->bank, &p->pane3[2], 0x53, p->fFA0, 0x440);
-    func_021FD760(p->bank, &p->title, 0x57, p->fFA0, 0x3C40);
+    WORLDTRADE_LIST_LoadBgGraphics((u8 *)p);
+    WORLDTRADE_LIST_CreateWindows(p);
+    WORLDTRADE_LIST_CreateActors(p);
+    WORLDTRADE_DETAIL_PrintMonInfo(p->bank, p->names, p->words, p->win, POKE_TOOL_GetBoxParam(&p->arr[p->cur]), p->arr[p->cur].rec, p->fFA0);
+    WORLDTRADE_DETAIL_PrintMonName(p->bank, &p->win[7], p->arr[p->cur].name, &p->arr[p->cur], p->pane3, p->fFA0);
+    WORLDTRADE_DETAIL_LoadMonGraphics(&p->arr[p->cur]);
+    WORLDTRADE_LIST_PrintLabel(p->bank, &p->pane3[2], 0x53, p->fFA0, 0x440);
+    WORLDTRADE_LIST_PrintLabel(p->bank, &p->title, 0x57, p->fFA0, 0x3C40);
     if (p->flag == 0) {
-        func_021FD790(p->bank, &p->side[0], 0x5E, p->fFA0);
-        func_021FD790(p->bank, &p->side[1], 0x73, p->fFA0);
+        WORLDTRADE_LIST_PrintHeader(p->bank, &p->side[0], 0x5E, p->fFA0);
+        WORLDTRADE_LIST_PrintHeader(p->bank, &p->side[1], 0x73, p->fFA0);
     }
-    func_021FD5F0(p);
-    func_021FFD1C(p, p->cur, -p->scroll);
-    p->vblank = func_021FD8BC;
+    WORLDTRADE_LIST_DrawSelectedRecord(p);
+    WORLDTRADE_SUBLCD_MoveArrowToSlot(p, p->cur, -p->scroll);
+    p->vblank = WORLDTRADE_LIST_VBlank;
     *(vu16 *)0x04000304 |= 0x8000;
     GFL_NET_RestartWithDefaultTimeout(1, 0x48);
     if (p->kind == 0x11) {

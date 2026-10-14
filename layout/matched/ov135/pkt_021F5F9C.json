@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5F9C",
+   "name": "WORLDTRADE_BOX_GetColumnIndex",
    "address": "0x021F5F9C",
    "kind": "game",
    "region": "ov135",

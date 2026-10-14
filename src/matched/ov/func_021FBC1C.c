@@ -1,5 +1,5 @@
 /*
- * function: func_021FBC1C
+ * function: WORLDTRADE_INPUT_StateConditionListSelected
  * address:  0x021FBC1C
  * packet:   pkt_021FBC1C
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9660  0x021F9660  thumb  ov135
+ *   WORLDTRADE_INPUT_MenuFinish  0x021F9660  thumb  ov135
  *   g_022033FC  0x022033FC  data  ov135
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
@@ -29,11 +29,11 @@ struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *v, unsigned int k);
-extern void func_021F9660(u8 *p, u32 k);
+extern void WORLDTRADE_INPUT_MenuFinish(u8 *p, u32 k);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern u8 g_022033FC[];
 
-int func_021FBC1C(u8 *p)
+int WORLDTRADE_INPUT_StateConditionListSelected(u8 *p)
 {
     if (CLACT_IsActorAnimActive((struct Actor *)(*(u32 *)&((struct Obj00098 *)p)->f8)) != 0) {
         return -1;
@@ -41,7 +41,7 @@ int func_021FBC1C(u8 *p)
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00098 *)p)->fC, 0);
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00098 *)p)->f10, 0);
-    func_021F9660(p, 0x3);
+    WORLDTRADE_INPUT_MenuFinish(p, 0x3);
     BMP_MENUWORK_Delete((void *)(*(u32 *)&((struct Obj00098 *)p)->f30));
     *(u32 *)&((struct Obj00098 *)p)->f48 = (*(s32 *)(g_022033FC + ((struct Obj00098 *)p)->f38 * 8) != 1) ? 0x19 : 0x15;
     return -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8EAC
+ * function: POKETRADE_PROC_GetPlayerMonPtrAlt
  * address: 0x021D8EAC
  * packet: pkt_ov119_021D8EAC
  * region: ov119
@@ -13,9 +13,9 @@
  */
 
 /*
- * Hidden leaf (no caller seen): same lookup as func_021D8E90.
+ * Hidden leaf (no caller seen): same lookup as POKETRADE_PROC_GetPlayerMonPtr.
  */
-int func_021D8EAC(int i, char *p)
+int POKETRADE_PROC_GetPlayerMonPtrAlt(int i, char *p)
 {
     if (i >= 0 && i < 2)
         return *(int *)(p + i * 4 + 0x1064);

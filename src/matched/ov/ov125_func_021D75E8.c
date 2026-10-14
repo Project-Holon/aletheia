@@ -1,5 +1,5 @@
 /*
- * function: func_021D75E8
+ * function: GDS_RAP_SaveVideoWithDataNumber
  * address: 0x021D75E8
  * packet: pkt_ov125_021D75E8
  * region: ov125
@@ -18,7 +18,7 @@ extern struct BattleRec *d_0214616C;
 typedef unsigned int   u32;
 struct BattleRec;
 extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
+int GDS_RAP_SaveVideoWithDataNumber(int a, int x, int y, u16 *state, int b, u16 c)
 {
     char *p;
     switch (*state) {

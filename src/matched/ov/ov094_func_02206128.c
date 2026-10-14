@@ -1,5 +1,5 @@
 /*
- * function: func_02206128
+ * function: BTLV_INPUT_DeleteBackActor
  * address:  0x02206128
  * packet:   pkt_ov094_02206128
  * region:   ov094
@@ -17,7 +17,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02206128(char *p)
+void BTLV_INPUT_DeleteBackActor(char *p)
 {
     if (((struct Obj10158 *)p)->f21C != 0) {
         CLACT_DeleteActor(((struct Obj10158 *)p)->f21C);

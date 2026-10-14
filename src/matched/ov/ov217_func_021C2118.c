@@ -1,5 +1,5 @@
 /*
- * function: func_021C2118
+ * function: ARROW_RunIdle
  * address:  0x021C2118
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C2118(void *p)
+void ARROW_RunIdle(void *p)
 {
 }

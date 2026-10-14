@@ -1,5 +1,5 @@
 /*
- * function: func_021FC31C
+ * function: BR_RES_GetPaletteFileId
  * address: 0x021FC31C
  * packet: pkt_ov186_021FC31C
  * region: ov186
@@ -16,4 +16,4 @@ extern char d_02200D48[];
 extern const unsigned d_022008C0[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-unsigned short func_021FC31C(unsigned i) { if(i>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008C0[i]; }
+unsigned short BR_RES_GetPaletteFileId(unsigned i) { if(i>=8)func_02034714(d_02200D48,0,d_02200D48);return d_022008C0[i]; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC518
+ * function: ZUKAN_DETAIL_COMMON_InitBrightnessTarget
  * address:  0x021BC518
  * packet:   pkt_021BC518
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021BC518(int *p)
+void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p)
 {
     p[0] = 0x2d;
     p[1] = 0x2d;

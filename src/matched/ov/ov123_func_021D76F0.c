@@ -1,5 +1,5 @@
 /*
- * function: func_021D76F0
+ * function: GSYNC_STATE_StateExtraSaveLoadStartSecond
  * address: 0x021D76F0
  * packet: pkt_ov123_021D76F0
  * region: ov123
@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_0200E8E0 0x0200E8E0 thumb
- *   func_021D5BA0 0x021D5BA0 thumb ov123
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D6FF0 0x021D6FF0 thumb ov123
- *   func_021D76B8 0x021D76B8 thumb ov123
+ *   GSYNC_DOWNLOAD_NoteFinished 0x021D5BA0 thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateErrorMessage 0x021D6FF0 thumb ov123
+ *   GSYNC_STATE_StateExtraSaveMainSecond 0x021D76B8 thumb ov123
  *   func_0203F1FC 0x0203F1FC arm
  *   func_02030734 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -21,6 +21,7 @@
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb  arm9
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   GSYNC_STATE_StateExtraSaveMain  0x021D758C  thumb
  */
 #include "../include/Obj02475.h"
 #include "../include/Obj22960.h"
@@ -28,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern int func_021D5BA0(char *p);
+extern int GSYNC_DOWNLOAD_NoteFinished(char *p);
 typedef unsigned int   u32;
 struct Sub020090B0Obj;
 struct Sub02009210Obj;
@@ -40,23 +41,23 @@ extern void func_0200E8E0(void *obj, u32 value);
 extern void GAME_DATA_PartSaveStart(u8 *,u32);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D6FF0(char *p);
-extern void func_021D76B8(char *p);
-extern void func_021D758C(u8 *a);
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateErrorMessage(char *p);
+extern void GSYNC_STATE_StateExtraSaveMainSecond(char *p);
+extern void GSYNC_STATE_StateExtraSaveMain(u8 *a);
 extern const char d_021DAB78[];
-void func_021D76F0(int a)
+void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a)
 {
     int b;
     u8 *p;
     int x;
     u16 checksum;
     b=(int)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj02475 *)a)->f2C));
-    p=(u8 *)func_021D5BA0((char *)(((struct Obj02475 *)a)->f8));
+    p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((char *)(((struct Obj02475 *)a)->f8));
     checksum=func_0203F1FC(p,0x6200);
     if(checksum!=((struct Obj22960 *)p)->f6200) {
         ((struct Obj02475 *)a)->f80=0xfff0;
-        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x378);
+        GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateErrorMessage,0x378);
         return;
     }
     ((struct Obj02475 *)a)->fAE=1;
@@ -66,5 +67,5 @@ void func_021D76F0(int a)
     MI_CpuCopy8(p,((struct Obj02475 *)a)->f3C,0x6200);
     func_0200E8E0((void *)(*(int *)&((struct Obj02475 *)a)->f3C),1);
     GAME_DATA_PartSaveStart((u8 *)((struct Obj02475 *)a)->f2C,7);
-    func_021D6EE0((u8 *)a,(int)func_021D76B8,0x383);
+    GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
 }

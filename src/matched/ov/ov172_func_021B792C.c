@@ -1,5 +1,5 @@
 /*
- * function: func_021B792C
+ * function: CTVT_CAMVIEW_StepValue
  * address:  0x021B792C
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-int func_021B792C(void *p, u16 *value, u16 *limit)
+int CTVT_CAMVIEW_StepValue(void *p, u16 *value, u16 *limit)
 {
     unsigned char step = (((struct Obj24071 *)p)->f20 == 1) ? 4 : 8;
     u16 lim = *limit;

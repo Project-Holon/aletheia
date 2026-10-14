@@ -1,5 +1,5 @@
 /*
- * function: func_021EF1F4
+ * function: BATTLE_REC_TOOL_PackBattleRules
  * address:  0x021EF1F4
  * packet:   pkt_ov188_021EF1F4
  * region:   ov188
@@ -21,7 +21,7 @@ typedef struct { unsigned char low:5, high:3; } Bits50;
 typedef struct { unsigned char low:4, mid:3, high:1; } Bits51;
 extern void CONFIG_Copy(void *a, void *b);
 
-int func_021EF1F4(const u8 *a, u8 *b)
+int BATTLE_REC_TOOL_PackBattleRules(const u8 *a, u8 *b)
 {
     int f;
     *(Block16 *)(b + 24) = *(const Block16 *)(a + 8);

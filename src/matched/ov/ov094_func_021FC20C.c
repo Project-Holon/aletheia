@@ -1,5 +1,5 @@
 /*
- * function: func_021FC20C
+ * function: BTLV_EFFVM_CmdCallScript
  * address: 0x021FC20C
  * packet: pkt_ov094_021FC20C
  * region: ov094
@@ -39,7 +39,7 @@ extern void VM_Call(struct Ring *r, unsigned int v);
 typedef unsigned int   u32;
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
-int func_021FC20C(struct Ring *a, State *s)
+int BTLV_EFFVM_CmdCallScript(struct Ring *a, State *s)
 {
     int n = VM_GetU32((struct Cursor *)a);
     int v = VM_GetU32((struct Cursor *)a);

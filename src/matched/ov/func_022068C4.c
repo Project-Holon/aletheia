@@ -1,5 +1,5 @@
 /*
- * function: func_022068C4
+ * function: BTLV_INPUT_AllocTaskSlot
  * address:  0x022068C4
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022068C4   0x022068C4  thumb
- *   func_0220687C 0x0220687C thumb ov094
+ *   BTLV_INPUT_AllocTaskSlot   0x022068C4  thumb
+ *   BTLV_INPUT_DeleteTask 0x0220687C thumb ov094
 
  *
  * lane O10 candidate
  */
 #include "../include/Obj18616.h"
 
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-int func_022068C4(char *p)
+int BTLV_INPUT_AllocTaskSlot(char *p)
 {
     int i;
 
@@ -29,7 +29,7 @@ int func_022068C4(char *p)
             break;
     }
     if (i == 8) {
-        func_0220687C(p, (void *)(((struct Obj18616 *)p)->f8));
+        BTLV_INPUT_DeleteTask(p, (void *)(((struct Obj18616 *)p)->f8));
         i = 0;
     }
     return i;

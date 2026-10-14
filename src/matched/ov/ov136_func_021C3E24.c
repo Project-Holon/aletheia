@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E24
+ * function: MAILTOOL_DeleteArgs
  * address:  0x021C3E24
  * packet:   pkt_021C3E24
  * region:   ov136
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C3E24(u8 *p)
+void MAILTOOL_DeleteArgs(u8 *p)
 {
     if (((struct Obj14181 *)p)->f14)
         func_020307B0(((struct Obj14181 *)p)->f14);

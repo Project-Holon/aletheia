@@ -1,5 +1,5 @@
 /*
- * function: func_021BD934
+ * function: ZUKAN_LIST_AddActorPos
  * address:  0x021BD934
  * packet:   pkt_021BD934
  * region:   ov209
@@ -18,7 +18,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021BD934(char *p, int idx, short a, short b, unsigned short c)
+void ZUKAN_LIST_AddActorPos(char *p, int idx, short a, short b, unsigned short c)
 {
     unsigned short buf[2];
     buf[0] = a;

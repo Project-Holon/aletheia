@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7808  0x021F7808  thumb  ov094
+ *   BTLV_EFFECT_Exit  0x021F7808  thumb  ov094
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  */
-extern void func_021F7808(void);
+extern void BTLV_EFFECT_Exit(void);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
@@ -24,7 +24,7 @@ extern void G3D_SYSTEM_Exit(void);
 
 void BTLV_CORE_ExitDisplay(void)
 {
-    func_021F7808();
+    BTLV_EFFECT_Exit();
     CLACT_ExitSystem();
     BMP_WIN_Exit();
     func_0203F9B4();

@@ -1,5 +1,5 @@
 /*
- * function: func_021C100C
+ * function: ZUKAN_DETAIL_AREA_GetTownPointDistance
  * address: 0x021C100C
  * packet: pkt_ov208_021C100C
  * region: ov208
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
-int func_021C100C(void *unused, char *p, int key, u8 index, u8 x, u8 y, unsigned *out)
+int ZUKAN_DETAIL_AREA_GetTownPointDistance(void *unused, char *p, int key, u8 index, u8 x, u8 y, unsigned *out)
 {
     unsigned dx, dy, distance;
     if (*(unsigned *)(p + index * 8 + 0x1e0) == 1) return 0;

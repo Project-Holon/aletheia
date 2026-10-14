@@ -1,5 +1,5 @@
 /*
- * function: func_021DE1F8
+ * function: DENDOU_VIEW_ReleaseCharacter
  * address:  0x021DE1F8
  * packet:   pkt_021DE1F8
  * region:   ov171
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern void CLACT_ReleaseCharacter(u32 v);
 
-void func_021DE1F8(char *p, int i)
+void DENDOU_VIEW_ReleaseCharacter(char *p, int i)
 {
     if (*(u32 *)(p + 0xbb4 + i * 4) != 0xffffffffu) {
         CLACT_ReleaseCharacter(*(u32 *)(p + 0xbb4 + i * 4));

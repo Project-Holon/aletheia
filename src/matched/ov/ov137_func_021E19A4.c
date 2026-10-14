@@ -1,5 +1,5 @@
 /*
- * function: func_021E19A4
+ * function: GURU2_MAIN_PopBgmWhenDone
  * address: 0x021E19A4
  * packet: pkt_ov137_021E19A4
  * region: ov137
@@ -18,4 +18,4 @@
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *);
-int func_021E19A4(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }
+int GURU2_MAIN_PopBgmWhenDone(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }

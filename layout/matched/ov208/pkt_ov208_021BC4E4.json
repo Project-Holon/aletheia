@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BC4E4",
+   "name": "ZUKAN_DETAIL_COMMON_StartBlendOut",
    "address": "0x021BC4E4",
    "kind": "game",
    "region": "ov208",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C10B8
+ * function: ZUKAN_DETAIL_AREA_HandleCursorInput
  * address:  0x021C10B8
  * packet:   pkt_ov208_021C10B8
  * region:   ov208
@@ -10,43 +10,43 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_021BDC48  0x021BDC48  thumb  ov208
- *   func_021C1E10  0x021C1E10  thumb  ov208
- *   func_021C1920  0x021C1920  thumb  ov208
- *   func_021C1450  0x021C1450  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_SwitchAreaSet  0x021C1E10  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleModeEvent  0x021C1920  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleTownTouchInput  0x021C1450  thumb  ov208
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021BC3B4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern u32  KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void func_021BDC48(void *s, u32 on);
-extern void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch);
-extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
-extern void func_021C1450(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
+extern void ZUKAN_DETAIL_AREA_SwitchAreaSet(u16 *heap, u8 *p, int key, int dir, int touch);
+extern void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode);
+extern void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C10B8(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_HandleCursorInput(u16 *heap, u8 *p, int key)
 {
     void *s;
     int hit, touch;
     int moved, done;
     u32 x, y, tx, ty;
 
-    s = (void *)func_021BC3B4((int *)key);
+    s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     if (W(0x428) == 0 || p[0xd8] != 7)
         return;
 
@@ -63,11 +63,11 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
                 if (p[0x78] >= 4)
                     p[0x78] = 0;
                 hit = 1;
-                func_021C1E10(heap, p, key, 1, 0);
+                ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 1, 0);
                 GFL_USE_PlaySeDefaultVolume(0x54a);
             } else if (KEY_GetRepeat() & 0x200) {
                 if (p[0x78] == 0) p[0x78] = 3; else p[0x78]--;
-                func_021C1E10(heap, p, key, 0, 0);
+                ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 0, 0);
                 GFL_USE_PlaySeDefaultVolume(0x54a);
                 hit = 1;
             }
@@ -89,12 +89,12 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
                     if (p[0x78] >= 4)
                         p[0x78] = 0;
                     hit = 1;
-                    func_021C1E10(heap, p, key, 1, hit);
+                    ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 1, hit);
                     GFL_USE_PlaySeDefaultVolume(0x54a);
                 } else if (x < 0x18 && y < 0x10) {
                     if (p[0x78] == 0) p[0x78] = 3; else p[0x78]--;
                     hit = 1;
-                    func_021C1E10(heap, p, key, 0, hit);
+                    ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 0, hit);
                     GFL_USE_PlaySeDefaultVolume(0x54a);
                 } else if ((x >= 0xa0 || y >= 0x18) && y < 0xa8) {
                     touch = 1;
@@ -112,9 +112,9 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
             }
         }
         if (touch && (W(0x8c) != 0 || W(0x90) != 0)) {
-            func_021C1920(heap, p, key, 1);
+            ZUKAN_DETAIL_AREA_HandleModeEvent(heap, p, key, 1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
-            func_021BDC48(s, 0);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(s, 0);
         }
         break;
     case 5:
@@ -130,13 +130,13 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
                 if (p[0x78] >= 4)
                     p[0x78] = 0;
                 done = 0;
-                func_021C1E10(heap, p, key, 1, done);
+                ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 1, done);
                 moved = 1;
                 GFL_USE_PlaySeDefaultVolume(0x54a);
             } else if (KEY_GetRepeat() & 0x200) {
                 if (p[0x78] == 0) p[0x78] = 3; else p[0x78]--;
                 done = 0;
-                func_021C1E10(heap, p, key, 0, 0);
+                ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 0, 0);
                 GFL_USE_PlaySeDefaultVolume(0x54a);
                 moved = 1;
             }
@@ -154,13 +154,13 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
                         if (p[0x78] >= 4)
                             p[0x78] = 0;
                         moved = 1;
-                        func_021C1E10(heap, p, key, 1, moved);
+                        ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 1, moved);
                         GFL_USE_PlaySeDefaultVolume(0x54a);
                         done = 0;
                     } else if (tx < 0x18 && ty < 0x10) {
                         if (p[0x78] == 0) p[0x78] = 3; else p[0x78]--;
                         moved = 1;
-                        func_021C1E10(heap, p, key, 0, moved);
+                        ZUKAN_DETAIL_AREA_SwitchAreaSet(heap, p, key, 0, moved);
                         done = 0;
                         GFL_USE_PlaySeDefaultVolume(0x54a);
                     } else if (tx < 0xa0 && ty < 0x18) {
@@ -174,7 +174,7 @@ void func_021C10B8(u16 *heap, u8 *p, int key)
                 func_020355D8(1);
         }
         if (done)
-            func_021C1450(heap, p, key);
+            ZUKAN_DETAIL_AREA_HandleTownTouchInput(heap, p, key);
         break;
     }
 }

@@ -11,7 +11,7 @@
  *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
- *   func_021BE0D8 0x021BE0D8 thumb ov172
+ *   COMM_TVT_SYS_IsLaunchModeCall 0x021BE0D8 thumb ov172
  */
 #include "../include/Obj06559.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ extern void GFL_NET_LOWER_DATA_Exit(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void GFL_NET_FreeAligned(void *);
-extern int func_021BE0D8(void *);
+extern int COMM_TVT_SYS_IsLaunchModeCall(void *);
 void func_021B7DCC(void *p, char *q)
 {
     u8 i;
@@ -30,7 +30,7 @@ void func_021B7DCC(void *p, char *q)
     GFL_NET_FreeAligned(((struct Obj06559 *)q)->f190);
     GFL_NET_FreeAligned(((struct Obj06559 *)q)->f188);
     for (i = 0; i < 3; i++) {
-        if (func_021BE0D8(p) == 0 || i == 0)
+        if (COMM_TVT_SYS_IsLaunchModeCall(p) == 0 || i == 0)
             GFL_NET_FreeAligned(*(void **)(q + i * 4 + 0x164));
     }
     func_020307B0(q);

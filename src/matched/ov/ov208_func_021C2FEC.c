@@ -1,5 +1,5 @@
 /*
- * function: func_021C2FEC
+ * function: ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics
  * address:  0x021C2FEC
  * packet:   pkt_ov208_021C2FEC
  * region:   ov208
@@ -36,7 +36,7 @@ struct S {
     u32 a54[2];
 };
 
-void func_021C2FEC(void *unused, struct S *p, u32 unused2, u32 i)
+void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct S *p, u32 unused2, u32 i)
 {
     if (p->a54[i] != 0) {
         CLACT_DeleteActor((struct Obj *)p->a54[i]);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC738
+ * function: ZUKAN_DETAIL_COMMON_LoadPaletteToSlot
  * address: 0x021BC738
  * packet: pkt_ov208_021BC738
  * region: ov208
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct Ov208Gfx { int f0; int f4; void *gfx; };
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
 {
     PALANM_LoadHandlePaletteToSlotAt(p->gfx, (void *)a, b, c, d, e, f, g);
 }

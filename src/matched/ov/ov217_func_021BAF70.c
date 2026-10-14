@@ -26,7 +26,7 @@
  *   func_021BC6F4 0x021BC6F4 thumb ov217
  *   func_021BBAA4 0x021BBAA4 thumb ov217
  *   func_021BC06C 0x021BC06C thumb ov217
- *   func_021C09B8 0x021C09B8 thumb ov217
+ *   RESEARCH_COMMON_GetTouchRects 0x021C09B8 thumb ov217
  *   func_021BC428 0x021BC428 thumb ov217
  *   func_021BC0E8 0x021BC0E8 thumb ov217
  *   KEY_GetCont 0x0203630C arm
@@ -45,7 +45,7 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void *func_021C09B8(void *p);
+extern void *RESEARCH_COMMON_GetTouchRects(void *p);
 extern void func_021BC600(void *p);
 extern void func_021BC608(void *p);
 extern u32 func_021BC6D0(void *p);
@@ -73,7 +73,7 @@ void func_021BAF70(char *p)
     int flag;
     u32 a;
     u32 b;
-    flag = TOUCHPANEL_HitTrg(func_021C09B8(*(void **)p));
+    flag = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(*(void **)p));
     TOUCHPANEL_GetPointCont(&a, &b);
     if (trg & 0xc0) {
         func_021BC600(p);

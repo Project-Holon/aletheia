@@ -1,5 +1,5 @@
 /*
- * function: func_021F17E0
+ * function: MB_UTIL_MSG_PrintQueued
  * address:  0x021F17E0
  * packet:   pkt_ov107_021F17E0
  * region:   ov107
@@ -68,7 +68,7 @@ struct PrintSys;
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void func_020409B4(u32 index);
 
-void func_021F17E0(Ov107Ctx *p, int a)
+void MB_UTIL_MSG_PrintQueued(Ov107Ctx *p, int a)
 {
     void *s;
 

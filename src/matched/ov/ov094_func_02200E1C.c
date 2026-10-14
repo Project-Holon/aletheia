@@ -1,5 +1,5 @@
 /*
- * function: func_02200E1C
+ * function: BTLV_MCSS_ShakeTaskMain
  * address: 0x02200E1C
  * packet: pkt_ov094_02200E1C
  * region: ov094
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_022019F4 0x022019F4 thumb ov094
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -22,32 +22,32 @@ typedef unsigned int u32;
 typedef short s16;
 typedef long long s64;
 typedef struct Vec { int x, y, z; } Vec;
-extern int func_022019F4(char *, int);
-extern void func_021F89BC(void *);
+extern int BTLV_MCSS_FindSpriteIndex(char *, int);
+extern void BTLV_EFFECT_DeleteTask(void *);
 extern const s16 FX_SinCosTable_[];
 extern void MCSS_SetOfsPosition(void *, u32 *);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
-void func_02200E1C(void *task, char *q)
+void BTLV_MCSS_ShakeTaskMain(void *task, char *q)
 {
     char *p = *(char * *)&((struct Obj00264 *)q)->f0;
     Vec v = {0, 0, 0};
-    int i = func_022019F4(p, ((struct Obj00264 *)q)->f4);
+    int i = BTLV_MCSS_FindSpriteIndex(p, ((struct Obj00264 *)q)->f4);
     char *e;
     int off;
     int x, y;
     int j;
     if (i == -1) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     e = p + 8;
     off = i * 0x5c;
     if (*(void **)(e + off) == 0) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     if (((struct Obj00264 *)q)->f38 != *(u8 *)(p + ((struct Obj00264 *)q)->f4 + 0x542)) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     if (((struct Obj00264 *)q)->f34 == 0) {
@@ -119,5 +119,5 @@ void func_02200E1C(void *task, char *q)
         ((struct Obj00264 *)q)->f34 -= 1;
     }
     if (((struct Obj00264 *)q)->f20 == 0)
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
 }

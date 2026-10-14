@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E90
+ * function: POKETRADE_PROC_GetPlayerMonPtr
  * address: 0x021D8E90
  * packet: pkt_ov119_021D8E90
  * region: ov119
@@ -15,7 +15,7 @@
 /*
  * Hidden leaf (no caller seen): slot lookup by index, 0 when out of range.
  */
-int func_021D8E90(int i, char *p)
+int POKETRADE_PROC_GetPlayerMonPtr(int i, char *p)
 {
     if (i >= 0 && i < 2)
         return *(int *)(p + i * 4 + 0x1064);

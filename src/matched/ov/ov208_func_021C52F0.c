@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C52F0
+ * function: ZUKAN_DETAIL_FORM_LoadIconResources
  * address:  0x021C52F0
  * packet:   pkt_ov208_021C52F0
  * region:   ov208
@@ -42,7 +42,7 @@ extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-void ov208_func_021C52F0(u16 *heap, struct Ov208Menu *p)
+void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Menu *p)
 {
     p->arc = func_020490F4(7, *heap);
     p->j = CLACT_RegisterPaletteCompressed(p->arc, func_0201BC3C(), 1, 0, *heap);

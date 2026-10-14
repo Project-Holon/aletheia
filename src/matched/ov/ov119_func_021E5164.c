@@ -1,5 +1,5 @@
 /*
- * function: func_021E5164
+ * function: POKETRADE_2D_HideAllBoxIcons
  * address: 0x021E5164
  * packet: pkt_ov119_021E5164
  * region: ov119
@@ -13,7 +13,7 @@
  */
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-void func_021E5164(int p)
+void POKETRADE_2D_HideAllBoxIcons(int p)
 {
     int i, j;
     for (i = 0; i < 12; i++)

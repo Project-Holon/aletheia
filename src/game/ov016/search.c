@@ -17,7 +17,7 @@
  *   gSearchWork  0x021DE640  data
  *   WM_GetAllowedChannel  0x0208EE60  arm
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
- *   g_021DE640_b  0x021DE640  data
+ *   gMemSearch  0x021DE640  data
  *   MIi_CpuClear16  0x02082A48  arm
  *   WM_Initialize  0x0208F370  arm
  *   WM_ReadStatus  0x0208EBE4  arm
@@ -138,7 +138,7 @@ int DWCi_SEARCHlBegin(void);
 int DWCi_SEARCHlStop(void);
 int DWCi_SEARCHlGetApInfo(tagAPINFO **info);
 extern tagMEMSEARCH *gSearchWork;
-extern tagMEMSEARCH *g_021DE640_b;
+extern tagMEMSEARCH *gMemSearch;
 extern SCANPRM sSearchScanParam;
 extern unsigned char sSearchZeroBssid[6];
 extern u8 sSearchBeaconTag[4];
@@ -162,14 +162,14 @@ void DWCi_SEARCHlInit(void)
  * sdk:      DWCi_SEARCHlEnd (libdwcutil.TWL.HYB.a(search.o))
  *
  * notes:    the two pool words are the same address (MemSearch); the second
- *           extern g_021DE640_b keeps them apart.
+ *           extern gMemSearch keeps them apart.
  */
 void DWCi_SEARCHlEnd(void)
 {
 	if (gSearchWork != 0) {
 		while (WM_GetAllowedChannel() != 0x8000) {
 		}
-		DWCi_HEAPlFree_((void **)&g_021DE640_b);
+		DWCi_HEAPlFree_((void **)&gMemSearch);
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C291C
+ * function: PERCENTAGE_ClearFields
  * address:  0x021C291C
  * packet:   pkt_ov217_021C291C
  * region:   ov217
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * This address is also matched as func_021C291C in ov016; the ov217 copy is a
+ * This address is also matched as PERCENTAGE_ClearFields in ov016; the ov217 copy is a
  * distinct function and gets its own shard.
  *
  * Addresses are Black-image addresses.
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-void func_021C291C(char *p, u16 v)
+void PERCENTAGE_ClearFields(char *p, u16 v)
 {
     int i;
     ((struct Obj10967 *)p)->f0 = v;

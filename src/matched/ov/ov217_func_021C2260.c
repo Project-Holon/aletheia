@@ -1,5 +1,5 @@
 /*
- * function: func_021C2260
+ * function: ARROW_HideAll
  * address:  0x021C2260
  * packet:   pkt_ov217_021C2260
  * region:   ov217
@@ -23,7 +23,7 @@ typedef signed int s32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
-void func_021C2260(void *p)
+void ARROW_HideAll(void *p)
 {
     s32 i;
     s32 n = ((struct Obj26021 *)p)->f298;

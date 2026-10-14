@@ -1,2 +1,0 @@
-
-- `ov008_func_021550DC.c` was missing from the restructured tree and was added back from src/matched (tools/gamefix.py); merge it into its neighbours.

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC52C
+ * function: ZUKAN_LIST_ExitBgSystem
  * address:  0x021BC52C
  * packet:   pkt_ov209_021BC52C
  * region:   ov209
@@ -22,7 +22,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 
-void func_021BC52C(void)
+void ZUKAN_LIST_ExitBgSystem(void)
 {
     BG_SYS_SetMainPlaneVisible(0xf, 0);
     BG_SYS_SetSubPlaneVisible(0xf, 0);

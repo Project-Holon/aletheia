@@ -1,5 +1,5 @@
 /*
- * function: func_021B7888
+ * function: CTVT_CAMVIEW_SetWindowCurRect
  * address:  0x021B7888
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d)
+void CTVT_CAMVIEW_SetWindowCurRect(void *p, u16 a, u16 b, u16 c, u16 d)
 {
     ((struct Obj06554 *)p)->f0 = 1;
     ((struct Obj06554 *)p)->fC = a;

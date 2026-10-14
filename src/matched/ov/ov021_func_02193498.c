@@ -1,5 +1,5 @@
 /*
- * function: FIELD_MSGBG_BlockQueryTwoPlane
+ * function: FIELD_G3D_MAP_BLOCK_QueryTwoPlane
  * address:  0x02193498
  * packet:   pkt_ov021_02193498
  * region:   ov021
@@ -22,7 +22,7 @@ struct Plane021D14C4;
 struct VecFx32_021D14C4;
 extern void FIELD_G3D_MAPPER_GetTilePlane(struct Plane021D14C4 *out, int idx, struct Map021D14C4 *map, struct VecFx32_021D14C4 *pos, int size, int base);
 
-void FIELD_MSGBG_BlockQueryTwoPlane(B104 *dst, const int *src, void *c, int d, int e)
+void FIELD_G3D_MAP_BLOCK_QueryTwoPlane(B104 *dst, const int *src, void *c, int d, int e)
 {
     B104 buf;
 

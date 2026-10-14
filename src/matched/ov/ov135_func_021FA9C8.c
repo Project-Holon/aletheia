@@ -1,5 +1,5 @@
 /*
- * function: func_021FA9C8
+ * function: WORLDTRADE_INPUT_DrawFrame
  * address: 0x021FA9C8
  * packet: pkt_ov135_021FA9C8
  * region: ov135
@@ -12,12 +12,12 @@
  *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
  *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
  *   func_021F9260 0x021F9260 thumb ov135
- *   func_021FBEB8 0x021FBEB8 thumb ov135
+ *   WORLDTRADE_INPUT_PrintFrameStringAlt 0x021FBEB8 thumb ov135
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_021FBFB0 0x021FBFB0 thumb ov135
- *   func_021FC014 0x021FC014 thumb ov135
- *   func_021FAC50 0x021FAC50 thumb ov135
+ *   WORLDTRADE_INPUT_CategoryHasSpecies 0x021FBFB0 thumb ov135
+ *   WORLDTRADE_INPUT_CategoryHasListEntries 0x021FC014 thumb ov135
+ *   WORLDTRADE_INPUT_PutBmpWinString 0x021FAC50 thumb ov135
  *   STRBUF_Delete 0x02045808 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
@@ -31,18 +31,18 @@ struct WinMgr;
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
-extern void func_021FBEB8(void *, void *, void *, u32, void *);
+extern void WORLDTRADE_INPUT_PrintFrameStringAlt(void *, void *, void *, u32, void *);
 extern void MI_CpuFill8(void *, u32, u32);
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_021FBFB0(void *, int);
-extern int func_021FC014(void *, int);
-extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
+extern int WORLDTRADE_INPUT_CategoryHasSpecies(void *, int);
+extern int WORLDTRADE_INPUT_CategoryHasListEntries(void *, int);
+extern void WORLDTRADE_INPUT_PutBmpWinString(void *, void *, void *, u32, u16, void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
-void func_021FA9C8(u8 *p, int mode, int pos)
+void WORLDTRADE_INPUT_DrawFrame(u8 *p, int mode, int pos)
 {
     int i;
     void *str;
@@ -51,14 +51,14 @@ void func_021FA9C8(u8 *p, int mode, int pos)
     BGWINFRM_SetFrameDataArc(((struct Obj01744 *)p)->f18, 0, 96, mode == 6 ? 27 : 28, 1);
     BGWINFRM_GetFrameBuffer(((struct Obj01744 *)p)->f18, 0);
     func_021F9260(p, mode);
-    func_021FBEB8(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
     MI_CpuFill8(p + 96, 1, 26);
     g = p;
     g += 124;
     for (i = 0; i < 9; i++) {
         str = func_02045EC0(((struct Obj01744 *)p)->f20, i + 116);
         if (mode == 4) {
-            if (func_021FBFB0(p, i) == 1) {
+            if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
                 color = 0x3dc2;
                 p[i + 96] = 1;
             } else {
@@ -66,7 +66,7 @@ void func_021FA9C8(u8 *p, int mode, int pos)
                 p[i + 96] = 0;
             }
         } else {
-            if (func_021FC014(p, i) == 1) {
+            if (WORLDTRADE_INPUT_CategoryHasListEntries(p, i) == 1) {
                 color = 0x3dc2;
                 p[i + 96] = 1;
             } else {
@@ -74,12 +74,12 @@ void func_021FA9C8(u8 *p, int mode, int pos)
                 p[i + 96] = 0;
             }
         }
-        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
+        WORLDTRADE_INPUT_PutBmpWinString(((struct Obj01744 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
         STRBUF_Delete(str);
     }
     if (mode == 6) {
         str = func_02045EC0(((struct Obj01744 *)p)->f20, 188);
-        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
+        WORLDTRADE_INPUT_PutBmpWinString(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
         STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(((struct Obj01744 *)p)->f18, 0, pos, 0);

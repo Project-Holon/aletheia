@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_SymbolEntryEventMain
+ * function: FIELD_INTRUDE_EVENT_SymbolEntryEventMain
  * address:  0x0216B3EC
  * packet:   pkt_ov010_0216B3EC
  * region:   ov010
@@ -24,7 +24,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   FIELD_G3D_MAP_CreateIntrudeRequestEvent  0x0216B24C  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent  0x0216B24C  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
@@ -63,7 +63,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void FLDMMDL_SysPauseMove(void *map);
-extern int FIELD_G3D_MAP_CreateIntrudeRequestEvent(void *vm, int value, int flag);
+extern int FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(void *vm, int value, int flag);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
@@ -74,7 +74,7 @@ extern int FLDMMDL_BLACT_IsReservePending(void *map);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
 
-int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
+int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
 {
     void *sys = GAME_EVENT_GetGameSystem(evt);
     void *ctx;
@@ -89,7 +89,7 @@ int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
         if (w->f20 == 1) {
             *state = 2;
         } else {
-            GAME_EVENT_CallEvent(evt, (void *)FIELD_G3D_MAP_CreateIntrudeRequestEvent(sys, (int)(&w->f18), w->f16));
+            GAME_EVENT_CallEvent(evt, (void *)FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(sys, (int)(&w->f18), w->f16));
             (*state)++;
         }
         break;

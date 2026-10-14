@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C52F8",
+   "name": "MAILVIEW_DeleteWindows",
    "address": "0x021C52F8",
    "kind": "game",
    "region": "ov136",

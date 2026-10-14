@@ -1,5 +1,5 @@
 /*
- * function: func_021FD270
+ * function: WORLDTRADE_LIST_CreateStrings
  * address:  0x021FD270
  * packet:   pkt_021FD270
  * region:   ov135
@@ -14,7 +14,7 @@
  *   func_0201F31C  0x0201F31C  thumb
  *   func_0201F048  0x0201F048  thumb
  *   func_0201F094  0x0201F094  thumb
- *   func_02202670  0x02202670  thumb
+ *   WORLDTRADE_ADAPTER_CreateString  0x02202670  thumb
  */
 
 typedef signed char s8;
@@ -51,9 +51,9 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F31C(struct WordSet *p);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
+extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
-void func_021FD270(Work *p)
+void WORLDTRADE_LIST_CreateStrings(Work *p)
 {
     Entry *e = &p->arr[p->cur];
 
@@ -65,6 +65,6 @@ void func_021FD270(Work *p)
     if (e->ver != 0) {
         func_0201F094(p->words, 9, e->lang, e->ver);
     }
-    p->name0 = (void *)func_02202670((u32)p->words, (u32)p->msg, 0x58, 0x48);
-    p->name1 = (void *)func_02202670((u32)p->words, (u32)p->msg, 0x59, 0x48);
+    p->name0 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->msg, 0x58, 0x48);
+    p->name1 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->msg, 0x59, 0x48);
 }

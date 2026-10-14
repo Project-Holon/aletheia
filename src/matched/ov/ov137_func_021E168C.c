@@ -1,5 +1,5 @@
 /*
- * function: func_021E168C
+ * function: GURU2_MAIN_SetPlayerInput
  * address: 0x021E168C
  * packet: pkt_ov137_021E168C
  * region: ov137
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021E168C(int *p,int a) { if(a!=0) p[13]=a; }
+void GURU2_MAIN_SetPlayerInput(int *p,int a) { if(a!=0) p[13]=a; }

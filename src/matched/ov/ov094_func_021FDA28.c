@@ -1,5 +1,5 @@
 /*
- * function: func_021FDA28
+ * function: BTLV_EFFVM_EmitterMoveCallbackB
  * address: 0x021FDA28
  * packet: pkt_ov094_021FDA28
  * region: ov094
@@ -10,7 +10,7 @@
  * symbols:
  *   BUTTON_MAN_GetUserData 0x02051A34 arm
  *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
- *   func_021FE1B8 0x021FE1B8 thumb ov094
+ *   BTLV_EFFVM_TransformVecByMtx44 0x021FE1B8 thumb ov094
  *   _ll_mul 0x0209C054 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
@@ -20,9 +20,9 @@ typedef struct { int x, y, z; } VecFx32;
 extern const s16 FX_SinCosTable_[];
 extern int BUTTON_MAN_GetUserData(void *p);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
-extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
+extern void BTLV_EFFVM_TransformVecByMtx44(VecFx32 *v, const VecFx32 *ofs);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
-void func_021FDA28(void *p, int active)
+void BTLV_EFFVM_EmitterMoveCallbackB(void *p, int active)
 {
     int *s;
     VecFx32 v;
@@ -45,7 +45,7 @@ void func_021FDA28(void *p, int active)
             v.z = MUL(v.z, s[5]);
             v.z += s[3];
             if (s[15] != 0)
-                func_021FE1B8(&v, 0);
+                BTLV_EFFVM_TransformVecByMtx44(&v, 0);
             BUTTON_MAN_SetEmitterPos(p, &v);
             if (s[8] != 0) {
                 s[8]--;

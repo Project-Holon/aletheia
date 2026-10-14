@@ -1,5 +1,5 @@
 /*
- * function: func_021B6474
+ * function: HALL_OF_FAME_ExitText
  * address: 0x021B6474
  * packet: pkt_ov180_021B6474
  * region: ov180
@@ -22,4 +22,4 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B6474(char *p) {STRBUF_Delete(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);GF_FONT_Delete(((struct Obj05469 *)p)->f9034);GF_FONT_Delete(((struct Obj05469 *)p)->f9030);MSGDATA_Delete(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}
+void HALL_OF_FAME_ExitText(char *p) {STRBUF_Delete(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);GF_FONT_Delete(((struct Obj05469 *)p)->f9034);GF_FONT_Delete(((struct Obj05469 *)p)->f9030);MSGDATA_Delete(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}

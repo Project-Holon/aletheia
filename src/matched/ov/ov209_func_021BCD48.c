@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD48
+ * function: ZUKAN_LIST_StateExit
  * address: 0x021BCD48
  * packet: pkt_ov209_021BCD48
  * region: ov209
@@ -15,17 +15,17 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021BC91C 0x021BC91C thumb ov209
- *   func_021BC2FC 0x021BC2FC thumb ov209
- *   func_021BC2B0 0x021BC2B0 thumb ov209
- *   func_021BC810 0x021BC810 thumb ov209
- *   func_021BCB60 0x021BCB60 thumb ov209
- *   func_021BC8A4 0x021BC8A4 thumb ov209
- *   func_021BD824 0x021BD824 thumb ov209
- *   func_021BD3E0 0x021BD3E0 thumb ov209
- *   func_021BC868 0x021BC868 thumb ov209
- *   func_021BC52C 0x021BC52C thumb ov209
- *   func_021BC704 0x021BC704 thumb ov209
+ *   ZUKAN_LIST_UpdateActorMove 0x021BC91C thumb ov209
+ *   ZUKAN_LIST_StopHBlankTask 0x021BC2FC thumb ov209
+ *   ZUKAN_LIST_StopVBlankTask 0x021BC2B0 thumb ov209
+ *   ZUKAN_LIST_DisableSubWindows 0x021BC810 thumb ov209
+ *   ZUKAN_LIST_DeleteFrameList 0x021BCB60 thumb ov209
+ *   ZUKAN_LIST_FreeFormTable 0x021BC8A4 thumb ov209
+ *   ZUKAN_LIST_ExitActors 0x021BD824 thumb ov209
+ *   ZUKAN_LIST_DeleteWindows 0x021BD3E0 thumb ov209
+ *   ZUKAN_LIST_DeleteFontAndPrinter 0x021BC868 thumb ov209
+ *   ZUKAN_LIST_ExitBgSystem 0x021BC52C thumb ov209
+ *   ZUKAN_LIST_ExitPaletteAnim 0x021BC704 thumb ov209
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  */
 #include "../include/Obj00088.h"
@@ -37,30 +37,30 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_02034A5C(int);
-extern int func_021BC91C(char *);
-extern void func_021BC810(void);
-extern void func_021BC52C(void);
-extern void func_021BC2FC(char *);
-extern void func_021BC2B0(char *);
-extern void func_021BCB60(char *);
-extern void func_021BC8A4(char *);
-extern void func_021BD824(char *);
-extern void func_021BD3E0(char *);
-extern void func_021BC868(char *);
-extern void func_021BC704(char *);
-int func_021BCD48(char *p)
+extern int ZUKAN_LIST_UpdateActorMove(char *);
+extern void ZUKAN_LIST_DisableSubWindows(void);
+extern void ZUKAN_LIST_ExitBgSystem(void);
+extern void ZUKAN_LIST_StopHBlankTask(char *);
+extern void ZUKAN_LIST_StopVBlankTask(char *);
+extern void ZUKAN_LIST_DeleteFrameList(char *);
+extern void ZUKAN_LIST_FreeFormTable(char *);
+extern void ZUKAN_LIST_ExitActors(char *);
+extern void ZUKAN_LIST_DeleteWindows(char *);
+extern void ZUKAN_LIST_DeleteFontAndPrinter(char *);
+extern void ZUKAN_LIST_ExitPaletteAnim(char *);
+int ZUKAN_LIST_StateExit(char *p)
 {
-    if (func_021BC91C(p) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
-    func_021BC2FC(p);
-    func_021BC2B0(p);
-    func_021BC810();
-    func_021BCB60(p);
-    func_021BC8A4(p);
-    func_021BD824(p);
-    func_021BD3E0(p);
-    func_021BC868(p);
-    func_021BC52C();
-    func_021BC704(p);
+    if (ZUKAN_LIST_UpdateActorMove(p) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
+    ZUKAN_LIST_StopHBlankTask(p);
+    ZUKAN_LIST_StopVBlankTask(p);
+    ZUKAN_LIST_DisableSubWindows();
+    ZUKAN_LIST_DeleteFrameList(p);
+    ZUKAN_LIST_FreeFormTable(p);
+    ZUKAN_LIST_ExitActors(p);
+    ZUKAN_LIST_DeleteWindows(p);
+    ZUKAN_LIST_DeleteFontAndPrinter(p);
+    ZUKAN_LIST_ExitBgSystem();
+    ZUKAN_LIST_ExitPaletteAnim(p);
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
     *(volatile u16 *)0x04000050 = 0;

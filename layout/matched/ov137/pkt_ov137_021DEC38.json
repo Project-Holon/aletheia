@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEC38",
+   "name": "GURU2_MAIN_StateSendCancel",
    "address": "0x021DEC38",
    "kind": "game",
    "region": "ov137",

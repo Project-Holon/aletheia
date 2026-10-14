@@ -1,5 +1,5 @@
 /*
- * function: func_021FD9F0
+ * function: BTLV_EFFVM_EmitterInitCallback
  * address:  0x021FD9F0
  * packet:   pkt_ov094_021FD9F0
  * region:   ov094
@@ -14,7 +14,7 @@
  *   BUTTON_MAN_SetAngle  0x0205189C  arm
  *   BUTTON_MAN_SetUserData  0x02051A2C  arm
  *   BUTTON_MAN_SetCallback  0x02051A24  arm
- *   func_021FDA28  0x021FDA28  thumb  ov094
+ *   BTLV_EFFVM_EmitterMoveCallbackB  0x021FDA28  thumb  ov094
  */
 typedef struct {
     char pad00[0x0c];
@@ -29,14 +29,14 @@ struct Obj;
 extern void BUTTON_MAN_SetAngle(struct Obj *o, u32 v);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
 extern void BUTTON_MAN_SetCallback(void *p, int v);
-extern void func_021FDA28(void *p, int active);
+extern void BTLV_EFFVM_EmitterMoveCallbackB(void *p, int active);
 
-void func_021FD9F0(void *p)
+void BTLV_EFFVM_EmitterInitCallback(void *p)
 {
     State *s = (State *)func_02051774();
 
     if (s->k3c != 0 && s->k0c < 0)
         BUTTON_MAN_SetAngle(p, 0x800);
     BUTTON_MAN_SetUserData(p, (int)s);
-    BUTTON_MAN_SetCallback(p, (int)func_021FDA28);
+    BUTTON_MAN_SetCallback(p, (int)BTLV_EFFVM_EmitterMoveCallbackB);
 }

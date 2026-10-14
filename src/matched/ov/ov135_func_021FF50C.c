@@ -1,5 +1,5 @@
 /*
- * function: func_021FF50C
+ * function: WORLDTRADE_SEARCH_ScrollBgs
  * address:  0x021FF50C
  * packet:   pkt_021FF50C
  * region:   ov135
@@ -26,7 +26,7 @@ typedef struct {
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-void func_021FF50C(Work *p)
+void WORLDTRADE_SEARCH_ScrollBgs(Work *p)
 {
     func_02040618(0, 3, p->scroll);
     func_02040618(1, 3, p->scroll);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_G3D_MAP_CmdMoveSpPokeGimmick",
+   "name": "SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick",
    "address": "0x0216BC88",
    "kind": "game",
    "region": "ov010",

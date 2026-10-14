@@ -1,8 +1,8 @@
 /*
  * file:     union_oneself.c
  * unit:     yes
- * function: UNION_ONESELF_ChatInputMain, UNION_ONESELF_ConnectParentStart, UNION_ONESELF_ConnectParentMain, UNION_ONESELF_ConnectParentEnd, UNION_ONESELF_ConnectChildStart, UNION_ONESELF_ConnectChildMain, UNION_ONESELF_ConnectChildEnd, UNION_ONESELF_TalkParentStart, UNION_ONESELF_TalkParentMain, UNION_ONESELF_TalkParentEnd, UNION_ONESELF_TalkParentAnswerWaitMain, UNION_ONESELF_TalkChildStart, UNION_ONESELF_TalkChildMain, UNION_ONESELF_TalkChildEnd, UNION_ONESELF_BattleMenuMain, UNION_ONESELF_TalkPlayingMain, UNION_ONESELF_TalkPlayingChildMain, UNION_ONESELF_TrainerCardMain, UNION_ONESELF_TradeMain, UNION_ONESELF_JoinMain, UNION_ONESELF_ConnectGroupMain, UNION_ONESELF_AppMain, UNION_ONESELF_ColosseumEnterParentMain, UNION_ONESELF_ColosseumEnterChildMain, UNION_ONESELF_ColosseumEntryMain, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember, UNION_ONESELF_ColosseumSetupMain, UNION_ONESELF_ColosseumFreeMoveStart, UNION_ONESELF_ColosseumFreeMoveMain, UNION_ONESELF_ColosseumStandPosMain, UNION_ONESELF_ColosseumLeavePosMain, UNION_ONESELF_ColosseumPartySelectMain, UNION_ONESELF_ColosseumReadyWaitMain, UNION_ONESELF_ColosseumPartyExchangeMain, UNION_ONESELF_ColosseumBattleMain, UNION_ONESELF_ColosseumLeaveConfirmMain, UNION_ONESELF_ColosseumExitMain, UNION_ONESELF_ColosseumTrainerCardMain
- * address:  0x0217BD9C
+ * function: UNION_ONESELF_TryStartSubEvent, UNION_ONESELF_GetFieldTalkEvent, UNION_ONESELF_RunPlayCategory, UNION_ONESELF_SetNextPlayCategory, UNION_ONESELF_SetNextPlayCategoryInMainPhase, UNION_ONESELF_GetRegulationId, UNION_ONESELF_GetRegulationFlag, UNION_ONESELF_IsBattleStatus, UNION_ONESELF_CreateBattleTeamParty, UNION_ONESELF_DeleteParty, UNION_ONESELF_LoadRegulation, UNION_ONESELF_CheckMyParty, UNION_ONESELF_CheckBattleTeamParty, UNION_ONESELF_CheckEntryParties, UNION_ONESELF_SetFieldBusy, UNION_ONESELF_CheckNetError, UNION_ONESELF_CheckNetErrorExit, UNION_ONESELF_IdleStart, UNION_ONESELF_IdleMain, UNION_ONESELF_ErrorMain, UNION_ONESELF_NoOpMain, UNION_ONESELF_FieldExitMain, UNION_ONESELF_ChatInputMain, UNION_ONESELF_ConnectParentStart, UNION_ONESELF_ConnectParentMain, UNION_ONESELF_ConnectParentEnd, UNION_ONESELF_ConnectChildStart, UNION_ONESELF_ConnectChildMain, UNION_ONESELF_ConnectChildEnd, UNION_ONESELF_TalkParentStart, UNION_ONESELF_TalkParentMain, UNION_ONESELF_TalkParentEnd, UNION_ONESELF_TalkParentAnswerWaitMain, UNION_ONESELF_TalkChildStart, UNION_ONESELF_TalkChildMain, UNION_ONESELF_TalkChildEnd, UNION_ONESELF_BattleMenuMain, UNION_ONESELF_TalkPlayingMain, UNION_ONESELF_TalkPlayingChildMain, UNION_ONESELF_TrainerCardMain, UNION_ONESELF_TradeMain, UNION_ONESELF_JoinMain, UNION_ONESELF_ConnectGroupMain, UNION_ONESELF_AppMain, UNION_ONESELF_ColosseumEnterParentMain, UNION_ONESELF_ColosseumEnterChildMain, UNION_ONESELF_ColosseumEntryMain, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember, UNION_ONESELF_ColosseumSetupMain, UNION_ONESELF_ColosseumFreeMoveStart, UNION_ONESELF_ColosseumFreeMoveMain, UNION_ONESELF_ColosseumStandPosMain, UNION_ONESELF_ColosseumLeavePosMain, UNION_ONESELF_ColosseumPartySelectMain, UNION_ONESELF_ColosseumReadyWaitMain, UNION_ONESELF_ColosseumPartyExchangeMain, UNION_ONESELF_ColosseumBattleMain, UNION_ONESELF_ColosseumLeaveConfirmMain, UNION_ONESELF_ColosseumExitMain, UNION_ONESELF_ColosseumTrainerCardMain
+ * address:  0x0217B80C
  * region:   ov019
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,35 +10,70 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from unit_0217AE20.c, union_oneself.c by tools/splitfile.py.
  *
  * symbols:
+ *   func_02034714 0x02034714 arm
+ *   memcmp  0x0203EFC8  arm
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   func_0200ED48  0x0200ED48  thumb
+ *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   UNION_COMM_SetSituationParam 0x021734A8  thumb  ov012
+ *   func_02012138 0x02012138 thumb
+ *   GAME_COMM_GetWork 0x02026474 thumb
+ *   UNION_MAIN_CreateSubEvent 0x0217413C thumb ov012
+ *   gUnionOneselfActionStart  0x02180074  data  a4
+ *   gUnionOneselfActionMain  0x02180078  data  a4
+ *   gUnionOneselfActionEnd  0x0218007C  data  a4
+ *   func_0200BAC8 0x0200BAC8 thumb
+ *   func_0200BBA8 0x0200BBA8 thumb
+ *   func_0200BAF4 0x0200BAF4 thumb
+ *   func_020307B0 0x020307B0 arm
+ *   gUnionEmptyString1 0x021807E4 data a1
+ *   POKE_REGULATION_LoadInto 0x0201A364 thumb
+ *   func_0200AEE8 0x0200AEE8 thumb
+ *   func_02012934 0x02012934 thumb
+ *   POKE_REGULATION_CheckParty 0x0201A090 thumb
+ *   FIELDMAP_CTRL_GRID_SetBusy 0x021A2E44 thumb ov021
+ *   func_0200FB24 0x0200FB24 thumb
+ *   UNION_COMM_InitConnectInfo 0x02173524 thumb ov012
+ *   UNION_MSG_CloseAllWindows 0x0217F074 thumb ov019
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   UNION_ONESELF_IsPlayerAtReceptionSpot  0x0217F7E4  thumb  ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   func_02012124  0x02012124  thumb
+ *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
+ *   UNION_COMM_ReleaseWorks  0x02173420  thumb  ov012
+ *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
- *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
  *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
  *   UNION_COMM_SetChatPms  0x021736A0  thumb  ov012
- *   func_020307B0  0x020307B0  arm
  *   d_021807E8     0x021807E8  data  a4
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
- *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
- *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
- *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
  *   UNION_COMMAND_SendPartnerMode  0x02173AFC  thumb  ov012
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
- *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   KEY_GetTrg  0x020362DC  arm
- *   memcmp         0x0203EFC8  arm
  *   UNION_ONESELF_SetFieldBusy 0x0217BAF0 thumb ov019
- *   gUnionEmptyString1     0x021807E4  data a1
- *   func_02034714  0x02034714  arm
  *   UNION_COMMAND_SendMyMac  0x02173A90  thumb ov012
  *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
  *   UNION_COMM_AddMemberFromBeaconPc  0x021735FC  thumb  ov012
@@ -64,7 +99,6 @@
  *   UNION_COMMAND_SendTrainerCard  0x02173BB0  thumb  ov012
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_0200ED48  0x0200ED48  thumb
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
@@ -74,9 +108,7 @@
  *   UNION_COMM_StartConnectSync  0x02172EDC  thumb  ov012
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   UNION_COMM_RemoveMemberOfBeaconPc  0x02173650  thumb  ov012
- *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_0200FB24  0x0200FB24  thumb
  *   UNION_COMMAND_SendAppEntry  0x02173D38  thumb  ov012
  *   COLOSSEUM_Create  0x02174F4C  thumb  ov012
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -94,19 +126,10 @@
  *   COLOSSEUM_SendPlayerEntry  0x02174BB8  thumb  ov012
  *   COLOSSEUM_SendTrainerCard  0x02174C34  thumb  ov012
  *   COLOSSEUM_SetStartFlag  0x02175094  thumb  ov012
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   COLOSSEUM_SetMyChoice  0x021750B0  thumb  ov012
- *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
  *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
- *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   COLOSSEUM_SendChoiceRequest  0x02174CE4  thumb  ov012
  *   COLOSSEUM_GetMyChoiceReply  0x021750D0  thumb  ov012
- *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
- *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
- *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
- *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
- *   func_0200BAC8  0x0200BAC8  thumb
- *   func_0200BBA8  0x0200BBA8  thumb
  *   UNION_ONESELF_CheckMyParty  0x0217BA48  thumb  ov019
  *   UNION_ONESELF_CheckBattleTeamParty  0x0217BA6C  thumb  ov019
  *   UNION_ONESELF_CreateBattleTeamParty  0x0217B9CC  thumb  ov019
@@ -128,60 +151,52 @@
  *   func_020084F4  0x020084F4  thumb
  *   UNION_CHARA_ClearTable  0x0217AE20  thumb  ov019
  *   COLOSSEUM_SendFinish  0x02174F34  thumb  ov012
- *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  *   UNION_COMM_ClearBeaconPcs  0x02173408  thumb  ov012
- *   UNION_COMM_InitConnectInfo  0x02173524  thumb  ov012
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_0200855C  0x0200855C  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   ARC_TOOL_CreateHandle   0x020490F4  arm
- *   sub_02034714   0x02034714  arm
- *   MTX_Identity33_  0x0207ADC4  arm
- *   func_0217EC04  0x0217EC04  thumb  ov019
- *   func_0217EC1C  0x0217EC1C  thumb  ov019
- *   func_0217EC28  0x0217EC28  thumb  ov019
- *   func_0217EC34  0x0217EC34  thumb  ov019
- *   func_0217EC40  0x0217EC40  thumb  ov019
- *   func_0217EC54  0x0217EC54  thumb  ov019
- *   func_0217EC68  0x0217EC68  thumb  ov019
- *   func_0217EC78  0x0217EC78  thumb  ov019
- *   func_0217EC88  0x0217EC88  thumb  ov019
- *   func_0217EC94  0x0217EC94  thumb  ov019
- *   func_0217ECA0  0x0217ECA0  thumb  ov019
- *   func_0217ECAC  0x0217ECAC  thumb  ov019
- *   func_0217ECB8  0x0217ECB8  thumb  ov019
- *   func_0217ECD0  0x0217ECD0  thumb  ov019
- *   func_0217ECE8  0x0217ECE8  thumb  ov019
- *   func_0217ED04  0x0217ED04  thumb  ov019
- *   func_0217ED10  0x0217ED10  thumb  ov019
- *   func_0217ED2C  0x0217ED2C  thumb  ov019
- *   func_0217ED48  0x0217ED48  thumb  ov019
- *   func_0217ED64  0x0217ED64  thumb  ov019
- *   func_0217ED80  0x0217ED80  thumb  ov019
- *   func_0217ED8C  0x0217ED8C  thumb  ov019
- *   func_0217ED98  0x0217ED98  thumb  ov019
- *   func_0217EDA4  0x0217EDA4  thumb  ov019
- *   func_0217EDB0  0x0217EDB0  thumb  ov019
- *   func_0217EDBC  0x0217EDBC  thumb  ov019
- *   func_0217EDC8  0x0217EDC8  thumb  ov019
- *   func_0217EDD4  0x0217EDD4  thumb  ov019
- *   func_0217EDE0  0x0217EDE0  thumb  ov019
- *   func_0217EDEC  0x0217EDEC  thumb  ov019
- *   func_0217EDF8  0x0217EDF8  thumb  ov019
- *   func_0217EE04  0x0217EE04  thumb  ov019
- *   func_0217EE10  0x0217EE10  thumb  ov019
- *   func_0217EE1C  0x0217EE1C  thumb  ov019
- *   func_0217EE28  0x0217EE28  thumb  ov019
- *   func_0217EE34  0x0217EE34  thumb  ov019
- *   func_0217EE40  0x0217EE40  thumb  ov019
+ *   UNION_MSG_GetNoReplyMsg  0x0217EC04  thumb  ov019
+ *   UNION_MSG_GetTalkParentGreetingMsg  0x0217EC1C  thumb  ov019
+ *   UNION_MSG_GetTalkParentCancelMsg  0x0217EC28  thumb  ov019
+ *   UNION_MSG_GetTalkChildBusyMsg  0x0217EC34  thumb  ov019
+ *   UNION_MSG_GetTalkParentAcceptMsg  0x0217EC40  thumb  ov019
+ *   UNION_MSG_GetTalkParentRefuseMsg  0x0217EC54  thumb  ov019
+ *   UNION_MSG_GetTalkChildOfferMsg  0x0217EC68  thumb  ov019
+ *   UNION_MSG_GetTalkChildDeclineMsg  0x0217EC78  thumb  ov019
+ *   UNION_MSG_GetTalkMenuPromptMsg  0x0217EC88  thumb  ov019
+ *   UNION_MSG_GetColosseumStartMsg  0x0217EC94  thumb  ov019
+ *   UNION_MSG_GetNotEnoughPokemonMsg  0x0217ECA0  thumb  ov019
+ *   UNION_MSG_GetNoEggInPartyMsg  0x0217ECAC  thumb  ov019
+ *   UNION_MSG_GetBadEggInPartyMsg  0x0217ECB8  thumb  ov019
+ *   UNION_MSG_GetBadEggNoticeMsg  0x0217ECD0  thumb  ov019
+ *   UNION_MSG_GetBattleChatMsg  0x0217ECE8  thumb  ov019
+ *   UNION_MSG_GetPartnerBusyMsg  0x0217ED04  thumb  ov019
+ *   UNION_MSG_GetTrainerCardChatMsg  0x0217ED10  thumb  ov019
+ *   UNION_MSG_GetDrawChatMsg  0x0217ED2C  thumb  ov019
+ *   UNION_MSG_GetTradeChatMsg  0x0217ED48  thumb  ov019
+ *   UNION_MSG_GetSpinTradeChatMsg  0x0217ED64  thumb  ov019
+ *   UNION_MSG_GetMultiBattleInviteMsg  0x0217ED80  thumb  ov019
+ *   UNION_MSG_GetSpinTradeInviteMsg  0x0217ED8C  thumb  ov019
+ *   UNION_MSG_GetDrawInviteMsg  0x0217ED98  thumb  ov019
+ *   UNION_MSG_GetMultiBattleInviteDeclinedMsg  0x0217EDA4  thumb  ov019
+ *   UNION_MSG_GetSpinTradeInviteDeclinedMsg  0x0217EDB0  thumb  ov019
+ *   UNION_MSG_GetDrawInviteDeclinedMsg  0x0217EDBC  thumb  ov019
+ *   UNION_MSG_GetSpinTradeNoEggMsg  0x0217EDC8  thumb  ov019
+ *   UNION_MSG_GetSpinTradeBadEggMsg  0x0217EDD4  thumb  ov019
+ *   UNION_MSG_GetSpinTradeWaitMsg  0x0217EDE0  thumb  ov019
+ *   UNION_MSG_GetSpinTradeStartMsg  0x0217EDEC  thumb  ov019
+ *   UNION_MSG_GetSpinTradeBusyMsg  0x0217EDF8  thumb  ov019
+ *   UNION_MSG_GetDrawWaitMsg  0x0217EE04  thumb  ov019
+ *   UNION_MSG_GetDrawStartMsg  0x0217EE10  thumb  ov019
+ *   UNION_MSG_GetDrawBusyMsg  0x0217EE1C  thumb  ov019
+ *   UNION_MSG_GetMultiBattleWaitMsg  0x0217EE28  thumb  ov019
+ *   UNION_MSG_GetMultiBattleStartMsg  0x0217EE34  thumb  ov019
+ *   UNION_MSG_GetMultiBattleBusyMsg  0x0217EE40  thumb  ov019
  *   UNION_MSG_CheckLanguageVersion  0x0217EE4C  thumb  ov019
- *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
- *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_MSG_SetupTalkWindow  0x0217F098  thumb  ov019
  *   UNION_MSG_PrintTalkMsg  0x0217F188  thumb  ov019
- *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_SetupYesNo  0x0217F22C  thumb  ov019
  *   UNION_MSG_DeleteYesNo  0x0217F24C  thumb  ov019
@@ -205,22 +220,485 @@
  *   COLOSSEUM_CheckAllFinished  0x0217FEB8  thumb  ov019
  *   COLOSSEUM_IsAnyFinished  0x0217FEF4  thumb  ov019
  *   COLOSSEUM_IsOnCounterPos  0x0217FF14  thumb  ov019
+ *   UNION_CHARA_IsChildObjId 0x0217AEE8 thumb ov019
+ *   UNION_CHARA_IsUnionObjId 0x0217AF38 thumb ov019
+ *   UNION_CHARA_CheckTalkable 0x0217AF4C thumb ov019
  */
-typedef unsigned char  u8;
+typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef short          s16;
-typedef int            s32;
-
+typedef unsigned int u32;
+typedef short s16;
+typedef signed int s32;
 typedef struct { s32 x, y, z; } VecFx32;
+typedef enum { FALSE, TRUE } BOOL;
+
 #include "../ov012/union_comm_types.h"
-#include "unit_0217AE20_types.h"
+#include "union_chara_types.h"
 
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
+void func_02034714(const void *expr, u32 line, const void *file);
 
-struct WordSet;
+extern void *GAME_DATA_GetSaveControl(void *gameData);
+
+extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+
+extern void UNION_COMM_SetSituationParam(void *unisys, u32 commandId, u32 value);
+
+extern unsigned int func_02012138(struct GameSystem *gameSystem);
+
+extern u32 GAME_COMM_GetWork(void *gameComm);
+
+extern int UNION_MAIN_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
+
+extern void *func_0200BAC8(void *saveData);
+
+extern u32 func_0200BBA8(void *object);
+
+extern void *func_0200BAF4(int battleTeam, int heapId);
+
+extern u32 func_020307B0(void *block);
+
+extern void POKE_REGULATION_LoadInto(int regulationId, struct Regulation *regulation);
+
+extern void func_0200AEE8(struct Regulation *regulation, u32 id, s32 value);
+
+extern void *func_02012934(const struct GameData *gameData);
+
+extern int POKE_REGULATION_CheckParty(struct Regulation *regulation, void *party, unsigned int *violationMask);
+
+extern void FIELDMAP_CTRL_GRID_SetBusy(void *fieldMap, unsigned int busy);
+
+extern u32 func_0200FB24(void);
+
+void UNION_COMM_InitConnectInfo(void *unisys, void *connect);
+
+void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys);
+
+extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
+
+extern int FIELD_PLAYER_GetFrontGridPos(u32 fieldCtrl, u32 outZ, u32 outY, u32 outX);
+
+extern void UNION_COMM_RequestRestart(void *unisys);
+
+extern int UNION_COMM_IsResetting(void *unisys);
+
+extern u16   FLDMMDL_GetObjId(void *mmdl);
+
+extern void *FLDMMDL_SysSearchGridPos(u32 mmdlSys, u32 gridX, u32 gridZ, u32 gridY);
+
+extern int   GFL_NET_GetNegotiationNum(void);
+
+extern u32   KEY_GetTrg(void);
+
+extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 fieldMap);
+
+u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
+
+extern void func_02012124(struct GameSystem *gameSystem, u32 state);
+
+void UNION_COMM_RequestShutdown(void *unisys);
+
+extern void UNION_COMM_ReleaseWorks(UnionRoomWork *work);
+
+extern void UNION_COMM_RequestStart(void *unisys);
+
+BOOL UNION_CHARA_IsChildObjId(u16 objId);
+
+u16 UNION_CHARA_GetBeaconIndex(u32);
+
+int UNION_CHARA_IsUnionObjId(u16 objId);
+
+int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId);
+
+int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
+
+int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos);
+
+int UNION_ONESELF_RunPlayCategory(UnionRoomWork *work, void *fieldMap);
+
+extern int UNION_ONESELF_SetNextPlayCategory(UnionRoomWork *unisys, int nextState);
+
+int UNION_ONESELF_SetNextPlayCategoryInMainPhase(UnionRoomWork *work, char playCategory);
+
+int UNION_ONESELF_GetRegulationId(int status);
+
+int UNION_ONESELF_GetRegulationFlag(int category);
+
+int UNION_ONESELF_IsBattleStatus(unsigned int category);
+
+extern void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *unisys);
+
+extern void UNION_ONESELF_DeleteParty(void *party);
+
+void UNION_ONESELF_LoadRegulation(UnionRoomWork *unisys, int category);
+
+extern int UNION_ONESELF_CheckMyParty(UnionRoomWork *work, unsigned int *violationMask);
+
+extern int UNION_ONESELF_CheckBattleTeamParty(UnionRoomWork *work, unsigned int *violationMask);
+
+int UNION_ONESELF_CheckEntryParties(UnionRoomWork *work, int status, unsigned int *myPartyMask, unsigned int *battleTeamMask);
+
+extern void UNION_ONESELF_SetFieldBusy(UnionRoomWork *unisys, void *fieldMap, unsigned int busy);
+
+extern int UNION_ONESELF_CheckNetError(UnionRoomWork *unisys);
+
+extern int UNION_ONESELF_CheckNetErrorExit(UnionRoomWork *unisys);
+
+int UNION_ONESELF_IdleStart(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap);
+
+int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap);
+
+int UNION_ONESELF_ErrorMain(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step);
+
+extern UnionOneselfActionEntry gUnionOneselfActionStart[];
+
+extern UnionOneselfActionEntry gUnionOneselfActionMain[];
+
+extern UnionOneselfActionEntry gUnionOneselfActionEnd[];
+
+extern const char gUnionEmptyString1[];
+
+/*
+ * extent: follower 0217B83C already has its own source and shard.
+ */
+int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap)
+{
+    UnionRoomWork *work;
+    UnionSubEvent *subEvent;
+    int result;
+    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)func_02012138(gameSystem));
+    result = 0;
+    subEvent = &work->subEvent;
+    if (subEvent->id != 0 && subEvent->active == 0) result = UNION_MAIN_CreateSubEvent(gameSystem, fieldMap, work);
+    return result;
+}
+
+/*
+ * Unlabelled leaf (a .word after a pool in the ov019 listing): returns 0.
+ * Callee of ov021 func_0218A0E4, which passes (sys, pos).
+ * Addresses are Black-image addresses.
+ */
+int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos)
+{
+    return 0;
+}
+
+int UNION_ONESELF_RunPlayCategory(UnionRoomWork *work, void *fieldMap)
+{
+    UnionMySituation *situation = (&work->mySituation);
+    int result = 1;
+    UnionOneselfActionFunc func;
+
+    switch (situation->phase) {
+    case 0:
+        func = gUnionOneselfActionStart[situation->playCategory].func;
+        break;
+    case 1:
+        func = gUnionOneselfActionMain[situation->playCategory].func;
+        break;
+    case 2:
+        func = gUnionOneselfActionEnd[situation->playCategory].func;
+        break;
+    }
+    if (func != 0) {
+        result = func(work, situation, fieldMap, &situation->step);
+    }
+    if (result == 1) {
+        situation->step = 0;
+        situation->phase = situation->phase + 1;
+        if (situation->phase > 2) {
+            situation->phase = 0;
+            situation->prevPlayCategory = situation->playCategory;
+            situation->playCategory = situation->nextPlayCategory;
+            situation->nextPlayCategory = 0;
+        }
+    }
+    return situation->playCategory;
+}
+
+int UNION_ONESELF_SetNextPlayCategory(UnionRoomWork *work, int playCategory)
+{
+    (&work->mySituation)->nextPlayCategory = playCategory;
+    return 1;
+}
+
+int UNION_ONESELF_SetNextPlayCategoryInMainPhase(UnionRoomWork *work, char playCategory)
+{
+    if ((&work->mySituation)->phase == 1) return UNION_ONESELF_SetNextPlayCategory(work, playCategory);
+    return 0;
+}
+
+int UNION_ONESELF_GetRegulationId(int status)
+{
+    switch (status) {
+    case 0: case 1: case 2: case 3:
+        break;
+    case 4: case 5:
+        return 5;
+    case 6: case 7:
+        return 0x18;
+    case 8: case 9:
+        return 6;
+    case 10: case 11:
+        return 0x19;
+    case 12: case 13:
+        return 7;
+    case 14: case 15:
+        return 0x1a;
+    case 16: case 17:
+        return 8;
+    case 18: case 19:
+        return 0x1b;
+    case 20: case 21:
+        return 9;
+    case 22: case 23:
+        return 0x1c;
+    }
+    return 5;
+}
+
+int UNION_ONESELF_GetRegulationFlag(int status)
+{
+    switch (status) {
+    case 0: case 1: case 2: case 3:
+    case 5: case 7: case 9: case 11: case 13: case 15:
+    case 17: case 19: case 21:
+        break;
+    case 4: case 6: case 8: case 10: case 12: case 14:
+    case 16: case 18: case 20: case 22:
+        return 1;
+    }
+    return 0;
+}
+
+int UNION_ONESELF_IsBattleStatus(unsigned int status)
+{
+    if (status < 4 || status > 23) return 0;
+    return 1;
+}
+
+/*
+ * Return from the legacy void tail forwarder 0200BAC8 is used by this caller.
+ */
+void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *work)
+{
+    void *battleTeam;
+    battleTeam = func_0200BAC8(GAME_DATA_GetSaveControl(work->parent->gameData));
+    if (func_0200BBA8(battleTeam) == 0) return 0;
+    return func_0200BAF4((int)battleTeam, UNION_HEAP_ID);
+}
+
+void UNION_ONESELF_DeleteParty(void *party)
+{
+    if (!party) func_02034714(gUnionEmptyString1, 0, gUnionEmptyString1);
+    func_020307B0(party);
+}
+
+/*
+ * Interface evidence: stub at 0201A364 moves r0 to r2, r1 to r0,
+ * sets r1=0x69, then jumps through pool 02048F4C. the integrator owns it.
+ */
+void UNION_ONESELF_LoadRegulation(UnionRoomWork *work, int status)
+{
+    POKE_REGULATION_LoadInto(UNION_ONESELF_GetRegulationId(status), work->regulation);
+    if (UNION_ONESELF_GetRegulationFlag(status) == 1) func_0200AEE8(work->regulation, 13, 1);
+    else func_0200AEE8(work->regulation, 13, 0);
+}
+
+int UNION_ONESELF_CheckMyParty(UnionRoomWork *work, unsigned int *violationMask)
+{
+    void *party;
+    *violationMask = 0;
+    party = func_02012934(work->parent->gameData);
+    return POKE_REGULATION_CheckParty(work->regulation, party, violationMask);
+}
+
+int UNION_ONESELF_CheckBattleTeamParty(UnionRoomWork *work, unsigned int *violationMask)
+{
+    void *party;
+    int result;
+    party = UNION_ONESELF_CreateBattleTeamParty(work);
+    *violationMask = 0;
+    if (party != 0) {
+        result = POKE_REGULATION_CheckParty(work->regulation, party, violationMask);
+        UNION_ONESELF_DeleteParty(party);
+    } else {
+        *violationMask = -1;
+        result = 5;
+    }
+    return result;
+}
+
+int UNION_ONESELF_CheckEntryParties(UnionRoomWork *work, int status, unsigned int *myPartyMask, unsigned int *battleTeamMask)
+{
+    int myPartyResult, battleTeamResult;
+    *myPartyMask = 0;
+    *battleTeamMask = 0;
+    if (UNION_ONESELF_IsBattleStatus(status) == 0)
+        return 1;
+    UNION_ONESELF_LoadRegulation(work, status);
+    myPartyResult = UNION_ONESELF_CheckMyParty(work, myPartyMask);
+    battleTeamResult = UNION_ONESELF_CheckBattleTeamParty(work, battleTeamMask);
+    if (myPartyResult == 0 || battleTeamResult == 0)
+        return 1;
+    return 0;
+}
+
+void UNION_ONESELF_SetFieldBusy(UnionRoomWork *work, void *fieldMap, unsigned int busy)
+{
+    work->fieldBusy = busy;
+    FIELDMAP_CTRL_GRID_SetBusy(fieldMap, busy);
+}
+
+int UNION_ONESELF_CheckNetError(UnionRoomWork *work)
+{
+    if (func_0200FB24() != 0) {
+        UNION_ONESELF_SetNextPlayCategory(work, 1);
+        return 1;
+    }
+    return 0;
+}
+
+int UNION_ONESELF_CheckNetErrorExit(UnionRoomWork *work)
+{
+    if (UNION_ONESELF_CheckNetError(work) == 1) {
+        UNION_ONESELF_SetNextPlayCategory(work, 50);
+        return 1;
+    }
+    return 0;
+}
+
+int UNION_ONESELF_IdleStart(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap)
+{
+    UNION_COMM_InitConnectInfo(work, &situation->connect);
+    UNION_COMM_SetSituationParam(work, 4, 0);
+    UNION_MSG_CloseAllWindows(work);
+    UNION_ONESELF_SetFieldBusy(work, fieldMap, 0);
+    work->talkCancel = 0;
+    return 1;
+}
+
+int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap)
+{
+    void *fieldPlayer;
+    void *mmdlSys;
+    void *mmdl;
+    u16 objId;
+    u16 beaconIndex;
+    s16 gridX;
+    s16 gridY;
+    s16 gridZ;
+
+    fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
+    mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
+    if (UNION_ONESELF_CheckNetError(work) == 1) {
+        return 1;
+    }
+    if (UNION_COMM_IsResetting(work) == 1) {
+        return 0;
+    }
+    if (situation->nextPlayCategory != 0) {
+        return 1;
+    }
+    if (GFL_NET_GetNegotiationNum() > 1) {
+        UNION_COMM_RequestRestart(work);
+        return 0;
+    }
+    if (KEY_GetTrg() & 1) {
+        FIELD_PLAYER_GetFrontGridPos((u32)fieldPlayer, (u32)(&gridX), (u32)(&gridY), (u32)(&gridZ));
+        mmdl = FLDMMDL_SysSearchGridPos((u32)mmdlSys, gridX, gridZ, 0);
+        if (mmdl == 0) {
+            return 0;
+        }
+        objId = FLDMMDL_GetObjId(mmdl);
+        if (UNION_CHARA_IsUnionObjId(objId) == 0 || UNION_CHARA_CheckTalkable(work, objId) == 0) {
+            return 0;
+        }
+        situation->connect.requestId = objId;
+        beaconIndex = UNION_CHARA_GetBeaconIndex(objId);
+        UNION_COMM_SetSituationParam(work, 0, (u32)(&work->beaconPc[beaconIndex]));
+        if (UNION_CHARA_IsChildObjId(objId) == 0) {
+            if (work->beaconPc[beaconIndex].beacon.status == 0) {
+                UNION_COMM_SetSituationParam(work, 1, (u32)(&work->beaconPc[beaconIndex]));
+                UNION_ONESELF_SetNextPlayCategory(work, 5);
+            } else {
+                UNION_ONESELF_SetNextPlayCategory(work, 0xB);
+            }
+        } else {
+            UNION_ONESELF_SetNextPlayCategory(work, 0xC);
+        }
+        UNION_ONESELF_SetFieldBusy(work, fieldMap, 1);
+        return 1;
+    }
+    if (work->talkCancel == 1) {
+        UNION_ONESELF_SetNextPlayCategory(work, 4);
+        return 1;
+    }
+    if (UNION_ONESELF_IsPlayerAtReceptionSpot((u32)fieldMap) == 1) {
+        if (work->fieldRequestArmed == 1) {
+            UNION_ONESELF_SetFieldBusy(work, fieldMap, 1);
+            UNION_ONESELF_SetNextPlayCategory(work, 3);
+        }
+    } else {
+        work->fieldRequestArmed = 1;
+    }
+    return 0;
+}
+
+int UNION_ONESELF_ErrorMain(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step)
+{
+    switch (*step) {
+    case 0:
+        UNION_ONESELF_SetFieldBusy(work, fieldMap, 1);
+        (*step)++;
+        break;
+    case 1:
+        if (UNION_MSG_CheckTalkPrintEnd(work) == 1) {
+            UNION_MSG_CloseAllWindows(work);
+            (*step)++;
+        }
+        break;
+    case 2:
+        if (func_0200FB24() != 0) {
+            func_02012124(work->parent->gameSystem, 1);
+            return 0;
+        }
+        UNION_COMM_RequestShutdown(work);
+        (*step)++;
+        break;
+    case 3:
+        if (UNION_COMM_IsResetting(work) == 0)
+            (*step)++;
+        break;
+    case 4:
+        UNION_COMM_ReleaseWorks(work);
+        UNION_COMM_InitConnectInfo(work, &situation->connect);
+        UNION_COMM_RequestStart(work);
+        (*step)++;
+        break;
+    case 5:
+        if (UNION_COMM_IsResetting(work) == 0)
+            (*step)++;
+        break;
+    default:
+        UNION_ONESELF_SetNextPlayCategory(work, 0);
+        return 1;
+    }
+    return 0;
+}
+
+int UNION_ONESELF_NoOpMain(void)
+{
+    return 1;
+}
+
+int UNION_ONESELF_FieldExitMain(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step)
+{
+    if (*step == 0) {
+        work->fieldRequest = 1;
+        (*step)++;
+    }
+    return 0;
+}
 
 /* Setup of the trade scene (0x14 bytes, scene 2). */
 typedef struct UnionTradeSetup {
@@ -296,238 +774,397 @@ typedef struct UnionSceneFourParam {
 } UnionSceneFourParam;
 
 /* Draw parameters of G3D_SYSTEM_DrawObjectCulling (0x3C bytes). */
-
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
-extern void *GAME_DATA_GetSaveControl(void *gameData);
+
 extern void UNION_MAIN_RequestScene(UnionRoomWork *unisys, int sceneId, int param);
+
 extern int UNION_MAIN_IsScenePending(UnionRoomWork *unisys);
+
 extern void UNION_COMM_SetChatPms(UnionRoomWork *unisys, UnionPmsData *pms);
-extern u32 func_020307B0(void *block);
-extern int UNION_ONESELF_CheckNetError(UnionRoomWork *unisys);
-extern int UNION_ONESELF_SetNextPlayCategory(UnionRoomWork *unisys, int nextState);
-extern void UNION_COMM_RequestRestart(void *unisys);
-extern int UNION_COMM_IsResetting(void *unisys);
-extern void UNION_COMM_SetSituationParam(void *unisys, u32 commandId, u32 value);
+
 extern int  UNION_COMMAND_SendPartnerMode(int expected);
+
 extern void GFL_NET_SetChangeoverModeWrapper(int mode, int flag, void *mac);
-extern int  GFL_NET_GetNegotiationNum(void);
+
 extern u32 GFL_NET_IsConnectMember(u32 index);
+
 extern void GFL_NET_NotifyUserEvent(u32 unused, void *value);
+
 extern void GFL_NET_SetLoginOption(u8 enable);
+
 extern int  GFL_NET_SYSTEM_GetConnectNum(void);
+
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 KEY_GetTrg(void);
+
 extern int  memcmp(const void *a, const void *b, u32 n);
-extern void UNION_ONESELF_SetFieldBusy(UnionRoomWork *unisys, void *fieldMap, unsigned int busy);
-void func_02034714(const void *expr, u32 line, const void *file);
+
 int UNION_COMMAND_SendMyMac(void);
+
 extern void UNION_COMM_ClearPartnerSelects(void *connect);
+
 extern int UNION_COMM_AddMemberFromBeaconPc(void *connect, const void *connectPc);
+
 extern void GFL_NET_HANDLE_SetTimingSyncRange(void *link, u32 phase, u32 count);
+
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(void *link, u32 phase, u32 count);
+
 extern int UNION_COMMAND_SendMyStatus(void *unisys);
+
 extern unsigned int func_02080D24(int bits);
+
 void *GAME_DATA_GetMyParty(const void *gameData);
+
 void *GAMESYSTEM_GetGameData(const void *gameSystem);
+
 u32 POKEPARTY_GetNonEggCount(void *party);
+
 u32 POKEPARTY_GetBadEggCount(void *party);
+
 u32 POKEPARTY_GetEggCount(void *party);
+
 int UNION_COMMAND_SendPartnerSelectA(int choice, ...);
-int UNION_ONESELF_IsBattleStatus(unsigned int category);
-void UNION_ONESELF_LoadRegulation(UnionRoomWork *unisys, int category);
-int UNION_ONESELF_GetRegulationFlag(int category);
-int UNION_ONESELF_CheckEntryParties(UnionRoomWork *unisys, int category, void *partyFailMask, void *teamFailMask);
+
 int UNION_COMMAND_SendPartnerSelectB(int answer, ...);
-u16 UNION_CHARA_GetBeaconIndex(u32);
+
 int UNION_CHARA_GetSexByObjId(void *unisys, u16 requestId);
+
 extern void TRCARD_SYS_BuildProfile(void *out, void *save, int mode, int flag, volatile u16 heap);
+
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
+
 extern u32 UNION_COMMAND_SendTrainerCard(void *unisys);
+
 extern void *TRCARD_SYS_CreateEditWork(struct GameData *gameData, void *trainerCard, int heapId);
+
 extern u32 GFL_NET_IsParentAid(void);
+
 extern void *func_0200ED48(void *saveData);
+
 extern u32 GFL_NET_GetHandleNetID(void *link);
+
 extern void *GAME_DATA_GetPlayerStatus(void *gameData, u32 playerIndex);
+
 extern u32 func_02008530(const void *obj);
+
 extern void func_0200ED54(void *commState, u32 value);
+
 extern void *POKEPARTY_Create(u32 heap);
+
 extern void UNION_COMM_SetGameKindByStatus(unsigned int category);
+
 extern void UNION_COMM_StartConnectSync(void *unisys);
+
 extern int GFL_NET_IsSessionNull(void);
+
 extern void UNION_COMM_RemoveMemberOfBeaconPc(int connect, void *connectPc);
-extern void UNION_COMM_RequestStart(void *unisys);
+
 extern void *GAME_DATA_GetTrainerRecord(void *gameData);
-extern u32 func_0200FB24(void);
+
 extern u32 UNION_COMMAND_SendAppEntry(void *unisys);
+
 extern ColosseumWork *COLOSSEUM_Create(struct GameData *gameData, struct GameSystem *gameSystem, struct MyStatus *myStatus, int isChild);
+
 extern u8 *GAME_DATA_GetMyStatus(void *gameData);
-extern int UNION_ONESELF_CheckNetErrorExit(UnionRoomWork *unisys);
+
 extern int UNION_COMMAND_SendColosseumCancel(void);
+
 extern void *COMM_ENTRY_MENU_Create(void *fieldCtrl, void *fieldMap, int minPlayers, int maxPlayers, int heapId, int mode, int flagA, int flagB);
+
 extern u32 COMM_ENTRY_MENU_Delete(void *entryMenu);
+
 extern void COMM_ENTRY_MENU_SetCallbacks(void *entryMenu, void *work, void *onAdd, void *onRemove);
+
 extern u32 COMM_ENTRY_MENU_Main(void *entryMenu);
+
 extern u8 func_02008554(const void *myStatus);
+
 extern int func_02008550(const void *myStatus);
+
 extern void UNION_COMM_AddMember(void *self, const u8 *mac, int gender, int trainerView);
+
 extern void UNION_COMM_RemoveMember(void *self, const u8 *mac);
+
 extern void COLOSSEUM_AddCommandTable(UnionRoomWork *unisys);
+
 extern u32 COLOSSEUM_SendPlayerEntry(void *player, u32 flags);
+
 extern int COLOSSEUM_SendTrainerCard(void *trainerCard);
+
 extern void COLOSSEUM_SetStartFlag(void *colosseum, int value);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+
 extern void COLOSSEUM_SetMyChoice(ColosseumWork *colosseum, int value);
-extern int FIELD_PLAYER_GetFrontGridPos(u32 fieldCtrl, u32 outZ, u32 outY, u32 outX);
+
 extern int COMM_PLAYER_ForwardRequest(void *commPlayer, int z, int y, int x, int outPlayer, int outFound);
+
 extern void *FIELD_PLAYER_GetMmdl(void *fieldView);
+
 extern u32 COLOSSEUM_SendChoiceRequest(void *colosseum);
+
 extern u8 COLOSSEUM_GetMyChoiceReply(void *colosseum);
+
 extern int FLDMMDL_CheckPossibleAcmd(int transition);
+
 extern void FLDMMDL_SetAcmd(void *transition, u16 kind);
+
 extern int FLDMMDL_CheckEndAcmd(void *transition);
+
 extern int FLDMMDL_EndAcmd(void *transition);
-extern void *func_0200BAC8(void *saveData);
-extern u32 func_0200BBA8(void *object);
-extern int UNION_ONESELF_CheckMyParty(UnionRoomWork *unisys, void *mask);
-extern int UNION_ONESELF_CheckBattleTeamParty(UnionRoomWork *unisys, void *mask);
-extern void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *unisys);
+
 extern void *PARTY_SELECT_LIST_Create(u32 fieldMap, u32 party, u32 regulationParam, u32 partyFlag, u32 teamFlag, u16 heapId);
+
 extern int PARTY_SELECT_LIST_Main(void *partySelect);
+
 extern u32 PARTY_SELECT_LIST_Delete(void *partySelect, void *outIndex);
-extern void UNION_ONESELF_DeleteParty(UnionRoomWork *unisys);
+
 u32 COLOSSEUM_SendReady(void);
+
 u32 COLOSSEUM_SendReadyCancel(void);
+
 void COLOSSEUM_ResetParties(void *colosseum, int value);
+
 void COLOSSEUM_ClearConfirmCount(void *colosseum);
+
 int COLOSSEUM_AllPartiesReceived(void *colosseum);
+
 u32 COLOSSEUM_SendParty(struct Party *party);
+
 int COLOSSEUM_SendBattlePositions(u32 choice);
+
 void POKEPARTY_Copy(const void *src, void *dst);
+
 void POKE_REGULATION_AdjustPartyLevels(void *regulation, void *party);
+
 void *GAME_DATA_GetMyItem(const void *gameData);
+
 void *func_0200873C(void *sys);
+
 const void *func_020084F4(const void *player);
+
 void UNION_CHARA_ClearTable(void *unisys);
+
 int COLOSSEUM_SendFinish(void);
-void UNION_COMM_RequestShutdown(void *unisys);
+
 void UNION_COMM_ClearBeaconPcs(void *unisys);
-void UNION_COMM_InitConnectInfo(void *unisys, void *connect);
+
 void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
+
 void GAMESYSTEM_SetFieldMapState(void *gameSystem, u32 value);
+
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+
 u8 func_0200855C(const void *obj);
+
 void func_0201F02C(void *wordSet, u32 slot, void *player);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void sub_02034714(const char *expr, u32 line, const char *file);
-extern void MTX_Identity33_(void *m);
-u16 func_0217EC04(UnionRoomWork *unisys);
-u16 func_0217EC1C(int sex);
-u16 func_0217EC28(int sex);
-u16 func_0217EC34(int sex);
-u16 func_0217EC40(int category, int sex);
-u16 func_0217EC54(int category, int sex);
-u16 func_0217EC68(int category);
-u16 func_0217EC78(int category);
-u16 func_0217EC88(int sex);
-u16 func_0217EC94(int sex);
-u16 func_0217ECA0(int sex);
-u16 func_0217ECAC(int sex);
-u16 func_0217ECB8(UnionRoomWork *unisys);
-u16 func_0217ECD0(UnionRoomWork *unisys);
-u16 func_0217ECE8(int sex);
-u16 func_0217ED04(int sex);
-u16 func_0217ED10(int sex);
-u16 func_0217ED2C(int sex);
-u16 func_0217ED48(int sex);
-u16 func_0217ED64(int sex);
-u16 func_0217ED80(int sex);
-u16 func_0217ED8C(int sex);
-u16 func_0217ED98(int sex);
-u16 func_0217EDA4(int sex);
-u16 func_0217EDB0(int sex);
-u16 func_0217EDBC(int sex);
-u16 func_0217EDC8(int sex);
-u16 func_0217EDD4(int sex);
-u16 func_0217EDE0(int sex);
-u16 func_0217EDEC(int sex);
-u16 func_0217EDF8(int sex);
-u16 func_0217EE04(int sex);
-u16 func_0217EE10(int sex);
-u16 func_0217EE1C(int sex);
-u16 func_0217EE28(int sex);
-u16 func_0217EE34(int sex);
-u16 func_0217EE40(int sex);
+
+u16 UNION_MSG_GetNoReplyMsg(UnionRoomWork *unisys);
+
+u16 UNION_MSG_GetTalkParentGreetingMsg(int sex);
+
+u16 UNION_MSG_GetTalkParentCancelMsg(int sex);
+
+u16 UNION_MSG_GetTalkChildBusyMsg(int sex);
+
+u16 UNION_MSG_GetTalkParentAcceptMsg(int category, int sex);
+
+u16 UNION_MSG_GetTalkParentRefuseMsg(int category, int sex);
+
+u16 UNION_MSG_GetTalkChildOfferMsg(int category);
+
+u16 UNION_MSG_GetTalkChildDeclineMsg(int category);
+
+u16 UNION_MSG_GetTalkMenuPromptMsg(int sex);
+
+u16 UNION_MSG_GetColosseumStartMsg(int sex);
+
+u16 UNION_MSG_GetNotEnoughPokemonMsg(int sex);
+
+u16 UNION_MSG_GetNoEggInPartyMsg(int sex);
+
+u16 UNION_MSG_GetBadEggInPartyMsg(UnionRoomWork *unisys);
+
+u16 UNION_MSG_GetBadEggNoticeMsg(UnionRoomWork *unisys);
+
+u16 UNION_MSG_GetBattleChatMsg(int sex);
+
+u16 UNION_MSG_GetPartnerBusyMsg(int sex);
+
+u16 UNION_MSG_GetTrainerCardChatMsg(int sex);
+
+u16 UNION_MSG_GetDrawChatMsg(int sex);
+
+u16 UNION_MSG_GetTradeChatMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeChatMsg(int sex);
+
+u16 UNION_MSG_GetMultiBattleInviteMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeInviteMsg(int sex);
+
+u16 UNION_MSG_GetDrawInviteMsg(int sex);
+
+u16 UNION_MSG_GetMultiBattleInviteDeclinedMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeInviteDeclinedMsg(int sex);
+
+u16 UNION_MSG_GetDrawInviteDeclinedMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeNoEggMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeBadEggMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeWaitMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeStartMsg(int sex);
+
+u16 UNION_MSG_GetSpinTradeBusyMsg(int sex);
+
+u16 UNION_MSG_GetDrawWaitMsg(int sex);
+
+u16 UNION_MSG_GetDrawStartMsg(int sex);
+
+u16 UNION_MSG_GetDrawBusyMsg(int sex);
+
+u16 UNION_MSG_GetMultiBattleWaitMsg(int sex);
+
+u16 UNION_MSG_GetMultiBattleStartMsg(int sex);
+
+u16 UNION_MSG_GetMultiBattleBusyMsg(int sex);
+
 int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int nation, int area);
+
 int UNION_MSG_GetCategoryTableValue(int category);
-void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys);
+
 void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldMap);
+
 void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 messageId);
-u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
+
 void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldMap, u32 messageId);
+
 void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, u32 fieldMap);
+
 void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys);
+
 int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *out);
+
 void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldMap);
+
 void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys);
+
 int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldMap);
+
 void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldMap, int menuId, u8 *outArg);
+
 void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys);
+
 int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *enteredSubmenu, u8 *arg, int *showHelp, u32 fieldMap);
+
 void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldMap);
+
 void UNION_MSG_DeleteTitleWindow(UnionRoomWork *unisys);
+
 void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldMap, u32 failMask, int ruleId, int stage);
+
 u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, u32 fieldMap);
+
 void UNION_MSG_DeleteRegulationWindow(UnionRoomWork *unisys);
+
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
+
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
+
 int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
+
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
+
 int COLOSSEUM_GetStandPosIndex(void *fieldMap, int mode, unsigned *out);
+
 int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
+
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
+
 int COLOSSEUM_IsOnCounterPos(UnionRoomWork *unisys);
+
 extern int d_021807E8[];
-extern char gUnionEmptyString1[];
+
 
 int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ConnectParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap);
+
 int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ConnectParentEnd(UnionRoomWork *unisys);
+
 int UNION_ONESELF_ConnectChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap);
+
 int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ConnectChildEnd(UnionRoomWork *unisys);
+
 int UNION_ONESELF_TalkParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkParentEnd(UnionRoomWork *unisys);
+
 int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkChildEnd(void);
+
 int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ConnectGroupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
+
 void UNION_ONESELF_EntryMenuRemoveMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
+
 int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumFreeMoveStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap);
+
 int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumReadyWaitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumLeaveConfirmMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumExitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
+
 int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 
 int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
@@ -565,19 +1202,12 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
     return 0;
 }
 
-
-
-
 int UNION_ONESELF_ConnectParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap)
 {
     GFL_USE_PlaySeDefaultVolume(0x547);
     UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 0xE2);
     return 1;
 }
-
-
-
-
 
 /*
  * Addresses are Black-image addresses.
@@ -606,7 +1236,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
                 }
             }
             if (slot < 5 || GFL_NET_SYSTEM_GetConnectNum() > 2) {
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC04(unisys));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetNoReplyMsg(unisys));
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0);
                 UNION_COMM_RequestRestart(unisys);
                 *seq = 4;
@@ -622,7 +1252,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0);
                 UNION_COMM_SetSituationParam(unisys, 1, 0);
                 if (situation->waitTimer > 600) {
-                    UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC04(unisys));
+                    UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetNoReplyMsg(unisys));
                 } else {
                     UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 10);
                 }
@@ -679,9 +1309,6 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
     return 0;
 }
 
-
-
-
 /*
  * Remaining two bytes are alignment padding.
  */
@@ -691,9 +1318,6 @@ int UNION_ONESELF_ConnectParentEnd(UnionRoomWork *unisys)
     return 1;
 }
 
-
-
-
 int UNION_ONESELF_ConnectChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap)
 {
     GFL_USE_PlaySeDefaultVolume(0x806);
@@ -701,10 +1325,6 @@ int UNION_ONESELF_ConnectChildStart(UnionRoomWork *unisys, UnionMySituation *sit
     UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
     return 1;
 }
-
-
-
-
 
 int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -770,18 +1390,11 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
     return 0;
 }
 
-
-
-
 int UNION_ONESELF_ConnectChildEnd(UnionRoomWork *unisys)
 {
     UNION_COMM_SetSituationParam(unisys, 2, 0);
     return 1;
 }
-
-
-
-
 
 int UNION_ONESELF_TalkParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -819,10 +1432,6 @@ int UNION_ONESELF_TalkParentStart(UnionRoomWork *unisys, UnionMySituation *situa
     return 0;
 }
 
-
-
-
-
 int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     void *party;
@@ -836,10 +1445,10 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
         if (situation->subState == 1) {
             situation->subState = 0;
         } else if (situation->connect.talkCount == 0) {
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC1C(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkParentGreetingMsg(situation->connect.talkParam->sex));
             situation->connect.talkCount++;
         } else {
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC88(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkMenuPromptMsg(situation->connect.talkParam->sex));
         }
         (*seq)++;
         break;
@@ -858,7 +1467,7 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
             break;
         UNION_MSG_DeleteMainMenu(unisys);
         if (menuResult == -2 || menuResult == 0) {
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC28(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkParentCancelMsg(situation->connect.talkParam->sex));
             situation->connect.partnerSelectA = 0;
             UNION_ONESELF_SetNextPlayCategory(unisys, 8);
             return 1;
@@ -866,17 +1475,17 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
         if (menuResult == 0x18) {
             GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
             if ((int)POKEPARTY_GetNonEggCount(party) < 2) {
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECA0(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetNotEnoughPokemonMsg(situation->connect.talkParam->sex));
                 *seq = 4;
                 break;
             }
         } else if (menuResult == 0x19) {
             if ((int)POKEPARTY_GetBadEggCount(party) > 0) {
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECB8(unisys));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetBadEggInPartyMsg(unisys));
                 *seq = 4;
                 break;
             } else if (POKEPARTY_GetEggCount(party) == 0) {
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECAC(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetNoEggInPartyMsg(situation->connect.talkParam->sex));
                 *seq = 4;
                 break;
             }
@@ -896,19 +1505,11 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
     return 0;
 }
 
-
-
-
-
 int UNION_ONESELF_TalkParentEnd(UnionRoomWork *unisys)
 {
     UNION_MSG_DeleteMainMenu(unisys);
     return 1;
 }
-
-
-
-
 
 int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -922,7 +1523,7 @@ int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituati
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0x27);
                 return 1;
             }
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC40(situation->connect.partnerSelectA, situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkParentAcceptMsg(situation->connect.partnerSelectA, situation->connect.talkParam->sex));
             (*seq)++;
         }
         break;
@@ -933,7 +1534,7 @@ int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituati
                 (*seq)++;
             } else if (situation->connect.partnerSelectB == 0) {
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0x27);
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC54(situation->connect.partnerSelectA, situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkParentRefuseMsg(situation->connect.partnerSelectA, situation->connect.talkParam->sex));
                 return 1;
             }
         }
@@ -945,10 +1546,6 @@ int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituati
     }
     return 0;
 }
-
-
-
-
 
 int UNION_ONESELF_TalkChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -981,10 +1578,6 @@ int UNION_ONESELF_TalkChildStart(UnionRoomWork *unisys, UnionMySituation *situat
     return 0;
 }
 
-
-
-
-
 int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     int accepted;
@@ -1004,12 +1597,12 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         if (situation->connect.partnerSelectA == 0xff)
             break;
         if (situation->connect.partnerSelectA == 0) {
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC34(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkChildBusyMsg(situation->connect.talkParam->sex));
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x27);
             return 1;
         }
         if (situation->connect.partnerSelectA < 0x1b) {
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC68(situation->connect.partnerSelectA));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkChildOfferMsg(situation->connect.partnerSelectA));
             if (UNION_ONESELF_IsBattleStatus(situation->connect.partnerSelectA) == 1) {
                 UNION_ONESELF_LoadRegulation(unisys, situation->connect.partnerSelectA);
                 UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, 0, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 0);
@@ -1097,9 +1690,9 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
             else if (situation->subState == 2)
                 UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 0x2f);
             else if (situation->subState == 3)
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECD0(unisys));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetBadEggNoticeMsg(unisys));
             else
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC78(situation->connect.partnerSelectA));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkChildDeclineMsg(situation->connect.partnerSelectA));
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x27);
             return 1;
         }
@@ -1112,16 +1705,10 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
     return 0;
 }
 
-
-
-
 int UNION_ONESELF_TalkChildEnd(void)
 {
     return 1;
 }
-
-
-
 
 int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1216,15 +1803,12 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         }
         break;
     case 9:
-        UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC88(situation->connect.talkParam->sex));
+        UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkMenuPromptMsg(situation->connect.talkParam->sex));
         *seq = 0;
         break;
     }
     return 0;
 }
-
-
-
 
 int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1237,37 +1821,37 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
     case 0:
         situation->connect.partnerSelectA = partnerStatus;
         switch (partnerStatus) {
-        case 1: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED04(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
-        case 2: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED10(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+        case 1: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetPartnerBusyMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+        case 2: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetTrainerCardChatMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
-            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ECE8(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetBattleChatMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         case 20: case 21: case 22: case 23:
             if ((int)unisys->beaconPc[beaconIndex].beacon.connectNum < UNION_MSG_GetCategoryTableValue(partnerStatus)) {
-                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED80(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetMultiBattleInviteMsg(situation->connect.talkParam->sex));
                 UNION_ONESELF_LoadRegulation(unisys,partnerStatus);
                 UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)0,UNION_ONESELF_GetRegulationFlag(partnerStatus),0);
                 *seq = 3;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ECE8(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetBattleChatMsg(situation->connect.talkParam->sex));
             UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         case 25:
             if ((int)unisys->beaconPc[beaconIndex].beacon.connectNum < UNION_MSG_GetCategoryTableValue(partnerStatus) &&
                 unisys->beaconPc[beaconIndex].beacon.appActive == 0) {
-                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED8C(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeInviteMsg(situation->connect.talkParam->sex));
                 *seq = 10;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED64(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeChatMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         case 3:
             if ((int)unisys->beaconPc[beaconIndex].beacon.connectNum < UNION_MSG_GetCategoryTableValue(partnerStatus)) {
-                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED98(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetDrawInviteMsg(situation->connect.talkParam->sex));
                 *seq = 10;
                 goto done;
             }
-            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED2C(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
-        case 24: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217ED48(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+            UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetDrawChatMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
+        case 24: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetTradeChatMsg(situation->connect.talkParam->sex)); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         case 0: default: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,0x151); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq=2; goto done;
         }
         break;
@@ -1289,13 +1873,13 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         if (UNION_MSG_SelectYesNo(unisys,&firstAnswer) == 1) {
             UNION_MSG_DeleteYesNo(unisys);
             if (firstAnswer == 0) {
-                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDA4(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetMultiBattleInviteDeclinedMsg(situation->connect.talkParam->sex));
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
             } else if (UNION_ONESELF_CheckEntryParties(unisys,situation->connect.partnerSelectA,&situation->partyFailMask,&situation->teamFailMask) == 0) {
                 UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,0x13e); UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 6;
             } else {
                 situation->connect.partnerSelectB = firstAnswer; UNION_ONESELF_SetNextPlayCategory(unisys, 0x26);
-                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EE28(situation->connect.talkParam->sex)); *seq = 1;
+                UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetMultiBattleWaitMsg(situation->connect.talkParam->sex)); *seq = 1;
             }
         }
         break;
@@ -1327,23 +1911,23 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
             UNION_MSG_DeleteYesNo(unisys);
             if (secondAnswer == 0) {
                 switch (situation->connect.partnerSelectA) {
-                case 3: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDBC(situation->connect.talkParam->sex)); break;
-                case 25: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDB0(situation->connect.talkParam->sex)); break;
+                case 3: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetDrawInviteDeclinedMsg(situation->connect.talkParam->sex)); break;
+                case 25: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeInviteDeclinedMsg(situation->connect.talkParam->sex)); break;
                 }
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
             } else {
                 situation->connect.partnerSelectB = secondAnswer; UNION_ONESELF_SetNextPlayCategory(unisys, 0x26); *seq = 1;
                 switch (situation->connect.partnerSelectA) {
-                case 3: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EE04(situation->connect.talkParam->sex)); break;
+                case 3: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetDrawWaitMsg(situation->connect.talkParam->sex)); break;
                 case 25:
                     party = GAME_DATA_GetMyParty(unisys->parent->gameData);
                     if ((int)POKEPARTY_GetBadEggCount(party) > 0) {
-                        UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDD4(situation->connect.talkParam->sex));
+                        UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeBadEggMsg(situation->connect.talkParam->sex));
                         UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
                     } else if (POKEPARTY_GetEggCount(party) == 0) {
-                        UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDC8(situation->connect.talkParam->sex));
+                        UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeNoEggMsg(situation->connect.talkParam->sex));
                         UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
-                    } else UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDE0(situation->connect.talkParam->sex));
+                    } else UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetSpinTradeWaitMsg(situation->connect.talkParam->sex));
                     break;
                 }
             }
@@ -1354,14 +1938,6 @@ done:
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     int partnerSex;
@@ -1371,24 +1947,24 @@ int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *
         partnerSex = UNION_CHARA_GetSexByObjId(unisys, situation->connect.requestId);
         switch (unisys->beaconPc[UNION_CHARA_GetBeaconIndex(situation->connect.requestId)].beacon.status) {
         case 1:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ED04(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetPartnerBusyMsg(partnerSex));
             break;
         case 2:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ED10(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTrainerCardChatMsg(partnerSex));
             break;
         case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
         case 20: case 21: case 22: case 23:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECE8(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetBattleChatMsg(partnerSex));
             break;
         case 25:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ED64(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetSpinTradeChatMsg(partnerSex));
             break;
         case 3:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ED2C(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetDrawChatMsg(partnerSex));
             break;
         case 24:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ED48(partnerSex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTradeChatMsg(partnerSex));
             break;
         case 0:
         default:
@@ -1405,14 +1981,6 @@ int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1485,14 +2053,6 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1567,14 +2127,6 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     int beaconIndex;
@@ -1641,13 +2193,13 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
         case 0x15:
         case 0x16:
         case 0x17:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EE40(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetMultiBattleBusyMsg(situation->connect.talkParam->sex));
             break;
         case 3:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EE1C(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetDrawBusyMsg(situation->connect.talkParam->sex));
             break;
         case 0x19:
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EDF8(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetSpinTradeBusyMsg(situation->connect.talkParam->sex));
             break;
         }
         *seq = 3;
@@ -1667,14 +2219,6 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int UNION_ONESELF_ConnectGroupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1714,14 +2258,6 @@ int UNION_ONESELF_ConnectGroupMain(UnionRoomWork *unisys, UnionMySituation *situ
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -1787,16 +2323,16 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
         switch (unisys->entryResult) {
         case 1:
             if (situation->playCategory == 0xe)
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EE10(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetDrawStartMsg(situation->connect.talkParam->sex));
             else
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EDEC(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetSpinTradeStartMsg(situation->connect.talkParam->sex));
             *seq = 3;
             break;
         case 2:
             if (situation->playCategory == 0xe)
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EE1C(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetDrawBusyMsg(situation->connect.talkParam->sex));
             else
-                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EDF8(situation->connect.talkParam->sex));
+                UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetSpinTradeBusyMsg(situation->connect.talkParam->sex));
             UNION_COMM_RequestRestart(unisys);
             *seq = 8;
             break;
@@ -1812,14 +2348,6 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     UnionParentWork *parent;
@@ -1831,7 +2359,7 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
             func_02034714((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
         parent = unisys->parent;
         unisys->colosseum = COLOSSEUM_Create(parent->gameData, parent->gameSystem, parent->myStatus, situation->connect.serviceFlag);
-        UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC94(situation->connect.talkParam->sex));
+        UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetColosseumStartMsg(situation->connect.talkParam->sex));
         (*seq)++;
         break;
     case 1:
@@ -1861,13 +2389,6 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
     return 0;
 }
 
-
-
-
-
-
-
-
 int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     UnionParentWork *parent;
@@ -1876,9 +2397,9 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
     switch (*seq) {
     case 0:
         if (situation->connect.serviceFlag == 0)
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EC94(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetColosseumStartMsg(situation->connect.talkParam->sex));
         else
-            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217EE34(situation->connect.talkParam->sex));
+            UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetMultiBattleStartMsg(situation->connect.talkParam->sex));
         (*seq)++;
         break;
     case 1:
@@ -1916,13 +2437,6 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2038,11 +2552,6 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
     return 0;
 }
 
-
-
-
-
-
 void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
 {
     int gender = func_02008554(myStatus);
@@ -2050,20 +2559,10 @@ void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatu
     UNION_COMM_AddMember(&unisys->mySituation.connect, mac, gender, (u8)trainerView);
 }
 
-
-
-
-
-
 void UNION_ONESELF_EntryMenuRemoveMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
 {
     UNION_COMM_RemoveMember(&unisys->mySituation.connect, mac);
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2148,21 +2647,12 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
     return 0;
 }
 
-
-
-
-
 int UNION_ONESELF_ColosseumFreeMoveStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap)
 {
     UNION_MSG_CloseAllWindows(unisys);
     UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 0);
     return 1;
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2209,11 +2699,6 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
     }
     return 0;
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2266,11 +2751,6 @@ int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation 
     return 0;
 }
 
-
-
-
-
-
 int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     ColosseumWork *colosseum = unisys->colosseum;
@@ -2317,11 +2797,6 @@ int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation 
     }
     return 0;
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2422,11 +2897,6 @@ int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituati
     return 0;
 }
 
-
-
-
-
-
 int UNION_ONESELF_ColosseumReadyWaitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     ColosseumWork *colosseum;
@@ -2470,11 +2940,6 @@ int UNION_ONESELF_ColosseumReadyWaitMain(UnionRoomWork *unisys, UnionMySituation
     }
     return 0;
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2548,11 +3013,6 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySitua
     }
     return 0;
 }
-
-
-
-
-
 
 int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2664,11 +3124,6 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
     return 0;
 }
 
-
-
-
-
-
 int UNION_ONESELF_ColosseumLeaveConfirmMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     void *transition;
@@ -2717,10 +3172,6 @@ int UNION_ONESELF_ColosseumLeaveConfirmMain(UnionRoomWork *unisys, UnionMySituat
     }
     return 0;
 }
-
-
-
-
 
 int UNION_ONESELF_ColosseumExitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
@@ -2825,10 +3276,6 @@ int UNION_ONESELF_ColosseumExitMain(UnionRoomWork *unisys, UnionMySituation *sit
     }
     return 0;
 }
-
-
-
-
 
 int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {

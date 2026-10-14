@@ -1,5 +1,5 @@
 /*
- * function: func_021C62F4
+ * function: MB_SEQ_HideMessageWindow
  * address:  0x021C62F4
  * packet:   pkt_ov136_021C62F4
  * region:   ov136
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_02041B6C(u32 bit);
-void func_021C62F4(u8 *p)
+void MB_SEQ_HideMessageWindow(u8 *p)
 {
     func_0201F7A8(((struct Obj23568 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->fA8, 2);
     func_02041B6C(0);

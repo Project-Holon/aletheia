@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022011FC",
+   "name": "BTLV_MCSS_BounceTaskEnd",
    "address": "0x022011FC",
    "kind": "game",
    "region": "ov094",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E68
+ * function: GSYNC_STATE_StateTransferAnimationEffect
  * address: 0x021D8E68
  * packet: pkt_ov123_021D8E68
  * region: ov123
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D62A8 0x021D62A8 thumb ov123
- *   func_021D651C 0x021D651C thumb ov123
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D8E28 0x021D8E28 thumb ov123
+ *   GSYNC_DISP_CreateEffectActorDefault 0x021D62A8 thumb ov123
+ *   GSYNC_DISP_EnableActorAutoAnim 0x021D651C thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateTransferAnimationOpen 0x021D8E28 thumb ov123
  */
 #include "../include/Obj08114.h"
 typedef unsigned char  u8;
-extern void func_021D62A8(u8 *p);
-extern void func_021D651C(unsigned char *);
+extern void GSYNC_DISP_CreateEffectActorDefault(u8 *p);
+extern void GSYNC_DISP_EnableActorAutoAnim(unsigned char *);
 typedef unsigned int   u32;
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D8E28(char *p);
-void func_021D8E68(char *p) { if(--((struct Obj08114 *)p)->f60==0) { func_021D62A8(((struct Obj08114 *)p)->f14); func_021D651C(((struct Obj08114 *)p)->f14); ((struct Obj08114 *)p)->f60=70; func_021D6EE0((u8 *)p,(int)func_021D8E28,0x9e4); } }
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateTransferAnimationOpen(char *p);
+void GSYNC_STATE_StateTransferAnimationEffect(char *p) { if(--((struct Obj08114 *)p)->f60==0) { GSYNC_DISP_CreateEffectActorDefault(((struct Obj08114 *)p)->f14); GSYNC_DISP_EnableActorAutoAnim(((struct Obj08114 *)p)->f14); ((struct Obj08114 *)p)->f60=70; GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateTransferAnimationOpen,0x9e4); } }

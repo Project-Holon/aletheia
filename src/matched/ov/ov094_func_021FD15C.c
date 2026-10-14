@@ -1,5 +1,5 @@
 /*
- * function: func_021FD15C
+ * function: BTLV_EFFVM_AllocEmitterSlot
  * address:  0x021FD15C
  * packet:   pkt_ov094_021FD15C
  * region:   ov094
@@ -16,7 +16,7 @@ typedef struct {
     int slot[16];
 } Tbl;
 
-int func_021FD15C(Tbl *p, int key, int *out)
+int BTLV_EFFVM_AllocEmitterSlot(Tbl *p, int key, int *out)
 {
     int i;
     int r = 1;

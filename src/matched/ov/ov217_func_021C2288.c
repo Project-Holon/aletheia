@@ -1,5 +1,5 @@
 /*
- * function: func_021C2288
+ * function: ARROW_BuildParts
  * address:  0x021C2288
  * packet:   pkt_ov217_021C2288
  * region:   ov217
@@ -16,7 +16,7 @@
  * EXACT* = 690 bytes compiled, listing extent 692 (trailing pad).
  *
  * symbols:
- *   func_021C253C  0x021C253C  thumb  ov217
+ *   ARROW_InitPart  0x021C253C  thumb  ov217
  *   _ffixu  0x0209C4C8  arm
  *   _fadd   0x0209C95C  arm
  *   _fsub   0x0209CB8C  arm
@@ -28,9 +28,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C253C(void *p, u8 a, u8 b, u32 c, u32 d);
+extern void ARROW_InitPart(void *p, u8 a, u8 b, u32 c, u32 d);
 
-void func_021C2288(u8 *p, int a, int b, int c, int d)
+void ARROW_BuildParts(u8 *p, int a, int b, int c, int d)
 {
     int i;
     float f = 0.0f;
@@ -49,14 +49,14 @@ void func_021C2288(u8 *p, int a, int b, int c, int d)
     a -= 8;
 
     for (j = 0; j < half; j++) {
-        func_021C253C(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
+        ARROW_InitPart(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
         a -= 8;
         f += 1.0f;
         i++;
     }
     if (half == 0) {
         if (w - 4 > 0) {
-            func_021C253C(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
+            ARROW_InitPart(p + 0x28 + i * 0x18, a, yb, (u32)f, 0);
             if (w - 4 < 4) {
                 *(u32 *)(p + 0x28 + i * 0x18 + 8) = 1;
                 *(u16 *)(p + 0x28 + i * 0x18 + 0xc) = 1;
@@ -67,11 +67,11 @@ void func_021C2288(u8 *p, int a, int b, int c, int d)
     } else if ((w - 4) % 8 != 0) {
         r = (w - 4) - half * 8;
         f = f - (2.0f - 2.0f * (float)r / 8.0f);
-        func_021C253C(p + 0x28 + i * 0x18, c + 4, yb, (u32)f, 0);
+        ARROW_InitPart(p + 0x28 + i * 0x18, c + 4, yb, (u32)f, 0);
         f += 1.0f;
         i++;
     }
-    func_021C253C(p + 0x28 + i * 0x18, c - 4, b - 4, (u32)f, 2);
+    ARROW_InitPart(p + 0x28 + i * 0x18, c - 4, b - 4, (u32)f, 2);
     f += 1.0f;
     i++;
     w2 = d - b;
@@ -79,7 +79,7 @@ void func_021C2288(u8 *p, int a, int b, int c, int d)
     xx = c - 4;
     y = b + 4;
     for (j = 0; j < half2; j++) {
-        func_021C253C(p + 0x28 + i * 0x18, xx, y, (u32)f, 1);
+        ARROW_InitPart(p + 0x28 + i * 0x18, xx, y, (u32)f, 1);
         y += 8;
         f += 1.0f;
         i++;
@@ -87,10 +87,10 @@ void func_021C2288(u8 *p, int a, int b, int c, int d)
     if ((w2 - 4) % 8 != 0) {
         r = (w2 - 4) - half2 * 8;
         f = f - (2.0f - 2.0f * (float)r / 8.0f);
-        func_021C253C(p + 0x28 + i * 0x18, xx, d - 8, (u32)f, 1);
+        ARROW_InitPart(p + 0x28 + i * 0x18, xx, d - 8, (u32)f, 1);
         f += 1.0f;
         i++;
     }
-    func_021C253C(p + 0x28 + i * 0x18, c - 4, d - 4, (u32)f, 3);
+    ARROW_InitPart(p + 0x28 + i * 0x18, c - 4, d - 4, (u32)f, 3);
     p[0x298] = i + 1;
 }

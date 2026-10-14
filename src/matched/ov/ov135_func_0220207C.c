@@ -1,5 +1,5 @@
 /*
- * function: func_0220207C
+ * function: WORLDTRADE_SERVER_StateCountdown
  * address: 0x0220207C
  * packet: pkt_ov135_0220207C
  * region: ov135
@@ -18,9 +18,9 @@ typedef unsigned char  u8;
  * When the mode query answers 1, publish the u16 at +0xe0c.
  */
 typedef struct { u8 pad0[0x28]; int state; u8 pad2C[0xDFC - 0x2C]; int cnt; } Work_0220207C;
-int func_0220207C(Work_0220207C *p);
+int WORLDTRADE_SERVER_StateCountdown(Work_0220207C *p);
 
-int func_0220207C(Work_0220207C *p)
+int WORLDTRADE_SERVER_StateCountdown(Work_0220207C *p)
 {
     p->cnt--;
     if (p->cnt == 0) {

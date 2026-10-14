@@ -1,5 +1,5 @@
 /*
- * function: func_021D5F4C
+ * function: GSYNC_DISP_InitBgLayers
  * address: 0x021D5F4C
  * packet: pkt_ov123_021D5F4C
  * region: ov123
@@ -31,7 +31,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020409B4(u32);
 extern void func_02040C14(u32,u32,u32,u32);
 extern void func_02041300(u32,u32,u32,u32,u8,u8,u8);
-void func_021D5F4C(u8 *p)
+void GSYNC_DISP_InitBgLayers(u8 *p)
 {
     struct BgTemplate b[7];
     b[6]=d_021DA758[0]; func_0203FCA0(0,&b[6],0); func_02040588(0,1); func_020409B4(0);

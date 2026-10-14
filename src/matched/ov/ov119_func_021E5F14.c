@@ -1,5 +1,5 @@
 /*
- * function: func_021E5F14
+ * function: POKETRADE_2D_CreatePokerusIcon
  * address: 0x021E5F14
  * packet: pkt_ov119_021E5F14
  * region: ov119
@@ -16,7 +16,7 @@
  *   func_020276B8 0x020276B8 thumb
  *   func_020276BC 0x020276BC thumb
  *   func_020276C0 0x020276C0 thumb
- *   func_021E6008 0x021E6008 thumb ov119
+ *   POKETRADE_2D_CreateCuredPokerusIcon 0x021E6008 thumb ov119
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   POKERUS_IsInfected  0x0201B25C  thumb  arm9
@@ -35,10 +35,10 @@ extern u32 func_020276B4(void);
 extern u32 func_020276B8(void);
 extern u32 func_020276BC(u32);
 extern u32 func_020276C0(u32);
-extern void func_021E6008(char *p, int b, void *c);
+extern void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c);
 extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u16,u8,u16);
-void func_021E5F14(char *p, int side, int flag, void *mon)
+void POKETRADE_2D_CreatePokerusIcon(char *p, int side, int flag, void *mon)
 {
     char *q = p + 0x964;
     In in;
@@ -49,7 +49,7 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
         return;
     }
     if (!a) {
-        if (!flag) func_021E6008(p,side,(void *)mon);
+        if (!flag) POKETRADE_2D_CreateCuredPokerusIcon(p,side,(void *)mon);
         return;
     }
     if (flag) { in.f0 = 0; in.b1c = 0; }

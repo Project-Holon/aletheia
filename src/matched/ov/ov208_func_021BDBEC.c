@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDBEC
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible
  * address:  0x021BDBEC
  * packet:   pkt_ov208_021BDBEC
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD378  0x021BD378  thumb
+ *   ZKND_TBAR_SetButtonVisible  0x021BD378  thumb
  */
 
 typedef unsigned int u32;
@@ -26,12 +26,12 @@ struct Ov208Scene {
     int *keyB;
 };
 
-extern void func_021BD378(int a, int b, int c);
+extern void ZKND_TBAR_SetButtonVisible(int a, int b, int c);
 
-void ov208_func_021BDBEC(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(struct Ov208Scene *p, int v)
 {
     if (p->f10 == 2) {
-        func_021BD378(p->mgr, *p->keyA, v);
-        func_021BD378(p->mgr, *p->keyB, v);
+        ZKND_TBAR_SetButtonVisible(p->mgr, *p->keyA, v);
+        ZKND_TBAR_SetButtonVisible(p->mgr, *p->keyB, v);
     }
 }

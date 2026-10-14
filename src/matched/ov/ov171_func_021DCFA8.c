@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFA8
+ * function: DENDOU_VIEW_StateWaitWipe
  * address: 0x021DCFA8
  * packet: pkt_ov171_021DCFA8
  * region: ov171
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 WIPE_SYS_EndCheck(void);
-int func_021DCFA8(u8*p){if(PRINTSYS_QUE_IsFinished(*(void* *)&((struct Obj14287 *)p)->fB6C)==1 && WIPE_SYS_EndCheck()==1)return ((struct Obj14287 *)p)->fC74;return 2;}
+int DENDOU_VIEW_StateWaitWipe(u8*p){if(PRINTSYS_QUE_IsFinished(*(void* *)&((struct Obj14287 *)p)->fB6C)==1 && WIPE_SYS_EndCheck()==1)return ((struct Obj14287 *)p)->fC74;return 2;}

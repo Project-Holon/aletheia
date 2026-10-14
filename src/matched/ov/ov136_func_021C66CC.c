@@ -1,5 +1,5 @@
 /*
- * function: func_021C66CC
+ * function: MB_SEQ_SetActorPosition
  * address: 0x021C66CC
  * packet: pkt_ov136_021C66CC
  * region: ov136
@@ -20,7 +20,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, un
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-void func_021C66CC(u8 *p, int i, int x, int y)
+void MB_SEQ_SetActorPosition(u8 *p, int i, int x, int y)
 {
     Pair v;
     v.x = x;

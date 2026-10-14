@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BC46C",
+   "name": "ZUKAN_DETAIL_COMMON_UpdateBlendFades",
    "address": "0x021BC46C",
    "kind": "game",
    "region": "ov208",

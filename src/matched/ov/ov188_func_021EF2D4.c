@@ -1,5 +1,5 @@
 /*
- * function: func_021EF2D4
+ * function: BATTLE_REC_TOOL_UnpackBattleRules
  * address: 0x021EF2D4
  * packet: pkt_ov188_021EF2D4
  * region: ov188
@@ -20,7 +20,7 @@ typedef struct { u32 w[4]; } Block16;
 typedef struct { u32 w[6]; } Block24;
 typedef struct { unsigned char low:5, high:3; } Bits50;
 typedef struct { unsigned char low:4, mid:3, high:1; } Bits51;
-int func_021EF2D4(u8 *a, const u8 *b)
+int BATTLE_REC_TOOL_UnpackBattleRules(u8 *a, const u8 *b)
 {
     *(Block16 *)(a+8) = *(Block16 *)(b+24);
     *(Block24 *)(a+156) = *(Block24 *)b;

@@ -1,5 +1,5 @@
 /*
- * function: func_022029F8
+ * function: WORLDTRADE_ADAPTER_UpdateMessageSystem
  * address:  0x022029F8
  * packet:   pkt_022029F8
  * region:   ov135
@@ -43,7 +43,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-void func_022029F8(Printer *q)
+void WORLDTRADE_ADAPTER_UpdateMessageSystem(Printer *q)
 {
     int i;
     void *queue;

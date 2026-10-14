@@ -1,5 +1,5 @@
 /*
- * function: func_021BC868
+ * function: ZUKAN_LIST_DeleteFontAndPrinter
  * address: 0x021BC868
  * packet: pkt_ov209_021BC868
  * region: ov209
@@ -17,4 +17,4 @@
  */
 #include "../include/Obj00088.h"
 struct U16Vec;struct PrintSys;struct WordSet;struct Rec;extern void STRBUF_Delete(struct U16Vec *);extern void PRINTSYS_QUE_Delete(struct PrintSys *);extern void func_0201ED04(struct WordSet *);extern void GF_FONT_Delete(void *);extern void MSGDATA_Delete(struct Rec *);
-void func_021BC868(char *p){STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00088 *)p)->f44);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj00088 *)p)->f48);func_0201ED04(*(struct WordSet * *)&((struct Obj00088 *)p)->f40);GF_FONT_Delete(((struct Obj00088 *)p)->f38);MSGDATA_Delete(*(struct Rec * *)&((struct Obj00088 *)p)->f3C);}
+void ZUKAN_LIST_DeleteFontAndPrinter(char *p){STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00088 *)p)->f44);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj00088 *)p)->f48);func_0201ED04(*(struct WordSet * *)&((struct Obj00088 *)p)->f40);GF_FONT_Delete(((struct Obj00088 *)p)->f38);MSGDATA_Delete(*(struct Rec * *)&((struct Obj00088 *)p)->f3C);}

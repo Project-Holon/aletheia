@@ -21,7 +21,7 @@
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   DWCi_OBJlDelete  0x021D6F38  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
- *   g_021DE558_b  0x021DE558  data
+ *   gMemIcon  0x021DE558  data
  *   WM_GetAllowedChannel  0x0208EE60  arm
  *   WM_GetLinkLevel  0x0208EE9C  arm
  *   DWCi_CEINlSet  0x021D52D4  arm  ov016
@@ -57,7 +57,7 @@ void DWCi_ICONlInit(int type);
 void DWCi_ICONlEnd(void);
 extern struct MemIcon *gIconWork;
 extern unsigned char sIconCellIds[][4];
-extern struct MemIcon *g_021DE558_b;
+extern struct MemIcon *gMemIcon;
 
 static void taskRenew(void);
 
@@ -86,7 +86,7 @@ void DWCi_ICONlEnd(void)
         return;
     DWCi_TSKlDeleteByIndex(0, gIconWork->task);
     DWCi_OBJlDelete(gIconWork->obj);
-    DWCi_HEAPlFree_((void **)(&g_021DE558_b));
+    DWCi_HEAPlFree_((void **)(&gMemIcon));
 }
 
 

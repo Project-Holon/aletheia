@@ -1,5 +1,5 @@
 /*
- * function: func_021FF88C
+ * function: BR_NET_HandleNetError
  * address: 0x021FF88C
  * packet: pkt_ov186_021FF88C
  * region: ov186
@@ -16,7 +16,7 @@
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 extern void GFL_USE_StopAllSe(void);
 extern void func_0200F7DC(void);
-int func_021FF88C(char *p)
+int BR_NET_HandleNetError(char *p)
 {
     if (!p) return 0;
     switch (DWC_RAPCOMMON_HandleNetError(1, 0)) {

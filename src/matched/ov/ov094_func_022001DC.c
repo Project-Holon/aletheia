@@ -1,5 +1,5 @@
 /*
- * function: func_022001DC
+ * function: BTLV_MCSS_ReloadSpriteResource
  * address:  0x022001DC
  * packet:   pkt_ov094_022001DC
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
  *   MCSS_ReloadResource  0x02014CF8  thumb
  */
@@ -35,13 +35,13 @@ typedef struct {
 
 struct Sub02014CF8Ctx;
 struct Sub02014CF8Rec;
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 
-void func_022001DC(Work *w, int key, Rec *r)
+void BTLV_MCSS_ReloadSpriteResource(Work *w, int key, Rec *r)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     w->e[idx].rec = *r;
     MCSS_TOOL_SetSpindaSpotHook((int)w->obj, w->e[idx].k34);

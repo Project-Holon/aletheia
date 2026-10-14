@@ -1,5 +1,5 @@
 /*
- * function: func_021DD24C
+ * function: POKETRADE_NEGO_CheckCancelTouch
  * address: 0x021DD24C
  * packet: pkt_ov119_021DD24C
  * region: ov119
@@ -8,25 +8,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E2984 0x021E2984 thumb ov119
- *   func_021E2A80 0x021E2A80 thumb ov119
- *   func_021D89CC 0x021D89CC thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021D9434 0x021D9434 thumb ov119
+ *   POKETRADE_SAVE_OpenTaskMenuWindow 0x021E2984 thumb ov119
+ *   POKETRADE_SAVE_IsTouchOutsideArea 0x021E2A80 thumb ov119
+ *   POKETRADE_PROC_ClearNetAutoExit 0x021D89CC thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_StepBeginWipeOut 0x021D9434 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void *func_021E2984(char *p, int a);
-extern int func_021E2A80(void *);
-extern void func_021D89CC(char *p);
-extern void func_021D8E84(void *, int);
-extern void func_021D9434(void *);
-int func_021DD24C(char *p)
+extern void *POKETRADE_SAVE_OpenTaskMenuWindow(char *p, int a);
+extern int POKETRADE_SAVE_IsTouchOutsideArea(void *);
+extern void POKETRADE_PROC_ClearNetAutoExit(char *p);
+extern void POKETRADE_PROC_SetStep(void *, int);
+extern void POKETRADE_PROC_StepBeginWipeOut(void *);
+int POKETRADE_NEGO_CheckCancelTouch(char *p)
 {
     if (((struct Obj00001 *)p)->f118C == 3) {
-        if (*(int *)&((struct Obj00001 *)p)->f648 == 0) func_021E2984(p, 0x9a);
-        if (func_021E2A80(p)) {
-            func_021D89CC(p);
-            func_021D8E84(p, (int)func_021D9434);
+        if (*(int *)&((struct Obj00001 *)p)->f648 == 0) POKETRADE_SAVE_OpenTaskMenuWindow(p, 0x9a);
+        if (POKETRADE_SAVE_IsTouchOutsideArea(p)) {
+            POKETRADE_PROC_ClearNetAutoExit(p);
+            POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepBeginWipeOut);
             return 1;
         }
     }

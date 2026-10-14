@@ -1,5 +1,5 @@
 /*
- * function: func_021F78E4
+ * function: BTLV_EFFECT_Main
  * address:  0x021F78E4
  * packet:   pkt_ov094_021F78E4
  * region:   ov094
@@ -17,18 +17,18 @@
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   PARTICLE_Main  0x02050BE8  arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F9478  0x021F9478  thumb  ov094
- *   func_021F903C  0x021F903C  thumb  ov094
- *   func_021FEBAC  0x021FEBAC  thumb  ov094
- *   func_021F6934  0x021F6934  thumb  ov094
- *   func_021F6D5C  0x021F6D5C  thumb  ov094
- *   func_021F6ED4  0x021F6ED4  thumb  ov094
- *   func_02206EB4  0x02206EB4  thumb  ov094
- *   func_02201AF0  0x02201AF0  thumb  ov094
- *   func_021F69B0  0x021F69B0  thumb  ov094
- *   func_021F6DD4  0x021F6DD4  thumb  ov094
- *   func_021FEE9C  0x021FEE9C  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFVM_Main  0x021F9478  thumb  ov094
+ *   BTLV_EFFECT_UpdateIntroInput  0x021F903C  thumb  ov094
+ *   BTLV_MCSS_Update  0x021FEBAC  thumb  ov094
+ *   BTLV_STAGE_UpdateLayerAnims  0x021F6934  thumb  ov094
+ *   BTLV_FIELD_UpdateAnims  0x021F6D5C  thumb  ov094
+ *   BTLV_CAMERA_UpdateMove  0x021F6ED4  thumb  ov094
+ *   BTLV_GAUGE_FlashTaskMain  0x02206EB4  thumb  ov094
+ *   BTLV_CLACT_Draw  0x02201AF0  thumb  ov094
+ *   BTLV_STAGE_DrawLayers  0x021F69B0  thumb  ov094
+ *   BTLV_FIELD_Draw  0x021F6DD4  thumb  ov094
+ *   BTLV_MCSS_Draw  0x021FEE9C  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,7 +49,7 @@ typedef struct {
     int f1e8;               /* 0x1e8 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
 struct Ctx;
 struct W;
@@ -58,37 +58,37 @@ extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void PARTICLE_Main(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern int func_021F9478(void *);
-extern void func_021F903C(void);
-extern void func_021FEBAC(void *);
-extern void func_021F6934(void *);
-extern void func_021F6D5C(void *);
-extern void func_021F6ED4(int *p);
-extern void func_02206EB4(struct W *p);
-extern void func_02201AF0(void *);
-extern void func_021F69B0(void *);
-extern void func_021F6DD4(void *);
-extern void func_021FEE9C(int *p);
+extern int BTLV_EFFVM_Main(void *);
+extern void BTLV_EFFECT_UpdateIntroInput(void);
+extern void BTLV_MCSS_Update(void *);
+extern void BTLV_STAGE_UpdateLayerAnims(void *);
+extern void BTLV_FIELD_UpdateAnims(void *);
+extern void BTLV_CAMERA_UpdateMove(int *p);
+extern void BTLV_GAUGE_FlashTaskMain(struct W *p);
+extern void BTLV_CLACT_Draw(void *);
+extern void BTLV_STAGE_DrawLayers(void *);
+extern void BTLV_FIELD_Draw(void *);
+extern void BTLV_MCSS_Draw(int *p);
 
 #define REG_04000604 (*(volatile u16 *)0x04000604)
 
-void func_021F78E4(void)
+void BTLV_EFFECT_Main(void)
 {
-    if (d_0220AF20 != 0) {
-        d_0220AF20->f1e8 = func_021F9478(d_0220AF20->h188);
-        func_021F903C();
-        func_02030D28(d_0220AF20->owner);
-        func_021FEBAC(d_0220AF20->h190);
-        func_021F6934(d_0220AF20->h194);
-        func_021F6D5C(d_0220AF20->h198);
-        func_021F6ED4(d_0220AF20->h19c);
-        func_02206EB4(d_0220AF20->h1a4);
-        func_02201AF0(d_0220AF20->h1a0);
+    if (gBtlvEff != 0) {
+        gBtlvEff->f1e8 = BTLV_EFFVM_Main(gBtlvEff->h188);
+        BTLV_EFFECT_UpdateIntroInput();
+        func_02030D28(gBtlvEff->owner);
+        BTLV_MCSS_Update(gBtlvEff->h190);
+        BTLV_STAGE_UpdateLayerAnims(gBtlvEff->h194);
+        BTLV_FIELD_UpdateAnims(gBtlvEff->h198);
+        BTLV_CAMERA_UpdateMove(gBtlvEff->h19c);
+        BTLV_GAUGE_FlashTaskMain(gBtlvEff->h1a4);
+        BTLV_CLACT_Draw(gBtlvEff->h1a0);
         G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_ApplyLookAt();
-        func_021F69B0(d_0220AF20->h194);
-        func_021F6DD4(d_0220AF20->h198);
-        func_021FEE9C(d_0220AF20->h190);
+        BTLV_STAGE_DrawLayers(gBtlvEff->h194);
+        BTLV_FIELD_Draw(gBtlvEff->h198);
+        BTLV_MCSS_Draw(gBtlvEff->h190);
         REG_04000604;
         PARTICLE_Main();
         REG_04000604;

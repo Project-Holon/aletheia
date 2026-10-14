@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F28
+ * function: ZUKAN_DETAIL_AREA_LoadAreaEntryData
  * address:  0x021C1F28
  * packet:   pkt_021C1F28
  * region:   ov208
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
-void *func_021C1F28(int a, int b, int c)
+void *ZUKAN_DETAIL_AREA_LoadAreaEntryData(int a, int b, int c)
 {
     int out;
 

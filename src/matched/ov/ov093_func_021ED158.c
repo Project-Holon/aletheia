@@ -12,8 +12,8 @@
  * symbols:
  *   BTLV_SCU_StartMsgWinFadeOut  0x021ED798  thumb  ov093
  *   BTLV_SCU_UpdateMsgWinFade  0x021ED814  thumb  ov093
- *   func_021F7B2C  0x021F7B2C  thumb  ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_StartEffectWithRequest  0x021F7B2C  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   GFL_USE_StopAllSe  0x02006210  thumb
  */
 
@@ -22,8 +22,8 @@ typedef unsigned char u8;
 struct S;
 extern void BTLV_SCU_StartMsgWinFadeOut(struct S *s);
 extern int BTLV_SCU_UpdateMsgWinFade(struct S *s);
-extern void func_021F7B2C(u8 *);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_StartEffectWithRequest(u8 *);
+extern int BTLV_EFFECT_IsBusy(void);
 extern void GFL_USE_StopAllSe(void);
 
 int BTLV_SCU_ProcWazaEffect(int *st, u8 *b)
@@ -36,12 +36,12 @@ int BTLV_SCU_ProcWazaEffect(int *st, u8 *b)
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade((struct S *)(b + 0x154)) != 0) {
-            func_021F7B2C(b + 0xf0);
+            BTLV_EFFECT_StartEffectWithRequest(b + 0xf0);
             goto inc;
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             GFL_USE_StopAllSe();
             goto inc;
         }

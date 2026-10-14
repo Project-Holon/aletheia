@@ -18,7 +18,7 @@
  *   MBi_EndTaskThread                0x021f67bc arm
  *   MBi_CallReset                    0x021f5ea0 arm
  *   OS_RestoreInterrupts             0x0208799c arm
- *   d_021F6F90                       0x021F6F90 data
+ *   gMbWm                       0x021F6F90 data
  *   MBi_OnReset                      0x021f5ed8 arm
  */
 
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 
 struct MBiTaskInfo_tag;
 
-extern struct WmBase d_021F6F90;
+extern struct WmBase gMbWm;
 extern u32 OS_DisableInterrupts(void);
 extern void MBi_EndCommon(void *arg);
 extern int MBi_IsTaskAvailable(void);
@@ -45,11 +45,11 @@ int MBi_CommEnd(void)
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (*(u8 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x50D) == 0) {
+    if (*(u8 *)(*(char **)(((char *)&gMbWm) + 0xC) + 0x50D) == 0) {
         MBi_EndCommon(0);
-    } else if (*(u16 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x526) == 0) {
-        *(u32 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x5E4) = 0;
-        *(u16 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x526) = 1;
+    } else if (*(u16 *)(*(char **)(((char *)&gMbWm) + 0xC) + 0x526) == 0) {
+        *(u32 *)(*(char **)(((char *)&gMbWm) + 0xC) + 0x5E4) = 0;
+        *(u16 *)(*(char **)(((char *)&gMbWm) + 0xC) + 0x526) = 1;
         if (MBi_IsTaskAvailable()) {
             MBi_EndTaskThread((void (*)(struct MBiTaskInfo_tag *))MBi_OnReset);
             ret = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2E6C
+ * function: ZUKAN_DETAIL_VOICE_LoadPokemonGraphics
  * address: 0x021C2E6C
  * packet: pkt_ov208_021C2E6C
  * region: ov208
@@ -13,9 +13,9 @@
  * D81C/D898 scalar slots preserve every member of their filed by-value tails,
  * including the key halfword at +20/+16 and unused upper padding bits.
  * symbols:
- *   func_021BC3C0 0x021BC3C0 thumb ov208
- *   func_021BC3A4 0x021BC3A4 thumb ov208
- *   func_021BC738 0x021BC738 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry 0x021BC3C0 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_LoadPaletteToSlot 0x021BC738 thumb ov208
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateAffineActor 0x0204B324 arm
@@ -37,9 +37,9 @@ typedef unsigned int u32;
 struct Tail {u32 s0,s1,s2,s3,s4;u16 key,pad;};
 struct Args {u32 w0,w1,w2,w3;u16 key,pad;};
 struct Desc {u16 x,y,z;u8 a,b;u16 c,d;u32 sx,sy;u16 e,f;};
-extern u16 func_021BC3C0(int);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int);
 struct Actor;
-extern int func_021BC3A4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void ZUKAN_SAVE_GetViewGenderAndForm(void *,u32,u32 *,u32 *,u32 *,u16);
 typedef signed int     s32;
@@ -52,28 +52,28 @@ extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_GetArcID(void);
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
+extern void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u32);
 extern void MI_CpuFill8(void *,u8,u32);
 struct Obj;
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
+void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heap,u8 *p,int key,u32 slot)
 {
     struct Desc desc;
     u32 form,b,a;
     u32 arc,special,species;
     void *ctx;
-    species=func_021BC3C0(key);
+    species=ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     special=0;
-    ctx=ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key));
+    ctx=ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key));
     ZUKAN_SAVE_GetViewGenderAndForm(ctx,species,&form,&b,&a,*heap);
     if(species==327)special=ZUKAN_SAVE_GetSpindaPersonality(ctx,special);
     arc=POKEGRA_OpenHandle(*heap);
     *(u32 *)((u32)p+0x44+slot*4)=POKEGRA_RegisterCgr(arc,species,a,form,b,0,0,special,1,*heap);
     *(u32 *)((u32)p+0x3c+slot*4)=POKEGRA_RegisterPalette(arc,species,a,form,b,0,0,1,(u16)(slot<<5),*heap);
     *(u32 *)((u32)p+0x4c+slot*4)=POKEGRA_RegisterCellAnim(species,a,form,b,0,0,2,1,*heap);
-    func_021BC738(((struct Obj00146 *)p)->fC8,arc,POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(),species,a,form,b,0,0),*heap,3,32,(u16)(slot<<4),0);
+    ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(((struct Obj00146 *)p)->fC8,arc,POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(),species,a,form,b,0,0),*heap,3,32,(u16)(slot<<4),0);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&desc,0,24);
     desc.x=128;desc.y=128;desc.z=0;desc.a=0;desc.b=0;desc.c=0;desc.d=0;

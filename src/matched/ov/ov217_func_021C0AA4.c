@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AA4
+ * function: RESEARCH_COMMON_Exit
  * address:  0x021C0AA4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,14 +12,14 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C0AF0  0x021C0AF0  thumb  ov217
- *   func_021C0B74  0x021C0B74  thumb  ov217
- *   func_021C0BA8  0x021C0BA8  thumb  ov217
- *   func_021C0C2C  0x021C0C2C  thumb  ov217
- *   func_021C0C50  0x021C0C50  thumb  ov217
- *   func_021C0CC8  0x021C0CC8  thumb  ov217
- *   func_021C0D08  0x021C0D08  thumb  ov217
- *   func_021C0D2C  0x021C0D2C  thumb  ov217
+ *   RESEARCH_COMMON_ExitClact  0x021C0AF0  thumb  ov217
+ *   RESEARCH_COMMON_ReleaseResources  0x021C0B74  thumb  ov217
+ *   RESEARCH_COMMON_DeleteClactUnit  0x021C0BA8  thumb  ov217
+ *   RESEARCH_COMMON_DeleteActor  0x021C0C2C  thumb  ov217
+ *   RESEARCH_COMMON_DeletePalAnm  0x021C0C50  thumb  ov217
+ *   RESEARCH_COMMON_FreeSlotBuffers  0x021C0CC8  thumb  ov217
+ *   RESEARCH_COMMON_DestroyPaletteAnime  0x021C0D08  thumb  ov217
+ *   RESEARCH_COMMON_ExitPaletteAnime  0x021C0D2C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -31,23 +31,23 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0AF0();
-extern u32 func_021C0B74(u32 a0);
-extern void func_021C0BA8(u8 *a0);
-extern void func_021C0C2C(u8 *a0);
-extern void func_021C0C50(u8 *a0);
-extern void func_021C0CC8(int *p);
-extern void func_021C0D08(u8 *a0);
-extern void func_021C0D2C(u8 *);
-u32 func_021C0AA4(u32 a0)
+extern u32 RESEARCH_COMMON_ExitClact();
+extern u32 RESEARCH_COMMON_ReleaseResources(u32 a0);
+extern void RESEARCH_COMMON_DeleteClactUnit(u8 *a0);
+extern void RESEARCH_COMMON_DeleteActor(u8 *a0);
+extern void RESEARCH_COMMON_DeletePalAnm(u8 *a0);
+extern void RESEARCH_COMMON_FreeSlotBuffers(int *p);
+extern void RESEARCH_COMMON_DestroyPaletteAnime(u8 *a0);
+extern void RESEARCH_COMMON_ExitPaletteAnime(u8 *);
+u32 RESEARCH_COMMON_Exit(u32 a0)
 {
-    func_021C0D2C((u8 *)a0);
-    func_021C0D08((u8 *)a0);
-    func_021C0CC8((int *)a0);
-    func_021C0C50((u8 *)a0);
-    func_021C0C2C((u8 *)a0);
-    func_021C0BA8((u8 *)a0);
-    func_021C0B74(a0);
-    return func_021C0AF0(a0);
+    RESEARCH_COMMON_ExitPaletteAnime((u8 *)a0);
+    RESEARCH_COMMON_DestroyPaletteAnime((u8 *)a0);
+    RESEARCH_COMMON_FreeSlotBuffers((int *)a0);
+    RESEARCH_COMMON_DeletePalAnm((u8 *)a0);
+    RESEARCH_COMMON_DeleteActor((u8 *)a0);
+    RESEARCH_COMMON_DeleteClactUnit((u8 *)a0);
+    RESEARCH_COMMON_ReleaseResources(a0);
+    return RESEARCH_COMMON_ExitClact(a0);
 }
 

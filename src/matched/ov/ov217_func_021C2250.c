@@ -1,5 +1,5 @@
 /*
- * function: func_021C2250
+ * function: ARROW_StopPart
  * address:  0x021C2250
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C2250  0x021C2250  thumb  ov217
+ *   ARROW_StopPart  0x021C2250  thumb  ov217
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 struct Actor;
 extern void CLACT_StopActorAnim(struct Actor *a);
-void func_021C2250(u32 a0, u32 a1)
+void ARROW_StopPart(u32 a0, u32 a1)
 {
     CLACT_StopActorAnim((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
 }

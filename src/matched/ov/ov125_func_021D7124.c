@@ -1,5 +1,5 @@
 /*
- * function: func_021D7124
+ * function: GDS_RAP_ReleaseSession
  * address:  0x021D7124
  * packet:   pkt_ov125_021D7124
  * region:   ov125
@@ -21,7 +21,7 @@ extern void NHTTP_RAP_FreePostData(u8 *p);
 extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
 
-void func_021D7124(char *p, int unused, int k, int a3)
+void GDS_RAP_ReleaseSession(char *p, int unused, int k, int a3)
 {
     if ((k == 3 || k == 6) && *(u8 **)(p + 0x404) != 0) {
         NHTTP_RAP_FreePostData(*(u8 **)(p + 0x404));

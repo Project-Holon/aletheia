@@ -146,11 +146,11 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   PMS_DRAW_Create 0x0202DB0C thumb
@@ -220,11 +220,11 @@ struct PmsDraw;
 struct RecGet;
 struct U16Vec;
 struct WordSet;
-extern u32 func_021FC20C(char *);
-extern int func_021FC214(char *p);
-extern int func_021FC21C(char *p);
-extern void func_021FB964(void *,u32,u16);
-extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
+extern u32 BR_RES_GetFont(char *);
+extern int BR_RES_GetMsgData(char *p);
+extern int BR_RES_GetWordSet(char *p);
+extern void BR_RES_LoadBgGraphics(void *,u32,u16);
+extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *p, void *text, void *font, unsigned short value);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
@@ -278,16 +278,16 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     p=func_02030734(heap,0x44,0,d_02200D5C,0x541);
     MI_CpuFill8(p,0,0x44);
     *(char **)(p+0x1c)=q;
-    font=(void *)func_021FC20C(q);
+    font=(void *)BR_RES_GetFont(q);
     *(void **)(p+0x20)=PMS_DRAW_Create((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
     PMS_DRAW_SetDecoPriority(*(void **)(p+0x20),0,1);
-    func_021FB964(*(void **)(p+0x1c),8,heap);
-    bank=(void *)(u32)func_021FC214(q);
-    words=(void *)(u32)func_021FC21C(q);
+    BR_RES_LoadBgGraphics(*(void **)(p+0x1c),8,heap);
+    bank=(void *)(u32)BR_RES_GetMsgData(q);
+    words=(void *)(u32)BR_RES_GetWordSet(q);
     {
     Pair b=d_02200B6C;
     for(i=0;i<7;i++) {
-        *(void **)(p+i*4)=func_021FC6A4(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,a3,heap);
+        *(void **)(p+i*4)=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,a3,heap);
         func_021FC868(*(void **)(p+i*4),0,1,0);
         ready=1;
         switch(i) {

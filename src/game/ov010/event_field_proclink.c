@@ -46,7 +46,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02012984  0x02012984  thumb
  *   func_02034A5C  0x02034A5C  arm
- *   func_021C3E00  0x021C3E00  thumb  ov136
+ *   MAILTOOL_HasMail  0x021C3E00  thumb  ov136
  *   ov136_id       0x00000088  data
  *   d_02172978     0x02172978  data  a1
  *   func_02012A30  0x02012A30  thumb
@@ -64,11 +64,11 @@
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  *   func_020128B8  0x020128B8  thumb
  *   func_0202138C  0x0202138C  thumb
- *   func_021C3CC0  0x021C3CC0  thumb  ov136
- *   func_021C3D44  0x021C3D44  thumb  ov136
- *   func_021C3DA4  0x021C3DA4  thumb  ov136
- *   func_021C3E04 0x021C3E04 thumb ov136
- *   func_021C3E24 0x021C3E24 thumb ov136
+ *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb  ov136
+ *   MAILTOOL_CreateArgsFromPartyMon  0x021C3D44  thumb  ov136
+ *   MAILTOOL_CreateArgsFromMail  0x021C3DA4  thumb  ov136
+ *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
+ *   MAILTOOL_DeleteArgs 0x021C3E24 thumb ov136
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   REPORT_EVENT_Main  0x02169AB8  thumb  ov010
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
@@ -367,7 +367,7 @@ extern void *func_02008FEC(GameData *gameData);
 extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u8 func_02012984(const GameData *gameData);
 extern void func_02034A5C(int handle);
-extern u32 func_021C3E00(void *mailParam);
+extern u32 MAILTOOL_HasMail(void *mailParam);
 extern u32 func_02012A30(const GameData *gameData);
 extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
@@ -383,11 +383,11 @@ extern u32 func_0202136C(u16 v);
 extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
 extern struct EscapeLocation *func_020128B8(const GameData *gameData);
 extern u8 func_0202138C(u16 v);
-extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
-extern void *func_021C3D44(void *a, void *b, unsigned heap);
-extern void *func_021C3DA4(void *a, void *b, unsigned heap);
-extern int func_021C3E04(void *mailParam, void *mon);
-extern void func_021C3E24(void *mailParam);
+extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
+extern void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
+extern void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
+extern int MAILTOOL_StoreMailToPartyMon(void *mailParam, void *mon);
+extern void MAILTOOL_DeleteArgs(void *mailParam);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern int REPORT_EVENT_Main(ReportEventWork *work, int *state);
 extern void *FLDMMDL_SysSearchPlayer(void *fieldObjects);
@@ -580,7 +580,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
         int mailResult;
 
         func_02034AC4((u32)ov136_id);
-        mailResult = func_021C3E00(source);
+        mailResult = MAILTOOL_HasMail(source);
         func_02034A5C((u32)ov136_id);
         if (work->purpose == 0) {
             list->listMode = 0xB;
@@ -1136,23 +1136,23 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
         itemId = listResult->argValue;
         work->resultValue = itemId;
         if (listResult->command == 6)
-            return (int)func_021C3CC0(gameData, 2, (u8)listResult->selectedSlot, func_0202138C(itemId), 4);
+            return (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, func_0202138C(itemId), 4);
         work->purpose = 1;
-        return (int)func_021C3D44(gameData, POKEPARTY_GetMember(party, slot), 4);
+        return (int)MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
     }
     if (listResult->carry.words[4] == 2) {
-        mailParam = (int)func_021C3CC0(gameData, 2, (u8)listResult->listArg, func_0202138C((u16)listResult->listArg), 4);
+        mailParam = (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, func_0202138C((u16)listResult->listArg), 4);
         work->resultValue = listResult->listArg;
         return mailParam;
     }
     work->purpose = 1;
-    return (int)func_021C3DA4(gameData, (void *)func_0202138C((u16)listResult->listArg), 4);
+    return (int)MAILTOOL_CreateArgsFromMail(gameData, (void *)func_0202138C((u16)listResult->listArg), 4);
 }
 
 
 /*
  * Lever: second state writes nextState separately in each arm; cross-jumping
- * retains the dead branch after func_021C3E04 rather than after movs #0.
+ * retains the dead branch after MAILTOOL_StoreMailToPartyMon rather than after movs #0.
  */
 int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
 {
@@ -1162,8 +1162,8 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     gameData = func_020120F4(work->context->gameSystem);
     if (work->childResult == 0) {
         if (work->purpose == 0 || work->purpose == 2) {
-            if (func_021C3E00(mailParam) == 1) {
-                func_021C3E04(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
+            if (MAILTOOL_HasMail(mailParam) == 1) {
+                MAILTOOL_StoreMailToPartyMon(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
                 nextState = 0;
             } else if (work->purpose == 0) {
                 nextState = 2;
@@ -1179,8 +1179,8 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     }
     if (work->childResult == 2) {
         if (work->purpose == 2) {
-            if (func_021C3E00(mailParam) == 1) {
-                func_021C3E04(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
+            if (MAILTOOL_HasMail(mailParam) == 1) {
+                MAILTOOL_StoreMailToPartyMon(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
                 work->nextState = 0;
             } else {
                 work->nextState = 0;
@@ -1200,7 +1200,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
 void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam)
 {
     func_02034AC4((u32)ov136_id);
-    func_021C3E24(mailParam);
+    MAILTOOL_DeleteArgs(mailParam);
     func_02034A5C((u32)ov136_id);
 }
 

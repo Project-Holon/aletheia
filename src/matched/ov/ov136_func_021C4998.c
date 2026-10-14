@@ -1,5 +1,5 @@
 /*
- * function: func_021C4998
+ * function: MAILSYS_PollConfirmMenu
  * address:  0x021C4998
  * packet:   pkt_ov136_021C4998
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4998 0x021C4998 thumb
+ *   MAILSYS_PollConfirmMenu 0x021C4998 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
@@ -25,7 +25,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void STRBUF_Delete(struct U16Vec *vec);
-int func_021C4998(u8 *p)
+int MAILSYS_PollConfirmMenu(u8 *p)
 {
     int r = -1;
     if (APP_TASKMENU_IsFinish(((struct Obj06524 *)p)->f10C)) {

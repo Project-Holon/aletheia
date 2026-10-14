@@ -1,5 +1,5 @@
 /*
- * function: func_021E1718
+ * function: POKETRADE_SAVE_PrintStatLabels
  * address: 0x021E1718
  * packet: pkt_ov119_021E1718
  * region: ov119
@@ -20,7 +20,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-void func_021E1718(int a,int b,int x,int y,char *p)
+void POKETRADE_SAVE_PrintStatLabels(int a,int b,int x,int y,char *p)
 {
     int i;
     for(i=0;i<6;i++) {

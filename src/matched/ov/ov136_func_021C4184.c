@@ -1,5 +1,5 @@
 /*
- * function: func_021C4184
+ * function: MAILSYS_FillDefaultSentences
  * address: 0x021C4184
  * packet: pkt_ov136_021C4184
  * region: ov136
@@ -19,7 +19,7 @@ extern const u8 d_021C77A0[][3];
 typedef unsigned short u16;
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMSI_PARAM_InitSentenceId(void *a, void *b, void *c);
-void func_021C4184(void *a, u8 *p)
+void MAILSYS_FillDefaultSentences(void *a, u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

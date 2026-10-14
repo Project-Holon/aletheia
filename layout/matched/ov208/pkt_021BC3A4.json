@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC3A4",
+   "name": "ZUKAN_DETAIL_COMMON_GetSource",
    "address": "0x021BC3A4",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC3A8",
+   "name": "ZUKAN_DETAIL_COMMON_GetDisplay",
    "address": "0x021BC3A8",
    "kind": "game",
    "region": "ov208",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC3AC",
+   "name": "ZUKAN_DETAIL_COMMON_GetFont",
    "address": "0x021BC3AC",
    "kind": "game",
    "region": "ov208",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC3B0",
+   "name": "ZUKAN_DETAIL_COMMON_GetGraphics",
    "address": "0x021BC3B0",
    "kind": "game",
    "region": "ov208",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC3B4",
+   "name": "ZUKAN_DETAIL_COMMON_GetWorkPtr",
    "address": "0x021BC3B4",
    "kind": "game",
    "region": "ov208",

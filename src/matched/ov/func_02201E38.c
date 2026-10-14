@@ -1,5 +1,5 @@
 /*
- * function: func_02201E38
+ * function: WORLDTRADE_SERVER_StateWaitUploadFinishAsync
  * address:  0x02201E38
  * packet:   pkt_02201E38
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
- *   func_02201B18  0x02201B18  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
+ *   WORLDTRADE_SERVER_ShowResultByMode  0x02201B18  thumb  ov135
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
@@ -20,8 +20,8 @@
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
  * Switch on the 0x021C86A8 index (case value = index + 15): three
- * func_02201B18 calls falling into the state-0x2b group (archive at +0x38,
- * then the four redraw calls), the two func_021F513C groups at indexes 0/1/3/13
+ * WORLDTRADE_SERVER_ShowResultByMode calls falling into the state-0x2b group (archive at +0x38,
+ * then the four redraw calls), the two WORLDTRADE_CancelSave groups at indexes 0/1/3/13
  * and 2, and the plain redraw; indexes 4..9 and 14 are table holes.
  * Every concrete byte reproduced; parked only because 0x021C866C / 0x021C86A8
  * carry no func_ label in any overlay listing (wave-5 residue note).
@@ -47,14 +47,14 @@ typedef signed int s32;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
-extern void func_02201B18(u8 *p);
+extern void WORLDTRADE_CancelSave(u8 *p);
+extern void WORLDTRADE_SERVER_ShowResultByMode(u8 *p);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-int func_02201E38(u8 *p)
+int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(u8 *p)
 {
     s32 n;
 
@@ -63,12 +63,12 @@ int func_02201E38(u8 *p)
         ((struct Obj07256 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:
-            func_02201B18(p);
+            WORLDTRADE_SERVER_ShowResultByMode(p);
             break;
         case 12:
-            func_02201B18(p);
+            WORLDTRADE_SERVER_ShowResultByMode(p);
         case 11:
-            func_02201B18(p);
+            WORLDTRADE_SERVER_ShowResultByMode(p);
         case 10:
             ((struct Obj07256 *)p)->f38 = n;
             ((struct Obj07256 *)p)->f28 = 0x2b;
@@ -81,15 +81,15 @@ int func_02201E38(u8 *p)
         case 1:
         case 3:
         case 13:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         case 2:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {
         if (++((struct Obj07256 *)p)->fF8C == 0xe10) {
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
         }
     }
     return 2;

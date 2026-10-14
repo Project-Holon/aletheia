@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0201EC64 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
@@ -49,8 +49,8 @@ struct StrObj;
 struct Strbuf;
 struct U16Vec;
 struct WordSet;
-extern unsigned func_021FC20C(char *);
-extern int func_021FC214(char *p);
+extern unsigned BR_RES_GetFont(char *);
+extern int BR_RES_GetMsgData(char *p);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern Slot *BMP_MENUWORK_Create(u32,u32);
@@ -76,8 +76,8 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     void *bmp;
     void *buf1,*msg,*buf2;
     Config cfg;
-    first=func_021FC20C(res);
-    second=func_021FC214(res);
+    first=BR_RES_GetFont(res);
+    second=BR_RES_GetMsgData(res);
     MI_CpuFill8(p,0,0xd4);
     p->base=base;
     p->words=func_0201EC64(heap);

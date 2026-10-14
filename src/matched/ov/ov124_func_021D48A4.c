@@ -1,5 +1,5 @@
 /*
- * function: func_021D48A4
+ * function: CG_HELP_HandleTouchInput
  * address: 0x021D48A4
  * packet: pkt_ov124_021D48A4
  * region: ov124
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021D4BE4 0x021D4BE4 data a1
+ *   gCgHelpTouchRects 0x021D4BE4 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_021D4940 0x021D4940 thumb ov124
+ *   CG_HELP_DrawPageText 0x021D4940 thumb ov124
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -19,23 +19,23 @@
 #include "../include/Obj22992.h"
 typedef unsigned char u8;
 typedef struct { u8 bytes[16]; } Table16;
-extern const Table16 d_021D4BE4;
+extern const Table16 gCgHelpTouchRects;
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void func_021D4940(char *,int);
+extern void CG_HELP_DrawPageText(char *,int);
 typedef unsigned int   u32;
 struct Ctx;
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
-void func_021D48A4(char *p)
+void CG_HELP_HandleTouchInput(char *p)
 {
     Table16 table;
-    table = d_021D4BE4;
+    table = gCgHelpTouchRects;
     switch (TOUCHPANEL_HitTrg(&table)) {
     case 0:
         if (((struct Obj00122 *)p)->f18 != 0) {
             (((struct Obj00122 *)p)->f18)--;
-            func_021D4940(p,((struct Obj00122 *)p)->f18);
+            CG_HELP_DrawPageText(p,((struct Obj00122 *)p)->f18);
             APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f38,1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
         }
@@ -43,7 +43,7 @@ void func_021D48A4(char *p)
     case 1:
         if (((struct Obj00122 *)p)->f18 < 11) {
             (((struct Obj00122 *)p)->f18)++;
-            func_021D4940(p,((struct Obj00122 *)p)->f18);
+            CG_HELP_DrawPageText(p,((struct Obj00122 *)p)->f18);
             APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f3C,1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
         }

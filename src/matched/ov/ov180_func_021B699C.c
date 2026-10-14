@@ -1,5 +1,5 @@
 /*
- * function: func_021B699C
+ * function: HALL_OF_FAME_MoveMonSpriteX
  * address: 0x021B699C
  * packet: pkt_ov180_021B699C
  * region: ov180
@@ -21,7 +21,7 @@ typedef struct { int x,y,z; } Vec;
 typedef unsigned int   u32;
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
-void func_021B699C(char *p,int v) {
+void HALL_OF_FAME_MoveMonSpriteX(char *p,int v) {
     Vec pos;
     float delta;
     MCSS_GetPosition((void *)(((struct Obj14402 *)p)->f1C),(u32 *)(&pos));

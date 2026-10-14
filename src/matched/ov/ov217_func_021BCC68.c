@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021BC6DC 0x021BC6DC thumb ov217
- *   func_021C0EF4 0x021C0EF4 thumb ov217
- *   func_021C0F5C 0x021C0F5C thumb ov217
+ *   BgTextLabel_Create 0x021C0EF4 thumb ov217
+ *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C33C8 0x021C33C8 data a4
  *   d_021C3520 0x021C3520 data a4
  */
@@ -57,8 +57,8 @@ extern const struct Ent d_021C3520[];
 extern u32 func_021BC6DC(void *p);
 struct Config;
 struct Record;
-extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
-extern u32 func_021C0F5C(u32 a0, u32 a1);
+extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
+extern u32 BgTextLabel_PrintMessage(u32 a0, u32 a1);
 
 void func_021BCC68(struct S *p)
 {
@@ -78,8 +78,8 @@ void func_021BCC68(struct S *p)
         l1.b9 = e->b9;
         l1.b10 = e->b10;
         l1.w = e->w;
-        p->arr[0xdc / 4 - 4 + i] = (u32)func_021C0EF4((const struct Config *)(&l1), p->f0c, p->arr[e->idx], p->h8);
-        func_021C0F5C(p->arr[0xdc / 4 - 4 + i], e->arg);
+        p->arr[0xdc / 4 - 4 + i] = (u32)BgTextLabel_Create((const struct Config *)(&l1), p->f0c, p->arr[e->idx], p->h8);
+        BgTextLabel_PrintMessage(p->arr[0xdc / 4 - 4 + i], e->arg);
     }
     for (i = 0; i < (int)func_021BC6DC(p); i++) {
         const struct Ent *e = &d_021C3520[i];
@@ -96,7 +96,7 @@ void func_021BCC68(struct S *p)
         l2.b9 = e->b9;
         l2.b10 = e->b10;
         l2.w = e->w;
-        p->arr[0xb4 / 4 - 4 + i] = (u32)func_021C0EF4((const struct Config *)(&l2), p->f0c, p->arr[e->idx], p->h8);
-        func_021C0F5C(p->arr[0xb4 / 4 - 4 + i], e->arg);
+        p->arr[0xb4 / 4 - 4 + i] = (u32)BgTextLabel_Create((const struct Config *)(&l2), p->f0c, p->arr[e->idx], p->h8);
+        BgTextLabel_PrintMessage(p->arr[0xb4 / 4 - 4 + i], e->arg);
     }
 }

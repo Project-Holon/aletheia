@@ -19,8 +19,8 @@
  *   func_021BF568  0x021BF568  thumb  ov217
  *   func_021BEC84  0x021BEC84  thumb  ov217
  *   func_021BF76C  0x021BF76C  thumb  ov217
- *   func_021C1184  0x021C1184  thumb  ov217
- *   func_021C1154  0x021C1154  thumb  ov217
+ *   CircleGraph_SetEnabled  0x021C1184  thumb  ov217
+ *   CircleGraph_QueueDrawSlow  0x021C1154  thumb  ov217
  *   func_021BE930  0x021BE930  thumb  ov217
  *   func_021BF3D8  0x021BF3D8  thumb  ov217
  *   func_021BEFF8  0x021BEFF8  thumb  ov217
@@ -52,8 +52,8 @@ extern void func_021BF704(void *p);
 extern void func_021BF568(void *p);
 extern void func_021BEC84(u8 *p, int mode);
 extern u8 *func_021BF76C(void *p);
-extern void func_021C1184(u8 *h, u32 v);
-extern void func_021C1154(u8 *h);
+extern void CircleGraph_SetEnabled(u8 *h, u32 v);
+extern void CircleGraph_QueueDrawSlow(u8 *h);
 
 extern void func_021BE930(void *p, u32 v);
 extern void func_021BF3D8(char *p);
@@ -79,8 +79,8 @@ void func_021BDF58(u8 *p)
         func_021BF568(p);
         func_021BEC84(p, 0);
         func_021BEC84(p, 1);
-        func_021C1184(func_021BF76C(p), 1);
-        func_021C1154(func_021BF76C(p));
+        CircleGraph_SetEnabled(func_021BF76C(p), 1);
+        CircleGraph_QueueDrawSlow(func_021BF76C(p));
         func_021BE4E0(p);
         break;
     case 1:

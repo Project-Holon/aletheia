@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179880",
+   "name": "IRCNET_CbHasPeer",
    "address": "0x02179880",
    "kind": "game",
    "region": "ov015",

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C692C
+ * function: ZUKAN_DETAIL_FORM_UpdateArrowAnim
  * address:  0x021C692C
  * packet:   pkt_ov208_021C692C
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 struct Actor;
 struct Obj;
-extern int func_021BC3B4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
@@ -37,12 +37,12 @@ extern void ov208_func_021BDC48(void *scene, u32 on);
 #define OBJB(i) (*(u32 *)(p + 0x618 + (i) * 0x28))
 #define B8(i) (*(p + (i) * 0x28 + 0x608))
 
-void ov208_func_021C692C(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateArrowAnim(u16 *heap, u8 *p, int key)
 {
     void *scene;
     u32 other;
 
-    scene = (void *)func_021BC3B4((int *)key);
+    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     if (W(0x694) == 5)
         return;
     switch (STB(W(0x694))) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B77DC
+ * function: HALL_OF_FAME_PrintToPlate
  * address: 0x021B77DC
  * packet: pkt_ov180_021B77DC
  * region: ov180
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void BMP_OAM_UploadChars(struct Obj *);
-void func_021B77DC(u8 *p,int n,void *w,void *s,int x,int y) { PRINTSYS_PrintColor(*(void **)((u32)p+0x9124+(u32)n*8),x,y,s,w,0x3c40); BMP_OAM_UploadChars(*(struct Obj **)((u32)p+0x9120+(u32)n*8)); }
+void HALL_OF_FAME_PrintToPlate(u8 *p,int n,void *w,void *s,int x,int y) { PRINTSYS_PrintColor(*(void **)((u32)p+0x9124+(u32)n*8),x,y,s,w,0x3c40); BMP_OAM_UploadChars(*(struct Obj **)((u32)p+0x9120+(u32)n*8)); }

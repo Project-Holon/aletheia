@@ -1,5 +1,5 @@
 /*
- * function: func_021FC528
+ * function: WORLDTRADE_DETAIL_CreateStrings
  * address: 0x021FC528
  * packet: pkt_ov135_021FC528
  * region: ov135
@@ -17,7 +17,7 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void func_021FC528(char *p)
+void WORLDTRADE_DETAIL_CreateStrings(char *p)
 {
     int i;
     ((struct Obj10585 *)p)->fB88 = STRBUF_Create(0xb4, 0x48);

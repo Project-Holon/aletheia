@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD368",
+   "name": "ZKND_TBAR_SetButtonAnimSeq",
    "address": "0x021BD368",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD378",
+   "name": "ZKND_TBAR_SetButtonVisible",
    "address": "0x021BD378",
    "kind": "game",
    "region": "ov208",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD388",
+   "name": "ZKND_TBAR_GetButtonVisible",
    "address": "0x021BD388",
    "kind": "game",
    "region": "ov208",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD394",
+   "name": "ZKND_TBAR_SetButtonAnimSeqLoop",
    "address": "0x021BD394",
    "kind": "game",
    "region": "ov208",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD3A4",
+   "name": "ZKND_TBAR_SetButtonAnimSeqOnce",
    "address": "0x021BD3A4",
    "kind": "game",
    "region": "ov208",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD3B4",
+   "name": "ZKND_TBAR_IsButtonAnimActive",
    "address": "0x021BD3B4",
    "kind": "game",
    "region": "ov208",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD3C0",
+   "name": "ZKND_TBAR_GetButtonActor",
    "address": "0x021BD3C0",
    "kind": "game",
    "region": "ov208",

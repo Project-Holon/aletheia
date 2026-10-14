@@ -10,7 +10,7 @@
  * extent: two bytes of zero alignment padding at 0x021DBC66
  * symbols:
  *   GAME_DATA_IsSaving 0x02012E40 thumb
- *   func_021FF88C 0x021FF88C thumb ov186
+ *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   func_021F9C6C 0x021F9C6C thumb ov186
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct PrintSys;
 extern u8 GAME_DATA_IsSaving(const u8 *o);
-extern int func_021FF88C(char *p);
+extern int BR_NET_HandleNetError(char *p);
 extern void func_021F9C6C(void *);
 extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *p);
@@ -40,7 +40,7 @@ extern void func_021FD1BC(void *);
 int func_021DBBC4(int a,int b,int c,char *p)
 {
     int i;
-    if(GAME_DATA_IsSaving(((struct Obj24542 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f28)==0 && func_021FF88C(((struct Obj24543 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f24)==2) {
+    if(GAME_DATA_IsSaving(((struct Obj24542 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f28)==0 && BR_NET_HandleNetError(((struct Obj24543 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f24)==2) {
         func_021F9C6C(((struct Obj24544 *)(*(char * *)&((struct Obj02892 *)p)->fD0))->f14);
         return 1;
     }

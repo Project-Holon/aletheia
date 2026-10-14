@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8D10",
+   "name": "WORLDTRADE_ENTER_PushWifiSetup",
    "address": "0x021F8D10",
    "kind": "game",
    "region": "ov135",

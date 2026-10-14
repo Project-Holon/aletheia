@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C097C  0x021C097C  thumb  ov217
+ *   RESEARCH_COMMON_Create  0x021C097C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_021C097C(int a0, int a1);
+extern int RESEARCH_COMMON_Create(int a0, int a1);
 void func_021B9874(u32 a0)
 {
-    ((struct Obj01438 *)(((u8*)a0 + 0)))->fC = func_021C097C(((struct Obj01438 *)((u8*)a0))->f0, ((struct Obj01438 *)(((u8*)a0 + 0)))->f4);
+    ((struct Obj01438 *)(((u8*)a0 + 0)))->fC = RESEARCH_COMMON_Create(((struct Obj01438 *)((u8*)a0))->f0, ((struct Obj01438 *)(((u8*)a0 + 0)))->f4);
 }
 

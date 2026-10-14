@@ -1,5 +1,5 @@
 /*
- * function: func_021C3318
+ * function: ZUKAN_DETAIL_VOICE_FlushTimerWindow
  * address: 0x021C3318
  * packet: pkt_ov208_021C3318
  * region: ov208
@@ -26,7 +26,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-void func_021C3318(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heap, u8 *p, int key)
 {
     struct Descriptor *d;
     if (((struct Obj00146 *)p)->f10 != 0) {

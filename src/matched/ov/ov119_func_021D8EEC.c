@@ -1,5 +1,5 @@
 /*
- * function: func_021D8EEC
+ * function: POKETRADE_PROC_RecvPlayerMonA
  * address: 0x021D8EEC
  * packet: pkt_ov119_021D8EEC
  * region: ov119
@@ -17,7 +17,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021D8EEC(u32 a, u32 b, u8 *src, u8 *base, void *e)
+void POKETRADE_PROC_RecvPlayerMonA(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         u32 idx = (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) ? 0 : 1;

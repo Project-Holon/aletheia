@@ -1,5 +1,5 @@
 /*
- * function: func_021C1450
+ * function: ZUKAN_DETAIL_AREA_HandleTownTouchInput
  * address:  0x021C1450
  * packet:   pkt_ov208_021C1450
  * region:   ov208
@@ -15,11 +15,11 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
- *   func_021C0CCC 0x021C0CCC thumb ov208
- *   func_021C0D5C 0x021C0D5C thumb ov208
- *   func_021C1068 0x021C1068 thumb ov208
- *   func_021C1D30 0x021C1D30 thumb ov208
- *   func_021C2238 0x021C2238 thumb ov208
+ *   ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown 0x021C0CCC thumb ov208
+ *   ZUKAN_DETAIL_AREA_FindTownAtPoint 0x021C0D5C thumb ov208
+ *   ZUKAN_DETAIL_AREA_FindNearestTown 0x021C1068 thumb ov208
+ *   ZUKAN_DETAIL_AREA_DrawTownName 0x021C1D30 thumb ov208
+ *   ZUKAN_DETAIL_AREA_UpdateTerrainIcons 0x021C2238 thumb ov208
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
@@ -55,11 +55,11 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
-extern void func_021C0CCC(u16 *heap, u8 *p, int key);
-extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
-extern u8 func_021C1068(void *heap, char *p, int key, u8 x, u8 y);
-extern void func_021C1D30(u16 *heap, u8 *p, int key);
-extern void func_021C2238(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key);
+extern u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused, char *p, int unused2, u8 x, u8 y);
+extern u8 ZUKAN_DETAIL_AREA_FindNearestTown(void *heap, char *p, int key, u8 x, u8 y);
+extern void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key);
 extern void func_0207CA00(struct Vec *a, struct Vec *b, struct Vec *out);
 extern int func_0207CBD0(struct Vec *v);
 extern void VEC_Normalize(struct Vec *src, struct Vec *dst);
@@ -76,7 +76,7 @@ static inline void set3(struct Vec *v, int x, int y, int z)
     v->z = z;
 }
 
-void func_021C1450(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_HandleTownTouchInput(u16 *heap, u8 *p, int key)
 {
     u32 tx, ty;
     struct { struct PtS t, c; } pt;
@@ -96,9 +96,9 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         }
     } else if (KEY_GetTrg()) {
         func_020355D8(0);
-        func_021C0CCC(heap, p, key);
-        func_021C1D30(heap, p, key);
-        func_021C2238(heap, p, key);
+        ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(heap, p, key);
+        ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
+        ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
         return;
     }
     if (func_020355C4() == 0) {
@@ -124,7 +124,7 @@ void func_021C1450(u16 *heap, u8 *p, int key)
             if (keys & 0x80)
                 v.y += 0x1000;
         }
-        idx = func_021C1068(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
+        idx = ZUKAN_DETAIL_AREA_FindNearestTown(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (idx != 0xff) {
             found = 1;
             pt.t.x = TOWNMAP_GRH_GetTownInfoValue(*(char **)(p + 0x3c8), idx, 4);
@@ -165,18 +165,18 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         pt.c.x = pt.c.x > 0xf8 ? 0xf8 : (pt.c.x < 0 ? 0 : pt.c.x);
         pt.c.y = pt.c.y > 0xa8 ? 0xa8 : (pt.c.y < 8 ? 8 : pt.c.y);
         CLACT_AddActorSurfacePos((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt.c), 0);
-        p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
+        p[0x79] = ZUKAN_DETAIL_AREA_FindTownAtPoint(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (p[0x79] != old) {
-            func_021C1D30(heap, p, key);
-            func_021C2238(heap, p, key);
+            ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
+            ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
             if (p[0x79] != 0xff)
                 GFL_USE_PlaySeDefaultVolume(0x548);
         }
         }
     } else if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
-        p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)tx, (u8)ty);
-        func_021C1D30(heap, p, key);
-        func_021C2238(heap, p, key);
+        p[0x79] = ZUKAN_DETAIL_AREA_FindTownAtPoint(heap, (char *)p, key, (u8)tx, (u8)ty);
+        ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
+        ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
         if (p[0x79] != 0xff)
             GFL_USE_PlaySeDefaultVolume(0x54C);
     }

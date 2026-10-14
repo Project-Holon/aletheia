@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C252C
+ * function: ZUKAN_DETAIL_AREA_SetIconsAlphaMode
  * address:  0x021C252C
  * packet:   pkt_ov208_021C252C
  * region:   ov208
@@ -24,7 +24,7 @@ struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void ov208_func_021BC518(u32 blend);
 
-void ov208_func_021C252C(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetIconsAlphaMode(u16 *heap, u8 *p, int key)
 {
     u8 i;
 

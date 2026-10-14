@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF50
+ * function: GURU2_RECEIPT_GetUnionApp
  * address: 0x021DCF50
  * packet: pkt_ov137_021DCF50
  * region: ov137
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
 
-void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Obj23703 *)(*(u8 * *)&((struct Obj01414 *)p)->fC))->f14;}
+void *GURU2_RECEIPT_GetUnionApp(u8 *p) {return **(void ** *)&((struct Obj23703 *)(*(u8 * *)&((struct Obj01414 *)p)->fC))->f14;}

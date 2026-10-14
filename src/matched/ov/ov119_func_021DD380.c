@@ -1,5 +1,5 @@
 /*
- * function: func_021DD380
+ * function: POKETRADE_NEGO_StoreRemoteOffer
  * address: 0x021DD380
  * packet: pkt_ov119_021DD380
  * region: ov119
@@ -20,7 +20,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(void *,const void *,int);
 extern const char d_021E80E0[];
-void func_021DD380(char *p,int i,void *src)
+void POKETRADE_NEGO_StoreRemoteOffer(char *p,int i,void *src)
 {
     *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=func_02030734(((struct Obj22739 *)p)->f5F4,POKE_TOOL_GetPartyParamSize(),1,(void *)d_021E80E0,0x122);MI_CpuCopy8(src,*(void **)(p+0xfe4+i*4),POKE_TOOL_GetPartyParamSize());
 }

@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E707C 0x021E707C thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_2D_ClearCursorIfDisabled 0x021E707C thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DB290 0x021DB290 thumb ov119
  */
-extern int func_021E707C(void *);
-extern void func_021D8E84(void *,int),func_021DB290(void *);
+extern int POKETRADE_2D_ClearCursorIfDisabled(void *);
+extern void POKETRADE_PROC_SetStep(void *,int),func_021DB290(void *);
 void func_021DB2E8(void *p) {
- if(func_021E707C(p)==0) func_021D8E84(p,(int)func_021DB290);
+ if(POKETRADE_2D_ClearCursorIfDisabled(p)==0) POKETRADE_PROC_SetStep(p,(int)func_021DB290);
 }

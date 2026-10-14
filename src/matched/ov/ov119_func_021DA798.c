@@ -10,14 +10,14 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_021D8A24 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
- *   func_021DD24C 0x021DD24C thumb ov119
- *   func_021DD294 0x021DD294 thumb ov119
+ *   POKETRADE_NEGO_CheckCancelTouch 0x021DD24C thumb ov119
+ *   POKETRADE_NEGO_CloseCancelMenu 0x021DD294 thumb ov119
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021E1024 0x021E1024 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DA76C 0x021DA76C thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
@@ -28,16 +28,16 @@ typedef unsigned int   u32;
 struct Link;
 struct MsgBank;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern int func_021D8A24(void *);
+extern int POKETRADE_PROC_IsNetSession(void *);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern int func_021DD24C(char *p);
-extern void func_021DD294(char *p, int a, int b);
+extern int POKETRADE_NEGO_CheckCancelTouch(char *p);
+extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E1024(void *);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021DA76C(void *);
 extern void func_021DAEF0(char *p);
 void func_021DA798(char *p) {
@@ -45,15 +45,15 @@ void func_021DA798(char *p) {
  unsigned char a, b;
  i = GFL_NET_GetHandleNetID((struct Link *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()));
  j = 1 - i;
- if(func_021D8A24(p) && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),27,8)==0) {
-  func_021DD24C(p);
+ if(POKETRADE_PROC_IsNetSession(p) && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),27,8)==0) {
+  POKETRADE_NEGO_CheckCancelTouch(p);
   return;
  }
- func_021DD294(p,1,1);
+ POKETRADE_NEGO_CloseCancelMenu(p,1,1);
  a = (p+i)[0x11e0];
  if(a==2 && ((unsigned char *)(p+j))[0x11e0]==2) {
-  if(func_021D8A24(p)) GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),13,8);
-  func_021D8E84(p,(int)func_021DA76C);
+  if(POKETRADE_PROC_IsNetSession(p)) GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),13,8);
+  POKETRADE_PROC_SetStep(p,(int)func_021DA76C);
   return;
  }
  b = (p+j)[0x11e0];
@@ -70,8 +70,8 @@ void func_021DA798(char *p) {
  else if(b==3) v=0x61;
  else if(a==3) v=0x66;
  MSGDATA_ReadString((struct MsgBank *)(((struct Obj08055 *)p)->f720),v,(void *)(((struct Obj08055 *)p)->f738));
- func_021E1024(p);
+ POKETRADE_SAVE_OpenMessageWindowTop(p);
  p[0x11e0]=0;
  p[0x11e1]=0;
- func_021D8E84(p,(int)func_021DAEF0);
+ POKETRADE_PROC_SetStep(p,(int)func_021DAEF0);
 }

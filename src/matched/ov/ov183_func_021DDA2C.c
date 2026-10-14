@@ -10,12 +10,12 @@
  * lever: bounded permuter rec/index declaration order, selector use and
  *        field-base expansion restore the three selector/index spill homes.
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   func_021DE058 0x021DE058 thumb ov183
- *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_0200DB44 0x0200DB44 thumb
  *   func_0200DAC4 0x0200DAC4 thumb
@@ -27,7 +27,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_0200DABC 0x0200DABC thumb
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021DE084 0x021DE084 thumb ov183
  *   d_021E3490 0x021E3490 data a4
  */
@@ -52,14 +52,14 @@ typedef unsigned int   u32;
 struct Blk1AC;
 struct U16Vec;
 struct WordSet;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
 struct MsgBank;
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern int func_021DE058(void *p, void *q);
-extern void *func_021FC6A4(u16, unsigned, u16, u16, u8, u8, void *, u16);
+extern void *BR_UTIL_Create(u16, unsigned, u16, u16, u8, u8, void *, u16);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
@@ -70,7 +70,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021FC7C4(char *, void *, void *, u16);
 extern u16 func_0200DABC(struct Blk1AC *p);
-extern int func_021FC124(int, int, struct Triple *);
+extern int BR_RES_GetSprite(int, int, struct Triple *);
 extern void func_021DE084(char *, void *, const char *, unsigned, short, short, u16);
 void func_021DDA2C(char *p, char *q)
 {
@@ -91,11 +91,11 @@ void func_021DDA2C(char *p, char *q)
   struct Triple triple;
   char **tmp1;
   u16 tmp;
-  first = func_021FC20C(*((char **) (q + 8)));
-  second = func_021FC214(*((char **) (q + 8)));
-  third = func_021FC21C(*((char **) (q + 8)));
+  first = BR_RES_GetFont(*((char **) (q + 8)));
+  second = BR_RES_GetMsgData(*((char **) (q + 8)));
+  third = BR_RES_GetWordSet(*((char **) (q + 8)));
   tmp = *((u16 *) (p + 0x7c));
-  func_021FB964((void *)(*((int *) (q + 8))), 12, tmp);
+  BR_RES_LoadBgGraphics((void *)(*((int *) (q + 8))), 12, tmp);
   if (func_021DE058((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14)))))
   {
     select = 7;
@@ -111,7 +111,7 @@ void func_021DDA2C(char *p, char *q)
   {
     rec = &d_021E3490[index];
     slot = p + (index * 4);
-    *((void **) (slot + 0x34)) = func_021FC6A4(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
+    *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
     func_021FC868(*((void **) (slot + 0x34)), 0, 1, 0);
     switch (index)
     {
@@ -198,6 +198,6 @@ void func_021DDA2C(char *p, char *q)
   }
 
   v = func_0200DABC((struct Blk1AC *)(*((int *) (q + 0x10))));
-  func_021FC124(*((int *) (q + 8)), 13, &triple);
+  BR_RES_GetSprite(*((int *) (q + 8)), 13, &triple);
   func_021DE084(p + 8, *((void **) (q + 4)), (const char *) (&triple), v, 0xa0, 0x20, *((u16 *) (p + 0x7c)));
 }

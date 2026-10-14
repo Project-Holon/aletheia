@@ -1,5 +1,5 @@
 /*
- * function: func_021C4EEC
+ * function: MAILVIEW_LoadGraphics
  * address: 0x021C4EEC
  * packet: pkt_ov136_021C4EEC
  * region: ov136
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * note (2026-10-02): byte-correct; only the ABS32 word for func_021C4534 (an unlabelled
+ * note (2026-10-02): byte-correct; only the ABS32 word for MAILSYS_OnKeyModeNoOp (an unlabelled
  *   ov136 leaf "return 0", not in any lane) lacks a witness. File that leaf, then re-verify.
  * symbols:
  *   func_020490F4 0x020490F4 arm
@@ -26,8 +26,8 @@
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
- *   func_021C4534 0x021C4534 thumb ov136
- *   func_021C4528 0x021C4528 thumb ov136
+ *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
+ *   MAILSYS_OnTouchMode 0x021C4528 thumb ov136
  */
 #include "../include/Obj00540.h"
 typedef unsigned char u8;
@@ -50,10 +50,10 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(u32 layer);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern int func_021C4534(void);
-extern int func_021C4528(void *a);
+extern int MAILSYS_OnKeyModeNoOp(void);
+extern int MAILSYS_OnTouchMode(void *a);
 
-void func_021C4EEC(u8 *p)
+void MAILVIEW_LoadGraphics(u8 *p)
 {
     u32 k = (*(u8 **)(p + 0x1C))[0xB];
     void *h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
@@ -90,8 +90,8 @@ void func_021C4EEC(u8 *p)
         h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
         func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
         ARC_TOOL_DeleteHandle(h);
-        ((struct Obj00540 *)p)->f3C = (void *)func_021C4534;
-        ((struct Obj00540 *)p)->f40 = (void *)func_021C4528;
+        ((struct Obj00540 *)p)->f3C = (void *)MAILSYS_OnKeyModeNoOp;
+        ((struct Obj00540 *)p)->f40 = (void *)MAILSYS_OnTouchMode;
         BG_SYS_SetMainPlaneVisible(4, 1);
     }
 }

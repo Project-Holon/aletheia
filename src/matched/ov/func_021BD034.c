@@ -1,5 +1,5 @@
 /*
- * function: func_021BD034
+ * function: ZUKAN_DETAIL_GRAPHIC_TransferOam
  * address:  0x021BD034
  * packet:   pkt_021BD034
  * region:   ov208
@@ -17,7 +17,7 @@
 
 extern void func_020419E4(void);
 
-void func_021BD034(char *a0)
+void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *a0)
 {
     func_020419E4();
 }

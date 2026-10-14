@@ -1,5 +1,5 @@
 /*
- * function: func_021FAC84
+ * function: WORLDTRADE_INPUT_StateNone
  * address:  0x021FAC84
  * packet:   pkt_021FAC84
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-int func_021FAC84(void)
+int WORLDTRADE_INPUT_StateNone(void)
 {
     return -1;
 }

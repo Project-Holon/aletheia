@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EA0
+ * function: WORLDTRADE_SetActorSurfacePos
  * address:  0x021F4EA0
  * packet:   pkt_021F4EA0
  * region:   ov135
@@ -24,7 +24,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021F4EA0(u32 a, u16 b, u16 c)
+void WORLDTRADE_SetActorSurfacePos(u32 a, u16 b, u16 c)
 {
     u16 t[2];
 

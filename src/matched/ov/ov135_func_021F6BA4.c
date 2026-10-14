@@ -1,5 +1,5 @@
 /*
- * function: func_021F6BA4
+ * function: WORLDTRADE_BOX_CanRemoveMon
  * address:  0x021F6BA4
  * packet:   pkt_021F6BA4
  * region:   ov135
@@ -12,7 +12,7 @@
   *
   *
  * symbols:
- *   func_021F6B34  0x021F6B34  thumb
+ *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern int func_021F6B34(int v);
+extern int WORLDTRADE_BOX_ClampSlot(int v);
 extern u32 POKEPARTY_GetCount(void *party);
 
-int func_021F6BA4(void *party, void *save, int box, int slot)
+int WORLDTRADE_BOX_CanRemoveMon(void *party, void *save, int box, int slot)
 {
-    if (func_021F6B34(box) != 0 && (int)POKEPARTY_GetCount(party) < 2) {
+    if (WORLDTRADE_BOX_ClampSlot(box) != 0 && (int)POKEPARTY_GetCount(party) < 2) {
         return 0;
     }
     return 1;

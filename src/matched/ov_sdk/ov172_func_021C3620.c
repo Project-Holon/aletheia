@@ -1,5 +1,5 @@
 /*
- * function: func_021C3620
+ * function: jpeg_encode_ifd
  * address:  0x021C3620
  * packet:   pkt_ov172_021C3620
  * region:   ov172
@@ -12,8 +12,8 @@
  * sdk:      jpeg_encode_ifd (libssp.TWL.HYB.a exifenc.o)
  *
  * symbols:
- *   func_021C2DC8  0x021C2DC8  arm  ov172
- *   func_021C2E1C  0x021C2E1C  arm  ov172
+ *   jpeg_exif_get_tag_size  0x021C2DC8  arm  ov172
+ *   jpeg_exif_set_tag_value  0x021C2E1C  arm  ov172
  *   g_021CADF0     0x021CADF0  data ov172
  *
  * exifenc.o's file statics sit in one block based at dateTimeDataFlag
@@ -57,13 +57,13 @@ typedef struct jpeg_exif_data_structure {
 
 typedef struct exifenc_vars exifenc_vars;
 
-extern unsigned long func_021C2DC8(exif_tag_entry *entry);
-extern void func_021C2E1C(exif_tag_entry *entry);
+extern unsigned long jpeg_exif_get_tag_size(exif_tag_entry *entry);
+extern void jpeg_exif_set_tag_value(exif_tag_entry *entry);
 extern struct exifenc_vars g_021CADF0;
 
 #define PUT(v)  (g_021CADF0.buf[g_021CADF0.pos++] = (unsigned char)(v))
 
-void func_021C3620(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is_last)
+void jpeg_encode_ifd(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is_last)
 {
     exif_tag_entry *entry;
     unsigned long size;
@@ -107,8 +107,8 @@ void func_021C3620(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is
         PUT((entry->count & 0xff00) >> 8);
         PUT(entry->count);
 
-        if (func_021C2DC8(entry) <= 4) {
-            func_021C2E1C(entry);
+        if (jpeg_exif_get_tag_size(entry) <= 4) {
+            jpeg_exif_set_tag_value(entry);
         } else {
             PUT((entry->offset & 0xff000000) >> 24);
             PUT((entry->offset & 0xff0000) >> 16);
@@ -131,9 +131,9 @@ void func_021C3620(jpeg_exif_data_structure *jexif, exif_ifd_data *ifd, short is
 
     entry = ifd->entries;
     for (i = 0; i < ifd->count; entry++, i++) {
-        size = func_021C2DC8(entry);
+        size = jpeg_exif_get_tag_size(entry);
         if (size > 4 && entry->tag != 0x927c) {
-            func_021C2E1C(entry);
+            jpeg_exif_set_tag_value(entry);
             if (size & 1)
                 PUT(0);
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_02201CA4
+ * function: BTLV_CLACT_ReleaseActor
  * address:  0x02201CA4
  * packet:   pkt_ov094_02201CA4
  * region:   ov094
@@ -23,7 +23,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02201CA4(Res *r, int i)
+void BTLV_CLACT_ReleaseActor(Res *r, int i)
 {
     CLACT_ReleaseCharacter((u32)r->e[i].hc);
     CLACT_ReleasePalette((u32)r->e[i].h10);

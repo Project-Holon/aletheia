@@ -1,5 +1,5 @@
 /*
- * function: func_021C7094
+ * function: MB_SEQ_StartPartyListForReturn
  * address:  0x021C7094
  * packet:   pkt_ov136_021C7094
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7430 0x021C7430 thumb
+ *   MB_SEQ_CreatePartyListArgs 0x021C7430 thumb
  */
 #include "../include/Obj08206.h"
 
@@ -21,14 +21,14 @@ struct Bf7 {
     u8 v : 7;
     u8 w : 1;
 };
-extern void func_021C7430(u8 *, int, u16, u16);
-int func_021C7094(u8 *p)
+extern void MB_SEQ_CreatePartyListArgs(u8 *, int, u16, u16);
+int MB_SEQ_StartPartyListForReturn(u8 *p)
 {
     if (((struct Obj08206 *)p)->f24 == 0) {
         ((struct Obj08206 *)p)->f28 = 0x15;
         return 0;
     }
-    func_021C7430(p, 0xB, ((struct Obj08206 *)p)->f22, ((struct Bf7 *)(p + 0x21))->v);
+    MB_SEQ_CreatePartyListArgs(p, 0xB, ((struct Obj08206 *)p)->f22, ((struct Bf7 *)(p + 0x21))->v);
     ((struct Obj08206 *)p)->f14 = 3;
     return 6;
 }

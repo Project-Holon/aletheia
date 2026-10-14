@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D8C
+ * function: SSP_JpegEncoderResample
  * address:  0x021C1D8C
  * packet:   pkt_ov172_021C1D8C
  * region:   ov172
@@ -27,7 +27,7 @@
 
 extern unsigned long _u32_div_f(unsigned long a, unsigned long b);
 
-void func_021C1D8C(const void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option)
+void SSP_JpegEncoderResample(const void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option)
 {
     unsigned long stepSrcW;
     unsigned long loopSrcW;

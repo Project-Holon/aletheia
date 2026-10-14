@@ -1,5 +1,5 @@
 /*
- * function: func_02201DA0
+ * function: BTLV_CLACT_SetActorAnimSeq
  * address:  0x02201DA0
  * packet:   pkt_ov094_02201DA0
  * region:   ov094
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 CLACT_SetActorAnimSeq(void *obj, u16 v);
 
-u32 func_02201DA0(char *p, int i, int v)
+u32 BTLV_CLACT_SetActorAnimSeq(char *p, int i, int v)
 {
     return CLACT_SetActorAnimSeq(*(void **)(p + i * 16 + 8), (u16)v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_SetEffectPosition
+ * function: SCRCMD_ShowArcModelAt
  * address:  0x021D3018
  * packet:   pkt_ov021_021D3018
  * region:   ov021
@@ -22,7 +22,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *a, int *v);
 
-u32 SCRCMD_SetEffectPosition(u32 a, u32 b)
+u32 SCRCMD_ShowArcModelAt(u32 a, u32 b)
 {
     int v[3];
     void *s0;

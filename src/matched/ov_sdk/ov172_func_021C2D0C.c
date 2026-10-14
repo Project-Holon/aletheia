@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D0C
+ * function: SSP_GetDateTime
  * address:  0x021C2D0C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -26,7 +26,7 @@ struct RTCDate;
 struct RTCTime;
 extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
 
-int func_021C2D0C(void *a, void *b)
+int SSP_GetDateTime(void *a, void *b)
 {
     if (func_020889C0(a, b) == 0) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC99C
+ * function: ZUKAN_DETAIL_COMMON_TickFlashEffect
  * address:  0x021BC99C
  * packet:   pkt_021BC99C
  * region:   ov208
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
-void func_021BC99C(char *p)
+void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p)
 {
     unsigned char c;
 

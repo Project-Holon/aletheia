@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F50
+ * function: ZUKAN_DETAIL_AREA_DrawAreaSetTitle
  * address:  0x021C1F50
  * packet:   pkt_ov208_021C1F50
  * region:   ov208
@@ -39,7 +39,7 @@ extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C1F50(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key)
 {
     void *str;
     u16 tw;

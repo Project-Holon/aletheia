@@ -1,5 +1,5 @@
 /*
- * function: func_021BD880
+ * function: ZKND_TBAR_PlayCancelAnim
  * address:  0x021BD880
  * packet:   pkt_021BD880
  * region:   ov208
@@ -30,7 +30,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_021BD880(char *p)
+void ZKND_TBAR_PlayCancelAnim(char *p)
 {
     unsigned short h = ((struct Obj05866 *)p)->f28;
     int v = ((struct Obj05866 *)p)->f0;

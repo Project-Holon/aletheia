@@ -1,5 +1,5 @@
 /*
- * function: func_021FFA3C
+ * function: WORLDTRADE_SUBLCD_AnimTaskB
  * address: 0x021FFA3C
  * packet: pkt_ov135_021FFA3C
  * region: ov135
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FF914 0x021FF914 thumb ov135
- *   func_021FFAEC 0x021FFAEC thumb ov135
+ *   WORLDTRADE_SUBLCD_SetActorAnim 0x021FF914 thumb ov135
+ *   WORLDTRADE_SUBLCD_SetActorSurfacePos 0x021FFAEC thumb ov135
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
@@ -20,15 +20,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int state; int y; u8 *p; } Anim;
-extern void func_021FF914(u32 *p, u32 v);
-extern void func_021FFAEC(u32, int, int);
+extern void WORLDTRADE_SUBLCD_SetActorAnim(u32 *p, u32 v);
+extern void WORLDTRADE_SUBLCD_SetActorSurfacePos(u32, int, int);
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021FFA3C(void *task, Anim *a)
+void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *a)
 {
     u8 *p;
     p = a->p;
@@ -37,14 +37,14 @@ void func_021FFA3C(void *task, Anim *a)
         if (a->y > 160) {
             a->y = 160;
             a->state = 1;
-            func_021FF914((u32 *)a, 6);
+            WORLDTRADE_SUBLCD_SetActorAnim((u32 *)a, 6);
         }
         a->y++;
-        func_021FFAEC(((struct Obj08193 *)p)->fD0C, 128, a->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos(((struct Obj08193 *)p)->fD0C, 128, a->y);
         break;
     case 1:
         if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj08193 *)p)->fD0C)) == 0) {
-            func_021FF914((u32 *)a, 0);
+            WORLDTRADE_SUBLCD_SetActorAnim((u32 *)a, 0);
             a->state = 2;
             GFL_USE_PlaySeDefaultVolume(0x791);
         }
@@ -52,10 +52,10 @@ void func_021FFA3C(void *task, Anim *a)
     case 2:
         if (a->y < -20) {
             a->state = 3;
-            func_021FF914((u32 *)a, 3);
+            WORLDTRADE_SUBLCD_SetActorAnim((u32 *)a, 3);
         }
         a->y -= 2;
-        func_021FFAEC(((struct Obj08193 *)p)->fD0C, 128, a->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos(((struct Obj08193 *)p)->fD0C, 128, a->y);
         break;
     case 3:
         ((struct Obj08193 *)p)->fE18 = 1;

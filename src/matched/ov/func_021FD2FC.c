@@ -1,5 +1,5 @@
 /*
- * function: func_021FD2FC
+ * function: WORLDTRADE_LIST_DeleteStrings
  * address:  0x021FD2FC
  * packet:   pkt_021FD2FC
  * region:   ov135
@@ -24,7 +24,7 @@ typedef signed int s32;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021FD2FC(u8 *p)
+void WORLDTRADE_LIST_DeleteStrings(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj09237 *)p)->fB90));
     STRBUF_Delete((struct U16Vec *)(((struct Obj09237 *)p)->fB94));

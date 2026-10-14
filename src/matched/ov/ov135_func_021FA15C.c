@@ -1,5 +1,5 @@
 /*
- * function: func_021FA15C
+ * function: WORLDTRADE_INPUT_UpdateThreeOptionMenu
  * address:  0x021FA15C
  * packet:   pkt_021FA15C
  * region:   ov135
@@ -15,8 +15,8 @@
  * symbols:
  *   tbl_0220320E  0x0220320E  data
  *   tbl_02203250  0x02203250  data  a4
- *   func_021F4FF4  0x021F4FF4  thumb
- *   func_021F9A1C  0x021F9A1C  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
+ *   WORLDTRADE_INPUT_CheckTouch  0x021F9A1C  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
@@ -53,11 +53,11 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F9A1C(void *p, int mode);
+extern int WORLDTRADE_INPUT_CheckTouch(void *p, int mode);
 
-int func_021FA15C(Obj *p)
+int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Obj *p)
 {
     int old = p->pos;
     int r;
@@ -83,17 +83,17 @@ int func_021FA15C(Obj *p)
     }
     if (old != p->pos) {
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021F4FF4(p->cursor, tbl_0220320E[p->pos].x, tbl_0220320E[p->pos].y);
+        WORLDTRADE_SetActorPos(p->cursor, tbl_0220320E[p->pos].x, tbl_0220320E[p->pos].y);
         if (p->pos == 3) {
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 6);
         }
     }
-    r = func_021F9A1C(p, 1);
+    r = WORLDTRADE_INPUT_CheckTouch(p, 1);
     if (r != -1) {
         func_020355D8(1);
-        func_021F4FF4(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
+        WORLDTRADE_SetActorPos(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
         if (r == 3) {
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
@@ -117,7 +117,7 @@ int func_021FA15C(Obj *p)
     }
     if (KEY_GetTrg() & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        func_021F4FF4(p->cursor, 0xC0, 0x88);
+        WORLDTRADE_SetActorPos(p->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         return -2;
     }

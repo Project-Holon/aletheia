@@ -1,5 +1,5 @@
 /*
- * function: func_02206BC8
+ * function: BTLV_GAUGE_Create
  * address: 0x02206BC8
  * packet: pkt_ov094_02206BC8
  * region: ov094
@@ -13,7 +13,7 @@
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_020275E4 0x020275E4 thumb
@@ -27,14 +27,14 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F8710 0x021F8710 thumb ov094
- *   func_02207430 0x02207430 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
+ *   BTLV_GAUGE_LoadSlotResources 0x02207430 thumb ov094
  *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
  *   BTLV_GAUGE_TaskFlashPalettes 0x02208BFC thumb ov094
- *   d_0220AEC0 0x0220AEC0 data a1
- *   d_0220AABC 0x0220AABC data a2
+ *   gBtlvGaugeSourceFileName 0x0220AEC0 data a1
+ *   gBtlvGaugeSlideInOffset 0x0220AABC data a2
  */
 #include "../include/Obj21804.h"
 typedef unsigned short u16;
@@ -69,8 +69,8 @@ typedef struct {
     int pad[3];
 } Task;
 
-extern const char d_0220AEC0[];
-extern const Pt d_0220AABC;
+extern const char gBtlvGaugeSourceFileName[];
+extern const Pt gBtlvGaugeSlideInOffset;
 
 typedef signed int     s32;
 typedef unsigned char  u8;
@@ -80,7 +80,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
@@ -94,14 +94,14 @@ extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned)
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u16 GFL_USE_GetBgmNo(void);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern int func_021F8710(void);
-extern void func_02207430(Obj *, int, int);
+extern int BTLV_EFFECT_GetMode(void);
+extern void BTLV_GAUGE_LoadSlotResources(Obj *, int, int);
 extern void BTLV_GAUGE_PlaceSlot(Obj *, int, Pt *);
 extern void BTLV_GAUGE_TaskFlashPalettes(void *, void *);
 
-Obj *func_02206BC8(int a, u16 heap)
+Obj *BTLV_GAUGE_Create(int a, u16 heap)
 {
     char *hdr;
     Pt pos;
@@ -112,31 +112,31 @@ Obj *func_02206BC8(int a, u16 heap)
     Task *t;
     int lo, hi, kind;
 
-    s = func_02030734(heap, sizeof(Obj), 1, d_0220AEC0, 0x14b);
+    s = func_02030734(heap, sizeof(Obj), 1, gBtlvGaugeSourceFileName, 0x14b);
     s->heap = heap;
     s->h04 = func_020490F4(0xb, (u16)s->heap);
     s->f00 = CLACT_CreateUnit(0x28, 0, s->heap);
     for (i = 0; i < 6; i++) {
         s->f18[i] = CLACT_RegisterPalette(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
-        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f18[i], 0) >> 1), 0x20);
+        PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f18[i], 0) >> 1), 0x20);
     }
     arc = func_020490F4(func_020275E4(), (u16)((s->heap & 0x7fff) | 0x8000));
     s->f30 = CLACT_RegisterCharacter(arc, func_020276B8(), 0, 0, s->heap);
     s->f34 = CLACT_RegisterCellAnim(arc, func_020276BC(1), func_020276C0(1), s->heap);
     s->f38 = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x100, s->heap);
     s->f3c = CLACT_RegisterPalette(arc, func_020276B4(), 0, 0x120, s->heap);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f38, 0) >> 1), 0x20);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f3c, 0) >> 1), 0x20);
-    PALANM_BlendChannelMask((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
+    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f38, 0) >> 1), 0x20);
+    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f3c, 0) >> 1), 0x20);
+    PALANM_BlendChannelMask((unsigned)BTLV_EFFECT_GetPalanm(), 2, 0x200, 8, 0);
     ARC_TOOL_DeleteHandle(arc);
     s->f10 = ARC_UTIL_LoadScreenDataFromHandle((void *)s->h04, 0xa4, 0, (u32)(&hdr), s->heap);
     s->f14 = ((struct Obj21804 *)hdr)->f14;
     s->f08 = a;
     s->f444 = GFL_USE_GetBgmNo();
-    t = func_02030734(heap, sizeof(Task), 1, d_0220AEC0, 0x185);
+    t = func_02030734(heap, sizeof(Task), 1, gBtlvGaugeSourceFileName, 0x185);
     t->obj = s;
-    s->f0c = func_02030DA8(func_021F86D4(), BTLV_GAUGE_TaskFlashPalettes, t, 0);
-    switch (func_021F8710()) {
+    s->f0c = func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_GAUGE_TaskFlashPalettes, t, 0);
+    switch (BTLV_EFFECT_GetMode()) {
     case 0:
         lo = 0;
         hi = 1;
@@ -160,11 +160,11 @@ Obj *func_02206BC8(int a, u16 heap)
         break;
     }
     for (i = lo; i <= hi; i++) {
-        base = d_0220AABC;
+        base = gBtlvGaugeSlideInOffset;
         pos = base;
         if (i & 1)
             pos.x *= -1;
-        func_02207430(s, kind, i);
+        BTLV_GAUGE_LoadSlotResources(s, kind, i);
         s->slot[i].kind = kind;
         BTLV_GAUGE_PlaceSlot(s, i, &pos);
     }

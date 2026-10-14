@@ -1,5 +1,5 @@
 /*
- * function: func_022033F4
+ * function: BTLV_INPUT_LoadCommonGraphics
  * address: 0x022033F4
  * packet: pkt_ov094_022033F4
  * region: ov094
@@ -15,7 +15,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -59,7 +59,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int PALANM_GetDefaultWork(char *p, int i);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
@@ -74,7 +74,7 @@ extern u32 func_02027600(u32);
 extern u32 func_020275E8(void);
 extern u32 func_020275F8(u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_022033F4(Main *m)
+void BTLV_INPUT_LoadCommonGraphics(Main *m)
 {
     void *arc;
     u32 file;
@@ -85,7 +85,7 @@ void func_022033F4(Main *m)
     func_020498F4(m->f48, 0x72, 7, 0, 0, 0, m->heap);
     PALANM_LoadHandlePaletteToSlot(m->pal, m->f48, 0x5c, m->heap, 1, 0x1e0, 0);
     if (m->f23c == 1)
-        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
+        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), m->buf284, 0x20);
     m->h104 = CLACT_RegisterCharacter(m->f48, 0x73, 0, 1, m->heap);
     m->h10c = CLACT_RegisterCellAnim(m->f48, 0x75, 0x76, m->heap);
     m->h108 = CLACT_RegisterPalette(m->f48, 0x74, 1, 0, m->heap);

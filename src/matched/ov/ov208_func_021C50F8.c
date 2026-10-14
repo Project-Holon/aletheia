@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C50F8
+ * function: ZUKAN_DETAIL_FORM_GetModelPosition
  * address:  0x021C50F8
  * packet:   pkt_ov208_021C50F8
  * region:   ov208
@@ -30,7 +30,7 @@ struct Ov208Cam {
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern struct Ov208Cam data_021C8E40;
 
-void ov208_func_021C50F8(u32 obj, Vec *out)
+void ZUKAN_DETAIL_FORM_GetModelPosition(u32 obj, Vec *out)
 {
     Vec v;
 

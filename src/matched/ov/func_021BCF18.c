@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF18
+ * function: ZUKAN_DETAIL_GRAPHIC_DrawFrame
  * address:  0x021BCF18
  * packet:   pkt_021BCF18
  * region:   ov208
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD098 0x021BD098  thumb  ov208
- *   func_021BD030 0x021BD030  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_DrawActors 0x021BD098  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_NoOp 0x021BD030  thumb  ov208
 
- * Calls func_021BD098 on +4 then func_021BD030 on the object.
+ * Calls ZUKAN_DETAIL_GRAPHIC_DrawActors on +4 then ZUKAN_DETAIL_GRAPHIC_NoOp on the object.
  */
 
 
-extern void func_021BD098(char *);
-extern void func_021BD030(char *);
+extern void ZUKAN_DETAIL_GRAPHIC_DrawActors(char *);
+extern void ZUKAN_DETAIL_GRAPHIC_NoOp(char *);
 
-void func_021BCF18(char *p)
+void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p)
 {
-    func_021BD098(p + 4);
-    func_021BD030(p);
+    ZUKAN_DETAIL_GRAPHIC_DrawActors(p + 4);
+    ZUKAN_DETAIL_GRAPHIC_NoOp(p);
 }
 

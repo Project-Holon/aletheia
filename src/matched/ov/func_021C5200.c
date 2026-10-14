@@ -1,5 +1,5 @@
 /*
- * function: func_021C5200
+ * function: ZUKAN_DETAIL_FORM_SignalAnimDone
  * address:  0x021C5200
  * packet:   pkt_021C5200
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021C5200(int *p)
+void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p)
 {
     if (p[0] == 0)
         return;

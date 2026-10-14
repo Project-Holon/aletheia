@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDD0C",
+   "name": "GURU2_RECEIPT_StateWaitEndWipe",
    "address": "0x021DDD0C",
    "kind": "game",
    "region": "ov137",

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: callee of func_021DA5D0 (ov123) +004A. Coherent
+ * Recursive MATCH unblocker: callee of PDWACC_STATE_ProcExit (ov123) +004A. Coherent
  * Thumb code in ov009 (ov010 holds the tail of another function), so the ov009
  * shard makes that site attest as `matched`.
  *

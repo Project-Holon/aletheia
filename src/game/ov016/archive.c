@@ -1,7 +1,7 @@
 /*
  * file:     archive.c
  * unit:     yes
- * function: DWCi_ARClInit, DWCi_ARClEnd, userProc, cbRead, cbReadRom, func_021D4B60, DWCi_ARClReadEx, DWCi_ARClRelease, cmpBack
+ * function: DWCi_ARClInit, DWCi_ARClEnd, userProc, cbRead, cbReadRom, DWCi_ARClCbWrite, DWCi_ARClReadEx, DWCi_ARClRelease, cmpBack
  * address:  0x021D486C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -122,7 +122,7 @@ extern int func_0209477C(const u8 *s);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
-int func_021D4B60(void);
+int DWCi_ARClCbWrite(void);
 void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 void DWCi_ARClRelease(void *file);
 extern char sArchiveTable1[4];
@@ -135,7 +135,7 @@ extern char sArchiveTable2[];
  * sdk:      DWCi_ARClInit (libdwcutil.TWL.HYB.a(archive.o))
  *
  * notes:    the ABS32 pool word at 0x021D4A18 (cbWrite, 0x021D4B60) attests through the
- *           new symbols_sdk.json row and the seeded start (func_021D4B60, EXACT).
+ *           new symbols_sdk.json row and the seeded start (DWCi_ARClCbWrite, EXACT).
  */
 
 static int userProc(int unused, unsigned long cmd);
@@ -166,7 +166,7 @@ void DWCi_ARClInit(void)
         OS_Terminate();
     FS_SetArchiveProc(&MemArchive->archive, (int (*)(FSFile *, u32))userProc, 0x602);
     if (!FS_LoadArchive(&MemArchive->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
-                       (int (*)(FSArchive *, void *, u32,  u32))cbRead, (int (*)(FSArchive *, void *, u32,  u32))func_021D4B60))
+                       (int (*)(FSArchive *, void *, u32,  u32))cbRead, (int (*)(FSArchive *, void *, u32,  u32))DWCi_ARClCbWrite))
         OS_Terminate();
     size = FS_LoadArchiveTables(&MemArchive->archive, 0, 0);
     MemArchive->table = DWCi_HEAPlAllocEx(size, 4);
@@ -221,7 +221,7 @@ static void cbReadRom(void *arc)
     FS_NotifyArchiveAsyncEnd(arc, 0);
 }
 
-int func_021D4B60(void)
+int DWCi_ARClCbWrite(void)
 {
     return 1;
 }

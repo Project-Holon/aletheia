@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0AC
+ * function: DENDOU_VIEW_IsActorAnimActive
  * address:  0x021DE0AC
  * packet:   pkt_021DE0AC
  * region:   ov171
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-int func_021DE0AC(int *p, int i)
+int DENDOU_VIEW_IsActorAnimActive(int *p, int i)
 {
     return CLACT_IsActorAnimActive((struct Actor *)(*(int *)((char *)p + i * 4 + 0xB74)));
 }

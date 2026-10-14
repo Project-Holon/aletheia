@@ -9,11 +9,11 @@
  * status: EXACT
  * Unlabelled C follower after the non-C veneer at 0689B504.
  * symbols:
- *   func_0220270C 0x0220270C thumb ov094
+ *   BTLV_INPUT_ChangeScreen 0x0220270C thumb ov094
  */
 #include "../include/Obj21895.h"
-extern void func_0220270C(char *s, int mode, void *arg);
+extern void BTLV_INPUT_ChangeScreen(char *s, int mode, void *arg);
 void BTLV_SCD_ShowRotateScreen(void *p, void *q)
 {
-    func_0220270C(((struct Obj21895 *)p)->fB0, 5, q);
+    BTLV_INPUT_ChangeScreen(((struct Obj21895 *)p)->fB0, 5, q);
 }

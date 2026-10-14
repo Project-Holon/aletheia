@@ -26,7 +26,7 @@
  *   DWCi_ARClRelease                 0x021D4C68  arm  ov016
  *   DWCi_QUElDelete                  0x021D5450  arm  ov016
  *   DWCi_HEAPlFree_                  0x021D6438  arm  ov016
- *   g_021DE680_free                  0x021DE680  data
+ *   gMemFont                  0x021DE680  data
  *   DWCi_QUElPopBack                 0x021D54C4  arm  ov016
  *   DWCi_OVRlAlloc                   0x021D705C  arm  ov016
  *   NNSi_G2dCalcRequiredOBJ          0x02069184  arm
@@ -185,7 +185,7 @@ void DWCi_FNTlRenewBg(int x);
 extern MemFont *gFontWork;
 extern char *sFontTable4[2];
 extern char *sFontTable5[2];
-extern MemFont *g_021DE680_free;
+extern MemFont *gMemFont;
 extern const u16 sFontTable2[];
 extern const u16 sFontTable3[];
 extern const u16 sFontTable1[];
@@ -224,7 +224,7 @@ void DWCi_FNTlEnd(void)
     for (i = 0; i < 2; i++)
         DWCi_ARClRelease(gFontWork->file[i]);
     DWCi_QUElDelete(gFontWork->unused);
-    DWCi_HEAPlFree_((void **)&g_021DE680_free);
+    DWCi_HEAPlFree_((void **)&gMemFont);
 }
 
 

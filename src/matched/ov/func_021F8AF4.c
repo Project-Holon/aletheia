@@ -1,5 +1,5 @@
 /*
- * function: func_021F8AF4
+ * function: WORLDTRADE_ENTER_StateStartConnect
  * address:  0x021F8AF4
  * packet:   pkt_021F8AF4
  * region:   ov135
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void func_021C8DA0(u8 *p);
 
-int func_021F8AF4(u8 *p)
+int WORLDTRADE_ENTER_StateStartConnect(u8 *p)
 {
     func_021C8DA0(p);
     ((struct Obj18565 *)p)->fF8C = 0;

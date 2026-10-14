@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A24
+ * function: ZUKAN_DETAIL_VOICE_UpdateWaveformTiles
  * address: 0x021C3A24
  * packet: pkt_ov208_021C3A24
  * region: ov208
@@ -21,7 +21,7 @@ struct Descriptor;
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
-void func_021C3A24(u16 *heap,u8 *p,int key)
+void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heap,u8 *p,int key)
 {
     u16 tile;
     u16 row;

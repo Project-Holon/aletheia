@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021798C4",
+   "name": "IRCNET_CbSetTimeoutLimit",
    "address": "0x021798C4",
    "kind": "game",
    "region": "ov015",

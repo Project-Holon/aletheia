@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5A0
+ * function: BR_GRAPHIC_InitActors
  * address:  0x021FC5A0
  * packet:   pkt_ov186_021FC5A0
  * region:   ov186
@@ -36,7 +36,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021FC5A0(int *p, int b, int c)
+void BR_GRAPHIC_InitActors(int *p, int b, int c)
 {
     MI_CpuFill8((int)p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)d_02200920, b, c);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F7E94",
+   "name": "BTLV_EFFECT_StartPokeEffectId26E",
    "address": "0x021F7E94",
    "kind": "game",
    "region": "ov094",

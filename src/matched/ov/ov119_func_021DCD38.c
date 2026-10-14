@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   BEACON_STATUS_IsLocked 0x020275DC thumb
- *   func_021DD90C 0x021DD90C thumb ov119
- *   func_021D9468 0x021D9468 thumb ov119
- *   func_021D8A50 0x021D8A50 thumb ov119
- *   func_021DF868 0x021DF868 thumb ov119
+ *   POKETRADE_NEGO_DrawOfferStatusLabel 0x021DD90C thumb ov119
+ *   POKETRADE_PROC_SetSideMon 0x021D9468 thumb ov119
+ *   POKETRADE_PROC_IncrementTimer 0x021D8A50 thumb ov119
+ *   POKETRADE_NEGO_TickMarkerTimers 0x021DF868 thumb ov119
  *   CLACT_DrawSystem 0x0204A600 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
@@ -22,15 +22,15 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021DF978 0x021DF978 thumb ov119
+ *   POKETRADE_NEGO_TickOfferSlotTimers 0x021DF978 thumb ov119
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
- *   func_021E31B4 0x021E31B4 thumb ov119
+ *   POKETRADE_3D_Update3DScene 0x021E31B4 thumb ov119
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_021D8A24 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200F7C0 0x0200F7C0 thumb
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
@@ -50,13 +50,13 @@ struct Light;
 struct McssSys;
 struct Tcbl;
 extern int BEACON_STATUS_IsLocked(void);
-extern int func_021D8A24(void *);
+extern int POKETRADE_PROC_IsNetSession(void *);
 extern u32 func_0200FB24(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
-extern void func_021DD90C(u8 *p, int i, int msg, int force);
-extern void func_021D9468(void *,int,void *);
-extern void func_021D8A50(void *);
-extern void func_021DF868(void *);
+extern void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p, int i, int msg, int force);
+extern void POKETRADE_PROC_SetSideMon(void *,int,void *);
+extern void POKETRADE_PROC_IncrementTimer(void *);
+extern void POKETRADE_NEGO_TickMarkerTimers(void *);
 extern void CLACT_DrawSystem(void),APP_TASKMENU_UpdateMenu(void *),APP_TASKMENU_WIN_Update(u8 *);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -67,13 +67,13 @@ extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void TCBL_Main(struct Tcbl *p);
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_021DF978(void *);
+extern void POKETRADE_NEGO_TickOfferSlotTimers(void *);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *sys);
-extern void func_021E31B4(void *);
+extern void POKETRADE_3D_Update3DScene(void *);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_0200F7C0(unsigned);
 extern void NHTTP_RAP_DeleteConnection(u8 *);
@@ -98,12 +98,12 @@ int func_021DCD38(int a,int b,int c,char *p)
         callback(p);
         I(0xf2c)++;
         result=0;
-        for(i=0;i<2;i++) func_021DD90C((u8 *)p,i,*(u8 *)(p+i+0x11e8),0);
+        for(i=0;i<2;i++) POKETRADE_NEGO_DrawOfferStatusLabel((u8 *)p,i,*(u8 *)(p+i+0x11e8),0);
     }
     if(I(0xf9c) && B(0x11f3)==0) {
-        func_021D9468(p,1,*(void **)(p+(I(0xf9c)-1)*4+0x5dc));I(0xf9c)=0;
+        POKETRADE_PROC_SetSideMon(p,1,*(void **)(p+(I(0xf9c)-1)*4+0x5dc));I(0xf9c)=0;
     }
-    func_021D8A50(p);func_021DF868(p);CLACT_DrawSystem();
+    POKETRADE_PROC_IncrementTimer(p);POKETRADE_NEGO_TickMarkerTimers(p);CLACT_DrawSystem();
     if(P(0x64c)) APP_TASKMENU_UpdateMenu(P(0x64c));
     if(P(0x648)) APP_TASKMENU_WIN_Update(P(0x648));
     if(((Bits *)(p+0x11fb))->high) {
@@ -116,9 +116,9 @@ int func_021DCD38(int a,int b,int c,char *p)
         GF_FONT_SetTextColor(rgb[2],rgb[1],rgb[0]);
         PRINTSYS_QUE_Main(P(0x740));
     }
-    func_021DF978(p);G3D_SYSTEM_DrawStart();G3D_CAMERA_Reset(P(0x810));G3D_SYSTEM_ApplyLookAt();
-    MCSS_Main(P(0x840));MCSS_Draw(P(0x840));func_021E31B4(p);G3D_SYSTEM_DrawEnd();
-    if(func_021D8A24(p) && I(0xef8)==0 && func_0200FB24()) {
+    POKETRADE_NEGO_TickOfferSlotTimers(p);G3D_SYSTEM_DrawStart();G3D_CAMERA_Reset(P(0x810));G3D_SYSTEM_ApplyLookAt();
+    MCSS_Main(P(0x840));MCSS_Draw(P(0x840));POKETRADE_3D_Update3DScene(p);G3D_SYSTEM_DrawEnd();
+    if(POKETRADE_PROC_IsNetSession(p) && I(0xef8)==0 && func_0200FB24()) {
         if(B(0x11f7)) func_0200F7C0(41);
         if(P(0)) {
             NHTTP_RAP_DeleteConnection(P(0));NHTTP_RAP_Destroy(P(0));P(0)=0;

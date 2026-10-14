@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179EE0",
+   "name": "IRCi_CalcSum",
    "address": "0x02179EE0",
    "kind": "sdk",
    "region": "ov015",

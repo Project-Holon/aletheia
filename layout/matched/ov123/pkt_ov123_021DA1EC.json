@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA1EC",
+   "name": "PDWACC_STATE_StatePrintError",
    "address": "0x021DA1EC",
    "kind": "game",
    "region": "ov123",

@@ -33,8 +33,8 @@
  * abi: B938 retains caller-loaded r3; DD0AC/DD0F4 retain caller-loaded r1; 35C60 return is consumed.
 
  * symbols:
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021DCE28 0x021DCE28 thumb ov183
  *   func_021DCE48 0x021DCE48 thumb ov183
  *   func_021DD054 0x021DD054 thumb ov183
@@ -43,10 +43,10 @@
  *   func_021FD170 0x021FD170 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF698 0x021FF698 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetVideoReply 0x021FF698 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_SetData 0x0200B938 thumb
@@ -64,17 +64,17 @@ typedef unsigned long long u64;
 typedef struct S S;
 typedef unsigned char  u8;
 struct Big;
-extern void func_021FE784(int a, int b, int c, int d);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int a, int b, int c, int d);
+extern int BR_FADE_GetResult(int *);
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void MI_CpuFill8(void *,int,u32);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *p);
-extern int func_021FF72C(char *p, int *out);
-extern int func_021FF698(char *,int,int *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *p);
+extern int BR_NET_PollErrorMessage(char *p, int *out);
+extern int BR_NET_GetVideoReply(char *,int,int *);
 extern void func_021FD860(int,int,int *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
@@ -95,8 +95,8 @@ void func_021DC228(int *a,int *state,char *p)
     u32 x,y;
     int args[2];
     switch(*state) {
-    case 0: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
+    case 0: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2:
         if(*(int *)(p+0xb0)) func_021DCE28(p,*(char **)(p+0xd0));
         else func_021DCE48(p,*(char **)(p+0xd0));
@@ -104,22 +104,22 @@ void func_021DC228(int *a,int *state,char *p)
         func_021DD0AC(p,*(char **)(p+0xd0));
         func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
-    case 3: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
-    case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
+    case 3: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
+    case 4: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
     case 5:
         MI_CpuFill8(&t,0,8);
         t=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
-        func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=6;break;
     case 6:
         ++*(int *)(p+0xbc);
-        if(func_021FF648(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
+        if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
             func_021FD860(*(int *)(p+12),0,0);*state=7;
         }
         break;
     case 7:
-        if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
-            if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
+        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
+            if(BR_NET_GetVideoReply(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
                 BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
@@ -137,13 +137,13 @@ void func_021DC228(int *a,int *state,char *p)
             func_021FD860(*(int *)(p+0x10),1,args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
         }
         break;
-    case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
-    case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
+    case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
+    case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
         if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
         break;
-    case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
-    case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
+    case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
+    case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
     case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }
 }

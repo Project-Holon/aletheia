@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B65D8",
+   "name": "CTVT_CAMERA_OnBufferError",
    "address": "0x021B65D8",
    "kind": "game",
    "region": "ov172",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021B6814",
+   "name": "CTVT_CAMERA_StartCapture",
    "address": "0x021B6814",
    "kind": "game",
    "region": "ov172",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B6A00",
+   "name": "CTVT_ADPCM_Encode",
    "address": "0x021B6A00",
    "kind": "game",
    "region": "ov172",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "func_021B77B8",
+   "name": "CTVT_CAMVIEW_GetWindowHeight",
    "address": "0x021B77B8",
    "kind": "game",
    "region": "ov172",
@@ -70,7 +70,7 @@
    }
   },
   {
-   "name": "func_021B77E8",
+   "name": "CTVT_CAMVIEW_GetWindowWidth",
    "address": "0x021B77E8",
    "kind": "game",
    "region": "ov172",
@@ -87,7 +87,7 @@
    }
   },
   {
-   "name": "func_021B7830",
+   "name": "CTVT_CAMVIEW_GetSlotBuffer",
    "address": "0x021B7830",
    "kind": "game",
    "region": "ov172",
@@ -99,7 +99,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB8F4",
+   "name": "CTVT_DRAW_CheckLeave",
    "address": "0x021BB8F4",
    "kind": "game",
    "region": "ov172",

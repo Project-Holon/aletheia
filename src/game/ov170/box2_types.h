@@ -1,115 +1,206 @@
 /*
- * Shared object layouts of the ov170 box screens (box2_*.c, unit_*.c).
- * Offsets are the offsets the code uses; fields are named by offset.
+ * Shared object layouts of the ov170 box application (box2_main.c, box2_ui.c,
+ * box2_seq.c). Owner header: other files extend it, they do not copy it.
+ *
+ * BoxTask   the 0x30-byte task object that the proc table functions
+ *           (Init 021DC860, Main 021DC900, Exit 021DC924) pass around.
+ * BoxParam  the parent parameters behind BoxTask.params.
+ * BoxWork   the work area behind BoxTask.work. Only offsets the code reads
+ *           or writes are named; the gaps are padding between them.
  */
 #ifndef OV170_BOX2_TYPES_H
 #define OV170_BOX2_TYPES_H
 
-/* The task object (0x30 bytes). f2C is the work area. */
+struct Node;
+struct PalAnmSlot;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+struct PrintSys;
+struct Rec;
+struct Sound;
+struct TaskMenu;
+struct WinMgr;
+struct Struct_02025CD0;
+struct Sav;
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed int s32;
+
+/* Parameters handed to the box application by its parent. */
+typedef struct BoxParam {
+    void * gameData;
+    void * boxSave;
+    void * party;
+    void * config;
+    unsigned char pad_10[0x4];
+    int linkMode;
+    unsigned char pad_18[0x8];
+    void * extra;
+    int mode;
+    unsigned short modeFlag;
+    unsigned char markA;
+    unsigned char markB;
+} BoxParam;
+
+/* The task object (0x30 bytes). */
 typedef struct BoxTask {
-    void * f0;
-    void * f4;
-    int f8;
-    void * fC;
-    unsigned short f10;
-    unsigned char f12;
-    unsigned char f13;
-    unsigned char f14;
-    unsigned char f15;
-    unsigned char f16;
-    unsigned char f17;
-    unsigned char f18;
-    unsigned char f19;
-    unsigned char f1A;
-    unsigned char f1B;
-    unsigned char f1C;
-    unsigned char f1D;
-    unsigned char f1E;
-    unsigned char f1F;
-    unsigned char f20;
-    unsigned char f21;
-    unsigned char pad_22[0x6];
-    int f28;
-    void * f2C;
+    BoxParam * params;
+    void * procSys;
+    int subState;
+    void * subArgs;
+    unsigned short subResult;
+    unsigned char pad_12;
+    unsigned char b13;
+    unsigned char curBox;
+    unsigned char boxLimit;
+    unsigned char cursorSlot;
+    unsigned char heldSlot;
+    unsigned char b18;
+    unsigned char b19;
+    unsigned char phase;
+    unsigned char b1B;
+    unsigned char lo : 4;
+    unsigned char hi : 4;
+    unsigned char b1D;
+    unsigned char b1E;
+    unsigned char b1F;
+    unsigned char b20;
+    unsigned char b21;
+    unsigned char pad_22[0x2];
+    int pickedSlot;
+    int state;
+    struct BoxWork * work;
 } BoxTask;
 
-/* The work area behind BoxTask.f2C. Only the fields the code uses. */
-typedef struct BoxWork {
-    void * f0;
-    void * f4;
-    void * f8;
-    unsigned char pad_C[0x4C];
-    int f58;
-    int f5C;
-    void * f60;
-    short f64;
-    short f66;
-    unsigned char pad_68[0xC];
-    void * f74;
-    unsigned int f78;
-    unsigned char pad_7C[0x4];
-    void * f80;
-    void * f84;
-    void * f88;
-    unsigned char pad_8C[0x8];
-    void * f94;
-    unsigned char pad_98[0x4C];
-    unsigned int fE4;
-    unsigned char pad_E8[0x4];
-    unsigned int fEC;
-    unsigned char pad_F0[0x4];
-    unsigned int fF4;
-    unsigned char pad_F8[0x4];
-    unsigned int fFC;
-    unsigned char pad_100[0x4];
-    void * f104;
-    unsigned char pad_108[0x4];
-    void * f10C;
-    unsigned char pad_110[0x4];
-    void * f114;
-    unsigned char pad_118[0x4];
-    void * f11C;
-    unsigned char pad_120[0x4];
-    void * f124;
-    unsigned char pad_128[0x4];
-    void * f12C;
-    unsigned char pad_130[0x80];
-    int f1B0;
-    unsigned char pad_1B4[0x9CBC];
-    int f9E70;
-    unsigned char pad_9E74[0x160];
-    void * f9FD4;
-    unsigned char pad_9FD8[0xB0];
-    int fA088;
-    int fA08C;
-    unsigned char pad_A090[0x68];
-    void * fA0F8;
-    unsigned char pad_A0FC[0xC];
-    void * fA108;
-    int fA10C;
-    int fA110;
-    void * fA114;
-    unsigned char pad_A118[0x8];
-    unsigned int fA120;
-    void * fA124;
-    unsigned char pad_A128[0xC];
-    void * fA134;
-    int fA138;
-    int fA13C;
-    unsigned char pad_A140[0x14];
-    void * fA154;
-    unsigned char pad_A158[0x21];
-    unsigned char fA179;
-    unsigned char pad_A17A[0x1A];
-    int fA194;
-} BoxWork;
+/* A pointer with one word of data, eight bytes apart in BoxWork arrays. */
+typedef struct BoxObjSlot {
+    void * obj;
+    void * aux;
+} BoxObjSlot;
 
 /* The sequence block at BoxWork + 0x58. */
 typedef struct BoxSeq {
-    unsigned char pad_0[0x8];
-    void * f8;
-    unsigned short fC;
-    unsigned short fE;
+    int resetValue;
+    int param;
+    void * entry;
+    unsigned short state;
+    unsigned short timer;
 } BoxSeq;
+
+typedef struct BoxFade {
+    unsigned char flag : 1;
+    unsigned char id : 7;
+    unsigned char lo : 4;
+    unsigned char hi : 4;
+    unsigned char state;
+    unsigned char count;
+    unsigned char x;
+    unsigned char y;
+    unsigned char w;
+    unsigned char h;
+} BoxFade;
+
+typedef struct BoxWork {
+    void * oamSys;
+    BoxObjSlot oamSlots[9];
+    unsigned int keyRepeatDelay;
+    unsigned int keyRepeatInterval;
+    void * vblankTask;
+    BoxSeq seq;
+    int waitFrames;
+    void * palAnm;
+    void * sound;
+    struct WinMgr * winMgr;
+    unsigned int heapId;
+    unsigned char pad_7C[0x4];
+    void * fontRes;
+    void * font;
+    void * msgData;
+    void * printQue;
+    unsigned char pad_90[0x4];
+    BoxObjSlot windows[10];
+    BoxObjSlot iconSlots[10];
+    int portraitWin;
+    unsigned char pad_138[0x4];
+    int nameWin;
+    unsigned char pad_140[0x4];
+    void * infoWin;
+    unsigned char pad_148[0x30];
+    int dexFormId;
+    unsigned int nationalDexEnabled;
+    unsigned short * formTable;
+    unsigned char taskMenuItems[24];
+    void * taskMenuRes;
+    void * taskMenu;
+    unsigned short menuSelection;
+    BoxFade fade;
+    unsigned char pad_1AE[0x2];
+    void * arcHandle;
+    unsigned char pad_1B4[0x3C1E];
+    unsigned char cursorTable;
+    unsigned char pad_3DD3[0x23];
+    unsigned char cursorActorId;
+    unsigned char pad_3DF7[0x79];
+    unsigned char charPool[24][0x400];
+    int clactUnit;
+    void * actors[10];
+    void * cursorActor;
+    int cursorActorDrawn;
+    int cursorActorAnim;
+    unsigned char pad_9EA8[0x80];
+    void * partyActors[6];
+    void * boxSlotActors[0x25];
+    void * actorResource;
+    unsigned char pad_9FD8[0xB0];
+    int iconChar[2];
+    unsigned char pad_A090[0x68];
+    void * iconCellRes;
+    unsigned char pad_A0FC[0xC];
+    void * iconAnimRes;
+    int iconCell[2];
+    void * iconPlttRes;
+    unsigned char pad_A118[0x8];
+    unsigned int iconFlags;
+    void * iconCharRes;
+    unsigned char pad_A128[0xC];
+    void * iconPlttImage;
+    int iconAnim[2];
+    unsigned char pad_A140[0x14];
+    void * iconObjects;
+    unsigned char pad_A158[0xC];
+    unsigned short toggle;
+    unsigned char pad_A166[0x2];
+    int heldSlot;
+    unsigned short counter;
+    unsigned short cursorIndex;
+    unsigned char releaseFlag;
+    unsigned char touchState;
+    unsigned char cancelFlag;
+    unsigned char result;
+    unsigned int selectMask;
+    signed char scrollOffset;
+    unsigned char scrollDir;
+    unsigned char busyFlag;
+    unsigned char pad_A17B[0x1];
+    unsigned char selectKind;
+    unsigned char pad_A17D[0x1];
+    unsigned char targetBox;
+    unsigned char currentBox;
+    int cursorX;
+    int cursorY;
+    unsigned char pad_A188[0x8];
+    void * scroll;
+    int seqStep;
+    int nextState;
+} BoxWork;
+
+typedef struct Entry {
+    unsigned short idx;
+    unsigned short slot;
+} Entry;
 
 #endif

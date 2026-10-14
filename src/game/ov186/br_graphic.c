@@ -1,7 +1,7 @@
 /*
- * file:     _try_pair_o039.c
+ * file:     br_graphic.c
  * unit:     yes
- * function: func_021FC3BC, func_021FC474, func_021FC4C8, func_021FC4DC, func_021FC4E8, func_021FC4FC, func_021FC55C, func_021FC594, func_021FC598, func_021FC5A0, func_021FC5E0, func_021FC5FC, func_021FC604, func_021FC610, func_021FC640
+ * function: BR_GRAPHIC_Create, BR_GRAPHIC_Destroy, BR_GRAPHIC_Draw, BR_GRAPHIC_GetActorUnit, BR_GRAPHIC_VBlankTask, BR_GRAPHIC_InitBgWindows, BR_GRAPHIC_ExitBgWindows, BR_GRAPHIC_DrawBg, BR_GRAPHIC_VBlankBg, BR_GRAPHIC_InitActors, BR_GRAPHIC_ExitActors, BR_GRAPHIC_DrawActors, BR_GRAPHIC_VBlankActors, BR_GRAPHIC_GetUnitFromActorSys, BR_GRAPHIC_Begin3d, BR_GRAPHIC_End3d
  * address:  0x021FC3BC
  * region:   ov186
  * compiler: dsi/1.1p1
@@ -10,11 +10,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from br_proc_sys.c, br_btn.c, br_graphic.c, br_util.c, br_net.c, ov186_func_02200228.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
+ *   BR_GRAPHIC_Create 0x021FC3BC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
+ *   BR_GRAPHIC_Draw 0x021FC4C8 thumb ov186
+ *   func_02030734 0x02030734 arm
+ *   func_020307B0  0x020307B0  arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -28,7 +33,6 @@
  *   d_0220096C 0x0220096C data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
- *   func_020307B0 0x020307B0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -53,18 +57,16 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_0207D4B0 0x0207D4B0 arm
  */
-#include "../../matched/include/Obj24835.h"
-#include "../../matched/include/Obj24836.h"
+#include "br_types.h"
+
+struct Cfg;
+struct Node;
+
+extern u32 func_020307B0(void *p);
 
 struct DispVram;
-struct Node;
+
 struct Bank;
-struct Cfg;
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef struct BgTemplate_021FC3BC { unsigned words[8]; } BgTemplate_021FC3BC;
 
@@ -72,67 +74,101 @@ typedef struct Record_021FC4FC {unsigned id;BgTemplate_021FC3BC template;unsigne
 
 typedef struct DispConfig {unsigned words[4];} DispConfig;
 
-typedef struct {u32 id;u8 rest[40];} Record_021FC55C;
-
-typedef struct {u32 id;u8 rest[40];} Record;
-
-typedef struct BgTemplate_021FC640 {unsigned words[8];} BgTemplate_021FC640;
-
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+
 extern void MI_CpuFill8(void *,int,int);
+
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
+
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
+
 extern void func_0204363C(unsigned);
+
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),func_0201DD60(void);
+
 extern void *func_020056A0(unsigned,unsigned,unsigned);
+
 extern void func_02030EAC(struct Node *n);
+
 extern void func_0201DD68(void);
-extern u32 func_020307B0(void *p);
+
 extern void func_0203F8F4(unsigned);
+
 extern void BMP_WIN_Init(unsigned);
+
 extern void func_0203FC28(DispConfig *);
+
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate_021FC3BC *tmpl, u32 type);
+
 extern void func_020414AC(unsigned char);
+
 extern void func_02040588(unsigned char,unsigned char);
+
 extern void func_020419E4(void);
+
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
+
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
+
 extern void CLACT_ExitSystem(void);
+
 extern void CLACT_DrawSystem(void);
+
 extern void CLACT_VBlankSystem(void);
+
 extern void func_020403F4(u32);
+
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-void *func_021FC3BC(unsigned mode,int setting,unsigned heap);
-void func_021FC474(char *p);
-void func_021FC4C8(char *p);
-u32 func_021FC4DC(u8*p);
-void func_021FC4E8(int a0, char *p);
-void func_021FC4FC(void *p,unsigned heap);
-void func_021FC55C(void*p);
-void func_021FC594(void *a0);
-void func_021FC598(void *a0);
-void func_021FC5A0(int *p, int b, int c);
-void func_021FC5E0(void *p);
-void func_021FC5FC(void *a0);
-void func_021FC604(void *a0);
-u32 func_021FC60C(u32*p);
-void func_021FC610(u32 a, u16 b);
-void func_021FC640(void);
+
+void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId);
+
+void BR_GRAPHIC_Destroy(struct BrGraphic *gfx);
+
+void BR_GRAPHIC_Draw(struct BrGraphic *gfx);
+
+u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
+
+void BR_GRAPHIC_VBlankTask(int taskId, struct BrGraphic *gfx);
+
+void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId);
+
+void BR_GRAPHIC_ExitBgWindows(void *bgState);
+
+void BR_GRAPHIC_DrawBg(void *a0);
+
+void BR_GRAPHIC_VBlankBg(void *a0);
+
+void BR_GRAPHIC_InitActors(int *p, int b, int c);
+
+void BR_GRAPHIC_ExitActors(struct BrActorSys *actorSys);
+
+void BR_GRAPHIC_DrawActors(void *a0);
+
+void BR_GRAPHIC_VBlankActors(void *a0);
+
+u32 BR_GRAPHIC_GetUnitFromActorSys(u32*p);
+
+void BR_GRAPHIC_Begin3d(u32 a, u16 b);
+
+void BR_GRAPHIC_End3d(void);
+
 extern const char d_02200D4C[];
+
 extern const struct DispVram d_0220093C,d_0220096C;
+
 extern const Record_021FC4FC d_0220099C[];
+
 extern DispConfig d_02200900;
+
 extern unsigned char d_02200920[];
-
-
-
-
-
-
 
 /*
  * note: the mode switch has no default arm: the original 021FC3E8 branches
@@ -142,96 +178,64 @@ extern unsigned char d_02200920[];
  *       arm adds a `movs r4, #0` and shifts every register.
  * volatile: hardware DISPCNT read-modify-write at 021FC3FC..021FC40A; BLDCNT stores at 021FC3F4/021FC3FA.
  */
-void *func_021FC3BC(unsigned mode,int setting,unsigned heap)
+void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
 {
     const struct DispVram *config;
-    char *p;
-    p=func_02030734(heap,16,0,d_02200D4C,0x1d5);
-    MI_CpuFill8(p,0,16);
+    struct BrGraphic *gfx;
+    gfx=func_02030734(heapId,16,0,d_02200D4C,0x1d5);
+    MI_CpuFill8(gfx,0,16);
     switch(mode){case 0:config=&d_0220093C;break;case 1:config=&d_0220096C;break;}
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
     *(volatile unsigned *)0x04001000&=~0xe000;
-    BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);func_0204363C(setting);
+    BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);func_0204363C(vramSetting);
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();func_0201DD60();
-    func_021FC4FC(p,heap);
-    func_021FC5A0((int *)(p+4),(int)config,heap);
-    *(void **)(p+12)=func_020056A0((unsigned)func_021FC4E8,(unsigned)p,0);
-    return p;
+    BR_GRAPHIC_InitBgWindows(&gfx->bgState,heapId);
+    BR_GRAPHIC_InitActors((int *)&gfx->actors,(int)config,heapId);
+    gfx->vblankTask=func_020056A0((unsigned)BR_GRAPHIC_VBlankTask,(unsigned)gfx,0);
+    return gfx;
 }
-
-
-
-
-
-
 
 /*
  * volatile: hardware BLDCNT 04000050/04001050 and DISPCNT 04000000/04001000, read-modify-write at 021FC49A..021FC4A8.
  */
-void func_021FC474(char *p)
+void BR_GRAPHIC_Destroy(struct BrGraphic *gfx)
 {
-    func_02030EAC(((struct Obj24835 *)p)->fC);
-    func_021FC5E0(p+4);
-    func_021FC55C(p);
+    func_02030EAC(gfx->vblankTask);
+    BR_GRAPHIC_ExitActors(&gfx->actors);
+    BR_GRAPHIC_ExitBgWindows(&gfx->bgState);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
     *(volatile unsigned *)0x04001000&=~0xe000;
-    MI_CpuFill8(p,0,16);
-    func_020307B0(p);
+    MI_CpuFill8(gfx,0,16);
+    func_020307B0(gfx);
 }
 
-
-
-
-
-
-
-
-void func_021FC4C8(char *p)
+void BR_GRAPHIC_Draw(struct BrGraphic *gfx)
 {
-    func_021FC5FC(p + 4);
-    func_021FC594(p);
+    BR_GRAPHIC_DrawActors(&gfx->actors);
+    BR_GRAPHIC_DrawBg(&gfx->bgState);
 }
 
+u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx){return BR_GRAPHIC_GetUnitFromActorSys((u32 *)&gfx->actors);}
 
-
-
-
-
-
-u32 func_021FC4DC(u8*p){return func_021FC60C((u32 *)(p+4));}
-
-
-
-
-
-
-
-
-void func_021FC4E8(int a0, char *p)
+void BR_GRAPHIC_VBlankTask(int taskId, struct BrGraphic *gfx)
 {
-    func_021FC598(p);
-    func_021FC604(p + 4);
+    BR_GRAPHIC_VBlankBg(&gfx->bgState);
+    BR_GRAPHIC_VBlankActors(&gfx->actors);
 }
 
-
-
-
-
-
-
-void func_021FC4FC(void *p,unsigned heap)
+void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
 {
     unsigned i;
     const Record_021FC4FC *r;
     unsigned id;
-    MI_CpuFill8(p,0,4);
-    func_0203F8F4(heap);
-    BMP_WIN_Init(heap);
+    MI_CpuFill8(bgState,0,4);
+    func_0203F8F4(heapId);
+    BMP_WIN_Init(heapId);
     func_0203FC28(&d_02200900);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
@@ -241,79 +245,41 @@ void func_021FC4FC(void *p,unsigned heap)
     }
 }
 
+void BR_GRAPHIC_ExitBgWindows(void *bgState){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(bgState,0,4);}
 
+void BR_GRAPHIC_DrawBg(void *bgState){}
 
+void BR_GRAPHIC_VBlankBg(void *bgState){func_020419E4();}
 
-
-
-
-void func_021FC55C(void*p){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
-
-
-
-
-
-
-
-
-void func_021FC594(void *a0){}
-
-
-
-
-
-
-
-void func_021FC598(void *a0){func_020419E4();}
-
-
-
-
-
-
-void func_021FC5A0(int *p, int b, int c)
+void BR_GRAPHIC_InitActors(int *actorSys, int vramConfig, int heapId)
 {
-    MI_CpuFill8((void *)((int)p), 0, 4);
-    CLACT_InitSystem((const struct Cfg *)d_02200920, b, c);
-    p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
-    CLACT_SetUnitDefaultRenderer((void *)p[0]);
+    MI_CpuFill8((void *)((int)actorSys), 0, 4);
+    CLACT_InitSystem((const struct Cfg *)d_02200920, vramConfig, heapId);
+    actorSys[0] = (int)CLACT_CreateUnit(0x80, 0, heapId);
+    CLACT_SetUnitDefaultRenderer((void *)actorSys[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-
-
-
-
-void func_021FC5E0(void *p)
+void BR_GRAPHIC_ExitActors(struct BrActorSys *actorSys)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj24836 *)p)->f0));
+    CLACT_DeleteUnit(actorSys->unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(actorSys, 0, 4);
 }
 
+void BR_GRAPHIC_DrawActors(void *actorSys){CLACT_DrawSystem();}
 
+void BR_GRAPHIC_VBlankActors(void *actorSys){CLACT_VBlankSystem();}
 
+u32 BR_GRAPHIC_GetUnitFromActorSys(u32 *actorSys){return *actorSys;}
 
-void func_021FC5FC(void *a0){CLACT_DrawSystem();}
-
-
-
-
-void func_021FC604(void *a0){CLACT_VBlankSystem();}
-
-
-
-
-u32 func_021FC60C(u32*p){return *p;}
-
-
-void func_021FC610(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
+void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
 
 /*
  * volatile: hardware BLDCNT 04000050 and DISPCNT 04000000, read-modify-write at 021FC64A..021FC650.
  */
-void func_021FC640(void)
+void BR_GRAPHIC_End3d(void)
 {
     unsigned i,id;
     const Record_021FC4FC *r;

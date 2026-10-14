@@ -1,5 +1,5 @@
 /*
- * function: func_021D95F0
+ * function: PDWACC_MESSAGE_UpdateStream
  * address: 0x021D95F0
  * packet: pkt_ov123_021D95F0
  * region: ov123
@@ -22,7 +22,7 @@ extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern u32 KEY_GetTrg(void);
-int func_021D95F0(char *p)
+int PDWACC_MESSAGE_UpdateStream(char *p)
 {
     if (((struct Obj06470 *)p)->f80) {
         switch (PRINTSYS_PrintStreamGetState(((struct Obj06470 *)p)->f80)) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5CFC
+ * function: WORLDTRADE_BOX_StateMainInput
  * address:  0x021F5CFC
  * packet:   pkt_021F5CFC
  * region:   ov135
@@ -14,13 +14,13 @@
   *
   *
  * symbols:
- *   func_021F5CA4  0x021F5CA4  thumb
- *   func_021F5F9C  0x021F5F9C  thumb
- *   func_021F68A4  0x021F68A4  thumb
- *   func_021F5F60  0x021F5F60  thumb
- *   func_021F5A7C  0x021F5A7C  thumb
- *   func_021F5B8C  0x021F5B8C  thumb
- *   func_021F5E44  0x021F5E44  thumb
+ *   WORLDTRADE_BOX_CheckArrowTouch  0x021F5CA4  thumb
+ *   WORLDTRADE_BOX_GetColumnIndex  0x021F5F9C  thumb
+ *   WORLDTRADE_BOX_LoadBoxIcons  0x021F68A4  thumb
+ *   WORLDTRADE_BOX_MoveCursorToSlot  0x021F5F60  thumb
+ *   WORLDTRADE_BOX_SelectMonForOffer  0x021F5A7C  thumb
+ *   WORLDTRADE_BOX_SelectMonForRequest  0x021F5B8C  thumb
+ *   WORLDTRADE_BOX_UpdateKeyCursor  0x021F5E44  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -53,40 +53,40 @@ typedef struct {
     u32 arrows[2];
 } Work;
 
-extern int func_021F5CA4(Work *p);
+extern int WORLDTRADE_BOX_CheckArrowTouch(Work *p);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F5F9C(int a, int b, int c);
-extern void func_021F68A4(Work *p, int box);
+extern int WORLDTRADE_BOX_GetColumnIndex(int a, int b, int c);
+extern void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_021F5F60(u32 cursor, int i);
-extern void func_021F5A7C(Work *p);
-extern void func_021F5B8C(Work *p);
-extern void func_021F5E44(Work *p);
+extern void WORLDTRADE_BOX_MoveCursorToSlot(u32 cursor, int i);
+extern void WORLDTRADE_BOX_SelectMonForOffer(Work *p);
+extern void WORLDTRADE_BOX_SelectMonForRequest(Work *p);
+extern void WORLDTRADE_BOX_UpdateKeyCursor(Work *p);
 extern u32 KEY_GetTrg(void);
 
-int func_021F5CFC(Work *p)
+int WORLDTRADE_BOX_StateMainInput(Work *p)
 {
-    int r = func_021F5CA4(p);
+    int r = WORLDTRADE_BOX_CheckArrowTouch(p);
 
     if (r != -1) {
         switch (r) {
         case 0x1F:
             CLACT_SetActorAutoAnim((struct Obj *)p->arrows[0], 1);
             CLACT_SetActorAnimSeq((struct Obj *)p->arrows[0], 0x26);
-            p->box = func_021F5F9C(p->box, p->boxes, 1);
-            func_021F68A4(p, p->box);
+            p->box = WORLDTRADE_BOX_GetColumnIndex(p->box, p->boxes, 1);
+            WORLDTRADE_BOX_LoadBoxIcons(p, p->box);
             GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         case 0x20:
             CLACT_SetActorAutoAnim((struct Obj *)p->arrows[1], 1);
             CLACT_SetActorAnimSeq((struct Obj *)p->arrows[1], 0x27);
-            p->box = func_021F5F9C(p->box, p->boxes, -1);
-            func_021F68A4(p, p->box);
+            p->box = WORLDTRADE_BOX_GetColumnIndex(p->box, p->boxes, -1);
+            WORLDTRADE_BOX_LoadBoxIcons(p, p->box);
             GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         case 0x1E:
@@ -95,20 +95,20 @@ int func_021F5CFC(Work *p)
             p->state = 0x11;
             p->slot = r;
             GFL_USE_PlaySeDefaultVolume(0x551);
-            func_021F5F60(p->cursor, p->slot);
+            WORLDTRADE_BOX_MoveCursorToSlot(p->cursor, p->slot);
             break;
         default:
             p->slot = r;
-            func_021F5F60(p->cursor, p->slot);
+            WORLDTRADE_BOX_MoveCursorToSlot(p->cursor, p->slot);
             if (p->mode == 5) {
-                func_021F5A7C(p);
+                WORLDTRADE_BOX_SelectMonForOffer(p);
             } else if (p->mode == 6) {
-                func_021F5B8C(p);
+                WORLDTRADE_BOX_SelectMonForRequest(p);
             }
             break;
         }
     } else {
-        func_021F5E44(p);
+        WORLDTRADE_BOX_UpdateKeyCursor(p);
         if (p->mode == 5) {
             if (KEY_GetTrg() & 2) {
                 CLACT_SetActorDrawEnable((struct Obj *)p->marker, 1);
@@ -116,7 +116,7 @@ int func_021F5CFC(Work *p)
                 p->state = 0x11;
                 GFL_USE_PlaySeDefaultVolume(0x551);
             } else if (KEY_GetTrg() & 1) {
-                func_021F5A7C(p);
+                WORLDTRADE_BOX_SelectMonForOffer(p);
             }
         } else if (p->mode == 6) {
             if (KEY_GetTrg() & 2) {
@@ -125,7 +125,7 @@ int func_021F5CFC(Work *p)
                 p->state = 0x11;
                 GFL_USE_PlaySeDefaultVolume(0x551);
             } else if (KEY_GetTrg() & 1) {
-                func_021F5B8C(p);
+                WORLDTRADE_BOX_SelectMonForRequest(p);
             }
         }
     }

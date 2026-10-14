@@ -1,5 +1,5 @@
 /*
- * function: func_021FAD84
+ * function: WORLDTRADE_INPUT_StateWaitFrameHide
  * address:  0x021FAD84
  * packet:   pkt_021FAD84
  * region:   ov135
@@ -28,7 +28,7 @@ struct WinMgr;
 extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 
-int func_021FAD84(u8 *p)
+int WORLDTRADE_INPUT_StateWaitFrameHide(u8 *p)
 {
     if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0) == 0) {
         BGWINFRM_HideFrame(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0);

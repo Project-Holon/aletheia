@@ -9,13 +9,13 @@
  * status: EXACT*
  * extent: 021E05C2 alignment padding.
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_021F9B9C 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   func_021FD760 0x021FD760 thumb ov186
  *   func_021E07A4 0x021E07A4 thumb ov183
  *   func_021E06D0 0x021E06D0 thumb ov183
@@ -28,15 +28,15 @@ typedef unsigned short u16;
 struct Data { void *a, *b, *c, *d; u16 heap; u16 pad; void *e; };
 typedef unsigned int   u32;
 struct Object;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, unsigned int);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern void func_021FBE54(char *, unsigned int, unsigned int);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+extern void BR_RES_LoadSprite(char *, unsigned int, unsigned int);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern struct Object *func_021E07A4(int heap, int n, void *a, void *b, void *c, int *entries);
 struct Source;
@@ -48,15 +48,15 @@ int func_021E050C(void *task, int unused, char *q)
 {
     struct Data *p;
     int entries[3];
-    func_021FC20C((char *)(*(int *)&((struct Obj01767 *)q)->f8));
-    func_021FC214(*(char * *)&((struct Obj01767 *)q)->f8);
+    BR_RES_GetFont((char *)(*(int *)&((struct Obj01767 *)q)->f8));
+    BR_RES_GetMsgData(*(char * *)&((struct Obj01767 *)q)->f8);
     p = PROCSYS_AllocProcWork(task, 24, func_021F9B9C(((struct Obj01767 *)q)->fC));
     MI_CpuFill8(p, 0, 24);
     p->heap = func_021F9B9C(((struct Obj01767 *)q)->fC);
-    func_021FB964((void *)(*(int *)&((struct Obj01767 *)q)->f8), 29, p->heap);
-    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 11, p->heap);
-    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 12, p->heap);
-    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 6, p->heap);
+    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj01767 *)q)->f8), 29, p->heap);
+    BR_RES_LoadSprite(*(char * *)&((struct Obj01767 *)q)->f8, 11, p->heap);
+    BR_RES_LoadSprite(*(char * *)&((struct Obj01767 *)q)->f8, 12, p->heap);
+    BR_RES_LoadSprite(*(char * *)&((struct Obj01767 *)q)->f8, 6, p->heap);
     p->e = func_021FD760((unsigned int)(((struct Obj01767 *)q)->f4), (char *)(*(int *)&((struct Obj01767 *)q)->f8), 1, p->heap);
     entries[0] = 2;
     entries[1] = 5;

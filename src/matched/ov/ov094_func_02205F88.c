@@ -1,5 +1,5 @@
 /*
- * function: func_02205F88
+ * function: BTLV_INPUT_CreateBackActor
  * address:  0x02205F88
  * packet:   pkt_ov094_02205F88
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_0220A392  0x0220A392  data  ov094  a2
- *   func_02204C98  0x02204C98  thumb  ov094
+ *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
  *   func_0201EC64  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
@@ -65,7 +65,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
-extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
+extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
@@ -74,7 +74,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_02205F88(char *p)
+void BTLV_INPUT_CreateBackActor(char *p)
 {
     void *str;
     void *msg;
@@ -104,7 +104,7 @@ void func_02205F88(char *p)
     GF_FONT_SetTextColor(0xe, 0xa, 0);
     func_0201EF34((struct WordSet *)font, 0, 0xa5);
     func_0201F250((struct WordSet *)font, str, msg);
-    func_02204C98((struct StrObj *)str, (int)(((struct Obj01384 *)p)->f224), &w, &h);
+    BTLV_INPUT_GetTextBlockSize((struct StrObj *)str, (int)(((struct Obj01384 *)p)->f224), &w, &h);
     PRINTSYS_Print(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
     pixels = BMP_GetPixels(bmp);

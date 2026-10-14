@@ -1,5 +1,5 @@
 /*
- * function: func_022004BC
+ * function: BTLV_MCSS_ResetSpritePosition
  * address:  0x022004BC
  * packet:   pkt_ov094_022004BC
  * region:   ov094
@@ -31,8 +31,8 @@
  *   MCSS_GetOfsPosition  0x02015C60  thumb
  *   MCSS_SetOfsPosition  0x02015C78  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
- *   func_022018A8  0x022018A8  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_CalcSlotPosition  0x022018A8  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef unsigned int u32;
 
@@ -53,26 +53,26 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
-extern void func_022018A8(Work *w, Vec *out, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern void BTLV_MCSS_CalcSlotPosition(Work *w, Vec *out, int key);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_GetOfsPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
 extern void MCSS_SetVanishFlag(void *h);
 
-void func_022004BC(Work *w, int key)
+void BTLV_MCSS_ResetSpritePosition(Work *w, int key)
 {
     Vec want;
     Vec cur;
     Vec off;
-    int i = func_022019F4((char *)w, key);
+    int i = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (i == -1)
         return;
     if (w->e[i].h == 0)
         return;
-    func_022018A8(w, &want, key);
+    BTLV_MCSS_CalcSlotPosition(w, &want, key);
     MCSS_GetPosition(w->e[i].h, (u32 *)(&cur));
     MCSS_GetOfsPosition(w->e[i].h, (u32 *)(&off));
     w->e[i].flags &= ~0x40;

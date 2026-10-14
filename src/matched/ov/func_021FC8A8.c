@@ -1,5 +1,5 @@
 /*
- * function: func_021FC8A8
+ * function: WORLDTRADE_DETAIL_GetModeColor
  * address:  0x021FC8A8
  * packet:   pkt_021FC8A8
  * region:   ov135
@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021FC8A8(int mode)
+u16 WORLDTRADE_DETAIL_GetModeColor(int mode)
 {
     switch (mode) {
     case 0:

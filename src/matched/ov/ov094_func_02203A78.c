@@ -1,5 +1,5 @@
 /*
- * function: func_02203A78
+ * function: BTLV_INPUT_TargetScreenOpenTask
  * address:  0x02203A78
  * packet:   pkt_ov094_02203A78
  * region:   ov094
@@ -14,7 +14,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef unsigned short u16;
 
@@ -42,9 +42,9 @@ struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_02203A78(int a0, Ctx *c)
+void BTLV_INPUT_TargetScreenOpenTask(int a0, Ctx *c)
 {
     int z = 0;
 
@@ -58,5 +58,5 @@ void func_02203A78(int a0, Ctx *c)
         func_020498F4((void *)c->main->f48, 0x69, 5, 0, z, z, c->main->h240);
     }
     BMP_WIN_TransferChars(c->main->obj228);
-    func_0220687C((char *)c->main, (void *)a0);
+    BTLV_INPUT_DeleteTask((char *)c->main, (void *)a0);
 }

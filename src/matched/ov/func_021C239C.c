@@ -1,5 +1,5 @@
 /*
- * function: func_021C239C
+ * function: ZUKAN_DETAIL_AREA_DisableWindowsAndBrightness
  * address:  0x021C239C
  * packet:   pkt_021C239C
  * region:   ov208
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC518 0x021BC518  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518  thumb  ov208
  *
- * Masks 0x04000000 with 0xFFFF1FFF, then tail-calls func_021BC518 on the word at +0x418.
+ * Masks 0x04000000 with 0xFFFF1FFF, then tail-calls ZUKAN_DETAIL_COMMON_InitBrightnessTarget on the word at +0x418.
  */
 #include "../include/Obj18288.h"
 
-extern void func_021BC518(int *p);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(int *p);
 
-void func_021C239C(char *p)
+void ZUKAN_DETAIL_AREA_DisableWindowsAndBrightness(char *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
-    func_021BC518((int *)(((struct Obj18288 *)p)->f418));
+    ZUKAN_DETAIL_COMMON_InitBrightnessTarget((int *)(((struct Obj18288 *)p)->f418));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02201E04
+ * function: BTLV_CLACT_StartMoveTask
  * address: 0x02201E04
  * packet: pkt_ov094_02201E04
  * region: ov094
@@ -11,9 +11,9 @@
  *   func_02030734 0x02030734 arm
  *   func_0207C768 0x0207C768 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F918C 0x021F918C thumb ov094
- *   d_0220AE88 0x0220AE88 data ov094 a1
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
+ *   gBtlvClactFileName 0x0220AE88 data ov094 a1
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 typedef struct { void *owner; Vec start; int idx, mode; Vec a, b, delta; int n1, n2, zero, s2, s3; } Job;
-extern char d_0220AE88[];
+extern char gBtlvClactFileName[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021F918C(const Vec *, const Vec *, Vec *, int);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFECT_ComputeVectorStep(const Vec *, const Vec *, Vec *, int);
 extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
@@ -39,11 +39,11 @@ static inline int Round(int x)
     if (x > 0) return _ffix(_fadd(0.5f, _fflt(x << 12)));
     else return _ffix(_fsub(_fflt(x << 12), 0.5f));
 }
-void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
+void BTLV_CLACT_StartMoveTask(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
                    void (*f1)(void *, void *), void (*f2)(void *))
 {
     Job *p;
-    p = func_02030734((u16)((((struct Obj07895 *)o)->f80 & 0x7fff) | 0x8000), 0x50, 0, d_0220AE88, 0x197);
+    p = func_02030734((u16)((((struct Obj07895 *)o)->f80 & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
     p->owner = o;
     p->idx = idx;
     p->start.x = v->x;
@@ -63,7 +63,7 @@ void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, i
     p->b.z = w->z;
     switch (mode) {
     case 1:
-        func_021F918C(&p->a, w, &p->delta, Round(s1));
+        BTLV_EFFECT_ComputeVectorStep(&p->a, w, &p->delta, Round(s1));
         break;
     case 3:
         p->n2 *= 2;
@@ -77,5 +77,5 @@ void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, i
     default:
         break;
     }
-    func_021F896C(func_02030DA8(((struct Obj07895 *)o)->f0, f1, p, 0), f2, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(((struct Obj07895 *)o)->f0, f1, p, 0), f2, 0);
 }

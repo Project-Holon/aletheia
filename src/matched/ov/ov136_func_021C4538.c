@@ -1,5 +1,5 @@
 /*
- * function: func_021C4538
+ * function: MAILSYS_UpdateInputMode
  * address: 0x021C4538
  * packet: pkt_ov136_021C4538
  * region: ov136
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 extern int TOUCHPANEL_GetCont(void);
 extern unsigned int KEY_GetCont(void);
-int func_021C4538(u8 *p)
+int MAILSYS_UpdateInputMode(u8 *p)
 {
     if (p[0xA] == 0) {
         if (TOUCHPANEL_GetCont()) return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8A50
+ * function: POKETRADE_PROC_IncrementTimer
  * address: 0x021D8A50
  * packet: pkt_ov119_021D8A50
  * region: ov119
@@ -21,7 +21,7 @@ extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-void func_021D8A50(void *p) {
+void POKETRADE_PROC_IncrementTimer(void *p) {
  int v;
  if(((struct Obj00001 *)p)->f1094!=0) {
  v=++((struct Obj00001 *)p)->f1094;

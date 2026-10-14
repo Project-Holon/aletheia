@@ -1,5 +1,5 @@
 /*
- * function: func_021FB6F4
+ * function: BTLV_EFFVM_CmdLoadClactAtPoke
  * address:  0x021FB6F4
  * packet:   pkt_ov094_021FB6F4
  * region:   ov094
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021FCF2C  0x021FCF2C  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FF3F4  0x021FF3F4  thumb  ov094
- *   func_021F86F0  0x021F86F0  thumb  ov094
- *   func_02201AF8  0x02201AF8  thumb  ov094
+ *   BTLV_EFFVM_ResolveSlotKey  0x021FCF2C  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_GetSlotPosition  0x021FF3F4  thumb  ov094
+ *   BTLV_EFFECT_GetClact  0x021F86F0  thumb  ov094
+ *   BTLV_CLACT_LoadActorSimple  0x02201AF8  thumb  ov094
  *   func_0206DF3C  0x0206DF3C  arm
  */
 #include "../include/Obj21668.h"
@@ -25,14 +25,14 @@ typedef short s16;
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FCF2C(int a, int b);
-extern int func_021F8694(void);
-extern void func_021FF3F4(void *obj, void *out, int idx);
-extern int func_021F86F0(void);
-extern int func_02201AF8(int a, int b, int c, s16 d, s16 e, int f, int g);
+extern int BTLV_EFFVM_ResolveSlotKey(int a, int b);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_GetSlotPosition(void *obj, void *out, int idx);
+extern int BTLV_EFFECT_GetClact(void);
+extern int BTLV_CLACT_LoadActorSimple(int a, int b, int c, s16 d, s16 e, int f, int g);
 extern void func_0206DF3C(int *p, int *q, int *r);
 
-int func_021FB6F4(struct Cursor *a, char *b)
+int BTLV_EFFVM_CmdLoadClactAtPoke(struct Cursor *a, char *b)
 {
     int pt[3];
     int o1, o2;
@@ -40,16 +40,16 @@ int func_021FB6F4(struct Cursor *a, char *b)
 
     t0 = VM_GetU32(a);
     t1 = VM_GetU32(a);
-    t2 = func_021FCF2C((int)a, VM_GetU32(a));
+    t2 = BTLV_EFFVM_ResolveSlotKey((int)a, VM_GetU32(a));
     t3 = VM_GetU32(a);
     t4 = VM_GetU32(a);
     t5 = VM_GetU32(a);
     t6 = VM_GetU32(a);
-    func_021FF3F4((void *)func_021F8694(), pt, t2);
+    BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), pt, t2);
     pt[0] += t3;
     pt[1] += t4;
     func_0206DF3C(pt, &o1, &o2);
     *(int *)(b + t0 * 4 + 0xcc) =
-        func_02201AF8(func_021F86F0(), 0x5f, t1, o1, o2, t5, t6);
+        BTLV_CLACT_LoadActorSimple(BTLV_EFFECT_GetClact(), 0x5f, t1, o1, o2, t5, t6);
     return ((struct Obj21668 *)b)->f23C;
 }

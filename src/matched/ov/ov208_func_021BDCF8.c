@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDCF8
+ * function: ZUKAN_DETAIL_TOUCHBAR_LoadResources
  * address:  0x021BDCF8
  * packet:   pkt_ov208_021BDCF8
  * region:   ov208
@@ -98,7 +98,7 @@ extern void func_021BDD98(struct Ov208Scene *p);
 extern void func_021BE3C4(struct Ov208Scene *p);
 extern void func_021BE504(struct Ov208Scene *p);
 
-void ov208_func_021BDCF8(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_LoadResources(struct Ov208Scene *p)
 {
     switch (p->f10) {
     case 0:

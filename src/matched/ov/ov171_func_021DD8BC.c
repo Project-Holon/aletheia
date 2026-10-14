@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8BC
+ * function: DENDOU_VIEW_ExitWindows
  * address: 0x021DD8BC
  * packet: pkt_ov171_021DD8BC
  * region: ov171
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021DD8BC(int *p)
+void DENDOU_VIEW_ExitWindows(int *p)
 {
     BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB48);
     BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB50);

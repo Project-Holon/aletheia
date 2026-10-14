@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A10
+ * function: PALETTE_ANIME_IsRunning
  * address:  0x021C2A10
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards its first argument to func_021C2D9C.
+ * Tail-call veneer: forwards its first argument to PALETTE_ANIME_IsRunningImpl.
  *
  * symbols:
- *   func_021C2D9C  0x021C2D9C  thumb  ov217
+ *   PALETTE_ANIME_IsRunningImpl  0x021C2D9C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021C2D9C(u32 *p);
+extern u32 PALETTE_ANIME_IsRunningImpl(u32 *p);
 
-void func_021C2A10(u32 a0, u32 a1)
+void PALETTE_ANIME_IsRunning(u32 a0, u32 a1)
 {
-    func_021C2D9C((u32 *)a0);
+    PALETTE_ANIME_IsRunningImpl((u32 *)a0);
 }
 

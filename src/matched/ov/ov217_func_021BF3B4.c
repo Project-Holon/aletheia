@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0FF8 0x021C0FF8 thumb ov217
+ *   BgTextLabel_SetVisible 0x021C0FF8 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -19,12 +19,12 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_021C0FF8(u8 *p, int visible);
+extern void BgTextLabel_SetVisible(u8 *p, int visible);
 void func_021BF3B4(char *p)
 {
     if (((struct Obj00021 *)p)->f3D0 != 0) {
-        func_021C0FF8((u8 *)(((struct Obj00021 *)p)->f364), 1);
+        BgTextLabel_SetVisible((u8 *)(((struct Obj00021 *)p)->f364), 1);
     } else {
-        func_021C0FF8((u8 *)(((struct Obj00021 *)p)->f364), 0);
+        BgTextLabel_SetVisible((u8 *)(((struct Obj00021 *)p)->f364), 0);
     }
 }

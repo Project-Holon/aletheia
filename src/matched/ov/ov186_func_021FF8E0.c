@@ -1,5 +1,5 @@
 /*
- * function: func_021FF8E0
+ * function: BR_NET_StepIdle
  * address:  0x021FF8E0
  * packet:   pkt_021FF8E0
  * region:   ov186
@@ -10,6 +10,6 @@
  * status:   EXACT*
  */
 
-void func_021FF8E0(void)
+void BR_NET_StepIdle(void)
 {
 }

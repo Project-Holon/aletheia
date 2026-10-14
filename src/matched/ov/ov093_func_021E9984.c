@@ -16,8 +16,8 @@
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetPositionsPerClientThunk 0x021B99B8 thumb ov093
  *   func_021E9A68 0x021E9A68 thumb ov093
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTL_MAIN_GetGameData 0x021B8748 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  */
@@ -34,8 +34,8 @@ extern unsigned char BTL_MAIN_IsSecondTeamClient(unsigned char *p, unsigned int 
 extern u32 BTL_MAIN_GetRule(void **p);
 extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
 extern int func_021E9A68(void *);
-extern void *func_021F86D4(void);
-extern int func_021F86E0(void);
+extern void *BTLV_EFFECT_GetOwner(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern u32 BTL_MAIN_GetGameData(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***);
 
@@ -72,8 +72,8 @@ void BTLV_CORE_InitPartyWork(u8 *p, u8 *q, int mode, u8 x, int y)
     ((struct Obj00714 *)q)->fC = ((struct Obj00056 *)p)->fB0;
     ((struct Obj00714 *)q)->f14 = BTL_MAIN_GetRule(((struct Obj00056 *)p)->f0);
     ((struct Obj00714 *)q)->f44 = func_021E9A68(((struct Obj00056 *)p)->f180);
-    ((struct Obj00714 *)q)->f28 = func_021F86D4();
-    ((struct Obj00714 *)q)->f2C = (void *)func_021F86E0();
+    ((struct Obj00714 *)q)->f28 = BTLV_EFFECT_GetOwner();
+    ((struct Obj00714 *)q)->f2C = (void *)BTLV_EFFECT_GetPalanm();
     ((struct Obj00714 *)q)->f0 = (void *)BTL_MAIN_GetGameData(((struct Obj00056 *)p)->f0);
     ((struct Obj00714 *)q)->f30 = 0;
     zero = 0;

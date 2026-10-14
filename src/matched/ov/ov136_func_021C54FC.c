@@ -1,5 +1,5 @@
 /*
- * function: func_021C54FC
+ * function: MB_SEQ_VBlankTask
  * address:  0x021C54FC
  * packet:   pkt_ov136_021C54FC
  * region:   ov136
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C54FC 0x021C54FC thumb
+ *   MB_SEQ_VBlankTask 0x021C54FC thumb
  *   func_020419E4 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
-void func_021C54FC(void)
+void MB_SEQ_VBlankTask(void)
 {
     func_020419E4();
     CLACT_VBlankSystem();

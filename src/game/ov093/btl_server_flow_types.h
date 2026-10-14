@@ -11,6 +11,8 @@
  *
  * The includer must include btl_server_types.h first (Entry, u8, u16, u32).
  */
+#include "btl_records_types.h"
+
 
 /* One frame of the action stack: the sets, parameter blocks and queues that one action works on. */
 typedef struct BtlServerFlowFrame {
@@ -46,8 +48,8 @@ typedef struct BtlServerFlow {
     u32 turnCount;                      /* 0x010 */
     u32 flowResult;                     /* 0x014 */
     int bagMode;                        /* 0x018 */
-    u8 moveRecord[0x3C4];               /* 0x01C */
-    u8 deadRecord[0xC4];               /* 0x3E0 */
+    BtlWazaRec wazaRec;                 /* 0x01C: moves used so far */
+    BtlDeadRec deadRec;                 /* 0x3E0: faint history */
     void *evolutionHandle;              /* 0x4A4: SHINKA_CHECK handle */
     u8 *curMoveTurnState;                   /* 0x4A8: into the top frame */
     u8 *curInterruptQueue;              /* 0x4AC: into the top frame */
@@ -106,7 +108,8 @@ typedef struct BtlServerFlow {
     u8 pad1A68[0x48];                   /* 0x1A68 */
     void *curMoveParam;                 /* 0x1AB0: into the top frame */
     void *curMoveParamBackup;           /* 0x1AB4 */
-    u8 posPokeTable[0x2C];                   /* 0x1AB8 */
+    BtlPosPoke posPoke;                 /* 0x1AB8: who stands where */
+    u8 padPosPokeEnd[0x14];             /* 0x1AD0 */
     u8 msgRecord[0x24];                  /* 0x1AE4: struct Msg view */
     u8 expShareTable[0x48];           /* 0x1B08 */
     u8 eventParamBuf[0x224];            /* 0x1B50 */

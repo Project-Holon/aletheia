@@ -12,7 +12,7 @@
  * symbols:
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BCEF8  0x021BCEF8  thumb  ov172
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -42,7 +42,7 @@ struct SpritePos {
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 func_021BDFE4(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);
 struct Obj;
@@ -75,7 +75,7 @@ void func_021BC5E8(void *ctx, u8 *list)
 
     trg = TOUCHPANEL_GetPointTrg(&tx, &ty);
     cont = TOUCHPANEL_GetPointCont(&dx, &dy);
-    func_021BDFE4(ctx);
+    COMM_TVT_SYS_GetComm(ctx);
     if (trg == 1) {
         if (tx > 8 && tx < 0xe0) {
             row = (ty + ((struct Obj00330 *)list)->f4) >> 5;

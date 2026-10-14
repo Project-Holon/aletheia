@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD68
+ * function: ZUKAN_DETAIL_GRAPHIC_Init3dSettings
  * address: 0x021BCD68
  * packet: pkt_ov208_021BCD68
  * region: ov208
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 extern const u16 d_021C8164[][4];
-void func_021BCD68(void)
+void ZUKAN_DETAIL_GRAPHIC_Init3dSettings(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,1);

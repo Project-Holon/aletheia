@@ -1,5 +1,5 @@
 /*
- * function: FIELD_MSGBG_BlockUpdateOnePlane
+ * function: FIELD_G3D_MAP_BLOCK_UpdateOnePlane
  * address:  0x021932C0
  * packet:   pkt_ov021_021932C0
  * region:   ov021
@@ -53,7 +53,7 @@ extern int FIELD_G3D_MAPPER_SlotResGetGroundAnime(unsigned int *a0);
 typedef unsigned int   u32;
 extern int FIELD_GROUND_ANIME_BindAnm(u32 a, u32 b, u32 c, u32 d);
 
-int FIELD_MSGBG_BlockUpdateOnePlane(u8 *o, unsigned int *q)
+int FIELD_G3D_MAP_BLOCK_UpdateOnePlane(u8 *o, unsigned int *q)
 {
     u16 *st;
     int x;

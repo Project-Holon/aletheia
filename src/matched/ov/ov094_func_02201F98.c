@@ -1,5 +1,5 @@
 /*
- * function: func_02201F98
+ * function: BTLV_CLACT_MoveTaskMain
  * address:  0x02201F98
  * packet:   pkt_ov094_02201F98
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9260  0x021F9260  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 typedef struct {
@@ -28,22 +28,22 @@ typedef struct {
     int mover[1]; /* 0x14 */
 } Obj;
 
-extern int func_021F9260(void *m, int *out);
-extern void func_021F89BC(void *p);
+extern int BTLV_EFFECT_StepMover(void *m, int *out);
+extern void BTLV_EFFECT_DeleteTask(void *p);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_02201F98(void *a, Obj *o)
+void BTLV_CLACT_MoveTaskMain(void *a, Obj *o)
 {
     Ent *t = o->tbl;
-    int r = func_021F9260(o->mover, &o->x);
+    int r = BTLV_EFFECT_StepMover(o->mover, &o->x);
     short v[2];
 
     v[0] = o->x >> 12;
     v[1] = o->y >> 12;
     CLACT_AddActorSurfacePos(t[o->idx].h, (const struct Vec2 *)v, 0);
     if (r == 1)
-        func_021F89BC(a);
+        BTLV_EFFECT_DeleteTask(a);
 }

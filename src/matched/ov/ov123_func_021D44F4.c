@@ -1,5 +1,5 @@
 /*
- * function: func_021D44F4
+ * function: GSYNC_MENU_StateOpenYesNoAfterMessage
  * address: 0x021D44F4
  * packet: pkt_ov123_021D44F4
  * region: ov123
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4E7C 0x021D4E7C thumb ov123
- *   func_021D4DA4 0x021D4DA4 thumb ov123
- *   func_021D4244 0x021D4244 thumb ov123
- *   func_021D449C 0x021D449C thumb ov123
+ *   GSYNC_MENU_UpdateMessageStream 0x021D4E7C thumb ov123
+ *   GSYNC_MENU_OpenYesNoMenu 0x021D4DA4 thumb ov123
+ *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
+ *   GSYNC_MENU_StateWaitMenuSelect 0x021D449C thumb ov123
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D4E7C(char *);
-extern void func_021D4DA4(char *);
-extern void func_021D4244(char *,void *,int);
-extern void func_021D449C(char *);
-void func_021D44F4(char *p) { if(func_021D4E7C(p)) { func_021D4DA4(p); func_021D4244(p,func_021D449C,0x1c9); } }
+extern int GSYNC_MENU_UpdateMessageStream(char *);
+extern void GSYNC_MENU_OpenYesNoMenu(char *);
+extern void GSYNC_MENU_ChangeState(char *,void *,int);
+extern void GSYNC_MENU_StateWaitMenuSelect(char *);
+void GSYNC_MENU_StateOpenYesNoAfterMessage(char *p) { if(GSYNC_MENU_UpdateMessageStream(p)) { GSYNC_MENU_OpenYesNoMenu(p); GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateWaitMenuSelect,0x1c9); } }

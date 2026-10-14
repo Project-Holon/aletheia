@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCF4C",
+   "name": "ZUKAN_DETAIL_GRAPHIC_Reset3dState",
    "address": "0x021BCF4C",
    "kind": "game",
    "region": "ov208",

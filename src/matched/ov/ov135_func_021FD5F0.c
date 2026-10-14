@@ -1,5 +1,5 @@
 /*
- * function: func_021FD5F0
+ * function: WORLDTRADE_LIST_DrawSelectedRecord
  * address:  0x021FD5F0
  * packet:   pkt_021FD5F0
  * region:   ov135
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0204989C  0x0204989C  arm
- *   func_021FD85C  0x021FD85C  thumb
- *   func_021FD7DC  0x021FD7DC  thumb
+ *   WORLDTRADE_LIST_PrintNames  0x021FD85C  thumb
+ *   WORLDTRADE_LIST_PrintRecordRow  0x021FD7DC  thumb
  */
 
 typedef signed char s8;
@@ -45,12 +45,12 @@ typedef struct {
 } Work;
 
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_021FD85C(void *pane, void *s1, void *s2, void *g);
-extern void func_021FD7DC(void *pane, void *bank, void *names, void *rec, void *g);
+extern void WORLDTRADE_LIST_PrintNames(void *pane, void *s1, void *s2, void *g);
+extern void WORLDTRADE_LIST_PrintRecordRow(void *pane, void *bank, void *names, void *rec, void *g);
 
-void func_021FD5F0(Work *p)
+void WORLDTRADE_LIST_DrawSelectedRecord(Work *p)
 {
     func_0204989C(0x60, 0x1E, 1, 0, 0x800, 1, 0x48);
-    func_021FD85C(p->pane2, p->name0, p->name1, p->fFA0);
-    func_021FD7DC(&p->pane, p->bank, p->names, p->arr[p->cur].rec, p->fFA0);
+    WORLDTRADE_LIST_PrintNames(p->pane2, p->name0, p->name1, p->fFA0);
+    WORLDTRADE_LIST_PrintRecordRow(&p->pane, p->bank, p->names, p->arr[p->cur].rec, p->fFA0);
 }

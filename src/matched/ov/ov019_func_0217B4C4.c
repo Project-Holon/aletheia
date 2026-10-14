@@ -13,7 +13,7 @@
  *   UNION_CHARA_MakeObjId  0x0217AED4  thumb  ov019
  *   UNION_CHARA_GetMmdl  0x0217AFB0  thumb  ov019
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
- *   func_0217F858  0x0217F858  thumb  ov019
+ *   UNION_CHARA_GetGroupCategory  0x0217F858  thumb  ov019
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
@@ -60,7 +60,7 @@ extern int UNION_CHARA_SetNextAction(char *p, char v);
 extern u16 UNION_CHARA_MakeObjId(u8 *a, u8 *b);
 extern void *UNION_CHARA_GetMmdl(void **a, u8 *b, u8 *c);
 extern int UNION_MSG_GetCategoryTableValue(int i);
-extern int func_0217F858(int a);
+extern int UNION_CHARA_GetGroupCategory(int a);
 extern int FLDMMDL_CheckPossibleAcmd(int a0);
 extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
 extern u16 FLDMMDL_GetMoveCode(void *p);
@@ -84,7 +84,7 @@ int UNION_CHARA_ActionIdle(u8 *w, Msg *m)
         UNION_CHARA_SetNextAction((char *)m, 2);
         return 1;
     }
-    t = func_0217F858(e->bB);
+    t = UNION_CHARA_GetGroupCategory(e->bB);
     if (((struct Obj12518 *)s)->f58 == UNION_CHARA_MakeObjId((u8 *)m->e, (u8 *)m)) {
         UNION_CHARA_SetNextAction((char *)m, 3);
         return 1;

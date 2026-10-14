@@ -1,5 +1,5 @@
 /*
- * function: func_021FB034
+ * function: BTLV_EFFVM_CmdStartPokeBlink
  * address:  0x021FB034
  * packet:   pkt_ov094_021FB034
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021FCA04  0x021FCA04  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FF870  0x021FF870  thumb  ov094
+ *   BTLV_EFFVM_ResolveBattlerList  0x021FCA04  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_StartBlinkTask  0x021FF870  thumb  ov094
  */
 typedef struct {
     char pad[0x23C];
@@ -23,11 +23,11 @@ typedef struct {
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FCA04(State *s, int id, int *out);
-extern int func_021F8694(void);
-extern void func_021FF870(void *w, int a, int b, int c, int d);
+extern int BTLV_EFFVM_ResolveBattlerList(State *s, int id, int *out);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_StartBlinkTask(void *w, int a, int b, int c, int d);
 
-int func_021FB034(void *a, State *s)
+int BTLV_EFFVM_CmdStartPokeBlink(void *a, State *s)
 {
     int buf[8];
     int n;
@@ -36,7 +36,7 @@ int func_021FB034(void *a, State *s)
     int z;
     int i;
 
-    n = func_021FCA04(s, VM_GetU32(a), buf);
+    n = BTLV_EFFVM_ResolveBattlerList(s, VM_GetU32(a), buf);
     x = VM_GetU32(a);
     y = VM_GetU32(a);
     z = VM_GetU32(a);
@@ -44,7 +44,7 @@ int func_021FB034(void *a, State *s)
         if (z == 0)
             z = 1;
         for (i = 0; i < n; i++)
-            func_021FF870((void *)func_021F8694(), buf[i], x, y, z);
+            BTLV_MCSS_StartBlinkTask((void *)BTLV_EFFECT_GetMcss(), buf[i], x, y, z);
     }
     return s->f23c;
 }

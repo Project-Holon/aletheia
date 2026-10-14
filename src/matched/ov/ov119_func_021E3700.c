@@ -1,5 +1,5 @@
 /*
- * function: func_021E3700
+ * function: POKETRADE_3D_EmitCubeVertex
  * address:  0x021E3700
  * packet:   pkt_ov119_021E3700
  * region:   ov119
@@ -33,7 +33,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
 
 static fx16 d_021E8190[24];
 
-void func_021E3700(int n)
+void POKETRADE_3D_EmitCubeVertex(int n)
 {
     G3_Vtx(d_021E8190[n * 3], d_021E8190[n * 3 + 1], d_021E8190[n * 3 + 2]);
 }

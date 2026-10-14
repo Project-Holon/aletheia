@@ -1,5 +1,5 @@
 /*
- * function: func_021C2C1C
+ * function: ZUKAN_DETAIL_VOICE_UpdateBgmFade
  * address:  0x021C2C1C
  * packet:   pkt_021C2BF4
  * region:   ov208
@@ -24,7 +24,7 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 
-void func_021C2C1C(int unused, char *p, int a2)
+void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, char *p, int a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
         if (GFL_USE_IsBgmFading() == 0) {

@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021D679C
+ * function: GSYNC_DISP_HideParticle
  * address: 0x021D679C
  * packet: pkt_ov123_021D679C
  * region: ov123
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021D679C(u8 *p){if(*(struct Obj * *)&((struct Obj10441 *)p)->f0)CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj10441 *)p)->f0,0);((struct Obj10441 *)p)->f0=0;}
+void GSYNC_DISP_HideParticle(u8 *p){if(*(struct Obj * *)&((struct Obj10441 *)p)->f0)CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj10441 *)p)->f0,0);((struct Obj10441 *)p)->f0=0;}

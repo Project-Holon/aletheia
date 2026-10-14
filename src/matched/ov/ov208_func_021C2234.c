@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C2234
+ * function: ZUKAN_DETAIL_AREA_NoOpOverlay
  * address:  0x021C2234
  * packet:   pkt_ov208_021C2234
  * region:   ov208
@@ -16,6 +16,6 @@ typedef unsigned int   u32;
 typedef short          s16;
 typedef int            s32;
 
-void ov208_func_021C2234(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, int key)
 {
 }

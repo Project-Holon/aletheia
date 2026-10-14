@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D88
+ * function: ZUKAN_DETAIL_VOICE_DeleteNumberActors
  * address: 0x021C2D88
  * packet: pkt_ov208_021C2D88
  * region: ov208
@@ -21,7 +21,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021C2D88(void *unused, u8 *p, void *a2)
+void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, u8 *p, void *a2)
 {
     u8 i;
     for (i = 0; i < 7; i++)

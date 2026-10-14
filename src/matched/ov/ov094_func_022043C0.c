@@ -1,5 +1,5 @@
 /*
- * function: func_022043C0
+ * function: BTLV_INPUT_StartBgScrollTask
  * address:  0x022043C0
  * packet:   pkt_ov094_022043C0
  * region:   ov094
@@ -13,9 +13,9 @@
  *   d_0220AEB0     0x0220AEB0  data   ov094  a1
  *   func_02030734  0x02030734  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_02204438  0x02204438  thumb  ov094
- *   func_022044A0  0x022044A0  thumb  ov094
- *   func_0220684C  0x0220684C  thumb  ov094
+ *   BTLV_INPUT_BgScrollTaskMain  0x02204438  thumb  ov094
+ *   BTLV_INPUT_BgScrollTaskEnd  0x022044A0  thumb  ov094
+ *   BTLV_INPUT_RegisterTask  0x0220684C  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,11 +41,11 @@ extern const char d_0220AEB0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020056A0(void *cb, void *ctx, int a);
 struct Ctx;
-extern void func_02204438(int a0, struct Ctx *c);
-extern void func_022044A0(void *h);
-extern void func_0220684C(char *p, int a, int b);
+extern void BTLV_INPUT_BgScrollTaskMain(int a0, struct Ctx *c);
+extern void BTLV_INPUT_BgScrollTaskEnd(void *h);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
 
-void func_022043C0(Main *m, int a1, int a2, int a3, int a4)
+void BTLV_INPUT_StartBgScrollTask(Main *m, int a1, int a2, int a3, int a4)
 {
     Obj *o;
 
@@ -55,6 +55,6 @@ void func_022043C0(Main *m, int a1, int a2, int a3, int a4)
     o->f8 = a2;
     o->fc = a3;
     o->f10 = a4;
-    func_0220684C((char *)m, (int)func_020056A0((void *)func_02204438, o, 0), (int)func_022044A0);
+    BTLV_INPUT_RegisterTask((char *)m, (int)func_020056A0((void *)BTLV_INPUT_BgScrollTaskMain, o, 0), (int)BTLV_INPUT_BgScrollTaskEnd);
     m->st = m->st + 1;
 }

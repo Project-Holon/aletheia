@@ -1,5 +1,5 @@
 /*
- * function: func_021BD11C
+ * function: ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem
  * address:  0x021BD11C
  * packet:   pkt_021BD11C
  * region:   ov208
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
-void func_021BD11C(int *p)
+void ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem(int *p)
 {
     G3D_CAMERA_Delete((void *)(*p));
     G3D_SYSTEM_Exit();

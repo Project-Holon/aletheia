@@ -1,5 +1,5 @@
 /*
- * function: func_021C11DC
+ * function: CircleGraph_GetPercentByKey
  * address:  0x021C11DC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C1AC0  0x021C1AC0  thumb  ov217
+ *   CircleGraph_GetSliceByKey  0x021C1AC0  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_021C1AC0(u8 *p, u8 key);
+extern void *CircleGraph_GetSliceByKey(u8 *p, u8 key);
 
-u8 func_021C11DC(u8 *p, u8 key)
+u8 CircleGraph_GetPercentByKey(u8 *p, u8 key)
 {
-    return *((u8 *)func_021C1AC0(p, key) + 8);
+    return *((u8 *)CircleGraph_GetSliceByKey(p, key) + 8);
 }
 
 

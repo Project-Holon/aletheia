@@ -3,7 +3,7 @@
 
 /*
  * Trainer eye event types (event_trainer_eye.c). The script command code
- * (unit_021AE948.c) keeps one TrainerEyeHit per trainer and the work block
+ * (scrcmd_trainer_audio_item.c) keeps one TrainerEyeHit per trainer and the work block
  * that the event creator returns.
  */
 #include "../arm9/billboard_types.h"

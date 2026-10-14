@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8A8
+ * function: DENDOU_VIEW_ProcExit
  * address:  0x021DC8A8
  * packet:   pkt_021DC8A8
  * region:   ov171
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_021DC8A8(void *p)
+int DENDOU_VIEW_ProcExit(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x8c);

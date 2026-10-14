@@ -1,5 +1,5 @@
 /*
- * function: func_021E467C
+ * function: POKETRADE_2D_CreateBoxIconActors
  * address:  0x021E467C
  * packet:   pkt_ov119_021E467C
  * region:   ov119
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E467C(char *p)
+void POKETRADE_2D_CreateBoxIconActors(char *p)
 {
     int i, j, z;
     void *arc;

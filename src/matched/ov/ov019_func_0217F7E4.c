@@ -1,5 +1,5 @@
 /*
- * function: func_0217F7E4
+ * function: UNION_ONESELF_IsPlayerAtReceptionSpot
  * address:  0x0217F7E4
  * packet:   pkt_ov019_0217F7E4
  * region:   ov019
@@ -35,7 +35,7 @@ extern void FIELD_PLAYER_GetPos(unsigned char *a, struct VecFx32 *v);
 extern u16 GAME_DATA_GetPlayerDirection(const struct Rec44 *p);
 extern struct P16 d_02180718[];
 
-int func_0217F7E4(u32 arg)
+int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 arg)
 {
     int v[3];
     u32 r4;

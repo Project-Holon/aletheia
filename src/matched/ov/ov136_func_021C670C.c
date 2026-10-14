@@ -1,5 +1,5 @@
 /*
- * function: func_021C670C
+ * function: MB_SEQ_SetActorObjMode
  * address:  0x021C670C
  * packet:   pkt_ov136_021C670C
  * region:   ov136
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021C670C(u8 *p, int i, int on)
+void MB_SEQ_SetActorObjMode(u8 *p, int i, int on)
 {
     if (on == 1) {
         CLACT_SetActorObjMode(*(void **)(p + i * 4 + 0x1F0), 1);

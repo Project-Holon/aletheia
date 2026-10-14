@@ -1,5 +1,5 @@
 /*
- * function: func_021DD874
+ * function: DENDOU_VIEW_InitWindows
  * address: 0x021DD874
  * packet: pkt_ov171_021DD874
  * region: ov171
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void BMP_WIN_Init(u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-void func_021DD874(char *p)
+void DENDOU_VIEW_InitWindows(char *p)
 {
     BMP_WIN_Init(0x8c);
     ((struct Obj03850 *)p)->fB48 = BMP_WIN_Create(3, 1, 0, 30, 2, 3, 1);

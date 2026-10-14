@@ -66,4 +66,48 @@ typedef struct IrcSys {
     u16 pad8A;                       /* 0x8A */
 } IrcSys;
 
+/*
+ * Parameter blocks of the compatibility check steps. Each step task receives one
+ * and writes its results into the "out" fields; owned here for ov101 to ov106.
+ */
+typedef struct IrcMenuArgs {
+    void *gameSystem;
+    IrcSys *view;
+    int mode;                /* 0 first entry, 1 normal, 2 back from help */
+    int choice;              /* out */
+    IrcCompatibleProfile *profile;
+} IrcMenuArgs;
+
+typedef struct IrcSecondTestArgs {
+    void *gameSystem;
+    IrcSys *view;
+    IrcCompatibleProfile *profile;
+    int result;              /* out */
+    u8 score;                /* out */
+    u8 penalty;              /* out */
+    u8 bonus;                /* out */
+    u8 pad13;
+} IrcSecondTestArgs;
+
+typedef struct IrcFirstTestArgs {
+    void *gameSystem;
+    IrcSys *view;
+    IrcCompatibleProfile *profile;
+    int result;              /* out */
+    u8 score;                /* out */
+    u8 pad11[3];
+    int penalty;             /* out */
+} IrcFirstTestArgs;
+
+typedef struct IrcResultArgs {
+    void *gameSystem;
+    IrcSys *view;
+    IrcCompatibleProfile *profile;
+    u8 compatibility;
+} IrcResultArgs;
+
+typedef struct IrcHelpArgs {
+    void *gameSystem;
+} IrcHelpArgs;
+
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD808
+ * function: ZKND_TBAR_GetActorDrawEnable
  * address:  0x021BD808
  * packet:   pkt_021BD808
  * region:   ov208
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-void func_021BD808(int *p)
+void ZKND_TBAR_GetActorDrawEnable(int *p)
 {
     CLACT_GetActorDrawEnable((struct Obj *)(*p));
 }

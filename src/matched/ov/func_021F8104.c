@@ -1,5 +1,5 @@
 /*
- * function: func_021F8104
+ * function: WORLDTRADE_DEPOSIT_PrintModeLabel
  * address:  0x021F8104
  * packet:   pkt_021F8104
  * region:   ov135
@@ -12,8 +12,8 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_021F8078  0x021F8078  thumb
- *   func_022028C8  0x022028C8  thumb
+ *   WORLDTRADE_DEPOSIT_GetModeFontColor  0x021F8078  thumb
+ *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
  *   tbl_02202EB0   0x02202EB0  data
  */
 
@@ -28,16 +28,16 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u16 func_021F8078(int mode, u16 color);
-extern u32 func_022028C8(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
+extern u16 WORLDTRADE_DEPOSIT_GetModeFontColor(int mode, u16 color);
+extern u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
 
-void func_021F8104(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g)
+void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g)
 {
     void *str;
 
     if (force != 0 || mode != 3) {
         str = func_02045EC0(bank, tbl_02202EB0[mode]);
-        func_022028C8(win, 0, str, x, y, 0, func_021F8078(mode, color), g);
+        WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, x, y, 0, WORLDTRADE_DEPOSIT_GetModeFontColor(mode, color), g);
         STRBUF_Delete(str);
     }
 }

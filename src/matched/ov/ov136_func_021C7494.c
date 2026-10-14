@@ -1,5 +1,5 @@
 /*
- * function: func_021C7494
+ * function: MB_SEQ_PushPartyList
  * address:  0x021C7494
  * packet:   pkt_ov136_021C7494
  * region:   ov136
@@ -26,7 +26,7 @@ struct Bf7 {
 extern const u8 gPartyListProcData[];
 extern u8 ov091_id[];
 extern void PROCSYS_Push(void *, u32, const void *, void *);
-int func_021C7494(u8 *p)
+int MB_SEQ_PushPartyList(u8 *p)
 {
     u32 v = ((struct Bf7 *)(p + 0x21))->v;
     ((struct Obj23650 *)(*(u8 * *)&((struct Obj10610 *)p)->f10))->f3C = v;

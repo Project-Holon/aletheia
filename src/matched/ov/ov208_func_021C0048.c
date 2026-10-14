@@ -1,5 +1,5 @@
 /*
- * function: func_021C0048
+ * function: ZUKAN_DETAIL_AREA_BuildTownOrderTable
  * address: 0x021C0048
  * packet: pkt_ov208_021C0048
  * region: ov208
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
 extern const u16 d_021C8670[];
-void func_021C0048(u16 *unused, char *p, int a2)
+void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, int a2)
 {
     u8 i;
     for (i = 0; i < 61; i++) {

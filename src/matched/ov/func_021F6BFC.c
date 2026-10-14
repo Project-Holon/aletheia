@@ -1,5 +1,5 @@
 /*
- * function: func_021F6BFC
+ * function: WORLDTRADE_BOX_CheckMonRestrictionA
  * address:  0x021F6BFC
  * packet:   pkt_021F6BFC
  * region:   ov135
@@ -28,7 +28,7 @@ extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
-int func_021F6BFC(u32 handle)
+int WORLDTRADE_BOX_CheckMonRestrictionA(u32 handle)
 {
     u32 stamp = POKE_TOOL_DecodeBoxParam((struct Sav *)handle);
 

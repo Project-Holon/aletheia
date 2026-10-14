@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C574C",
+   "name": "MB_SEQ_LoadFrameCharData",
    "address": "0x021C574C",
    "kind": "game",
    "region": "ov136",

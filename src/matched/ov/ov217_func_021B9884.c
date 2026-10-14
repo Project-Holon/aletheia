@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C099C  0x021C099C  thumb  ov217
+ *   RESEARCH_COMMON_Destroy  0x021C099C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C099C(void *a0);
+extern u32 RESEARCH_COMMON_Destroy(void *a0);
 u32 func_021B9884(u32 a0)
 {
-    func_021C099C((void *)(((struct Obj08431 *)(((u8*)a0)))->fC));
+    RESEARCH_COMMON_Destroy((void *)(((struct Obj08431 *)(((u8*)a0)))->fC));
     ((struct Obj08431 *)(((u8*)a0)))->fC = 0;
     return 0;
 }

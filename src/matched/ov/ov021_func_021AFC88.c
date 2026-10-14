@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_BufferSaveCounterB
+ * function: SCRCMD_BufferBeaconGreetCount
  * address:  0x021AFC88
  * packet:   pkt_ov021_021AFC88
  * region:   ov021
@@ -38,7 +38,7 @@ extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern u32 func_0200C1C4(struct Blk34 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-int SCRCMD_BufferSaveCounterB(Ctx *a0, int a1)
+int SCRCMD_BufferBeaconGreetCount(Ctx *a0, int a1)
 {
     void *t = SCRCMD_WORK_GetScriptWork((void *)a1);
     void *h;

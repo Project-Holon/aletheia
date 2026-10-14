@@ -1,5 +1,5 @@
 /*
- * function: func_021C5268
+ * function: MAILVIEW_CreateButtons
  * address: 0x021C5268
  * packet: pkt_ov136_021C5268
  * region: ov136
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-void func_021C5268(u8 *p)
+void MAILVIEW_CreateButtons(u8 *p)
 {
     if (p[0xB] == 1) {
         ((struct Obj00160 *)p)->f130 = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 0);

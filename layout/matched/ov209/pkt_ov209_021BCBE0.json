@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCBE0",
+   "name": "ZUKAN_LIST_FrameListSelectCallback",
    "address": "0x021BCBE0",
    "kind": "game",
    "region": "ov209",

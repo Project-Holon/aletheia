@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC6D8",
+   "name": "ZUKAN_DETAIL_COMMON_StartFadeOut",
    "address": "0x021BC6D8",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC6F8",
+   "name": "ZUKAN_DETAIL_COMMON_StartFadeOutAlt",
    "address": "0x021BC6F8",
    "kind": "game",
    "region": "ov208",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BC718",
+   "name": "ZUKAN_DETAIL_COMMON_StartFadeIn",
    "address": "0x021BC718",
    "kind": "game",
    "region": "ov208",

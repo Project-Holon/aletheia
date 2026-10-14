@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB74
+ * function: GURU2_MAIN_StateCollectReadyMasks
  * address: 0x021DEB74
  * packet: pkt_ov137_021DEB74
  * region: ov137
@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DCBC4 0x021DCBC4 thumb ov137
+ *   GURU2_COMM_Send 0x021DCBC4 thumb ov137
  */
 #include "../include/Obj02496.h"
 #include "../include/Obj23746.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021DCBC4(void *, int, void *, int);
-int func_021DEB74(u8 *p)
+extern int GURU2_COMM_Send(void *, int, void *, int);
+int GURU2_MAIN_StateCollectReadyMasks(u8 *p)
 {
     u16 buf[2];
     int i, count;
     u16 mask;
     if (((struct Obj02496 *)p)->f14 == 0) {
         buf[1] = 0; buf[0] = 0;
-        if (func_021DCBC4(((struct Obj02496 *)p)->fDC, 10249, buf, 4) == 1) (((struct Obj02496 *)p)->f14)++;
+        if (GURU2_COMM_Send(((struct Obj02496 *)p)->fDC, 10249, buf, 4) == 1) (((struct Obj02496 *)p)->f14)++;
         return 0;
     }
     i = 1;
@@ -31,7 +31,7 @@ int func_021DEB74(u8 *p)
         if (mask & (1 << i)) {
             if (count >= ((struct Obj02496 *)p)->f14) {
                 buf[1] = i; buf[0] = ((struct Obj02496 *)p)->f14;
-                if (func_021DCBC4(((struct Obj02496 *)p)->fDC, 10249, buf, 4) == 1) (((struct Obj02496 *)p)->f14)++;
+                if (GURU2_COMM_Send(((struct Obj02496 *)p)->fDC, 10249, buf, 4) == 1) (((struct Obj02496 *)p)->f14)++;
                 break;
             }
             count++;

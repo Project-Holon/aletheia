@@ -1,5 +1,5 @@
 /*
- * function: func_021C630C
+ * function: MB_SEQ_PrintMenuMessage
  * address: 0x021C630C
  * packet: pkt_ov136_021C630C
  * region: ov136
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021C6230 0x021C6230 thumb ov136
+ *   MB_SEQ_StartMessagePrint 0x021C6230 thumb ov136
  */
 #include "../include/Obj00127.h"
 #include "../include/Obj23569.h"
@@ -26,8 +26,8 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021C6230(u8 *);
-void func_021C630C(u8 *p, unsigned int i)
+extern void MB_SEQ_StartMessagePrint(u8 *);
+void MB_SEQ_PrintMenuMessage(u8 *p, unsigned int i)
 {
     switch (i) {
     case 0: MSGDATA_ReadString(((struct Obj23569 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D0, 10, ((struct Obj23570 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8); break;
@@ -36,5 +36,5 @@ void func_021C630C(u8 *p, unsigned int i)
     case 3: MSGDATA_ReadString(((struct Obj23575 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D0, 13, ((struct Obj23576 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8); break;
     case 4: MSGDATA_ReadString(((struct Obj23577 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D0, 14, ((struct Obj23578 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8); break;
     }
-    func_021C6230(p);
+    MB_SEQ_StartMessagePrint(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F49A8
+ * function: WORLDTRADE_SetupWindowPlanes
  * address:  0x021F49A8
  * packet:   pkt_021F49A8
  * region:   ov135
@@ -40,7 +40,7 @@ static inline void SetWndOutsidePlane(int wnd, int effect)
     *(vu16 *)0x0400004A = (u16)tmp;
 }
 
-void func_021F49A8(void)
+void WORLDTRADE_SetupWindowPlanes(void)
 {
     *(vu32 *)0x04001000 &= ~0xE000;
     *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & ~0xE000) | 0x2000;

@@ -1,5 +1,5 @@
 /*
- * function: func_0220246C
+ * function: WORLDTRADE_ADAPTER_GetDateTime
  * address:  0x0220246C
  * packet:   pkt_0220246C
  * region:   ov135
@@ -39,7 +39,7 @@ struct RegB;
 extern void func_0200ADD8(struct RegB *p, u32 value);
 extern void func_0200ADD0(struct RegB *p, u32 value);
 
-void func_0220246C(void *p, int which)
+void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
 {
     RTCDate date;
     RTCTime time;

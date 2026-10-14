@@ -1,5 +1,5 @@
 /*
- * function: func_021C657C
+ * function: MB_SEQ_DeleteActors
  * address:  0x021C657C
  * packet:   pkt_021C657C
  * region:   ov136
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6688  0x021C6688  thumb
- *   func_021C65E4  0x021C65E4  thumb
- *   func_021C674C  0x021C674C  thumb
+ *   MB_SEQ_DeleteAllActors  0x021C6688  thumb
+ *   MB_SEQ_ExitActorSystem  0x021C65E4  thumb
+ *   MB_SEQ_FreeActorArc  0x021C674C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C6688(u8 *p);
-extern void func_021C65E4(u8 *p);
-extern void func_021C674C(u8 *p);
+extern void MB_SEQ_DeleteAllActors(u8 *p);
+extern void MB_SEQ_ExitActorSystem(u8 *p);
+extern void MB_SEQ_FreeActorArc(u8 *p);
 
-void func_021C657C(u8 *p)
+void MB_SEQ_DeleteActors(u8 *p)
 {
-    func_021C6688(((struct Obj10605 *)p)->f8);
-    func_021C65E4(((struct Obj10605 *)p)->f8);
-    func_021C674C(((struct Obj10605 *)p)->f8);
+    MB_SEQ_DeleteAllActors(((struct Obj10605 *)p)->f8);
+    MB_SEQ_ExitActorSystem(((struct Obj10605 *)p)->f8);
+    MB_SEQ_FreeActorArc(((struct Obj10605 *)p)->f8);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C674C
+ * function: MB_SEQ_FreeActorArc
  * address:  0x021C674C
  * packet:   pkt_021C674C
  * region:   ov136
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021C674C(u8 *p)
+void MB_SEQ_FreeActorArc(u8 *p)
 {
     ARC_TOOL_DeleteHandle(((struct Obj23596 *)p)->f290);
 }

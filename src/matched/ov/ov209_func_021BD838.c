@@ -1,5 +1,5 @@
 /*
- * function: func_021BD838
+ * function: ZUKAN_LIST_UpdateActors
  * address: 0x021BD838
  * packet: pkt_ov209_021BD838
  * region: ov209
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;struct Obj;extern u32 CLACT_GetActorAutoAnim(struct Actor *);extern void CLACT_AddActorAnimFrame(struct Obj *,u32);extern void CLACT_DrawSystem(void);
-void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(CLACT_GetActorAutoAnim(*(struct Actor **)(p+i*4+0xa74))!=1) CLACT_AddActorAnimFrame(*(struct Obj **)(p+i*4+0xa74),0x1000);}}CLACT_DrawSystem();}
+void ZUKAN_LIST_UpdateActors(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(CLACT_GetActorAutoAnim(*(struct Actor **)(p+i*4+0xa74))!=1) CLACT_AddActorAnimFrame(*(struct Obj **)(p+i*4+0xa74),0x1000);}}CLACT_DrawSystem();}

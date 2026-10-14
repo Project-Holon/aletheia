@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021BA3E8  0x021BA3E8  thumb  ov217
- *   func_021C1038  0x021C1038  thumb  ov217
+ *   BgTextLabel_SetPalette  0x021C1038  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -27,10 +27,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_021BA3E8();
-extern void func_021C1038(u8 *p, u8 palette);
+extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
 u32 func_021BA2FC(u32 a0)
 {
-    func_021C1038((u8 *)(((struct Obj25815 *)(((u8*)a0)))->f54), 15);
+    BgTextLabel_SetPalette((u8 *)(((struct Obj25815 *)(((u8*)a0)))->f54), 15);
     func_021BA3E8(a0, 3);
     return func_021BA3E8(a0, 4);
 }

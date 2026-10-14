@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_StartEffectAtPosition
+ * function: SCRCMD_StartArcEffect
  * address:  0x021D2F6C
  * packet:   pkt_ov021_021D2F6C
  * region:   ov021
@@ -37,7 +37,7 @@ extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
 extern void *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *a, int *v, int *w, int c, int d);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
-u32 SCRCMD_StartEffectAtPosition(u32 a, u32 b)
+u32 SCRCMD_StartArcEffect(u32 a, u32 b)
 {
     int v[3];
     int w[3];

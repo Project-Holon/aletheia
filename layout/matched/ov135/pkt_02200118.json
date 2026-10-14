@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02200118",
+   "name": "WORLDTRADE_TITLE_ExitBgPlanesSub",
    "address": "0x02200118",
    "kind": "game",
    "region": "ov135",

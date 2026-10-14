@@ -1,5 +1,5 @@
 /*
- * function: func_021D651C
+ * function: GSYNC_DISP_EnableActorAutoAnim
  * address:  0x021D651C
  * packet:   pkt_021D651C
  * region:   ov123
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
-void func_021D651C(u8 *p)
+void GSYNC_DISP_EnableActorAutoAnim(u8 *p)
 {
     CLACT_SetActorAutoAnim(((struct Obj22950 *)p)->fA8, 1);
 }

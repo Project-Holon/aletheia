@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CF0
+ * function: BTLV_FIELD_Delete
  * address:  0x021F6CF0
  * packet:   pkt_ov094_021F6CF0
  * region:   ov094
@@ -41,7 +41,7 @@ extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 extern u32 func_020307B0(void *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 
-void func_021F6CF0(Obj *o)
+void BTLV_FIELD_Delete(Obj *o)
 {
     int i;
 

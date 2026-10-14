@@ -1,5 +1,5 @@
 /*
- * function: func_021FC174
+ * function: WORLDTRADE_DETAIL_CallStateHandler
  * address:  0x021FC174
  * packet:   pkt_021FC174
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void *g_02203CF0[];
 
-void func_021FC174(u8 *p)
+void WORLDTRADE_DETAIL_CallStateHandler(u8 *p)
 {
     ((void (*)(u8 *))g_02203CF0[*(u32 *)(p + 0x28)])(p);
 }

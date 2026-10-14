@@ -1,5 +1,5 @@
 /*
- * function: func_021B6CA4
+ * function: DRAW_SYSTEM_DrawLine
  * address: 0x021B6CA4
  * packet: pkt_ov172_021B6CA4
  * region: ov172
@@ -17,8 +17,8 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   d_021C4E84 0x021C4E84 data a4
- *   func_021B6E5C 0x021B6E5C thumb ov172
+ *   gDrawBrushes 0x021C4E84 data a4
+ *   DRAW_SYSTEM_PutPixel 0x021B6E5C thumb ov172
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,12 +32,12 @@ extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
-extern const Shape d_021C4E84[];
-extern void func_021B6E5C(u16 *p, char *base, u16 x, u16 y, u16 v);
+extern const Shape gDrawBrushes[];
+extern void DRAW_SYSTEM_PutPixel(u16 *p, char *base, u16 x, u16 y, u16 v);
 
-void func_021B6CA4(u16 *a, char *b, int x0, int x1, u16 y0, u16 y1, int idx, u16 arg)
+void DRAW_SYSTEM_DrawLine(u16 *a, char *b, int x0, int x1, u16 y0, u16 y1, int idx, u16 arg)
 {
-    const Shape *t = &d_021C4E84[idx];
+    const Shape *t = &gDrawBrushes[idx];
     int sx, sy, ax, ay, k;
     u8 m1, m2, j;
     int bx, by, ox, oy, n;
@@ -76,7 +76,7 @@ void func_021B6CA4(u16 *a, char *b, int x0, int x1, u16 y0, u16 y1, int idx, u16
         for (j = 0; j < t->h; j++) {
             for (i = 0; i < t->w; i++) {
                 if (t->m[j][i] & fl)
-                    func_021B6E5C(a, b, bx + i, by + j, arg);
+                    DRAW_SYSTEM_PutPixel(a, b, bx + i, by + j, arg);
             }
         }
         ax += sx;

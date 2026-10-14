@@ -1,5 +1,5 @@
 /*
- * function: func_021D8AA8
+ * function: POKETRADE_PROC_IsHostSide
  * address:  0x021D8AA8
  * packet:   pkt_ov119_021D8AA8
  * region:   ov119
@@ -20,7 +20,7 @@
  */
 #include "../include/Obj22702.h"
 
-int func_021D8AA8(void *p)
+int POKETRADE_PROC_IsHostSide(void *p)
 {
     unsigned int x = ((struct Obj22702 *)p)->f118C;
     int r = 0;

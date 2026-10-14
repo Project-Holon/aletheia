@@ -1,5 +1,5 @@
 /*
- * function: func_021B7390
+ * function: HALL_OF_FAME_ExitActorSystem
  * address: 0x021B7390
  * packet: pkt_ov180_021B7390
  * region: ov180
@@ -21,4 +21,4 @@ extern void BMP_OAM_DeleteSys(void *);
 struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021B7390(char *p){BMP_OAM_DeleteSys(((struct Obj04569 *)p)->f911C);CLACT_DeleteUnit(((struct Obj04569 *)p)->f9044);CLACT_ExitSystem();}
+void HALL_OF_FAME_ExitActorSystem(char *p){BMP_OAM_DeleteSys(((struct Obj04569 *)p)->f911C);CLACT_DeleteUnit(((struct Obj04569 *)p)->f9044);CLACT_ExitSystem();}

@@ -1,5 +1,5 @@
 /*
- * function: func_02179EE0
+ * function: IRCi_CalcSum
  * address:  0x02179EE0
  * packet:   pkt_ov015_02179EE0
  * region:   ov015
@@ -15,7 +15,7 @@
 
  */
 
-unsigned short func_02179EE0(void *input, unsigned long length)
+unsigned short IRCi_CalcSum(void *input, unsigned long length)
 {
     unsigned long sum;
     unsigned long i;

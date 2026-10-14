@@ -1,5 +1,5 @@
 /*
- * function: func_02200C0C
+ * function: BTLV_MCSS_RotateTweenTaskMain
  * address:  0x02200C0C
  * packet:   pkt_ov094_02200C0C
  * region:   ov094
@@ -15,9 +15,9 @@
  * symbols:
  *   MCSS_GetRotate  0x02015CF8  thumb
  *   MCSS_SetRotate  0x02015D14  thumb
- *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_021F9260  0x021F9260  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
  * MATCH: bytes identical; blocked on two unfiled ARM9 Thumb leaves (the integrator's),
  * no witness outside this range. Verified C, each EXACT with `one --thumb`
@@ -37,7 +37,7 @@
  *       *(u32 *)((char *)p + 0x100) = src[2];
  *   }
  *
- * Task callback, twin of func_02200A84.
+ * Task callback, twin of BTLV_MCSS_ScaleTweenTaskMain.
  */
 typedef unsigned char u8;
 typedef int fx32;
@@ -74,32 +74,32 @@ typedef struct {
 typedef unsigned int   u32;
 extern void MCSS_GetRotate(void *p, u32 *out);
 extern void MCSS_SetRotate(void *p, u32 *src);
-extern void func_021F89BC(void *h);
-extern int func_021F9260(Mover *m, VecFx32 *out);
-extern int func_022019F4(char *p, int key);
+extern void BTLV_EFFECT_DeleteTask(void *h);
+extern int BTLV_EFFECT_StepMover(Mover *m, VecFx32 *out);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-void func_02200C0C(void *h, Ctx *c)
+void BTLV_MCSS_RotateTweenTaskMain(void *h, Ctx *c)
 {
     Work *w = c->w;
-    int i = func_022019F4((char *)w, c->key);
+    int i = BTLV_MCSS_FindSpriteIndex((char *)w, c->key);
     VecFx32 v;
     int r;
 
     if (i == -1) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     if (w->e[i].h == 0) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     if (c->tag != w->tag[c->key]) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     MCSS_GetRotate(w->e[i].h, (u32 *)(&v));
-    r = func_021F9260(&c->mv, &v);
+    r = BTLV_EFFECT_StepMover(&c->mv, &v);
     MCSS_SetRotate(w->e[i].h, (u32 *)(&v));
     if (r == 1)
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
 }

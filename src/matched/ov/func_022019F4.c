@@ -1,5 +1,5 @@
 /*
- * function: func_022019F4
+ * function: BTLV_MCSS_FindSpriteIndex
  * address:  0x022019F4
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4   0x022019F4  thumb
+ *   BTLV_MCSS_FindSpriteIndex   0x022019F4  thumb
  *   BODY
 
  *
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj12236.h"
 
-int func_022019F4(char *p, int key)
+int BTLV_MCSS_FindSpriteIndex(char *p, int key)
 {
     int i;
 

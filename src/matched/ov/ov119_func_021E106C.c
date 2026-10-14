@@ -1,5 +1,5 @@
 /*
- * function: func_021E106C
+ * function: POKETRADE_SAVE_CloseMessageWindow
  * address: 0x021E106C
  * packet: pkt_ov119_021E106C
  * region: ov119
@@ -17,7 +17,7 @@ struct Descriptor;
 extern void TIME_ICON_Delete(u8 *p);
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021E106C(char *p)
+void POKETRADE_SAVE_CloseMessageWindow(char *p)
 {
     if (((struct Obj05330 *)p)->f5F0) {
         TIME_ICON_Delete(((struct Obj05330 *)p)->f5F0);

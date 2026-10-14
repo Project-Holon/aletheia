@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent",
+   "name": "SCRCMD_FIELD_GIMMICK_CART_LANES_CreateSwitchEvent",
    "address": "0x021B2380",
    "kind": "game",
    "region": "ov021",

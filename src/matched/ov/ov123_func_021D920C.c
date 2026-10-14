@@ -1,5 +1,5 @@
 /*
- * function: func_021D920C
+ * function: GSYNC_STATE_ProcExit
  * address: 0x021D920C
  * packet: pkt_ov123_021D920C
  * region: ov123
@@ -10,9 +10,9 @@
  * evidence: unlabelled ov009 02156DE0 leaf filed and verified before caller rerun.
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_021D5644 0x021D5644 thumb ov123
- *   func_021D5E8C 0x021D5E8C thumb ov123
- *   func_021D5B70 0x021D5B70 thumb ov123
+ *   GSYNC_MESSAGE_ExitSystem 0x021D5644 thumb ov123
+ *   GSYNC_DISP_Exit 0x021D5E8C thumb ov123
+ *   GSYNC_DOWNLOAD_FreeWork 0x021D5B70 thumb ov123
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
@@ -32,9 +32,9 @@ struct S020315D4;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 func_020307B0(void *p);
-extern void func_021D5644(char *p);
-extern void func_021D5E8C(u8 *p);
-extern void func_021D5B70(char *p);
+extern void GSYNC_MESSAGE_ExitSystem(char *p);
+extern void GSYNC_DISP_Exit(u8 *p);
+extern void GSYNC_DOWNLOAD_FreeWork(char *p);
 extern int GFL_NET_GetRunState(void);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void NHTTP_RAP_Destroy(u8 *p);
@@ -43,7 +43,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov114_id[];
-int func_021D920C(void *a, int b, int c, char *p)
+int GSYNC_STATE_ProcExit(void *a, int b, int c, char *p)
 {
     if (!WIPE_SYS_EndCheck()) return 0;
     if (((struct Obj00990 *)p)->f1C) APP_TASKMENU_CloseMenu(((struct Obj00990 *)p)->f1C);
@@ -51,9 +51,9 @@ int func_021D920C(void *a, int b, int c, char *p)
         func_020307B0(((struct Obj00990 *)p)->f38);
         ((struct Obj00990 *)p)->f38=0;
     }
-    func_021D5644(((struct Obj00990 *)p)->f18);
-    func_021D5E8C(((struct Obj00990 *)p)->f14);
-    func_021D5B70(((struct Obj00990 *)p)->f8);
+    GSYNC_MESSAGE_ExitSystem(((struct Obj00990 *)p)->f18);
+    GSYNC_DISP_Exit(((struct Obj00990 *)p)->f14);
+    GSYNC_DOWNLOAD_FreeWork(((struct Obj00990 *)p)->f8);
     if (((struct Obj00990 *)p)->f30) func_020307B0(((struct Obj00990 *)p)->f30);
     if (((struct Obj00990 *)p)->f3C) func_020307B0(((struct Obj00990 *)p)->f3C);
     if (((struct Obj00990 *)p)->f40) func_020307B0(((struct Obj00990 *)p)->f40);

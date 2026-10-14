@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0544
+ * function: ZUKAN_DETAIL_AREA_CreateTownMarkerActors
  * address:  0x021C0544
  * packet:   pkt_ov208_021C0544
  * region:   ov208
@@ -47,7 +47,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C0544(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
 {
     int k;
     u8 i;

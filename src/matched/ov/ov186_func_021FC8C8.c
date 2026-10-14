@@ -25,9 +25,9 @@
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_021FCE60 0x021FCE60 thumb ov186
  *   func_021FCDA0 0x021FCDA0 thumb ov186
  *   func_021FCF90 0x021FCF90 thumb ov186
@@ -72,9 +72,9 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
-extern void func_021FD860(char *,u32,const Pair *),func_021FBE54(char *,u32,u32);
-extern int func_021FC124(char *,int,Triple *);
-extern unsigned func_021FC20C(char *p);
+extern void func_021FD860(char *,u32,const Pair *),BR_RES_LoadSprite(char *,u32,u32);
+extern int BR_RES_GetSprite(char *,int,Triple *);
+extern unsigned BR_RES_GetFont(char *p);
 extern int func_021FCDA0(char *);
 extern void func_021FCE60(char *,int);
 extern int func_021FCF90(char *p, int change);
@@ -125,12 +125,12 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     i=0;
     MI_CpuFill8(&arrow,0,8);
     if(cfg->bg<4) {
-        func_021FBE54(p->cfg.resources,7,heap);
-        if(!func_021FC124(p->cfg.resources,7,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
+        BR_RES_LoadSprite(p->cfg.resources,7,heap);
+        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
         mode=0;
     } else {
-        func_021FBE54(p->cfg.resources,8,heap);
-        if(!func_021FC124(p->cfg.resources,8,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
+        BR_RES_LoadSprite(p->cfg.resources,8,heap);
+        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
         mode=1;
     }
     arrow.x=128;arrow.flag=0;
@@ -147,13 +147,13 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);
     MI_CpuFill8(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
-    if(!func_021FC124(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
         CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
     }
-    font=func_021FC20C(p->cfg.resources);
+    font=BR_RES_GetFont(p->cfg.resources);
     for(i=0;(u32)i<p->cfg.count;i++) {
         void *text;
         text=p->cfg.list[i].text;

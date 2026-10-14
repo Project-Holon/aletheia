@@ -1,5 +1,5 @@
 /*
- * function: func_021F7F9C
+ * function: WORLDTRADE_DEPOSIT_PrintName
  * address:  0x021F7F9C
  * packet:   pkt_021F7F9C
  * region:   ov135
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_021F91A0  0x021F91A0  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  */
 
 typedef signed char s8;
@@ -25,15 +25,15 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
-void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g)
+void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g)
 {
     void *str;
 
     if (index != 0) {
         str = func_02045EC0(bank, index);
-        func_021F91A0(win, (u32)str, 0, x, y, color, (u32)g);
+        WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, x, y, color, (u32)g);
         STRBUF_Delete(str);
     }
 }

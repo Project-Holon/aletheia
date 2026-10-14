@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFEC
+ * function: COMM_TVT_SYS_GetTalkStatus
  * address:  0x021BDFEC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -31,7 +31,7 @@ typedef signed int     s32;
 
 extern int func_021B9F98(int unused, int *p);
 
-int func_021BDFEC(void *p)
+int COMM_TVT_SYS_GetTalkStatus(void *p)
 {
     return func_021B9F98((int)p, (int *)(((struct Obj24109 *)p)->f1E8));
 }

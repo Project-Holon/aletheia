@@ -14,8 +14,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021FD964 0x021FD964 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_02034714 0x02034714 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -34,9 +34,9 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef unsigned char  u8;
 struct Actor;
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern int func_021FC124(char *,int,Triple *);
+extern int BR_RES_GetSprite(char *,int,Triple *);
 extern void func_021FD964(void *unused, int *state, u8 *p);
-extern void func_021FBE54(char *,unsigned,unsigned);
+extern void BR_RES_LoadSprite(char *,unsigned,unsigned);
 extern int CLACT_CreateActor(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
@@ -53,9 +53,9 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     MI_CpuFill8(p,0,0x264);
     ((Handles *)p)->resources=resources;((Handles *)p)->index=index;
     ((Handles *)p)->task=(int)func_021FD6D8((int)p,(int)func_021FD964,heap);
-    func_021FBE54(((Handles *)p)->resources,index+9,heap);
+    BR_RES_LoadSprite(((Handles *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
-    if(!func_021FC124(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDBA8
+ * function: ZUKAN_LIST_ReleaseActorResources
  * address: 0x021BDBA8
  * packet: pkt_ov209_021BDBA8
  * region: ov209
@@ -15,7 +15,7 @@
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
-void func_021BDBA8(char *p)
+void ZUKAN_LIST_ReleaseActorResources(char *p)
 {
     unsigned i;
     for(i=0;i<36;i++)if(*(unsigned *)(p+i*4+0xb64)!=-1)CLACT_ReleaseCharacter(*(unsigned *)(p+i*4+0xb64));

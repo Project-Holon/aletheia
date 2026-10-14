@@ -1,5 +1,5 @@
 /*
- * function: func_021FEF24
+ * function: WORLDTRADE_SEARCH_StateOpenConditionMenu
  * address:  0x021FEF24
  * packet:   pkt_021FEF24
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9968  0x021F9968  thumb  ov135
- *   func_021FF570  0x021FF570  thumb  ov135
+ *   WORLDTRADE_INPUT_MenuSetMode  0x021F9968  thumb  ov135
+ *   WORLDTRADE_SEARCH_SetBlendEffect  0x021FF570  thumb  ov135
 
  * Sentinel at +0xbc, publish +0xde4, kick helper 9, latch state 0xf.
  */
@@ -21,14 +21,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021F9968(u8 *p, int mode);
-extern void func_021FF570(u32 k);
+extern void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode);
+extern void WORLDTRADE_SEARCH_SetBlendEffect(u32 k);
 
-int func_021FEF24(u8 *p)
+int WORLDTRADE_SEARCH_StateOpenConditionMenu(u8 *p)
 {
     ((struct Obj09240 *)p)->fBC = 0xffff;
-    func_021F9968((u8 *)(((struct Obj09240 *)p)->fDE4), 3);
-    func_021FF570(9);
+    WORLDTRADE_INPUT_MenuSetMode((u8 *)(((struct Obj09240 *)p)->fDE4), 3);
+    WORLDTRADE_SEARCH_SetBlendEffect(9);
     ((struct Obj09240 *)p)->f28 = 0xf;
     return 2;
 }

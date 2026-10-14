@@ -152,9 +152,9 @@
  *   DWCi_TSKlDelete                  0x021D7724  arm
  *   DWCi_FOCUSlDisp                  0x021BD41C  arm
  *   scenesetlist_init_21137          0x021DA6C8  data
- *   tbl_021DA650   0x021DA650  data
+ *   gSceneSetListFocusColumnTable   0x021DA650  data
  *   dispFocus   0x021C9F58  arm
- *   tbl_021DA61C   0x021DA61C  data
+ *   gSceneSetListPushPaletteTable   0x021DA61C  data
  *   DWCi_SCREENlCopyPalette   0x021CE7B0  arm
  *   scenesetlist_init_21261          0x021DA6C4  data
  *   DWC_BACKUPlCheckAddress          0x020588D0  arm
@@ -454,8 +454,8 @@ extern RECT DWCi_R_SCR;
 extern char scenesetlist_str_21900[];
 extern char scenesetlist_str_22070[];
 extern const TYEP_INIT scenesetlist_init_21137;
-extern unsigned char tbl_021DA650[];
-extern unsigned char tbl_021DA61C[];
+extern unsigned char gSceneSetListFocusColumnTable[];
+extern unsigned char gSceneSetListPushPaletteTable[];
 extern const FCS_INIT scenesetlist_init_21261;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
@@ -1572,7 +1572,7 @@ static void applyForcus1(int a)
     unsigned char *g = (unsigned char *)0x021DE5EC;
 
     *g = a;
-    *(unsigned char *)(g + 2) = calcColumnIdx(tbl_021DA650[a]);
+    *(unsigned char *)(g + 2) = calcColumnIdx(gSceneSetListFocusColumnTable[a]);
     dispFocus();
 }
 
@@ -1702,7 +1702,7 @@ static void dispPushButton(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int i = *g - 0xb;
-    int y = tbl_021DA61C[i];
+    int y = gSceneSetListPushPaletteTable[i];
 
     DWCi_SCREENlCopyPalette((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
 }

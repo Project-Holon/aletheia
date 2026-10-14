@@ -1,5 +1,5 @@
 /*
- * function: func_021FD7DC
+ * function: WORLDTRADE_LIST_PrintRecordRow
  * address:  0x021FD7DC
  * packet:   pkt_021FD7DC
  * region:   ov135
@@ -12,10 +12,10 @@
  * symbols:
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_021F7FD4  0x021F7FD4  thumb
- *   func_021F8104  0x021F8104  thumb
- *   func_021F886C  0x021F886C  thumb
- *   func_021F8178  0x021F8178  thumb
+ *   WORLDTRADE_DEPOSIT_PrintBankString  0x021F7FD4  thumb
+ *   WORLDTRADE_DEPOSIT_PrintModeLabel  0x021F8104  thumb
+ *   WORLDTRADE_DEPOSIT_GetConditionIndex  0x021F886C  thumb
+ *   WORLDTRADE_DEPOSIT_PrintConditionLabel  0x021F8178  thumb
  */
 
 typedef signed char s8;
@@ -39,15 +39,15 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021F7FD4(void *win, void *bank, u32 index, u32 y, u16 color, void *g);
-extern void func_021F8104(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g);
-extern int func_021F886C(int key, int val, int which);
-extern void func_021F8178(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 color, int alt, u32 g);
+extern void WORLDTRADE_DEPOSIT_PrintBankString(void *win, void *bank, u32 index, u32 y, u16 color, void *g);
+extern void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g);
+extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which);
+extern void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 color, int alt, u32 g);
 
-void func_021FD7DC(Pane *pane, void *bank, void *names, Rec *rec, void *g)
+void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *rec, void *g)
 {
     BMP_Clear(BMP_WIN_GetBmp(pane->win), 0);
-    func_021F7FD4(pane->win, names, rec->name, 0, 0x440, g);
-    func_021F8104(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, g);
-    func_021F8178(pane->win, bank, func_021F886C(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);
+    WORLDTRADE_DEPOSIT_PrintBankString(pane->win, names, rec->name, 0, 0x440, g);
+    WORLDTRADE_DEPOSIT_PrintModeLabel(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, g);
+    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_GetConditionIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);
 }

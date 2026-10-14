@@ -1,5 +1,5 @@
 /*
- * function: func_0220252C
+ * function: WORLDTRADE_ADAPTER_CanProceed
  * address:  0x0220252C
  * packet:   pkt_0220252C
  * region:   ov135
@@ -24,7 +24,7 @@ typedef signed short s16;
 struct Rec0200AD8C;
 extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
 
-u32 func_0220252C(u8 *p)
+u32 WORLDTRADE_ADAPTER_CanProceed(u8 *p)
 {
     if (func_0200AD8C((const struct Rec0200AD8C *)(*(u32 *)(((struct Obj12247 *)p)->f0))) == 0) {
         if (((struct Obj12247 *)p)->f32 != 0) {

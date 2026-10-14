@@ -1,5 +1,5 @@
 /*
- * function: func_021C74C8
+ * function: MB_SEQ_FinishPartyList
  * address:  0x021C74C8
  * packet:   pkt_ov136_021C74C8
  * region:   ov136
@@ -22,7 +22,7 @@ struct Bf7 {
     u8 w : 1;
 };
 extern u32 func_020307B0(void *p);
-int func_021C74C8(u8 *p)
+int MB_SEQ_FinishPartyList(u8 *p)
 {
     u8 *q = *(u8 * *)&((struct Obj14197 *)p)->f10;
     ((struct Bf7 *)(p + 0x21))->v = ((struct Obj14198 *)q)->f3C;

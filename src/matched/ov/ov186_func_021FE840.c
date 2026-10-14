@@ -1,5 +1,5 @@
 /*
- * function: func_021FE840
+ * function: BR_FADE_SetBlendLevel
  * address: 0x021FE840
  * packet: pkt_ov186_021FE840
  * region: ov186
@@ -16,7 +16,7 @@ extern void func_0207D63C(unsigned, int, int, int, int);
 typedef unsigned int   u32;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-void func_021FE840(int unused, int mask, int value)
+void BR_FADE_SetBlendLevel(int unused, int mask, int value)
 {
     if (mask & 1) {
         func_0207D63C(0x04000050, 7, 31, value, 16 - value);

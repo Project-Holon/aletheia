@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022025E4",
+   "name": "WORLDTRADE_ADAPTER_CreateMonFromBox",
    "address": "0x022025E4",
    "kind": "game",
    "region": "ov135",

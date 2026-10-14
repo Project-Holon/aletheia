@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C301C
+ * function: ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim
  * address: 0x021C301C
  * packet: pkt_ov208_021C301C
  * region: ov208
@@ -43,7 +43,7 @@ extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 #define OBJ(p) (*(void **)((p) + *(int *)((p) + 0x5c) * 4 + 0x54))
 
-void ov208_func_021C301C(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heap, u8 *p, int key)
 {
     struct Pos pos;
     struct Pair sc;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217ECAC
+ * function: UNION_MSG_GetNoEggInPartyMsg
  * address:  0x0217ECAC
  * packet:   pkt_ov019_0217ECAC
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_02180318[];
 
-u16 func_0217ECAC(int i)
+u16 UNION_MSG_GetNoEggInPartyMsg(int i)
 {
     return d_02180318[i];
 }

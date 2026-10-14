@@ -1,5 +1,5 @@
 /*
- * function: func_02201B44
+ * function: WORLDTRADE_SERVER_RecordTradeResult
  * address: 0x02201B44
  * packet: pkt_ov135_02201B44
  * region: ov135
@@ -12,7 +12,7 @@
  *   func_02008DF0 0x02008DF0 thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
- *   func_021F72C4 0x021F72C4 thumb ov135
+ *   WORLDTRADE_DEMO_ReadMyStatus 0x021F72C4 thumb ov135
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009DE8 0x02009DE8 thumb
  *   func_020307B0 0x020307B0 arm
@@ -46,7 +46,7 @@ struct Sub02009D9CObj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *func_0200ED48(void *);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-extern void *func_021F72C4(void *);
+extern void *WORLDTRADE_DEMO_ReadMyStatus(void *);
 extern void *func_02009EC8(void *);
 extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern u32 func_020307B0(void *p);
@@ -54,17 +54,17 @@ extern void *memset(void *, int, u32);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 func_0202EB7C(u32 a0, u32 a1);
-void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
+void WORLDTRADE_SERVER_RecordTradeResult(u8 *p, void *mon, u8 *r, void *old)
 {
     void *copy;
     Record rec;
     u16 species;
     func_02008DF0(((struct Obj23452 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f24, 0x10);
     func_0200ED54(func_0200ED48(((struct Obj23453 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), ((struct Obj06521 *)r)->f10C);
-    copy = func_021F72C4(r);
+    copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     func_02009DE8(func_02009EC8(((struct Obj23454 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), copy);
     func_020307B0(copy);
-    copy = func_021F72C4(r);
+    copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     memset(&rec, 0, sizeof(rec));
     MYSTATUS_Copy(copy, &rec);
     if (old != 0) species = POKE_TOOL_GetPartyValue(old, 5, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D92B8
+ * function: PDWACC_MESSAGE_DeleteButtonManager
  * address:  0x021D92B8
  * packet:   pkt_021D92B8
  * region:   ov123
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void BUTTON_MAN_Delete(void *);
 
-void func_021D92B8(u8 *p)
+void PDWACC_MESSAGE_DeleteButtonManager(u8 *p)
 {
     if (((struct Obj10453 *)p)->f1C) {
         BUTTON_MAN_Delete(((struct Obj10453 *)p)->f1C);

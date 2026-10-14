@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F97E4",
+   "name": "BTLV_EFFVM_StopScript",
    "address": "0x021F97E4",
    "kind": "game",
    "region": "ov094",

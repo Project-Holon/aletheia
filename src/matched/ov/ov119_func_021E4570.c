@@ -1,5 +1,5 @@
 /*
- * function: func_021E4570
+ * function: POKETRADE_2D_DeleteBoxWindows
  * address: 0x021E4570
  * packet: pkt_ov119_021E4570
  * region: ov119
@@ -13,7 +13,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021E4570(char *p)
+void POKETRADE_2D_DeleteBoxWindows(char *p)
 {
     int i;
     for (i = 0; i < 25; i++) {

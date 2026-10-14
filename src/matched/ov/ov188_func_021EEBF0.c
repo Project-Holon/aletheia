@@ -1,5 +1,5 @@
 /*
- * function: func_021EEBF0
+ * function: BATTLE_REC_TOOL_UnpackMon
  * address: 0x021EEBF0
  * packet: pkt_ov188_021EEBF0
  * region: ov188
@@ -30,7 +30,7 @@ extern void MI_CpuFill8(void *,int,u32);
 extern void func_02019A50(u16 *,u32,u32);
 extern u16 func_02019A9C(const u16 *,u32);
 extern void *func_02019C38(struct Mon *,u32,u32);
-void func_021EEBF0(char *p,struct Mon *q)
+void BATTLE_REC_TOOL_UnpackMon(char *p,struct Mon *q)
 {
     char *a,*b,*c,*d;
     int i;

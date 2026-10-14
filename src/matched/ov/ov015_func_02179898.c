@@ -1,5 +1,5 @@
 /*
- * function: func_02179898
+ * function: IRCNET_CbGetRunning
  * address: 0x02179898
  * packet: pkt_ov015_02179898
  * region: ov015
@@ -15,10 +15,10 @@
  *   IRCNET_IsRunning 0x021799F0 thumb
  */
 
-unsigned char func_02179898(void);
+unsigned char IRCNET_CbGetRunning(void);
 unsigned char IRCNET_IsRunning(void);
 
-unsigned char func_02179898(void)
+unsigned char IRCNET_CbGetRunning(void)
 {
     return IRCNET_IsRunning();
 }

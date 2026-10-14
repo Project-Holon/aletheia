@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_MAIN_GetViewPosOfPoke  0x021B8DC0  thumb  ov093
  *   BTLV_CORE_SetMonShown  0x021EA354  thumb  ov093
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef struct {
 
 extern unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p, void *a, unsigned int b);
 extern void BTLV_CORE_SetMonShown(void *ctx, int a, int b);
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 
 int BTL_CLIENT_StepSetMonVisibility(Seq *s, int *state, u32 *a)
 {
@@ -41,7 +41,7 @@ int BTL_CLIENT_StepSetMonVisibility(Seq *s, int *state, u32 *a)
         *state = *state + 1;
         break;
     case 1:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             return 1;
         }
         return 0;

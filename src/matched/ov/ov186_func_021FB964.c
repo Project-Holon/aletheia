@@ -1,5 +1,5 @@
 /*
- * function: func_021FB964
+ * function: BR_RES_LoadBgGraphics
  * address: 0x021FB964
  * packet: pkt_ov186_021FB964
  * region: ov186
@@ -20,7 +20,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021FB964(void *ctx,unsigned kind,unsigned short heap)
+void BR_RES_LoadBgGraphics(void *ctx,unsigned kind,unsigned short heap)
 {
     void *h;
     h=func_020490F4(0x89,heap);

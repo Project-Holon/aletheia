@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5000
+ * function: ZUKAN_DETAIL_FORM_AddModel
  * address:  0x021C5000
  * packet:   pkt_ov208_021C5000
  * region:   ov208
@@ -16,7 +16,7 @@
  *   MCSS_SetShadowVanishFlag  0x02015FF0  thumb
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   MCSS_SetScale  0x02015CAC  thumb
- *   ov208_func_021C5090  0x021C5090  thumb
+ *   ZUKAN_DETAIL_FORM_CenterModelOffset  0x021C5090  thumb
  *   data_021C8804  0x021C8804  data
  */
 
@@ -44,10 +44,10 @@ extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struc
 extern void MCSS_SetShadowVanishFlag(char *p, int v);
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetScale(void *p, u32 *src);
-extern void ov208_func_021C5090(u32 obj);
+extern void ZUKAN_DETAIL_FORM_CenterModelOffset(u32 obj);
 extern const Vec data_021C8804;
 
-u32 ov208_func_021C5000(void *sys, u32 species, u32 gender, u32 side, u32 form, u32 shiny,
+u32 ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 gender, u32 side, u32 form, u32 shiny,
                         u32 personality, u32 extra)
 {
     Vec scale;
@@ -62,6 +62,6 @@ u32 ov208_func_021C5000(void *sys, u32 species, u32 gender, u32 side, u32 form, 
     MCSS_SetShadowVanishFlag((char *)obj, 1);
     MCSS_SetAnmStopFlag((void *)obj);
     MCSS_SetScale((void *)obj, (u32 *)(&scale));
-    ov208_func_021C5090(obj);
+    ZUKAN_DETAIL_FORM_CenterModelOffset(obj);
     return obj;
 }

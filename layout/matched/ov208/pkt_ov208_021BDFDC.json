@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDFDC",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_UpdateInput",
    "address": "0x021BDFDC",
    "kind": "game",
    "region": "ov208",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D634C
+ * function: GSYNC_DISP_CreateSlotActorAt
  * address: 0x021D634C
  * packet: pkt_ov123_021D634C
  * region: ov123
@@ -33,7 +33,7 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void func_021D634C(u8 *p, unsigned int i)
+void GSYNC_DISP_CreateSlotActorAt(u8 *p, unsigned int i)
 {
     struct Point pt;
     if (*(void **)(p + i*4 + 0x74)) CLACT_DeleteActor(*(void **)(p+i*4+0x74));

@@ -1,5 +1,5 @@
 /*
- * function: func_021FE594
+ * function: BTLV_EFFVM_SeVolumeTweenTaskMain
  * address: 0x021FE594
  * packet: pkt_ov094_021FE594
  * region: ov094
@@ -16,7 +16,7 @@
  *   GFL_USE_GetSeHandle 0x02006138 thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   NNS_SndHandleSetVolume 0x02072F34 arm
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
 extern float _fflt(int);
 extern float _fadd(float, float);
@@ -26,8 +26,8 @@ extern unsigned int *GFL_USE_GetSeHandle(int i);
 typedef unsigned int   u32;
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern void NNS_SndHandleSetVolume(char *, unsigned int);
-extern void func_021F89BC(void *);
-void func_021FE594(void *h, int *s)
+extern void BTLV_EFFECT_DeleteTask(void *);
+void BTLV_EFFVM_SeVolumeTweenTaskMain(void *h, int *s)
 {
     int done;
     int v;
@@ -85,5 +85,5 @@ void func_021FE594(void *h, int *s)
         s[11]--;
     }
     if (done == 1)
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
 }

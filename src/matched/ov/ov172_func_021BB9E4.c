@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9E4
+ * function: CTVT_DRAW_ClosePickers
  * address:  0x021BB9E4
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -31,7 +31,7 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021BB9E4(void *a0, char *a1)
+void CTVT_DRAW_ClosePickers(void *a0, char *a1)
 {
     *(u32 *)&((struct Obj00024 *)a1)->f10 = 0;
     *(u32 *)&((struct Obj00024 *)a1)->f14 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFDC
+ * function: COMM_TVT_SYS_GetCamView
  * address:  0x021BDFDC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BDFDC(void *p)
+u32 COMM_TVT_SYS_GetCamView(void *p)
 {
     return ((struct Obj24107 *)p)->f1E0;
 }

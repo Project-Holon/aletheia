@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Tail call with two zero arguments. Filed as the witness for ov094 func_021FA12C.
+ * Tail call with two zero arguments. Filed as the witness for ov094 BTLV_EFFVM_CmdLoadParticleResource.
  *
  * symbols:
  *   PARTICLE_SetupSystem  0x02051230  arm

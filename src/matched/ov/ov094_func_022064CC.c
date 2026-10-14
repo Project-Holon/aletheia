@@ -1,5 +1,5 @@
 /*
- * function: func_022064CC
+ * function: BTLV_INPUT_UpdateButtonActors
  * address:  0x022064CC
  * packet:   pkt_ov094_022064CC
  * region:   ov094
@@ -39,7 +39,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
+void BTLV_INPUT_UpdateButtonActors(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
 {
     Point pos;
     u8 *e;

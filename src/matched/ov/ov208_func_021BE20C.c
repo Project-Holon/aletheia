@@ -1,5 +1,5 @@
 /*
- * function: func_021BE20C
+ * function: ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable
  * address: 0x021BE20C
  * packet: pkt_ov208_021BE20C
  * region: ov208
@@ -26,7 +26,7 @@ struct Ov208Pal {
 extern s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-s32 func_021BE20C(struct Ov208Pal *m)
+s32 ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable(struct Ov208Pal *m)
 {
     s16 t;
     u8 i;

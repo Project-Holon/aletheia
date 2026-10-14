@@ -1,5 +1,5 @@
 /*
- * function: func_021FF0E8
+ * function: WORLDTRADE_SEARCH_StateWaitMessageTimed
  * address:  0x021FF0E8
  * packet:   pkt_021FF0E8
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02202840  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
 
  * When the build query answers 0, bump the countdown at +0xdfc and roll state when it passes 0x2d.
  */
@@ -20,11 +20,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_02202840(u8 *p);
+extern u32 WORLDTRADE_ADAPTER_IsStreamDone(u8 *p);
 
-int func_021FF0E8(u8 *p)
+int WORLDTRADE_SEARCH_StateWaitMessageTimed(u8 *p)
 {
-    if (func_02202840(p + 0xfa0) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamDone(p + 0xfa0) == 0) {
         if (++((struct Obj07250 *)p)->fDFC > 0x2d) {
             ((struct Obj07250 *)p)->fDFC = 0;
             ((struct Obj07250 *)p)->f28 = ((struct Obj07250 *)p)->f2C;

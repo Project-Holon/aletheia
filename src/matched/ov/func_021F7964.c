@@ -1,5 +1,5 @@
 /*
- * function: func_021F7964
+ * function: WORLDTRADE_DEPOSIT_DeleteActors
  * address:  0x021F7964
  * packet:   pkt_021F7964
  * region:   ov135
@@ -25,7 +25,7 @@ typedef signed short s16;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021F7964(u8 *p)
+void WORLDTRADE_DEPOSIT_DeleteActors(u8 *p)
 {
     CLACT_DeleteActor((struct Obj *)(((struct Obj09229 *)p)->fBF8));
     CLACT_DeleteActor((struct Obj *)(((struct Obj09229 *)p)->fD2C));

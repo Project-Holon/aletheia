@@ -1,5 +1,5 @@
 /*
- * function: func_021C2AD0
+ * function: SSPi_JpegEncoderCheckWidthHeight
  * address:  0x021C2AD0
  * packet:   pkt_021C2AD0
  * region:   ov172
@@ -23,7 +23,7 @@
 
 typedef unsigned int u32;
 
-int func_021C2AD0(u32 a0, u32 a1, u32 a2)
+int SSPi_JpegEncoderCheckWidthHeight(u32 a0, u32 a1, u32 a2)
 {
     if (a0 == 0 || a0 > 0xffff || a1 == 0 || a1 > 0xffff)
         return 0;

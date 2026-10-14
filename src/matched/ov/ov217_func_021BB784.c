@@ -25,7 +25,7 @@
  *   func_021BC50C 0x021BC50C thumb ov217
  *   func_021BC55C 0x021BC55C thumb ov217
  *   func_021BB91C 0x021BB91C thumb ov217
- *   func_021C1038 0x021C1038 thumb ov217
+ *   BgTextLabel_SetPalette 0x021C1038 thumb ov217
  */
 struct S { char pad0[0x32]; unsigned char f32; char pad33[0x81]; void *arr[8]; };
 typedef unsigned int   u32;
@@ -45,7 +45,7 @@ extern void func_021BC72C(u8 *a0, u32 a1, u8 *a2);
 extern void func_021BC50C(char *p);
 extern u32 func_021BC55C(u32 a0);
 extern void func_021BB91C(void *p);
-extern void func_021C1038(u8 *p, u8 palette);
+extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
 
 void func_021BB784(struct S *p)
 {
@@ -77,7 +77,7 @@ void func_021BB784(struct S *p)
         break;
     case 3:
         if (func_021BC55C((u32)p) != 0) {
-            func_021C1038(p->arr[p->f32], 15);
+            BgTextLabel_SetPalette(p->arr[p->f32], 15);
             func_021BB91C(p);
         }
         break;

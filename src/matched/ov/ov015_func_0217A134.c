@@ -1,5 +1,5 @@
 /*
- * function: func_0217A134
+ * function: IRC_Shutdown
  * address:  0x0217A134
  * packet:   pkt_ov015_0217A134
  * region:   ov015
@@ -9,19 +9,19 @@
  * isa:      arm
  * status:   EXACT
  *
- * notes:    2026-10-05 wave P27 lane 4: libirc shutdown. Calls func_0217A0CC with 0 (finish), then
- *           func_0217A648 (IRCi_End).
+ * notes:    2026-10-05 wave P27 lane 4: libirc shutdown. Calls IRCi_Finish with 0 (finish), then
+ *           IRCi_End (IRCi_End).
  *
  * symbols:
- *   func_0217A0CC  0x0217A0CC  arm  ov015
- *   func_0217A648  0x0217A648  arm  ov015
+ *   IRCi_Finish  0x0217A0CC  arm  ov015
+ *   IRCi_End  0x0217A648  arm  ov015
  */
 
-extern void func_0217A0CC(int n);
-extern void func_0217A648(void);
+extern void IRCi_Finish(int n);
+extern void IRCi_End(void);
 
-void func_0217A134(void)
+void IRC_Shutdown(void)
 {
-    func_0217A0CC(0);
-    func_0217A648();
+    IRCi_Finish(0);
+    IRCi_End();
 }

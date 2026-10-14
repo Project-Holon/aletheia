@@ -1,5 +1,5 @@
 /*
- * function: func_021BD098
+ * function: ZUKAN_DETAIL_GRAPHIC_DrawActors
  * address:  0x021BD098
  * packet:   pkt_021BD098
  * region:   ov208
@@ -17,7 +17,7 @@
 
 extern void CLACT_DrawSystem(char *);
 
-void func_021BD098(char *p)
+void ZUKAN_DETAIL_GRAPHIC_DrawActors(char *p)
 {
     CLACT_DrawSystem(p);
 }

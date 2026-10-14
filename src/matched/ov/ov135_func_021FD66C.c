@@ -1,5 +1,5 @@
 /*
- * function: func_021FD66C
+ * function: WORLDTRADE_LIST_StateWaitPageWipe
  * address: 0x021FD66C
  * packet: pkt_ov135_021FD66C
  * region: ov135
@@ -16,4 +16,4 @@
 struct Obj;
 extern unsigned WIPE_SYS_EndCheck(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
-int func_021FD66C(char *p) { (((struct Obj08188 *)p)->fD3C)++; if(WIPE_SYS_EndCheck()) {((struct Obj08188 *)p)->fD3C=0; ((struct Obj08188 *)p)->f28=1; CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08188 *)p)->fD34,1);} return 2; }
+int WORLDTRADE_LIST_StateWaitPageWipe(char *p) { (((struct Obj08188 *)p)->fD3C)++; if(WIPE_SYS_EndCheck()) {((struct Obj08188 *)p)->fD3C=0; ((struct Obj08188 *)p)->f28=1; CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08188 *)p)->fD34,1);} return 2; }

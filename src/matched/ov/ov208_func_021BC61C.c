@@ -1,5 +1,5 @@
 /*
- * function: func_021BC61C
+ * function: ZUKAN_DETAIL_COMMON_DeletePaletteAnim
  * address: 0x021BC61C
  * packet: pkt_ov208_021BC61C
  * region: ov208
@@ -20,7 +20,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
-void func_021BC61C(char *p)
+void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(char *p)
 {
     if(((struct Obj02544 *)p)->fC&8)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,3);
     if(((struct Obj02544 *)p)->fC&2)PALANM_FreeSlotBuffers(((struct Obj02544 *)p)->f8,1);

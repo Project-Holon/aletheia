@@ -1,5 +1,5 @@
 /*
- * function: func_022026D8
+ * function: WORLDTRADE_ADAPTER_InitPrinter
  * address:  0x022026D8
  * packet:   pkt_022026D8
  * region:   ov135
@@ -47,7 +47,7 @@ typedef struct {
     void *res;
 } Ctx;
 
-void func_022026D8(Ctx *ctx, u32 arg)
+void WORLDTRADE_ADAPTER_InitPrinter(Ctx *ctx, u32 arg)
 {
     int i;
     Slot *s;

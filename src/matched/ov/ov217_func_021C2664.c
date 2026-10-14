@@ -1,5 +1,5 @@
 /*
- * function: func_021C2664
+ * function: GRAPHTABLE_GetEntryGreen
  * address:  0x021C2664
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C2664(void *p, u32 i, u32 j)
+u32 GRAPHTABLE_GetEntryGreen(void *p, u32 i, u32 j)
 {
     return *(u8 *)((char *)p + i * 0xd4 + 0xf + j * 0xc);
 }

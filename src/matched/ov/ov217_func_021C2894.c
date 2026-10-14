@@ -1,5 +1,5 @@
 /*
- * function: func_021C2894
+ * function: PERCENTAGE_GetOnesDigit
  * address:  0x021C2894
  * packet:   pkt_021C2894
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern int _s32_div_f(int, int);
 
-u8 func_021C2894(char *p)
+u8 PERCENTAGE_GetOnesDigit(char *p)
 {
     return (u8)(((struct Obj26024 *)p)->f2 % 10);
 }

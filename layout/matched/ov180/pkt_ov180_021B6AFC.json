@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6AFC",
-    "func_021B6B18"
+    "HALL_OF_FAME_StateWaitFade",
+    "HALL_OF_FAME_StateWaitCounter"
+   ],
+   "addresses": [
+    "0x021B6AFC",
+    "0x021B6B18"
    ]
   }
  ]

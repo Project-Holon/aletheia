@@ -16,7 +16,6 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02034714  0x02034714  arm
- *   func_0200873C  0x0200873C  thumb
  *   d_02180808     0x02180808  data   ov019 a4
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
@@ -43,12 +42,6 @@
  *   d_02180758       0x02180758  data   ov019 a4
  */
 
-struct Ctx_0217BD9C;
-struct Self;
-struct Obj_0217E188;
-struct Sub02008700Obj;
-struct Rec;
-struct Pair;
 struct VecFx32;
 typedef unsigned char u8;
 
@@ -65,80 +58,6 @@ typedef struct { int x,y,z; } VecFx32;
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-} Sys_0217BD9C;
-
-typedef struct {
-    Sys_0217BD9C *sys;
-} Ctx_0217BD9C;
-
-typedef struct {
-    u8 f00;
-    u8 pad01[0x6e - 1];
-    s16 f6e;
-} Obj_0217E188;
-
-typedef struct {
-    u8 b0 : 1;
-    u8 b1 : 1;
-} Bits_0217DC94;
-
-typedef struct Rec {
-    u8  pad0[7];
-    u8  lo7 : 3;
-    u8  flag7 : 1;
-    u8  hi7 : 4;
-    u8  pad8;
-    u8  f9;
-    u8  padA[2];
-    u16 name[13];
-    u8  f26;
-    u8  f27;
-} Rec;
-
-typedef struct Sys {
-    u32 f0;
-    u32 pad4;
-    u32 f8;
-} Sys;
-
-typedef struct Sub_0217DC94 {
-    u8   pad0[0x14];
-    Rec *rec;
-} Sub_0217DC94;
-
-typedef struct Pair {
-    u32 f0;
-    u32 f4;
-} Pair;
-
-typedef struct Tiles {
-    u32 f0;
-    u32 a[6];
-    u32 b[6];
-} Tiles;
-
-typedef struct Self {
-    Sys   *sys;
-    u8     pad4[0x2800];
-    void  *win2804;
-    void  *msg2808;
-    u8     pad280C[0xc];
-    void  *f2818;
-    u8     pad281C[0x2830 - 0x281C];
-    Sub_0217DC94    sub;
-    u8     pad2848[0x352C - 0x2848];
-    void  *f352C;
-    Tiles *f3530;
-} Self;
-
-struct Bits_0217DC94 { u8 pad[7]; unsigned char low:3; unsigned char kind:1; unsigned char high:4; };
-
 
 #define UNION_EFF_ANIM_MAX    1
 #define UNION_EFF_ICON_MAX    10
@@ -187,7 +106,6 @@ typedef struct UnionEffDrawStatus {
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
 extern u32 func_020307B0(void *p);
 void func_02034714(const void *expr, u32 line, const void *file);
-struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(void *self);

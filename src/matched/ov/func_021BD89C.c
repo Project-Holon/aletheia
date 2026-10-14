@@ -1,5 +1,5 @@
 /*
- * function: func_021BD89C
+ * function: ZKND_TBAR_PlayButtonAnim
  * address:  0x021BD89C
  * packet:   pkt_021BD89C
  * region:   ov208
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD868 0x021BD868  thumb  ov208
- *   func_021BD848 0x021BD848  thumb  ov208
+ *   ZKND_TBAR_GetButtonSound 0x021BD868  thumb  ov208
+ *   ZKND_TBAR_SetAnimByState 0x021BD848  thumb  ov208
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
 
  * Swaps in the cleared state flag and frees the handle at +0x30.
@@ -20,15 +20,15 @@
 
 
 typedef unsigned int   u32;
-extern int func_021BD868(const void *p);
-extern void func_021BD848(char *, int);
+extern int ZKND_TBAR_GetButtonSound(const void *p);
+extern void ZKND_TBAR_SetAnimByState(char *, int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_021BD89C(char *p)
+void ZKND_TBAR_PlayButtonAnim(char *p)
 {
-    int f = func_021BD868(p) == 0;
+    int f = ZKND_TBAR_GetButtonSound(p) == 0;
 
-    func_021BD848(p, f);
+    ZKND_TBAR_SetAnimByState(p, f);
     if (((struct Obj12118 *)p)->f30 != 0)
         GFL_USE_PlaySeDefaultVolume(((struct Obj12118 *)p)->f30);
 }

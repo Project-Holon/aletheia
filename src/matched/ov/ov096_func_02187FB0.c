@@ -10,7 +10,7 @@
  * lever: unsigned count/u64 draw reproduce the guarded high multiply;
  *   the callee result is returned through the final flag clear, keeping r0 live.
  * symbols:
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  *   TR_AI_ThinkSingle 0x0218814C thumb ov096
  *   TR_AI_ThinkMulti 0x02188284 thumb ov096
  *   TR_AI_GetPoke 0x0218A2FC thumb ov096
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern int TR_AI_ThinkSingle(u8 *, u8 *);
 extern int TR_AI_ThinkMulti(u8 *, u8 *);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
@@ -36,7 +36,7 @@ int TR_AI_Think(u8 *a)
     int candidates[3];
     u64 r;
     int result;
-    p = func_02011324((struct ScriptVm *)a);
+    p = VM_GetUserData((struct ScriptVm *)a);
     if (((struct Obj00067 *)p)->f98 == 0) {
         p[0x95] = p[0x94] ^ 1;
         return TR_AI_ThinkSingle(a, p);

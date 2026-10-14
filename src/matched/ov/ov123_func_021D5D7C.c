@@ -1,5 +1,5 @@
 /*
- * function: func_021D5D7C
+ * function: GSYNC_DOWNLOAD_Process
  * address:  0x021D5D7C
  * packet:   pkt_021D5D7C
  * region:   ov123
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5CAC  0x021D5CAC  thumb
+ *   GSYNC_DOWNLOAD_CancelAsync  0x021D5CAC  thumb
  *   DWC_NdProcess  0x021C5AB8  arm  ov114
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D5CAC(char *p);
+extern int GSYNC_DOWNLOAD_CancelAsync(char *p);
 extern void DWC_NdProcess(void);
 
-void func_021D5D7C(char *p)
+void GSYNC_DOWNLOAD_Process(char *p)
 {
-    if (func_021D5CAC(p) != 0)
+    if (GSYNC_DOWNLOAD_CancelAsync(p) != 0)
         DWC_NdProcess();
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179CAC",
+   "name": "IRCNET_IsLinkUp",
    "address": "0x02179CAC",
    "kind": "game",
    "region": "ov015",

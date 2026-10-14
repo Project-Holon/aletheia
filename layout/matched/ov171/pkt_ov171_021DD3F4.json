@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD3F4",
-    "func_021DD498"
+    "DENDOU_VIEW_StateRotate",
+    "DENDOU_VIEW_StateStartExit"
+   ],
+   "addresses": [
+    "0x021DD3F4",
+    "0x021DD498"
    ]
   }
  ]

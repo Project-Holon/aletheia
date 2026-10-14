@@ -1,5 +1,5 @@
 /*
- * function: func_021DFAD0
+ * function: POKETRADE_NEGO_PlaySeByEvent
  * address:  0x021DFAD0
  * packet:   pkt_ov119_021DFAD0
  * region:   ov119
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: the non-SDK callee of ov119 func_021DFC28
+ * Recursive MATCH unblocker: the non-SDK callee of ov119 POKETRADE_MCSS_SlideApplyOffset
  * (+0038) and a dependency of the func_021D7130 tree.  Copies two constant
  * eight-byte-record tables from 0x021E7754 (two records) and 0x021E7764 (six
  * records) to the stack, gates on two bytes of the second argument, then
@@ -33,7 +33,7 @@ typedef struct { int fn; int id; } Ent;
 typedef struct { Ent e[2]; } T2;
 typedef struct { Ent e[6]; } T6;
 
-void func_021DFAD0(int a0, u8 *a1)
+void POKETRADE_NEGO_PlaySeByEvent(int a0, u8 *a1)
 {
     T2 t1 = *(T2 *)0x021E7754;
     T6 t2 = *(T6 *)0x021E7764;

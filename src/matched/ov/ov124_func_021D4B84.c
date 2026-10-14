@@ -1,5 +1,5 @@
 /*
- * function: func_021D4B84
+ * function: CG_HELP_ProcExit
  * address: 0x021D4B84
  * packet: pkt_ov124_021D4B84
  * region: ov124
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4280 0x021D4280 thumb ov124
+ *   CG_HELP_Teardown 0x021D4280 thumb ov124
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -19,8 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S020315D4;
-extern void func_021D4280(char *);
+extern void CG_HELP_Teardown(char *);
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
-int func_021D4B84(struct S020315D4 *task,int b,int keep,char *p) {func_021D4280(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);func_020306F0(0x8a);return 1;}
+int CG_HELP_ProcExit(struct S020315D4 *task,int b,int keep,char *p) {CG_HELP_Teardown(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);func_020306F0(0x8a);return 1;}

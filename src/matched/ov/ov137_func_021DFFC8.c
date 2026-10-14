@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021DFFC8
+ * function: GURU2_MAIN_FreeActorResources
  * address: 0x021DFFC8
  * packet: pkt_ov137_021DFFC8
  * region: ov137
@@ -22,4 +22,4 @@ struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup
 extern void CLACT_ReleaseCharacter(u32),CLACT_ReleasePalette(u32),CLACT_ReleaseCellAnim(u32);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021DFFC8(u8 *p){CLACT_ReleaseCharacter(((struct Obj03842 *)p)->fD6C);CLACT_ReleasePalette(((struct Obj03842 *)p)->fD70);CLACT_ReleaseCellAnim(((struct Obj03842 *)p)->fD74);CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj03842 *)p)->fD68);CLACT_ExitSystem();}
+void GURU2_MAIN_FreeActorResources(u8 *p){CLACT_ReleaseCharacter(((struct Obj03842 *)p)->fD6C);CLACT_ReleasePalette(((struct Obj03842 *)p)->fD70);CLACT_ReleaseCellAnim(((struct Obj03842 *)p)->fD74);CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj03842 *)p)->fD68);CLACT_ExitSystem();}

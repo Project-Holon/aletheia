@@ -9,7 +9,7 @@
  * status: EXACT*
  * note: Extent ends with two-byte zero alignment padding.
  * symbols:
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   VM_Delete 0x02011264 thumb
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
 extern void VM_Delete(void *);
@@ -31,7 +31,7 @@ extern void TR_AI_FreeScriptCache(void);
 void TR_AI_Delete(void *a)
 {
     u8 *p;
-    p = func_02011324(a);
+    p = VM_GetUserData(a);
     ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA4);
     ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA8);
     func_020307B0(p);

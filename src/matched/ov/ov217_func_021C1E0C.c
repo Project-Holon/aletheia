@@ -1,5 +1,5 @@
 /*
- * function: func_021C1E0C
+ * function: CircleGraph_BuildCirclePoints
  * address:  0x021C1E0C
  * packet:   pkt_ov217_021C1E0C
  * region:   ov217
@@ -39,7 +39,7 @@ extern f64 sin(f64 x);
 
 #define FX32_CONST(x) ((s32)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 
-void func_021C1E0C(u8 *p)
+void CircleGraph_BuildCirclePoints(u8 *p)
 {
     s32 i;
     f32 r;

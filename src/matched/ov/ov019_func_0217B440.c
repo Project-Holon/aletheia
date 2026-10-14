@@ -14,7 +14,7 @@
  *   GAME_DATA_GetWifiList 0x0201283C  thumb
  *   FIELDMAP_GetUnionEff 0x02188CE0  thumb  ov021
  *   UNION_CHARA_GetMmdl 0x0217AFB0  thumb  ov019
- *   func_0217F894 0x0217F894  thumb  ov019
+ *   UNION_CHARA_IsWifiFriendBeacon 0x0217F894  thumb  ov019
  *   func_0200EDC4 0x0200EDC4  thumb
  *   UNION_EFF_AddIcon 0x0217F948  thumb  ov019
  */
@@ -42,7 +42,7 @@ extern void *func_0200ED48(void *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 FIELDMAP_GetUnionEff(u8 *p);
 extern void *UNION_CHARA_GetMmdl(void **a, u8 *b, u8 *c);
-extern int func_0217F894(void *p, char *q);
+extern int UNION_CHARA_IsWifiFriendBeacon(void *p, char *q);
 extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
 extern void UNION_EFF_AddIcon(char *p, u32 a, u32 b);
 
@@ -63,7 +63,7 @@ void UNION_CHARA_RefreshParentMarks(char *base, int x, void *y)
         if (q->on == 1 && q->p70 != 0) {
             r = (int)UNION_CHARA_GetMmdl((void **)base, (u8 *)(*q->p70), (u8 *)q->p70);
             if (r != 0) {
-                if (func_0217F894((void *)b, (char *)q) == 1) {
+                if (UNION_CHARA_IsWifiFriendBeacon((void *)b, (char *)q) == 1) {
                     UNION_EFF_AddIcon((char *)c, r, 0);
                 } else if (func_0200EDC4((struct L0200EDC4 *)a, q->f5c) == 1) {
                     UNION_EFF_AddIcon((char *)c, r, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6194
+ * function: HALL_OF_FAME_VBlankMon
  * address: 0x021B6194
  * packet: pkt_ov180_021B6194
  * region: ov180
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern u32 SDK_AUTOLOAD_DTCM_START[];
 extern void CLACT_VBlankSystem(void);
 extern void func_0204EA64(void);
-void func_021B6194(void)
+void HALL_OF_FAME_VBlankMon(void)
 {
     CLACT_VBlankSystem();
     func_0204EA64();

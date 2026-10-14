@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021D63E4
+ * function: GSYNC_DISP_DeleteMainActor
  * address: 0x021D63E4
  * packet: pkt_ov123_021D63E4
  * region: ov123
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *);
-void func_021D63E4(u8 *p){int i;for(i=0;i<16;i++){u8 *q=p+i*4;if(*(struct Obj * *)&((struct Obj10440 *)q)->f74){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10440 *)q)->f74);((struct Obj10440 *)q)->f74=0;}}}
+void GSYNC_DISP_DeleteMainActor(u8 *p){int i;for(i=0;i<16;i++){u8 *q=p+i*4;if(*(struct Obj * *)&((struct Obj10440 *)q)->f74){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10440 *)q)->f74);((struct Obj10440 *)q)->f74=0;}}}

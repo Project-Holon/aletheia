@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4F78
+ * function: ZUKAN_DETAIL_FORM_InitModelSystem
  * address:  0x021C4F78
  * packet:   pkt_ov208_021C4F78
  * region:   ov208
@@ -52,7 +52,7 @@ extern void MCSS_SetTaskSystem(u8 *p, u32 value);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021C8E64[];
 
-void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)
+void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Menu *p)
 {
     p->cam = (u32)MCSS_Init(4, (void *)(*heap));
     MCSS_SetTextureTransAdrs((void *)p->cam, 0);

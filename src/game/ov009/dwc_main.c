@@ -758,7 +758,7 @@ unsigned char DWC_GetServerAID(void)
 
     if (p == 0 || p->match.state == 0 || p->match.state == 9 ||
         p->match.state == 10 || p->match.state == 11 ||
-        p->match.f_00D == 0 || p->match.qr2HostState == 0) {
+        p->match.connectionEstablished == 0 || p->match.qr2HostState == 0) {
         return 0xff;
     }
     node = DWCi_NodeInfoList_GetNodeInfoForIndex(0);
@@ -1245,7 +1245,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         profileID = DWCi_DeleteAID(aid);
         g_021AA878.st->match.suspendBitmap &= ~(1 << aid);
 
-        if (g_021AA878.st->match.f_048 != 0 && isServer) {
+        if (g_021AA878.st->match.suspendActive != 0 && isServer) {
             if (!DWCi_IsBackupMine())
                 g_021AA878.st->match.suspendRestart = 1;
         }
@@ -1259,15 +1259,15 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
             g_021AA8A0[conninfo->index] = 0;
     }
 
-    if (g_021AA878.st->match.flag7c4 == 1 && DWC_IsServerMyself())
-        g_021AA878.st->match.flag7c4 = 1;
+    if (g_021AA878.st->match.isFirstServer == 1 && DWC_IsServerMyself())
+        g_021AA878.st->match.isFirstServer = 1;
     /* stand-in: the image reloads qr2MatchTypeExt for each compare */
     else if ((*(volatile u8 *)&g_021AA878.st->match.qr2MatchTypeExt == 3 || *(volatile u8 *)&g_021AA878.st->match.qr2MatchTypeExt == 2))
-        g_021AA878.st->match.flag7c4 = 0;
+        g_021AA878.st->match.isFirstServer = 0;
     else if (DWC_GetNumConnectionHost() == 1)
-        g_021AA878.st->match.flag7c4 = 1;
+        g_021AA878.st->match.isFirstServer = 1;
     else
-        g_021AA878.st->match.flag7c4 = 0;
+        g_021AA878.st->match.isFirstServer = 0;
 
     if (DWCi_IsBackupMine()) {
         DWCstNodeInfo *pNodeInfo;
@@ -1423,6 +1423,6 @@ int DWCi_IsGetAIDValid(void)
     DWCstDwcCnt *p = g_021AA878.st;
 
     if (p->match.qr2MatchTypeExt != 2)
-        if (p->match.f_00D == 0) r = 0;
+        if (p->match.connectionEstablished == 0) r = 0;
     return r;
 }

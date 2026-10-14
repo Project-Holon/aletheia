@@ -1,5 +1,5 @@
 /*
- * function: func_021BD848
+ * function: ZKND_TBAR_SetAnimByState
  * address:  0x021BD848
  * packet:   pkt_021BD848
  * region:   ov208
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021BD848(char *p, int which)
+void ZKND_TBAR_SetAnimByState(char *p, int which)
 {
     if (which != 0)
     {

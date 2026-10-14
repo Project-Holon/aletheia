@@ -1,5 +1,5 @@
 /*
- * function: func_021F1050
+ * function: MB_COMM_SYS_IsLoginDone
  * address:  0x021F1050
  * packet:   pkt_ov107_021F1050
  * region:   ov107
@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-int func_021F1050(int *p) { return p[1] >= 6; }
+int MB_COMM_SYS_IsLoginDone(int *p) { return p[1] >= 6; }

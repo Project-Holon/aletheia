@@ -36,7 +36,7 @@
  *   func_021BE348 0x021BE348 thumb ov093
  *   func_021BE358 0x021BE358 thumb ov093
  *   func_021BE368 0x021BE368 thumb ov093
- *   func_021BE378 0x021BE378 thumb ov093
+ *   ZUKAN_DETAIL_TOUCHBAR_GetRightPalette 0x021BE378 thumb ov093
  *   func_021BE388 0x021BE388 thumb ov093
  *   func_021BE398 0x021BE398 thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveParamEventLocked 0x021BE66C thumb ov093
@@ -106,7 +106,7 @@ extern void func_021BE338(void *);
 extern void func_021BE348(void *);
 extern u32 func_021BE358(void *);
 extern void func_021BE368(void *);
-extern void func_021BE378(void *, void *);
+extern void ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(void *, void *);
 extern void func_021BE388(void *, u32);
 extern void func_021BE398(void *, u16, u32, u32);
 extern void BTL_SERVER_FLOW_DispatchMoveParamEventLocked(u8 *p, u8 *a, u8 *c, int k);
@@ -213,7 +213,7 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     {
         u32 v = (u8)func_021BE358(F(0x850));
         func_021BE368(F(0x850));
-        func_021BE378(F(0x850), F(0x854));
+        ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(F(0x850), F(0x854));
         func_021BE388(F(0x854), v);
     }
     if (chk1 == 0 && chk2 == 0 && pr != 4) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E5520",
+   "name": "POKETRADE_2D_Setup3DRenderState",
    "address": "0x021E5520",
    "kind": "game",
    "region": "ov119",

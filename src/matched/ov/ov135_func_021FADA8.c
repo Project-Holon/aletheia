@@ -1,5 +1,5 @@
 /*
- * function: func_021FADA8
+ * function: WORLDTRADE_INPUT_StateStartFrameOut
  * address: 0x021FADA8
  * packet: pkt_ov135_021FADA8
  * region: ov135
@@ -22,7 +22,7 @@ struct Obj;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-int func_021FADA8(u8 *p)
+int WORLDTRADE_INPUT_StateStartFrameOut(u8 *p)
 {
     if (CLACT_IsActorAnimActive(((struct Obj05414 *)p)->f8)) return -1;
     CLACT_SetActorDrawEnable(((struct Obj05414 *)p)->f8, 0);

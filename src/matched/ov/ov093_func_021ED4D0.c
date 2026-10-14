@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F8180  0x021F8180  thumb  ov094
+ *   BTLV_EFFECT_GaugeIsAnimating  0x021F8180  thumb  ov094
  */
-extern int func_021F8180(void);
+extern int BTLV_EFFECT_GaugeIsAnimating(void);
 int BTLV_SCU_IsHpGaugeIdle(void)
 {
-    if (func_021F8180() == 0)
+    if (BTLV_EFFECT_GaugeIsAnimating() == 0)
         return 1;
     return 0;
 }

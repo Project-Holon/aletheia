@@ -1,5 +1,5 @@
 /*
- * function: func_021FA514
+ * function: WORLDTRADE_INPUT_UpdateCategoryGridAlt
  * address:  0x021FA514
  * packet:   pkt_021FA514
  * region:   ov135
@@ -16,17 +16,17 @@
  *   func_020355D8  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_021F9A1C  0x021F9A1C  thumb
- *   func_021FA4FC  0x021FA4FC  thumb
+ *   WORLDTRADE_INPUT_CheckTouch  0x021F9A1C  thumb
+ *   WORLDTRADE_INPUT_MapModeToLabel  0x021FA4FC  thumb
  *   tbl_0220339C   0x0220339C  data  a1
  *   tbl_02203298   0x02203298  data  a1
  *
  * Cursor input for the eleven-entry mode-6 menu: a 3-column grid of nine
  * entries plus two buttons (9, 10). Leaving a button with up or down
  * returns to the last grid entry (+0x7A) moved to the bottom or top row.
- * A touch (func_021F9A1C) or A selects. Returns the entry, -2 for cancel
+ * A touch (WORLDTRADE_INPUT_CheckTouch) or A selects. Returns the entry, -2 for cancel
  * (B or entry 9), -1 for nothing or a grid entry `enable` marks off.
  */
 
@@ -66,12 +66,12 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F9A1C(void *p, int mode);
-extern int func_021FA4FC(int unused, int mode);
+extern int WORLDTRADE_INPUT_CheckTouch(void *p, int mode);
+extern int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode);
 
-int func_021FA514(Obj *p, u8 *enable)
+int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Obj *p, u8 *enable)
 {
     int old = p->pos;
     int r;
@@ -109,7 +109,7 @@ int func_021FA514(Obj *p, u8 *enable)
     }
     if (old != p->pos) {
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
+        WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
         switch (p->pos) {
         case 9:
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
@@ -122,9 +122,9 @@ int func_021FA514(Obj *p, u8 *enable)
             break;
         }
     }
-    r = func_021F9A1C(p, 6);
+    r = WORLDTRADE_INPUT_CheckTouch(p, 6);
     if (r != -1) {
-        func_021F4FF4(p->cursor, (tbl_02203298[r].x + 0x10) * 8, tbl_02203298[r].y * 8);
+        WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[r].x + 0x10) * 8, tbl_02203298[r].y * 8);
         switch (r) {
         case 9:
             CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
@@ -137,7 +137,7 @@ int func_021FA514(Obj *p, u8 *enable)
             p->pos = r;
             break;
         }
-        r = func_021FA4FC((int)p, r);
+        r = WORLDTRADE_INPUT_MapModeToLabel((int)p, r);
         if (r == -2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
         } else if (r == 10 || enable == 0 || enable[r] != 0) {
@@ -152,7 +152,7 @@ int func_021FA514(Obj *p, u8 *enable)
         return r;
     }
     if (KEY_GetTrg() & 1) {
-        r = func_021FA4FC((int)p, p->pos);
+        r = WORLDTRADE_INPUT_MapModeToLabel((int)p, p->pos);
         if (r == -2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             return r;
@@ -162,7 +162,7 @@ int func_021FA514(Obj *p, u8 *enable)
             return r;
         }
     } else if (KEY_GetTrg() & 2) {
-        func_021F4FF4(p->cursor, 0xC0, 0x88);
+        WORLDTRADE_SetActorPos(p->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;

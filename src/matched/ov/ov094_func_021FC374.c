@@ -1,5 +1,5 @@
 /*
- * function: func_021FC374
+ * function: BTLV_EFFVM_CmdJumpToArchiveScript
  * address:  0x021FC374
  * packet:   pkt_ov094_021FC374
  * region:   ov094
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
-int func_021FC374(void *a, char *s)
+int BTLV_EFFVM_CmdJumpToArchiveScript(void *a, char *s)
 {
     int id = VM_GetU32(a);
     char *p;

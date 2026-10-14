@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F1C30",
+   "name": "MB_CommResponseRequest",
    "address": "0x021F1C30",
    "kind": "sdk",
    "region": "ov107",

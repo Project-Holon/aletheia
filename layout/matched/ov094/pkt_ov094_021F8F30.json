@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8F30",
+   "name": "BTLV_EFFECT_PokeSpriteTransitionTaskMain",
    "address": "0x021F8F30",
    "kind": "game",
    "region": "ov094",

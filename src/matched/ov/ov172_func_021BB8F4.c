@@ -1,5 +1,5 @@
 /*
- * function: func_021BB8F4
+ * function: CTVT_DRAW_CheckLeave
  * address:  0x021BB8F4
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -12,10 +12,10 @@
  * Maps the +4 state to an output code through the two ARM9 probes, 9/6/0xd.
  *
  * symbols:
- *   func_021BE0D0  0x021BE0D0  thumb  ov172
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
+ *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   func_021B80E4  0x021B80E4  thumb  ov172
- *   func_021BE054  0x021BE054  thumb  ov172
+ *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -25,20 +25,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021BE0D0(void *p);
-extern u32 func_021BDFE4(void *p);
+extern u32 COMM_TVT_SYS_GetEndRequested(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u32 func_021B80E4(int unused, char *p);
-extern u8 func_021BE054(void *p);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 
-int func_021BB8F4(void *a0, int *out)
+int CTVT_DRAW_CheckLeave(void *a0, int *out)
 {
-    if (func_021BE0D0(a0) == 1) {
-        int v = func_021B80E4((int)a0, (char *)func_021BDFE4(a0));
+    if (COMM_TVT_SYS_GetEndRequested(a0) == 1) {
+        int v = func_021B80E4((int)a0, (char *)COMM_TVT_SYS_GetComm(a0));
 
         *out = (v == 5) ? 9 : 6;
         return 1;
     }
-    if (func_021BE054(a0) <= 1) {
+    if (COMM_TVT_SYS_GetMemberCount(a0) <= 1) {
         *out = 0xd;
         return 1;
     }

@@ -1,7 +1,7 @@
 /*
  * file:     c_gear_power_onoff.c
  * unit:     yes
- * function: C_GEAR_POWER_ONOFF_Create, C_GEAR_POWER_ONOFF_Delete, C_GEAR_POWER_ONOFF_Update, C_GEAR_POWER_ONOFF_InitScreen, C_GEAR_POWER_ONOFF_ExitScreen, C_GEAR_POWER_ONOFF_InitBgs, C_GEAR_POWER_ONOFF_ExitBgs, C_GEAR_POWER_ONOFF_CreateTaskMenuRes, C_GEAR_POWER_ONOFF_DeleteTaskMenuRes, C_GEAR_POWER_ONOFF_InitWindows, C_GEAR_POWER_ONOFF_ExitWindows, C_GEAR_POWER_ONOFF_PrintMessage, C_GEAR_POWER_ONOFF_ResetAndPrintMessage, C_GEAR_POWER_ONOFF_OpenYesNoMenu, C_GEAR_POWER_ONOFF_CloseMenu, C_GEAR_POWER_ONOFF_UpdateMenu, C_GEAR_POWER_ONOFF_GetMenuResult, C_GEAR_POWER_ONOFF_IsMenuDecided, C_GEAR_POWER_ONOFF_StepTurnOn, C_GEAR_POWER_ONOFF_StepTurnOff
+ * function: C_GEAR_POWER_ONOFF_Create, C_GEAR_POWER_ONOFF_Delete, C_GEAR_POWER_ONOFF_Update, C_GEAR_POWER_ONOFF_InitScreen, C_GEAR_POWER_ONOFF_ExitScreen, C_GEAR_POWER_ONOFF_InitBgs, C_GEAR_POWER_ONOFF_ExitBgs, C_GEAR_POWER_ONOFF_CreateTaskMenuRes, C_GEAR_POWER_ONOFF_DeleteTaskMenuRes, C_GEAR_POWER_ONOFF_InitWindows, C_GEAR_POWER_ONOFF_ExitWindows, C_GEAR_POWER_ONOFF_PrintMessage, C_GEAR_POWER_ONOFF_ResetAndPrintMessage, C_GEAR_POWER_ONOFF_OpenYesNoMenu, C_GEAR_POWER_ONOFF_CloseMenu, C_GEAR_POWER_ONOFF_UpdateMenu, C_GEAR_POWER_ONOFF_GetMenuResult, C_GEAR_POWER_ONOFF_IsMenuDecided, C_GEAR_POWER_ONOFF_StepTurnOn, C_GEAR_POWER_ONOFF_StepTurnOff, C_GEAR_POWER_ONOFF_RunMessageStep
  * address:  0x021EFEC0
  * region:   ov035
  * compiler: dsi/1.1p1
@@ -88,6 +88,8 @@
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  *   GAMESYSTEM_TryStartAutoComm 0x020121CC thumb
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  */
 #include "c_gear_power_onoff_types.h"
 
@@ -100,24 +102,24 @@ struct SaveControl;
 struct ArcHandle;
 struct CharBuf;
 struct Task;
-
+struct BmpWin;
 typedef signed short s16;
 
 struct BgTemplate {
-    u32 scrollX;
-    u32 scrollY;
-    u32 bufSize;
-    u32 baseTile;
-    u8 screenSize;
-    u8 colorMode;
-    u8 screenBase;
-    u8 charBase;
-    u32 extPaletteSlot;
-    u8 priority;
-    u8 areaOver;
-    u8 dummy;
-    u8 mosaicFlag;
-    u32 mosaic;
+    u32 x;                  /* 0x00 */
+    u32 y;                  /* 0x04 */
+    u32 bufSize;            /* 0x08 */
+    u32 baseTile;           /* 0x0C */
+    u8 screenSize;          /* 0x10 */
+    u8 colorMode;           /* 0x11 */
+    u8 screenBase;          /* 0x12 */
+    u8 charBase;            /* 0x13 */
+    u32 extPaletteSlot;     /* 0x14 */
+    u8 priority;            /* 0x18 */
+    u8 areaOver;            /* 0x19 */
+    u8 dummy;               /* 0x1A */
+    u8 mosaic;              /* 0x1B */
+    u32 bgType;             /* 0x1C */
 };
 
 /*
@@ -202,6 +204,8 @@ extern u32 GAME_COMM_GetKind(void *beacon);
 extern void GAME_COMM_RequestExitNoCallback(void *beacon);
 extern void GAMESYSTEM_SetAlwaysNetFlag(void *gameSystem, unsigned int v);
 extern u32 GAMESYSTEM_TryStartAutoComm(void *gameSystem);
+extern void BMP_WIN_ClearScreen(struct BmpWin *window);
+extern void BMP_WIN_SetPosY(struct BmpWin *window, u8 posY);
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate);
@@ -222,6 +226,7 @@ u8 C_GEAR_POWER_ONOFF_GetMenuResult(CGearPowerOnOffWork *work);
 u32 C_GEAR_POWER_ONOFF_IsMenuDecided(CGearPowerOnOffWork *work);
 int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work);
 int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work);
+int C_GEAR_POWER_ONOFF_RunMessageStep(CGearPowerOnOffWork *work);
 extern char sCGearPowerOnOffFileName[];
 extern CGearPowerOnOffTable sPowerOnOffTable;
 extern const u32 sBgCharFileIds[];
@@ -229,6 +234,7 @@ extern const u32 sBgPaletteFileIds[];
 extern const struct BgTemplate sBgTemplate5;
 extern const struct BgTemplate sBgTemplate4;
 extern const struct BgTemplate sBgTemplate6;
+
 
 
 
@@ -251,10 +257,13 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
 }
 
 
+
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work) { C_GEAR_POWER_ONOFF_ExitScreen(work); func_020307B0(work); }
 
 
+
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate) { if(work->closeRequested==0) { if(sPowerOnOffTable.sceneStep[work->scene](work)) { FIELD_SUBSCREEN_SetPanelResult(work->subscreen,14); work->closeRequested=1; } } PRINTSYS_QUE_Main(work->printQue); }
+
 
 
 
@@ -272,7 +281,9 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 }
 
 
+
 void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work) { FIELD_SUBSCREEN_ResumeField(work->subscreen,work->heapId); C_GEAR_POWER_ONOFF_ExitWindows(work); C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(work); C_GEAR_POWER_ONOFF_ExitBgs(work); PRINTSYS_QUE_Clear(work->printQue); PRINTSYS_QUE_Delete(work->printQue); MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); }
+
 
 
 
@@ -309,6 +320,7 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 
 
 
+
 void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 {
     unsigned int charAlloc = work->bgCharAlloc;
@@ -323,6 +335,7 @@ void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 
 
 
+
 void C_GEAR_POWER_ONOFF_CreateTaskMenuRes(CGearPowerOnOffWork *work, u16 heapId)
 {
     work->taskMenuRes = APP_TASKMENU_RES_Create(4, 3, work->font, work->printQue, heapId);
@@ -331,10 +344,12 @@ void C_GEAR_POWER_ONOFF_CreateTaskMenuRes(CGearPowerOnOffWork *work, u16 heapId)
 
 
 
+
 void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work)
 {
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
 }
+
 
 
 
@@ -355,6 +370,7 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
     work->tcbl = TCBL_Create(heapId, heapId, 1, 4);
     work->keyCursor = func_02028590(0xF, 0, 1, heapId);
 }
+
 
 
 
@@ -382,6 +398,7 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
 
 
 
+
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
     struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
@@ -390,6 +407,7 @@ void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *w
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
+
 
 
 
@@ -411,6 +429,7 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
 
 
 
+
 void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
 {
     CGearPowerOnOffTable *table = &sPowerOnOffTable;
@@ -426,6 +445,7 @@ void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
 
 
 
+
 void C_GEAR_POWER_ONOFF_CloseMenu(CGearPowerOnOffWork *work)
 {
     if (work->taskMenu != 0) {
@@ -433,6 +453,7 @@ void C_GEAR_POWER_ONOFF_CloseMenu(CGearPowerOnOffWork *work)
         work->taskMenu = 0;
     }
 }
+
 
 
 
@@ -448,6 +469,7 @@ void C_GEAR_POWER_ONOFF_UpdateMenu(CGearPowerOnOffWork *work)
 
 
 
+
 /*
  * Unlabelled tail-call leaf of C_GEAR_POWER_ONOFF_StepTurnOff (reads the menu handle at +0x44).
  */
@@ -459,10 +481,12 @@ u8 C_GEAR_POWER_ONOFF_GetMenuResult(CGearPowerOnOffWork *work)
 
 
 
+
 u32 C_GEAR_POWER_ONOFF_IsMenuDecided(CGearPowerOnOffWork *work)
 {
     return APP_TASKMENU_IsFinish(work->taskMenu);
 }
+
 
 
 
@@ -523,6 +547,7 @@ int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
 
 
 
+
 int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
 {
     u16 closeComm;
@@ -564,5 +589,32 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
         return 1;
     }
     C_GEAR_POWER_ONOFF_UpdateMenu(work);
+    return 0;
+}
+
+
+int C_GEAR_POWER_ONOFF_RunMessageStep(CGearPowerOnOffWork *work)
+{
+    switch (work->step) {
+    case 0:
+        BMP_WIN_ClearScreen(work->messageWindow);
+        BMP_WIN_ClearScreen(work->menuWindow);
+        BMP_WIN_SetPosY(work->menuWindow, 6);
+        BMP_WIN_TransferChars(work->menuWindow);
+        BMP_WIN_MakeScreen(work->menuWindow);
+        C_GEAR_POWER_ONOFF_PrintMessage(work, work->menuWindow, 4);
+        work->step++;
+        break;
+    case 1:
+        if (WIPE_SYS_EndCheck() == 1)
+            work->step++;
+        break;
+    case 2:
+        if (TOUCHPANEL_GetTrg() != 0)
+            work->step++;
+        break;
+    case 3:
+        return 1;
+    }
     return 0;
 }

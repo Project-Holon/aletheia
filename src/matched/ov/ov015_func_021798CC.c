@@ -1,5 +1,5 @@
 /*
- * function: func_021798CC
+ * function: IRCNET_CbSetFilter
  * address: 0x021798CC
  * packet: pkt_ov015_021798CC
  * region: ov015
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_021799C0 0x021799C0 thumb
+ *   IRCNET_SetFilter 0x021799C0 thumb
  */
 
-void func_021798CC(int a);
-void func_021799C0(int a);
+void IRCNET_CbSetFilter(int a);
+void IRCNET_SetFilter(int a);
 
-void func_021798CC(int a)
+void IRCNET_CbSetFilter(int a)
 {
-    func_021799C0(a);
+    IRCNET_SetFilter(a);
 }

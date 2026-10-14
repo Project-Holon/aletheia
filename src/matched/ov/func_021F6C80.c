@@ -1,5 +1,5 @@
 /*
- * function: func_021F6C80
+ * function: WORLDTRADE_BOX_TagMatchesRequest
  * address:  0x021F6C80
  * packet:   pkt_021F6C80
  * region:   ov135
@@ -12,7 +12,7 @@
 #include "../include/Obj07243.h"
 #include "../include/Obj07244.h"
 
-int func_021F6C80(void *pa, void *pb)
+int WORLDTRADE_BOX_TagMatchesRequest(void *pa, void *pb)
 {
     signed char a3;
     signed char b3;

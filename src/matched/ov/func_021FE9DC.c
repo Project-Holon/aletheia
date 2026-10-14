@@ -1,5 +1,5 @@
 /*
- * function: func_021FE9DC
+ * function: WORLDTRADE_SEARCH_UpdateKeyCursor
  * address:  0x021FE9DC
  * packet:   pkt_021FE9DC
  * region:   ov135
@@ -13,8 +13,8 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_021FE9B0  0x021FE9B0  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SEARCH_GetSelectedButton  0x021FE9B0  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   tbl_02203D46   0x02203D46  data  a2
  *
  * Move the menu cursor by the pressed d-pad key: up and down step the
@@ -55,10 +55,10 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021FE9B0(Work *p);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern int WORLDTRADE_SEARCH_GetSelectedButton(Work *p);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
-void func_021FE9DC(Work *p)
+void WORLDTRADE_SEARCH_UpdateKeyCursor(Work *p)
 {
     int a;
     int b;
@@ -68,13 +68,13 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 > 0) {
                 p->st->row0--;
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
             }
         } else {
             if (p->st->row1 > 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
                 p->st->row1--;
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
             }
         }
     } else if (KEY_GetTrg() & 0x80) {
@@ -82,20 +82,20 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 < 3) {
                 p->st->row0++;
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
             }
         } else {
             if (p->st->row1 < 2) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
                 p->st->row1++;
-                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
             }
         }
     } else if (KEY_GetTrg() & 0x10) {
         if (p->st->page != 1) {
             p->st->page = 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
         } else {
             p->st->page = 1;
         }
@@ -103,12 +103,12 @@ void func_021FE9DC(Work *p)
         if (p->st->page != 0) {
             p->st->page = 0;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim);
         } else {
             p->st->page = 0;
         }
     }
-    a = func_021FE9B0(p);
-    b = func_021FE9B0(p);
-    func_021F4FF4(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
+    a = WORLDTRADE_SEARCH_GetSelectedButton(p);
+    b = WORLDTRADE_SEARCH_GetSelectedButton(p);
+    WORLDTRADE_SetActorPos(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
 }

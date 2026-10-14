@@ -10,20 +10,20 @@
  * status: EXACT
  * symbols:
  *   TCBL_Main 0x020310C4 arm
- *   func_021F78E4 0x021F78E4 thumb ov094
- *   func_02202228 0x02202228 thumb ov094
+ *   BTLV_EFFECT_Main 0x021F78E4 thumb ov094
+ *   BTLV_INPUT_UpdateInfoWindow 0x02202228 thumb ov094
  */
 #include "../include/Obj10196.h"
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-extern void func_021F78E4(void);
-extern void func_02202228(void **);
+extern void BTLV_EFFECT_Main(void);
+extern void BTLV_INPUT_UpdateInfoWindow(void **);
 int PDC_MAIN_Update(unsigned p)
 {
     int (*cb)(unsigned);
     TCBL_Main(((struct Obj10196 *)p)->f18);
-    func_021F78E4();
-    func_02202228(*(void ** *)&((struct Obj10196 *)p)->f10);
+    BTLV_EFFECT_Main();
+    BTLV_INPUT_UpdateInfoWindow(*(void ** *)&((struct Obj10196 *)p)->f10);
     cb = *(int (**)(unsigned))(p + 0x68);
     if (cb != 0) return cb(p);
     return 0;

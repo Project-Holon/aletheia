@@ -1,7 +1,7 @@
 /*
  * file:     battle_rec_tool.c
  * unit:     yes
- * function: func_021EE920, func_021EEBF0, func_021EEE78, func_021EEEA8, func_021EEED8, func_021EEF2C, func_021EEFA4, func_021EEFE4, func_021EF014, func_021EF090, func_021EF0F4, func_021EF140, func_021EF1AC, func_021EF1D8, func_021EF1F4
+ * function: BATTLE_REC_TOOL_PackMon, BATTLE_REC_TOOL_UnpackMon, BATTLE_REC_TOOL_PackSetup, BATTLE_REC_TOOL_UnpackSetup, BATTLE_REC_TOOL_PackParty, BATTLE_REC_TOOL_UnpackParty, BATTLE_REC_TOOL_PackParties, BATTLE_REC_TOOL_UnpackParties, BATTLE_REC_TOOL_PackPlayers, BATTLE_REC_TOOL_UnpackPlayers, BATTLE_REC_TOOL_PackPlayerProfile, BATTLE_REC_TOOL_UnpackPlayerProfile, BATTLE_REC_TOOL_PackInputLog, BATTLE_REC_TOOL_UnpackInputLog, BATTLE_REC_TOOL_PackBattleRules, BATTLE_REC_TOOL_UnpackBattleRules
  * address:  0x021EE920
  * region:   ov188
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from battle_rec_tool.c, ov188_func_021EF2D4.c by tools/splitfile.py.
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
@@ -18,7 +18,7 @@
  *   func_02019C38 0x02019C38 thumb
  *   func_02019A9C 0x02019A9C thumb
  *   g_0214616C     0x0214616C  data
- *   func_021EF2D4  0x021EF2D4  thumb  ov188
+ *   BATTLE_REC_TOOL_UnpackBattleRules  0x021EF2D4  thumb  ov188
  *   POKEPARTY_GetCapacity   0x0201AA14  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   POKEPARTY_GetMember   0x0201AB28  thumb
@@ -37,445 +37,435 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   CONFIG_Copy  0x02008314  thumb
  */
-#include "../../matched/include/Obj00685.h"
-#include "../../matched/include/Obj01968.h"
-#include "../../matched/include/Obj02905.h"
-#include "../../matched/include/Obj24888.h"
-#include "../../matched/include/Obj24889.h"
-#include "../../matched/include/Obj00506.h"
-#include "../../matched/include/Obj01969.h"
-#include "../../matched/include/Obj02906.h"
-#include "../../matched/include/Obj24890.h"
-#include "../../matched/include/Obj24891.h"
-#include "../../matched/include/G_BattleRec.h"
-#include "../../matched/include/Obj10803.h"
-#include "../../matched/include/Obj14491.h"
-#include "../../matched/include/Obj08341.h"
-#include "../../matched/include/Obj14492.h"
-#include "../../matched/include/Obj02238.h"
-#include "../../matched/include/Obj02528.h"
-#include "../../matched/include/Obj01970.h"
-#include "../../matched/include/Obj02529.h"
-#include "../../matched/include/Obj14493.h"
-#include "../../matched/include/Obj24896.h"
-#include "../../matched/include/Obj02907.h"
-#include "../../matched/include/Obj24897.h"
+#include "../arm9/poke_tool_types.h"
+#include "battle_rec_tool_types.h"
 
-struct Mon;
 struct Party;
-struct PartyMon;
-struct U16Vec;
-struct Strbuf;
+struct StrBuf;
+struct MyStatus;
+struct Config;
+
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct { u16 a:1,b:1,c:1,mode:8,pad:5; } Flags;
-
-typedef struct { u32 a:5,b:5,c:5,d:5,e:5,f:5,g:1,h:1; } Packed;
-
-typedef struct { u8 a:1,b:2,c:5; } Byte;
-
-struct Mon { u32 seed; Flags flags; u16 check; u8 block[0x80]; };
-
 typedef signed int     s32;
 
-typedef struct { u32 w[4]; } Block16;
-
-typedef struct { u32 w[6]; } Block24;
-
-typedef struct { unsigned char low:5, high:3; } Bits50;
-
-typedef struct { unsigned char low:4, mid:3, high:1; } Bits51;
-
 extern void MI_CpuFill8(void *,int,u32);
+
 extern void func_02019A50(u16 *,u32,u32);
-extern void *func_02019C38(struct Mon *,u32,u32);
+
+extern void *func_02019C38(struct BoxPokemon *,u32,u32);
+
 extern u16 func_02019A9C(const u16 *,u32);
-extern int func_021EF2D4(u8 *a, const u8 *b);
-extern u32 POKEPARTY_GetCapacity(void *p);
-extern u32 POKEPARTY_GetCount(void *);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+
+extern int BATTLE_REC_TOOL_UnpackBattleRules(struct BattleSetupParam *setup, const struct BattleRecData *rec);
+
+extern u32 POKEPARTY_GetCapacity(struct Party *p);
+
+extern u32 POKEPARTY_GetCount(struct Party *);
+
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *p, u32 idx);
+
 extern u32 func_020173EC(void);
+
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+
+extern u32 POKEPARTY_Add(struct Party *p, const struct PokemonParam *src);
+
 extern u32 func_020307B0(void *p);
+
 extern void MYSTATUS_Copy(void *, void *);
-extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+
+extern void STRBUF_ToChars(struct StrBuf *vec, u16 *out, u32 n);
+
+extern void STRBUF_SetString(struct StrBuf *o, const u16 *src);
+
+extern u16 *STRBUF_GetChars(struct StrBuf *vec);
+
 extern u16 STRBUF_GetEosChar(void);
+
 extern void MI_CpuCopy8(void *, void *, int);
+
 extern void CONFIG_Copy(void *a, void *b);
-void func_021EE920(struct Mon *p,char *q);
-void func_021EEBF0(char *p,struct Mon *q);
-void func_021EEE78(void *p);
-void func_021EEEA8(void *p, u32 c);
-void func_021EEED8(int a, char *p);
-void func_021EEF2C(u8 *a,void *b,u32 c);
-void func_021EEFA4(int *a, char *p);
-void func_021EEFE4(void *p, char *b, u32 c);
-void func_021EF014(u8 *a, u8 *b);
-void func_021EF090(u8 *a, u8 *b);
-void func_021EF0F4(u8 *a, u8 *b);
-void func_021EF140(u8 *a, u8 *b);
-int func_021EF1AC(char *p, char *q);
-int func_021EF1D8(char *p, char *a1);
-int func_021EF1F4(const u8 *a, u8 *b);
+
+void BATTLE_REC_TOOL_PackMon(struct PokemonParam *mon, struct BattleRecMon *rec);
+
+void BATTLE_REC_TOOL_UnpackMon(struct BattleRecMon *rec, struct PokemonParam *mon);
+
+void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
+
+void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *setup, u32 heapId);
+
+void BATTLE_REC_TOOL_PackParty(struct Party *party, struct BattleRecParty *rec);
+
+void BATTLE_REC_TOOL_UnpackParty(struct BattleRecParty *rec, struct Party *party, u32 heapId);
+
+void BATTLE_REC_TOOL_PackParties(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
+void BATTLE_REC_TOOL_UnpackParties(struct BattleSetupParam *setup, struct BattleRecData *rec, u32 heapId);
+
+void BATTLE_REC_TOOL_PackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
+void BATTLE_REC_TOOL_UnpackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
+void BATTLE_REC_TOOL_PackPlayerProfile(struct BattleTrainerData *trainer, struct BattleRecTrainer *rec);
+
+void BATTLE_REC_TOOL_UnpackPlayerProfile(struct BattleTrainerData *trainer, struct BattleRecTrainer *rec);
+
+int BATTLE_REC_TOOL_PackInputLog(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
+int BATTLE_REC_TOOL_UnpackInputLog(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
+int BATTLE_REC_TOOL_PackBattleRules(struct BattleSetupParam *setup, struct BattleRecData *rec);
+
 extern struct BattleRec *g_0214616C;
+
 extern char d_021EF360[];
 
-
-
-void func_021EE920(struct Mon *p,char *q)
+/* Pack a Pokemon into its 0x70-byte replay form. The box blocks are shuffled by the personality value. */
+void BATTLE_REC_TOOL_PackMon(struct PokemonParam *mon, struct BattleRecMon *rec)
 {
-    char *a,*b,*c,*d;
+    struct BoxPokemonBlockA *blockA;
+    struct BoxPokemonBlockB *blockB;
+    struct BoxPokemonBlockC *blockC;
+    struct BoxPokemonBlockD *blockD;
     int i;
-    MI_CpuFill8(q,0,0x70);
-    if (!p->flags.a) {
-        func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
-        func_02019A50((u16 *)p->block,0x80,p->check);
+    MI_CpuFill8(rec,0,sizeof(struct BattleRecMon));
+    if (!mon->box.partyDecoded) {
+        func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+        func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
     }
-    a=func_02019C38(p,p->seed,0);
-    b=func_02019C38(p,p->seed,1);
-    c=func_02019C38(p,p->seed,2);
-    d=func_02019C38(p,p->seed,3);
-    ((struct Obj00685 *)q)->f0=p->seed;
-    ((Flags *)(q+4))->a=0;
-    ((Flags *)(q+4))->b=0;
-    ((Flags *)(q+4))->c=p->flags.c;
-    ((Flags *)(q+4))->mode=((struct Obj24888 *)b)->f19;
-    ((struct Obj00685 *)q)->f6=((struct Obj01968 *)a)->f0;
-    ((struct Obj00685 *)q)->f8=((struct Obj01968 *)a)->f2;
-    ((struct Obj00685 *)q)->fC=((struct Obj01968 *)a)->f4;
-    ((struct Obj00685 *)q)->f10=((struct Obj01968 *)a)->f8;
-    ((struct Obj00685 *)q)->f14=((struct Obj01968 *)a)->fC;
-    ((struct Obj00685 *)q)->f15=((struct Obj01968 *)a)->fD;
-    ((struct Obj00685 *)q)->f16=((struct Obj01968 *)a)->f10;
-    ((struct Obj00685 *)q)->f17=((struct Obj01968 *)a)->f11;
-    ((struct Obj00685 *)q)->f18=((struct Obj01968 *)a)->f12;
-    ((struct Obj00685 *)q)->f19=((struct Obj01968 *)a)->f13;
-    ((struct Obj00685 *)q)->f1A=((struct Obj01968 *)a)->f14;
-    ((struct Obj00685 *)q)->f1B=((struct Obj01968 *)a)->f15;
-    ((struct Obj00685 *)q)->f59=((struct Obj01968 *)a)->fF;
+    blockA=func_02019C38(&mon->box,mon->box.personality,0);
+    blockB=func_02019C38(&mon->box,mon->box.personality,1);
+    blockC=func_02019C38(&mon->box,mon->box.personality,2);
+    blockD=func_02019C38(&mon->box,mon->box.personality,3);
+    rec->personality=mon->box.personality;
+    rec->partyDecoded=0;
+    rec->boxDecoded=0;
+    rec->checksumFailed=mon->box.checksumFailed;
+    rec->nature=blockB->nature;
+    rec->species=blockA->species;
+    rec->heldItem=blockA->heldItem;
+    rec->otId=blockA->otId;
+    rec->exp=blockA->exp;
+    rec->friendship=blockA->friendship;
+    rec->ability=blockA->ability;
+    rec->evs[0]=blockA->evs[0];
+    rec->evs[1]=blockA->evs[1];
+    rec->evs[2]=blockA->evs[2];
+    rec->evs[3]=blockA->evs[3];
+    rec->evs[4]=blockA->evs[4];
+    rec->evs[5]=blockA->evs[5];
+    rec->language=blockA->language;
     for(i=0;i<4;i++) {
-        *(u16 *)(q+2*i+0x1c)=*(u16 *)(b+2*i);
-        *(u8 *)(q+i+0x24)=*(u8 *)(b+i+8);
-        *(u8 *)(q+i+0x28)=*(u8 *)(b+i+0xc);
+        rec->moves[i]=blockB->moves[i];
+        rec->pp[i]=blockB->pp[i];
+        rec->ppUps[i]=blockB->ppUps[i];
     }
-    ((Packed *)(q+0x2c))->a=((Packed *)(b+0x10))->a;
-    ((Packed *)(q+0x2c))->b=((Packed *)(b+0x10))->b;
-    ((Packed *)(q+0x2c))->c=((Packed *)(b+0x10))->c;
-    ((Packed *)(q+0x2c))->d=((Packed *)(b+0x10))->d;
-    ((Packed *)(q+0x2c))->e=((Packed *)(b+0x10))->e;
-    ((Packed *)(q+0x2c))->f=((Packed *)(b+0x10))->f;
-    ((Packed *)(q+0x2c))->g=((Packed *)(b+0x10))->g;
-    ((Packed *)(q+0x2c))->h=((Packed *)(b+0x10))->h;
-    ((Byte *)(q+0x30))->a=((Byte *)(b+0x18))->a;
-    ((Byte *)(q+0x30))->b=((Byte *)(b+0x18))->b;
-    ((Byte *)(q+0x30))->c=((Byte *)(b+0x18))->c;
-    for(i=0;i<11;i++) *(u16 *)(q+2*i+0x32)=*(u16 *)(c+2*i);
-    for(i=0;i<8;i++) *(u16 *)(q+2*i+0x48)=*(u16 *)(d+2*i);
-    ((struct Obj00685 *)q)->f58=((struct Obj24889 *)d)->f1B;
-    ((struct Obj00685 *)q)->f5C=((struct Obj02905 *)p)->f88;
-    ((struct Obj00685 *)q)->f60=((struct Obj02905 *)p)->f8C;
-    ((struct Obj00685 *)q)->f61=((struct Obj02905 *)p)->f8D;
-    ((struct Obj00685 *)q)->f62=((struct Obj02905 *)p)->f8E;
-    ((struct Obj00685 *)q)->f64=((struct Obj02905 *)p)->f90;
-    ((struct Obj00685 *)q)->f66=((struct Obj02905 *)p)->f92;
-    ((struct Obj00685 *)q)->f68=((struct Obj02905 *)p)->f94;
-    ((struct Obj00685 *)q)->f6A=((struct Obj02905 *)p)->f96;
-    ((struct Obj00685 *)q)->f6C=((struct Obj02905 *)p)->f98;
-    ((struct Obj00685 *)q)->f6E=((struct Obj02905 *)p)->f9A;
-    if (!p->flags.a) {
-        func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
-        func_02019A50((u16 *)p->block,0x80,p->check);
+    rec->ivHp=blockB->ivHp;
+    rec->ivAttack=blockB->ivAttack;
+    rec->ivDefense=blockB->ivDefense;
+    rec->ivSpeed=blockB->ivSpeed;
+    rec->ivSpAttack=blockB->ivSpAttack;
+    rec->ivSpDefense=blockB->ivSpDefense;
+    rec->isEgg=blockB->isEgg;
+    rec->hasNickname=blockB->hasNickname;
+    rec->fatefulEncounter=blockB->fatefulEncounter;
+    rec->gender=blockB->gender;
+    rec->form=blockB->form;
+    for(i=0;i<11;i++) rec->nickname[i]=blockC->nickname[i];
+    for(i=0;i<8;i++) rec->otName[i]=blockD->otName[i];
+    rec->ball=blockD->ball;
+    rec->statusCondition=mon->statusCondition;
+    rec->level=mon->level;
+    rec->capsuleIndex=mon->capsuleIndex;
+    rec->hp=mon->hp;
+    rec->maxHp=mon->maxHp;
+    rec->attack=mon->attack;
+    rec->defense=mon->defense;
+    rec->speed=mon->speed;
+    rec->spAttack=mon->spAttack;
+    rec->spDefense=mon->spDefense;
+    if (!mon->box.partyDecoded) {
+        func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+        func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
     }
 }
 
-
-
-void func_021EEBF0(char *p,struct Mon *q)
+/* Rebuild a Pokemon from its replay form and re-encrypt it. */
+void BATTLE_REC_TOOL_UnpackMon(struct BattleRecMon *rec, struct PokemonParam *mon)
 {
-    char *a,*b,*c,*d;
+    struct BoxPokemonBlockA *blockA;
+    struct BoxPokemonBlockB *blockB;
+    struct BoxPokemonBlockC *blockC;
+    struct BoxPokemonBlockD *blockD;
     int i;
-    MI_CpuFill8(q,0,0xdc);
-    a=func_02019C38(q,((struct Obj00506 *)p)->f0,0);
-    b=func_02019C38(q,((struct Obj00506 *)p)->f0,1);
-    c=func_02019C38(q,((struct Obj00506 *)p)->f0,2);
-    d=func_02019C38(q,((struct Obj00506 *)p)->f0,3);
-    q->seed=((struct Obj00506 *)p)->f0;
-    q->flags.a=0;
-    q->flags.b=0;
-    q->flags.c=((Flags *)(p+4))->c;
-    ((struct Obj01969 *)a)->f0=((struct Obj00506 *)p)->f6;
-    ((struct Obj01969 *)a)->f2=((struct Obj00506 *)p)->f8;
-    ((struct Obj01969 *)a)->f4=((struct Obj00506 *)p)->fC;
-    ((struct Obj01969 *)a)->f8=((struct Obj00506 *)p)->f10;
-    ((struct Obj01969 *)a)->fC=((struct Obj00506 *)p)->f14;
-    ((struct Obj01969 *)a)->fD=((struct Obj00506 *)p)->f15;
-    ((struct Obj01969 *)a)->f10=((struct Obj00506 *)p)->f16;
-    ((struct Obj01969 *)a)->f11=((struct Obj00506 *)p)->f17;
-    ((struct Obj01969 *)a)->f12=((struct Obj00506 *)p)->f18;
-    ((struct Obj01969 *)a)->f13=((struct Obj00506 *)p)->f19;
-    ((struct Obj01969 *)a)->f14=((struct Obj00506 *)p)->f1A;
-    ((struct Obj01969 *)a)->f15=((struct Obj00506 *)p)->f1B;
-    ((struct Obj01969 *)a)->fF=((struct Obj00506 *)p)->f59;
+    MI_CpuFill8(mon,0,sizeof(struct PokemonParam));
+    blockA=func_02019C38(&mon->box,rec->personality,0);
+    blockB=func_02019C38(&mon->box,rec->personality,1);
+    blockC=func_02019C38(&mon->box,rec->personality,2);
+    blockD=func_02019C38(&mon->box,rec->personality,3);
+    mon->box.personality=rec->personality;
+    mon->box.partyDecoded=0;
+    mon->box.boxDecoded=0;
+    mon->box.checksumFailed=rec->checksumFailed;
+    blockA->species=rec->species;
+    blockA->heldItem=rec->heldItem;
+    blockA->otId=rec->otId;
+    blockA->exp=rec->exp;
+    blockA->friendship=rec->friendship;
+    blockA->ability=rec->ability;
+    blockA->evs[0]=rec->evs[0];
+    blockA->evs[1]=rec->evs[1];
+    blockA->evs[2]=rec->evs[2];
+    blockA->evs[3]=rec->evs[3];
+    blockA->evs[4]=rec->evs[4];
+    blockA->evs[5]=rec->evs[5];
+    blockA->language=rec->language;
     for(i=0;i<4;i++) {
-        *(u16 *)(b+2*i)=*(u16 *)(p+2*i+0x1c);
-        *(u8 *)(b+i+8)=*(u8 *)(p+i+0x24);
-        *(u8 *)(b+i+0xc)=*(u8 *)(p+i+0x28);
+        blockB->moves[i]=rec->moves[i];
+        blockB->pp[i]=rec->pp[i];
+        blockB->ppUps[i]=rec->ppUps[i];
     }
-    ((Packed *)(b+0x10))->a=((Packed *)(p+0x2c))->a;
-    ((Packed *)(b+0x10))->b=((Packed *)(p+0x2c))->b;
-    ((Packed *)(b+0x10))->c=((Packed *)(p+0x2c))->c;
-    ((Packed *)(b+0x10))->d=((Packed *)(p+0x2c))->d;
-    ((Packed *)(b+0x10))->e=((Packed *)(p+0x2c))->e;
-    ((Packed *)(b+0x10))->f=((Packed *)(p+0x2c))->f;
-    ((Packed *)(b+0x10))->g=((Packed *)(p+0x2c))->g;
-    ((Packed *)(b+0x10))->h=((Packed *)(p+0x2c))->h;
-    ((Byte *)(b+0x18))->a=((Byte *)(p+0x30))->a;
-    ((Byte *)(b+0x18))->b=((Byte *)(p+0x30))->b;
-    ((Byte *)(b+0x18))->c=((Byte *)(p+0x30))->c;
-    ((struct Obj24890 *)b)->f19=((Flags *)(p+4))->mode;
-    for(i=0;i<11;i++) *(u16 *)(c+2*i)=*(u16 *)(p+2*i+0x32);
-    for(i=0;i<8;i++) *(u16 *)(d+2*i)=*(u16 *)(p+2*i+0x48);
-    ((struct Obj24891 *)d)->f1B=((struct Obj00506 *)p)->f58;
-    ((struct Obj02906 *)q)->f88=((struct Obj00506 *)p)->f5C;
-    ((struct Obj02906 *)q)->f8C=((struct Obj00506 *)p)->f60;
-    ((struct Obj02906 *)q)->f8D=((struct Obj00506 *)p)->f61;
-    ((struct Obj02906 *)q)->f8E=((struct Obj00506 *)p)->f62;
-    ((struct Obj02906 *)q)->f90=((struct Obj00506 *)p)->f64;
-    ((struct Obj02906 *)q)->f92=((struct Obj00506 *)p)->f66;
-    ((struct Obj02906 *)q)->f94=((struct Obj00506 *)p)->f68;
-    ((struct Obj02906 *)q)->f96=((struct Obj00506 *)p)->f6A;
-    ((struct Obj02906 *)q)->f98=((struct Obj00506 *)p)->f6C;
-    ((struct Obj02906 *)q)->f9A=((struct Obj00506 *)p)->f6E;
-    func_02019A50((u16 *)((char *)q+0x88),0x54,q->seed);
-    q->check=func_02019A9C((u16 *)q->block,0x80);
-    func_02019A50((u16 *)q->block,0x80,q->check);
+    blockB->ivHp=rec->ivHp;
+    blockB->ivAttack=rec->ivAttack;
+    blockB->ivDefense=rec->ivDefense;
+    blockB->ivSpeed=rec->ivSpeed;
+    blockB->ivSpAttack=rec->ivSpAttack;
+    blockB->ivSpDefense=rec->ivSpDefense;
+    blockB->isEgg=rec->isEgg;
+    blockB->hasNickname=rec->hasNickname;
+    blockB->fatefulEncounter=rec->fatefulEncounter;
+    blockB->gender=rec->gender;
+    blockB->form=rec->form;
+    blockB->nature=rec->nature;
+    for(i=0;i<11;i++) blockC->nickname[i]=rec->nickname[i];
+    for(i=0;i<8;i++) blockD->otName[i]=rec->otName[i];
+    blockD->ball=rec->ball;
+    mon->statusCondition=rec->statusCondition;
+    mon->level=rec->level;
+    mon->capsuleIndex=rec->capsuleIndex;
+    mon->hp=rec->hp;
+    mon->maxHp=rec->maxHp;
+    mon->attack=rec->attack;
+    mon->defense=rec->defense;
+    mon->speed=rec->speed;
+    mon->spAttack=rec->spAttack;
+    mon->spDefense=rec->spDefense;
+    func_02019A50((u16 *)&mon->statusCondition,0x54,mon->box.personality);
+    mon->box.checksum=func_02019A9C((u16 *)mon->box.blocks,0x80);
+    func_02019A50((u16 *)mon->box.blocks,0x80,mon->box.checksum);
 }
 
-
-
-
-void func_021EEE78(void *p)
+void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup)
 {
-    char *q = ((char *)g_0214616C) + 0xc4;
+    struct BattleRecData *rec = &g_0214616C->data;
 
-    func_021EEFA4(p, q);
-    func_021EF014(p, (u8 *)q);
-    func_021EF1AC(p, q);
-    func_021EF1F4(p, (u8 *)q);
+    BATTLE_REC_TOOL_PackParties(setup, rec);
+    BATTLE_REC_TOOL_PackPlayers(setup, rec);
+    BATTLE_REC_TOOL_PackInputLog(setup, rec);
+    BATTLE_REC_TOOL_PackBattleRules(setup, rec);
 }
 
-
-
-
-void func_021EEEA8(void *p, u32 c)
+void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *setup, u32 heapId)
 {
-    char *q = ((char *)g_0214616C) + 0xc4;
+    struct BattleRecData *rec = &g_0214616C->data;
 
-    func_021EEFE4(p, q, c);
-    func_021EF090(p, (u8 *)q);
-    func_021EF1D8(p, q);
-    func_021EF2D4(p, (const u8 *)q);
+    BATTLE_REC_TOOL_UnpackParties(setup, rec, heapId);
+    BATTLE_REC_TOOL_UnpackPlayers(setup, rec);
+    BATTLE_REC_TOOL_UnpackInputLog(setup, rec);
+    BATTLE_REC_TOOL_UnpackBattleRules(setup, rec);
 }
 
-
-
-
-/*
- * Clear a 0x2A4-byte record, copy the pair of counts out of a and release
- *   each of the 0x70-byte subrecords through 0x21EE920.
- */
-void func_021EEED8(int a, char *p)
+/* Pack a party: clear the record, store capacity and count, pack every member. */
+void BATTLE_REC_TOOL_PackParty(struct Party *party, struct BattleRecParty *rec)
 {
     int i;
-    MI_CpuFill8((void *)((int)p), 0, 0x2A4);
-    if (POKEPARTY_GetCount((void *)a) == 0)
+    MI_CpuFill8(rec, 0, sizeof(struct BattleRecParty));
+    if (POKEPARTY_GetCount(party) == 0)
         return;
-    ((struct Obj10803 *)p)->f0 = POKEPARTY_GetCapacity((void *)a);
-    ((struct Obj10803 *)p)->f2 = POKEPARTY_GetCount((void *)a);
-    for (i = 0; i < ((struct Obj10803 *)p)->f2; i++)
-        func_021EE920((struct Mon *)((int)POKEPARTY_GetMember((void *)a, i)), p + 4 + i * 0x70);
+    rec->capacity = POKEPARTY_GetCapacity(party);
+    rec->count = POKEPARTY_GetCount(party);
+    for (i = 0; i < rec->count; i++)
+        BATTLE_REC_TOOL_PackMon(POKEPARTY_GetMember(party, i), &rec->members[i]);
 }
 
-
-
-void func_021EEF2C(u8 *a,void *b,u32 c)
+void BATTLE_REC_TOOL_UnpackParty(struct BattleRecParty *rec, struct Party *party, u32 heapId)
 {
     int i;
-    u8 *p;
-    p=func_02030734((u16)((c & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
-    POKEPARTY_InitEx(b,((struct Obj14491 *)a)->f0);
-    for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
-        func_021EEBF0((char *)(a+4+i*112),(struct Mon *)p);
-        POKE_TOOL_SetPartyValue(p,159,0);
-        POKEPARTY_Add(b,(const struct PartyMon *)p);
+    struct PokemonParam *mon;
+    mon=func_02030734((u16)((heapId & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
+    POKEPARTY_InitEx(party,rec->capacity);
+    for(i=0;i<rec->count;i++) {
+        BATTLE_REC_TOOL_UnpackMon(&rec->members[i],mon);
+        POKE_TOOL_SetPartyValue(mon,159,0);
+        POKEPARTY_Add(party,mon);
     }
-    func_020307B0(p);
+    func_020307B0(mon);
 }
 
-
-
-
-void func_021EEFA4(int *a, char *p)
+void BATTLE_REC_TOOL_PackParties(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
-    char *base;
     unsigned int i;
-    MI_CpuFill8((void *)((int)(p + 0xC38)), 0, 0xA90);
-    base = p + 0xC38;
+    MI_CpuFill8(rec->parties, 0, sizeof(rec->parties));
     for (i = 0; i < 4; i++) {
-        int v = a[9 + i];
-        if (v != 0)
-            func_021EEED8(v, base + i * 0x2A4);
+        struct Party *party = setup->party[i];
+        if (party != 0)
+            BATTLE_REC_TOOL_PackParty(party, &rec->parties[i]);
     }
 }
 
-
-
-void func_021EEFE4(void *p, char *b, u32 c)
+void BATTLE_REC_TOOL_UnpackParties(struct BattleSetupParam *setup, struct BattleRecData *rec, u32 heapId)
 {
-    char *base;
     u32 i = 0;
 
-    base = b + 0xc38;
     for (; i < 4; i++) {
-        u32 v = *(u32 *)((char *)p + i * 4 + 0x24);
+        struct Party *party = setup->party[i];
 
-        if (v != 0)
-            func_021EEF2C((u8 *)(base + i * 0x2a4), (void *)v, c);
+        if (party != 0)
+            BATTLE_REC_TOOL_UnpackParty(&rec->parties[i], party, heapId);
     }
 }
 
+/* Player i is also reached as a row at rec + i * 0x44: the original code adds the 0x16C8 base per field. */
+#define BATTLE_REC_PLAYER_ROW(rec, i) ((struct BattleRecData *)((u8 *)(rec) + (i) * sizeof(struct BattleRecPlayer)))
 
-void func_021EF014(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_PackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
     unsigned i;
-    u8 *p;
+    struct BattleRecData *row;
     for(i=0;i<4;i++) {
-        if (*(void **)(a+0x48+i*4)) {
-            func_021EF0F4(*(u8 **)(a+0x48+i*4), b+0x16CC+i*0x44);
-            p = b+i*0x44;
-            ((struct Obj08341 *)p)->f16C8 = 2;
-        } else if (*(void **)(a+0x34+i*4)) {
-            MYSTATUS_Copy(*(void **)(a+0x34+i*4), b+0x16CC+i*0x44);
-            p = b+i*0x44;
-            ((struct Obj08341 *)p)->f16C8 = 1;
+        if (setup->trainerData[i]) {
+            BATTLE_REC_TOOL_PackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer);
+            row = BATTLE_REC_PLAYER_ROW(rec, i);
+            row->players[0].kind = BATTLE_REC_PLAYER_TRAINER;
+        } else if (setup->playerStatus[i]) {
+            MYSTATUS_Copy(setup->playerStatus[i], rec->players[i].data.status);
+            row = BATTLE_REC_PLAYER_ROW(rec, i);
+            row->players[0].kind = BATTLE_REC_PLAYER_STATUS;
         } else {
-            p = b+i*0x44;
-            ((struct Obj08341 *)p)->f16C8 = 0;
+            row = BATTLE_REC_PLAYER_ROW(rec, i);
+            row->players[0].kind = BATTLE_REC_PLAYER_NONE;
         }
-        ((struct Obj08341 *)p)->f16CA = a[0x44+i];
+        row->players[0].voiceFlags = setup->voiceFlags[i];
     }
 }
 
-
-void func_021EF090(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_UnpackPlayers(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
     unsigned i;
-    u8 *p;
+    struct BattleRecData *row;
     for(i=0;i<4;i++) {
-        p = b+i*0x44;
-        switch(((struct Obj14492 *)p)->f16C8) {
-        case 1: MYSTATUS_Copy(b+0x16CC+i*0x44, *(void **)(a+0x34+i*4)); break;
-        case 2: func_021EF140(*(u8 **)(a+0x48+i*4), b+0x16CC+i*0x44); break;
+        row = BATTLE_REC_PLAYER_ROW(rec, i);
+        switch(row->players[0].kind) {
+        case BATTLE_REC_PLAYER_STATUS: MYSTATUS_Copy(rec->players[i].data.status, setup->playerStatus[i]); break;
+        case BATTLE_REC_PLAYER_TRAINER: BATTLE_REC_TOOL_UnpackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer); break;
         }
-        a[0x44+i] = ((struct Obj14492 *)p)->f16CA;
+        setup->voiceFlags[i] = row->players[0].voiceFlags;
     }
 }
 
+/* winWord and loseWord are read and written as eight halfwords. */
+#define TRAINER_WORD(trainer, n) (((u16 *)(trainer)->winWord)[n])
 
-void func_021EF0F4(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_PackPlayerProfile(struct BattleTrainerData *trainer, struct BattleRecTrainer *rec)
 {
     unsigned i;
-    ((struct Obj02528 *)b)->f4 = ((struct Obj02238 *)a)->f0;
-    ((struct Obj02528 *)b)->f6 = ((struct Obj02238 *)a)->f4;
-    ((struct Obj02528 *)b)->f0 = ((struct Obj02238 *)a)->f8;
-    ((struct Obj02528 *)b)->f30 = ((struct Obj02238 *)a)->f18;
-    ((struct Obj02528 *)b)->f32 = ((struct Obj02238 *)a)->f1A;
-    ((struct Obj02528 *)b)->f34 = ((struct Obj02238 *)a)->f1C;
-    ((struct Obj02528 *)b)->f36 = ((struct Obj02238 *)a)->f1E;
-    ((struct Obj02528 *)b)->f38 = ((struct Obj02238 *)a)->f20;
-    ((struct Obj02528 *)b)->f3A = ((struct Obj02238 *)a)->f22;
-    ((struct Obj02528 *)b)->f3C = ((struct Obj02238 *)a)->f24;
-    ((struct Obj02528 *)b)->f3E = ((struct Obj02238 *)a)->f26;
-    for(i=0;i<4;i++) *(u16 *)(b+8+i*2) = *(u16 *)(a+12+i*2);
-    STRBUF_ToChars(((struct Obj02238 *)a)->f14, (u16 *)(b+16), 16);
+    rec->trainerId = trainer->trainerId;
+    rec->trainerType = trainer->trainerType;
+    rec->aiFlags = trainer->aiFlags;
+    rec->winWords[0] = TRAINER_WORD(trainer, 0);
+    rec->winWords[1] = TRAINER_WORD(trainer, 1);
+    rec->winWords[2] = TRAINER_WORD(trainer, 2);
+    rec->winWords[3] = TRAINER_WORD(trainer, 3);
+    rec->loseWords[0] = TRAINER_WORD(trainer, 4);
+    rec->loseWords[1] = TRAINER_WORD(trainer, 5);
+    rec->loseWords[2] = TRAINER_WORD(trainer, 6);
+    rec->loseWords[3] = TRAINER_WORD(trainer, 7);
+    for(i=0;i<4;i++) rec->itemIds[i] = trainer->itemIds[i];
+    STRBUF_ToChars(trainer->name, rec->name, 16);
 }
 
-
-void func_021EF140(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_UnpackPlayerProfile(struct BattleTrainerData *trainer, struct BattleRecTrainer *rec)
 {
     unsigned i;
     u16 *p;
-    ((struct Obj01970 *)a)->f0 = ((struct Obj02529 *)b)->f4;
-    ((struct Obj01970 *)a)->f4 = ((struct Obj02529 *)b)->f6;
-    ((struct Obj01970 *)a)->f8 = ((struct Obj02529 *)b)->f0;
-    ((struct Obj01970 *)a)->f18 = ((struct Obj02529 *)b)->f30;
-    ((struct Obj01970 *)a)->f1A = ((struct Obj02529 *)b)->f32;
-    ((struct Obj01970 *)a)->f1C = ((struct Obj02529 *)b)->f34;
-    ((struct Obj01970 *)a)->f1E = ((struct Obj02529 *)b)->f36;
-    ((struct Obj01970 *)a)->f20 = ((struct Obj02529 *)b)->f38;
-    ((struct Obj01970 *)a)->f22 = ((struct Obj02529 *)b)->f3A;
-    ((struct Obj01970 *)a)->f24 = ((struct Obj02529 *)b)->f3C;
-    ((struct Obj01970 *)a)->f26 = ((struct Obj02529 *)b)->f3E;
-    for(i=0;i<4;i++) *(u16 *)(a+12+i*2) = *(u16 *)(b+8+i*2);
-    STRBUF_SetString(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
-    p = STRBUF_GetChars(((struct Obj01970 *)a)->f14);
+    trainer->trainerId = rec->trainerId;
+    trainer->trainerType = rec->trainerType;
+    trainer->aiFlags = rec->aiFlags;
+    TRAINER_WORD(trainer, 0) = rec->winWords[0];
+    TRAINER_WORD(trainer, 1) = rec->winWords[1];
+    TRAINER_WORD(trainer, 2) = rec->winWords[2];
+    TRAINER_WORD(trainer, 3) = rec->winWords[3];
+    TRAINER_WORD(trainer, 4) = rec->loseWords[0];
+    TRAINER_WORD(trainer, 5) = rec->loseWords[1];
+    TRAINER_WORD(trainer, 6) = rec->loseWords[2];
+    TRAINER_WORD(trainer, 7) = rec->loseWords[3];
+    for(i=0;i<4;i++) trainer->itemIds[i] = rec->itemIds[i];
+    STRBUF_SetString(trainer->name, rec->name);
+    p = STRBUF_GetChars(trainer->name);
     while (*p != STRBUF_GetEosChar()) p++;
 }
 
-
-
-int func_021EF1AC(char *p, char *q)
+int BATTLE_REC_TOOL_PackInputLog(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
-    u32 a = ((struct Obj14493 *)p)->f94;
+    void *log = setup->recordBuffer;
 
-    if (a != 0) {
-        u32 b = ((struct Obj14493 *)p)->f98;
+    if (log != 0) {
+        u32 size = setup->recordSize;
 
-        if (b < 0xc00) {
-            ((struct Obj24896 *)q)->f34 = b;
-            MI_CpuCopy8((void *)a, q + 0x38, b);
+        if (size < 0xc00) {
+            rec->inputLogSize = size;
+            MI_CpuCopy8(log, rec->inputLog, size);
             return 1;
         }
     }
     return 0;
 }
 
-
-
-int func_021EF1D8(char *p, char *a1)
+int BATTLE_REC_TOOL_UnpackInputLog(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
-    int v = ((struct Obj24897 *)a1)->f34;
+    int size = rec->inputLogSize;
 
-    ((struct Obj02907 *)p)->f98 = v;
-    MI_CpuCopy8(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
+    setup->recordSize = size;
+    MI_CpuCopy8(rec->inputLog, setup->recordBuffer, size);
     return 1;
 }
 
-
-
-int func_021EF1F4(const u8 *a, u8 *b)
+int BATTLE_REC_TOOL_PackBattleRules(struct BattleSetupParam *setup, struct BattleRecData *rec)
 {
-    int f;
-    *(Block16 *)(b + 24) = *(const Block16 *)(a + 8);
-    *(Block24 *)b = *(const Block24 *)(a + 156);
-    *(u16 *)(b + 44) = *(const u16 *)(a + 24);
-    *(u16 *)(b + 46) = *(const u16 *)(a + 26);
-    ((Bits50 *)(b + 50))->low = *(const u32 *)a;
-    ((Bits51 *)(b + 51))->low = *(const u32 *)(a + 4);
-    ((Bits51 *)(b + 51))->mid = a[34];
-    *(u16 *)(b + 48) = *(const u16 *)(a + 134);
-    ((Bits50 *)(b + 50))->high = a[33];
-    f = (a[127] != 0);
-    ((Bits51 *)(b + 51))->high = f;
-    CONFIG_Copy(*(void **)(a + 92), b + 40);
+    rec->field = setup->fieldSituation;
+    rec->rng = setup->rng;
+    rec->bgmBattle = setup->bgmBattle;
+    rec->bgmWin = setup->bgmWin;
+    rec->competitor = setup->competitor;
+    rec->rule = setup->rule;
+    rec->multiMode = setup->multiMode;
+    rec->resultCount = setup->resultCount;
+    rec->netId = setup->netId;
+    rec->recordEnabled = (setup->recordEnabled != 0);
+    CONFIG_Copy(setup->config, rec->config);
+    return 1;
+}
+
+int BATTLE_REC_TOOL_UnpackBattleRules(struct BattleSetupParam *setup, const struct BattleRecData *rec)
+{
+    setup->fieldSituation = rec->field;
+    setup->rng = rec->rng;
+    setup->bgmBattle = rec->bgmBattle;
+    setup->bgmWin = rec->bgmWin;
+    setup->competitor = rec->competitor;
+    setup->rule = rec->rule;
+    setup->multiMode = rec->multiMode;
+    setup->resultCount = rec->resultCount;
+    setup->netId = rec->netId;
+    setup->recordEnabled = rec->recordEnabled;
     return 1;
 }

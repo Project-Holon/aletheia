@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C20
+ * function: Yos_BitInit
  * address:  0x021C0C20
  * packet:   pkt_021B6100
  * region:   ov172
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern u32 g_021CADE4[];
 
-void func_021C0C20(void)
+void Yos_BitInit(void)
 {
     g_021CADE4[1] = 0;
     g_021CADE4[0] = 8;

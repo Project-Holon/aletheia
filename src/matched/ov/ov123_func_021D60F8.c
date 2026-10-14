@@ -1,5 +1,5 @@
 /*
- * function: func_021D60F8
+ * function: GSYNC_DISP_VBlankTask
  * address: 0x021D60F8
  * packet: pkt_ov123_021D60F8
  * region: ov123
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 extern void CLACT_VBlankSystem(void);
 extern void GX_LoadBGPltt(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
-void func_021D60F8(void *a, u8 *p)
+void GSYNC_DISP_VBlankTask(void *a, u8 *p)
 {
     int n;
     u8 *base;

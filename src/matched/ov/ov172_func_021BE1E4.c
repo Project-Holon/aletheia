@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1E4
+ * function: COMM_TVT_SYS_ClearAndTransferNameWindows
  * address: 0x021BE1E4
  * packet: pkt_ov172_021BE1E4
  * region: ov172
@@ -20,7 +20,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021BE1E4(u8 *p)
+void COMM_TVT_SYS_ClearAndTransferNameWindows(u8 *p)
 {
     u8 i;
     for (i = 0; i < 4; i++) {

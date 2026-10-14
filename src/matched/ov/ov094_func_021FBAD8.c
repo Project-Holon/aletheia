@@ -1,5 +1,5 @@
 /*
- * function: func_021FBAD8
+ * function: BTLV_EFFVM_CmdStopSe
  * address:  0x021FBAD8
  * packet:   pkt_ov094_021FBAD8
  * region:   ov094
@@ -26,7 +26,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_StopSeSlot(int i);
 
-int func_021FBAD8(void *a, char *s)
+int BTLV_EFFVM_CmdStopSe(void *a, char *s)
 {
     int r = VM_GetU32(a);
 

@@ -16,12 +16,12 @@
  * stores, and separate pointer locals for loop 2 and loop 3 (spill slots 0x10 and 0xc).
  *
  * symbols:
- *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_021BE010  0x021BE010  thumb  ov172
- *   func_021BE018  0x021BE018  thumb  ov172
- *   func_021BE024  0x021BE024  thumb  ov172
- *   func_021BE004  0x021BE004  thumb  ov172
- *   func_021BE0EC  0x021BE0EC  thumb  ov172
+ *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
+ *   COMM_TVT_SYS_GetArc  0x021BE010  thumb  ov172
+ *   COMM_TVT_SYS_GetResId  0x021BE018  thumb  ov172
+ *   COMM_TVT_SYS_GetClactUnit  0x021BE024  thumb  ov172
+ *   COMM_TVT_SYS_GetLaunchParams  0x021BE004  thumb  ov172
+ *   COMM_TVT_SYS_GetHostBusy  0x021BE0EC  thumb  ov172
  *   func_021BD134  0x021BD134  thumb  ov172
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -49,12 +49,12 @@ struct Desc {
 };
 
 struct Obj;
-extern u16 func_021BE00C(u16 *p);
-extern u32  func_021BE010(void *c);
-extern u32  func_021BE018(void *c, int i);
-extern u32  func_021BE024(void *c);
-extern u32 func_021BE004(void *p);
-extern u32 func_021BE0EC(void *c);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32  COMM_TVT_SYS_GetArc(void *c);
+extern u32  COMM_TVT_SYS_GetResId(void *c, int i);
+extern u32  COMM_TVT_SYS_GetClactUnit(void *c);
+extern u32 COMM_TVT_SYS_GetLaunchParams(void *p);
+extern u32 COMM_TVT_SYS_GetHostBusy(void *c);
 extern void func_021BD134(void *ctx, char *st, u32 msgId);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -68,7 +68,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_021C7234[];
 
-#define MK(c, p, a1, a2, a3, sp) CLACT_CreateActor((void *)func_021BE024(c), func_021BE018(c, a1), func_021BE018(c, a2), func_021BE018(c, a3), &d, sp, v)
+#define MK(c, p, a1, a2, a3, sp) CLACT_CreateActor((void *)COMM_TVT_SYS_GetClactUnit(c), COMM_TVT_SYS_GetResId(c, a1), COMM_TVT_SYS_GetResId(c, a2), COMM_TVT_SYS_GetResId(c, a3), &d, sp, v)
 
 void func_021BBA94(void *a0, u8 *p)
 {
@@ -85,10 +85,10 @@ void func_021BBA94(void *a0, u8 *p)
     u32 owner;
     int o1, o2, o3, o4, o5, o6, o7;
 
-    v = func_021BE00C(a0);
-    owner = func_021BE010(a0);
-    o = func_021BE004(a0);
-    if (*(u32 *)(o + 4) != 2 && *(u32 *)(o + 4) != 3 && func_021BE0EC(a0) == 0) {
+    v = COMM_TVT_SYS_GetHeapId(a0);
+    owner = COMM_TVT_SYS_GetArc(a0);
+    o = COMM_TVT_SYS_GetLaunchParams(a0);
+    if (*(u32 *)(o + 4) != 2 && *(u32 *)(o + 4) != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         func_02049658((void *)owner, 0xb, 4, 0, 0xa << 10, 0, v);
         func_020498F4((void *)owner, 0x12, 4, 0, 0, 0, v);
         func_020409B4(4);
@@ -116,7 +116,7 @@ void func_021BBA94(void *a0, u8 *p)
     }
     d.x = 0xe0;
     d.y = 0xa8;
-    if (func_021BE0EC(a0) == 0)
+    if (COMM_TVT_SYS_GetHostBusy(a0) == 0)
         d.z = 1;
     else
         d.z = 0xf;
@@ -185,7 +185,7 @@ void func_021BBA94(void *a0, u8 *p)
     *(u32 *)(p + 8) = 0;
     *(u16 *)(p + 0x34) = 0;
     func_02041EE4(6, 3, 0);
-    if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && func_021BE0EC(a0) == 0) {
+    if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)*(u32 *)(p + 0x400), 0xf);
         func_021BD134(a0, (char *)p, 0x18);
         *(u32 *)(p + 0x38) = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B88
+ * function: MAILVIEW_CursorBlendTask
  * address: 0x021C4B88
  * packet: pkt_ov136_021C4B88
  * region: ov136
@@ -10,23 +10,23 @@
  * lever: p[0x18] >> 1 promotes to signed int before the u8 argument;
  * an unsigned cast drops the narrowing shift pair, a bitfield shifts 24/25.
  * symbols:
- *   func_021C44FC 0x021C44FC thumb ov136
+ *   MAILSYS_ResetCursorBlend 0x021C44FC thumb ov136
  *   PALANM_BlendChannel  0x02021FD8  thumb  arm9
  */
 #include "../include/Obj01065.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C44FC(u8 *);
+extern void MAILSYS_ResetCursorBlend(u8 *);
 struct Chan02021FD8;
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-void func_021C4B88(void *unused, u8 *p)
+void MAILVIEW_CursorBlendTask(void *unused, u8 *p)
 {
     u8 old;
     u8 direction;
     if (((struct Obj01065 *)p)->f10 != 0 || p[0xA] == 0) return;
     if (p[0x1B] != p[0x1A]) {
-        func_021C44FC(p);
+        MAILSYS_ResetCursorBlend(p);
         p[0x1B] = p[0x1A];
     }
     PALANM_BlendChannel(((struct Obj01065 *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);

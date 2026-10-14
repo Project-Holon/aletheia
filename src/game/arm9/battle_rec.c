@@ -95,61 +95,7 @@ struct GimmickWork {
     u8  subWork[0x10];
 };
 
-/* Battle recorder.  The header is a 0x44-byte summary of the recorded battle
- * (shown in lists without decoding the body); the body holds the battle
- * setup and the four parties.  Both carry the magic BATTLE_REC_MAGIC and a
- * CRC. */
-struct BattleRecHeader {
-    u16 species[12];
-    u8  formGender[12];     /* form in bits 0..6, gender in bit 7 */
-    u16 battleCount;
-    u16 mode;
-    u16 magic;
-    u8  secure;
-    u8  version;
-    u8  unusedBytes[0x0C];
-    u64 dataNumber;
-    u16 crc;
-    u16 padding;
-};
-
-/* A compact Pokemon record inside the battle record body. */
-struct BattleRecPoke {
-    u32 personality;
-    u16 fastMode : 2;
-    u16 badEgg : 1;
-    u16 unusedBits : 13;
-    u16 species;
-    u8  info[0x24];
-    u32 ivs : 30;
-    u32 isEgg : 1;
-    u32 hasNickname : 1;
-    u8  fatefulEncounter : 1;
-    u8  gender : 2;
-    u8  form : 5;
-    u8  detail[0x3F];
-};
-
-struct BattleRecParty {
-    struct BattleRecPoke poke[6];
-    u32 count;
-};
-
-struct BattleRecBody {
-    u8  setup[0xC3C];
-    struct BattleRecParty party[4];
-    u8  playerInfo[0x10C];
-    u16 magic;
-    u16 unusedHalf;
-    u16 crc;
-    u16 padding;
-};
-
-struct BattleRecSave {
-    u8  profile[0x80];
-    struct BattleRecHeader head;
-    struct BattleRecBody body;
-};
+#include "battle_rec_types.h"
 
 /* Save block 0x31: the Battle Box, six boxed Pokemon and the box name.
  * func_0200BBEC indexes the group array with a 0x330 stride. */
@@ -1258,9 +1204,9 @@ void BATTLE_REC_MakeHeader(struct SaveControl *save, struct BattleRecHeader *hea
     BATTLE_REC_GetModeLayout(mode, &nsides, &nmembers);
     for (side = 0; side < nsides; side++) {
         for (member = 0; member < nmembers; member++) {
-            const struct BattleRecPoke *poke = &body->party[side].poke[member];
+            const struct BattleRecMon *poke = &body->party[side].members[member];
 
-            if (poke->isEgg == 0 && poke->badEgg == 0) {
+            if (poke->isEgg == 0 && poke->checksumFailed == 0) {
                 head->species[slot] = poke->species;
                 head->formGender[slot] = (u8)((poke->form & 0x7F) | (poke->gender << 7));
             }
@@ -1506,7 +1452,7 @@ u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int
         }
         return 0;
     case 4:
-        return head->dataNumber;
+        return head->dataNumber.value;
     case 5:
         return head->secure;
     case 6:

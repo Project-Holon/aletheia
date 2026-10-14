@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDAD0
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetMode
  * address:  0x021BDAD0
  * packet:   pkt_ov208_021BDAD0
  * region:   ov208
@@ -19,7 +19,7 @@ struct Ov208Fade {
     int state;
 };
 
-int ov208_func_021BDAD0(struct Ov208Fade *p)
+int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Fade *p)
 {
     return p->state;
 }

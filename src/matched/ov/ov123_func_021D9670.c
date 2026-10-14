@@ -1,5 +1,5 @@
 /*
- * function: func_021D9670
+ * function: PDWACC_MESSAGE_OpenYesNoMenu
  * address: 0x021D9670
  * packet: pkt_ov123_021D9670
  * region: ov123
@@ -93,7 +93,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-int func_021D9670(char *p,int mode) {
+int PDWACC_MESSAGE_OpenYesNoMenu(char *p,int mode) {
     Config c;
     int result;
     c.size=*(u16 *)(p+0xb0);

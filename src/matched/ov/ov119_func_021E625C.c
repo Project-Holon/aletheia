@@ -1,5 +1,5 @@
 /*
- * function: func_021E625C
+ * function: POKETRADE_2D_DeleteSummaryIcons
  * address: 0x021E625C
  * packet: pkt_ov119_021E625C
  * region: ov119
@@ -16,7 +16,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 
-void func_021E625C(void *p)
+void POKETRADE_2D_DeleteSummaryIcons(void *p)
 {
     char *q = (char *)p + 0x98c;
     int i;

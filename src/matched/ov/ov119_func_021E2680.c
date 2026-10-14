@@ -1,5 +1,5 @@
 /*
- * function: func_021E2680
+ * function: POKETRADE_SAVE_DeleteOfferListWindows
  * address: 0x021E2680
  * packet: pkt_ov119_021E2680
  * region: ov119
@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021E6DEC 0x021E6DEC thumb
+ *   POKETRADE_2D_DeleteOfferWindowActors 0x021E6DEC thumb
  */
 #include "../include/Obj10374.h"
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021E6DEC(int p);
-void func_021E2680(char *p)
+extern void POKETRADE_2D_DeleteOfferWindowActors(int p);
+void POKETRADE_SAVE_DeleteOfferListWindows(char *p)
 {
     int i;
     for (i=0;i<4;i++) {
@@ -26,5 +26,5 @@ void func_021E2680(char *p)
             ((struct Obj10374 *)q)->f1038=0;
         }
     }
-    func_021E6DEC((int)p);
+    POKETRADE_2D_DeleteOfferWindowActors((int)p);
 }

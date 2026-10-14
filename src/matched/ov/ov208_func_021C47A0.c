@@ -1,5 +1,5 @@
 /*
- * function: func_021C47A0
+ * function: ZUKAN_DETAIL_FORM_DrawModels
  * address: 0x021C47A0
  * packet: pkt_ov208_021C47A0
  * region: ov208
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct McssSys;
 extern void MCSS_Draw(struct McssSys *sys);
-void func_021C47A0(u32 a, u32 b, u32 c, u8 *p)
+void ZUKAN_DETAIL_FORM_DrawModels(u32 a, u32 b, u32 c, u8 *p)
 {
     if (p != 0 && *(struct McssSys * *)&((struct Obj14660 *)p)->f8 != 0)
         MCSS_Draw(*(struct McssSys * *)&((struct Obj14660 *)p)->f8);

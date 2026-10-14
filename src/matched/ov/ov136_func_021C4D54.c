@@ -1,5 +1,5 @@
 /*
- * function: func_021C4D54
+ * function: MAILVIEW_CreatePmsDraw
  * address: 0x021C4D54
  * packet: pkt_ov136_021C4D54
  * region: ov136
@@ -23,7 +23,7 @@ struct PmsDraw;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
-void func_021C4D54(u8 *p)
+void MAILVIEW_CreatePmsDraw(u8 *p)
 {
     ((struct Obj00160 *)p)->f158 = (void *)PRINTSYS_QUE_Create((void *)((u16)((struct Obj00160 *)p)->f0));
     ((struct Obj00160 *)p)->f154 = CLACT_CreateUnit(8, 1, (u16)((struct Obj00160 *)p)->f0);

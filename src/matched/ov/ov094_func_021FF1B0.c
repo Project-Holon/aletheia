@@ -1,5 +1,5 @@
 /*
- * function: func_021FF1B0
+ * function: BTLV_MCSS_DisableOrthoMode
  * address:  0x021FF1B0
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MCSS_ResetOrthoMode   0x02015C00  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
- *   func_022006B4  0x022006B4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_ApplySlotScale  0x022006B4  thumb  ov094
  */
 typedef unsigned int u32;
 typedef int fx32;
@@ -38,10 +38,10 @@ typedef struct {
 } Work;
 
 extern void MCSS_ResetOrthoMode(void *obj);
-extern int func_022019F4(char *p, int key);
-extern void func_022006B4(Work *w, int i);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern void BTLV_MCSS_ApplySlotScale(Work *w, int i);
 
-void func_021FF1B0(Work *w)
+void BTLV_MCSS_DisableOrthoMode(Work *w)
 {
     int i;
     int idx;
@@ -49,10 +49,10 @@ void func_021FF1B0(Work *w)
     MCSS_ResetOrthoMode(w->obj);
     w->active = 0;
     for (i = 0; i < 14; i++) {
-        idx = func_022019F4((char *)w, i);
+        idx = BTLV_MCSS_FindSpriteIndex((char *)w, i);
         if (idx != -1) {
             w->e[idx].flip = 0;
-            func_022006B4(w, i);
+            BTLV_MCSS_ApplySlotScale(w, i);
         }
     }
 }

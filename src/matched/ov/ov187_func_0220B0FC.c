@@ -1,5 +1,5 @@
 /*
- * function: func_0220B0FC
+ * function: BR_MAIN_CreateListScene
  * address: 0x0220B0FC
  * packet: pkt_ov187_0220B0FC
  * region: ov187
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern const char d_0220B2E4[];
-Work *func_0220B0FC(unsigned short heap, char *p, int mode)
+Work *BR_MAIN_CreateListScene(unsigned short heap, char *p, int mode)
 {
     Work *w;
     w = func_02030734(heap, 16, 0, d_0220B2E4, 0x1e7);

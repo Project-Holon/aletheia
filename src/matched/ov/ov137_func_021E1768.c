@@ -1,5 +1,5 @@
 /*
- * function: func_021E1768
+ * function: GURU2_MAIN_IsMemberPresent
  * address:  0x021E1768
  * packet:   pkt_021E1768
  * region:   ov137
@@ -22,7 +22,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021E1768(char *p, int i)
+int GURU2_MAIN_IsMemberPresent(char *p, int i)
 {
     if (i != 0 && (((struct Obj23808 *)(*(char * *)&((struct Obj03304 *)p)->fDC))->f42 & (1 << i)) == 0)
         return 0;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C3B14",
-    "func_021C3B68"
+    "ZUKAN_DETAIL_VOICE_SetActorsAlphaMode",
+    "ZUKAN_DETAIL_FORM_SetHeapId"
+   ],
+   "addresses": [
+    "0x021C3B14",
+    "0x021C3B68"
    ]
   }
  ]

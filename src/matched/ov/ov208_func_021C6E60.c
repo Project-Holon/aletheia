@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6E60
+ * function: ZUKAN_DETAIL_FORM_GetEntryIndex
  * address:  0x021C6E60
  * packet:   pkt_ov208_021C6E60
  * region:   ov208
@@ -15,7 +15,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 ov208_func_021C6E60(void *unused, u8 *p, int unused2, u16 skip, u16 want)
+u16 ZUKAN_DETAIL_FORM_GetEntryIndex(void *unused, u8 *p, int unused2, u16 skip, u16 want)
 {
     u16 r = 0;
     u16 j = 0;

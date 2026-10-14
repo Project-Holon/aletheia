@@ -1,5 +1,5 @@
 /*
- * function: func_021F4EFC
+ * function: WORLDTRADE_ReleaseGraphics
  * address:  0x021F4EFC
  * packet:   pkt_021F4EFC
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FFCD4  0x021FFCD4  thumb
+ *   WORLDTRADE_SUBLCD_FreeResources  0x021FFCD4  thumb
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021FFCD4(u8 *p);
+extern void WORLDTRADE_SUBLCD_FreeResources(u8 *p);
 extern void CLACT_ReleasePalette(u32 v);
 extern void CLACT_ReleaseCharacter(u32 v);
 extern void CLACT_ReleaseCellAnim(u32 v);
@@ -33,9 +33,9 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 
-void func_021F4EFC(u8 *p)
+void WORLDTRADE_ReleaseGraphics(u8 *p)
 {
-    func_021FFCD4(p);
+    WORLDTRADE_SUBLCD_FreeResources(p);
     CLACT_ReleasePalette(((struct Obj00996 *)p)->fBE0);
     CLACT_ReleaseCharacter(((struct Obj00996 *)p)->fBDC);
     CLACT_ReleaseCellAnim(((struct Obj00996 *)p)->fBE4);

@@ -169,7 +169,7 @@
  *   func_02040588 0x02040588 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021799C0 0x021799C0 thumb ov015
+ *   IRCNET_SetFilter 0x021799C0 thumb ov015
  *   GFL_NET_StartChangeoverEx 0x0203D060 arm
  *   GFL_NET_IRC_WIRELESS_Step 0x0203D158 arm
  *   gIrcBattleMatchMsgCancelConfirm 0x021BB674 data a4
@@ -486,7 +486,7 @@ extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 extern int GFL_NET_GetRunState(void);
-extern void func_021799C0(int (*isCompatible)(int, int));
+extern void IRCNET_SetFilter(int (*isCompatible)(int, int));
 extern void GFL_NET_StartChangeoverEx(void (*collectMacs)(IrcBattleMatchWork *), void (*onResult)(IrcBattleMatchWork *, int), void (*onConnected)(IrcBattleMatchWork *));
 extern int GFL_NET_IRC_WIRELESS_Step(void);
 extern void BUTTON_MAN_Delete(void *p);
@@ -1382,7 +1382,7 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
  */
 void IRCBATTLEMATCH_StepStartChangeover(IrcBattleMatchWork *work) {
  if(GFL_NET_GetRunState()==1) {
-  switch(work->mode) { case 9: case 10: func_021799C0(IRCBATTLEMATCH_IsCompatibleGameKind); break; }
+  switch(work->mode) { case 9: case 10: IRCNET_SetFilter(IRCBATTLEMATCH_IsCompatibleGameKind); break; }
   GFL_NET_StartChangeoverEx(IRCBATTLEMATCH_CollectMacAddresses,IRCBATTLEMATCH_OnChangeoverResult,IRCBATTLEMATCH_OnChangeoverConnected);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitSession);
  }

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GetItemParam15
+ * function: SCRCMD_GetItemPartyUse
  * address:  0x021AF71C
  * packet:   pkt_ov021_021AF71C
  * region:   ov021
@@ -26,7 +26,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 
-int SCRCMD_GetItemParam15(u32 a, u32 b)
+int SCRCMD_GetItemPartyUse(u32 a, u32 b)
 {
     u32 y = SCRCMD_WORK_GetHeapId((void *)b);
     u32 x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);

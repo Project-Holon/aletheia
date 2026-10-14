@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6F80",
+   "name": "HALL_OF_FAME_StateTeardownTrainerScene",
    "address": "0x021B6F80",
    "kind": "game",
    "region": "ov180",

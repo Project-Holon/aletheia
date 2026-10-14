@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5F34
+ * function: ZUKAN_DETAIL_FORM_HandleStateEvent
  * address:  0x021C5F34
  * packet:   pkt_ov208_021C5F34
  * region:   ov208
@@ -14,14 +14,14 @@
  * if/else keeps the polarity but swaps r0/r1; the enum keeps both.
  *
  * symbols:
- *   func_021BC3A4  0x021BC3A4  thumb
- *   func_021BC3B4  0x021BC3B4  thumb
- *   func_021BC3B8  0x021BC3B8  thumb
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb
+ *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb
  *   func_021BC3BC  0x021BC3BC  thumb
- *   func_021C5200  0x021C5200  thumb
- *   func_021BDC48  0x021BDC48  thumb
+ *   ZUKAN_DETAIL_FORM_SignalAnimDone  0x021C5200  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb
  *   func_021BDBAC  0x021BDBAC  thumb
- *   func_021C80AC  0x021C80AC  thumb
+ *   ZUKAN_DETAIL_FORM_SelectModelPosition  0x021C80AC  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021BDAAC  0x021BDAAC  thumb
  *   func_021BDBEC  0x021BDBEC  thumb
@@ -29,11 +29,11 @@
  *   func_021BDBA0  0x021BDBA0  thumb
  *   func_021C50F8  0x021C50F8  thumb
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   func_021BDC14  0x021BDC14  thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb
  *   func_021C7534  0x021C7534  thumb
  *   func_021C4F30  0x021C4F30  thumb
  *   func_021C4EAC  0x021C4EAC  thumb
- *   ov208_func_021C6A10  0x021C6A10  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_UpdateCursorMarkers  0x021C6A10  thumb  ov208
  *   func_021C6AFC  0x021C6AFC  thumb
  *   func_021C68D4  0x021C68D4  thumb
  */
@@ -48,14 +48,14 @@ typedef struct {
     int z;
 } Vec;
 
-extern int func_021BC3A4(int *p);
-extern int func_021BC3B4(int *p);
-extern int func_021BC3B8(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern u16  func_021BC3BC(char *p);
-extern void func_021C5200(int *p);
-extern void func_021BDC48(void *s, u32 on);
+extern void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 extern void func_021BDBAC(void *s, int v);
-extern void func_021C80AC(int a, int b, int c);
+extern void ZUKAN_DETAIL_FORM_SelectModelPosition(int a, int b, int c);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBEC(void *s, int v);
@@ -63,11 +63,11 @@ extern void func_021BE82C(void *icon, int kind);
 extern void func_021BDBA0(void *s);
 extern void func_021C50F8(u32 obj, Vec *out);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void func_021BDC14(char *p, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 extern void func_021C7534(void *a0, u8 *p, void *ctx);
 extern void func_021C4F30(void *a0, u8 *p, void *ctx);
 extern void func_021C4EAC(void *a0, u8 *p, void *ctx);
-extern void ov208_func_021C6A10(void *a0, u8 *p, void *ctx);
+extern void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(void *a0, u8 *p, void *ctx);
 extern void func_021C6AFC(void *a0, u8 *p, void *ctx);
 extern void func_021C68D4(void *a0, u8 *p, void *ctx);
 
@@ -78,7 +78,7 @@ typedef enum { SIDE_0 = 0, SIDE_1 = 1 } Side;
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
+void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev)
 {
     void *scene;
     void *icon;
@@ -87,16 +87,16 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
     Vec v;
     Vec v2;
 
-    scene = (void *)func_021BC3B4(ctx);
-    icon = (void *)func_021BC3B8(ctx);
+    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
+    icon = (void *)ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
     flag = 0;
     switch (W(0x6b8)) {
     case 0:
         switch (ev) {
         case 1:
             if (W(0x6c4) == 0) {
-                func_021C5200((int *)(p + 0x94));
-                func_021C5200((int *)(p + 0xd8));
+                ZUKAN_DETAIL_FORM_SignalAnimDone((int *)(p + 0x94));
+                ZUKAN_DETAIL_FORM_SignalAnimDone((int *)(p + 0xd8));
                 W(0x6c4) = 1;
             }
             break;
@@ -112,7 +112,7 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
         break;
     case 1:
         if (ev == 0 && W(0x694) == 5)
-            func_021BDC48(scene, 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
         break;
     case 2:
         if (ev == 3)
@@ -123,19 +123,19 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             flag = 1;
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
-                    func_021C80AC((int)(p + 0xc), 1, (int)(&v));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xc), 1, (int)(&v));
                     MCSS_SetPosition((void *)W(0xc), (u32 *)(&v));
                 }
                 if (W(0x50) != 0) {
-                    func_021C80AC((int)(p + 0x50), 1, (int)(&v));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x50), 1, (int)(&v));
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&v));
                 }
                 if (W(0x94) != 0) {
-                    func_021C80AC((int)(p + 0x94), 2, (int)(&v));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x94), 2, (int)(&v));
                     MCSS_SetPosition((void *)W(0x94), (u32 *)(&v));
                 }
                 if (W(0xd8) != 0) {
-                    func_021C80AC((int)(p + 0xd8), 2, (int)(&v));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xd8), 2, (int)(&v));
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v));
                 }
             }
@@ -179,26 +179,26 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             flag = 1;
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
-                    func_021C80AC((int)(p + 0xc), 0, (int)(&v2));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xc), 0, (int)(&v2));
                     MCSS_SetPosition((void *)W(0xc), (u32 *)(&v2));
                 }
                 if (W(0x50) != 0) {
-                    func_021C80AC((int)(p + 0x50), 0, (int)(&v2));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x50), 0, (int)(&v2));
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&v2));
                 }
                 idx = W(0x124) != 0 ? SIDE_0 : SIDE_1;
                 func_021C50F8(*(u32 *)(p + idx * 0x44 + 0xc), &v2);
                 if (W(0x94) != 0) {
-                    func_021C80AC((int)(p + 0x94), 2, (int)(&v2));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0x94), 2, (int)(&v2));
                     MCSS_SetPosition((void *)W(0x94), (u32 *)(&v2));
                 }
                 if (W(0xd8) != 0) {
-                    func_021C80AC((int)(p + 0xd8), 2, (int)(&v2));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)(p + 0xd8), 2, (int)(&v2));
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v2));
                 }
             }
             func_021BDAAC(scene, 0, 3, func_021BC3BC(ctx) > 1);
-            func_021BDC14(scene, GAME_DATA_CheckSaveFlag(func_021BC3A4(ctx), 0x14));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             func_021BE82C(icon, 3);
             if (H(0x548) >= 2) {
                 W(0x6c8) = 1;
@@ -211,10 +211,10 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
     if (flag) {
         func_021C4F30(a0, p, ctx);
         func_021C4EAC(a0, p, ctx);
-        ov208_func_021C6A10(a0, p, ctx);
+        ZUKAN_DETAIL_FORM_UpdateCursorMarkers(a0, p, ctx);
         func_021C6AFC(a0, p, ctx);
         func_021C68D4(a0, p, ctx);
         W(0x694) = 5;
-        func_021BDC48(scene, 1);
+        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
     }
 }

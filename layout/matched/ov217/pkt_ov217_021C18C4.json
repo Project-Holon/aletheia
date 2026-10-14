@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C18C4",
+   "name": "CircleGraph_ComputePointRanges",
    "address": "0x021C18C4",
    "kind": "game",
    "region": "ov217",

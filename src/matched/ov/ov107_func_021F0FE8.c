@@ -1,5 +1,5 @@
 /*
- * function: func_021F0FE8
+ * function: MB_COMM_SYS_StopNetSession
  * address: 0x021F0FE8
  * packet: pkt_ov107_021F0FE8
  * region: ov107
@@ -17,4 +17,4 @@ typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u32 a; u32 f4; u8 pad[16];unsigned short low:11,flag:1,rest:4;} State;
 extern int GFL_NET_Exit(int);
 extern void GFL_NET_LOWER_DATA_Exit(void);
-void func_021F0FE8(State *p) { GFL_NET_Exit(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }
+void MB_COMM_SYS_StopNetSession(State *p) { GFL_NET_Exit(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }

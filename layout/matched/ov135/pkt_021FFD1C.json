@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFD1C",
+   "name": "WORLDTRADE_SUBLCD_MoveArrowToSlot",
    "address": "0x021FFD1C",
    "kind": "game",
    "region": "ov135",

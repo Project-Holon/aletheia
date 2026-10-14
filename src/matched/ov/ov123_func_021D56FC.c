@@ -1,5 +1,5 @@
 /*
- * function: func_021D56FC
+ * function: GSYNC_MESSAGE_PrintStream
  * address: 0x021D56FC
  * packet: pkt_ov123_021D56FC
  * region: ov123
@@ -37,7 +37,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D56FC(char *p,int mode)
+void GSYNC_MESSAGE_PrintStream(char *p,int mode)
 {
     void *q;
     if (!((struct Obj01933 *)p)->f44) ((struct Obj01933 *)p)->f44=(void *)BMP_WIN_Create((int)5,(int)1,(u8)1,(int)30,4,11,1);

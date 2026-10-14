@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A44
+ * function: WORLDTRADE_ENTER_SetState
  * address:  0x021F8A44
  * packet:   pkt_ov135_021F8A44
  * region:   ov135
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_021F4EC0  0x021F4EC0  thumb
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  */
 
 typedef unsigned char u8;
@@ -29,14 +29,14 @@ typedef struct {
 } Work;
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 
-int func_021F8A44(Work *p)
+int WORLDTRADE_ENTER_SetState(Work *p)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xFFFF);
     p->x28 = 1;
     p->xEB2 = 1;
     p->x30 = 0;
-    func_021F4EC0((u8 *)p, 1, 0);
+    WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
     return 2;
 }

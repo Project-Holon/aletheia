@@ -1,5 +1,5 @@
 /*
- * function: func_021C278C
+ * function: PERCENTAGE_Layout
  * address:  0x021C278C
  * packet:   pkt_ov217_021C278C
  * region:   ov217
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C28EC  0x021C28EC  thumb  ov217
- *   func_021C28DC  0x021C28DC  thumb  ov217
- *   func_021C28CC  0x021C28CC  thumb  ov217
- *   func_021C28BC  0x021C28BC  thumb  ov217
- *   func_021C28A4  0x021C28A4  thumb  ov217
- *   func_021C2894  0x021C2894  thumb  ov217
+ *   PERCENTAGE_GetHundredsPosition  0x021C28EC  thumb  ov217
+ *   PERCENTAGE_GetTensPosition  0x021C28DC  thumb  ov217
+ *   PERCENTAGE_GetOnesPosition  0x021C28CC  thumb  ov217
+ *   PERCENTAGE_GetHundredsDigit  0x021C28BC  thumb  ov217
+ *   PERCENTAGE_GetTensDigit  0x021C28A4  thumb  ov217
+ *   PERCENTAGE_GetOnesDigit  0x021C2894  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
@@ -41,14 +41,14 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021C28EC(const u32 *p, u16 *a, u16 *b);
-extern void func_021C28DC(const u32 *p, u16 *a, u16 *b);
-extern void func_021C28CC(const u32 *p, u16 *a, u16 *b);
-extern u8 func_021C28BC(char *p);
-extern u8 func_021C28A4(char *p);
-extern u8 func_021C2894(char *p);
+extern void PERCENTAGE_GetHundredsPosition(const u32 *p, u16 *a, u16 *b);
+extern void PERCENTAGE_GetTensPosition(const u32 *p, u16 *a, u16 *b);
+extern void PERCENTAGE_GetOnesPosition(const u32 *p, u16 *a, u16 *b);
+extern u8 PERCENTAGE_GetHundredsDigit(char *p);
+extern u8 PERCENTAGE_GetTensDigit(char *p);
+extern u8 PERCENTAGE_GetOnesDigit(char *p);
 
-void func_021C278C(u8 *p)
+void PERCENTAGE_Layout(u8 *p)
 {
     u32 z = 0;
     void *h = ((struct Obj03957 *)p)->f10;
@@ -66,26 +66,26 @@ void func_021C278C(u8 *p)
     CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f14;
-    func_021C28EC((const u32 *)p, pos, pos + 1);
+    PERCENTAGE_GetHundredsPosition((const u32 *)p, pos, pos + 1);
     CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
-    CLACT_SetActorAnimFrame(h, func_021C28BC((char *)p) << 12);
+    CLACT_SetActorAnimFrame(h, PERCENTAGE_GetHundredsDigit((char *)p) << 12);
     CLACT_StopActorAnim(h);
     CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f18;
-    func_021C28DC((const u32 *)p, pos, pos + 1);
+    PERCENTAGE_GetTensPosition((const u32 *)p, pos, pos + 1);
     CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
-    CLACT_SetActorAnimFrame(h, func_021C28A4((char *)p) << 12);
+    CLACT_SetActorAnimFrame(h, PERCENTAGE_GetTensDigit((char *)p) << 12);
     CLACT_StopActorAnim(h);
     CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f1C;
-    func_021C28CC((const u32 *)p, pos, pos + 1);
+    PERCENTAGE_GetOnesPosition((const u32 *)p, pos, pos + 1);
     CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
-    CLACT_SetActorAnimFrame(h, func_021C2894((char *)p) << 12);
+    CLACT_SetActorAnimFrame(h, PERCENTAGE_GetOnesDigit((char *)p) << 12);
     CLACT_StopActorAnim(h);
     CLACT_SetActorDrawEnable(h, z);
 }

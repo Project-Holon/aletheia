@@ -1,5 +1,5 @@
 /*
- * function: func_021F1118
+ * function: MB_COMM_SYS_GetOfferCount
  * address:  0x021F1118
  * packet:   pkt_ov107_021F1118
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-unsigned short func_021F1118(Ov107Ctx *p)
+unsigned short MB_COMM_SYS_GetOfferCount(Ov107Ctx *p)
 {
     return p->f24;
 }

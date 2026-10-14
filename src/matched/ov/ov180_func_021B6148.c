@@ -1,5 +1,5 @@
 /*
- * function: func_021B6148
+ * function: HALL_OF_FAME_ProcExit
  * address:  0x021B6148
  * packet:   pkt_021B6148
  * region:   ov180
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 
-int func_021B6148(void *p)
+int HALL_OF_FAME_ProcExit(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x8d);

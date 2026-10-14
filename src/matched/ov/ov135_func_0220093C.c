@@ -1,5 +1,5 @@
 /*
- * function: func_0220093C
+ * function: WORLDTRADE_TITLE_DrawMenuLabels
  * address: 0x0220093C
  * packet: pkt_ov135_0220093C
  * region: ov135
@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02200A7C 0x02200A7C thumb ov135
+ *   WORLDTRADE_TITLE_PrintBankString 0x02200A7C thumb ov135
  *   d_022038FC 0x022038FC data a4
  */
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_02200A7C(void *p, void *bank, u32 b, u32 id, u32 fifth, void *out, u16 se);
+extern void WORLDTRADE_TITLE_PrintBankString(void *p, void *bank, u32 b, u32 id, u32 fifth, void *out, u16 se);
 typedef struct {
     u8 pad0[0x32];
     u16 index;
@@ -33,7 +33,7 @@ typedef struct {
     u8 padd5c[0xfa0 - 0xd5c];
     u8 queue[1];
 } Work;
-void func_0220093C(Work *p)
+void WORLDTRADE_TITLE_DrawMenuLabels(Work *p)
 {
     void *q;
     const u32 *t;
@@ -43,6 +43,6 @@ void func_0220093C(Work *p)
     q = p->queue;
     for (; i < 3; i++) {
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->win[i])), 1);
-        func_02200A7C((void *)p->win[i], (void *)p->bank, 0, t[i], 0, q, 0x3dc1);
+        WORLDTRADE_TITLE_PrintBankString((void *)p->win[i], (void *)p->bank, 0, t[i], 0, q, 0x3dc1);
     }
 }

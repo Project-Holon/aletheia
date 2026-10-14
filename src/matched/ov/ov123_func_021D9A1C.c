@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A1C
+ * function: PDWACC_DISP_Exit
  * address: 0x021D9A1C
  * packet: pkt_ov123_021D9A1C
  * region: ov123
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9FB0 0x021D9FB0 thumb ov123
+ *   PDWACC_DISP_DeleteActors 0x021D9FB0 thumb ov123
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 typedef enum { C0=0 } Counter;
 extern u8 ov_id[];
-extern void func_021D9FB0(unsigned int p);
+extern void PDWACC_DISP_DeleteActors(unsigned int p);
 extern void CLACT_ReleasePalette(unsigned int i);
 extern void CLACT_ReleaseCharacter(unsigned int i);
 extern void CLACT_ReleaseCellAnim(unsigned int i);
@@ -43,10 +43,10 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0203F9B4(void);
 extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
-void func_021D9A1C(u8 *p)
+void PDWACC_DISP_Exit(u8 *p)
 {
     Counter i;
-    func_021D9FB0((unsigned int)p);
+    PDWACC_DISP_DeleteActors((unsigned int)p);
     if (((struct Obj03802 *)p)->f8) {
         func_02030EAC(((struct Obj03802 *)p)->f8);
         ((struct Obj03802 *)p)->f8=0;

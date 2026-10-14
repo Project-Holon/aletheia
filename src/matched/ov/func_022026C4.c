@@ -1,5 +1,5 @@
 /*
- * function: func_022026C4
+ * function: WORLDTRADE_ADAPTER_StrObjThunk
  * address:  0x022026C4
  * packet:   pkt_022026C4
  * region:   ov135
@@ -23,7 +23,7 @@ typedef signed short s16;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-int func_022026C4(u32 *p, u32 b, u32 a, u32 c)
+int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c)
 {
     return func_0201D304((struct StrObj *)a, *p, (u16)c);
 }

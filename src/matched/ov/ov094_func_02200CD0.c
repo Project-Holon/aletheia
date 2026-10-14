@@ -1,5 +1,5 @@
 /*
- * function: func_02200CD0
+ * function: BTLV_MCSS_BlinkTaskMain
  * address:  0x02200CD0
  * packet:   pkt_ov094_02200CD0
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_021FF260  0x021FF260  thumb  ov094
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
+ *   BTLV_MCSS_SetBlinkMode  0x021FF260  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
  *
  * Task callback.
  */
@@ -33,24 +33,24 @@ typedef struct {
     int tag;                /* 0x50 */
 } Ctx;
 
-extern void func_021F89BC(void *h);
-extern int func_021FFD9C(char *p, int key);
-extern void func_021FF260(Work *w, int key, int kind);
+extern void BTLV_EFFECT_DeleteTask(void *h);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern void BTLV_MCSS_SetBlinkMode(Work *w, int key, int kind);
 
-void func_02200CD0(void *h, Ctx *c)
+void BTLV_MCSS_BlinkTaskMain(void *h, Ctx *c)
 {
     Work *w = c->w;
 
-    if (func_021FFD9C((char *)w, c->key) == 0 || c->tag != w->tag[c->key]) {
-        func_021F89BC(h);
+    if (BTLV_MCSS_IsSpriteLoaded((char *)w, c->key) == 0 || c->tag != w->tag[c->key]) {
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     if (c->wait == 0) {
         c->wait = c->reload;
-        func_021FF260(c->w, c->key, 2);
+        BTLV_MCSS_SetBlinkMode(c->w, c->key, 2);
         if (--c->count == 0) {
-            func_021FF260(c->w, c->key, 0);
-            func_021F89BC(h);
+            BTLV_MCSS_SetBlinkMode(c->w, c->key, 0);
+            BTLV_EFFECT_DeleteTask(h);
         }
     } else {
         c->wait--;

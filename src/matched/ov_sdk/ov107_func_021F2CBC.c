@@ -1,5 +1,5 @@
 /*
- * function: func_021F2CBC
+ * function: MBi_CommParentSendData
  * address:  0x021F2CBC
  * packet:   pkt_ov107_021F2CBC
  * region:   ov107
@@ -14,7 +14,7 @@
  * symbols:
  *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F276C  0x021F276C  arm  ov107
- *   func_021F27A8  0x021F27A8  arm  ov107
+ *   MBi_CommParentSendDLFileInfo  0x021F27A8  arm  ov107
  *   func_021F2A44  0x021F2A44  arm  ov107
  *   g_021F6FA0     0x021F6FA0  data
  */
@@ -40,10 +40,10 @@ extern MBiParam *g_021F6FA0;
 
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
-extern int func_021F27A8(void);
+extern int MBi_CommParentSendDLFileInfo(void);
 extern int func_021F2A44(void);
 
-static int func_021F2CBC(void)
+static int MBi_CommParentSendData(void)
 {
     int errcode;
     u16 child;
@@ -80,7 +80,7 @@ static int func_021F2CBC(void)
     else if (bmp.kick)
         errcode = func_021F276C(2, bmp.kick);
     else if (bmp.req)
-        errcode = func_021F27A8();
+        errcode = MBi_CommParentSendDLFileInfo();
     else
         errcode = func_021F2A44();
 

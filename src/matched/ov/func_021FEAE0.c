@@ -1,5 +1,5 @@
 /*
- * function: func_021FEAE0
+ * function: WORLDTRADE_SEARCH_SelectButton
  * address:  0x021FEAE0
  * packet:   pkt_021FEAE0
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FE9B0  0x021FE9B0  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SEARCH_GetSelectedButton  0x021FE9B0  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   tbl_02203D38   0x02203D38  data  a1
  *   tbl_02203D46   0x02203D46  data  a2
  *
@@ -53,10 +53,10 @@ typedef struct {
 extern const Sel tbl_02203D38[];
 extern const CurPos tbl_02203D46[];
 
-extern int func_021FE9B0(Work *p);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern int WORLDTRADE_SEARCH_GetSelectedButton(Work *p);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
-void func_021FEAE0(Work *p, int i)
+void WORLDTRADE_SEARCH_SelectButton(Work *p, int i)
 {
     int a;
     int b;
@@ -68,7 +68,7 @@ void func_021FEAE0(Work *p, int i)
         p->st->f24 = 1;
         p->st->f2C = tbl_02203D38[i].slot;
     }
-    a = func_021FE9B0(p);
-    b = func_021FE9B0(p);
-    func_021F4FF4(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
+    a = WORLDTRADE_SEARCH_GetSelectedButton(p);
+    b = WORLDTRADE_SEARCH_GetSelectedButton(p);
+    WORLDTRADE_SetActorPos(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
 }

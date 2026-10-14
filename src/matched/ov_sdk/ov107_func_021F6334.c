@@ -12,11 +12,11 @@
  * SDK: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o).  decl_line 1711, local arg.
  *
  * symbols:
- *   d_021F6F90   0x021F6F90  data
+ *   gMbWm   0x021F6F90  data
  */
 typedef unsigned short u16;
 
-extern char d_021F6F90[];
+extern char gMbWm[];
 
 void MBi_CheckWmErrcode(u16 apiid, int errcode)
 {
@@ -32,6 +32,6 @@ void MBi_CheckWmErrcode(u16 apiid, int errcode)
 
     arg.apiid = apiid;
     arg.errcode = (u16)errcode;
-    callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+    callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
     callback(0xFF, &arg);
 }

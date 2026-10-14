@@ -1,5 +1,5 @@
 /*
- * function: func_021E0338
+ * function: GURU2_MAIN_CreateNameWindows
  * address: 0x021E0338
  * packet: pkt_ov137_021E0338
  * region: ov137
@@ -10,16 +10,16 @@
  * lever: Store the call result directly into its slot, then reuse that slot; declare counter before section base.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   d_021E1E30 0x021E1E30 data a4
+ *   gGuru2SlotDescTable 0x021E1E30 data a4
  */
 #include "../include/Obj23773.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 layer; u8 a,b,c,d; u16 e,pad; } Desc;
-extern const Desc *const d_021E1E30[];
+extern const Desc *const gGuru2SlotDescTable[];
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-void func_021E0338(u8 *p,int count)
+void GURU2_MAIN_CreateNameWindows(u8 *p,int count)
 {
     int i;
     u8 *s;
@@ -29,7 +29,7 @@ void func_021E0338(u8 *p,int count)
     const Desc *entry;
     s=p+3296;
     i=0;
-    table=d_021E1E30[count];
+    table=gGuru2SlotDescTable[count];
     ((struct Obj23773 *)s)->f0=count;
     for(;i<count;i++) {
         entry=&table[i];

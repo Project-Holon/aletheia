@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C7024, func_021C703C
+ * function: MB_SEQ_ShowMessage2, MB_SEQ_OpenConfirmMenuKind1
  * address: 0x021C7024
  * packet: pkt_ov136_021C7024
  * region: ov136
@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C630C 0x021C630C thumb ov136
- *   func_021C71A8 0x021C71A8 thumb ov136
- *   func_021C71BC 0x021C71BC thumb ov136
- * extent: stops before separately filed leaf func_021C7048.
+ *   MB_SEQ_PrintMenuMessage 0x021C630C thumb ov136
+ *   MB_SEQ_SetMessageWait 0x021C71A8 thumb ov136
+ *   MB_SEQ_OpenMenuKind 0x021C71BC thumb ov136
+ * extent: stops before separately filed leaf MB_SEQ_FinishPartyListChoice.
  */
-extern void func_021C630C(unsigned char *p, unsigned int i);
-extern int func_021C71A8(char *, int, int);
+extern void MB_SEQ_PrintMenuMessage(unsigned char *p, unsigned int i);
+extern int MB_SEQ_SetMessageWait(char *, int, int);
 typedef unsigned char  u8;
-extern int func_021C71BC(u8 *p, int v);
-void func_021C7024(char *p)
+extern int MB_SEQ_OpenMenuKind(u8 *p, int v);
+void MB_SEQ_ShowMessage2(char *p)
 {
-    func_021C630C((unsigned char *)p, 2);
-    func_021C71A8(p, 0, 0x13);
+    MB_SEQ_PrintMenuMessage((unsigned char *)p, 2);
+    MB_SEQ_SetMessageWait(p, 0, 0x13);
 }
-int func_021C703C(char *p)
+int MB_SEQ_OpenConfirmMenuKind1(char *p)
 {
-    return func_021C71BC((u8 *)p, 1);
+    return MB_SEQ_OpenMenuKind((u8 *)p, 1);
 }

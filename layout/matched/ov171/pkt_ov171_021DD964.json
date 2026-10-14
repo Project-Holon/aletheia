@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD964",
+   "name": "DENDOU_VIEW_DrawTitle",
    "address": "0x021DD964",
    "kind": "game",
    "region": "ov171",

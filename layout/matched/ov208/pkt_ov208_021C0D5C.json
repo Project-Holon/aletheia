@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0D5C",
+   "name": "ZUKAN_DETAIL_AREA_FindTownAtPoint",
    "address": "0x021C0D5C",
    "kind": "game",
    "region": "ov208",

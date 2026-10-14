@@ -1,5 +1,5 @@
 /*
- * function: func_0220055C
+ * function: BTLV_MCSS_SetSpriteWorkFlagForRule
  * address:  0x0220055C
  * packet:   pkt_ov094_0220055C
  * region:   ov094
@@ -14,8 +14,8 @@
  *
  * symbols:
  *   MCSS_SetWorkFlag  0x02016394  thumb
- *   func_021F8710  0x021F8710  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_GetMode  0x021F8710  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
  * blocker: unlabelled arm9 Thumb leaf MCSS_SetWorkFlag (the integrator's; no witness outside
  *   0220055C..022005C2). Every concrete byte matches (MATCH*, the extent's 2 extra bytes
@@ -47,22 +47,22 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
-extern int func_021F8710(void);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern int BTLV_EFFECT_GetMode(void);
 extern void MCSS_SetWorkFlag(void *h, int flag);
 
-void func_0220055C(Work *w, int key, int mode)
+void BTLV_MCSS_SetSpriteWorkFlagForRule(Work *w, int key, int mode)
 {
     int f = 0;
     int i;
 
-    i = func_022019F4((char *)w, key);
+    i = BTLV_MCSS_FindSpriteIndex((char *)w, key);
     if (i == -1)
         return;
     if (w->e[i].h == 0)
         return;
     if (mode == 1) {
-        switch (func_021F8710()) {
+        switch (BTLV_EFFECT_GetMode()) {
         case 0:
         case 3:
             break;

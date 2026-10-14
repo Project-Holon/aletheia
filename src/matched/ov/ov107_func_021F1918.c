@@ -1,5 +1,5 @@
 /*
- * function: func_021F1918
+ * function: MB_UTIL_MSG_SetNumberZeroPad
  * address: 0x021F1918
  * packet: pkt_ov107_021F1918
  * region: ov107
@@ -16,4 +16,4 @@
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-void func_021F1918(unsigned char *a,int b,int c,int d) { func_0201EFA4(((struct Obj22304 *)a)->f24,b,c,d,2,1); }
+void MB_UTIL_MSG_SetNumberZeroPad(unsigned char *a,int b,int c,int d) { func_0201EFA4(((struct Obj22304 *)a)->f24,b,c,d,2,1); }

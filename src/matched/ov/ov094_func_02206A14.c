@@ -1,5 +1,5 @@
 /*
- * function: func_02206A14
+ * function: BTLV_INPUT_BlendWindowPalette
  * address:  0x02206A14
  * packet:   pkt_ov094_02206A14
  * region:   ov094
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F8754  0x021F8754  thumb  ov094
+ *   BTLV_EFFECT_GetBattleMain  0x021F8754  thumb  ov094
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021F8914  0x021F8914  thumb  ov094
+ *   BTLV_EFFECT_IsRecordAllowed  0x021F8914  thumb  ov094
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_021F86E0  0x021F86E0  thumb  ov094
+ *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb  ov094
  *   PALANM_CopyToSlot  0x020215BC  thumb
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct PalAnmSlot;
-extern int func_021F8754(void);
+extern int BTLV_EFFECT_GetBattleMain(void);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
-extern int func_021F8914(void);
+extern int BTLV_EFFECT_IsRecordAllowed(void);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
-void func_02206A14(char *p)
+void BTLV_INPUT_BlendWindowPalette(char *p)
 {
     u16 buf[16];
 
-    if ((int)BTL_MAIN_GetCompetitor((void ***)func_021F8754()) != 4 && func_021F8914() == 0) {
+    if ((int)BTL_MAIN_GetCompetitor((void ***)BTLV_EFFECT_GetBattleMain()) != 4 && BTLV_EFFECT_IsRecordAllowed() == 0) {
         PALANM_BlendColors((u16 *)(p + 0x284), buf, 0x10, 8, 0);
-        PALANM_CopyToSlot((struct PalAnmSlot *)func_021F86E0(), buf, 1, 0x20, 0x20);
+        PALANM_CopyToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), buf, 1, 0x20, 0x20);
     }
 }

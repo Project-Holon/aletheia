@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E3C
+ * function: RingQueue_Destroy
  * address:  0x021C0E3C
  * packet:   pkt_021C0E3C
  * region:   ov217
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0E98  0x021C0E98  thumb  ov217
+ *   RingQueue_FreeBuffer  0x021C0E98  thumb  ov217
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern void func_021C0E98(u8 *a0);
+extern void RingQueue_FreeBuffer(u8 *a0);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C0E3C(void *p)
+void RingQueue_Destroy(void *p)
 {
-    func_021C0E98(p);
+    RingQueue_FreeBuffer(p);
     func_020307B0(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02204698
+ * function: BTLV_INPUT_CreateCursorActors
  * address:  0x02204698
  * packet:   pkt_ov094_02204698
  * region:   ov094
@@ -11,9 +11,9 @@
  *   to it (base + offset); that order gives the original r0/r1 colouring at +0056.
  *
  * symbols:
- *   func_0220684C  0x0220684C  thumb  ov094
- *   func_022047CC  0x022047CC  thumb  ov094
- *   func_022047F8  0x022047F8  thumb  ov094
+ *   BTLV_INPUT_RegisterTask  0x0220684C  thumb  ov094
+ *   BTLV_INPUT_CursorActorTaskMain  0x022047CC  thumb  ov094
+ *   BTLV_INPUT_CursorActorTaskEnd  0x022047F8  thumb  ov094
  *   d_0220AEB0  0x0220AEB0  data  a4
  *   d_0220A53C  0x0220A53C  data  a4
  *   d_0220A85C  0x0220A85C  data  a4
@@ -54,14 +54,14 @@ extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_022047CC(void *a, void **s);
-extern void func_022047F8(void *);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_CursorActorTaskMain(void *a, void **s);
+extern void BTLV_INPUT_CursorActorTaskEnd(void *);
 extern const char d_0220AEB0[];
 extern const Quad d_0220A53C;
 extern Row d_0220A85C[];
 
-void func_02204698(Obj *p, int a, int b)
+void BTLV_INPUT_CreateCursorActors(Obj *p, int a, int b)
 {
     Res *r;
     u16 v;
@@ -87,6 +87,6 @@ void func_02204698(Obj *p, int a, int b)
             CLACT_SetActorAnimSeq(r->e[i], v);
         }
     }
-    func_0220684C((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Res *))func_022047CC, r, 0), (int)func_022047F8);
+    BTLV_INPUT_RegisterTask((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Res *))BTLV_INPUT_CursorActorTaskMain, r, 0), (int)BTLV_INPUT_CursorActorTaskEnd);
     p->f68.n++;
 }

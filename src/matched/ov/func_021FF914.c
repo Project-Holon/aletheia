@@ -1,5 +1,5 @@
 /*
- * function: func_021FF914
+ * function: WORLDTRADE_SUBLCD_SetActorAnim
  * address:  0x021FF914
  * packet:   pkt_021FF914
  * region:   ov135
@@ -24,7 +24,7 @@ typedef signed short s16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021FF914(u32 *p, u32 v)
+void WORLDTRADE_SUBLCD_SetActorAnim(u32 *p, u32 v)
 {
     CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p[2] + 0xd0c)), (u16)v);
 }

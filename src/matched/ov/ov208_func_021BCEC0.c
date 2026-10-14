@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEC0
+ * function: ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics
  * address: 0x021BCEC0
  * packet: pkt_ov208_021BCEC0
  * region: ov208
@@ -10,9 +10,9 @@
  * volatile: hardware writes 021BCEE4/021BCEEA and read-modify-write 021BCEEC/021BCEF4, 021BCEF6/021BCEFA.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_021BCF6C 0x021BCF6C thumb ov208
- *   func_021BD07C 0x021BD07C thumb ov208
- *   func_021BCFF8 0x021BCFF8 thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_Delete3dSystem 0x021BCF6C thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_ExitActorSystem 0x021BD07C thumb ov208
+ *   ZUKAN_DETAIL_GRAPHIC_DeleteWindows 0x021BCFF8 thumb ov208
  *   func_0201DD68 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
@@ -20,19 +20,19 @@
 #include "../include/Obj04613.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021BCF6C(char *p);
-extern void func_021BD07C(char *p);
-extern void func_021BCFF8(void *);
+extern void ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(char *p);
+extern void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p);
+extern void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *);
 extern void func_0201DD68(void);
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BCEC0(char *p)
+void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
 {
     func_02030EAC(((struct Obj04613 *)p)->fC);
-    func_021BCF6C(p);
-    func_021BD07C(p+4);
-    func_021BCFF8(p);
+    ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(p);
+    ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(p+4);
+    ZUKAN_DETAIL_GRAPHIC_DeleteWindows(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C25B0
+ * function: ARROW_CreateUnit
  * address:  0x021C25B0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Store the result of functional call CLACT_CreateUnit(0x1a, 0, p->h0) into p->w4.
  *
  * symbols:
- *   func_021C25B0  0x021C25B0  thumb  ov217
+ *   ARROW_CreateUnit  0x021C25B0  thumb  ov217
  *   CLACT_CreateUnit  0x0204B100  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-void func_021C25B0(u8 *p)
+void ARROW_CreateUnit(u8 *p)
 {
     ((struct Obj03378 *)p)->f4 = (u32)CLACT_CreateUnit(0x1a, 0, ((struct Obj03378 *)p)->f0);
 }

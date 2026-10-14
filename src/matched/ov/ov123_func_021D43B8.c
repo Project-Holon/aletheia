@@ -1,5 +1,5 @@
 /*
- * function: func_021D43B8
+ * function: GSYNC_MENU_AddPaletteEntries
  * address: 0x021D43B8
  * packet: pkt_ov123_021D43B8
  * region: ov123
@@ -10,7 +10,7 @@
  * extent: zero padding at 0x021D443E; next function at 0x021D4440.
  */
 typedef unsigned short u16;
-void func_021D43B8(u16 *p, const u16 *add, int n)
+void GSYNC_MENU_AddPaletteEntries(u16 *p, const u16 *add, int n)
 {
     int i, j;
     u16 *row;

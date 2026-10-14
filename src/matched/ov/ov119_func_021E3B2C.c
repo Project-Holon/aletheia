@@ -1,5 +1,5 @@
 /*
- * function: func_021E3B2C
+ * function: POKETRADE_3D_LoadTexturePalette
  * address: 0x021E3B2C
  * packet: pkt_ov119_021E3B2C
  * region: ov119
@@ -35,7 +35,7 @@ extern void func_0207FADC(void);
 extern void MI_CpuCopy8(const void *, void *, int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021E3B2C(char *p)
+void POKETRADE_3D_LoadTexturePalette(char *p)
 {
     void *v;
     void *allocation;

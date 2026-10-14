@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F8AE8, func_021F8AFC, func_021F8B10, func_021F8B28
+ * function: BTLV_EFFECT_SetPokeEffectValue, BTLV_EFFECT_GetPokeEffectValue, BTLV_EFFECT_SuspendVmWait, BTLV_EFFECT_ResumeVmWait
  * address:  0x021F8AE8
  * packet:   pkt_ov094_021F8AE8
  * region:   ov094
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F9A7C  0x021F9A7C  thumb  ov094
- *   func_021F9AA4  0x021F9AA4  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFVM_StopLiveSounds  0x021F9A7C  thumb  ov094
+ *   BTLV_EFFVM_ClearLastEffect  0x021F9AA4  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -24,27 +24,27 @@ typedef struct {
     u32 tbl[1];         /* 0x218 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern int func_021F9A7C(void *h);
-extern int func_021F9AA4(void *h);
+extern int BTLV_EFFVM_StopLiveSounds(void *h);
+extern int BTLV_EFFVM_ClearLastEffect(void *h);
 
-void func_021F8AE8(int i, u32 v)
+void BTLV_EFFECT_SetPokeEffectValue(int i, u32 v)
 {
-    d_0220AF20->tbl[i] = v;
+    gBtlvEff->tbl[i] = v;
 }
 
-int func_021F8AFC(int i)
+int BTLV_EFFECT_GetPokeEffectValue(int i)
 {
-    return d_0220AF20->tbl[i];
+    return gBtlvEff->tbl[i];
 }
 
-int func_021F8B10(void)
+int BTLV_EFFECT_SuspendVmWait(void)
 {
-    return func_021F9A7C(d_0220AF20->h);
+    return BTLV_EFFVM_StopLiveSounds(gBtlvEff->h);
 }
 
-int func_021F8B28(void)
+int BTLV_EFFECT_ResumeVmWait(void)
 {
-    return func_021F9AA4(d_0220AF20->h);
+    return BTLV_EFFVM_ClearLastEffect(gBtlvEff->h);
 }

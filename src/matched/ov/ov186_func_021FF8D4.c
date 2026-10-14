@@ -1,5 +1,5 @@
 /*
- * function: func_021FF8D4
+ * function: BR_NET_IsFatal
  * address:  0x021FF8D4
  * packet:   pkt_021FF8D4
  * region:   ov186
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021FF8D4(char *p)
+int BR_NET_IsFatal(char *p)
 {
     return ((struct Obj24864 *)p)->f5DC;
 }

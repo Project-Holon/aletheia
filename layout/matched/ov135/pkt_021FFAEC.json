@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFAEC",
+   "name": "WORLDTRADE_SUBLCD_SetActorSurfacePos",
    "address": "0x021FFAEC",
    "kind": "game",
    "region": "ov135",

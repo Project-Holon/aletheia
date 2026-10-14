@@ -12,7 +12,7 @@
  * SDK: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o).
  *
  * symbols:
- *   d_021F6F90   0x021F6F90  data
+ *   gMbWm   0x021F6F90  data
  */
 
 #include "../include/G_WmBase.h"
@@ -25,7 +25,7 @@ struct WMPortRecvCallback {
     u16 field4;
 };
 
-extern struct WmBase d_021F6F90;
+extern struct WmBase gMbWm;
 
 static void MBi_ChildPortCallback(void *arg)
 {
@@ -41,7 +41,7 @@ static void MBi_ChildPortCallback(void *arg)
     case 0x1A:
         break;
     case 0x15:
-        callback = *(void (**)(int, void *))(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x51C);
+        callback = *(void (**)(int, void *))(*(char **)(((char *)&gMbWm) + 0xC) + 0x51C);
         callback(9, arg);
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF22C
+ * function: GURU2_MAIN_StepAngle
  * address: 0x021DF22C
  * packet: pkt_ov137_021DF22C
  * region: ov137
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E1FDC 0x021E1FDC data a2
- *   func_021E19C0 0x021E19C0 thumb ov137
- *   func_021E15DC 0x021E15DC thumb ov137
+ *   gGuru2PointerAngleTable 0x021E1FDC data a2
+ *   GURU2_MAIN_BroadcastResult 0x021E19C0 thumb ov137
+ *   GURU2_MAIN_AddAngleWrapped 0x021E15DC thumb ov137
  *
  * note 2026-10-05 (wave P17 L7, final push G6L7): DIFF 26/116, obj/step/target colour
  * rotation and index load order; about 60 forms tried (see git history of the pending copy).
@@ -27,18 +27,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u8 pad[28]; int angle;} Selected;
 typedef struct { int state; u8 pad[36]; Selected *selected; int index, count; } Obj;
-extern u16 d_021E1FDC[][5];
-extern void func_021E19C0(char *r4, int r5);
-extern void func_021E15DC(int *, int);
+extern u16 gGuru2PointerAngleTable[][5];
+extern void GURU2_MAIN_BroadcastResult(char *r4, int r5);
+extern void GURU2_MAIN_AddAngleWrapped(int *, int);
 #pragma opt_propagation off
-int func_021DF22C(Obj *obj)
+int GURU2_MAIN_StepAngle(Obj *obj)
 {
     Selected *sel;
     int current, index, count;
     int target, step;
     int angle, delta;
     u16 (*table)[5];
-    table = d_021E1FDC;
+    table = gGuru2PointerAngleTable;
     index = obj->index;
     sel = obj->selected;
     count = obj->count;
@@ -50,8 +50,8 @@ int func_021DF22C(Obj *obj)
     if (delta < 0) delta = target + 0x168000 - current;
     if (delta <= 0x10000) step >>= 1;
     if (delta < step) step = delta;
-    func_021E19C0((char *)obj, step);
-    func_021E15DC(&angle, step);
+    GURU2_MAIN_BroadcastResult((char *)obj, step);
+    GURU2_MAIN_AddAngleWrapped(&angle, step);
     if (angle / 4096 == target / 4096) obj->state = 31;
     return 0;
 }

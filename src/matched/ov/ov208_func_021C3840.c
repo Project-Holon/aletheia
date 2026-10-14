@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C3840
+ * function: ZUKAN_DETAIL_VOICE_DrawWaveform
  * address: 0x021C3840
  * packet: pkt_ov208_021C3840
  * region: ov208
@@ -42,7 +42,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
 
-void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
+void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heap, u8 *p, int key, u16 a, u16 b)
 {
     u32 ca;
     u32 cb;

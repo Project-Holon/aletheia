@@ -1,5 +1,5 @@
 /*
- * function: func_021FA4FC
+ * function: WORLDTRADE_INPUT_MapModeToLabel
  * address:  0x021FA4FC
  * packet:   pkt_021FA4FC
  * region:   ov135
@@ -16,7 +16,7 @@
  * Map a mode value: 9 and 10 have fixed answers, everything else passes through.
  */
 
-int func_021FA4FC(int unused, int mode)
+int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode)
 {
     switch (mode) {
     case 9:

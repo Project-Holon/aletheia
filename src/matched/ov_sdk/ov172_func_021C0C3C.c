@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C3C
+ * function: Yos_BitWrite
  * address:  0x021C0C3C
  * packet:   pkt_ov172_021C0C3C
  * region:   ov172
@@ -29,7 +29,7 @@ static unsigned long gBitLen = 0;
 static unsigned long gWriteLimit = 0;
 extern unsigned long g_021C7150[];
 
-int func_021C0C3C(unsigned char *dst, unsigned long *ptr, unsigned long num, unsigned long size)
+int Yos_BitWrite(unsigned char *dst, unsigned long *ptr, unsigned long num, unsigned long size)
 {
     unsigned long i;
 

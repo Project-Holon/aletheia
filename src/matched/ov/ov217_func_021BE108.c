@@ -12,8 +12,8 @@
  * symbols:
  *   func_021BE4DC 0x021BE4DC thumb ov217
  *   func_021BED10 0x021BED10 thumb ov217
- *   func_021C1184 0x021C1184 thumb ov217
- *   func_021C1178 0x021C1178 thumb ov217
+ *   CircleGraph_SetEnabled 0x021C1184 thumb ov217
+ *   CircleGraph_QueueDrawMedium 0x021C1178 thumb ov217
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BF704 0x021BF704 thumb ov217
@@ -46,8 +46,8 @@ typedef unsigned char u8;
 extern u32 func_021BE4DC(void *p);
 extern u8 *func_021BF77C(void *p);
 extern void func_021BED10(u8 *p, u32 mode);
-extern void func_021C1184(u8 *h, u32 v);
-extern void func_021C1178(u8 *h);
+extern void CircleGraph_SetEnabled(u8 *h, u32 v);
+extern void CircleGraph_QueueDrawMedium(u8 *h);
 
 extern int GFL_USE_IsAnySeBusy(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -87,8 +87,8 @@ void func_021BE108(char *p)
         func_021BED10((u8 *)p, 0);
         func_021BED10((u8 *)p, 1);
         func_021BEC64(p);
-        func_021C1184(func_021BF77C(p), 1);
-        func_021C1178(func_021BF77C(p));
+        CircleGraph_SetEnabled(func_021BF77C(p), 1);
+        CircleGraph_QueueDrawMedium(func_021BF77C(p));
         func_021BE4E0(p);
         break;
     case 1:
@@ -103,7 +103,7 @@ void func_021BE108(char *p)
     case 2:
         ((struct Obj00021 *)p)->f3D0 = 0;
         func_021BEC0C(p);
-        func_021C1184(func_021BF77C(p), 0);
+        CircleGraph_SetEnabled(func_021BF77C(p), 0);
         func_021BF08C(p);
         func_021BF3B4(p);
         func_021BF15C(p);

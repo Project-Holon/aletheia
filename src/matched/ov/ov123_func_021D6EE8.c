@@ -1,5 +1,5 @@
 /*
- * function: func_021D6EE8
+ * function: GSYNC_STATE_StateWaitFade
  * address:  0x021D6EE8
  * packet:   pkt_021D6EE8
  * region:   ov123
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
- *   func_021D6EE0  0x021D6EE0  thumb
+ *   GSYNC_STATE_ChangeState  0x021D6EE0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -19,10 +19,10 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
 
-void func_021D6EE8(char *p)
+void GSYNC_STATE_StateWaitFade(char *p)
 {
     if (WIPE_SYS_EndCheck() != 0)
-        func_021D6EE0((u8 *)p, 0, 0x157);
+        GSYNC_STATE_ChangeState((u8 *)p, 0, 0x157);
 }

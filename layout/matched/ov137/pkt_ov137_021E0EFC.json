@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0EFC",
+   "name": "GURU2_MAIN_SettleEffectTask",
    "address": "0x021E0EFC",
    "kind": "game",
    "region": "ov137",

@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdGetMissionTargets
+ * function: SCRCMD_RESEARCH_CmdGetMissionTargets
  * address:  0x0216B5AC
  * packet:   pkt_ov010_0216B5AC
  * region:   ov010
@@ -32,7 +32,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk34;
 extern int func_0200C33C(struct Blk34 *p, u32 i);
 
-int FIELD_G3D_MAP_CmdGetMissionTargets(int a0, int a1)
+int SCRCMD_RESEARCH_CmdGetMissionTargets(int a0, int a1)
 {
     void *h;
     u16 *p0;

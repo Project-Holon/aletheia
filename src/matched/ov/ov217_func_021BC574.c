@@ -10,14 +10,14 @@
  * status: EXACT
  *
  * symbols:
- *   func_021C09D8 0x021C09D8 thumb ov217
+ *   RESEARCH_COMMON_StartPaletteAnime 0x021C09D8 thumb ov217
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021C09D8(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
 
 void func_021BC574(u8 **p, u32 i)
 {
-    func_021C09D8(*p, i);
+    RESEARCH_COMMON_StartPaletteAnime(*p, i);
 }

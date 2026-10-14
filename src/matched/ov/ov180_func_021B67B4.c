@@ -1,5 +1,5 @@
 /*
- * function: func_021B67B4
+ * function: HALL_OF_FAME_DeleteMonParticle
  * address:  0x021B67B4
  * packet:   pkt_021B67B4
  * region:   ov180
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 extern void PARTICLE_DeleteSystem(u8 *p);
 
-void func_021B67B4(int *p)
+void HALL_OF_FAME_DeleteMonParticle(int *p)
 {
     PARTICLE_DeleteSystem((u8 *)(((struct Obj14399 *)p)->f28));
     ((struct Obj14399 *)p)->f28 = 0;

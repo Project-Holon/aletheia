@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D88
+ * function: GDS_SOCKET_IsDottedQuad
  * address: 0x021D7D88
  * packet: pkt_ov125_021D7D88
  * region: ov125
@@ -8,7 +8,7 @@
  * isa: arm
  * status: EXACT
  */
-int func_021D7D88(const char *s) {
+int GDS_SOCKET_IsDottedQuad(const char *s) {
  int digits=0, dots=0;
  while (*s) {
   if (*s >= '0' && *s <= '9') {

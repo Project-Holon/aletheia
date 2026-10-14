@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0450
+ * function: ZUKAN_DETAIL_AREA_CreateTownIconActors
  * address:  0x021C0450
  * packet:   pkt_ov208_021C0450
  * region:   ov208
@@ -51,7 +51,7 @@ extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C0450(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key)
 {
     ObjPos pos;
     u8 i;

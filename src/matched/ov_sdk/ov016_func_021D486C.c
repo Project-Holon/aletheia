@@ -30,14 +30,14 @@
  *   FS_ChangeDir  0x02078C34  arm
  *   func_021D4A94  0x021D4A94  arm  ov016
  *   func_021D4AFC  0x021D4AFC  arm  ov016
- *   func_021D4B60  0x021D4B60  arm  ov016
+ *   DWCi_ARClCbWrite  0x021D4B60  arm  ov016
  *   gMemArchive  0x021DE66C  data
  *   sArchiveTable1  0x021DAA60  data
  *   @12216  0x021DBFB8  data
  *   @12217  0x021DBFD0  data
  *
  * notes:    the ABS32 pool word at 0x021D4A18 (cbWrite, 0x021D4B60) attests through the
- *           new symbols_sdk.json row and the seeded start (func_021D4B60, EXACT).
+ *           new symbols_sdk.json row and the seeded start (DWCi_ARClCbWrite, EXACT).
  */
 
 typedef unsigned short u16;
@@ -87,7 +87,7 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int FS_ChangeDir(const char *path);
 extern int func_021D4A94(int unused, unsigned long cmd);
 extern int func_021D4AFC(void *arc, void *dst, unsigned long pos, unsigned long size);
-extern int func_021D4B60(void);
+extern int DWCi_ARClCbWrite(void);
 
 void DWCi_ARClInit(void)
 {
@@ -113,7 +113,7 @@ void DWCi_ARClInit(void)
         OS_Terminate();
     FS_SetArchiveProc(&gMemArchive->archive, (int (*)(FSFile *, u32))func_021D4A94, 0x602);
     if (!FS_LoadArchive(&gMemArchive->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
-                       (int (*)(FSArchive *, void *, u32,  u32))func_021D4AFC, (int (*)(FSArchive *, void *, u32,  u32))func_021D4B60))
+                       (int (*)(FSArchive *, void *, u32,  u32))func_021D4AFC, (int (*)(FSArchive *, void *, u32,  u32))DWCi_ARClCbWrite))
         OS_Terminate();
     size = FS_LoadArchiveTables(&gMemArchive->archive, 0, 0);
     gMemArchive->table = DWCi_HEAPlAllocEx(size, 4);

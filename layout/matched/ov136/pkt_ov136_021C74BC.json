@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C74BC",
+   "name": "MB_SEQ_FinishChildFreeA",
    "address": "0x021C74BC",
    "kind": "game",
    "region": "ov136",

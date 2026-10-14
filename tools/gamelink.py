@@ -64,6 +64,7 @@ import shutil
 import struct
 import subprocess
 import sys
+import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -594,12 +595,54 @@ def registry_sizes(rname):
     return {int(o["addr"], 16): o["size"] for o in r.get("objects", [])}
 
 
-def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, skip=(), unplaced_files=False, extra=None,
-                 data=False):
+_RUN = {}          # per-run work dir and the dir that gets the results (see link_overlay)
+PUBLISH = ("ov.elf", "ov.lcf", "ov.bin", "link.log")
+
+
+def _publish(work, pub):
+    """Copy the result files of a run to the shared dir, each one atomically."""
+    os.makedirs(pub, exist_ok=True)
+    for n in PUBLISH:
+        src = os.path.join(work, n)
+        if os.path.isfile(src):
+            tmp = os.path.join(pub, ".%s.%d.tmp" % (n, os.getpid()))
+            shutil.copyfile(src, tmp)
+            for k in range(50):         # Windows refuses a replace while another run replaces the same file
+                try:
+                    os.replace(tmp, os.path.join(pub, n))
+                    break
+                except PermissionError:
+                    if k == 49:
+                        os.remove(tmp)
+                        raise
+                    time.sleep(0.05 * (k + 1) ** 0.5)
+
+
+def link_overlay(*args, **kw):
+    """Link one region. Every run works in its own dir OUT/<region>_<pid> so concurrent
+    runs never collide; at exit the result files (ov.elf, ov.lcf, ov.bin, link.log) are
+    copied to OUT/<region>/ (atomic per file, last run wins) and the run dir is removed."""
+    _RUN.clear()
+    try:
+        return _link_overlay(*args, **kw)
+    finally:
+        work, pub = _RUN.get("work"), _RUN.get("pub")
+        if work:
+            try:
+                _publish(work, pub)
+            except OSError:
+                pass
+            shutil.rmtree(work, ignore_errors=True)
+        _RUN.clear()
+
+
+def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, skip=(), unplaced_files=False, extra=None,
+                  data=False):
     base, img = overlay_info(ovid)
     end = base + len(img)
     d = os.path.join(ROOT, "src", "game", SRC_DIR.get(ovid) or region_name(ovid))
-    work = os.path.join(OUT, region_name(ovid))
+    pub = os.path.join(OUT, region_name(ovid))
+    work = os.path.join(OUT, "%s_%d" % (region_name(ovid), os.getpid()))
     data_tail = bss = None
     data_aliases = {}
     data_renames = {}
@@ -620,9 +663,11 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         # 1-aligned here but 4-aligned in the game's objects)
         own_tail = {stem: [(i, int(a, 16)) for i, a in v] for stem, v in dj.get("own", {}).items()}
         data_sinit = dj.get("sinit", [])
-        work = os.path.join(OUT + "_data", region_name(ovid))
+        pub = os.path.join(OUT + "_data", region_name(ovid))
+        work = os.path.join(OUT + "_data", "%s_%d" % (region_name(ovid), os.getpid()))
     shutil.rmtree(work, ignore_errors=True)
     os.makedirs(work)
+    _RUN["work"], _RUN["pub"] = work, pub
     match.load_all_regions()
     match.evidence()
 
@@ -1209,9 +1254,41 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                 split=[t["stem"] for t in tus if len(t["pieces"]) > 1])
 
 
+def _selftest_child(tmp):
+    global OUT, _link_overlay
+    OUT = tmp
+
+    def fake(ovid, **kw):
+        work = os.path.join(OUT, "%s_%d" % (region_name(ovid), os.getpid()))
+        os.makedirs(work)
+        _RUN["work"], _RUN["pub"] = work, os.path.join(OUT, region_name(ovid))
+        open(os.path.join(work, "ov.elf"), "w").write("elf %d" % os.getpid())
+        open(os.path.join(work, "t0.o"), "w").write("x")
+        return dict(ok=True)
+    _link_overlay = fake
+    return link_overlay(12)["ok"]
+
+
+def selftest():
+    """Four concurrent runs of one region: no collision, run dirs removed, result published."""
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="gamelink_selftest_")
+    code = "import sys; sys.path.insert(0, %r); import gamelink; sys.exit(0 if gamelink._selftest_child(%r) else 1)" % (os.path.dirname(os.path.abspath(__file__)), tmp)
+    procs = [subprocess.Popen([sys.executable, "-c", code]) for _ in range(4)]
+    rcs = [p.wait() for p in procs]
+    left = sorted(os.listdir(tmp))
+    pub = os.path.join(tmp, region_name(12))
+    ok = rcs == [0] * 4 and left == [region_name(12)] and sorted(os.listdir(pub)) == ["ov.elf"]
+    shutil.rmtree(tmp, ignore_errors=True)
+    print("gamelink selftest:", "PASS" if ok else "FAIL (rcs=%s left=%s)" % (rcs, left))
+    return 0 if ok else 1
+
+
 def main(argv):
     mode = {}
     ids = []
+    if argv == ["--selftest"]:
+        return selftest()
     for a in argv:
         if a == "--absolute":
             mode["absolute_only"] = True

@@ -9,19 +9,19 @@
  * status: EXACT*
  * trailing: 021BA4C6..021BA4C8 zero alignment padding.
  * symbols:
- *   func_021C09B4 0x021C09B4 thumb ov217
+ *   RESEARCH_COMMON_GetAppResource 0x021C09B4 thumb ov217
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  */
 #include "../include/Obj25823.h"
-extern unsigned func_021C09B4(void *);
+extern unsigned RESEARCH_COMMON_GetAppResource(void *);
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 unsigned char func_021BA434(char *p)
 {
-    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)func_021C09B4(((struct Obj25823 *)p)->f0));
+    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct Obj25823 *)p)->f0));
     int count=1;
     if(ZONEDATA_CheckEventFlag(bitmap,240)==1)count++;
     if(ZONEDATA_CheckEventFlag(bitmap,241)==1)count++;

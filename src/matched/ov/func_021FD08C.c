@@ -1,5 +1,5 @@
 /*
- * function: func_021FD08C
+ * function: WORLDTRADE_LIST_CreateActors
  * address:  0x021FD08C
  * packet:   pkt_021FD08C
  * region:   ov135
@@ -48,7 +48,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-void func_021FD08C(Obj *p)
+void WORLDTRADE_LIST_CreateActors(Obj *p)
 {
     ObjPos pos;
 

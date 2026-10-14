@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7A28  0x021F7A28  thumb  ov094
+ *   BTLV_EFFECT_StartEffectOnPoke  0x021F7A28  thumb  ov094
  */
 typedef unsigned int   u32;
-extern void func_021F7A28(int a, u32 b);
+extern void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
 
 void BTLV_CORE_StartViewEffect262(void *ctx, int a)
 {
-    func_021F7A28(a, 0x262);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x262);
 }

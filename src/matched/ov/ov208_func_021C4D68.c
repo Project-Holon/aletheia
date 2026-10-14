@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4D68
+ * function: ZUKAN_DETAIL_FORM_DrawFormLabel
  * address:  0x021C4D68
  * packet:   pkt_ov208_021C4D68
  * region:   ov208
@@ -17,11 +17,11 @@
  * symbols:
  *   BMP_WIN_GetBmp        0x02045770  arm
  *   BMP_GetWidth        0x020437DC  arm
- *   ov208_func_021C47C4  0x021C47C4  thumb
+ *   ZUKAN_DETAIL_FORM_BuildFormLabelText  0x021C47C4  thumb
  *   func_0201D304        0x0201D304  thumb
  *   PRINTSYS_PrintQueColor        0x0201C724  thumb
  *   STRBUF_Delete        0x02045808  arm
- *   ov208_func_021C4B60  0x021C4B60  thumb
+ *   ZUKAN_DETAIL_FORM_FlushPrintWindow  0x021C4B60  thumb
  */
 
 typedef unsigned char  u8;
@@ -42,14 +42,14 @@ struct Bmp;
 struct StrObj;
 struct U16Vec;
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern void ov208_func_021C47C4(u16 *heap, struct Ov208Menu *p, int key, u32 *outStr, u32 *outB,
+extern void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Menu *p, int key, u32 *outStr, u32 *outB,
                                 int *outC, int *outD, u16 idx);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
+extern void ZUKAN_DETAIL_FORM_FlushPrintWindow(u16 *heap, struct Ov208Menu *p, int key, int i);
 
-void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
+void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                          u32 *active, u16 idx)
 {
     u32 bmp;
@@ -64,7 +64,7 @@ void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 pri
 
     bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)win);
     width = BMP_GetWidth((const struct Bmp *)bmp);
-    ov208_func_021C47C4(heap, p, key, &strA, &strB, &freeA, &freeB, idx);
+    ZUKAN_DETAIL_FORM_BuildFormLabelText(heap, p, key, &strA, &strB, &freeA, &freeB, idx);
     y = 1;
     y2 = 0x11;
     if (strB == 0)
@@ -80,5 +80,5 @@ void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 pri
     if (strB != 0 && freeB != 0)
         STRBUF_Delete((struct U16Vec *)strB);
     *active = 1;
-    ov208_func_021C4B60(heap, p, key, i);
+    ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, p, key, i);
 }

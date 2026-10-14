@@ -1,7 +1,7 @@
 /*
  * file:     plist_demo.c
  * unit:     yes
- * function: PLIST_DEMO_CreateParticles, PLIST_DEMO_DeleteParticles, PLIST_DEMO_CheckGiratinaToOrigin, PLIST_DEMO_ApplyGiratinaOriginForm, PLIST_DEMO_CheckGiratinaToAltered, PLIST_DEMO_ApplyGiratinaAlteredForm, PLIST_DEMO_CanUseGracidea, PLIST_DEMO_ApplyShayminSkyForm, PLIST_DEMO_CheckItemUsable, PLIST_DEMO_UseItemOnMon, PLIST_DEMO_RaiseMovePpUps, PLIST_DEMO_RestoreHp, PLIST_DEMO_AddEv, PLIST_DEMO_FriendshipItemApplies
+ * function: PLIST_DEMO_CreateParticles, PLIST_DEMO_DeleteParticles, PLIST_DEMO_CheckGiratinaToOrigin, PLIST_DEMO_ApplyGiratinaOriginForm, PLIST_DEMO_CheckGiratinaToAltered, PLIST_DEMO_ApplyGiratinaAlteredForm, PLIST_DEMO_CanUseGracidea, PLIST_DEMO_ApplyShayminSkyForm, PLIST_DEMO_CheckItemUsable, PLIST_DEMO_UseItemOnMon, PLIST_DEMO_RaiseMovePpUps, PLIST_DEMO_RestoreHp, PLIST_DEMO_AddEv, PLIST_DEMO_FriendshipItemApplies, PLIST_DEMO_ApplyFriendshipItem
  * address:  0x021BDABC
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -11,6 +11,10 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * The sixth parameter is passed as the callee's narrow fourth parameter, so
+ * mwcc truncates it at the call site; see
+ * docs/idioms/a-narrow-callee-parameter-truncates-at-the-call-site.md.
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -37,11 +41,9 @@
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_RestorePP 0x0201B970 thumb
- *   PLIST_DEMO_ApplyFriendshipItem 0x021BEA48 thumb ov091
  *   PLIST_PLATE_GetCenterPos  0x021BB3D4  thumb
+ *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  */
-struct Rec;
-struct RtcTime;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -52,6 +54,9 @@ typedef signed int     s32;
 #include "plist_battle_types.h"
 #include "plist_demo_types.h"
 
+struct Rec;
+struct RtcTime;
+struct PokemonParam;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_020307B0(void *p);
@@ -76,8 +81,8 @@ extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_RestorePP(void *, u32, u32);
-extern int PLIST_DEMO_ApplyFriendshipItem(int, int, int, int, u16, int);
 void PLIST_PLATE_GetCenterPos(PokelistWork *work, u8 *plate, PlistPos *out);
+void NATSUKI_CalcUseItem(struct PokemonParam *mon, int item, u16 zoneId, u16 heapId);
 void PLIST_DEMO_CreateParticles(PokelistWork *work);
 void PLIST_DEMO_DeleteParticles(PokelistWork *work);
 int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused);
@@ -92,7 +97,9 @@ int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups);
 void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount);
 int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap);
 int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec);
+int PLIST_DEMO_ApplyFriendshipItem(struct PokemonParam *mon, int friendship, int delta, int item, u16 zoneId, int heapId);
 extern u8 d_021BED58[];
+
 
 /*
  * lever: two-halfword coordinate struct keeps its address sp-relative; int alias added 4 B.
@@ -130,11 +137,13 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
     for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, (int)vec);
 }
 
+
 void PLIST_DEMO_DeleteParticles(PokelistWork *work)
 {
     PARTICLE_DeleteSystem(work->particleSystem);
     GFL_NET_FreeAligned(work->particleMemory);
 }
+
 
 int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
 {
@@ -148,6 +157,7 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
     return result;
 }
 
+
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDC5A.
  */
@@ -156,6 +166,7 @@ void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon)
     POKE_TOOL_ChangeForm(mon, 1);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
+
 
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
 {
@@ -169,6 +180,7 @@ int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
     return result;
 }
 
+
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDCBE.
  */
@@ -177,6 +189,7 @@ void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon)
     POKE_TOOL_ChangeForm(mon, 0);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
+
 
 int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
 {
@@ -199,11 +212,13 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
     return 1;
 }
 
+
 void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
+
 
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
 {
@@ -471,6 +486,7 @@ int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
   }
 }
 
+
 /*
  * levers: wave 82 R12. Real callee prototypes (02020F34 heap u32, 021BEA48 first int)
  *   with the caller-side (u16)heap narrowing the listing shows before 02020F34; item and
@@ -586,23 +602,24 @@ int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap
     friendship = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FRIENDSHIP, 0);
     if (friendship < 100) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW)) {
-            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 100 && friendship < 200) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID)) {
-            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 200 && friendship <= 255) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH)) {
-            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem(mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     }
     func_020307B0(itemRec);
     return changed;
 }
+
 
 int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups)
 {
@@ -631,6 +648,7 @@ int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups)
     return 1;
 }
 
+
 void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount)
 {
     if (maxHp == 1) amount = 1;
@@ -641,6 +659,7 @@ void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount)
     if (hp > maxHp) hp = maxHp;
     POKE_TOOL_SetPartyValue(mon, PLIST_MON_HP, hp);
 }
+
 
 int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap)
 {
@@ -661,6 +680,7 @@ int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap)
         ev = 0x1FE - otherEvTotal;
     return ev;
 }
+
 
 int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
 {
@@ -684,4 +704,20 @@ int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
         return 0;
     }
     return 0;
+}
+
+
+/*
+ * Friendship change of an item use: nothing happens when the friendship is
+ * already at its limit in the direction of the change (255 and a rise, or 0
+ * and a fall). The band delta comes from the item record.
+ */
+int PLIST_DEMO_ApplyFriendshipItem(struct PokemonParam *mon, int friendship, int delta, int item, u16 zoneId, int heapId)
+{
+    if (friendship == 0xff && delta > 0)
+        return 0;
+    if (friendship == 0 && delta < 0)
+        return 0;
+    NATSUKI_CalcUseItem(mon, item, zoneId, heapId);
+    return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA2B0
+ * function: WORLDTRADE_INPUT_ScrollPage4Alt
  * address:  0x021FA2B0
  * packet:   pkt_021FA2B0
  * region:   ov135
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9EEC  0x021F9EEC  thumb
+ *   WORLDTRADE_INPUT_PlayCursorSe  0x021F9EEC  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_021FB2F0  0x021FB2F0  thumb
- *   func_021FBF04  0x021FBF04  thumb
+ *   WORLDTRADE_INPUT_PrintPageNumberA  0x021FB2F0  thumb
+ *   WORLDTRADE_INPUT_PrintPageLabel  0x021FBF04  thumb
  */
 
 typedef signed char s8;
@@ -47,15 +47,15 @@ typedef struct {
 } Menu;
 
 struct Obj;
-extern u32 func_021F9EEC(u8 *p, u32 n);
+extern u32 WORLDTRADE_INPUT_PlayCursorSe(u8 *p, u32 n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *v, u32 k);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021FB2F0(Menu *m, int page, int total);
-extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
+extern void WORLDTRADE_INPUT_PrintPageNumberA(Menu *m, int page, int total);
+extern void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages);
 
-void func_021FA2B0(Menu *m, int dir)
+void WORLDTRADE_INPUT_ScrollPage4Alt(Menu *m, int dir)
 {
     if (dir < 0) {
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -76,6 +76,6 @@ void func_021FA2B0(Menu *m, int dir)
             m->page = 0;
         }
     }
-    func_021FB2F0(m, m->page, m->total);
-    func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC((u8 *)m->total, 4));
+    WORLDTRADE_INPUT_PrintPageNumberA(m, m->page, m->total);
+    WORLDTRADE_INPUT_PrintPageLabel(m->mgr, m->num, m->wins[4], m->page, WORLDTRADE_INPUT_PlayCursorSe((u8 *)m->total, 4));
 }

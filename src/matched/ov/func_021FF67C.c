@@ -1,5 +1,5 @@
 /*
- * function: func_021FF67C
+ * function: WORLDTRADE_STATUS_Close
  * address:  0x021FF67C
  * packet:   pkt_021FF67C
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F5074  0x021F5074  thumb  ov135
- *   func_021F4EC8  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
+ *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
 
  * Publish the +0xf byte of the +0x10dc object as the u16 at +0xc6, then tear down.
  */
@@ -24,16 +24,16 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern u32 func_020307B0(void *p);
-extern void func_021F5074(u8 *p);
-extern void func_021F4EC8(u8 *p);
+extern void WORLDTRADE_ClearAndShowPlanes(u8 *p);
+extern void WORLDTRADE_ClearBusyFlag(u8 *p);
 
-u32 func_021FF67C(u8 *p)
+u32 WORLDTRADE_STATUS_Close(u8 *p)
 {
     u32 q = ((struct Obj12222 *)p)->f10DC;
 
     ((struct Obj12222 *)p)->fC6 = ((struct Obj18600 *)q)->fF;
     func_020307B0((void *)q);
-    func_021F5074(p);
-    func_021F4EC8(p);
+    WORLDTRADE_ClearAndShowPlanes(p);
+    WORLDTRADE_ClearBusyFlag(p);
     return 0;
 }

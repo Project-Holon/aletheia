@@ -1,5 +1,5 @@
 /*
- * function: func_021D4778
+ * function: GSYNC_MENU_RunButtonCallback
  * address: 0x021D4778
  * packet: pkt_ov123_021D4778
  * region: ov123
@@ -14,4 +14,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Callback Callback;
 struct Callback { u32 first; int (*run)(void *,Callback *); };
-void func_021D4778(void *p,int flag,Callback *q) { if(flag) return; if(!q->run) return; if(q->run(p,q)) return; }
+void GSYNC_MENU_RunButtonCallback(void *p,int flag,Callback *q) { if(flag) return; if(!q->run) return; if(q->run(p,q)) return; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CF4
+ * function: GDS_SOCKET_InitTick
  * address: 0x021D7CF4
  * packet: pkt_ov125_021D7CF4
  * region: ov125
@@ -11,12 +11,12 @@
  * symbols:
  *   OS_IsTickAvailable 0x02087058 arm
  *   func_02086FE8 0x02086FE8 arm
- *   d_021D9E40 0x021D9E40 data a4
+ *   gGdsSocket 0x021D9E40 data a4
  */
 
 #include "../include/G_Clear.h"
 
 extern int OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
-extern struct Clear d_021D9E40;
-int func_021D7CF4(void){if(!OS_IsTickAvailable())func_02086FE8();*(int*)(((char *)&d_021D9E40)+0x270)=16;return 1;}
+extern struct Clear gGdsSocket;
+int GDS_SOCKET_InitTick(void){if(!OS_IsTickAvailable())func_02086FE8();*(int*)(((char *)&gGdsSocket)+0x270)=16;return 1;}

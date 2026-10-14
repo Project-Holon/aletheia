@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7E74
+ * function: ZUKAN_DETAIL_FORM_SetActorsNormalMode
  * address:  0x021C7E74
  * packet:   pkt_ov208_021C7E74
  * region:   ov208
@@ -23,7 +23,7 @@ extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C7E74(void *a0, u8 *p)
+void ZUKAN_DETAIL_FORM_SetActorsNormalMode(void *a0, u8 *p)
 {
     u8 i;
 

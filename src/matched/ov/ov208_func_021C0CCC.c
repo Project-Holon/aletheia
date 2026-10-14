@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CCC
+ * function: ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown
  * address:  0x021C0CCC
  * packet:   pkt_ov208_021C0CCC
  * region:   ov208
@@ -38,7 +38,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C0CCC(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_MoveCursorToSelectedTown(u16 *heap, u8 *p, int key)
 {
     Pt pt = data_021C8554;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021FDCE4
+ * function: WORLDTRADE_SEARCH_ExitBgPlanes
  * address:  0x021FDCE4
  * packet:   pkt_021FDCE4
  * region:   ov135
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern void sub_020403F4(u32 i);
 
-void func_021FDCE4(void)
+void WORLDTRADE_SEARCH_ExitBgPlanes(void)
 {
     sub_020403F4(2);
     sub_020403F4(1);

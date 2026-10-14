@@ -1,5 +1,5 @@
 /*
- * function: func_02203BC0
+ * function: BTLV_INPUT_WaitScreenOpenTask
  * address:  0x02203BC0
  * packet:   pkt_ov094_02203BC0
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022043C0  0x022043C0  thumb  ov094
+ *   BTLV_INPUT_StartBgScrollTask  0x022043C0  thumb  ov094
  *   func_02040588  0x02040588  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef struct Main {
     unsigned char pad00[0x68];
@@ -26,16 +26,16 @@ typedef struct Ctx {
     int state;
 } Ctx;
 
-extern void func_022043C0(Main *m, int a1, int a2, int a3, int a4);
+extern void BTLV_INPUT_StartBgScrollTask(Main *m, int a1, int a2, int a3, int a4);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_02203BC0(int a0, Ctx *c)
+void BTLV_INPUT_WaitScreenOpenTask(int a0, Ctx *c)
 {
     switch (c->state) {
     case 0:
-        func_022043C0(c->main, 0x1000, 0x3000, 0x400, 0xa8);
+        BTLV_INPUT_StartBgScrollTask(c->main, 0x1000, 0x3000, 0x400, 0xa8);
         c->state = c->state + 1;
         break;
     case 1:
@@ -47,7 +47,7 @@ void func_02203BC0(int a0, Ctx *c)
     case 2:
     default:
         if (c->main->st == 0)
-            func_0220687C((char *)c->main, (void *)a0);
+            BTLV_INPUT_DeleteTask((char *)c->main, (void *)a0);
         break;
     }
 }

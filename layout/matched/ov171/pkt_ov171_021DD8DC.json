@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD8DC",
+   "name": "DENDOU_VIEW_FlushWindows",
    "address": "0x021DD8DC",
    "kind": "game",
    "region": "ov171",

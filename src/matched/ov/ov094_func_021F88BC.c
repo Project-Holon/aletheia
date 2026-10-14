@@ -1,5 +1,5 @@
 /*
- * function: func_021F88BC
+ * function: BTLV_EFFECT_SetFlag26
  * address:  0x021F88BC
  * packet:   pkt_ov094_021F88BC
  * region:   ov094
@@ -12,7 +12,7 @@
  * Sets flag bit 26 of the word at 0x1ec of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
 typedef struct {
     char pad[0x1ec];
@@ -22,9 +22,9 @@ typedef struct {
     unsigned b26 : 1;
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-void func_021F88BC(int a)
+void BTLV_EFFECT_SetFlag26(int a)
 {
-    d_0220AF20->b26 = a;
+    gBtlvEff->b26 = a;
 }

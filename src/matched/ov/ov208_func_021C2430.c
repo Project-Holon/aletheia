@@ -1,5 +1,5 @@
 /*
- * function: func_021C2430
+ * function: ZUKAN_DETAIL_AREA_InitBlendPulse
  * address:  0x021C2430
  * packet:   pkt_ov208_021C2430
  * region:   ov208
@@ -23,7 +23,7 @@ typedef signed int     s32;
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
 typedef enum { ONE = 1 } One;
 
-void func_021C2430(u8 *p)
+void ZUKAN_DETAIL_AREA_InitBlendPulse(u8 *p)
 {
     One one = ONE;
     ((struct Obj14657 *)p)->f1D8 = one;

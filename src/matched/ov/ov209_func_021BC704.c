@@ -1,5 +1,5 @@
 /*
- * function: func_021BC704
+ * function: ZUKAN_LIST_ExitPaletteAnim
  * address: 0x021BC704
  * packet: pkt_ov209_021BC704
  * region: ov209
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj00088.h"
 struct PalAnmSlot;extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);extern void PALANM_Delete(struct PalAnmSlot *);
-void func_021BC704(char *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,2);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,3);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC);}
+void ZUKAN_LIST_ExitPaletteAnim(char *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,2);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,3);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC);}

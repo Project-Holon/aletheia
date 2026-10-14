@@ -1,5 +1,5 @@
 /*
- * function: func_021C6B4C
+ * function: MB_SEQ_StateConfirmMenu
  * address: 0x021C6B4C
  * packet: pkt_ov136_021C6B4C
  * region: ov136
@@ -29,7 +29,7 @@ struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-int func_021C6B4C(u8 *p)
+int MB_SEQ_StateConfirmMenu(u8 *p)
 {
     APP_TASKMENU_UpdateMenu(((struct Obj23612 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310);
     if (APP_TASKMENU_IsFinish(((struct Obj23613 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310) == 0) return 4;

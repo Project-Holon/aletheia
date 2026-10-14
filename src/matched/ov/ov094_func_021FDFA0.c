@@ -1,5 +1,5 @@
 /*
- * function: func_021FDFA0
+ * function: BTLV_EFFVM_SetupEmitterCallbacks
  * address: 0x021FDFA0
  * packet: pkt_ov094_021FDFA0
  * region: ov094
@@ -15,12 +15,12 @@
  *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   BUTTON_MAN_GetBlock 0x02051788 arm
- *   func_021FE38C 0x021FE38C thumb ov094
- *   func_021FD1A8 0x021FD1A8 thumb ov094
- *   func_021FD9F0 0x021FD9F0 thumb ov094
- *   func_021FCF2C 0x021FCF2C thumb ov094
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_021FF3F4 0x021FF3F4 thumb ov094
+ *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
+ *   BTLV_EFFVM_FindEmitterSlot 0x021FD1A8 thumb ov094
+ *   BTLV_EFFVM_EmitterInitCallback 0x021FD9F0 thumb ov094
+ *   BTLV_EFFVM_ResolveSlotKey 0x021FCF2C thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_MCSS_GetSlotPosition 0x021FF3F4 thumb ov094
  *   _s32_div_f 0x0209C0A4 arm
  *   d_0220AE68 0x0220AE68 data
  *   d_02209E10 0x02209E10 data
@@ -40,14 +40,14 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void PARTICLE_InitCamera(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
 extern int BUTTON_MAN_GetBlock(char *p);
-extern u32 func_021FE38C(char *, u32);
-extern int func_021FD1A8(char *, int);
-extern void func_021FD9F0(void *p);
-extern int func_021FCF2C(int a, int idx);
-extern int func_021F8694(void);
-extern void func_021FF3F4(void *obj, void *out, int idx);
+extern u32 BTLV_EFFVM_ResolveParticleKey(char *, u32);
+extern int BTLV_EFFVM_FindEmitterSlot(char *, int);
+extern void BTLV_EFFVM_EmitterInitCallback(void *p);
+extern int BTLV_EFFVM_ResolveSlotKey(int a, int idx);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_GetSlotPosition(void *obj, void *out, int idx);
 extern int _s32_div_f(int, int);
-int func_021FDFA0(void *a, char *s, int mode)
+int BTLV_EFFVM_SetupEmitterCallbacks(void *a, char *s, int mode)
 {
     int *p;
     int idx;
@@ -55,7 +55,7 @@ int func_021FDFA0(void *a, char *s, int mode)
     int y;
     int flags;
 
-    idx = func_021FD1A8(s, func_021FE38C(s, VM_GetU32(a)));
+    idx = BTLV_EFFVM_FindEmitterSlot(s, BTLV_EFFVM_ResolveParticleKey(s, VM_GetU32(a)));
     x = VM_GetU32(a);
     flags = 0;
     *(int **)(s + 0x1f4 + ((struct Obj00325 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x40, 0, d_0220AE68, 0x1c79);
@@ -98,13 +98,13 @@ int func_021FDFA0(void *a, char *s, int mode)
     switch (p[0]) {
     case 0:
     case 1:
-        flags = func_021FCF2C((int)a, 14);
-        func_021FF3F4((void *)func_021F8694(), &p[1], flags);
+        flags = BTLV_EFFVM_ResolveSlotKey((int)a, 14);
+        BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), &p[1], flags);
         break;
     case 2:
     case 3:
-        flags = func_021FCF2C((int)a, 16);
-        func_021FF3F4((void *)func_021F8694(), &p[1], flags);
+        flags = BTLV_EFFVM_ResolveSlotKey((int)a, 16);
+        BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), &p[1], flags);
         break;
     case 4:
     case 5:
@@ -116,7 +116,7 @@ int func_021FDFA0(void *a, char *s, int mode)
     if (flags & 1)
         p[6] = 0x8000;
     p[2] += y;
-    if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD9F0, (int)p) == -1)
+    if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)BTLV_EFFVM_EmitterInitCallback, (int)p) == -1)
         func_020307B0(p);
 end:
     return ((struct Obj00325 *)s)->f23C;

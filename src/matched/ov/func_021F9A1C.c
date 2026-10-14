@@ -1,5 +1,5 @@
 /*
- * function: func_021F9A1C
+ * function: WORLDTRADE_INPUT_CheckTouch
  * address:  0x021F9A1C
  * packet:   pkt_021F9A1C
  * region:   ov135
@@ -34,7 +34,7 @@ extern u8 tbl_02203284[];
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 
-int func_021F9A1C(void *p, int mode)
+int WORLDTRADE_INPUT_CheckTouch(void *p, int mode)
 {
     switch (mode) {
     case 4:

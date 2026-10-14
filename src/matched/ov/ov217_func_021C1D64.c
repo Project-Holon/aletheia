@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D64
+ * function: CircleGraph_Init
  * address:  0x021C1D64
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C1DF0  0x021C1DF0  thumb  ov217
- *   func_021C1E0C  0x021C1E0C  thumb  ov217
+ *   CircleGraph_CreateQueue  0x021C1DF0  thumb  ov217
+ *   CircleGraph_BuildCirclePoints  0x021C1E0C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C1DF0(char *p);
-extern u32 func_021C1E0C();
-u32 func_021C1D64(u32 a0)
+extern void CircleGraph_CreateQueue(char *p);
+extern u32 CircleGraph_BuildCirclePoints();
+u32 CircleGraph_Init(u32 a0)
 {
-    func_021C1DF0((char *)a0);
-    return func_021C1E0C(a0);
+    CircleGraph_CreateQueue((char *)a0);
+    return CircleGraph_BuildCirclePoints(a0);
 }
 

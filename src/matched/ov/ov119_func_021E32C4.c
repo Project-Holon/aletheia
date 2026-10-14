@@ -1,5 +1,5 @@
 /*
- * function: func_021E32C4
+ * function: POKETRADE_3D_RemoveUnit
  * address:  0x021E32C4
  * packet:   pkt_ov119_021E32C4
  * region:   ov119
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-void func_021E32C4(char *p)
+void POKETRADE_3D_RemoveUnit(char *p)
 {
     u16 v;
 

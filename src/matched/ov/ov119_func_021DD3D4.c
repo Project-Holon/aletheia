@@ -1,5 +1,5 @@
 /*
- * function: func_021DD3D4
+ * function: POKETRADE_NEGO_FindFreeOfferIndex
  * address: 0x021DD3D4
  * packet: pkt_ov119_021DD3D4
  * region: ov119
@@ -10,7 +10,7 @@
  * lever: Spell the indexed object base at each field read; a cached q local
  * swaps the first-loop counter and pooled-offset registers (10 bytes).
  */
-int func_021DD3D4(const char *p, int n, int a, int b)
+int POKETRADE_NEGO_FindFreeOfferIndex(const char *p, int n, int a, int b)
 {
     int j;
     long i;

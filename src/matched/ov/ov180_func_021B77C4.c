@@ -1,5 +1,5 @@
 /*
- * function: func_021B77C4
+ * function: HALL_OF_FAME_DeleteAllTextPlates
  * address:  0x021B77C4
  * packet:   pkt_021B77C4
  * region:   ov180
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B7798  0x021B7798  thumb  ov180
+ *   HALL_OF_FAME_DeleteTextPlate  0x021B7798  thumb  ov180
  */
 
-extern void func_021B7798(int *, int);
+extern void HALL_OF_FAME_DeleteTextPlate(int *, int);
 
-void func_021B77C4(int *p)
+void HALL_OF_FAME_DeleteAllTextPlates(int *p)
 {
     unsigned int i;
 
     for (i = 0; i < 4; i++)
-        func_021B7798(p, i);
+        HALL_OF_FAME_DeleteTextPlate(p, i);
 }

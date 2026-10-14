@@ -1,5 +1,5 @@
 /*
- * function: func_021BD8F4
+ * function: ZUKAN_LIST_GetActorVisible
  * address: 0x021BD8F4
  * packet: pkt_ov209_021BD8F4
  * region: ov209
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj; extern u32 CLACT_GetActorDrawEnable(struct Obj *);
-u32 func_021BD8F4(char *p,u32 idx) {return CLACT_GetActorDrawEnable(*(struct Obj **)(p+idx*4+0xa74));}
+u32 ZUKAN_LIST_GetActorVisible(char *p,u32 idx) {return CLACT_GetActorDrawEnable(*(struct Obj **)(p+idx*4+0xa74));}

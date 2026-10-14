@@ -16,7 +16,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_021BD0C4  0x021BD0C4  thumb  ov172
- *   func_021BE34C  0x021BE34C  thumb  ov172
+ *   COMM_TVT_SYS_DeleteTimeIcon  0x021BE34C  thumb  ov172
  *   func_020409B4  0x020409B4  arm
  *
  * Follows the mode byte at +0x14 against its last seen value (+0x15): entering mode 0 prints message 0x1c in the text window and switches the display to the window at +0x2c; leaving mode 0 prints message 0x11 in the window at +0x30 and switches back.
@@ -33,7 +33,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021BD0C4(void *ctx, char *st, int msgId);
-extern void func_021BE34C(void *p);
+extern void COMM_TVT_SYS_DeleteTimeIcon(void *p);
 extern void func_020409B4(u32 index);
 
 static inline u8 func_021BD038_show(u32 win)
@@ -53,7 +53,7 @@ void func_021BD038(void *ctx, char *st)
         func_0201F7A8((void *)(((struct Obj01266 *)st)->f2C), 1);
     } else if (((struct Obj01266 *)st)->f15 == 0 && ((struct Obj01266 *)st)->f14 != 0) {
         func_021BD0C4(ctx, st, 0x11);
-        func_021BE34C(ctx);
+        COMM_TVT_SYS_DeleteTimeIcon(ctx);
         func_0201F7A8((void *)(((struct Obj01266 *)st)->f30), 1);
         func_020409B4(func_021BD038_show(((struct Obj01266 *)st)->f30));
     }

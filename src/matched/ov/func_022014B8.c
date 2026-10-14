@@ -1,5 +1,5 @@
 /*
- * function: func_022014B8
+ * function: WORLDTRADE_SERVER_StartUploadFinish
  * address:  0x022014B8
  * packet:   pkt_022014B8
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void DPW_TR_GetUploadResultAsync(u8 *p);
 
-int func_022014B8(u8 *p)
+int WORLDTRADE_SERVER_StartUploadFinish(u8 *p)
 {
     DPW_TR_GetUploadResultAsync(p);
     ((struct Obj09244 *)p)->f28 = 9;

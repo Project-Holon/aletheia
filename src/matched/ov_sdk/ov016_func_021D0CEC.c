@@ -64,7 +64,7 @@
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gUsbapWork     0x021DE654  data
- *   g_021DE654_b   0x021DE654  data
+ *   gMemUsbAp   0x021DE654  data
  *   func_021D0DE0  0x021D0DE0  arm  ov016
  */
 
@@ -89,7 +89,7 @@ extern enum WMErrCode WM_End(void (*)(void *));
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void DWCi_HEAPlFree_(void **mem);
 extern M *gUsbapWork;
-extern M *g_021DE654_b;
+extern M *gMemUsbAp;
 extern void func_021D0DE0(void *);
 
 int DWCi_USBAPlEnd(void)
@@ -112,6 +112,6 @@ int DWCi_USBAPlEnd(void)
         DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
     while (gUsbapWork->end != 2)
         ;
-    DWCi_HEAPlFree_((void **)(&g_021DE654_b));
+    DWCi_HEAPlFree_((void **)(&gMemUsbAp));
     return 1;
 }

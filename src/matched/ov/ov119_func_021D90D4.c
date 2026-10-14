@@ -1,5 +1,5 @@
 /*
- * function: func_021D90D4
+ * function: POKETRADE_PROC_RecvMonChunk2
  * address:  0x021D90D4
  * packet:   pkt_021D8980
  * region:   ov119
@@ -17,7 +17,7 @@
 
 extern int func_021D9038(int a, int b, int c, int d, int e, int f);
 
-int func_021D90D4(int a, int b, int c, int d, int e)
+int POKETRADE_PROC_RecvMonChunk2(int a, int b, int c, int d, int e)
 {
     return func_021D9038(a, b, c, d, e, 2);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFDC
+ * function: ZUKAN_DETAIL_TOUCHBAR_UpdateInput
  * address: 0x021BDFDC
  * packet: pkt_ov208_021BDFDC
  * region: ov208
@@ -11,13 +11,13 @@
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_021BD388 0x021BD388 thumb
- *   func_021BD3F8 0x021BD3F8 thumb
- *   func_021BDB08 0x021BDB08 thumb
- *   func_021BDB54 0x021BDB54 thumb
- *   func_021BE32C 0x021BE32C thumb
- *   func_021BE378 0x021BE378 thumb
- *   func_021BD368 0x021BD368 thumb
+ *   ZKND_TBAR_GetButtonVisible 0x021BD388 thumb
+ *   ZKND_TBAR_GetButtonActorRaw 0x021BD3F8 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId 0x021BDB08 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId 0x021BDB54 thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette 0x021BE32C thumb
+ *   ZUKAN_DETAIL_TOUCHBAR_GetRightPalette 0x021BE378 thumb
+ *   ZKND_TBAR_SetButtonAnimSeq 0x021BD368 thumb
  *   func_021BE170 0x021BE170 thumb
  *   func_021BE1BC 0x021BE1BC thumb
  * tail: two zero alignment bytes after the function (listing extent is 2 bytes longer).
@@ -36,17 +36,17 @@ struct Ov208Menu {
 };
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
-extern int func_021BD388(void *a, int b);
-extern void func_021BD3F8(void *a, int b);
+extern int ZKND_TBAR_GetButtonVisible(void *a, int b);
+extern void ZKND_TBAR_GetButtonActorRaw(void *a, int b);
 struct State;
-extern unsigned func_021BDB08(const struct State *p);
-extern unsigned func_021BDB54(const struct State *p);
-extern u32 func_021BE32C(u32 v);
-extern u32 func_021BE378(u32 v);
-extern void func_021BD368(int a, int b, int c);
+extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(const struct State *p);
+extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(const struct State *p);
+extern u32 ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette(u32 v);
+extern u32 ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(u32 v);
+extern void ZKND_TBAR_SetButtonAnimSeq(int a, int b, int c);
 extern void func_021BE170(struct Ov208Menu *m);
 extern void func_021BE1BC(struct Ov208Menu *m);
-void func_021BDFDC(struct Ov208Menu *m)
+void ZUKAN_DETAIL_TOUCHBAR_UpdateInput(struct Ov208Menu *m)
 {
     u32 sel = 9;
     u32 trg = KEY_GetTrg();
@@ -59,7 +59,7 @@ void func_021BDFDC(struct Ov208Menu *m)
     if (held & 0x20) {
         switch (m->mode) {
         case 0:
-            if (func_021BD388(m->f30, *m->tab[3].p))
+            if (ZKND_TBAR_GetButtonVisible(m->f30, *m->tab[3].p))
                 sel = 3;
             else
                 sel = 4;
@@ -83,7 +83,7 @@ void func_021BDFDC(struct Ov208Menu *m)
             sel = 4;
             break;
         case 2:
-            if (func_021BD388(m->f30, *m->tab[3].p))
+            if (ZKND_TBAR_GetButtonVisible(m->f30, *m->tab[3].p))
                 sel = 3;
             else
                 sel = 6;
@@ -94,21 +94,21 @@ void func_021BDFDC(struct Ov208Menu *m)
         }
     }
     if (sel != 9)
-        func_021BD3F8(m->f30, *m->tab[sel].p);
+        ZKND_TBAR_GetButtonActorRaw(m->f30, *m->tab[sel].p);
     if ((trg & 0xc0) == 0) {
         if (held & 0x40)
-            func_021BD3F8(m->f30, *m->tab[8].p);
+            ZKND_TBAR_GetButtonActorRaw(m->f30, *m->tab[8].p);
         else if (held & 0x80)
-            func_021BD3F8(m->f30, *m->tab[7].p);
+            ZKND_TBAR_GetButtonActorRaw(m->f30, *m->tab[7].p);
     }
-    a = func_021BDB08((const struct State *)m);
-    b = func_021BDB54((const struct State *)m);
+    a = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId((const struct State *)m);
+    b = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId((const struct State *)m);
     if (a != 0) {
-        c = func_021BE32C(a);
-        d = func_021BE378(a);
+        c = ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette(a);
+        d = ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(a);
         if (c != 9 && d != 4) {
             for (i = 3; i <= 6; i++)
-                func_021BD368((int)m->f30, *m->tab[i].p, i != c);
+                ZKND_TBAR_SetButtonAnimSeq((int)m->f30, *m->tab[i].p, i != c);
             m->f1c = d;
             func_021BE170(m);
         }

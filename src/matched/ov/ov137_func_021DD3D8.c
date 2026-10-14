@@ -1,5 +1,5 @@
 /*
- * function: func_021DD3D8
+ * function: GURU2_RECEIPT_LoadGraphics
  * address: 0x021DD3D8
  * packet: pkt_ov137_021DD3D8
  * region: ov137
@@ -36,7 +36,7 @@ extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *
 extern void func_0204989C(u32,u32,u32,u32,u32,u32,u16);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021DD3D8(void *p,void *arc)
+void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
 {
     func_02049B68(arc,1,0,0,512,114);
     func_02049658(arc,7,1,0,8192,0,114);

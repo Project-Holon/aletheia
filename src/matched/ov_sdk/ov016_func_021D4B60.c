@@ -1,5 +1,5 @@
 /*
- * function: func_021D4B60
+ * function: DWCi_ARClCbWrite
  * address:  0x021D4B60
  * packet:   pkt_ov016_021D4B60
  * region:   ov016
@@ -15,7 +15,7 @@
  *           is the pool word at 0x021D4A18.  Seeded in layout/function_starts.txt.
  */
 
-int func_021D4B60(void)
+int DWCi_ARClCbWrite(void)
 {
     return 1;
 }

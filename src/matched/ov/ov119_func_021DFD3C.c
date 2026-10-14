@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD3C
+ * function: POKETRADE_SAVE_PopBgmFadeIn60
  * address:  0x021DFD3C
  * packet:   pkt_ov119_021DFD3C
  * region:   ov119
@@ -16,7 +16,7 @@
  *
  * Decrement the +0x11f8 guard byte (both its condition and the store use
  * that same pool word) and pulse the 0x3c delay. Non-SDK dep of
- * func_021DFDA0's case-5/6 arms.
+ * POKETRADE_SAVE_ResetClactAndBeginEvent's case-5/6 arms.
  *
  * Addresses are Black-image addresses.
  */
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_021DFD3C(void *p)
+void POKETRADE_SAVE_PopBgmFadeIn60(void *p)
 {
     u8 *b = p;
 

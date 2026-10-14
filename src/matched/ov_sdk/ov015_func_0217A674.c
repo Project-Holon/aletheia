@@ -1,5 +1,5 @@
 /*
- * function: func_0217A674
+ * function: IRCi_CommWrite
  * address:  0x0217A674
  * packet:   pkt_ov015_0217A674
  * region:   ov015
@@ -26,7 +26,7 @@ typedef struct {
 
 extern unsigned long long func_020870D0(void);
 
-unsigned char func_0217A674(IRCParam *p)
+unsigned char IRCi_CommWrite(IRCParam *p)
 {
     unsigned long long time;
     volatile unsigned short tmp;

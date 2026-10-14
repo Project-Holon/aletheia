@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E3E00 0x021E3E00 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_2D_BuildMarkingTablesFrom 0x021E3E00 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DAAE4 0x021DAAE4 thumb ov119
  */
 #include "../include/Obj13892.h"
-extern int func_021E3E00(char *,int);
-extern void func_021D8E84(void *p, int v);
+extern int POKETRADE_2D_BuildMarkingTablesFrom(char *,int);
+extern void POKETRADE_PROC_SetStep(void *p, int v);
 extern void func_021DAAE4(char *);
 void func_021DAB0C(char *p) {
- if(func_021E3E00(p,((struct Obj13892 *)p)->fF2C-1)) {
+ if(POKETRADE_2D_BuildMarkingTablesFrom(p,((struct Obj13892 *)p)->fF2C-1)) {
   ((struct Obj13892 *)p)->fF2C=0;
-  func_021D8E84(p,(int)func_021DAAE4);
+  POKETRADE_PROC_SetStep(p,(int)func_021DAAE4);
  }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6944
+ * function: CTVT_CAMERA_GetHeight
  * address:  0x021B6944
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u16 func_021B6944(void *p)
+u16 CTVT_CAMERA_GetHeight(void *p)
 {
     return (u16)(((struct Obj01264 *)p)->f3A - ((struct Obj01264 *)p)->f38);
 }

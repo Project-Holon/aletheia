@@ -1,5 +1,5 @@
 /*
- * function: func_01FF87D4
+ * function: SCFGi_SwitchCpuSpeed
  * address:  0x01FF87D4
  * packet:   pkt_01FF87D4
  * region:   arm9_autoload0_ITCM
@@ -42,7 +42,7 @@ typedef enum
 #define SCFGi_SWITCH_CPU_WAIT2       (SCFGi_SWITCH_CPU_WAIT * 2)
 
 /* hand-written in the original: SDK SCFGi_SwitchCpuSpeed is declared asm in scfg_proc.c; the empty delay loop is deleted by mwccarm */
-asm void func_01FF87D4(SCFGCpuSpeed cpuSpeed)
+asm void SCFGi_SwitchCpuSpeed(SCFGCpuSpeed cpuSpeed)
 {
     ldr     r2, =REG_CLK_ADDR
     ldrh    r1, [r2]

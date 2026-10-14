@@ -1,5 +1,5 @@
 /*
- * function: func_021FFE5C
+ * function: BR_POKESEARCH_Open
  * address:  0x021FFE5C
  * packet:   pkt_021FFE5C
  * region:   ov186
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FFEA8  0x021FFEA8  thumb  ov186
- *   func_021FFF28  0x021FFF28  thumb  ov186
+ *   BR_POKESEARCH_CreateBackButton  0x021FFEA8  thumb  ov186
+ *   BR_POKESEARCH_CreateGroupWindows  0x021FFF28  thumb  ov186
  */
 #include "../include/Obj02237.h"
 
-extern void func_021FFEA8(char *p);
+extern void BR_POKESEARCH_CreateBackButton(char *p);
 struct Work;
-extern void func_021FFF28(struct Work *p);
+extern void BR_POKESEARCH_CreateGroupWindows(struct Work *p);
 
-void func_021FFE5C(char *p)
+void BR_POKESEARCH_Open(char *p)
 {
-    func_021FFEA8(p);
-    func_021FFF28((struct Work *)p);
+    BR_POKESEARCH_CreateBackButton(p);
+    BR_POKESEARCH_CreateGroupWindows((struct Work *)p);
     ((struct Obj02237 *)p)->f6C = 1;
 }

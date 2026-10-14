@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2F4
+ * function: ZUKAN_LIST_IsSpeciesEntryValid
  * address: 0x021BD2F4
  * packet: pkt_ov209_021BD2F4
  * region: ov209
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 FRAME_LIST_GetItemValue(char *,int);
-int func_021BD2F4(char *p,int i) { if((FRAME_LIST_GetItemValue(*(char * *)&((struct Obj00088 *)p)->fC2C,i)&0xf0000000u)>>28)return 1;return 0; }
+int ZUKAN_LIST_IsSpeciesEntryValid(char *p,int i) { if((FRAME_LIST_GetItemValue(*(char * *)&((struct Obj00088 *)p)->fC2C,i)&0xf0000000u)>>28)return 1;return 0; }

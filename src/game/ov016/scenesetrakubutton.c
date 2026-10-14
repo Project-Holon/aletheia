@@ -1,7 +1,7 @@
 /*
  * file:     scenesetrakubutton.c
  * unit:     yes
- * function: DWCi_SceneSetRakuButton, initGraphics, DWCi_SceneSetRakuButtonProcInit, DWCi_SceneSetRakuButtonProcInit1, DWCi_SceneSetRakuButtonProcInit2, procScene, input, DWCi_SceneSetListSave_button, button, endScene, DWCi_SceneSetRakuButtonEndScene1, DWCi_SceneSetRakuButtonEndScene2, checkRaku, procError, procError1, func_021CAC44
+ * function: DWCi_SceneSetRakuButton, initGraphics, DWCi_SceneSetRakuButtonProcInit, DWCi_SceneSetRakuButtonProcInit1, DWCi_SceneSetRakuButtonProcInit2, procScene, input, DWCi_SceneSetListSave_button, button, endScene, DWCi_SceneSetRakuButtonEndScene1, DWCi_SceneSetRakuButtonEndScene2, checkRaku, procError, procError1, DWCi_SceneSetRakuButton_DetectFold
  * address:  0x021CA838
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CAC24.c \
  *       --func procError1 --addr 0x021CAC24 --region ov016 --cc 1.1p1 --arm --lang c99
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
- *   python tools/match.py one --src src/matched/func_021CAC44.c \
- *       --func func_021CAC44 --addr 0x021CAC44 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetRakuButton_DetectFold.c \
+ *       --func DWCi_SceneSetRakuButton_DetectFold --addr 0x021CAC44 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   OS_Sleep                       0x02085A38  arm  arm9
@@ -134,7 +134,7 @@ extern bool DWCi_WINlIsInit(void);
 void DWCi_SceneSetRakuButton(void);
 void DWCi_SceneSetListSave_button(void);
 void procError(void);
-int func_021CAC44(void);
+int DWCi_SceneSetRakuButton_DetectFold(void);
 extern unsigned char Choose;
 extern unsigned char gSceneSetRakuButtonWork;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
@@ -339,7 +339,7 @@ static void procError1(void)
     DWCi_ChangeScene(endScene);
 }
 
-int func_021CAC44(void)
+int DWCi_SceneSetRakuButton_DetectFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }

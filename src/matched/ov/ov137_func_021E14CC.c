@@ -1,5 +1,5 @@
 /*
- * function: func_021E14CC
+ * function: GURU2_MAIN_AddPulseEffect
  * address:  0x021E14CC
  * packet:   pkt_021E14CC
  * region:   ov137
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E14CC(char *p, char *q)
+void GURU2_MAIN_AddPulseEffect(char *p, char *q)
 {
     char *r = p + 0xC90 + ((struct Obj23800 *)q)->fC * 0x10;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DFC
+ * function: ListViewState_SetMode
  * address:  0x021C0DFC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0DFC(void *p, u8 v)
+void ListViewState_SetMode(void *p, u8 v)
 {
     ((struct Obj26000 *)p)->f0 = v;
 }

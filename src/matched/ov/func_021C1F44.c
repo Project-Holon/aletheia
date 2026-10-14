@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F44
+ * function: ZUKAN_DETAIL_AREA_FreeAreaEntryData
  * address:  0x021C1F44
  * packet:   pkt_021C1F44
  * region:   ov208
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C1F44(int a)
+void ZUKAN_DETAIL_AREA_FreeAreaEntryData(int a)
 {
     if (a != 0)
         func_020307B0((void *)a);

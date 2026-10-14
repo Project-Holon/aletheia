@@ -1,5 +1,5 @@
 /*
- * function: func_021E3F70
+ * function: POKETRADE_2D_NoOp
  * address:  0x021E3F70
  * packet:   pkt_021D8980
  * region:   ov119
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-void func_021E3F70(void *p)
+void POKETRADE_2D_NoOp(void *p)
 {
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A2C
+ * function: MB_UTIL_MSG_ProcessYesNoMenu
  * address:  0x021F1A2C
  * packet:   pkt_ov107_021F1A2C
  * region:   ov107
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 u32 BMP_MENU_ProcessYesNo(u8 *p);
 
-int func_021F1A2C(Ov107Ctx *p)
+int MB_UTIL_MSG_ProcessYesNoMenu(Ov107Ctx *p)
 {
     int r = BMP_MENU_ProcessYesNo(p->f50);
     if (r == 0) {

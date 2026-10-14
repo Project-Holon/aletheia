@@ -1,5 +1,5 @@
 /*
- * function: func_021D5BA8
+ * function: GSYNC_DOWNLOAD_CleanupAsync
  * address: 0x021D5BA8
  * packet: pkt_ov123_021D5BA8
  * region: ov123
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj10437.h"
 extern int DWC_NdCleanupAsync(void);
-int func_021D5BA8(char *p){if(!((struct Obj10437 *)p)->fC4){if(DWC_NdCleanupAsync())((struct Obj10437 *)p)->fC4=1;}return ((struct Obj10437 *)p)->fB0==0;}
+int GSYNC_DOWNLOAD_CleanupAsync(char *p){if(!((struct Obj10437 *)p)->fC4){if(DWC_NdCleanupAsync())((struct Obj10437 *)p)->fC4=1;}return ((struct Obj10437 *)p)->fB0==0;}

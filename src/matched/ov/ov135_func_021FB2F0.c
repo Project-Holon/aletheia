@@ -1,5 +1,5 @@
 /*
- * function: func_021FB2F0
+ * function: WORLDTRADE_INPUT_PrintPageNumberA
  * address:  0x021FB2F0
  * packet:   pkt_021FB2F0
  * region:   ov135
@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_021FAC50  0x021FAC50  thumb
+ *   WORLDTRADE_INPUT_PutBmpWinString  0x021FAC50  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  */
@@ -50,18 +50,18 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
+extern void WORLDTRADE_INPUT_PutBmpWinString(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 
-void func_021FB2F0(Menu *m, int page, int total)
+void WORLDTRADE_INPUT_PrintPageNumberA(Menu *m, int page, int total)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
         BMP_Clear(BMP_WIN_GetBmp(m->wins[i]), 0xA);
         if (i + page * 4 < total) {
-            func_021FAC50(m->mgr, m->wins[i], m->items[page * 4 + i].str, 0, 0x3DC2, m->g);
+            WORLDTRADE_INPUT_PutBmpWinString(m->mgr, m->wins[i], m->items[page * 4 + i].str, 0, 0x3DC2, m->g);
         } else {
             BMP_WIN_TransferChars(m->wins[i]);
             BGWINFRM_PutBmpWin(m->mgr, 0, m->wins[i]);

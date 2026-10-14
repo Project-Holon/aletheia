@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C414C",
+   "name": "MAILSYS_WriteMessageToMail",
    "address": "0x021C414C",
    "kind": "game",
    "region": "ov136",

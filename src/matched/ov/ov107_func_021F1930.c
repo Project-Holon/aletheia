@@ -1,5 +1,5 @@
 /*
- * function: func_021F1930
+ * function: MB_UTIL_MSG_OpenYesNoTaskMenu
  * address: 0x021F1930
  * packet: pkt_ov107_021F1930
  * region: ov107
@@ -25,7 +25,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021F1930(char *p,int kind)
+void MB_UTIL_MSG_OpenYesNoTaskMenu(char *p,int kind)
 {
     Entry entries[2];
     Config config;

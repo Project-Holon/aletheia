@@ -1,5 +1,5 @@
 /*
- * function: func_02206864
+ * function: BTLV_INPUT_FindTask
  * address:  0x02206864
  * packet:   pkt_ov094_02206864
  * region:   ov094
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * lane S13 leaf of func_0220687C
+ * lane S13 leaf of BTLV_INPUT_DeleteTask
  */
 
-int func_02206864(char *p, int v)
+int BTLV_INPUT_FindTask(char *p, int v)
 {
     int i;
     int x;

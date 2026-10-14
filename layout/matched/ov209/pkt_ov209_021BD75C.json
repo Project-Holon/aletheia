@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD75C",
+   "name": "ZUKAN_LIST_PrintListRow",
    "address": "0x021BD75C",
    "kind": "game",
    "region": "ov209",

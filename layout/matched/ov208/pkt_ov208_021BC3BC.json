@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021BC3BC",
+   "name": "ZUKAN_DETAIL_COMMON_GetMaxValue",
    "address": "0x021BC3BC",
    "kind": "game",
    "region": "ov208",

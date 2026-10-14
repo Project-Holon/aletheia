@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0AC
+ * function: COMM_TVT_SYS_GetMessageActive
  * address:  0x021BE0AC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE0AC(void *p)
+u32 COMM_TVT_SYS_GetMessageActive(void *p)
 {
     return ((struct Obj24129 *)p)->f20;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FC4FC
+ * function: BR_GRAPHIC_InitBgWindows
  * address: 0x021FC4FC
  * packet: pkt_ov186_021FC4FC
  * region: ov186
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char,unsigned char);
-void func_021FC4FC(void *p,unsigned heap)
+void BR_GRAPHIC_InitBgWindows(void *p,unsigned heap)
 {
     unsigned i;
     const Record *r;

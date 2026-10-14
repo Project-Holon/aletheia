@@ -1,5 +1,5 @@
 /*
- * function: func_021F6C48
+ * function: WORLDTRADE_BOX_GetMonTradeState
  * address:  0x021F6C48
  * packet:   pkt_021F6C48
  * region:   ov135
@@ -11,7 +11,7 @@
  *
   *
  * symbols:
- *   func_021F6B40  0x021F6B40  thumb
+ *   WORLDTRADE_BOX_GetPartyMon  0x021F6B40  thumb
  */
 
 typedef signed char s8;
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void *func_021F6B40(void *party, void *save, int box, int slot);
+extern void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 
-int func_021F6C48(void *party, void *save, int box, int slot)
+int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot)
 {
-    void *mon = func_021F6B40(party, save, box, slot);
+    void *mon = WORLDTRADE_BOX_GetPartyMon(party, save, box, slot);
 
     if (mon == 0) {
         return 0;

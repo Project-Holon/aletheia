@@ -1,5 +1,5 @@
 /*
- * function: func_021DE4B4
+ * function: GURU2_RECEIPT_PrintMessage
  * address: 0x021DE4B4
  * packet: pkt_ov137_021DE4B4
  * region: ov137
@@ -46,7 +46,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021DE4B4(char *p, int message, int unused) {
+void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     void *text;
     void *window;
     text = STRBUF_Create(0xb4, 0x72);

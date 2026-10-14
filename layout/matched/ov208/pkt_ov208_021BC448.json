@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC448",
+   "name": "ZUKAN_DETAIL_COMMON_AllocBlendWork",
    "address": "0x021BC448",
    "kind": "game",
    "region": "ov208",

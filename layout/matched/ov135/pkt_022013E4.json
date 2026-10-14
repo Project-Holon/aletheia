@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022013E4",
+   "name": "WORLDTRADE_SERVER_StartDataTransfer",
    "address": "0x022013E4",
    "kind": "game",
    "region": "ov135",

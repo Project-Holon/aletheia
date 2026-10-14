@@ -1,6 +1,6 @@
 /*
  * packet: pkt_ov187_0220B02C
- * function: func_0220B02C
+ * function: BR_MAIN_RunSceneStep
  * address: 0x0220B02C
  * compiler: dsi/1.1p1
  * flags: -O4,p
@@ -15,7 +15,7 @@ typedef struct Entry { int id; const void *descriptor; void *(*create)(unsigned 
 typedef struct State { void *handle; unsigned state; void *work; unsigned pad; unsigned short heap, pad2; void *payload; Entry *table; unsigned previous, desired, current; } State;
 extern void PROCSYS_Push(void *, int, const void *, void *);
 extern unsigned int PROCSYS_Main(void *p);
-int func_0220B02C(State *p)
+int BR_MAIN_RunSceneStep(State *p)
 {
     switch (p->state) {
     case 0:

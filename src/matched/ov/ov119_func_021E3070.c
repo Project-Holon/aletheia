@@ -1,5 +1,5 @@
 /*
- * function: func_021E3070
+ * function: POKETRADE_3D_InitTradeParticleSet
  * address:  0x021E3070
  * packet:   pkt_ov119_021E3070
  * region:   ov119
@@ -35,7 +35,7 @@ typedef struct {
     u16 heap;           /* 0x0BA */
 } S;
 
-void func_021E3070(S *p)
+void POKETRADE_3D_InitTradeParticleSet(S *p)
 {
     int i;
     void *buf;

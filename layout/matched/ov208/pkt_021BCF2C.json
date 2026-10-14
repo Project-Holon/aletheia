@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCF2C",
+   "name": "ZUKAN_DETAIL_GRAPHIC_ApplyCamera",
    "address": "0x021BCF2C",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BCF3C",
+   "name": "ZUKAN_DETAIL_GRAPHIC_EndDraw3d",
    "address": "0x021BCF3C",
    "kind": "game",
    "region": "ov208",

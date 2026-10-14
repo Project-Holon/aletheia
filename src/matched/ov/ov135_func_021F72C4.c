@@ -1,5 +1,5 @@
 /*
- * function: func_021F72C4
+ * function: WORLDTRADE_DEMO_ReadMyStatus
  * address:  0x021F72C4
  * packet:   pkt_021F72C4
  * region:   ov135
@@ -57,7 +57,7 @@ extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 
-Info *func_021F72C4(Entry *e)
+Info *WORLDTRADE_DEMO_ReadMyStatus(Entry *e)
 {
     Info *info;
 

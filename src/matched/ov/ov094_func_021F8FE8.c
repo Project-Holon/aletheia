@@ -1,5 +1,5 @@
 /*
- * function: func_021F8FE8
+ * function: BTLV_EFFECT_DelayedStartEffectTaskMain
  * address:  0x021F8FE8
  * packet:   pkt_ov094_021F8FE8
  * region:   ov094
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_021F94F8  0x021F94F8  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFVM_StartScript  0x021F94F8  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -32,17 +32,17 @@ typedef struct {
     void *d;            /* 0x10 */
 } Arg;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern int func_021F7EB4(void);
-extern void func_021F94F8(void *h, int a, u32 b, u16 c, void *d);
-extern void func_021F89BC(void *h);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFVM_StartScript(void *h, int a, u32 b, u16 c, void *d);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021F8FE8(void *h, Arg *p)
+void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, Arg *p)
 {
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h, p->a, p->b, p->c, p->d);
-        d_0220AF20->flag = 1;
-        func_021F89BC(h);
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->h, p->a, p->b, p->c, p->d);
+        gBtlvEff->flag = 1;
+        BTLV_EFFECT_DeleteTask(h);
     }
 }

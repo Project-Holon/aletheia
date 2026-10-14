@@ -1,5 +1,5 @@
 /*
- * function: func_022008B0
+ * function: WORLDTRADE_TITLE_StateUpdateCursorAnim
  * address: 0x022008B0
  * packet: pkt_ov135_022008B0
  * region: ov135
@@ -12,7 +12,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_0220053C 0x0220053C thumb ov135
+ *   WORLDTRADE_TITLE_HandleSelection 0x0220053C thumb ov135
  */
 #include "../include/Obj01749.h"
 typedef unsigned char u8;
@@ -25,8 +25,8 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-extern void func_0220053C(u8 *p, int mode);
-int func_022008B0(u8 *p)
+extern void WORLDTRADE_TITLE_HandleSelection(u8 *p, int mode);
+int WORLDTRADE_TITLE_StateUpdateCursorAnim(u8 *p)
 {
     if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj01749 *)p)->fBF4)) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj01749 *)p)->fBF4), 0);
@@ -34,7 +34,7 @@ int func_022008B0(u8 *p)
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01749 *)p)->fBF4, 0);
         else
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01749 *)p)->fBF4, 1);
-        func_0220053C(p, ((struct Obj01749 *)p)->fC0);
+        WORLDTRADE_TITLE_HandleSelection(p, ((struct Obj01749 *)p)->fC0);
     }
     return 2;
 }

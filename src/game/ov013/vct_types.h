@@ -4,10 +4,10 @@
  * ov013 voice chat library (packet magic "TCV_", module VCT): shared types and data declarations.
  *
  * The library has four parts that all work on the objects below:
- *   engine glue   (unit_021AEB20.c): lifecycle, microphone and stream callbacks, ADPCM codecs, send path
- *   audio path    (unit_021B0D18.c, unit_021B1488.c, unit_021B1498.c): encode, receive, jitter queues, peer table
- *   session       (unit_021B23C8.c, unit_021B23E0.c): peer state machine and control packets
- *   frame pool    (unit_021B2F98.c, unit_021B2FB0.c) and signal path / entry points (unit_021B3018.c)
+ *   engine glue   (vct_main.c): lifecycle, microphone and stream callbacks, ADPCM codecs, send path
+ *   audio path    (vct_audio.c, vct_audio.c, vct_audio.c): encode, receive, jitter queues, peer table
+ *   session       (vct_audio.c, vct_session.c): peer state machine and control packets
+ *   frame pool    (vct_session.c, vct_session.c) and signal path / entry points (vct_dsp.c)
  *
  * No Nintendo vendor library holds this code (checked against the sdk archives and libmatch);
  * the four small functions the SDK classifier names after OS_, CTRDG_ and DWCi_ objects are
@@ -243,7 +243,7 @@ typedef struct VctFramePool {
     VctRxPacket *base;
 } VctFramePool;
 
-/* gVctGroup as unit_021B1498.c sees it: the VctGroup without its trailing announceTick.
+/* gVctGroup as vct_audio.c sees it: the VctGroup without its trailing announceTick.
  * Declaring it 16 bytes long there makes the compiler reach gVctPeerPool (16 bytes further)
  * from the same base register and changes the code, so that file keeps the 8 byte view. */
 typedef struct VctGroupCount {

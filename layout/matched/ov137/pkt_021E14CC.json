@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E14CC",
+   "name": "GURU2_MAIN_AddPulseEffect",
    "address": "0x021E14CC",
    "kind": "game",
    "region": "ov137",

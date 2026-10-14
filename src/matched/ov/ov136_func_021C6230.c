@@ -1,5 +1,5 @@
 /*
- * function: func_021C6230
+ * function: MB_SEQ_StartMessagePrint
  * address: 0x021C6230
  * packet: pkt_ov136_021C6230
  * region: ov136
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C6230 0x021C6230 thumb
+ *   MB_SEQ_StartMessagePrint 0x021C6230 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02012FFC 0x02012FFC thumb
@@ -29,7 +29,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern signed char func_02012FFC(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 
-void func_021C6230(u8 *p)
+void MB_SEQ_StartMessagePrint(u8 *p)
 {
     u32 win = ((struct Obj23559 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     u32 w2;

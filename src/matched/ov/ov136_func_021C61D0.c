@@ -1,5 +1,5 @@
 /*
- * function: func_021C61D0
+ * function: MB_SEQ_EmptyHookDetailReturn
  * address:  0x021C61D0
  * packet:   pkt_ov136_021C61D0
  * region:   ov136
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C61D0 0x021C61D0 thumb
+ *   MB_SEQ_EmptyHookDetailReturn 0x021C61D0 thumb
  */
-void func_021C61D0(void *a0)
+void MB_SEQ_EmptyHookDetailReturn(void *a0)
 {
 }

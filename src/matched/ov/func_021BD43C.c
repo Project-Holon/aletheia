@@ -1,5 +1,5 @@
 /*
- * function: func_021BD43C
+ * function: ZKND_TBAR_IsKeyAnimActive
  * address:  0x021BD43C
  * packet:   pkt_021BD43C
  * region:   ov208
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD404  0x021BD404  thumb  ov208
+ *   ZKND_TBAR_FindButtonActor  0x021BD404  thumb  ov208
  *
- * Tail call to func_021BD404: the pool word at 0x021BD440 is 0x021BD405, the
+ * Tail call to ZKND_TBAR_FindButtonActor: the pool word at 0x021BD440 is 0x021BD405, the
  * thumb-bit-set address, and the body is ldr r3, [pc, #0] / bx r3.
  *
  * The earlier "harness gap" note was wrong: without a `symbols:` line the
@@ -22,9 +22,9 @@
  * byte-exact.
  */
 
-extern void *func_021BD404(void *mgr, int key);
+extern void *ZKND_TBAR_FindButtonActor(void *mgr, int key);
 
-void *func_021BD43C(void *mgr, int key)
+void *ZKND_TBAR_IsKeyAnimActive(void *mgr, int key)
 {
-    return func_021BD404(mgr, key);
+    return ZKND_TBAR_FindButtonActor(mgr, key);
 }

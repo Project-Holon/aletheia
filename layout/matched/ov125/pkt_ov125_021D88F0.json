@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D88F0",
+   "name": "GDS_SOCKET_SendMarkVideo",
    "address": "0x021D88F0",
    "kind": "game",
    "region": "ov125",

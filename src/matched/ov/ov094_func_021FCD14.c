@@ -1,5 +1,5 @@
 /*
- * function: func_021FCD14
+ * function: BTLV_EFFVM_ResolveBattlerListExpanded
  * address: 0x021FCD14
  * packet: pkt_ov094_021FCD14
  * region: ov094
@@ -12,10 +12,10 @@
  *   exit, separate output store/increment, and branch-local n=0 reproduce
  *   the original scheduling (r1 266 bytes DIFF; r2 532 bytes; r3 EXACT).
  * symbols:
- *   func_021F8710 0x021F8710 thumb ov094
- *   func_021F7F1C 0x021F7F1C thumb ov094
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_021FF348 0x021FF348 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded 0x021F7F1C thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_MCSS_IsVanished 0x021FF348 thumb ov094
  *   d_02209E28 0x02209E28 data ov094 a4
  *   d_0220AD18 0x0220AD18 data ov094 a4
  *   d_0220AD38 0x0220AD38 data ov094 a4
@@ -31,12 +31,12 @@ typedef struct {
 typedef struct { int v[4][3]; } Targets;
 extern const Targets d_02209E28;
 extern const int d_0220AD18[], d_0220AD38[];
-extern int func_021F8710(void);
-extern int func_021F7F1C(int);
-extern int func_021F8694(void);
-extern int func_021FF348(void *, int);
+extern int BTLV_EFFECT_GetMode(void);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int);
+extern int BTLV_EFFECT_GetMcss(void);
+extern int BTLV_MCSS_IsVanished(void *, int);
 
-int func_021FCD14(State *s, int unused, int *out)
+int BTLV_EFFVM_ResolveBattlerListExpanded(State *s, int unused, int *out)
 {
     Key k = KEY_ONE;
     int n = 1;
@@ -48,19 +48,19 @@ int func_021FCD14(State *s, int unused, int *out)
 
     out[0] = s->e0;
     if (out[0] == 0xff) {
-    mode = func_021F8710();
+    mode = BTLV_EFFECT_GetMode();
     n = 0;
     if (mode == 0 || mode == 3) {
         if (s->kind == 8 || s->kind == 10) {
             out[0] = s->dc;
             n = 1;
-            if (func_021F7F1C(s->dc ^ 1)) {
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(s->dc ^ 1)) {
                 out[1] = s->dc ^ 1;
                 n++;
             }
         } else {
             n = 0;
-            if (func_021F7F1C(s->dc ^ 1)) {
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(s->dc ^ 1)) {
                 out[0] = s->dc ^ 1;
                 n++;
             }
@@ -76,14 +76,14 @@ int func_021FCD14(State *s, int unused, int *out)
                 i = 0;
                 p = t.v[(s->dc & 1) + group];
                 for (; i < 3; i++) {
-                    if (func_021F7F1C(p[i]) && !func_021FF348((void *)func_021F8694(), p[i])) {
+                    if (BTLV_EFFECT_IsPokeSpriteLoaded(p[i]) && !BTLV_MCSS_IsVanished((void *)BTLV_EFFECT_GetMcss(), p[i])) {
                         out[n] = p[i];
                         n++;
                     }
                 }
             } else {
                 for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                    if (s->dc != k && func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
+                    if (s->dc != k && BTLV_EFFECT_IsPokeSpriteLoaded(k) && !BTLV_MCSS_IsVanished((void *)BTLV_EFFECT_GetMcss(), k)) {
                         out[n] = k;
                         n++;
                     }
@@ -121,7 +121,7 @@ int func_021FCD14(State *s, int unused, int *out)
         case 6: case 12:
             k = (s->dc & k) ? KEY_THREE : KEY_TWO;
             for (; k <= KEY_MAX; k += 2) {
-                if (func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(k) && !BTLV_MCSS_IsVanished((void *)BTLV_EFFECT_GetMcss(), k)) {
                     out[n] = k;
                     n++;
                 }
@@ -129,7 +129,7 @@ int func_021FCD14(State *s, int unused, int *out)
             break;
         case 8: case 10:
             for (k = KEY_TWO; k <= KEY_MAX; k++) {
-                if (func_021F7F1C(k) && !func_021FF348((void *)func_021F8694(), k)) {
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(k) && !BTLV_MCSS_IsVanished((void *)BTLV_EFFECT_GetMcss(), k)) {
                     out[n] = k;
                     n++;
                 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2090
+ * function: ZUKAN_DETAIL_AREA_FinishHideOverlay
  * address:  0x021C2090
  * packet:   pkt_ov208_021C2090
  * region:   ov208
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
-void func_021C2090(void *unused, u8 *p)
+void ZUKAN_DETAIL_AREA_FinishHideOverlay(void *unused, u8 *p)
 {
     if (CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Obj00081 *)p)->fC8)) == 0) {
         if (*(int *)&((struct Obj00081 *)p)->f90 == 0) {

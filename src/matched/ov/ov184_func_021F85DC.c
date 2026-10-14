@@ -16,8 +16,8 @@
  *
  * symbols:
  *   func_021F8670   0x021F8670  thumb
- *   func_021FE784   0x021FE784  thumb
- *   func_021FE7B0   0x021FE7B0  thumb
+ *   BR_FADE_Start   0x021FE784  thumb
+ *   BR_FADE_GetResult   0x021FE7B0  thumb
  *   func_021FD73C   0x021FD73C  thumb
  *
  * Three-state step over the object at *(p+0x30): submit on 0, poll on 1,
@@ -27,19 +27,19 @@
 
 
 extern void func_021F8670(int a, int b, char *p);
-extern int func_021FE784(int, int, int, int);
-extern int func_021FE7B0(int);
+extern int BR_FADE_Start(int, int, int, int);
+extern int BR_FADE_GetResult(int);
 extern void func_021FD73C(int, void *);
 
 void func_021F85DC(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784(*(int *)(((struct Obj14447 *)p)->f30), 4, 3, 0);
+        BR_FADE_Start(*(int *)(((struct Obj14447 *)p)->f30), 4, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(*(int *)(((struct Obj14447 *)p)->f30)))
+        if (BR_FADE_GetResult(*(int *)(((struct Obj14447 *)p)->f30)))
             *state = 2;
         break;
     case 2:

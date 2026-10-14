@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8700
+ * function: OSi_ReadCardRom32
  * address:  0x01FF8700
  * packet:   pkt_01FF8700
  * region:   arm9_autoload0_ITCM
@@ -15,7 +15,7 @@ typedef unsigned int u32;
 typedef volatile u8 vu8;
 typedef volatile u32 vu32;
 
-void func_01FF8700(u32 src, void *dst, int len)
+void OSi_ReadCardRom32(u32 src, void *dst, int len)
 {
     vu8  *const reg_CARD_MASTERCNT = (vu8 *)(0x04000000 + 0x1a1);
     vu8  *const reg_CARD_CMD = (vu8 *)(0x04000000 + 0x1a8);

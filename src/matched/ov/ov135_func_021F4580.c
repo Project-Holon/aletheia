@@ -1,5 +1,5 @@
 /*
- * function: func_021F4580
+ * function: WORLDTRADE_ProcInit
  * address:  0x021F4580
  * packet:   pkt_021F4580
  * region:   ov135
@@ -20,10 +20,10 @@
   *
   *
  * symbols:
- *   func_02202608  0x02202608  thumb
- *   func_022026D8  0x022026D8  thumb
- *   func_021F489C  0x021F489C  thumb
- *   func_021F5074  0x021F5074  thumb
+ *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
+ *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
+ *   WORLDTRADE_CallStateHandler  0x021F489C  thumb
+ *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb
  *   g_02203F80  0x02203F80  data
  *   str_02203AF8  0x02203AF8  data  a1
  *   ov114_id  0x00000072  data
@@ -74,24 +74,24 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void *func_02202608(u32 heap);
+extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_022026D8(void *ctx, u32 arg);
+extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021F489C(Work *p, Args *args);
+extern void WORLDTRADE_CallStateHandler(Work *p, Args *args);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_021F5074(Work *p);
+extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 extern Work *g_02203F80;
 extern const char str_02203AF8[];
 
-int func_021F4580(void *proc, int *seq, Args *args)
+int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
 {
     Work *p;
 
@@ -101,20 +101,20 @@ int func_021F4580(void *proc, int *seq, Args *args)
     p = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x48);
     MI_CpuFill8(p, 0, sizeof(Work));
     g_02203F80 = p;
-    p->mon = func_02202608(0x48);
+    p->mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
     p->save = PROCSYS_Create(0x48);
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec = func_02030CBC(8, p->recMem);
-    func_022026D8(p->ctx, args->x20);
+    WORLDTRADE_ADAPTER_InitPrinter(p->ctx, args->x20);
     p->words = func_0201EC74(0xB, 0x40, 0x48);
     p->msg[0] = func_02045B38(0, 2, 0xD0, 0x48);
     p->msg[2] = func_02045B38(0, 2, 0xD1, 0x48);
     p->msg[3] = func_02045B38(0, 2, 0xE8, 0x48);
     p->msg[1] = func_02045B38(0, 2, 0x46, 0x48);
     p->msg[4] = func_02045B38(0, 2, 0xE7, 0x48);
-    func_021F489C(p, args);
+    WORLDTRADE_CallStateHandler(p, args);
     BG_SYS_ClearGraphicsMemory(0);
-    func_021F5074(p);
+    WORLDTRADE_ClearAndShowPlanes(p);
     GFL_USE_SetBgmPlayerParam(0);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;

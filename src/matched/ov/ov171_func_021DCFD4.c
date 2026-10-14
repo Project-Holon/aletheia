@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFD4
+ * function: DENDOU_VIEW_StateWaitButton
  * address:  0x021DCFD4
  * packet:   pkt_021DCFD4
  * region:   ov171
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DE0AC  0x021DE0AC  thumb  ov171
+ *   DENDOU_VIEW_IsActorAnimActive  0x021DE0AC  thumb  ov171
  */
 #include "../include/Obj14288.h"
 typedef unsigned int u32;
 
-extern int func_021DE0AC(int *p, int i);
+extern int DENDOU_VIEW_IsActorAnimActive(int *p, int i);
 
-u32 func_021DCFD4(char *p)
+u32 DENDOU_VIEW_StateWaitButton(char *p)
 {
-    if (func_021DE0AC((int *)p, ((struct Obj14288 *)p)->fC64) == 0)
+    if (DENDOU_VIEW_IsActorAnimActive((int *)p, ((struct Obj14288 *)p)->fC64) == 0)
         return ((struct Obj14288 *)p)->fC68;
     return 3;
 }

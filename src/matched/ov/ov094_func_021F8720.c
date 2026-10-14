@@ -1,5 +1,5 @@
 /*
- * function: func_021F8720
+ * function: BTLV_EFFECT_GetCompetitorType
  * address:  0x021F8720
  * packet:   pkt_ov094_021F8720
  * region:   ov094
@@ -12,11 +12,11 @@
  * Returns the word at 0x1c0 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 
-int func_021F8720(void)
+int BTLV_EFFECT_GetCompetitorType(void)
 {
-    return *(int *)(d_0220AF20 + 0x1c0);
+    return *(int *)(gBtlvEff + 0x1c0);
 }

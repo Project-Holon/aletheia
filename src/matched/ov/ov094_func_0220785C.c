@@ -1,5 +1,5 @@
 /*
- * function: func_0220785C
+ * function: BTLV_GAUGE_UpdateSlot
  * address: 0x0220785C
  * packet: pkt_ov094_0220785C
  * region: ov094
@@ -14,9 +14,9 @@
  *   BTLV_GAUGE_DrawGender 0x02208268 thumb ov094
  *   BTLV_GAUGE_DrawHpNumbers 0x02208420 thumb ov094
  *   BTLV_GAUGE_DrawLevel 0x02208550 thumb ov094
- *   func_021F8720 0x021F8720 thumb ov094
+ *   BTLV_EFFECT_GetCompetitorType 0x021F8720 thumb ov094
  *   BTLV_GAUGE_DrawCaughtIcon 0x02208650 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_GAUGE_TaskSlideSlot 0x02208B10 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  */
@@ -45,12 +45,12 @@ extern void BTLV_GAUGE_DrawNickname(O *, E *, void *);
 extern void BTLV_GAUGE_DrawGender(O *, E *);
 extern void BTLV_GAUGE_DrawHpNumbers(O *, E *, int);
 extern void BTLV_GAUGE_DrawLevel(O *, E *);
-extern int func_021F8720(void);
+extern int BTLV_EFFECT_GetCompetitorType(void);
 extern void BTLV_GAUGE_DrawCaughtIcon(O *, E *);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern void BTLV_GAUGE_TaskSlideSlot(void *h, struct E *e);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-void func_0220785C(O *o, int unused, int idx, void *data)
+void BTLV_GAUGE_UpdateSlot(O *o, int unused, int idx, void *data)
 {
     BTLV_GAUGE_StepValue(o->e[idx].f4c, o->e[idx].f48, 0, &o->e[idx].f50, 6, 1);
     BTLV_GAUGE_DrawBar(o, idx, 0);
@@ -62,9 +62,9 @@ void func_0220785C(O *o, int unused, int idx, void *data)
     BTLV_GAUGE_DrawGender(o, &o->e[idx]);
     BTLV_GAUGE_DrawHpNumbers(o, &o->e[idx], o->e[idx].f48);
     BTLV_GAUGE_DrawLevel(o, &o->e[idx]);
-    if (o->e[idx].f44 != 0 && func_021F8720() == 0)
+    if (o->e[idx].f44 != 0 && BTLV_EFFECT_GetCompetitorType() == 0)
         BTLV_GAUGE_DrawCaughtIcon(o, &o->e[idx]);
     o->e[idx].b3 = 1;
     o->e[idx].mode = 2;
-    o->e[idx].f7c = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_GAUGE_TaskSlideSlot, &o->e[idx], 0);
+    o->e[idx].f7c = func_02030DA8(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_GAUGE_TaskSlideSlot, &o->e[idx], 0);
 }

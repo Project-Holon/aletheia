@@ -1,5 +1,5 @@
 /*
- * function: func_021DE6DC
+ * function: GURU2_RECEIPT_FreeCharBuffer
  * address:  0x021DE6DC
  * packet:   pkt_021DE6DC
  * region:   ov137
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021DE6DC(u8 *p)
+void GURU2_RECEIPT_FreeCharBuffer(u8 *p)
 {
     func_020307B0(((struct Obj08210 *)p)->f110);
 }

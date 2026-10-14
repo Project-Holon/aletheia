@@ -1,7 +1,7 @@
 /*
  * file:     gds_rap.c
  * unit:     yes
- * function: func_021D6660, func_021D6770, func_021D67C8, func_021D6814, func_021D683C, func_021D68EC, func_021D6968, func_021D698C, func_021D69B4, func_021D69DC, func_021D6A08, func_021D6A34, func_021D6B40, func_021D6FB0, func_021D7060, func_021D7064, func_021D7120, func_021D7124, func_021D7154, func_021D71CC, func_021D71D8, func_021D730C, func_021D732C, func_021D7354, func_021D7374, func_021D73B8, func_021D73E0, func_021D73F0, func_021D7414, func_021D74B4, func_021D74D8, func_021D7520, func_021D7540, func_021D75E8, func_021D7630, func_021D76A8, func_021D76D8, func_021D7700, func_021D770C, func_021D7770, func_021D7808, func_021D7874, func_021D7A10, func_021D7BCC, func_021D7BDC, func_021D7C14, func_021D7C48, func_021D7C7C, func_021D7C90, func_021D7CAC
+ * function: GDS_RAP_Init, GDS_RAP_Exit, GDS_RAP_RequestUploadEntry, GDS_RAP_RequestDownloadEntries, GDS_RAP_RequestUploadVideo, GDS_RAP_RequestSearchVideos, GDS_RAP_RequestSearchKind1, GDS_RAP_RequestSearchKind2, GDS_RAP_RequestSearchKind3, GDS_RAP_RequestGetVideo, GDS_RAP_RequestMarkVideo, GDS_RAP_Main, GDS_RAP_RunRequest, GDS_RAP_UpdateSocketState, GDS_RAP_PollNothing, GDS_RAP_PollSaveUploadedVideo, GDS_RAP_PollNothingAfterError, GDS_RAP_ReleaseSession, GDS_RAP_FindMember, GDS_RAP_CopyNickname, GDS_RAP_ReadReply, GDS_RAP_IsIdle, GDS_RAP_CheckUploadEntryReply, GDS_RAP_CheckDownloadEntriesReply, GDS_RAP_GetDownloadEntries, GDS_RAP_CheckUploadVideoReply, GDS_RAP_GetUploadedDataNumber, GDS_RAP_CheckSearchVideosReply, GDS_RAP_GetSearchResults, GDS_RAP_CheckGetVideoReply, GDS_RAP_GetVideoReply, GDS_RAP_CheckMarkVideoReply, GDS_RAP_SaveVideoSeq, GDS_RAP_SaveVideoWithDataNumber, GDS_RAP_SaveVideoSecured, GDS_RAP_StartVideoSave, GDS_RAP_StepVideoSave, GDS_RAP_GetVideoWork, GDS_SOCKET_Reset, GDS_SOCKET_Start, GDS_SOCKET_ResetConnection, GDS_SOCKET_RunConnection, GDS_SOCKET_SendRequest, GDS_SOCKET_GetStateUnlocked, GDS_SOCKET_GetReplyUnlocked, GDS_SOCKET_GetReplySizeUnlocked, GDS_SOCKET_GetErrorUnlocked, GDS_SOCKET_Alloc, GDS_SOCKET_Free, GDS_SOCKET_Lock
  * address:  0x021D6660
  * region:   ov125
  * compiler: dsi/1.1p1
@@ -15,36 +15,36 @@
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D8600 0x021D8600 arm ov125
+ *   GDS_SOCKET_GetMaxReplySize 0x021D8600 arm ov125
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_021D8598 0x021D8598 arm ov125
+ *   GDS_SOCKET_Begin 0x021D8598 arm ov125
  *   func_02034714 0x02034714 arm
  *   ov114_id 0x00000072 data
- *   d_021D8D00 0x021D8D00 data a4
- *   d_021D8D0C 0x021D8D0C data a4
- *   d_021D8D28 0x021D8D28 data a4
+ *   sGdsRapFileName 0x021D8D00 data a4
+ *   sGdsServerHost 0x021D8D0C data a4
+ *   sGdsEmptyString 0x021D8D28 data a4
  *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
  *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
- *   func_021D85B4 0x021D85B4 arm ov125
+ *   GDS_SOCKET_Shutdown 0x021D85B4 arm ov125
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  *   BATTLE_REC_GetWork 0x0200B910 thumb
- *   d_021D8C80 0x021D8C80 data a2
- *   func_021D85C0 0x021D85C0 arm ov125
- *   func_021D860C  0x021D860C  arm  ov125
- *   func_021D8654  0x021D8654  arm  ov125
- *   func_021D8694  0x021D8694  arm  ov125
- *   func_021D8754  0x021D8754  arm  ov125
- *   func_021D879C  0x021D879C  arm  ov125
- *   func_021D87FC  0x021D87FC  arm  ov125
- *   func_021D885C  0x021D885C  arm  ov125
- *   func_021D88BC  0x021D88BC  arm  ov125
- *   func_021D88F0  0x021D88F0  arm  ov125
+ *   sGdsSearchCategories 0x021D8C80 data a2
+ *   GDS_SOCKET_GetState 0x021D85C0 arm ov125
+ *   GDS_SOCKET_SendUploadEntry  0x021D860C  arm  ov125
+ *   GDS_SOCKET_SendDownloadEntries  0x021D8654  arm  ov125
+ *   GDS_SOCKET_SendUploadVideo  0x021D8694  arm  ov125
+ *   GDS_SOCKET_SendSearchByCondition  0x021D8754  arm  ov125
+ *   GDS_SOCKET_SendSearchKind1  0x021D879C  arm  ov125
+ *   GDS_SOCKET_SendSearchKind3  0x021D87FC  arm  ov125
+ *   GDS_SOCKET_SendSearchKind2  0x021D885C  arm  ov125
+ *   GDS_SOCKET_SendGetVideo  0x021D88BC  arm  ov125
+ *   GDS_SOCKET_SendMarkVideo  0x021D88F0  arm  ov125
  *   NHTTP_RAP_StartConnection  0x021B9748  thumb  ov114
  *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
  *   NHTTP_RAP_PollConnection  0x021B9790  thumb  ov114
@@ -65,15 +65,15 @@
  *   func_02012944  0x02012944  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   gSpeciesNameBank  0x020A7370  data
- *   func_021D85DC 0x021D85DC arm ov125
- *   func_021D85E8 0x021D85E8 arm ov125
+ *   GDS_SOCKET_GetError 0x021D85DC arm ov125
+ *   GDS_SOCKET_GetReply 0x021D85E8 arm ov125
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
  *   BATTLE_REC_EncodeWork 0x0200B4B8 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_021D85F4 0x021D85F4 arm ov125
+ *   GDS_SOCKET_GetReplySize 0x021D85F4 arm ov125
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F1FC 0x0203F1FC arm
- *   d_021D8D2C 0x021D8D2C data a4
+ *   sGdsEmptyString2 0x021D8D2C data a4
  *   d_0214616C 0x0214616C data a4
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
@@ -81,343 +81,298 @@
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
  *   func_020072A4 0x020072A4 thumb
- *   d_021D9E40 0x021D9E40 data a4
- *   d_021DA040 0x021DA040 data a4
- *   func_021D7808 0x021D7808 arm ov125
- *   func_021D7CEC 0x021D7CEC arm ov125
- *   func_021D7D20 0x021D7D20 arm ov125
- *   func_021D8588 0x021D8588 arm ov125
- *   func_021D7CF4 0x021D7CF4 arm ov125
+ *   gGdsSocket 0x021D9E40 data a4
+ *   gGdsHostTail 0x021DA040 data a4
+ *   GDS_SOCKET_ResetConnection 0x021D7808 arm ov125
+ *   GDS_SOCKET_Nop 0x021D7CEC arm ov125
+ *   GDS_SOCKET_NopVoid 0x021D7D20 arm ov125
+ *   GDS_SOCKET_NopBegin 0x021D8588 arm ov125
+ *   GDS_SOCKET_InitTick 0x021D7CF4 arm ov125
  *   func_021D7CD4 0x021D7CD4 arm ov125
- *   func_021D7F60 0x021D7F60 arm ov125
- *   func_021D858C 0x021D858C arm ov125
- *   func_021D8444 0x021D8444 arm ov125
- *   func_021D7E80 0x021D7E80 arm ov125
- *   func_021D7FA0 0x021D7FA0 arm ov125
- *   func_021D80E0 0x021D80E0 arm ov125
- *   func_021D824C 0x021D824C arm ov125
- *   func_021D7CC0 0x021D7CC0 arm ov125
- *   func_021D8438 0x021D8438 arm ov125
- *   func_021D89EC 0x021D89EC arm ov125
- *   func_021D891C 0x021D891C arm ov125
- *   func_021D7D30 0x021D7D30 arm ov125
+ *   GDS_SOCKET_Close 0x021D7F60 arm ov125
+ *   GDS_SOCKET_InitSsl 0x021D858C arm ov125
+ *   GDS_SOCKET_WaitToken 0x021D8444 arm ov125
+ *   GDS_SOCKET_OpenAndResolve 0x021D7E80 arm ov125
+ *   GDS_SOCKET_Connect 0x021D7FA0 arm ov125
+ *   GDS_SOCKET_Send 0x021D80E0 arm ov125
+ *   GDS_SOCKET_Receive 0x021D824C arm ov125
+ *   GDS_SOCKET_Unlock 0x021D7CC0 arm ov125
+ *   GDS_SOCKET_Sleep 0x021D8438 arm ov125
+ *   GDS_SOCKET_GetMaxReplySizeOf 0x021D89EC arm ov125
+ *   GDS_SOCKET_GetRequestSize 0x021D891C arm ov125
+ *   GDS_SOCKET_StartThread 0x021D7D30 arm ov125
  *   func_02092344 0x02092344 arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0 0x0205A1B0 arm
  *   func_02086028  0x02086028  arm
- *   d_021DA174     0x021DA174  data  a4
+ *   gGdsSocketMutex     0x021DA174  data  a4
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
  */
 
-#include "../../matched/include/Obj03805.h"
-#include "../../matched/include/Obj14003.h"
-#include "../../matched/include/Obj02838.h"
-#include "../../matched/include/Obj06472.h"
-#include "../../matched/include/Obj22996.h"
-#include "../../matched/include/Obj03806.h"
-#include "../../matched/include/Obj14004.h"
-#include "../../matched/include/Obj14005.h"
-#include "../../matched/include/Obj14006.h"
-#include "../../matched/include/Obj01060.h"
-#include "../../matched/include/Obj00327.h"
-#include "../../matched/include/Obj10460.h"
-#include "../../matched/include/Obj22998.h"
-#include "../../matched/include/Obj22999.h"
-#include "../../matched/include/Obj23000.h"
-#include "../../matched/include/Obj23004.h"
-#include "../../matched/include/G_BattleRec.h"
-#include "../../matched/include/Obj14011.h"
-
-#define W(o) (*(u32 *)(p + (o)))
-#define H(o) (*(u16 *)(p + (o)))
-#define B(o) (*(u8 *)(p + (o)))
-#define OBJ (*(u8 **)(p + 0x404))
-struct MsgBank;
-struct U16Vec;
-struct WordSet;
-struct Rec;
-struct ObjC4;
-struct Big;
-struct MsgData;
-struct RecC4;
-struct Sub0200852CObj;
-struct BattleRec;
-struct Ctrl;
-struct Sub020072A4Ctrl;
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-typedef struct { u32 w[7]; } Blk;
-
-typedef signed int     s32;
-
-typedef struct { int words[32]; } Block128;
-
-typedef struct { int words[108]; } Block432;
-
-typedef int (*Callback)(void *, void *);
-
-typedef struct { int count; char entries[1]; } List;
-
 typedef unsigned long long u64;
+typedef signed int s32;
 
-typedef struct { u32 w[49]; } Rec;
+#include "gds_rap_types.h"
 
-extern int func_02034AC4(s32 handle);
-extern void MI_CpuFill8(void *, int, u32);
-extern int func_021D8600(int);
+struct MyStatus;
+struct SaveControl;
+
+extern int func_02034AC4(s32 overlayId);
+extern void func_02034A5C(s32 overlayId);
+extern void func_02034714(const char *file, u32 line, const char *message);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern int func_021D8598(void *, const char *, int);
-extern void func_02034714(const char *, u32, const char *);
-extern void NHTTP_RAP_FreePostData(u8 *p);
-extern void NHTTP_RAP_Destroy(u8 *p);
-extern void func_021D85B4(void);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int func_0201ED04(struct WordSet *p);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-extern void func_02034A5C(int);
-extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
-extern struct ObjC4 *BATTLE_REC_GetWork(void);
-extern void MI_CpuCopy8(const void *, void *, unsigned int);
-extern unsigned func_021D85C0(void);
-extern int func_021D860C(void *, u32);
-extern int func_021D8654(int value, int n);
-extern int func_021D8694(u32, void *, u32, u32);
-extern int func_021D8754(void *, u32);
-extern int func_021D879C(int value, int n);
-extern int func_021D87FC(int value, int n);
-extern int func_021D885C(int value, int n);
-extern int func_021D88BC(u32, u32, u32, u32);
-extern int func_021D88F0(u32, u32, u32);
-extern int NHTTP_RAP_StartConnection(u8 *);
-extern void NHTTP_RAP_DeleteConnection(u8 *);
-extern int NHTTP_RAP_PollConnection(u8 *);
-extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
-extern u8 *NHTTP_RAP_Create(int a, int b, int c);
-extern void NHTTP_RAP_AllocPostData(u8 *p, int a, int b, int c);
-extern void NHTTP_RAP_AppendPostData(u8 *p, int a, int n);
-extern int NHTTP_RAP_CreatePostRequest(u8 *);
-extern int NHTTP_RAP_GetResultCode(u8 *);
-extern int NHTTP_RAP_RecordList_GetCount(u8 *);
-extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
-extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
-extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern u8 *BATTLE_REC_GetBody(void);
-extern void BATTLE_REC_SetBodyCrc(struct RecC4 *p);
-extern u8 *func_02012944(void *p);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern int func_021D85DC(void);
+extern struct WordSet *func_0201EC64(u32 heapId);
+extern u32 func_0201ED04(struct WordSet *wordSet);
+extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct StrBuf *str);
+extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern u32 func_0200853C(const struct MyStatus *status);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
+extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
+extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
+extern void func_020072A4(struct SaveControl *save, u32 id);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
+
+extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
+extern struct BattleRecSave *BATTLE_REC_GetWork(void);
+extern struct BattleRecBody *BATTLE_REC_GetBody(void);
+extern void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body);
 extern void BATTLE_REC_DecodeWork(void);
 extern void BATTLE_REC_EncodeWork(void);
-extern char *func_021D85E8(void);
-extern int func_021D85F4(void);
-extern void MI_CpuFill8(void *, int, unsigned int);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
-extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-extern unsigned int SAVE_CONTROL_LoadExtraSave(struct Ctrl *,unsigned int,unsigned char);
-extern void *func_020073D8(void *,unsigned int,unsigned int);
-extern void BATTLE_REC_Clear(void *);
-extern void GAME_DATA_PartSaveStart(unsigned char *,unsigned int);
-extern int GAME_DATA_PartSaveMain(char *,int);
-extern void func_020072A4(struct Sub020072A4Ctrl *,unsigned int);
-int func_021D6660(char *p, char *a);
-void func_021D6770(char *p);
-int func_021D67C8(char *p, const Block128 *a, const Block432 *b);
-int func_021D6814(char *p,int v);
-int func_021D683C(char *p, void *src);
-int func_021D68EC(char *p, int id, unsigned int index, int mode, u8 other);
-int func_021D6968(char *p);
-int func_021D698C(char *p);
-int func_021D69B4(char *p);
-int func_021D69DC(char *p,int a,int b);
-int func_021D6A08(char *p,int a,int b);
-int func_021D6A34(char *p);
-int func_021D6B40(u8 *p, int *done);
-int func_021D6FB0(char *p);
-int func_021D7060(void);
-int func_021D7064(char *p, const u16 *s);
-int func_021D7120(void);
-void func_021D7124(char *p, int unused, int k, int a3);
-int func_021D7154(int a, int index, int *outer, int *inner);
-void func_021D71CC(const void *src,void *dst,u32 n);
-int func_021D71D8(char *p);
-int func_021D72EC(char *p, int **out);
-void func_021D72F8(char *p);
-int func_021D730C(char *p);
-int func_021D732C(char *p, const unsigned short *s);
-int func_021D7354(char *p, const unsigned short *s);
-int func_021D7374(char *a, void **out, int max);
-int func_021D73B8(char *p, const unsigned short *s);
-unsigned long long func_021D73E0(char *a0);
-int func_021D73F0(char *p, const unsigned short *s);
-int func_021D7414(char *unused, char *dst, int n);
-int func_021D74B4(char *p, const unsigned short *s);
-int func_021D74D8(void *unused, char **out);
-int func_021D7520(char *p, const unsigned short *s);
-int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
-void func_021D75C0(void);
-int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c);
-int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
-void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id);
-int func_021D76D8(char *p,int id);
-char *func_021D7700(void);
+extern void BATTLE_REC_Encode(void *data, u32 size, u32 code);
+extern u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap);
+extern void BATTLE_REC_Clear(struct BattleRecSave *rec);
+
+extern int NHTTP_RAP_StartConnection(NHTTPRapSession *session);
+extern void NHTTP_RAP_DeleteConnection(NHTTPRapSession *session);
+extern int NHTTP_RAP_PollConnection(NHTTPRapSession *session);
+extern char *NHTTP_RAP_GetRecvBuffer(NHTTPRapSession *session);
+extern NHTTPRapSession *NHTTP_RAP_Create(u32 heapId, u32 gameCode, char *source);
+extern void NHTTP_RAP_Destroy(NHTTPRapSession *session);
+extern void NHTTP_RAP_AllocPostData(NHTTPRapSession *session, int alignment, int size, int id);
+extern void NHTTP_RAP_AppendPostData(NHTTPRapSession *session, const void *src, int size);
+extern int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session);
+extern void NHTTP_RAP_FreePostData(NHTTPRapSession *session);
+extern int NHTTP_RAP_GetResultCode(NHTTPRapSession *session);
+extern int NHTTP_RAP_RecordList_GetCount(NHTTPRapRecordList *list);
+extern u32 NHTTP_RAP_RecordList_GetValue(NHTTPRapRecordList *list, u32 index);
+extern NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(NHTTPRapRecordList *list, u32 index);
+
+/* ARM half of this file and gds_socket.c */
+extern int GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port);
+extern void GDS_SOCKET_Shutdown(void);
+extern unsigned GDS_SOCKET_GetState(void);
+extern int GDS_SOCKET_GetError(void);
+extern void *GDS_SOCKET_GetReply(void);
+extern int GDS_SOCKET_GetReplySize(void);
+extern int GDS_SOCKET_GetMaxReplySize(int requestId);
+extern int GDS_SOCKET_SendUploadEntry(const GdsEntryBlocks *entry, void *replyBuffer);
+extern int GDS_SOCKET_SendDownloadEntries(int key, void *replyBuffer);
+extern int GDS_SOCKET_SendUploadVideo(const struct BattleRecSave *video, const void *ticket, int ticketLength, void *replyBuffer);
+extern int GDS_SOCKET_SendSearchByCondition(GdsSearchParams *params, void *replyBuffer);
+extern int GDS_SOCKET_SendSearchKind1(int limit, void *replyBuffer);
+extern int GDS_SOCKET_SendSearchKind3(int limit, void *replyBuffer);
+extern int GDS_SOCKET_SendSearchKind2(int limit, void *replyBuffer);
+extern int GDS_SOCKET_SendGetVideo(u32 dataNumberLo, u32 dataNumberHi, u32 version, void *replyBuffer);
+extern int GDS_SOCKET_SendMarkVideo(u32 dataNumberLo, u32 dataNumberHi, void *replyBuffer);
+
+int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params);
+void GDS_RAP_Exit(GdsRapWork *work);
+int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile, const GdsPayloadBlock *payload);
+int GDS_RAP_RequestDownloadEntries(GdsRapWork *work, int key);
+int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile);
+int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag);
+int GDS_RAP_RequestSearchKind1(GdsRapWork *work);
+int GDS_RAP_RequestSearchKind2(GdsRapWork *work);
+int GDS_RAP_RequestSearchKind3(GdsRapWork *work);
+int GDS_RAP_RequestGetVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi);
+int GDS_RAP_RequestMarkVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi);
+int GDS_RAP_Main(GdsRapWork *work);
+int GDS_RAP_RunRequest(GdsRapWork *work, int *done);
+int GDS_RAP_UpdateSocketState(GdsRapWork *work);
+int GDS_RAP_PollNothing(GdsRapWork *work, GdsRapPending *pending);
+int GDS_RAP_PollSaveUploadedVideo(GdsRapWork *work, GdsRapPending *pending);
+int GDS_RAP_PollNothingAfterError(GdsRapWork *work, GdsRapPending *pending);
+void GDS_RAP_ReleaseSession(GdsRapWork *work, int unused, int scene, int unused2);
+int GDS_RAP_FindMember(GdsRapWork *work, int index, int *party, int *member);
+void GDS_RAP_CopyNickname(const void *src, void *dst, u32 count);
+int GDS_RAP_ReadReply(GdsRapWork *work);
+int GDS_RAP_GetResult(GdsRapWork *work, GdsRapResult **result);
+void GDS_RAP_ClearResult(GdsRapWork *work);
+int GDS_RAP_IsIdle(GdsRapWork *work);
+int GDS_RAP_CheckUploadEntryReply(GdsRapWork *work, const GdsReply *reply);
+int GDS_RAP_CheckDownloadEntriesReply(GdsRapWork *work, const GdsReply *reply);
+int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max);
+int GDS_RAP_CheckUploadVideoReply(GdsRapWork *work, const GdsReply *reply);
+u64 GDS_RAP_GetUploadedDataNumber(GdsRapWork *work);
+int GDS_RAP_CheckSearchVideosReply(GdsRapWork *work, const GdsReply *reply);
+int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max);
+int GDS_RAP_CheckGetVideoReply(GdsRapWork *work, const GdsReply *reply);
+int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video);
+int GDS_RAP_CheckMarkVideoReply(GdsRapWork *work, const GdsReply *reply);
+int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state, u16 *seq, u16 heap);
+void GDS_RAP_EncodeVideoBody(void);
+int GDS_RAP_SaveVideoWithDataNumber(struct GameData *gameData, int dataNumberLo, int dataNumberHi, u16 *state, u16 *seq, u16 heap);
+int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 *seq, u16 heap);
+void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id);
+int GDS_RAP_StepVideoSave(struct GameData *gameData, int id);
+struct BattleRecSave *GDS_RAP_GetVideoWork(void);
+
 extern char ov114_id[];
-extern const char d_021D8D00[];
-extern const char d_021D8D0C[];
-extern char d_021D8D28[];
-extern const u16 d_021D8C80[][2];
+extern const char sGdsRapFileName[];
+extern const char sGdsServerHost[];
+extern char sGdsEmptyString[];
+extern char sGdsEmptyString2[];
+extern const GdsSearchCategory sGdsSearchCategories[];
 extern void *gSpeciesNameBank;
-extern char d_021D8D2C[];
-extern struct BattleRec *d_0214616C;
+extern struct BattleRecSave *d_0214616C;
 
-
-
-int func_021D6660(char *p, char *a)
+int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
 {
     func_02034AC4((int)ov114_id);
-    MI_CpuFill8(p, 0, 0x5A4);
-    *(u32 *)(p + 0x13C) = *(u16 *)(a + 4);
-    *(u32 *)p = *(u32 *)(a + 8);
-    *(u32 *)(p + 0x494) = *(u32 *)(a + 0xC);
-    *(Blk *)(p + 0x148) = *(Blk *)(a + 0x10);
-    *(int *)(p + 0x144) = -1;
-    *(u32 *)(p + 0x3D8) = 0x55F4;
-    *(u32 *)(p + 0x3DC) = 0x55F4;
-    *(void **)(p + 0x3AC) = func_02030734(*(u16 *)(a + 4), func_021D8600(-1), 0, d_021D8D00, 0x84);
-    MI_CpuFill8(*(void **)(p + 0x3AC), 0, func_021D8600(-1));
-    *(int *)(p + 0x3E4) = (int)func_02045B38(0, 2, 0xE8, *(u16 *)(a + 4));
-    *(int *)(p + 0x3E8) = (int)func_0201EC64(*(u16 *)(a + 4));
-    *(int *)(p + 0x3EC) = (int)STRBUF_Create(0x100, *(u16 *)(a + 4));
-    *(u32 *)(p + 4) = *(u32 *)a;
-    p[8] = 0x15;
-    p[9] = 2;
-    if (func_021D8598(p + 4, d_021D8D0C, 0x3071) != 1)
-        func_02034714(d_021D8D28, 0, d_021D8D28);
-    *(u32 *)(p + 0x3B4) = 1;
-    *(u32 *)(p + 0x3B0) = 1;
+    MI_CpuFill8(work, 0, sizeof(GdsRapWork));
+    work->heapId = params->heapId;
+    work->gameData = params->gameData;
+    work->profileSource = params->profileSource;
+    work->callbacks = params->callbacks;
+    work->lastSocketState = -1;
+    work->requestId = GDS_REQUEST_NONE;
+    work->finishedRequestId = GDS_REQUEST_NONE;
+    work->replyBuffer = func_02030734(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
+    MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
+    work->msgData = func_02045B38(0, 2, 0xE8, params->heapId);
+    work->wordSet = func_0201EC64(params->heapId);
+    work->strBuf = STRBUF_Create(0x100, params->heapId);
+    work->client.profileId = params->profileId;
+    work->client.packetType = 0x15;
+    work->client.protocolVersion = 2;
+    if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
+        func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+    work->active = 1;
+    work->initialized = 1;
     return 1;
 }
 
 
-void func_021D6770(char *p)
+void GDS_RAP_Exit(GdsRapWork *work)
 {
-    if (((struct Obj03805 *)p)->f404) {
-        NHTTP_RAP_FreePostData(((struct Obj03805 *)p)->f404);
-        NHTTP_RAP_Destroy(((struct Obj03805 *)p)->f404);
+    if (work->session) {
+        NHTTP_RAP_FreePostData(work->session);
+        NHTTP_RAP_Destroy(work->session);
     }
-    func_021D85B4();
-    ((struct Obj03805 *)p)->f3B4 = 0;
-    STRBUF_Delete(((struct Obj03805 *)p)->f3EC);
-    func_0201ED04(((struct Obj03805 *)p)->f3E8);
-    MSGDATA_Delete(((struct Obj03805 *)p)->f3E4);
-    func_020307B0(((struct Obj03805 *)p)->f3AC);
+    GDS_SOCKET_Shutdown();
+    work->active = 0;
+    STRBUF_Delete(work->strBuf);
+    func_0201ED04(work->wordSet);
+    MSGDATA_Delete(work->msgData);
+    func_020307B0(work->replyBuffer);
     func_02034A5C((int)ov114_id);
 }
 
 
-int func_021D67C8(char *p, const Block128 *a, const Block432 *b)
+int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile, const GdsPayloadBlock *payload)
 {
-    if (!func_021D730C(p)) return 0;
-    *(Block128 *)(p + 0x174) = *a;
-    *(Block432 *)(p + 0x1f4) = *b;
-    p[0x401] = 0x3c;
-    ((struct Obj14003 *)p)->f3D8 = 0x5208;
+    if (!GDS_RAP_IsIdle(work)) return 0;
+    work->args.entry.profile = *profile;
+    work->args.entry.payload = *payload;
+    work->waitFrames = 0x3c;
+    work->requestId = GDS_REQUEST_UPLOAD_ENTRY;
     return 1;
 }
 
 
-int func_021D6814(char *p,int v) {if(!func_021D730C(p))return 0;*(u16 *)&((struct Obj02838 *)p)->f3A4=v;((struct Obj02838 *)p)->f3D8=0x5209;return 1;}
+int GDS_RAP_RequestDownloadEntries(GdsRapWork *work, int key) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.downloadKey=key;work->requestId=GDS_REQUEST_DOWNLOAD_ENTRIES;return 1;}
 
 
-int func_021D683C(char *p, void *src)
+int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
 {
-    char *r;
-    char *out;
-    char *base;
-    int outer, inner;
-    int n, m;
+    struct BattleRecSave *video;
+    struct BattleRecMon *firstPoke;
+    int party, member;
+    int sides, members;
     int i;
-    r = func_021D7700();
-    if (!func_021D730C(p)) return 0;
-    BATTLE_REC_GetModeLayout(((struct Obj22996 *)r)->fA6, &n, &m);
-    base = r + 0xd00;
-    out = p + 0x498;
-    for (i = 0; i < 12; i++) {
-        if (!func_021D7154((int)p, i, &outer, &inner)) break;
-        func_021D71CC(base + outer * 676 + inner * 112 + 50, out + i * 22, 11);
+    video = GDS_RAP_GetVideoWork();
+    if (!GDS_RAP_IsIdle(work)) return 0;
+    BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
+    firstPoke = video->body.party[0].members;
+    for (i = 0; i < GDS_NAME_SLOTS; i++) {
+        if (!GDS_RAP_FindMember(work, i, &party, &member)) break;
+        GDS_RAP_CopyNickname(GDS_REC_POKE(firstPoke, party, member)->nickname, work->nicknames[i], GDS_NICKNAME_LEN);
     }
-    ((struct Obj06472 *)p)->f5A0 = 0;
-    p[0x403] = 0;
-    *(char * *)&((struct Obj06472 *)p)->f174 = r;
-    MI_CpuCopy8(src, BATTLE_REC_GetWork(), 128);
-    p[0x401] = 60;
-    ((struct Obj06472 *)p)->f3D8 = 0x55f0;
+    work->namesChanged = 0;
+    work->secondPass = 0;
+    work->args.video = video;
+    MI_CpuCopy8(profile, BATTLE_REC_GetWork(), GDS_PROFILE_SIZE);
+    work->waitFrames = 60;
+    work->requestId = GDS_REQUEST_UPLOAD_VIDEO;
     return 1;
 }
 
 
-int func_021D68EC(char *p, int id, unsigned int index, int mode, u8 other)
+int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag)
 {
-    if (!func_021D730C(p)) return 0;
-    if (index >= 20) func_02034714(d_021D8D28, 0, d_021D8D28);
-    MI_CpuFill8(p + 0x174, 0, 16);
-    ((struct Obj03806 *)p)->f174 = id;
-    ((struct Obj03806 *)p)->f176 = d_021D8C80[index][0];
-    ((struct Obj03806 *)p)->f178 = d_021D8C80[index][1];
-    ((struct Obj03806 *)p)->f17A = mode;
-    ((struct Obj03806 *)p)->f17B = other;
-    ((struct Obj03806 *)p)->f17C = 100;
-    ((struct Obj03806 *)p)->f3E0 = 0;
-    ((struct Obj03806 *)p)->f3D8 = 0x55f1;
+    if (!GDS_RAP_IsIdle(work)) return 0;
+    if (categoryIndex >= 20) func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+    MI_CpuFill8(&work->args.search, 0, 16);
+    work->args.search.keyId = keyId;
+    work->args.search.category = sGdsSearchCategories[categoryIndex].category;
+    work->args.search.categoryMask = sGdsSearchCategories[categoryIndex].mask;
+    work->args.search.mode = mode;
+    work->args.search.flag = flag;
+    work->args.search.limit = GDS_SEARCH_LIMIT;
+    work->searchKind = GDS_SEARCH_BY_CONDITION;
+    work->requestId = GDS_REQUEST_SEARCH_VIDEOS;
     return 1;
 }
 
 
-int func_021D6968(char *p) {if(!func_021D730C(p))return 0;((struct Obj14004 *)p)->f3E0=1;((struct Obj14004 *)p)->f3D8=0x55f1;return 1;}
+int GDS_RAP_RequestSearchKind1(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_1;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
 
 
-int func_021D698C(char *p) {if(!func_021D730C(p))return 0;((struct Obj14005 *)p)->f3E0=2;((struct Obj14005 *)p)->f3D8=0x55f1;return 1;}
+int GDS_RAP_RequestSearchKind2(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_2;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
 
 
-int func_021D69B4(char *p) {if(!func_021D730C(p))return 0;((struct Obj14006 *)p)->f3E0=3;((struct Obj14006 *)p)->f3D8=0x55f1;return 1;}
+int GDS_RAP_RequestSearchKind3(GdsRapWork *work) {if(!GDS_RAP_IsIdle(work))return 0;work->searchKind=GDS_SEARCH_KIND_3;work->requestId=GDS_REQUEST_SEARCH_VIDEOS;return 1;}
 
 
-int func_021D69DC(char *p,int a,int b) {if(!func_021D730C(p))return 0;((struct Obj02838 *)p)->f3A4=a;((struct Obj02838 *)p)->f3A8=b;((struct Obj02838 *)p)->f3D8=0x55f2;return 1;}
+int GDS_RAP_RequestGetVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.dataNumber.lo=dataNumberLo;work->arg2.dataNumber.hi=dataNumberHi;work->requestId=GDS_REQUEST_GET_VIDEO;return 1;}
 
 
-int func_021D6A08(char *p,int a,int b) {if(!func_021D730C(p))return 0;((struct Obj02838 *)p)->f3A4=a;((struct Obj02838 *)p)->f3A8=b;((struct Obj02838 *)p)->f3D8=0x55f3;return 1;}
+int GDS_RAP_RequestMarkVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi) {if(!GDS_RAP_IsIdle(work))return 0;work->arg2.dataNumber.lo=dataNumberLo;work->arg2.dataNumber.hi=dataNumberHi;work->requestId=GDS_REQUEST_MARK_VIDEO;return 1;}
 
 
-int func_021D6A34(char *p)
+int GDS_RAP_Main(GdsRapWork *work)
 {
     int result;
-    if (((struct Obj01060 *)p)->f3B4 == 1) {
-        if (((struct Obj01060 *)p)->f3D8 != 0x55f4) {
-            if (((struct Obj01060 *)p)->f401 != 0) {
-                (((struct Obj01060 *)p)->f401)--;
+    if (work->active == 1) {
+        if (work->requestId != GDS_REQUEST_NONE) {
+            if (work->waitFrames != 0) {
+                work->waitFrames--;
             } else {
-                switch (func_021D85C0()) {
+                switch (GDS_SOCKET_GetState()) {
                 case 1: case 7: case 8: case 9:
-                    if (func_021D6B40((u8 *)p, &result) == 1) {
-                        ((struct Obj01060 *)p)->f3D8 = 0x55f4;
-                        ((struct Obj01060 *)p)->f402 = 0;
+                    if (GDS_RAP_RunRequest(work, &result) == 1) {
+                        work->requestId = GDS_REQUEST_NONE;
+                        work->step = 0;
                         if (result == 1) {
-                            ((struct Obj01060 *)p)->f168 = 2;
-                            ((struct Obj01060 *)p)->f16C = 0x55f0;
-                            ((struct Obj01060 *)p)->f170 = ((struct Obj01060 *)p)->f493;
-                            ((struct Obj01060 *)p)->f164 = 1;
-                            if (*(Callback *)&((struct Obj01060 *)p)->f154 != 0)
-                                (*(Callback *)(p + 0x154))(((struct Obj01060 *)p)->f148, p + 0x164);
+                            work->result.errorKind = 2;
+                            work->result.requestId = GDS_REQUEST_UPLOAD_VIDEO;
+                            work->result.errorCode = work->httpErrorCode;
+                            work->result.pending = 1;
+                            if (work->callbacks.onUploadVideo != 0)
+                                work->callbacks.onUploadVideo(work->callbacks.userData, &work->result);
                         }
                     }
                     break;
@@ -426,22 +381,21 @@ int func_021D6A34(char *p)
                 }
             }
         }
-        func_021D6FB0(p);
-        if (*(Callback *)&((struct Obj01060 *)p)->f3FC != 0) {
-            if ((*(Callback *)(p + 0x3fc))(p, p + 0x3f0) == 1) {
-                *(Callback *)&((struct Obj01060 *)p)->f3FC = 0;
-                if (*(Callback *)&((struct Obj01060 *)p)->f3F0 != 0) {
-                    (*(Callback *)(p + 0x3f0))(((struct Obj01060 *)p)->f148, p + 0x164);
-                    *(Callback *)&((struct Obj01060 *)p)->f3F0 = 0;
+        GDS_RAP_UpdateSocketState(work);
+        if (work->pending.poll != 0) {
+            if (work->pending.poll(work, &work->pending) == 1) {
+                work->pending.poll = 0;
+                if (work->pending.callback != 0) {
+                    work->pending.callback(work->callbacks.userData, &work->result);
+                    work->pending.callback = 0;
                 }
-                MI_CpuFill8(p + 0x3f0, 0, 16);
-                ((struct Obj01060 *)p)->f3DC = 0x55f4;
+                MI_CpuFill8(&work->pending, 0, sizeof(GdsRapPending));
+                work->finishedRequestId = GDS_REQUEST_NONE;
             }
         }
     }
     return 1;
 }
-
 
 
 
@@ -451,137 +405,136 @@ int func_021D6A34(char *p)
  *   t is declared first, so the merged ret/t/r value keeps an early local's spill slot ([sp,#8]);
  *   a real static inline helper put it in the inline return temp's slot ([sp]).
  */
-int func_021D6B40(u8 *p, int *done)
+int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
 {
     int t;
-    int n, m;
-    int idx, sub;
-    int n2, m2;
+    int sides, members;
+    int party, member;
+    int sides2, members2;
     int ret;
     int r;
-    char *base;
-    char *base2;
+    struct BattleRecSave *video;
+    struct BattleRecSave *video2;
     int i;
-    u8 *h;
-    int a, b;
-    u8 x;
+    NHTTPRapRecordList *list;
+    int httpStatus, pollStatus;
 
     *done = 0;
     ret = 0;
-    switch (*(int *)(p + 0x3d8)) {
-    case 0x5208:
-        ret = func_021D860C(p + 0x174, W(0x3ac));
+    switch (work->requestId) {
+    case GDS_REQUEST_UPLOAD_ENTRY:
+        ret = GDS_SOCKET_SendUploadEntry(&work->args.entry, work->replyBuffer);
         break;
-    case 0x5209:
-        ret = func_021D8654(H(0x3a4), W(0x3ac));
+    case GDS_REQUEST_DOWNLOAD_ENTRIES:
+        ret = GDS_SOCKET_SendDownloadEntries(work->arg2.downloadKey, work->replyBuffer);
         break;
-    case 0x55f0:
-        switch (B(0x402)) {
+    case GDS_REQUEST_UPLOAD_VIDEO:
+        switch (work->step) {
         case 0:
-            base = func_021D7700();
-            if (OBJ != 0)
-                func_02034714(d_021D8D28, ret, d_021D8D28);
-            OBJ = NHTTP_RAP_Create((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)func_02012944((void *)W(0))), W(0x494));
-            NHTTP_RAP_AllocPostData(OBJ, (u16)W(0x13c), 0x540, 3);
-            BATTLE_REC_GetModeLayout(*(u16 *)(base + 0xa6), &n, &m);
-            B(0x490) = 0;
-            for (i = 0; i < n; i++) {
-                NHTTP_RAP_AppendPostData(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
-                B(0x490) += (u8)*(u16 *)(base + i * 0x2a4 + 0xcfe);
+            video = GDS_RAP_GetVideoWork();
+            if (work->session != 0)
+                func_02034714(sGdsEmptyString, ret, sGdsEmptyString);
+            work->session = NHTTP_RAP_Create((u16)work->heapId, func_0200853C(func_02012944(work->gameData)), work->profileSource);
+            NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
+            BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
+            work->memberCount = 0;
+            for (i = 0; i < sides; i++) {
+                NHTTP_RAP_AppendPostData(work->session, video->body.party[i].members, video->body.party[i].count * sizeof(struct BattleRecMon));
+                work->memberCount += (u8)video->body.party[i].count;
             }
-            if (!NHTTP_RAP_CreatePostRequest(OBJ))
-                func_02034714(d_021D8D28, 0, d_021D8D28);
-            if (!(NHTTP_RAP_StartConnection(OBJ) == 0 ? 1 : 0))
-                func_02034714(d_021D8D28, 0, d_021D8D28);
-            B(0x402)++;
+            if (!NHTTP_RAP_CreatePostRequest(work->session))
+                func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+            if (!(NHTTP_RAP_StartConnection(work->session) == 0 ? 1 : 0))
+                func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+            work->step++;
             break;
         case 1:
-            a = NHTTP_RAP_GetResultCode(OBJ);
-            b = NHTTP_RAP_PollConnection(OBJ);
-            if (a != 200 && b != 15) {
-                switch (NHTTP_RAP_GetResultCode(OBJ)) {
-                case 0x190: B(0x493) = 0x96; break;
-                case 0x191: B(0x493) = 0x97; break;
-                case 0x198: B(0x493) = 0x98; break;
-                default: B(0x493) = 0x99; break;
+            httpStatus = NHTTP_RAP_GetResultCode(work->session);
+            pollStatus = NHTTP_RAP_PollConnection(work->session);
+            if (httpStatus != 200 && pollStatus != 15) {
+                switch (NHTTP_RAP_GetResultCode(work->session)) {
+                case 0x190: work->httpErrorCode = 0x96; break;
+                case 0x191: work->httpErrorCode = 0x97; break;
+                case 0x198: work->httpErrorCode = 0x98; break;
+                default: work->httpErrorCode = 0x99; break;
                 }
-                NHTTP_RAP_FreePostData(OBJ);
-                NHTTP_RAP_DeleteConnection(OBJ);
-                NHTTP_RAP_Destroy(OBJ);
-                OBJ = 0;
+                NHTTP_RAP_FreePostData(work->session);
+                NHTTP_RAP_DeleteConnection(work->session);
+                NHTTP_RAP_Destroy(work->session);
+                work->session = 0;
                 *done = 1;
                 return 1;
             }
-            if (b == 0) {
-                h = NHTTP_RAP_GetRecvBuffer(OBJ);
-                if (NHTTP_RAP_RecordList_GetCount(h) == 0) {
-                    B(0x492) = 0;
-                    MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(h, B(0x490)), p + 0x40a, 0x80);
-                    for (i = 0; i < B(0x490); i++)
-                        W(0x48c) = NHTTP_RAP_RecordList_GetValue((u32)h, i);
-                    B(0x402)++;
+            if (pollStatus == 0) {
+                list = (NHTTPRapRecordList *)NHTTP_RAP_GetRecvBuffer(work->session);
+                if (NHTTP_RAP_RecordList_GetCount(list) == 0) {
+                    work->nameCheckFailed = 0;
+                    MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(list, work->memberCount), work->ticket, GDS_TICKET_SIZE);
+                    for (i = 0; i < work->memberCount; i++)
+                        work->nameCheckResult = NHTTP_RAP_RecordList_GetValue(list, i);
+                    work->step++;
                 } else {
-                    base2 = func_021D7700();
-                    if (B(0x403) == 1)
-                        B(0x492) = 1;
-                    BATTLE_REC_GetModeLayout(*(u16 *)(base2 + 0xa6), &n2, &m2);
-                    for (i = 0; i < B(0x490); i++) {
-                        W(0x48c) = NHTTP_RAP_RecordList_GetValue((u32)h, i);
-                        if (W(0x48c) != 0 && B(0x403) == 0) {
-                            if (!func_021D7154((int)p, i, &idx, &sub))
+                    video2 = GDS_RAP_GetVideoWork();
+                    if (work->secondPass == 1)
+                        work->nameCheckFailed = 1;
+                    BATTLE_REC_GetModeLayout(video2->head.mode, &sides2, &members2);
+                    for (i = 0; i < work->memberCount; i++) {
+                        work->nameCheckResult = NHTTP_RAP_RecordList_GetValue(list, i);
+                        if (work->nameCheckResult != 0 && work->secondPass == 0) {
+                            if (!GDS_RAP_FindMember(work, i, &party, &member))
                                 break;
                             {
-                                char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                MSGDATA_ReadUnits(gSpeciesNameBank, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
+                                struct BattleRecMon *poke = &video2->body.party[party].members[member];
+                                MSGDATA_ReadUnits(gSpeciesNameBank, poke->species, poke->nickname, GDS_NICKNAME_LEN);
                             }
-                            W(0x5a0) = 1;
+                            work->namesChanged = 1;
                         }
                     }
-                    if (B(0x403) == 0) {
-                        BATTLE_REC_SetBodyCrc((struct RecC4 *)BATTLE_REC_GetBody());
-                        B(0x402) = 0;
-                        B(0x403)++;
+                    if (work->secondPass == 0) {
+                        BATTLE_REC_SetBodyCrc(BATTLE_REC_GetBody());
+                        work->step = 0;
+                        work->secondPass++;
                     } else {
-                        B(0x402)++;
+                        work->step++;
                     }
                 }
-                NHTTP_RAP_FreePostData(OBJ);
-                NHTTP_RAP_Destroy(OBJ);
-                OBJ = 0;
+                NHTTP_RAP_FreePostData(work->session);
+                NHTTP_RAP_Destroy(work->session);
+                work->session = 0;
                 break;
             }
-            if (b != 15 && OBJ != 0) {
-                NHTTP_RAP_FreePostData(OBJ);
-                NHTTP_RAP_DeleteConnection(OBJ);
-                NHTTP_RAP_Destroy(OBJ);
-                OBJ = 0;
+            if (pollStatus != 15 && work->session != 0) {
+                NHTTP_RAP_FreePostData(work->session);
+                NHTTP_RAP_DeleteConnection(work->session);
+                NHTTP_RAP_Destroy(work->session);
+                work->session = 0;
                 return 1;
             }
             return 0;
         case 2:
-            GAME_DATA_GetSaveControl((struct Big *)W(0));
-            func_021D75C0();
-            B(0x402)++;
+            GAME_DATA_GetSaveControl(work->gameData);
+            GDS_RAP_EncodeVideoBody();
+            work->step++;
             break;
         case 3:
-            ret = func_021D8694(W(0x174), p + 0x40a, 0x80, W(0x3ac));
+            ret = GDS_SOCKET_SendUploadVideo(work->args.video, work->ticket, GDS_TICKET_SIZE, work->replyBuffer);
             break;
         }
         break;
-    case 0x55f1:
+    case GDS_REQUEST_SEARCH_VIDEOS:
         r = 0;
-        switch (W(0x3e0)) {
+        switch (work->searchKind) {
         case 0:
-            r = func_021D8754(p + 0x174, W(0x3ac));
+            r = GDS_SOCKET_SendSearchByCondition(&work->args.search, work->replyBuffer);
             break;
         case 1:
-            r = func_021D879C(0x64, W(0x3ac));
+            r = GDS_SOCKET_SendSearchKind1(GDS_SEARCH_LIMIT, work->replyBuffer);
             break;
         case 2:
-            r = func_021D885C(0x64, W(0x3ac));
+            r = GDS_SOCKET_SendSearchKind2(GDS_SEARCH_LIMIT, work->replyBuffer);
             break;
         case 3:
-            t = func_021D87FC(0x64, W(0x3ac));
+            t = GDS_SOCKET_SendSearchKind3(GDS_SEARCH_LIMIT, work->replyBuffer);
             goto join;
             break;
         }
@@ -589,122 +542,122 @@ int func_021D6B40(u8 *p, int *done)
     join:
         ret = t;
         break;
-    case 0x55f2:
-        ret = func_021D88BC(W(0x3a4), W(0x3a8), 0x64, W(0x3ac));
+    case GDS_REQUEST_GET_VIDEO:
+        ret = GDS_SOCKET_SendGetVideo(work->arg2.dataNumber.lo, work->arg2.dataNumber.hi, GDS_VIDEO_VERSION, work->replyBuffer);
         break;
-    case 0x55f3:
-        ret = func_021D88F0(W(0x3a4), W(0x3a8), W(0x3ac));
+    case GDS_REQUEST_MARK_VIDEO:
+        ret = GDS_SOCKET_SendMarkVideo(work->arg2.dataNumber.lo, work->arg2.dataNumber.hi, work->replyBuffer);
         break;
     default:
-        func_02034714(d_021D8D28, 0, d_021D8D28);
+        func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
         break;
     }
     if (ret == 1)
-        W(0x3dc) = W(0x3d8);
+        work->finishedRequestId = work->requestId;
     return ret;
 }
 
 
 
-int func_021D6FB0(char *p)
+int GDS_RAP_UpdateSocketState(GdsRapWork *work)
 {
     unsigned int state;
-    if (((struct Obj00327 *)p)->f3DC == 0x55f4) return 1;
-    state = func_021D85C0();
-    ((struct Obj00327 *)p)->f140 = state;
-    if (state != ((struct Obj00327 *)p)->f144) {
+    if (work->finishedRequestId == GDS_REQUEST_NONE) return 1;
+    state = GDS_SOCKET_GetState();
+    work->socketState = state;
+    if (state != work->lastSocketState) {
         switch (state) {
         case 7:
-            ((struct Obj00327 *)p)->f168 = 1;
-            ((struct Obj00327 *)p)->f16C = 0;
-            ((struct Obj00327 *)p)->f170 = 7;
-            ((struct Obj00327 *)p)->f164 = 1;
-            ((struct Obj00327 *)p)->f3FC = func_021D7120;
+            work->result.errorKind = 1;
+            work->result.requestId = 0;
+            work->result.errorCode = 7;
+            work->result.pending = 1;
+            work->pending.poll = GDS_RAP_PollNothingAfterError;
             break;
         case 8:
-            ((struct Obj00327 *)p)->f3FC = func_021D7060;
-            func_021D71D8(p);
+            work->pending.poll = GDS_RAP_PollNothing;
+            GDS_RAP_ReadReply(work);
             break;
         case 9:
-            ((struct Obj00327 *)p)->f168 = 0;
-            ((struct Obj00327 *)p)->f16C = 0;
-            ((struct Obj00327 *)p)->f170 = func_021D85DC();
-            ((struct Obj00327 *)p)->f164 = 1;
-            ((struct Obj00327 *)p)->f3FC = func_021D7120;
+            work->result.errorKind = 0;
+            work->result.requestId = 0;
+            work->result.errorCode = GDS_SOCKET_GetError();
+            work->result.pending = 1;
+            work->pending.poll = GDS_RAP_PollNothingAfterError;
             break;
         case 0: case 1: case 2: case 3: case 4: case 5: case 6:
         default: break;
         }
-        ((struct Obj00327 *)p)->f144 = ((struct Obj00327 *)p)->f140;
+        work->lastSocketState = work->socketState;
     }
     return 1;
 }
 
 
 
-int func_021D7060(void) { return 1; }
+int GDS_RAP_PollNothing(GdsRapWork *work, GdsRapPending *pending) { return 1; }
 
 
 
-int func_021D7064(char *p, const u16 *s)
+int GDS_RAP_PollSaveUploadedVideo(GdsRapWork *work, GdsRapPending *pending)
 {
-    char *base;
-    char *out;
-    char *r;
-    int outer, inner;
-    int n, m;
+    struct BattleRecSave *video;
+    struct BattleRecMon *firstPoke;
+    u8 *names;
+    int party, member;
+    int sides, members;
     int i;
-    int *obj;
+    GdsReplyUploadVideo *reply;
     int result;
-    if (s[2] == 0 && ((struct Obj10460 *)p)->f5A0 != 0) {
-        r = func_021D7700();
+    if (pending->saveStep == 0 && work->namesChanged != 0) {
+        video = GDS_RAP_GetVideoWork();
         BATTLE_REC_DecodeWork();
-        BATTLE_REC_GetModeLayout(((struct Obj22998 *)r)->fA6, &n, &m);
+        BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
         i = 0;
-        out = p + 0x498;
-        base = r + 0xd00;
-        for (; i < 12; i++) {
-            if (!func_021D7154((int)p, i, &outer, &inner)) break;
-            func_021D71CC(out + i * 22, base + outer * 676 + inner * 112 + 50, 11);
+        names = (u8 *)work->nicknames;
+        firstPoke = video->body.party[0].members;
+        for (; i < GDS_NAME_SLOTS; i++) {
+            if (!GDS_RAP_FindMember(work, i, &party, &member)) break;
+            GDS_RAP_CopyNickname(names + i * sizeof(work->nicknames[0]), GDS_REC_POKE(firstPoke, party, member)->nickname, GDS_NICKNAME_LEN);
         }
-        BATTLE_REC_SetBodyCrc((struct RecC4 *)BATTLE_REC_GetBody());
+        BATTLE_REC_SetBodyCrc(BATTLE_REC_GetBody());
         BATTLE_REC_EncodeWork();
     }
-    obj = (int *)func_021D85E8();
-    result = func_021D75E8(((struct Obj10460 *)p)->f0, obj[1], obj[2], (u16 *)(s + 2), (int)(s + 3), (u16)((struct Obj10460 *)p)->f13C);
+    reply = (GdsReplyUploadVideo *)GDS_SOCKET_GetReply();
+    result = GDS_RAP_SaveVideoWithDataNumber(work->gameData, reply->dataNumber.half.lo, reply->dataNumber.half.hi, &pending->saveStep, &pending->saveSubStep, work->heapId);
     if (result == 2 || result == 3) return 1;
     return 0;
 }
 
 
 
-int func_021D7120(void) { return 1; }
+int GDS_RAP_PollNothingAfterError(GdsRapWork *work, GdsRapPending *pending) { return 1; }
 
 
 
 
-void func_021D7124(char *p, int unused, int k, int a3)
+void GDS_RAP_ReleaseSession(GdsRapWork *work, int unused, int scene, int unused2)
 {
-    if ((k == 3 || k == 6) && *(u8 **)(p + 0x404) != 0) {
-        NHTTP_RAP_FreePostData(*(u8 **)(p + 0x404));
-        NHTTP_RAP_DeleteConnection(*(u8 **)(p + 0x404));
-        NHTTP_RAP_Destroy(*(u8 **)(p + 0x404));
-        *(int *)(p + 0x404) = 0;
+    if ((scene == 3 || scene == 6) && work->session != 0) {
+        NHTTP_RAP_FreePostData(work->session);
+        NHTTP_RAP_DeleteConnection(work->session);
+        NHTTP_RAP_Destroy(work->session);
+        work->session = 0;
     }
 }
 
 
 
-int func_021D7154(int a, int index, int *outer, int *inner)
+int GDS_RAP_FindMember(GdsRapWork *work, int index, int *party, int *member)
 {
-    char *p;
-    int n, other;
+    struct BattleRecSave *video;
+    int sides, other;
     int i;
     i = 0;
-    p = func_021D7700();
-    BATTLE_REC_GetModeLayout(((struct Obj22999 *)p)->fA6, &n, &other);
-    for (*outer = 0; *outer < n; ++*outer) {
-        for (*inner = 0; *inner < *(u16 *)(p + *outer * 676 + 0xcfe); ++*inner) {
+    video = GDS_RAP_GetVideoWork();
+    BATTLE_REC_GetModeLayout(video->head.mode, &sides, &other);
+    for (*party = 0; *party < sides; ++*party) {
+        for (*member = 0; *member < video->body.party[*party].count; ++*member) {
             if (i == index) return 1;
             ++i;
         }
@@ -714,110 +667,110 @@ int func_021D7154(int a, int index, int *outer, int *inner)
 
 
 
-void func_021D71CC(const void *src,void *dst,u32 n) {MI_CpuCopy8(src,dst,n*2);}
+void GDS_RAP_CopyNickname(const void *src, void *dst, u32 count) {MI_CpuCopy8(src,dst,count*2);}
 
 
 
-int func_021D71D8(char *p)
+int GDS_RAP_ReadReply(GdsRapWork *work)
 {
-    const u16 *state;
+    const GdsReply *reply;
     int result = 1;
-    state = (const u16 *)func_021D85E8();
-    func_021D85F4();
-    if (((struct Obj00327 *)p)->f3DC != state[0]) func_02034714(d_021D8D28, 0, d_021D8D28);
-    ((struct Obj00327 *)p)->f3F0 = 0;
-    switch (state[0]) {
+    reply = (const GdsReply *)GDS_SOCKET_GetReply();
+    GDS_SOCKET_GetReplySize();
+    if (work->finishedRequestId != reply->requestId) func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
+    work->pending.callback = 0;
+    switch (reply->requestId) {
     case 0: break;
     case 21000:
-        result = func_021D732C(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f14C;
+        result = GDS_RAP_CheckUploadEntryReply(work, reply);
+        work->pending.callback = work->callbacks.onUploadEntry;
         break;
     case 21001:
-        result = func_021D7354(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f150;
+        result = GDS_RAP_CheckDownloadEntriesReply(work, reply);
+        work->pending.callback = work->callbacks.onDownloadEntries;
         break;
     case 22000:
-        result = func_021D73B8(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f154;
-        if (result == 1) ((struct Obj00327 *)p)->f3FC = (void *)func_021D7064;
+        result = GDS_RAP_CheckUploadVideoReply(work, reply);
+        work->pending.callback = work->callbacks.onUploadVideo;
+        if (result == 1) work->pending.poll = GDS_RAP_PollSaveUploadedVideo;
         break;
     case 22001:
-        result = func_021D73F0(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f158;
+        result = GDS_RAP_CheckSearchVideosReply(work, reply);
+        work->pending.callback = work->callbacks.onSearchVideos;
         break;
     case 22002:
-        result = func_021D74B4(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f15C;
+        result = GDS_RAP_CheckGetVideoReply(work, reply);
+        work->pending.callback = work->callbacks.onGetVideo;
         break;
     case 22003:
-        result = func_021D7520(p, state);
-        ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f160;
+        result = GDS_RAP_CheckMarkVideoReply(work, reply);
+        work->pending.callback = work->callbacks.onMarkVideo;
         break;
     }
     if (result == 0) {
-        ((struct Obj00327 *)p)->f168 = 2;
-        ((struct Obj00327 *)p)->f16C = state[0];
-        ((struct Obj00327 *)p)->f170 = state[1];
-        ((struct Obj00327 *)p)->f164 = 1;
-    } else ((struct Obj00327 *)p)->f164 = 0;
+        work->result.errorKind = 2;
+        work->result.requestId = reply->requestId;
+        work->result.errorCode = reply->resultCode;
+        work->result.pending = 1;
+    } else work->result.pending = 0;
     return result;
 }
 
 
 
-int func_021D72EC(char *p, int **out)
+int GDS_RAP_GetResult(GdsRapWork *work, GdsRapResult **result)
 {
-    *out = (int *)(p + 0x164);
-    return ((struct Obj23000 *)p)->f164;
+    *result = &work->result;
+    return work->result.pending;
 }
 
 
 
-void func_021D72F8(char *p)
+void GDS_RAP_ClearResult(GdsRapWork *work)
 {
-    MI_CpuFill8(p + 0x164, 0, 16);
+    MI_CpuFill8(&work->result, 0, sizeof(GdsRapResult));
 }
 
 
 
-int func_021D730C(char *p) { if (*(unsigned int *)&((struct Obj02838 *)p)->f3D8==0x55f4 && ((struct Obj02838 *)p)->f3DC==0x55f4) return 1; return 0; }
+int GDS_RAP_IsIdle(GdsRapWork *work) { if (work->requestId==GDS_REQUEST_NONE && work->finishedRequestId==GDS_REQUEST_NONE) return 1; return 0; }
 
 
 
-int func_021D732C(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: break; default: break; } return r; }
+int GDS_RAP_CheckUploadEntryReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: break; default: break; } return r; }
 
 
 
-int func_021D7354(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
+int GDS_RAP_CheckDownloadEntriesReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
 
 
 
-int func_021D7374(char *a, void **out, int max)
+int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max)
 {
-    int p;
-    char *base;
-    int n;
+    GdsDownloadList *list;
+    GdsDownloadEntry *base;
+    int count;
     int i;
-    p = (int)(func_021D85E8() + 4);
-    n = ((struct Obj23004 *)p)->f0;
-    if (n > max) n = max;
-    base = (char *)(p + 4);
-    for (i = 0; i < n; i++) out[i] = base + i * 572 + 12;
-    for (; i < max; i++) out[i] = 0;
-    return n;
+    list = &((GdsReplyDownload *)GDS_SOCKET_GetReply())->list;
+    count = list->count;
+    if (count > max) count = max;
+    base = list->entries;
+    for (i = 0; i < count; i++) entries[i] = &base[i].blocks;
+    for (; i < max; i++) entries[i] = 0;
+    return count;
 }
 
 
 
-int func_021D73B8(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: case 7: break; default: break; } return r; }
+int GDS_RAP_CheckUploadVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: case 7: break; default: break; } return r; }
 
 
 
-unsigned long long func_021D73E0(char *a0) { int *p=(int *)func_021D85E8(); return *(unsigned long long *)(p+1); }
+u64 GDS_RAP_GetUploadedDataNumber(GdsRapWork *work) { GdsReplyUploadVideo *reply=(GdsReplyUploadVideo *)GDS_SOCKET_GetReply(); return reply->dataNumber.value; }
 
 
 
-int func_021D73F0(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
+int GDS_RAP_CheckSearchVideosReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
 
 
 
@@ -825,348 +778,231 @@ int func_021D73F0(char *p, const unsigned short *s) { int r=0; switch (s[1]) { c
 /*
  * note: 2026-10-05 (D4-14): the xor/orr equality is a 64-bit compare; written as u64 loads, EXACT.
  */
-int func_021D7414(char *unused, char *dst, int n)
+int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
 {
-    int *g = (int *)func_021D85E8();
-    int *hdr = g + 1;
-    char *base;
-    int cnt;
+    GdsReplySearch *reply = (GdsReplySearch *)GDS_SOCKET_GetReply();
+    GdsListingList *list = &reply->list;
+    GdsListingEntry *base;
+    int count;
     int i;
 
-    cnt = hdr[0];
-    if (cnt > n) {
-        cnt = n;
-        func_02034714(d_021D8D2C, 0, d_021D8D2C);
+    count = list->count;
+    if (count > max) {
+        count = max;
+        func_02034714(sGdsEmptyString2, 0, sGdsEmptyString2);
     }
-    MI_CpuFill8(dst, 0, n * 0xC4);
+    MI_CpuFill8(dst, 0, max * sizeof(GdsVideoListing));
     i = 0;
-    base = (char *)hdr + 4;
-    for (i = 0; i < cnt; i++) {
-        char *e = base + i * 0xD0;
-        u64 id = *(u64 *)(e + 4);
-        if (*(u64 *)(e + 0xC4) != id) {
-            *(u64 *)(e + 0xC4) = id;
-            *(u16 *)(e + 0xCC) = func_0203F1FC((const u8 *)(e + 0x8C), 0x38);
+    base = list->entries;
+    for (i = 0; i < count; i++) {
+        GdsListingEntry *entry = &base[i];
+        u64 id = entry->dataNumber.value;
+        if (entry->listing.head.dataNumber.value != id) {
+            entry->listing.head.dataNumber.value = id;
+            entry->listing.head.crc = func_0203F1FC((const u8 *)&entry->listing.head, 0x38);
         }
-        *(Rec *)(dst + i * 0xC4) = *(Rec *)(e + 0xC);
+        *(GdsVideoListing *)(dst + i * sizeof(GdsVideoListing)) = entry->listing;
     }
-    return cnt;
+    return count;
 }
 
 
 
-int func_021D74B4(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
+int GDS_RAP_CheckGetVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
 
 
 
-int func_021D74D8(void *unused, char **out)
+int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
 {
-    char *p = (char *)func_021D85E8();
-    char *s = p + 4;
+    GdsReplyGetVideo *reply = (GdsReplyGetVideo *)GDS_SOCKET_GetReply();
+    GdsVideoEntry *entry = &reply->entry;
     u64 id;
 
-    *out = s + 0xC;
-    id = *(u64 *)(p + 8);
-    if (*(u64 *)(s + 0xC4) != id) {
-        *(u64 *)(s + 0xC4) = id;
-        *(u16 *)(*out + 0xC0) = func_0203F1FC((u8 *)(*out + 0x80), 0x38);
+    *video = &entry->video;
+    id = reply->entry.dataNumber.value;
+    if (entry->video.head.dataNumber.value != id) {
+        entry->video.head.dataNumber.value = id;
+        (*video)->head.crc = func_0203F1FC((const u8 *)&(*video)->head, 0x38);
     }
-    return *(int *)(p + 8);
+    return reply->entry.dataNumber.half.lo;
 }
 
 
 
-int func_021D7520(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
+int GDS_RAP_CheckMarkVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
 
 
 
-int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
+int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state, u16 *seq, u16 heap)
 {
     unsigned int value;
     switch (*state) {
     case 0:
         if (mode == 1) {
-            *(unsigned char *)(((char *)d_0214616C) + 0xaa) = mode;
-            *(u16 *)(((char *)d_0214616C) + 0xa8) = 57985;
-            *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
+            d_0214616C->head.secure = mode;
+            d_0214616C->head.magic = 57985;
+            d_0214616C->head.crc = func_0203F1FC((const u8 *)&d_0214616C->head, 56);
         }
-        value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-        BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+        value = d_0214616C->body.crc;
+        BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
         break;
     case 1:
-        return BATTLE_REC_SaveSeq(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
+        return BATTLE_REC_SaveSeq(gameData, d_0214616C, id, seq, heap);
     }
     return 0;
 }
 
 
 
-void func_021D75C0(void)
+void GDS_RAP_EncodeVideoBody(void)
 {
     unsigned int value;
-    value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-    BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+    value = d_0214616C->body.crc;
+    BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
 }
 
 
 
-int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
+int GDS_RAP_SaveVideoWithDataNumber(struct GameData *gameData, int dataNumberLo, int dataNumberHi, u16 *state, u16 *seq, u16 heap)
 {
-    char *p;
+    struct BattleRecSave *video;
     switch (*state) {
     case 0:
-        p = ((char *)d_0214616C);
-        ((struct Obj14011 *)p)->fB8 = x;
-        ((struct Obj14011 *)p)->fBC = y;
+        video = d_0214616C;
+        video->head.dataNumber.half.lo = dataNumberLo;
+        video->head.dataNumber.half.hi = dataNumberHi;
         ++*state;
         break;
     case 1:
-        return BATTLE_REC_SaveSeq((void *)a, (struct BattleRec *)((char *)d_0214616C), 0, (u16 *)b, c);
+        return BATTLE_REC_SaveSeq(gameData, d_0214616C, 0, seq, heap);
     }
     return 0;
 }
 
 
 
-int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c)
+int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 *seq, u16 heap)
 {
     unsigned int value;
     switch (*state) {
     case 0:
-        *(unsigned char *)(((char *)d_0214616C) + 0xaa) = 1;
-        *(u16 *)(((char *)d_0214616C) + 0xa8) = 57985;
-        *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
-        value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-        BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+        d_0214616C->head.secure = 1;
+        d_0214616C->head.magic = 57985;
+        d_0214616C->head.crc = func_0203F1FC((const u8 *)&d_0214616C->head, 56);
+        value = d_0214616C->body.crc;
+        BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
         break;
     case 1:
-        return BATTLE_REC_SaveSeq(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
+        return BATTLE_REC_SaveSeq(gameData, d_0214616C, id, seq, heap);
     }
     return 0;
 }
 
 
 
-void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); SAVE_CONTROL_LoadExtraSave(s,id,heap); BATTLE_REC_Clear(func_020073D8(s,id,0)); GAME_DATA_PartSaveStart(p,id);}
+void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); SAVE_CONTROL_LoadExtraSave(save,id,heap); BATTLE_REC_Clear(func_020073D8(save,id,0)); GAME_DATA_PartSaveStart(gameData,id);}
 
 
 
-int func_021D76D8(char *p,int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); int r=GAME_DATA_PartSaveMain(p,id); if(r==2 || r==3) func_020072A4(s,id); return r;}
+int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); int r=GAME_DATA_PartSaveMain(gameData,id); if(r==2 || r==3) func_020072A4(save,id); return r;}
 
 
 
-char *func_021D7700(void) { return ((char *)d_0214616C); }
+struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }
 
 #pragma thumb off
 
+/*
+ * Socket state machine.  The connection runs on its own thread; the request
+ * layer above polls the state under the mutex.
+ */
 
-#include "../../matched/include/G_Clear.h"
-
-#define D(o) (*(int *)(((char *)&d_021D9E40) + (o)))
-typedef struct { int words[78]; } Record;
-
-typedef struct { Record record; int f138; char pad13c[4]; char name[256]; char pad240[24]; int f258; char pad25c[16]; int f26c; } State;
-
-/*
- * 2026-10-05 (wave D4 lane07): DIFF, unchanged 2 bytes (+CC/+D0, str/cmp use r4 instead of the call result r0). Tried (all identical output): chained `*(int *)&hdr = sz = f(id)`, `sz = *(int *)&hdr = f(id)`, `hdr = tmp = f(); sz = tmp`, `sz = tmp = f(); hdr = tmp`, assignment inside the if condition, tmp unsigned, callee returning unsigned, sz parameter unsigned, hdr stored first and compared through hdr then copied to sz (before or after the check). The same str r0/cmp r0 shape appears for the global store D(0x25c) = f(); if (D(0x25c) == -1) in this function, so the original probably compared a value the compiler did not merge with sz.
- */
-/*
- * 2026-10-05 (wave D5 lane09): DIFF, 2 bytes unchanged. Reading: the original keeps the call result in
- *   r0 for the hdr store and the -1 compare and copies it to r4, so the result temp is NOT coalesced
- *   with sz (it is coalesced with r0); in every draft form it is coalesced with sz. Tried: hdr as a
- *   union {u8 b[4]; int i;} with member stores/compare (no address-of; worse, byte copy loses the
- *   add r5,sp,#0 pointer), a separate `size` local for both arms (identical). Next: find a use that
- *   makes the result temp interfere with sz (old sz live after the call).
- */
-/*
- * 2026-10-05 (wave D6 lane02): DIFF, 2 bytes unchanged. Callee check: func_021D891C(int n) takes one
- *   argument (matched), so no hidden argument. Tried: the copy to sz after the -1 check (sz = tmp
- *   at the end of the else arm, identical), sz as the address-taken source of the 4-byte copy
- *   (h = &sz: the parameter goes to the stack, 365 bytes worse; hdr is a separate local at [sp]).
- *   Reading: the result temp is coalesced with sz in every form; the original coalesces it with r0.
- */
-/*
- * 2026-10-05 (wave D7 lane07): DIFF, 2 bytes unchanged (+CC str, +D0 cmp use r4, image r0).
- *   Tried (all identical, 2 bytes): if/else polarity swapped (`if (sz == -1)` first: 54 bytes worse,
- *   so the then-arm is sz != -1); tmp declared in the inner block; tmp declared last; the call
- *   through a static inline helper (returning the value, or also storing hdr through a W4 pointer);
- *   the dead parameter x reused as the result temp; sz = f(id) with the check read through
- *   `*(int *)&hdr`. Comparing the result against the old sz (== -1 in that arm) makes the old sz
- *   live across the call: 380 bytes worse (frame changes). Reading: mwcc coalesces the call
- *   result with sz in every source form; the image keeps it in r0. No source lever found.
- */
-/*
- * 2026-10-05 (wave D8 lane08): DIFF, 2 bytes unchanged. Tried: one temp for both arms (`tmp = sz + 0x140` in
- *  the then-arm, `tmp = f(id)` in the else-arm, hdr stored from tmp in each arm, `sz = tmp` after the join):
- *  identical 2 bytes, the call result is still coalesced with the size register r4.
- */
-/*
- * 2026-10-05 (wave D9r lane10): DIFF, 2 bytes unchanged. Tried: a static inline Load(&sz, &hdr, id) that stores the
- *  result through both pointers and returns it for the -1 test; `sz = f(id); hdr = sz; if (*(int *)&hdr == -1)`.
- *  Both identical (2 B). The result is still coalesced with sz.
- */
-typedef struct { int w[0x138 / 4]; } Blob;
-
-/*
- * 2026-10-05 (wave D9 lane16): DIFF, 2 bytes unchanged. Reading only: the image uses the call result r0 for the
- *  hdr store and the -1 compare the same way as the earlier `D(0x25c) = f(id); if (D(0x25c) == -1)`, so the
- *  else-arm value was probably never a named local before the check. All forms of that (store to hdr, compare
- *  hdr, copy to sz) are listed above as tried and give identical output. New tests: D(0x260) = x written in each
- *  arm (221 B worse, the store is not merged up); result stored only into hdr, compared through hdr, and
- *  `sz = *(int *)&hdr` at the end of the else arm (identical 2 B).
- */
-/*
- * 2026-10-05 (wD9r lane46): DIFF, 2 bytes unchanged. Tried: hdr as a plain int local (address taken only for the
- *  byte copy) instead of the W4 struct: identical 2 B. Reading: the image pattern (mov r4,r0; then uses of r0)
- *  needs the call result to interfere with sz; no source form tried so far makes it do that.
- */
-/*
- * 2026-10-05 (wD9r lane59): DIFF, 2 bytes unchanged. Tried: the call result and tmp as `long` (a non-int type,
- *  to block the copy coalesce) and sz as a `long` parameter: identical 2 B. hdr written in both arms with no sz
- *  update and `sz = *(int *)&hdr` once after the join: 209 B worse (reload from the stack). Reading: the else-arm
- *  call result must interfere with sz to stay in r0; no natural use found that makes it interfere.
- */
-/*
- * 2026-10-05 (wD9r lane80): DIFF, 2 bytes unchanged in the draft. Tried: both -1 error paths through one shared
- *  `err:` label (goto from the D(0x25c) check): 416 B, the error blocks merge and the base register changes, so the
- *  image has two separate error copies. Reading: func_021D891C (matched) returns size + 0x140, so the then-arm
- *  `sz + 0x140` and the else-arm call give the same quantity; the call result still coalesces with sz.
- */
-/*
- * 2026-10-05 (wD9r lane88): DIFF, 2 bytes unchanged. Callee prototypes checked against the matched definitions
- *  (func_021D891C int(int), func_021D89EC int(int), func_021D7C7C void(int), func_021D7D30 returns its tail call):
- *  no mismatch that matters here. Tried: one `tmp` local reused for both -1 checks (D(0x25c) = tmp and the else-arm
- *  result, so tmp has two definitions and cannot be propagated); else-arm as `else if ((*(int *)&hdr = sz = f(id))
- *  == -1)`; result stored only to hdr, tested as tmp, `sz = *(int *)&hdr` last. All identical (2 B, str/cmp on r4).
- */
-/*
- * 2026-10-05 (wD9r lane100): DIFF, 2 bytes unchanged in the draft. Twin search: no other function in src/matched or
- *  asm/overlays has the addne #0x140 / sz - 0x140 shape (only ov125 itself), so no twin to copy. Tried: the -1 error
- *  block as a static inline check helper `chk(v)` (sets D(0x13c)=9, D(0x250)=2, returns 0/1), called with sz, with the
- *  chained `*(int *)&hdr = sz = f(id)`, and a `chk2(&hdr, v)` that also stores hdr: all 456 B, 211 differ (the helper
- *  return merges badly; the call result is still coalesced with r4).
- */
-/*
- * 2026-10-05 (wD9r lane119): DIFF, 2 bytes unchanged. Reading: our output also has `mov r4, r0` after the call;
- *  only the store and compare read r4 instead of r0, so the result temp is coalesced with sz and the copy is the
- *  call-result move. Tried the zero-valued-local add (docs/idioms/a-self-move-after-a-call-is-an-add-of-a-zero-valued-local.md)
- *  to stop the coalesce: `sz = tmp + z` with the existing z set to 0 at the top, and `sz = tmp + pad` /
- *  `sz = pad + tmp` with a fresh zero local (set at the top or in the else arm). All identical (2 B): in ARM the
- *  zero add folds before coalescing.
- */
-/*
- * 2026-10-05 (wD9r lane133): DIFF, 2 bytes unchanged. Tried: `register int tmp;` (the storage class can change
- *  coalescing in some front ends): identical 2 B. Reading: the image shape (copy to r4 first, then str/cmp on r0)
- *  is what a phi copy placed at the end of the else block and scheduled up would give; every C form tried names
- *  one size variable in both arms, so mwcc coalesces the result into it. A ternary join would need the -1 check
- *  on the then-arm too, which the image does not have.
- */
-/*
- * 2026-10-05 (wD9r lane149): DIFF, 2 bytes unchanged. Tried the join-copy reading: two size variables, one per arm
- *  (n1 = sz + 0x140 / n2 = f(id), each stored to hdr, merged into `size` at the end of each arm, `sz = size` after the
- *  join); `size = sz` copied first and used in both arms; the else arm ends `sz = *(int *)&hdr`; the call inside the
- *  else-if condition with the copy in a final else; the result held in the later pointer variable p, and in z. All
- *  identical 2 B: ours emits `mov r4, r0` then str/cmp on r4, so the result temp is still merged with the size.
- */
-/*
- * 2026-10-05 (wD9r lane160): DIFF, 2 bytes unchanged. Tried the narrow-type levers of this wave: `unsigned short id`
- *  parameter (the id is only stored as a halfword): identical 2 B; the result temp and the callee return as unsigned
- *  int compared with 0xFFFFFFFF: identical; sz assigned from the call and the check read through `*(int *)&hdr`:
- *  identical; the check as `tmp + 1 == 0`: 472 B (the -1 constant in r8 is lost). The call result still coalesces
- *  with sz (r4).
- */
-typedef struct { unsigned char b[4]; } W4;
-
-extern void func_021D8588(void);
-extern int func_021D7CF4(void);
+extern void GDS_SOCKET_NopBegin(void);
+extern int GDS_SOCKET_InitTick(void);
 extern int func_021D7CD4(void);
-extern char *func_02094798(char *, const char *);
-extern void func_021D7F60(void);
-extern void func_021D858C(void);
-extern int func_021D8444(void);
-extern int func_021D7E80(void);
-extern int func_021D7FA0(void);
-extern int func_021D80E0(void);
-extern int func_021D824C(void);
-extern void func_021D7CC0(void);
-extern void func_021D8438(int);
-extern int func_021D89EC(int);
-extern int func_021D891C(int);
-extern int func_021D7D30(void);
-extern void *func_02092344(void *, const void *, unsigned);
-extern char *func_0205A16C(int, int);
-extern void func_0205A1B0(int,int,int);
-extern void func_02086028(void *);
-int func_021D7770(const char *a, unsigned short b, Record *src);
-void func_021D7808(void);
-void func_021D7874(void);
-int func_021D7A10(int id, void *buf, int x, int sz);
-unsigned int func_021D7BCC(void);
-char *func_021D7BDC(void);
-int func_021D7C14(void);
-int func_021D7C48(void);
-char *func_021D7C7C(int a);
-void func_021D7C90(int p);
-void func_021D7CAC(void);
-extern State d_021D9E40;
-extern char d_021DA040[];
-extern char d_021DA174[];
+extern char *func_02094798(char *dst, const char *src);
+extern void GDS_SOCKET_Close(void);
+extern void GDS_SOCKET_InitSsl(void);
+extern int GDS_SOCKET_WaitToken(void);
+extern int GDS_SOCKET_OpenAndResolve(void);
+extern int GDS_SOCKET_Connect(void);
+extern int GDS_SOCKET_Send(void);
+extern int GDS_SOCKET_Receive(void);
+extern void GDS_SOCKET_Unlock(void);
+extern void GDS_SOCKET_Sleep(int msec);
+extern int GDS_SOCKET_GetMaxReplySizeOf(int requestId);
+extern int GDS_SOCKET_GetRequestSize(int requestId);
+extern int GDS_SOCKET_StartThread(void);
+extern void *func_02092344(void *dest, const void *src, unsigned n);
+extern char *func_0205A16C(int heap, int size);
+extern void func_0205A1B0(int heap, int ptr, int flags);
+extern void func_02086028(void *mutex);
+int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client);
+void GDS_SOCKET_ResetConnection(void);
+void GDS_SOCKET_RunConnection(void);
+int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize);
+unsigned int GDS_SOCKET_GetStateUnlocked(void);
+void *GDS_SOCKET_GetReplyUnlocked(void);
+int GDS_SOCKET_GetReplySizeUnlocked(void);
+int GDS_SOCKET_GetErrorUnlocked(void);
+char *GDS_SOCKET_Alloc(int size);
+void GDS_SOCKET_Free(int ptr);
+void GDS_SOCKET_Lock(void);
+extern int GDS_SOCKET_Nop(void *p);
+extern void GDS_SOCKET_NopVoid(void);
+extern GdsSocket gGdsSocket;
+extern struct GdsHostTail gGdsHostTail;
+extern char gGdsSocketMutex[];
 
-
-
-static inline Record *copy(Record *dst, const Record *src) { *dst = *src; return dst; }
-
-
-
-void func_021D770C(void)
+void GDS_SOCKET_Reset(void)
 {
-    func_021D7808();
-    __builtin__clear(&d_021D9E40, sizeof(Record));
-    d_021D9E40.f138 = 0;
-    d_021D9E40.name[0] = 0;
-    *(short *)(d_021DA040 + 0x40) = 0;
-    func_021D7CEC(d_021DA040);
-    func_021D7D20();
+    GDS_SOCKET_ResetConnection();
+    __builtin__clear(&gGdsSocket, sizeof(GdsClientInfo));
+    gGdsSocket.tokenReady = 0;
+    gGdsSocket.hostName[0] = 0;
+    gGdsHostTail.port = 0;
+    GDS_SOCKET_Nop(&gGdsHostTail);
+    GDS_SOCKET_NopVoid();
 }
 
-int func_021D7770(const char *a, unsigned short b, Record *src)
+int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client)
 {
-    if (src) {
-        d_021D9E40.record = *src;
-        d_021D9E40.f138 = 0;
+    if (client) {
+        gGdsSocket.client = *client;
+        gGdsSocket.tokenReady = 0;
     }
-    func_021D8588();
-    if (!func_021D7CF4()) return 0;
+    GDS_SOCKET_NopBegin();
+    if (!GDS_SOCKET_InitTick()) return 0;
     func_021D7CD4();
-    func_02094798(d_021D9E40.name, a);
-    *(short *)(d_021DA040 + 0x40) = b;
-    d_021D9E40.f258 = 0;
-    d_021D9E40.f26c = -1;
-    func_021D7808();
+    func_02094798(gGdsSocket.hostName, host);
+    gGdsHostTail.port = port;
+    gGdsSocket.sendBuffer = 0;
+    gGdsSocket.socket = -1;
+    GDS_SOCKET_ResetConnection();
     return 1;
 }
 
 
 
-void func_021D7808(void) {
- func_021D7F60();
- if(((int *)&d_021D9E40)[0x258/4]) {
-  func_021D7C90(((int *)&d_021D9E40)[0x258/4]);
-  ((int *)&d_021D9E40)[0x258/4]=0;
+void GDS_SOCKET_ResetConnection(void) {
+ GDS_SOCKET_Close();
+ if(gGdsSocket.sendBuffer) {
+  GDS_SOCKET_Free((int)gGdsSocket.sendBuffer);
+  gGdsSocket.sendBuffer=0;
  }
- ((int *)&d_021D9E40)[0x244/4]=15;
- ((int *)&d_021D9E40)[0x248/4]=30;
- ((int *)&d_021D9E40)[0x24c/4]=30;
- ((int *)&d_021D9E40)[0x254/4]=0;
- ((int *)&d_021D9E40)[0x25c/4]=0;
- ((int *)&d_021D9E40)[0x260/4]=0;
- ((int *)&d_021D9E40)[0x264/4]=0;
- ((int *)&d_021D9E40)[0x268/4]=0;
- ((int *)&d_021D9E40)[0x13c/4]=1;
- ((int *)&d_021D9E40)[0x250/4]=0;
- func_021D858C();
+ gGdsSocket.connectTimeout=15;
+ gGdsSocket.sendTimeout=30;
+ gGdsSocket.receiveTimeout=30;
+ gGdsSocket.sendSize=0;
+ gGdsSocket.receiveSize=0;
+ gGdsSocket.receiveBuffer=0;
+ gGdsSocket.serverAddress=0;
+ gGdsSocket.cancelRequested=0;
+ gGdsSocket.state=GDS_SOCKET_STATE_READY;
+ gGdsSocket.errorCode=0;
+ GDS_SOCKET_InitSsl();
 }
 
 
@@ -1174,148 +1010,146 @@ void func_021D7808(void) {
 /*
  * lever: case 6 uses an explicit nested if for the error-13 split; the ternary spelling compiled four bytes short.
  */
-void func_021D7874(void)
+void GDS_SOCKET_RunConnection(void)
 {
     int finish, next;
     for (;;) {
         finish = 0;
-        switch (((int *)&d_021D9E40)[0x13c/4]) {
-        case 0: case 1: case 7: case 8: case 9:
+        switch (gGdsSocket.state) {
+        case GDS_SOCKET_STATE_IDLE: case GDS_SOCKET_STATE_READY: case GDS_SOCKET_STATE_CANCELLED: case GDS_SOCKET_STATE_DONE: case GDS_SOCKET_STATE_FAILED:
             finish = 1;
             break;
-        case 2:
-            if (!func_021D8444()) {
-                next = ((int *)&d_021D9E40)[0x250/4] == 13 ? 7 : 9;
+        case GDS_SOCKET_STATE_TOKEN:
+            if (!GDS_SOCKET_WaitToken()) {
+                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
                 finish = 1;
             } else next = 3;
-            func_021D7CAC();
-            ((int *)&d_021D9E40)[0x13c/4] = next;
+            GDS_SOCKET_Lock();
+            gGdsSocket.state = next;
             break;
-        case 3:
-            if (!func_021D7E80()) {
-                next = ((int *)&d_021D9E40)[0x250/4] == 13 ? 7 : 9;
+        case GDS_SOCKET_STATE_RESOLVE:
+            if (!GDS_SOCKET_OpenAndResolve()) {
+                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
                 finish = 1;
             } else next = 4;
-            func_021D7CAC();
-            ((int *)&d_021D9E40)[0x13c/4] = next;
+            GDS_SOCKET_Lock();
+            gGdsSocket.state = next;
             break;
-        case 4:
-            if (!func_021D7FA0()) {
-                next = ((int *)&d_021D9E40)[0x250/4] == 13 ? 7 : 9;
+        case GDS_SOCKET_STATE_CONNECT:
+            if (!GDS_SOCKET_Connect()) {
+                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
                 finish = 1;
             } else next = 5;
-            func_021D7CAC();
-            ((int *)&d_021D9E40)[0x13c/4] = next;
+            GDS_SOCKET_Lock();
+            gGdsSocket.state = next;
             break;
-        case 5:
-            if (!func_021D80E0()) {
-                next = ((int *)&d_021D9E40)[0x250/4] == 13 ? 7 : 9;
+        case GDS_SOCKET_STATE_SEND:
+            if (!GDS_SOCKET_Send()) {
+                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
                 finish = 1;
             } else next = 6;
-            if (((int *)&d_021D9E40)[0x258/4]) {
-                func_021D7C90(((int *)&d_021D9E40)[0x258/4]);
-                ((int *)&d_021D9E40)[0x258/4] = 0;
+            if (gGdsSocket.sendBuffer) {
+                GDS_SOCKET_Free((int)gGdsSocket.sendBuffer);
+                gGdsSocket.sendBuffer = 0;
             }
-            func_021D7CAC();
-            ((int *)&d_021D9E40)[0x13c/4] = next;
+            GDS_SOCKET_Lock();
+            gGdsSocket.state = next;
             break;
-        case 6:
-            if (!func_021D824C()) {
-                if (((int *)&d_021D9E40)[0x250/4] == 13) next = 7;
+        case GDS_SOCKET_STATE_RECEIVE:
+            if (!GDS_SOCKET_Receive()) {
+                if (gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED) next = 7;
                 else next = 9;
             } else {
                 next = 8;
             }
             finish = 1;
-            func_021D7CAC();
-            ((int *)&d_021D9E40)[0x13c/4] = next;
+            GDS_SOCKET_Lock();
+            gGdsSocket.state = next;
             break;
         }
         if (finish != 0) break;
-        if (((int *)&d_021D9E40)[0x268/4] == 1) {
-            ((int *)&d_021D9E40)[0x13c/4] = 7;
-            ((int *)&d_021D9E40)[0x250/4] = 13;
+        if (gGdsSocket.cancelRequested == 1) {
+            gGdsSocket.state = GDS_SOCKET_STATE_CANCELLED;
+            gGdsSocket.errorCode = GDS_SOCKET_ERROR_ABORTED;
             break;
         }
-        func_021D7CC0();
-        func_021D8438(1);
+        GDS_SOCKET_Unlock();
+        GDS_SOCKET_Sleep(1);
     }
-    func_021D7CC0();
+    GDS_SOCKET_Unlock();
 }
 
 
 
-static inline void cp4(W4 *d, const W4 *s) { *d = *s; }
+typedef struct GdsLengthWord { u8 b[4]; } GdsLengthWord;
 
 
 
 /*
  * 2026-10-05 (user decision): the long long temp for the call result is accepted as plausible original design (a 64-bit size type).
- * note 2026-10-04 wD3 lane14: complete draft, 2 bytes differ (listing +CC,+D0): in the sz==-1 path the original stores and compares the callee result r0 (str r0,[sp]; cmp r0,r8) after mov r4,r0; ours uses r4. Tried tmp then sz order, sz assigned after check, common-tail store with tmp. The 4-byte hdr copy is written as byte copies through an unsigned char pointer (add r5,sp,#0 matches only that way).
  */
-int func_021D7A10(int id, void *buf, int x, int sz)
+int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize)
 {
-    int tmp;
-    W4 hdr;
-    char *p;
-    char *q;
+    GdsLengthWord hdr;
+    GdsPacketHeader *packet;
+    GdsPacketHeader *q;
     unsigned char *h;
     int z;
-    func_021D7CAC();
-    switch (D(0x13c)) {
+    GDS_SOCKET_Lock();
+    switch (gGdsSocket.state) {
     case 0: case 2: case 3: case 4: case 5: case 6:
-        func_021D7CC0();
-        D(0x13c) = 9;
-        D(0x250) = 1;
+        GDS_SOCKET_Unlock();
+        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket.errorCode = 1;
         return 0;
     case 7:
     case 8:
     case 9:
-        func_021D7808();
+        GDS_SOCKET_ResetConnection();
         break;
     }
-    func_021D7CC0();
-    D(0x25c) = func_021D89EC(id);
-    if (D(0x25c) == -1) {
-        D(0x13c) = 9;
-        D(0x250) = 2;
+    GDS_SOCKET_Unlock();
+    gGdsSocket.receiveSize = GDS_SOCKET_GetMaxReplySizeOf(requestId);
+    if (gGdsSocket.receiveSize == -1) {
+        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket.errorCode = 2;
         return 0;
     }
-    D(0x260) = x;
-    if (sz != -1) {
-        sz += 0x140;
-        *(int *)&hdr = sz;
+    gGdsSocket.receiveBuffer = replyBuffer;
+    if (bodySize != -1) {
+        bodySize += GDS_WIRE_HEADER_SIZE;
+        *(int *)&hdr = bodySize;
     } else {
-        long long v = func_021D891C(id);
-        sz = (int)v;
+        long long v = GDS_SOCKET_GetRequestSize(requestId);
+        bodySize = (int)v;
         *(int *)&hdr = (int)v;
         if ((int)v == -1) {
-            D(0x13c) = 9;
-            D(0x250) = 2;
+            gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
+            gGdsSocket.errorCode = 2;
             return 0;
         }
     }
-    p = func_021D7C7C(sz);
-    D(0x258) = (int)p;
-    if (p == 0) return 0;
-    D(0x254) = sz;
+    packet = (GdsPacketHeader *)GDS_SOCKET_Alloc(bodySize);
+    gGdsSocket.sendBuffer = (u8 *)packet;
+    if (packet == 0) return 0;
+    gGdsSocket.sendSize = bodySize;
     h = (unsigned char *)&hdr;
-    p[0] = h[0]; p[1] = h[1]; p[2] = h[2]; p[3] = h[3];
-    q = *(char **)&D(0x258);
-    *(unsigned short *)(q + 4) = id;
-    *(Blob *)(q + 8) = *(Blob *)((char *)&d_021D9E40);
+    ((u8 *)packet)[0] = h[0]; ((u8 *)packet)[1] = h[1]; ((u8 *)packet)[2] = h[2]; ((u8 *)packet)[3] = h[3];
+    q = (GdsPacketHeader *)gGdsSocket.sendBuffer;
+    q->requestId = requestId;
+    q->client = gGdsSocket.client;
     z = 0;
-    *(unsigned short *)(q + 6) = z;
-    func_02092344(q + 0x140, buf, sz - 0x140);
-    D(0x13c) = 2;
-    func_021D7CAC();
-    if (func_021D7D30() == 0) {
-        D(0x13c) = 9;
-        D(0x250) = 6;
-        func_021D7CC0();
+    q->reserved = z;
+    func_02092344((u8 *)q + GDS_WIRE_HEADER_SIZE, body, bodySize - GDS_WIRE_HEADER_SIZE);
+    gGdsSocket.state = GDS_SOCKET_STATE_TOKEN;
+    GDS_SOCKET_Lock();
+    if (GDS_SOCKET_StartThread() == 0) {
+        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket.errorCode = 6;
+        GDS_SOCKET_Unlock();
         return z;
     }
-    func_021D7CC0();
+    GDS_SOCKET_Unlock();
     return 1;
 }
 
@@ -1323,42 +1157,38 @@ int func_021D7A10(int id, void *buf, int x, int sz)
 
 
 /*
- * Resolved: the ov121 region hint on the data symbol was contested by the
- * other overlays in the window; un-hinted, sole-ref/data picks the unique
- * overlay start, so the ABS32 pool relocation resolves.
- *
  * Addresses are Black-image addresses.
  */
-unsigned int func_021D7BCC(void)
+unsigned int GDS_SOCKET_GetStateUnlocked(void)
 {
-    return ((unsigned int *)&d_021D9E40)[0x4f];
+    return gGdsSocket.state;
 }
 
 
-char *func_021D7BDC(void) {func_021D7CAC(); if(func_021D7BCC()!=8){func_021D7CC0();return 0;} func_021D7CC0();return *(char **)(((char *)&d_021D9E40)+0x260)+4;}
+void *GDS_SOCKET_GetReplyUnlocked(void) {GDS_SOCKET_Lock(); if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return 0;} GDS_SOCKET_Unlock();return gGdsSocket.receiveBuffer+4;}
 
 
-int func_021D7C14(void){func_021D7CAC();if(func_021D7BCC()!=8){func_021D7CC0();return -1;}else{func_021D7CC0();return *(int*)(((char *)&d_021D9E40)+0x25c);}}
+int GDS_SOCKET_GetReplySizeUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return -1;}else{GDS_SOCKET_Unlock();return gGdsSocket.receiveSize;}}
 
 
-int func_021D7C48(void){func_021D7CAC();if(func_021D7BCC()!=9){func_021D7CC0();return 0;}else{func_021D7CC0();return *(int*)(((char *)&d_021D9E40)+0x250);}}
+int GDS_SOCKET_GetErrorUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_FAILED){GDS_SOCKET_Unlock();return 0;}else{GDS_SOCKET_Unlock();return gGdsSocket.errorCode;}}
 
 
 
 /*
  * Addresses are Black-image addresses.
  */
-char *func_021D7C7C(int a)
+char *GDS_SOCKET_Alloc(int size)
 {
-    return func_0205A16C(0, a);
+    return func_0205A16C(0, size);
 }
 
 
-void func_021D7C90(int p){if(p)func_0205A1B0(0,p,0);}
+void GDS_SOCKET_Free(int ptr){if(ptr)func_0205A1B0(0,ptr,0);}
 
 
 
-void func_021D7CAC(void)
+void GDS_SOCKET_Lock(void)
 {
-    func_02086028(d_021DA174);
+    func_02086028(gGdsSocketMutex);
 }

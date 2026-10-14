@@ -1,5 +1,5 @@
 /*
- * function: func_021EFE40
+ * function: MB_COMM_SYS_MainSave
  * address: 0x021EFE40
  * packet: pkt_ov107_021EFE40
  * region: ov107
@@ -14,17 +14,17 @@
  * original supplies only r0; full body forwards only r0 to02012CE0 and
  * no inputs to0201042C, then replaces r0/r1 before remaining calls.
  * symbols:
- *   func_021F1B08 0x021F1B08 thumb ov107
- *   func_021F1B14 0x021F1B14 thumb ov107
- *   func_021F10D4 0x021F10D4 thumb ov107
- *   func_021F10DC 0x021F10DC thumb ov107
- *   func_021F10E4 0x021F10E4 thumb ov107
- *   func_021F10EC 0x021F10EC thumb ov107
- *   func_021F10F4 0x021F10F4 thumb ov107
- *   func_021F10FC 0x021F10FC thumb ov107
- *   func_021F1104 0x021F1104 thumb ov107
- *   func_021F110C 0x021F110C thumb ov107
- *   func_021F11F0 0x021F11F0 thumb ov107
+ *   MB_UTIL_MSG_IsPrintQueFinished 0x021F1B08 thumb ov107
+ *   MB_UTIL_MSG_IsStreamIdle 0x021F1B14 thumb ov107
+ *   MB_COMM_SYS_HasKind11 0x021F10D4 thumb ov107
+ *   MB_COMM_SYS_HasKind12 0x021F10DC thumb ov107
+ *   MB_COMM_SYS_HasKind12Again 0x021F10E4 thumb ov107
+ *   MB_COMM_SYS_HasKind14 0x021F10EC thumb ov107
+ *   MB_COMM_SYS_HasKind1 0x021F10F4 thumb ov107
+ *   MB_COMM_SYS_HasKind2 0x021F10FC thumb ov107
+ *   MB_COMM_SYS_HasKind4 0x021F1104 thumb ov107
+ *   MB_COMM_SYS_GetCount 0x021F110C thumb ov107
+ *   MB_COMM_SYS_SendMessage 0x021F11F0 thumb ov107
  *   func_020056EC 0x020056EC thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -32,48 +32,48 @@
 #include "../include/Obj01529.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021F1B08(void *),func_021F1B14(void *);
-extern int func_021F10D4(void *),func_021F10DC(void *),func_021F10E4(void *),func_021F10EC(void *);
-extern int func_021F10F4(void *),func_021F10FC(void *),func_021F1104(void *),func_021F110C(void *);
-extern int func_021F11F0(void *,u8,u32);
+extern int MB_UTIL_MSG_IsPrintQueFinished(void *),MB_UTIL_MSG_IsStreamIdle(void *);
+extern int MB_COMM_SYS_HasKind11(void *),MB_COMM_SYS_HasKind12(void *),MB_COMM_SYS_HasKind12Again(void *),MB_COMM_SYS_HasKind14(void *);
+extern int MB_COMM_SYS_HasKind1(void *),MB_COMM_SYS_HasKind2(void *),MB_COMM_SYS_HasKind4(void *),MB_COMM_SYS_GetCount(void *);
+extern int MB_COMM_SYS_SendMessage(void *,u8,u32);
 extern u32 func_020056EC(u32);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 #define OBJ (*(void **)(p+0xc))
 #define MSG (*(void **)(p+0x68))
 #define TARGET (*(u8 **)(*(u8 **)(p+8)+4))
-void func_021EFE40(u8 *p)
+void MB_COMM_SYS_MainSave(u8 *p)
 {
     switch(p[0x24]) {
     case 9:
-        if(func_021F1B08(MSG)==1 && func_021F1B14(MSG)==1 && func_021F10D4(OBJ)==1) {
-            if(func_021F11F0(OBJ,1,func_020056EC(20)+10)==1) p[0x24]=10;
+        if(MB_UTIL_MSG_IsPrintQueFinished(MSG)==1 && MB_UTIL_MSG_IsStreamIdle(MSG)==1 && MB_COMM_SYS_HasKind11(OBJ)==1) {
+            if(MB_COMM_SYS_SendMessage(OBJ,1,func_020056EC(20)+10)==1) p[0x24]=10;
         }
         break;
-    case 10: if(func_021F10F4(OBJ)==1) p[0x24]=11; break;
+    case 10: if(MB_COMM_SYS_HasKind1(OBJ)==1) p[0x24]=11; break;
     case 11: GAME_DATA_SaveStart((int)TARGET); p[0x24]=12; break;
     case 12: if(GAME_DATA_SaveMain(TARGET)==1) p[0x24]=13; break;
     case 13:
-        if(func_021F10DC(OBJ)==1 && func_021F11F0(OBJ,2,func_020056EC(20)+10)==1) {
+        if(MB_COMM_SYS_HasKind12(OBJ)==1 && MB_COMM_SYS_SendMessage(OBJ,2,func_020056EC(20)+10)==1) {
             p[0x24]=14; p[0x27]=0;
         }
         break;
     case 14:
-        if(func_021F10FC(OBJ)==1) {
+        if(MB_COMM_SYS_HasKind2(OBJ)==1) {
             p[0x27]++;
-            if(p[0x27]>(u32)func_021F110C(OBJ)) p[0x24]=15;
+            if(p[0x27]>(u32)MB_COMM_SYS_GetCount(OBJ)) p[0x24]=15;
         }
         break;
     case 15: if(GAME_DATA_SaveMain(TARGET)==2) p[0x24]=16; break;
     case 16:
-        if(func_021F10E4(OBJ)==1 && func_021F11F0(OBJ,3,0)==1) {
+        if(MB_COMM_SYS_HasKind12Again(OBJ)==1 && MB_COMM_SYS_SendMessage(OBJ,3,0)==1) {
             p[0x24]=17; p[0x27]=0;
         }
         break;
     case 17:
-        if(func_021F10EC(OBJ)==1 && func_021F11F0(OBJ,4,0)==1) p[0x24]=19;
+        if(MB_COMM_SYS_HasKind14(OBJ)==1 && MB_COMM_SYS_SendMessage(OBJ,4,0)==1) p[0x24]=19;
         break;
     case 18: break;
-    case 19: if(func_021F1104(OBJ)==1) ((struct Obj01529 *)p)->f20=22; break;
+    case 19: if(MB_COMM_SYS_HasKind4(OBJ)==1) ((struct Obj01529 *)p)->f20=22; break;
     }
 }

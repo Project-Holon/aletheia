@@ -1,5 +1,5 @@
 /*
- * function: func_021C52F8
+ * function: MAILVIEW_DeleteWindows
  * address: 0x021C52F8
  * packet: pkt_ov136_021C52F8
  * region: ov136
@@ -33,7 +33,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021C52F8(u8 *p)
+void MAILVIEW_DeleteWindows(u8 *p)
 {
     int i;
     void *q;

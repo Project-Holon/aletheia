@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8C4
+ * function: CTVT_DRAW_Exit
  * address:  0x021BA8C4
  * packet:   pkt_ov172_021BA8C4
  * region:   ov172
@@ -12,8 +12,8 @@
  * Scene teardown.
  *
  * symbols:
- *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_021BE1A4  0x021BE1A4  thumb  ov172
+ *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
+ *   COMM_TVT_SYS_ClearNameWindows  0x021BE1A4  thumb  ov172
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
@@ -30,8 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u16  func_021BE00C(u16 *p);
-extern void func_021BE1A4(char *p);
+extern u16  COMM_TVT_SYS_GetHeapId(u16 *p);
+extern void COMM_TVT_SYS_ClearNameWindows(char *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 struct Descriptor;
 struct Obj;
@@ -47,13 +47,13 @@ extern void func_020414EC(u32 a);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_021BA8C4(u16 *a0, char *p)
+void CTVT_DRAW_Exit(u16 *a0, char *p)
 {
     u32 r;
     u8 i;
     u16 v;
 
-    v = func_021BE00C(a0);
+    v = COMM_TVT_SYS_GetHeapId(a0);
     if (((struct Obj01265 *)p)->f28 == 1) {
         ((struct Obj01265 *)p)->f28 = (((struct Obj01265 *)p)->f24 == 0) ? 0 : 3;
     }
@@ -94,5 +94,5 @@ void func_021BA8C4(u16 *a0, char *p)
     func_020409B4(6);
     func_02040588(5, 1);
     *(volatile u16 *)0x04000304 |= 0x8000;
-    func_021BE1A4((char *)a0);
+    COMM_TVT_SYS_ClearNameWindows((char *)a0);
 }

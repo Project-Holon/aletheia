@@ -3,82 +3,58 @@
 
 #include "btlv_effvm_types.h"
 
-typedef struct {
-    int x, y, z;
-} VecFx32_v6560;
-
-typedef struct {
-    int f0;
-    int h4;
-    char pad08[0x10];
-    VecFx32_v6560 v18;        /* 0x18 */
-    VecFx32_v6560 v24;        /* 0x24 */
-    char pad30[0xb4 - 0x30];
-    u16 hb4;            /* 0xb4 */
-} Obj_021F6E3C;
-
-typedef struct {
-    char pad[4];
-    void *h;            /* 0x04 */
-    char pad08[0x18 - 8];
-    int m[3];           /* 0x18 */
-    int v[3];           /* 0x24 */
-} Obj_021F6F20;
-
 typedef int fx32;
-
-typedef struct {
-    char pad00[0x14];
-    unsigned int flags;     /* 0x14 */
-    VecFx32_v6560 cur0;           /* 0x18 */
-    VecFx32_v6560 cur1;           /* 0x24 */
-    VecFx32_v6560 dst0;           /* 0x30 */
-    VecFx32_v6560 dst1;           /* 0x3c */
-    VecFx32_v6560 step0;          /* 0x48 */
-    VecFx32_v6560 step1;          /* 0x54 */
-    char pad60[0x0c];
-    int f6c;                /* 0x6c */
-    int f70;                /* 0x70 */
-    int f74;                /* 0x74 */
-} Cam_021F6F48;
-
-typedef struct {
-    char pad00[0x14];
-    unsigned int flags;     /* 0x14 */
-    char pad18[0x60];
-    int f78;                /* 0x78 */
-    int f7c;                /* 0x7c */
-    int f80;                /* 0x80 */
-    int f84;                /* 0x84 */
-    fx32 f88;               /* 0x88 */
-    fx32 f8c;               /* 0x8c */
-    int f90;                /* 0x90 */
-    fx32 f94;               /* 0x94 */
-    fx32 f98;               /* 0x98 */
-    int f9c;                /* 0x9c */
-    int fa0;                /* 0xa0 */
-    int fa4;                /* 0xa4 */
-    int fa8;                /* 0xa8 */
-    int fac;                /* 0xac */
-    int fb0;                /* 0xb0 */
-} Cam_021F7000;
-
 typedef signed short s16_021F6560;
 
-typedef struct {
-    fx32 x, y, z;
-} VecFx32_021F8F30;
+struct G3dCamera;
 
-typedef struct {
-    int mode;               /* 0x00 */
-    VecFx32_021F8F30 end;            /* 0x04 */
-    VecFx32_021F8F30 start;          /* 0x10 */
-    VecFx32_021F8F30 step;           /* 0x1c */
-    int count;              /* 0x28 */
-    int countReset;         /* 0x2c */
-    int wait;               /* 0x30 */
-    int waitReset;          /* 0x34 */
-    int repeat;             /* 0x38 */
-} Mover_v8204;
+typedef struct BtlvVec3 {
+    fx32 x, y, z;
+} BtlvVec3;
+
+/*
+ * Moves a vector by a fixed step per tick (BTLV_EFFECT_StepMover). Shared by the camera,
+ * the sprite manager, the background scroll and the Pokemon sprite tweens.
+ * mode 0: jump to end; 1 and 4: step toward end; 2: swing back and forth
+ * and stop at start; 3: like 2 but reverse only on odd repeat counts.
+ */
+typedef struct BtlvMover {
+    int mode;           /* 0x00 */
+    BtlvVec3 start;     /* 0x04: value when the move began, restored after the last repeat (modes 2 and 3) */
+    BtlvVec3 end;       /* 0x10: target of modes 0, 1 and 4 */
+    BtlvVec3 step;      /* 0x1c: change per update */
+    int count;          /* 0x28: updates left before the step reverses */
+    int countReset;     /* 0x2c */
+    int wait;           /* 0x30: ticks left before the next update */
+    int waitReset;      /* 0x34 */
+    int repeat;         /* 0x38: reversals left */
+} BtlvMover;
+
+#define BTLV_CAMERA_MOVE_EYE    0x1
+#define BTLV_CAMERA_MOVE_TARGET 0x2
+#define BTLV_CAMERA_MOVE_SHAKE  0x4
+
+/* The battle camera (0xB8 bytes), made by BTLV_CAMERA_Create. */
+typedef struct BtlvCamera {
+    void *owner;                /* 0x00: battle effect owner */
+    struct G3dCamera *camera;   /* 0x04 */
+    int orbitPitch;             /* 0x08: angle of the eye above the target plane */
+    int orbitYaw;               /* 0x0C */
+    int orbitRadius;            /* 0x10: distance between eye and target */
+    u32 moveFlags;              /* 0x14: BTLV_CAMERA_MOVE_* */
+    BtlvVec3 eye;               /* 0x18 */
+    BtlvVec3 target;            /* 0x24 */
+    BtlvVec3 eyeDest;           /* 0x30 */
+    BtlvVec3 targetDest;        /* 0x3C */
+    BtlvVec3 eyeStep;           /* 0x48 */
+    BtlvVec3 targetStep;        /* 0x54 */
+    BtlvVec3 shakeOffset;       /* 0x60: added to eye and target */
+    int moveWait;               /* 0x6C: ticks left before the next move step */
+    int moveWaitReset;          /* 0x70 */
+    int easeCount;              /* 0x74: moves left before the steps are halved */
+    BtlvMover shake;            /* 0x78 */
+    u16 heap;                   /* 0xB4 */
+    u16 pad_B6;
+} BtlvCamera;
 
 #endif

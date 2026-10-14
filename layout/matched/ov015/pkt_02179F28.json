@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179F28",
+   "name": "IRCi_Restore",
    "address": "0x02179F28",
    "kind": "sdk",
    "region": "ov015",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02179F48",
+   "name": "IRCi_ResetState",
    "address": "0x02179F48",
    "kind": "game",
    "region": "ov015",
@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_0217A148",
+   "name": "IRC_Send",
    "address": "0x0217A148",
    "kind": "sdk",
    "region": "ov015",

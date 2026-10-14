@@ -1,5 +1,5 @@
 /*
- * function: func_021FB510
+ * function: WORLDTRADE_INPUT_StateSpeciesListInput
  * address: 0x021FB510
  * packet: pkt_ov135_021FB510
  * region: ov135
@@ -11,7 +11,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021F9FF0 0x021F9FF0 thumb ov135
+ *   WORLDTRADE_INPUT_UpdatePagedList4 0x021F9FF0 thumb ov135
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj02490.h"
@@ -23,12 +23,12 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F9FF0(void *p);
+extern int WORLDTRADE_INPUT_UpdatePagedList4(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-int func_021FB510(u8 *p)
+int WORLDTRADE_INPUT_StateSpeciesListInput(u8 *p)
 {
     int r;
-    r = func_021F9FF0(p);
+    r = WORLDTRADE_INPUT_UpdatePagedList4(p);
     switch (r) {
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);

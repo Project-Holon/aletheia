@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_01FF87D4",
+   "name": "SCFGi_SwitchCpuSpeed",
    "address": "0x01FF87D4",
    "kind": "sdk",
    "region": "arm9_autoload0_ITCM",

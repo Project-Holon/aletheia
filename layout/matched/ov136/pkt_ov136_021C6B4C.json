@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6B4C",
+   "name": "MB_SEQ_StateConfirmMenu",
    "address": "0x021C6B4C",
    "kind": "game",
    "region": "ov136",

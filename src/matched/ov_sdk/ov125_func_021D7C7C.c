@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C7C
+ * function: GDS_SOCKET_Alloc
  * address:  0x021D7C7C
  * packet:   pkt_021D7C7C
  * region:   ov125
@@ -17,7 +17,7 @@
 
 extern void func_0205A16C(int, int);
 
-void func_021D7C7C(int a)
+void GDS_SOCKET_Alloc(int a)
 {
     func_0205A16C(0, a);
 }

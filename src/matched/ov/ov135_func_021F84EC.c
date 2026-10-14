@@ -1,5 +1,5 @@
 /*
- * function: func_021F84EC
+ * function: WORLDTRADE_DEPOSIT_GetSpeciesFlag
  * address:  0x021F84EC
  * packet:   pkt_021F84EC
  * region:   ov135
@@ -30,7 +30,7 @@ extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
 
-u8 *func_021F84EC(u32 id)
+u8 *WORLDTRADE_DEPOSIT_GetSpeciesFlag(u32 id)
 {
     u32 size;
     u32 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021EEF28
+ * function: MB_COMM_SYS_InitDisplay
  * address: 0x021EEF28
  * packet: pkt_ov107_021EEF28
  * region: ov107
@@ -23,7 +23,7 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
- *   func_021EF0D0 0x021EF0D0 thumb ov107
+ *   MB_COMM_SYS_InitBgLayer 0x021EF0D0 thumb ov107
  *   d_021F6C10 0x021F6C10 data a4
  *   d_021F6B00 0x021F6B00 data a4
  *   d_021F6B50 0x021F6B50 data a4
@@ -52,13 +52,13 @@ extern u32 WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_021EF0D0(u32 a, u32 b, u32 c);
+extern void MB_COMM_SYS_InitBgLayer(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
-void func_021EEF28(u8 *p) {
+void MB_COMM_SYS_InitDisplay(u8 *p) {
  struct Cfg cfg;
  BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
  *(volatile u32 *)0x04000000 &= 0xffffe0ff;
@@ -71,10 +71,10 @@ void func_021EEF28(u8 *p) {
  BG_SYS_SetVramBanks(&d_021F6C10);
  func_0203F8F4(((struct Obj00057 *)p)->f0);BMP_WIN_Init(((struct Obj00057 *)p)->f0);
  func_0203FC28(&d_021F6B00);
- func_021EF0D0((u32)(&d_021F6B50),0,0);func_021EF0D0((u32)(&d_021F6B70),1,0);
- func_021EF0D0((u32)(&d_021F6B90),2,0);func_021EF0D0((u32)(&d_021F6BB0),3,0);
- func_021EF0D0((u32)(&d_021F6BD0),4,0);func_021EF0D0((u32)(&d_021F6BF0),5,0);
- func_021EF0D0((u32)(&d_021F6B10),6,0);func_021EF0D0((u32)(&d_021F6B30),7,0);
+ MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B50),0,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B70),1,0);
+ MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B90),2,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BB0),3,0);
+ MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BD0),4,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6BF0),5,0);
+ MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B10),6,0);MB_COMM_SYS_InitBgLayer((u32)(&d_021F6B30),7,0);
  if(!p[0x28])func_02040588(6,1);else func_02040588(6,0);
  cfg=gClActorInitParam;cfg.dimensions[0]=64;
  CLACT_InitSystem(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);

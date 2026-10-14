@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCCF0",
-    "func_021DCD0C"
+    "GURU2_COMM_RecvParentNotice",
+    "GURU2_COMM_GetOwnPlayerId"
+   ],
+   "addresses": [
+    "0x021DCCF0",
+    "0x021DCD0C"
    ]
   }
  ]

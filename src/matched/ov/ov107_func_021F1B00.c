@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B00
+ * function: MB_UTIL_MSG_GetWordSet
  * address:  0x021F1B00
  * packet:   pkt_ov107_021F1B00
  * region:   ov107
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021F1B00(u8 *p) { return ((struct Obj22307 *)p)->f24; }
+u32 MB_UTIL_MSG_GetWordSet(u8 *p) { return ((struct Obj22307 *)p)->f24; }

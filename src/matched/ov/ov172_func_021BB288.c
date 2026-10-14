@@ -1,5 +1,5 @@
 /*
- * function: func_021BB288
+ * function: CTVT_DRAW_UpdateCanvasTouch
  * address:  0x021BB288
  * packet:   pkt_ov172_021BB288
  * region:   ov172
@@ -11,20 +11,20 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_021BE0C8  0x021BE0C8  thumb  ov172
+ *   COMM_TVT_SYS_GetInputLocked  0x021BE0C8  thumb  ov172
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_021BB54C  0x021BB54C  thumb  ov172
- *   func_021BB9E4  0x021BB9E4  thumb  ov172
- *   func_021BE054  0x021BE054  thumb  ov172
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
- *   func_021BDFFC  0x021BDFFC  thumb  ov172
+ *   CTVT_DRAW_UpdateToolButtons  0x021BB54C  thumb  ov172
+ *   CTVT_DRAW_ClosePickers  0x021BB9E4  thumb  ov172
+ *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
+ *   COMM_TVT_SYS_GetSprites  0x021BDFFC  thumb  ov172
  *   func_021B8BB8  0x021B8BB8  thumb  ov172
- *   func_021B6E88  0x021B6E88  thumb  ov172
+ *   DRAW_SYSTEM_PushStroke  0x021B6E88  thumb  ov172
  *   func_021B8BFC  0x021B8BFC  thumb  ov172
  *   func_0207E008  0x0207E008  arm
  *   func_0207E100  0x0207E100  arm
- *   func_021BE078  0x021BE078  thumb  ov172
+ *   COMM_TVT_SYS_GetHalfRes  0x021BE078  thumb  ov172
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  */
@@ -37,24 +37,24 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern u32 func_021BE0C8(void *p);
+extern u32 COMM_TVT_SYS_GetInputLocked(void *p);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_021BB54C(void *ctx, u8 *p);
-extern void func_021BB9E4(void *a0, char *a1);
-extern u8 func_021BE054(void *p);
-extern u32 func_021BDFE4(void *p);
-extern u32 func_021BDFFC(void *p);
+extern void CTVT_DRAW_UpdateToolButtons(void *ctx, u8 *p);
+extern void CTVT_DRAW_ClosePickers(void *a0, char *a1);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
+extern u32 COMM_TVT_SYS_GetSprites(void *p);
 extern int func_021B8BB8(int a, unsigned char *p, int *out);
-extern void func_021B6E88(char *p, void *q);
+extern void DRAW_SYSTEM_PushStroke(char *p, void *q);
 extern void func_021B8BFC(int unused, u8 *p);
 extern void *func_0207E008(void);
 extern u32 func_0207E100(void);
-extern u32 func_021BE078(void *p);
+extern u32 COMM_TVT_SYS_GetHalfRes(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-void func_021BB288(void *ctx, u8 *p)
+void CTVT_DRAW_UpdateCanvasTouch(void *ctx, u8 *p)
 {
     u32 x;
     u32 y;
@@ -76,7 +76,7 @@ void func_021BB288(void *ctx, u8 *p)
     u32 cur;
 
     TOUCHPANEL_GetPointTrg(&x, &y);
-    if (func_021BE0C8(ctx) == 1) {
+    if (COMM_TVT_SYS_GetInputLocked(ctx) == 1) {
         return;
     }
     if (TOUCHPANEL_GetCont() == 0) {
@@ -85,15 +85,15 @@ void func_021BB288(void *ctx, u8 *p)
     if (TOUCHPANEL_GetTrg() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f0 == 5 && y >= 0xa8) {
         if (((struct Obj00024 *)p)->f28 == 1) {
             ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
-            func_021BB54C(ctx, p);
+            CTVT_DRAW_UpdateToolButtons(ctx, p);
         }
-        func_021BB9E4(ctx, (char *)p);
+        CTVT_DRAW_ClosePickers(ctx, (char *)p);
         return;
     }
     if ((u32)(((struct Obj00024 *)p)->f0 - 4) <= 1 && TOUCHPANEL_GetTrg() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f28 == 3) {
-        mode = func_021BE054(ctx);
-        cur = func_021BDFE4(ctx);
-        s1 = func_021BDFFC(ctx);
+        mode = COMM_TVT_SYS_GetMemberCount(ctx);
+        cur = COMM_TVT_SYS_GetComm(ctx);
+        s1 = COMM_TVT_SYS_GetSprites(ctx);
         e = (u8 *)func_021B8BB8((int)ctx, (unsigned char *)cur, &out1);
         if (out1 == 0) {
             e[0] = x;
@@ -103,7 +103,7 @@ void func_021BB288(void *ctx, u8 *p)
             e[6] = p[0x37];
             ((struct Obj01757 *)e)->f4 = ((struct Obj00024 *)p)->f34;
             if (mode == 1) {
-                func_021B6E88((char *)s1, e);
+                DRAW_SYSTEM_PushStroke((char *)s1, e);
             } else {
                 func_021B8BFC((int)ctx, (u8 *)cur);
             }
@@ -115,7 +115,7 @@ void func_021BB288(void *ctx, u8 *p)
             off = y << 9;
             base = (x << 1) + (u32)pb;
             func_0207E100();
-            if (func_021BE078(ctx) == 1) {
+            if (COMM_TVT_SYS_GetHalfRes(ctx) == 1) {
                 a2 = ((y >> 1) << 9) + ((x & ~1) + func_0207E100());
             } else {
                 a2 = (y << 9) + ((x << 1) + func_0207E100());
@@ -133,22 +133,22 @@ void func_021BB288(void *ctx, u8 *p)
             }
             *(volatile u16 *)0x0500021A = ((struct Obj00024 *)p)->f34 & 0x7fff;
             ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
-            func_021BB54C(ctx, p);
+            CTVT_DRAW_UpdateToolButtons(ctx, p);
             GFL_USE_PlaySeDefaultVolume(0x66d);
         } else {
             ((struct Obj00024 *)p)->fC = 1;
             ((struct Obj00024 *)p)->f2C = 0xffff;
             ((struct Obj00024 *)p)->f30 = 0xffff;
-            func_021BB9E4(ctx, (char *)p);
+            CTVT_DRAW_ClosePickers(ctx, (char *)p);
         }
     }
     if ((((struct Obj00024 *)p)->f28 == 0 || ((struct Obj00024 *)p)->f28 == 2) && ((struct Obj00024 *)p)->fC == 1) {
         TOUCHPANEL_GetPointCont(&x2, &y2);
         if (((struct Obj00024 *)p)->fC == 1) {
             if (((struct Obj00024 *)p)->f2C != 0xffff && ((struct Obj00024 *)p)->f30 != 0xffff) {
-                mode = func_021BE054(ctx);
-                cur = func_021BDFE4(ctx);
-                s2 = func_021BDFFC(ctx);
+                mode = COMM_TVT_SYS_GetMemberCount(ctx);
+                cur = COMM_TVT_SYS_GetComm(ctx);
+                s2 = COMM_TVT_SYS_GetSprites(ctx);
                 e = (u8 *)func_021B8BB8((int)ctx, (unsigned char *)cur, &out2);
                 if (out2 == 0) {
                     e[0] = ((struct Obj00024 *)p)->f2C;
@@ -163,7 +163,7 @@ void func_021BB288(void *ctx, u8 *p)
                         ((struct Obj01757 *)e)->f4 = ((struct Obj00024 *)p)->f34;
                     }
                     if (mode == 1) {
-                        func_021B6E88((char *)s2, e);
+                        DRAW_SYSTEM_PushStroke((char *)s2, e);
                     } else {
                         func_021B8BFC((int)ctx, (u8 *)cur);
                     }

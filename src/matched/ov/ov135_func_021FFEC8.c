@@ -1,5 +1,5 @@
 /*
- * function: func_021FFEC8
+ * function: WORLDTRADE_TITLE_Exit
  * address: 0x021FFEC8
  * packet: pkt_ov135_021FFEC8
  * region: ov135
@@ -8,34 +8,34 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02200290 0x02200290 thumb ov135
- *   func_02200434 0x02200434 thumb ov135
- *   func_022003BC 0x022003BC thumb ov135
- *   func_02200118 0x02200118 thumb ov135
- *   func_022000E4 0x022000E4 thumb ov135
- *   func_021F4EC8 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_TITLE_DeleteActors 0x02200290 thumb ov135
+ *   WORLDTRADE_TITLE_DeleteStrings 0x02200434 thumb ov135
+ *   WORLDTRADE_TITLE_DeleteWindows 0x022003BC thumb ov135
+ *   WORLDTRADE_TITLE_ExitBgPlanesSub 0x02200118 thumb ov135
+ *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
+ *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02200290(u8 *);
-extern void func_02200434(u8 *);
-extern void func_022003BC(u8 *);
-extern void func_02200118(void);
-extern void func_022000E4(char *p);
-extern void func_021F4EC8(u8 *);
+extern void WORLDTRADE_TITLE_DeleteActors(u8 *);
+extern void WORLDTRADE_TITLE_DeleteStrings(u8 *);
+extern void WORLDTRADE_TITLE_DeleteWindows(u8 *);
+extern void WORLDTRADE_TITLE_ExitBgPlanesSub(void);
+extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
+extern void WORLDTRADE_ClearBusyFlag(u8 *);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-int func_021FFEC8(u8 *p)
+int WORLDTRADE_TITLE_Exit(u8 *p)
 {
-    func_02200290(p);
-    func_02200434(p);
-    func_022003BC(p);
-    func_02200118();
+    WORLDTRADE_TITLE_DeleteActors(p);
+    WORLDTRADE_TITLE_DeleteStrings(p);
+    WORLDTRADE_TITLE_DeleteWindows(p);
+    WORLDTRADE_TITLE_ExitBgPlanesSub();
     if (((struct Obj00287 *)p)->f14 == 4 || ((struct Obj00287 *)p)->f14 == 5) ((struct Obj00287 *)p)->f12E4 = 1;
-    func_022000E4((char *)p);
+    WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
-    func_021F4EC8(p);
+    WORLDTRADE_ClearBusyFlag(p);
     return 0;
 }

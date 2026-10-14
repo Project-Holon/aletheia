@@ -1,5 +1,5 @@
 /*
- * function: func_021D4240
+ * function: GSYNC_MENU_SetStateFunc
  * address: 0x021D4240
  * packet: pkt_ov123_021D4240
  * region: ov123
@@ -10,7 +10,7 @@
  * status: EXACT
  * leaf: only unresolved overlay target of assigned 021D4244; parent confirms no active owner.
  */
-void func_021D4240(void **p, void *f)
+void GSYNC_MENU_SetStateFunc(void **p, void *f)
 {
     *p=f;
 }

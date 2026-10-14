@@ -1,5 +1,5 @@
 /*
- * function: func_02172D70
+ * function: INTRUDE_COMM_MainStep
  * address:  0x02172D70
  * packet:   pkt_ov011_02172D70
  * region:   ov011
@@ -39,7 +39,7 @@
  *   func_0203F4FC  0x0203F4FC  arm
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
- *   func_02174978  0x02174978  thumb  ov011
+ *   INTRUDE_COMM_UpdateRunning  0x02174978  thumb  ov011
  *   INTRUDE_COMM_IsResultConfirmed  0x02175EB8  thumb  ov011
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
@@ -129,7 +129,7 @@ extern u32 func_0203F4FC(void);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 struct Ctx;
 extern u32   GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
-extern void func_02174978(u8 *s);
+extern void INTRUDE_COMM_UpdateRunning(u8 *s);
 extern int   INTRUDE_COMM_IsResultConfirmed(void *p);
 extern u32 GFL_NET_IsParentAid(void);
 extern int INTRUDE_COMM_IsSessionActive(u8 *p);
@@ -137,7 +137,7 @@ extern int   INTRUDE_COMM_SendTimeoutWarning(void);
 extern int INTRUDE_COMM_GetLeaveFlag(struct Sub *s);
 extern int   INTRUDE_COMM_HasConnectedPeers(void);
 
-void func_02172D70(int *state, Param *p, Work *w)
+void INTRUDE_COMM_MainStep(int *state, Param *p, Work *w)
 {
     void *sv;
     void *mon;
@@ -221,7 +221,7 @@ void func_02172D70(int *state, Param *p, Work *w)
             GAME_COMM_RequestExitNoCallback(w->field004);
             return;
         }
-        func_02174978((u8 *)w);
+        INTRUDE_COMM_UpdateRunning((u8 *)w);
         if (INTRUDE_COMM_IsResultConfirmed((u8 *)w + 0x1ac) == 1) {
             GAME_COMM_RequestExitNoCallback(w->field004);
             return;

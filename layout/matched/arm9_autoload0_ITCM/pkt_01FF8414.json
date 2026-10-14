@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_01FF8414",
+   "name": "OSi_DoResetSystem",
    "address": "0x01FF8414",
    "kind": "sdk",
    "region": "arm9_autoload0_ITCM",

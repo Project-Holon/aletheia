@@ -1,5 +1,5 @@
 /*
- * function: func_021FF174
+ * function: WORLDTRADE_SEARCH_StateWaitWipeIn
  * address:  0x021FF174
  * packet:   pkt_021FF174
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021FF174(u8 *p)
+int WORLDTRADE_SEARCH_StateWaitWipeIn(u8 *p)
 {
     u32 v = ((struct Obj07251 *)p)->fD3C - 1;
 

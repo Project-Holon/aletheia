@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC14
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq
  * address:  0x021BDC14
  * packet:   pkt_021BDC14
  * region:   ov208
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD3A4 0x021BD3A4  thumb  ov208
+ *   ZKND_TBAR_SetButtonAnimSeqOnce 0x021BD3A4  thumb  ov208
 
- * Calls func_021BD3A4 with two fields and the second argument while +0x10 is clear.
+ * Calls ZKND_TBAR_SetButtonAnimSeqOnce with two fields and the second argument while +0x10 is clear.
  */
 #include "../include/Obj02345.h"
 
 
-extern void func_021BD3A4(int a, int b, int c);
+extern void ZKND_TBAR_SetButtonAnimSeqOnce(int a, int b, int c);
 
-void func_021BDC14(char *p, int b)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b)
 {
     if (((struct Obj02345 *)p)->f10 == 0)
-        func_021BD3A4(*(int *)&((struct Obj02345 *)p)->f30, *(int *)*(int * *)&((struct Obj02345 *)p)->f7C, b);
+        ZKND_TBAR_SetButtonAnimSeqOnce(*(int *)&((struct Obj02345 *)p)->f30, *(int *)*(int * *)&((struct Obj02345 *)p)->f7C, b);
 }
 

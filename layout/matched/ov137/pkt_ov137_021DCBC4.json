@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DCBC4",
+   "name": "GURU2_COMM_Send",
    "address": "0x021DCBC4",
    "kind": "game",
    "region": "ov137",

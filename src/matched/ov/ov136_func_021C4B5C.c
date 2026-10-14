@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B5C
+ * function: MAILVIEW_VBlankTask
  * address:  0x021C4B5C
  * packet:   pkt_ov136_021C4B5C
  * region:   ov136
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
- *   func_021C4B5C 0x021C4B5C thumb
+ *   MAILVIEW_VBlankTask 0x021C4B5C thumb
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_020419E4 0x020419E4 arm
@@ -23,7 +23,7 @@ struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
 extern void func_020419E4(void);
-void func_021C4B5C(void *a, u32 *p)
+void MAILVIEW_VBlankTask(void *a, u32 *p)
 {
     if (p[14]) PALANM_TransferPalettes((struct S02021D50 *)p[14]);
     CLACT_VBlankSystem();

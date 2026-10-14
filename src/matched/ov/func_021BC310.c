@@ -1,5 +1,5 @@
 /*
- * function: func_021BC310
+ * function: ZUKAN_DETAIL_PROCSYS_CallOwnerHook
  * address:  0x021BC310
  * packet:   pkt_021BC310
  * region:   ov208
@@ -20,7 +20,7 @@
 
 typedef void (*Vfn)(char *self, char *a, int b, int c, int d);
 
-void func_021BC310(char *p, int v)
+void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int v)
 {
     Vfn fn = *(Vfn *)&((struct Obj18177 *)(*(char * *)&((struct Obj09195 *)p)->f0))->f10;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F9028
+ * function: BTLV_EFFECT_FreeTaskArg
  * address:  0x021F9028
  * packet:   pkt_ov094_021F9028
  * region:   ov094
@@ -22,7 +22,7 @@ struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 
-void func_021F9028(void *h)
+void BTLV_EFFECT_FreeTaskArg(void *h)
 {
     void *p = *(void **)(TCBL_GetTaskUserData(h) + 0x10);
     if (p != 0)

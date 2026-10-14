@@ -1,5 +1,5 @@
 /*
- * function: func_021DFBF0
+ * function: POKETRADE_MCSS_SlideInterpolate
  * address:  0x021DFBF0
  * packet:   pkt_ov119_021DFBF0
  * region:   ov119
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: callee of the parked ov119 func_021DFC68
+ * Recursive MATCH unblocker: callee of the parked ov119 POKETRADE_MCSS_SlideUpdate
  * (+0044) and part of the func_021D7130 tree.  Interpolates between a0 and a1
  * at record stride (the difference divided by f04, scaled by f08), then, when
  * the record's f16 is set and a3 is nonzero, re-derives the position from the
@@ -42,7 +42,7 @@ typedef struct {
     u16 f16;
 } S;
 
-int func_021DFBF0(int a0, int a1, S *a2, int a3)
+int POKETRADE_MCSS_SlideInterpolate(int a0, int a1, S *a2, int a3)
 {
     int q = (a1 - a0) / a2->f04;
     int r = q * a2->f08 + a0;

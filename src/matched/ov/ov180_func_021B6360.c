@@ -1,5 +1,5 @@
 /*
- * function: func_021B6360
+ * function: HALL_OF_FAME_LoadBackgroundGraphics
  * address:  0x021B6360
  * packet:   pkt_021B6360
  * region:   ov180
@@ -27,7 +27,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u8 *p);
 
-void func_021B6360(void)
+void HALL_OF_FAME_LoadBackgroundGraphics(void)
 {
     u8 *p = func_020490F4(0xd8, 0x8d);
     func_02049B68(p, 1, 2, 0x6000, 0x20, 0x8d);

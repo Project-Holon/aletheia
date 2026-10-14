@@ -1,5 +1,5 @@
 /*
- * function: func_021C45C0
+ * function: MAILSYS_HandleKeyInput
  * address: 0x021C45C0
  * packet: pkt_ov136_021C45C0
  * region: ov136
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
- *   func_021C446C 0x021C446C thumb
+ *   MAILSYS_IsMessageIncomplete 0x021C446C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
@@ -21,18 +21,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 struct Obj;
-extern int func_021C446C(void *a);
+extern int MAILSYS_IsMessageIncomplete(void *a);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 
-int func_021C45C0(u8 *p)
+int MAILSYS_HandleKeyInput(u8 *p)
 {
     int moved;
 
     if (KEY_GetTrg() & 1) {
         if (p[0x16] == 4) {
-            if (func_021C446C(p)) {
+            if (MAILSYS_IsMessageIncomplete(p)) {
                 GFL_USE_PlaySeDefaultVolume(0x551);
                 p[0xB] = 2;
                 return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E3E40
+ * function: POKETRADE_2D_InitClactSystemMain
  * address:  0x021E3E40
  * packet:   pkt_ov119_021E3E40
  * region:   ov119
@@ -28,7 +28,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern const char d_021E7CE4[];
 extern const char d_021E7D40[];
 
-void func_021E3E40(char *p)
+void POKETRADE_2D_InitClactSystemMain(char *p)
 {
     CLACT_InitSystem((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
 }

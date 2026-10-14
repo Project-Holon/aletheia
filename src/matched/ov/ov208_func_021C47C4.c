@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C47C4
+ * function: ZUKAN_DETAIL_FORM_BuildFormLabelText
  * address:  0x021C47C4
  * packet:   pkt_ov208_021C47C4
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3C0  0x021BC3C0  thumb
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE60  0x0201EE60  thumb
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16  func_021BC3C0(int key);
+extern u16  ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -35,7 +35,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
+void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
                          u16 idx)
 {
     u32 str = 0;
@@ -48,7 +48,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     u16 n;
     u16 i;
 
-    k = func_021BC3C0(key);
+    k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)(p + 0x148 + idx * 16)) {
     case 0:
         ws = (u32)func_0201EC64(*heap);

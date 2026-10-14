@@ -1,5 +1,5 @@
 /*
- * function: func_022057CC
+ * function: BTLV_INPUT_CreateActionButtons
  * address: 0x022057CC
  * packet: pkt_ov094_022057CC
  * region: ov094
@@ -21,8 +21,8 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_0220684C 0x0220684C thumb ov094
- *   func_02204BCC 0x02204BCC thumb ov094
+ *   BTLV_INPUT_RegisterTask 0x0220684C thumb ov094
+ *   BTLV_INPUT_WindowOpenTaskMain 0x02204BCC thumb ov094
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -75,8 +75,8 @@ extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_02204BCC(void *a0, int *c);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_WindowOpenTaskMain(void *a0, int *c);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
@@ -88,7 +88,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_022057CC(Main *m, Info *q)
+void BTLV_INPUT_CreateActionButtons(Main *m, Info *q)
 {
     int n;
     void *arc;
@@ -114,7 +114,7 @@ void func_022057CC(Main *m, Info *q)
         r = func_02030734((u16)((m->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x1145);
         r[0] = m;
         r[1] = (void *)n;
-        func_0220684C((char *)m, (int)func_020056A0((void *)func_02204BCC, r, 0), 0);
+        BTLV_INPUT_RegisterTask((char *)m, (int)func_020056A0((void *)BTLV_INPUT_WindowOpenTaskMain, r, 0), 0);
     }
     for (i = 0; i < n; i++) {
         if (q->species[i] != 0) {

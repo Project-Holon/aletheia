@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF98
+ * function: ZUKAN_DETAIL_GRAPHIC_CreateWindows
  * address: 0x021BCF98
  * packet: pkt_ov208_021BCF98
  * region: ov208
@@ -32,7 +32,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
-void func_021BCF98(void *p,u32 heap)
+void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap)
 {
     u32 i=0;
     const BgEntry *row;

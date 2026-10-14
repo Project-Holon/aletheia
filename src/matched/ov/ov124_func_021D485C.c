@@ -1,5 +1,5 @@
 /*
- * function: func_021D485C
+ * function: CG_HELP_FreeWindows
  * address: 0x021D485C
  * packet: pkt_ov124_021D485C
  * region: ov124
@@ -30,7 +30,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_0201DD68(void *);
-void func_021D485C(char *p)
+void CG_HELP_FreeWindows(char *p)
 {
     if (((struct Obj00991 *)p)->f3C) APP_TASKMENU_WIN_Delete(((struct Obj00991 *)p)->f3C);
     if (((struct Obj00991 *)p)->f38) APP_TASKMENU_WIN_Delete(((struct Obj00991 *)p)->f38);

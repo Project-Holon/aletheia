@@ -1,5 +1,5 @@
 /*
- * function: func_021D4730
+ * function: GSYNC_MENU_DeleteButtonWindows
  * address: 0x021D4730
  * packet: pkt_ov123_021D4730
  * region: ov123
@@ -28,7 +28,7 @@ typedef struct {
     char pad24[0x238];
     int f25c;
 } Object;
-void func_021D4730(Object *p)
+void GSYNC_MENU_DeleteButtonWindows(Object *p)
 {
     int i;
     if (p->f20)

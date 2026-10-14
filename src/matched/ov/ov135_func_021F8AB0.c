@@ -1,5 +1,5 @@
 /*
- * function: func_021F8AB0
+ * function: WORLDTRADE_ENTER_InitDwcTrade
  * address: 0x021F8AB0
  * packet: pkt_ov135_021F8AB0
  * region: ov135
@@ -30,7 +30,7 @@ extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void DPW_TR_Init(u32 a, u32 b, u32 c, int d);
-int func_021F8AB0(u8 **p)
+int WORLDTRADE_ENTER_InitDwcTrade(u8 **p)
 {
     void *handle;
     u32 id;

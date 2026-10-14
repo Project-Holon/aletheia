@@ -1,5 +1,5 @@
 /*
- * function: func_022029D4
+ * function: WORLDTRADE_ADAPTER_ExitMessageSystem
  * address:  0x022029D4
  * packet:   pkt_022029D4
  * region:   ov135
@@ -34,7 +34,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_020307B0(void *p);
 
-void func_022029D4(u8 *p)
+void WORLDTRADE_ADAPTER_ExitMessageSystem(u8 *p)
 {
     func_0201ED04((struct WordSet *)(((struct Obj07259 *)p)->f8));
     MSGDATA_Delete((struct Rec *)(((struct Obj07259 *)p)->fC));

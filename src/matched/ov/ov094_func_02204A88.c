@@ -1,5 +1,5 @@
 /*
- * function: func_02204A88
+ * function: BTLV_INPUT_CursorMoveTaskMain
  * address:  0x02204A88
  * packet:   pkt_ov094_02204A88
  * region:   ov094
@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef short s16;
 
@@ -33,9 +33,9 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_02204A88(int a0, Ctx *c)
+void BTLV_INPUT_CursorMoveTaskMain(int a0, Ctx *c)
 {
     s16 v[2];
 
@@ -46,6 +46,6 @@ void func_02204A88(int a0, Ctx *c)
     v[0] -= 8;
     CLACT_AddActorSurfacePos(c->main->o214, (const struct Vec2 *)v, 1);
     if (v[0] == 0xe0) {
-        func_0220687C((char *)c->main, (void *)a0);
+        BTLV_INPUT_DeleteTask((char *)c->main, (void *)a0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02202840
+ * function: WORLDTRADE_ADAPTER_IsStreamDone
  * address:  0x02202840
  * packet:   pkt_02202840
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 
-u32 func_02202840(u8 *p)
+u32 WORLDTRADE_ADAPTER_IsStreamDone(u8 *p)
 {
     u32 r;
     u32 x;

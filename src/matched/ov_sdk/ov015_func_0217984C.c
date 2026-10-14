@@ -1,5 +1,5 @@
 /*
- * function: func_0217984C
+ * function: IRCNET_CbGetPeerHandle
  * address:  0x0217984C
  * packet:   pkt_0217984C
  * region:   ov015
@@ -13,20 +13,20 @@
  * holds, otherwise zero.
  *
  * symbols:
- *   func_02179D3C  0x02179D3C  thumb  ov015
- *   func_02179B24  0x02179B24  thumb  ov015
+ *   IRCNET_IsLinkAlive  0x02179D3C  thumb  ov015
+ *   IRCNET_IsReceiver  0x02179B24  thumb  ov015
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_02179D3C(void);
-int func_02179B24(void);
+int IRCNET_IsLinkAlive(void);
+int IRCNET_IsReceiver(void);
 
-int func_0217984C(void)
+int IRCNET_CbGetPeerHandle(void)
 {
-    if (func_02179D3C())
-        return func_02179B24();
+    if (IRCNET_IsLinkAlive())
+        return IRCNET_IsReceiver();
     return 0;
 }

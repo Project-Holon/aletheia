@@ -1,5 +1,5 @@
 /*
- * function: func_021C2950
+ * function: PERCENTAGE_Exit
  * address:  0x021C2950
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C299C.
+ * Tail-call veneer: branch to PERCENTAGE_DeleteActors.
  *
  * symbols:
- *   func_021C299C  0x021C299C  thumb  ov217
+ *   PERCENTAGE_DeleteActors  0x021C299C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C299C(int *);
+extern void PERCENTAGE_DeleteActors(int *);
 
-void func_021C2950(u32 a0)
+void PERCENTAGE_Exit(u32 a0)
 {
-    func_021C299C((int *)a0);
+    PERCENTAGE_DeleteActors((int *)a0);
 }

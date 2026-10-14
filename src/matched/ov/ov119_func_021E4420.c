@@ -1,5 +1,5 @@
 /*
- * function: func_021E4420
+ * function: POKETRADE_2D_CreateBoxWindows
  * address: 0x021E4420
  * packet: pkt_ov119_021E4420
  * region: ov119
@@ -45,7 +45,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
-void func_021E4420(char *p)
+void POKETRADE_2D_CreateBoxWindows(char *p)
 {
     int off1, h, off, off2, off3;
     int a,b,c,d,e,f,g;

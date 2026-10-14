@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FE79C",
+   "name": "BTLV_EFFVM_BlendRegisterTaskMain",
    "address": "0x021FE79C",
    "kind": "game",
    "region": "ov094",

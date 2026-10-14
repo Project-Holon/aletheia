@@ -1,5 +1,5 @@
 /*
- * function: func_021C66A0
+ * function: MB_SEQ_SetActorAnim
  * address:  0x021C66A0
  * packet:   pkt_ov136_021C66A0
  * region:   ov136
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021C66A0(u8 *p, int i, u32 v)
+void MB_SEQ_SetActorAnim(u8 *p, int i, u32 v)
 {
     CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 0x1F0), (u16)v);
 }

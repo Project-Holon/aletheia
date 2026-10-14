@@ -1,5 +1,5 @@
 /*
- * function: func_021F94F8
+ * function: BTLV_EFFVM_StartScript
  * address:  0x021F94F8
  * packet:   pkt_ov094_021F94F8
  * region:   ov094
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   VM_Start  0x0201127C  thumb
- *   func_02011324  0x02011324  thumb
+ *   VM_GetUserData  0x02011324  thumb
  *   func_02040588  0x02040588  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_021F8198  0x021F8198  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021F8934  0x021F8934  thumb  ov094
- *   func_021F8A10  0x021F8A10  thumb  ov094
- *   func_021FE410  0x021FE410  thumb  ov094
- *   func_021FEAA0  0x021FEAA0  thumb  ov094
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
- *   func_021FFF38  0x021FFF38  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetSideVisible  0x021F8198  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_EFFECT_SetAllPokeSpriteAnim  0x021F8934  thumb  ov094
+ *   BTLV_EFFECT_DeleteTasksByArg  0x021F8A10  thumb  ov094
+ *   BTLV_EFFVM_StartSeVolumeTweenTask  0x021FE410  thumb  ov094
+ *   BTLV_EFFVM_IsMultiSideResourceId  0x021FEAA0  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
+ *   BTLV_MCSS_GetSpriteAttrFlags  0x021FFF38  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -62,29 +62,29 @@ typedef struct {
 
 struct ScriptVm;
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
-extern void *func_02011324(struct ScriptVm *vm);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void func_021F8198(int a, int b);
-extern int func_021F8694(void);
-extern void func_021F8934(int a);
-extern void func_021F8A10(int a);
-extern void func_021FE410(T *t, int a, int b, int c);
-extern int func_021FEAA0(int v);
-extern int func_021FFD9C(char *p, int key);
-extern int func_021FFF38(char *p, int key);
+extern void BTLV_EFFECT_GaugeSetSideVisible(int a, int b);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_EFFECT_SetAllPokeSpriteAnim(int a);
+extern void BTLV_EFFECT_DeleteTasksByArg(int a);
+extern void BTLV_EFFVM_StartSeVolumeTweenTask(T *t, int a, int b, int c);
+extern int BTLV_EFFVM_IsMultiSideResourceId(int v);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern int BTLV_MCSS_GetSpriteAttrFlags(char *p, int key);
 
-void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
+void BTLV_EFFVM_StartScript(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
 {
     T *t;
     int off;
     int flag;
     u8 *p;
 
-    t = func_02011324(vm);
+    t = VM_GetUserData(vm);
     t->f1e8 = 0;
-    func_021F8A10(1);
+    BTLV_EFFECT_DeleteTasksByArg(1);
     if (q != 0)
         t->q248 = *q;
     else
@@ -98,17 +98,17 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
         return;
     t->f2a4 = t->h258;
     t->f2a8 = a1;
-    if (func_021FEAA0(t->h258) == 0)
-        func_021F8934(0);
+    if (BTLV_EFFVM_IsMultiSideResourceId(t->h258) == 0)
+        BTLV_EFFECT_SetAllPokeSpriteAnim(0);
     if (t->h258 < 0x231) {
         t->f1e8 = ARC_TOOL_LoadMember(0x42, id, (u16)((t->h238 & 0x7fff) | 0x8000));
         if (t->h258 != 0x90 && t->h258 != 0x77 && t->h258 != 0x10b)
-            func_021F8198(0, 2);
+            BTLV_EFFECT_GaugeSetSideVisible(0, 2);
         func_02040588(1, 0);
         func_02040588(2, 0);
         func_02040588(3, 0);
         t->b6 = 0;
-        func_021FE410(t, 0x7F000, 0x6B000, 0x14);
+        BTLV_EFFVM_StartSeVolumeTweenTask(t, 0x7F000, 0x6B000, 0x14);
     } else {
         t->f1e8 = ARC_TOOL_LoadMember(0x43, id - 0x231, (u16)((t->h238 & 0x7fff) | 0x8000));
         t->b6 = 1;
@@ -122,11 +122,11 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
         off += ((u8 *)q)[1] * 0x38;
     }
     flag = 0;
-    if (func_021FFD9C((char *)func_021F8694(), t->fdc)) {
+    if (BTLV_MCSS_IsSpriteLoaded((char *)BTLV_EFFECT_GetMcss(), t->fdc)) {
         if (((t->h258 == 0xf8 || t->h258 == 0x161) && ((u8 *)q)[1] == 1)
             || t->h258 == 0x90 || t->h258 == 0x77 || t->h258 == 0x10b) {
         } else {
-            flag = func_021FFF38((char *)func_021F8694(), t->fdc) & 1;
+            flag = BTLV_MCSS_GetSpriteAttrFlags((char *)BTLV_EFFECT_GetMcss(), t->fdc) & 1;
         }
     }
     if (t->h258 == 0x27e)

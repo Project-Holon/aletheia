@@ -1,5 +1,5 @@
 /*
- * function: func_021F15B0
+ * function: MB_UTIL_MSG_Main
  * address: 0x021F15B0
  * packet: pkt_ov107_021F15B0
  * region: ov107
@@ -40,7 +40,7 @@ typedef unsigned char  u8;
 extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 #define P(k) (*(void **)(p+(k)))
 #define I(k) (*(int *)(p+(k)))
-void func_021F15B0(char *p)
+void MB_UTIL_MSG_Main(char *p)
 {
     int done;
     TCBL_Main(P(12));

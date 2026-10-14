@@ -17,7 +17,7 @@
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   INTRUDE_FIELD_CreateExitConfirmEvent  0x0217B5DC  thumb  ov018
- *   FIELD_G3D_MAP_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
  *   INTRUDE_FIELD_gSymbolMarkerPos     0x02182B90  data   a4
  */
 
@@ -38,7 +38,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern int INTRUDE_FIELD_CreateExitConfirmEvent();
 struct Desc;
-extern struct Desc *FIELD_G3D_MAP_CreateSymbolEntryEvent(int a0, int a1, void *a2, int a3, int a4);
+extern struct Desc *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(int a0, int a1, void *a2, int a3, int a4);
 extern const V12 INTRUDE_FIELD_gSymbolMarkerPos;
 
 int INTRUDE_FIELD_CreateTileEvent(int a0, int a1, int a2)
@@ -64,7 +64,7 @@ int INTRUDE_FIELD_CreateTileEvent(int a0, int a1, int a2)
         if (pos.x >= base && pos.x < base + 0x20000 && pos.z == 0x158000) {
             v = INTRUDE_FIELD_gSymbolMarkerPos;
             v.x += pos.x - base;
-            return (int)FIELD_G3D_MAP_CreateSymbolEntryEvent(a1, 1, &v, 0, 4); /* int-typed on purpose: function returns int */
+            return (int)FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(a1, 1, &v, 0, 4); /* int-typed on purpose: function returns int */
         }
         base += 0x400000;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C61D4
+ * function: MB_SEQ_SetWriterWord
  * address: 0x021C61D4
  * packet: pkt_ov136_021C61D4
  * region: ov136
@@ -30,7 +30,7 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021C61D4(u8 *p, u32 a1)
+void MB_SEQ_SetWriterWord(u8 *p, u32 a1)
 {
     void *entry;
     void *text;

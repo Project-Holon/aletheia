@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDBAC
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable
  * address:  0x021BDBAC
  * packet:   pkt_ov208_021BDBAC
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021BD330  0x021BD330  thumb
+ *   ZKND_TBAR_SetButtonDrawEnable  0x021BD330  thumb
  */
 
 typedef unsigned int u32;
@@ -20,9 +20,9 @@ struct Ov208Scene {
     void *mgr;
 };
 
-extern void ov208_func_021BD330(void *mgr, int v);
+extern void ZKND_TBAR_SetButtonDrawEnable(void *mgr, int v);
 
-void ov208_func_021BDBAC(struct Ov208Scene *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable(struct Ov208Scene *p, int v)
 {
-    ov208_func_021BD330(p->mgr, v);
+    ZKND_TBAR_SetButtonDrawEnable(p->mgr, v);
 }

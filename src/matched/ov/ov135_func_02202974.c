@@ -1,5 +1,5 @@
 /*
- * function: func_02202974
+ * function: WORLDTRADE_ADAPTER_InitMessageSystem
  * address:  0x02202974
  * packet:   pkt_02202974
  * region:   ov135
@@ -46,7 +46,7 @@ typedef struct {
     u16 heap;
 } Ctx;
 
-Ctx *func_02202974(u32 a, u32 b, u32 c, u32 heap)
+Ctx *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap)
 {
     Ctx *ctx;
 

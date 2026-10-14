@@ -1,5 +1,5 @@
 /*
- * function: func_021D85F4
+ * function: GDS_SOCKET_GetReplySize
  * address:  0x021D85F4
  * packet:   pkt_ov125_021D85F4
  * region:   ov125
@@ -12,12 +12,12 @@
  * ARM tail call: ldr ip, =target; bx ip.
  *
  * symbols:
- *   func_021D7C14  0x021D7C14  arm ov125
+ *   GDS_SOCKET_GetReplySizeUnlocked  0x021D7C14  arm ov125
  */
 
-extern int func_021D7C14(void);
+extern int GDS_SOCKET_GetReplySizeUnlocked(void);
 
-int func_021D85F4(void)
+int GDS_SOCKET_GetReplySize(void)
 {
-    return func_021D7C14();
+    return GDS_SOCKET_GetReplySizeUnlocked();
 }

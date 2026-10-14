@@ -1,5 +1,5 @@
 /*
- * function: func_021BF41C
+ * function: ZUKAN_DETAIL_INFO_DeleteLanguageButtons
  * address:  0x021BF41C
  * packet:   pkt_021BF41C
  * region:   ov208
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void func_021BF41C(int unused, char *q, u32 a2)
+void ZUKAN_DETAIL_INFO_DeleteLanguageButtons(int unused, char *q, u32 a2)
 {
     unsigned char i;
 

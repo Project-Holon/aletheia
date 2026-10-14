@@ -12,7 +12,7 @@
  * sdk:      gsiSoapTaskExecute (gssoap.o)
  *
  * symbols:
- *   func_021C2304                  0x021C2304  arm
+ *   ZUKAN_DETAIL_AREA_ResetBlendAlpha                  0x021C2304  arm
  *   ghttpPostSetAutoFree                  0x021C2310  arm
  *   ghttpPostAddXml                  0x021C2338  arm
  *   ghttpGetExA                  0x021C20A4  arm
@@ -35,7 +35,7 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 
-extern void *func_021C2304();
+extern void *ZUKAN_DETAIL_AREA_ResetBlendAlpha();
 extern void ghttpPostSetAutoFree(void *post, int autoFree);
 extern void ghttpPostAddXml();
 extern int ghttpGetExA(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
@@ -45,7 +45,7 @@ void func_0217FF94(void *theTask)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
 
-    aSoapTask->post = func_021C2304();
+    aSoapTask->post = ZUKAN_DETAIL_AREA_ResetBlendAlpha();
     if (aSoapTask->post == 0) {
         aSoapTask->completed = 1;
         aSoapTask->result = 1;

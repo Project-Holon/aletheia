@@ -1,5 +1,5 @@
 /*
- * function: func_021FE8AC
+ * function: BTLV_EFFVM_BlendRegisterTaskEnd
  * address:  0x021FE8AC
  * packet:   pkt_ov094_021FE8AC
  * region:   ov094
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_021FE8AC(void *h)
+void BTLV_EFFVM_BlendRegisterTaskEnd(void *h)
 {
     Ctx *c = (Ctx *)TCBL_GetTaskUserData(h);
 

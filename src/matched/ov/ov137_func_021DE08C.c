@@ -1,5 +1,5 @@
 /*
- * function: func_021DE08C
+ * function: GURU2_RECEIPT_SetStateFromParent
  * address: 0x021DE08C
  * packet: pkt_ov137_021DE08C
  * region: ov137
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE5C0 0x021DE5C0 thumb ov137
- *   func_021DE4B4 0x021DE4B4 thumb ov137
- *   func_021DE55C 0x021DE55C thumb ov137
- *   func_021DCF50 0x021DCF50 thumb ov137
+ *   GURU2_RECEIPT_ClearMessageFrame 0x021DE5C0 thumb ov137
+ *   GURU2_RECEIPT_PrintMessage 0x021DE4B4 thumb ov137
+ *   GURU2_RECEIPT_IsMessageDone 0x021DE55C thumb ov137
+ *   GURU2_RECEIPT_GetUnionApp 0x021DCF50 thumb ov137
  *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0201F02C 0x0201F02C thumb
@@ -21,10 +21,10 @@
 #include "../include/Obj01261.h"
 #include "../include/Obj23728.h"
 typedef unsigned char u8;
-extern void func_021DE5C0(u8 *);
-extern void func_021DE4B4(char *,int,int);
-extern int func_021DE55C(char *);
-extern void *func_021DCF50(u8 *p);
+extern void GURU2_RECEIPT_ClearMessageFrame(u8 *);
+extern void GURU2_RECEIPT_PrintMessage(char *,int,int);
+extern int GURU2_RECEIPT_IsMessageDone(char *);
+extern void *GURU2_RECEIPT_GetUnionApp(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
@@ -33,10 +33,10 @@ extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void PRINTSYS_PrintStreamStop(void *);
-void func_021DE08C(char *p,int state,int player) {
+void GURU2_RECEIPT_SetStateFromParent(char *p,int state,int player) {
     switch(state) {
     case 2:
-        func_021DE5C0((u8 *)p);
+        GURU2_RECEIPT_ClearMessageFrame((u8 *)p);
         break;
     case 13:
         if (((struct Obj01261 *)p)->fE8) {
@@ -45,7 +45,7 @@ void func_021DE08C(char *p,int state,int player) {
         }
         break;
     case 25:
-        func_021DE4B4(p,12,0);
+        GURU2_RECEIPT_PrintMessage(p,12,0);
         if (((struct Obj01261 *)p)->fE8) {
             BMP_MENU_DeleteYesNo(((struct Obj01261 *)p)->fE8);
             ((struct Obj01261 *)p)->fE8=0;
@@ -53,7 +53,7 @@ void func_021DE08C(char *p,int state,int player) {
         break;
     case 19:
         if (((struct Obj01261 *)p)->f4810==1) return;
-        func_0201F02C(((struct Obj01261 *)p)->f3C,0,UNION_APP_GetMemberEntry(func_021DCF50((u8 *)p),player));
+        func_0201F02C(((struct Obj01261 *)p)->f3C,0,UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),player));
         if (player==GFL_NET_SYSTEM_GetCurrentAid()) return;
         if (((struct Obj01261 *)p)->fE8) {
             BMP_MENU_DeleteYesNo(((struct Obj01261 *)p)->fE8);
@@ -63,7 +63,7 @@ void func_021DE08C(char *p,int state,int player) {
             ((struct Obj23728 *)(*(char * *)&((struct Obj01261 *)p)->f10))->f30&=player^0xffff;
         break;
     case 27:
-        if (!func_021DE55C(p)) PRINTSYS_PrintStreamStop(((struct Obj01261 *)p)->fF0);
+        if (!GURU2_RECEIPT_IsMessageDone(p)) PRINTSYS_PrintStreamStop(((struct Obj01261 *)p)->fF0);
         if (((struct Obj01261 *)p)->fE8) {
             BMP_MENU_DeleteYesNo(((struct Obj01261 *)p)->fE8);
             ((struct Obj01261 *)p)->fE8=0;

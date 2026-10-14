@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup
+ * function: SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop
  * address:  0x021B268C
  * packet:   pkt_021B268C
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(void *p);
 
-int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(SCRCMD_WORK_GetGameSystem((void *)b));
 return 0;

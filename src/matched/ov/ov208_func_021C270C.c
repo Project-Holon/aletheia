@@ -1,5 +1,5 @@
 /*
- * function: func_021C270C
+ * function: ZUKAN_DETAIL_VOICE_Main
  * address: 0x021C270C
  * packet: pkt_ov208_021C270C
  * region: ov208
@@ -9,51 +9,51 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BC3B4 0x021BC3B4 thumb ov208
- *   func_021BC3B8 0x021BC3B8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb ov208
  *   func_021BC3BC 0x021BC3BC thumb ov208
- *   func_021BC3A4 0x021BC3A4 thumb ov208
- *   func_021C2C44 0x021C2C44 thumb ov208
- *   func_021C2E6C 0x021C2E6C thumb ov208
- *   func_021C3218 0x021C3218 thumb ov208
- *   func_021C3280 0x021C3280 thumb ov208
- *   func_021C3354 0x021C3354 thumb ov208
- *   func_021C3378 0x021C3378 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_CreateNumberActors 0x021C2C44 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_LoadPokemonGraphics 0x021C2E6C thumb ov208
+ *   ZUKAN_DETAIL_VOICE_CreateTimerWindow 0x021C3218 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_DrawSpeciesName 0x021C3280 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_LoadWindowPalette 0x021C3354 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_NoOpB 0x021C3378 thumb ov208
  *   func_021BC9BC 0x021BC9BC thumb ov208
  *   func_021BC844 0x021BC844 thumb ov208
- *   func_021C2DE0 0x021C2DE0 thumb ov208
- *   func_021C35DC 0x021C35DC thumb ov208
+ *   ZUKAN_DETAIL_VOICE_SetNumberDigits 0x021C2DE0 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_CreateWaveformWindow 0x021C35DC thumb ov208
  *   func_021BC758 0x021BC758 thumb ov208
- *   func_021BC718 0x021BC718 thumb ov208
- *   func_021BC4F4 0x021BC4F4 thumb ov208
- *   func_021C3AA8 0x021C3AA8 thumb ov208
- *   func_021BC6D8 0x021BC6D8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeIn 0x021BC718 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessFull 0x021BC4F4 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_SetActorsNormalMode 0x021C3AA8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOut 0x021BC6D8 thumb ov208
  *   func_021BDAD0 0x021BDAD0 thumb ov208
  *   func_021BDAAC 0x021BDAAC thumb ov208
  *   func_021BDAD4 0x021BDAD4 thumb ov208
  *   func_021BDBB8 0x021BDBB8 thumb ov208
- *   func_021BDC48 0x021BDC48 thumb ov208
- *   func_021BDC14 0x021BDC14 thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq 0x021BDC14 thumb ov208
  *   func_021BE840 0x021BE840 thumb ov208
  *   func_021BE82C 0x021BE82C thumb ov208
  *   func_021BE844 0x021BE844 thumb ov208
- *   func_021BC6C8 0x021BC6C8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_IsFadeBusy 0x021BC6C8 thumb ov208
  *   func_021BDBA0 0x021BDBA0 thumb ov208
- *   func_021BC6F8 0x021BC6F8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_StartFadeOutAlt 0x021BC6F8 thumb ov208
  *   func_021BE854 0x021BE854 thumb ov208
- *   func_021BDAE8 0x021BDAE8 thumb ov208
- *   func_021C2BF4 0x021C2BF4 thumb ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled 0x021BDAE8 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_RestoreBgm 0x021C2BF4 thumb ov208
  *   func_021C3514 0x021C3514 thumb ov208
- *   func_021C3B14 0x021C3B14 thumb ov208
- *   func_021BC508 0x021BC508 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_SetActorsAlphaMode 0x021C3B14 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_SetBrightnessNone 0x021BC508 thumb ov208
  *   func_021C3380 0x021C3380 thumb ov208
- *   func_021C3650 0x021C3650 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_UpdateWaveformDelay 0x021C3650 thumb ov208
  *   func_021C301C 0x021C301C thumb ov208
- *   func_021C3318 0x021C3318 thumb ov208
- *   func_021BC99C 0x021BC99C thumb ov208
+ *   ZUKAN_DETAIL_VOICE_FlushTimerWindow 0x021C3318 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_TickFlashEffect 0x021BC99C thumb ov208
  *   func_021BC46C 0x021BC46C thumb ov208
- *   func_021BC678 0x021BC678 thumb ov208
- *   func_021C2C1C 0x021C2C1C thumb ov208
+ *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim 0x021BC678 thumb ov208
+ *   ZUKAN_DETAIL_VOICE_UpdateBgmFade 0x021C2C1C thumb ov208
  *   func_02040618 0x02040618 arm
  *   func_020414AC 0x020414AC arm
  *   func_0204047C 0x0204047C arm
@@ -64,67 +64,67 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor; struct Ov208Win; struct Ov208PalFade; struct Ov208Scene; struct Ov208Fade; struct Ov208Icon; struct Ov208Blend; struct Key;
-extern int func_021BC3B4(int *p);
-extern int func_021BC3B8(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern u16 func_021BC3BC(char *);
-extern int func_021BC3A4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void func_02040618(u32,u32,u32);
 extern void func_020414AC(u8);
 extern void func_0204047C(int,u16);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern int GAME_DATA_CheckSaveFlag(int,int);
 struct S;
-extern void func_021C2C44(u16 *heap, struct S *st, int a2);
-extern void func_021C2E6C(u16 *,u8 *,int,u32);
-extern void func_021C3218(u16 *,u8 *,int);
-extern void func_021C3280(u16 *,u8 *,struct Key *);
-extern void func_021C3354(unsigned short *p, void *a1, int a2);
-extern void func_021C3378(void *a0, void *a1, int a2, int a3, int a4);
+extern void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heap, struct S *st, int a2);
+extern void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *,u8 *,int,u32);
+extern void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *,u8 *,int);
+extern void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *,u8 *,struct Key *);
+extern void ZUKAN_DETAIL_VOICE_LoadWindowPalette(unsigned short *p, void *a1, int a2);
+extern void ZUKAN_DETAIL_VOICE_NoOpB(void *a0, void *a1, int a2, int a3, int a4);
 extern u32 func_021BC9BC(int,u16,u8,u8,u8,u8,u32,u32,u32,u32,u32);
 extern struct Ov208Win *func_021BC844(u16,u32,u8,u8,u8);
-extern void func_021C2DE0(void *,u8 *,void *,int,u16);
-extern void func_021C35DC(u16 *,u8 *,int);
+extern void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *,u8 *,void *,int,u16);
+extern void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *,u8 *,int);
 extern void func_021BC758(struct Ov208PalFade *);
-extern void func_021BC718(char *p);
-extern void func_021BC4F4(int flag, int *p);
-extern void func_021C3AA8(void *,u8 *,int);
-extern void func_021BC6D8(char *p);
+extern void ZUKAN_DETAIL_COMMON_StartFadeIn(char *p);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, int *p);
+extern void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *,u8 *,int);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOut(char *p);
 extern int func_021BDAD0(struct Ov208Fade *);
 extern void func_021BDAAC(struct Ov208Scene *,u32,u32,u32);
 extern void func_021BDAD4(struct Ov208Fade *,int);
 extern void func_021BDBB8(struct Ov208Scene *,u32);
-extern void func_021BDC48(struct Ov208Scene *,u32);
-extern void func_021BDC14(char *p, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *,u32);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 extern int func_021BE840(struct Ov208Icon *);
 extern void func_021BE82C(struct Ov208Icon *,int);
 extern void func_021BE844(struct Ov208Icon *);
-extern int func_021BC6C8(char *p);
+extern int ZUKAN_DETAIL_COMMON_IsFadeBusy(char *p);
 extern void func_021BDBA0(struct Ov208Scene *);
-extern void func_021BC6F8(char *p);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(char *p);
 extern void func_021BE854(struct Ov208Icon *);
-extern void func_021BDAE8(char *p, int v);
-extern void func_021C2BF4(void *unused, char *p, void *a2);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(char *p, int v);
+extern void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, char *p, void *a2);
 extern void func_021C3514(u16 *,u8 *,int);
-extern void func_021C3B14(void *,u8 *,int);
-extern void func_021BC508(int flag, int *p);
+extern void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *,u8 *,int);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, int *p);
 extern void func_021C3380(u16 *,u8 *,int);
-extern void func_021C3650(u16 *,u8 *,int);
+extern void ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(u16 *,u8 *,int);
 extern void func_021C301C(u16 *,u8 *,int);
-extern void func_021C3318(u16 *,u8 *,int);
-extern void func_021BC99C(char *p);
+extern void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *,u8 *,int);
+extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p);
 extern void func_021BC46C(struct Ov208Blend *,struct Ov208Blend *);
-extern void func_021BC678(char *p);
-extern void func_021C2C1C(int unused, char *p, int a2);
+extern void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(char *p);
+extern void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, char *p, int a2);
 #define W(o) (*(u32 *)(p+(o)))
 /* Explicit caller r2 loads preserve trailing arguments on setup/update helpers. */
-int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
+int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
 {
     void *scene;
     struct Ov208Icon *icon;
     u8 i;
     int ready;
-    scene=(void *)func_021BC3B4((int *)key);
-    icon=(struct Ov208Icon *)func_021BC3B8((char *)key);
+    scene=(void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
+    icon=(struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetCursorValue((char *)key);
     switch(*seq){
     case 0:
         *seq=1;
@@ -140,60 +140,60 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         func_0204047C(0,3);
         func_0204047C(6,1);
         func_0204047C(4,3);
-        func_021C2C44(heap,(struct S *)p,key);
-        func_021C2E6C(heap,p,key,W(0x5c));
+        ZUKAN_DETAIL_VOICE_CreateNumberActors(heap,(struct S *)p,key);
+        ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heap,p,key,W(0x5c));
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);
-        func_021C3218(heap,p,key);
-        func_021C3280(heap,p,(struct Key *)key);
-        func_021C3354(heap,p,key);
-        func_021C3378(heap,p,key,0,0);
+        ZUKAN_DETAIL_VOICE_CreateTimerWindow(heap,p,key);
+        ZUKAN_DETAIL_VOICE_DrawSpeciesName(heap,p,(struct Key *)key);
+        ZUKAN_DETAIL_VOICE_LoadWindowPalette(heap,p,key);
+        ZUKAN_DETAIL_VOICE_NoOpB(heap,p,key,0,0);
         W(0x78)=func_021BC9BC(0,*heap,2,1,0,5,0x9f,1,0xb,0x2a,0);
         W(0x7c)=(u32)func_021BC844(*heap,2,0,2,3);
         W(0x80)=(u32)func_021BC844(*heap,2,4,1,2);
-        func_021C2DE0(heap,p,(void *)key,0,0);
-        func_021C35DC(heap,p,key);
+        ZUKAN_DETAIL_VOICE_SetNumberDigits(heap,p,(void *)key,0,0);
+        ZUKAN_DETAIL_VOICE_CreateWaveformWindow(heap,p,key);
         func_021BC758((struct Ov208PalFade *)W(0xc8));
-        func_021BC718((char *)W(0xc8));
+        ZUKAN_DETAIL_COMMON_StartFadeIn((char *)W(0xc8));
         break;
     case 1:
         *seq=2;
-        func_021BC4F4(0,(int *)W(0xc0));
-        func_021BC4F4(1,(int *)W(0xc4));
-        func_021C3AA8(heap,p,key);
+        ZUKAN_DETAIL_COMMON_SetBrightnessFull(0,(int *)W(0xc0));
+        ZUKAN_DETAIL_COMMON_SetBrightnessFull(1,(int *)W(0xc4));
+        ZUKAN_DETAIL_VOICE_SetActorsNormalMode(heap,p,key);
         break;
     case 2:
         *seq=3;
-        func_021BC6D8((char *)W(0xc8));
+        ZUKAN_DETAIL_COMMON_StartFadeOut((char *)W(0xc8));
         if(func_021BDAD0(scene)!=2){
             func_021BDAAC(scene,0,2,func_021BC3BC((char *)key)>1);
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
-        func_021BDC48(scene,0);
-        func_021BDC14(scene,GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key),0x13));
+        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene,0);
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene,GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key),0x13));
         if(func_021BE840(icon)!=2){
             func_021BE82C(icon,2);
             func_021BE844(icon);
         }
         break;
     case 3:
-        if(func_021BC6C8((char *)W(0xc8))==0 && func_021BDAD0(scene)==2 && func_021BE840(icon)==2){
+        if(ZUKAN_DETAIL_COMMON_IsFadeBusy((char *)W(0xc8))==0 && func_021BDAD0(scene)==2 && func_021BE840(icon)==2){
             func_021BDBA0(scene);
-            func_021BDC48(scene,1);
+            ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene,1);
             *seq=4;
         }
         break;
     case 4:
         if(W(0xcc)!=0){
             *seq=5;
-            func_021BC6F8((char *)W(0xc8));
+            ZUKAN_DETAIL_COMMON_StartFadeOutAlt((char *)W(0xc8));
             func_021BE854(icon);
-            if(W(0xcc)==2)func_021BDAE8(scene,0);
-            func_021C2BF4(heap,(char *)p,(void *)key);
+            if(W(0xcc)==2)ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scene,0);
+            ZUKAN_DETAIL_VOICE_RestoreBgm(heap,(char *)p,(void *)key);
         }else func_021C3514(heap,p,key);
         break;
     case 5:
         ready=0;
-        if(func_021BC6C8((char *)W(0xc8))==0 && func_021BE840(icon)==0){
+        if(ZUKAN_DETAIL_COMMON_IsFadeBusy((char *)W(0xc8))==0 && func_021BE840(icon)==0){
             if(W(0xcc)==2){
                 if(func_021BDAD0(scene)==0)ready=1;
             }else ready=1;
@@ -202,25 +202,25 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         break;
     case 6:
         *seq=7;
-        func_021C3B14(heap,p,key);
-        func_021BC508(0,(int *)W(0xc0));
-        func_021BC508(1,(int *)W(0xc4));
+        ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(heap,p,key);
+        ZUKAN_DETAIL_COMMON_SetBrightnessNone(0,(int *)W(0xc0));
+        ZUKAN_DETAIL_COMMON_SetBrightnessNone(1,(int *)W(0xc4));
         break;
     case 7:
         return 1;
     }
     if(*seq>=3){
         func_021C3380(heap,p,key);
-        func_021C3650(heap,p,key);
+        ZUKAN_DETAIL_VOICE_UpdateWaveformDelay(heap,p,key);
         func_021C301C(heap,p,key);
     }
     if(*seq>=2){
-        func_021C3318(heap,p,key);
-        func_021BC99C((char *)W(0x7c));
-        func_021BC99C((char *)W(0x80));
+        ZUKAN_DETAIL_VOICE_FlushTimerWindow(heap,p,key);
+        ZUKAN_DETAIL_COMMON_TickFlashEffect((char *)W(0x7c));
+        ZUKAN_DETAIL_COMMON_TickFlashEffect((char *)W(0x80));
     }
     func_021BC46C((struct Ov208Blend *)W(0xc0),(struct Ov208Blend *)W(0xc4));
-    func_021BC678((char *)W(0xc8));
-    func_021C2C1C((int)heap,(char *)p,key);
+    ZUKAN_DETAIL_COMMON_UpdatePaletteAnim((char *)W(0xc8));
+    ZUKAN_DETAIL_VOICE_UpdateBgmFade((int)heap,(char *)p,key);
     return 0;
 }

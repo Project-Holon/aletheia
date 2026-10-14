@@ -1,5 +1,5 @@
 /*
- * function: func_022070C0
+ * function: BTLV_GAUGE_InitSlotFromBattlePoke
  * address:  0x022070C0
  * packet:   pkt_ov094_022070C0
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  * trailing: 02207286..02207288 is two zero alignment bytes.
  *
- * Battle-side twin of func_02207288 (same row layout).
+ * Battle-side twin of BTLV_GAUGE_InitSlotFromPartyPoke (same row layout).
  *
  * lever: BTL_POKEPARAM_GetSickContRaw returns a one-word struct (Word) passed by value to
  * BTLV_CORE_IsSlotKind1Index15, as in the ov093 callers. The struct-return temporary
@@ -34,8 +34,8 @@
  *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
  *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
  *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
- *   func_0220793C 0x0220793C thumb ov094
- *   func_0220785C 0x0220785C thumb ov094
+ *   BTLV_GAUGE_UpdateHpBarPixels 0x0220793C thumb ov094
+ *   BTLV_GAUGE_UpdateSlot 0x0220785C thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,10 +62,10 @@ extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
 extern void BTLV_GAUGE_PlaceSlot(char *, int, Pt *);
 extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
-extern void func_0220793C(char *p);
-extern void func_0220785C(struct O *o, int unused, int idx, void *data);
+extern void BTLV_GAUGE_UpdateHpBarPixels(char *p);
+extern void BTLV_GAUGE_UpdateSlot(struct O *o, int unused, int idx, void *data);
 
-void func_022070C0(W *p, void *a, void *q, int mode, int i)
+void BTLV_GAUGE_InitSlotFromBattlePoke(W *p, void *a, void *q, int mode, int i)
 {
     u32 exp;
     u16 species;
@@ -104,6 +104,6 @@ void func_022070C0(W *p, void *a, void *q, int mode, int i)
     BTLV_GAUGE_SetStatusIcon((O *)p, item, i);
     BTLV_GAUGE_PlaceSlot((char *)p, i, 0);
     BTLV_GAUGE_SetSlotBarsVisible(p, i, 1);
-    func_0220793C((char *)((S *)&p->rows[i]));
-    func_0220785C((struct O *)p, mode, i, BTL_POKEPARAM_GetDisplayMon(q));
+    BTLV_GAUGE_UpdateHpBarPixels((char *)((S *)&p->rows[i]));
+    BTLV_GAUGE_UpdateSlot((struct O *)p, mode, i, BTL_POKEPARAM_GetDisplayMon(q));
 }

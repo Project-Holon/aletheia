@@ -1,5 +1,5 @@
 /*
- * function: func_021EF1D8
+ * function: BATTLE_REC_TOOL_UnpackInputLog
  * address:  0x021EF1D8
  * packet:   pkt_021EF1D8
  * region:   ov188
@@ -17,7 +17,7 @@
 
 extern void MI_CpuCopy8(void *, void *, int);
 
-int func_021EF1D8(char *p, char *a1)
+int BATTLE_REC_TOOL_UnpackInputLog(char *p, char *a1)
 {
     int v = ((struct Obj24897 *)a1)->f34;
 

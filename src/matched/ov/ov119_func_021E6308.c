@@ -1,5 +1,5 @@
 /*
- * function: func_021E6308
+ * function: POKETRADE_2D_SetOfferIconsVisible
  * address: 0x021E6308
  * packet: pkt_ov119_021E6308
  * region: ov119
@@ -18,7 +18,7 @@ typedef struct {
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_021E6308(Work *p, int a, int v)
+void POKETRADE_2D_SetOfferIconsVisible(Work *p, int a, int v)
 {
     int i;
     for (i = 0; i < 3; i++) {

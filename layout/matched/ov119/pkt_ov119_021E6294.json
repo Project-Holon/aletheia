@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E6294",
+   "name": "POKETRADE_2D_UploadWindowPalette",
    "address": "0x021E6294",
    "kind": "game",
    "region": "ov119",

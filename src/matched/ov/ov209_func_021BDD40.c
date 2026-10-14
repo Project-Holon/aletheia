@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD40
+ * function: ZUKAN_LIST_DeleteActor
  * address: 0x021BDD40
  * packet: pkt_ov209_021BDD40
  * region: ov209
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;extern void CLACT_DeleteActor(struct Obj *);
-void func_021BDD40(char *p,u32 idx) {char *base;u32 offset;offset=idx*4;base=p+0xa74;if(*(struct Obj **)(base+offset)) {CLACT_DeleteActor(*(struct Obj **)(base+offset));*(struct Obj **)(base+offset)=0;}}
+void ZUKAN_LIST_DeleteActor(char *p,u32 idx) {char *base;u32 offset;offset=idx*4;base=p+0xa74;if(*(struct Obj **)(base+offset)) {CLACT_DeleteActor(*(struct Obj **)(base+offset));*(struct Obj **)(base+offset)=0;}}

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF998
+ * function: GURU2_MAIN_ShowPlanes
  * address: 0x021DF998
  * packet: pkt_ov137_021DF998
  * region: ov137
@@ -24,7 +24,7 @@ static inline void G2_SetBG0Priority(int priority)
 {
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | priority);
 }
-void func_021DF998(char *a0)
+void GURU2_MAIN_ShowPlanes(char *a0)
 {
     func_02040588(0, 1);
     func_02040588(1, 1);

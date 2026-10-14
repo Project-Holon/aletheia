@@ -23,7 +23,7 @@
  *   INTRUDE_COMM_GetMarkerPosForPartner  0x021767F0  thumb  ov011
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  *   SYMBOL_MAP_GetSelectedNeighborCell  0x021665F0  thumb  ov010
- *   FIELD_G3D_MAP_StartSymbolEntry  0x0216B3A8  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_StartSymbolEntry  0x0216B3A8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
@@ -49,7 +49,7 @@ struct Desc;
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t);
 extern int SYMBOL_MAP_GetSelectedNeighborCell(int a0, int a1, int a2);
 struct Desc;
-extern struct Desc *FIELD_G3D_MAP_StartSymbolEntry(int a0, int a1, int a2);
+extern struct Desc *FIELD_INTRUDE_EVENT_StartSymbolEntry(int a0, int a1, int a2);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
 int SCRCMD_SYMBOL_StartEntryEvent(int a0, int a1)
@@ -82,7 +82,7 @@ int SCRCMD_SYMBOL_StartEntryEvent(int a0, int a1)
     } else {
         if (kind != 9)
             v = SYMBOL_MAP_GetSelectedNeighborCell((int)b, GAME_DATA_GetSymbolMapFlag(c), kind);
-        r = (void *)FIELD_G3D_MAP_StartSymbolEntry((int)b, kind, v);
+        r = (void *)FIELD_INTRUDE_EVENT_StartSymbolEntry((int)b, kind, v);
     }
     SCRIPT_SYS_CallEvent(hd, r);
     return 1;

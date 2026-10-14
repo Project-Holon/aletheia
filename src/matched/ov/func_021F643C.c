@@ -1,5 +1,5 @@
 /*
- * function: func_021F643C
+ * function: WORLDTRADE_BOX_StateDepositConfirmInput
  * address:  0x021F643C
  * packet:   pkt_021F643C
  * region:   ov135
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4D14  0x021F4D14  thumb  ov135
- *   func_021F4CE4  0x021F4CE4  thumb  ov135
- *   func_021F6474  0x021F6474  thumb  ov135
+ *   WORLDTRADE_UpdateTaskMenuYesNo  0x021F4D14  thumb  ov135
+ *   WORLDTRADE_CloseTaskMenu  0x021F4CE4  thumb  ov135
+ *   WORLDTRADE_BOX_TryConfirmDeposit  0x021F6474  thumb  ov135
 
  * Two-way mode dispatch: mode 1 clears and runs the sub-step, mode 2 clears, releases the +0xdd0 word and latches state 1.
  */
@@ -22,20 +22,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern int func_021F4D14(char *p);
-extern void func_021F4CE4(char *p);
-extern void func_021F6474(u8 *p);
+extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
+extern void WORLDTRADE_CloseTaskMenu(char *p);
+extern void WORLDTRADE_BOX_TryConfirmDeposit(u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 
-int func_021F643C(u8 *p)
+int WORLDTRADE_BOX_StateDepositConfirmInput(u8 *p)
 {
-    u32 k = func_021F4D14((char *)p);
+    u32 k = WORLDTRADE_UpdateTaskMenuYesNo((char *)p);
 
     if (k == 1) {
-        func_021F4CE4((char *)p);
-        func_021F6474(p);
+        WORLDTRADE_CloseTaskMenu((char *)p);
+        WORLDTRADE_BOX_TryConfirmDeposit(p);
     } else if (k == 2) {
-        func_021F4CE4((char *)p);
+        WORLDTRADE_CloseTaskMenu((char *)p);
         func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 0);
         ((struct Obj00045 *)p)->f28 = 1;
     }

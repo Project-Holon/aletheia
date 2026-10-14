@@ -1,5 +1,5 @@
 /*
- * function: func_021E0678
+ * function: GURU2_MAIN_RemoveBackgroundUnit
  * address: 0x021E0678
  * packet: pkt_ov137_021E0678
  * region: ov137
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx;
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
-void func_021E0678(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj14234 *)p)->fAF4,(u16)(((struct Obj14234 *)p)->fDA4)); }
+void GURU2_MAIN_RemoveBackgroundUnit(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj14234 *)p)->fAF4,(u16)(((struct Obj14234 *)p)->fDA4)); }

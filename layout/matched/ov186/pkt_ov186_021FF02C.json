@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FF02C",
+   "name": "BR_SIDEBAR_SetSlotVisible",
    "address": "0x021FF02C",
    "kind": "game",
    "region": "ov186",

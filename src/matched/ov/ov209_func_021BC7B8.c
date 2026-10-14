@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7B8
+ * function: ZUKAN_LIST_SetSubScreenBlendAlpha
  * address: 0x021BC7B8
  * packet: pkt_ov209_021BC7B8
  * region: ov209
@@ -12,4 +12,4 @@
  *   func_0207D63C 0x0207D63C arm
  */
 extern void func_0207D63C(void *,unsigned,unsigned,unsigned,unsigned);
-void func_021BC7B8(void){func_0207D63C((void *)0x04001050,4,8,6,10);}
+void ZUKAN_LIST_SetSubScreenBlendAlpha(void){func_0207D63C((void *)0x04001050,4,8,6,10);}

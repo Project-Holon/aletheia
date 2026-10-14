@@ -1,5 +1,5 @@
 /*
- * function: func_021C1DE8
+ * function: CircleGraph_Free
  * address:  0x021C1DE8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_021C1DE8(void *a0)
+u32 CircleGraph_Free(void *a0)
 {
     return func_020307B0(a0);
 }

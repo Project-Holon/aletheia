@@ -1,5 +1,5 @@
 /*
- * function: func_021FFA18
+ * function: BTLV_MCSS_StartShakeTask
  * address: 0x021FFA18
  * packet: pkt_ov094_021FFA18
  * region: ov094
@@ -11,11 +11,11 @@
  * symbols:
  *   sub_02030734 0x02030734 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F935C 0x021F935C thumb ov094
- *   func_02200E1C 0x02200E1C thumb ov094
- *   func_02201098 0x02201098 thumb ov094
- *   d_0220AE7C 0x0220AE7C data ov094 a1
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_GetBitMask 0x021F935C thumb ov094
+ *   BTLV_MCSS_ShakeTaskMain 0x02200E1C thumb ov094
+ *   BTLV_MCSS_ShakeTaskEnd 0x02201098 thumb ov094
+ *   gBtlvMcssSourceFileName 0x0220AE7C data ov094 a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,16 +33,16 @@ typedef struct {
     int key, kind, direction, f10, f14, f18, f1c, f20, f24;
     int f28, f2c, f30, f34, f38;
 } Obj;
-extern const char d_0220AE7C[];
+extern const char gBtlvMcssSourceFileName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern int func_021F935C(int x);
-extern void func_02200E1C(void *task, char *q);
-extern void func_02201098(void *p);
-void func_021FFA18(Work *w, Obj *s)
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern int BTLV_EFFECT_GetBitMask(int x);
+extern void BTLV_MCSS_ShakeTaskMain(void *task, char *q);
+extern void BTLV_MCSS_ShakeTaskEnd(void *p);
+void BTLV_MCSS_StartShakeTask(Work *w, Obj *s)
 {
-    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x3c, 0, d_0220AE7C, 0x627);
+    Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
     o->w = w;
     o->key = s->key;
     o->kind = s->kind;
@@ -64,6 +64,6 @@ void func_021FFA18(Work *w, Obj *s)
     o->f2c = 0x10000 / s->f18;
     w->cnt[o->key]++;
     o->f38 = w->cnt[o->key];
-    func_021F896C(func_02030DA8(w->owner, (void *)func_02200E1C, o, 0), func_02201098, 2);
-    w->mask |= func_021F935C(o->key);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(w->owner, (void *)BTLV_MCSS_ShakeTaskMain, o, 0), BTLV_MCSS_ShakeTaskEnd, 2);
+    w->mask |= BTLV_EFFECT_GetBitMask(o->key);
 }

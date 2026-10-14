@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FC568",
-    "func_021FC598"
+    "WORLDTRADE_DETAIL_DeleteStrings",
+    "WORLDTRADE_DETAIL_StateStart"
+   ],
+   "addresses": [
+    "0x021FC568",
+    "0x021FC598"
    ]
   }
  ]

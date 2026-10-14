@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D8AA8  0x021D8AA8  thumb  ov119
- *   func_021D8FA4  0x021D8FA4  thumb  ov119
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
+ *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
@@ -26,8 +26,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int func_021D8AA8(void *p);
-extern void *func_021D8FA4(void *p, int which);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void *POKETRADE_PROC_GetSideMon(void *p, int which);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern void *POKE_PERSONAL_Create(unsigned int a, int b, unsigned int heap);
 struct Personal;
@@ -48,19 +48,19 @@ void func_021D6544(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     u32 flag;
 
     if (enemy != 0) {
-        if (func_021D8AA8(p) != 0) {
+        if (POKETRADE_PROC_IsHostSide(p) != 0) {
             which = 1;
         } else {
             which = 0;
         }
     } else {
-        if (func_021D8AA8(p) != 0) {
+        if (POKETRADE_PROC_IsHostSide(p) != 0) {
             which = 0;
         } else {
             which = 1;
         }
     }
-    mon = func_021D8FA4(p, which);
+    mon = POKETRADE_PROC_GetSideMon(p, which);
     id = POKE_TOOL_GetPartyValue(mon, 7, 0);
     a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
     b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);

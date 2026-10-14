@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D24
+ * function: SSP_SetJpegEncoderDateTimeNow
  * address:  0x021C2D24
  * packet:   pkt_021C2D24
  * region:   ov172
@@ -12,16 +12,16 @@
  * SDK provenance: SSP_SetJpegEncoderDateTimeNow (TwlSDK/libssp.TWL.HYB.a,
  * exifenc.o), ov172.
  *
- * Builds the RTC date/time string.  func_021C2D0C(&d.year, &d) forwards its two
+ * Builds the RTC date/time string.  SSP_GetDateTime(&d.year, &d) forwards its two
  * pointers to func_020889C0, which fills the DateTime struct d (memory order
  * hour,min,sec,year,month,day); the "year" field is stored as year-2000, so the
  * formatting call adds 2000 (0x7d0).  The rendered string in the local buffer is
- * then handed to func_021C2CDC, which copies it out to g_021CAE14.
+ * then handed to SSP_SetJpegEncoderDateTime, which copies it out to g_021CAE14.
  *
  * symbols:
  *   g_021C8874  0x021C8874  data
- *   func_021C2D0C  0x021C2D0C  arm  ov172
- *   func_021C2CDC  0x021C2CDC  arm  ov172
+ *   SSP_GetDateTime  0x021C2D0C  arm  ov172
+ *   SSP_SetJpegEncoderDateTime  0x021C2CDC  arm  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -42,21 +42,21 @@ struct DateTime {
 
 extern const char g_021C8874[];
 
-int func_021C2D0C(void *a, void *b);
+int SSP_GetDateTime(void *a, void *b);
 void func_0208D7E0(char *dst, const char *fmt, ...);
-void func_021C2CDC(u8 *buf);
+void SSP_SetJpegEncoderDateTime(u8 *buf);
 
-int func_021C2D24(void)
+int SSP_SetJpegEncoderDateTimeNow(void)
 {
     struct DateTime d;
     char buf[0x14];
 
-    if (func_021C2D0C(&d.year, &d) != 1)
+    if (SSP_GetDateTime(&d.year, &d) != 1)
         return 0;
 
     func_0208D7E0(buf, g_021C8874,
                   d.year + 0x7d0, d.month, d.day,
                   d.hour, d.min, d.sec);
-    func_021C2CDC((u8 *)buf);
+    SSP_SetJpegEncoderDateTime((u8 *)buf);
     return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02200E48",
+   "name": "WORLDTRADE_SERVER_CreateWindows",
    "address": "0x02200E48",
    "kind": "game",
    "region": "ov135",

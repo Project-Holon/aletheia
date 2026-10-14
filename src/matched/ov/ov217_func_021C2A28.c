@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A28
+ * function: PALETTE_ANIME_StopImpl
  * address:  0x021C2A28
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C2A28(void *p)
+void PALETTE_ANIME_StopImpl(void *p)
 {
     ((struct Obj26035 *)p)->f14 = 0;
 }

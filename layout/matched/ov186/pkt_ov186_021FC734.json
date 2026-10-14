@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC734",
+   "name": "BR_UTIL_Delete",
    "address": "0x021FC734",
    "kind": "game",
    "region": "ov186",

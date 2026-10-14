@@ -1,5 +1,5 @@
 /*
- * function: func_021BD56C
+ * function: ZKND_TBAR_GetResourceSlot
  * address:  0x021BD56C
  * packet:   pkt_021BD56C
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-int func_021BD56C(int *p, int i)
+int ZKND_TBAR_GetResourceSlot(int *p, int i)
 {
     return p[i];
 }

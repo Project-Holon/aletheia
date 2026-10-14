@@ -1,5 +1,5 @@
 /*
- * function: func_021F70F0
+ * function: BTLV_CAMERA_GetEyeAndUp
  * address:  0x021F70F0
  * packet:   pkt_ov094_021F70F0
  * region:   ov094
@@ -20,7 +20,7 @@
 extern void G3D_CAMERA_GetEye(void *, void *);
 extern void G3D_CAMERA_GetUp(void *, int);
 
-void func_021F70F0(void **p, void *b, int c)
+void BTLV_CAMERA_GetEyeAndUp(void **p, void *b, int c)
 {
     G3D_CAMERA_GetEye(p[1], b);
     G3D_CAMERA_GetUp(p[1], c);

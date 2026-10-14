@@ -1,5 +1,5 @@
 /*
- * function: func_02179824
+ * function: IRCNET_SendAndNotify
  * address: 0x02179824
  * packet: pkt_ov015_02179824
  * region: ov015
@@ -10,13 +10,13 @@
  * status: EXACT*
  * extent: two zero alignment bytes at 0217983E.
  * symbols:
- *   func_02179A4C 0x02179A4C thumb ov015
+ *   IRCNET_QueueSend 0x02179A4C thumb ov015
  */
 typedef unsigned char u8;
-extern void func_02179A4C(void *, u8, u8);
-int func_02179824(void *dst, int a, int unused, void (*cb)(int))
+extern void IRCNET_QueueSend(void *, u8, u8);
+int IRCNET_SendAndNotify(void *dst, int a, int unused, void (*cb)(int))
 {
-    func_02179A4C(dst, (u8)a, 0);
+    IRCNET_QueueSend(dst, (u8)a, 0);
     if (cb != 0) cb(1);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB65C
+ * function: CTVT_DRAW_ShowHelp
  * address:  0x021BB65C
  * packet:   pkt_ov172_021BB65C
  * region:   ov172
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE034  0x021BE034  thumb  ov172
- *   func_021BE03C  0x021BE03C  thumb  ov172
- *   func_021BE044  0x021BE044  thumb  ov172
+ *   COMM_TVT_SYS_GetFont  0x021BE034  thumb  ov172
+ *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
+ *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
@@ -31,9 +31,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u32 func_021BE034(void *p);
-extern u32 func_021BE03C(void *p);
-extern u32 func_021BE044(void *p);
+extern u32 COMM_TVT_SYS_GetFont(void *p);
+extern u32 COMM_TVT_SYS_GetMsgData(void *p);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *p);
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
@@ -51,7 +51,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_021BB65C(void *ctx, u8 *p, int k)
+void CTVT_DRAW_ShowHelp(void *ctx, u8 *p, int k)
 {
     void *last;
     void *w8;
@@ -68,9 +68,9 @@ void func_021BB65C(void *ctx, u8 *p, int k)
     void *h44;
     u32 h34;
 
-    h34 = func_021BE034(ctx);
-    h3c = (void *)func_021BE03C(ctx);
-    h44 = (void *)func_021BE044(ctx);
+    h34 = COMM_TVT_SYS_GetFont(ctx);
+    h3c = (void *)COMM_TVT_SYS_GetMsgData(ctx);
+    h44 = (void *)COMM_TVT_SYS_GetPrintQue(ctx);
     old = ((struct Obj00836 *)p)->f48;
     if (old != 0) {
         PRINTSYS_QUE_Clear(h44);

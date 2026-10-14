@@ -1,5 +1,5 @@
 /*
- * function: func_021C1B60
+ * function: CircleGraph_GetCenterColor
  * address:  0x021C1B60
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u16 func_021C1B60(void *p)
+u16 CircleGraph_GetCenterColor(void *p)
 {
     return (u16)(((struct Obj03956 *)p)->fE | (((struct Obj03956 *)p)->fF << 5) | (((struct Obj03956 *)p)->f10 << 10));
 }

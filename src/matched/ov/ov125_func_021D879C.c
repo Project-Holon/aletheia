@@ -1,5 +1,5 @@
 /*
- * function: func_021D879C
+ * function: GDS_SOCKET_SendSearchKind1
  * address: 0x021D879C
  * packet: pkt_ov125_021D879C
  * region: ov125
@@ -8,13 +8,13 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   func_021D7A10 0x021D7A10 arm ov125
+ *   GDS_SOCKET_SendRequest 0x021D7A10 arm ov125
  */
 typedef struct { unsigned short a,b; unsigned words[2]; int value; unsigned tail[3]; } Packet;
-extern int func_021D7A10(int id, void *buf, int x, int sz);
-int func_021D879C(int value, int n) {
+extern int GDS_SOCKET_SendRequest(int id, void *buf, int x, int sz);
+int GDS_SOCKET_SendSearchKind1(int value, int n) {
  Packet p = {0};
  p.value = value;
  p.a = 1; p.tail[1] = 0; p.tail[2] = 0; p.b = 0;
- return func_021D7A10(0x55f1, &p, n, -1);
+ return GDS_SOCKET_SendRequest(0x55f1, &p, n, -1);
 }

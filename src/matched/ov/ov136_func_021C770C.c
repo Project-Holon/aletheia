@@ -1,5 +1,5 @@
 /*
- * function: func_021C770C
+ * function: MB_SEQ_IsConfirmPressed
  * address:  0x021C770C
  * packet:   pkt_ov136_021C770C
  * region:   ov136
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern const u8 d_021C7E14[];
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 KEY_GetTrg(void);
-int func_021C770C(u8 *a0)
+int MB_SEQ_IsConfirmPressed(u8 *a0)
 {
     if (TOUCHPANEL_HitTrg(d_021C7E14) != -1) {
         return 1;

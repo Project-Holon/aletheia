@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FLDMMDL_StartPlayerOffsetTask
+ * function: SCRCMD_FLDMMDL_StartPlayerPosOffsetTween
  * address:  0x021B1D64
  * packet:   pkt_ov021_021B1D64
  * region:   ov021
@@ -35,7 +35,7 @@ extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern u32 FIELD_TASK_CreateMmdlPosOffsetTween(u32, int, void *, void *);
 extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
 
-int SCRCMD_FLDMMDL_StartPlayerOffsetTask(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartPlayerPosOffsetTween(u32 a, u32 b)
 {
     struct { int x, y, z; } v;
     u32 x;

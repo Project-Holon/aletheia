@@ -1,5 +1,5 @@
 /*
- * function: func_021BD03C
+ * function: ZUKAN_DETAIL_GRAPHIC_InitActorSystem
  * address:  0x021BD03C
  * packet:   pkt_021BD03C
  * region:   ov208
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BD03C(unsigned char *p, int a, int b)
+void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021C8148, a, b);

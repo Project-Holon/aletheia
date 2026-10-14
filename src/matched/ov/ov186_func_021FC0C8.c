@@ -1,5 +1,5 @@
 /*
- * function: func_021FC0C8
+ * function: BR_RES_ReleaseSprite
  * address: 0x021FC0C8
  * packet: pkt_ov186_021FC0C8
  * region: ov186
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021FC0C8(char *p,unsigned i)
+void BR_RES_ReleaseSprite(char *p,unsigned i)
 {
     int *r=(int *)(p+8+i*12);
     switch(i){

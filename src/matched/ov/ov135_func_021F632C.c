@@ -1,5 +1,5 @@
 /*
- * function: func_021F632C
+ * function: WORLDTRADE_BOX_StateStartWipeOut
  * address: 0x021F632C
  * packet: pkt_ov135_021F632C
  * region: ov135
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
-int func_021F632C(u8 *p)
+int WORLDTRADE_BOX_StateStartWipeOut(u8 *p)
 {
     if (((struct Obj06507 *)p)->f14 == 0 || ((struct Obj06507 *)p)->f14 == 8 || ((struct Obj06507 *)p)->f14 == 3) {
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);

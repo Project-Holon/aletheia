@@ -1,5 +1,5 @@
 /*
- * function: func_021FBA5C
+ * function: WORLDTRADE_INPUT_StateRestoreCursorAlt
  * address:  0x021FBA5C
  * packet:   pkt_021FBA5C
  * region:   ov135
@@ -26,7 +26,7 @@ extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
-int func_021FBA5C(u8 *p)
+int WORLDTRADE_INPUT_StateRestoreCursorAlt(u8 *p)
 {
     u32 v;
     int n;

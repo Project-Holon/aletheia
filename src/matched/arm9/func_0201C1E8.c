@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
+ * Tail call with argument 2. Filed as the witness for ov094 BTLV_EFFECT_StartDamageTintTask.
  *
  * symbols:
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDFBC",
+   "name": "DENDOU_VIEW_ClearInfoWindow",
    "address": "0x021DDFBC",
    "kind": "game",
    "region": "ov171",

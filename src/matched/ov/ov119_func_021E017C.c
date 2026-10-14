@@ -1,5 +1,5 @@
 /*
- * function: func_021E017C
+ * function: POKETRADE_SAVE_RestoreSaveControl
  * address: 0x021E017C
  * packet: pkt_ov119_021E017C
  * region: ov119
@@ -22,7 +22,7 @@ extern unsigned sub_02009454(void);
 extern void MI_CpuCopy8(void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E017C(void *sys, void *buf)
+void POKETRADE_SAVE_RestoreSaveControl(void *sys, void *buf)
 {
     void *src = func_02009470(GAME_DATA_GetSaveControl(sys));
     MI_CpuCopy8(buf, src, sub_02009454());

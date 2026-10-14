@@ -1,5 +1,5 @@
 /*
- * function: func_021E421C
+ * function: POKETRADE_2D_HitTestBoxGrid
  * address: 0x021E421C
  * packet: pkt_ov119_021E421C
  * region: ov119
@@ -10,7 +10,7 @@
  * lever: initialize the inner counter before calculating the two outer cursors.
  */
 #include "../include/Obj13918.h"
-int func_021E421C(char *p, int x, int y)
+int POKETRADE_2D_HitTestBoxGrid(char *p, int x, int y)
 {
     int i, j, a, b;
     char *q, *r, *s;

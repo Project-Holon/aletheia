@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDCEC",
+   "name": "GURU2_RECEIPT_StateShowStartMessage",
    "address": "0x021DDCEC",
    "kind": "game",
    "region": "ov137",

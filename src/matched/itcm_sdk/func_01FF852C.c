@@ -1,5 +1,5 @@
 /*
- * function: func_01FF852C
+ * function: OSi_CpuClear32
  * address:  0x01FF852C
  * packet:   pkt_01FF852C
  * region:   arm9_autoload0_ITCM
@@ -17,7 +17,7 @@
 typedef unsigned int u32;
 
 /* hand-written in the original: SDK inline-asm stm fill loop (os_reset.o) */
-asm void func_01FF852C(u32 data, void *destp, u32 size)
+asm void OSi_CpuClear32(u32 data, void *destp, u32 size)
 {
     add ip, r1, r2
 _loop:

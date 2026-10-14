@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD360
+ * function: ZKND_TBAR_ClearButtonState
  * address:  0x021BD360
  * packet:   pkt_ov208_021BD360
  * region:   ov208
@@ -19,7 +19,7 @@ struct Ov208Mgr {
     u32 f10;
 };
 
-void ov208_func_021BD360(struct Ov208Mgr *p)
+void ZKND_TBAR_ClearButtonState(struct Ov208Mgr *p)
 {
     p->f10 = 0;
 }

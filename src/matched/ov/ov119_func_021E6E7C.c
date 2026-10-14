@@ -1,5 +1,5 @@
 /*
- * function: func_021E6E7C
+ * function: POKETRADE_2D_UpdateOfferWindowActors
  * address: 0x021E6E7C
  * packet: pkt_ov119_021E6E7C
  * region: ov119
@@ -25,7 +25,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DWCi_ScreenDC_FlushRange(void *,int);
 extern void func_0207E804(const void *,void *,unsigned int);
-void func_021E6E7C(int p) {
+void POKETRADE_2D_UpdateOfferWindowActors(int p) {
     Table t=d_021E7DD8;
     int i,j;
     char *dest,*source;

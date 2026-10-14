@@ -1,5 +1,5 @@
 /*
- * function: func_021D5644
+ * function: GSYNC_MESSAGE_ExitSystem
  * address: 0x021D5644
  * packet: pkt_ov123_021D5644
  * region: ov123
@@ -10,8 +10,8 @@
  * lever: low and high halves of packed words pass to u16 callee parameters; no explicit high-half cast.
  * symbols:
  *   func_0201DD68 0x0201DD68 thumb
- *   func_021D584C 0x021D584C thumb ov123
- *   func_021D54E0 0x021D54E0 thumb ov123
+ *   GSYNC_MESSAGE_ClearStream 0x021D584C thumb ov123
+ *   GSYNC_MESSAGE_DeleteButtonManager 0x021D54E0 thumb ov123
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0203FB44 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -28,9 +28,9 @@
 #include "../include/Obj01154.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D584C(char *);
+extern void GSYNC_MESSAGE_ClearStream(char *);
 typedef unsigned char  u8;
-extern void func_021D54E0(u8 *p);
+extern void GSYNC_MESSAGE_DeleteButtonManager(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct Rec;
@@ -52,11 +52,11 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void BMP_WIN_Exit(void);
 extern u32 func_020307B0(void *p);
-void func_021D5644(char *p)
+void GSYNC_MESSAGE_ExitSystem(char *p)
 {
     int i;
     u32 a;
-    func_021D584C(p);
+    GSYNC_MESSAGE_ClearStream(p);
     if (((struct Obj01154 *)p)->f44) BMP_WIN_Delete(((struct Obj01154 *)p)->f44);
     if (((struct Obj01154 *)p)->f48) BMP_WIN_Delete(((struct Obj01154 *)p)->f48);
     for(i=0;i<12;i++) {
@@ -66,7 +66,7 @@ void func_021D5644(char *p)
     func_0203FB44((int)5,(u16)(((struct Obj01154 *)p)->f8),(u16)a);
     a=((struct Obj01154 *)p)->f4>>16;
     func_0203FB44((int)6,(u16)(((struct Obj01154 *)p)->f4),(u16)a);
-    func_021D54E0((u8 *)p);
+    GSYNC_MESSAGE_DeleteButtonManager((u8 *)p);
     APP_KEYCURSOR_Delete((int)(((struct Obj01154 *)p)->f40));
     func_0201ED04(((struct Obj01154 *)p)->f24);
     func_0201DD68();

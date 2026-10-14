@@ -1,5 +1,5 @@
 /*
- * function: func_021C71BC
+ * function: MB_SEQ_OpenMenuKind
  * address:  0x021C71BC
  * packet:   pkt_ov136_021C71BC
  * region:   ov136
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C5974 0x021C5974 thumb
+ *   MB_SEQ_OpenTwoEntryMenu 0x021C5974 thumb
  */
 #include "../include/Obj08199.h"
 #include "../include/Obj23640.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C5974(u8 *);
-int func_021C71BC(u8 *p, int v)
+extern void MB_SEQ_OpenTwoEntryMenu(u8 *);
+int MB_SEQ_OpenMenuKind(u8 *p, int v)
 {
     ((struct Obj23640 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f1E0 = v;
-    func_021C5974(p);
+    MB_SEQ_OpenTwoEntryMenu(p);
     return 4;
 }

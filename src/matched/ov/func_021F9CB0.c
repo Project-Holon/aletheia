@@ -1,5 +1,5 @@
 /*
- * function: func_021F9CB0
+ * function: WORLDTRADE_INPUT_ClampPageChoice
  * address:  0x021F9CB0
  * packet:   pkt_021F9CB0
  * region:   ov135
@@ -32,7 +32,7 @@ typedef struct {
 
 extern const Layout tbl_022033FC[];
 
-int func_021F9CB0(Obj *p, int v)
+int WORLDTRADE_INPUT_ClampPageChoice(Obj *p, int v)
 {
     if (v != 3) {
         if (p->layout <= 8) {

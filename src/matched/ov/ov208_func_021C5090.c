@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5090
+ * function: ZUKAN_DETAIL_FORM_CenterModelOffset
  * address:  0x021C5090
  * packet:   pkt_ov208_021C5090
  * region:   ov208
@@ -37,7 +37,7 @@ extern void MCSS_SetOfsPosition(void *p, u32 *src);
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-void ov208_func_021C5090(u32 obj)
+void ZUKAN_DETAIL_FORM_CenterModelOffset(u32 obj)
 {
     Vec v;
     float y;

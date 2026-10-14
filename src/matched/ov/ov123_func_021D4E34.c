@@ -1,5 +1,5 @@
 /*
- * function: func_021D4E34
+ * function: GSYNC_MENU_HideMessage
  * address: 0x021D4E34
  * packet: pkt_ov123_021D4E34
  * region: ov123
@@ -23,4 +23,4 @@ extern void TIME_ICON_Delete(u8 *);
 extern void func_0201F7A8(void *,u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021D4E34(u8 *p) { if(*(u8 * *)&((struct Obj04495 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj04495 *)p)->f288); *(u32 *)&((struct Obj04495 *)p)->f288=0; } func_0201F7A8(((struct Obj04495 *)p)->f224,2); BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj04495 *)p)->f224); func_02041B6C(5); }
+void GSYNC_MENU_HideMessage(u8 *p) { if(*(u8 * *)&((struct Obj04495 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj04495 *)p)->f288); *(u32 *)&((struct Obj04495 *)p)->f288=0; } func_0201F7A8(((struct Obj04495 *)p)->f224,2); BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj04495 *)p)->f224); func_02041B6C(5); }

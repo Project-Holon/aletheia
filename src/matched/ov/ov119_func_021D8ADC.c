@@ -1,5 +1,5 @@
 /*
- * function: func_021D8ADC
+ * function: POKETRADE_PROC_IsWifiMode
  * address: 0x021D8ADC
  * packet: pkt_ov119_021D8ADC
  * region: ov119
@@ -10,7 +10,7 @@
  * symbols:
  */
 #include "../include/Obj22703.h"
-int func_021D8ADC(char *p)
+int POKETRADE_PROC_IsWifiMode(char *p)
 {
     int r = 0;
     int v = ((struct Obj22703 *)p)->f118C;

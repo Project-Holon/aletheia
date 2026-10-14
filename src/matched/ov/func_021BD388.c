@@ -1,5 +1,5 @@
 /*
- * function: func_021BD388
+ * function: ZKND_TBAR_GetButtonVisible
  * address:  0x021BD388
  * packet:   pkt_021BD368
  * region:   ov208
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD43C 0x021BD43C  thumb  ov208
- *   func_021BD808 0x021BD808  thumb  ov208
+ *   ZKND_TBAR_IsKeyAnimActive 0x021BD43C  thumb  ov208
+ *   ZKND_TBAR_GetActorDrawEnable 0x021BD808  thumb  ov208
 
- * Calls func_021BD43C then func_021BD808.
+ * Calls ZKND_TBAR_IsKeyAnimActive then ZKND_TBAR_GetActorDrawEnable.
  */
 
 
-extern void *func_021BD43C(void *mgr, int key);
-extern void func_021BD808(int *p);
+extern void *ZKND_TBAR_IsKeyAnimActive(void *mgr, int key);
+extern void ZKND_TBAR_GetActorDrawEnable(int *p);
 
-void func_021BD388(void *mgr, int key)
+void ZKND_TBAR_GetButtonVisible(void *mgr, int key)
 {
-    func_021BD808(func_021BD43C(mgr, key));
+    ZKND_TBAR_GetActorDrawEnable(ZKND_TBAR_IsKeyAnimActive(mgr, key));
 }
 

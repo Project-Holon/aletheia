@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A60
+ * function: GSYNC_MESSAGE_ClearWindow
  * address:  0x021D5A60
  * packet:   pkt_021D5A60
  * region:   ov123
@@ -25,7 +25,7 @@ extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 
-void func_021D5A60(char *p)
+void GSYNC_MESSAGE_ClearWindow(char *p)
 {
     func_0201F7A8(((struct Obj13973 *)p)->f48, 2);
     BMP_WIN_ClearScreen(((struct Obj13973 *)p)->f48);

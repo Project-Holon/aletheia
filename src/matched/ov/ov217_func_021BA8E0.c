@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0F48  0x021C0F48  thumb  ov217
+ *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern void func_021C0F48(u8 *p);
+extern void BgTextLabel_Destroy(u8 *p);
 
 void func_021BA8E0(int *p)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        func_021C0F48((u8 *)p[i + 0x13]);
+        BgTextLabel_Destroy((u8 *)p[i + 0x13]);
         p[i + 0x13] = 0;
     }
 }

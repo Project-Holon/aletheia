@@ -1,5 +1,5 @@
 /*
- * function: func_021F8F30
+ * function: BTLV_EFFECT_PokeSpriteTransitionTaskMain
  * address:  0x021F8F30
  * packet:   pkt_ov094_021F8F30
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_02200344  0x02200344  thumb  ov094
- *   func_021F6AD0  0x021F6AD0  thumb  ov094
- *   func_021FFD6C  0x021FFD6C  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_MCSS_StartRotation  0x02200344  thumb  ov094
+ *   BTLV_STAGE_IsAnyLayerArmed  0x021F6AD0  thumb  ov094
+ *   BTLV_MCSS_IsAnySpriteBusy  0x021FFD6C  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -36,14 +36,14 @@ typedef struct {
     int d;              /* 0xC */
 } St;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern void func_02200344(void *o, int c, u32 b, int d);
-extern int func_021F6AD0(void *o);
-extern int func_021FFD6C(void *o);
-extern void func_021F89BC(void *h);
+extern void BTLV_MCSS_StartRotation(void *o, int c, u32 b, int d);
+extern int BTLV_STAGE_IsAnyLayerArmed(void *o);
+extern int BTLV_MCSS_IsAnySpriteBusy(void *o);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021F8F30(void *h, St *s)
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, St *s)
 {
     int st;
     u32 m;
@@ -51,20 +51,20 @@ void func_021F8F30(void *h, St *s)
     st = s->state;
     switch (st) {
     case 0:
-        m = d_0220AF20->a | d_0220AF20->x | d_0220AF20->b;
+        m = gBtlvEff->a | gBtlvEff->x | gBtlvEff->b;
         if (m)
             return;
         s->state = st + 1;
     case 1:
-        func_02200344(d_0220AF20->obj, s->c, s->b, s->d);
+        BTLV_MCSS_StartRotation(gBtlvEff->obj, s->c, s->b, s->d);
         s->state = s->state + 1;
         return;
     case 2:
-        if (func_021F6AD0(d_0220AF20->obj2))
+        if (BTLV_STAGE_IsAnyLayerArmed(gBtlvEff->obj2))
             return;
-        if (func_021FFD6C(d_0220AF20->obj))
+        if (BTLV_MCSS_IsAnySpriteBusy(gBtlvEff->obj))
             return;
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
 }

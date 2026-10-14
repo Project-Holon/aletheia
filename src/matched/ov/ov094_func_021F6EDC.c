@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EDC
+ * function: BTLV_CAMERA_SetEyeAndTarget
  * address:  0x021F6EDC
  * packet:   pkt_ov094_021F6EDC
  * region:   ov094
@@ -16,16 +16,16 @@
  *   G3D_CAMERA_SetEye  0x02048AFC  arm
  *   G3D_CAMERA_SetUp  0x02048B44  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
- *   func_021F73A4  0x021F73A4  thumb  ov094
+ *   BTLV_CAMERA_SyncOrbitFromCamera  0x021F73A4  thumb  ov094
  */
 
 extern void G3D_CAMERA_SetEye(int, const int *);
 extern void G3D_CAMERA_SetUp(int, int);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_021F73A4(int *);
+extern void BTLV_CAMERA_SyncOrbitFromCamera(int *);
 
-void func_021F6EDC(int *p, int *a, int *b)
+void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b)
 {
     if (a) {
         p[6] = a[0];
@@ -40,5 +40,5 @@ void func_021F6EDC(int *p, int *a, int *b)
         G3D_CAMERA_SetUp(p[1], (int)b);
     }
     G3D_CAMERA_Reset((struct Light *)p[1]);
-    func_021F73A4(p);
+    BTLV_CAMERA_SyncOrbitFromCamera(p);
 }

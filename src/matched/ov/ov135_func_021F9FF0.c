@@ -1,5 +1,5 @@
 /*
- * function: func_021F9FF0
+ * function: WORLDTRADE_INPUT_UpdatePagedList4
  * address:  0x021F9FF0
  * packet:   pkt_021F9FF0
  * region:   ov135
@@ -16,11 +16,11 @@
  *   func_020355D8  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_021F9F58  0x021F9F58  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_INPUT_ScrollPage4  0x021F9F58  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_021F9A1C  0x021F9A1C  thumb
- *   func_021F9F00  0x021F9F00  thumb
+ *   WORLDTRADE_INPUT_CheckTouch  0x021F9A1C  thumb
+ *   WORLDTRADE_INPUT_HandlePagedKey4  0x021F9F00  thumb
  *   tbl_02203220   0x02203220  data  a1
  */
 
@@ -51,13 +51,13 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_021F9F58(Menu *m, int dir);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_INPUT_ScrollPage4(Menu *m, int dir);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021F9A1C(void *p, int mode);
-extern int func_021F9F00(Menu *m, int key);
+extern int WORLDTRADE_INPUT_CheckTouch(void *p, int mode);
+extern int WORLDTRADE_INPUT_HandlePagedKey4(Menu *m, int key);
 
-int func_021F9FF0(Menu *m)
+int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m)
 {
     int old;
     int r;
@@ -82,23 +82,23 @@ int func_021F9FF0(Menu *m)
             m->cur = 0;
         }
     } else if (KEY_GetRepeat() & 0x20) {
-        func_021F9F58(m, -1);
+        WORLDTRADE_INPUT_ScrollPage4(m, -1);
     } else if (KEY_GetRepeat() & 0x10) {
-        func_021F9F58(m, 1);
+        WORLDTRADE_INPUT_ScrollPage4(m, 1);
     }
     if (old != m->cur) {
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021F4FF4(m->cursor, tbl_02203220[m->cur].x, tbl_02203220[m->cur].y);
+        WORLDTRADE_SetActorPos(m->cursor, tbl_02203220[m->cur].x, tbl_02203220[m->cur].y);
         if (m->cur == 4) {
             CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         } else {
             CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 6);
         }
     }
-    r = func_021F9A1C(m, 0);
+    r = WORLDTRADE_INPUT_CheckTouch(m, 0);
     if (r != -1) {
         if ((u32)r < 5) {
-            func_021F4FF4(m->cursor, tbl_02203220[r].x, tbl_02203220[r].y);
+            WORLDTRADE_SetActorPos(m->cursor, tbl_02203220[r].x, tbl_02203220[r].y);
             if (r == 4) {
                 CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
             } else {
@@ -106,7 +106,7 @@ int func_021F9FF0(Menu *m)
                 CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 6);
             }
         }
-        r = func_021F9F00(m, r);
+        r = WORLDTRADE_INPUT_HandlePagedKey4(m, r);
         if (r == -1 && func_020355C4() == 0) {
             CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
         }
@@ -114,10 +114,10 @@ int func_021F9FF0(Menu *m)
         return r;
     }
     if (KEY_GetTrg() & 1) {
-        return func_021F9F00(m, m->cur);
+        return WORLDTRADE_INPUT_HandlePagedKey4(m, m->cur);
     }
     if (KEY_GetTrg() & 2) {
-        func_021F4FF4(m->cursor, 0xC0, 0x88);
+        WORLDTRADE_SetActorPos(m->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;

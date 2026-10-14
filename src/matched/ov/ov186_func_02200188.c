@@ -1,5 +1,5 @@
 /*
- * function: func_02200188
+ * function: BR_POKESEARCH_BuildSeenList
  * address: 0x02200188
  * packet: pkt_ov186_02200188
  * region: ov186
@@ -14,8 +14,8 @@
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   d_02200C94 0x02200C94 data a2
- *   d_02200D9C 0x02200D9C data a1
+ *   gBrPokeSearchGroupStart 0x02200C94 data a2
+ *   gBrPokeSearchSourceFile 0x02200D9C data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,24 +24,24 @@ struct Blk37;
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void MI_CpuFill8(void *, u8, u32);
-extern const u16 d_02200C94[];
-extern const char d_02200D9C[];
-u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
+extern const u16 gBrPokeSearchGroupStart[];
+extern const char gBrPokeSearchSourceFile[];
+u16 *BR_POKESEARCH_BuildSeenList(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
 {
     u32 end, start;
     u16 *dst;
     int filled;
     int count, bytes;
-    end = d_02200C94[index + 1];
+    end = gBrPokeSearchGroupStart[index + 1];
     count = 0;
-    start = d_02200C94[index];
+    start = gBrPokeSearchGroupStart[index];
     for (filled = start; filled < end; filled++) {
         if (ZUKAN_SAVE_IsSeen(p, table[filled])) {
             count++;
         }
     }
     bytes = count * 2;
-    dst = func_02030734(heap, bytes, 0, d_02200D9C, 0x3c3);
+    dst = func_02030734(heap, bytes, 0, gBrPokeSearchSourceFile, 0x3c3);
     filled = 0;
     MI_CpuFill8(dst, 0, bytes);
     for (; start < end; start++) {

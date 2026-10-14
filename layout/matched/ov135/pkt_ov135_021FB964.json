@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB964",
+   "name": "WORLDTRADE_INPUT_StateSubCategoryInputAlt",
    "address": "0x021FB964",
    "kind": "game",
    "region": "ov135",

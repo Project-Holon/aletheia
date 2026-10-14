@@ -93,13 +93,13 @@
  *     func_02045E04(dest, index);
  * }
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
@@ -116,15 +116,15 @@ typedef unsigned short u16;
 typedef struct Desc {short x,y,n;unsigned char flag,pad;} Desc;
 typedef struct Triple {int a,b,c;} Triple;
 struct U16Vec;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
 typedef unsigned int   u32;
 struct RecGet;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MI_CpuFill8(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
-extern int func_021FC124(void *,int,Triple *);
+extern void MI_CpuFill8(void *,int,unsigned),BR_RES_LoadSprite(char *,unsigned,unsigned);
+extern int BR_RES_GetSprite(void *,int,Triple *);
 struct MsgBank;
 struct ObjC4;
 struct WordSet;
@@ -147,15 +147,15 @@ void func_021E301C(char *p,char *q)
     void *a,*b,*s,*owner,*tmp;
     int i;
     unsigned offset;
-    h=func_021FC20C(*(char **)(q+8));
-    c=func_021FC214(*(char **)(q+8));
-    a=(void *)func_021FC21C(*(char **)(q+8));
+    h=BR_RES_GetFont(*(char **)(q+8));
+    c=BR_RES_GetMsgData(*(char **)(q+8));
+    a=(void *)BR_RES_GetWordSet(*(char **)(q+8));
     b=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     s=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     MI_CpuFill8(&d,0,8);
     d.x=0x30;d.y=0x28;d.n=11;d.flag=1;
-    func_021FBE54(*(char **)(q+8),1,*(u16 *)(p+0x38));
-    func_021FC124(*(void **)(q+8),1,&t);
+    BR_RES_LoadSprite(*(char **)(q+8),1,*(u16 *)(p+0x38));
+    BR_RES_GetSprite(*(void **)(q+8),1,&t);
     for(i=0;i<3;i++) {
         offset=(i+1)*4;
         if(*(unsigned *)(*(unsigned *)(q+0x18)+offset)) {

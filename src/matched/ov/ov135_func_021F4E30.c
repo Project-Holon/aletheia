@@ -1,5 +1,5 @@
 /*
- * function: func_021F4E30
+ * function: WORLDTRADE_UpdateTaskMenuList
  * address:  0x021F4E30
  * packet:   pkt_021F4E30
  * region:   ov135
@@ -15,7 +15,7 @@
   *
   *
  * symbols:
- *   func_021F5060  0x021F5060  thumb
+ *   WORLDTRADE_ClearBlendRegs  0x021F5060  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb  arm9
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
@@ -33,9 +33,9 @@ extern void APP_TASKMENU_UpdateMenu(void *m);
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-extern void func_021F5060(void);
+extern void WORLDTRADE_ClearBlendRegs(void);
 
-u32 func_021F4E30(u8 *p)
+u32 WORLDTRADE_UpdateTaskMenuList(u8 *p)
 {
     u32 r = (u32)-1;
 
@@ -43,7 +43,7 @@ u32 func_021F4E30(u8 *p)
         APP_TASKMENU_UpdateMenu(((struct Obj00045 *)p)->fE08);
         if (APP_TASKMENU_IsFinish(((struct Obj00045 *)p)->fE08) != 0) {
             r = APP_TASKMENU_GetCursorPos(((struct Obj00045 *)p)->fE08) + 1;
-            func_021F5060();
+            WORLDTRADE_ClearBlendRegs();
         }
     }
     return r;

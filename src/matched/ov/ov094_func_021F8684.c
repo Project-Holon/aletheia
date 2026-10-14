@@ -1,5 +1,5 @@
 /*
- * function: func_021F8684
+ * function: BTLV_EFFECT_GetCamera
  * address:  0x021F8684
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 
-int func_021F8684(void)
+int BTLV_EFFECT_GetCamera(void)
 {
-    return *(int *)(d_0220AF20 + 0x19c);
+    return *(int *)(gBtlvEff + 0x19c);
 }

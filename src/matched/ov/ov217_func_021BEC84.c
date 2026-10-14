@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BF7E0 0x021BF7E0 thumb ov217
  *   func_021BEC34 0x021BEC34 thumb ov217
- *   func_021C10E8 0x021C10E8 thumb ov217
+ *   CircleGraph_SetSlices 0x021C10E8 thumb ov217
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ struct Item { u8 id,pad[3]; u32 value; u8 x,y,z,a,b,c,pad2[2]; };
 struct Input { u16 id; u8 x,y,z,pad; u16 a; u32 b; };
 extern u32 func_021BF7E0(void *);
 extern void func_021BEC34(u32);
-extern void func_021C10E8(u8 *p, u8 *tab, int n);
+extern void CircleGraph_SetSlices(u8 *p, u8 *tab, int n);
 void func_021BEC84(u8 *p,int mode)
 {
     struct Item items[17];
@@ -39,5 +39,5 @@ void func_021BEC84(u8 *p,int mode)
         func_021BEC34((u32)t);
         switch(mode) { case 0: t->value=q->a; break; case 1: t->value=q->b; break; }
     }
-    func_021C10E8((u8 *)object,(u8 *)items,count);
+    CircleGraph_SetSlices((u8 *)object,(u8 *)items,count);
 }

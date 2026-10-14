@@ -1,5 +1,5 @@
 /*
- * function: func_02200C80
+ * function: WORLDTRADE_SERVER_CallStateHandler
  * address:  0x02200C80
  * packet:   pkt_02200C80
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void *g_02203E94[];
 
-void func_02200C80(u8 *p)
+void WORLDTRADE_SERVER_CallStateHandler(u8 *p)
 {
     ((void (*)(u8 *))g_02203E94[*(u32 *)(p + 0x28)])(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FB3DC
+ * function: BTLV_EFFVM_CmdLoadBgPalette
  * address:  0x021FB3DC
  * packet:   pkt_ov094_021FB3DC
  * region:   ov094
@@ -17,8 +17,8 @@
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
- *   func_021F86E0  0x021F86E0  thumb  ov094
- *   func_021F8700  0x021F8700  thumb  ov094
+ *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb  ov094
+ *   BTLV_EFFECT_GetBg  0x021F8700  thumb  ov094
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  */
 #include "../include/Obj04398.h"
@@ -34,11 +34,11 @@ struct PalAnmSlot;
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern u32 func_020407E8(u32 layer);
 extern u32 func_02040804(u32 layer);
-extern int func_021F86E0(void);
-extern int func_021F8700(void);
+extern int BTLV_EFFECT_GetPalanm(void);
+extern int BTLV_EFFECT_GetBg(void);
 extern void BTLV_BG_SetScroll(int a, int b, int c);
 
-int func_021FB3DC(struct Cursor *a, char *b)
+int BTLV_EFFVM_CmdLoadBgPalette(struct Cursor *a, char *b)
 {
     int t;
 
@@ -46,10 +46,10 @@ int func_021FB3DC(struct Cursor *a, char *b)
     func_0204047C(3, 1);
     ARC_UTIL_UploadBgCharFromArchive((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
     func_0204989C(0x5f, t, 3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     ((struct Obj04398 *)b)->f264 = func_020407E8(3);
     ((struct Obj04398 *)b)->f268 = func_02040804(3);
-    BTLV_BG_SetScroll(func_021F8700(), 0, 0);
+    BTLV_BG_SetScroll(BTLV_EFFECT_GetBg(), 0, 0);
     ((struct Obj04398 *)b)->f0 |= 0x10;
     return ((struct Obj04398 *)b)->f23C;
 }

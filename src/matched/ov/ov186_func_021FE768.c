@@ -1,5 +1,5 @@
 /*
- * function: func_021FE768
+ * function: BR_FADE_Update
  * address:  0x021FE768
  * packet:   pkt_ov186_021FE768
  * region:   ov186
@@ -17,7 +17,7 @@ typedef struct {
     int  f1c;
 } S;
 
-void func_021FE768(S *p)
+void BR_FADE_Update(S *p)
 {
     int (*fn)(S *, void *);
 

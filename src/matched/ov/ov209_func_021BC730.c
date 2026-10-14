@@ -1,5 +1,5 @@
 /*
- * function: func_021BC730
+ * function: ZUKAN_LIST_RequestFade
  * address: 0x021BC730
  * packet: pkt_ov209_021BC730
  * region: ov209
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
-void func_021BC730(char *p, u8 a, u8 b)
+void ZUKAN_LIST_RequestFade(char *p, u8 a, u8 b)
 {
     void *ctx;
     ctx = (void *)func_020056BC();

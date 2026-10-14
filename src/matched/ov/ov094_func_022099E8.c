@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9260  0x021F9260  thumb  ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef unsigned char u8;
 
@@ -28,9 +28,9 @@ typedef struct {
     int n;                  /* 0x38 */
 } S;
 
-extern int func_021F9260(void *m, int *out);
+extern int BTLV_EFFECT_StepMover(void *m, int *out);
 extern void BTLV_BG_SetScroll(void *w, int x, int y);
-extern void func_021F89BC(void *h);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
 void BTLV_BG_ScrollTask(void *h, S *s)
 {
@@ -47,9 +47,9 @@ void BTLV_BG_ScrollTask(void *h, S *s)
             done = 0;
         }
     } else {
-        done = func_021F9260(s->mv, &s->x);
+        done = BTLV_EFFECT_StepMover(s->mv, &s->x);
     }
     BTLV_BG_SetScroll(w, s->x >> 12, s->y >> 12);
     if (done == 1)
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
 }

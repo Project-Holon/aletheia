@@ -1,5 +1,5 @@
 /*
- * function: func_0220163C
+ * function: WORLDTRADE_SERVER_StartUploadFinishB
  * address:  0x0220163C
  * packet:   pkt_0220163C
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void DPW_TR_UploadFinishAsync(u8 *p);
 
-int func_0220163C(u8 *p)
+int WORLDTRADE_SERVER_StartUploadFinishB(u8 *p)
 {
     DPW_TR_UploadFinishAsync(p);
     ((struct Obj12233 *)p)->f28 = 0xe;

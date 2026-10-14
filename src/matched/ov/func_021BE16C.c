@@ -1,5 +1,5 @@
 /*
- * function: func_021BE16C
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag
  * address:  0x021BE16C
  * packet:   pkt_021BE16C
  * region:   ov208
@@ -18,7 +18,7 @@
 
 struct Ov208Eff;
 
-void func_021BE16C(struct Ov208Eff *e)
+void ZUKAN_DETAIL_TOUCHBAR_GetPaletteFlag(struct Ov208Eff *e)
 {
 }
 

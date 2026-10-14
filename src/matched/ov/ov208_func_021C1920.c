@@ -1,5 +1,5 @@
 /*
- * function: func_021C1920
+ * function: ZUKAN_DETAIL_AREA_HandleModeEvent
  * address:  0x021C1920
  * packet:   pkt_ov208_021C1920
  * region:   ov208
@@ -10,50 +10,50 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
- *   func_021C0D3C  0x021C0D3C  thumb  ov208
- *   func_021C0D5C  0x021C0D5C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_SelectPlayerTown  0x021C0D3C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FindTownAtPoint  0x021C0D5C  thumb  ov208
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_021C1D30  0x021C1D30  thumb  ov208
- *   func_021C2238  0x021C2238  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_DrawTownName  0x021C1D30  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_UpdateTerrainIcons  0x021C2238  thumb  ov208
  *   func_021BC3BC  0x021BC3BC  thumb  ov208
  *   func_021BDAAC  0x021BDAAC  thumb  ov208
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
- *   func_021BDC48  0x021BDC48  thumb  ov208
- *   func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   func_021BDC14  0x021BDC14  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021BC3B4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern void func_021BDBAC(void *s, u32 on);
-extern void func_021C0D3C(int a, char *b, int c);
-extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
+extern void ZUKAN_DETAIL_AREA_SelectPlayerTown(int a, char *b, int c);
+extern u8 ZUKAN_DETAIL_AREA_FindTownAtPoint(void *unused, char *p, int unused2, u8 x, u8 y);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
-extern void func_021C1D30(u16 *heap, u8 *p, int key);
-extern void func_021C2238(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, int key);
 extern u16  func_021BC3BC(char *p);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBA0(void *s);
-extern void func_021BDC48(void *s, u32 on);
-extern int func_021BC3A4(int *p);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void func_021BDC14(char *p, int b);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C1920(u16 *heap, u8 *p, int key, int mode)
+void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
 {
     void *s;
     u32 wide;
 
-    s = (void *)func_021BC3B4((int *)key);
+    s = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     switch (W(0x6c)) {
     case 0:
         if (mode == 1) {
@@ -73,14 +73,14 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             W(0x74) = 1;
             if (W(0x90) == 1) {
                 if (W(0x7c) == 0) {
-                    func_021C0D3C((int)heap, (char *)p, key);
+                    ZUKAN_DETAIL_AREA_SelectPlayerTown((int)heap, (char *)p, key);
                 } else {
-                    p[0x79] = func_021C0D5C(heap, (char *)p, key, p[0x80], p[0x81]);
+                    p[0x79] = ZUKAN_DETAIL_AREA_FindTownAtPoint(heap, (char *)p, key, p[0x80], p[0x81]);
                     if (p[0x79] != 0xff)
                         CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 1);
                 }
-                func_021C1D30(heap, p, key);
-                func_021C2238(heap, p, key);
+                ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
+                ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
             }
             func_021BDAAC(s, 1, 1, func_021BC3BC((char *)key) > 1);
         }
@@ -95,7 +95,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
                 }
             }
             if (p[0xd8] == 7 && W(0x88) != 0)
-                func_021BDC48(s, 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(s, 1);
         }
         break;
     case 4:
@@ -118,14 +118,14 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
-            func_021BDC14(s, GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key), 0x12));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key), 0x12));
         }
         break;
     case 8:
         if (mode == 5) {
             func_021BDBA0(s);
             if (p[0xd8] == 7 && W(0x88) != 0)
-                func_021BDC48(s, 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(s, 1);
         }
         break;
     }

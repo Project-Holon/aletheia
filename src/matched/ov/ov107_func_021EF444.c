@@ -1,5 +1,5 @@
 /*
- * function: func_021EF444
+ * function: MB_COMM_SYS_DrawTitle
  * address: 0x021EF444
  * packet: pkt_ov107_021EF444
  * region: ov107
@@ -28,9 +28,9 @@
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021F1B04 0x021F1B04 thumb ov107
+ *   MB_UTIL_MSG_GetFont 0x021F1B04 thumb ov107
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   d_021F6EA0 0x021F6EA0 data a4
+ *   gMbParentUi 0x021F6EA0 data a4
  */
 #include "../include/Obj00057.h"
 #include "../include/G_Counter.h"
@@ -39,7 +39,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;struct MsgBank;struct Rec;struct U16Vec;struct CharBuf;struct Cfg;
-extern struct Counter d_021F6EA0;
+extern struct Counter gMbParentUi;
 extern void func_02040588(u32 which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -51,19 +51,19 @@ extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
-extern unsigned int func_021F1B04(unsigned char *p);
+extern unsigned int MB_UTIL_MSG_GetFont(unsigned char *p);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *),BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021EF444(u8 *p) {
+void MB_COMM_SYS_DrawTitle(u8 *p) {
  u32 bg,window;
  void *archive,*text;
  struct MsgBank *bank;
- if(!p[0x28]) {*(u32 *)(((u8 *)&d_021F6EA0)+4)=1;bg=4;}
- else {*(u32 *)(((u8 *)&d_021F6EA0)+4)=0;bg=2;}
+ if(!p[0x28]) {*(u32 *)(((u8 *)&gMbParentUi)+4)=1;bg=4;}
+ else {*(u32 *)(((u8 *)&gMbParentUi)+4)=0;bg=2;}
  func_02040588(bg,0);
  archive=func_020490F4(22,((struct Obj00057 *)p)->f0);
  func_02049B68((void *)((u32)archive),0,4,224,32,((struct Obj00057 *)p)->f0);
@@ -75,7 +75,7 @@ void func_021EF444(u8 *p) {
  bank=func_02045B38(0,2,0x52,((struct Obj00057 *)p)->f0);
  text=func_02045EC0(bank,1);
  BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)window),7);
- PRINTSYS_PrintColor(BMP_WIN_GetBmp((struct Descriptor *)window),0,0,text,(void *)func_021F1B04(*(u8 * *)&((struct Obj00057 *)p)->f68),0x1167);
+ PRINTSYS_PrintColor(BMP_WIN_GetBmp((struct Descriptor *)window),0,0,text,(void *)MB_UTIL_MSG_GetFont(*(u8 * *)&((struct Obj00057 *)p)->f68),0x1167);
  BMP_WIN_TransferChars((struct Descriptor *)window);BMP_WIN_MakeScreen((struct Cfg *)window);
  func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
  STRBUF_Delete((struct U16Vec *)text);MSGDATA_Delete((struct Rec *)bank);BMP_WIN_Delete((struct Descriptor *)window);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD04C
+ * function: BTLV_EFFVM_ResolveSide
  * address:  0x021FD04C
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7F1C  0x021F7F1C  thumb  ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded  0x021F7F1C  thumb  ov094
  */
 typedef struct {
     unsigned int bit0 : 1;
 } Unit;
 
-extern int func_021F7F1C(int i);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
 
-int func_021FD04C(Unit *s, int i)
+int BTLV_EFFVM_ResolveSide(Unit *s, int i)
 {
-    if (func_021F7F1C(i) == 1) {
+    if (BTLV_EFFECT_IsPokeSpriteLoaded(i) == 1) {
         if (s->bit0)
             i ^= 1;
     } else {

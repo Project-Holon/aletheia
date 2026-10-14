@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F18EC",
+   "name": "MB_UTIL_MSG_DeleteWordSet",
    "address": "0x021F18EC",
    "kind": "game",
    "region": "ov107",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F87E0
+ * function: WORLDTRADE_DEPOSIT_CreateGenderMenu
  * address: 0x021F87E0
  * packet: pkt_ov135_021F87E0
  * region: ov135
@@ -19,7 +19,7 @@ extern const Entry tbl_0220301C[], tbl_02202FC4[];
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Slot;
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-int func_021F87E0(void **menu, void *msg, int kind)
+int WORLDTRADE_DEPOSIT_CreateGenderMenu(void **menu, void *msg, int kind)
 {
     const Entry *table;
     int i;

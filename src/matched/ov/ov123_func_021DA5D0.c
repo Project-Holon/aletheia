@@ -1,5 +1,5 @@
 /*
- * function: func_021DA5D0
+ * function: PDWACC_STATE_ProcExit
  * address:  0x021DA5D0
  * packet:   pkt_021DA5D0
  * region:   ov123
@@ -13,8 +13,8 @@
  * an overlay id, attested as overlay_id).
  * symbols:
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
- *   func_021D941C  0x021D941C  thumb  ov123
- *   func_021D9A1C  0x021D9A1C  thumb  ov123
+ *   PDWACC_MESSAGE_ExitSystem  0x021D941C  thumb  ov123
+ *   PDWACC_DISP_Exit  0x021D9A1C  thumb  ov123
  *   func_020307B0  0x020307B0  arm
  *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   GFL_NET_GetRunState  0x0203CD98  arm
@@ -28,8 +28,8 @@
 typedef unsigned char  u8;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-extern void func_021D941C(u8 *p);
-extern void func_021D9A1C(u8 *p);
+extern void PDWACC_MESSAGE_ExitSystem(u8 *p);
+extern void PDWACC_DISP_Exit(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
@@ -40,12 +40,12 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_02034A5C(int handle);
 extern unsigned char ov114_id[];
 
-int func_021DA5D0(int a, int b, int c, char *obj)
+int PDWACC_STATE_ProcExit(int a, int b, int c, char *obj)
 {
     if (((struct Obj02479 *)obj)->f14)
         APP_TASKMENU_CloseMenu((struct TaskMenu *)(((struct Obj02479 *)obj)->f14));
-    func_021D941C((u8 *)(((struct Obj02479 *)obj)->f10));
-    func_021D9A1C((u8 *)(((struct Obj02479 *)obj)->fC));
+    PDWACC_MESSAGE_ExitSystem((u8 *)(((struct Obj02479 *)obj)->f10));
+    PDWACC_DISP_Exit((u8 *)(((struct Obj02479 *)obj)->fC));
     if (((struct Obj02479 *)obj)->f4)
         func_020307B0((void *)(((struct Obj02479 *)obj)->f4));
     if (((struct Obj02479 *)obj)->f24)

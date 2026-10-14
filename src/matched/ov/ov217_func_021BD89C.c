@@ -14,7 +14,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021C09B8  0x021C09B8  thumb  ov217
+ *   RESEARCH_COMMON_GetTouchRects  0x021C09B8  thumb  ov217
  *   func_021BE448  0x021BE448  thumb  ov217
  *   func_021BE454  0x021BE454  thumb  ov217
  *   func_021BE498  0x021BE498  thumb  ov217
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *rect);
-extern void *func_021C09B8(void *p);
+extern void *RESEARCH_COMMON_GetTouchRects(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BE448(void *p);
 extern void func_021BE454(u8 *a0, u32 a1);
@@ -68,7 +68,7 @@ void func_021BD89C(u8 *p)
     KEY_GetCont();
     keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
-    sub = TOUCHPANEL_HitTrg(func_021C09B8(((struct Obj00021 *)p)->f0));
+    sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct Obj00021 *)p)->f0));
     if (*(int *)&((struct Obj00021 *)p)->f3C8 != 0 && ((struct Obj00021 *)p)->f3D8 != 0 && *(int *)&((struct Obj00021 *)p)->f3D4 != 0) {
         func_021BE448(p);
         func_021BE498(p, 8);

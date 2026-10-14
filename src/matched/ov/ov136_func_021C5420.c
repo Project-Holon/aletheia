@@ -1,5 +1,5 @@
 /*
- * function: func_021C5420
+ * function: MAILVIEW_InitActorSystem
  * address: 0x021C5420
  * packet: pkt_ov136_021C5420
  * region: ov136
@@ -31,7 +31,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_021C5420(u8 *p)
+void MAILVIEW_InitActorSystem(u8 *p)
 {
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021C77C4,(u16)(((struct Obj06526 *)p)->f0));
     ((struct Obj06526 *)p)->fA0 = CLACT_CreateUnit(4,(int)0,(u16)(((struct Obj06526 *)p)->f0));

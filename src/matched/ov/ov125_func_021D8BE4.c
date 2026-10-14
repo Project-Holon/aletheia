@@ -1,5 +1,5 @@
 /*
- * function: func_021D8BE4
+ * function: GDS_SOCKET_SetSslAuthCallback
  * address:  0x021D8BE4
  * packet:   pkt_021D8BE4
  * region:   ov125
@@ -14,14 +14,14 @@
  * overlay start, so the ABS32 pool relocation resolves.
  *
  * symbols:
- *   d_021DAA88  0x021DAA88  data  a4
+ *   gGdsSslTemplatePtr  0x021DAA88  data  a4
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int d_021DAA88;
+extern unsigned int gGdsSslTemplatePtr;
 
-void func_021D8BE4(int a)
+void GDS_SOCKET_SetSslAuthCallback(int a)
 {
-    *(unsigned int *)(d_021DAA88 + 0x810) = a;
+    *(unsigned int *)(gGdsSslTemplatePtr + 0x810) = a;
 }

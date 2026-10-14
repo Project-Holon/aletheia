@@ -1,5 +1,5 @@
 /*
- * function: func_021FF924
+ * function: BTLV_MCSS_StartAlphaTween
  * address: 0x021FF924
  * packet: pkt_ov094_021FF924
  * region: ov094
@@ -16,12 +16,12 @@
  * typedef struct { char pad[0x140]; unsigned int value : 8; } Data;
  * u8 MCSS_GetAlpha(Data *p) { return p->value; }
  * symbols:
- *   func_022019F4 0x022019F4 thumb ov094
+ *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
  *   MCSS_GetAlpha 0x02015FAC thumb
- *   func_0220074C 0x0220074C thumb ov094
- *   func_021F935C 0x021F935C thumb ov094
- *   func_02200D68 0x02200D68 thumb ov094
- *   func_02200DE4 0x02200DE4 thumb ov094
+ *   BTLV_MCSS_CreateTweenTask 0x0220074C thumb ov094
+ *   BTLV_EFFECT_GetBitMask 0x021F935C thumb ov094
+ *   BTLV_MCSS_AlphaTweenTaskMain 0x02200D68 thumb ov094
+ *   BTLV_MCSS_AlphaTweenTaskEnd 0x02200DE4 thumb ov094
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -30,16 +30,16 @@
 #include "../include/Obj06309.h"
 typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern u8 MCSS_GetAlpha(void *p);
-extern void func_0220074C(void *, int, int, Vec *, Vec *, int, int, int, void *, void (*)(void *), int, u8);
-extern int func_021F935C(int x);
-extern void func_02200D68(void *o, char *q);
-extern void func_02200DE4(void *p);
+extern void BTLV_MCSS_CreateTweenTask(void *, int, int, Vec *, Vec *, int, int, int, void *, void (*)(void *), int, u8);
+extern int BTLV_EFFECT_GetBitMask(int x);
+extern void BTLV_MCSS_AlphaTweenTaskMain(void *o, char *q);
+extern void BTLV_MCSS_AlphaTweenTaskEnd(void *p);
 #define FX(x) ((int)(((x) > 0) ? ((float)((x) << 12) + .5f) : ((float)((x) << 12) - .5f)))
-void func_021FF924(char *w, int key, int kind, int value, int a, int b, int c)
+void BTLV_MCSS_StartAlphaTween(char *w, int key, int kind, int value, int a, int b, int c)
 {
-    int idx = func_022019F4(w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex(w, key);
     char *e;
     int off;
     Vec start, end;
@@ -56,6 +56,6 @@ void func_021FF924(char *w, int key, int kind, int value, int a, int b, int c)
     end.y = 0;
     end.z = 0;
     (*(u8 *)(w + 0x596 + key))++;
-    func_0220074C(w, key, kind, &start, &end, a, b, c, (void *)func_02200D68, func_02200DE4, 0, *(u8 *)(w + 0x596 + key));
-    ((struct Obj06309 *)w)->f52C |= func_021F935C(key);
+    BTLV_MCSS_CreateTweenTask(w, key, kind, &start, &end, a, b, c, (void *)BTLV_MCSS_AlphaTweenTaskMain, BTLV_MCSS_AlphaTweenTaskEnd, 0, *(u8 *)(w + 0x596 + key));
+    ((struct Obj06309 *)w)->f52C |= BTLV_EFFECT_GetBitMask(key);
 }

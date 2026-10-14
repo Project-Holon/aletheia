@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB8C
+ * function: DENDOU_VIEW_ExitPalAnm
  * address:  0x021DCB8C
  * packet:   pkt_021DCB8C
  * region:   ov171
@@ -27,7 +27,7 @@ struct PalAnmSlot;
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 
-void func_021DCB8C(int *p)
+void DENDOU_VIEW_ExitPalAnm(int *p)
 {
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj08249 *)p)->fB30), 2);
     PALANM_Delete((void *)(((struct Obj08249 *)p)->fB30));

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6764
+ * function: HALL_OF_FAME_InitParticleManager
  * address: 0x021B6764
  * packet: pkt_ov180_021B6764
  * region: ov180
@@ -13,4 +13,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void PARTICLE_InitManager(u32);
-void func_021B6764(void) {PARTICLE_InitManager(141);}
+void HALL_OF_FAME_InitParticleManager(void) {PARTICLE_InitManager(141);}

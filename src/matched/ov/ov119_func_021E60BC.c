@@ -1,5 +1,5 @@
 /*
- * function: func_021E60BC
+ * function: POKETRADE_2D_CreateSummaryIcons
  * address: 0x021E60BC
  * packet: pkt_ov119_021E60BC
  * region: ov119
@@ -56,7 +56,7 @@ extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u16,u8,u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021E60BC(char *p,void *mon,int flag)
+void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
 {
     In in;
     Coords coords;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C71D0
+ * function: MB_SEQ_StartMailFlash
  * address: 0x021C71D0
  * packet: pkt_ov136_021C71D0
  * region: ov136
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
-int func_021C71D0(u8 *p, int v, int w)
+int MB_SEQ_StartMailFlash(u8 *p, int v, int w)
 {
     struct Temp { s8 b, a; u16 c, d; } t;
     struct Control *q;

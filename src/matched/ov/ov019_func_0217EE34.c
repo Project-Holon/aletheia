@@ -1,5 +1,5 @@
 /*
- * function: func_0217EE34
+ * function: UNION_MSG_GetMultiBattleStartMsg
  * address:  0x0217EE34
  * packet:   pkt_ov019_0217EE34
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_0218030C[];
 
-u16 func_0217EE34(int i)
+u16 UNION_MSG_GetMultiBattleStartMsg(int i)
 {
     return d_0218030C[i];
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C09AC  0x021C09AC  thumb  ov217
+ *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *   func_021BA4E0  0x021BA4E0  thumb  ov217
  *   func_021BA504  0x021BA504  thumb  ov217
  *   func_021BA4D0  0x021BA4D0  thumb  ov217
@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_021C09AC(void *);
+extern u32 RESEARCH_COMMON_GetHeapId(void *);
 extern u32 func_021BA4E0(u32);
 extern void func_021BA504(char *p);
 extern void func_021BA4D0(void *p, u32 v);
@@ -28,7 +28,7 @@ extern void func_021BA4CC(void *p, u32 v);
 
 u32 func_021B9AD0(void *self)
 {
-    u32 v = func_021C09AC(self);
+    u32 v = RESEARCH_COMMON_GetHeapId(self);
     u32 o = func_021BA4E0(v);
     func_021BA504((char *)o);
     func_021BA4D0((void *)o, v);

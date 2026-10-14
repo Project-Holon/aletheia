@@ -33,7 +33,7 @@
  *   INTRUDE_FIELD_CreateNoticeEvent  0x0217B810  thumb  ov018
  *   INTRUDE_COMM_ConsumeAreaNoticeSeen  0x0217689C  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   FIELD_G3D_MAP_StartSymbolEntry  0x0216B3A8  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_StartSymbolEntry  0x0216B3A8  thumb  ov010
  *   INTRUDE_COMM_GetActiveRequestTarget  0x021754B4  thumb  ov011
  *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb
  *   EVENT_COMM_COMMON_CreateTalkedStartEvent  0x0217FC6C  thumb  ov018
@@ -406,7 +406,7 @@ extern int INTRUDE_FIELD_IsStartRequested(u8 *p);
 extern void *INTRUDE_FIELD_CreateNoticeEvent(void *a, FieldMap *fieldMap);
 extern int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg);
 extern int GAME_DATA_GetSymbolMapFlag(unsigned char *base);
-extern struct GameEvent *FIELD_G3D_MAP_StartSymbolEntry(int a0, int a1, int a2);
+extern struct GameEvent *FIELD_INTRUDE_EVENT_StartSymbolEntry(int a0, int a1, int a2);
 extern int INTRUDE_COMM_GetActiveRequestTarget(u8 *p, int *out);
 extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
 extern void *EVENT_COMM_COMMON_CreateTalkedStartEvent(void *p, int a, int b, int c, int d, u16 e);
@@ -745,7 +745,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         if (func_02012B70(input.gameData) == 1 && INTRUDE_FIELD_IsStartRequested(commWork) == 1)
             return (int)INTRUDE_FIELD_CreateNoticeEvent(gameSystem, fieldMap);
         if (INTRUDE_COMM_ConsumeAreaNoticeSeen(commWork, input.zoneId) == 1)
-            return (int)FIELD_G3D_MAP_StartSymbolEntry((int)gameSystem, 9, (u32)GAME_DATA_GetSymbolMapFlag(input.gameData));
+            return (int)FIELD_INTRUDE_EVENT_StartSymbolEntry((int)gameSystem, 9, (u32)GAME_DATA_GetSymbolMapFlag(input.gameData));
         if (input.inputEnabled == 1 && INTRUDE_COMM_GetActiveRequestTarget(commWork, (int *)(&commTarget)) == 1) {
             FIELD_PLAYER_ResetMoveWork(input.player);
             return (int)EVENT_COMM_COMMON_CreateTalkedStartEvent(gameSystem, (int)fieldMap, (int)commWork, (int)playerMmdl, commTarget, input.heapId);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF2C
+ * function: ZUKAN_DETAIL_GRAPHIC_ApplyCamera
  * address:  0x021BCF2C
  * packet:   pkt_021BCF2C
  * region:   ov208
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD12C 0x021BD12C  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt 0x021BD12C  thumb  ov208
 
- * Calls func_021BD12C on +8 when the word at +0x10 is set.
+ * Calls ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt on +8 when the word at +0x10 is set.
  */
 #include "../include/Obj18203.h"
 
 
-extern void func_021BD12C(int *p);
+extern void ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt(int *p);
 
-void func_021BCF2C(char *p)
+void ZUKAN_DETAIL_GRAPHIC_ApplyCamera(char *p)
 {
     if (((struct Obj18203 *)p)->f10 != 0)
-        func_021BD12C((int *)(p + 8));
+        ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt((int *)(p + 8));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE300
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind
  * address:  0x021BE300
  * packet:   pkt_021BE300
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-int func_021BE300(int kind)
+int ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind(int kind)
 {
     switch (kind) {
     case 0:

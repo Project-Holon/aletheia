@@ -1,5 +1,5 @@
 /*
- * function: func_021F663C
+ * function: WORLDTRADE_BOX_PrintMessage
  * address:  0x021F663C
  * packet:   pkt_021F663C
  * region:   ov135
@@ -20,7 +20,7 @@
  *   sub_020409B4   0x020409B4  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   STRBUF_Delete   0x02045808  arm
- *   func_02202858  0x02202858  thumb  ov135
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *
  * Window teardown: the handle is the 0xd40 or 0xdd0 window selected by the
  * sixth argument, and that one handle is used by every call in the body.
@@ -47,9 +47,9 @@ extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
-void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
+void WORLDTRADE_BOX_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
 {
     u32 v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((struct Obj00018 *)p)->fB6C), b);
     u32 h;
@@ -61,6 +61,6 @@ void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
     BMP_WIN_MakeScreen((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
     func_0201F73C((void *)h, 0, 1, 0xe);
-    func_02202858((void *)h, 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)h, 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
 }

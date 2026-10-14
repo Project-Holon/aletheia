@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0130
+ * function: ZUKAN_DETAIL_AREA_NoOpLoad
  * address:  0x021C0130
  * packet:   pkt_ov208_021C0130
  * region:   ov208
@@ -13,6 +13,6 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void ov208_func_021C0130(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, int key)
 {
 }

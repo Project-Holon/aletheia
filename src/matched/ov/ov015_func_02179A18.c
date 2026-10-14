@@ -1,5 +1,5 @@
 /*
- * function: func_02179A18
+ * function: IRCNET_IsIdle
  * address: 0x02179A18
  * packet: pkt_ov015_02179A18
  * region: ov015
@@ -31,12 +31,12 @@ struct flags_ab80 {
     u8 b1 : 1;
 };
 
-int func_02179A18(void);
+int IRCNET_IsIdle(void);
 extern struct s_ab40 d_0217AB40;
 extern struct s_aba0 d_0217ABA0;
 extern struct State d_0217AB80;
 
-int func_02179A18(void)
+int IRCNET_IsIdle(void)
 {
     if (d_0217AB80.f14 == 1 && ((struct flags_ab80 *)&d_0217AB80)->b0 == 0 && ((u32 *)&d_0217AB40)[0x40 / 4] == 0 && d_0217ABA0.b1 == 0)
         return 1;

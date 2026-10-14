@@ -1,5 +1,5 @@
 /*
- * function: func_021DE5F4
+ * function: DENDOU_VIEW_GetActiveActorBase
  * address:  0x021DE5F4
  * packet:   pkt_021DE5F4
  * region:   ov171
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021DE5F4(char *p)
+int DENDOU_VIEW_GetActiveActorBase(char *p)
 {
     if (((struct Obj24059 *)p)->fC60 == 0)
         return 6;

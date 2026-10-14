@@ -1,5 +1,5 @@
 /*
- * function: func_021FED50
+ * function: BR_SIDEBAR_Create
  * address: 0x021FED50
  * packet: pkt_ov186_021FED50
  * region: ov186
@@ -10,27 +10,27 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FEEF4 0x021FEEF4 thumb ov186
- *   d_02200D78 0x02200D78 data a1
- *   d_02200B74 0x02200B74 data a4
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_SIDEBAR_InitSlot 0x021FEEF4 thumb ov186
+ *   gBrSidebarSourceFile 0x02200D78 data a1
+ *   gBrSidebarConfigTable 0x02200B74 data a4
  */
-extern const char d_02200D78[];
-extern const char d_02200B74[];
+extern const char gBrSidebarSourceFile[];
+extern const char gBrSidebarConfigTable[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
-extern void func_021FBE54(char *, unsigned, unsigned);
-extern void func_021FEEF4(char *, int, char *, const char *, unsigned);
-char *func_021FED50(int a, int unused, char *resources, unsigned heap)
+extern void BR_RES_LoadSprite(char *, unsigned, unsigned);
+extern void BR_SIDEBAR_InitSlot(char *, int, char *, const char *, unsigned);
+char *BR_SIDEBAR_Create(int a, int unused, char *resources, unsigned heap)
 {
-    char *p = func_02030734(heap, 0x390, 0, d_02200D78, 0x132);
+    char *p = func_02030734(heap, 0x390, 0, gBrSidebarSourceFile, 0x132);
     int i;
     MI_CpuFill8(p, 0, 0x390);
-    func_021FBE54(resources, 4, heap);
-    func_021FBE54(resources, 5, heap);
+    BR_RES_LoadSprite(resources, 4, heap);
+    BR_RES_LoadSprite(resources, 5, heap);
     for (i = 0; i < 12; i++)
-        func_021FEEF4(p + i * 0x4C, a, resources, d_02200B74 + i * 24, heap);
+        BR_SIDEBAR_InitSlot(p + i * 0x4C, a, resources, gBrSidebarConfigTable + i * 24, heap);
     return p;
 }

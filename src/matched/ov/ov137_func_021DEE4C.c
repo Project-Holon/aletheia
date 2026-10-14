@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE4C
+ * function: GURU2_MAIN_StateAnimateSlots
  * address: 0x021DEE4C
  * packet: pkt_ov137_021DEE4C
  * region: ov137
@@ -10,27 +10,27 @@
  * extent: unlabelled follower at 021DEED8, filed separately.
  * lever: raw unsigned byte-table address and a named row byte offset restore r6.
  * symbols:
- *   func_021E16C0 0x021E16C0 thumb ov137
- *   func_021E0C08 0x021E0C08 thumb ov137
- *   d_021E1FDC 0x021E1FDC data a2
+ *   GURU2_MAIN_GetSendBuffer 0x021E16C0 thumb ov137
+ *   GURU2_MAIN_StartDropEffect 0x021E0C08 thumb ov137
+ *   gGuru2PointerAngleTable 0x021E1FDC data a2
  */
 #include "../include/Obj06537.h"
 typedef unsigned short u16;
-extern char *func_021E16C0(char *p);
-extern void func_021E0C08(char *,int,int,int,int,int,int *);
-extern const u16 d_021E1FDC[][5];
-int func_021DEE4C(char *p)
+extern char *GURU2_MAIN_GetSendBuffer(char *p);
+extern void GURU2_MAIN_StartDropEffect(char *,int,int,int,int,int,int *);
+extern const u16 gGuru2PointerAngleTable[][5];
+int GURU2_MAIN_StateAnimateSlots(char *p)
 {
     int *r;
     int value, a, row;
     if (--((struct Obj06537 *)p)->fC>0) return 0;
     ((struct Obj06537 *)p)->fC=15;
-    r=(int *)func_021E16C0(p);
+    r=(int *)GURU2_MAIN_GetSendBuffer(p);
     row=r[5]*10;
-    value=*(const u16 *)((unsigned)d_021E1FDC+row+r[4]*2);
+    value=*(const u16 *)((unsigned)gGuru2PointerAngleTable+row+r[4]*2);
     a=*(u16 *)(p+0x7e + r[4]*4);
     *(u16 *)(p+0x60+r[4]*2)=value;
-    func_021E0C08(p,a,r[4],r[0],value,r[1],(int *)(p+0x2e0+r[4]*0xb4));
+    GURU2_MAIN_StartDropEffect(p,a,r[4],r[0],value,r[1],(int *)(p+0x2e0+r[4]*0xb4));
     r[4]++;
     r[4]%=r[5];
     if (++r[0]==r[5]) {

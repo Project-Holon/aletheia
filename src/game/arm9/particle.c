@@ -2119,7 +2119,7 @@ void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 appl
 
 
 /*
- * Tail call with two zero arguments. Filed as the witness for ov094 func_021FA12C.
+ * Tail call with two zero arguments. Filed as the witness for ov094 BTLV_EFFVM_CmdLoadParticleResource.
  */
 void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block)
 {
@@ -2424,7 +2424,7 @@ int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*
 
 
 /*
- * Returns word 2 of the object at *p. Filed as the witness for ov094 func_021FC744.
+ * Returns word 2 of the object at *p. Filed as the witness for ov094 BTLV_EFFVM_IsAllIdle.
  */
 int PARTICLE_GetEffectCount(struct ParticleSys *sys)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F30
+ * function: HALL_OF_FAME_DrawTrainerScene
  * address: 0x021B7F30
  * packet: pkt_ov180_021B7F30
  * region: ov180
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B73B0 0x021B73B0 thumb ov180
+ *   HALL_OF_FAME_UpdateActors 0x021B73B0 thumb ov180
  */
-extern void func_021B73B0(char *p);
-void func_021B7F30(void *p) { func_021B73B0(p); }
+extern void HALL_OF_FAME_UpdateActors(char *p);
+void HALL_OF_FAME_DrawTrainerScene(void *p) { HALL_OF_FAME_UpdateActors(p); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B79F4
+ * function: HALL_OF_FAME_CreateTrainerPlates
  * address: 0x021B79F4
  * packet: pkt_ov180_021B79F4
  * region: ov180
@@ -22,7 +22,7 @@
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_021B77DC 0x021B77DC thumb ov180
+ *   HALL_OF_FAME_PrintToPlate 0x021B77DC thumb ov180
  */
 #include "../include/Obj00350.h"
 #include "../include/Obj24494.h"
@@ -53,8 +53,8 @@ extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *);
 extern u8 func_02008650(const struct PlayTime *);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_021B77DC(u8 *p, int n, void *w, void *s, int x, int y);
-void func_021B79F4(char *p) {
+extern void HALL_OF_FAME_PrintToPlate(u8 *p, int n, void *w, void *s, int x, int y);
+void HALL_OF_FAME_CreateTrainerPlates(char *p) {
     Param d;
     Holder *h;
     struct StrObj *str;
@@ -68,7 +68,7 @@ void func_021B79F4(char *p) {
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00350 *)p)->f9134,0);
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj00350 *)p)->f9038,4);
     width=func_0201D304(str,*(u32 *)&((struct Obj00350 *)p)->f9030,0);
-    func_021B77DC((u8 *)p,2,((struct Obj00350 *)p)->f9030,str,(256-width)/2,0);
+    HALL_OF_FAME_PrintToPlate((u8 *)p,2,((struct Obj00350 *)p)->f9030,str,(256-width)/2,0);
     STRBUF_Delete((struct U16Vec *)str);
     h=(Holder *)(p+0x9138);
     h->bmp=BMP_Create(32,2,32,141);
@@ -79,17 +79,17 @@ void func_021B79F4(char *p) {
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),5);
     func_0201F02C(*(struct WordSet * *)&((struct Obj00350 *)p)->f903C,0,((struct Obj24494 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4);
     func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
-    func_021B77DC((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj * *)&((struct Obj00350 *)p)->f9040,8,0);
+    HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj * *)&((struct Obj00350 *)p)->f9040,8,0);
     STRBUF_Delete((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),6);
     func_0201EFA4(*(struct WordSet **)(p+0x903c),0,func_02008534((const struct Sub0200852CObj *)(*(struct Player * *)&((struct Obj24495 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f4)),5,2,1);
     func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
-    func_021B77DC((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),92,0);
+    HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),92,0);
     STRBUF_Delete((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank **)(p+0x9038),7);
     func_0201EFA4(*(struct WordSet **)(p+0x903c),0,func_0200864C(*(struct PlayTime * *)&((struct Obj24496 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),3,0,1);
     func_0201EFA4(*(struct WordSet **)(p+0x903c),1,func_02008650(*(struct PlayTime * *)&((struct Obj24497 *)(*(char * *)&((struct Obj00350 *)p)->f0))->f8),2,2,1);
     func_0201F250(*(struct WordSet **)(p+0x903c),((struct Obj00350 *)p)->f9040,str);
-    func_021B77DC((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),200,0);
+    HALL_OF_FAME_PrintToPlate((u8 *)p,3,((struct Obj00350 *)p)->f9030,*(struct StrObj **)(p+0x9040),200,0);
     STRBUF_Delete((struct U16Vec *)str);
 }

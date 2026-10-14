@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0FC
+ * function: COMM_TVT_SYS_SetCameraBusy
  * address:  0x021BE0FC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE0FC(void *p, u32 v)
+void COMM_TVT_SYS_SetCameraBusy(void *p, u32 v)
 {
     ((struct Obj24140 *)p)->f34 = v;
 }

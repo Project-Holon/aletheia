@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_StartEffectTask
+ * function: SCRCMD_StartArcPlayerEffect
  * address:  0x021D2F44
  * packet:   pkt_ov021_021D2F44
  * region:   ov021
@@ -38,7 +38,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(int a);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int SCRCMD_StartEffectTask(u32 a, u32 b)
+int SCRCMD_StartArcPlayerEffect(u32 a, u32 b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     void *t = FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect((int)SCRCMD_WORK_GetGameSystem((void *)b));

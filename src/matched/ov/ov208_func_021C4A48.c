@@ -1,5 +1,5 @@
 /*
- * function: func_021C4A48
+ * function: ZUKAN_DETAIL_FORM_DeleteTextWindows
  * address: 0x021C4A48
  * packet: pkt_ov208_021C4A48
  * region: ov208
@@ -23,7 +23,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-void func_021C4A48(void *unused,u8 *p)
+void ZUKAN_DETAIL_FORM_DeleteTextWindows(void *unused,u8 *p)
 {
     u8 i;
     for(i=0;i<5;i++) {

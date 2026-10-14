@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C90
+ * function: GSYNC_DISP_CopyIconPaletteSub
  * address: 0x021D6C90
  * packet: pkt_ov123_021D6C90
  * region: ov123
@@ -21,7 +21,7 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void MI_CpuCopy8(void *,void *,int);
 extern void DWCi_ScreenDC_FlushRange(void *,int);
 extern void GX_LoadOBJPltt(void *,int,int);
-void func_021D6C90(char *p,int i,void *h)
+void GSYNC_DISP_CopyIconPaletteSub(char *p,int i,void *h)
 {
     Desc d;
     CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));

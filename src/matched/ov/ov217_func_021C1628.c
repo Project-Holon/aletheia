@@ -1,5 +1,5 @@
 /*
- * function: func_021C1628
+ * function: CircleGraph_UpdateDrawSlow
  * address:  0x021C1628
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C16FC  0x021C16FC  thumb  ov217
+ *   CircleGraph_SetState  0x021C16FC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_021C16FC(void *p, u32 v);
-void func_021C1628(u8 *a0)
+extern void *CircleGraph_SetState(void *p, u32 v);
+void CircleGraph_UpdateDrawSlow(u8 *a0)
 {
     if (((struct Obj04641 *)(((u8*)a0)))->f10 >= 120) {
-    func_021C16FC(a0, 4);
+    CircleGraph_SetState(a0, 4);
     }
 }
 

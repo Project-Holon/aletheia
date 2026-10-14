@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFBF0",
+   "name": "POKETRADE_MCSS_SlideInterpolate",
    "address": "0x021DFBF0",
    "kind": "game",
    "region": "ov119",

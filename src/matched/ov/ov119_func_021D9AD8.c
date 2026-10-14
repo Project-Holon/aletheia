@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021D8FA4 0x021D8FA4 thumb ov119
+ *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_021E1024 0x021E1024 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021D9B34 0x021D9B34 thumb ov119
  */
 #include "../include/Obj05327.h"
@@ -21,11 +21,11 @@ typedef unsigned int u32;
 struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_021D8FA4(void *,int);
+extern void *POKETRADE_PROC_GetSideMon(void *,int);
 struct WordSet;
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021E1024(void *);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021D9B34(char *p);
-void func_021D9AD8(char *p) { int i; MSGDATA_ReadString((struct MsgBank *)(((struct Obj05327 *)p)->f720),17,(void *)(((struct Obj05327 *)p)->f73C));for(i=0;i<2;i++) func_0201EEF4(((struct Obj05327 *)p)->f724,i,func_021D8FA4(p,i));func_0201F250((struct WordSet *)(*(int *)&((struct Obj05327 *)p)->f724),(void *)(((struct Obj05327 *)p)->f738),(void *)(((struct Obj05327 *)p)->f73C));func_021E1024(p);func_021D8E84(p,(int)func_021D9B34); }
+void func_021D9AD8(char *p) { int i; MSGDATA_ReadString((struct MsgBank *)(((struct Obj05327 *)p)->f720),17,(void *)(((struct Obj05327 *)p)->f73C));for(i=0;i<2;i++) func_0201EEF4(((struct Obj05327 *)p)->f724,i,POKETRADE_PROC_GetSideMon(p,i));func_0201F250((struct WordSet *)(*(int *)&((struct Obj05327 *)p)->f724),(void *)(((struct Obj05327 *)p)->f738),(void *)(((struct Obj05327 *)p)->f73C));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_PROC_SetStep(p,(int)func_021D9B34); }

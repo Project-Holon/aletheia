@@ -20,7 +20,7 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
- *   func_021F86E0  0x021F86E0  thumb  ov094
+ *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb  ov094
  *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -50,7 +50,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void ARC_TOOL_DeleteHandle(void * h);
@@ -69,7 +69,7 @@ W *BTLV_TIMER_Create(u16 heap)
     w->h40 = CLACT_RegisterCharacter(a, 0x7a, 0, 0, w->heap);
     w->h44 = CLACT_RegisterCellAnim(a, 0x7b, 0x7c, w->heap);
     w->h48 = CLACT_RegisterPalette(a, 0xa2, 0, 0xe0, w->heap);
-    s = (void *)func_021F86E0();
+    s = (void *)BTLV_EFFECT_GetPalanm();
     PALANM_CopyHwPaletteToSlot(s, 2, (u16)(CLACT_GetPaletteVramAddress(w->h48, 0) >> 1), 0x20);
     ARC_TOOL_DeleteHandle(a);
     return w;

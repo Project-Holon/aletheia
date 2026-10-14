@@ -1,5 +1,5 @@
 /*
- * function: func_022010D0
+ * function: BTLV_MCSS_BounceTaskMain
  * address: 0x022010D0
  * packet: pkt_ov094_022010D0
  * region: ov094
@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: Separate x/y/z clears preserve the original store order.
  * symbols:
- *   func_022019F4 0x022019F4 thumb ov094
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  *   FX_SinCosTable_ 0x020A1B38 data a4
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -28,31 +28,31 @@ typedef unsigned int u32;
 typedef short s16;
 typedef long long s64;
 typedef struct Vec { int x, y, z; } Vec;
-extern int func_022019F4(char *, int);
-extern void func_021F89BC(void *);
+extern int BTLV_MCSS_FindSpriteIndex(char *, int);
+extern void BTLV_EFFECT_DeleteTask(void *);
 extern const s16 FX_SinCosTable_[];
 extern void MCSS_SetOfsPosition(void *, u32 *);
 #define FIX(x) ((int)(((x) > 0.0f) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
-void func_022010D0(void *task, char *q)
+void BTLV_MCSS_BounceTaskMain(void *task, char *q)
 {
     char *p = *(char * *)&((struct Obj02439 *)q)->f0;
     Vec v = {0, 0, 0};
-    int i = func_022019F4(p, ((struct Obj02439 *)q)->f4);
+    int i = BTLV_MCSS_FindSpriteIndex(p, ((struct Obj02439 *)q)->f4);
     char *e;
     int off;
     int n, f;
     if (i == -1) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     e = p + 8;
     off = i * 0x5c;
     if (*(void **)(e + off) == 0) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     if (((struct Obj02439 *)q)->f28 != *(u8 *)(p + ((struct Obj02439 *)q)->f4 + 0x542)) {
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
         return;
     }
     ((struct Obj02439 *)q)->f18 += ((struct Obj02439 *)q)->f1C;
@@ -68,6 +68,6 @@ void func_022010D0(void *task, char *q)
         v.y = 0;
         v.z = 0;
         MCSS_SetOfsPosition(*(void **)(e + off), (u32 *)&v);
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D584C
+ * function: GSYNC_MESSAGE_ClearStream
  * address: 0x021D584C
  * packet: pkt_ov123_021D584C
  * region: ov123
@@ -24,7 +24,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-void func_021D584C(char *p)
+void GSYNC_MESSAGE_ClearStream(char *p)
 {
     if (((struct Obj03265 *)p)->f7C) {
         TIME_ICON_Delete(((struct Obj03265 *)p)->f7C);

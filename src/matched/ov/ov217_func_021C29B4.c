@@ -1,5 +1,5 @@
 /*
- * function: func_021C29B4
+ * function: PERCENTAGE_StoreTemplate
  * address:  0x021C29B4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -23,7 +23,7 @@ typedef struct {
     u32 w[5];
 } Blk20;
 
-void func_021C29B4(void *p, const void *src)
+void PERCENTAGE_StoreTemplate(void *p, const void *src)
 {
     *(Blk20 *)((char *)p + 0x20) = *(const Blk20 *)src;
 }

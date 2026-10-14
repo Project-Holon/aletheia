@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A78
+ * function: BTLV_EFFECT_StartIntroEffect
  * address:  0x021F8A78
  * packet:   pkt_ov094_021F8A78
  * region:   ov094
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F7BEC  0x021F7BEC  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFECT_PauseVm  0x021F7BEC  thumb  ov094
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   func_021F7998  0x021F7998  thumb  ov094
+ *   BTLV_EFFECT_StartEffect  0x021F7998  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -24,18 +24,18 @@ typedef struct {
     int state;          /* 0x238 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern void func_021F7BEC(void);
+extern void BTLV_EFFECT_PauseVm(void);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
-extern void func_021F7998(u32 a);
+extern void BTLV_EFFECT_StartEffect(u32 a);
 
-void func_021F8A78(void)
+void BTLV_EFFECT_StartIntroEffect(void)
 {
-    func_021F7BEC();
-    if (d_0220AF20->state == 3 && BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->battle, 0x400))
-        func_021F7998(0x251);
+    BTLV_EFFECT_PauseVm();
+    if (gBtlvEff->state == 3 && BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->battle, 0x400))
+        BTLV_EFFECT_StartEffect(0x251);
     else
-        func_021F7998(0x236);
-    d_0220AF20->state = 0;
+        BTLV_EFFECT_StartEffect(0x236);
+    gBtlvEff->state = 0;
 }

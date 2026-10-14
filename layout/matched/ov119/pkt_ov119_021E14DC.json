@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E14DC",
+   "name": "POKETRADE_SAVE_PrintDexNumber",
    "address": "0x021E14DC",
    "kind": "game",
    "region": "ov119",

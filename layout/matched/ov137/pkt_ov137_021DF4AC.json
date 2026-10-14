@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF4AC",
+   "name": "GURU2_MAIN_StateComputeReward",
    "address": "0x021DF4AC",
    "kind": "game",
    "region": "ov137",

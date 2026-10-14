@@ -1,5 +1,5 @@
 /*
- * function: func_021D858C
+ * function: GDS_SOCKET_InitSsl
  * address:  0x021D858C
  * packet:   pkt_ov125_021D858C
  * region:   ov125
@@ -12,12 +12,12 @@
  * ARM tail call: ldr ip, =target; bx ip.
  *
  * symbols:
- *   func_021D8B44  0x021D8B44  arm ov125
+ *   GDS_SOCKET_InitSslTemplate  0x021D8B44  arm ov125
  */
 
-extern void func_021D8B44(void);
+extern void GDS_SOCKET_InitSslTemplate(void);
 
-void func_021D858C(void)
+void GDS_SOCKET_InitSsl(void)
 {
-    func_021D8B44();
+    GDS_SOCKET_InitSslTemplate();
 }

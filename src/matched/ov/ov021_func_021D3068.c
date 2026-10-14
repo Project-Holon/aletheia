@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_StartEffectTaskB
+ * function: SCRCMD_WaitArcEffectEnd
  * address:  0x021D3068
  * packet:   pkt_ov021_021D3068
  * region:   ov021
@@ -25,7 +25,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *a);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int SCRCMD_StartEffectTaskB(u32 a, u32 b)
+int SCRCMD_WaitArcEffectEnd(u32 a, u32 b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     void *t = FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem((void *)b));

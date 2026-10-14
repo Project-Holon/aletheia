@@ -29,7 +29,7 @@
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   g_021DE654_b   0x021DE654  data
+ *   gMemUsbAp   0x021DE654  data
  *   OS_Terminate  0x02088234  arm
  *   DC_InvalidateRange  0x020862B8  arm
  *   memcmp  0x020923F0  arm
@@ -140,7 +140,7 @@ void DWCi_USBAPlSetCallback(unsigned int v);
 extern MemUsbT *gUsbapWork;
 extern ScanParamT sUsbApScanParam;
 extern char sUsbApSsid[9];
-extern MemUsbT *g_021DE654_b;
+extern MemUsbT *gMemUsbAp;
 extern u8 sUsbApZeroBssid[6];
 
 
@@ -278,7 +278,7 @@ int DWCi_USBAPlEnd(void)
         DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
     while (gUsbapWork->end != 2)
         ;
-    DWCi_HEAPlFree_((void **)(&g_021DE654_b));
+    DWCi_HEAPlFree_((void **)(&gMemUsbAp));
     return 1;
 }
 

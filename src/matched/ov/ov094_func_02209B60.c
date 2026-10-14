@@ -13,7 +13,7 @@
  * then-arm `str` is cross-jumped onto the else-arm copy, giving beq/b/movs.
  *
  * symbols:
- *   d_0220AC10     0x0220AC10  data   ov094  a4
+ *   gBtlvFingerCursorActorInit     0x0220AC10  data   ov094  a4
  *   BTLV_FINGER_CURSOR_DeleteActor  0x02209C18  thumb  ov094
  *   BTLV_FINGER_CURSOR_AnimCallback  0x02209C30  thumb  ov094
  *   CLACT_CreateAffineActor  0x0204B324  arm
@@ -56,7 +56,7 @@ typedef struct {
     void *cb;
 } Msg;
 
-extern Cfg d_0220AC10;
+extern Cfg gBtlvFingerCursorActorInit;
 struct Actor;
 struct Cmd;
 extern void BTLV_FINGER_CURSOR_DeleteActor(char *p);
@@ -72,7 +72,7 @@ extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 
 int BTLV_FINGER_CURSOR_Start(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
 {
-    Cfg cfg = d_0220AC10;
+    Cfg cfg = gBtlvFingerCursorActorInit;
     Msg msg;
 
     if (p->f28 != 0)

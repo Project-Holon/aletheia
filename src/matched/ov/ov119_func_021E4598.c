@@ -1,5 +1,5 @@
 /*
- * function: func_021E4598
+ * function: POKETRADE_2D_DrawBoxNames
  * address: 0x021E4598
  * packet: pkt_ov119_021E4598
  * region: ov119
@@ -31,7 +31,7 @@ struct Descriptor;
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
-void func_021E4598(char *p)
+void POKETRADE_2D_DrawBoxNames(char *p)
 {
     int x, y, scroll, first, i, n, pos, idx;
     int off1, off2, bound;

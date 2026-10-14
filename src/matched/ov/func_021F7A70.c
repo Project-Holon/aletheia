@@ -1,5 +1,5 @@
 /*
- * function: func_021F7A70
+ * function: WORLDTRADE_DEPOSIT_StateOpenCategoryMenu
  * address:  0x021F7A70
  * packet:   pkt_021F7A70
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9968  0x021F9968  thumb  ov135
+ *   WORLDTRADE_INPUT_MenuSetMode  0x021F9968  thumb  ov135
 
  *
  * Hand the buffer at +0xde4 to the writer and stamp state 6.
@@ -21,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Fn)(void);
-extern void func_021F9968(u8 *p, int mode);
+extern void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode);
 
-int func_021F7A70(u8 *p)
+int WORLDTRADE_DEPOSIT_StateOpenCategoryMenu(u8 *p)
 {
-    func_021F9968((u8 *)(((struct Obj12200 *)p)->fDE4), 0);
+    WORLDTRADE_INPUT_MenuSetMode((u8 *)(((struct Obj12200 *)p)->fDE4), 0);
     ((struct Obj12200 *)p)->f28 = 6;
     return 2;
 }

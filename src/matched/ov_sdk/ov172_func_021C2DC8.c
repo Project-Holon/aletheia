@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DC8
+ * function: jpeg_exif_get_tag_size
  * address:  0x021C2DC8
  * packet:   pkt_ov172_021C2DC8
  * region:   ov172
@@ -24,7 +24,7 @@ struct exif_tag_entry {
     unsigned long count;
 };
 
-unsigned long func_021C2DC8(struct exif_tag_entry *entry)
+unsigned long jpeg_exif_get_tag_size(struct exif_tag_entry *entry)
 {
     signed char type_size[11] = {0, 1, 1, 2, 4, 8, 0, 1, 0, 4, 8};
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F7840",
+   "name": "WORLDTRADE_DEPOSIT_DeleteWindows",
    "address": "0x021F7840",
    "kind": "game",
    "region": "ov135",

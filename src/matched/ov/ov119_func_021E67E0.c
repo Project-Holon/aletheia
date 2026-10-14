@@ -1,5 +1,5 @@
 /*
- * function: func_021E67E0
+ * function: POKETRADE_2D_CreateMarkerButtonActor
  * address: 0x021E67E0
  * packet: pkt_ov119_021E67E0
  * region: ov119
@@ -35,7 +35,7 @@ extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned i
 extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021E67E0(Work *p, int z, int i) {
+void POKETRADE_2D_CreateMarkerButtonActor(Work *p, int z, int i) {
     Create c;
     c.x=i*206+8; c.y=160; c.z=4; c.a=1; c.b=0;
     if (!p->slot[i*2]) {

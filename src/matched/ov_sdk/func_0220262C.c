@@ -1,5 +1,5 @@
 /*
- * function: func_0220262C
+ * function: WORLDTRADE_ADAPTER_CopyMon
  * address:  0x0220262C
  * packet:   pkt_0220262C
  * region:   ov135
@@ -25,7 +25,7 @@ typedef signed int s32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(u32 a, u32 b, u32 c);
 
-void func_0220262C(u32 a, u32 b)
+void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b)
 {
     MI_CpuCopy8(a, b, POKE_TOOL_GetPartyParamSize());
 }

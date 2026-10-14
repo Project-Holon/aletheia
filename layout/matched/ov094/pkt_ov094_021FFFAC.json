@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFFAC",
+   "name": "BTLV_MCSS_GetStopCellFlags",
    "address": "0x021FFFAC",
    "kind": "game",
    "region": "ov094",

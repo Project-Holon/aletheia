@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1920",
+   "name": "ZUKAN_DETAIL_AREA_HandleModeEvent",
    "address": "0x021C1920",
    "kind": "game",
    "region": "ov208",

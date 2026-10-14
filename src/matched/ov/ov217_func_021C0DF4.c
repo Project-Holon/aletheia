@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DF4
+ * function: ListViewState_GetScrollX
  * address:  0x021C0DF4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C0DF4(void *p)
+u32 ListViewState_GetScrollX(void *p)
 {
     return ((struct Obj25998 *)p)->f4;
 }

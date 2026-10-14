@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F7F1C",
+   "name": "BTLV_EFFECT_IsPokeSpriteLoaded",
    "address": "0x021F7F1C",
    "kind": "game",
    "region": "ov094",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021F8694",
+   "name": "BTLV_EFFECT_GetMcss",
    "address": "0x021F8694",
    "kind": "game",
    "region": "ov094",
@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_021F8710",
+   "name": "BTLV_EFFECT_GetMode",
    "address": "0x021F8710",
    "kind": "game",
    "region": "ov094",
@@ -58,7 +58,7 @@
    }
   },
   {
-   "name": "func_021FCF2C",
+   "name": "BTLV_EFFVM_ResolveSlotKey",
    "address": "0x021FCF2C",
    "kind": "game",
    "region": "ov094",
@@ -70,7 +70,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021FD04C",
+   "name": "BTLV_EFFVM_ResolveSide",
    "address": "0x021FD04C",
    "kind": "game",
    "region": "ov094",
@@ -82,7 +82,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FD070",
+   "name": "BTLV_EFFVM_ResolveSideFromVm",
    "address": "0x021FD070",
    "kind": "game",
    "region": "ov094",
@@ -94,7 +94,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FD088",
+   "name": "BTLV_EFFVM_ResolveAnchorSlot",
    "address": "0x021FD088",
    "kind": "game",
    "region": "ov094",
@@ -111,7 +111,7 @@
    }
   },
   {
-   "name": "func_021FF3F4",
+   "name": "BTLV_MCSS_GetSlotPosition",
    "address": "0x021FF3F4",
    "kind": "game",
    "region": "ov094",
@@ -123,7 +123,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FF3FC",
+   "name": "BTLV_MCSS_GetSlotPositionForRule",
    "address": "0x021FF3FC",
    "kind": "game",
    "region": "ov094",

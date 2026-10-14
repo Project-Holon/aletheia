@@ -151,15 +151,11 @@ struct Sound;
 struct Ctx;
 typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
 
-typedef unsigned int u32;
 
-typedef signed char s8;
 
 typedef signed short   s16;
 
-typedef unsigned short u16;
 
-typedef unsigned char  u8;
 
 struct Param {void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12;u32 f14;};
 
@@ -185,11 +181,11 @@ typedef struct { unsigned char a,b,c,d; } Bytes;
 
 typedef struct { Bytes first, second; } Object;
 
-extern void *func_021EBEE0(char *, const Desc *);
-extern void func_021EC000(char *, int, int);
+extern void *func_021EBEE0(BoxWork *, const Desc *);
+extern void func_021EC000(BoxWork *, int, int);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
+extern void func_021EC08C(BoxWork *p, int i, int a, int b, unsigned short c);
+extern void func_021EC0B0(BoxWork *, int, short *, short *, unsigned short);
 extern void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
 extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(unsigned char *p, int a);
@@ -208,10 +204,10 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
-extern u32 func_021EC01C(char *p, int i);
+extern u32 func_021EC01C(BoxWork *p, int i);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 extern void func_021EB85C(unsigned char *p, int i);
-extern void func_021EBFCC(char *p, int i, int v);
+extern void func_021EBFCC(BoxWork *p, int i, int v);
 extern void *BMP_OAM_CreateSys(u32,void *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
@@ -227,7 +223,7 @@ extern u32 func_020260F0(struct Sound *obj);
 extern void func_02025D14(void);
 extern void *func_0202616C(void **obj, u32 idx);
 extern void func_021ECC1C(unsigned char *p);
-extern void func_021DC9B4(char *p, int v);
+extern void func_021DC9B4(BoxWork *p, int v);
 extern int func_021E066C(char *p);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern u8 func_020260E0(struct Sound *obj);
@@ -244,7 +240,7 @@ extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_021EB744(char *);
+extern void func_021EB744(BoxWork *);
 extern void func_021EB79C(unsigned char *p);
 extern void func_021EB7C8(char *);
 extern void func_021EB95C(char *);
@@ -257,14 +253,14 @@ extern void func_021EC8E4(char *p);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern u32 func_0204162C(int channel);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
-void func_021ED824(char *p);
-void func_021ED888(char *p, int a);
+void func_021ED824(BoxWork *p);
+void func_021ED888(BoxWork *p, int a);
 void func_021ED8A4(char *p);
 void func_021ED904(unsigned char *p);
 void func_021ED918(char *p, int d);
-void func_021ED9B4(int a);
+void func_021ED9B4(BoxWork *a);
 void func_021ED9C8(char *p);
-void func_021EDA70(int a0, int a1, short *a2, short *a3);
+void func_021EDA70(BoxWork *a0, int a1, short *a2, short *a3);
 void func_021EDAB0(char *p, int i);
 void func_021EDB1C(int p);
 void func_021EDB34(char *p, int a);
@@ -279,12 +275,12 @@ void func_021EDFC4(char *p, int i);
 void func_021EE008(char *p, int a, int b);
 void func_021EE038(char *p, int a, int b, int c);
 void func_021EE0FC(char *p);
-void func_021EE120(char *p);
+void func_021EE120(BoxWork *p);
 void func_021EE200(char *p);
-void func_021EE224(char *p, int i, int v);
-int func_021EE234(int *a, int i);
-void func_021EE244(char *p, int i, int flag);
-void func_021EE26C(char *p, int d);
+void func_021EE224(BoxWork *p, int i, int v);
+int func_021EE234(BoxWork *a, int i);
+void func_021EE244(BoxWork *p, int i, int flag);
+void func_021EE26C(BoxWork *p, int d);
 void func_021EE2C4(char **p);
 void func_021EE364(char **p, int idx, int v);
 void func_021EE3CC(int *p);
@@ -335,8 +331,8 @@ void func_021EEE94(void *a, int tag);
 unsigned func_021EEEA4(char *p);
 void func_021EEF50(char *p, int a, int b);
 void func_021EEF68(char *a, int b);
-void func_021EEF74(char *q, int a, int b);
-void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
+void func_021EEF74(BoxWork *q, int a, int b);
+void func_021EEFA4(BoxWork *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
 int func_021EF048(const char *p, unsigned n);
 int func_021EF0A8(const char *p, unsigned n);
 int func_021EF108(const char *p, unsigned n, int a, int b);
@@ -352,7 +348,7 @@ int func_021EF224(int a, int b);
 int func_021EF248(void);
 int func_021EF264(void);
 void func_021EF274(char *p);
-void func_021EF310(char *p);
+void func_021EF310(BoxWork *p);
 void func_021EF31C(struct WinMgr *mgr, int a1, int a2);
 void func_021EF32C(struct WinMgr *mgr);
 void func_021EF33C(struct WinMgr *mgr);
@@ -376,10 +372,10 @@ int func_021EF5E8(struct WinMgr *mgr);
 int func_021EF60C(struct WinMgr *mgr);
 void func_021EF630(char *p);
 void func_021EF660(struct WinMgr *mgr);
-void func_021EF670(char *p);
-void func_021EF680(char *p);
-void func_021EF68C(char *p);
-void func_021EF69C(char *p);
+void func_021EF670(BoxWork *p);
+void func_021EF680(BoxWork *p);
+void func_021EF68C(BoxWork *p);
+void func_021EF69C(BoxWork *p);
 void func_021EF6A8(struct WinMgr *mgr);
 void func_021EF6CC(struct WinMgr *mgr);
 unsigned func_021EF6E0(char *p);
@@ -406,7 +402,7 @@ extern const unsigned char d_021F0F58[];
 
 
 
-void func_021ED824(char *p)
+void func_021ED824(BoxWork *p)
 {
     Desc t;
     Desc base = d_021EFD1C;
@@ -415,7 +411,7 @@ void func_021ED824(char *p)
         t = base;
         t.y += (short)(i * 0x22);
         t.c = i + 0x39;
-        *(void **)(p + i * 4 + 0x9f28) = func_021EBEE0(p, &t);
+        p->partyActors[i] = func_021EBEE0(p, &t);
     }
 }
 
@@ -427,7 +423,7 @@ void func_021ED824(char *p)
 /*
  * Release slots 0 and 1 of the 0x9E74 array.
  */
-void func_021ED888(char *p, int a)
+void func_021ED888(BoxWork *p, int a)
 {
     func_021EC000(p, 0, a);
     func_021EC000(p, 1, a);
@@ -443,12 +439,12 @@ void func_021ED8A4(char *p)
     signed char t[2];
     unsigned i;
     short x, y;
-    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, &t[1], &t[0]);
+    BGWINFRM_GetPos(((BoxTask *)p)->work->winMgr, 7, &t[1], &t[0]);
     i = 0;
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;
     for (; i < 6; i++)
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0xd, (short)(x + (i % 2) * 0x20), (short)(y + (i / 2) * 0x18), (short)0);
+        func_021EC08C(((BoxTask *)p)->work, i + 0xd, (short)(x + (i % 2) * 0x20), (short)(y + (i / 2) * 0x18), (short)0);
 }
 
 
@@ -477,13 +473,13 @@ void func_021ED918(char *p, int d)
 {
     short t[2];
     int i = 0;
-    func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 2, &t[1], &t[0], 0);
-    func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 2, (short)(t[1] - d), (short)t[0], (short)0);
+    func_021EC0B0(((BoxTask *)p)->work, 2, &t[1], &t[0], 0);
+    func_021EC08C(((BoxTask *)p)->work, 2, (short)(t[1] - d), (short)t[0], (short)0);
     for (; i < 6u; i++) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, &t[1], &t[0], 0);
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
-        BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), &t[1], &t[0]);
-        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), t[1] - d, t[0]);
+        func_021EC0B0(((BoxTask *)p)->work, i + 0x2d, &t[1], &t[0], 0);
+        func_021EC08C(((BoxTask *)p)->work, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
+        BMP_OAM_GetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, &t[1], &t[0]);
+        BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, t[1] - d, t[0]);
     }
 }
 
@@ -495,9 +491,9 @@ void func_021ED918(char *p, int d)
 /*
  * One range call with fixed arguments.
  */
-void func_021ED9B4(int a)
+void func_021ED9B4(BoxWork *a)
 {
-    func_021EC08C((char *)a, 2, 0x4b * 4, 0x22, 0);
+    func_021EC08C(a, 2, 0x4b * 4, 0x22, 0);
 }
 
 
@@ -516,9 +512,9 @@ void func_021ED9C8(char *p)
         t = base;
         y = i * 0x22;
         t.y += (short)y;
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, t.x, t.y, 0);
+        func_021EC08C(((BoxTask *)p)->work, i + 0x2d, t.x, t.y, 0);
         func_021EDB64(p, a, i + 0x2d);
-        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
+        BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, 0x13c, y + 2);
         func_021EB874((char **)p, a, i + 1);
     }
 }
@@ -537,12 +533,12 @@ void func_021ED9C8(char *p)
  *   loses the image's two-instruction parameter home (r6 = a1, r1 =
  *   r6+1, r6 = r1, muls r6) and swaps a2/a3 between r6 and r7.
  */
-void func_021EDA70(int a0, int a1, short *a2, short *a3)
+void func_021EDA70(BoxWork *a0, int a1, short *a2, short *a3)
 {
     unsigned i;
     a1 = (a1 + 1) * 0x22;
     for (i = 0; i < 6; i++) {
-        func_021EC0B0((char *)a0, i + 0x2d, a2, a3, 0);
+        func_021EC0B0(a0, i + 0x2d, a2, a3, 0);
         if (a1 == a3[0])
             return;
     }
@@ -559,10 +555,10 @@ void func_021EDAB0(char *p, int i)
 {
     void *t;
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
-    MI_CpuCopy8(((struct Obj24024 *)t)->f14, *(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
+    MI_CpuCopy8(((struct Obj24024 *)t)->f14, ((BoxTask *)p)->work->charPool[i], 0x400);
     func_020307B0(q);
-    func_021EDBE8((int)p, (unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400), func_021DEDCC((char *)p, i), 8, 0x400);
-    func_021EDC0C((int **)p, i, (unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400));
+    func_021EDBE8((int)p, (unsigned char *)(((BoxTask *)p)->work->charPool[i]), func_021DEDCC((char *)p, i), 8, 0x400);
+    func_021EDC0C((int **)p, i, (unsigned char *)(((BoxTask *)p)->work->charPool[i]));
 }
 
 
@@ -613,7 +609,7 @@ void func_021EDB34(char *p, int a)
  */
 void func_021EDB64(char *p, int a, int i)
 {
-    int q = ((struct Obj18524 *)p)->f2C;
+    int q = (int)((BoxTask *)p)->work;
     int x = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
     CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }
@@ -632,7 +628,7 @@ void func_021EDB94(char *p, int a, int b)
     int i = 0;
     b *= 0x22;
     for (; i < 6u; i++) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, &t[1], &t[0], 0);
+        func_021EC0B0(((BoxTask *)p)->work, i + 0x2d, &t[1], &t[0], 0);
         if (b == t[0]) {
             func_021EDB64(p, a, i + 0x2d);
             func_021EB874((char **)p, a, i + 1);
@@ -715,29 +711,29 @@ void func_021EDD38(char *p, int d)
     if (d < 0)
         step *= -1;
     for (i = 0; i < 6u; i++) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, &t[3], &t[2], 0);
+        func_021EC0B0(((BoxTask *)p)->work, i + 0x2D, &t[3], &t[2], 0);
         x = t[2] + step;
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)x, (short)0);
-        BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
+        func_021EC08C(((BoxTask *)p)->work, i + 0x2D, (short)t[3], (short)x, (short)0);
+        BMP_OAM_GetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, &t[1], &t[0]);
         y = t[0] + step;
-        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y);
+        BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, t[1], y);
         if (x < -0x10) {
             k = func_021DEB14((unsigned char *)p, 4);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
+            func_021EC08C(((BoxTask *)p)->work, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
-            BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
+            BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, t[1], y + 0xCC);
         } else if (x >= 0xBA) {
             k = func_021DEB14((unsigned char *)p, -1);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
+            func_021EC08C(((BoxTask *)p)->work, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
-            BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
+            BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[i + 1].obj, t[1], y - 0xCC);
         }
     }
-    if (func_021EC01C(*(char * *)&((BoxTask *)p)->f2C, 2) == 1) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 2, &t[3], &t[2], 0);
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 2, (short)t[3], (short)(t[2] + step), (short)0);
+    if (func_021EC01C(((BoxTask *)p)->work, 2) == 1) {
+        func_021EC0B0(((BoxTask *)p)->work, 2, &t[3], &t[2], 0);
+        func_021EC08C(((BoxTask *)p)->work, 2, (short)t[3], (short)(t[2] + step), (short)0);
     }
 }
 
@@ -750,15 +746,15 @@ void func_021EDECC(unsigned char *p, int d)
 {
     short t[2];
     if (d < 0 && p[0x14] == func_021DEB14(p, -1)) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 2, &t[1], &t[0], 0);
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 2, t[1], -0x22, 0);
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 2, 1);
+        func_021EC0B0(((BoxTask *)p)->work, 2, &t[1], &t[0], 0);
+        func_021EC08C(((BoxTask *)p)->work, 2, t[1], -0x22, 0);
+        func_021EC000(((BoxTask *)p)->work, 2, 1);
         return;
     }
     if (d > 0 && p[0x14] == func_021DEB14(p, 4)) {
-        func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 2, &t[1], &t[0], 0);
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 2, t[1], 0xcc, 0);
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 2, 1);
+        func_021EC0B0(((BoxTask *)p)->work, 2, &t[1], &t[0], 0);
+        func_021EC08C(((BoxTask *)p)->work, 2, t[1], 0xcc, 0);
+        func_021EC000(((BoxTask *)p)->work, 2, 1);
     }
 }
 
@@ -774,13 +770,13 @@ void func_021EDF5C(unsigned char *p)
     short xy[2];
     for (i = 0; i < 6; i++) {
         if (p[0x14] == func_021DEB14(p, (signed char)(i - 1))) {
-            func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, 2, &xy[1], &xy[0], 0);
-            func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 2, (short)xy[1], (short)(i * 0x22), (short)0);
-            func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 2, 1);
+            func_021EC0B0(((BoxTask *)p)->work, 2, &xy[1], &xy[0], 0);
+            func_021EC08C(((BoxTask *)p)->work, 2, (short)xy[1], (short)(i * 0x22), (short)0);
+            func_021EC000(((BoxTask *)p)->work, 2, 1);
             return;
         }
     }
-    func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 2, 0);
+    func_021EC000(((BoxTask *)p)->work, 2, 0);
 }
 
 
@@ -791,10 +787,10 @@ void func_021EDF5C(unsigned char *p)
 void func_021EDFC4(char *p, int i)
 {
     short y = d_021EFCD8[i];
-    func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 3, 0xce, y, 0);
-    func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 3, 1);
-    BMP_OAM_SetPos(((struct Obj24025 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 0x9e, y - 8);
-    BMP_OAM_SetEnabled(((struct Obj24026 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 1);
+    func_021EC08C(((BoxTask *)p)->work, 3, 0xce, y, 0);
+    func_021EC000(((BoxTask *)p)->work, 3, 1);
+    BMP_OAM_SetPos(((BoxTask *)p)->work->oamSlots[0].obj, 0x9e, y - 8);
+    BMP_OAM_SetEnabled(((BoxTask *)p)->work->oamSlots[0].obj, 1);
 }
 
 
@@ -813,8 +809,8 @@ void func_021EE008(char *p, int a, int b)
         func_021EDFC4(p, a);
         return;
     }
-    func_021EC000((char *)(*(int *)&((BoxTask *)p)->f2C), 3, 0);
-    BMP_OAM_SetEnabled((u8 *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 4)), 0);
+    func_021EC000(((BoxTask *)p)->work, 3, 0);
+    BMP_OAM_SetEnabled((u8 *)((*(int *)&((BoxTask *)p)->work->oamSlots[0].obj)), 0);
 }
 
 
@@ -829,31 +825,31 @@ void func_021EE038(char *p, int a, int b, int c)
     p[0x20] = b;
     p[0x21] = c;
     if (a == 0) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 6, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 6, 1);
+        func_021EC000(((BoxTask *)p)->work, 6, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 6, 1);
     } else if (a == 1) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 6, 0);
+        func_021EC000(((BoxTask *)p)->work, 6, 0);
     } else {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 6, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 6, 0xF);
+        func_021EC000(((BoxTask *)p)->work, 6, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 6, 0xF);
     }
     if (b == 0) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 7, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 7, 0);
+        func_021EC000(((BoxTask *)p)->work, 7, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 7, 0);
     } else if (b == 1) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 7, 0);
+        func_021EC000(((BoxTask *)p)->work, 7, 0);
     } else {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 7, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 7, 0xE);
+        func_021EC000(((BoxTask *)p)->work, 7, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 7, 0xE);
     }
     if (c == 0) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 8, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 8, 0);
+        func_021EC000(((BoxTask *)p)->work, 8, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 8, 0);
     } else if (c == 1) {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 8, 0);
+        func_021EC000(((BoxTask *)p)->work, 8, 0);
     } else {
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 8, 1);
-        func_021EBFCC(*(char * *)&((BoxTask *)p)->f2C, 8, 2);
+        func_021EC000(((BoxTask *)p)->work, 8, 1);
+        func_021EBFCC(((BoxTask *)p)->work, 8, 2);
     }
 }
 
@@ -867,9 +863,9 @@ void func_021EE038(char *p, int a, int b, int c)
  */
 void func_021EE0FC(char *p)
 {
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 6, 0);
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 7, 0);
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 8, 0);
+    func_021EC000(((BoxTask *)p)->work, 6, 0);
+    func_021EC000(((BoxTask *)p)->work, 7, 0);
+    func_021EC000(((BoxTask *)p)->work, 8, 0);
 }
 
 
@@ -877,26 +873,26 @@ void func_021EE0FC(char *p)
 
 
 
-void func_021EE120(char *p)
+void func_021EE120(BoxWork *p)
 {
     struct Param s;
     u32 i;
-    ((BoxWork *)p)->f0=BMP_OAM_CreateSys(76,((struct Obj01419 *)p)->f9E70);
-    ((BoxWork *)p)->f8=BMP_Create(12,2,32,76);
-    s.bmp=((BoxWork *)p)->f8;s.x=0;s.y=0;
-    s.f8=((BoxWork *)p)->fA120;s.fc=0;
+    p->oamSys=BMP_OAM_CreateSys(76,(*(void * *)&p->clactUnit));
+    p->oamSlots[0].aux=BMP_Create(12,2,32,76);
+    s.bmp=p->oamSlots[0].aux;s.x=0;s.y=0;
+    s.f8=p->iconFlags;s.fc=0;
     s.f10=4;s.f11=1;s.f12=65535;s.f14=0;
-    ((BoxWork *)p)->f4=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
-    BMP_OAM_SetEnabled(((BoxWork *)p)->f4,0);
+    p->oamSlots[0].obj=BMP_OAM_Create(p->oamSys,&s);
+    BMP_OAM_SetEnabled(p->oamSlots[0].obj,0);
     for (i=7;i<=8;i++) {
-        ((void **)(p+4))[i*2+1]=BMP_Create(12,2,32,76);
-        s.bmp=((void **)(p+4))[i*2+1];s.x=36;s.y=20;s.f11=3;
-        ((void **)(p+4))[i*2]=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
+        ((void **)((char *)p+4))[i*2+1]=BMP_Create(12,2,32,76);
+        s.bmp=((void **)((char *)p+4))[i*2+1];s.x=36;s.y=20;s.f11=3;
+        ((void **)((char *)p+4))[i*2]=BMP_OAM_Create(p->oamSys,&s);
     }
     for (i=0;i<6;i++) {
-        ((void **)(p+4))[(i+1)*2+1]=BMP_Create(2,1,32,76);
-        s.bmp=((void **)(p+4))[(i+1)*2+1];s.x=316;s.y=i*34+2;s.f11=1;
-        ((void **)(p+4))[(i+1)*2]=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
+        ((void **)((char *)p+4))[(i+1)*2+1]=BMP_Create(2,1,32,76);
+        s.bmp=((void **)((char *)p+4))[(i+1)*2+1];s.x=316;s.y=i*34+2;s.f11=1;
+        ((void **)((char *)p+4))[(i+1)*2]=BMP_OAM_Create(p->oamSys,&s);
     }
 }
 
@@ -919,9 +915,9 @@ void func_021EE200(char *p)
 
 
 
-void func_021EE224(char *p, int i, int v)
+void func_021EE224(BoxWork *p, int i, int v)
 {
-    BMP_OAM_SetEnabled((u8 *)(*(int *)(p + i * 8 + 4)), v);
+    BMP_OAM_SetEnabled((u8 *)((*(int *)&p->oamSlots[i].obj)), v);
 }
 
 
@@ -936,9 +932,9 @@ void func_021EE224(char *p, int i, int v)
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  */
-int func_021EE234(int *a, int i)
+int func_021EE234(BoxWork *a, int i)
 {
-    return BMP_OAM_GetEnabled((const int *)(*(int *)((char *)a + i * 8 + 4)));
+    return BMP_OAM_GetEnabled((const int *)((*(int *)&a->oamSlots[i].obj)));
 }
 
 
@@ -946,12 +942,12 @@ int func_021EE234(int *a, int i)
 
 
 
-void func_021EE244(char *p, int i, int flag)
+void func_021EE244(BoxWork *p, int i, int flag)
 {
     if (flag == 0)
-        BMP_OAM_SetPos(*(void **)(p + i * 8 + 4), -0x94, 0x14);
+        BMP_OAM_SetPos(p->oamSlots[i].obj, -0x94, 0x14);
     else
-        BMP_OAM_SetPos(*(void **)(p + i * 8 + 4), 0xDC, 0x14);
+        BMP_OAM_SetPos(p->oamSlots[i].obj, 0xDC, 0x14);
 }
 
 
@@ -959,15 +955,15 @@ void func_021EE244(char *p, int i, int flag)
 
 
 
-void func_021EE26C(char *p, int d)
+void func_021EE26C(BoxWork *p, int d)
 {
     unsigned i;
     short x;
     short y;
     for (i = 7; i <= 8; i++) {
-        char *e = p + i * 8;
-        BMP_OAM_GetPos(((struct Obj14282 *)e)->f4, &x, &y);
-        BMP_OAM_SetPos(((struct Obj14282 *)e)->f4, x + d, y);
+        BoxObjSlot *e = (BoxObjSlot *)((char *)p + i * 8 + 4);
+        BMP_OAM_GetPos(e->obj, &x, &y);
+        BMP_OAM_SetPos(e->obj, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
             func_021EE224(p, i, 0);
     }
@@ -1028,9 +1024,9 @@ void func_021EE364(char **p, int idx, int v)
  */
 void func_021EE3CC(int *p)
 {
-    if (*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x70)) {
+    if ((*(int *)&((BoxTask *)p)->work->sound)) {
         func_02025D14();
-        *(int *)(*(int *)&((BoxTask *)p)->f2C + 0x70) = 0;
+        (*(int *)&((BoxTask *)p)->work->sound) = 0;
     }
 }
 
@@ -1041,7 +1037,7 @@ void func_021EE3CC(int *p)
 void func_021EE3E4(char **p, unsigned idx)
 {
     unsigned char *c = func_0202616C(((struct Obj24035 *)(p[11]))->f70, idx);
-    func_021EC08C(p[11], 4, c[0], c[1], 0);
+    func_021EC08C(((BoxTask *)p)->work, 4, c[0], c[1], 0);
 }
 
 
@@ -1063,13 +1059,13 @@ void func_021EE408(char *p, int v)
 void func_021EE418(char *p, int v)
 {
     func_021EE408(p, v);
-    func_021EC000((char *)(((struct Obj18526 *)p)->f2C), 4, 1);
+    func_021EC000(((BoxTask *)p)->work, 4, 1);
 }
 
 
 void func_021EE42C(char *p)
 {
-    func_021EC000((char *)(((struct Obj18526 *)p)->f2C), 4, 0);
+    func_021EC000(((BoxTask *)p)->work, 4, 0);
 }
 
 
@@ -1080,8 +1076,8 @@ void func_021EE42C(char *p)
  */
 void func_021EE43C(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1091,7 +1087,7 @@ void func_021EE43C(char *p, int a, int b)
  */
 void func_021EE454(char *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)(*(int *)(((struct Obj18527 *)p)->f2C + 0x70)), (unsigned char)a);
+    func_020260E4((struct Sound *)((*(int *)&((BoxTask *)p)->work->sound)), (unsigned char)a);
     func_021EE408(p, a);
 }
 
@@ -1102,13 +1098,11 @@ void func_021EE470(void) {}
 
 
 
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
 
 
 
 
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
@@ -1118,12 +1112,12 @@ void func_021EE470(void) {}
 
 unsigned func_021EE474(char *p)
 {
-    unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
-    unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
+    unsigned char sel = func_020260E0(((BoxTask *)p)->work->sound);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
 
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 8 && r <= 12) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1136,11 +1130,11 @@ unsigned func_021EE474(char *p)
             return 6;
         }
         if (r == 7) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             return 7;
         }
     } else if (r - 6 <= 1) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+        func_020260E4(((BoxTask *)p)->work->sound, sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1175,8 +1169,8 @@ void func_021EE510(void *a, int tag)
  */
 void func_021EE520(char *p, unsigned idx)
 {
-    unsigned char *q = func_0202616C(*(void ** *)&((struct Obj18528 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, idx);
-    func_021EEFA4((char *)(*(int *)&((BoxTask *)p)->f2C), 0x54, 0x10, q[0], q[1]);
+    unsigned char *q = func_0202616C(*(void ** *)&((BoxTask *)p)->work->sound, idx);
+    func_021EEFA4(((BoxTask *)p)->work, 0x54, 0x10, q[0], q[1]);
 }
 
 
@@ -1188,7 +1182,7 @@ void func_021EE544(char *p, unsigned int i)
 {
     E *e; const unsigned char *g = d_021F0188;
     if (i < 0x1e) { e = &d_021F0DCC[i]; } else { e = &d_021F0370[i - 0x1e]; }
-    func_021EEFA4(*(char **)(p + 0x2c), e->a, e->b, g[0], g[1]);
+    func_021EEFA4(((BoxTask *)p)->work, e->a, e->b, g[0], g[1]);
 }
 
 
@@ -1199,11 +1193,11 @@ void func_021EE544(char *p, unsigned int i)
 
 unsigned func_021EE57C(char *p)
 {
-    unsigned char sel = func_020260E0(OBJ(p));
-    unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    unsigned char sel = func_020260E0((((BoxTask *)p)->work->sound));
+    unsigned r = func_02025DE8((((BoxTask *)p)->work->sound));
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 0x23 && r <= 0x27) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1216,11 +1210,11 @@ unsigned func_021EE57C(char *p)
             return 0x21;
         }
         if (r == 0x22) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             return 0x22;
         }
     } else if (r - 0x21 <= 1) {
-        func_020260E4(OBJ(p), sel);
+        func_020260E4((((BoxTask *)p)->work->sound), sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1257,11 +1251,11 @@ void func_021EE64C(void *a, int tag)
 
 unsigned func_021EE65C(char *p)
 {
-    unsigned char sel = func_020260E0(OBJ(p));
-    unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    unsigned char sel = func_020260E0((((BoxTask *)p)->work->sound));
+    unsigned r = func_02025DE8((((BoxTask *)p)->work->sound));
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x29) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1274,11 +1268,11 @@ unsigned func_021EE65C(char *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        func_020260E4(OBJ(p), sel);
+        func_020260E4((((BoxTask *)p)->work->sound), sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1303,8 +1297,8 @@ unsigned func_021EE65C(char *p)
 
 void func_021EE72C(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1331,12 +1325,12 @@ void func_021EE754(unsigned char *p, unsigned r)
     int f = 0;
     if (p[0x18] == 1) {
         a = 2;
-        if ((*(Top * *)&((BoxTask *)p)->f0)->x24 == 3)
+        if (((BoxTask *)p)->params->mode == 3)
             f = 1;
-    } else if ((*(Top * *)&((BoxTask *)p)->f0)->x24 == 3) {
+    } else if (((BoxTask *)p)->params->mode == 3) {
         f = 1;
     } else if (r >= 0x1E) {
-        if (func_021EF45C(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((BoxTask *)p)->f2C))->f74) == 0 || func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
+        if (func_021EF45C(((BoxTask *)p)->work->winMgr) == 0 || func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     } else {
         if (func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
@@ -1357,26 +1351,21 @@ void func_021EE754(unsigned char *p, unsigned r)
 void func_021EE7C4(char *p, int a, int b)
 {
     func_021EE754((unsigned char *)p, a);
-    func_021EEF74((char *)(*(int *)&((BoxTask *)p)->f2C), a, b);
-    func_021DC9B4((char *)(*(int *)&((BoxTask *)p)->f2C), 0x021E066D);
-    *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA168) = a;
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, 0x021E066D);
+    ((BoxTask *)p)->work->heldSlot = a;
 }
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p) + 0x2c))
 
 
 
@@ -1385,16 +1374,16 @@ void func_021EE7C4(char *p, int a, int b)
 void func_021EE7F4(char *p, unsigned r)
 {
     if (r - 0x1f <= 1) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), 0x1e);
+        func_020260E4(((BoxTask *)p)->work->sound, 0x1e);
         r = 0x1e;
     } else if (r == 0x21 || r == 0x26 || r - 0x28 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), *(unsigned *)(WORK(p) + 0xa168));
-        r = *(unsigned *)(WORK(p) + 0xa168);
+        func_020260E4(((BoxTask *)p)->work->sound, (*(unsigned *)&((BoxTask *)p)->work->heldSlot));
+        r = (*(unsigned *)&((BoxTask *)p)->work->heldSlot);
     } else {
         func_021EE408(p, r);
     }
     func_021EE754((unsigned char *)p, r);
-    *(unsigned *)(WORK(p) + 0xa168) = r;
+    (*(unsigned *)&((BoxTask *)p)->work->heldSlot) = r;
 }
 
 
@@ -1404,7 +1393,7 @@ void func_021EE7F4(char *p, unsigned r)
 
 unsigned func_021EE850(char *p)
 {
-    unsigned r = func_02025DE8(((struct Obj24039 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
             func_021DD238(p);
@@ -1426,23 +1415,17 @@ unsigned func_021EE850(char *p)
 
 
 
-#undef WORK
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
@@ -1451,12 +1434,12 @@ unsigned func_021EE850(char *p)
 
 unsigned func_021EE8A8(char *p)
 {
-    unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
-    unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
+    unsigned char sel = func_020260E0(((BoxTask *)p)->work->sound);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
 
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 9 && r <= 14) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1469,11 +1452,11 @@ unsigned func_021EE8A8(char *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+        func_020260E4(((BoxTask *)p)->work->sound, sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1487,8 +1470,8 @@ unsigned func_021EE8A8(char *p)
 
 void func_021EE944(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1509,7 +1492,7 @@ void func_021EE95C(void *a, int tag)
 
 unsigned func_021EE96C(char *p)
 {
-    unsigned r = func_02025DE8(((struct Obj24040 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
             func_021DD238(p);
@@ -1537,31 +1520,25 @@ unsigned func_021EE96C(char *p)
 void func_021EE9C4(char *p, int a, int b)
 {
     func_021EE754((unsigned char *)p, a);
-    func_021EEF74((char *)(*(int *)&((BoxTask *)p)->f2C), a, b);
-    func_021DC9B4((char *)(*(int *)&((BoxTask *)p)->f2C), 0x021E066D);
-    *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA168) = a;
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, 0x021E066D);
+    ((BoxTask *)p)->work->heldSlot = a;
 }
 
 
 
 
 
-#undef WORK
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
-#define WORK(p) (*(char **)((p) + 0x2c))
 
 
 
@@ -1570,39 +1547,33 @@ void func_021EE9C4(char *p, int a, int b)
 void func_021EE9F4(char *p, unsigned r)
 {
     if (r - 0x25 <= 1) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), 0x24);
+        func_020260E4(((BoxTask *)p)->work->sound, 0x24);
         r = 0x24;
     } else if (r - 0x28 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), *(unsigned *)(WORK(p) + 0xa168));
-        r = *(unsigned *)(WORK(p) + 0xa168);
+        func_020260E4(((BoxTask *)p)->work->sound, (*(unsigned *)&((BoxTask *)p)->work->heldSlot));
+        r = (*(unsigned *)&((BoxTask *)p)->work->heldSlot);
     } else {
         func_021EE408(p, r);
     }
     func_021EE754((unsigned char *)p, r);
-    *(unsigned *)(WORK(p) + 0xa168) = r;
+    (*(unsigned *)&((BoxTask *)p)->work->heldSlot) = r;
 }
 
 
 
 
 
-#undef WORK
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
@@ -1611,11 +1582,11 @@ void func_021EE9F4(char *p, unsigned r)
 
 unsigned func_021EEA48(char *p)
 {
-    unsigned char sel = func_020260E0(OBJ(p));
-    unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    unsigned char sel = func_020260E0((((BoxTask *)p)->work->sound));
+    unsigned r = func_02025DE8((((BoxTask *)p)->work->sound));
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r - 0x24 <= 2) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1628,11 +1599,11 @@ unsigned func_021EEA48(char *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        func_020260E4(OBJ(p), sel);
+        func_020260E4((((BoxTask *)p)->work->sound), sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1656,8 +1627,8 @@ unsigned func_021EEA48(char *p)
 
 void func_021EEB18(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1675,23 +1646,17 @@ void func_021EEB30(void *a, int tag)
 
 
 
-#undef WORK
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
@@ -1705,12 +1670,12 @@ void func_021EEB30(void *a, int tag)
  */
 unsigned func_021EEB40(char *p)
 {
-    unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
-    unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
+    unsigned char sel = func_020260E0(((BoxTask *)p)->work->sound);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
 
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r - 9 <= 2) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1723,11 +1688,11 @@ unsigned func_021EEB40(char *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+        func_020260E4(((BoxTask *)p)->work->sound, sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1741,8 +1706,8 @@ unsigned func_021EEB40(char *p)
 
 void func_021EEBDC(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1763,8 +1728,8 @@ void func_021EEBF4(void *a, int tag)
 
 void func_021EEC04(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1776,7 +1741,7 @@ void func_021EEC04(char *p, int a, int b)
  */
 void func_021EEC1C(char *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)(*(int *)(((struct Obj18531 *)p)->f2C + 0x70)), (unsigned char)a);
+    func_020260E4((struct Sound *)((*(int *)&((BoxTask *)p)->work->sound)), (unsigned char)a);
     func_021EE408(p, a);
 }
 
@@ -1786,8 +1751,8 @@ void func_021EEC1C(char *p, unsigned int a)
 
 void func_021EEC38(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1795,20 +1760,16 @@ void func_021EEC38(char *p, int a, int b)
 
 void func_021EEC50(char *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)(*(int *)(((struct Obj18532 *)p)->f2C + 0x70)), (unsigned char)a);
+    func_020260E4((struct Sound *)((*(int *)&((BoxTask *)p)->work->sound)), (unsigned char)a);
     func_021EE408(p, a);
 }
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p)+0x2c))
 
 
 
@@ -1817,9 +1778,9 @@ void func_021EEC6C(char *p, int k, int v)
 {
     if (k >= 1 && k <= 4) func_021EE008(p, k-1, 1);
     else func_021EE008(p, 0, 0);
-    func_021EEF74(WORK(p), k, v);
-    func_021DC9B4(WORK(p), (int)func_021E066C);
-    *(int *)(WORK(p)+0xa168) = k;
+    func_021EEF74(((BoxTask *)p)->work, k, v);
+    func_021DC9B4(((BoxTask *)p)->work, (int)func_021E066C);
+    ((BoxTask *)p)->work->heldSlot = k;
 }
 
 
@@ -1829,42 +1790,33 @@ void func_021EECB0(char *p, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        func_020260E4((struct Sound *)(*(int *)(((struct Obj07241 *)p)->f2C + 0x70)),
-                      *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) & 0xff);
-        v = *(int *)(((struct Obj07241 *)p)->f2C + 0xA168);
+        func_020260E4((struct Sound *)((*(int *)&((BoxTask *)p)->work->sound)),
+                      ((BoxTask *)p)->work->heldSlot & 0xff);
+        v = ((BoxTask *)p)->work->heldSlot;
     } else {
         func_021EE408(p, a);
         v = a;
     }
-    *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) = v;
+    ((BoxTask *)p)->work->heldSlot = v;
 }
 
 
 
 
-#undef WORK
 
 
 
-#undef WORK
-
-
-#undef WORK
-
-#undef WORK
-
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
-#undef OBJ
 
 
-#undef OBJ
 
-#undef OBJ
 
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
+
+
+
+
 
 
 
@@ -1872,11 +1824,11 @@ void func_021EECB0(char *p, int a)
 
 unsigned func_021EECE4(char *p)
 {
-    unsigned char sel = func_020260E0(OBJ(p));
-    unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    unsigned char sel = func_020260E0((((BoxTask *)p)->work->sound));
+    unsigned r = func_02025DE8((((BoxTask *)p)->work->sound));
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x27) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1889,11 +1841,11 @@ unsigned func_021EECE4(char *p)
             return 0x22;
         }
         if (r == 0x23) {
-            func_020260E4(OBJ(p), sel);
+            func_020260E4((((BoxTask *)p)->work->sound), sel);
             return 0x23;
         }
     } else if (r == 0x1E || r - 0x21 <= 2) {
-        func_020260E4(OBJ(p), sel);
+        func_020260E4((((BoxTask *)p)->work->sound), sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1916,8 +1868,8 @@ unsigned func_021EECE4(char *p)
 
 void func_021EEDB8(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(((BoxTask *)p)->f2C, (int)((void *)&func_021E066C));
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)((void *)&func_021E066C));
 }
 
 
@@ -1933,18 +1885,13 @@ void func_021EEDD0(void *a, int tag)
 
 
 
-#undef WORK
 
 
 
-#undef WORK
 
 
-#undef WORK
 
-#undef WORK
 
-#define WORK(p) (*(char **)((p) + 0x2C))
 
 
 
@@ -1952,12 +1899,12 @@ void func_021EEDD0(void *a, int tag)
 
 unsigned func_021EEDE0(char *p)
 {
-    unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
-    unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
+    unsigned char sel = func_020260E0(((BoxTask *)p)->work->sound);
+    unsigned r = func_02025DE8(((BoxTask *)p)->work->sound);
 
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (func_021EF5E8(((BoxTask *)p)->work->winMgr) == 0) {
         if (r >= 9 && r <= 12) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             func_021EE408(p, sel);
             return -1;
         }
@@ -1970,11 +1917,11 @@ unsigned func_021EEDE0(char *p)
             return 7;
         }
         if (r == 8) {
-            func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+            func_020260E4(((BoxTask *)p)->work->sound, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        func_020260E4(*(void **)(WORK(p) + 0x70), sel);
+        func_020260E4(((BoxTask *)p)->work->sound, sel);
         func_021EE408(p, sel);
         return -1;
     }
@@ -1989,8 +1936,8 @@ unsigned func_021EEDE0(char *p)
  */
 void func_021EEE7C(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(*(char * *)&((BoxTask *)p)->f2C, (int)func_021E066C);
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)func_021E066C);
 }
 
 
@@ -2006,52 +1953,42 @@ void func_021EEE94(void *a, int tag)
 
 
 
-#undef WORK
-
-
-
-#undef WORK
-
-
-#undef WORK
-
-#undef WORK
-#define WORK(p) (*(char **)((p)+0x2c))
 
 
 
 
-#undef OBJ
 
 
 
-#undef OBJ
 
 
-#undef OBJ
 
-#undef OBJ
-#define OBJ(p) (*(void **)(WORK(p)+0x70))
+
+
+
+
+
+
 
 
 
 
 unsigned func_021EEEA4(char *p)
 {
-    unsigned char sel=func_020260E0(OBJ(p));
-    unsigned r=func_02025DE8(OBJ(p));
-    if(func_021EF5E8(*(struct WinMgr **)(WORK(p)+0x74))==0) {
+    unsigned char sel=func_020260E0((((BoxTask *)p)->work->sound));
+    unsigned r=func_02025DE8((((BoxTask *)p)->work->sound));
+    if(func_021EF5E8(((BoxTask *)p)->work->winMgr)==0) {
         if(r>=0x22 && r<=0x23) {
-            func_020260E4(OBJ(p),sel);
+            func_020260E4((((BoxTask *)p)->work->sound),sel);
             func_021EE408(p,sel);
             return -1;
         }
         if(r==0x21) {
-            func_020260E4(OBJ(p),sel);
+            func_020260E4((((BoxTask *)p)->work->sound),sel);
             return 0x21;
         }
     } else if(r==0x1e || r==0x21) {
-        func_020260E4(OBJ(p),sel);
+        func_020260E4((((BoxTask *)p)->work->sound),sel);
         func_021EE408(p,sel);
         return -1;
     }
@@ -2067,8 +2004,8 @@ unsigned func_021EEEA4(char *p)
 
 void func_021EEF50(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((BoxTask *)p)->f2C, a, b);
-    func_021DC9B4(*(char * *)&((BoxTask *)p)->f2C, (int)func_021E066C);
+    func_021EEF74(((BoxTask *)p)->work, a, b);
+    func_021DC9B4(((BoxTask *)p)->work, (int)func_021E066C);
 }
 
 
@@ -2090,17 +2027,17 @@ void func_021EEF68(char *a, int b)
  * Pull the two tag records through the p+0x70 lookup and hand both
  * pairs to the 0x54/0x10 emitter.
  */
-void func_021EEF74(char *q, int a, int b)
+void func_021EEF74(BoxWork *q, int a, int b)
 {
-    unsigned char *x = func_0202616C((void **)(((struct Obj12189 *)q)->f70), a);
-    unsigned char *y = func_0202616C((void **)(((struct Obj12189 *)q)->f70), b);
+    unsigned char *x = func_0202616C((void **)((*(int *)&q->sound)), a);
+    unsigned char *y = func_0202616C((void **)((*(int *)&q->sound)), b);
     func_021EEFA4(q, x[0], x[1], y[0], y[1]);
 }
 
 
 
 
-void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
+void func_021EEFA4(BoxWork *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
 {
     Motion *s;
     s=func_02030734(0x4c,8,0,d_021F1418,0x98f);
@@ -2113,7 +2050,7 @@ void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, 
     else { s->dy=ty-y; s->negy=1; }
     s->dx=((unsigned)(s->dx<<8)/(unsigned)s->steps)>>8;
     s->dy=((unsigned)(s->dy<<8)/(unsigned)s->steps)>>8;
-    *(Motion * *)&((BoxWork *)p)->f60=s;
+    *(Motion * *)&p->seq.entry=s;
 }
 
 
@@ -2270,7 +2207,6 @@ int func_021EF264(void)
 
 
 
-#define MGR(w) (*(struct WinMgr **)((w)+0x74))
 
 
 
@@ -2280,21 +2216,21 @@ int func_021EF264(void)
  */
 void func_021EF274(char *p)
 {
-    char *w=*(char * *)&((BoxTask *)p)->f2C;
-    MGR(w)=BGWINFRM_Create(2,12,0x4c);
+    BoxWork *w=((BoxTask *)p)->work;
+    (w->winMgr)=BGWINFRM_Create(2,12,0x4c);
     func_021EB744(w);
     func_021EF630(p);
     func_021EB79C((unsigned char *)p);
     func_021EB7C8(p);
-    BGWINFRM_AddFrame(MGR(w),8,1,11,15);
-    if(((struct Obj24042 *)(*(char * *)&((BoxTask *)p)->f0))->f24==4) func_021EF31C(MGR(w),8,8);
-    else func_021EF31C(MGR(w),8,9);
-    BGWINFRM_AddFrame(MGR(w),7,1,11,15);
-    func_021EF31C(MGR(w),7,10);
+    BGWINFRM_AddFrame((w->winMgr),8,1,11,15);
+    if(((BoxTask *)p)->params->mode==4) func_021EF31C((w->winMgr),8,8);
+    else func_021EF31C((w->winMgr),8,9);
+    BGWINFRM_AddFrame((w->winMgr),7,1,11,15);
+    func_021EF31C((w->winMgr),7,10);
     func_021EB95C(p);
-    BGWINFRM_AddFrame(MGR(w),9,1,11,21);
-    func_021EF31C(MGR(w),9,11);
-    func_021EF4C0(MGR(w));
+    BGWINFRM_AddFrame((w->winMgr),9,1,11,21);
+    func_021EF31C((w->winMgr),9,11);
+    func_021EF4C0((w->winMgr));
 }
 
 
@@ -2304,9 +2240,9 @@ void func_021EF274(char *p)
 /*
  * Forward the word at +0x74.
  */
-void func_021EF310(char *p)
+void func_021EF310(BoxWork *p)
 {
-    BGWINFRM_Delete(*(struct WinMgr * *)&((BoxWork *)p)->f74);
+    BGWINFRM_Delete(*(struct WinMgr * *)&p->winMgr);
 }
 
 
@@ -2420,9 +2356,9 @@ int func_021EF400(unsigned char *p)
     signed char a[2];
     signed char b[2];
     unsigned r;
-    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24043 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &a[1], &a[0]);
-    r = BGWINFRM_UpdateMove(*(struct WinMgr * *)&((struct Obj24044 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8);
-    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24045 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &b[1], &b[0]);
+    BGWINFRM_GetPos(((BoxTask *)p)->work->winMgr, 8, &a[1], &a[0]);
+    r = BGWINFRM_UpdateMove(((BoxTask *)p)->work->winMgr, 8);
+    BGWINFRM_GetPos(((BoxTask *)p)->work->winMgr, 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
         func_021EC8E4((char *)p);
     {
@@ -2591,8 +2527,8 @@ int func_021EF60C(struct WinMgr *mgr)
 void func_021EF630(char *p)
 {
     int x = func_0204162C(0);
-    BGWINFRM_AddFrame(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, 0, 0x20, 3);
-    BGWINFRM_SetFrameData(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, (const void *)(x + 0x540));
+    BGWINFRM_AddFrame(((BoxTask *)p)->work->winMgr, 6, 0, 0x20, 3);
+    BGWINFRM_SetFrameData(((BoxTask *)p)->work->winMgr, 6, (const void *)(x + 0x540));
 }
 
 
@@ -2611,9 +2547,9 @@ void func_021EF660(struct WinMgr *mgr)
 /*
  * Forward the word at +0x74 plus constants to BGWINFRM_PutFrame.
  */
-void func_021EF670(char *p)
+void func_021EF670(BoxWork *p)
 {
-    BGWINFRM_PutFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa, 0, 0x15);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&p->winMgr, 0xa, 0, 0x15);
 }
 
 
@@ -2623,18 +2559,18 @@ void func_021EF670(char *p)
 /*
  * Forward the word at +0x74 with index 10.
  */
-void func_021EF680(char *p)
+void func_021EF680(BoxWork *p)
 {
-    BGWINFRM_HideFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa);
+    BGWINFRM_HideFrame(*(struct WinMgr * *)&p->winMgr, 0xa);
 }
 
 
 
 
 
-void func_021EF68C(char *p)
+void func_021EF68C(BoxWork *p)
 {
-    BGWINFRM_PutFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb, 0, 0x15);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&p->winMgr, 0xb, 0, 0x15);
 }
 
 
@@ -2644,9 +2580,9 @@ void func_021EF68C(char *p)
 /*
  * Forward the word at +0x74 with index 11.
  */
-void func_021EF69C(char *p)
+void func_021EF69C(BoxWork *p)
 {
-    BGWINFRM_HideFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb);
+    BGWINFRM_HideFrame(*(struct WinMgr * *)&p->winMgr, 0xb);
 }
 
 
@@ -2670,17 +2606,12 @@ void func_021EF6CC(struct WinMgr *mgr)
 
 
 
-#undef MGR
 
 
 
-#undef MGR
 
 
-#undef MGR
 
-#undef MGR
-#define MGR(p) (*(struct WinMgr **)(*(char **)((p)+0x2c)+0x74))
 
 
 
@@ -2692,9 +2623,9 @@ unsigned func_021EF6E0(char *p)
 {
     signed char a[2], b[2];
     unsigned r;
-    BGWINFRM_GetPos(MGR(p),7,&a[1],&a[0]);
-    r=BGWINFRM_UpdateMove(MGR(p),7);
-    BGWINFRM_GetPos(MGR(p),7,&b[1],&b[0]);
+    BGWINFRM_GetPos(((BoxTask *)p)->work->winMgr,7,&a[1],&a[0]);
+    r=BGWINFRM_UpdateMove(((BoxTask *)p)->work->winMgr,7);
+    BGWINFRM_GetPos(((BoxTask *)p)->work->winMgr,7,&b[1],&b[0]);
     if(a[1]!=b[1] || a[0]!=b[0]) func_021ED8A4(p);
     return r;
 }

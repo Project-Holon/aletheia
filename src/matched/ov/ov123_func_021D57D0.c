@@ -1,5 +1,5 @@
 /*
- * function: func_021D57D0
+ * function: GSYNC_MESSAGE_SetMonName
  * address: 0x021D57D0
  * packet: pkt_ov123_021D57D0
  * region: ov123
@@ -20,7 +20,7 @@ extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void func_0201EEF4(struct WordSet *,u32,void *);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-void func_021D57D0(void *p, int msg, int n, void *mon) {
+void GSYNC_MESSAGE_SetMonName(void *p, int msg, int n, void *mon) {
 MSGDATA_ReadString(*(void **)((unsigned)p+0x20),msg,*(void **)((unsigned)p+0x30));
 func_0201EEF4(*(void **)((unsigned)p+0x24),0,mon);
 func_0201EFA4(*(void **)((unsigned)p+0x24),1,n,3,1,1);

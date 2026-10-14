@@ -102,8 +102,8 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_0220E0E0 0x0220E0E0 data a1
  *   func_02030734 0x02030734 arm
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   func_0200829C 0x0200829C thumb
  *   func_020082B0 0x020082B0 thumb
@@ -518,8 +518,8 @@ extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
 extern void BTLV_FINGER_CURSOR_DeleteActor(int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void *func_021F86D4(void);
-extern int func_021F86E0(void);
+extern void *BTLV_EFFECT_GetOwner(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern void *func_02030DA8(void *, u32, void *, u32);
 extern void func_0200829C(const struct MyItemSave *p, int i, s16_0220C834 *a, s16_0220C834 *b);
 extern u16 func_020082B0(const struct MyItemSave *p);
@@ -1598,9 +1598,9 @@ void func_0220C834(u8 *arg)
     int v;
     int sz = 0x5A4;
     p = func_02030734(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = func_02030DA8(func_021F86D4(), (u32)func_0220C914, p, 0x64);
+    q = func_02030DA8(BTLV_EFFECT_GetOwner(), (u32)func_0220C914, p, 0x64);
     *(u8 **)p = arg;
-    *(void **)(p + 8) = (void *)func_021F86E0();
+    *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
     *(int *)(p + sz - 4) = z;
     if (*(int *)(*(u8 **)p + 8) == 1) {
@@ -1683,7 +1683,7 @@ int func_0220C980(char *p)
     else func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,0);
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj00736 *)p)->f8,3,224,32);
-    PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,func_021F86D4());
+    PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,BTLV_EFFECT_GetOwner());
     if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) func_0220D7F0(p,((struct Obj00736 *)p)->f532);
     ((struct Obj00736 *)p)->f5A0=1;
     return 2;
@@ -1718,7 +1718,7 @@ int func_0220CAAC(char *p)
     func_0220D8C4((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
     GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj01076 *)p)->f8, 3, 0xe0, 0x20);
-    PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, func_021F86D4());
+    PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
     ((struct Obj01076 *)p)->f5A0 = 1;
     return 2;
 }
@@ -2128,7 +2128,7 @@ int func_0220D358(char *p)
 
 
 
-int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,func_021F86D4());return 19;}
+int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
 
 
 

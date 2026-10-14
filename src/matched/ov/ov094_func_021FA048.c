@@ -1,5 +1,5 @@
 /*
- * function: func_021FA048
+ * function: BTLV_EFFVM_CmdMoveCameraEased
  * address:  0x021FA048
  * packet:   pkt_ov094_021FA048
  * region:   ov094
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021F8684  0x021F8684  thumb  ov094
- *   func_021F7000  0x021F7000  thumb  ov094
+ *   BTLV_EFFECT_GetCamera  0x021F8684  thumb  ov094
+ *   BTLV_CAMERA_StartMoveWithEasing  0x021F7000  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -23,10 +23,10 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021F8684(void);
-extern void func_021F7000(int cam, int mode, int v, int unused, int n, int g, int h);
+extern int BTLV_EFFECT_GetCamera(void);
+extern void BTLV_CAMERA_StartMoveWithEasing(int cam, int mode, int v, int unused, int n, int g, int h);
 
-int func_021FA048(void *r, Ctx *c)
+int BTLV_EFFVM_CmdMoveCameraEased(void *r, Ctx *c)
 {
     int v0;
     int v1;
@@ -41,6 +41,6 @@ int func_021FA048(void *r, Ctx *c)
     v3 = VM_GetU32(r);
     v4 = VM_GetU32(r);
     v5 = VM_GetU32(r);
-    func_021F7000(func_021F8684(), v0, v1, v2, v3, v4, v5);
+    BTLV_CAMERA_StartMoveWithEasing(BTLV_EFFECT_GetCamera(), v0, v1, v2, v3, v4, v5);
     return c->ret;
 }

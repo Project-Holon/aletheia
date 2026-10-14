@@ -1,5 +1,5 @@
 /*
- * function: func_022006B4
+ * function: BTLV_MCSS_ApplySlotScale
  * address:  0x022006B4
  * packet:   pkt_ov094_022006B4
  * region:   ov094
@@ -15,8 +15,8 @@
  * symbols:
  *   MCSS_SetScale  0x02015CAC  thumb
  *   MCSS_SetOfsScale  0x02015D30  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02201934  0x02201934  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_CalcSlotScale  0x02201934  thumb  ov094
  *
  * MATCH: bytes identical; blocked on 0x02015D30, an unlabelled ARM9 Thumb
  * leaf (stores a VecFx32 at +0x104, beside the matched MCSS_SetScale) with no
@@ -49,8 +49,8 @@ typedef struct {
     fx32 x, y, z;
 } VecFx32;
 
-extern int func_022019F4(char *p, int key);
-extern int func_02201934(Work *w, int i, int mode);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern int BTLV_MCSS_CalcSlotScale(Work *w, int i, int mode);
 extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetOfsScale(void *p, u32 *src);
 
@@ -59,9 +59,9 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
     return (fx32)(((s64)a * b + 0x800LL) >> 12);
 }
 
-void func_022006B4(Work *w, int i)
+void BTLV_MCSS_ApplySlotScale(Work *w, int i)
 {
-    int idx = func_022019F4((char *)w, i);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, i);
     fx32 v;
     VecFx32 s;
 
@@ -69,7 +69,7 @@ void func_022006B4(Work *w, int i)
         return;
     if (w->e[idx].h == 0)
         return;
-    v = func_02201934(w, i, w->e[idx].flip);
+    v = BTLV_MCSS_CalcSlotScale(w, i, w->e[idx].flip);
     if (i & 1)
         v = FX_Mul(v, w->scaleOdd);
     else
@@ -78,7 +78,7 @@ void func_022006B4(Work *w, int i)
     s.y = v;
     s.z = 0x1000;
     MCSS_SetScale(w->e[idx].h, (u32 *)(&s));
-    v = func_02201934(w, i, 0);
+    v = BTLV_MCSS_CalcSlotScale(w, i, 0);
     s.x = v;
     s.y = v;
     s.z = 0x1000;

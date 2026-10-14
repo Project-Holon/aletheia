@@ -1,5 +1,5 @@
 /*
- * function: func_021E0CC0
+ * function: POKETRADE_SAVE_StepRebuildSceneAfterWipe
  * address: 0x021E0CC0
  * packet: pkt_ov119_021E0CC0
  * region: ov119
@@ -14,21 +14,21 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_021E106C 0x021E106C thumb ov119
- *   func_021E57A4 0x021E57A4 thumb ov119
- *   func_021E53CC 0x021E53CC thumb ov119
- *   func_021E57E8 0x021E57E8 thumb ov119
- *   func_021E5680 0x021E5680 thumb ov119
- *   func_021E58A0 0x021E58A0 thumb ov119
- *   func_021E467C 0x021E467C thumb ov119
- *   func_021E4420 0x021E4420 thumb ov119
- *   func_021E3E80 0x021E3E80 thumb ov119
- *   func_021E3FE4 0x021E3FE4 thumb ov119
- *   func_021E3F74 0x021E3F74 thumb ov119
- *   func_021E3208 0x021E3208 thumb ov119
- *   func_021E3C20 0x021E3C20 thumb ov119
+ *   POKETRADE_SAVE_CloseMessageWindow 0x021E106C thumb ov119
+ *   POKETRADE_2D_ExitSubBgs 0x021E57A4 thumb ov119
+ *   POKETRADE_2D_ExitSummaryBgs 0x021E53CC thumb ov119
+ *   POKETRADE_2D_SetDisplayConfig 0x021E57E8 thumb ov119
+ *   POKETRADE_2D_SetupSubBgs 0x021E5680 thumb ov119
+ *   POKETRADE_2D_RegisterIconSpriteResources 0x021E58A0 thumb ov119
+ *   POKETRADE_2D_CreateBoxIconActors 0x021E467C thumb ov119
+ *   POKETRADE_2D_CreateBoxWindows 0x021E4420 thumb ov119
+ *   POKETRADE_2D_LoadBackgroundGfx 0x021E3E80 thumb ov119
+ *   POKETRADE_2D_CreateFontResource 0x021E3FE4 thumb ov119
+ *   POKETRADE_2D_LoadMainGfxAndMessageWindow 0x021E3F74 thumb ov119
+ *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
+ *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DACE4 0x021DACE4 thumb ov119
  */
 #include "../include/Obj02828.h"
@@ -42,23 +42,23 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_021E106C(char *p);
-extern void func_021E57A4(int);
-extern void func_021E53CC(int p);
-extern void func_021E57E8(int);
-extern void func_021E5680(char *p);
-extern void func_021E58A0(int);
-extern void func_021E467C(char *p);
-extern void func_021E4420(char *p);
-extern void func_021E3E80(char *);
-extern void func_021E3FE4(char *p);
-extern void func_021E3F74(char *p);
-extern void func_021E3208(void *,int);
-extern void func_021E3C20(char *p);
+extern void POKETRADE_SAVE_CloseMessageWindow(char *p);
+extern void POKETRADE_2D_ExitSubBgs(int);
+extern void POKETRADE_2D_ExitSummaryBgs(int p);
+extern void POKETRADE_2D_SetDisplayConfig(int);
+extern void POKETRADE_2D_SetupSubBgs(char *p);
+extern void POKETRADE_2D_RegisterIconSpriteResources(int);
+extern void POKETRADE_2D_CreateBoxIconActors(char *p);
+extern void POKETRADE_2D_CreateBoxWindows(char *p);
+extern void POKETRADE_2D_LoadBackgroundGfx(char *);
+extern void POKETRADE_2D_CreateFontResource(char *p);
+extern void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p);
+extern void POKETRADE_3D_AddUnitAndInit(void *,int);
+extern void POKETRADE_3D_CreateTouchbar(char *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021DACE4(char *p);
-void func_021E0CC0(char *p)
+void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
 {
     if(((struct Obj02828 *)p)->fF2C>=6 && WIPE_SYS_EndCheck()) {
         if(((struct Obj02828 *)p)->f644) func_0203FB44((int)6,(u16)(((struct Obj02828 *)p)->f644),(u16)(((struct Obj02828 *)p)->f644>>16));
@@ -66,13 +66,13 @@ void func_021E0CC0(char *p)
         BG_SYS_SetMainVisiblePlanes((int)0);BG_SYS_SetSubVisiblePlanes((int)0);
         CLACT_DeleteUnit(((struct Obj02828 *)p)->f9C4);
         ((struct Obj02828 *)p)->f9C4=CLACT_CreateUnit(0x154,0,((struct Obj02828 *)p)->f5F4);
-        func_021E106C(p);func_021E57A4((int)p);func_021E53CC((int)p);
-        func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
-        func_021E467C(p);func_021E4420(p);func_021E3E80(p);
-        func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);
-        BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);func_021E3C20(p);
+        POKETRADE_SAVE_CloseMessageWindow(p);POKETRADE_2D_ExitSubBgs((int)p);POKETRADE_2D_ExitSummaryBgs((int)p);
+        POKETRADE_2D_SetDisplayConfig(0);POKETRADE_2D_SetupSubBgs(p);POKETRADE_2D_RegisterIconSpriteResources((int)p);
+        POKETRADE_2D_CreateBoxIconActors(p);POKETRADE_2D_CreateBoxWindows(p);POKETRADE_2D_LoadBackgroundGfx(p);
+        POKETRADE_2D_CreateFontResource(p);POKETRADE_2D_LoadMainGfxAndMessageWindow(p);POKETRADE_3D_AddUnitAndInit(p,0);
+        BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);POKETRADE_3D_CreateTouchbar(p);
         GFL_NET_RestartWithDefaultTimeout(1,((struct Obj02828 *)p)->f5F4);
         ((struct Obj02828 *)p)->f11FA=0;
-        func_021D8E84(p,(int)func_021DACE4);
+        POKETRADE_PROC_SetStep(p,(int)func_021DACE4);
     }
 }

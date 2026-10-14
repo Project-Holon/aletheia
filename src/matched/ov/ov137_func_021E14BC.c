@@ -1,5 +1,5 @@
 /*
- * function: func_021E14BC
+ * function: GURU2_MAIN_DeletePulseEffectTask
  * address:  0x021E14BC
  * packet:   pkt_021E14BC
  * region:   ov137
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021E14BC(u8 *p)
+void GURU2_MAIN_DeletePulseEffectTask(u8 *p)
 {
     func_02030EAC(((struct Obj23799 *)p)->fD90);
 }

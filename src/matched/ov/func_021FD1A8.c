@@ -1,5 +1,5 @@
 /*
- * function: func_021FD1A8
+ * function: BTLV_EFFVM_FindEmitterSlot
  * address:  0x021FD1A8
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FD1A8   0x021FD1A8  thumb
+ *   BTLV_EFFVM_FindEmitterSlot   0x021FD1A8  thumb
  *
  * lane O10 candidate
  */
 
-int func_021FD1A8(char *p, int v)
+int BTLV_EFFVM_FindEmitterSlot(char *p, int v)
 {
     int i;
 

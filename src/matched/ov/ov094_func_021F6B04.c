@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B04
+ * function: BTLV_FIELD_Create
  * address: 0x021F6B04
  * packet: pkt_ov094_021F6B04
  * region: ov094
@@ -23,7 +23,7 @@
  *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   sub_020307B0 0x020307B0 arm
- *   d_0220AC50 0x0220AC50 data ov094 a1
+ *   gBtlvFieldFileName 0x0220AC50 data ov094 a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,7 +47,7 @@ typedef struct {
     u16 heap;
     u16 pad6e;
 } Obj;
-extern const char d_0220AC50[];
+extern const char gBtlvFieldFileName[];
 extern void *sub_02030734(u32, u32, int, const char *, u16);
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 extern void *G3D_SYSTEM_CreateResourceArc(u32, u32);
@@ -65,13 +65,13 @@ extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern u32 sub_020307B0(void *p);
 
-Obj *func_021F6B04(int unused, int group, u8 variant, u16 heap)
+Obj *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
 {
     Obj *o;
     int (*table)[4][4];
     int i, j;
     int bytes;
-    o = sub_02030734(heap, 0x70, 1, d_0220AC50, 0x56);
+    o = sub_02030734(heap, 0x70, 1, gBtlvFieldFileName, 0x56);
     table = ARC_TOOL_LoadMember(0x98, 1, (u16)((heap & 0x7fff) | 0x8000));
     o->heap = heap;
     if (table[group][0][variant] != -1)
@@ -85,9 +85,9 @@ Obj *func_021F6B04(int unused, int group, u8 variant, u16 heap)
     o->f14 = G3D_SYSTEM_CreateRender(o->f0, 0, o->f0);
     j = 0;
     if (o->n != 0) {
-        o->fc = sub_02030734(o->heap, o->n * 4, 0, d_0220AC50, 0x7e);
-        o->f10 = sub_02030734(o->heap, o->n * 4, 0, d_0220AC50, 0x7f);
-        o->f8 = sub_02030734(o->heap, o->n * 16, 1, d_0220AC50, 0x80);
+        o->fc = sub_02030734(o->heap, o->n * 4, 0, gBtlvFieldFileName, 0x7e);
+        o->f10 = sub_02030734(o->heap, o->n * 4, 0, gBtlvFieldFileName, 0x7f);
+        o->f8 = sub_02030734(o->heap, o->n * 16, 1, gBtlvFieldFileName, 0x80);
         for (i = 1; i < 4; i++) {
             if (table[group][i][variant] != -1) {
                 o->fc[j] = G3D_SYSTEM_CreateResourceArc(11, table[group][i][variant]);
@@ -109,10 +109,10 @@ Obj *func_021F6B04(int unused, int group, u8 variant, u16 heap)
     o->f30 = 0x1000;
     func_0207ADC4(o->matrix);
     bytes = *(u16 *)(NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(o->f0)) + 0x30) * 8;
-    o->f58 = sub_02030734(o->heap, 4, 0, d_0220AC50, 0xaa);
-    o->f5c = sub_02030734(o->heap, 4, 0, d_0220AC50, 0xab);
+    o->f58 = sub_02030734(o->heap, 4, 0, gBtlvFieldFileName, 0xaa);
+    o->f5c = sub_02030734(o->heap, 4, 0, gBtlvFieldFileName, 0xab);
     *o->f58 = o->f0;
-    *o->f5c = sub_02030734(o->heap, bytes, 0, d_0220AC50, 0xae);
+    *o->f5c = sub_02030734(o->heap, bytes, 0, gBtlvFieldFileName, 0xae);
     o->f60 = 0;
     o->f61 = 1;
     sub_020307B0(table);

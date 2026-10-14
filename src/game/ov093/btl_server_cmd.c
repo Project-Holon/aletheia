@@ -458,16 +458,16 @@
  *   BTL_CLIENT_IsCounterReplayDone 0x021D3F98 thumb ov093
  *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_021F88BC 0x021F88BC thumb ov094
- *   func_021F8678 0x021F8678 thumb ov094
+ *   BTLV_EFFECT_SetFlag26 0x021F88BC thumb ov094
+ *   BTLV_EFFECT_GetWorkPtr 0x021F8678 thumb ov094
  *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
  *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
  *   gBtlClientCommandTable 0x021EFFEC data a4
- *   func_021F8524 0x021F8524 thumb ov094
+ *   BTLV_EFFECT_TimerIsExpired 0x021F8524 thumb ov094
  *   BTLV_CORE_StartOpening  0x021E90A0  thumb  ov093
  *   BTLV_CORE_PollOpening  0x021E90D0  thumb  ov093
- *   func_021F84E8  0x021F84E8  thumb  ov094
- *   func_021F8504  0x021F8504  thumb  ov094
+ *   BTLV_EFFECT_TimerStart  0x021F84E8  thumb  ov094
+ *   BTLV_EFFECT_TimerSetVisible  0x021F8504  thumb  ov094
  *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
  *   BTL_CLIENT_RequestCounterAdvance  0x021D3F54  thumb  ov093
@@ -494,14 +494,14 @@
  *   BTL_PICK_Pop 0x0689CB08 thumb ov095
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
- *   func_021F7F58 0x021F7F58 thumb ov094
- *   func_021F7998 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_AddPokeSprite 0x021F7F58 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
  *   BTLV_CORE_PrintTrainerMessage 0x021EA6B0 thumb ov093
  *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
- *   func_021F87EC 0x021F87EC thumb ov094
- *   func_021F8774 0x021F8774 thumb ov094
+ *   BTLV_EFFECT_SaveBgmNo 0x021F87EC thumb ov094
+ *   BTLV_EFFECT_PollLowHpBgm 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   func_0202A298 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
@@ -564,7 +564,7 @@
  *   BTL_REC_AppendPacket  0x021EE608  thumb  ov093
  *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
- *   func_021F878C   0x021F878C  thumb ov094
+ *   BTLV_EFFECT_StopLowHpBgm   0x021F878C  thumb ov094
  *   BTLV_CORE_PrintMessageBuffer 0x021EA600 thumb ov093
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
@@ -592,7 +592,7 @@
  *   BTLV_CORE_ProcMultiDamageEffect  0x021EA2BC  thumb  ov093
  *   BTLV_CORE_StartMonSpriteUpdate  0x021EA384  thumb  ov093
  *   BTLV_CORE_WaitMonSpriteUpdate  0x021EA3A0  thumb  ov093
- *   func_021F81D0  0x021F81D0  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetStatusIcon  0x021F81D0  thumb  ov094
  *   BTLV_CORE_StartMonReset  0x021EA40C  thumb  ov093
  *   BTLV_CORE_WaitMonReset  0x021EA428  thumb  ov093
  *   BTLV_CORE_StartMonRefresh  0x021EA438  thumb  ov093
@@ -607,8 +607,8 @@
  *   BTLV_CORE_WaitSlotEffect25F  0x021EA850  thumb  ov093
  *   BTLV_CORE_StartRotation  0x021EA904  thumb  ov093
  *   BTLV_CORE_WaitRotation  0x021EA950  thumb  ov093
- *   func_021F7E94 0x021F7E94 thumb ov094
- *   func_021F7EA4  0x021F7EA4  thumb  ov094
+ *   BTLV_EFFECT_StartPokeEffectId26E 0x021F7E94 thumb ov094
+ *   BTLV_EFFECT_StartPokeEffectId26F  0x021F7EA4  thumb  ov094
  *   BTLV_CORE_StartMonSpriteChangeAt  0x021EA8B4  thumb  ov093
  *   BTLV_CORE_WaitMonSpriteChangeAt  0x021EA8D4  thumb  ov093
  *   BTLV_CORE_StartHitAnim  0x021EA1B8  thumb  ov093
@@ -616,12 +616,12 @@
  *   BTLV_CORE_StartMonSpriteUnload 0x021EA8E4 thumb ov093
  *   BTLV_CORE_WaitMonSpriteUnload 0x021EA8F4 thumb ov093
  *   gEffortValueParams     0x021EFF88  data  ov093  a2
- *   func_021F8204 0x021F8204 thumb ov094
- *   func_021F8134 0x021F8134 thumb ov094
- *   func_021F8180 0x021F8180 thumb ov094
+ *   BTLV_EFFECT_GaugeIsSlotOccupied 0x021F8204 thumb ov094
+ *   BTLV_EFFECT_GaugeStartExpGain 0x021F8134 thumb ov094
+ *   BTLV_EFFECT_GaugeIsAnimating 0x021F8180 thumb ov094
  *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
- *   func_021F8150 0x021F8150 thumb ov094
+ *   BTLV_EFFECT_GaugeRefreshForLevelUp 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
  *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
@@ -643,11 +643,11 @@
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
  *   sLevelUpMoveScan      0x021F3B64  data
- *   func_021F7CFC 0x021F7CFC thumb ov094
- *   func_021F883C 0x021F883C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StopLowHpBgmAndSuppress 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
- *   func_021F7C0C 0x021F7C0C thumb ov094
- *   func_021F7D44  0x021F7D44  thumb  ov094
+ *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
  *   BTLV_CORE_StartClearSidePosition  0x021EAA6C  thumb  ov093
  *   BTLV_CORE_RunProc  0x021EAAD8  thumb  ov093
  *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093

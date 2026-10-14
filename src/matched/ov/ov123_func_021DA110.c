@@ -1,5 +1,5 @@
 /*
- * function: func_021DA110
+ * function: PDWACC_STATE_StateRestartTimeIcon
  * address: 0x021DA110
  * packet: pkt_ov123_021DA110
  * region: ov123
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9514 0x021D9514 thumb ov123
- *   func_021D95B4 0x021D95B4 thumb ov123
- *   func_021DA0E4 0x021DA0E4 thumb ov123
- *   func_021DA034 0x021DA034 thumb ov123
+ *   PDWACC_MESSAGE_PrintStream 0x021D9514 thumb ov123
+ *   PDWACC_MESSAGE_RestartTimeIcon 0x021D95B4 thumb ov123
+ *   PDWACC_STATE_StateSaveStart 0x021DA0E4 thumb ov123
+ *   PDWACC_STATE_ChangeState 0x021DA034 thumb ov123
  */
 #include "../include/Obj14000.h"
 typedef unsigned char u8;
-extern void func_021D9514(char *,int);
-extern void func_021D95B4(char *);
-extern void func_021DA0E4(char *);
-extern void func_021DA034(char *,int,int);
-void func_021DA110(char *p) { func_021D9514(*(char * *)&((struct Obj14000 *)p)->f10,6); func_021D95B4(*(char * *)&((struct Obj14000 *)p)->f10); func_021DA034(p,(int)func_021DA0E4,0x112); }
+extern void PDWACC_MESSAGE_PrintStream(char *,int);
+extern void PDWACC_MESSAGE_RestartTimeIcon(char *);
+extern void PDWACC_STATE_StateSaveStart(char *);
+extern void PDWACC_STATE_ChangeState(char *,int,int);
+void PDWACC_STATE_StateRestartTimeIcon(char *p) { PDWACC_MESSAGE_PrintStream(*(char * *)&((struct Obj14000 *)p)->f10,6); PDWACC_MESSAGE_RestartTimeIcon(*(char * *)&((struct Obj14000 *)p)->f10); PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StateSaveStart,0x112); }

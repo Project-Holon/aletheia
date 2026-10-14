@@ -1,5 +1,5 @@
 /*
- * function: func_021F6BC4
+ * function: WORLDTRADE_BOX_GetBoxCount
  * address:  0x021F6BC4
  * packet:   pkt_021F6BC4
  * region:   ov135
@@ -29,7 +29,7 @@ extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern const u32 tbl_02202C58[];
 
-u32 func_021F6BC4(void *sav)
+u32 WORLDTRADE_BOX_GetBoxCount(void *sav)
 {
     u32 f = POKE_TOOL_DecodeBoxParam(sav);
     u32 i;

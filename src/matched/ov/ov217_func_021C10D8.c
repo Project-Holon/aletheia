@@ -1,5 +1,5 @@
 /*
- * function: func_021C10D8
+ * function: CircleGraph_Destroy
  * address:  0x021C10D8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C1D74  0x021C1D74  thumb  ov217
- *   func_021C1DE8  0x021C1DE8  thumb  ov217
+ *   CircleGraph_DestroyQueueImpl  0x021C1D74  thumb  ov217
+ *   CircleGraph_Free  0x021C1DE8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C1D74(u32);
-extern u32 func_021C1DE8(void *a0);
-u32 func_021C10D8(void *a0)
+extern void CircleGraph_DestroyQueueImpl(u32);
+extern u32 CircleGraph_Free(void *a0);
+u32 CircleGraph_Destroy(void *a0)
 {
-    func_021C1D74((u32)a0);
-    return func_021C1DE8(a0);
+    CircleGraph_DestroyQueueImpl((u32)a0);
+    return CircleGraph_Free(a0);
 }
 

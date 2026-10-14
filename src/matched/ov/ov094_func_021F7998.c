@@ -1,5 +1,5 @@
 /*
- * function: func_021F7998
+ * function: BTLV_EFFECT_StartEffect
  * address:  0x021F7998
  * packet:   pkt_ov094_021F7998
  * region:   ov094
@@ -12,13 +12,13 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   d_0220AF20     0x0220AF20  data   ov094
- *   d_0220AC90     0x0220AC90  data   ov094  a1
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_021F94F8  0x021F94F8  thumb  ov094
- *   func_021F896C  0x021F896C  thumb  ov094
- *   func_021F8FE8  0x021F8FE8  thumb  ov094
- *   func_021F9028  0x021F9028  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFVM_StartScript  0x021F94F8  thumb  ov094
+ *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
+ *   BTLV_EFFECT_DelayedStartEffectTaskMain  0x021F8FE8  thumb  ov094
+ *   BTLV_EFFECT_FreeTaskArg  0x021F9028  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,29 +42,29 @@ typedef struct {
     int f10;
 } Job;
 
-extern Work *d_0220AF20;
-extern const char d_0220AC90[];
+extern Work *gBtlvEff;
+extern const char gBtlvEffectFileName[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern int func_021F7EB4(void);
-extern void func_021F94F8(void *h, int a, u32 b, u16 c, void *d);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021F8FE8(void *, void *);
-extern void func_021F9028(void *);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFVM_StartScript(void *h, int a, u32 b, u16 c, void *d);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFECT_DelayedStartEffectTaskMain(void *, void *);
+extern void BTLV_EFFECT_FreeTaskArg(void *);
 
-void func_021F7998(u32 a)
+void BTLV_EFFECT_StartEffect(u32 a)
 {
     Job *o;
 
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h188, 0xff, 0xff, a, 0);
-        d_0220AF20->f1e8 = 1;
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->h188, 0xff, 0xff, a, 0);
+        gBtlvEff->f1e8 = 1;
         return;
     }
-    o = sub_02030734((u16)((d_0220AF20->heap & 0x7fff) | 0x8000), 0x14, 1, d_0220AC90, 0x210);
+    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
     o->f4 = 0xff;
     o->f8 = 0xff;
     o->fc = a;
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8FE8, o, 0), func_021F9028, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }

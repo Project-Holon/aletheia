@@ -18,15 +18,15 @@
  *   func_021B7E34  0x021B7E34  thumb  ov172
  *   func_021B9044  0x021B9044  thumb  ov172
  *   func_021BBF2C  0x021BBF2C  thumb  ov172
- *   func_021BA9EC  0x021BA9EC  thumb  ov172
+ *   CTVT_DRAW_Main  0x021BA9EC  thumb  ov172
  *   func_021B80CC  0x021B80CC  thumb
  *   _fflt          0x0209BDBC  arm
  *   _fdiv          0x0209CE10  arm
  *   _ffixu         0x0209C4C8  arm
  *   func_021BDD6C  0x021BDD6C  thumb  ov172
- *   func_021B6C48  0x021B6C48  thumb  ov172
- *   func_021B712C  0x021B712C  thumb  ov172
- *   func_021B7590  0x021B7590  thumb  ov172
+ *   DRAW_SYSTEM_Nop  0x021B6C48  thumb  ov172
+ *   CTVT_CAMVIEW_Update  0x021B712C  thumb  ov172
+ *   CTVT_CAMVIEW_IsShutterIdle  0x021B7590  thumb  ov172
  *   func_021BDCB8  0x021BDCB8  thumb  ov172
  *   func_02061CA4  0x02061CA4  arm
  *   FX_SinCosTable_     0x020A1B38  data
@@ -49,12 +49,12 @@ extern void func_021B7E34(void *p, char *q);
 struct S;
 extern u32 func_021B9044(void *p, struct S *s);
 extern int func_021BBF2C(void *a0, char *p);
-extern int func_021BA9EC(void *a0, char *p);
+extern int CTVT_DRAW_Main(void *a0, char *p);
 extern u32 func_021B80CC(int unused, char *p);
 extern void func_021BDD6C(u8 *p);
-extern void func_021B6C48(u32 a);
-extern void func_021B712C(int unused, char *q);
-extern int func_021B7590(int x, char *p);
+extern void DRAW_SYSTEM_Nop(u32 a);
+extern void CTVT_CAMVIEW_Update(int unused, char *q);
+extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
 extern void func_021BDCB8(u8 *p);
 extern u32  WIPE_SYS_EndCheck(void);
 extern void CLACT_DrawSystem(void);
@@ -83,15 +83,15 @@ int func_021BD43C(char *ctx)
         F(0xc) = func_021BBF2C(ctx, (char *)F(0x1f0));
         break;
     case 3:
-        F(0xc) = func_021BA9EC(ctx, (char *)F(0x1ec));
+        F(0xc) = CTVT_DRAW_Main(ctx, (char *)F(0x1ec));
         break;
     case 4:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && func_021B7590((int)ctx, (char *)F(0x1e0)) == 1) {
+        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1) {
             return 1;
         }
         return 0;
     case 5:
-        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && func_021B7590((int)ctx, (char *)F(0x1e0)) == 1
+        if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && CTVT_CAMVIEW_IsShutterIdle((int)ctx, (char *)F(0x1e0)) == 1
             && WIPE_SYS_EndCheck() == 1) {
             return 1;
         }
@@ -103,8 +103,8 @@ int func_021BD43C(char *ctx)
     if (F(8) != F(0xc)) {
         func_021BDCB8((u8 *)ctx);
     }
-    func_021B712C((int)ctx, (char *)F(0x1e0));
-    func_021B6C48(F(0x1f4));
+    CTVT_CAMVIEW_Update((int)ctx, (char *)F(0x1e0));
+    DRAW_SYSTEM_Nop(F(0x1f4));
     CLACT_DrawSystem();
     PRINTSYS_QUE_Main((struct PrintSys *)F(0x1d0));
     func_021BDD6C((u8 *)ctx);

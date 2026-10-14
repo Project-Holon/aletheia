@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CDC
+ * function: WORLDTRADE_BOX_MonMatchesRequest
  * address:  0x021F6CDC
  * packet:   pkt_021F6CDC
  * region:   ov135
@@ -11,7 +11,7 @@
  *
   *
  * symbols:
- *   func_021F6C80  0x021F6C80  thumb
+ *   WORLDTRADE_BOX_TagMatchesRequest  0x021F6C80  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  */
 
@@ -30,14 +30,14 @@ typedef struct {
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
-extern int func_021F6C80(void *pa, void *pb);
+extern int WORLDTRADE_BOX_TagMatchesRequest(void *pa, void *pb);
 
-int func_021F6CDC(void *mon, void *want)
+int WORLDTRADE_BOX_MonMatchesRequest(void *mon, void *want)
 {
     MonTag t;
 
     t.species = func_02017E88(mon, 5, 0);
     t.form = func_02017E88(mon, 0x6E, 0) + 1;
     t.gender = POKE_TOOL_CalcBoxLevel(mon);
-    return func_021F6C80(&t, want);
+    return WORLDTRADE_BOX_TagMatchesRequest(&t, want);
 }

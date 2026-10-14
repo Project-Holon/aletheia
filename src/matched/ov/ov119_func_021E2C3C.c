@@ -1,5 +1,5 @@
 /*
- * function: func_021E2C3C
+ * function: POKETRADE_SAVE_Setup3DDrawState
  * address: 0x021E2C3C
  * packet: pkt_ov119_021E2C3C
  * region: ov119
@@ -63,7 +63,7 @@ static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)(
 static inline void alphatest(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 4); else *(volatile u16 *)0x04000060 &= (u16)~0x3004; }
 static inline void blend(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8); else *(volatile u16 *)0x04000060 &= (u16)~0x3008; }
 static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x20); else *(volatile u16 *)0x04000060 &= (u16)~0x3020; }
-void func_021E2C3C(Work *w, Transform *t)
+void POKETRADE_SAVE_Setup3DDrawState(Work *w, Transform *t)
 {
     unsigned i;
     VecFx32 v1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C65A8
+ * function: MB_SEQ_InitActorSystem
  * address:  0x021C65A8
  * packet:   pkt_ov136_021C65A8
  * region:   ov136
@@ -31,7 +31,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-void func_021C65A8(u8 *p)
+void MB_SEQ_InitActorSystem(u8 *p)
 {
     void *bank;
 

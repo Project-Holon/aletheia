@@ -1,5 +1,5 @@
 /*
- * function: func_021F9814
+ * function: BTLV_EFFVM_ClearBlockedFlag
  * address:  0x021F9814
  * packet:   pkt_ov094_021F9814
  * region:   ov094
@@ -12,11 +12,11 @@
  * Clears flag bit 7 of the owner's work.
  *
  * symbols:
- *   func_02011324 0x02011324 thumb
+ *   VM_GetUserData 0x02011324 thumb
  */
-extern unsigned *func_02011324(void *);
+extern unsigned *VM_GetUserData(void *);
 
-void func_021F9814(void *a)
+void BTLV_EFFVM_ClearBlockedFlag(void *a)
 {
-    *func_02011324(a) &= ~0x80;
+    *VM_GetUserData(a) &= ~0x80;
 }

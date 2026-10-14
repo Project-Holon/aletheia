@@ -1,5 +1,5 @@
 /*
- * function: func_0220041C
+ * function: BTLV_MCSS_SetAnimIndexIfValid
  * address:  0x0220041C
  * packet:   pkt_ov094_0220041C
  * region:   ov094
@@ -15,7 +15,7 @@
  * symbols:
  *   MCSS_GetAnimSeqNumEx  0x020160CC  thumb
  *   MCSS_SetAnimeIndex   0x02016028  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
  * MATCH: bytes identical (one prints MATCH*); blocked on 0x020160CC, an
  * unfiled unlabelled ARM9 Thumb leaf (the integrator's) with no witness outside this
@@ -43,14 +43,14 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern int MCSS_GetAnimSeqNumEx(void *h);
 extern void MCSS_SetAnimeIndex(void *h, u32 n);
 
-int func_0220041C(Work *w, int key, int n)
+int BTLV_MCSS_SetAnimIndexIfValid(Work *w, int key, int n)
 {
     int r = 0;
-    int i = func_022019F4((char *)w, key);
+    int i = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (i == -1)
         return 0;

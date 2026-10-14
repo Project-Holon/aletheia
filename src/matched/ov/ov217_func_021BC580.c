@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * symbols:
- *   func_021C29F8 0x021C29F8 thumb ov217
+ *   PALETTE_ANIME_Start 0x021C29F8 thumb ov217
  *   d_021C326C 0x021C326C data a4
  *   d_021C3270 0x021C3270 data a4
  */
@@ -19,9 +19,9 @@ extern const struct Ent d_021C326C[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021C29F8(u8 *p, u32 b, u16 c);
+extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
 
 void func_021BC580(char *p, int i)
 {
-    func_021C29F8((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].a, d_021C326C[i].b);
+    PALETTE_ANIME_Start((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].a, d_021C326C[i].b);
 }

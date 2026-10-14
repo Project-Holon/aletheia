@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdGetMissionIndex
+ * function: SCRCMD_RESEARCH_CmdGetMissionIndex
  * address:  0x0216B578
  * packet:   pkt_0216B578
  * region:   ov010
@@ -33,7 +33,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 
-int FIELD_G3D_MAP_CmdGetMissionIndex(int a0, int a1)
+int SCRCMD_RESEARCH_CmdGetMissionIndex(int a0, int a1)
 {
     int t4;
     int t5;

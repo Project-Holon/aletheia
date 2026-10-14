@@ -1,5 +1,5 @@
 /*
- * function: func_021B688C
+ * function: CTVT_CAMERA_IsShutterSoundIdle
  * address:  0x021B688C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021B688C(void *p)
+int CTVT_CAMERA_IsShutterSoundIdle(void *p)
 {
     u8 v = ((struct Obj24060 *)p)->f44;
     return v == 6 || v == 0;

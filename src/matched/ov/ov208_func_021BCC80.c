@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC80
+ * function: ZUKAN_DETAIL_MAIN_NoOp
  * address: 0x021BCC80
  * packet: pkt_ov208_021BCC80
  * region: ov208
@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * Unlabelled Thumb leaf (bx lr); not a function start in layout yet. Witness for func_021BCA68.
+ * Unlabelled Thumb leaf (bx lr); not a function start in layout yet. Witness for ZUKAN_DETAIL_MAIN_Init.
  */
-void func_021BCC80(void)
+void ZUKAN_DETAIL_MAIN_NoOp(void)
 {
 }

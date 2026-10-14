@@ -1,5 +1,5 @@
 /*
- * function: func_021DF9E8
+ * function: POKETRADE_NEGO_SendOfferMon
  * address: 0x021DF9E8
  * packet: pkt_ov119_021DF9E8
  * region: ov119
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_021DF9E8(char *p,void *src,int kind)
+int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind)
 {
     unsigned id;
     int one;

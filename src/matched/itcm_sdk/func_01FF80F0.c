@@ -1,5 +1,5 @@
 /*
- * function: func_01FF80F0
+ * function: OS_IrqHandler
  * address:  0x01FF80F0
  * packet:   pkt_01FF80F0
  * region:   arm9_autoload0_ITCM
@@ -10,13 +10,13 @@
  * status:   EXACT
  * symbols:
  *   d_02FE0020     0x02FE0020  data
- *   func_01FF8148  0x01FF8148  arm
+ *   OS_IrqHandler_ThreadSwitch  0x01FF8148  arm
  */
 
 extern void *d_02FE0020[32];
-extern void func_01FF8148(void);
+extern void OS_IrqHandler_ThreadSwitch(void);
 
-asm void func_01FF80F0(void)
+asm void OS_IrqHandler(void)
 {
     stmdb   sp!, {lr}
     mov     ip, #0x4000000
@@ -37,6 +37,6 @@ asm void func_01FF80F0(void)
     rsbs    r0, r0, #0x1f
     ldr     r1, =d_02FE0020
     ldr     r0, [r1, r0, lsl #2]
-    ldr     lr, =func_01FF8148
+    ldr     lr, =OS_IrqHandler_ThreadSwitch
     bx      r0
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02200140
+ * function: BTLV_MCSS_CopySpriteResources
  * address:  0x02200140
  * packet:   pkt_ov094_02200140
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MCSS_ReloadResource   0x02014CF8  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef struct {
     int a, b, c, d;
@@ -40,13 +40,13 @@ typedef struct {
 
 struct Sub02014CF8Ctx;
 struct Sub02014CF8Rec;
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 
-void func_02200140(Work *w, int key1, int key2)
+void BTLV_MCSS_CopySpriteResources(Work *w, int key1, int key2)
 {
-    int i1 = func_022019F4((char *)w, key1);
-    int i2 = func_022019F4((char *)w, key2);
+    int i1 = BTLV_MCSS_FindSpriteIndex((char *)w, key1);
+    int i2 = BTLV_MCSS_FindSpriteIndex((char *)w, key2);
 
     w->e[i2].f04 = w->e[i1].f04;
     w->e[i2].f0c = w->e[i1].f0c;

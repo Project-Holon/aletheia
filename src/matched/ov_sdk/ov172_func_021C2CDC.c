@@ -1,5 +1,5 @@
 /*
- * function: func_021C2CDC
+ * function: SSP_SetJpegEncoderDateTime
  * address:  0x021C2CDC
  * packet:   pkt_021C2CDC
  * region:   ov172
@@ -32,7 +32,7 @@ extern u8 g_021CADF0[];
 
 void func_02082EA4(void *dst, const void *src, u32 n);
 
-void func_021C2CDC(u8 *buf)
+void SSP_SetJpegEncoderDateTime(u8 *buf)
 {
     func_02082EA4(buf, g_021CAE14, 0x13);
     g_021CADF0[0x37] = 0;

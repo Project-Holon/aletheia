@@ -1,5 +1,5 @@
 /*
- * function: func_021F7F58
+ * function: BTLV_EFFECT_AddPokeSprite
  * address:  0x021F7F58
  * packet:   pkt_ov094_021F7F58
  * region:   ov094
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094  a4
+ *   gBtlvEff     0x0220AF20  data   ov094  a4
  *   d_02209D0C     0x02209D0C  data   ov094  a1
- *   func_021F88F4  0x021F88F4  thumb  ov094
- *   func_021FF088  0x021FF088  thumb  ov094
- *   func_021FF144  0x021FF144  thumb  ov094
+ *   BTLV_EFFECT_IsRecordEnabledInComm  0x021F88F4  thumb  ov094
+ *   BTLV_MCSS_AddTrainer  0x021FF088  thumb  ov094
+ *   BTLV_MCSS_SetPosition  0x021FF144  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 extern u8 d_02209D0C[];
-extern int func_021F88F4(void);
-extern void func_021FF088(u32 obj, int a, u32 b);
-extern void func_021FF144(u32 obj, u32 b, u32 c, u32 d, u32 e);
+extern int BTLV_EFFECT_IsRecordEnabledInComm(void);
+extern void BTLV_MCSS_AddTrainer(u32 obj, int a, u32 b);
+extern void BTLV_MCSS_SetPosition(u32 obj, u32 b, u32 c, u32 d, u32 e);
 
-void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e)
+void BTLV_EFFECT_AddPokeSprite(int a, u32 b, u32 c, u32 d, u32 e)
 {
     if (!(b & 1)) {
         switch (a) {
         case 0:
         case 1:
-            if (func_021F88F4())
+            if (BTLV_EFFECT_IsRecordEnabledInComm())
                 a += 4;
             break;
         case 0x3D:
@@ -51,13 +51,13 @@ void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e)
         switch (a) {
         case 0:
         case 1:
-            if (func_021F88F4())
+            if (BTLV_EFFECT_IsRecordEnabledInComm())
                 a += 0x67;
             break;
         }
     }
-    func_021FF088(*(u32 *)(d_0220AF20 + 0x190), a, b);
+    BTLV_MCSS_AddTrainer(*(u32 *)(gBtlvEff + 0x190), a, b);
     if (c != 0 || d != 0 || e != 0)
-        func_021FF144(*(u32 *)(d_0220AF20 + 0x190), b, c, d, e);
-    *(u32 *)(d_0220AF20 + (b - 8) * 4 + 0x1F8) = b;
+        BTLV_MCSS_SetPosition(*(u32 *)(gBtlvEff + 0x190), b, c, d, e);
+    *(u32 *)(gBtlvEff + (b - 8) * 4 + 0x1F8) = b;
 }

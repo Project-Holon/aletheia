@@ -1,5 +1,5 @@
 /*
- * function: func_02204CC0
+ * function: BTLV_INPUT_DrawWazaButtons
  * address:  0x02204CC0
  * packet:   pkt_ov094_02204CC0
  * region:   ov094
@@ -62,7 +62,7 @@
  *   propagation (offsets go to the pool), so not that either. The pragma is
  *   user-approved 2026-10-02.
  * note (2026-10-02, lane A2 pragma): neighbour check. The CSE-off pattern is
- *   per-function, not per-file: the EXACT next function func_022050F0 (same
+ *   per-function, not per-file: the EXACT next function BTLV_INPUT_DrawTargetButtons (same
  *   Work struct, same print callees, normal settings) keeps i*12 at sp+0x14
  *   and p+i*12 at sp+0x10 and reuses both after calls (ldr r2,[sp,#0x10] at
  *   0x022051B4 after blx 0x02045EC0; ldr r0,[sp,#0x14] at 0x02205212 after
@@ -80,7 +80,7 @@
  *   image's r2-first order, and with it q r6 / i*8 r7, the 0x224/0x22c hoist
  *   slot order and the w/2 spill in the third print); (2) `const Slots *q`
  *   (q + i formed before the stack-argument stores of both func_0201EFA4
- *   calls); (3) the enum VRAM_BASE local of the EXACT sibling func_02205F88
+ *   calls); (3) the enum VRAM_BASE local of the EXACT sibling BTLV_INPUT_CreateBackActor
  *   for the 0x06600000 + buf operand order. Measured inert or worse:
  *   opt_lifetimes off (alone 713, with CSE off no change), optimization_level
  *   0..3, global_optimizer off, optimize_for_size, opt_dead_code off,
@@ -96,8 +96,8 @@
  *   d_0220A392  0x0220A392  data
  *   d_0220A3C4  0x0220A3C4  data
  *   d_0220A4AC  0x0220A4AC  data
- *   func_02204C98  0x02204C98  thumb  ov094
- *   func_02205768  0x02205768  thumb  ov094
+ *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
+ *   BTLV_INPUT_GetNeighbourIndex  0x02205768  thumb  ov094
  *   GF_FONT_GetTextColor  0x0201DE00  thumb  arm9
  *   PALANM_CopyToSlot  0x020215BC  thumb  arm9
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
@@ -166,9 +166,9 @@ extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
-extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
+extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
-extern int func_02205768(int a, int b);
+extern int BTLV_INPUT_GetNeighbourIndex(int a, int b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -200,7 +200,7 @@ typedef struct Work {
 
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void func_02204CC0(Work *p, const Slots *q)
+void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
 {
     PosTab t1 = d_0220A5B0;
     PosTab t2 = d_0220A5D0;
@@ -252,18 +252,18 @@ void func_02204CC0(Work *p, const Slots *q)
             GF_FONT_SetTextColor(1, 2, 0);
             func_0201EF34((struct WordSet *)font, 0, q->id[i]);
             func_0201F250((struct WordSet *)font, str1, m0);
-            func_02204C98(str1, (int)p->fnt, &w, &h);
+            BTLV_INPUT_GetTextBlockSize(str1, (int)p->fnt, &w, &h);
             PRINTSYS_Print(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
             func_0201EFA4((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
             func_0201EFA4((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
             func_0201F250((struct WordSet *)font, str2, m2);
-            col = func_02205768(q->a[i], q->b[i]);
+            col = BTLV_INPUT_GetNeighbourIndex(q->a[i], q->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
             cr = (u8)((col >> 10) & 0x1f);
             GF_FONT_SetTextColor(cr, cg, cb);
             PRINTSYS_Print(p->win, t1.v[i].x, t1.v[i].y, m1, p->fnt);
-            func_02204C98(str2, (int)p->fnt, &w, &h);
+            BTLV_INPUT_GetTextBlockSize(str2, (int)p->fnt, &w, &h);
             PRINTSYS_Print(p->win, t2.v[i].x - w / 2, t2.v[i].y, str2, p->fnt);
             GF_FONT_SetTextColor(c[2], c[1], c[0]);
             p->f25a[i] = q->a[i] != 0;

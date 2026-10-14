@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC910",
+   "name": "DENDOU_VIEW_InitVram",
    "address": "0x021DC910",
    "kind": "game",
    "region": "ov171",

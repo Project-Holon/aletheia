@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220558C",
+   "name": "BTLV_INPUT_DrawSelectScreenText",
    "address": "0x0220558C",
    "kind": "game",
    "region": "ov094",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F7538
+ * function: WORLDTRADE_DEPOSIT_PrintMessage
  * address:  0x021F7538
  * packet:   pkt_021F7538
  * region:   ov135
@@ -20,7 +20,7 @@
  *   sub_020409B4   0x020409B4  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   STRBUF_Delete   0x02045808  arm
- *   func_02202858  0x02202858  thumb  ov135
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *
  * Handle walk: 02045EC0 over the 0xb6c field, the 0xb68/0xb88 pair through
  * 0201F250, then the p+0xd40 window through the 02045334/02045374/
@@ -48,9 +48,9 @@ extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
-void func_021F7538(u8 *p, u32 b, u32 c, u32 d, u32 e)
+void WORLDTRADE_DEPOSIT_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
     u32 v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((struct Obj00018 *)p)->fB6C), b);
     u32 h;
@@ -62,6 +62,6 @@ void func_021F7538(u8 *p, u32 b, u32 c, u32 d, u32 e)
     BMP_WIN_MakeScreen((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
     func_0201F73C((void *)(((struct Obj00018 *)p)->fD40), 0, 1, 0xe);
-    func_02202858((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C23BC
+ * function: ZUKAN_DETAIL_AREA_UpdateBlendPulse
  * address:  0x021C23BC
  * packet:   pkt_ov208_021C23BC
  * region:   ov208
@@ -26,7 +26,7 @@ extern s16 FX_SinCosTable_[];
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-void ov208_func_021C23BC(u8 *p)
+void ZUKAN_DETAIL_AREA_UpdateBlendPulse(u8 *p)
 {
     func_0207D63C((volatile void *)0x04000050, 0, 0x3f, W(0x1d8), 16 - W(0x1d8));
     if (H(0x1dc) + 0x400u >= 0x10000)

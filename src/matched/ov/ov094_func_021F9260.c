@@ -1,5 +1,5 @@
 /*
- * function: func_021F9260
+ * function: BTLV_EFFECT_StepMover
  * address:  0x021F9260
  * packet:   pkt_ov094_02200A84
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9220  0x021F9220  thumb  ov094
+ *   BTLV_EFFECT_StepScalarWithLimit  0x021F9220  thumb  ov094
  */
 typedef int fx32;
 
@@ -30,9 +30,9 @@ typedef struct {
     int repeat;             /* 0x38 */
 } Mover;
 
-extern void func_021F9220(int *p, int *d, int *lim, int *flag);
+extern void BTLV_EFFECT_StepScalarWithLimit(int *p, int *d, int *lim, int *flag);
 
-int func_021F9260(Mover *m, VecFx32 *out)
+int BTLV_EFFECT_StepMover(Mover *m, VecFx32 *out)
 {
     int ret = 1;
 
@@ -46,9 +46,9 @@ int func_021F9260(Mover *m, VecFx32 *out)
     case 4:
         if (m->wait == 0) {
             m->wait = m->waitReset;
-            func_021F9220(&out->x, &m->step.x, &m->start.x, &ret);
-            func_021F9220(&out->y, &m->step.y, &m->start.y, &ret);
-            func_021F9220(&out->z, &m->step.z, &m->start.z, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->x, &m->step.x, &m->start.x, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->y, &m->step.y, &m->start.y, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->z, &m->step.z, &m->start.z, &ret);
         } else {
             m->wait--;
             ret = 0;

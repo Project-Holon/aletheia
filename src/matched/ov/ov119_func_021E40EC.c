@@ -1,5 +1,5 @@
 /*
- * function: func_021E40EC
+ * function: POKETRADE_2D_LoadSummaryBackground
  * address: 0x021E40EC
  * packet: pkt_ov119_021E40EC
  * region: ov119
@@ -29,7 +29,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021E40EC(char *p, int a1, int a2)
+void POKETRADE_2D_LoadSummaryBackground(char *p, int a1, int a2)
 {
     Tbl2 tbl = d_021E7DD0;
     void *v;

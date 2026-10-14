@@ -18,7 +18,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   SCRCMD_SUBSCREEN_ChangeModeTask  0x021D1AEC  thumb  ov021
- *   d_021DD608     0x021DD608  data  a4
+ *   gSubscreenModeTable     0x021DD608  data  a4
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  * Addresses are Black-image addresses.
@@ -26,7 +26,7 @@
 
 typedef unsigned int u32;
 
-extern u32 d_021DD608[];
+extern u32 gSubscreenModeTable[];
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned char  u8;
@@ -57,7 +57,7 @@ int SCRCMD_ChangeSubscreenMode(u32 a, u32 b)
     r6 = SCRCMD_WORK_GetGameSystem((void *)b);
     r6 = func_020122C0(r6, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
     p = func_020124E8(r6);
-    r5 = d_021DD608[r5];
+    r5 = gSubscreenModeTable[r5];
     p[0] = r4;
     p[1] = r5;
     SCRIPT_SYS_CallEvent(r7, r6);

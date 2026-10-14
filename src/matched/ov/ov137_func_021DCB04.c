@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB04
+ * function: GURU2_COMM_Create
  * address: 0x021DCB04
  * packet: pkt_ov137_021DCB04
  * region: ov137
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u16,u32,int,const void *,int);
 extern void MI_CpuFill8(void *,int,u32);
 extern const unsigned char d_021E2268[];
-u32 *func_021DCB04(u32 a,int heap)
+u32 *GURU2_COMM_Create(u32 a,int heap)
 {
     u32 *p;
     p=func_02030734(heap,88,0,d_021E2268,152);

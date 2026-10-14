@@ -1,5 +1,5 @@
 /*
- * function: func_021E6FD4
+ * function: POKETRADE_2D_CreateCursorActor
  * address: 0x021E6FD4
  * packet: pkt_ov119_021E6FD4
  * region: ov119
@@ -12,7 +12,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
- *   func_021E7058 0x021E7058 thumb ov119
+ *   POKETRADE_2D_DeleteCursorActor 0x021E7058 thumb ov119
  *   func_021E6FC8 0x021E6FC8 thumb ov119
  */
 #include "../include/Obj00001.h"
@@ -27,13 +27,13 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
-extern void func_021E7058(void *);
+extern void POKETRADE_2D_DeleteCursorActor(void *);
 extern void func_021E6FC8(char *p);
-void func_021E6FD4(char *p, int x, int y) {
+void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     Callback cb;
     Create c;
     c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
-    func_021E7058(p);
+    POKETRADE_2D_DeleteCursorActor(p);
     ((struct Obj00001 *)p)->fF24=(int)CLACT_CreateActor((void *)((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f894,((struct Obj00001 *)p)->f880,((struct Obj00001 *)p)->f8B0,&c,1,((struct Obj00001 *)p)->f5F4);
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00001 *)p)->fF24,1);

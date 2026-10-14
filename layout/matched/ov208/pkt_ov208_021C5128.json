@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021C5128",
+   "name": "ZUKAN_DETAIL_FORM_CreateModelItem",
    "address": "0x021C5128",
    "kind": "game",
    "region": "ov208",

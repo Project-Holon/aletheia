@@ -1,5 +1,5 @@
 /*
- * function: func_021D74B4
+ * function: GDS_RAP_CheckGetVideoReply
  * address: 0x021D74B4
  * packet: pkt_ov125_021D74B4
  * region: ov125
@@ -9,4 +9,4 @@
  * status: EXACT*
  * symbols:
  */
-int func_021D74B4(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
+int GDS_RAP_CheckGetVideoReply(char *p, const unsigned short *s) { int r=0; switch (s[1]) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C14
+ * function: GDS_SOCKET_GetReplySizeUnlocked
  * address: 0x021D7C14
  * packet: pkt_ov125_021D7C14
  * region: ov125
@@ -9,16 +9,16 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   func_021D7CAC 0x021D7CAC arm ov125
- *   func_021D7BCC 0x021D7BCC arm ov125
- *   func_021D7CC0 0x021D7CC0 arm ov125
- *   d_021D9E40 0x021D9E40 data a4
+ *   GDS_SOCKET_Lock 0x021D7CAC arm ov125
+ *   GDS_SOCKET_GetStateUnlocked 0x021D7BCC arm ov125
+ *   GDS_SOCKET_Unlock 0x021D7CC0 arm ov125
+ *   gGdsSocket 0x021D9E40 data a4
  */
 
 #include "../include/G_Clear.h"
 
-extern void func_021D7CAC(void);
-extern unsigned func_021D7BCC(void);
-extern void func_021D7CC0(void);
-extern struct Clear d_021D9E40;
-int func_021D7C14(void){func_021D7CAC();if(func_021D7BCC()!=8){func_021D7CC0();return -1;}else{func_021D7CC0();return *(int*)(((char *)&d_021D9E40)+0x25c);}}
+extern void GDS_SOCKET_Lock(void);
+extern unsigned GDS_SOCKET_GetStateUnlocked(void);
+extern void GDS_SOCKET_Unlock(void);
+extern struct Clear gGdsSocket;
+int GDS_SOCKET_GetReplySizeUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=8){GDS_SOCKET_Unlock();return -1;}else{GDS_SOCKET_Unlock();return *(int*)(((char *)&gGdsSocket)+0x25c);}}

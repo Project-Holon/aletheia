@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6C4
+ * function: ZUKAN_LIST_InitPaletteAnim
  * address: 0x021BC6C4
  * packet: pkt_ov209_021BC6C4
  * region: ov209
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void *PALANM_Create(u32);
 struct PalAnmSlot;
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-void func_021BC6C4(char *p)
+void ZUKAN_LIST_InitPaletteAnim(char *p)
 {
     ((struct Obj00123 *)p)->fC = PALANM_Create(0x6B);
     PALANM_AllocSlotBuffers(((struct Obj00123 *)p)->fC, 0, 0x200, 0x6B);

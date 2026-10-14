@@ -1,5 +1,5 @@
 /*
- * function: func_0220040C
+ * function: WORLDTRADE_TITLE_CreateStrings
  * address:  0x0220040C
  * packet:   pkt_0220040C
  * region:   ov135
@@ -27,7 +27,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void func_0220040C(u8 *p)
+void WORLDTRADE_TITLE_CreateStrings(u8 *p)
 {
     ((struct Obj09242 *)p)->fB88 = (u32)STRBUF_Create(0xb4, 0x48);
     ((struct Obj09242 *)p)->fB8C = (u32)func_02045EC0((struct MsgBank *)(((struct Obj09242 *)p)->fB6C), 0x2d);

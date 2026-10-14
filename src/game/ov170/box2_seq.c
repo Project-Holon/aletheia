@@ -1,8 +1,8 @@
 /*
  * file:     box2_seq.c
  * unit:     yes
- * function: func_021E09E0, func_021E0A40, func_021E0ABC, func_021E0E50, func_021E0ED4, func_021E0F4C, func_021E0FB0, func_021E0FD8, func_021E122C, func_021E1324, func_021E1458, func_021E152C, func_021E1628, func_021E1988, func_021E19D4, func_021E1A28, func_021E1A78, func_021E1ACC, func_021E1B1C, func_021E1E34, func_021E1E80, func_021E1F90, func_021E2020, func_021E203C, func_021E2054, func_021E2070, func_021E2094, func_021E20D4, func_021E2140, func_021E2154, func_021E216C, func_021E21A0, func_021E22B8, func_021E22E0, func_021E2334, func_021E24EC, func_021E2648, func_021E2650, func_021E2B04, func_021E2B48, func_021E2B88, func_021E2CBC, func_021E3258, func_021E3340, func_021E3568, func_021E35D8, func_021E36A8, func_021E376C, func_021E3B50, func_021E3BF8, func_021E3C38, func_021E3C88, func_021E3E84, func_021E432C, func_021E4470, func_021E4504, func_021E4944, func_021E498C, func_021E49CC, func_021E4A64, func_021E4DE8, func_021E4E6C, func_021E4EAC, func_021E4EE8, func_021E4F60, func_021E5374, func_021E53B0, func_021E543C, func_021E5524, func_021E557C, func_021E58D8, func_021E5914, func_021E594C, func_021E5AD4, func_021E5C5C, func_021E5DD8, func_021E5E08, func_021E5E68, func_021E62BC, func_021E62FC, func_021E6374, func_021E63B0, func_021E6418, func_021E644C, func_021E65E4, func_021E695C, func_021E6A60, func_021E6C3C, func_021E6CD4, func_021E6D00, func_021E6EC0, func_021E7258, func_021E7298, func_021E73D8, func_021E754C, func_021E75E0, func_021E78F4, func_021E7904, func_021E79C8, func_021E7A10, func_021E7BD0, func_021E7C58, func_021E7D04, func_021E7D3C, func_021E7D64, func_021E7E54, func_021E7F6C, func_021E8014, func_021E8024, func_021E8188, func_021E81D0, func_021E8340, func_021E83C0, func_021E8508, func_021E85F0, func_021E86EC, func_021E87A0, func_021E8950, func_021E8A58, func_021E8A74, func_021E8BF8, func_021E8E24, func_021E8F20, func_021E8F50, func_021E8F60, func_021E8F90, func_021E8FC0, func_021E8FD0, func_021E8FE0, func_021E8FE8, func_021E9010, func_021E90D4, func_021E912C, func_021E91A0, func_021E9284, func_021E92A8, func_021E93F4, func_021E941C, func_021E946C, func_021E949C, func_021E94AC, func_021E954C, func_021E95CC, func_021E95F8, func_021E96E8, func_021E9848, func_021E9938, func_021E9968, func_021E99B0, func_021E9B74, func_021E9C94, func_021E9CE0, func_021E9D2C, func_021E9D98, func_021E9DF8, func_021E9E7C, func_021E9EC0, func_021E9F3C, func_021E9FA8, func_021EA020, func_021EA064, func_021EA0BC, func_021EA114, func_021EA14C, func_021EA1C0, func_021EA1E8, func_021EA1F4, func_021EA2DC, func_021EA39C, func_021EA458, func_021EA4DC, func_021EA514, func_021EA598, func_021EA66C, func_021EA728, func_021EA750, func_021EA75C, func_021EA770, func_021EA784, func_021EA798, func_021EA808, func_021EA83C, func_021EA858, func_021EA878, func_021EA8CC, func_021EA908, func_021EA928, func_021EA984, func_021EA9F4, func_021EAA3C, func_021EAA80, func_021EAAC4, func_021EAAE4, func_021EAB04, func_021EAB50, func_021EABA0, func_021EABB8, func_021EABD0, func_021EAC28, func_021EAC98, func_021EACA8, func_021EACFC, func_021EADB4, func_021EAE20, func_021EAE74, func_021EAF20, func_021EAFBC, func_021EB098, func_021EB114, func_021EB190, func_021EB208, func_021EB2A4, func_021EB324, func_021EB378, func_021EB6D8, func_021EB6F0, func_021EB708, func_021EB744, func_021EB79C, func_021EB7C8, func_021EB7E8, func_021EB85C, func_021EB874, func_021EB90C, func_021EB95C, func_021EB988, func_021EBA30, func_021EBA5C, func_021EBA70, func_021EBA84, func_021EBADC, func_021EBAF8, func_021EBB1C, func_021EBB28, func_021EBB34, func_021EBB58, func_021EBB64, func_021EBBBC, func_021EBBC8, func_021EBC28, func_021EBC58, func_021EBCB4, func_021EBD1C, func_021EBD50, func_021EBD78, func_021EBD94, func_021EBDD8, func_021EBDF4, func_021EBE24, func_021EBE4C, func_021EBEAC, func_021EBEE0, func_021EBF34, func_021EBF50, func_021EBF74, func_021EBFA8, func_021EBFCC, func_021EBFEC, func_021EC000, func_021EC01C, func_021EC030, func_021EC048, func_021EC060, func_021EC08C, func_021EC0B0, func_021EC0DC, func_021EC1E8, func_021EC254, func_021EC2A0, func_021EC338, func_021EC35C, func_021EC428, func_021EC45C, func_021EC48C, func_021EC4E0, func_021EC4FC, func_021EC548, func_021EC5A0, func_021EC61C, func_021EC688, func_021EC6F4, func_021EC768, func_021EC7B8, func_021EC804, func_021EC8E4, func_021EC94C, func_021EC994, func_021EC9D8, func_021ECA24, func_021ECA38, func_021ECA6C, func_021ECB20, func_021ECB60, func_021ECB74, func_021ECB84, func_021ECBD8, func_021ECC1C, func_021ECCA4, func_021ECCCC, func_021ECDF4, func_021ECF78, func_021ECFDC, func_021ED028, func_021ED058, func_021ED094, func_021ED108, func_021ED14C, func_021ED164, func_021ED198, func_021ED1C8, func_021ED2F4, func_021ED310, func_021ED370, func_021ED508, func_021ED544, func_021ED55C, func_021ED588, func_021ED594, func_021ED6E4, func_021ED75C, func_021ED7C4
- * address:  0x021E09E0
+ * function: func_021E1324, func_021E1458, func_021E152C, func_021E1628, func_021E1988, func_021E19D4, func_021E1A28, func_021E1A78, func_021E1ACC, func_021E1B1C, func_021E1E34, func_021E1E80, func_021E1F90, func_021E2020, func_021E203C, func_021E2054, func_021E2070, func_021E2094, func_021E20D4, func_021E2140, func_021E2154, func_021E216C, func_021E21A0, func_021E22B8, func_021E22E0, func_021E2334, func_021E24EC, func_021E2648, func_021E2650, func_021E2B04, func_021E2B48, func_021E2B88, func_021E2CBC, func_021E3258, func_021E3340, func_021E3568, func_021E35D8, func_021E36A8, func_021E376C, func_021E3B50, func_021E3BF8, func_021E3C38, func_021E3C88, func_021E3E84, func_021E432C, func_021E4470, func_021E4504, func_021E4944, func_021E498C, func_021E49CC, func_021E4A64, func_021E4DE8, func_021E4E6C, func_021E4EAC, func_021E4EE8, func_021E4F60, func_021E5374, func_021E53B0, func_021E543C, func_021E5524, func_021E557C, func_021E58D8, func_021E5914, func_021E594C, func_021E5AD4, func_021E5C5C, func_021E5DD8, func_021E5E08, func_021E5E68, func_021E62BC, func_021E62FC, func_021E6374, func_021E63B0, func_021E6418, func_021E644C, func_021E65E4, func_021E695C, func_021E6A60, func_021E6C3C, func_021E6CD4, func_021E6D00, func_021E6EC0, func_021E7258, func_021E7298, func_021E73D8, func_021E754C, func_021E75E0, func_021E78F4, func_021E7904, func_021E79C8, func_021E7A04, func_021E7A10, func_021E7BD0, func_021E7C58, func_021E7D04, func_021E7D3C, func_021E7D64, func_021E7E54, func_021E7F6C, func_021E8014, func_021E8024, func_021E8188, func_021E81D0, func_021E8340, func_021E83C0, func_021E8508, func_021E85F0, func_021E86EC, func_021E87A0, func_021E8950, func_021E8A58, func_021E8A74, func_021E8BF8, func_021E8E24, func_021E8F14, func_021E8F20, func_021E8F50, func_021E8F60, func_021E8F90, func_021E8FC0, func_021E8FD0, func_021E8FE0, func_021E8FE8, func_021E9010, func_021E90D4, func_021E912C, func_021E91A0, func_021E9284, func_021E92A8, func_021E93F4, func_021E941C, func_021E946C, func_021E949C, func_021E94AC, func_021E954C, func_021E95CC, func_021E95F8, func_021E96E8, func_021E9848, func_021E9938, func_021E9968, func_021E99B0, func_021E9B74, func_021E9C94, func_021E9CE0, func_021E9D2C, func_021E9D98, func_021E9DF8, func_021E9E7C, func_021E9EC0, func_021E9F3C, func_021E9FA8, func_021EA020, func_021EA064, func_021EA0BC, func_021EA114, func_021EA14C, func_021EA1C0, func_021EA1E8, func_021EA1F4, func_021EA2DC, func_021EA39C, func_021EA458, func_021EA4DC, func_021EA514, func_021EA598, func_021EA66C, func_021EA728, func_021EA750, func_021EA75C, func_021EA770, func_021EA784, func_021EA798, func_021EA808, func_021EA83C, func_021EA858, func_021EA878, func_021EA8CC, func_021EA908, func_021EA928, func_021EA984, func_021EA9F4, func_021EAA3C, func_021EAA80, func_021EAAC4, func_021EAAE4, func_021EAB04, func_021EAB50, func_021EABA0, func_021EABB8, func_021EABD0, func_021EAC28, func_021EAC98, func_021EACA8, func_021EACFC, func_021EADB4, func_021EAE20, func_021EAE74, func_021EAF20, func_021EAFBC, func_021EB098, func_021EB114, func_021EB190, func_021EB208, func_021EB2A4, func_021EB324, func_021EB378, func_021EB6D8, func_021EB6F0, func_021EB708, func_021EB744, func_021EB79C, func_021EB7C8, func_021EB7E8, func_021EB85C, func_021EB874, func_021EB90C, func_021EB95C, func_021EB988, func_021EBA30, func_021EBA5C, func_021EBA70, func_021EBA84, func_021EBADC, func_021EBAF8, func_021EBB1C, func_021EBB28, func_021EBB34, func_021EBB58, func_021EBB64, func_021EBBBC, func_021EBBC8, func_021EBC28, func_021EBC58, func_021EBCB4, func_021EBD1C, func_021EBD50, func_021EBD78, func_021EBD94, func_021EBDD8, func_021EBDF4, func_021EBE24, func_021EBE4C, func_021EBEAC, func_021EBEE0, func_021EBF34, func_021EBF50, func_021EBF74, func_021EBFA8, func_021EBFCC, func_021EBFEC, func_021EC000, func_021EC01C, func_021EC030, func_021EC048, func_021EC060, func_021EC08C, func_021EC0B0, func_021EC0DC, func_021EC1E8, func_021EC254, func_021EC2A0, func_021EC338, func_021EC35C, func_021EC428, func_021EC45C, func_021EC48C, func_021EC4E0, func_021EC4FC, func_021EC548, func_021EC5A0, func_021EC61C, func_021EC688, func_021EC6F4, func_021EC768, func_021EC7B8, func_021EC804, func_021EC8E4, func_021EC94C, func_021EC994, func_021EC9D8, func_021ECA24, func_021ECA38, func_021ECA6C, func_021ECB20, func_021ECB60, func_021ECB74, func_021ECB84, func_021ECBD8, func_021ECC1C, func_021ECCA4, func_021ECCCC, func_021ECDF4, func_021ECF78, func_021ECFDC, func_021ED028, func_021ED058, func_021ED094, func_021ED108, func_021ED14C, func_021ED164, func_021ED198, func_021ED1C8, func_021ED2F4, func_021ED310, func_021ED370, func_021ED508, func_021ED544, func_021ED55C, func_021ED588, func_021ED594, func_021ED6E4, func_021ED75C, func_021ED7C4
+ * address:  0x021E1324
  * region:   ov170
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,72 +10,137 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from unit_021DC860.c, box2_main.c, unit_021E002C.c, unit_021E01B0.c, unit_021E01C4.c, unit_021E0470.c, box2_seq.c by tools/splitfile.py.
  *
  * symbols:
- *   func_021DE428 0x021DE428 thumb ov170
- *   func_021DDAE8 0x021DDAE8 thumb ov170
- *   func_021DE66C 0x021DE66C thumb ov170
- *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021E066C 0x021E066C thumb ov170
- *   func_021EF5C4 0x021EF5C4 thumb ov170
- *   func_021EF400 0x021EF400 thumb
- *   func_021EF534 0x021EF534 thumb
- *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_021EF45C 0x021EF45C thumb
- *   func_021DF1DC 0x021DF1DC thumb
- *   func_021DF228 0x021DF228 thumb
- *   func_021DDE80 0x021DDE80 thumb
- *   func_021DEA3C 0x021DEA3C thumb
- *   func_021DD210 0x021DD210 thumb
- *   func_021DEDCC 0x021DEDCC thumb
- *   func_021DEC98 0x021DEC98 thumb
- *   func_021EF180 0x021EF180 thumb
- *   func_021EF35C 0x021EF35C thumb
- *   func_021EF36C 0x021EF36C thumb
- *   func_021EE364 0x021EE364 thumb
- *   func_02026124 0x02026124 thumb
- *   func_021EE038 0x021EE038 thumb
- *   func_021EF1B4 0x021EF1B4 thumb
- *   func_021DD16C 0x021DD16C thumb
- *   func_021E00C4 0x021E00C4 thumb
- *   func_021E0128 0x021E0128 thumb
- *   func_021DEAFC 0x021DEAFC thumb
- *   d_021EF79C 0x021EF79C data a1
- *   func_021E0190 0x021E0190 thumb ov170
- *   func_021DE980 0x021DE980 thumb
- *   func_021DEA4C 0x021DEA4C thumb
- *   func_021DEB08 0x021DEB08 thumb ov170
- *   d_021EF7B4 0x021EF7B4 data a1
- *   func_021ED888 0x021ED888 thumb
- *   func_021EF248 0x021EF248 thumb
- *   func_021EF3D8 0x021EF3D8 thumb
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   func_020078C4 0x020078C4 thumb
+ *   func_021E1E34  0x021E1E34  thumb  ov170
+ *   func_021EAB04  0x021EAB04  thumb  ov170
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_020275E4  0x020275E4  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_02045B38 0x02045B38 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020260F0 0x020260F0 thumb
+ *   func_020355D8 0x020355D8 arm
+ *   func_021EBFCC 0x021EBFCC thumb
+ *   func_021EBFEC 0x021EBFEC thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
+ *   BGWINFRM_GetSize 0x0202CFC0 thumb
+ *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
+ *   func_021EE038  0x021EE038  thumb  ov170
+ *   func_021EBFA8 0x021EBFA8 thumb
+ *   func_021EC35C 0x021EC35C thumb
+ *   func_021EE008  0x021EE008  thumb  ov170
+ *   func_021EDF5C  0x021EDF5C  thumb  ov170
+ *   func_021EB85C  0x021EB85C  thumb  ov170
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
+ *   func_02017E88 0x02017E88 thumb
+ *   func_021EDAB0 0x021EDAB0 thumb ov170
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
+ *   func_021EDB34 0x021EDB34 thumb ov170
+ *   func_021EC48C 0x021EC48C thumb ov170
+ *   func_021EC7B8 0x021EC7B8 thumb
+ *   func_021EC548 0x021EC548 thumb
+ *   func_021EC000 0x021EC000 thumb
+ *   func_021EC08C 0x021EC08C thumb
+ *   func_021EC768 0x021EC768 thumb
+ *   func_021ED75C 0x021ED75C thumb
+ *   func_021ED7C4 0x021ED7C4 thumb
  *   func_0202136C 0x0202136C thumb
- *   func_020260E0 0x020260E0 thumb
- *   func_021EE008 0x021EE008 thumb
- *   func_021EDF5C 0x021EDF5C thumb
- *   func_021EDD38 0x021EDD38 thumb
+ *   func_021EC0B0 0x021EC0B0 thumb
+ *   func_021ECBD8 0x021ECBD8 thumb
+ *   func_02030734 0x02030734 arm
+ *   func_021ED164 0x021ED164 thumb ov170
+ *   func_021ED198 0x021ED198 thumb ov170
+ *   func_021ED14C 0x021ED14C thumb ov170
+ *   func_021ED310 0x021ED310 thumb ov170
+ *   func_021EB7E8 0x021EB7E8 thumb
+ *   func_021ECCCC  0x021ECCCC  thumb  ov170
+ *   func_021ED028  0x021ED028  thumb  ov170
+ *   func_021EB2A4  0x021EB2A4  thumb  ov170
+ *   func_021EB324 0x021EB324 thumb
+ *   func_021ED6E4  0x021ED6E4  thumb  ov170
+ *   func_0200785C 0x0200785C thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_021DD930 0x021DD930 thumb
- *   func_021DE158 0x021DE158 thumb
- *   func_021DE5C8 0x021DE5C8 thumb
- *   func_021DF43C 0x021DF43C thumb
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   func_021E00C4 0x021E00C4 thumb
+ *   func_021E0128 0x021E0128 thumb
+ *   func_021E01C4 0x021E01C4 thumb
+ *   func_021E19D4 0x021E19D4 thumb
+ *   func_021E1A28 0x021E1A28 thumb
+ *   func_021EC5A0 0x021EC5A0 thumb
+ *   func_021ED55C 0x021ED55C thumb
+ *   func_021EE364 0x021EE364 thumb
  *   func_021EE3E4 0x021EE3E4 thumb
+ *   func_021EF180 0x021EF180 thumb
+ *   func_021EF1B4 0x021EF1B4 thumb
+ *   func_021EF35C 0x021EF35C thumb
+ *   func_021EF36C 0x021EF36C thumb
+ *   func_021EF3A0 0x021EF3A0 thumb
+ *   func_021EF400 0x021EF400 thumb
+ *   func_021EF45C 0x021EF45C thumb
+ *   func_021EF534 0x021EF534 thumb
  *   func_021EF57C 0x021EF57C thumb
- *   func_021E01B0 0x021E01B0 thumb
+ *   func_021EF5C4 0x021EF5C4 thumb
  *   func_021EF60C 0x021EF60C thumb
+ *   func_021EF670 0x021EF670 thumb
+ *   func_021EF680 0x021EF680 thumb
+ *   func_021EF68C 0x021EF68C thumb
+ *   func_021EF69C 0x021EF69C thumb
+ *   func_021EF75C 0x021EF75C thumb
  *   func_021EF770 0x021EF770 thumb
+ *   func_021EF248 0x021EF248 thumb
+ *   func_021EF3D8 0x021EF3D8 thumb
+ *   func_021ECB20 0x021ECB20 thumb
+ *   func_021ED888 0x021ED888 thumb
+ *   func_02026124 0x02026124 thumb
+ *   func_021EF480 0x021EF480 thumb
+ *   d_021EF7B4 0x021EF7B4 data a1
+ *   d_021EF79C 0x021EF79C data a1
+ *   func_021DD930 0x021DD930 thumb ov170
+ *   func_021DE66C 0x021DE66C thumb ov170
+ *   func_021DE158 0x021DE158 thumb ov170
+ *   func_021EC804 0x021EC804 thumb
+ *   func_021DD16C 0x021DD16C thumb
+ *   func_021DE5C8 0x021DE5C8 thumb
+ *   func_021DF040 0x021DF040 thumb
+ *   func_021DF1DC 0x021DF1DC thumb
+ *   func_021DF43C 0x021DF43C thumb
+ *   func_021DF228 0x021DF228 thumb
+ *   func_021ECC1C 0x021ECC1C thumb ov170
+ *   func_021ED544 0x021ED544 thumb
+ *   func_021DD210 0x021DD210 thumb
+ *   func_021DEDCC 0x021DEDCC thumb
+ *   func_021DEC98 0x021DEC98 thumb
+ *   func_021E01B0 0x021E01B0 thumb
+ *   func_021E066C 0x021E066C thumb ov170
+ *   func_021DDE80 0x021DDE80 thumb
+ *   func_021DEA3C 0x021DEA3C thumb
+ *   func_021DEAFC 0x021DEAFC thumb
+ *   func_021E0190 0x021E0190 thumb ov170
+ *   func_021DEA4C 0x021DEA4C thumb
+ *   func_021DEB08 0x021DEB08 thumb ov170
+ *   func_020260E0 0x020260E0 thumb
+ *   func_021EDD38 0x021EDD38 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   d_021EFA7C 0x021EFA7C data a4
  *   func_02034AC4 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0204363C 0x0204363C arm
- *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_02030734 0x02030734 arm
- *   func_020490F4 0x020490F4 arm
  *   KEY_GetRepeatSpeed 0x02036370 arm
  *   KEY_SetRepeatSpeed 0x02036270 arm
  *   func_021DC9C4 0x021DC9C4 thumb ov170
@@ -101,14 +166,11 @@
  *   func_021DCE80  0x021DCE80  thumb  ov170
  *   func_021DCDD8  0x021DCDD8  thumb  ov170
  *   func_021DCB48  0x021DCB48  thumb  ov170
- *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
  *   PALANM_GetFadeRequestBits   0x02021ED8  thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_020355D8 0x020355D8 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
@@ -118,9 +180,6 @@
  *   g_021EFA28  0x021EFA28  data  ov170
  *   d_021EFA2C 0x021EFA2C data a4
  *   func_021DEFEC 0x021DEFEC thumb ov170
- *   func_021EF670 0x021EF670 thumb ov170
- *   POKEPARTY_GetCount 0x0201AA18 thumb
- *   func_021EF68C 0x021EF68C thumb ov170
  *   d_021EF9B4 0x021EF9B4 data
  *   d_021EF950 0x021EF950 data
  *   d_021EFA10 0x021EFA10 data
@@ -133,7 +192,6 @@
  *   func_021DD25C 0x021DD25C thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021EF5E8 0x021EF5E8 thumb
- *   func_021DF040 0x021DF040 thumb
  *   func_021DD14C 0x021DD14C thumb
  *   func_021EE65C 0x021EE65C thumb
  *   func_021DF0BC 0x021DF0BC thumb
@@ -143,14 +201,9 @@
  *   func_021EE754 0x021EE754 thumb
  *   func_021EF1D4 0x021EF1D4 thumb
  *   func_021EE850 0x021EE850 thumb
- *   func_020260F0 0x020260F0 thumb
  *   func_021EF34C 0x021EF34C thumb ov170
  *   func_021EF194 0x021EF194 thumb
  *   func_021EE8A8 0x021EE8A8 thumb
- *   func_021EF3A0 0x021EF3A0 thumb ov170
- *   func_021EF480 0x021EF480 thumb
- *   func_021EF680 0x021EF680 thumb
- *   func_021EF69C 0x021EF69C thumb
  *   func_021EE96C 0x021EE96C thumb
  *   func_021EF1A4 0x021EF1A4 thumb
  *   func_021EF3EC 0x021EF3EC thumb ov170
@@ -185,14 +238,10 @@
  *   func_021DF11C 0x021DF11C thumb ov170
  *   func_021EF6CC 0x021EF6CC thumb ov170
  *   func_021DD694 0x021DD694 thumb ov170
- *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017E88 0x02017E88 thumb
  *   func_021DE7C8 0x021DE7C8 thumb ov170
  *   func_021DE7B4 0x021DE7B4 thumb ov170
  *   func_021DD314 0x021DD314 thumb
- *   func_021EDAB0 0x021EDAB0 thumb
- *   func_021EDB34 0x021EDB34 thumb
  *   func_021E002C 0x021E002C thumb
  *   d_021EF908 0x021EF908 data a4
  *   func_02007A80 0x02007A80 thumb
@@ -218,13 +267,11 @@
  *   func_021DE728 0x021DE728 thumb ov170
  *   func_021DE898  0x021DE898  thumb  ov170
  *   func_021DD090  0x021DD090  thumb  ov170
- *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
  *   data_021EFA10 0x021EFA10 data a1
  *   func_021EF4E4 0x021EF4E4 thumb
  *   func_02007F1C 0x02007F1C thumb
  *   data_021EF918 0x021EF918 data a1
  *   func_021DD1E8 0x021DD1E8 thumb
- *   func_021E01C4 0x021E01C4 thumb
  *   func_021E072C 0x021E072C thumb
  *   func_021DFA30 0x021DFA30 thumb
  *   func_021E0470  0x021E0470  thumb  ov170
@@ -233,7 +280,6 @@
  *   func_021EF32C  0x021EF32C  thumb  ov170
  *   func_021EF33C  0x021EF33C  thumb  ov170
  *   d_021F140C 0x021F140C data a1
- *   func_021EF75C  0x021EF75C  thumb  ov170
  *   func_0202614C 0x0202614C thumb
  *   d_021EF8FC 0x021EF8FC data a1
  *   d_021EF8F4 0x021EF8F4 data a1
@@ -246,15 +292,10 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
- *   func_02041B6C  0x02041B6C  arm  arm9
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
- *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   STRBUF_Delete 0x02045808 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045B38  0x02045B38  arm  arm9
  *   BMP_Clear 0x02043B5C arm
- *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201EEA4 0x0201EEA4 thumb
  *   func_0201EF14 0x0201EF14 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -270,23 +311,16 @@
  *   BMP_CreateFromBuffer 0x020436FC arm
  *   BMP_Blit 0x020439A0 arm
  *   BMP_Delete 0x020437AC arm
- *   func_020275E4 0x020275E4 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
- *   STRBUF_Create 0x020457B0 arm
- *   func_0200785C 0x0200785C thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
- *   func_020078C4 0x020078C4 thumb
  *   BGWINFRM_ChangePalette 0x0202CE50 thumb
- *   BGWINFRM_GetSize 0x0202CFC0 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_0201F7A8  0x0201F7A8  thumb  ov170
  *   func_021EE0FC 0x021EE0FC thumb
  *   func_021EE120 0x021EE120 thumb ov170
- *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
- *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021EE200  0x021EE200  thumb  ov170
  *   func_021DC9D8 0x021DC9D8 thumb ov170
  *   CLACT_InitSystem 0x0204A48C arm
@@ -314,20 +348,14 @@
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   d_021EFD04 0x021EFD04 data a4
- *   _u32_div_f 0x0209C2B0 arm
  *   func_020079BC 0x020079BC thumb
  *   MIi_CpuCopy32 0x02082A90 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   d_021EFD4C 0x021EFD4C data a2
- *   BGWINFRM_GetPos 0x0202CF98 thumb
  *   d_021EFCE0 0x021EFCE0 data a1
- *   _ffix 0x0209C494 arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAffineOrigin 0x0204B588 arm
- *   _fsub 0x0209CB8C arm
- *   _fadd 0x0209C95C arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   func_02017DBC 0x02017DBC thumb
@@ -384,10 +412,16 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
+ *   func_021E09E0 0x021E09E0 thumb ov170
+ *   func_021E0A40 0x021E0A40 thumb ov170
+ *   func_021E0ABC 0x021E0ABC thumb ov170
+ *   func_021E0ED4 0x021E0ED4 thumb ov170
+ *   func_021E0F4C 0x021E0F4C thumb ov170
+ *   func_021E0FB0 0x021E0FB0 thumb ov170
+ *   func_021E0FD8 0x021E0FD8 thumb ov170
+ *   func_021E122C 0x021E122C thumb ov170
  */
 #include "box2_types.h"
-#include "../../matched/include/Obj23878.h"
-#include "../../matched/include/Obj14264.h"
 #include "../../matched/include/Obj08237.h"
 #include "../../matched/include/Obj23881.h"
 #include "../../matched/include/Obj23882.h"
@@ -538,80 +572,254 @@
 #include "../../matched/include/Obj24021.h"
 #include "../../matched/include/Obj24022.h"
 
-#define SYS(p) (*(unsigned **)(p))
-#define NEXT(p) (*(int *)(W(p)+0xA198))
-#define TOP(p) (*(char **)(p))
-#define SUB(p) (*(s16_021E09E0 *)(WORK(p) + 0xA16C))
-#define STATE(p) (*(int *)((p) + 0x28))
-#define SCROLL(p) (*(Scroll **)(WORK(p) + 0xA190))
-#define LASTY(p) (*(unsigned *)(WORK(p) + 0xA184))
-#define ABS(x) ((x) < 0 ? -(x) : (x))
-#define LO(p) (((Nib_021E09E0 *)((p)+0x1C))->lo)
-#define LIST(p) (*(void **)(WORK(p) + 0x70))
-#define HELD(p) (*(unsigned char *)(WORK(p) + 0xA17E))
-#define WIN(p, i) (*(unsigned char *)(WORK(p) + (i) + 0x3DD2))
-#define TGT(p) (*(unsigned char *)(WORK(p) + 0xA17E))
-#define S (*(int *)(W + 0xA194))
-#define M (*(struct WinMgr **)(W + 0x74))
-#define KIND(p) (*(unsigned char *)(WORK(p) + 0xA17C))
-#define SAVE(p) (*(void **)(*(char **)(p) + 4))
-#define HELD_WIN(p) (*(unsigned char *)(WORK(p) + 0x3DF6))
-#define HEAP 0x804C
-#define HND(p) (*(int *)((p) + 0x9E9C))
-#define CELL(w, k) (*(void **)((w) + (k) * 4 + 0x9E74))
-struct WinMgr;
-struct Sound;
-struct PrintSys;
-struct Ov170Ctx;
-struct TaskMenu;
-struct Struct_02025CD0;
-struct PalAnmSlot;
-struct Descriptor;
-struct Cfg;
-struct MsgBank;
-struct U16Vec;
-struct WordSet;
-struct CharBuf;
-struct Rec;
-struct StrObj;
-struct Bmp;
-struct Obj020437AC;
-struct Obj;
+extern int func_020078C4(void *save, u32 box);
+
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
+
 struct Bank;
+
+struct CharBuf;
+
+struct Descriptor;
+
+extern void *func_020490F4(u32 id, u32 heap);
+
+extern u32 func_020307B0(void *p);
+
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+
+extern void STRBUF_Delete(struct U16Vec *vec);
+
+extern u32 MSGDATA_Delete(struct Rec *rec);
+
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+
+extern u32 func_020260F0(struct Sound *obj);
+
+extern void func_020355D8(u8 v);
+
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
+
+extern void func_021EDF5C(unsigned char *p);
+
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+
+extern void func_021EDAB0(char *p, int i);
+
+extern void *POKE_TOOL_GetBoxParam(void *);
+
+extern void func_021EDB34(char *p, int a);
+
+extern unsigned func_0202136C(unsigned short v);
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void func_0200785C(void *save, unsigned box, void *dest);
+
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
+
+extern int func_021E01C4(char *p);
+
+extern int func_021EF5C4(struct WinMgr *mgr);
+
+extern int TOUCHPANEL_GetCont(void);
+
+extern void func_021EF57C(struct WinMgr *mgr);
+
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
+
+extern int func_021EF770(struct WinMgr *mgr);
+
+extern void func_021EF75C(struct WinMgr *mgr);
+
+extern int func_021EF45C(struct WinMgr *mgr);
+
+extern int func_021EF248(void);
+
+extern void func_021EF3D8(struct WinMgr *mgr);
+
+extern void func_02026124(struct Sound *obj, u32 idx);
+
+extern int func_021EF480(struct WinMgr *mgr);
+
+extern int func_021EF60C(struct WinMgr *mgr);
+
+extern void func_021EF534(struct WinMgr *mgr);
+
+extern int func_021EF180(int a, int b);
+
+extern void func_021EE364(char **p, int idx, int v);
+
+extern int func_021EF1B4(void);
+
+extern void func_021EF3A0(struct WinMgr *mgr);
+
+extern int func_021E00C4(char *p);
+
+extern int func_021E0128(char *p);
+
+extern void func_021EF35C(struct WinMgr *mgr);
+
+extern void func_021EF36C(struct WinMgr *mgr);
+
+extern int func_021EF400(unsigned char *p);
+
+extern void func_020260E4(struct Sound *obj, u8 sel);
+
+extern void func_021EE3E4(char **p, unsigned idx);
+
+extern const unsigned char d_021EF79C[];
+
+extern const unsigned char d_021EF7B4[];
+
+#define WORK(p) (*(char **)((p) + 0x2C))
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#define WORK(p) (*(char **)((p) + 0x2C))
+
+extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
+
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+
+extern int func_021DF1DC(short x, int y);
+
+extern int func_021DE5C8(char *p, unsigned id);
+
+extern void func_021DD16C(unsigned char *p, int dir);
+
+extern void func_021DF43C(char *p, int x, int y);
+
+extern int func_021DD930(unsigned char *p);
+
+extern void func_021DF040(char *p);
+
+extern int func_021DF228(short x, short y, const unsigned char *r);
+
+extern void func_021EE038(char *p, int a, int b, int c);
+
+extern void func_021EE008(char *p, int a, int b);
+
+extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
+
+extern int func_021DEDCC(char *p, int box);
+
+extern void func_021DEC98(char *p, void *a, int dir);
+
+extern int func_021E01B0(unsigned char *p);
+
+#define W(p) (*(char **)((p) + 0x2C))
+#define NEXT(p) (*(int *)(W(p)+0xA198))
+
+#define TOP(p) (*(char **)(p))
+
+#define SUB(p) (*(s16_021E09E0 *)(WORK(p) + 0xA16C))
+
+#define STATE(p) (*(int *)((p) + 0x28))
+
+#define SCROLL(p) (*(Scroll **)(WORK(p) + 0xA190))
+
+#define LASTY(p) (*(unsigned *)(WORK(p) + 0xA184))
+
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
+#define LO(p) (((Nib_021E09E0 *)((p)+0x1C))->lo)
+
+#define LIST(p) (*(void **)(WORK(p) + 0x70))
+
+#define WIN(p, i) (*(unsigned char *)(WORK(p) + (i) + 0x3DD2))
+
+#define TGT(p) (*(unsigned char *)(WORK(p) + 0xA17E))
+
+#define S (*(int *)(W + 0xA194))
+
+#define M (*(struct WinMgr **)(W + 0x74))
+
+#define KIND(p) (*(unsigned char *)(WORK(p) + 0xA17C))
+
+#define SAVE(p) (*(void **)(*(char **)(p) + 4))
+
+#define HELD_WIN(p) (*(unsigned char *)(WORK(p) + 0x3DF6))
+
+#define HEAP 0x804C
+
+#define HND(p) (*(int *)((p) + 0x9E9C))
+
+#define CELL(w, k) (*(void **)((w) + (k) * 4 + 0x9E74))
+
+struct Ov170Ctx;
+
+struct Cfg;
+
+struct StrObj;
+
+struct Bmp;
+
+struct Obj020437AC;
+
+struct Obj;
+
 struct Actor;
+
 struct Slots_021EBF34;
-struct Node;
+
 struct Vec2;
+
 struct PtS;
+
 struct Pair;
+
 struct Pt;
-struct Sav;
+
 struct Sub0204A9D0;
+
 struct Struct36;
-typedef unsigned int   u32;
-
-typedef struct {
-    unsigned char pad[0xC];
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E0ABC;
-
-typedef struct {
-    unsigned char pad[0xC];
-    unsigned short state;
-    unsigned short timer;
-} Blk_021E0FD8;
-
-typedef struct {
-    unsigned short idx;
-    unsigned short slot;
-} Entry;
-
-typedef struct {
-    unsigned char pad[8];
-    Entry *entry;
-    unsigned short state;
-} Blk_021E122C;
 
 typedef struct {
     unsigned char pad[0xC];
@@ -641,8 +849,6 @@ typedef struct {
     unsigned short fE;
 } Blk_021E19D4;
 
-typedef unsigned char  u8;
-
 typedef struct {
     unsigned char pad[0xE];
     unsigned short fE;
@@ -659,8 +865,6 @@ typedef struct {
     unsigned short timer;
 } Blk_021E1B1C;
 
-typedef unsigned short u16;
-
 struct BoxCountWork {
     char pad[0xA18C];
     int count;
@@ -676,37 +880,6 @@ typedef struct {
     short left;
     short dir;
 } Scroll;
-
-typedef struct BoxTop {
-    unsigned char pad0[4];
-    void *x4;
-    unsigned char pad8[0x24 - 8];
-    int x24;
-    unsigned short h28;
-    unsigned char b2A;
-    unsigned char b2B;
-} BoxTop;
-
-typedef struct BoxObj {
-    BoxTop *top;
-    unsigned char pad4[0x13 - 4];
-    unsigned char b13;
-    unsigned char b14;
-    unsigned char b15;
-    unsigned char b16;
-    unsigned char b17;
-    unsigned char b18;
-    unsigned char b19;
-    unsigned char b1A;
-    unsigned char b1B;
-    unsigned char lo : 4;
-    unsigned char hi : 4;
-    unsigned char b1D;
-    unsigned char pad1E[0x24 - 0x1E];
-    int x24;
-    int x28;
-    char *work;
-} BoxObj;
 
 typedef struct { u8 lo:4; u8 hi:4; } Nib_021E09E0;
 
@@ -749,8 +922,6 @@ typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char fla
 
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry_021EB114;
 
-typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry_021EB190;
-
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry_021EB208;
 
 typedef struct {
@@ -767,8 +938,6 @@ typedef struct {
     unsigned char pad[0x14];
     char *raw;
 } Chr;
-
-typedef signed int s32;
 
 typedef struct {unsigned a,b,c,d,e,f,g;} Template;
 
@@ -796,20 +965,7 @@ struct Slots_021EBF34 { char pad[0x9E74]; int arr[1]; };
 
 typedef struct { short x; short y; } Pos_021EC548;
 
-typedef struct { short x; short y; } Pos_021EC5A0;
-
-typedef struct {
-    short x;
-    short y;
-} Pos_021EC61C;
-
-typedef struct { short x, y; } Pos_021EC688;
-
-typedef struct { short x, y; } Pos_021EC6F4;
-
 typedef struct { unsigned char a; unsigned char b; } Off;
-
-typedef signed char s8;
 
 typedef struct {
     int pad[9];
@@ -824,1296 +980,1253 @@ typedef struct {
     int w[9];
 } Struct36;
 
-extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
-extern int func_021DDAE8(unsigned char *p);
 extern void func_021DE66C(char *p, void *a);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+
 extern int func_021E066C(char *p);
-extern int func_021EF5C4(struct WinMgr *mgr);
-extern int func_021EF400(unsigned char *p);
-extern void func_021EF534(struct WinMgr *mgr);
-extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
-extern int func_021EF45C(struct WinMgr *mgr);
-extern int func_021DF1DC(short x, int y);
-extern int func_021DF228(short x, short y, const unsigned char *r);
+
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
+
 extern void func_021DEA3C(int a, int b, int c, int d);
-extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
-extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, void *a, int dir);
-extern int func_021EF180(int a, int b);
-extern void func_021EF35C(struct WinMgr *mgr);
-extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EE364(char **p, int idx, int v);
-extern void func_02026124(struct Sound *obj, u32 idx);
-extern void func_021EE038(char *p, int a, int b, int c);
-extern int func_021EF1B4(void);
-extern void func_021DD16C(unsigned char *p, int dir);
-extern int func_021E00C4(char *p);
-extern int func_021E0128(char *p);
+
 extern int func_021DEAFC(int a);
+
 extern int func_021E0190(char *p);
-extern void func_021DE980(unsigned char *p, int mode);
+
 extern void func_021DEA4C(char *p, int a, int b);
+
 extern int func_021DEB08(unsigned char *p);
+
 extern void func_021ED888(char *w, int a);
-extern int func_021EF248(void);
-extern void func_021EF3D8(struct WinMgr *mgr);
-extern unsigned func_0202136C(unsigned short v);
+
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_021EE008(char *p, int a, int b);
-extern void func_021EDF5C(unsigned char *p);
+
 extern void func_021EDD38(char *p, int d);
-extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
-extern int func_021E01B0(unsigned char *p);
-extern int TOUCHPANEL_GetCont(void);
-extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021EF770(struct WinMgr *mgr);
-extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
-extern int func_021EF60C(struct WinMgr *mgr);
-extern int func_021DE5C8(char *p, unsigned id);
-extern void func_021DF43C(char *p, int x, int y);
-extern int func_021DD930(unsigned char *p);
-extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(char **p, unsigned idx);
+
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+
 extern int func_02034AC4(int);
+
 extern void BG_SYS_SetMainVisiblePlanes(unsigned);
+
 extern void BG_SYS_SetSubVisiblePlanes(unsigned);
+
 extern void func_0204363C(unsigned);
+
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(u32 id, u32 heap);
+
 extern void KEY_GetRepeatSpeed(u32 *outA, u32 *outB);
+
 extern int KEY_SetRepeatSpeed(int a0, int a1);
+
 extern void func_021DC9C4(void);
+
 extern void func_021DC9E0(u8 *);
+
 extern void func_021DCDB8(char *p);
+
 extern void func_021DCB8C(struct Ov170Ctx *ctx);
+
 extern void func_021DCE14(char *);
+
 extern void func_021DD8D0(char *p);
+
 extern void func_021EF274(char *);
+
 extern void func_021EDB1C(int p);
+
 extern void func_021EE2C4(char **);
+
 extern void func_021DCEC0(char *);
+
 extern void func_021DCDF0(int);
+
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+
 extern void func_021DC94C(char *p);
+
 extern void func_021DC964(char *p);
+
 extern void func_021DCF30(char *p);
+
 extern void func_021EE3CC(int *p);
+
 extern void func_021EF310(char *p);
+
 extern void func_021DD8F8(char *p);
+
 extern void func_021DCE80(char *p);
+
 extern void func_021DCDD8(int *p);
+
 extern void func_021DCB48(void *p);
+
 extern void ARC_TOOL_DeleteHandle(void *a);
-extern u32 func_020307B0(void *p);
+
 extern void func_020306F0(unsigned int a);
+
 extern void func_02034A5C(int a);
+
 extern u32 WIPE_SYS_EndCheck(void);
+
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+
 extern int TOUCHPANEL_GetTrg(void);
+
 extern u32 KEY_GetTrg(void);
-extern void func_020355D8(u8 v);
+
 extern void APP_TASKMENU_UpdateMenu(void *);
+
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+
 extern int func_021DCFC0(char *p);
+
 extern void func_021DEFEC(char *p, int b);
+
 extern void func_021EF670(char *);
+
 extern u32 POKEPARTY_GetCount(void *p);
+
 extern void func_021EF68C(char *);
+
 extern int func_021EF1FC(unsigned *a, unsigned *b);
+
 extern void func_021DD1C4(char *p, int a);
+
 extern unsigned func_021EF170(void);
-extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+
 extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021DF040(char *p);
+
 extern void func_021DD14C(char *p);
+
 extern unsigned func_021EE65C(char *p);
+
 extern void func_021DF0BC(unsigned char *p);
+
 extern void func_021EEF74(char *w, int k, int v);
+
 extern void func_021DD530(unsigned char *);
+
 extern void func_021DD238(char *p);
+
 extern void func_021EE754(unsigned char *p, unsigned r);
+
 extern int func_021EF1D4(unsigned *a, unsigned *b);
+
 extern unsigned func_021EE850(char *p);
-extern u32 func_020260F0(struct Sound *obj);
+
 extern void func_021EF34C(struct WinMgr *mgr);
+
 extern unsigned func_021EF194(void);
+
 extern unsigned func_021EE8A8(char *p);
+
 extern u8 func_020355C4(void);
-extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021EF3A0(struct WinMgr *mgr);
+
 extern void func_021EF680(char *w);
+
 extern void func_021EF69C(char *w);
+
 extern unsigned func_021EE96C(char *p);
+
 extern unsigned func_021EF1A4(void);
+
 extern void func_021EF3EC(struct WinMgr *mgr);
+
 extern unsigned func_021EECE4(char *p);
+
 extern unsigned func_021EEDE0(char *p);
+
 extern unsigned func_021EE57C(char *p);
+
 extern int func_021E070C(char *p);
+
 extern int func_021E0068(char *p);
+
 extern unsigned func_021EE474(char *p);
+
 extern int func_021E0778(unsigned char *p);
+
 extern void func_021EE520(char *p, unsigned idx);
+
 extern int func_02025DE8(struct Sound *obj);
+
 extern unsigned int KEY_GetRepeat(void);
+
 extern int func_020077B8(void *save, u32 box);
+
 extern int func_020076D0(void *save, int *pbox, int *pslot);
+
 extern void func_021EE544(char *p, unsigned int i);
+
 extern int func_021E087C(unsigned char *p);
+
 extern unsigned func_021EEA48(char *p);
+
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
+
 extern int func_021DD2D0(void ***p, int a, unsigned b);
+
 extern int func_021DD718(void **pp, void *mon);
+
 extern void func_021DD8A8(void **pp, u32 idx);
+
 extern unsigned func_021EEB40(char *p);
+
 extern unsigned func_021EEEA4(char *p);
+
 extern int func_021DD908(char *p, u32 a);
+
 extern void func_021EF508(struct WinMgr *mgr);
+
 extern int func_021DEF98(char *p, int a, unsigned b);
+
 extern void func_021DF110(char *p, int b);
+
 extern void func_021EF6A8(struct WinMgr *mgr);
+
 extern int func_021E01A8(char *p);
+
 extern void func_021DF11C(char *p, int b);
+
 extern void func_021EF6CC(struct WinMgr *mgr);
+
 extern int func_021DD694(void ***, unsigned);
+
 extern void *POKEPARTY_GetMember(void *, unsigned);
+
 extern unsigned func_02017E1C(void *, unsigned, unsigned);
+
 extern unsigned func_02017E88(void *, unsigned, unsigned);
+
 extern int func_021DE7C8(unsigned char *p);
+
 extern void func_021DE7B4(char *p);
+
 extern void func_021DD314(char **p, int a, unsigned b);
-extern void func_021EDAB0(char *p, int i);
-extern void func_021EDB34(char *p, int a);
+
 extern int func_021E002C(unsigned char *p);
+
 extern int func_02007A80(void *save, unsigned bits);
+
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+
 extern u32 func_020056BC(void);
+
 extern int PALANM_RequestFade(void *, u16, u16, s16_021E65E4, u8, u8, u16, void *);
+
 extern void func_021DED58(char *, int);
+
 extern void func_02007838(void *save, u32 box, u8 v);
+
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+
 extern void func_021DC9A0(char *, int);
+
 extern void func_021DC9B8(char *);
+
 extern void func_021DCF58(unsigned char *p, int sel);
+
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+
 extern void func_021DEFF8(char *p, unsigned b);
+
 extern void func_021DE728(unsigned char *p);
+
 extern void func_021DE898(int *q);
+
 extern void func_021DD090(char *, int);
-extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
+
 extern void func_021EF4E4(struct WinMgr *mgr);
+
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+
 extern void func_021DD1E8(char *p);
-extern int func_021E01C4(char *p);
+
 extern void func_021E072C(unsigned char *p);
+
 extern int func_021DFA30(unsigned char *p);
+
 extern int func_021E0470(unsigned char *p);
+
 extern int func_021DF484(unsigned char *p);
+
 extern int func_021E0200(unsigned char *p);
+
 extern void func_021EF32C(struct WinMgr *mgr);
+
 extern void func_021EF33C(struct WinMgr *mgr);
-extern void func_021EF75C(struct WinMgr *mgr);
+
 extern void func_0202614C(struct Sound *obj, u32 idx);
+
 extern void BMP_WIN_Init(u16 heapId);
+
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
+
 extern void BMP_WIN_Exit(void);
+
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
+
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+
 extern void func_02041B6C(unsigned int);
+
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void STRBUF_Delete(struct U16Vec *vec);
+
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+
 extern void func_0201EEA4(struct WordSet *p, u32 i, void *mon);
+
 extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
+
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+
 extern void func_0201EF98(struct WordSet *p, u32 i, u32 v);
+
 extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
+
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+
 extern void BMP_Delete(struct Obj020437AC *p);
+
 extern unsigned func_020275E4(void);
+
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+
 extern void BGWINFRM_AddFrame(void *,unsigned,unsigned,unsigned,unsigned);
+
 extern void BGWINFRM_PutBmpWin(void *,unsigned,void *);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0200785C(void *save, unsigned box, void *dest);
+
 extern void PRINTSYS_PrintColor(void *x, short y, short z, void *s, void *w, unsigned short v);
+
 extern void BMP_OAM_UploadChars(struct Obj *o);
-extern int func_020078C4(void *save, u32 box);
+
 extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
-extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+
 extern void func_0201F7A8(void *, int);
+
 extern void func_021EE0FC(char *p);
+
 extern void func_021EE120(char *p);
+
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
+
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
+
 extern void func_021EE200(char *);
+
 extern void CLACT_ExitSystem(void);
+
 extern unsigned func_021DC9D8(void);
+
 extern void CLACT_InitSystem(Template *,unsigned,unsigned);
+
 extern void CLACT_ReleaseCharacter(u32 i);
+
 extern void CLACT_ReleasePalette(u32 i);
+
 extern void CLACT_ReleaseCellAnim(u32 i);
+
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
 extern void func_021ED824(char *);
+
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
+
 extern void CLACT_DeleteActor(struct Obj *p);
+
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
+
 extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
+
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
+
 extern void CLACT_DrawSystem(void);
+
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
+
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
+
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+
 extern void CLACT_SetActorBgPriority(int, int);
+
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+
 extern unsigned func_02027618(void);
+
 extern unsigned func_02027614(void);
+
 extern u32 func_0202761C(u32 a);
+
 extern u32 func_02027620(u32 a);
+
 extern int func_0201BC3C(void);
+
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern int func_0201BC40(void);
+
 extern int func_0201BCB4(void);
+
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
+
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
+
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
+
 extern int POKE_TOOL_GetIconPalette(void *a0);
+
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
+
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void *POKE_TOOL_GetBoxParam(void *);
-extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
+
 extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src);
+
 extern int POKEGRA_OpenHandle(int);
+
 extern u32 func_02017DBC(struct Sav *p);
+
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
+
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u32,u16);
+
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
+
 extern u32 func_02017DE4(struct Sav *p, u32 f);
+
 extern unsigned int func_020275F8(unsigned int a);
+
 extern u32 func_020275FC(u32 a);
+
 extern u32 func_02027600(u32 a);
+
 extern unsigned func_020275E8(void);
+
 extern int func_0202774C(int a);
+
 extern int func_02027750(int a);
+
 extern int func_02027754(int a);
+
 extern int func_02027748(void);
+
 extern int func_0202776C(int a);
+
 extern int func_02027770(int a);
+
 extern int func_02027774(int a);
+
 extern int func_02027768(void);
+
 extern u8 func_020275EC(int i);
+
 extern unsigned func_02020E60(unsigned,unsigned);
+
 extern unsigned func_02020F08(void);
+
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
+
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+
 extern u16 CLACT_GetActorPaletteIndex(u8 *p);
+
 extern void CLACT_TransferPalette(void *dst, void *src, unsigned flag);
+
 extern int CLACT_GetActorDrawPriority(int a0);
+
 extern u32 CLACT_GetActorBgPriority(u8 *a0);
+
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
+
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
+
 int func_021E09E0(char *p);
+
 int func_021E0A40(char *p);
+
 int func_021E0ABC(unsigned char *p);
-int func_021E0E50(char *p);
+
 int func_021E0ED4(unsigned char *p);
+
 int func_021E0F4C(unsigned char *p);
+
 void func_021E0FB0(char *w, int x, int y);
+
 int func_021E0FD8(unsigned char *p);
+
 int func_021E122C(unsigned char *p);
+
 int func_021E1324(char *p);
+
 int func_021E1458(char *p);
+
 int func_021E152C(unsigned char *p);
+
 int func_021E1628(unsigned char *p);
+
 int func_021E1988(unsigned char *p);
+
 int func_021E19D4(char *p);
+
 int func_021E1A28(char *p);
+
 int func_021E1A78(char *p);
+
 int func_021E1ACC(char *p);
+
 int func_021E1B1C(unsigned char *p);
+
 int func_021E1E34(char *p, int *state);
+
 int func_021E1E80(u8 *p);
+
 int func_021E1F90(u8 *p);
+
 int func_021E2020(char *p);
+
 int func_021E203C(void *p);
+
 int func_021E2054(void *p);
+
 int func_021E2070(char *p);
+
 int func_021E2094(char *p);
+
 int func_021E20D4(char *p);
+
 int func_021E2140(int p);
+
 int func_021E2154(unsigned char *p);
+
 int func_021E216C(u8 *p);
+
 int func_021E21A0(u8 *p);
+
 int func_021E22B8(int p);
+
 int func_021E22E0(unsigned char *p);
+
 int func_021E2334(unsigned char *p);
+
 int func_021E24EC(unsigned char *p);
+
 int func_021E2648(unsigned char *p);
-int func_021E2650(BoxObj *p);
+
+int func_021E2650(BoxTask *p);
+
 int func_021E2B04(unsigned char *p);
+
 void func_021E2B48(char *p);
+
 int func_021E2B88(u8 *p);
-int func_021E2CBC(BoxObj *p);
+
+int func_021E2CBC(BoxTask *p);
+
 int func_021E3258(u8 *p);
+
 int func_021E3340(unsigned char *p);
+
 int func_021E3568(unsigned char *p);
+
 int func_021E35D8(u8 *p);
+
 int func_021E36A8(unsigned char *p);
-int func_021E376C(BoxObj *p);
+
+int func_021E376C(BoxTask *p);
+
 int func_021E3B50(unsigned char *p);
+
 void func_021E3BF8(char *p);
+
 int func_021E3C38(unsigned char *p);
+
 int func_021E3C88(unsigned char *p);
-int func_021E3E84(BoxObj *p);
+
+int func_021E3E84(BoxTask *p);
+
 int func_021E432C(u8 *p);
+
 int func_021E4470(unsigned char *p);
-int func_021E4504(BoxObj *p);
+
+int func_021E4504(BoxTask *p);
+
 int func_021E4944(unsigned char *p);
+
 void func_021E498C(char *p);
+
 int func_021E49CC(unsigned char *p);
-int func_021E4A64(BoxObj *p);
+
+int func_021E4A64(BoxTask *p);
+
 int func_021E4DE8(unsigned char *p);
+
 void func_021E4E6C(char *p);
+
 int func_021E4EAC(u8 *p);
+
 int func_021E4EE8(unsigned char *p);
-int func_021E4F60(BoxObj *p);
+
+int func_021E4F60(BoxTask *p);
+
 void func_021E5374(u8 *p);
+
 int func_021E53B0(unsigned char *p);
+
 int func_021E543C(u8 *p);
+
 int func_021E5524(unsigned char *p);
-int func_021E557C(BoxObj *p);
+
+int func_021E557C(BoxTask *p);
+
 void func_021E58D8(u8 *p);
+
 int func_021E5914(char *p);
+
 int func_021E594C(unsigned char *p);
+
 int func_021E5AD4(unsigned char *p);
+
 int func_021E5C5C(unsigned char *p);
+
 int func_021E5DD8(u8 *p);
+
 int func_021E5E08(unsigned char *p);
-int func_021E5E68(BoxObj *p);
+
+int func_021E5E68(BoxTask *p);
+
 int func_021E62BC(char *p);
+
 int func_021E62FC(unsigned char *p);
+
 void func_021E6374(u8 *p);
+
 int func_021E63B0(unsigned char *p);
+
 int func_021E6418(u8 *p);
+
 int func_021E644C(unsigned char *p);
-int func_021E65E4(BoxObj *p);
+
+int func_021E65E4(BoxTask *p);
+
 int func_021E695C(u8 *p);
+
 int func_021E6A60(unsigned char *p);
+
 int func_021E6C3C(unsigned char *p);
+
 int func_021E6CD4(u8 *p);
+
 int func_021E6D00(unsigned char *p);
-int func_021E6EC0(BoxObj *p);
+
+int func_021E6EC0(BoxTask *p);
+
 int func_021E7258(char *p);
+
 int func_021E7298(u8 *p);
+
 int func_021E73D8(unsigned char *p);
+
 int func_021E754C(unsigned char *p);
-int func_021E75E0(BoxObj *p);
+
+int func_021E75E0(BoxTask *p);
+
 int func_021E78F4(char *p);
+
 int func_021E7904(unsigned char *p);
+
 void func_021E79C8(unsigned char *p);
+
 int func_021E7A04(unsigned char *p);
+
 int func_021E7A10(unsigned char *p);
+
 int func_021E7BD0(unsigned char *p);
+
 int func_021E7C58(unsigned char *p);
+
 int func_021E7D04(u8 *p);
+
 void func_021E7D3C(char *p);
+
 int func_021E7D64(u8 *p);
+
 int func_021E7E54(u8 *p);
+
 int func_021E7F6C(unsigned char *p);
+
 int func_021E8014(char *p);
+
 int func_021E8024(char *p);
+
 int func_021E8188(unsigned char *p);
+
 int func_021E81D0(unsigned char *p);
+
 int func_021E8340(unsigned char *p);
+
 int func_021E83C0(char *p);
+
 int func_021E8508(u8 *p);
+
 int func_021E85F0(char *p);
+
 int func_021E86EC(unsigned char *p);
+
 int func_021E87A0(unsigned char *p);
+
 int func_021E8950(char *p);
+
 int func_021E8A58(char *p);
+
 int func_021E8A74(unsigned char *p);
+
 int func_021E8BF8(unsigned char *p);
+
 int func_021E8E24(char *p);
+
 int func_021E8F14(unsigned char *p);
+
 void func_021E8F20(u8 *p);
+
 int func_021E8F50(char *p, int v);
+
 int func_021E8F60(void *p, int a);
+
 int func_021E8F90(void *p, int a);
+
 int func_021E8FC0(char *p, int a, int b);
+
 int func_021E8FD0(char *p, int a);
+
 int func_021E8FE0(char *p, int v);
+
 int func_021E8FE8(unsigned char *p, int sel);
+
 int func_021E9010(unsigned char *p);
+
 int func_021E90D4(unsigned char *p);
+
 int func_021E912C(unsigned char *p);
+
 int func_021E91A0(unsigned char *p);
+
 int func_021E9284(char *p);
+
 int func_021E92A8(unsigned char *p);
+
 void func_021E93F4(char *p);
+
 int func_021E941C(unsigned char *p);
+
 void func_021E946C(unsigned char *p);
+
 int func_021E949C(char *p, int a, int b);
-int func_021E94AC(BoxObj *p,int a,int b);
-int func_021E954C(BoxObj *p, int id, int lo, int arg);
+
+int func_021E94AC(BoxTask *p,int a,int b);
+
+int func_021E954C(BoxTask *p, int id, int lo, int arg);
+
 int func_021E95CC(unsigned char *p, unsigned char v);
+
 int func_021E95F8(unsigned char *p);
+
 int func_021E96E8(unsigned char *p);
+
 int func_021E9848(unsigned char *p);
+
 int func_021E9938(unsigned char *p);
+
 int func_021E9968(unsigned char *p);
+
 int func_021E99B0(unsigned char *p);
+
 int func_021E9B74(unsigned char *p);
+
 int func_021E9C94(char *p, int a, int n);
+
 int func_021E9CE0(char *p, int a, int n);
-int func_021E9D2C(BoxObj *p, int i);
-int func_021E9D98(BoxObj *p, int i);
+
+int func_021E9D2C(BoxTask *p, int i);
+
+int func_021E9D98(BoxTask *p, int i);
+
 int func_021E9DF8(u8 *p, int a);
+
 int func_021E9E7C(char *p, int i, int v);
+
 int func_021E9EC0(unsigned char *p, int i);
+
 int func_021E9F3C(unsigned char *p, int i);
+
 int func_021E9FA8(unsigned char *p, int i);
+
 int func_021EA020(char *p, int i, int v);
+
 int func_021EA064(unsigned char *p, int i, int v);
+
 int func_021EA0BC(unsigned char *p, unsigned char i);
+
 int func_021EA114(char *p, int a);
+
 int func_021EA14C(unsigned char *p, unsigned i, int v);
+
 void func_021EA1C0(void *p);
+
 void func_021EA1E8(char *p);
-int func_021EA1F4(BoxObj *p, int i);
-int func_021EA2DC(BoxObj *p, int i);
-int func_021EA39C(BoxObj *p, unsigned i);
-int func_021EA458(BoxObj *p, unsigned i);
-int func_021EA4DC(BoxObj *p);
-int func_021EA514(BoxObj *p, unsigned i);
-int func_021EA598(BoxObj *p, int i);
-int func_021EA66C(BoxObj *p, int i);
+
+int func_021EA1F4(BoxTask *p, int i);
+
+int func_021EA2DC(BoxTask *p, int i);
+
+int func_021EA39C(BoxTask *p, unsigned i);
+
+int func_021EA458(BoxTask *p, unsigned i);
+
+int func_021EA4DC(BoxTask *p);
+
+int func_021EA514(BoxTask *p, unsigned i);
+
+int func_021EA598(BoxTask *p, int i);
+
+int func_021EA66C(BoxTask *p, int i);
+
 void func_021EA728(void *p);
+
 void func_021EA750(char *p);
+
 void func_021EA75C(int p);
+
 void func_021EA770(int p);
+
 void func_021EA784(int p);
+
 int func_021EA798(unsigned char *p, int sel);
+
 void func_021EA808(char *p);
+
 int func_021EA83C(char *p, int a);
+
 int func_021EA858(char *p, int a);
-void func_021EA878(BoxObj *p, int v);
+
+void func_021EA878(BoxTask *p, int v);
+
 int func_021EA8CC(unsigned char *p);
+
 void func_021EA908(int p, int bit);
+
 int func_021EA928(unsigned char *p,int a);
+
 void func_021EA984(unsigned char *p);
-int func_021EA9F4(BoxObj *p, int v);
-int func_021EAA3C(BoxObj *p, int v);
+
+int func_021EA9F4(BoxTask *p, int v);
+
+int func_021EAA3C(BoxTask *p, int v);
+
 void func_021EAA80(unsigned char *p);
+
 void func_021EAAC4(char *p);
+
 void func_021EAAE4(unsigned char *p, unsigned i);
+
 void func_021EAB04(unsigned char *w);
+
 void func_021EAB50(unsigned char *w);
+
 void func_021EABA0(void **p);
+
 void func_021EABB8(void **p);
+
 void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color);
+
 void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color);
+
 void *func_021EAC98(void);
+
 void func_021EACA8(unsigned char *p);
+
 void func_021EACFC(u8 *p);
+
 void func_021EADB4(unsigned char *w,Entry_021EADB4 *e,unsigned i);
+
 void func_021EAE20(char *p, void **q, int i);
+
 void func_021EAE74(char *p, Entry_021EAE74 *e, unsigned i);
+
 void func_021EAF20(char *p, Entry_021EAF20 *e, unsigned i);
+
 void func_021EAFBC(char *p,const Entry_021EAFBC *e,u32 i);
+
 void func_021EB098(char *p, unsigned char *e, int i);
+
 void func_021EB114(char *p, unsigned char *e, int i);
+
 void func_021EB190(char *p, unsigned char *e, int i);
+
 void func_021EB208(char *p, Entry_021EB208 *e, int i);
+
 void func_021EB2A4(u8 *p, int a);
+
 void func_021EB324(Work *w);
+
 void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon);
+
 void func_021EB6D8(int a, int b, int c, int d);
+
 void func_021EB6F0(int a, int b, int c);
+
 void func_021EB708(void *m,unsigned i,void *d);
+
 void func_021EB744(char *p);
+
 void func_021EB79C(unsigned char *p);
+
 void func_021EB7C8(char *p);
+
 void func_021EB7E8(char **p, unsigned box, int i);
+
 void func_021EB85C(unsigned char *p, int i);
+
 void func_021EB874(char **p, unsigned a, int i);
+
 void func_021EB90C(char *p);
+
 void func_021EB95C(char *p);
+
 void func_021EB988(unsigned char *p, const void *e, unsigned n);
+
 void func_021EBA30(unsigned char *p, void *win);
+
 void func_021EBA5C(char *p, int i);
+
 void func_021EBA70(char *p, int i);
+
 void func_021EBA84(unsigned char *p, int msg, int i);
+
 void func_021EBADC(char *p, int b);
+
 void func_021EBAF8(unsigned char *p, u32 v, int i);
+
 void func_021EBB1C(unsigned char *p, int i);
+
 void func_021EBB28(char *p, int b);
+
 void func_021EBB34(char *p, int a, int b);
+
 void func_021EBB58(char *p, int b);
+
 void func_021EBB64(unsigned char *p, unsigned v, int i);
+
 void func_021EBBBC(char *p, int b);
+
 void func_021EBBC8(unsigned char *p, unsigned kind, int i);
+
 void func_021EBC28(unsigned char *p,int n,int i);
+
 void func_021EBC58(unsigned char *p, int sel, int kind, int i);
+
 void func_021EBCB4(unsigned char *p, int kind, int i);
+
 void func_021EBD1C(char *p, int row, int b);
+
 void func_021EBD50(unsigned char *p);
+
 void func_021EBD78(char *p, int b);
+
 void func_021EBD94(unsigned char *p);
+
 void func_021EBDD8(char *p);
+
 void func_021EBDF4(void *a0);
+
 void func_021EBE24(char *p);
+
 void func_021EBE4C(char *p);
+
 void func_021EBEAC(unsigned char *p);
+
 void *func_021EBEE0(char *w, const Desc *s);
+
 void func_021EBF34(struct Slots_021EBF34 *p, int i);
+
 void func_021EBF50(char *p);
+
 void func_021EBF74(char *p);
+
 void func_021EBFA8(char *p, int i, int v);
+
 void func_021EBFCC(char *p, int i, int v);
+
 u32 func_021EBFEC(char *p, int i);
+
 void func_021EC000(char *p, int i, int v);
+
 u32 func_021EC01C(char *p, int i);
+
 void func_021EC030(char *p, int i, int c);
+
 void func_021EC048(char *p, int i, int c);
+
 void func_021EC060(char *p,unsigned i,int b);
+
 void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
+
 void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
+
 void func_021EC0DC(char *p);
+
 void func_021EC1E8(char *p);
+
 void func_021EC254(char *p);
+
 void func_021EC2A0(char *p);
+
 void *func_021EC338(char *p, void *b, void *c);
+
 void func_021EC35C(char **p, int box);
+
 void func_021EC428(char *p, int a, int i, int b);
+
 void func_021EC45C(unsigned char *p, void *a, int i);
+
 void func_021EC48C(unsigned char *p, int box, int pos, int win);
+
 void func_021EC4E0(char *p);
+
 void func_021EC4FC(unsigned char *p);
+
 void func_021EC548(unsigned i, short *x, short *y, int mode);
+
 void func_021EC5A0(char **p, int flag);
+
 void func_021EC61C(unsigned char *p);
+
 void func_021EC688(char *p);
+
 void func_021EC6F4(char *p);
+
 void func_021EC768(char *p, unsigned i, int flag);
+
 void func_021EC7B8(char *p, int i, unsigned j, int flag);
+
 void func_021EC804(char **p, short dx);
+
 void func_021EC8E4(char *p);
+
 void func_021EC94C(char *p);
+
 int func_021EC994(char *p);
+
 int func_021EC9D8(char *p);
+
 void func_021ECA24(int *p);
+
 void func_021ECA38(int *p);
+
 void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode);
+
 void func_021ECB20(char *p, int f, int c);
+
 void func_021ECB60(char *p, int i, int f);
+
 void func_021ECB74(char *a, int b);
+
 void func_021ECB84(char *w, unsigned i);
+
 void func_021ECBD8(unsigned char *p, int i);
+
 void func_021ECC1C(unsigned char *p);
+
 void func_021ECCA4(char *p);
+
 void func_021ECCCC(char *p,void **mon,int index);
+
 void func_021ECDF4(char *w);
+
 void func_021ECF78(char *p);
+
 void func_021ECFDC(char *p, int a, int b);
+
 void func_021ED028(char *p,unsigned char *q);
+
 void func_021ED058(u8*p);
+
 void func_021ED094(char *w, unsigned item);
+
 void func_021ED108(char *p, int on);
+
 void func_021ED14C(int a, int b, int c);
+
 void func_021ED164(char *p, int a, int c);
+
 void func_021ED198(char *p, int a, int c);
+
 void func_021ED1C8(char *w);
+
 void func_021ED2F4(char *p);
+
 void func_021ED310(char *w);
+
 void func_021ED370(unsigned char *p);
+
 void func_021ED508(unsigned char *p, int a, int b);
+
 void func_021ED544(char *p, int b);
+
 void func_021ED55C(char **p, int flag);
+
 void func_021ED588(char *p);
+
 void func_021ED594(char *p, unsigned i);
+
 void func_021ED6E4(char **p, int v);
+
 void func_021ED75C(char **p, int i);
+
 void func_021ED7C4(char *p, int i);
-extern const unsigned char d_021EF79C[];
-extern const unsigned char d_021EF7B4[];
+
 extern const char str_021F140C[];
+
 extern const char ov067_id[];
+
 extern const Pair d_021EFA4C[];
+
 extern Dispatch d_021EFA2C;
+
 extern const unsigned char d_021EF9B4[];
+
 extern const unsigned char d_021EF950[];
+
 extern const unsigned char d_021EFA10[];
+
 extern const unsigned char d_021EF918[];
+
 extern const unsigned char d_021EF8EC[];
+
 extern Ent d_021EF908[];
+
 extern const unsigned char d_021EF9C8[];
+
 extern const unsigned char d_021EF93C[];
+
 extern const unsigned char d_021EF964[];
+
 extern const unsigned char d_021EF978[];
+
 extern const unsigned char d_021EF98C[];
+
 extern const unsigned char d_021EF9A0[];
+
 extern const unsigned char d_021EF9E0[];
+
 extern const unsigned char d_021EF928[];
+
 extern const unsigned char d_021EF9F8[];
+
 extern const unsigned char data_021EFA10[];
+
 extern const unsigned char data_021EF918[];
+
 extern const char d_021F140C[];
+
 extern const unsigned char d_021EF8FC[];
+
 extern const unsigned char d_021EF8F4[];
+
 extern const unsigned char d_021EFC20[];
+
 extern const Template d_021EFD64;
+
 extern const Desc d_021EFD04;
+
 extern const Pos_021EC548 d_021EFD4C[];
+
 extern const Off d_021EFCE0[];
+
 extern const DescTable d_021EFD80;
+
 extern const Desc d_021EFD34;
+
 extern const Desc d_021EFE70;
+
 extern const signed char d_021EFCD0[];
+
 extern const signed char d_021EFCC8[];
 
 #define SLOT(p) (*(char **)(WORK(p) + 0xA190))
 
-
-
 #define CNT(p) (*(unsigned short *)(WORK(p) + 0xA16C))
 
-
 #define NIB(p) ((Nib_021E09E0 *)((p) + 0x1C))
-
-
-
-
-
-#define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-#define W(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-int func_021E09E0(char *p)
-{
-    char *s;
-    s = *(char * *)&((BoxTask *)p)->f2C + 0x58;
-    switch (((BoxSeq *)s)->fC) {
-    case 0:
-        func_021ED544(p, 7);
-        func_021DE428((unsigned char *)p, ((BoxTask *)p)->f16, ((struct Obj23878 *)(*(char * *)&((BoxTask *)p)->f2C))->fA17E);
-        ((BoxSeq *)s)->fC = 1;
-        break;
-    case 1:
-        if (func_021DDAE8((unsigned char *)p) == 0) {
-            func_021DE66C(p, ((BoxSeq *)s)->f8);
-            func_021ED544(p, 6);
-            GFL_USE_PlaySeDefaultVolume(0x667);
-            ((BoxSeq *)s)->fC = 0;
-            return 0;
-        }
-        break;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021E0A40(char *p)
-{
-    char *s;
-    int a;
-    int b;
-    s = WORK(p) + 0x58;
-    switch (((BoxSeq *)s)->fC) {
-    case 0:
-        if (*(unsigned short *)(WORK(p) + 0xA16C)) {
-            func_021ED108(WORK(p), 1);
-            func_021EBFA8(WORK(p), 10, 1);
-            func_021EC000(WORK(p), 10, 1);
-        }
-        (((BoxSeq *)s)->fC)++;
-    case 1:
-        a = func_021E066C(p);
-        b = func_021EF5C4(*(struct WinMgr **)(WORK(p) + 0x74));
-        if (a == 0 && b == 0) {
-            if (*(unsigned short *)(WORK(p) + 0xA16C)) {
-                func_021ED108(WORK(p), 0);
-                func_021ED2F4(WORK(p));
-            }
-            ((BoxSeq *)s)->fC = 0;
-            return 0;
-        }
-        break;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Same state-machine family as src/matched/ov170_func_021DFA30.c.  The spill
- * slots of `first` and `flag` follow declaration order (later declaration,
- * lower address), and the two identical "fall back to p[0x16]" arms are an
- * if/else-if that the compiler tail-merges (bne then b), not one `||`.
- */
-int func_021E0ABC(unsigned char *p)
-{
-    Blk_021E0ABC *b = (Blk_021E0ABC *)(WORK(p) + 0x58);
-    int busy = func_021EF5C4(MGR(p));
-    int wait = func_021EF400(p);
-    unsigned x;
-    unsigned y;
-    switch (b->state) {
-    case 0:
-        func_021EA878((BoxObj *)p, (short)CNT(p));
-        if (CNT(p) != 0) {
-            func_021ED108(WORK(p), 1);
-            func_021EBFA8(WORK(p), 10, 1);
-            func_021EC000(WORK(p), 10, 1);
-            b->state = 1;
-        } else {
-            func_021EF534(MGR(p));
-            b->state = 11;
-        }
-        break;
-    case 1:
-        if (func_021EBFEC(WORK(p), 10) == 1)
-            break;
-        func_021ED108(WORK(p), 0);
-        func_021ED2F4(WORK(p));
-        b->state = 2;
-    case 2:
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
-            unsigned first;
-            int flag;
-            unsigned r;
-            int back;
-            if (wait == 1 || func_021EF45C(MGR(p)) == 1)
-                flag = 1;
-            else
-                flag = 0;
-            r = (unsigned short)func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
-            if (wait == 0 && func_021EF45C(MGR(p)) == 1 && r == 0xFF)
-                r = (unsigned short)func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
-            back = 0;
-            first = r;
-            if (r == 0xFF) {
-                r = p[0x16];
-                back = 1;
-            } else if (func_021DDE80(p, p[0x16], r) == 0) {
-                r = p[0x16];
-                back = 1;
-            }
-            if (flag == 1) {
-                func_021DEA3C((int)p, first, r, 2);
-                if (back == 1 && p[0x17] != 0xFF && p[0x17] != p[0x14]) {
-                    int dir = func_021DD210(p, p[0x14], p[0x17]);
-                    p[0x14] = p[0x17];
-                    func_021EC35C((char **)p, p[0x14]);
-                    func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), dir);
-                    if (dir == 0)
-                        b->state = 5;
-                    else
-                        b->state = 6;
-                } else {
-                    b->state = 7;
-                }
-            } else {
-                func_021DEA3C((int)p, first, r, 0);
-                func_021EF534(MGR(p));
-                b->state = 8;
-            }
-            b->timer = 0;
-            break;
-        }
-        if (b->timer != 0)
-            b->timer--;
-        if (busy == 0 && wait == 0 && func_021EF45C(MGR(p)) == 0 && p[0x16] != func_021EF180(x, y)) {
-            func_021EF35C(MGR(p));
-            func_021EF36C(MGR(p));
-            func_021EC5A0((char **)p, 1);
-            func_021ECB20((char *)p, 0x82, 1);
-            GFL_USE_PlaySeDefaultVolume(0x669);
-            func_021EE364((char **)p, 6, p[0x16]);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
-            func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
-            func_021EE038((char *)p, 2, 1, 1);
-            p[0x1E] = 0;
-            *(unsigned char *)(WORK(p) + 0xA172) = 0;
-            *(int *)(WORK(p) + 0xA168) = p[0x16];
-            *(int *)(WORK(p) + 0x68) = 0x42;
-        }
-        if (b->timer == 0) {
-            int dir = func_021EF1B4();
-            if (dir == 0) {
-                GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021DD16C(p, 0);
-                b->state = 3;
-            } else if (dir == 1) {
-                GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021DD16C(p, 1);
-                b->state = 4;
-            }
-        }
-        func_021E0FB0(WORK(p), x, y);
-        break;
-    case 3:
-        if (func_021E00C4((char *)p) == 0) {
-            b->timer = 0x10;
-            b->state = 2;
-        }
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021E0FB0(WORK(p), x, y);
-        break;
-    case 4:
-        if (func_021E0128((char *)p) == 0) {
-            b->timer = 0x10;
-            b->state = 2;
-        }
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021E0FB0(WORK(p), x, y);
-        break;
-    case 5:
-        if (func_021E00C4((char *)p) == 0)
-            b->state = 7;
-        break;
-    case 6:
-        if (func_021E0128((char *)p) == 0)
-            b->state = 7;
-        break;
-    case 7:
-        if (func_021DEAFC((int)p) == 0) {
-            GFL_USE_PlaySeDefaultVolume(0x667);
-            b->state = 9;
-        }
-        break;
-    case 8:
-        if (func_021DEAFC((int)p) == 0) {
-            GFL_USE_PlaySeDefaultVolume(0x667);
-            if (CNT(p) != 0) {
-                func_021ED108(WORK(p), 0);
-                func_021ED2F4(WORK(p));
-            }
-            func_021EE038((char *)p, 0, 0, 1);
-            b->state = 11;
-        }
-        break;
-    case 9:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 2);
-        func_021ED6E4((char **)p, 0);
-        b->state = 10;
-        break;
-    case 10:
-        if (func_021EBFEC(WORK(p), 10) == 0) {
-            func_021EC000(WORK(p), 10, 0);
-            func_021ED108(WORK(p), 0);
-            b->state = 11;
-        }
-        break;
-    case 11:
-        if (busy == 0 && wait == 0) {
-            b->state = 0;
-            return 0;
-        }
-        break;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021E0E50(char *p)
-{
-    char *s;
-    int a;
-    int b;
-    s = WORK(p) + 0x58;
-    switch (((BoxSeq *)s)->fC) {
-    case 0:
-        if (func_021EC01C(WORK(p), 10) == 1) {
-            func_021ED108(WORK(p), 1);
-            func_021EBFA8(WORK(p), 10, 2);
-        }
-        (((BoxSeq *)s)->fC)++;
-    case 1:
-        a = func_021E066C(p);
-        b = func_021E0190(p);
-        if (a == 0 && b == 0)
-            (((BoxSeq *)s)->fC)++;
-        break;
-    case 2:
-        if (func_021EC01C(WORK(p), 10) == 1) {
-            func_021ED108(WORK(p), 0);
-            func_021EC000(WORK(p), 10, 0);
-        }
-        ((BoxSeq *)s)->fC = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021E0ED4(unsigned char *p)
-{
-    char *b = W(p) + 0x58;
-    switch (((BoxSeq *)b)->fC) {
-    case 0:
-        if (func_021EC01C(W(p), 10) == 1) {
-            func_021ED108(W(p), 1);
-            func_021EBFA8(W(p), 10, 2);
-        }
-        (((BoxSeq *)b)->fC)++;
-        /* fall through */
-    case 1:
-        if (!func_021E0190((char *)p))
-            (((BoxSeq *)b)->fC)++;
-        break;
-    case 2:
-        if (func_021EC01C(W(p), 10) == 1) {
-            func_021ED108(W(p), 0);
-            func_021EC000(W(p), 10, 0);
-        }
-        ((BoxSeq *)b)->fC = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021E0F4C(unsigned char *p)
-{
-    char *b = W(p) + 0x58;
-    switch (((BoxSeq *)b)->fC) {
-    case 0:
-        if (func_021EC01C(W(p), 10) == 1) {
-            func_021ED108(W(p), 1);
-            func_021EBFA8(W(p), 10, 2);
-        }
-        (((BoxSeq *)b)->fC)++;
-        break;
-    case 1:
-        if (!func_021EBFEC(W(p), 10)) {
-            func_021ED108(W(p), 0);
-            func_021EC000(W(p), 10, 0);
-        }
-        ((BoxSeq *)b)->fC = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-void func_021E0FB0(char *w, int x, int y)
-{
-    func_021ED14C((int)w, (short)x, (short)y);
-    func_021ED310(w);
-    ((struct Obj14264 *)w)->fA180 = x;
-    ((struct Obj14264 *)w)->fA184 = y;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Sibling of src/matched/ov170_func_021E0ABC.c.
- */
-int func_021E0FD8(unsigned char *p)
-{
-    Blk_021E0FD8 *b = (Blk_021E0FD8 *)(WORK(p) + 0x58);
-    unsigned x;
-    unsigned y;
-    switch (b->state) {
-    case 0:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 1);
-        func_021EC000(WORK(p), 10, 1);
-        b->state = 1;
-        break;
-    case 1:
-        if (func_021EBFEC(WORK(p), 10) != 0)
-            break;
-        func_021ED108(WORK(p), 0);
-        func_021ED2F4(WORK(p));
-        b->state = 2;
-        break;
-    case 2:
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
-            unsigned first;
-            unsigned r;
-            int back;
-            r = (unsigned short)func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
-            if (r == 0xFF)
-                r = (unsigned short)func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
-            back = 0;
-            first = r;
-            if (r == 0xFF) {
-                r = p[0x16];
-                back = 1;
-            } else if (func_021DDE80(p, p[0x16], r) == 0) {
-                r = p[0x16];
-                back = 1;
-            }
-            func_021DEA3C((int)p, first, r, 2);
-            if (back == 1 && p[0x17] != 0xFF && p[0x17] != p[0x14]) {
-                int dir = func_021DD210(p, p[0x14], p[0x17]);
-                p[0x14] = p[0x17];
-                func_021EC35C((char **)p, p[0x14]);
-                func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), dir);
-                if (dir == 0)
-                    b->state = 5;
-                else
-                    b->state = 6;
-            } else {
-                b->state = 7;
-            }
-            b->timer = 0;
-            break;
-        }
-        if (b->timer != 0)
-            b->timer--;
-        if (b->timer == 0) {
-            int dir = func_021EF1B4();
-            if (dir == 0) {
-                GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021DD16C(p, 0);
-                b->state = 3;
-            } else if (dir == 1) {
-                GFL_USE_PlaySeDefaultVolume(0x548);
-                func_021DD16C(p, 1);
-                b->state = 4;
-            }
-        }
-        func_021E0FB0(WORK(p), x, y);
-        break;
-    case 3:
-        if (func_021E00C4((char *)p) == 0) {
-            b->timer = 0x10;
-            b->state = 2;
-        }
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021E0FB0(WORK(p), x, y);
-        break;
-    case 4:
-        if (func_021E0128((char *)p) == 0) {
-            b->timer = 0x10;
-            b->state = 2;
-        }
-        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021E0FB0(WORK(p), x, y);
-        break;
-    case 5:
-    case 6:
-        if (b->state == 5 && func_021E00C4((char *)p) == 0)
-            b->state = 7;
-        if (b->state == 6 && func_021E0128((char *)p) == 0)
-            b->state = 7;
-    case 7:
-        if (func_021DEAFC((int)p) == 0 && b->state == 7) {
-            GFL_USE_PlaySeDefaultVolume(0x667);
-            b->state = 8;
-        }
-        break;
-    case 8:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 2);
-        func_021ED6E4((char **)p, 0);
-        b->state = 9;
-        break;
-    case 9:
-        if (func_021EBFEC(WORK(p), 10) == 0) {
-            func_021EC000(WORK(p), 10, 0);
-            func_021ED108(WORK(p), 0);
-            b->state = 10;
-        }
-        break;
-    case 10:
-        b->state = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Callback of func_021E6A60 (state machine in the 021E1324 family): show
- * window 10, return the held item to its slot, then hide the window.
- */
-int func_021E122C(unsigned char *p)
-{
-    Blk_021E122C *b = (Blk_021E122C *)(WORK(p) + 0x58);
-    switch (b->state) {
-    case 0:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 1);
-        func_021EC000(WORK(p), 10, 1);
-        b->state = 1;
-        break;
-    case 1:
-        if (func_021EBFEC(WORK(p), 10) != 0)
-            break;
-        func_021ED108(WORK(p), 0);
-        b->state = 2;
-        break;
-    case 2: {
-        unsigned char old = p[0x16];
-        p[0x16] = b->entry->idx;
-        if (p[0x17] != 0xFF && p[0x17] != p[0x14])
-            func_021DE980(p, 2);
-        else
-            func_021DEA3C((int)p, old, old, 2);
-        b->state = 3;
-        break;
-    }
-    case 3:
-        if (func_021DEAFC((int)p) != 0)
-            break;
-        if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
-            b->state = 5;
-        } else {
-            GFL_USE_PlaySeDefaultVolume(0x667);
-            b->state = 4;
-        }
-        break;
-    case 4:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 2);
-        b->state = 5;
-        break;
-    case 5:
-        if (func_021EBFEC(WORK(p), 10) != 0)
-            break;
-        func_021EC000(WORK(p), 10, 0);
-        func_021ED108(WORK(p), 0);
-        b->state = 6;
-        break;
-    case 6:
-        b->state = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
 
 int func_021E1324(char *p)
 {
@@ -2167,15 +2280,6 @@ int func_021E1324(char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 int func_021E1458(char *p)
 {
     Blk_021E1458 *b = (Blk_021E1458 *)(WORK(p) + 0x58);
@@ -2215,15 +2319,6 @@ int func_021E1458(char *p)
     }
     return 1;
 }
-
-
-
-
-
-
-
-
-
 
 int func_021E152C(unsigned char *p)
 {
@@ -2280,15 +2375,6 @@ int func_021E152C(unsigned char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Twin of src/matched/ov170_func_021E0ABC.c.
  */
@@ -2301,7 +2387,7 @@ int func_021E1628(unsigned char *p)
     unsigned y;
     switch (b->state) {
     case 0:
-        func_021EA878((BoxObj *)p, (short)CNT(p));
+        func_021EA878((BoxTask *)p, (short)CNT(p));
         if (CNT(p) != 0) {
             func_021ED108(WORK(p), 1);
             func_021EBFA8(WORK(p), 10, 1);
@@ -2437,17 +2523,9 @@ int func_021E1628(unsigned char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int func_021E1988(unsigned char *p)
 {
-    char *w = *(char * *)&((BoxTask *)p)->f2C;
+    char *w = *(char * *)&((BoxTask *)p)->work;
     char *b = w + 0x58;
     switch (((struct Obj08237 *)b)->fC) {
     case 0:
@@ -2468,20 +2546,11 @@ int func_021E1988(unsigned char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 int func_021E19D4(char *p)
 {
-    Blk_021E19D4 *b = (Blk_021E19D4 *)(*(char * *)&((BoxTask *)p)->f2C + 0x58);
+    Blk_021E19D4 *b = (Blk_021E19D4 *)(*(char * *)&((BoxTask *)p)->work + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(((struct Obj23881 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+        unsigned r = func_020260E0(((struct Obj23881 *)(*(char * *)&((BoxTask *)p)->work))->f70);
         if (r >= 0x22 && r <= 0x25)
             func_021EE008(p, r - 0x22, 1);
         else
@@ -2494,21 +2563,12 @@ int func_021E19D4(char *p)
     func_021EDD38(p, (short)-b->fE);
     return 1;
 }
-
-
-
-
-
-
-
-
-
 
 int func_021E1A28(char *p)
 {
-    Blk_021E1A28 *b = (Blk_021E1A28 *)(*(char * *)&((BoxTask *)p)->f2C + 0x58);
+    Blk_021E1A28 *b = (Blk_021E1A28 *)(*(char * *)&((BoxTask *)p)->work + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(((struct Obj23882 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+        unsigned r = func_020260E0(((struct Obj23882 *)(*(char * *)&((BoxTask *)p)->work))->f70);
         if (r >= 0x22 && r <= 0x25)
             func_021EE008(p, r - 0x22, 1);
         else
@@ -2522,19 +2582,11 @@ int func_021E1A28(char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int func_021E1A78(char *p)
 {
-    Blk_021E1A78 *b = (Blk_021E1A78 *)(*(char * *)&((BoxTask *)p)->f2C + 0x58);
+    Blk_021E1A78 *b = (Blk_021E1A78 *)(*(char * *)&((BoxTask *)p)->work + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(((struct Obj23883 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+        unsigned r = func_020260E0(((struct Obj23883 *)(*(char * *)&((BoxTask *)p)->work))->f70);
         if (r >= 1 && r <= 4)
             func_021EE008(p, r - 1, 1);
         else
@@ -2548,19 +2600,11 @@ int func_021E1A78(char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 int func_021E1ACC(char *p)
 {
-    Blk_021E1ACC *b = (Blk_021E1ACC *)(*(char * *)&((BoxTask *)p)->f2C + 0x58);
+    Blk_021E1ACC *b = (Blk_021E1ACC *)(*(char * *)&((BoxTask *)p)->work + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(((struct Obj23884 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
+        unsigned r = func_020260E0(((struct Obj23884 *)(*(char * *)&((BoxTask *)p)->work))->f70);
         if (r >= 1 && r <= 4)
             func_021EE008(p, r - 1, 1);
         else
@@ -2573,15 +2617,6 @@ int func_021E1ACC(char *p)
     func_021EDD38(p, (short)b->fE);
     return 1;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Sibling of src/matched/ov170_func_021DFA30.c.
@@ -2611,7 +2646,7 @@ int func_021E1B1C(unsigned char *p)
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
             if (r == 0xFF)
                 r = func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
-            if (SYS(p)[9] == 4 && SYS(p)[5] == 1) {
+            if (((BoxTask *)p)->params->mode == 4 && ((BoxTask *)p)->params->linkMode == 1) {
                 r = 0xFF;
                 *(unsigned char *)(WORK(p) + 0xA173) = 5;
             }
@@ -2715,80 +2750,20 @@ int func_021E1B1C(unsigned char *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
 extern int (*const d_021EFA7C[])(char *);
-
-
-
-
-
-
-
-
 
 int func_021E1E34(char *p, int *state)
 {
-    if (!*(char * *)&((BoxTask *)p)->f2C || !((struct Obj23885 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C || PRINTSYS_QUE_IsFinished(((struct Obj23886 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C))
+    if (!*(char * *)&((BoxTask *)p)->work || !((struct Obj23885 *)(*(char * *)&((BoxTask *)p)->work))->f8C || PRINTSYS_QUE_IsFinished(((struct Obj23886 *)(*(char * *)&((BoxTask *)p)->work))->f8C))
         *state = d_021EFA7C[*state](p);
     if (*state == 0x69)
         return 0;
-    if (*(char * *)&((BoxTask *)p)->f2C) {
-        func_021EAB50((unsigned char *)(*(char * *)&((BoxTask *)p)->f2C));
-        func_021EBF74(*(char * *)&((BoxTask *)p)->f2C);
+    if (*(char * *)&((BoxTask *)p)->work) {
+        func_021EAB50((unsigned char *)(*(char * *)&((BoxTask *)p)->work));
+        func_021EBF74(*(char * *)&((BoxTask *)p)->work);
     }
     return 1;
 }
-
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-#undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
-
-#undef W
-
-#undef W
-
-#define W(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
 
 /*
  *   src/matched/arm9/unit_0204361C.c contains its body but omits it from
@@ -2842,43 +2817,30 @@ int func_021E1E80(u8 *p)
     return *(int *)(p+0x28);
 }
 
-
-
-
-
-
-
-
-
 int func_021E1F90(u8 *p)
 {
     func_021DC964((char *)p);
     func_021DCF30((char *)p);
     func_021EE3CC((int *)p);
-    func_021EF310(((BoxTask *)p)->f2C);
-    func_021EBDD8(((BoxTask *)p)->f2C);
+    func_021EF310((char *)((BoxTask *)p)->work);
+    func_021EBDD8((char *)((BoxTask *)p)->work);
     func_021EAAC4((char *)p);
     func_021DD8F8((char *)p);
     func_021DCE80((char *)p);
     func_021DCDD8((int *)p);
     func_021DCB48(p);
-    KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x50));
-    ARC_TOOL_DeleteHandle((void *)*(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x1b0));
-    func_020307B0(((BoxTask *)p)->f2C);
+    KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((BoxTask *)p)->work + 0x4c), *(u32 *)(*(u32 *)&((BoxTask *)p)->work + 0x50));
+    ARC_TOOL_DeleteHandle((void *)*(u32 *)(*(u32 *)&((BoxTask *)p)->work + 0x1b0));
+    func_020307B0((char *)((BoxTask *)p)->work);
     func_020306F0(0x4c);
-    *(u32 *)&((BoxTask *)p)->f2C = 0;
+    *(u32 *)&((BoxTask *)p)->work = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
-    return *(u32 *)&((BoxTask *)p)->f28;
+    return *(u32 *)&((BoxTask *)p)->state;
 }
-
-
-
-
-
 
 /*
  * Query the current mode; when it is 1 return the 0xA188 word of
@@ -2891,123 +2853,51 @@ int func_021E2020(char *p)
     return 2;
 }
 
-
-
-
-
-
-
 int func_021E203C(void *p)
 {
     if (PALANM_GetFadeRequestBits((const char *)(*(int *)(((struct Obj12157 *)p)->f2C + 0x6c))) == 0)
-        return ((BoxTask *)p)->f28;
+        return ((BoxTask *)p)->state;
     return 3;
 }
-
-
-
-
 
 int func_021E2054(void *p)
 {
     struct BoxCountWork *w = (struct BoxCountWork *)((struct Obj12157 *)p)->f2C;
     int v = w->count;
     if (v == 0)
-        return ((BoxTask *)p)->f28;
+        return ((BoxTask *)p)->state;
     w->count = v - 1;
     return 4;
 }
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
+#undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
-
-
-
-
-
-
 
 #define MODE(p) (*(int *)(TOP(p) + 0x24))
 
-
-
-
-
-
-
-#define OBJ(p) (*(void **)((p)->work + 0x70))
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
 
+#undef MGR
 
-
+#undef MGR
 
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
 #undef W
-
-
-
-#undef W
-
-
-#undef W
-
-#undef W
-
-
-
-
-
-
 #define W(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E2070(char *p)
 {
@@ -3019,40 +2909,20 @@ int func_021E2070(char *p)
     return 5;
 }
 
-
-
-
-
-
-
-
-
-
-
 int func_021E2094(char *p)
 {
     if (TOUCHPANEL_GetTrg() == 1) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(1);
-        return ((BoxTask *)p)->f28;
+        return ((BoxTask *)p)->state;
     }
     if (KEY_GetTrg() & 3) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(0);
-        return ((BoxTask *)p)->f28;
+        return ((BoxTask *)p)->state;
     }
     return 6;
 }
-
-
-
-
-
-
-
-
-
-
 
 int func_021E20D4(char *p)
 {
@@ -3069,44 +2939,14 @@ int func_021E20D4(char *p)
     return 7;
 }
 
-
-
-
-
-
-
-
-
-
-
 int func_021E2140(int p)
 {
     if (func_021DCFC0((char *)p) == 0)
-        return ((BoxTask *)p)->f28;
+        return ((BoxTask *)p)->state;
     return 8;
 }
 
-
-
-
-
-
-
-
-
-
-
 extern struct Ent { void (*fn)(void *); int a; int b; } g_021EFA28[];
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Dispatch through the 12-byte table at 0x021EFA28 keyed by p[0x12].
@@ -3121,87 +2961,33 @@ int func_021E2154(unsigned char *p)
     return 10;
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021E216C(u8 *p){if(((BoxTask *)p)->f8!=1){(*(void (**)(u8 *))((u32)&d_021EFA2C.callback+p[0x12]*12))(p);((struct Obj10654 *)p)->f28=*(u32 *)((u32)&d_021EFA2C.value+p[0x12]*12);return 0;}return 10;}
-
-
-
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-
-#undef W
-
-
-
-
-
-#undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
+int func_021E216C(u8 *p){if(((BoxTask *)p)->subState!=1){(*(void (**)(u8 *))((u32)&d_021EFA2C.callback+p[0x12]*12))(p);((struct Obj10654 *)p)->f28=*(u32 *)((u32)&d_021EFA2C.value+p[0x12]*12);return 0;}return 10;}
 
 #undef W
 
 #undef W
 
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
 #define W(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
-
-
 
 int func_021E21A0(u8 *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x55C);
-    switch(((struct Obj23887 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+    switch(((struct Obj23887 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
     case 0:
         func_021EA784((int)p);
         func_021ED888(W(p),0);
@@ -3225,7 +3011,7 @@ int func_021E21A0(u8 *p)
         NEXT(p)=0x39;
         break;
     case 4:
-        if(POKEPARTY_GetCount(((struct Obj23888 *)(*(char * *)&((BoxTask *)p)->f0))->f8)==0) {
+        if(POKEPARTY_GetCount(((struct Obj23888 *)(*(char * *)&((BoxTask *)p)->params))->f8)==0) {
             func_021EF670(W(p));
             func_021DEFEC((char *)p,0);
             func_021EE364((char **)p,13,0);
@@ -3250,40 +3036,22 @@ int func_021E21A0(u8 *p)
     return func_021E22B8((int)p);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * candidate func_021E22B8: guard then dispatch
  */
 int func_021E22B8(int p)
 {
-    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x8c))) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(int *)(*(int *)&((BoxTask *)p)->work + 0x8c))) == 0)
         return 0xc;
-    func_021E8F60((void *)p, *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA198));
+    func_021E8F60((void *)p, *(int *)(*(int *)&((BoxTask *)p)->work + 0xA198));
 }
-
-
-
-
-
-
-
-
-
 
 int func_021E22E0(unsigned char *p)
 {
-    func_020307B0(((struct Obj23889 *)(*(char * *)&((BoxTask *)p)->f2C))->f60);
+    func_020307B0(((struct Obj23889 *)(*(char * *)&((BoxTask *)p)->work))->f60);
     if ((*(unsigned char **)(p + 0x2C))[0xA172] == 1) {
-        if (((struct Obj23890 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3) {
-            if (((struct Obj23891 *)(*(char * *)&((BoxTask *)p)->f2C))->fA16C == 0)
+        if (((struct Obj23890 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3) {
+            if (((struct Obj23891 *)(*(char * *)&((BoxTask *)p)->work))->fA16C == 0)
                 func_021EBCB4(p, 0, 0x18);
             else
                 func_021EBCB4(p, 1, 0x18);
@@ -3292,18 +3060,8 @@ int func_021E22E0(unsigned char *p)
         }
         (*(char **)(p + 0x2C))[0xA172] = 0;
     }
-    return ((BoxTask *)p)->f28;
+    return ((BoxTask *)p)->state;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Two-step machine on the work word at 0xA194: step 0 opens the menu for
@@ -3324,7 +3082,7 @@ int func_021E2334(unsigned char *p)
             func_021EB988(p, d_021EFA10, 6);
             break;
         case 3:
-            func_021EA878((BoxObj *)p, SUB(p));
+            func_021EA878((BoxTask *)p, SUB(p));
             break;
         case 4:
             func_021EB988(p, d_021EF918, 4);
@@ -3393,16 +3151,6 @@ int func_021E2334(unsigned char *p)
     return 0xE;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Touch-drag paging of the box list: a drag of three or more pixels
  * starts a scroll of |d| / 8 steps in its direction; each later call
@@ -3462,104 +3210,42 @@ int func_021E24EC(unsigned char *p)
     return 0xF;
 }
 
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
-
-
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
 #undef W
 
-
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
 #undef W
 
-
-
-
 #undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
 #define W(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
-
-
 
 /*
  * State handler (table entry at 0x021EFABC) that forwards to
@@ -3570,32 +3256,23 @@ int func_021E2648(unsigned char *p)
     return func_021E9284((char *)p);
 }
 
-
-
-
-
-
-
-
-
-
-int func_021E2650(BoxObj *p)
+int func_021E2650(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
         p->b1B = 0;
-        return func_021EA9F4((BoxObj *)p, 0x14);
+        return func_021EA9F4((BoxTask *)p, 0x14);
     }
     r = func_021EF170();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, r);
-            return func_021E9D2C((BoxObj *)p, r);
+            return func_021E9D2C((BoxTask *)p, r);
         }
         func_020260E4(OBJ(p), r);
         func_021EE3E4((char **)p, r);
@@ -3603,9 +3280,9 @@ int func_021E2650(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
-            func_021EF670(p->work);
+            func_021EF670((char *)p->work);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x11);
         }
         return 0x11;
@@ -3633,12 +3310,12 @@ int func_021E2650(BoxObj *p)
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x1A));
     case 0x22:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)p, 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)p, 7, 8, 0x10);
     case 0x23:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)p, 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)p, 6, 9, 0x68);
     case 0x24:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 0;
@@ -3647,13 +3324,13 @@ int func_021E2650(BoxObj *p)
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
-        p->b17 = p->b14;
-        p->x24 = 0x25;
+        p->heldSlot = p->curBox;
+        p->pickedSlot = 0x25;
         return func_021E949C((char *)p, 1, 0x4F);
     case 0x26:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
-        p->x24 = 0x26;
+        p->pickedSlot = 0x26;
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x50));
     case 0x27:
         GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -3664,14 +3341,14 @@ int func_021E2650(BoxObj *p)
     case 0x29: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x13);
     }
     case 0x2A:
         p->b1B = 0;
-        return func_021EAA3C((BoxObj *)p, 0x14);
+        return func_021EAA3C((BoxTask *)p, 0x14);
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -3698,13 +3375,13 @@ int func_021E2650(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x13);
         }
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)p, 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)p, 6, 9, 0x68);
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
@@ -3713,46 +3390,30 @@ int func_021E2650(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, r);
-            func_021EEF74(p->work, 0x24, func_020260E0(OBJ(p)));
+            func_021EEF74((char *)p->work, 0x24, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 0x24);
-            return func_021E9E7C((char *)((BoxObj *)p), r, 0x11);
+            return func_021E9E7C((char *)((BoxTask *)p), r, 0x11);
         }
         break;
     }
     return 0x11;
 }
 
-
-
-
-
-
-
-
-
 int func_021E2B04(unsigned char *p)
 {
     func_021DD530(p);
     func_021EA1E8((char *)p);
-    func_020260E4(((struct Obj23892 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 0x24);
+    func_020260E4(((struct Obj23892 *)(*(char * *)&((BoxTask *)p)->work))->f70, 0x24);
     func_021EE3E4((char **)p, 0x24);
     func_021ED55C((char **)p, 1);
     func_021EE038((char *)p, 0, 0, 1);
     func_021EBC58(p, p[0x16], 1, 0x18);
     return 0x11;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Re-key the p+0x2c+0x74 object, clear the frame, retag 0x18,
@@ -3763,21 +3424,13 @@ int func_021E2B04(unsigned char *p)
  */
 void func_021E2B48(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF670((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF670((char *)(*(int *)&((BoxTask *)p)->work));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x11));
 }
-
-
-
-
-
-
-
-
 
 int func_021E2B88(u8 *p)
 {
@@ -3825,125 +3478,55 @@ int func_021E2B88(u8 *p)
     return 20;
 }
 
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
-
-
-
 #undef MODE
 
-
-
-
-
-
 #undef MODE
-
-
-
-
-
-#undef MODE
-
-
-
-
-#undef MODE
-
-
-
-#undef MODE
-
 
 #undef MODE
 
 #undef MODE
+
+#undef MODE
+
+#undef MODE
+
+#undef MODE
+
 #define MODE(p) (*(unsigned char *)(WORK(p) + 0xA173))
 
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
+#undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
-
-
-
-
-
-
-int func_021E2CBC(BoxObj *p)
+int func_021E2CBC(BoxTask *p)
 {
     unsigned r;
     unsigned x;
@@ -3963,24 +3546,24 @@ int func_021E2CBC(BoxObj *p)
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
             func_021EE008((char *)p, 0, 0);
-            if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+            if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
-                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+                TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
                 func_021DEFEC((char *)p, r);
                 func_020260E4(OBJ(p), r);
                 return func_021EA064((unsigned char *)p, r, 0x15);
             }
             func_020260E4(OBJ(p), r);
             func_021EE754((unsigned char *)p, r);
-            *(int *)(p->work + 0xA168) = r;
+            *(int *)((char *)p->work + 0xA168) = r;
             func_021EE3E4((char **)p, r);
             func_021DF040((char *)p);
             return 0x15;
         }
     }
     if (func_021EF1D4(&x, &y) == 1) {
-        *(unsigned *)(p->work + 0xA184) = y;
-        p->x28 = 0x15;
+        *(unsigned *)((char *)p->work + 0xA184) = y;
+        p->state = 0x15;
         func_021EA808((char *)p);
         return 0xF;
     }
@@ -3999,7 +3582,7 @@ int func_021E2CBC(BoxObj *p)
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         func_021EE754((unsigned char *)p, 0x1E);
-        *(int *)(p->work + 0xA168) = 0x1E;
+        *(int *)((char *)p->work + 0xA168) = 0x1E;
         if (p->b18 == 0)
             func_021DF0BC((unsigned char *)p);
         else
@@ -4011,7 +3594,7 @@ int func_021E2CBC(BoxObj *p)
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         func_021EE754((unsigned char *)p, 0x1E);
-        *(int *)(p->work + 0xA168) = 0x1E;
+        *(int *)((char *)p->work + 0xA168) = 0x1E;
         if (p->b18 == 0)
             func_021DF0BC((unsigned char *)p);
         else
@@ -4025,23 +3608,23 @@ int func_021E2CBC(BoxObj *p)
     case 0x28:
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
-            if (v >= 0x1E || func_021DD25C((void ***)p, v, p->b14, 0xA9, 0) == 0)
+            if (v >= 0x1E || func_021DD25C((void ***)p, v, p->curBox, 0xA9, 0) == 0)
                 break;
-            p->b16 = v;
-            p->b17 = p->b14;
+            p->cursorSlot = v;
+            p->heldSlot = p->curBox;
             p->b13 = 2;
         } else {
             p->b13 = 3;
             p->b1D = func_020260E0(OBJ(p));
         }
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        return func_021E954C((BoxObj *)p, 8, 1, 0x4F);
+        return func_021E954C((BoxTask *)p, 8, 1, 0x4F);
     case 0x29:
         if (p->b18 != 0)
             break;
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x16));
+        return func_021E954C((BoxTask *)p, 6, 9, func_021E8F50((char *)p, 0x16));
     case 0x2A:
         if (p->lo == 0 || p->b18 != 0)
             break;
@@ -4052,7 +3635,7 @@ int func_021E2CBC(BoxObj *p)
             return func_021EA14C((unsigned char *)p, 0xFF, 0x15);
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x16));
+        return func_021E954C((BoxTask *)p, 6, 9, func_021E8F50((char *)p, 0x16));
     case -8:
         if (func_020260E0(OBJ(p)) != 0x22)
             break;
@@ -4111,10 +3694,10 @@ int func_021E2CBC(BoxObj *p)
             return func_021EA14C((unsigned char *)p, r + 2, 0x15);
         GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF040((char *)p);
-        *(unsigned char *)(p->work + 0xA17F) = p->b19 + r - 0x22;
-        if (*(unsigned char *)(p->work + 0xA17F) >= p->b15)
-            *(unsigned char *)(p->work + 0xA17F) -= p->b15;
-        if (*(unsigned char *)(p->work + 0xA17F) != p->b14)
+        *(unsigned char *)((char *)p->work + 0xA17F) = p->b19 + r - 0x22;
+        if (*(unsigned char *)((char *)p->work + 0xA17F) >= p->boxLimit)
+            *(unsigned char *)((char *)p->work + 0xA17F) -= p->boxLimit;
+        if (*(unsigned char *)((char *)p->work + 0xA17F) != p->curBox)
             return func_021EA798((unsigned char *)p, 0);
         break;
     case -1:
@@ -4123,60 +3706,33 @@ int func_021E2CBC(BoxObj *p)
         func_021EE008((char *)p, 0, 0);
         if (p->b18 == 1)
             return func_021EA14C((unsigned char *)p, r, 0x15);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            p->b16 = r;
-            p->b17 = p->b14;
-            func_021ECB84(p->work, p->b16);
-            return func_021EA114((char *)p, p->b16);
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
+            p->cursorSlot = r;
+            p->heldSlot = p->curBox;
+            func_021ECB84((char *)p->work, p->cursorSlot);
+            return func_021EA114((char *)p, p->cursorSlot);
         }
         break;
     }
     return 0x15;
 }
 
-
-
-
-
-
-
 #undef W
 
-
-
-
-
-
 #undef W
-
-
-
-
-
-#undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
 
+#undef W
+
+#undef W
+
+#undef W
+
+#undef W
 #define W(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
 
 int func_021E3258(u8 *p)
 {
@@ -4213,58 +3769,23 @@ int func_021E3258(u8 *p)
     return 22;
 }
 
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
-
-
 
 /*
  * Re-entry of the box menu: restores the cursor, redraws the box and picks
@@ -4356,7 +3877,7 @@ int func_021E3340(unsigned char *p)
         func_021EBD78((char *)p, 0);
         return 0x18;
     }
-    if (((struct Obj23893 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 2) {
+    if (((struct Obj23893 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 2) {
         if (func_021EF770(MGR(p)) == 1)
             func_021EF670(WORK(p));
         else
@@ -4365,57 +3886,24 @@ int func_021E3340(unsigned char *p)
     return STATE(p);
 }
 
-
-
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
 #undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
 #define W(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
 
 int func_021E3568(unsigned char *p)
 {
@@ -4430,67 +3918,34 @@ int func_021E3568(unsigned char *p)
         n = 0x18;
     func_021EBA5C(W(p), n);
     func_021DD14C((char *)p);
-    if (((struct Obj23894 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 2) {
+    if (((struct Obj23894 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 2) {
         if (func_021EF770(*(struct WinMgr **)(W(p) + 0x74)) == 1)
             func_021EF670(W(p));
         else
             func_021EF68C(W(p));
     }
     W(p)[0xA173] = 0;
-    return ((BoxTask *)p)->f28;
+    return ((BoxTask *)p)->state;
 }
 
-
-
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
+#undef W
 
 #undef W
 
-
-
-
-
 #undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
 #define W(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
 
 int func_021E35D8(u8 *p)
 {
@@ -4521,96 +3976,48 @@ int func_021E35D8(u8 *p)
     return 25;
 }
 
-
-
-
-
-
 #undef W
 
-
-
-
-
 #undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
 
+#undef W
+
+#undef W
+
+#undef W
 #define W(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
 #undef WORK
 
-
-
-
-
 #undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2c))
 
-
-
-
-
-
 #undef STEP
 
-
-
-
-
 #undef STEP
-
-
-
-
-#undef STEP
-
-
-
-#undef STEP
-
 
 #undef STEP
 
 #undef STEP
+
+#undef STEP
+
+#undef STEP
+
 #define STEP(p) (*(int *)(WORK(p) + 0xa194))
-
-
-
-
-
-
 
 int func_021E36A8(unsigned char *p)
 {
@@ -4624,7 +4031,7 @@ int func_021E36A8(unsigned char *p)
         func_021EF34C(*(struct WinMgr **)(W(p) + 0x74));
         func_021EF36C(*(struct WinMgr **)(W(p) + 0x74));
         func_021EC5A0((char **)p, 0);
-        if (((struct Obj23895 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3)
+        if (((struct Obj23895 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3)
             func_021ECB20((char *)p, 0x82, 1);
         GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p) + 0xA194))++;
@@ -4633,7 +4040,7 @@ int func_021E36A8(unsigned char *p)
         *(int *)(W(p) + 0xA194) = 0;
         func_021DEFEC((char *)p, 0x1E);
         func_021EF68C(W(p));
-        if (((struct Obj23896 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3) {
+        if (((struct Obj23896 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3) {
             func_021EE364((char **)p, 8, 0);
             return 0x46;
         } else {
@@ -4644,90 +4051,52 @@ int func_021E36A8(unsigned char *p)
     return 0x1A;
 }
 
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
 #undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
+#undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
 
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
-
-
-
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
 /*
  * Sibling of src/matched/ov170_func_021E2650.c.  The image computes r + 0x1E
  * separately for func_021DEFEC and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
-int func_021E376C(BoxObj *p)
+int func_021E376C(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
         p->b1B = 1;
-        return func_021EA9F4((BoxObj *)p, 0x1F);
+        return func_021EA9F4((BoxTask *)p, 0x1F);
     }
     r = func_021EF194();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, (int)r + 0x1E);
@@ -4739,9 +4108,9 @@ int func_021E376C(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
-            func_021EF68C(p->work);
+            func_021EF68C((char *)p->work);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x1B);
         }
         return 0x1B;
@@ -4753,11 +4122,11 @@ int func_021E376C(BoxObj *p)
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x1C));
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)p, 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)p, 7, 8, 0x10);
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x1C));
+        return func_021E954C((BoxTask *)p, 6, 9, func_021E8F50((char *)p, 0x1C));
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 1;
@@ -4765,7 +4134,7 @@ int func_021E376C(BoxObj *p)
         return func_021E949C((char *)p, 0, func_021E8F50((char *)p, 0x1F));
     case 10:
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        p->b17 = p->b14;
+        p->heldSlot = p->curBox;
         p->b13 = 1;
         return func_021E949C((char *)p, 1, 0x4F);
     case 11:
@@ -4781,14 +4150,14 @@ int func_021E376C(BoxObj *p)
     case 14: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16 - 0x1E;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot - 0x1E;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x1D);
     }
     case 15:
         p->b1B = 1;
-        return func_021EAA3C((BoxObj *)p, 0x1F);
+        return func_021EAA3C((BoxTask *)p, 0x1F);
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
@@ -4804,12 +4173,12 @@ int func_021E376C(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16 - 0x1E;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot - 0x1E;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x1D);
         }
-        return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x1C));
+        return func_021E954C((BoxTask *)p, 6, 9, func_021E8F50((char *)p, 0x1C));
     case -1:
     case -5:
     case -6:
@@ -4817,11 +4186,11 @@ int func_021E376C(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, (int)r + 0x1E);
-            func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
+            func_021EEF74((char *)p->work, 9, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 9);
             return func_021EA020((char *)p, r + 0x1E, 0x1B);
         }
@@ -4830,83 +4199,35 @@ int func_021E376C(BoxObj *p)
     return 0x1B;
 }
 
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#undef OBJ
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
 
 int func_021E3B50(unsigned char *p)
 {
@@ -4923,7 +4244,7 @@ int func_021E3B50(unsigned char *p)
         STEP(p) = 0;
         func_021ED888(WORK(p), 1);
         func_021EF670(WORK(p));
-        if (((struct Obj23897 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3) {
+        if (((struct Obj23897 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3) {
             func_021ECB20((char *)p, 0x81, 1);
             func_021EE364((char **)p, 7, 0x21);
             return 0x39;
@@ -4936,37 +4257,25 @@ int func_021E3B50(unsigned char *p)
     return 0x1c;
 }
 
-
-
-
-
-
-
 /*
  * Wrapper family member: func_021EF68C and state 0x1b.
  */
 void func_021E3BF8(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->work));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x1B));
 }
-
-
-
-
-
-
 
 int func_021E3C38(unsigned char *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x667);
     func_021DD530(p);
     func_021EA1E8((char *)p);
-    func_020260E4(((struct Obj23898 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 9);
+    func_020260E4(((struct Obj23898 *)(*(char * *)&((BoxTask *)p)->work))->f70, 9);
     func_021EE3E4((char **)p, 9);
     func_021ED55C((char **)p, 1);
     func_021EE038((char *)p, 0, 0, 1);
@@ -4974,21 +4283,11 @@ int func_021E3C38(unsigned char *p)
     return 0x1b;
 }
 
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -4996,73 +4295,41 @@ int func_021E3C38(unsigned char *p)
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
 #undef OBJ
 
-
-
-
 #undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
+#undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
-
-
-
-
 #undef MGR
 
-
-
-
 #undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
-
 #undef STEP
 
-
-
-
 #undef STEP
-
-
-
-#undef STEP
-
 
 #undef STEP
 
 #undef STEP
+
+#undef STEP
+
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
-
-
-
-
-
 
 /*
  * Three-step state machine on the work word at 0xA194: restore the cursor,
@@ -5073,7 +4340,7 @@ int func_021E3C38(unsigned char *p)
 int func_021E3C88(unsigned char *p)
 {
     char *w = WORK(p);
-    switch (((BoxWork *)w)->fA194) {
+    switch (((BoxWork *)w)->seqStep) {
     case 0:
         if (NIB(p)->lo == 1) {
             p[0x17] = 0xFF;
@@ -5110,7 +4377,7 @@ int func_021E3C88(unsigned char *p)
             STATE(p) = 0x2B;
             return 6;
         }
-        (((BoxWork *)w)->fA194)++;
+        (((BoxWork *)w)->seqStep)++;
         if (func_021EF480(MGR(p)) == 1) {
             func_021EF3D8(MGR(p));
         } else {
@@ -5149,74 +4416,40 @@ int func_021E3C88(unsigned char *p)
     return 0x1F;
 }
 
-
-
 #undef W
-
 
 #undef W
 
 #undef W
 
+#undef W
 #define W(p) (*(u8 **)((p) + 44))
 
-
-
-#undef WORK
-
-
 #undef WORK
 
 #undef WORK
 
-
-
+#undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2c))
 
-
-
-#undef STEP
-
-
 #undef STEP
 
 #undef STEP
 
-
-
+#undef STEP
 
 #define STEP(p) (*(int *)(WORK(p) + 0xa194))
 
-
-
 #undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
-
-
-
-
-
-
-#define OBJ(p) (*(void **)((p)->work + 0x70))
-
-
-
-
-
-
-
-
-
-
-
-int func_021E3E84(BoxObj *p)
+int func_021E3E84(BoxTask *p)
 {
     unsigned r;
     if (p->hi == 1) {
@@ -5233,15 +4466,15 @@ int func_021E3E84(BoxObj *p)
         r = func_021EF170();
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
-            if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+            if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
-                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
-                func_021DEFEC((char *)((BoxObj *)p), r);
+                TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
+                func_021DEFEC((char *)((BoxTask *)p), r);
                 return func_021EA064((unsigned char *)p, r, 0x20);
             }
             func_020260E4(OBJ(p), r);
             func_021EE754((unsigned char *)p, r);
-            *(int *)(p->work + 0xA168) = r;
+            *(int *)((char *)p->work + 0xA168) = r;
             func_021EE3E4((char **)p, r);
             func_021DF040((char *)p);
             return 0x20;
@@ -5249,15 +4482,15 @@ int func_021E3E84(BoxObj *p)
         r = func_021EF1A4();
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
-            if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+            if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
-                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
-                func_021DEFEC((char *)((BoxObj *)p), (int)r + 0x1E);
+                TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
+                func_021DEFEC((char *)((BoxTask *)p), (int)r + 0x1E);
                 return func_021EA064((unsigned char *)p, r + 0x1E, 0x20);
             }
             func_020260E4(OBJ(p), r + 0x1E);
             func_021EE754((unsigned char *)p, r + 0x1E);
-            *(int *)(p->work + 0xA168) = r + 0x1E;
+            *(int *)((char *)p->work + 0xA168) = r + 0x1E;
             func_021EE3E4((char **)p, r + 0x1E);
             func_021DF040((char *)p);
             return 0x20;
@@ -5276,7 +4509,7 @@ int func_021E3E84(BoxObj *p)
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         func_021EE754((unsigned char *)p, 0x24);
-        *(int *)(p->work + 0xA168) = 0x24;
+        *(int *)((char *)p->work + 0xA168) = 0x24;
         if (p->b18 == 0)
             func_021DF0BC((unsigned char *)p);
         else
@@ -5287,7 +4520,7 @@ int func_021E3E84(BoxObj *p)
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         func_021EE754((unsigned char *)p, 0x24);
-        *(int *)(p->work + 0xA168) = 0x24;
+        *(int *)((char *)p->work + 0xA168) = 0x24;
         if (p->b18 == 0)
             func_021DF0BC((unsigned char *)p);
         else
@@ -5301,23 +4534,23 @@ int func_021E3E84(BoxObj *p)
     case 0x28:
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
-            if (v >= 0x24 || func_021DD25C((void ***)p, v, p->b14, 0xA9, 0) == 0)
+            if (v >= 0x24 || func_021DD25C((void ***)p, v, p->curBox, 0xA9, 0) == 0)
                 break;
-            p->b16 = v;
-            p->b17 = p->b14;
+            p->cursorSlot = v;
+            p->heldSlot = p->curBox;
             p->b13 = 4;
         } else {
             p->b13 = 5;
             p->b1D = func_020260E0(OBJ(p));
         }
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        return func_021E954C((BoxObj *)((BoxObj *)p), 8, 1, 0x4F);
+        return func_021E954C((BoxTask *)((BoxTask *)p), 8, 1, 0x4F);
     case 0x29:
         if (p->b18 != 0)
             break;
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x21));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x21));
     case 0x2A:
         if (p->lo == 0 || p->b18 != 0)
             break;
@@ -5328,7 +4561,7 @@ int func_021E3E84(BoxObj *p)
             return func_021EA14C((unsigned char *)p, 0xFF, 0x20);
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x21));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x21));
     case -6:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
@@ -5347,7 +4580,7 @@ int func_021E3E84(BoxObj *p)
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x24)
-                func_021DEFEC((char *)((BoxObj *)p), v);
+                func_021DEFEC((char *)((BoxTask *)p), v);
             else
                 func_021DF040((char *)p);
         }
@@ -5359,26 +4592,16 @@ int func_021E3E84(BoxObj *p)
     default:
         if (p->b18 == 1)
             return func_021EA14C((unsigned char *)p, r, 0x20);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            p->b16 = r;
-            p->b17 = p->b14;
-            func_021ECB84(p->work, p->b16);
-            return func_021EA0BC((unsigned char *)p, p->b16);
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
+            p->cursorSlot = r;
+            p->heldSlot = p->curBox;
+            func_021ECB84((char *)p->work, p->cursorSlot);
+            return func_021EA0BC((unsigned char *)p, p->cursorSlot);
         }
         break;
     }
     return 0x20;
 }
-
-
-
-
-
-
-
-
-
-
 
 int func_021E432C(u8 *p)
 {
@@ -5406,10 +4629,10 @@ int func_021E432C(u8 *p)
             selection = 0;
         else
             selection = index - 30;
-        func_021DEFEC((char *)((BoxObj *)((char *)p)), selection + 30);
+        func_021DEFEC((char *)((BoxTask *)((char *)p)), selection + 30);
         func_021ED544((char *)p, 6);
         func_021ED508(p, 14, 1);
-        if (((struct Obj23899 *)(*(u8 * *)&((BoxTask *)p)->f0))->f24 == 2) {
+        if (((struct Obj23899 *)(*(u8 * *)&((BoxTask *)p)->params))->f24 == 2) {
             func_021EE364((char **)p, 5, selection);
             return 27;
         }
@@ -5421,11 +4644,11 @@ int func_021E432C(u8 *p)
         index = func_020260E0(*(void **)(W(p) + 112));
         if (index >= 30)
             index = 0;
-        func_021DEFEC((char *)((BoxObj *)((char *)p)), index);
+        func_021DEFEC((char *)((BoxTask *)((char *)p)), index);
         func_021EF670((char *)W(p));
         func_021ED544((char *)p, 6);
         func_021ED508(p, 14, 1);
-        if (((struct Obj23900 *)(*(u8 * *)&((BoxTask *)p)->f0))->f24 == 4) {
+        if (((struct Obj23900 *)(*(u8 * *)&((BoxTask *)p)->params))->f24 == 4) {
             func_021EE364((char **)p, 13, index);
             return 35;
         }
@@ -5435,100 +4658,33 @@ int func_021E432C(u8 *p)
     return 33;
 }
 
-
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-#undef MGR
+#undef OBJ
 
+#undef OBJ
+
+#undef OBJ
 
 #undef MGR
 
 #undef MGR
 
-
-
-
-
-
-
+#undef MGR
 
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
-
-
 
 int func_021E4470(unsigned char *p)
 {
@@ -5554,192 +4710,72 @@ int func_021E4470(unsigned char *p)
     return 0x22;
 }
 
-
-
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
-
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-int func_021E4504(BoxObj *p)
+int func_021E4504(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
         p->b1B = 0;
-        return func_021EA9F4((BoxObj *)((BoxObj *)p), 0x1F);
+        return func_021EA9F4((BoxTask *)((BoxTask *)p), 0x1F);
     }
     r = func_021EF170();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF918, 4);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), r);
             p->b1B = 0;
-            return func_021E9D98((BoxObj *)p, r);
+            return func_021E9D98((BoxTask *)p, r);
         }
         func_020260E4(OBJ(p), r);
         func_021EE3E4((char **)p, r);
@@ -5747,9 +4783,9 @@ int func_021E4504(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
-            func_021EF670(p->work);
+            func_021EF670((char *)p->work);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x23);
         }
         return 0x23;
@@ -5777,12 +4813,12 @@ int func_021E4504(BoxObj *p)
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x26));
     case 0x22:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 0x23:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case 0x24:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 0;
@@ -5791,25 +4827,25 @@ int func_021E4504(BoxObj *p)
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
-        p->b17 = p->b14;
-        p->x24 = 0x25;
+        p->heldSlot = p->curBox;
+        p->pickedSlot = 0x25;
         return func_021E949C((char *)p, 3, 0x4F);
     case 0x26:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
-        p->x24 = 0x26;
+        p->pickedSlot = 0x26;
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 0x27: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x25);
     }
     case 0x28:
         p->b1B = 0;
-        return func_021EAA3C((BoxObj *)((BoxObj *)p), 0x1F);
+        return func_021EAA3C((BoxTask *)((BoxTask *)p), 0x1F);
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -5827,7 +4863,7 @@ int func_021E4504(BoxObj *p)
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 0x1E)
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), v);
         else if (v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             func_021DF040((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -5836,13 +4872,13 @@ int func_021E4504(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x25);
         }
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
@@ -5851,182 +4887,81 @@ int func_021E4504(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
-            func_021EEF74(p->work, 0x24, func_020260E0(OBJ(p)));
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF918, 4);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), r);
+            func_021EEF74((char *)p->work, 0x24, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 0x24);
-            return func_021E9E7C((char *)((BoxObj *)((BoxObj *)p)), r, 0x23);
+            return func_021E9E7C((char *)((BoxTask *)((BoxTask *)p)), r, 0x23);
         }
         break;
     }
     return 0x23;
 }
 
-
-
-
-
-
-
-
-
-
 int func_021E4944(unsigned char *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x667);
     func_021DD530(p);
     func_021EA1E8((char *)p);
-    func_020260E4(((struct Obj23901 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 0x24);
+    func_020260E4(((struct Obj23901 *)(*(char * *)&((BoxTask *)p)->work))->f70, 0x24);
     func_021EE3E4((char **)p, 0x24);
     func_021EE038((char *)p, 0, 0, 1);
     func_021EBC58(p, p[0x16], 1, 0x18);
     return 0x23;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Wrapper family member: func_021EF670 and state 0x23.
  */
 void func_021E498C(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF670((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF670((char *)(*(int *)&((BoxTask *)p)->work));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x23));
 }
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
+#undef OBJ
 
 #undef MGR
 
-
-
-
-
-
-
+#undef MGR
 
 #undef MGR
 
-
-
-
-
-
+#undef MGR
 
 #undef MGR
 
-
-
-
-
-
 #undef MGR
 
-
-
-
-
 #undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
 
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
-
 
 int func_021E49CC(unsigned char *p)
 {
@@ -6045,7 +4980,7 @@ int func_021E49CC(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x26);
     case 1:
         STEP(p) = 0;
-        func_021DEFEC((char *)((BoxObj *)((char *)p)), 0x1e);
+        func_021DEFEC((char *)((BoxTask *)((char *)p)), 0x1e);
         func_021EF68C(WORK(p));
         func_021EE364((char **)p, 0xe, 0);
         return 0x27;
@@ -6053,148 +4988,49 @@ int func_021E49CC(unsigned char *p)
     return 0x26;
 }
 
-
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
-
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
 /*
  * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
@@ -6202,22 +5038,22 @@ int func_021E49CC(unsigned char *p)
  * separately for func_021DEFEC and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
-int func_021E4A64(BoxObj *p)
+int func_021E4A64(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
         p->b1B = 1;
-        return func_021EA9F4((BoxObj *)((BoxObj *)p), 0x1F);
+        return func_021EA9F4((BoxTask *)((BoxTask *)p), 0x1F);
     }
     r = func_021EF194();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF918, 4);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), (int)r + 0x1E);
             return func_021E9F3C((unsigned char *)p, r + 0x1E);
         }
         func_020260E4(OBJ(p), r);
@@ -6226,9 +5062,9 @@ int func_021E4A64(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
-            func_021EF68C(p->work);
+            func_021EF68C((char *)p->work);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x27);
         }
         return 0x27;
@@ -6240,11 +5076,11 @@ int func_021E4A64(BoxObj *p)
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x28));
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x28));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x28));
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 1;
@@ -6253,7 +5089,7 @@ int func_021E4A64(BoxObj *p)
     case 10:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 1;
-        p->b17 = p->b14;
+        p->heldSlot = p->curBox;
         return func_021E949C((char *)p, 3, 0x4F);
     case 11:
         GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -6262,30 +5098,30 @@ int func_021E4A64(BoxObj *p)
     case 12: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16 - 0x1E;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot - 0x1E;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x29);
     }
     case 13:
         p->b1B = 1;
-        return func_021EAA3C((BoxObj *)((BoxObj *)p), 0x1F);
+        return func_021EAA3C((BoxTask *)((BoxTask *)p), 0x1F);
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16 - 0x1E;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot - 0x1E;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x29);
         }
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x28));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x28));
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 6)
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), v + 0x1E);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), v + 0x1E);
         else if (v == 6)
             func_021DF040((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -6298,11 +5134,11 @@ int func_021E4A64(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
-            func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF918, 4);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), (int)r + 0x1E);
+            func_021EEF74((char *)p->work, 9, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 9);
             return func_021EA020((char *)p, r + 0x1E, 0x27);
         }
@@ -6311,146 +5147,47 @@ int func_021E4A64(BoxObj *p)
     return 0x27;
 }
 
-
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#undef OBJ
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
-
 
 int func_021E4DE8(unsigned char *p)
 {
@@ -6474,34 +5211,18 @@ int func_021E4DE8(unsigned char *p)
     return 0x28;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Wrapper family member: func_021EF68C and state 0x27.
  */
 void func_021E4E6C(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->work));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x27));
 }
-
-
-
-
-
-
-
-
 
 /*
  *   void func_020260E4(unsigned char *p, unsigned value) {
@@ -6510,45 +5231,17 @@ void func_021E4E6C(char *p)
  */
 int func_021E4EAC(u8 *p){func_021DD530(p);func_021EA1E8((char *)p);func_020260E4(*(void **)(*(char **)(p+0x2c)+0x70),9);func_021EE3E4((char **)p,9);func_021EE038((char *)p,0,0,1);func_021EBC58(p,p[0x16],1,24);return 39;}
 
-
-
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
 #undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
@@ -6556,59 +5249,23 @@ int func_021E4EAC(u8 *p){func_021DD530(p);func_021EA1E8((char *)p);func_020260E4
 
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
-
-
-
-
-
-
+#undef MGR
 
 #undef MGR
 
-
-
-
-
-
+#undef MGR
 
 #undef MGR
 
-
-
-
-
-
 #undef MGR
 
-
-
-
-
 #undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
 
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
 
 int func_021E4EE8(unsigned char *p)
 {
@@ -6630,138 +5287,58 @@ int func_021E4EE8(unsigned char *p)
     }
 }
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-int func_021E4F60(BoxObj *p)
+int func_021E4F60(BoxTask *p)
 {
     unsigned r;
     r = func_021EF170();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9B4, 5);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9B4, 5);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), r);
             return func_021E9DF8((u8 *)p, r);
         }
         func_020260E4(OBJ(p), r);
@@ -6770,7 +5347,7 @@ int func_021E4F60(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x2C);
         }
@@ -6796,19 +5373,19 @@ int func_021E4F60(BoxObj *p)
         return func_021E9CE0((char *)p, 0, 0x2C);
     case 0x21:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 0x22:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case 0x23:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x2E));
     case 0x24:
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        p->b17 = p->b14;
-        p->x24 = 0x24;
+        p->heldSlot = p->curBox;
+        p->pickedSlot = 0x24;
         return func_021E949C((char *)p, 2, 0x4F);
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -6819,8 +5396,8 @@ int func_021E4F60(BoxObj *p)
     case 0x27: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x2D);
     }
@@ -6841,7 +5418,7 @@ int func_021E4F60(BoxObj *p)
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 0x1E)
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), v);
         else if (v != 0x23 && v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             func_021DF040((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -6850,13 +5427,13 @@ int func_021E4F60(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x2D);
         }
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
@@ -6865,146 +5442,58 @@ int func_021E4F60(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9B4, 5);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
-            func_021EEF74(p->work, 0x23, func_020260E0(OBJ(p)));
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9B4, 5);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), r);
+            func_021EEF74((char *)p->work, 0x23, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 0x23);
-            return func_021E9E7C((char *)((BoxObj *)((BoxObj *)p)), r, 0x2C);
+            return func_021E9E7C((char *)((BoxTask *)((BoxTask *)p)), r, 0x2C);
         }
         break;
     }
     return 0x2C;
 }
 
-
-
-
-
-
-
-
-
-void func_021E5374(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23902 *)(*(char * *)&((BoxTask *)p)->f2C))->f74);func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C,24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,44));}
-
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
+void func_021E5374(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23902 *)(*(char * *)&((BoxTask *)p)->work))->f74);func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->work,24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,44));}
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#undef OBJ
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
 
 int func_021E53B0(unsigned char *p)
 {
@@ -7017,23 +5506,15 @@ int func_021E53B0(unsigned char *p)
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x2e);
     case 1:
-        if (POKEPARTY_GetCount(((void **)((BoxTask *)p)->f0)[2]) != 6)
+        if (POKEPARTY_GetCount(((void **)((BoxTask *)p)->params)[2]) != 6)
             return func_021E8F50((char *)p, 0x2f);
         GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBC58(p, 0, 2, 0x18);
-        ((BoxTask *)p)->f28 = 0xe;
+        ((BoxTask *)p)->state = 0xe;
         return func_021E8F50((char *)p, 6);
     }
     return 0x2e;
 }
-
-
-
-
-
-
-
-
 
 int func_021E543C(u8 *p)
 {
@@ -7071,68 +5552,25 @@ int func_021E543C(u8 *p)
     return 47;
 }
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
-
-
 
 int func_021E5524(unsigned char *p)
 {
@@ -7150,137 +5588,57 @@ int func_021E5524(unsigned char *p)
     return 0x2c;
 }
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-int func_021E557C(BoxObj *p)
+int func_021E557C(BoxTask *p)
 {
     unsigned r = func_021EF194();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF950, 5);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF950, 5);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), (int)r + 0x1E);
             return func_021E9FA8((unsigned char *)p, r + 0x1E);
         }
         func_020260E4(OBJ(p), r);
@@ -7289,7 +5647,7 @@ int func_021E557C(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x31);
         }
@@ -7299,18 +5657,18 @@ int func_021E557C(BoxObj *p)
     switch (r) {
     case 6:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x34));
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        p->x24 = 9;
+        p->pickedSlot = 9;
         return func_021E949C((char *)p, 2, 0x4F);
     case 10:
         GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -7321,8 +5679,8 @@ int func_021E557C(BoxObj *p)
     case 12: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16 - 0x1E;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot - 0x1E;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x32);
     }
@@ -7332,7 +5690,7 @@ int func_021E557C(BoxObj *p)
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 6)
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), v + 0x1E);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), v + 0x1E);
         else if (v != 8 && v != 9 && v != 10 && v != 11 && v != 12)
             func_021DF040((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -7341,13 +5699,13 @@ int func_021E557C(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16 - 0x1E;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot - 0x1E;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x32);
         }
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case -1:
     case -5:
     case -6:
@@ -7355,11 +5713,11 @@ int func_021E557C(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF950, 5);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
-            func_021EEF74(p->work, 8, func_020260E0(OBJ(p)));
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF950, 5);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), (int)r + 0x1E);
+            func_021EEF74((char *)p->work, 8, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), 8);
             return func_021EA020((char *)p, r + 0x1E, 0x31);
         }
@@ -7368,46 +5726,17 @@ int func_021E557C(BoxObj *p)
     return 0x31;
 }
 
-
-
-
-
-
-
-
-
-void func_021E58D8(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23904 *)(*(char * *)&((BoxTask *)p)->f2C))->f74);func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C,24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,49));}
-
-
-
-
-
-
+void func_021E58D8(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23904 *)(*(char * *)&((BoxTask *)p)->work))->f74);func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->work,24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,49));}
 
 #undef WORK
 
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -7415,84 +5744,37 @@ void func_021E58D8(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23904 *
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
-
-
-
 #undef STEP
 
-
-
-
-
-
 #undef STEP
-
-
-
-
-
-#undef STEP
-
-
-
-
-#undef STEP
-
-
-
-#undef STEP
-
 
 #undef STEP
 
 #undef STEP
+
+#undef STEP
+
+#undef STEP
+
+#undef STEP
+
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
-
-
-
-
-
-
-
 
 /*
  * Refresh the tag-derived index, re-key, arm, retag 0x18, forward,
@@ -7500,22 +5782,14 @@ void func_021E58D8(u8 *p){func_021EF57C(*(struct WinMgr * *)&((struct Obj23904 *
  */
 int func_021E5914(char *p)
 {
-    func_020260E4((struct Sound *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x70)),
-                  (unsigned char)(((BoxTask *)p)->f16 - 0x1e));
-    func_021EE3E4((char **)p, ((BoxTask *)p)->f16 - 0x1e);
+    func_020260E4((struct Sound *)(*(int *)(*(int *)&((BoxTask *)p)->work + 0x70)),
+                  (unsigned char)(((BoxTask *)p)->cursorSlot - 0x1e));
+    func_021EE3E4((char **)p, ((BoxTask *)p)->cursorSlot - 0x1e);
     func_021ED55C((char **)p, 1);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
     return 0x31;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Five-step machine on the work word at 0xA194: fade out, confirm the
@@ -7578,14 +5852,6 @@ int func_021E594C(unsigned char *p)
     return 0x34;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Party list input: L and R page the list when nothing is picked; a pick
  * of the first two rows opens the slot (or refuses it), the others page,
@@ -7640,7 +5906,7 @@ int func_021E5AD4(unsigned char *p)
         *(unsigned char *)(WORK(p) + 0xA17E) = 0xFF;
         p[0x17] = p[0x14];
         p[0x1A] = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x36));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x36));
     case (unsigned)-4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
@@ -7653,14 +5919,6 @@ int func_021E5AD4(unsigned char *p)
     return 0x35;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Eight-step machine on the work word at 0xA194 for the party swap:
  * fade, take the slot (from the held box slot at 0xA17E if any), fade
@@ -7670,11 +5928,11 @@ int func_021E5C5C(unsigned char *p)
 {
     switch (STEP(p)) {
     case 0:
-        if (HELD(p) == 0xFF) {
+        if (((BoxTask *)p)->work->targetBox == 0xFF) {
             func_021EE544((char *)p, p[0x16]);
             STEP(p) = 1;
         } else {
-            func_021EE544((char *)p, HELD(p));
+            func_021EE544((char *)p, ((BoxTask *)p)->work->targetBox);
             STEP(p) = 4;
         }
         func_021ED888(WORK(p), 0);
@@ -7718,44 +5976,22 @@ int func_021E5C5C(unsigned char *p)
         func_021ED6E4((char **)p, 0);
         func_021EE038((char *)p, 0, 0, 1);
         func_021EE364((char **)p, 0, p[0x16] - 0x1E);
-        func_021DEFEC((char *)((BoxObj *)((char *)p)), p[0x16]);
+        func_021DEFEC((char *)((BoxTask *)((char *)p)), p[0x16]);
         STEP(p) = 0;
         return 0x31;
     }
     return 0x36;
 }
 
-
-
-
-
-
-
-
-int func_021E5DD8(u8 *p){func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C,24);func_021DD14C((char *)p);func_021EBC58(p,0,3,26);func_021EE038((char *)p,0,1,1);return 53;}
-
-
-
-
-
+int func_021E5DD8(u8 *p){func_021EBA5C(*(char * *)&((BoxTask *)p)->work,24);func_021DD14C((char *)p);func_021EBC58(p,0,3,26);func_021EE038((char *)p,0,1,1);return 53;}
 
 #undef WORK
 
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -7763,68 +5999,31 @@ int func_021E5DD8(u8 *p){func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C,24);func_
 
 #define WORK(p) (*(char **)((p) + 0x2c))
 
-
-
-
-
-
 #undef STEP
 
-
-
-
-
 #undef STEP
-
-
-
-
-#undef STEP
-
-
-
-#undef STEP
-
 
 #undef STEP
 
 #undef STEP
-#define STEP(p) (*(int *)(WORK(p) + 0xa194))
 
+#undef STEP
 
-
-
-
+#undef STEP
 
 #undef OBJ
 
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
 #undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
 
 int func_021E5E08(unsigned char *p)
 {
@@ -7834,7 +6033,7 @@ int func_021E5E08(unsigned char *p)
     if (p[0x16] == 0xff) {
         func_020260E4(OBJ(p), 0);
         func_021EE3E4((char **)p, 0);
-        func_021DEFEC((char *)((BoxObj *)((char *)p)), 0x1e);
+        func_021DEFEC((char *)((BoxTask *)((char *)p)), 0x1e);
     } else {
         func_021EBC58(p, p[0x16], 1, 0x18);
         func_020260E4(OBJ(p), 8);
@@ -7843,105 +6042,62 @@ int func_021E5E08(unsigned char *p)
     return 0x31;
 }
 
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
 
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-
-int func_021E5E68(BoxObj *p)
+int func_021E5E68(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
-        r = func_021EA9F4((BoxObj *)((BoxObj *)p), 0x3F);
+        r = func_021EA9F4((BoxTask *)((BoxTask *)p), 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x1E)
-                p->b16 = v;
+                p->cursorSlot = v;
             else
-                p->b16 = 0;
+                p->cursorSlot = 0;
         }
         return r;
     }
     r = func_021EF170();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), r);
             return func_021EA1F4(p, r);
         }
         func_021DF040((char *)p);
         if (func_021EF5E8(MGR(p)) == 1) {
-            func_021EEF74(p->work, r, func_020260E0(OBJ(p)));
+            func_021EEF74((char *)p->work, r, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), r);
             return func_021E62BC((char *)p);
         }
@@ -7958,14 +6114,14 @@ int func_021E5E68(BoxObj *p)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
-        func_021EC000(p->work, 10, 0);
+        func_021EC000((char *)p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 1, 0x39);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
-        func_021EC000(p->work, 10, 0);
+        func_021EC000((char *)p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 1, 0x39);
@@ -7974,40 +6130,40 @@ int func_021E5E68(BoxObj *p)
         return func_021E949C((char *)p, 10, func_021E8F50((char *)p, 0x1A));
     case 0x22:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 0x23:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case 0x24:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->lo = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x3F));
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        if (*(unsigned short *)(p->work + 0xA16C) == 0) {
+        if (*(unsigned short *)((char *)p->work + 0xA16C) == 0) {
             p->b13 = 0;
-            p->x24 = 0x25;
+            p->pickedSlot = 0x25;
             return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
         }
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 0x26: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x3A);
     }
     case 0x27:
-        r = func_021EAA3C((BoxObj *)((BoxObj *)p), 0x3F);
+        r = func_021EAA3C((BoxTask *)((BoxTask *)p), 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x1E)
-                p->b16 = v;
+                p->cursorSlot = v;
             else
-                p->b16 = 0;
+                p->cursorSlot = 0;
         }
         return r;
     case -6:
@@ -8030,7 +6186,7 @@ int func_021E5E68(BoxObj *p)
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 0x1E)
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), v);
         else if (v != 0x24 && v != 0x25 && v != 0x26)
             func_021DF040((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -8039,19 +6195,19 @@ int func_021E5E68(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x3A);
         }
-        p->top->h28 = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case -1:
     case -7:
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             return func_021EA2DC(p, r);
         }
@@ -8060,109 +6216,53 @@ int func_021E5E68(BoxObj *p)
     return 0x39;
 }
 
-
-
-
-
-
-
 /*
  * Wrapper family member: func_021EF670, state 0x39 and
  *   0x021E0E51 as the selector.
  */
 int func_021E62BC(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF670((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF670((char *)(*(int *)&((BoxTask *)p)->work));
     return func_021E8FC0(p, 0x21E0E51, func_021E8FE0(p, 0x39));
 }
 
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#undef OBJ
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
-
+#undef MGR
 
 int func_021E62FC(unsigned char *p)
 {
     if (func_021EBFEC(WORK(p), 0xa) == 1)
         return 0x3b;
-    func_021EA878((BoxObj *)p, 0);
+    func_021EA878((BoxTask *)p, 0);
     func_021ED108(WORK(p), 0);
     func_021EC000(WORK(p), 0xa, 0);
     func_021EBCB4(p, 3, 0x18);
@@ -8173,106 +6273,55 @@ int func_021E62FC(unsigned char *p)
         func_021ECB20((char *)p, 0x82, 1);
     }
     *(unsigned short *)(WORK(p) + 0xa16c) = 0;
-    ((BoxTask *)p)->f28 = 0x3d;
+    ((BoxTask *)p)->state = 0x3d;
     return func_021E8F50((char *)p, 6);
 }
 
-
-
-
-
-
-
-void func_021E6374(u8 *p){func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C,24);func_021DD14C((char *)p);if(p[0x16]<30)func_021EF670(*(char * *)&((BoxTask *)p)->f2C);else func_021EF68C(*(char * *)&((BoxTask *)p)->f2C);func_021E8FC0((char *)p,(int)func_021E0F4C,61);}
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
+void func_021E6374(u8 *p){func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((BoxTask *)p)->work,24);func_021DD14C((char *)p);if(p[0x16]<30)func_021EF670(*(char * *)&((BoxTask *)p)->work);else func_021EF68C(*(char * *)&((BoxTask *)p)->work);func_021E8FC0((char *)p,(int)func_021E0F4C,61);}
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2c))
 
-
-
-
-
 #undef OBJ
 
-
-
-
 #undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
+#undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
-
-
-
-
 #undef MGR
 
-
-
-
 #undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
-
-#undef STEP
-
-
-
-
-#undef STEP
-
-
-
-#undef STEP
-
+#undef MGR
 
 #undef STEP
 
 #undef STEP
-#define STEP(p) (*(int *)(WORK(p) + 0xa194))
 
+#undef STEP
 
+#undef STEP
 
-
-
+#undef STEP
 
 int func_021E63B0(unsigned char *p)
 {
@@ -8295,22 +6344,11 @@ int func_021E63B0(unsigned char *p)
     return r;
 }
 
-
-
-
-
-
 int func_021E6418(u8 *p){int sel;sel=37;if(*(u16 *)(*(char **)(p+0x2c)+0xa16c)!=0)sel=36;func_020260E4(*(void **)(*(char **)(p+0x2c)+0x70),sel);func_021EE3E4((char **)p,sel);func_021ED55C((char **)p,1);return 57;}
 
-
-
-
 #undef WORK
 
-
-
 #undef WORK
-
 
 #undef WORK
 
@@ -8318,54 +6356,35 @@ int func_021E6418(u8 *p){int sel;sel=37;if(*(u16 *)(*(char **)(p+0x2c)+0xa16c)!=
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
 #undef OBJ
 
-
-
 #undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
-
-
-
 #undef MGR
 
-
-
 #undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
 #undef STEP
 
-
-
 #undef STEP
-
 
 #undef STEP
 
 #undef STEP
+
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
-
-
-
-
 
 /*
  * Three-step machine on the work word at 0xA194: close the held view,
@@ -8385,7 +6404,7 @@ int func_021E644C(unsigned char *p)
             p[0x17] = 0xFF;
             *(unsigned short *)(WORK(p) + 0xA16C) = 0;
             func_021DD14C((char *)p);
-            func_021DEFEC((char *)((BoxObj *)((char *)p)), p[0x16]);
+            func_021DEFEC((char *)((BoxTask *)((char *)p)), p[0x16]);
         } else {
             if (NIB(p)->lo == 2 && *(unsigned short *)(WORK(p) + 0xA16C) == 0) {
                 p[0x17] = 0xFF;
@@ -8427,103 +6446,70 @@ int func_021E644C(unsigned char *p)
         else
             func_021ED508(p, 0xE, 1);
         func_021EE038((char *)p, 2, 1, 1);
-        return func_021EA458((BoxObj *)p, p[0x16]);
+        return func_021EA458((BoxTask *)p, p[0x16]);
     }
     return 0x3F;
 }
 
-
 #undef NIB
 
 #undef NIB
+
 #define NIB(p) ((Nib_021E65E4 *)((p) + 0x1C))
 
-
 #undef STEP
 
 #undef STEP
+
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 
-
 #undef MODE
 
 #undef MODE
+
 #define MODE(p) (*(int *)(*(char **)(p) + 0x24))
 
-
 #undef CNT
 
 #undef CNT
-#define CNT(p) (*(unsigned short *)((p)->work + 0xA16C))
 
+#define CNT(p) (*(unsigned short *)((char *)(p)->work + 0xA16C))
 
 #undef WORK
 
 #undef WORK
-
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
 #define ITEM(p) (*(unsigned short *)(WORK(p) + 0xA16C))
-
-
 
 #define SEL(p) (*(unsigned char *)(WORK(p) + 0xA17C))
 
-
-
-
 #define CUR(p) (*(unsigned short *)(WORK(p) + 0xA16E))
 
-
 #undef W
 
 #undef W
 
-
-
-
+#undef W
 #define W(p) (*(u8 **)((p) + 44))
 
-
 #undef MGR
 
 #undef MGR
 
-
-
-
-
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
-
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
 #undef OBJ
 
 #undef OBJ
 
-
-
-
-
-
-
-#define OBJ(p) (*(void **)((p)->work + 0x70))
-
-
-
-
-
-
-
-
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 /*
  * Sibling of src/matched/ov170_func_021E3E84.c.
  */
-int func_021E65E4(BoxObj *p)
+int func_021E65E4(BoxTask *p)
 {
     unsigned r;
     if (p->hi == 1) {
@@ -8540,10 +6526,10 @@ int func_021E65E4(BoxObj *p)
         r = func_021EF1A4();
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
-            if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+            if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
                 func_021DEFEC((char *)p, (int)r + 0x1E);
-                func_021EC000(p->work, 4, 0);
-                return func_021EA39C((BoxObj *)((BoxObj *)p), r + 0x1E);
+                func_021EC000((char *)p->work, 4, 0);
+                return func_021EA39C((BoxTask *)((BoxTask *)p), r + 0x1E);
             }
             func_021DF040((char *)p);
             func_020260E4(OBJ(p), r + 0x1E);
@@ -8552,10 +6538,10 @@ int func_021E65E4(BoxObj *p)
         r = func_021EF170();
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
-            if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+            if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
                 func_021DEFEC((char *)p, r);
-                func_021EC000(p->work, 4, 0);
-                return func_021EA39C((BoxObj *)((BoxObj *)p), r);
+                func_021EC000((char *)p->work, 4, 0);
+                return func_021EA39C((BoxTask *)((BoxTask *)p), r);
             }
             func_021DF040((char *)p);
             func_020260E4(OBJ(p), r);
@@ -8593,7 +6579,7 @@ int func_021E65E4(BoxObj *p)
             break;
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x41));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x41));
     case 0x2A:
         if (p->lo == 0 || p->b18 != 0)
             break;
@@ -8601,10 +6587,10 @@ int func_021E65E4(BoxObj *p)
         return func_021E8F50((char *)p, 0x41);
     case -2:
         if (p->b18 == 1)
-            return func_021EA514((BoxObj *)((BoxObj *)p), 0xFF);
+            return func_021EA514((BoxTask *)((BoxTask *)p), 0xFF);
         GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x41));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x41));
     case -6:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
@@ -8636,121 +6622,76 @@ int func_021E65E4(BoxObj *p)
         break;
     default:
         if (p->b18 == 1)
-            return func_021EA514((BoxObj *)((BoxObj *)p), r);
-        return func_021EA458((BoxObj *)((BoxObj *)p), r);
+            return func_021EA514((BoxTask *)((BoxTask *)p), r);
+        return func_021EA458((BoxTask *)((BoxTask *)p), r);
     }
     return 0x40;
 }
-
-
-
-
-
-
-
-
 
 int func_021E695C(u8 *p)
 {
     u8 index;
     u8 selection;
-    switch (((struct Obj23905 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194) {
+    switch (((struct Obj23905 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194) {
     case 0:
         func_021DF040((char *)p);
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 4, 0);
+        func_021EC000(*(char * *)&((BoxTask *)p)->work, 4, 0);
         if (p[30] == 0) {
-            func_021EF3A0(*(struct WinMgr * *)&((struct Obj23906 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
+            func_021EF3A0(*(struct WinMgr * *)&((struct Obj23906 *)(*(u8 * *)&((BoxTask *)p)->work))->f74);
         } else {
-            func_021ED888(*(char * *)&((BoxTask *)p)->f2C, 0);
+            func_021ED888(*(char * *)&((BoxTask *)p)->work, 0);
             func_021ECB20((char *)p, 1, 1);
-            func_021EF3EC(*(struct WinMgr * *)&((struct Obj23907 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
+            func_021EF3EC(*(struct WinMgr * *)&((struct Obj23907 *)(*(u8 * *)&((BoxTask *)p)->work))->f74);
         }
         GFL_USE_PlaySeDefaultVolume(0x669);
-        (((struct Obj23908 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194)++;
+        (((struct Obj23908 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 65);
     case 1:
-        ((struct Obj23909 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194 = 0;
+        ((struct Obj23909 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194 = 0;
         func_021ED544((char *)p, 6);
         func_021ED508(p, 14, 1);
         func_021EE038((char *)p, 0, 0, 1);
         if (p[30] == 0) {
-            index = func_020260E0(((struct Obj23910 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70);
+            index = func_020260E0(((struct Obj23910 *)(*(u8 * *)&((BoxTask *)p)->work))->f70);
             if (index >= 36)
                 index = 0;
             else if (index >= 30)
                 index = 0;
             func_021EE364((char **)p, 7, index);
             func_021DEFEC((char *)p, index);
-            func_021EF670(*(char * *)&((BoxTask *)p)->f2C);
+            func_021EF670(*(char * *)&((BoxTask *)p)->work);
             return 57;
         } else {
-            index = func_020260E0(((struct Obj23911 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70);
+            index = func_020260E0(((struct Obj23911 *)(*(u8 * *)&((BoxTask *)p)->work))->f70);
             selection = 0;
             if (index < 36 && index >= 30)
                 selection = index - 30;
             func_021EE364((char **)p, 8, selection);
             func_021DEFEC((char *)p, selection + 30);
-            func_021EF68C(*(char * *)&((BoxTask *)p)->f2C);
+            func_021EF68C(*(char * *)&((BoxTask *)p)->work);
             return 70;
         }
     }
     return 65;
 }
 
-
-
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
 #undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
-
-
-
 
 /*
  * Drop of a held item onto a slot: put it back when dropped where it was
@@ -8812,14 +6753,6 @@ int func_021E6A60(unsigned char *p)
     }
 }
 
-
-
-
-
-
-
-
-
 int func_021E6C3C(unsigned char *p)
 {
     unsigned short *o;
@@ -8840,7 +6773,7 @@ int func_021E6C3C(unsigned char *p)
         GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBB28((char *)p, 0x18);
-        ((BoxTask *)p)->f28 = 0x44;
+        ((BoxTask *)p)->state = 0x44;
         return 6;
     }
     func_021ED55C((char **)p, 1);
@@ -8851,82 +6784,28 @@ int func_021E6C3C(unsigned char *p)
     return 0x40;
 }
 
-
-
-
-
-
-
-
-
 /*
  *   unsigned func_020260F0(unsigned char *p) { return *(unsigned *)(p+4); }
  */
 int func_021E6CD4(u8 *p){func_021EBA70(*(char **)(p+0x2c),24);func_021DD14C((char *)p);if(func_020260F0(*(void **)(*(char **)(p+0x2c)+0x70))==1)func_021EC000(*(char **)(p+0x2c),4,1);return 64;}
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
+#undef OBJ
 
 /*
  * Twin of func_021E6A60 driven by the work fields: moves the held item from
@@ -8974,100 +6853,55 @@ int func_021E6D00(unsigned char *p)
     return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
 }
 
-
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 /*
  * Sibling of src/matched/ov170_func_021E5E68.c and ov170_func_021E376C.c.
  */
-int func_021E6EC0(BoxObj *p)
+int func_021E6EC0(BoxTask *p)
 {
     unsigned r;
     if (KEY_GetTrg() & 4) {
-        r = func_021EA9F4((BoxObj *)p, 0x3F);
+        r = func_021EA9F4((BoxTask *)p, 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 6)
-                p->b16 = v + 0x1E;
+                p->cursorSlot = v + 0x1E;
             else
-                p->b16 = 0x1E;
+                p->cursorSlot = 0x1E;
         }
         return r;
     }
     r = func_021EF194();
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
-            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            TOUCHPANEL_GetPointTrg((u32 *)((char *)p->work + 0xA180), (u32 *)((char *)p->work + 0xA184));
             func_021DEFEC((char *)p, (int)r + 0x1E);
-            return func_021EA598((BoxObj *)((BoxObj *)p), r + 0x1E);
+            return func_021EA598((BoxTask *)((BoxTask *)p), r + 0x1E);
         }
         func_021DF040((char *)p);
         if (func_021EF5E8(MGR(p)) == 1) {
-            func_021EEF74(p->work, (unsigned char)r, func_020260E0(OBJ(p)));
+            func_021EEF74((char *)p->work, (unsigned char)r, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), r + 0x1E);
             return func_021E7258((char *)p);
         }
@@ -9082,39 +6916,39 @@ int func_021E6EC0(BoxObj *p)
         return func_021E949C((char *)p, 10, func_021E8F50((char *)p, 0x1C));
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x556);
-        p->top->h28 = 1;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
+        p->params->modeFlag = 1;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 7, 8, 0x10);
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x1C));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x1C));
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         p->lo = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x3F));
     case 10:
         GFL_USE_PlaySeDefaultVolume(0x54C);
-        if (*(unsigned short *)(p->work + 0xA16C) == 0) {
+        if (*(unsigned short *)((char *)p->work + 0xA16C) == 0) {
             p->b13 = 1;
-            p->x24 = 10;
+            p->pickedSlot = 10;
             return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
         }
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 11: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16 - 0x1E;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot - 0x1E;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x47);
     }
     case 12:
-        r = func_021EAA3C((BoxObj *)p, 0x3F);
+        r = func_021EAA3C((BoxTask *)p, 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 6)
-                p->b16 = v + 0x1E;
+                p->cursorSlot = v + 0x1E;
             else
-                p->b16 = 0x1E;
+                p->cursorSlot = 0x1E;
         }
         return r;
     case -4:
@@ -9132,12 +6966,12 @@ int func_021E6EC0(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16 - 0x1E;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot - 0x1E;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x47);
         }
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x1C));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x1C));
     case -1:
     case -5:
     case -6:
@@ -9145,21 +6979,14 @@ int func_021E6EC0(BoxObj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r + 0x1E, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            return func_021EA66C((BoxObj *)((BoxObj *)p), r + 0x1E);
+            return func_021EA66C((BoxTask *)((BoxTask *)p), r + 0x1E);
         }
         break;
     }
     return 0x46;
 }
-
-
-
-
-
-
-
 
 /*
  * Wrapper family member: func_021EF68C, state 0x46 and
@@ -9167,20 +6994,13 @@ int func_021E6EC0(BoxObj *p)
  */
 int func_021E7258(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(int *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C(p);
-    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->f2C));
+    func_021EF68C((char *)(*(int *)&((BoxTask *)p)->work));
     return func_021E8FC0(p, 0x21E0E51, func_021E8FE0(p, 0x46));
 }
-
-
-
-
-
-
-
 
 int func_021E7298(u8 *p)
 {
@@ -9231,50 +7051,21 @@ int func_021E7298(u8 *p)
     return 73;
 }
 
-
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
+#undef OBJ
 
 #undef OBJ
 
-
-
-
-
 #undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
-
-
 
 /*
  * Item swap on drop (template 021E6A60): moves the held item onto the
@@ -9324,13 +7115,6 @@ int func_021E73D8(unsigned char *p)
     return func_021E8FC0((char *)p, (int)func_021E1988, func_021E8F50((char *)p, 0x4A));
 }
 
-
-
-
-
-
-
-
 int func_021E754C(unsigned char *p)
 {
     switch (STEP(p)) {
@@ -9355,98 +7139,41 @@ int func_021E754C(unsigned char *p)
     return 0x4A;
 }
 
-
-
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
-
-
 #undef OBJ
-
-
-
-
-
-
-#undef OBJ
-
-
-
-
-
-#undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
+#undef OBJ
 
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef MGR
 
 #undef MGR
 
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-
-int func_021E75E0(BoxObj *p)
+int func_021E75E0(BoxTask *p)
 {
     unsigned r = func_021EEEA4((char *)p);
     switch (r) {
@@ -9467,18 +7194,18 @@ int func_021E75E0(BoxObj *p)
         return func_021E9CE0((char *)p, 0, 0x4B);
     case 0x21:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        p->top->h28 = 0;
-        p->top->b2A = 0xFF;
-        p->top->b2B = 0xFF;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        p->params->markA = 0xFF;
+        p->params->markB = 0xFF;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case 0x22:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x4D));
     case 0x23: {
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
-        k = p->b16;
-        func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+        k = p->cursorSlot;
+        func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x4E);
     }
@@ -9511,30 +7238,30 @@ int func_021E75E0(BoxObj *p)
     case -2:
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
-            unsigned char k = p->b16;
-            func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
+            unsigned char k = p->cursorSlot;
+            func_021EEF74((char *)p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
             return func_021E949C((char *)p, 5, 0x4E);
         }
-        p->top->h28 = 0;
-        p->top->b2A = 0xFF;
-        p->top->b2B = 0xFF;
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
+        p->params->modeFlag = 0;
+        p->params->markA = 0xFF;
+        p->params->markB = 0xFF;
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, 0x68);
     case -1:
     case -7:
     case -8:
         break;
     default:
-        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
-            p->b16 = r;
+            p->cursorSlot = r;
             func_021EB988((unsigned char *)p, d_021EF8EC, 2);
             func_021DEFEC((char *)p, r);
             func_021ED588((char *)p);
             func_020260E4(OBJ(p), 0x22);
             if (func_021EF5E8(MGR(p)) == 1)
                 return func_021E78F4((char *)p);
-            func_021EEF74(p->work, 0x22, r);
+            func_021EEF74((char *)p->work, 0x22, r);
             func_021EF534(MGR(p));
             return func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4C));
         }
@@ -9543,7 +7270,7 @@ int func_021E75E0(BoxObj *p)
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
             func_021ED6E4((char **)p, 0);
-            func_021EBA5C(p->work, 0x18);
+            func_021EBA5C((char *)p->work, 0x18);
             func_021DD14C((char *)p);
             return func_021E8FC0((char *)p, (int)func_021E0190, 0x4B);
         }
@@ -9551,13 +7278,6 @@ int func_021E75E0(BoxObj *p)
     }
     return 0x4B;
 }
-
-
-
-
-
-
-
 
 /*
  * Push the 0x16 field through the 0x18 selector; return 75.
@@ -9567,13 +7287,6 @@ int func_021E78F4(char *p)
     func_021EBC58((unsigned char *)p, (unsigned char)p[0x16], 1, 0x18);
     return 0x4b;
 }
-
-
-
-
-
-
-
 
 int func_021E7904(unsigned char *p)
 {
@@ -9586,12 +7299,12 @@ int func_021E7904(unsigned char *p)
     case 1:
         if (func_021DD25C((void ***)p, p[0x16], p[0x14], 0x4C, 0) != 0) {
             func_021EBD1C((char *)p, 4, 0x18);
-            ((BoxTask *)p)->f28 = 0xE;
+            ((BoxTask *)p)->state = 0xE;
             return func_021E8F50((char *)p, 6);
         }
         if (func_021DD908((char *)p, p[0x16]) == 0) {
             func_021EBD1C((char *)p, 6, 0x1B);
-            ((BoxTask *)p)->f28 = 0xE;
+            ((BoxTask *)p)->state = 0xE;
             return func_021E8F50((char *)p, 6);
         }
         func_021ECB20((char *)p, 1, 1);
@@ -9603,13 +7316,6 @@ int func_021E7904(unsigned char *p)
     return 0x4D;
 }
 
-
-
-
-
-
-
-
 void func_021E79C8(unsigned char *p)
 {
     func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
@@ -9619,70 +7325,28 @@ void func_021E79C8(unsigned char *p)
     func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4B));
 }
 
-
-
-
-
-
-
-
 int func_021E7A04(unsigned char *p)
 {
     return func_021E95CC(p, 0);
 }
 
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
 
 /*
  * Item menu "give": checks the slot, then asks to swap or confirms.  A
@@ -9747,13 +7411,6 @@ int func_021E7A10(unsigned char *p)
     return 0x50;
 }
 
-
-
-
-
-
-
-
 int func_021E7BD0(unsigned char *p)
 {
     if (p[0x17] != 0xFF)
@@ -9765,7 +7422,7 @@ int func_021E7BD0(unsigned char *p)
         func_021ED508(p, 0xE, 1);
     else
         func_021ED508(p, 0xD, 1);
-    switch (((struct Obj23912 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+    switch (((struct Obj23912 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
     case 0:
         *(int *)(WORK(p) + 0xA198) = func_021E9968(p);
         break;
@@ -9784,72 +7441,38 @@ int func_021E7BD0(unsigned char *p)
     return func_021E22B8((int)p);
 }
 
-
-
-
-
-
 #undef W
 
-
-
-
-
 #undef W
-
-
-
-
-#undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
+
+#undef W
+
+#undef W
+
 #define W (*(char **)(p + 0x2c))
 
-
-
-
-
-
 #undef OBJ
 
-
-
-
-
 #undef OBJ
-
-
-
-
-#undef OBJ
-
-
-
-#undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
+
+#undef OBJ
+
+#undef OBJ
+
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-
-
-
-
-
-
 
 int func_021E7C58(unsigned char *p)
 {
     func_021DF040((char *)p);
-    switch (((struct Obj23913 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+    switch (((struct Obj23913 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
     case 1:
         func_021EE364((char **)p, 2, 0x1E);
         *(int *)(WORK(p) + 0xA168) = 0x1E;
@@ -9880,19 +7503,7 @@ int func_021E7C58(unsigned char *p)
     return func_021E22B8((int)p);
 }
 
-
-
-
-
-
-
-int func_021E7D04(u8 *p){switch(((struct Obj23914 *)(*(char * *)&((BoxTask *)p)->f0))->f24){case 2:((struct Obj23915 *)(*(char * *)&((BoxTask *)p)->f2C))->fA198=func_021E95F8(p);break;case 3:((struct Obj23916 *)(*(char * *)&((BoxTask *)p)->f2C))->fA198=func_021E96E8(p);break;case 4:((struct Obj23917 *)(*(char * *)&((BoxTask *)p)->f2C))->fA198=func_021E9848(p);break;}return func_021E22B8((int)p);}
-
-
-
-
-
-
+int func_021E7D04(u8 *p){switch(((struct Obj23914 *)(*(char * *)&((BoxTask *)p)->params))->f24){case 2:((struct Obj23915 *)(*(char * *)&((BoxTask *)p)->work))->fA198=func_021E95F8(p);break;case 3:((struct Obj23916 *)(*(char * *)&((BoxTask *)p)->work))->fA198=func_021E96E8(p);break;case 4:((struct Obj23917 *)(*(char * *)&((BoxTask *)p)->work))->fA198=func_021E9848(p);break;}return func_021E22B8((int)p);}
 
 /*
  * candidate func_021E7D3C: state machine step
@@ -9900,61 +7511,49 @@ int func_021E7D04(u8 *p){switch(((struct Obj23914 *)(*(char * *)&((BoxTask *)p)-
 void func_021E7D3C(char *p)
 {
     int v;
-    func_021EBB64((unsigned char *)((int)p), ((BoxTask *)p)->f10, 0x18);
-    v = *(int *)(*(int *)&((BoxTask *)p)->f0 + 0x24);
+    func_021EBB64((unsigned char *)((int)p), ((BoxTask *)p)->subResult, 0x18);
+    v = *(int *)(*(int *)&((BoxTask *)p)->params + 0x24);
     if (v == 3)
-        ((BoxTask *)p)->f28 = 0x3c;
+        ((BoxTask *)p)->state = 0x3c;
     else
-        ((BoxTask *)p)->f28 = 0xe;
+        ((BoxTask *)p)->state = 0xe;
     func_021E8F50((char *)((int)p), 6);
 }
 
-
-
-
-
-
-
 int func_021E7D64(u8 *p)
 {
-    switch (((struct Obj23918 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194) {
+    switch (((struct Obj23918 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194) {
     case 0:
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 4, 0);
+        func_021EC000(*(char * *)&((BoxTask *)p)->work, 4, 0);
         func_021ED508(p, 14, 0);
-        func_021EBA5C(*(char * *)&((BoxTask *)p)->f2C, 24);
+        func_021EBA5C(*(char * *)&((BoxTask *)p)->work, 24);
         func_021DD14C((char *)p);
-        func_021EF57C(*(struct WinMgr * *)&((struct Obj23919 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
-        (((struct Obj23920 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194)++;
+        func_021EF57C(*(struct WinMgr * *)&((struct Obj23919 *)(*(u8 * *)&((BoxTask *)p)->work))->f74);
+        (((struct Obj23920 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194)++;
         return func_021E8FC0((char *)p, (int)func_021E0190, 85);
     case 1:
-        ((struct Obj23921 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174 = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
-        func_021DF110((char *)p, ((struct Obj23922 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174);
-        func_021EF6A8(*(struct WinMgr * *)&((struct Obj23923 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
+        ((struct Obj23921 *)(*(u8 * *)&((BoxTask *)p)->work))->fA174 = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
+        func_021DF110((char *)p, ((struct Obj23922 *)(*(u8 * *)&((BoxTask *)p)->work))->fA174);
+        func_021EF6A8(*(struct WinMgr * *)&((struct Obj23923 *)(*(u8 * *)&((BoxTask *)p)->work))->f74);
         GFL_USE_PlaySeDefaultVolume(0x669);
-        (((struct Obj23924 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194)++;
+        (((struct Obj23924 *)(*(u8 * *)&((BoxTask *)p)->work))->fA194)++;
         return func_021E8FC0((char *)p, (int)((int (*)(u8 *))func_021E01A8), 85);
     case 2:
         func_021EE364((char **)p, 9, 0);
-        func_021ED888(*(char * *)&((BoxTask *)p)->f2C, 0);
+        func_021ED888(*(char * *)&((BoxTask *)p)->work, 0);
         func_021ECB20((char *)p, 1, 1);
         func_021ECB20((char *)p, 2, 1);
-        func_021ECB60(*(char * *)&((BoxTask *)p)->f2C, p[22], 0);
+        func_021ECB60(*(char * *)&((BoxTask *)p)->work, p[22], 0);
         func_021EBBBC((char *)p, 24);
         return func_021E8F50((char *)p, 86);
     }
     return 85;
 }
 
-
-
-
-
-
-
 int func_021E7E54(u8 *p)
 {
     u8 mask;
-    switch ((unsigned)func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70)) {
+    switch ((unsigned)func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((BoxTask *)p)->work))->f70)) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 0);
@@ -9980,17 +7579,17 @@ int func_021E7E54(u8 *p)
         func_021EA908((int)p, 5);
         break;
     case 6:
-        mask = ((struct Obj23926 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174;
+        mask = ((struct Obj23926 *)(*(u8 * *)&((BoxTask *)p)->work))->fA174;
         func_021DD2B4((int)p, p[22], p[20], 11, mask);
         func_021DF11C((char *)p, (unsigned)mask);
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        return func_021E94AC((BoxObj *)p, 0, 87);
+        return func_021E94AC((BoxTask *)p, 0, 87);
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E94AC((BoxObj *)p, 1, 87);
+        return func_021E94AC((BoxTask *)p, 1, 87);
     case (unsigned)-2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E94AC((BoxObj *)p, 1, 87);
+        return func_021E94AC((BoxTask *)p, 1, 87);
     case (unsigned)-3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, 88);
@@ -10001,15 +7600,9 @@ int func_021E7E54(u8 *p)
     return 86;
 }
 
-
-
-
-
-
-
 int func_021E7F6C(unsigned char *p)
 {
-    switch (((struct Obj23927 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+    switch (((struct Obj23927 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
     case 0:
         func_021EE364((char **)p, 0, 10);
         break;
@@ -10038,27 +7631,14 @@ int func_021E7F6C(unsigned char *p)
     return func_021E8FC0((char *)p, (int)((int (*)(unsigned char *))func_021E01A8), func_021E8F50((char *)p, 0xE));
 }
 
-
-
-
-
-
-
-
 /*
  * Forward and then return a status constant.
  */
 int func_021E8014(char *p)
 {
-    func_020307B0(((struct Obj18467 *)(*(char * *)&((BoxTask *)p)->f2C))->f60);
+    func_020307B0(((struct Obj18467 *)(*(char * *)&((BoxTask *)p)->work))->f60);
     return 0x56;
 }
-
-
-
-
-
-
 
 int func_021E8024(char *p)
 {
@@ -10071,34 +7651,34 @@ int func_021E8024(char *p)
         S++;
         return func_021E8FC0(p, (int)func_021E0190, 0x59);
     case 1:
-        if (((BoxTask *)p)->f16 >= 30) {
+        if (((BoxTask *)p)->cursorSlot >= 30) {
             func_021ECB20(p, 2, 1);
-            func_021ECB60(W, ((BoxTask *)p)->f16, 0);
-            slot = ((BoxTask *)p)->f16 - 30;
+            func_021ECB60(W, ((BoxTask *)p)->cursorSlot, 0);
+            slot = ((BoxTask *)p)->cursorSlot - 30;
             if (func_021DD694((void ***)p, slot) == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBBC8((u8 *)p, 6, 24);
                 *(u8 *)(W + 0xA170) = 1;
-                ((BoxTask *)p)->f28 = 14;
+                ((BoxTask *)p)->state = 14;
                 return func_021E8F50(p, 6);
             }
-            if (func_0202136C(func_02017E1C(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((BoxTask *)p)->f0))->f8, slot), 6, 0)) == 1) {
+            if (func_0202136C(func_02017E1C(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((BoxTask *)p)->params))->f8, slot), 6, 0)) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBC58((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;
-                ((BoxTask *)p)->f28 = 14;
+                ((BoxTask *)p)->state = 14;
                 return func_021E8F50(p, 6);
             }
         } else {
             func_021ED888(W, 0);
             func_021ECB20(p, 1, 1);
-            func_021ECB60(W, ((BoxTask *)p)->f16, 0);
+            func_021ECB60(W, ((BoxTask *)p)->cursorSlot, 0);
         }
-        if (func_02017E88((void *)func_021DD2D0((void ***)p, ((BoxTask *)p)->f14, ((BoxTask *)p)->f16), 0x4c, 0) != 0) {
+        if (func_02017E88((void *)func_021DD2D0((void ***)p, ((BoxTask *)p)->curBox, ((BoxTask *)p)->cursorSlot), 0x4c, 0) != 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBBC8((u8 *)p, 3, 24);
             *(u8 *)(W + 0xA170) = 1;
-            ((BoxTask *)p)->f28 = 14;
+            ((BoxTask *)p)->state = 14;
             return func_021E8F50(p, 6);
         }
         func_021EBBC8((u8 *)p, 0, 24);
@@ -10106,12 +7686,6 @@ int func_021E8024(char *p)
     }
     return 0x59;
 }
-
-
-
-
-
-
 
 int func_021E8188(unsigned char *p)
 {
@@ -10125,13 +7699,6 @@ int func_021E8188(unsigned char *p)
     }
     return 0x5A;
 }
-
-
-
-
-
-
-
 
 /*
  * Four-step machine on the work word at 0xA194 for releasing a Pokemon:
@@ -10197,31 +7764,17 @@ int func_021E81D0(unsigned char *p)
     return 0x5B;
 }
 
-
-
-
-
 #undef W
 
-
-
-
 #undef W
-
-
-
-#undef W
-
 
 #undef W
 
 #undef W
+
+#undef W
+
 #define W (*(char **)(p + 0x2c))
-
-
-
-
-
 
 int func_021E8340(unsigned char *p)
 {
@@ -10233,12 +7786,12 @@ int func_021E8340(unsigned char *p)
         func_021DE7B4((char *)p);
         func_021ED588((char *)p);
         func_021EBBC8(p, 4, 0x18);
-        ((BoxTask *)p)->f28 = 0x5C;
+        ((BoxTask *)p)->state = 0x5C;
         STEP(p)++;
         return 6;
     case 1:
         func_021EBBC8(p, 5, 0x18);
-        ((BoxTask *)p)->f28 = 0x5C;
+        ((BoxTask *)p)->state = 0x5C;
         STEP(p)++;
         return 6;
     case 2:
@@ -10247,11 +7800,6 @@ int func_021E8340(unsigned char *p)
     }
     return 0x5C;
 }
-
-
-
-
-
 
 /*
  * Return r0 from func_021EC01C and func_021EA858 is read by this caller.
@@ -10286,7 +7834,7 @@ int func_021E83C0(char *p)
             func_021EF680(W);
         }
     case 1:
-        func_021EB988((unsigned char *)((BoxObj *)p), d_021EF908, 4);
+        func_021EB988((unsigned char *)((BoxTask *)p), d_021EF908, 4);
         func_021EF534(M);
         S++;
         return func_021E8FC0(p, (int)func_021E0190, 0x5d);
@@ -10302,21 +7850,16 @@ int func_021E83C0(char *p)
     return 0x5d;
 }
 
-
-
-
-
-
 int func_021E8508(u8 *p)
 {
-    unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70);
+    unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((BoxTask *)p)->work))->f70);
     switch (v) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x60));
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        ((struct Obj23930 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA17C = 0;
+        ((struct Obj23930 *)(*(u8 * *)&((BoxTask *)p)->work))->fA17C = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x64));
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -10334,11 +7877,6 @@ int func_021E8508(u8 *p)
     return 0x5e;
 }
 
-
-
-
-
-
 int func_021E85F0(char *p)
 {
     switch (S) {
@@ -10354,21 +7892,21 @@ int func_021E85F0(char *p)
         S = 0;
         func_021ED888(W, 1);
         func_021ED508((unsigned char *)p, 14, 1);
-        if (((struct Obj23931 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 2) {
+        if (((struct Obj23931 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 2) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364((char **)p, 3, 30);
             return 17;
-        } else if (((struct Obj23932 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 1) {
+        } else if (((struct Obj23932 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 1) {
             func_021ECB20(p, 1, 0);
             func_021EE364((char **)p, 2, 30);
             return 44;
-        } else if (((struct Obj23933 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3) {
+        } else if (((struct Obj23933 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3) {
             func_021ECB20(p, 0x81, 1);
             func_021EF670(W);
             func_021EE364((char **)p, 7, 30);
             return 57;
-        } else if (((struct Obj23934 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 4) {
+        } else if (((struct Obj23934 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 4) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364((char **)p, 13, 30);
@@ -10377,11 +7915,6 @@ int func_021E85F0(char *p)
     }
     return 0x5f;
 }
-
-
-
-
-
 
 int func_021E86EC(unsigned char *p)
 {
@@ -10411,55 +7944,35 @@ int func_021E86EC(unsigned char *p)
     return 0x60;
 }
 
-
-
-
 #undef CUR
 
-
-
 #undef CUR
-
 
 #undef CUR
 
 #undef CUR
+
 #define CUR(p) (*(unsigned char *)(WORK(p) + 0xA17F))
 
-
-
-
 #undef W
 
-
-
 #undef W
-
 
 #undef W
 
 #undef W
+
 #define W (*(char **)(p + 0x2c))
 
-
-
-
 #undef MGR
 
-
-
 #undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
 
 /*
  * List input for the box menu: a touch pick stores the slot and leaves,
@@ -10504,7 +8017,7 @@ int func_021E87A0(unsigned char *p)
     case 6:
     case (unsigned)-2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x62));
+        return func_021E954C((BoxTask *)((BoxTask *)p), 6, 9, func_021E8F50((char *)p, 0x62));
     case (unsigned)-3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x61));
@@ -10526,10 +8039,6 @@ int func_021E87A0(unsigned char *p)
     return 0x61;
 }
 
-
-
-
-
 /*
  * Return from func_021EA858 is used despite its legacy void declaration.
  */
@@ -10550,21 +8059,21 @@ int func_021E8950(char *p)
         func_021ED888(W, 1);
         func_021EE038(p, 0, 0, 1);
         func_021ED508((unsigned char *)p, 14, 1);
-        if (((struct Obj23935 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 2) {
+        if (((struct Obj23935 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 2) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364((char **)p, 3, 30);
             return 17;
-        } else if (((struct Obj23936 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 1) {
+        } else if (((struct Obj23936 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 1) {
             func_021ECB20(p, 1, 0);
             func_021EE364((char **)p, 2, 30);
             return 44;
-        } else if (((struct Obj23937 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3) {
+        } else if (((struct Obj23937 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 3) {
             func_021ECB20(p, 0x81, 1);
             func_021EF670(W);
             func_021EE364((char **)p, 7, 30);
             return 57;
-        } else if (((struct Obj23938 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 4) {
+        } else if (((struct Obj23938 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 4) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364((char **)p, 13, 30);
@@ -10574,20 +8083,11 @@ int func_021E8950(char *p)
     return 0x62;
 }
 
-
-
-
-
 int func_021E8A58(char *p)
 {
-    func_021EE008(p, func_020260E0((struct Sound *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x70))) - 1, 1);
+    func_021EE008(p, func_020260E0((struct Sound *)(*(int *)(*(int *)&((BoxTask *)p)->work + 0x70))) - 1, 1);
     return 0x61;
 }
-
-
-
-
-
 
 /*
  * Three-step machine on the work word at 0xA194 for the box-list menu:
@@ -10609,24 +8109,24 @@ int func_021E8A74(unsigned char *p)
     case 1:
         if (KIND(p) == 0) {
             if (func_02007A80(SAVE(p), 1) == 1)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9C8, 6);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9C8, 6);
             else
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF93C, 5);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF93C, 5);
         } else if (KIND(p) == 1) {
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF964, 5);
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF964, 5);
         } else if (KIND(p) == 2) {
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF978, 5);
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF978, 5);
         } else if (KIND(p) == 3) {
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF98C, 5);
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF98C, 5);
         } else if (KIND(p) == 4) {
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9A0, 5);
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9A0, 5);
         } else if (KIND(p) == 5) {
             if (func_02007A80(SAVE(p), 2) == 1)
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9E0, 6);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9E0, 6);
             else
-                func_021EB988((unsigned char *)((BoxObj *)p), d_021EF928, 5);
+                func_021EB988((unsigned char *)((BoxTask *)p), d_021EF928, 5);
         } else if (KIND(p) == 6) {
-            func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9F8, 6);
+            func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9F8, 6);
         }
         func_021EF534(MGR(p));
         STEP(p)++;
@@ -10657,11 +8157,6 @@ int func_021E8A74(unsigned char *p)
     }
     return 0x64;
 }
-
-
-
-
-
 
 int func_021E8BF8(unsigned char *p)
 {
@@ -10700,7 +8195,7 @@ int func_021E8BF8(unsigned char *p)
             SEL(p) = 4;
             return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
         }
-        if (SEL(p) == 5 && func_02007A80(((void **)((BoxTask *)p)->f0)[1], 2) == 1) {
+        if (SEL(p) == 5 && func_02007A80(((void **)((BoxTask *)p)->params)[1], 2) == 1) {
             SEL(p) = 6;
             return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
         }
@@ -10728,10 +8223,7 @@ int func_021E8BF8(unsigned char *p)
     return 0x65;
 }
 
-
-
 #undef W
-
 
 #undef W
 
@@ -10739,43 +8231,29 @@ int func_021E8BF8(unsigned char *p)
 
 #define W (*(char **)(p + 0x2c))
 
-
-
 #undef ITEM
-
 
 #undef ITEM
 
 #undef ITEM
+
 #define ITEM (*(unsigned short *)(p+0x10))
 
-
-
 #undef OBJ
-
 
 #undef OBJ
 
 #undef OBJ
-#define OBJ(p) (*(void **)((p)->work + 0x70))
 
-
-
-#undef SEL
-
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
 
 #undef SEL
 
 #undef SEL
-#define SEL(p) (*(unsigned char *)((p)->work + 0xA17E))
 
+#undef SEL
 
-
-
-
-
-
-
+#define SEL(p) (*(unsigned char *)((char *)(p)->work + 0xA17E))
 
 int func_021E8E24(char *p)
 {
@@ -10784,18 +8262,18 @@ int func_021E8E24(char *p)
         func_021ED55C((char **)p, 0);
         PALANM_CopyHwPaletteToSlot(*(void **)(W + 0x6c), 0, 0, 0x200);
         PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
-        ((BoxTask *)p)->f28 = 0x66;
+        ((BoxTask *)p)->state = 0x66;
         S++;
         return 3;
     case 1:
         func_021DED58(p, *(u8 *)(W + 0xA17B));
-        func_02007838(((struct Obj23940 *)(*(char * *)&((BoxTask *)p)->f0))->f4, ((BoxTask *)p)->f14, *(u8 *)(W + 0xA17B));
-        func_021EDAB0(p, ((BoxTask *)p)->f14);
+        func_02007838(((struct Obj23940 *)(*(char * *)&((BoxTask *)p)->params))->f4, ((BoxTask *)p)->curBox, *(u8 *)(W + 0xA17B));
+        func_021EDAB0(p, ((BoxTask *)p)->curBox);
         S++;
         break;
     case 2:
         PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
-        ((BoxTask *)p)->f28 = 0x66;
+        ((BoxTask *)p)->state = 0x66;
         S++;
         return 3;
     case 3:
@@ -10806,57 +8284,21 @@ int func_021E8E24(char *p)
     return 0x66;
 }
 
-
-
-
-
-
-
-
-
 int func_021E8F14(unsigned char *p)
 {
     return func_021E95CC(p, 2);
 }
 
-
-
-
-
-
-
-
-
-void func_021E8F20(u8 *p){func_021EC000(*(char * *)&((BoxTask *)p)->f2C,4,0);func_021ED508(p,14,0);func_021EBADC((char *)p,24);func_021EA984(p);func_021E8FE8(p,4);}
-
-
-
-
-
-
-
-
-
-
+void func_021E8F20(u8 *p){func_021EC000(*(char * *)&((BoxTask *)p)->work,4,0);func_021ED508(p,14,0);func_021EBADC((char *)p,24);func_021EA984(p);func_021E8FE8(p,4);}
 
 /*
  * Clear the pooled-offset word and return the argument.
  */
 int func_021E8F50(char *p, int v)
 {
-    ((struct Obj18468 *)(*(char * *)&((BoxTask *)p)->f2C))->fA194 = 0;
+    ((struct Obj18468 *)(*(char * *)&((BoxTask *)p)->work))->fA194 = 0;
     return v;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Sibling of func_021E8F90: the seven-argument setup call then
@@ -10869,16 +8311,6 @@ int func_021E8F60(void *p, int a)
     return 2;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Same body as func_021E8F60 with the first four arguments zero;
  * the state word goes to +0xA188, return 2.
@@ -10890,86 +8322,42 @@ int func_021E8F90(void *p, int a)
     return 2;
 }
 
-
-
-
-
-
-
-
-
 /*
  * Store the third argument, then reset the sub-object.
  */
 int func_021E8FC0(char *p, int a, int b)
 {
-    *(int *)(*(int *)&((BoxTask *)p)->f2C + 0x68) = b;
-    func_021DC9A0(*(char * *)&((BoxTask *)p)->f2C, a);
+    *(int *)(*(int *)&((BoxTask *)p)->work + 0x68) = b;
+    func_021DC9A0(*(char * *)&((BoxTask *)p)->work, a);
     return 5;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Store the second argument, then re-seat the sub-object.
  */
 int func_021E8FD0(char *p, int a)
 {
-    *(int *)(*(int *)&((BoxTask *)p)->f2C + 0x68) = a;
-    func_021DC9B8(*(char * *)&((BoxTask *)p)->f2C);
+    *(int *)(*(int *)&((BoxTask *)p)->work + 0x68) = a;
+    func_021DC9B8(*(char * *)&((BoxTask *)p)->work);
     return 5;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Store v at +0x28, return 13.
  */
 int func_021E8FE0(char *p, int v)
 {
-    ((BoxTask *)p)->f28 = v;
+    ((BoxTask *)p)->state = v;
     return 0xd;
 }
 
-
-
-#undef WORK
-
-
 #undef WORK
 
 #undef WORK
 
-
-
-
-
-
+#undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
 
 /*
  * Opens the yes/no menu with the cursor on sel and enters state 7.
@@ -10985,75 +8373,32 @@ int func_021E8FE8(unsigned char *p, int sel)
     return 7;
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
 
 int func_021E9010(unsigned char *p)
 {
     unsigned item;
     void *mon;
     item = func_021DD25C((void ***)p, p[0x16], p[0x14], 6, 0);
-    if (func_02007E50(((struct Obj23942 *)(*(char * *)&((BoxTask *)p)->f0))->fC, item, 1, 0x4C) == 1) {
+    if (func_02007E50(((struct Obj23942 *)(*(char * *)&((BoxTask *)p)->params))->fC, item, 1, 0x4C) == 1) {
         mon = (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]);
         func_021EBB34((char *)p, item, 0x18);
         func_021DD2B4((int)p, p[0x16], p[0x14], 6, 0);
@@ -11072,72 +8417,29 @@ int func_021E9010(unsigned char *p)
         func_020260F4(*(void **)(WORK(p) + 0x70), 1);
         func_021ED55C((char **)p, 0);
     }
-    ((BoxTask *)p)->f28 = 0xE;
+    ((BoxTask *)p)->state = 0xE;
     return func_021E8F50((char *)p, 6);
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
 
 int func_021E90D4(unsigned char *p)
 {
@@ -11155,68 +8457,25 @@ int func_021E90D4(unsigned char *p)
     return 0x5A;
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
-
 
 int func_021E912C(unsigned char *p) {
  func_021ED6E4((char **)p,1); func_021EBA70(WORK(p),0x18); func_021DD14C((char *)p);
@@ -11227,75 +8486,32 @@ int func_021E912C(unsigned char *p) {
  return func_021E8FC0((char *)p,(int)func_021E0190,func_021E8F50((char *)p,0xE));
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
 
 int func_021E91A0(unsigned char *p)
 {
     void *mon;
     if(func_020355C4()==1) func_020260F4(*(void **)(WORK(p)+0x70),0);
     else { func_020260F4(*(void **)(WORK(p)+0x70),1); func_021ED55C((char **)p,0); }
-    if(func_02007E50(((struct Obj23943 *)(*(char * *)&((BoxTask *)p)->f0))->fC,*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
+    if(func_02007E50(((struct Obj23943 *)(*(char * *)&((BoxTask *)p)->params))->fC,*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
         mon=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
         func_021DD2B4((int)p,p[0x16],p[0x14],6,0);
         if(func_021DD718((void **)p,mon)==1) {
@@ -11308,17 +8524,9 @@ int func_021E91A0(unsigned char *p)
         return 0x3b;
     }
     GFL_USE_PlaySeDefaultVolume(0x557); func_021EBCB4(p,6,0x18);
-    ((BoxTask *)p)->f28=0xe;
+    ((BoxTask *)p)->state=0xe;
     return func_021E8F50((char *)p,6);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Set the id, re-key the queue, store 0x69 as the frame, then
@@ -11328,72 +8536,29 @@ int func_021E9284(char *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x55D);
     func_021DE898((int *)p);
-    ((BoxTask *)p)->f28 = 0x69;
+    ((BoxTask *)p)->state = 0x69;
     return func_021E8F90(p, 1);
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK (*(char **)(p+0x2c))
-
-
-
-
-
-
-
-
 
 /*
  * trailing extent: two-byte zero alignment at 021E93F2.
@@ -11405,7 +8570,7 @@ int func_021E92A8(unsigned char *p)
     if(func_020355C4()==1) func_020260F4(*(void **)(WORK+0x70),0);
     else func_020260F4(*(void **)(WORK+0x70),1);
     func_021ED508(p,0xe,1);
-    switch(((struct Obj23944 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+    switch(((struct Obj23944 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
     case 0: func_021ECB20((char *)p,2,0); return 0x31;
     case 1: func_021ED888(WORK,1); func_021ECB20((char *)p,1,0); return 0x2c;
     case 2:
@@ -11428,88 +8593,37 @@ int func_021E92A8(unsigned char *p)
     return 0x11;
 }
 
-
-
-
-
-
-
-
-
 /*
  * candidate func_021E93F4: copy two bytes into a sub object
  */
 void func_021E93F4(char *p)
 {
     func_021DE898((int *)((int)p));
-    *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2a) = ((BoxTask *)p)->f14;
-    *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2b) = ((BoxTask *)p)->f16;
-    ((BoxTask *)p)->f28 = 0x69;
+    *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2a) = ((BoxTask *)p)->curBox;
+    *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2b) = ((BoxTask *)p)->cursorSlot;
+    ((BoxTask *)p)->state = 0x69;
     func_021E8F90((void *)((int)p), 1);
 }
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
-
 
 int func_021E941C(unsigned char *p) {
  func_021EBA5C(WORK(p),0x1B); func_021DD14C((char *)p);
@@ -11520,23 +8634,7 @@ int func_021E941C(unsigned char *p) {
  return 0x4B;
 }
 
-
-
-
-
-
-
-
-
-void func_021E946C(unsigned char *p){if(func_020355C4()==1)func_020260F4(((struct Obj23945 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f70,0);else {func_020260F4(((struct Obj23946 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f70,1);func_021ED55C((char **)p,0);}func_021E2334(p);}
-
-
-
-
-
-
-
-
+void func_021E946C(unsigned char *p){if(func_020355C4()==1)func_020260F4(((struct Obj23945 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f70,0);else {func_020260F4(((struct Obj23946 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f70,1);func_021ED55C((char **)p,0);}func_021E2334(p);}
 
 /*
  * Forward, then store the third argument at 0x28.
@@ -11544,73 +8642,37 @@ void func_021E946C(unsigned char *p){if(func_020355C4()==1)func_020260F4(((struc
 int func_021E949C(char *p, int a, int b)
 {
     func_021DD090(p, a);
-    ((BoxTask *)p)->f28 = b;
+    ((BoxTask *)p)->state = b;
     return 8;
 }
 
-
-
-
-
-
-
-
-
-int func_021E94AC(BoxObj *p,int a,int b) {
- ((BoxWorkView *)p->work)->flag=1;
- ((BoxWorkView *)p->work)->id=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
- ((BoxWorkView *)p->work)->lo=13;
- ((BoxWorkView *)p->work)->hi=12;
- ((BoxWorkView *)p->work)->state=0;
- ((BoxWorkView *)p->work)->count=0;
- if(a==0) ((BoxWorkView *)p->work)->y=14;
- else ((BoxWorkView *)p->work)->y=17;
- ((BoxWorkView *)p->work)->x=21;
- ((BoxWorkView *)p->work)->w=11;
- ((BoxWorkView *)p->work)->h=3;
- p->x28=b;
+int func_021E94AC(BoxTask *p,int a,int b) {
+ ((BoxWorkView *)(char *)p->work)->flag=1;
+ ((BoxWorkView *)(char *)p->work)->id=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23947 *)((char *)(char *)p->work))->f74,7);
+ ((BoxWorkView *)(char *)p->work)->lo=13;
+ ((BoxWorkView *)(char *)p->work)->hi=12;
+ ((BoxWorkView *)(char *)p->work)->state=0;
+ ((BoxWorkView *)(char *)p->work)->count=0;
+ if(a==0) ((BoxWorkView *)(char *)p->work)->y=14;
+ else ((BoxWorkView *)(char *)p->work)->y=17;
+ ((BoxWorkView *)(char *)p->work)->x=21;
+ ((BoxWorkView *)(char *)p->work)->w=11;
+ ((BoxWorkView *)(char *)p->work)->h=3;
+ p->state=b;
  return 8;
 }
 
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
 #undef WORK
 
-
-
-
-
 #undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -11618,39 +8680,21 @@ int func_021E94AC(BoxObj *p,int a,int b) {
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
-
-
-
-
-int func_021E954C(BoxObj *p, int id, int lo, int arg)
+int func_021E954C(BoxTask *p, int id, int lo, int arg)
 {
-    ((BoxWorkView *)p->work)->flag = 0;
-    ((BoxWorkView *)p->work)->id = (unsigned char)id;
-    ((BoxWorkView *)p->work)->lo = (unsigned char)lo;
-    ((BoxWorkView *)p->work)->hi = 0;
-    ((BoxWorkView *)p->work)->state = 0;
-    ((BoxWorkView *)p->work)->count = 0;
-    ((BoxWorkView *)p->work)->x = 0;
-    ((BoxWorkView *)p->work)->y = 0;
-    ((BoxWorkView *)p->work)->w = 0;
-    ((BoxWorkView *)p->work)->h = 0;
-    p->x28 = arg;
+    ((BoxWorkView *)(char *)p->work)->flag = 0;
+    ((BoxWorkView *)(char *)p->work)->id = (unsigned char)id;
+    ((BoxWorkView *)(char *)p->work)->lo = (unsigned char)lo;
+    ((BoxWorkView *)(char *)p->work)->hi = 0;
+    ((BoxWorkView *)(char *)p->work)->state = 0;
+    ((BoxWorkView *)(char *)p->work)->count = 0;
+    ((BoxWorkView *)(char *)p->work)->x = 0;
+    ((BoxWorkView *)(char *)p->work)->y = 0;
+    ((BoxWorkView *)(char *)p->work)->w = 0;
+    ((BoxWorkView *)(char *)p->work)->h = 0;
+    p->state = arg;
     return 8;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Enters state 9 with reason v.
@@ -11661,52 +8705,26 @@ int func_021E95CC(unsigned char *p, unsigned char v)
         func_020355D8(0);
     else
         func_020355D8(1);
-    ((BoxTask *)p)->f28 = 9;
+    ((BoxTask *)p)->state = 9;
     p[0x12] = v;
     return func_021E8F90(p, 1);
 }
 
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK (*(char **)(p+0x2c))
-
-
-
-
-
-
 
 int func_021E95F8(unsigned char *p)
 {
@@ -11720,7 +8738,7 @@ int func_021E95F8(unsigned char *p)
     }
     func_021ED588((char *)p);
     if(ITEM==0) {
-        func_021DEFEC((char *)p,p[0x16]); func_021EB988((unsigned char *)((BoxObj *)p), data_021EFA10, 6);
+        func_021DEFEC((char *)p,p[0x16]); func_021EB988((unsigned char *)((BoxTask *)p), data_021EFA10, 6);
         func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
         return next;
     }
@@ -11731,44 +8749,25 @@ int func_021E95F8(unsigned char *p)
             func_021DD8A8((void * *)p, p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
-        func_02007F1C(((struct Obj23948 *)(*(char * *)&((BoxTask *)p)->f0))->fC,ITEM,1,0x804c);
+        func_02007F1C(((struct Obj23948 *)(*(char * *)&((BoxTask *)p)->params))->fC,ITEM,1,0x804c);
     }
     func_021DEFEC((char *)p,p[0x16]); func_021ED55C((char **)p,0);
     return 0x54;
 }
 
-
-
-
-
-
 #undef WORK
 
-
-
-
-
 #undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK (*(char **)(p+0x2c))
-
-
-
-
-
 
 int func_021E96E8(unsigned char *p)
 {
@@ -11780,7 +8779,7 @@ int func_021E96E8(unsigned char *p)
         func_021EA75C((int)p); func_021ED888(WORK,0);
         func_021ED164(WORK,p[0x16],1); func_021EE364((char **)p,8,0xa); next=0x46; break;
     }
-    func_021EA878((BoxObj *)p,*(short *)&((BoxTask *)p)->f10);
+    func_021EA878((BoxTask *)p,*(short *)&((BoxTask *)p)->subResult);
     if(ITEM==0) {
         func_021DEFEC((char *)p,p[0x16]); func_021EF4E4(*(struct WinMgr **)(WORK+0x74));
         func_021EBCB4(p,0,0x18);
@@ -11795,7 +8794,7 @@ int func_021E96E8(unsigned char *p)
             func_021DD8A8((void **)p,p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
-        func_02007F1C(((struct Obj23949 *)(*(char * *)&((BoxTask *)p)->f0))->fC,ITEM,1,0x804c);
+        func_02007F1C(((struct Obj23949 *)(*(char * *)&((BoxTask *)p)->params))->fC,ITEM,1,0x804c);
         *(unsigned short *)(WORK+0xa16c)=ITEM;
         func_021ED094(WORK,*(unsigned short *)(WORK+0xa16c));
         func_021EC000(WORK,0xa,1); func_021ED1C8(WORK); func_021ED2F4(WORK);
@@ -11806,30 +8805,17 @@ int func_021E96E8(unsigned char *p)
     return 0x54;
 }
 
-
-
-
-
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
 #define WORK (*(char **)(p+0x2c))
-
-
-
-
 
 int func_021E9848(unsigned char *p)
 {
@@ -11843,7 +8829,7 @@ int func_021E9848(unsigned char *p)
     }
     func_021ED588((char *)p);
     if(ITEM==0) {
-        func_021DEFEC((char *)p,p[0x16]); func_021EB988((unsigned char *)((BoxObj *)p), data_021EF918, 4);
+        func_021DEFEC((char *)p,p[0x16]); func_021EB988((unsigned char *)((BoxTask *)p), data_021EF918, 4);
         func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
         return next;
     }
@@ -11854,211 +8840,67 @@ int func_021E9848(unsigned char *p)
             func_021DD8A8((void * *)p, p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
-        func_02007F1C(((struct Obj23950 *)(*(char * *)&((BoxTask *)p)->f0))->fC,ITEM,1,0x804c);
+        func_02007F1C(((struct Obj23950 *)(*(char * *)&((BoxTask *)p)->params))->fC,ITEM,1,0x804c);
     }
     func_021DEFEC((char *)p,p[0x16]); func_021ED55C((char **)p,0);
     return 0x54;
 }
 
-
-
-#undef MGR
-
-
 #undef MGR
 
 #undef MGR
 
-
-
-
-
-
-
+#undef MGR
 
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #define WORK(p) (*(char **)((p)+0x2C))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021E9938(unsigned char *p){func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9B4, 5);func_021EF4E4((struct WinMgr *)(((struct Obj23951 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f74));func_021EBC58(p,p[22],1,24);func_021ED588((char *)p);return 44;}
-
-
-
-
-
-
-
-
-
-
-
-
-
+int func_021E9938(unsigned char *p){func_021EB988((unsigned char *)((BoxTask *)p), d_021EF9B4, 5);func_021EF4E4((struct WinMgr *)(((struct Obj23951 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f74));func_021EBC58(p,p[22],1,24);func_021ED588((char *)p);return 44;}
 
 int func_021E9968(unsigned char *p) {
- func_021EB988((unsigned char *)((BoxObj *)p), d_021EF950, 5);
+ func_021EB988((unsigned char *)((BoxTask *)p), d_021EF950, 5);
  func_021EF4E4((struct WinMgr *)((int)(*(struct WinMgr **)(WORK(p)+0x74))));
  func_021EBC58(p,p[0x16],1,0x18);
  func_021ECB20((char *)p,1,1); func_021ED888(WORK(p),0);
  func_021EA75C((int)p); func_021ED588((char *)((unsigned char *)((char *)p))); return 0x31;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Leaves a box-menu mode (p[0x13]): restores the windows the mode changed
@@ -12068,13 +8910,13 @@ int func_021E99B0(unsigned char *p)
 {
     switch (p[0x13]) {
     case 0:
-        func_021EB988((unsigned char *)((BoxObj *)p), d_021EFA10, 6);
+        func_021EB988((unsigned char *)((BoxTask *)p), d_021EFA10, 6);
         func_021EF4E4((struct WinMgr *)((int)(MGR(p))));
         func_021EBC58(p, p[0x16], 1, 0x18);
         func_021ED588((char *)((unsigned char *)((char *)p)));
         return 0x11;
     case 1:
-        func_021EB988((unsigned char *)((BoxObj *)p), d_021EFA10, 6);
+        func_021EB988((unsigned char *)((BoxTask *)p), d_021EFA10, 6);
         func_021EF4E4((struct WinMgr *)((int)(MGR(p))));
         func_021EBC58(p, p[0x16], 1, 0x18);
         func_021ECB20((char *)p, 1, 1);
@@ -12137,148 +8979,45 @@ int func_021E99B0(unsigned char *p)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK (*(char **)(p+0x2c))
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9B74(unsigned char *p)
 {
     switch(p[0x13]) {
     case 0:
-        func_021EB988((unsigned char *)((BoxObj *)p), data_021EF918, 4);
+        func_021EB988((unsigned char *)((BoxTask *)p), data_021EF918, 4);
         func_021EF4E4((struct WinMgr *)((int)(*(struct WinMgr **)(WORK+0x74)))); func_021EBC58(p,p[0x16],1,0x18);
         func_021EE364((char **)p,0xd,0x25); func_021ED588((char *)((unsigned char *)((char *)p))); return 0x23;
     case 1:
-        func_021EB988((unsigned char *)((BoxObj *)p), data_021EF918, 4);
+        func_021EB988((unsigned char *)((BoxTask *)p), data_021EF918, 4);
         func_021EF4E4((struct WinMgr *)((int)(*(struct WinMgr **)(WORK+0x74)))); func_021EBC58(p,p[0x16],1,0x18);
         func_021ECB20((char *)p,1,1); func_021ED888(WORK,0);
         func_021EE364((char **)p,0xe,0xa); func_021EA75C((int)p); func_021ED588((char *)((unsigned char *)((char *)p))); return 0x27;
@@ -12298,140 +9037,35 @@ int func_021E9B74(unsigned char *p)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9C94(char *p, int a, int n)
 {
@@ -12446,110 +9080,31 @@ int func_021E9C94(char *p, int a, int n)
     return func_021E8FC0(p, (int)func_021E00C4, n);
 }
 
-
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9CE0(char *p, int a, int n)
 {
@@ -12564,114 +9119,62 @@ int func_021E9CE0(char *p, int a, int n)
     return func_021E8FC0(p, (int)func_021E0128, n);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021E9D2C(BoxObj *p, int i)
+int func_021E9D2C(BoxTask *p, int i)
 {
     p->b1B = 0;
     p->lo = 0;
-    p->b16 = i;
-    p->b17 = p->b14;
-    func_021EC768(p->work, p->b16, 0);
-    func_021ECB84(p->work, p->b16);
+    p->cursorSlot = i;
+    p->heldSlot = p->curBox;
+    func_021EC768((char *)p->work, p->cursorSlot, 0);
+    func_021ECB84((char *)p->work, p->cursorSlot);
     func_021ED594((char *)p, 0x24);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
-    func_021EBA5C(p->work, 0x18);
+    func_021EBA5C((char *)p->work, 0x18);
     func_021DD14C((char *)p);
-    func_021EF670(p->work);
-    p->x28 = 0x15;
-    p->b1A = 0;
+    func_021EF670((char *)p->work);
+    p->state = 0x15;
+    p->phase = 0;
     return func_021E8FC0((char *)p, (int)func_021DFA30, 0x12);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021E9D98(BoxObj *p, int i)
+int func_021E9D98(BoxTask *p, int i)
 {
-    p->b16 = i;
-    p->b17 = p->b14;
+    p->cursorSlot = i;
+    p->heldSlot = p->curBox;
     p->b1B = 0;
-    func_021EC768(p->work, p->b16, 0);
-    func_021ECB84(p->work, p->b16);
+    func_021EC768((char *)p->work, p->cursorSlot, 0);
+    func_021ECB84((char *)p->work, p->cursorSlot);
     func_021ED594((char *)p, 0x24);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
-    func_021EBA5C(p->work, 0x18);
+    func_021EBA5C((char *)p->work, 0x18);
     func_021DD14C((char *)p);
-    p->b1A = 0;
-    p->x28 = 0x20;
+    p->phase = 0;
+    p->state = 0x20;
     return func_021E8FC0((char *)p, (int)func_021E1B1C, 0x24);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021E9DF8(u8 *p, int a)
 {
-    u8 old = ((BoxTask *)p)->f14;
-    ((BoxTask *)p)->f16 = a;
-    ((BoxTask *)p)->f17 = old;
-    func_021EC768((char *)(*(u32 *)&((BoxTask *)p)->f2C), ((BoxTask *)p)->f16, 0);
-    func_021ECB84((char *)(*(u32 *)&((BoxTask *)p)->f2C), ((BoxTask *)p)->f16);
+    u8 old = ((BoxTask *)p)->curBox;
+    ((BoxTask *)p)->cursorSlot = a;
+    ((BoxTask *)p)->heldSlot = old;
+    func_021EC768((char *)(*(u32 *)&((BoxTask *)p)->work), ((BoxTask *)p)->cursorSlot, 0);
+    func_021ECB84((char *)(*(u32 *)&((BoxTask *)p)->work), ((BoxTask *)p)->cursorSlot);
     func_021ED594((char *)p, 0x24);
-    func_021ED888((char *)(*(u32 *)&((BoxTask *)p)->f2C), 0);
+    func_021ED888((char *)(*(u32 *)&((BoxTask *)p)->work), 0);
     func_021EC61C(p);
     func_021ECB20((char *)p, 1, 1);
     func_021ECB20((char *)p, 2, 1);
-    func_021ECB60((char *)(*(u32 *)&((BoxTask *)p)->f2C), 0x24, 0);
+    func_021ECB60((char *)(*(u32 *)&((BoxTask *)p)->work), 0x24, 0);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
-    func_021EBA5C((char *)(*(u32 *)&((BoxTask *)p)->f2C), 0x18);
+    func_021EBA5C((char *)(*(u32 *)&((BoxTask *)p)->work), 0x18);
     func_021DD14C((char *)p);
-    ((BoxTask *)p)->f1A = 2;
+    ((BoxTask *)p)->phase = 2;
     return func_021E8FC0((char *)p, (int)((void (*)(void))func_021E0470), 0x30);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9E7C(char *p, int i, int v)
 {
@@ -12683,19 +9186,6 @@ int func_021E9E7C(char *p, int i, int v)
     return func_021E8FC0(p, (int)func_021E070C, func_021E8FE0(p, v));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021E9EC0(unsigned char *p, int i)
 {
     p[0x16] = i;
@@ -12705,29 +9195,16 @@ int func_021E9EC0(unsigned char *p, int i)
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
     func_021ED594((char *)p, 0x24);
-    POKEPARTY_GetMember(((struct Obj23952 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23952 *)(*(char * *)&((BoxTask *)p)->params))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
     func_021DD14C((char *)p);
     func_021EF68C(WORK(p));
-    ((BoxTask *)p)->f28 = 0x20;
+    ((BoxTask *)p)->state = 0x20;
     p[0x1A] = 1;
     return func_021E8FC0((char *)p, (int)func_021DF484, 0x1E);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9F3C(unsigned char *p, int i)
 {
@@ -12737,28 +9214,15 @@ int func_021E9F3C(unsigned char *p, int i)
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
     func_021ED594((char *)p, 0x24);
-    POKEPARTY_GetMember(((struct Obj23953 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23953 *)(*(char * *)&((BoxTask *)p)->params))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
     func_021DD14C((char *)p);
-    ((BoxTask *)p)->f28 = 0x20;
+    ((BoxTask *)p)->state = 0x20;
     p[0x1A] = 1;
     return func_021E8FC0((char *)p, (int)func_021DF484, 0x2A);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021E9FA8(unsigned char *p, int i)
 {
@@ -12768,7 +9232,7 @@ int func_021E9FA8(unsigned char *p, int i)
     func_021ED594((char *)p, 0x24);
     func_021ECB20((char *)p, 2, 1);
     func_021ECB60(WORK(p), 0x24, 0);
-    POKEPARTY_GetMember(((struct Obj23954 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23954 *)(*(char * *)&((BoxTask *)p)->params))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
@@ -12776,19 +9240,6 @@ int func_021E9FA8(unsigned char *p, int i)
     p[0x1A] = 1;
     return func_021E8FC0((char *)p, (int)func_021E0200, 0x38);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021EA020(char *p, int i, int v)
 {
@@ -12800,19 +9251,6 @@ int func_021EA020(char *p, int i, int v)
     return func_021E8FC0(p, (int)func_021E070C, func_021E8FE0(p, v));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021EA064(unsigned char *p, int i, int v)
 {
     p[0x17] = p[0x14];
@@ -12823,101 +9261,34 @@ int func_021EA064(unsigned char *p, int i, int v)
     func_021ED594((char *)p, 0x24);
     func_021EE038((char *)p, 2, 1, 2);
     func_021EA1C0(p);
-    ((BoxTask *)p)->f28 = v;
+    ((BoxTask *)p)->state = v;
     p[0x1A] = 2;
     return func_021E8FC0((char *)p, (int)func_021DFA30, 0x17);
 }
 
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021EA0BC(unsigned char *p, unsigned char i)
 {
@@ -12926,7 +9297,7 @@ int func_021EA0BC(unsigned char *p, unsigned char i)
     func_021EC768(WORK(p), 0x24, 0);
     func_021ED594((char *)p, 0x24);
     func_021EE038((char *)p, 2, 1, 0);
-    if ((*(BoxTop * *)&((BoxTask *)p)->f0)->x24 == 4) {
+    if (((BoxTask *)p)->params->mode == 4) {
         func_021EF680(WORK(p));
         func_021EF69C(WORK(p));
         func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
@@ -12934,42 +9305,19 @@ int func_021EA0BC(unsigned char *p, unsigned char i)
     return func_021E8FC0((char *)p, (int)func_021E0778, 0x20);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Arm the flag, store the state byte, zero the 0x24 queue entry,
  *   re-stage it, publish (2,1,0) and set selector 0x021E0779.
  */
 int func_021EA114(char *p, int a)
 {
-    ((BoxTask *)p)->f18 = 1;
-    ((BoxTask *)p)->f16 = a;
-    func_021EC768((char *)(*(int *)&((BoxTask *)p)->f2C), 0x24, 0);
+    ((BoxTask *)p)->b18 = 1;
+    ((BoxTask *)p)->cursorSlot = a;
+    func_021EC768((char *)(*(int *)&((BoxTask *)p)->work), 0x24, 0);
     func_021ED594(p, 0x24);
     func_021EE038(p, 2, 1, 0);
     return func_021E8FC0(p, 0x021E0779, 0x15);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 int func_021EA14C(unsigned char *p, unsigned i, int v)
 {
@@ -12981,30 +9329,17 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
             GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
-        if (func_020077B8((*(BoxTop * *)&((BoxTask *)p)->f0)->x4, k) == 0) {
+        if (func_020077B8(((BoxTask *)p)->params->boxSave, k) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
     }
-    ((struct Obj23957 *)(*(char * *)&((BoxTask *)p)->f2C))->fA17E = i;
+    ((struct Obj23957 *)(*(char * *)&((BoxTask *)p)->work))->fA17E = i;
     p[0x1A] = 2;
-    ((BoxTask *)p)->f28 = v;
+    ((BoxTask *)p)->state = v;
     func_021EA1C0(p);
     return func_021E8FC0((char *)p, (int)func_021E087C, 0x17);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Allocate (0x4c, 0xb8, 1) into the 0x021F140C buffer and store
@@ -13016,289 +9351,144 @@ void func_021EA1C0(void *p)
     *(int *)(((struct Obj18479 *)p)->f2C + 0x60) = v;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Tail call func_020307B0 with the word at +0x2c/+0x60.
  */
 void func_021EA1E8(char *p)
 {
-    func_020307B0(((struct Obj18480 *)(*(char * *)&((BoxTask *)p)->f2C))->f60);
+    func_020307B0(((struct Obj18480 *)(*(char * *)&((BoxTask *)p)->work))->f60);
 }
 
-
-
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-
-
-int func_021EA1F4(BoxObj *p, int i)
+int func_021EA1F4(BoxTask *p, int i)
 {
     short t[2];
-    p->b16 = i;
-    p->b17 = p->b14;
-    p->work[0xA172] = 1;
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
+    p->cursorSlot = i;
+    p->heldSlot = p->curBox;
+    p->work->cancelFlag = 1;
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
     func_021EF508(MGR(p));
-    func_021EBA5C(p->work, 0x18);
+    func_021EBA5C((char *)p->work, 0x18);
     func_021DD14C((char *)p);
     if (CNT(p) != 0) {
-        func_021EC000(p->work, 10, 0);
-        func_021ED164(p->work, p->b16, 0);
-        func_021ED094(p->work, CNT(p));
-        func_021ED1C8(p->work);
+        func_021EC000((char *)p->work, 10, 0);
+        func_021ED164((char *)p->work, p->cursorSlot, 0);
+        func_021ED094((char *)p->work, CNT(p));
+        func_021ED1C8((char *)p->work);
         func_021EE038((char *)p, 2, 2, 1);
-    } else if (func_021EC01C(p->work, 10) == 1) {
-        func_021EC000(p->work, 10, 0);
+    } else if (func_021EC01C((char *)p->work, 10) == 1) {
+        func_021EC000((char *)p->work, 10, 0);
         func_021ED6E4((char **)p, 0);
     }
-    func_021EC548(p->b16, &t[1], &t[0], 0);
-    *(int *)(p->work + 0xA180) = t[1] + 8;
-    *(int *)(p->work + 0xA184) = t[0] + 8;
+    func_021EC548(p->cursorSlot, &t[1], &t[0], 0);
+    *(int *)((char *)p->work + 0xA180) = t[1] + 8;
+    *(int *)((char *)p->work + 0xA184) = t[0] + 8;
     func_021EA728(p);
     return func_021E8FC0((char *)p, (int)func_021E0ABC, func_021E8FE0((char *)p, 0x3E));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-int func_021EA2DC(BoxObj *p, int i)
+int func_021EA2DC(BoxTask *p, int i)
 {
-    p->b16 = i;
-    p->b17 = p->b14;
-    p->work[0xA172] = 1;
-    func_021DEFEC((char *)p, p->b16);
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
-    func_021EA878((BoxObj *)p, (short)CNT(p));
+    p->cursorSlot = i;
+    p->heldSlot = p->curBox;
+    p->work->cancelFlag = 1;
+    func_021DEFEC((char *)p, p->cursorSlot);
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
+    func_021EA878((BoxTask *)p, (short)CNT(p));
     func_021EF534(MGR(p));
     if (CNT(p) != 0) {
-        func_021EC000(p->work, 10, 0);
-        func_021ED164(p->work, p->b16, 0);
-        func_021ED094(p->work, CNT(p));
-        func_021ED1C8(p->work);
-        func_021EEF74(p->work, 0x24, func_020260E0(OBJ(p)));
+        func_021EC000((char *)p->work, 10, 0);
+        func_021ED164((char *)p->work, p->cursorSlot, 0);
+        func_021ED094((char *)p->work, CNT(p));
+        func_021ED1C8((char *)p->work);
+        func_021EEF74((char *)p->work, 0x24, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), 0x24);
     } else {
-        func_021EEF74(p->work, 0x25, func_020260E0(OBJ(p)));
+        func_021EEF74((char *)p->work, 0x25, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), 0x25);
     }
     return func_021E8FC0((char *)p, (int)func_021E0A40, func_021E8FE0((char *)p, 0x39));
 }
 
-
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
-
-
-
-
-
-int func_021EA39C(BoxObj *p, unsigned i)
+int func_021EA39C(BoxTask *p, unsigned i)
 {
     short t[2];
-    p->b16 = i;
-    p->b17 = i < 0x1E ? p->b14 : 0xFF;
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
+    p->cursorSlot = i;
+    p->heldSlot = i < 0x1E ? p->curBox : 0xFF;
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
     if (CNT(p) == 0) {
-        func_020260E4(OBJ(p), p->b16);
+        func_020260E4(OBJ(p), p->cursorSlot);
         return 0x40;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);
-    func_021EC000(p->work, 10, 0);
-    func_021ED164(p->work, p->b16, 2);
-    func_021ED094(p->work, CNT(p));
-    func_021ED1C8(p->work);
+    func_021EC000((char *)p->work, 10, 0);
+    func_021ED164((char *)p->work, p->cursorSlot, 2);
+    func_021ED094((char *)p->work, CNT(p));
+    func_021ED1C8((char *)p->work);
     func_021EE038((char *)p, 2, 1, 1);
-    func_021EC548(p->b16, &t[1], &t[0], 2);
-    *(int *)(p->work + 0xA180) = t[1] + 8;
-    *(int *)(p->work + 0xA184) = t[0] + 8;
+    func_021EC548(p->cursorSlot, &t[1], &t[0], 2);
+    *(int *)((char *)p->work + 0xA180) = t[1] + 8;
+    *(int *)((char *)p->work + 0xA184) = t[0] + 8;
     func_021EA728(p);
     return func_021E8FC0((char *)p, (int)func_021E0FD8, 0x42);
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021EA458(BoxObj *p, unsigned i)
+int func_021EA458(BoxTask *p, unsigned i)
 {
-    p->b16 = i;
-    *(unsigned short *)(p->work + 0xA16E) = i;
-    p->b17 = i < 0x1E ? p->b14 : 0xFF;
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
+    p->cursorSlot = i;
+    *(unsigned short *)((char *)p->work + 0xA16E) = i;
+    p->heldSlot = i < 0x1E ? p->curBox : 0xFF;
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
     if (CNT(p) == 0)
         return 0x40;
     p->b18 = 1;
-    func_021EC000(p->work, 10, 0);
-    func_021ED198(p->work, p->b16, 2);
-    func_021ED094(p->work, CNT(p));
+    func_021EC000((char *)p->work, 10, 0);
+    func_021ED198((char *)p->work, p->cursorSlot, 2);
+    func_021ED094((char *)p->work, CNT(p));
     func_021EE038((char *)p, 2, 1, 1);
     return func_021E8FC0((char *)p, (int)func_021E1324, 0x40);
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021EA4DC(BoxObj *p)
+int func_021EA4DC(BoxTask *p)
 {
     unsigned char v = func_020260E0(OBJ(p));
     if (v < 0x24)
@@ -13309,185 +9499,103 @@ int func_021EA4DC(BoxObj *p)
     return func_021E8FC0((char *)p, (int)func_021E152C, 0x43);
 }
 
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-
-
-int func_021EA514(BoxObj *p, unsigned i)
+int func_021EA514(BoxTask *p, unsigned i)
 {
     short t[2];
     SEL(p) = i;
     p->b18 = 0;
-    func_021EC0B0(p->work, 4, &t[1], &t[0], 0);
-    func_021EC08C(p->work, 10, (short)t[1], (short)(t[0] + 8), (short)0);
+    func_021EC0B0((char *)p->work, 4, &t[1], &t[0], 0);
+    func_021EC08C((char *)p->work, 10, (short)t[1], (short)(t[0] + 8), (short)0);
     func_021ED6E4((char **)p, 0);
     if (SEL(p) == 0xFF)
-        return func_021EA4DC((BoxObj *)p);
-    if (func_021DDE80((unsigned char *)p, p->b16, i) == 0)
-        return func_021EA4DC((BoxObj *)p);
+        return func_021EA4DC((BoxTask *)p);
+    if (func_021DDE80((unsigned char *)p, p->cursorSlot, i) == 0)
+        return func_021EA4DC((BoxTask *)p);
     return func_021E8FC0((char *)p, (int)func_021E1458, 0x45);
 }
 
-
-
-
-
-
-
-
-
-
-int func_021EA598(BoxObj *p, int i)
+int func_021EA598(BoxTask *p, int i)
 {
     short t[2];
-    p->b16 = i;
-    p->b17 = 0xFF;
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
+    p->cursorSlot = i;
+    p->heldSlot = 0xFF;
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
     func_021EF508(MGR(p));
-    func_021EBA5C(p->work, 0x18);
+    func_021EBA5C((char *)p->work, 0x18);
     func_021DD14C((char *)p);
     if (CNT(p) != 0) {
-        func_021EC000(p->work, 10, 0);
-        func_021ED164(p->work, p->b16, 1);
-        func_021ED094(p->work, CNT(p));
-        func_021ED1C8(p->work);
+        func_021EC000((char *)p->work, 10, 0);
+        func_021ED164((char *)p->work, p->cursorSlot, 1);
+        func_021ED094((char *)p->work, CNT(p));
+        func_021ED1C8((char *)p->work);
         func_021EE038((char *)p, 2, 2, 1);
-    } else if (func_021EC01C(p->work, 10) == 1) {
-        func_021EC000(p->work, 10, 0);
+    } else if (func_021EC01C((char *)p->work, 10) == 1) {
+        func_021EC000((char *)p->work, 10, 0);
         func_021ED6E4((char **)p, 0);
     }
-    func_021EC548(p->b16, &t[1], &t[0], 1);
-    *(int *)(p->work + 0xA180) = t[1] + 8;
-    *(int *)(p->work + 0xA184) = t[0] + 8;
+    func_021EC548(p->cursorSlot, &t[1], &t[0], 1);
+    *(int *)((char *)p->work + 0xA180) = t[1] + 8;
+    *(int *)((char *)p->work + 0xA184) = t[0] + 8;
     func_021EA728(p);
     return func_021E8FC0((char *)p, (int)func_021E1628, 0x48);
 }
 
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
-#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
+#undef MGR
 
+#undef MGR
 
+#undef MGR
 
+#define MGR(p) (*(struct WinMgr **)((char *)(p)->work + 0x74))
 
-
-
-
-
-int func_021EA66C(BoxObj *p, int i)
+int func_021EA66C(BoxTask *p, int i)
 {
-    p->b16 = i;
-    p->b17 = p->b14;
-    p->work[0xA172] = 1;
-    func_021DEFEC((char *)p, p->b16);
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
-    func_021EA878((BoxObj *)p, (short)CNT(p));
+    p->cursorSlot = i;
+    p->heldSlot = p->curBox;
+    p->work->cancelFlag = 1;
+    func_021DEFEC((char *)p, p->cursorSlot);
+    CNT(p) = func_021DD25C((void ***)p, p->cursorSlot, p->curBox, 6, 0);
+    func_021EA878((BoxTask *)p, (short)CNT(p));
     func_021EF534(MGR(p));
     if (CNT(p) != 0) {
-        func_021EC000(p->work, 10, 0);
-        func_021ED164(p->work, p->b16, 1);
-        func_021ED094(p->work, CNT(p));
-        func_021ED1C8(p->work);
-        func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
+        func_021EC000((char *)p->work, 10, 0);
+        func_021ED164((char *)p->work, p->cursorSlot, 1);
+        func_021ED094((char *)p->work, CNT(p));
+        func_021ED1C8((char *)p->work);
+        func_021EEF74((char *)p->work, 9, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), 9);
     } else {
-        func_021EEF74(p->work, 10, func_020260E0(OBJ(p)));
+        func_021EEF74((char *)p->work, 10, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), 10);
     }
     return func_021E8FC0((char *)p, (int)func_021E0A40, func_021E8FE0((char *)p, 0x46));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Sibling of func_021EA1C0 with (0x1c, 0) and the 0x228F buffer.
@@ -13498,53 +9606,24 @@ void func_021EA728(void *p)
     *(int *)(((struct Obj18488 *)p)->f2C + 0x60) = v;
 }
 
-
-
-
-
-
-
-
-
 void func_021EA750(char *p)
 {
-    func_020307B0(((struct Obj18489 *)(*(char * *)&((BoxTask *)p)->f2C))->f60);
+    func_020307B0(((struct Obj18489 *)(*(char * *)&((BoxTask *)p)->work))->f60);
 }
 
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
 
 /*
  * Stop one 0x74 sub-object, then the plain stop.
@@ -13555,12 +9634,6 @@ void func_021EA75C(int p)
     func_021EC688((char *)p);
 }
 
-
-
-
-
-
-
 /*
  * Resume one 0x74 sub-object, then the plain resume.
  */
@@ -13570,12 +9643,6 @@ void func_021EA770(int p)
     func_021EC6F4((char *)p);
 }
 
-
-
-
-
-
-
 /*
  * Plain stop, then stop the 0x74 sub-object.
  */
@@ -13584,13 +9651,6 @@ void func_021EA784(int p)
     func_021EC688((char *)p);
     func_021EF32C(*(struct WinMgr **)(((struct Obj18495 *)p)->f2C + 0x74));
 }
-
-
-
-
-
-
-
 
 int func_021EA798(unsigned char *p, int sel)
 {
@@ -13605,34 +9665,23 @@ int func_021EA798(unsigned char *p, int sel)
         cb = (int (*)(unsigned char *))func_021E00C4;
     switch (sel) {
     case 0:
-        ((BoxTask *)p)->f28 = 0x15;
+        ((BoxTask *)p)->state = 0x15;
         break;
     case 1:
-        ((BoxTask *)p)->f28 = 0x63;
+        ((BoxTask *)p)->state = 0x63;
         break;
     }
     GFL_USE_PlaySeDefaultVolume(0x548);
-    return func_021E8FC0((char *)p, (int)cb, ((BoxTask *)p)->f28);
+    return func_021E8FC0((char *)p, (int)cb, ((BoxTask *)p)->state);
 }
-
-
-
-
-
-
-
 
 void func_021EA808(char *p)
 {
     unsigned short *q = func_02030734(0x804C, 4, 0, d_021F140C, 0x2305);
     q[0] = 0;
     q[1] = 0;
-    *(unsigned short * *)&((struct Obj23958 *)(*(char * *)&((BoxTask *)p)->f2C))->fA190 = q;
+    *(unsigned short * *)&((struct Obj23958 *)(*(char * *)&((BoxTask *)p)->work))->fA190 = q;
 }
-
-
-
-
 
 /*
  * Reset the entry then store the field with the dispatcher
@@ -13646,111 +9695,50 @@ int func_021EA83C(char *p, int a)
 
 #undef OBJ
 
-#define OBJ(p) (*(void **)((p)->work + 0x70))
+#define OBJ(p) (*(void **)((char *)(p)->work + 0x70))
+
+#undef W
 
 #undef W
 #define W(p) (*(char **)((p)+44))
 
 #undef SLOT
 
-
 #define SLOT(p,o) (*(void **)((p)+(o)))
 
 #undef MGR
-
-
-
-
-
-
-
-
 
 #define MGR(p) (*(struct WinMgr **)(*(char **)((char *)(p) + 0x2C) + 0x74))
 
 #undef WORK
 
-
-
-
-
-
-
-
-
-
 #define WORK(p) (*(char **)((p)+0x2C))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Same forward as func_021EA83C but after restarting the queue.
  */
 int func_021EA858(char *p, int a)
 {
-    func_021EF75C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74));
+    func_021EF75C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74));
     return func_021E8FC0(p, 0x021E01E1, a);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021EA878(BoxObj *p, int v)
+void func_021EA878(BoxTask *p, int v)
 {
     if (v != 0) {
-        if (p->b16 < 0x1E)
+        if (p->cursorSlot < 0x1E)
             func_0202614C(OBJ(p), 0x24);
         else
             func_0202614C(OBJ(p), 9);
         func_021EB988((unsigned char *)p, d_021EF8FC, 3);
     } else {
-        if (p->b16 < 0x1E)
+        if (p->cursorSlot < 0x1E)
             func_02026124(OBJ(p), 0x24);
         else
             func_02026124(OBJ(p), 9);
         func_021EB988((unsigned char *)p, d_021EF8F4, 2);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Busy 1 for the 0x16 field below 0x1e, else run the panel query and
@@ -13770,67 +9758,24 @@ int func_021EA8CC(unsigned char *p)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * candidate func_021EA908: xor bit
  */
 void func_021EA908(int p, int bit)
 {
-    *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA174) ^= 1 << bit;
-    func_021DF110((char *)p, *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA174));
+    *(int *)(*(int *)&((BoxTask *)p)->work + 0xA174) ^= 1 << bit;
+    func_021DF110((char *)p, *(int *)(*(int *)&((BoxTask *)p)->work + 0xA174));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int func_021EA928(unsigned char *p,int a) {
- if((unsigned char)WORK(p)[0xA17C]<=4 || ((unsigned char)WORK(p)[0xA17C]==5 && func_02007A80(((struct Obj23959 *)(*(char * *)&((BoxTask *)p)->f0))->f4,2)==0))
+ if((unsigned char)WORK(p)[0xA17C]<=4 || ((unsigned char)WORK(p)[0xA17C]==5 && func_02007A80(((struct Obj23959 *)(*(char * *)&((BoxTask *)p)->params))->f4,2)==0))
   WORK(p)[0xA17B]=((unsigned char)WORK(p)[0xA17C]-1)*4+a-1;
  else WORK(p)[0xA17B]=((unsigned char)WORK(p)[0xA17C]-1)*4+a;
  return func_021E949C((char *)p,a,func_021E8F50((char *)p,0x66));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EA984(unsigned char *p) {
- switch(((struct Obj23961 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
+ switch(((struct Obj23961 *)(*(char * *)&((BoxTask *)p)->params))->f24) {
  case 0: func_021ECB20((char *)p,2,1); return;
  case 1: case 3: func_021ED888(WORK(p),0); func_021ECB20((char *)p,1,1); return;
  case 2: case 4: case 5:
@@ -13841,22 +9786,7 @@ void func_021EA984(unsigned char *p) {
  }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021EA9F4(BoxObj *p, int v)
+int func_021EA9F4(BoxTask *p, int v)
 {
     GFL_USE_PlaySeDefaultVolume(0x54C);
     if (func_021EF5E8(MGR(p)) == 1)
@@ -13868,22 +9798,7 @@ int func_021EA9F4(BoxObj *p, int v)
     return func_021E8F50((char *)p, v);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021EAA3C(BoxObj *p, int v)
+int func_021EAA3C(BoxTask *p, int v)
 {
     GFL_USE_PlaySeDefaultVolume(0x54C);
     if (func_021EF5E8(MGR(p)) == 1)
@@ -13894,20 +9809,6 @@ int func_021EAA3C(BoxObj *p, int v)
     return func_021E8F50((char *)p, v);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EAA80(unsigned char *p) {
  const unsigned char *x; unsigned i;
  BMP_WIN_Init(0x4C);
@@ -13915,19 +9816,6 @@ void func_021EAA80(unsigned char *p) {
  for(i=0;i<28;i++,x+=6)
   *(void **)(WORK(p)+0x94+i*8)=(void *)BMP_WIN_Create(x[0],x[1],x[2],x[3],x[4],x[5],1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Walk 0x1c 8-byte records at p+0x2c+0x94, release each, then
@@ -13941,19 +9829,6 @@ void func_021EAAC4(char *p)
     BMP_WIN_Exit();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Set bit i of the 0x174-byte bitmap hung off p.
  *   Unsigned index, or mwccarm emits asr instead of the image's lsr.
@@ -13963,19 +9838,6 @@ void func_021EAAE4(unsigned char *p, unsigned i)
     unsigned char *q = p + 0x174;
     q[i >> 3] |= (unsigned char)(1 << (i & 7));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EAB04(unsigned char *w) {
  unsigned i; unsigned char mask; unsigned char index;
@@ -13989,19 +9851,6 @@ void func_021EAB04(unsigned char *w) {
   }
  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EAB50(unsigned char *w) {
  unsigned i; void *print;
@@ -14017,20 +9866,6 @@ void func_021EAB50(unsigned char *w) {
  }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Release both children of the object and then a global one.
  */
@@ -14040,38 +9875,11 @@ void func_021EABA0(void **p)
     func_02041B6C(BMP_WIN_GetBgLayer(*p));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EABB8(void **p)
 {
     BMP_WIN_ClearScreen(*p);
     func_02041B6C(BMP_WIN_GetBgLayer(*p));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
  void *s; unsigned print;
@@ -14081,20 +9889,6 @@ void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,un
  *(w+i*8+0x98)=1;
  STRBUF_Delete(s);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Expands message idx of bank into the work string buffer and prints it into
@@ -14112,20 +9906,6 @@ void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, 
     STRBUF_Delete(s);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Call func_02045B38 with fixed arguments.
  */
@@ -14134,67 +9914,29 @@ void *func_021EAC98(void)
     return func_02045B38(0, 2, 0xa, 0x4c);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EACA8(unsigned char *p) {
  unsigned char *w; void *bank;
  w=(unsigned char *)WORK(p);
- BMP_Clear(BMP_WIN_GetBmp(((BoxWork *)w)->f94),0);
+ BMP_Clear(BMP_WIN_GetBmp(((BoxWork *)w)->windows[0].obj),0);
  bank=func_021EAC98();
- func_021EABD0(w,0,bank,((struct Obj23964 *)(*(char * *)&((BoxTask *)p)->f0))->f24+0x25,0,8,((BoxWork *)w)->f78,0x440);
+ func_021EABD0(w,0,bank,((struct Obj23964 *)(*(char * *)&((BoxTask *)p)->params))->f24+0x25,0,8,((BoxWork *)w)->heapId,0x440);
  MSGDATA_Delete(bank);
  func_021EABA0((void **)(WORK(p)+0x94));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EACFC(u8 *p)
 {
-    u8 *q = *(u8 * *)&((BoxTask *)p)->f2C;
+    u8 *q = *(u8 * *)&((BoxTask *)p)->work;
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fE4)), 0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fEC)), 0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fF4)), 0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fFC)), 0);
-    func_021EABD0(q, 0xa, (void *)(((struct Obj02053 *)q)->f80), 0x6d, 0, 0, ((BoxWork *)q)->f78, 0x440);
-    func_021EABD0(q, 0xb, (void *)(((struct Obj02053 *)q)->f80), 0x64, 0, 0, ((BoxWork *)q)->f78, 0x440);
-    func_021EABD0(q, 0xc, (void *)(((struct Obj02053 *)q)->f80), 0x65, 0, 0, ((BoxWork *)q)->f78, 0x440);
-    func_021EABD0(q, 0xd, (void *)(((struct Obj02053 *)q)->f80), 0x66, 0, 0, ((BoxWork *)q)->f78, 0x440);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->iconSlots[0].obj)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->iconSlots[1].obj)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->iconSlots[2].obj)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->iconSlots[3].obj)), 0);
+    func_021EABD0(q, 0xa, (void *)(((struct Obj02053 *)q)->f80), 0x6d, 0, 0, ((BoxWork *)q)->heapId, 0x440);
+    func_021EABD0(q, 0xb, (void *)(((struct Obj02053 *)q)->f80), 0x64, 0, 0, ((BoxWork *)q)->heapId, 0x440);
+    func_021EABD0(q, 0xc, (void *)(((struct Obj02053 *)q)->f80), 0x65, 0, 0, ((BoxWork *)q)->heapId, 0x440);
+    func_021EABD0(q, 0xd, (void *)(((struct Obj02053 *)q)->f80), 0x66, 0, 0, ((BoxWork *)q)->heapId, 0x440);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EADB4(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
  void **windows;
@@ -14207,64 +9949,28 @@ void func_021EADB4(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
  func_021EABA0(windows+i*2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EAE20(char *p, void **q, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
-    func_0201EF14(((BoxWork *)p)->f84, 0, *q);
-    func_021EAC28(p, i, ((BoxWork *)p)->f80, 1, 0, 0, ((BoxWork *)p)->f78, 0x440);
+    func_0201EF14(((BoxWork *)p)->font, 0, *q);
+    func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 1, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EAE74(char *p, Entry_021EAE74 *e, unsigned i)
 {
     unsigned n;
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag) {
-        func_021EAC28(p, i, ((BoxWork *)p)->f80, 107, 0, 0, ((BoxWork *)p)->f78, 0x440);
-        n = func_0201D304(((BoxWork *)p)->f88, ((BoxWork *)p)->f78, 0);
-        func_0201EFA4(((BoxWork *)p)->f84, 0, e->low, 3, 0, 1);
-        func_021EAC28(p, i, ((BoxWork *)p)->f80, 103, n, 0, ((BoxWork *)p)->f78, 0x440);
+        func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 107, 0, 0, ((BoxWork *)p)->heapId, 0x440);
+        n = func_0201D304(((BoxWork *)p)->msgData, ((BoxWork *)p)->heapId, 0);
+        func_0201EFA4(((BoxWork *)p)->font, 0, e->low, 3, 0, 1);
+        func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 103, n, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
         func_021EAAE4((unsigned char *)p, i); return;
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * trailing: two-byte zero alignment padding at 0x021EAFBA.
@@ -14274,9 +9980,9 @@ void func_021EAF20(char *p, Entry_021EAF20 *e, unsigned i)
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag && e->enabled == 1) {
         if (e->kind == 0) {
-            func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 95, 0, 0, ((BoxWork *)p)->f78, 0x14c0);
+            func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 95, 0, 0, ((BoxWork *)p)->heapId, 0x14c0);
         } else if (e->kind == 1) {
-            func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 96, 0, 0, ((BoxWork *)p)->f78, 0xc80);
+            func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 96, 0, 0, ((BoxWork *)p)->heapId, 0xc80);
         } else {
             func_021EAAE4((unsigned char *)p, i); return;
         }
@@ -14285,18 +9991,6 @@ void func_021EAF20(char *p, Entry_021EAF20 *e, unsigned i)
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EAFBC(char *p,const Entry_021EAFBC *e,u32 i)
 {
@@ -14318,89 +10012,41 @@ void func_021EAFBC(char *p,const Entry_021EAFBC *e,u32 i)
     func_021EABA0((void **)(W(p)+148+i*8));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EB098(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB098 *)e)->flag) {
-        func_0201EF98(((BoxWork *)p)->f84, 0, e[15]);
-        func_021EAC28(p, i, ((BoxWork *)p)->f80, 98, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_0201EF98(((BoxWork *)p)->font, 0, e[15]);
+        func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 98, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
-        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 106, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 106, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB114(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB114 *)e)->flag) {
-        func_0201EF8C(((BoxWork *)p)->f84, 0, e[14]);
-        func_021EAC28(p, i, ((BoxWork *)p)->f80, 97, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_0201EF8C(((BoxWork *)p)->font, 0, e[14]);
+        func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 97, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
-        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 106, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 106, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB190(char *p, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (((struct Obj06549 *)e)->f6 != 0) {
-        func_0201EF40(((BoxWork *)p)->f84, 0, ((struct Obj06549 *)e)->f6);
-        func_021EAC28(p, i, ((BoxWork *)p)->f80, 99, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_0201EF40(((BoxWork *)p)->font, 0, ((struct Obj06549 *)e)->f6);
+        func_021EAC28(p, i, ((BoxWork *)p)->fontRes, 99, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     } else {
-        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 105, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 105, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
@@ -14421,87 +10067,32 @@ void func_021EB208(char *p, Entry_021EB208 *e, int i)
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {
         for (; j < 4; j++) {
-            func_021EABD0((unsigned char *)p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((BoxWork *)p)->f78, 0x440);
+            func_021EABD0((unsigned char *)p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((BoxWork *)p)->heapId, 0x440);
         }
     } else {
-        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 106, 0, 0, ((BoxWork *)p)->f78, 0x440);
+        func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->fontRes, 106, 0, 0, ((BoxWork *)p)->heapId, 0x440);
     }
     MSGDATA_Delete(bank);
     func_021EABA0(windows + i * 2);
 }
 
-
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -14509,46 +10100,22 @@ void func_021EB208(char *p, Entry_021EB208 *e, int i)
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
-
-
-
-
-
-
-
 void func_021EB2A4(u8 *p, int a)
 {
-    func_021EADB4((unsigned char *)(((BoxTask *)p)->f2C), (Entry_021EADB4 *)a, 1);
-    func_021EAE20(((BoxTask *)p)->f2C, (void **)a, 2);
-    func_021EAE74((char *)(((BoxTask *)p)->f2C), (Entry_021EAE74 *)a, 3);
-    func_021EAF20((char *)(((BoxTask *)p)->f2C), (Entry_021EAF20 *)a, 4);
+    func_021EADB4((unsigned char *)((char *)((BoxTask *)p)->work), (Entry_021EADB4 *)a, 1);
+    func_021EAE20((char *)((BoxTask *)p)->work, (void **)a, 2);
+    func_021EAE74((char *)((char *)((BoxTask *)p)->work), (Entry_021EAE74 *)a, 3);
+    func_021EAF20((char *)((char *)((BoxTask *)p)->work), (Entry_021EAF20 *)a, 4);
     func_021EAFBC((char *)p, (const Entry_021EAFBC *)a, 5);
-    func_021EB098(((BoxTask *)p)->f2C, (unsigned char *)a, 6);
-    func_021EB114(((BoxTask *)p)->f2C, (unsigned char *)a, 7);
-    func_021EB190(((BoxTask *)p)->f2C, (unsigned char *)a, 8);
-    func_021EB208((char *)(((BoxTask *)p)->f2C), (Entry_021EB208 *)a, 9);
-    func_021EABA0((void **)((u8 *)((BoxTask *)p)->f2C + 0xe4));
-    func_021EABA0((void **)((u8 *)((BoxTask *)p)->f2C + 0xec));
-    func_021EABA0((void **)((u8 *)((BoxTask *)p)->f2C + 0xf4));
-    func_021EABA0((void **)((u8 *)((BoxTask *)p)->f2C + 0xfc));
+    func_021EB098((char *)((BoxTask *)p)->work, (unsigned char *)a, 6);
+    func_021EB114((char *)((BoxTask *)p)->work, (unsigned char *)a, 7);
+    func_021EB190((char *)((BoxTask *)p)->work, (unsigned char *)a, 8);
+    func_021EB208((char *)((char *)((BoxTask *)p)->work), (Entry_021EB208 *)a, 9);
+    func_021EABA0((void **)((u8 *)(char *)((BoxTask *)p)->work + 0xe4));
+    func_021EABA0((void **)((u8 *)(char *)((BoxTask *)p)->work + 0xec));
+    func_021EABA0((void **)((u8 *)(char *)((BoxTask *)p)->work + 0xf4));
+    func_021EABA0((void **)((u8 *)(char *)((BoxTask *)p)->work + 0xfc));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB324(Work *w)
 {
@@ -14563,18 +10130,6 @@ void func_021EB324(Work *w)
     func_021EABB8((void **)(&w->items[12]));
     func_021EABB8((void **)(&w->items[13]));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Draws a window frame from 8x8 tiles, then centres a message in it.  The
@@ -14657,17 +10212,6 @@ void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigne
     STRBUF_Delete(str);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Range call with a fixed span and the caller's fourth value.
  */
@@ -14675,17 +10219,6 @@ void func_021EB6D8(int a, int b, int c, int d)
 {
     func_021EB378((char *)a, b, c, 0, 0x3d80, d);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Same range call with both tail slots fixed.
@@ -14695,63 +10228,19 @@ void func_021EB6F0(int a, int b, int c)
     func_021EB378((char *)a, b, c, 0, 0xf6 << 6, 0);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void func_021EB708(void *m,unsigned i,void *d){unsigned bg=BMP_WIN_GetBgLayer(d);unsigned w=BMP_WIN_GetWidth(d);unsigned h=BMP_WIN_GetHeight(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB744(char *p)
 {
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0, ((BoxWork *)p)->f104);
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 1, ((BoxWork *)p)->f10C);
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 2, ((BoxWork *)p)->f114);
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 3, ((BoxWork *)p)->f11C);
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 4, ((BoxWork *)p)->f124);
-    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->f74, 5, ((BoxWork *)p)->f12C);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 0, ((BoxWork *)p)->iconSlots[4].obj);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 1, ((BoxWork *)p)->iconSlots[5].obj);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 2, ((BoxWork *)p)->iconSlots[6].obj);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 3, ((BoxWork *)p)->iconSlots[7].obj);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 4, ((BoxWork *)p)->iconSlots[8].obj);
+    func_021EB708(*(struct WinMgr * *)&((BoxWork *)p)->winMgr, 5, ((BoxWork *)p)->iconSlots[9].obj);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021EB79C(unsigned char *p){if(((struct Obj23969 *)(*(unsigned char * *)&((BoxTask *)p)->f0))->f24==4)func_021EB6F0((int)p,22,71);else func_021EB6F0((int)p,22,69);func_021EB708(((struct Obj23970 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f74,10,((struct Obj23971 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f144);}
-
-
-
-
-
-
-
-
-
-
-
+void func_021EB79C(unsigned char *p){if(((struct Obj23969 *)(*(unsigned char * *)&((BoxTask *)p)->params))->f24==4)func_021EB6F0((int)p,22,71);else func_021EB6F0((int)p,22,69);func_021EB708(((struct Obj23970 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f74,10,((struct Obj23971 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f144);}
 
 /*
  * Stage 0x17/0x46 then hand the 0x14C word over with index 0xb.
@@ -14759,21 +10248,9 @@ void func_021EB79C(unsigned char *p){if(((struct Obj23969 *)(*(unsigned char * *
 void func_021EB7C8(char *p)
 {
     func_021EB6F0((int)p, 0x17, 0x46);
-    func_021EB708(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 0xb,
-                  (void *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x14C)));
+    func_021EB708(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->work + 0x74), 0xb,
+                  (void *)(*(int *)(*(int *)&((BoxTask *)p)->work + 0x14C)));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB7E8(char **p, unsigned box, int i)
 {
@@ -14788,66 +10265,21 @@ void func_021EB7E8(char **p, unsigned box, int i)
     BMP_OAM_UploadChars(*(void **)(p[11] + i * 8 + 4));
 }
 
-
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
@@ -14855,81 +10287,27 @@ void func_021EB7E8(char **p, unsigned box, int i)
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-
-
-
-
-
-
-
-
-
 #undef MGR
 
-
-
-
-
-
-
-
-
 #undef MGR
-
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-
-#undef MGR
-
-
-
-
-
-#undef MGR
-
-
-
-
-#undef MGR
-
-
-
-#undef MGR
-
 
 #undef MGR
 
 #undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
+#undef MGR
+
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Wrap the 0x19 counter and forward it with p.
@@ -14941,17 +10319,6 @@ void func_021EB85C(unsigned char *p, int i)
         v -= p[0x15];
     func_021EB7E8((char **)p, v, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void func_021EB874(char **p, unsigned a, int i)
 {
@@ -14968,16 +10335,6 @@ void func_021EB874(char **p, unsigned a, int i)
     BMP_OAM_UploadChars(*(void **)(p[11] + i * 8 + 4));
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * trailing: two-byte zero alignment padding at 0x021EB95A.
  */
@@ -14985,32 +10342,11 @@ void func_021EB90C(char *p)
 {
     func_021EB6D8((int)p, 20, 84, 0);
     func_021EB6D8((int)p, 21, 85, 1);
-    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
-    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((BoxTask *)p)->work))->f74, 7, 0, 9, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((BoxTask *)p)->work))->f74, 7, 0, 12, 11, 3, 12);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021EB95C(char *p){BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((BoxTask *)p)->f2C))->f134));BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((BoxTask *)p)->f2C))->f13C));func_021EB90C(p);}
-
-
-
-
-
-
-
-
-
-
-
+void func_021EB95C(char *p){BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((BoxTask *)p)->work))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((BoxTask *)p)->work))->f134));BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((BoxTask *)p)->work))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((BoxTask *)p)->work))->f13C));func_021EB90C(p);}
 
 void func_021EB988(unsigned char *p, const void *e, unsigned n)
 {
@@ -15033,17 +10369,6 @@ void func_021EB988(unsigned char *p, const void *e, unsigned n)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Clears a message window to colour 15 and draws its frame.
  */
@@ -15053,17 +10378,6 @@ void func_021EBA30(unsigned char *p, void *win)
     func_0201F73C(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward the i-th entry word with flag 1.
  */
@@ -15072,17 +10386,6 @@ void func_021EBA5C(char *p, int i)
     func_0201F7A8(*(void **)(p + i * 8 + 0x94), 1);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward the i-th entry word with flag 0.
  */
@@ -15090,17 +10393,6 @@ void func_021EBA70(char *p, int i)
 {
     func_0201F7A8(*(void **)(p + i * 8 + 0x94), 0);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Prints message msg of the box-menu bank into message window i.
@@ -15115,16 +10407,6 @@ void func_021EBA84(unsigned char *p, int msg, int i)
     func_021EE0FC((char *)p);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Sibling of func_021EBB28: index 0x34 when state is 5, else 0xb.
  */
@@ -15136,17 +10418,6 @@ void func_021EBADC(char *p, int b)
         func_021EBA84((unsigned char *)p, 0xb, b);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Puts item v into word slot 0 and prints message 0x15 into window i.
  */
@@ -15156,17 +10427,6 @@ void func_021EBAF8(unsigned char *p, u32 v, int i)
     func_021EBA84(p, 0x15, i);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Prints message 0x16 into window i.
  */
@@ -15175,17 +10435,6 @@ void func_021EBB1C(unsigned char *p, int i)
     func_021EBA84(p, 0x16, i);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward with index 43.
  */
@@ -15193,16 +10442,6 @@ void func_021EBB28(char *p, int b)
 {
     func_021EBA84((unsigned char *)p, 0x2b, b);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stage 0x84 of the p+0x2c object with (0, arg1), then index 0xe
@@ -15214,17 +10453,6 @@ void func_021EBB34(char *p, int a, int b)
     func_021EBA84((unsigned char *)p, 0xe, b);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward with index 13.
  */
@@ -15233,39 +10461,18 @@ void func_021EBB58(char *p, int b)
     func_021EBA84((unsigned char *)p, 0xd, b);
 }
 
-
-
-
-
-
-
-
-
-
-
 void func_021EBB64(unsigned char *p, unsigned v, int i)
 {
     if (v == 0) {
-        func_0201EF40(((struct Obj23990 *)(*(char * *)&((BoxTask *)p)->f2C))->f84, 0, 0x70);
+        func_0201EF40(((struct Obj23990 *)(*(char * *)&((BoxTask *)p)->work))->f84, 0, 0x70);
         func_021EBA84(p, 0x2c, i);
     } else if (func_0202136C(v) == 1) {
         func_021EBA84(p, 0x30, i);
     } else {
-        func_0201EF40(((struct Obj23991 *)(*(char * *)&((BoxTask *)p)->f2C))->f84, 0, v);
+        func_0201EF40(((struct Obj23991 *)(*(char * *)&((BoxTask *)p)->work))->f84, 0, v);
         func_021EBA84(p, 15, i);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Forward with index 32.
@@ -15274,16 +10481,6 @@ void func_021EBBBC(char *p, int b)
 {
     func_021EBA84((unsigned char *)p, 0x20, b);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The image leaves the message undefined for kinds above six.
@@ -15294,14 +10491,14 @@ void func_021EBBC8(unsigned char *p, unsigned kind, int i)
     switch (kind) {
     case 0: msg = 2; break;
     case 1: msg = 3;
-        func_0201EF14(((struct Obj23992 *)(*(char * *)&((BoxTask *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23992 *)(*(char * *)&((BoxTask *)p)->work))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 2: msg = 4;
-        func_0201EF14(((struct Obj23993 *)(*(char * *)&((BoxTask *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23993 *)(*(char * *)&((BoxTask *)p)->work))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 3: msg = 0x1c; break;
     case 4: msg = 0x1d;
-        func_0201EF14(((struct Obj23994 *)(*(char * *)&((BoxTask *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23994 *)(*(char * *)&((BoxTask *)p)->work))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 5: msg = 0x1e; break;
     case 6: msg = 6; break;
@@ -15309,28 +10506,7 @@ void func_021EBBC8(unsigned char *p, unsigned kind, int i)
     func_021EBA84(p, msg, i);
 }
 
-
-
-
-
-
-
-
-
-
-
 void func_021EBC28(unsigned char *p,int n,int i){switch(n){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;case 3:n=10;break;}func_021EBA84(p,n,i);}
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Picks the prompt for a menu kind (kind 1 first names the Pokemon in the
@@ -15364,71 +10540,25 @@ void func_021EBC58(unsigned char *p, int sel, int kind, int i)
     func_021EBA84(p, msg, i);
 }
 
-
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Item-menu prompt for a kind; kinds 1 to 3 name the held item first.  An
@@ -15469,16 +10599,6 @@ void func_021EBCB4(unsigned char *p, int kind, int i)
     func_021EBA84(p, msg, i);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Maps a menu row to its message index, then tail-calls the printer.
  */
@@ -15501,25 +10621,7 @@ void func_021EBD1C(char *p, int row, int b)
     func_021EBA84((unsigned char *)p, row, b);
 }
 
-
-
-
-
-
-
-
-
-
-void func_021EBD50(unsigned char *p){void *m=(void *)func_021DD2D0((void ***)p,p[20],p[22]);func_0201EF14((struct WordSet *)(((struct Obj23995 *)(*(unsigned char * *)&((BoxTask *)p)->f2C))->f84), 0, m);func_021EBA84(p,50,27);}
-
-
-
-
-
-
-
-
-
+void func_021EBD50(unsigned char *p){void *m=(void *)func_021DD2D0((void ***)p,p[20],p[22]);func_0201EF14((struct WordSet *)(((struct Obj23995 *)(*(unsigned char * *)&((BoxTask *)p)->work))->f84), 0, m);func_021EBA84(p,50,27);}
 
 /*
  * Index 0x35 when the flag is clear, 0x36 when set.
@@ -15532,37 +10634,19 @@ void func_021EBD78(char *p, int b)
         func_021EBA84((unsigned char *)p, 0x36, 0x1b);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * trailing: two-byte zero alignment padding at 0x021EBDD6.
  */
 void func_021EBD94(unsigned char *p)
 {
-    func_021EBDF4(((BoxTask *)p)->f2C);
-    func_021EBE24(((BoxTask *)p)->f2C);
+    func_021EBDF4((char *)((BoxTask *)p)->work);
+    func_021EBE24((char *)((BoxTask *)p)->work);
     func_021EBEAC(p);
     func_021EE038((char *)p, p[0x1f], p[0x20], p[0x21]);
-    func_021EE120(((BoxTask *)p)->f2C);
+    func_021EE120((char *)((BoxTask *)p)->work);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Three teardown steps then the SDK pool release.
@@ -15575,36 +10659,9 @@ void func_021EBDD8(char *p)
     CLACT_ExitSystem();
 }
 
-
-
-
-
-
-
-
-
-
 void func_021EBDF4(void *a0){Template t=d_021EFD64;unsigned n=func_021DC9D8();CLACT_InitSystem(&t,n,76);}
 
-
-
-
-
-
-
-
-
-
 void func_021EBE24(char *p){func_021EC0DC(p);func_021EC1E8(p);func_021EC254(p);func_021ED058((u8 *)p);func_021ECCA4(p);func_021ECDF4(p);}
-
-
-
-
-
-
-
-
-
 
 void func_021EBE4C(char *p)
 {
@@ -15620,26 +10677,7 @@ void func_021EBE4C(char *p)
             CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0xA134));
 }
 
-
-
-
-
-
-
-
-
-
-void func_021EBEAC(unsigned char *p){((struct Obj23996 *)(*(char * *)&((BoxTask *)p)->f2C))->f9E70=CLACT_CreateUnit(180,0,76);func_021ED824(*(char * *)&((BoxTask *)p)->f2C);func_021EC2A0(*(char * *)&((BoxTask *)p)->f2C);func_021ED370(p);func_021ECF78(*(char * *)&((BoxTask *)p)->f2C);}
-
-
-
-
-
-
-
-
-
-
+void func_021EBEAC(unsigned char *p){((struct Obj23996 *)(*(char * *)&((BoxTask *)p)->work))->f9E70=CLACT_CreateUnit(180,0,76);func_021ED824(*(char * *)&((BoxTask *)p)->work);func_021EC2A0(*(char * *)&((BoxTask *)p)->work);func_021ED370(p);func_021ECF78(*(char * *)&((BoxTask *)p)->work);}
 
 void *func_021EBEE0(char *w, const Desc *s)
 {
@@ -15649,15 +10687,6 @@ void *func_021EBEE0(char *w, const Desc *s)
     CLACT_SetActorVisible(r, 0);
     return r;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Release slot i of the 0x9E74 array when non-null.
@@ -15674,15 +10703,6 @@ void func_021EBF34(struct Slots_021EBF34 *p, int i)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Release all 0x60 slots of the 0x9E70 pool, then release the pool
  *   head itself.
@@ -15692,17 +10712,8 @@ void func_021EBF50(char *p)
     unsigned i;
     for (i = 0; i < 0x60; i++)
         func_021EBF34((struct Slots_021EBF34 *)p, i);
-    CLACT_DeleteUnit((struct Bank *)(((BoxWork *)p)->f9E70));
+    CLACT_DeleteUnit((struct Bank *)(((BoxWork *)p)->clactUnit));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Sweep 0x2d slots of the 0x9E74 array, restarting each live one.
@@ -15722,15 +10733,6 @@ void func_021EBF74(char *p)
     CLACT_DrawSystem();
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Stop and re-issue slot i of the 0x9E74 array; the word is
  *   re-read for the second call.  Writing the array offset before the index
@@ -15742,15 +10744,6 @@ void func_021EBFA8(char *p, int i, int v)
     CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned short)v);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Release-and-flag slot i of the 0x9E74 array.
  */
@@ -15760,16 +10753,6 @@ void func_021EBFCC(char *p, int i, int v)
     CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p + i * 4 + 0x9E74), 1);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Forward the i-th word of the pooled table.
  */
@@ -15777,15 +10760,6 @@ u32 func_021EBFEC(char *p, int i)
 {
     return CLACT_IsActorAnimActive((struct Actor *)(*(int *)(p + i * 4 + 0x9E74)));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Release slot i of the 0x9E74 array when it is non-null.
@@ -15797,29 +10771,10 @@ void func_021EC000(char *p, int i, int v)
         CLACT_SetActorDrawEnable((struct Obj *)x, v);
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 func_021EC01C(char *p, int i)
 {
     return CLACT_GetActorDrawEnable((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Tail call with the table word at the pooled offset.
@@ -15829,81 +10784,30 @@ void func_021EC030(char *p, int i, int c)
     CLACT_SetActorBgPriority(*(int *)(p + i * 4 + 0x9E74), (unsigned char)c);
 }
 
-
-
-
-
-
-
-
 #undef WORK
 
-
-
-
-
-
-
 #undef WORK
-
-
-
-
-
-
-#undef WORK
-
-
-
-
-
-#undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
+#undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
 
 void func_021EC048(char *p, int i, int c)
 {
     CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
 }
 
-
-
-
-
-
-
-
-
 void func_021EC060(char *p,unsigned i,int b){if(b==1)CLACT_SetActorObjMode(*(void **)((unsigned)p+i*4+0x9e74),1);else CLACT_SetActorObjMode(*(void **)((unsigned)p+i*4+0x9e74),0);}
-
-
-
-
-
-
-
-
 
 /*
  * Stage two shorts on the stack and hand the 0x9E74 array slot to the
@@ -15918,15 +10822,6 @@ void func_021EC08C(char *p, int i, int a, int b, unsigned short c)
     CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
 }
 
-
-
-
-
-
-
-
-
-
 void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space)
 {
     short t[2];
@@ -15934,14 +10829,6 @@ void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space)
     *a = t[0];
     *b = t[1];
 }
-
-
-
-
-
-
-
-
 
 void func_021EC0DC(char *p)
 {
@@ -15962,46 +10849,22 @@ void func_021EC0DC(char *p)
     ARC_TOOL_DeleteHandle(h);
 }
 
-
-
-
-
-
-
-
-
 void func_021EC1E8(char *p)
 {
     void *h = func_020490F4(func_020275E4(), 0x4C);
-    ((BoxWork *)p)->fA0F8 = (void *)CLACT_RegisterCharacter(h, func_02027618(), 0, 0, 0x4C);
-    ((BoxWork *)p)->fA124 = (void *)CLACT_RegisterPalette(h, func_02027614(), 0, 0x100, 0x4C);
-    ((BoxWork *)p)->fA154 = (void *)CLACT_RegisterCellAnim(h, func_0202761C(2), func_02027620(2), 0x4C);
+    ((BoxWork *)p)->iconCellRes = (void *)CLACT_RegisterCharacter(h, func_02027618(), 0, 0, 0x4C);
+    ((BoxWork *)p)->iconCharRes = (void *)CLACT_RegisterPalette(h, func_02027614(), 0, 0x100, 0x4C);
+    ((BoxWork *)p)->iconObjects = (void *)CLACT_RegisterCellAnim(h, func_0202761C(2), func_02027620(2), 0x4C);
     ARC_TOOL_DeleteHandle(h);
 }
-
-
-
-
-
-
-
-
 
 void func_021EC254(char *p)
 {
     void *h = func_020490F4(7, 0x4C);
-    ((BoxWork *)p)->fA108 = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 0, 0x60, 0x4C);
-    ((BoxWork *)p)->fA134 = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), 0x4C);
+    ((BoxWork *)p)->iconAnimRes = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 0, 0x60, 0x4C);
+    ((BoxWork *)p)->iconPlttImage = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), 0x4C);
     ARC_TOOL_DeleteHandle(h);
 }
-
-
-
-
-
-
-
-
 
 void func_021EC2A0(char *p)
 {
@@ -16019,31 +10882,13 @@ void func_021EC2A0(char *p)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Forward with a resolved handle and the object table entry.
  */
 void *func_021EC338(char *p, void *b, void *c)
 {
-    return func_02049E74((void *)(((BoxWork *)p)->f1B0), POKE_TOOL_GetGraphicIndex(b), 0, (u32)c, 0x4c);
+    return func_02049E74((void *)(((BoxWork *)p)->arcHandle), POKE_TOOL_GetGraphicIndex(b), 0, (u32)c, 0x4c);
 }
-
-
-
-
-
-
-
-
-
 
 void func_021EC35C(char **p, int box)
 {
@@ -16068,14 +10913,6 @@ void func_021EC35C(char **p, int box)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Stop the slot, re-key it and restart it.  Two facts pin this one:
  *   the second call's FIRST argument is the first call's RESULT (r0 is
@@ -16090,15 +10927,6 @@ void func_021EC428(char *p, int a, int i, int b)
     CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned char)b, 1);
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Loads an icon resource for a, uploads it and frees the file.
  */
@@ -16109,15 +10937,6 @@ void func_021EC45C(unsigned char *p, void *a, int i)
     func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, POKE_TOOL_GetIconPalette(a));
     func_020307B0(res);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Hides window win, and when slot (box, pos) holds something shows its icon
@@ -16135,14 +10954,6 @@ void func_021EC48C(unsigned char *p, int box, int pos, int win)
     }
 }
 
-
-
-
-
-
-
-
-
 /*
  * Loop 0x1e entries forwarding (p[0x14], i, i+0x33).
  */
@@ -16150,36 +10961,19 @@ void func_021EC4E0(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x1e; i++)
-        func_021EC48C((unsigned char *)p, ((BoxTask *)p)->f14, i, i + 0x33);
+        func_021EC48C((unsigned char *)p, ((BoxTask *)p)->curBox, i, i + 0x33);
 }
-
-
-
-
-
-
-
-
 
 void func_021EC4FC(unsigned char *p)
 {
-    unsigned n = POKEPARTY_GetCount(((struct Obj24004 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24004 *)(*(char * *)&((BoxTask *)p)->params))->f8);
     unsigned i;
     for (i = 0; i < n; i++) {
-        func_021EC45C(p, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i)),
-                       *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0));
-        func_021EC000(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0), 0);
+        func_021EC45C(p, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->params))->f8, i)),
+                       *(unsigned char *)(*(char * *)&((BoxTask *)p)->work + i + 0x3DF0));
+        func_021EC000(*(char * *)&((BoxTask *)p)->work, *(unsigned char *)(*(char * *)&((BoxTask *)p)->work + i + 0x3DF0), 0);
     }
 }
-
-
-
-
-
-
-
-
-
 
 void func_021EC548(unsigned i, short *x, short *y, int mode)
 {
@@ -16194,15 +10988,6 @@ void func_021EC548(unsigned i, short *x, short *y, int mode)
     if (mode == 2)
         *x += 0x98;
 }
-
-
-
-
-
-
-
-
-
 
 void func_021EC5A0(char **p, int flag)
 {
@@ -16219,15 +11004,6 @@ void func_021EC5A0(char **p, int flag)
     }
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * Lays out the six party-slot windows and shows the ones the party fills.
  * The window id is an int local: as unsigned char the load is scheduled after
@@ -16235,7 +11011,7 @@ void func_021EC5A0(char **p, int flag)
  */
 void func_021EC61C(unsigned char *p)
 {
-    unsigned n = POKEPARTY_GetCount(((struct Obj24008 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24008 *)(*(char * *)&((BoxTask *)p)->params))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16248,17 +11024,9 @@ void func_021EC61C(unsigned char *p)
     }
 }
 
-
-
-
-
-
-
-
-
 void func_021EC688(char *p)
 {
-    unsigned n = POKEPARTY_GetCount(((struct Obj24010 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24010 *)(*(char * *)&((BoxTask *)p)->params))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16271,17 +11039,9 @@ void func_021EC688(char *p)
     }
 }
 
-
-
-
-
-
-
-
-
 void func_021EC6F4(char *p)
 {
-    unsigned n = POKEPARTY_GetCount(((struct Obj24012 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24012 *)(*(char * *)&((BoxTask *)p)->params))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16294,50 +11054,21 @@ void func_021EC6F4(char *p)
     }
 }
 
-
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
-
 #undef WORK
-
-
-
-
-#undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
-
-
 
 void func_021EC768(char *p, unsigned i, int flag)
 {
@@ -16354,14 +11085,6 @@ void func_021EC768(char *p, unsigned i, int flag)
     func_021EC048(p, c, 0x75 - i * 2);
 }
 
-
-
-
-
-
-
-
-
 void func_021EC7B8(char *p, int i, unsigned j, int flag)
 {
     unsigned char c = *(unsigned char *)(p + i + 0x3DD2);
@@ -16376,14 +11099,6 @@ void func_021EC7B8(char *p, int i, unsigned j, int flag)
         func_021EC030(p, c, 1);
     func_021EC048(p, c, 0x75 - j * 2);
 }
-
-
-
-
-
-
-
-
 
 void func_021EC804(char **p, short dx)
 {
@@ -16414,33 +11129,18 @@ void func_021EC804(char **p, short dx)
     }
 }
 
-
-
-
-
-
-
-
-
 void func_021EC8E4(char *p)
 {
     signed char buf[2];
     unsigned short i;
     short x, y;
-    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24016 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24016 *)(*(char * *)&((BoxTask *)p)->work))->f74, 8, &buf[1], &buf[0]);
     x = buf[0] * 8;
     y = buf[1] * 8;
     for (i = 0; i < 6; i++)
-        func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0),
+        func_021EC08C(*(char * *)&((BoxTask *)p)->work, *(unsigned char *)(*(char * *)&((BoxTask *)p)->work + i + 0x3DF0),
                       (short)(y + d_021EFCE0[i].a), (short)(x + d_021EFCE0[i].b), (short)0);
 }
-
-
-
-
-
-
-
 
 void func_021EC94C(char *p)
 {
@@ -16448,21 +11148,14 @@ void func_021EC94C(char *p)
     unsigned short shape[2];
     *(float *)(p + 8) = 4096.0f;
     p[7] = 0;
-    CLACT_SetActorAffineMode(((BoxTask *)p)->f0, 1);
+    CLACT_SetActorAffineMode(*(void **)p, 1);
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(*(void **)p, (struct Pair *)pair);
     shape[0] = 0;
     shape[1] = 8;
-    CLACT_SetActorAffineOrigin(((BoxTask *)p)->f0, (const struct Pt *)shape);
+    CLACT_SetActorAffineOrigin(*(void **)p, (const struct Pt *)shape);
 }
-
-
-
-
-
-
-
 
 int func_021EC994(char *p)
 {
@@ -16473,16 +11166,9 @@ int func_021EC994(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(*(void **)p, (struct Pair *)pair);
     return 1;
 }
-
-
-
-
-
-
-
 
 int func_021EC9D8(char *p)
 {
@@ -16494,16 +11180,9 @@ int func_021EC9D8(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(*(void **)p, (struct Pair *)pair);
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * Zero*p through the pool, then run the sibling teardown.
@@ -16513,13 +11192,6 @@ void func_021ECA24(int *p)
     CLACT_SetActorDrawEnable((struct Obj *)*p, 0);
     func_021ECA38(p);
 }
-
-
-
-
-
-
-
 
 /*
  * Program the two 0x1000 spans of the frame handle and zero its head.
@@ -16541,17 +11213,10 @@ void func_021ECA38(int *p)
     CLACT_SetActorAffineMode((struct Actor *)(*p), 0);
 }
 
-
-
-
-
-
-
-
 void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode)
 {
     if (mode == 1) {
-        if (((struct Obj24017 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 5) {
+        if (((struct Obj24017 *)(*(char * *)&((BoxTask *)p)->params))->f24 == 5) {
             for (; i < end; i++) {
                 if (func_021DD908((char *)p, i) == 1 && func_021DD25C((void ***)p, i, p[0x14], 0x4C, 0) == 0)
                     func_021EC060(WORK(p), WIN(p, i), 0);
@@ -16572,12 +11237,6 @@ void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode)
     }
 }
 
-
-
-
-
-
-
 /*
  * Dispatch flag bits 1 and 2 to the two range halves, with bit
  *   0x80 selecting the sub-range selector.  Matches on the tst-based ternary.
@@ -16591,13 +11250,6 @@ void func_021ECB20(char *p, int f, int c)
         func_021ECA6C((unsigned char *)p, c, 0x1e, 0x25, t);
 }
 
-
-
-
-
-
-
-
 /*
  * Forward the byte at the pooled table offset.  The callee takes three
  * arguments, so the forwarded byte is argument 1 and the passing flag
@@ -16608,12 +11260,6 @@ void func_021ECB60(char *p, int i, int f)
     func_021EC060(p, *(unsigned char *)(p + i + 0x3DD2), f);
 }
 
-
-
-
-
-
-
 /*
  * One range call with the selector pair fixed.
  */
@@ -16621,13 +11267,6 @@ void func_021ECB74(char *a, int b)
 {
     func_021ECA6C((unsigned char *)a, 1, b, b + 1, 1);
 }
-
-
-
-
-
-
-
 
 void func_021ECB84(char *w, unsigned i)
 {
@@ -16642,13 +11281,6 @@ void func_021ECB84(char *w, unsigned i)
     func_021EC768(w, i, 1);
 }
 
-
-
-
-
-
-
-
 void func_021ECBD8(unsigned char *p, int i)
 {
     short xy[2];
@@ -16660,33 +11292,17 @@ void func_021ECBD8(unsigned char *p, int i)
     func_021EC08C((char *)p, p[0x3DF6], xy[1], xy[0], 0);
 }
 
-
-
-
+#undef WORK
 
 #undef WORK
 
-
-
-
 #undef WORK
-
-
-
-#undef WORK
-
 
 #undef WORK
 
 #undef WORK
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
-
-
-
-
 
 void func_021ECC1C(unsigned char *p)
 {
@@ -16695,7 +11311,7 @@ void func_021ECC1C(unsigned char *p)
     if (p[0x18] == 0)
         return;
     func_021EC0B0(WORK(p), 4, &xy[1], &xy[0], 0);
-    if ((*(Top * *)&((BoxTask *)p)->f0)->x24 == 3) {
+    if ((*(Top * *)&((BoxTask *)p)->params)->x24 == 3) {
         k = 0xA;
         xy[0] += 8;
     } else {
@@ -16703,7 +11319,7 @@ void func_021ECC1C(unsigned char *p)
         xy[0] += 4;
     }
     func_021EC08C(WORK(p), k, xy[1], xy[0], 0);
-    if ((*(Top * *)&((BoxTask *)p)->f0)->x24 == 3) {
+    if ((*(Top * *)&((BoxTask *)p)->params)->x24 == 3) {
         func_021ED310(WORK(p));
         return;
     }
@@ -16712,28 +11328,18 @@ void func_021ECC1C(unsigned char *p)
     func_021ED7C4(WORK(p), 0x24);
 }
 
-
-
-
-
-
-
-
 /*
  * candidate func_021ECCA4: clear six ints
  */
 void func_021ECCA4(char *p)
 {
-    ((BoxWork *)p)->fA088 = -1;
-    ((BoxWork *)p)->fA10C = -1;
-    ((BoxWork *)p)->fA138 = -1;
-    ((BoxWork *)p)->fA08C = -1;
-    ((BoxWork *)p)->fA110 = -1;
-    ((BoxWork *)p)->fA13C = -1;
+    ((BoxWork *)p)->iconChar[0] = -1;
+    ((BoxWork *)p)->iconCell[0] = -1;
+    ((BoxWork *)p)->iconAnim[0] = -1;
+    ((BoxWork *)p)->iconChar[1] = -1;
+    ((BoxWork *)p)->iconCell[1] = -1;
+    ((BoxWork *)p)->iconAnim[1] = -1;
 }
-
-
-
 
 /*
  * prototype: 0202D7C8 reads and forwards only r0; legacy r1-r3 omitted.
@@ -16769,19 +11375,13 @@ void func_021ECCCC(char *p,void **mon,int index)
     *(u16 *)(W(p)+0xA164)^=1;
 }
 
-
-
 #undef SLOT
-
 
 #undef SLOT
 
 #undef SLOT
+
 #define SLOT(w, o) (*(void **)((w) + (o)))
-
-
-
-
 
 /*
  * Loads the box screen graphics from the shared archive into the work
@@ -16810,9 +11410,6 @@ void func_021ECDF4(char *w)
     ARC_TOOL_DeleteHandle(h);
 }
 
-
-
-
 /*
  * Verified scratch-only with one --thumb, no --region: EXACT, 12 bytes.
  * symbols for blocker: _PokeTypePltOffset 0x0209FCF8 data a1
@@ -16831,13 +11428,11 @@ void func_021ECF78(char *p)
     }
 }
 
-
 #undef WORK
 
 #undef WORK
+
 #define WORK(p) (*(char **)((p) + 0x2C))
-
-
 
 void func_021ECFDC(char *p, int a, int b)
 {
@@ -16851,20 +11446,13 @@ void func_021ECFDC(char *p, int a, int b)
     }
 }
 
-
-
 /*
  * lever: Byte bitfield access reproduces the original ldrb/lsl24/lsr31
  * at 0x021ED042..0x021ED046; a mask test emitted movs/tst instead.
  */
 void func_021ED028(char *p,unsigned char *q){unsigned i;for(i=28;i<45;i++)func_021EC000(p,i,0);if(!((Flag *)(q+18))->high)func_021ECFDC(p,q[12],q[13]);}
 
-
-
-void func_021ED058(u8*p){void*h;h=func_020490F4(25,76);*(void* *)&((BoxWork *)p)->fA114=(void *)CLACT_RegisterPalette(h,func_02020E60(0,2),0,0x180,76);ARC_TOOL_DeleteHandle(h);}
-
-
-
+void func_021ED058(u8*p){void*h;h=func_020490F4(25,76);*(void* *)&((BoxWork *)p)->iconPlttRes=(void *)CLACT_RegisterPalette(h,func_02020E60(0,2),0,0x180,76);ARC_TOOL_DeleteHandle(h);}
 
 void func_021ED094(char *w, unsigned item)
 {
@@ -16878,9 +11466,6 @@ void func_021ED094(char *w, unsigned item)
     CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0(q);
 }
-
-
-
 
 void func_021ED108(char *p, int on)
 {
@@ -16898,8 +11483,6 @@ void func_021ED108(char *p, int on)
     }
 }
 
-
-
 /*
  * One range call with the sub-range selector.
  */
@@ -16907,8 +11490,6 @@ void func_021ED14C(int a, int b, int c)
 {
     func_021EC08C((char *)a, 10, b, c, 0);
 }
-
-
 
 /*
  * Twin of func_021ED198 with both shorts biased by 8.
@@ -16919,8 +11500,6 @@ void func_021ED164(char *p, int a, int c)
     func_021EC548(a, t + 1, t, c);
     func_021ED14C((int)p, (short)(t[1] + 8), (short)(t[0] + 8));
 }
-
-
 
 /*
  * Read the 2-short record for the sub-range then push it back with
@@ -16933,17 +11512,11 @@ void func_021ED198(char *p, int a, int c)
     func_021ED14C((int)p, t[1], (short)(t[0] + 4));
 }
 
-
-
-
 static inline void setup(Desc *dp, void **res)
 {
     dp->b6 = CLACT_GetActorDrawPriority((int)(*res)) + 1;
     dp->b7 = CLACT_GetActorBgPriority(*res);
 }
-
-
-
 
 /*
  * Sibling of src/matched/ov/ov170_func_021ED594.c: builds (or moves) the
@@ -16984,8 +11557,6 @@ void func_021ED1C8(char *w)
     }
 }
 
-
-
 /*
  * Loop 8 entries forwarding (i+0x58, 1).
  */
@@ -16995,9 +11566,6 @@ void func_021ED2F4(char *p)
     for (i = 0; i < 8; i++)
         func_021EC000(p, i + 0x58, 1);
 }
-
-
-
 
 void func_021ED310(char *w)
 {
@@ -17010,9 +11578,6 @@ void func_021ED310(char *w)
             func_021EC08C(w, i + 0x58, (short)(xy[1] + d_021EFCD0[i]), (short)(xy[0] + d_021EFCC8[i]), (short)0);
     }
 }
-
-
-
 
 /*
  * Builds the cell objects of the box screen from the descriptor table
@@ -17052,9 +11617,6 @@ void func_021ED370(unsigned char *p)
     func_021ED508(p, 0xE, 1);
 }
 
-
-
-
 /*
  * Sets window 9's frame and mode; outside modes 2, 3 and 4 the mode is
  * cleared again.
@@ -17064,12 +11626,10 @@ void func_021ED508(unsigned char *p, int a, int b)
     int kind;
     func_021EBFA8(WORK(p), 9, a);
     func_021EC000(WORK(p), 9, b);
-    kind = ((struct Obj24021 *)(*(char * *)&((BoxTask *)p)->f0))->f24;
+    kind = ((struct Obj24021 *)(*(char * *)&((BoxTask *)p)->params))->f24;
     if (kind != 2 && kind != 4 && kind != 3)
         func_021EC000(WORK(p), 9, 0);
 }
-
-
 
 /*
  * Offset by four when the low nibble of 0x1c is set.
@@ -17078,11 +11638,8 @@ void func_021ED544(char *p, int b)
 {
     if (((struct Slot *)p)->f)
         b += 4;
-    func_021EBFA8(*(char * *)&((BoxTask *)p)->f2C, 4, b);
+    func_021EBFA8(*(char * *)&((BoxTask *)p)->work, 4, b);
 }
-
-
-
 
 void func_021ED55C(char **p, int flag)
 {
@@ -17094,19 +11651,13 @@ void func_021ED55C(char **p, int flag)
     }
 }
 
-
-
-
 /*
  * Forward with the byte field at +0x16.
  */
 void func_021ED588(char *p)
 {
-    func_021ED594(p, ((BoxTask *)p)->f16);
+    func_021ED594(p, ((BoxTask *)p)->cursorSlot);
 }
-
-
-
 
 void func_021ED594(char *p, unsigned i)
 {
@@ -17118,11 +11669,11 @@ void func_021ED594(char *p, unsigned i)
     short xy[2];
     if (i == 0xFF)
         return;
-    w = *(char * *)&((BoxTask *)p)->f2C;
+    w = *(char * *)&((BoxTask *)p)->work;
     c = *(unsigned char *)(w + i + 0x3DD2);
     j = 0;
     func_021EC0B0(w, c, &xy[1], &xy[0], 0);
-    if (((BoxWork *)w)->f9FD4 == 0) {
+    if (((BoxWork *)w)->actorResource == 0) {
         d = d_021EFD04;
         setup(&d, &((void **)(w + 0x9E74))[c]);
         d.a = c - 0x33;
@@ -17150,9 +11701,6 @@ void func_021ED594(char *p, unsigned i)
     }
 }
 
-
-
-
 void func_021ED6E4(char **p, int v)
 {
     int j;
@@ -17168,9 +11716,6 @@ void func_021ED6E4(char **p, int v)
     }
 }
 
-
-
-
 void func_021ED75C(char **p, int i)
 {
     unsigned char k = *(unsigned char *)(p[11] + i + 0x3DD2);
@@ -17184,9 +11729,6 @@ void func_021ED75C(char **p, int i)
         }
     }
 }
-
-
-
 
 void func_021ED7C4(char *p, int i)
 {

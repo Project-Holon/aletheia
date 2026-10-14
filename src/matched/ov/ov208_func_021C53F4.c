@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C53F4
+ * function: ZUKAN_DETAIL_FORM_BuildFormEntries
  * address:  0x021C53F4
  * packet:   pkt_ov208_021C53F4
  * region:   ov208
@@ -11,8 +11,8 @@
  * note: 2026-10-05 (wD7 lane16): EXACT. species is a u16 local and ZUKAN_SAVE_GetViewGenderAndForm/ZUKAN_SAVE_HasSeenGenderForm take a
  *   u16 id (as their other matched callers declare); the species reload then follows the argument order.
  * symbols:
- *   func_021BC3C0  0x021BC3C0  thumb
- *   func_021BC3A4  0x021BC3A4  thumb
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
@@ -35,9 +35,9 @@ typedef struct
 {
   u32 v[2];
 } Ov208Shiny2;
-extern u16 func_021BC3C0(int key);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 struct Personal;
-extern int func_021BC3A4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -47,12 +47,12 @@ extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2,
 extern u32 ZUKAN_SAVE_HasSeenGenderForm(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern const Ov208Gender3 data_021C8810;
 extern const Ov208Shiny2 data_021C87FC;
-void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next)
+void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next)
 {
   Ov208Gender3 genders = data_021C8810;
   Ov208Shiny2 shinies = data_021C87FC;
-  u16 species = func_021BC3C0(key);
-  void *pd = ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key));
+  u16 species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+  void *pd = ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key));
   u32 h = (u32)POKE_PERSONAL_Create(species, 0, *heap);
   u32 ratio;
   u32 forms;

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD148
+ * function: ZKND_TBAR_CreateButtonList
  * address:  0x021BD148
  * packet:   pkt_ov208_021BD148
  * region:   ov208
@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734        0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   ov208_func_021BD444  0x021BD444  thumb
+ *   ZKND_TBAR_LoadButtonResources  0x021BD444  thumb
  *   func_021BD634        0x021BD634  thumb
  *   data_021C8DD8        0x021C8DD8  data
  */
@@ -77,13 +77,13 @@ struct Ov208ActSet {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
+extern void ZKND_TBAR_LoadButtonResources(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                                 u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap);
 extern void func_021BD634(struct Ov208ActObj *p, u32 owner, struct Ov208Bg *res,
                           struct Ov208ActDesc *desc, u32 prio, u32 mode);
 extern const char data_021C8DD8[];
 
-struct Ov208ActSet *ov208_func_021BD148(struct Ov208ActList *list, u32 heap)
+struct Ov208ActSet *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u32 heap)
 {
     struct Ov208ActSet *set;
     u32 size;
@@ -104,7 +104,7 @@ struct Ov208ActSet *ov208_func_021BD148(struct Ov208ActList *list, u32 heap)
         palOfs = 4;
     else
         objChannel = 0;
-    ov208_func_021BD444(&set->bg, (u8)list->channel, objChannel, palOfs, list->kind,
+    ZKND_TBAR_LoadButtonResources(&set->bg, (u8)list->channel, objChannel, palOfs, list->kind,
                         (u8)list->pal, (u8)list->objPal, list->skip, heap);
     for (i = 0; i < set->count; i++)
         func_021BD634(&set->objs[i], list->owner, &set->bg, &list->descs[i], objChannel, heap);

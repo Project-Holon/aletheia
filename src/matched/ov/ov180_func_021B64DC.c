@@ -1,5 +1,5 @@
 /*
- * function: func_021B64DC
+ * function: HALL_OF_FAME_CollectPartyMons
  * address: 0x021B64DC
  * packet: pkt_ov180_021B64DC
  * region: ov180
@@ -22,7 +22,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-void func_021B64DC(unsigned char *p) {
+void HALL_OF_FAME_CollectPartyMons(unsigned char *p) {
  unsigned i; void *mon; unsigned saved;
  p[0x915E]=0;
  for(i=0;i<POKEPARTY_GetCount(**(void ** *)&((struct Obj02515 *)p)->f0);i++) {

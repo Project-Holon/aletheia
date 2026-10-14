@@ -21,48 +21,48 @@
  * symbols:
  *   func_021B8FB8 0x021B8FB8 thumb ov172
  *   func_021BBE5C 0x021BBE5C thumb ov172
- *   func_021BA8C4 0x021BA8C4 thumb ov172
+ *   CTVT_DRAW_Exit 0x021BA8C4 thumb ov172
  *   func_021B8CC8 0x021B8CC8 thumb ov172
  *   func_021BBA94 0x021BBA94 thumb ov172
- *   func_021BA2C4 0x021BA2C4 thumb ov172
+ *   CTVT_DRAW_Init 0x021BA2C4 thumb ov172
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   func_021B8084 0x021B8084 thumb ov172
- *   func_021B7578 0x021B7578 thumb ov172
- *   func_021B7B80 0x021B7B80 thumb ov172
+ *   CTVT_CAMVIEW_StopCapture 0x021B7578 thumb ov172
+ *   CTVT_CAMVIEW_RequestShutterSound1 0x021B7B80 thumb ov172
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_021B8FB8(void *,char *);
 extern void func_021BBE5C(void *,char *);
 typedef unsigned short u16;
-extern void func_021BA8C4(u16 *a0, char *p);
+extern void CTVT_DRAW_Exit(u16 *a0, char *p);
 extern void func_021B8CC8(void *,char *);
 extern void func_021BBA94(void *a0, u8 *p);
-extern void func_021BA2C4(void *a0, u8 *p);
+extern void CTVT_DRAW_Init(void *a0, u8 *p);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void func_021B8084(void *,char *);
-extern void func_021B7578(int x, char *p);
-extern void func_021B7B80(int x, char *p);
+extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
+extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 void func_021BDCB8(u8 *p)
 {
     switch (*(u32 *)(p+8)) {
     case 1: func_021B8FB8(p,*(char **)(p+0x1e8)); break;
     case 2: func_021BBE5C(p,*(char **)(p+0x1f0)); break;
-    case 3: func_021BA8C4((u16 *)p,*(char **)(p+0x1ec)); break;
+    case 3: CTVT_DRAW_Exit((u16 *)p,*(char **)(p+0x1ec)); break;
     }
     *(u32 *)(p+8)=*(u32 *)(p+12);
     switch (*(u32 *)(p+8)) {
     case 0: break;
     case 1: func_021B8CC8(p,*(char **)(p+0x1e8)); break;
     case 2: func_021BBA94(p,(u8 *)(*(char **)(p+0x1f0))); break;
-    case 3: func_021BA2C4(p,(u8 *)(*(char **)(p+0x1ec))); break;
+    case 3: CTVT_DRAW_Init(p,(u8 *)(*(char **)(p+0x1ec))); break;
     case 5:
         WIPE_SetBrightnessFadeOut(0,0);
         WIPE_SetBrightnessFadeOut(1,0);
     case 4:
         func_021B8084(p,*(char **)(p+0x1e4));
-        func_021B7578((int)p,*(char **)(p+0x1e0));
-        func_021B7B80((int)p,*(char **)(p+0x1e0));
+        CTVT_CAMVIEW_StopCapture((int)p,*(char **)(p+0x1e0));
+        CTVT_CAMVIEW_RequestShutterSound1((int)p,*(char **)(p+0x1e0));
         break;
     }
 }

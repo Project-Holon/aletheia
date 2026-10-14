@@ -29,14 +29,17 @@ typedef struct {
     void *bag;
     void *bank;
     void *msg;
-    u8 pad28[0x2C - 0x28];
+    void *x28;
     u32 x2c;
     Item *items;
     void *num;
     s16 layout;
     s16 start;
     short f3C;
-    u8 pad3E[6];
+    short f3E;
+    s8 f40;
+    s8 f41;
+    u8 pad42[2];
     int pos;
     int state;
     int f4C;
@@ -72,6 +75,21 @@ typedef struct {
             u8 pad0__[0x120 - 0x0];
             u8 lang; /* +0x120 */
             u8 ver; /* +0x121 */
+        };
+        struct {
+            u8 padF6_[0xF6];
+            u8 gender; /* +0xF6 */
+            u8 profileFlagA; /* +0xF7 */
+            u8 padF8_[0x108 - 0xF8];
+            u32 profileId; /* +0x108 */
+            u32 trainerId; /* +0x10C */
+            u8 padName_[0x122 - 0x110];
+            u8 country; /* +0x122 */
+            u8 pad123_;
+            u8 region; /* +0x124 */
+            u8 city; /* +0x125 */
+            u8 profileFlagB; /* +0x126 */
+            u8 profileFlagC; /* +0x127 */
         };
     };
 } Entry;
@@ -192,6 +210,47 @@ typedef struct {
     void *f40; /* +0x40 */
 } Req;
 
+/* Print stream state of the message window: font id, message data, then the stream. */
+typedef struct {
+    unsigned int font; /* +0x0 */
+    unsigned int msgData; /* +0x4 */
+    u8 pad8[8];
+    void *stream; /* +0x10 */
+    void *streamWin; /* +0x14 */
+} PrintStreamCtx;
+
+/* Two ten-entry u16 selection tables behind two header words. */
+typedef struct {
+    u16 f0; /* +0x0 */
+    u16 f2; /* +0x2 */
+    u16 a[10]; /* +0x4 */
+    u16 b[10]; /* +0x18 */
+} SelTable;
+
+/* Arguments of the ov115 save-network process (gNetSaveMainProc), allocated by func_02030734. */
+typedef struct {
+    void *handle; /* +0x0 */
+    u32 mode; /* +0x4 */
+    u32 enabled; /* +0x8 */
+    u32 timeout; /* +0xC */
+    void *buf; /* +0x10 */
+    u32 isTrade; /* +0x14 */
+    u32 f18; /* +0x18 */
+    u32 result; /* +0x1C */
+    int (*callback)(void *, Work *); /* +0x20 */
+    Work *user; /* +0x24 */
+} NetSaveProcArgs;
+
+/* Arguments of the ov115 table process (tbl_021D654C). */
+typedef struct {
+    void *save; /* +0x0 */
+    int zero; /* +0x4 */
+    int enabled; /* +0x8 */
+    int pad[2];
+    u32 (*callback)(Work *); /* +0x14 */
+    Work *context; /* +0x18 */
+} NetProcArgs;
+
 typedef struct {
     void *sys; /* +0x0 */
     u8 pad4[0x8 - 0x4];
@@ -204,15 +263,37 @@ typedef struct {
         u32 f10;
         void *dex;
     };
-    u8 pad14[0x18 - 0x14];
+    void *wifiList; /* +0x14 */
     void *status; /* +0x18 */
     union { /* +0x1C */
         u32 f1C_u;
         void *f1C;
     };
-    u8 pad20[0x40 - 0x20];
+    void *statusConfig; /* +0x20 */
+    u8 pad24[0x2C - 0x24];
+    void *statusRules; /* +0x2C */
+    u8 pad30[0x40 - 0x30];
     void *f40; /* +0x40 */
 } Ctx;
+
+/* Request handed to the Pokemon status screen (PokeStatusProc). */
+typedef struct {
+    void *mon;
+    void *config;
+    void *save;
+    u8 type;
+    u8 enabled;
+    u8 slotCount;
+    u8 slot; /* chosen slot, read back after the screen closes */
+    u8 mode;
+    u8 pad11[3];
+    u16 page;
+    u16 pad16;
+    void *rules;
+    u32 f1C;
+    u32 result;
+    u32 f24;
+} PokeStatusRequest;
 
 struct Work {
     union { /* +0x0 */
@@ -233,8 +314,13 @@ struct Work {
         u32 state;
         unsigned state_un;
     };
-    u16 x2C; /* +0x2C */
-    u16 x2E; /* +0x2E */
+    union { /* +0x2C */
+        u32 returnState;
+        struct {
+            u16 x2C;
+            u16 x2E;
+        };
+    };
     u16 x30; /* +0x30 */
     u16 busy; /* +0x32 */
     u8 pad34_[2];
@@ -468,16 +554,17 @@ struct Work {
     u8 padEE4[0xEEC - 0xEE4];
     union { /* +0xEEC */
         u8 area[0xFA0 - 0xEEC];
+        SelTable selTable; /* +0xEEC */
         struct {
             u8 padEEC[0xEF0 - 0xEEC];
             u16 a[10]; /* +0xEF0 */
             u16 b[10]; /* +0xF04 */
-            u8 padF18[0xF7C - 0xF18];
+            u8 trInfo[0xF7C - 0xF18]; /* +0xF18 */
             int state_iF7C; /* +0xF7C */
             int sub_i; /* +0xF80 */
             u32 fF84; /* +0xF84 */
-            unsigned short fF88;
-            unsigned short fF8A;
+            short fF88;
+            short fF8A;
             int wait; /* +0xF8C */
             void *vblank_p; /* +0xF90 */
             void *rec_p; /* +0xF94 */
@@ -503,14 +590,25 @@ struct Work {
         struct {
             u8 fFA0[4]; /* +0xFA0 */
             u8 padFA4[0x10DC - 0xFA4];
-            Req *req; /* +0x10DC */
+            union {
+                Req *req; /* +0x10DC */
+                PokeStatusRequest *statusReq;
+                NetSaveProcArgs *saveArgs;
+                NetProcArgs *netArgs;
+            };
             void *wm; /* +0x10E0 */
             u8 valid; /* +0x10E4 */
             u8 pad10E5[0x10E8 - 0x10E5];
             u32 count_u; /* +0x10E8 */
             u8 buf_b128[0x80]; /* +0x10EC */
-            u8 pad116C[0x12E4 - 0x116C];
+            u8 netBuf[0x12E4 - 0x116C]; /* +0x116C */
             u32 f12E4; /* +0x12E4 */
+        };
+        PrintStreamCtx printCtx; /* +0xFA0 */
+        struct {
+            u32 uiResA; /* +0xFA0 */
+            u8 padFA4_[8];
+            u32 uiResB; /* +0xFAC */
         };
         u8 queue[1];
     };
@@ -717,14 +815,6 @@ typedef struct WorldtradeAdapterObj3 {
     int fF8C;
 } WorldtradeAdapterObj3;
 
-typedef struct WorldtradeAdapterObj4 {
-    unsigned int f0;
-    unsigned int f4;
-    u8 pad8[8];
-    void *f10;
-    void *f14;
-} WorldtradeAdapterObj4;
-
 typedef struct WorldtradeAdapterObj5 {
     u8 pad0[236];
     unsigned short fEC;
@@ -774,5 +864,162 @@ typedef struct WorldtradeAdapterObj11 {
     u8 pad0[12];
     void *fC;
 } WorldtradeAdapterObj11;
+
+
+/* ---- types folded in from the per-file shared headers ---- */
+
+struct Actor;
+struct BigObj;
+struct Blk37;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Node;
+struct Obj;
+struct Party;
+struct PartyMon;
+struct Personal;
+struct Rec0200AD8C;
+struct Rec0200AD94;
+struct RecDC;
+struct RegB;
+struct Slot;
+struct Strbuf;
+struct Sub02007454Entry;
+struct Sub020079BCEntry;
+struct Sub0200852CObj;
+struct Sub02009470Obj;
+struct U16Vec;
+struct Vec2;
+struct WinMgr;
+struct WordSet;
+
+struct DispConfig_021F4580 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    u32 unk_0c;
+};
+
+struct BgTemplate_021F4580 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 bufSize;
+    u32 unk_0c;
+    u8  unk_10;
+    u8  unk_11;
+    u8  unk_12;
+    u8  unk_13;
+    u32 unk_14;
+    u8  unk_18;
+    u8  unk_19;
+    u8  unk_1a;
+    u8  unk_1b;
+    u32 unk_1c;
+};
+
+typedef struct {
+    u16 a;
+    u16 b;
+    u16 c;
+    u8 d;
+    u8 e;
+} Local;
+
+typedef struct {
+    u16 species;
+    u8 form;
+    u8 gender;
+} MonTag;
+
+struct DispConfig {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    u32 unk_0c;
+};
+
+struct BgTemplate {
+    u32 unk_00;
+    u32 unk_04;
+    u32 bufSize;
+    u32 unk_0c;
+    u8  unk_10;
+    u8  unk_11;
+    u8  unk_12;
+    u8  unk_13;
+    u32 unk_14;
+    u8  unk_18;
+    u8  unk_19;
+    u8  unk_1a;
+    u8  unk_1b;
+    u32 unk_1c;
+};
+
+typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
+
+typedef struct {
+    void *win0;
+    void *win1;
+} Pane2;
+
+typedef struct {
+    void *win;
+    u8 busy;
+    u8 pad5[3];
+    u32 used;
+} Slot_02202878;
+
+typedef struct {
+    u32 font;
+    u8 pad4[0xC - 0x4];
+    u32 print;
+    u8 pad10[0x18 - 0x10];
+    Slot_02202878 slots[24];
+} Ctx_02202878;
+
+struct Ent_02202940 { u32 a; u32 b; u32 c; };
+
+struct Obj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; struct Ent_02202940 e[24]; };
+
+typedef struct {
+    void *win;
+    u8 shown;
+    u8 pad5[3];
+} Slot;
+
+typedef struct {
+    void *font;
+    void *print;
+    void *words;
+    void *bank;
+    Slot slot[8];
+    u32 used[8];
+    u16 heap;
+} Ctx_02202A50;
+
+typedef volatile unsigned short vu16;
+
+typedef struct {
+    u16 x;
+    u16 y;
+} Pos;
+
+/* tables of the input state machine */
+typedef struct {
+    u8 x;
+    u8 y;
+} Cell;
+
+typedef struct {
+    u8 x;
+    u8 y;
+} CurPos;
+
+typedef struct {
+    int first;
+    int count;
+} Range_021FA7C4;
 
 #endif

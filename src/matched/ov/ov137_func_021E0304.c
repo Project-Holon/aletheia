@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021E0304
+ * function: GURU2_MAIN_ClearMessageWindow
  * address: 0x021E0304
  * packet: pkt_ov137_021E0304
  * region: ov137
@@ -28,4 +28,4 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021E0304(u8 *p){struct Descriptor *w=*(struct Descriptor * *)&((struct Obj02869 *)p)->fCF0;func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}
+void GURU2_MAIN_ClearMessageWindow(u8 *p){struct Descriptor *w=*(struct Descriptor * *)&((struct Obj02869 *)p)->fCF0;func_0201F7A8(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);func_02041B6C(BMP_WIN_GetBgLayer(w));}

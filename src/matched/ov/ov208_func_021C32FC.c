@@ -1,5 +1,5 @@
 /*
- * function: func_021C32FC
+ * function: ZUKAN_DETAIL_VOICE_ClearTimerWindow
  * address: 0x021C32FC
  * packet: pkt_ov208_021C32FC
  * region: ov208
@@ -20,7 +20,7 @@ struct PrintSys; struct Descriptor; struct CharBuf;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *print);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *p, u8 v);
-void func_021C32FC(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heap, u8 *p, int key)
 {
     ((struct Obj00146 *)p)->f10 = 0;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj00146 *)p)->f8);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AFC
+ * function: CircleGraph_SumPercents
  * address:  0x021C1AFC
  * packet:   pkt_ov217_021C1AFC
  * region:   ov217
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-int func_021C1AFC(u8 *p)
+int CircleGraph_SumPercents(u8 *p)
 {
     int i;
     int n;

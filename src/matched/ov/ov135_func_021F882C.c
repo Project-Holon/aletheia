@@ -1,5 +1,5 @@
 /*
- * function: func_021F882C
+ * function: WORLDTRADE_DEPOSIT_GetLevelBracket
  * address: 0x021F882C
  * packet: pkt_ov135_021F882C
  * region: ov135
@@ -20,7 +20,7 @@ typedef struct { u32 id; s16 x; s16 y; } Entry;
 extern const Entry tbl_0220301C[], tbl_02202FC4[];
 extern const char str_02203C18[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-void func_021F882C(u8 *dst, int i, int kind)
+void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int i, int kind)
 {
     const Entry *table;
     if (kind == 0) {

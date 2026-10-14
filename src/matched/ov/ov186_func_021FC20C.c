@@ -1,5 +1,5 @@
 /*
- * function: func_021FC20C
+ * function: BR_RES_GetFont
  * address: 0x021FC20C
  * packet: pkt_ov186_021FC20C
  * region: ov186
@@ -9,4 +9,4 @@
  * status: EXACT*
  */
 #include "../include/Obj24829.h"
-unsigned func_021FC20C(char *p) { return ((struct Obj24829 *)p)->fE8; }
+unsigned BR_RES_GetFont(char *p) { return ((struct Obj24829 *)p)->fE8; }

@@ -13,10 +13,10 @@
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
- *   func_0217EC34  0x0217EC34  thumb ov019
- *   func_0217EC68  0x0217EC68  thumb ov019
- *   func_0217EC78  0x0217EC78  thumb ov019
- *   func_0217ECD0  0x0217ECD0  thumb ov019
+ *   UNION_MSG_GetTalkChildBusyMsg  0x0217EC34  thumb ov019
+ *   UNION_MSG_GetTalkChildOfferMsg  0x0217EC68  thumb ov019
+ *   UNION_MSG_GetTalkChildDeclineMsg  0x0217EC78  thumb ov019
+ *   UNION_MSG_GetBadEggNoticeMsg  0x0217ECD0  thumb ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
  *   UNION_ONESELF_IsBattleStatus  0x0217B9BC  thumb ov019
  *   UNION_ONESELF_LoadRegulation  0x0217BA10  thumb ov019
@@ -77,10 +77,10 @@ u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 typedef unsigned short u16;
 struct BigObj;
-u16 func_0217EC34(int i);
-u16 func_0217EC68(int i);
-u16 func_0217EC78(int i);
-u16 func_0217ECD0(void ***ctx);
+u16 UNION_MSG_GetTalkChildBusyMsg(int i);
+u16 UNION_MSG_GetTalkChildOfferMsg(int i);
+u16 UNION_MSG_GetTalkChildDeclineMsg(int i);
+u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx);
 int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 int UNION_ONESELF_IsBattleStatus(unsigned int x);
 void UNION_ONESELF_LoadRegulation(char *p, int x);
@@ -120,12 +120,12 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         if (obj->f2d == 0xff)
             break;
         if (obj->f2d == 0) {
-            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC34(obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkChildBusyMsg(obj->f14->flag));
             UNION_ONESELF_SetNextPlayCategory((char *)ctx, 0x27);
             return 1;
         }
         if (obj->f2d < 0x1b) {
-            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC68(obj->f2d));
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkChildOfferMsg(obj->f2d));
             if (UNION_ONESELF_IsBattleStatus(obj->f2d) == 1) {
                 UNION_ONESELF_LoadRegulation((char *)ctx, obj->f2d);
                 UNION_MSG_SetupRegulationWindow((struct Self *)ctx, (u32)a2, 0, UNION_ONESELF_GetRegulationFlag(obj->f2d), 0);
@@ -213,9 +213,9 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
             else if (obj->f6e == 2)
                 UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 0x2f);
             else if (obj->f6e == 3)
-                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217ECD0((void ***)ctx));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetBadEggNoticeMsg((void ***)ctx));
             else
-                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC78(obj->f2d));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkChildDeclineMsg(obj->f2d));
             UNION_ONESELF_SetNextPlayCategory((char *)ctx, 0x27);
             return 1;
         }

@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F878C  0x021F878C  thumb  ov094
+ *   BTLV_EFFECT_StopLowHpBgm  0x021F878C  thumb  ov094
  */
 
 typedef unsigned int   u32;
-void func_021F878C(u32 a);
+void BTLV_EFFECT_StopLowHpBgm(u32 a);
 
 int BTL_CLIENT_StepChangeBgm(int a, int b, int *c)
 {
-    func_021F878C(*c);
+    BTLV_EFFECT_StopLowHpBgm(*c);
     return 1;
 }

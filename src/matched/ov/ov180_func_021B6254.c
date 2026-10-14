@@ -1,5 +1,5 @@
 /*
- * function: func_021B6254
+ * function: HALL_OF_FAME_InitBackgrounds
  * address: 0x021B6254
  * packet: pkt_ov180_021B6254
  * region: ov180
@@ -17,14 +17,14 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_02040EBC 0x02040EBC arm
- *   d_021B80E8 0x021B80E8 data ov180 a4
+ *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef struct {u32 w[8];} Template;
 typedef struct {int m[4];} Mtx;
-extern const Template d_021B80E8;
+extern const Template gHallOfFameBgSetup;
 struct BgTemplate;
 struct Mtx22;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -33,9 +33,9 @@ extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
-void func_021B6254(void)
+void HALL_OF_FAME_InitBackgrounds(void)
 {
-    Template t=d_021B80E8;
+    Template t=gHallOfFameBgSetup;
     Mtx m;
     func_0203FCA0(3,(const struct BgTemplate *)(&t),2);func_0203FCA0(7,(const struct BgTemplate *)(&t),2);
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);

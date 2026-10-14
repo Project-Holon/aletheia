@@ -1,5 +1,5 @@
 /*
- * function: func_021E0A44
+ * function: GURU2_MAIN_FindNearestPlayerRecord
  * address: 0x021E0A44
  * packet: pkt_ov137_021E0A44
  * region: ov137
@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * lever: (pass 2 2026-10-06 P2L40) i zeroed before the angle statement, the row offset
- *   count*10 in a named local as in the twin func_021DEE4C, and a separate local for the
+ *   count*10 in a named local as in the twin GURU2_MAIN_StateAnimateSlots, and a separate local for the
  *   insertion-sort value in the third loop.
  * history: wave P12 lane A8 33 of 208 bytes off; final push G7L3 26 (initialised declarations
  *   count, table, base); pass 2 P2L40: early i 13, separate sort-value local 6, named row 0.
  * symbols:
- *   d_021E1FDC 0x021E1FDC data a2
+ *   gGuru2PointerAngleTable 0x021E1FDC data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern const u16 d_021E1FDC[];
+extern const u16 gGuru2PointerAngleTable[];
 typedef struct {u8 pad[0x2c]; int index,count;} Obj;
-void *func_021E0A44(Obj *p)
+void *GURU2_MAIN_FindNearestPlayerRecord(Obj *p)
 {
     int distance[5],indices[5];
     int angle,i,j,key,value,delta,dist,row;
@@ -27,7 +27,7 @@ void *func_021E0A44(Obj *p)
     const u8 *base=(const u8 *)p+0x1a0;
     i=0;
     row=count*10;
-    angle=*(const u16 *)((unsigned)d_021E1FDC+row+p->index*2)<<12;
+    angle=*(const u16 *)((unsigned)gGuru2PointerAngleTable+row+p->index*2)<<12;
     do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
     for(i=0;i<count;i++) {
         value=*(int *)(base+i*0xb4+0x15c);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1520
+ * function: MB_UTIL_MSG_Delete
  * address: 0x021F1520
  * packet: pkt_ov107_021F1520
  * region: ov107
@@ -17,7 +17,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021F18EC 0x021F18EC thumb ov107
+ *   MB_UTIL_MSG_DeleteWordSet 0x021F18EC thumb ov107
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -44,7 +44,7 @@ extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021F18EC(void *);
+extern void MB_UTIL_MSG_DeleteWordSet(void *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern unsigned int GF_FONT_Delete(void *ptr);
@@ -54,7 +54,7 @@ extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 extern char ov021_id[];
 #define P(k) (*(void **)(p+(k)))
-void func_021F1520(char *p)
+void MB_UTIL_MSG_Delete(char *p)
 {
     if(P(0x54))TALKMSGWIN_Delete(P(0x54));
     if(P(0x3C))APP_TASKMENU_CloseMenu(P(0x3C));
@@ -63,7 +63,7 @@ void func_021F1520(char *p)
     APP_KEYCURSOR_Delete((int)P(0x44));APP_TASKMENU_RES_Delete(P(0x40));PRINTSYS_QUE_Delete(P(0x30));
     if(P(0x18))PRINTSYS_PrintStreamDelete(P(0x18));
     if(P(0x20))STRBUF_Delete(P(0x20));
-    if(P(0x24))func_021F18EC(p);
+    if(P(0x24))MB_UTIL_MSG_DeleteWordSet(p);
     MSGDATA_Delete(P(0x1C));
     if(P(0x10))BMP_WIN_Delete(P(0x10));
     GF_FONT_Delete(P(0x14));TCBL_Destroy(P(0x0C));func_020307B0(p);func_02034A5C((int)ov021_id);

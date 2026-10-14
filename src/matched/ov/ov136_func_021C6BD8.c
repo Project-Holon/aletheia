@@ -1,5 +1,5 @@
 /*
- * function: func_021C6BD8
+ * function: MB_SEQ_StateStartChild
  * address:  0x021C6BD8
  * packet:   pkt_ov136_021C6BD8
  * region:   ov136
@@ -21,7 +21,7 @@ struct StateEnt {
     u32 b;
 };
 extern const struct StateEnt d_021C7D78[];
-int func_021C6BD8(u8 *p)
+int MB_SEQ_StateStartChild(u8 *p)
 {
     d_021C7D78[*(u32 *)(p + 0x14)].fn(p);
     return 7;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F632C",
+   "name": "WORLDTRADE_BOX_StateStartWipeOut",
    "address": "0x021F632C",
    "kind": "game",
    "region": "ov135",

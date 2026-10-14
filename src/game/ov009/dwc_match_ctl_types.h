@@ -86,7 +86,7 @@ typedef struct DWCstMatchControl {
     void **pGt2Socket;              /* +0x004 */
     void *gt2Callbacks;             /* +0x008 */
     u8 gt2RetryCount;               /* +0x00C */
-    u8 f_00D;                       /* +0x00D */
+    u8 connectionEstablished;                       /* +0x00D */
     u8 pad00E[2];
     qr2_implementation_s *qr2Obj;   /* +0x010 */
     u8 qr2MatchType;                /* +0x014 */
@@ -97,16 +97,16 @@ typedef struct DWCstMatchControl {
     u8 qr2Flag19;                   /* +0x019 */
     u8 pad01A[2];
     u32 suspendBitmap;              /* +0x01C */
-    u64 f_020;                      /* +0x020 */
+    u64 suspendRequestTick;                      /* +0x020 */
     int suspendMatch;               /* +0x028 */
     int suspendRequest;             /* +0x02C */
-    u8 f_030;                       /* +0x030 */
+    u8 suspendReqPending;                       /* +0x030 */
     u8 pad031[0x034 - 0x031];
     void (*suspendCallback)(int, int, void *); /* +0x034 */
     void *suspendResultParam;       /* +0x038 */
     u64 suspendStartTick;           /* +0x03C */
     int suspendRestart;             /* +0x044 */
-    int f_048;                      /* +0x048 */
+    int suspendActive;                      /* +0x048 */
     u8 qr2ShutdownReq;              /* +0x04C */
     u8 pad04D[0x050 - 0x04D];
     int nodeCount;                  /* +0x050 */
@@ -127,18 +127,18 @@ typedef struct DWCstMatchControl {
     int sbUpdateFlag;               /* +0x5E4 */
     u64 sbUpdateTick;               /* +0x5E8 */
     u64 sbUpdateRequestTick;        /* +0x5F0 */
-    u8 f_5F8;                       /* +0x5F8 */
+    u8 nnSameCookieCount;                       /* +0x5F8 */
     u8 nnFailureCount;              /* +0x5F9 */
-    u16 f_5FA;                      /* +0x5FA */
-    u32 f_5FC;                      /* +0x5FC */
+    u16 nnCookieSeed;                      /* +0x5FA */
+    u32 nnLastCookie;                      /* +0x5FC */
     u64 nnFailedTime;               /* +0x600 */
     u64 nnFinishTime;               /* +0x608 */
     DWCstNNInfo nnInfo;             /* +0x610 */
     int state;                      /* +0x61C */
     u8 linkProgress;                /* +0x620 */
-    u8 f_621;                       /* +0x621 */
+    u8 connectCursor;                       /* +0x621 */
     u8 pad622[0x628 - 0x622];
-    u8 f_628;                       /* +0x628 */
+    u8 replyWaiting;                       /* +0x628 */
     u8 closeState;                  /* +0x629 */
     u8 cancelState;                 /* +0x62A */
     u8 scResvRetryCount;            /* +0x62B */
@@ -147,16 +147,16 @@ typedef struct DWCstMatchControl {
     u8 clWaitTimeoutCount;          /* +0x62E */
     u8 needServerPoll;              /* +0x62F */
     u16 hostLatency;                /* +0x630 */
-    u16 f_632;                      /* +0x632 */
-    int f_634;                      /* +0x634 */
+    u16 maxCancelLatency;                      /* +0x632 */
+    int connectNonce;                      /* +0x634 */
     int cmdResendFlag;              /* +0x638 */
     u64 cmdResendTick;              /* +0x63C */
     u32 cmdTimeoutTime;             /* +0x644 */
     u64 cmdTimeoutStartTick;        /* +0x648 */
     u32 synAckBitmap;               /* +0x650 */
-    int f_654;                      /* +0x654 */
+    int cancelAckBitmap;                      /* +0x654 */
     u64 synAckTick;                 /* +0x658 */
-    u64 f_660;                      /* +0x660 */
+    u64 cancelStartTick;                      /* +0x660 */
     u64 closedTime;                 /* +0x668 */
     u64 clWaitTime;                 /* +0x670 */
     int profileID;                  /* +0x678 */
@@ -164,10 +164,10 @@ typedef struct DWCstMatchControl {
     int peerProfileID;              /* +0x680 */
     char *gameName;                 /* +0x684 */
     char *secretKey;                /* +0x688 */
-    u8 *param68c;                   /* +0x68C */
-    int param690;                   /* +0x690 */
-    u8 buf694[0x40];                /* +0x694 */
-    int flag6d4;                    /* +0x6D4 */
+    u8 *friendKeyList;                   /* +0x68C */
+    int friendKeyListLen;                   /* +0x690 */
+    u8 friendListIndex[0x40];                /* +0x694 */
+    int friendListIndexCount;                    /* +0x6D4 */
     DWCstMatchCommandControl cmdCnt;/* +0x6D8 */
     MatchedCallback matchedCallback;/* +0x770 */
     void *matchedParam;             /* +0x774 */
@@ -193,13 +193,13 @@ typedef struct DWCstMatchControl {
     u8 cancelFromConnection;        /* +0x7B5 */
     u8 retryCountMax;               /* +0x7B6 */
     u8 pad7B7;
-    int (*f_7B8)(unsigned char *, int); /* +0x7B8 */
+    int (*attemptCallback)(unsigned char *, int); /* +0x7B8 */
     u8 connUserData[4];             /* +0x7BC */
-    int f_7C0;                      /* +0x7C0 */
-    int flag7c4;                    /* +0x7C4 */
-    u32 flag7c8;                    /* +0x7C8 */
-    u64 f_7CC;                      /* +0x7CC */
-    int flag7d4;                    /* +0x7D4 */
+    int attemptParam;                      /* +0x7C0 */
+    int isFirstServer;                    /* +0x7C4 */
+    u32 matchSessionID;                    /* +0x7C8 */
+    u64 suspendRetryDelayMs;                      /* +0x7CC */
+    int serverLockEnabled;                    /* +0x7D4 */
 } DWCstMatchControl;
 
 typedef struct DWCstBinaryMessageHeader {

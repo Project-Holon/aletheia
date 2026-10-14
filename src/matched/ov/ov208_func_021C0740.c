@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0740
+ * function: ZUKAN_DETAIL_AREA_FlushPrintWindow
  * address:  0x021C0740
  * packet:   pkt_ov208_021C0740
  * region:   ov208
@@ -32,7 +32,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void ov208_func_021C0740(u16 *heap, u8 *p, int key, u8 i)
+void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, int key, u8 i)
 {
     u32 w;
 

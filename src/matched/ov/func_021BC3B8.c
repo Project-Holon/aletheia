@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3B8
+ * function: ZUKAN_DETAIL_COMMON_GetCursorValue
  * address:  0x021BC3B8
  * packet:   pkt_021BC3B8
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj18183.h"
 
-int func_021BC3B8(char *p)
+int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p)
 {
     return ((struct Obj18183 *)p)->f14;
 }

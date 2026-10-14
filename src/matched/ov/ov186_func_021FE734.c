@@ -1,5 +1,5 @@
 /*
- * function: func_021FE734
+ * function: BR_FADE_Delete
  * address: 0x021FE734
  * packet: pkt_ov186_021FE734
  * region: ov186
@@ -20,4 +20,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PalAnmSlot; extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32); extern void PALANM_Delete(void *); extern void func_020307B0(void *);
-void func_021FE734(char *p) { PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,2); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,0); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,3); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,1); PALANM_Delete(((struct Obj06634 *)p)->f20); func_020307B0(p); }
+void BR_FADE_Delete(char *p) { PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,2); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,0); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,3); PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,1); PALANM_Delete(((struct Obj06634 *)p)->f20); func_020307B0(p); }

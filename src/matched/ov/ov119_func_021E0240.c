@@ -1,5 +1,5 @@
 /*
- * function: func_021E0240
+ * function: POKETRADE_SAVE_RestoreBlock1F
  * address: 0x021E0240
  * packet: pkt_ov119_021E0240
  * region: ov119
@@ -18,7 +18,7 @@ extern unsigned func_02009D9C(void);
 extern void MI_CpuCopy8(void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E0240(void **h, void *dst)
+void POKETRADE_SAVE_RestoreBlock1F(void **h, void *dst)
 {
     void *src = GAME_DATA_GetSaveBlock1F(h);
     MI_CpuCopy8(dst, src, func_02009D9C());

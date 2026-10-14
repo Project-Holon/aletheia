@@ -1,5 +1,5 @@
 /*
- * function: func_021F63E8
+ * function: MBi_ReadFromCache
  * address:  0x021F63E8
  * packet:   pkt_ov107_021F63E8
  * region:   ov107
@@ -37,7 +37,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
-int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
+int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len)
 {
     int ret;
     u32 bak_cpsr;

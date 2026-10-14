@@ -1,5 +1,5 @@
 /*
- * function: func_021F6EC0
+ * function: BTLV_CAMERA_Delete
  * address:  0x021F6EC0
  * packet:   pkt_ov094_021F6EC0
  * region:   ov094
@@ -19,7 +19,7 @@ extern unsigned int G3D_CAMERA_Delete(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021F6EC0(void **p)
+void BTLV_CAMERA_Delete(void **p)
 {
     G3D_CAMERA_Delete(p[1]);
     func_020307B0(p);

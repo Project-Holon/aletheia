@@ -1,5 +1,5 @@
 /*
- * function: func_021E3034
+ * function: POKETRADE_3D_ExitParticleManager
  * address:  0x021E3034
  * packet:   pkt_ov119_021E3034
  * region:   ov119
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern void PARTICLE_ExitManager(void);
 extern u32 func_020307B0(void *p);
 
-void func_021E3034(u32 *p, int a1)
+void POKETRADE_3D_ExitParticleManager(u32 *p, int a1)
 {
     int i;
 

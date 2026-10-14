@@ -1,5 +1,5 @@
 /*
- * function: func_021FBFA0
+ * function: BTLV_EFFVM_CmdCopyPokeSpriteState
  * address:  0x021FBFA0
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FBFA0   0x021FBFA0  thumb
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_02200140 0x02200140 thumb ov094
+ *   BTLV_EFFVM_CmdCopyPokeSpriteState   0x021FBFA0  thumb
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_MCSS_CopySpriteResources 0x02200140 thumb ov094
 
  *
  * lane O10 candidate
  */
 #include "../include/Obj09236.h"
 
-extern int  func_021F8694(void);
-extern void func_02200140(int a, int b, int c);
+extern int  BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_CopySpriteResources(int a, int b, int c);
 
-int func_021FBFA0(int a, char *b)
+int BTLV_EFFVM_CmdCopyPokeSpriteState(int a, char *b)
 {
-    func_02200140(func_021F8694(), ((struct Obj09236 *)b)->fE0, ((struct Obj09236 *)b)->fDC);
+    BTLV_MCSS_CopySpriteResources(BTLV_EFFECT_GetMcss(), ((struct Obj09236 *)b)->fE0, ((struct Obj09236 *)b)->fDC);
     return ((struct Obj09236 *)b)->f23C;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C21C4
+ * function: ARROW_ShowPart
  * address: 0x021C21C4
  * packet: pkt_ov217_021C21C4
  * region: ov217
@@ -37,7 +37,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *,u32);
 extern void CLACT_StartActorAnim(struct Actor *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021C21C4(u8 *p,int index)
+void ARROW_ShowPart(u8 *p,int index)
 {
     u8 *record=p+0x28+index*24;
     struct Obj *obj=*(struct Obj * *)&((struct Obj06720 *)record)->f14;

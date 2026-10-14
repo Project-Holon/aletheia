@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D9C
+ * function: PALETTE_ANIME_IsRunningImpl
  * address:  0x021C2D9C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -22,8 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C2D9C(u32 *p);
-u32 func_021C2D9C(u32 *p)
+u32 PALETTE_ANIME_IsRunningImpl(u32 *p);
+u32 PALETTE_ANIME_IsRunningImpl(u32 *p)
 {
     return p[5];
 }

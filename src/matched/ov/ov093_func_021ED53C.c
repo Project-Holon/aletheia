@@ -11,15 +11,15 @@
  *
  * symbols:
  *   BTLV_SCU_HideMonSlot  0x021ED9EC  thumb  ov093
- *   func_021F87D4  0x021F87D4  thumb  ov094
+ *   BTLV_EFFECT_SetLowHpBgmSuppressed  0x021F87D4  thumb  ov094
  */
 typedef unsigned char u8;
 struct E;
 extern void BTLV_SCU_HideMonSlot(struct E *e);
 typedef unsigned int   u32;
-extern void func_021F87D4(u32 v);
+extern void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 v);
 void BTLV_SCU_HideMon(u8 *p, int k)
 {
     BTLV_SCU_HideMonSlot((struct E *)(p + 0x48 + k * 12));
-    func_021F87D4(1);
+    BTLV_EFFECT_SetLowHpBgmSuppressed(1);
 }

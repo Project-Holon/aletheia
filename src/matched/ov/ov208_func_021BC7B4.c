@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7B4
+ * function: ZUKAN_DETAIL_COMMON_RequestFade
  * address: 0x021BC7B4
  * packet: pkt_ov208_021BC7B4
  * region: ov208
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj02252.h"
 extern int PALANM_RequestFade(void *,unsigned short,unsigned short,short,unsigned char,unsigned char,unsigned short,void *);
-void func_021BC7B4(char *p,short b,unsigned char c,unsigned char d)
+void ZUKAN_DETAIL_COMMON_RequestFade(char *p,short b,unsigned char c,unsigned char d)
 {
     if(((struct Obj02252 *)p)->fC&1)PALANM_RequestFade(((struct Obj02252 *)p)->f8,1,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
     if(((struct Obj02252 *)p)->fC&4)PALANM_RequestFade(((struct Obj02252 *)p)->f8,4,0xff,b,c,d,0,((struct Obj02252 *)p)->f0);

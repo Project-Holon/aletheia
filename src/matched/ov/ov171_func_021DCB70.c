@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB70
+ * function: DENDOU_VIEW_InitPalAnm
  * address:  0x021DCB70
  * packet:   pkt_021DCB70
  * region:   ov171
@@ -20,7 +20,7 @@ struct PalAnmSlot;
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-void func_021DCB70(int *p)
+void DENDOU_VIEW_InitPalAnm(int *p)
 {
     int x = (int)PALANM_Create(0x8c);
 

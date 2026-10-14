@@ -1,5 +1,5 @@
 /*
- * function: func_021F8290
+ * function: WORLDTRADE_DEPOSIT_DrawRequestWindowAlt
  * address: 0x021F8290
  * packet: pkt_ov135_021F8290
  * region: ov135
@@ -13,10 +13,10 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021F91A0 0x021F91A0 thumb ov135
- *   func_021F7F9C 0x021F7F9C thumb ov135
- *   func_021F8098 0x021F8098 thumb ov135
- *   func_021F8154 0x021F8154 thumb ov135
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine 0x021F91A0 thumb ov135
+ *   WORLDTRADE_DEPOSIT_PrintName 0x021F7F9C thumb ov135
+ *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned 0x021F8098 thumb ov135
+ *   WORLDTRADE_DEPOSIT_PrintLevelRange 0x021F8154 thumb ov135
  */
 #include "../include/Obj08181.h"
 typedef unsigned char u8;
@@ -30,28 +30,28 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-extern void func_021F7F9C(void *, void *, u32, u32, u32, u16, void *);
-extern void func_021F8098(void *, void *, int, int, u32, int, u16, void *);
-extern void func_021F8154(void *, void *, int, u32, u32, u16, int, void *);
-void func_021F8290(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g)
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern void WORLDTRADE_DEPOSIT_PrintName(void *, void *, u32, u32, u32, u16, void *);
+extern void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *, void *, int, int, u32, int, u16, void *);
+extern void WORLDTRADE_DEPOSIT_PrintLevelRange(void *, void *, int, u32, u32, u16, int, void *);
+void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g)
 {
     int i;
     void *str;
     int show = 1;
     str = func_02045EC0(bank, 0x6b);
-    func_021F91A0(((struct Obj08181 *)win)->f0, (u32)str, 0, 0, 0, 0x440, (u32)g);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(((struct Obj08181 *)win)->f0, (u32)str, 0, 0, 0, 0x440, (u32)g);
     for (i = 1; i < 3; i++)
         BMP_Clear(BMP_WIN_GetBmp(*(void **)(win + i * 4)), 0);
-    func_021F7F9C(((struct Obj08181 *)win)->f4, names, index, 0, 0, 0x440, g);
+    WORLDTRADE_DEPOSIT_PrintName(((struct Obj08181 *)win)->f4, names, index, 0, 0, 0x440, g);
     if (index == 29 && mode == 2)
         show = 0;
     else if (index == 32 && mode == 1)
         show = 0;
     if (show) {
         if (mode == 1 || mode == 2)
-            func_021F8098(((struct Obj08181 *)win)->f4, bank, mode, 0, 0, 70, 0x440, g);
+            WORLDTRADE_DEPOSIT_PrintModeLabelAligned(((struct Obj08181 *)win)->f4, bank, mode, 0, 0, 70, 0x440, g);
     }
-    func_021F8154(((struct Obj08181 *)win)->f8, bank, place, 0, 0, 0x440, 0, g);
+    WORLDTRADE_DEPOSIT_PrintLevelRange(((struct Obj08181 *)win)->f8, bank, place, 0, 0, 0x440, 0, g);
     STRBUF_Delete(str);
 }

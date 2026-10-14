@@ -25,7 +25,7 @@
  *   UNION_MSG_SetupRegulationWindow  0x0217F640  thumb ov019
  *   UNION_MSG_CheckRegulationPrintEnd  0x0217F794  thumb ov019
  *   UNION_MSG_DeleteRegulationWindow  0x0217F7B8  thumb ov019
- *   func_0217EC88  0x0217EC88  thumb ov019
+ *   UNION_MSG_GetTalkMenuPromptMsg  0x0217EC88  thumb ov019
  *   KEY_GetTrg  0x020362DC  arm
  */
 
@@ -69,7 +69,7 @@ int UNION_ONESELF_GetRegulationFlag(int id);
 void UNION_MSG_SetupRegulationWindow(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 u32 UNION_MSG_CheckRegulationPrintEnd(char *p, u32 a);
 void UNION_MSG_DeleteRegulationWindow(char *p);
-u16 func_0217EC88(int i);
+u16 UNION_MSG_GetTalkMenuPromptMsg(int i);
 u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
@@ -165,7 +165,7 @@ int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 9:
-        UNION_MSG_SetupPrintTalkMsg(ctx, a2, func_0217EC88(obj->f14->flag));
+        UNION_MSG_SetupPrintTalkMsg(ctx, a2, UNION_MSG_GetTalkMenuPromptMsg(obj->f14->flag));
         *state = 0;
         break;
     }

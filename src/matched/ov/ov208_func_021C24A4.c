@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C24A4
+ * function: ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode
  * address:  0x021C24A4
  * packet:   pkt_ov208_021C24A4
  * region:   ov208
@@ -21,7 +21,7 @@ typedef int            s32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-void ov208_func_021C24A4(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetMapActorsAlphaMode(u16 *heap, u8 *p, int key)
 {
     u8 i;
 

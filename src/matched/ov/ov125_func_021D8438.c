@@ -1,5 +1,5 @@
 /*
- * function: func_021D8438
+ * function: GDS_SOCKET_Sleep
  * address:  0x021D8438
  * packet:   pkt_ov125_021D8438
  * region:   ov125
@@ -18,7 +18,7 @@
 typedef unsigned long u32;
 extern void OS_Sleep(u32 msec);
 
-void func_021D8438(int msec)
+void GDS_SOCKET_Sleep(int msec)
 {
     OS_Sleep(msec);
 }

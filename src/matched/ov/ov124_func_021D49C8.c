@@ -1,5 +1,5 @@
 /*
- * function: func_021D49C8
+ * function: CG_HELP_UpdatePageGraphics
  * address: 0x021D49C8
  * packet: pkt_ov124_021D49C8
  * region: ov124
@@ -19,11 +19,11 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
- *   d_021D4CF4 0x021D4CF4 data a4
- *   d_021D4CA4 0x021D4CA4 data a4
- *   d_021D4D4C 0x021D4D4C data a1
- *   d_021D4C04 0x021D4C04 data a4
- *   d_021D4BE0 0x021D4BE0 data a2
+ *   gCgHelpPageAnimSeq 0x021D4CF4 data a4
+ *   gCgHelpPageCharOffset 0x021D4CA4 data a4
+ *   gCgHelpFileName 0x021D4D4C data a1
+ *   gCgHelpPageTileBase 0x021D4C04 data a4
+ *   gCgHelpActorOffset 0x021D4BE0 data a2
  */
 #include "../include/Obj00122.h"
 #include "../include/Obj22993.h"
@@ -32,9 +32,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 typedef struct { s16 x, y; } Vec;
-extern const u32 d_021D4CF4[], d_021D4CA4[], d_021D4C04[];
-extern const char d_021D4D4C[];
-extern const Vec d_021D4BE0;
+extern const u32 gCgHelpPageAnimSeq[], gCgHelpPageCharOffset[], gCgHelpPageTileBase[];
+extern const char gCgHelpFileName[];
+extern const Vec gCgHelpActorOffset;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -47,30 +47,30 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-void func_021D49C8(char *p, u32 n)
+void CG_HELP_UpdatePageGraphics(char *p, u32 n)
 {
     u16 *q;
     u8 i, j;
     Vec delta;
-    CLACT_SetActorAnimSeq(((struct Obj00122 *)p)->f5C, d_021D4CF4[n]);
+    CLACT_SetActorAnimSeq(((struct Obj00122 *)p)->f5C, gCgHelpPageAnimSeq[n]);
     CLACT_SetActorDrawEnable(((struct Obj00122 *)p)->f5C, 1);
     if (n <= 7) {
-        func_02061CA4((void *)31, 320, (u32)(*(char * *)&((struct Obj22993 *)(*(char * *)&((struct Obj00122 *)p)->f48))->fC + d_021D4CA4[n] * 32), 32);
-        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, d_021D4D4C, 0x2ac);
+        func_02061CA4((void *)31, 320, (u32)(*(char * *)&((struct Obj22993 *)(*(char * *)&((struct Obj00122 *)p)->f48))->fC + gCgHelpPageCharOffset[n] * 32), 32);
+        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, gCgHelpFileName, 0x2ac);
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
-                q[i * 4 + j] = j + d_021D4C04[n] + i * 32 + 0xa000;
+                q[i * 4 + j] = j + gCgHelpPageTileBase[n] + i * 32 + 0xa000;
             }
         }
         func_02041090(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     } else {
-        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, d_021D4D4C, 0x2bb);
+        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, gCgHelpFileName, 0x2bb);
         func_02041090(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     }
     func_020409B4(4);
-    delta = d_021D4BE0;
+    delta = gCgHelpActorOffset;
     CLACT_AddActorSurfacePos(((struct Obj00122 *)p)->f5C, (const struct Vec2 *)(&delta), 1);
     if (n == 10) {
         CLACT_SetActorAutoAnim(((struct Obj00122 *)p)->f5C, 0);

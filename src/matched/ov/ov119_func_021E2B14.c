@@ -1,5 +1,5 @@
 /*
- * function: func_021E2B14
+ * function: POKETRADE_SAVE_Init3DProjection
  * address: 0x021E2B14
  * packet: pkt_ov119_021E2B14
  * region: ov119
@@ -28,7 +28,7 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 hea
 struct LightSlot;
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
-void func_021E2B14(int a) {
+void POKETRADE_SAVE_Init3DProjection(int a) {
     Config c;
     d_021F4560=G3D_LIGHT_CreateSlots((const struct LightSet *)d_021E799C,a);
     G3D_LIGHT_ApplySlots(d_021F4560);

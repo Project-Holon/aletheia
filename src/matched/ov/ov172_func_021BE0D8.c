@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0D8
+ * function: COMM_TVT_SYS_IsLaunchModeCall
  * address:  0x021BE0D8
  * packet:   pkt_021B6100
  * region:   ov172
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BE0D8(void *p)
+int COMM_TVT_SYS_IsLaunchModeCall(void *p)
 {
     void *q = ((struct Obj24136 *)p)->f1F8;
     if (((struct Obj24137 *)q)->f4 == 3) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021FE4D0
+ * function: BTLV_EFFVM_FindFreeSeSlot
  * address:  0x021FE4D0
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FE4D0   0x021FE4D0  thumb
+ *   BTLV_EFFVM_FindFreeSeSlot   0x021FE4D0  thumb
  *   BODY
 
  *
  * lane O10 candidate
  */
 
-int func_021FE4D0(char *p)
+int BTLV_EFFVM_FindFreeSeSlot(char *p)
 {
     int i;
 

@@ -22,8 +22,8 @@
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
- *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
+ *   FIELD_SOUND_SYSTEM_FindSlotSound  0x021D21C0  thumb ov021
+ *   FIELD_SOUND_SYSTEM_IsSlotSoundTracked  0x021D21E0  thumb ov021
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *
@@ -46,8 +46,8 @@ struct SoundSys2 {
     u32 unkB4;
 };
 
-extern int SCRCMD_FindRegisteredEntry(u32 id);
-extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
+extern int FIELD_SOUND_SYSTEM_FindSlotSound(u32 id);
+extern int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 id);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
@@ -57,11 +57,11 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id)
 {
     u32 n;
 
-    if (SCRCMD_FindRegisteredEntry(id) == 0) {
+    if (FIELD_SOUND_SYSTEM_FindSlotSound(id) == 0) {
         GFL_USE_PlaySeDefaultVolume(id);
         return;
     }
-    if (SCRCMD_IsRegisteredEntryEnabled(id) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSlotSoundTracked(id) != 0) {
         n = GFL_USE_GetSeSlot(id) - 1;
         s->slot[n] = id;
         s->owner[n] = 0xFFFF;

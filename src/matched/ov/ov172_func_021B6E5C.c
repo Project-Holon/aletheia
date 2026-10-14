@@ -1,5 +1,5 @@
 /*
- * function: func_021B6E5C
+ * function: DRAW_SYSTEM_PutPixel
  * address:  0x021B6E5C
  * packet:   pkt_021B6868
  * region:   ov172
@@ -19,10 +19,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021B6E5C(unsigned short *p, char *base, unsigned x, unsigned y,
+extern void DRAW_SYSTEM_PutPixel(unsigned short *p, char *base, unsigned x, unsigned y,
                           unsigned short v);
 
-void func_021B6E5C(unsigned short *p, char *base, unsigned x, unsigned y,
+void DRAW_SYSTEM_PutPixel(unsigned short *p, char *base, unsigned x, unsigned y,
                   unsigned short v)
 {
     if (x >= p[4] && x < p[5] && y >= p[6] && y < p[7]) {

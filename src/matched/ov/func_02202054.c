@@ -1,5 +1,5 @@
 /*
- * function: func_02202054
+ * function: WORLDTRADE_SERVER_StartSave
  * address:  0x02202054
  * packet:   pkt_02202054
  * region:   ov135
@@ -27,7 +27,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int GAME_DATA_SaveStart(int a0);
 extern u32 func_020056EC(u32 v);
 
-int func_02202054(u8 *p)
+int WORLDTRADE_SERVER_StartSave(u8 *p)
 {
     GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)(((struct Obj09248 *)p)->f0 + 0x40))));
     ((struct Obj09248 *)p)->f28 = 0x23;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED04
+ * function: UNION_MSG_GetPartnerBusyMsg
  * address:  0x0217ED04
  * packet:   pkt_ov019_0217ED04
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_0218033C[];
 
-u16 func_0217ED04(int i)
+u16 UNION_MSG_GetPartnerBusyMsg(int i)
 {
     return d_0218033C[i];
 }

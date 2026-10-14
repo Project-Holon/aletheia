@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D20
+ * function: GDS_SOCKET_NopVoid
  * address: 0x021D7D20
  * packet: pkt_ov125_021D7D20
  * region: ov125
@@ -9,4 +9,4 @@
  * isa: arm
  * status: EXACT
  */
-void func_021D7D20(void){}
+void GDS_SOCKET_NopVoid(void){}

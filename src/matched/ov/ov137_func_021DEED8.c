@@ -1,5 +1,5 @@
 /*
- * function: func_021DEED8
+ * function: GURU2_MAIN_StateWaitAllSlotsReady
  * address: 0x021DEED8
  * packet: pkt_ov137_021DEED8
  * region: ov137
@@ -10,7 +10,7 @@
  * extent: follower in owned 021DEE4C extent.
  */
 #include "../include/Obj14222.h"
-int func_021DEED8(char *p)
+int GURU2_MAIN_StateWaitAllSlotsReady(char *p)
 {
     char *q=p+0x1a0;
     int i,n,count;

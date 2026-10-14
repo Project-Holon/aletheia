@@ -1,5 +1,5 @@
 /*
- * function: func_0220015C
+ * function: WORLDTRADE_TITLE_LoadBgGraphics
  * address:  0x0220015C
  * packet:   pkt_0220015C
  * region:   ov135
@@ -35,7 +35,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_0220015C(u8 *a0)
+void WORLDTRADE_TITLE_LoadBgGraphics(u8 *a0)
 {
     void *h = func_020490F4(0x60, 0x48);
 

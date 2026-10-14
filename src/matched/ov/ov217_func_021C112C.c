@@ -1,5 +1,5 @@
 /*
- * function: func_021C112C
+ * function: CircleGraph_Draw
  * address:  0x021C112C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C124C  0x021C124C  thumb  ov217
- *   func_021C13E8  0x021C13E8  thumb  ov217
- *   func_021C14DC  0x021C14DC  thumb  ov217
- *   func_021C1D24  0x021C1D24  thumb  ov217
+ *   CircleGraph_DrawSlices  0x021C124C  thumb  ov217
+ *   CircleGraph_DrawOutline  0x021C13E8  thumb  ov217
+ *   CircleGraph_SetupCamera  0x021C14DC  thumb  ov217
+ *   CircleGraph_IsEnabled  0x021C1D24  thumb  ov217
  *
- * When func_021C1D24() reports 1 and the +8 field is set, runs the
+ * When CircleGraph_IsEnabled() reports 1 and the +8 field is set, runs the
  * +0x3C update triplet.
  *
  * Addresses are Black-image addresses.
@@ -29,18 +29,18 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C124C(u8 *p);
+extern void CircleGraph_DrawSlices(u8 *p);
 struct Big;
-extern void func_021C13E8(struct Big *p);
-extern void func_021C14DC(u8 *p);
-extern u32 func_021C1D24(void *);
-void func_021C112C(u8 *p)
+extern void CircleGraph_DrawOutline(struct Big *p);
+extern void CircleGraph_SetupCamera(u8 *p);
+extern u32 CircleGraph_IsEnabled(void *);
+void CircleGraph_Draw(u8 *p)
 {
-    if (func_021C1D24(p) == 1) {
+    if (CircleGraph_IsEnabled(p) == 1) {
     if (((struct Obj26006 *)p)->f8 != 0) {
-    func_021C14DC(p);
-    func_021C124C(p);
-    func_021C13E8((struct Big *)p);
+    CircleGraph_SetupCamera(p);
+    CircleGraph_DrawSlices(p);
+    CircleGraph_DrawOutline((struct Big *)p);
     }
     }
 }

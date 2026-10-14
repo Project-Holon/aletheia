@@ -1,5 +1,5 @@
 /*
- * function: func_021F7CE4
+ * function: BTLV_EFFECT_StartPokeAppearEffect
  * address:  0x021F7CE4
  * packet:   pkt_ov094_021F7CE4
  * region:   ov094
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Runs func_021F7A28 with code 0x23b, then func_021F8AE8 with 0.
+ * Runs BTLV_EFFECT_StartEffectOnPoke with code 0x23b, then BTLV_EFFECT_SetPokeEffectValue with 0.
  *
  * symbols:
- *   func_021F7A28 0x021F7A28 thumb ov094
- *   func_021F8AE8 0x021F8AE8 thumb ov094
+ *   BTLV_EFFECT_StartEffectOnPoke 0x021F7A28 thumb ov094
+ *   BTLV_EFFECT_SetPokeEffectValue 0x021F8AE8 thumb ov094
  */
 typedef unsigned int   u32;
-extern void func_021F7A28(int a, u32 b);
-extern void func_021F8AE8(int i, u32 v);
+extern void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
+extern void BTLV_EFFECT_SetPokeEffectValue(int i, u32 v);
 
-void func_021F7CE4(int a)
+void BTLV_EFFECT_StartPokeAppearEffect(int a)
 {
-    func_021F7A28(a, 0x23b);
-    func_021F8AE8(a, 0);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x23b);
+    BTLV_EFFECT_SetPokeEffectValue(a, 0);
 }

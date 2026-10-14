@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217A60C",
+   "name": "IRCi_Init",
    "address": "0x0217A60C",
    "kind": "sdk",
    "region": "ov015",

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2B8
+ * function: GURU2_MAIN_StateWaitSync3
  * address: 0x021DF2B8
  * packet: pkt_ov137_021DF2B8
  * region: ov137
@@ -21,4 +21,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,u32,u32);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-int func_021DF2B8(int *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40)) { if(GFL_NET_SYSTEM_GetCurrentAid()==0) *p=33; else *p=34; } return 0; }
+int GURU2_MAIN_StateWaitSync3(int *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40)) { if(GFL_NET_SYSTEM_GetCurrentAid()==0) *p=33; else *p=34; } return 0; }

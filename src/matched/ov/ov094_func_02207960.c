@@ -1,5 +1,5 @@
 /*
- * function: func_02207960
+ * function: BTLV_GAUGE_DeleteSlotTask
  * address:  0x02207960
  * packet:   pkt_ov094_02207960
  * region:   ov094
@@ -12,7 +12,7 @@
  * symbols:
  *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *   func_02030EAC  0x02030EAC  arm
- *   d_0220AAB4     0x0220AAB4  data   ov094  a2
+ *   gBtlvGaugeSlideOutOffset     0x0220AAB4  data   ov094  a2
  */
 typedef struct {
     short x;
@@ -24,19 +24,19 @@ typedef struct {
     unsigned int b3 : 1;
 } Bf;
 
-extern const Pt d_0220AAB4;
+extern const Pt gBtlvGaugeSlideOutOffset;
 extern void BTLV_GAUGE_PlaceSlot(char *p, int i, Pt *pt);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02207960(char *p, int i)
+void BTLV_GAUGE_DeleteSlotTask(char *p, int i)
 {
     char *q = p + 0xb0;
     int o = i * 128;
     void *t;
 
     if (((Bf *)(q + o))->b3) {
-        Pt pt = d_0220AAB4;
+        Pt pt = gBtlvGaugeSlideOutOffset;
 
         if (i & 1)
             pt.x *= -1;

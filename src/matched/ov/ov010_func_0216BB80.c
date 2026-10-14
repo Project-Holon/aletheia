@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionTargetCount
+ * function: SCRCMD_RESEARCH_GetMissionTargetCount
  * address: 0x0216BB80
  * packet: pkt_ov010_0216BB80
  * region: ov010
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 sMissionTargetCount[];
-int FIELD_G3D_MAP_GetMissionTargetCount(int index)
+int SCRCMD_RESEARCH_GetMissionTargetCount(int index)
 {
     return *(const u8 *)((u32)sMissionTargetCount + (u32)index * 7u);
 }

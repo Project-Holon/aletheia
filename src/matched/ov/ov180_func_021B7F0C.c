@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F0C
+ * function: HALL_OF_FAME_DeleteTrainerSceneObjects
  * address: 0x021B7F0C
  * packet: pkt_ov180_021B7F0C
  * region: ov180
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B77C4 0x021B77C4 thumb ov180
- *   func_021B7604 0x021B7604 thumb ov180
+ *   HALL_OF_FAME_DeleteAllTextPlates 0x021B77C4 thumb ov180
+ *   HALL_OF_FAME_DeleteAllActors 0x021B7604 thumb ov180
  *   CLACT_DeleteRenderer 0x0204B084 arm
- *   func_021B756C 0x021B756C thumb ov180
+ *   HALL_OF_FAME_ReleaseAllResources 0x021B756C thumb ov180
  */
 #include "../include/Obj04569.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_021B77C4(int *),func_021B7604(int *);
+extern void HALL_OF_FAME_DeleteAllTextPlates(int *),HALL_OF_FAME_DeleteAllActors(int *);
 extern void CLACT_DeleteRenderer(void *);
-extern void func_021B756C(char *);
-void func_021B7F0C(int *p) { func_021B77C4(p); func_021B7604(p); CLACT_DeleteRenderer(((struct Obj04569 *)p)->f9118); func_021B756C((char *)p); }
+extern void HALL_OF_FAME_ReleaseAllResources(char *);
+void HALL_OF_FAME_DeleteTrainerSceneObjects(int *p) { HALL_OF_FAME_DeleteAllTextPlates(p); HALL_OF_FAME_DeleteAllActors(p); CLACT_DeleteRenderer(((struct Obj04569 *)p)->f9118); HALL_OF_FAME_ReleaseAllResources((char *)p); }

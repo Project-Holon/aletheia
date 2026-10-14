@@ -1,5 +1,5 @@
 /*
- * function: func_021D4384
+ * function: GSYNC_MENU_RestartTimeIcon
  * address: 0x021D4384
  * packet: pkt_ov123_021D4384
  * region: ov123
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void TIME_ICON_Delete(u8 *);
 extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
-void func_021D4384(u8 *p) { if(*(u8 * *)&((struct Obj00273 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj00273 *)p)->f288); *(u32 *)&((struct Obj00273 *)p)->f288=0; } *(u8 * *)&((struct Obj00273 *)p)->f288=TIME_ICON_CreateNode(((struct Obj00273 *)p)->f230,((struct Obj00273 *)p)->f224,15,16,((struct Obj00273 *)p)->fC); }
+void GSYNC_MENU_RestartTimeIcon(u8 *p) { if(*(u8 * *)&((struct Obj00273 *)p)->f288) { TIME_ICON_Delete(*(u8 * *)&((struct Obj00273 *)p)->f288); *(u32 *)&((struct Obj00273 *)p)->f288=0; } *(u8 * *)&((struct Obj00273 *)p)->f288=TIME_ICON_CreateNode(((struct Obj00273 *)p)->f230,((struct Obj00273 *)p)->f224,15,16,((struct Obj00273 *)p)->fC); }

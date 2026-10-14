@@ -2,136 +2,106 @@
 #define BTLV_STAGE_SHARED_TYPES_H
 
 #include "btlv_effvm_types.h"
+#include "btlv_camera_shared_types.h"
 
-struct G3dOwner;
+/* 3D system objects, see arm9/g3d_system_types.h */
+typedef struct G3dResource G3dResource;
+typedef struct G3dRender G3dRender;
+typedef struct G3dAnime G3dAnime;
+typedef struct G3dObject G3dObject;
 
-struct G3dRec;
+/* Position, scale and rotation an object is drawn with (arm9/g3d_system_types.h). */
+typedef struct G3dObjectStatus {
+    BtlvVec3 trans;
+    BtlvVec3 scale;
+    int rotate[9];
+} G3dObjectStatus;
 
-struct Tagged;
+typedef struct NNSG3dResTexInfo {
+    u32 vramKey;
+    u16 sizeTex;
+    u16 ofsDict;
+    u16 flag;
+    u16 dummy_;
+    u32 ofsTex;
+} NNSG3dResTexInfo;
 
-struct G3dSys;
+typedef struct NNSG3dResTex4x4Info {
+    u32 vramKey;
+    u16 sizeTex;
+    u16 ofsDict;
+    u16 flag;
+    u16 dummy_;
+    u32 ofsTex;
+    u32 ofsTexPlttIdx;
+} NNSG3dResTex4x4Info;
 
-struct Rec_v6560;
+/* Palette block of a texture resource (NSBTX), as in arm9/g3d_system.c. */
+typedef struct NNSG3dResPlttInfo {
+    u32 vramKey;
+    u16 sizePltt;
+    u16 flag;
+    u16 ofsDict;
+    u16 dummy_;
+    u32 ofsPlttData;
+} NNSG3dResPlttInfo;
 
-struct Arg_v6560;
+/* Texture resource, up to the palette block (0x40 bytes before the dictionary). */
+typedef struct NNSG3dResTex {
+    u32 header[2];
+    NNSG3dResTexInfo texInfo;       /* 0x08 */
+    NNSG3dResTex4x4Info tex4x4Info; /* 0x18 */
+    NNSG3dResPlttInfo plttInfo; /* 0x2C */
+} NNSG3dResTex;
 
-typedef struct { int kind, a, b, c; } Ent_021F6560;
+/* Animation state of one model animation of a stage or field. */
+#define BTLV_ANIM_LOOP  0   /* plays at normal speed forever */
+#define BTLV_ANIM_TIMED 1   /* plays at a set speed for a set number of updates when armed */
 
-typedef struct {
-    int f0;
-    int ids[4][4];
-} Rec_v6560;
+typedef struct BtlvAnimState {
+    int kind;           /* 0x00: BTLV_ANIM_* */
+    int armed;          /* 0x04: 1 while a timed run is active */
+    int speed;          /* 0x08: frame step of the timed run */
+    int updatesLeft;    /* 0x0C */
+} BtlvAnimState;
 
-typedef struct {
-    int f0, f4, f8;
-    int sx, sy, sz;
-    int matrix[9];
-} Xf;
+/*
+ * Palette fade of a background texture (16 bytes). The enabled flag is the
+ * "effect active" test of the stage and the field.
+ */
+typedef struct BtlvPalFade {
+    G3dResource **resources;    /* 0x00: textures whose palettes are blended */
+    u16 **palettes;             /* 0x04: blended palette buffers, one per texture */
+    u8 enabled;                 /* 0x08 */
+    u8 count;                   /* 0x09: number of textures */
+    u8 current;                 /* 0x0A: current blend level */
+    u8 target;                  /* 0x0B */
+    u8 wait;                    /* 0x0C: updates left before the next level */
+    u8 interval;                /* 0x0D */
+    u16 color;                  /* 0x0E: RGB555 blended toward */
+} BtlvPalFade;
 
-typedef struct {
-    void *f0;
-    int n;
-    Ent_021F6560 *arr[2];
-    void **f10;
-    void **f14[2];
-    void *h1c[2];
-    void *h24[2];
-    Xf xf[2];
-    void **fa4;
-    void **fa8;
-    u8 fac, fad;
-    u8 padae[10];
-    u16 heap;
-    u16 padba;
-} Obj_021F6560;
+/* One group of the stage resource table (archive 0x98 member 2). */
+typedef struct BtlvStageFiles {
+    int unknown00;              /* 0x00: not read by the code */
+    int fileId[4][4];           /* 0x04: [0][v] model, [1..3][v] animations, v = variant; -1 = none */
+} BtlvStageFiles;
 
-typedef struct {
-    void *f0;           /* 0x00 */
-    int n;              /* 0x04 */
-    void *f8[2];        /* 0x08 */
-    void **f10;         /* 0x10 */
-    void **f14[2];      /* 0x14 */
-    void *f1c[2];       /* 0x1c */
-    void *f24[2];       /* 0x24 */
-    char pad2c[0xa4 - 0x2c];
-    void *fa4;          /* 0xa4 */
-    void **fa8;         /* 0xa8 */
-} Obj_021F6898;
-
-typedef struct {
-    int kind;       /* 0x00 */
-    int f4;
-    int f8;
-    int fc;
-} Ent_021F6934;
-
-typedef struct {
-    int f0;
-    int n;              /* 0x04 */
-    Ent_021F6934 *arr[2];        /* 0x08 */
-    char pad10[0x24 - 0x10];
-    void *h[2];         /* 0x24 */
-    char pad2c[0xa4 - 0x2c];
-    char sub[0x10];     /* 0xa4 */
-} Obj_021F6934;
-
-typedef struct {
-    char pad[0x24];
-    void *h[2];             /* 0x24 */
-    char xf[2][0x3c];       /* 0x2c */
-    char padA4[0xb4 - 0xa4];
-    unsigned off : 2;       /* 0xb4 */
-} Obj_021F69B0;
-
-typedef struct {
-    char pad[0xac];
-    unsigned char f0;
-    unsigned char f1;
-    unsigned char f2;
-    unsigned char f3;
-    unsigned char f4;
-    unsigned char f5;
-    unsigned short f6;
-} S69E8;
-
-typedef struct { char pad[0xB4]; u32 f : 2; u32 rest : 30; } Obj_021F6A28;
-
-typedef struct {
-    int state;
-    int armed;
-    int a;
-    int b;
-} Entry_021F6560;
-
-typedef struct {
-    char pad[8];
-    Entry_021F6560 *tab[1];
-} Obj_021F6AA8;
-
-typedef struct {
-    int pad0;
-    int n;              /* 0x04 */
-    Entry_021F6560 *x;           /* 0x08 */
-    Entry_021F6560 *y;           /* 0x0c */
-} Obj_021F6AD0;
-
-typedef struct {
-    u8 b0, b1, b2, b3;
-    int f4;
-    int f8;
-    u16 fc;
-} Arg_v6560;
-
-typedef struct {
-    u32 **a0;           /* 0 */
-    u16 **a4;           /* 4 */
-    u8 en;              /* 8 */
-    u8 n;               /* 9 */
-    u8 cur;             /* 0xA */
-    u8 tgt;             /* 0xB */
-    u8 cnt;             /* 0xC */
-    u8 rl;              /* 0xD */
-    u16 col;            /* 0xE */
-} P;
+/* The battle stage: ground model drawn twice (0xBC bytes). */
+typedef struct BtlvStage {
+    G3dResource *resource;          /* 0x00: model and textures */
+    int animCount;                  /* 0x04 */
+    BtlvAnimState *animState[2];    /* 0x08: per side */
+    G3dResource **animResource;     /* 0x10 */
+    G3dAnime **anime[2];            /* 0x14: per side */
+    G3dRender *render[2];           /* 0x1C */
+    G3dObject *object[2];           /* 0x24 */
+    G3dObjectStatus status[2];      /* 0x2C: draw position of each side */
+    BtlvPalFade palFade;            /* 0xA4 */
+    u32 hiddenMask : 2;             /* 0xB4: bit n hides side n */
+    u32 : 30;
+    u16 heap;                       /* 0xB8 */
+    u16 pad_BA;                     /* struct padding */
+} BtlvStage;
 
 #endif

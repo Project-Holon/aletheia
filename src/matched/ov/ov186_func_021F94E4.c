@@ -15,7 +15,7 @@
  *   pragma left the loads reversed (2 bytes off). A u32 pair read through a pointer or a struct is 101 bytes off.
  *   The u64 read is a judgement call for the integrator: the two words are plausibly one 64-bit field.
  * symbols:
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 struct Big;
 struct GdsProfile;
 struct ObjC4;
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 typedef unsigned short u16;
@@ -42,7 +42,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
     void *sys;
     unsigned a,b;
     out[4]=source[1];out[3]=source[3];out[5]=source[2];
-    out[6]=func_021FC4DC((u8 *)source[0]);
+    out[6]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[9]=source[5];
     out[10]=(*(int **)((char *)source[6]+12))[1];
     out[11]=*(int *)((char *)source[6]+8)+0x1720;

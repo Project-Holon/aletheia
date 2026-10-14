@@ -1,5 +1,5 @@
 /*
- * function: func_0220461C
+ * function: BTLV_INPUT_PaletteCycleTaskMain
  * address:  0x0220461C
  * packet:   pkt_ov094_0220461C
  * region:   ov094
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02040618  0x02040618  arm
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  *   d_0220A46C     0x0220A46C  data  ov094  a4
  */
 typedef struct Ent {
@@ -30,9 +30,9 @@ typedef struct Ctx {
 extern const Ent d_0220A46C[][2];
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_0220461C(int a0, Ctx *c)
+void BTLV_INPUT_PaletteCycleTaskMain(int a0, Ctx *c)
 {
     int i;
 
@@ -44,6 +44,6 @@ void func_0220461C(int a0, Ctx *c)
         c->idx = i + 1;
         func_02040618(5, 3, d_0220A46C[c->set][i].v1);
         if (c->idx >= 2)
-            func_0220687C(c->main, (void *)a0);
+            BTLV_INPUT_DeleteTask(c->main, (void *)a0);
     }
 }

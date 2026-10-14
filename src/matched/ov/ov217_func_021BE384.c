@@ -39,8 +39,8 @@
  *   func_021C08A8  0x021C08A8  thumb  ov217
  *   func_021C08F0  0x021C08F0  thumb  ov217
  *   func_021C0968  0x021C0968  thumb  ov217
- *   func_021C09E0  0x021C09E0  thumb  ov217
- *   func_021C09EC  0x021C09EC  thumb  ov217
+ *   RESEARCH_COMMON_StopPaletteAnime  0x021C09E0  thumb  ov217
+ *   RESEARCH_COMMON_RestorePaletteAnime  0x021C09EC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -80,14 +80,14 @@ extern void func_021C085C(int *p);
 extern void func_021C08A8(int *);
 extern void func_021C08F0(u8 *a0);
 extern void func_021C0968(unsigned char *a0);
-extern void func_021C09E0(u32 a0);
-extern void func_021C09EC(u32 a0);
+extern void RESEARCH_COMMON_StopPaletteAnime(u32 a0);
+extern void RESEARCH_COMMON_RestorePaletteAnime(u32 a0);
 void func_021BE384(u8 *a0)
 {
     func_021C08A8((int *)a0);
     func_021C085C((int *)a0);
-    func_021C09E0(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
-    func_021C09EC(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
+    RESEARCH_COMMON_StopPaletteAnime(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
+    RESEARCH_COMMON_RestorePaletteAnime(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
     func_021C08F0((u8 *)a0);
     func_021BFF5C((int *)a0);
     func_021BFED4(a0);

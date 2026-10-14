@@ -1,5 +1,5 @@
 /*
- * function: func_021C337C
+ * function: ZUKAN_DETAIL_VOICE_NoOpC
  * address:  0x021C337C
  * packet:   pkt_021C3374
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021C337C(void *a0, void *st, void *a2)
+void ZUKAN_DETAIL_VOICE_NoOpC(void *a0, void *st, void *a2)
 {
 }
 

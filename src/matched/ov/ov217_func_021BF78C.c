@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C11F4  0x021C11F4  thumb  ov217
+ *   CircleGraph_IsAnimating  0x021C11F4  thumb  ov217
  *
  * Gate on four handles at +0x2BC..+0x2C8: 1 only when all four report idle.
  * The `||` chain is what produces the image's inverted last test.
@@ -26,10 +26,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_021C11F4(u8 *p);
+extern int CircleGraph_IsAnimating(u8 *p);
 u32 func_021BF78C(u32 a0)
 {
-    if (func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2BC) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C0) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C4) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C8) != 0) {
+    if (CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2BC) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C0) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C4) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C8) != 0) {
     return 0;
     }
     return 1;

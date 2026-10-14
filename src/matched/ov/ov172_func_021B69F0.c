@@ -1,5 +1,5 @@
 /*
- * function: func_021B69F0
+ * function: CTVT_ADPCM_ResetDecoder
  * address:  0x021B69F0
  * packet:   pkt_021B6100
  * region:   ov172
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B69F0(void)
+void CTVT_ADPCM_ResetDecoder(void)
 {
     u8 *p = (u8 *)0x021C88E4;
     ((struct Obj14294 *)p)->f0 = 0;

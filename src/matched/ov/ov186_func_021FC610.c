@@ -1,5 +1,5 @@
 /*
- * function: func_021FC610
+ * function: BR_GRAPHIC_Begin3d
  * address: 0x021FC610
  * packet: pkt_ov186_021FC610
  * region: ov186
@@ -20,4 +20,4 @@ typedef struct {u32 id;u8 rest[40];} Record;
 extern const Record d_0220099C[];
 extern void func_020403F4(u32);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-void func_021FC610(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
+void BR_GRAPHIC_Begin3d(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}

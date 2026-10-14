@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE840
+ * function: ZUKAN_DETAIL_HEADBAR_GetIconKind
  * address:  0x021BE840
  * packet:   pkt_ov208_021BE840
  * region:   ov208
@@ -22,7 +22,7 @@ struct Ov208Icon {
     u8  step;
 };
 
-int ov208_func_021BE840(struct Ov208Icon *p)
+int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p)
 {
     return p->state;
 }

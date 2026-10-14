@@ -1,5 +1,5 @@
 /*
- * function: func_021BD86C
+ * function: ZUKAN_LIST_SetActorAnim
  * address:  0x021BD86C
  * packet:   pkt_021BD86C
  * region:   ov209
@@ -20,7 +20,7 @@ struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021BD86C(char *p, int idx, int v)
+void ZUKAN_LIST_SetActorAnim(char *p, int idx, int v)
 {
     CLACT_SetActorAnimFrame(*(void **)(p + 0xa74 + idx * 4), 0);
     CLACT_SetActorAnimSeq(*(void **)(p + 0xa74 + idx * 4), (unsigned short)v);

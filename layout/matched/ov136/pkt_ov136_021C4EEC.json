@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4EEC",
+   "name": "MAILVIEW_LoadGraphics",
    "address": "0x021C4EEC",
    "kind": "game",
    "region": "ov136",

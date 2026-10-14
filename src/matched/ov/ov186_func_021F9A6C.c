@@ -1,5 +1,5 @@
 /*
- * function: func_021F9A6C
+ * function: BR_PROC_SYS_Delete
  * address:  0x021F9A6C
  * packet:   pkt_021F9A6C
  * region:   ov186
@@ -19,7 +19,7 @@ extern void func_0203133C(struct S020314B8 *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021F9A6C(int *p)
+void BR_PROC_SYS_Delete(int *p)
 {
     func_0203133C((struct S020314B8 *)p[0]);
     func_020307B0(p);

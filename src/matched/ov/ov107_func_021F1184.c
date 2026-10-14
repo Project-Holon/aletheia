@@ -1,5 +1,5 @@
 /*
- * function: func_021F1184
+ * function: MB_COMM_SYS_ClearMonBuffer
  * address:  0x021F1184
  * packet:   pkt_ov107_021F1184
  * region:   ov107
@@ -38,7 +38,7 @@ u32 POKE_TOOL_GetBoxParamSize(void);
 struct Sav;
 void POKE_TOOL_ClearBoxParam(struct Sav *);
 
-void func_021F1184(Ov107Ctx *p)
+void MB_COMM_SYS_ClearMonBuffer(Ov107Ctx *p)
 {
     Ov107List *list;
     unsigned char i;

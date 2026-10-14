@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE70
+ * function: ZUKAN_DETAIL_INFO_HandleKeyEvent
  * address:  0x021BEE70
  * packet:   pkt_ov208_021BEE70
  * region:   ov208
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb  ov208
- *   func_021BC3C0  0x021BC3C0  thumb  ov208
- *   func_021BC3CC  0x021BC3CC  thumb  ov208
- *   func_021BC40C  0x021BC40C  thumb  ov208
- *   func_021BF1D0  0x021BF1D0  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
+ *   ZUKAN_DETAIL_INFO_RefreshLanguagePanel  0x021BF1D0  thumb  ov208
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
- *   func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_021BDC2C  0x021BDC2C  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive  0x021BDC2C  thumb  ov208
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  */
 
@@ -33,18 +33,18 @@ struct S {
     u32 f18;
 };
 
-extern int func_021BC3B4(int *p);
-extern u16 func_021BC3C0(void *p);
-extern void func_021BC3CC(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *p);
+extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
 struct Ov208Cur;
-extern void func_021BC40C(struct Ov208Cur *p);
-extern void func_021BF1D0(void *first, char *q, void *third);
+extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p);
+extern void ZUKAN_DETAIL_INFO_RefreshLanguagePanel(void *first, char *q, void *third);
 extern void func_021BDBA0(int p);
-extern int func_021BC3A4(int *p);
-extern int func_021BDC2C(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
+extern int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
+void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
 {
     int sc;
     u32 flag;
@@ -52,7 +52,7 @@ void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
     if (st == 0) {
         return;
     }
-    sc = func_021BC3B4(obj);
+    sc = ZUKAN_DETAIL_COMMON_GetWorkPtr(obj);
     flag = 0;
     switch (key) {
     case 15:
@@ -69,18 +69,18 @@ void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
     }
     switch (key) {
     case 12: {
-        u16 old = func_021BC3C0(obj);
-        func_021BC3CC((char *)obj);
-        if (old != func_021BC3C0(obj)) {
-            func_021BF1D0(heap, (char *)st, obj);
+        u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
+        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies((char *)obj);
+        if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
+            ZUKAN_DETAIL_INFO_RefreshLanguagePanel(heap, (char *)st, obj);
         }
         break;
     }
     case 13: {
-        u16 old = func_021BC3C0(obj);
-        func_021BC40C((struct Ov208Cur *)obj);
-        if (old != func_021BC3C0(obj)) {
-            func_021BF1D0(heap, (char *)st, obj);
+        u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
+        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Cur *)obj);
+        if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
+            ZUKAN_DETAIL_INFO_RefreshLanguagePanel(heap, (char *)st, obj);
         }
         break;
     }
@@ -101,7 +101,7 @@ void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         func_021BDBA0(sc);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x11, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x11, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
         func_021BDBA0(sc);
         return;
     default:

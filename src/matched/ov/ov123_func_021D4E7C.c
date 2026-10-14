@@ -1,5 +1,5 @@
 /*
- * function: func_021D4E7C
+ * function: GSYNC_MENU_UpdateMessageStream
  * address: 0x021D4E7C
  * packet: pkt_ov123_021D4E7C
  * region: ov123
@@ -31,7 +31,7 @@ extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021D4E7C(char *p)
+int GSYNC_MENU_UpdateMessageStream(char *p)
 {
     if (((struct Obj00626 *)p)->f228) {
         if (((struct Obj00626 *)p)->f224)

@@ -1,5 +1,5 @@
 /*
- * function: func_021E4F28
+ * function: POKETRADE_2D_UpdateBoxIconPositions
  * address:  0x021E4F28
  * packet:   pkt_ov119_021E4F28
  * region:   ov119
@@ -9,8 +9,8 @@
  * status:   EXACT
  * lever:    the hoisted column sum is written inside the else arm as two statements.
  * symbols:
- *   func_021E5158 0x021E5158 thumb ov119
- *   func_021DF6B4 0x021DF6B4 thumb ov119
+ *   POKETRADE_2D_WrapIndex12 0x021E5158 thumb ov119
+ *   POKETRADE_NEGO_IsMonPeerSelected 0x021DF6B4 thumb ov119
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -20,15 +20,15 @@
 typedef short s16;
 typedef unsigned char u8;
 typedef struct Pt { s16 x, y; } Pt;
-extern int func_021E5158(int);
-extern int func_021DF6B4(char *, int, int);
+extern int POKETRADE_2D_WrapIndex12(int);
+extern int POKETRADE_NEGO_IsMonPeerSelected(char *, int, int);
 extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawPriority(int, u8);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021E4F28(char *p)
+void POKETRADE_2D_UpdateBoxIconPositions(char *p)
 {
     char *q;
     int i, off, y, row, j, x, ty, col;
@@ -36,7 +36,7 @@ void func_021E4F28(char *p)
     off = 0;
     y = ((struct Obj05334 *)p)->f1080;
     for (i = 0; i < 12; i++) {
-        row = func_021E5158(((struct Obj05334 *)p)->f1080 + i);
+        row = POKETRADE_2D_WrapIndex12(((struct Obj05334 *)p)->f1080 + i);
         if (y >= ((struct Obj05334 *)p)->f634) {
             y -= ((struct Obj05334 *)p)->f634;
             off = ((struct Obj05334 *)p)->f63C;
@@ -53,7 +53,7 @@ void func_021E4F28(char *p)
             b.x = off + (x - ((struct Obj05334 *)p)->f107C);
             b.y = ty;
             a = b;
-            if (func_021DF6B4(p, y, j) && func_020355C4() == 1) {
+            if (POKETRADE_NEGO_IsMonPeerSelected(p, y, j) && func_020355C4() == 1) {
                 b.y -= 8;
                 q = p + row * 20 + j * 4;
                 CLACT_SetActorDrawPriority(((struct Obj08071 *)q)->fAC0, 11);

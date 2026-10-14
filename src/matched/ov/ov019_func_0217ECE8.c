@@ -1,5 +1,5 @@
 /*
- * function: func_0217ECE8
+ * function: UNION_MSG_GetBattleChatMsg
  * address: 0x0217ECE8
  * packet: pkt_ov019_0217ECE8
  * region: ov019
@@ -11,13 +11,13 @@
  * symbols:
  *   func_020056EC 0x020056EC thumb
  *   d_02180380 0x02180380 data a2
- * Extent follower func_0217ED04 is already filed separately.
+ * Extent follower UNION_MSG_GetPartnerBusyMsg is already filed separately.
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056EC(u32 v);
 extern const u16 d_02180380[][2];
-u16 func_0217ECE8(int i)
+u16 UNION_MSG_GetBattleChatMsg(int i)
 {
     return d_02180380[func_020056EC(4)][i];
 }

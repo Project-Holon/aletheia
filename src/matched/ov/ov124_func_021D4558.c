@@ -1,5 +1,5 @@
 /*
- * function: func_021D4558
+ * function: CG_HELP_LoadActorResources
  * address: 0x021D4558
  * packet: pkt_ov124_021D4558
  * region: ov124
@@ -44,7 +44,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void func_021D4558(char *p)
+void CG_HELP_LoadActorResources(char *p)
 {
     u32 handle;
     Request req;

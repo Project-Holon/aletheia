@@ -1,5 +1,5 @@
 /*
- * function: func_021C3638
+ * function: ZUKAN_DETAIL_VOICE_DeleteWaveformWindow
  * address:  0x021C3638
  * packet:   pkt_021C3638
  * region:   ov208
@@ -26,7 +26,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C3638(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, char *p, void *a2)
 {
     BMP_Delete((struct Obj020437AC *)(((struct Obj09210 *)p)->f2C));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj09210 *)p)->f20));

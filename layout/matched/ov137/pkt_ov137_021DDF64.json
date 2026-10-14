@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDF64",
+   "name": "GURU2_RECEIPT_StateWaitMessageToStart",
    "address": "0x021DDF64",
    "kind": "game",
    "region": "ov137",

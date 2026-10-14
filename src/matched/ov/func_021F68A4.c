@@ -1,5 +1,5 @@
 /*
- * function: func_021F68A4
+ * function: WORLDTRADE_BOX_LoadBoxIcons
  * address:  0x021F68A4
  * packet:   pkt_021F68A4
  * region:   ov135
@@ -13,8 +13,8 @@
  *   func_02030734  0x02030734  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02007A18  0x02007A18  thumb
- *   func_021F6748  0x021F6748  thumb
- *   func_021F67A8  0x021F67A8  thumb
+ *   WORLDTRADE_BOX_CalcLevel  0x021F6748  thumb
+ *   WORLDTRADE_BOX_SetupIconActor  0x021F67A8  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_0200785C  0x0200785C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -25,17 +25,17 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_021F91A0  0x021F91A0  thumb
- *   func_021F6DB4  0x021F6DB4  thumb
- *   func_021F6754  0x021F6754  thumb
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
+ *   WORLDTRADE_BOX_ScoreMatchingRecords  0x021F6DB4  thumb
+ *   WORLDTRADE_BOX_TransferIconPalette  0x021F6754  thumb
  *   str_02203B54   0x02203B54  data  a1
  *
  * Build the 30 Pokemon icon slots of the screen from box `box` of the
  * storage (+0xC of the context) or, for box 0xFF, from the party (+8),
  * blanking the slots past the party size. Icon records (0x3D68 bytes,
- * +0xEB8) are uploaded later by func_021F6754, installed at +0xEBC.
+ * +0xEB8) are uploaded later by WORLDTRADE_BOX_TransferIconPalette, installed at +0xEBC.
  * Any other box reports through func_02034714 (raw 0x02203B68). Kind 6
- * then runs func_021F6DB4 against the current entry's key.
+ * then runs WORLDTRADE_BOX_ScoreMatchingRecords against the current entry's key.
  */
 
 typedef signed char s8;
@@ -105,8 +105,8 @@ struct Sub020079BCEntry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void func_021F6748(u32 a, u8 *q);
-extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);
+extern void WORLDTRADE_BOX_CalcLevel(u32 a, u8 *q);
+extern void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void func_0200785C(void *save, u32 box, void *dest);
@@ -118,11 +118,11 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-extern void func_021F6DB4(Info *recs, u32 *unused, void *key, IconRec *ent);
-extern void func_021F6754(Work *p);
+extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+extern void WORLDTRADE_BOX_ScoreMatchingRecords(Info *recs, u32 *unused, void *key, IconRec *ent);
+extern void WORLDTRADE_BOX_TransferIconPalette(Work *p);
 
-void func_021F68A4(Work *p, int box)
+void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
 {
     void *storage = p->ctx->storage;
     u16 species[30];
@@ -135,11 +135,11 @@ void func_021F68A4(Work *p, int box)
     arc = func_020490F4(7, 0x48);
     if (box >= 0 && box < p->nbox) {
         for (i = 0; i < 30; i++) {
-            func_021F6748((u32)func_02007A18(storage, box, i), (u8 *)(&p->info[i]));
+            WORLDTRADE_BOX_CalcLevel((u32)func_02007A18(storage, box, i), (u8 *)(&p->info[i]));
         }
         for (i = 0; i < 30; i++) {
             p->info[i].species = 0;
-            func_021F67A8(func_02007A18(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
+            WORLDTRADE_BOX_SetupIconActor(func_02007A18(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
             if (i < 6) {
                 CLACT_SetActorDrawEnable((struct Obj *)p->mark[i], 0);
             }
@@ -151,8 +151,8 @@ void func_021F68A4(Work *p, int box)
         for (i = 0; i < n; i++) {
             void *mon = POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(p->ctx->party, i));
 
-            func_021F6748((u32)mon, (u8 *)(&p->info[i]));
-            func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
+            WORLDTRADE_BOX_CalcLevel((u32)mon, (u8 *)(&p->info[i]));
+            WORLDTRADE_BOX_SetupIconActor(mon, p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
             CLACT_SetActorDrawEnable((struct Obj *)p->mark[i], 0);
         }
         for (; i < 30; i++) {
@@ -170,9 +170,9 @@ void func_021F68A4(Work *p, int box)
     }
     ARC_TOOL_DeleteHandle(arc);
     BMP_Clear(BMP_WIN_GetBmp(p->fD4C), 0);
-    func_021F91A0(p->fD4C, (u32)p->fB80, 0, 5, 1, 0x440, (u32)p->fFA0);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(p->fD4C, (u32)p->fB80, 0, 5, 1, 0x440, (u32)p->fFA0);
     if (p->kind == 6) {
-        func_021F6DB4(p->info, p->icon, p->arr[p->cur].key, icons);
+        WORLDTRADE_BOX_ScoreMatchingRecords(p->info, p->icon, p->arr[p->cur].key, icons);
     }
-    p->vblank = (void (*)(void *))func_021F6754;
+    p->vblank = (void (*)(void *))WORLDTRADE_BOX_TransferIconPalette;
 }

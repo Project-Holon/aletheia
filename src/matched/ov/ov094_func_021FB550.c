@@ -1,5 +1,5 @@
 /*
- * function: func_021FB550
+ * function: BTLV_EFFVM_CmdSetBgLayerEnable
  * address:  0x021FB550
  * packet:   pkt_ov094_021FB550
  * region:   ov094
@@ -21,7 +21,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void func_0204047C(int idx, unsigned short val);
 
-int func_021FB550(void *a, char *s)
+int BTLV_EFFVM_CmdSetBgLayerEnable(void *a, char *s)
 {
     func_0204047C(3, (unsigned char)VM_GetU32(a));
     ((struct Obj13587 *)s)->f0 |= 0x10;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FC610
+ * function: WORLDTRADE_DETAIL_StateStartWipeOut
  * address:  0x021FC610
  * packet:   pkt_021FC610
  * region:   ov135
@@ -25,7 +25,7 @@ typedef signed int s32;
 typedef signed short s16;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021FC610(u8 *p, int a1)
+int WORLDTRADE_DETAIL_StateStartWipeOut(u8 *p, int a1)
 {
     WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);
     ((struct Obj18569 *)p)->f28 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6984
+ * function: HALL_OF_FAME_DeleteMonSprite
  * address:  0x021B6984
  * packet:   pkt_ov180_021B6984
  * region:   ov180
@@ -17,7 +17,7 @@
 
 extern void MCSS_Del(void *sys, void *obj);
 
-void func_021B6984(char *p)
+void HALL_OF_FAME_DeleteMonSprite(char *p)
 {
     int v = *(int *)(p + 0x1c);
 

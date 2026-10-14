@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD48
+ * function: ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos
  * address: 0x021BDD48
  * packet: pkt_ov208_021BDD48
  * region: ov208
@@ -19,7 +19,7 @@ struct Pt { u16 x,y; };
 struct Actor { char pad[0xc]; struct Pt pos; };
 extern void CLACT_GetActorPos(const struct Actor *,struct Pt *);
 extern void CLACT_SetActorPos(struct Actor *,const struct Pt *);
-void func_021BDD48(char *p,short offset)
+void ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos(char *p,short offset)
 {
     unsigned char i;
     struct Pt pt;

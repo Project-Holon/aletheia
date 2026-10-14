@@ -1,5 +1,5 @@
 /*
- * function: func_021E6DEC
+ * function: POKETRADE_2D_DeleteOfferWindowActors
  * address: 0x021E6DEC
  * packet: pkt_ov119_021E6DEC
  * region: ov119
@@ -22,7 +22,7 @@ extern void BMP_Delete(struct Obj020437AC *p);
 extern void CLACT_ReleaseCharacter(unsigned int);
 extern void CLACT_ReleasePalette(unsigned int);
 extern void CLACT_ReleaseCellAnim(unsigned int);
-void func_021E6DEC(int p) {
+void POKETRADE_2D_DeleteOfferWindowActors(int p) {
     int i;
     for (i=0;i<8;i++) {
         if (*(int *)(p+i*4+0x10cc)) {

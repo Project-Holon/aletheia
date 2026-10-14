@@ -1,5 +1,5 @@
 /*
- * function: func_02179878
+ * function: IRCNET_CbIsSendReady
  * address: 0x02179878
  * packet: pkt_ov015_02179878
  * region: ov015
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_021799FC 0x021799FC thumb
+ *   IRCNET_IsSendReady 0x021799FC thumb
  */
 
 typedef unsigned char u8;
-unsigned char func_02179878(void);
-u8 func_021799FC(void);
+unsigned char IRCNET_CbIsSendReady(void);
+u8 IRCNET_IsSendReady(void);
 
-unsigned char func_02179878(void)
+unsigned char IRCNET_CbIsSendReady(void)
 {
-    return func_021799FC();
+    return IRCNET_IsSendReady();
 }

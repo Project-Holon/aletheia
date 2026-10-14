@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_021BE034  0x021BE034  thumb  ov172
- *   func_021BE03C  0x021BE03C  thumb  ov172
- *   func_021BE044  0x021BE044  thumb  ov172
+ *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
+ *   COMM_TVT_SYS_GetFont  0x021BE034  thumb  ov172
+ *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
+ *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
  *   func_0201EC64  0x0201EC64  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -58,10 +58,10 @@ struct FlagsB {
     u8 b7 : 1;
 };
 
-extern u16 func_021BE00C(u16 *p);
-extern u32 func_021BE034(void *p);
-extern u32 func_021BE03C(void *p);
-extern u32 func_021BE044(void *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32 COMM_TVT_SYS_GetFont(void *p);
+extern u32 COMM_TVT_SYS_GetMsgData(void *p);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *p);
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
@@ -110,10 +110,10 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
     if (((struct Obj02882 *)row)->f0 != 1)
         return;
     if (((struct Obj02882 *)row)->f18 != 0xff) {
-        heap = func_021BE00C(ctx);
-        font = func_021BE034(ctx);
-        msgs = func_021BE03C(ctx);
-        sys = func_021BE044(ctx);
+        heap = COMM_TVT_SYS_GetHeapId(ctx);
+        font = COMM_TVT_SYS_GetFont(ctx);
+        msgs = COMM_TVT_SYS_GetMsgData(ctx);
+        sys = COMM_TVT_SYS_GetPrintQue(ctx);
         e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
         ws = (u32)func_0201EC64(heap);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);

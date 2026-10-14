@@ -1,5 +1,5 @@
 /*
- * function: func_021C515C
+ * function: MAILVIEW_CreateWindows
  * address: 0x021C515C
  * packet: pkt_ov136_021C515C
  * region: ov136
@@ -50,7 +50,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
 
-void func_021C515C(Obj *p)
+void MAILVIEW_CreateWindows(Obj *p)
 {
     int i;
     void *w;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9190
+ * function: POKETRADE_PROC_RecvPeerSelection
  * address: 0x021D9190
  * packet: pkt_ov119_021D9190
  * region: ov119
@@ -17,7 +17,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021D9190(u32 a, u32 b, u32 c, u8 *base, void *e)
+void POKETRADE_PROC_RecvPeerSelection(u32 a, u32 b, u32 c, u8 *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()))

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC240
+ * function: ZUKAN_DETAIL_PROCSYS_AllocNode
  * address: 0x021BC240
  * packet: pkt_ov208_021BC240
  * region: ov208
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Ov208Obj { void *owner; int f4; int f8; int fc; int f10; };
 extern const char d_021C8D80[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-struct Ov208Obj *func_021BC240(void *owner, int val, u32 heap)
+struct Ov208Obj *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap)
 {
     struct Ov208Obj *p = func_02030734(heap, 20, 0, d_021C8D80, 0x4f);
     p->owner = owner;

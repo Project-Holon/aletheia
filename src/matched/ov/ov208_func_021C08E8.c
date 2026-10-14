@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C08E8
+ * function: ZUKAN_DETAIL_AREA_LoadSubScreenGraphics
  * address:  0x021C08E8
  * packet:   pkt_ov208_021C08E8
  * region:   ov208
@@ -29,7 +29,7 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void ov208_func_021C08E8(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, int key)
 {
     void *h;
 

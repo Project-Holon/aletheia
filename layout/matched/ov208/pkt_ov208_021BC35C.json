@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC35C",
+   "name": "ZUKAN_DETAIL_COMMON_CreateContext",
    "address": "0x021BC35C",
    "kind": "game",
    "region": "ov208",

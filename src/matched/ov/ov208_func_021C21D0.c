@@ -1,5 +1,5 @@
 /*
- * function: func_021C21D0
+ * function: ZUKAN_DETAIL_AREA_ClearOverlayWindow
  * address: 0x021C21D0
  * packet: pkt_ov208_021C21D0
  * region: ov208
@@ -27,7 +27,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
-void func_021C21D0(void *unused, char *p, int key)
+void ZUKAN_DETAIL_AREA_ClearOverlayWindow(void *unused, char *p, int key)
 {
     u8 i;
     if (CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct Obj00081 *)p)->fC8)) {

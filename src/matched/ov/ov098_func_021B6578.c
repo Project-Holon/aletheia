@@ -74,13 +74,13 @@
  *   PDC_MSG_PrintMessage2 0x021B69C4 thumb ov098
  *   PDC_MSG_Update 0x021B6A3C thumb ov098
  *   PDC_MSG_TakeStreamEnded 0x021B6B74 thumb ov098
- *   func_022025D8 0x022025D8 thumb ov094
- *   func_022026FC 0x022026FC thumb ov094
- *   func_0220266C 0x0220266C thumb ov094
+ *   BTLV_INPUT_StartPaletteFadeTask 0x022025D8 thumb ov094
+ *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
+ *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
  *   func_0220C834 0x0220C834 thumb ov197
- *   func_021F7CFC 0x021F7CFC thumb ov094
- *   func_021F7EB4 0x021F7EB4 thumb ov094
- *   func_021F7C0C 0x021F7C0C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_02007F1C 0x02007F1C thumb
@@ -115,13 +115,13 @@ extern void PDC_MSG_PrintMessage1(int, int);
 extern void PDC_MSG_PrintMessage2(int, int);
 extern int PDC_MSG_Update(u8 *);
 extern int PDC_MSG_TakeStreamEnded(u8 *);
-extern void func_022025D8(char *, int);
-extern int func_022026FC(struct W *p);
-extern void func_0220266C(struct Obj *p);
+extern void BTLV_INPUT_StartPaletteFadeTask(char *, int);
+extern int BTLV_INPUT_IsScreenBusy(struct W *p);
+extern void BTLV_INPUT_StartScreenFadeTask(struct Obj *p);
 extern void func_0220C834(u8 *);
-extern void func_021F7CFC(u32, u16, u8, int, int);
-extern int func_021F7EB4(void);
-extern void func_021F7C0C(void);
+extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFECT_ResumeVm(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern u32 func_02007F1C(u8 *, u16, u16, u16);
@@ -148,12 +148,12 @@ int PDC_MAIN_StepChooseItem(struct P *p)
         p->b30 = 0; p->b31 = 0; p->b35 = 0;
         p->w48 = p->workspace;
         p->w5c = 1;
-        func_022025D8(p->window, 1);
+        BTLV_INPUT_StartPaletteFadeTask(p->window, 1);
         func_02034AC4((s32)ov196_id);
         (p->state)++;
         break;
     case 1:
-        if (!func_022026FC((struct W *)p->window)) {
+        if (!BTLV_INPUT_IsScreenBusy((struct W *)p->window)) {
             func_02034AC4((s32)ov197_id);
             func_0220C834((u8 *)&p->b1c);
             (p->state)++;
@@ -162,7 +162,7 @@ int PDC_MAIN_StepChooseItem(struct P *p)
     case 2:
         if (p->b35) {
             func_02034A5C((s32)ov196_id); func_02034A5C((s32)ov197_id);
-            func_0220266C((struct Obj *)p->window);
+            BTLV_INPUT_StartScreenFadeTask((struct Obj *)p->window);
             if (p->h32 == 0) p->state = 3;
             else {
                 func_02007F1C((u8 *)PDC_GetMyItem(p->parent), p->h32, 1, p->heap);
@@ -171,22 +171,22 @@ int PDC_MAIN_StepChooseItem(struct P *p)
         }
         break;
     case 3:
-        if (!func_022026FC((struct W *)p->window)) PDC_MAIN_SetStep((u8 *)p, (u32)PDC_MAIN_StepConfirm);
+        if (!BTLV_INPUT_IsScreenBusy((struct W *)p->window)) PDC_MAIN_SetStep((u8 *)p, (u32)PDC_MAIN_StepConfirm);
         break;
     case 4:
-        if (!func_022026FC((struct W *)p->window)) {
+        if (!BTLV_INPUT_IsScreenBusy((struct W *)p->window)) {
             PDC_MSG_PrintMessage1((int)p->object, (int)p->parent);
             (p->state)++;
         }
         break;
     case 5:
         if (PDC_MSG_Update(p->object)) {
-            func_021F7CFC(1, p->h32, 4, 1, 0);
+            BTLV_EFFECT_StartEffectWithColor(1, p->h32, 4, 1, 0);
             (p->state)++;
         }
         break;
     case 6:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             PDC_MSG_PrintMessage2((int)p->object, (int)p->parent);
             (p->state)++;
         }
@@ -197,12 +197,12 @@ int PDC_MAIN_StepChooseItem(struct P *p)
         break;
     case 8:
         if (!GFL_USE_IsBgmPlaying()) {
-            func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
+            BTLV_EFFECT_ResumeVm(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             (p->state)++;
         }
         break;
     case 9:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             p->timer = 80;
             (p->state)++;
         }

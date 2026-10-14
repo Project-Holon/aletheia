@@ -1,5 +1,5 @@
 /*
- * function: func_021BFFC4
+ * function: SSP_StartJpegDecoder
  * address:  0x021BFFC4
  * packet:   pkt_ov172_021BFFC4
  * region:   ov172
@@ -65,7 +65,7 @@ extern int Mel_JPEGDecode(unsigned char *d, unsigned char *a, unsigned long leng
 extern int SSPiDecodeSignCheckMode;
 extern BCode2 bcode2;
 
-int func_021BFFC4(unsigned char *data, unsigned long size, void *dst,
+int SSP_StartJpegDecoder(unsigned char *data, unsigned long size, void *dst,
                   short *width, short *height, unsigned long option)
 {
     unsigned long offset;

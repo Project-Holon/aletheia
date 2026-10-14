@@ -1,5 +1,5 @@
 /*
- * function: func_021FF248
+ * function: BR_SIDEBAR_UpdateWobble
  * address: 0x021FF248
  * packet: pkt_ov186_021FF248
  * region: ov186
@@ -31,7 +31,7 @@ extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 spa
 extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
 typedef signed int     s32;
 extern short func_0203F684(unsigned short x);
-void func_021FF248(char *p)
+void BR_SIDEBAR_UpdateWobble(char *p)
 {
     int direction;
     int position;

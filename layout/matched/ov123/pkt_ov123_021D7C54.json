@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D7C54",
+   "name": "GSYNC_STATE_CopyMonRecord",
    "address": "0x021D7C54",
    "kind": "game",
    "region": "ov123",

@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021D5D8C
+ * function: GSYNC_DISP_GetPokeIconActor
  * address: 0x021D5D8C
  * packet: pkt_ov123_021D5D8C
  * region: ov123
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-void *func_021D5D8C(u8 *p){return ((struct Obj22947 *)p)->fAC;}
+void *GSYNC_DISP_GetPokeIconActor(u8 *p){return ((struct Obj22947 *)p)->fAC;}

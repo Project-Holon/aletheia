@@ -1,5 +1,5 @@
 /*
- * function: func_021D5320
+ * function: GSYNC_MENU_ProcMain
  * address: 0x021D5320
  * packet: pkt_ov123_021D5320
  * region: ov123
@@ -38,7 +38,7 @@ extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
-int func_021D5320(int a,int b,int c,char *p)
+int GSYNC_MENU_ProcMain(int a,int b,int c,char *p)
 {
     int result=1;
     if (*(void (**)(char *))p) {

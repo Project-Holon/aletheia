@@ -1,5 +1,5 @@
 /*
- * function: func_0220687C
+ * function: BTLV_INPUT_DeleteTask
  * address:  0x0220687C
  * packet:   pkt_ov094_0220687C
  * region:   ov094
@@ -13,20 +13,20 @@
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_02206864  0x02206864  thumb  ov094
+ *   BTLV_INPUT_FindTask  0x02206864  thumb  ov094
  */
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern int func_02206864(char *p, int v);
+extern int BTLV_INPUT_FindTask(char *p, int v);
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_0220687C(char *p, void *q)
+void BTLV_INPUT_DeleteTask(char *p, void *q)
 {
-    int i = func_02206864(p, (int)q);
+    int i = BTLV_INPUT_FindTask(p, (int)q);
     int off;
 
     if (q != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AFC,func_021B6B18
+ * function: HALL_OF_FAME_StateWaitFade,HALL_OF_FAME_StateWaitCounter
  * address: 0x021B6AFC
  * packet: pkt_ov180_021B6AFC
  * region: ov180
@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern unsigned WIPE_SYS_EndCheck(void);
-int func_021B6AFC(char *p){if(WIPE_SYS_EndCheck()==1)return ((struct Obj24487 *)p)->f9194;return 2;}
-int func_021B6B18(char *p){if(((struct Obj10719 *)p)->f9188==0)return ((struct Obj10719 *)p)->f9194;((struct Obj10719 *)p)->f9188-=1;return 3;}
+int HALL_OF_FAME_StateWaitFade(char *p){if(WIPE_SYS_EndCheck()==1)return ((struct Obj24487 *)p)->f9194;return 2;}
+int HALL_OF_FAME_StateWaitCounter(char *p){if(((struct Obj10719 *)p)->f9188==0)return ((struct Obj10719 *)p)->f9194;((struct Obj10719 *)p)->f9188-=1;return 3;}

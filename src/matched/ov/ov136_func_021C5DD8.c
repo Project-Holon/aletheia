@@ -1,5 +1,5 @@
 /*
- * function: func_021C5DD8
+ * function: MB_SEQ_CreatePmsDraw
  * address: 0x021C5DD8
  * packet: pkt_ov136_021C5DD8
  * region: ov136
@@ -29,7 +29,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 typedef unsigned short u16;
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
-void func_021C5DD8(u8 *p)
+void MB_SEQ_CreatePmsDraw(u8 *p)
 {
     ((struct Obj23533 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f36C = (void *)PRINTSYS_QUE_Create((void *)102);
     ((struct Obj23534 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f368 = CLACT_CreateUnit(8,2,102);

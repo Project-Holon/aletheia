@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6D6C
+ * function: ZUKAN_DETAIL_FORM_GetScrollSlotRange
  * address:  0x021C6D6C
  * packet:   pkt_ov208_021C6D6C
  * region:   ov208
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi)
+void ZUKAN_DETAIL_FORM_GetScrollSlotRange(int n, int i, u8 *lo, u8 *mid, u8 *hi)
 {
     u8 a = i * 65 / n + 0x9c;
     u8 b = (i + 1) * 65 / n + 0x9c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC308
+ * function: ZUKAN_LIST_HBlankTask
  * address: 0x021BC308
  * packet: pkt_ov209_021BC308
  * region: ov209
@@ -10,7 +10,7 @@
  * volatile: VCOUNT read at 021BC30A; BLDALPHA writes at 021BC314, 021BC320, 021BC32C, 021BC338, 021BC344, 021BC34A
  */
 typedef unsigned short u16;
-void func_021BC308(void)
+void ZUKAN_LIST_HBlankTask(void)
 {
     int v = *(volatile u16 *)0x04000006;
     if (v >= 168) {

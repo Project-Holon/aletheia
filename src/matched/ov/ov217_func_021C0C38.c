@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C38
+ * function: RESEARCH_COMMON_ClearPalAnm
  * address:  0x021C0C38
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0C38(void *p)
+void RESEARCH_COMMON_ClearPalAnm(void *p)
 {
     ((struct Obj25989 *)p)->f28 = 0;
 }

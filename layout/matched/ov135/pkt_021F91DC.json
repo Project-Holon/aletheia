@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F91DC",
+   "name": "WORLDTRADE_INPUT_PrintStringAlignedWrapped",
    "address": "0x021F91DC",
    "kind": "game",
    "region": "ov135",

@@ -183,6 +183,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 #include "../ov102/irc_screen_types.h"
+#include "../ov101/irc_appbar.h"
 
 /* Hardware registers. */
 #define REG_WIN0H (*(volatile u16 *)0x04000040)
@@ -200,20 +201,8 @@
 #define IRC_TOUCH_MODEL_COUNT 2
 #define IRC_TRAIL_SPRITE_COUNT 32
 
-struct IrcAppBar;
 struct IrcTouchWork;
 
-/* Parameter block of the touch test step; a copy of IrcSecondTestArgs in ov101 irc_compatible.c. */
-typedef struct IrcSecondTestArgs {
-    void *gameSystem;
-    IrcSys *view;
-    IrcCompatibleProfile *profile;
-    int result;              /* out */
-    u8 score;                /* out */
-    u8 penalty;              /* out */
-    u8 bonus;                /* out */
-    u8 pad13;
-} IrcSecondTestArgs;
 
 typedef void (*IrcTouchHandler)(struct IrcTouchWork *work, u16 *state);
 
@@ -337,7 +326,7 @@ typedef struct IrcTouchWork {
     IrcWindow bottomWin;             /* 0x748 */
     IrcDrawingExchange exchange;     /* 0x75C */
     u8 pad9F0[0x48];
-    struct IrcAppBar *appBar;        /* 0xA38 */
+    IrcAppBar *appBar;        /* 0xA38 */
     IrcDrawing drawing;              /* 0xA3C */
     IrcSecondTestArgs *args;         /* 0xB0C */
 } IrcTouchWork;
@@ -349,15 +338,12 @@ extern u32 func_02012138(void *gameSystem);
 extern void func_0201F73C(void *bmpWin, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32 which, u32 op, u16 value);
-extern struct IrcAppBar *IRC_APPBAR_Create(u32 unusedArg, void *clactUnit, u16 layer, u16 x, u8 paletteSlot, u32 unusedExtra, void *font, void *printQueue, u16 heapId);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void IRC_APPBAR_Delete(struct IrcAppBar *bar);
 extern void func_020315D4(void *proc);
 extern void func_020306F0(unsigned heapId);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
-extern void IRC_APPBAR_Update(struct IrcAppBar *bar);
 extern void BG_SYS_ClearGraphicsMemory(int);
 extern void BG_SYS_SetVramBanks(const void *config);
 extern int func_0204363C(int);
@@ -468,14 +454,11 @@ extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, s16 x, s16 y, vo
 extern void func_0201F02C(void *wordSet, u32 index, const u8 *myStatus);
 extern void *func_02045EC0(void *msgData, u32 msgId);
 extern void func_0201F250(void *wordSet, void *dest, void *src);
-extern int IRC_APPBAR_GetResult(struct IrcAppBar *bar);
-extern int IRC_APPBAR_IsBusy(struct IrcAppBar *bar);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys, int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern void IRC_APPBAR_SetActive(struct IrcAppBar *bar, int enable);
 extern void *func_020120F4(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_0200A8A0(void *saveControl);
@@ -1291,12 +1274,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleThirdTouch(IrcTouchWork *work, u16 *state)
     IrcSecondTestArgs *args;
     u8 *base = (u8 *)work;
     off = IRC_TOUCH_STROKE_B_OFFSET;
-    if (IRC_APPBAR_GetResult(*(struct IrcAppBar **)(base + (off - 0x74))) == 1) {
+    if (IRC_APPBAR_GetResult(*(IrcAppBar **)(base + (off - 0x74))) == 1) {
         tmp = (IrcTouchOffset)off;
         args = *(IrcSecondTestArgs **)(base + (tmp + 0x60));
         args->result = 1;
         IRC_COMPATIBLE_TOUCH_TEST_SetFinished(work);
-    } else if (IRC_APPBAR_IsBusy(*(struct IrcAppBar **)(base + (int)((u32)off - 0x74))) == 0) {
+    } else if (IRC_APPBAR_IsBusy(*(IrcAppBar **)(base + (int)((u32)off - 0x74))) == 0) {
         switch (*state) {
         case 0: {
             IrcMarkers *markers;

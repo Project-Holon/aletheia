@@ -1,5 +1,5 @@
 /*
- * function: func_02179FC4
+ * function: IRC_Connect
  * address:  0x02179FC4
  * packet:   pkt_ov015_02179FC4
  * region:   ov015
@@ -27,7 +27,7 @@
  *           so the game irc.o is the Release source with the prints removed, same compiler and flags.
  *
  * symbols:
- *   func_0217A8EC  0x0217A8EC  arm    ov015
+ *   IRCi_Write  0x0217A8EC  arm    ov015
  *   OS_GetTick     0x020870D0  arm
  *   myUnitNumber   0x0217AAB0  data
  *   unit_number    0x0217AAB1  data
@@ -58,7 +58,7 @@ typedef struct {
     BOOL flg_connect;
 } IRCStatus;
 
-extern void func_0217A8EC(u8 *data, u8 size);
+extern void IRCi_Write(u8 *data, u8 size);
 extern OSTick OS_GetTick(void);
 
 static u8 unit_number = 0xFF;
@@ -75,7 +75,7 @@ static IRCStatus sStatus = {0};
 static OSTick timeout = 0;
 static u8 sIrcBuf[184] = {0};
 
-void func_02179FC4(void)
+void IRC_Connect(void)
 {
     if (sStatus.flg_connect)
     {
@@ -88,7 +88,7 @@ void func_02179FC4(void)
     isTry = TRUE;
     {
         u8 command = 0x56;
-        func_0217A8EC(&command, 1);
+        IRCi_Write(&command, 1);
     }
     sStatus.status = IRC_ST_WAIT_RESPONSE;
     timeout = OS_GetTick();

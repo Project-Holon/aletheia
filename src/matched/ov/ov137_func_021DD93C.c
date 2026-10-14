@@ -1,5 +1,5 @@
 /*
- * function: func_021DD93C
+ * function: GURU2_RECEIPT_SetPendingState
  * address:  0x021DD93C
  * packet:   pkt_021DD93C
  * region:   ov137
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021DD93C(char *p, int v)
+void GURU2_RECEIPT_SetPendingState(char *p, int v)
 {
     ((struct Obj01414 *)p)->f118 = 0x1A;
     ((struct Obj01414 *)p)->f11C = v;

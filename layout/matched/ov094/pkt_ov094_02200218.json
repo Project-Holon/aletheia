@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02200218",
+   "name": "BTLV_MCSS_PlayCry",
    "address": "0x02200218",
    "kind": "game",
    "region": "ov094",

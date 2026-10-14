@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF59C",
+   "name": "POKETRADE_NEGO_StepOpenCancelMenu",
    "address": "0x021DF59C",
    "kind": "game",
    "region": "ov119",

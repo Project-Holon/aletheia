@@ -1,5 +1,5 @@
 /*
- * function: func_021C3480
+ * function: ZUKAN_DETAIL_VOICE_StopVoice
  * address:  0x021C3480
  * packet:   pkt_021C3480
  * region:   ov208
@@ -21,7 +21,7 @@
 extern int PM_VOICE_IsAnyActive(void);
 extern void PM_VOICE_StopAll(void);
 
-void func_021C3480(int unused, char *p, int key)
+void ZUKAN_DETAIL_VOICE_StopVoice(int unused, char *p, int key)
 {
     int v;
 

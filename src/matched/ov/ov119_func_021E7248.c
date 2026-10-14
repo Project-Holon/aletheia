@@ -1,5 +1,5 @@
 /*
- * function: func_021E7248
+ * function: POKETRADE_2D_InitBezierCurve
  * address:  0x021E7248
  * packet:   pkt_021E7248
  * region:   ov119
@@ -28,7 +28,7 @@ typedef struct
     int f40;
 } S;
 
-void func_021E7248(S *d, T *a, T *b, T *c, T *dd, int e)
+void POKETRADE_2D_InitBezierCurve(S *d, T *a, T *b, T *c, T *dd, int e)
 {
     d->f0 = *a;
     d->f0c = *a;

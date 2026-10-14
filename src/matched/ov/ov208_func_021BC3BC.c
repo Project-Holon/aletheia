@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC3BC
+ * function: ZUKAN_DETAIL_COMMON_GetMaxValue
  * address:  0x021BC3BC
  * packet:   pkt_ov208_021BC3BC
  * region:   ov208
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 ov208_func_021BC3BC(char *p)
+u16 ZUKAN_DETAIL_COMMON_GetMaxValue(char *p)
 {
     return ((struct Obj25414 *)p)->f1C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E129C
+ * function: GURU2_MAIN_CreateCenterActorTask
  * address: 0x021E129C
  * packet: pkt_ov137_021E129C
  * region: ov137
@@ -8,30 +8,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021E22B8 0x021E22B8 data a1
+ *   gGuru2MainAllocFileName 0x021E22B8 data a1
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_021E121C 0x021E121C thumb ov137
+ *   GURU2_MAIN_CenterActorTask 0x021E121C thumb ov137
  */
 #include "../include/Obj02209.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern const char d_021E22B8[];
+extern const char gGuru2MainAllocFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, u32);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_02030DA8(void *, void (*)(void *, int *), void *, int);
-extern void func_021E121C(void *, int *);
-void func_021E129C(char *p)
+extern void GURU2_MAIN_CenterActorTask(void *, int *);
+void GURU2_MAIN_CreateCenterActorTask(char *p)
 {
     struct { u16 x, y, z; u8 a, b; } pos;
-    int *q = func_02030734(0x8072, 24, 0, d_021E22B8, 5638);
+    int *q = func_02030734(0x8072, 24, 0, gGuru2MainAllocFileName, 5638);
     MI_CpuFill8(q, 0, 24);
     pos.x = 128;
     pos.y = 100;
@@ -41,5 +41,5 @@ void func_021E129C(char *p)
     q[5] = (int)CLACT_CreateActor((void *)((struct Obj02209 *)p)->fD68, ((struct Obj02209 *)p)->fD6C, ((struct Obj02209 *)p)->fD70, ((struct Obj02209 *)p)->fD74, &pos, 0, 114);
     CLACT_AddActorAnimFrame((struct Obj *)q[5], 4096);
     q[4] = (int)p;
-    func_02030DA8(((struct Obj02209 *)p)->fD98, func_021E121C, q, 0);
+    func_02030DA8(((struct Obj02209 *)p)->fD98, GURU2_MAIN_CenterActorTask, q, 0);
 }

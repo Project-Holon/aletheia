@@ -1,5 +1,5 @@
 /*
- * function: func_021D9AE8
+ * function: PDWACC_DISP_InitBgLayers
  * address:  0x021D9AE8
  * packet:   pkt_ov123_021D9AE8
  * region:   ov123
@@ -48,7 +48,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
-void func_021D9AE8(void *a0)
+void PDWACC_DISP_InitBgLayers(void *a0)
 {
     struct BgTemplate b[8];
 

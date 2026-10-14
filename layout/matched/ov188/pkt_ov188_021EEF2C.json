@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEF2C",
+   "name": "BATTLE_REC_TOOL_UnpackParty",
    "address": "0x021EEF2C",
    "kind": "game",
    "region": "ov188",

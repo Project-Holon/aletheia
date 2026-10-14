@@ -1,5 +1,5 @@
 /*
- * function: func_0217A648
+ * function: IRCi_End
  * address:  0x0217A648
  * packet:   pkt_ov015_0217A648
  * region:   ov015
@@ -13,16 +13,16 @@
  *
  * symbols:
  *   func_02084F10  0x02084F10  arm
- *   g_0217AAB4     0x0217AAB4  data
+ *   gIrcLockId     0x0217AAB4  data
  */
 
 extern void func_02084F10(unsigned short lockID);
-extern unsigned short g_0217AAB4;
+extern unsigned short gIrcLockId;
 
-void func_0217A648(void)
+void IRCi_End(void)
 {
-    if (g_0217AAB4 == -3)
+    if (gIrcLockId == -3)
         return;
-    func_02084F10(g_0217AAB4);
-    g_0217AAB4 = -3;
+    func_02084F10(gIrcLockId);
+    gIrcLockId = -3;
 }

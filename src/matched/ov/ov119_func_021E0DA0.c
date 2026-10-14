@@ -1,5 +1,5 @@
 /*
- * function: func_021E0DA0
+ * function: POKETRADE_SAVE_DeleteTypeIconActor
  * address: 0x021E0DA0
  * packet: pkt_ov119_021E0DA0
  * region: ov119
@@ -15,7 +15,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-void func_021E0DA0(char *p)
+void POKETRADE_SAVE_DeleteTypeIconActor(char *p)
 {
     if (((struct Obj10373 *)p)->f10) {
         CLACT_DeleteActor(((struct Obj10373 *)p)->f10);

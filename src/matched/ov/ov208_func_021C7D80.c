@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7D80
+ * function: ZUKAN_DETAIL_FORM_SwapItems
  * address:  0x021C7D80
  * packet:   pkt_ov208_021C7D80
  * region:   ov208
@@ -34,7 +34,7 @@ struct Ov208Battle {
     u16 h550;
 };
 
-void ov208_func_021C7D80(void *unused, struct Ov208Battle *p)
+void ZUKAN_DETAIL_FORM_SwapItems(void *unused, struct Ov208Battle *p)
 {
     struct Ov208Tri t;
     struct Ov208Tri t2;

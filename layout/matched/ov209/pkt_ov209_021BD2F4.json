@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD2F4",
+   "name": "ZUKAN_LIST_IsSpeciesEntryValid",
    "address": "0x021BD2F4",
    "kind": "game",
    "region": "ov209",

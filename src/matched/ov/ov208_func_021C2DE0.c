@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DE0
+ * function: ZUKAN_DETAIL_VOICE_SetNumberDigits
  * address: 0x021C2DE0
  * packet: pkt_ov208_021C2DE0
  * region: ov208
@@ -18,7 +18,7 @@ struct Obj;
 struct Indices { u8 v[4]; };
 extern const struct Indices data_021C86EC;
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
+void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused,u8 *p,void *unused2,int first,u16 second)
 {
     struct Indices ids;
     u16 digits[4];

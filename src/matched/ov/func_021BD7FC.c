@@ -1,5 +1,5 @@
 /*
- * function: func_021BD7FC
+ * function: ZKND_TBAR_SetActorDrawEnable
  * address:  0x021BD7FC
  * packet:   pkt_021BD7FC
  * region:   ov208
@@ -21,7 +21,7 @@ struct Obj;
 
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_021BD7FC(struct Obj **p, unsigned int v)
+void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int v)
 {
     CLACT_SetActorDrawEnable(*p, v);
 }

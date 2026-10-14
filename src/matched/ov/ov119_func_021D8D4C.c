@@ -1,5 +1,5 @@
 /*
- * function: func_021D8D4C
+ * function: POKETRADE_PROC_LoadSlotMon
  * address:  0x021D8D4C
  * packet:   pkt_021D8B54
  * region:   ov119
@@ -33,7 +33,7 @@ extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void MI_CpuCopy8(void *dst, const void *src, int n);
 
-void *func_021D8D4C(void **a, int b, int c, char *p)
+void *POKETRADE_PROC_LoadSlotMon(void **a, int b, int c, char *p)
 {
     int n;
     void *res = 0;

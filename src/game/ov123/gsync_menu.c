@@ -1,0 +1,1289 @@
+/*
+ * file:     gsync_menu.c
+ * unit:     yes
+ * function: GSYNC_MENU_SetStateFunc, GSYNC_MENU_ChangeState, GSYNC_MENU_InitBgLayers, GSYNC_MENU_RestartTimeIcon, GSYNC_MENU_AddPaletteEntries, GSYNC_MENU_StateStartFadeOut, GSYNC_MENU_StateWaitMenuSelect, GSYNC_MENU_StateOpenYesNoAfterMessage, GSYNC_MENU_OnButtonAnimEnd, GSYNC_MENU_NoOp, GSYNC_MENU_CreateButtonWindows, GSYNC_MENU_DeleteButtonWindows, GSYNC_MENU_RunButtonCallback, GSYNC_MENU_CreateActors, GSYNC_MENU_LoadResources, GSYNC_MENU_StateSetupButtons, GSYNC_MENU_FreeResources, GSYNC_MENU_StateWaitFadeOut, GSYNC_MENU_StateWaitTouchAfterMessage, GSYNC_MENU_StatePlayButtonAnim, GSYNC_MENU_OnButtonPressed, GSYNC_MENU_SetCursorAnimIfChanged, GSYNC_MENU_UpdateCursorAnimFromKeys, GSYNC_MENU_StateButtonsActive, GSYNC_MENU_FadePaletteSlot, GSYNC_MENU_SetPaletteFade, GSYNC_MENU_OpenYesNoMenu, GSYNC_MENU_HideMessage, GSYNC_MENU_DeleteMessageWindow, GSYNC_MENU_UpdateMessageStream, GSYNC_MENU_PrintMessage, GSYNC_MENU_PrintMessageNoStream, GSYNC_MENU_StatePrintConfirmMessage, GSYNC_MENU_StateSaveFinish, GSYNC_MENU_StateSaveStart, GSYNC_MENU_StateConfirmSelect, GSYNC_MENU_StateOpenConfirmMenu, GSYNC_MENU_VBlank, GSYNC_MENU_ProcInit, GSYNC_MENU_ProcMain, GSYNC_MENU_ProcExit
+ * address:  0x021D4240
+ * region:   ov123
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Cut from gsync_state.c by tools/splitfile.py.
+ *
+ * symbols:
+ *   d_021DA690 0x021DA690 data a4
+ *   d_021DA6B0 0x021DA6B0 data a4
+ *   d_021DA6D0 0x021DA6D0 data a4
+ *   d_021DA6F0 0x021DA6F0 data a4
+ *   d_021DA710 0x021DA710 data a4
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_020414AC 0x020414AC arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_0204047C 0x0204047C arm
+ *   func_02040588 0x02040588 arm
+ *   func_02040C14 0x02040C14 arm
+ *   func_02041300 0x02041300 arm
+ *   TIME_ICON_Delete 0x0202F038 thumb
+ *   TIME_ICON_CreateNode 0x0202EE8C thumb
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   func_020414EC 0x020414EC arm
+ *   CLACT_ResetActorAnimCommand 0x0204BA10 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201DD68  0x0201DD68  thumb
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
+ *   func_0201F7A8  0x0201F7A8  thumb
+ *   func_02049B40  0x02049B40  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   func_0201D304  0x0201D304  thumb
+ *   func_0201D42C  0x0201D42C  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
+ *   BUTTON_MAN_Delete  0x02051C6C  arm
+ *   func_02041B6C 0x02041B6C arm
+ *   d_021DA638 0x021DA638 data a1
+ *   d_021DA634 0x021DA634 data a1
+ *   d_021DA63C 0x021DA63C data a1
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   func_02045B38 0x02045B38 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049F78 0x02049F78 arm
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049990 0x02049990 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   func_0201F5DC 0x0201F5DC thumb
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   d_021DA9D0 0x021DA9D0 data a4
+ *   BUTTON_MAN_Create 0x02051B84 arm
+ *   func_021DA9C0 0x021DA9C0 data a4
+ *   d_021DA640 0x021DA640 data a4
+ *   d_021DA648 0x021DA648 data a4
+ *   func_02040DA8 0x02040DA8 arm
+ *   func_0203FB44 0x0203FB44 arm
+ *   func_020403F4 0x020403F4 arm
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   func_02012138 0x02012138 thumb
+ *   GAME_COMM_GetKind 0x02026454 thumb
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
+ *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
+ *   PALANM_Create 0x02021518 thumb
+ *   PALANM_AllocSlotBuffers 0x0202155C thumb
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
+ *   PALANM_BlendChannel 0x02021FD8 thumb
+ *   PALANM_GetTransWork 0x02021730 thumb
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   func_0207E5D0 0x0207E5D0 arm
+ *   func_0207E468 0x0207E468 arm
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   APP_TASKMENU_SetDisableKey 0x02027CD8 thumb
+ *   APP_KEYCURSOR_Update 0x020286C4 thumb
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
+ *   func_02012FFC 0x02012FFC thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_02041570 0x02041570 arm
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   func_0204363C 0x0204363C arm
+ *   func_0207D534 0x0207D534 arm
+ *   GX_DispOn 0x0207D46C arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   func_02030734 0x02030734 arm
+ *   TCBL_Create 0x0203101C arm
+ *   func_0207D63C 0x0207D63C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   func_020355D8 0x020355D8 arm
+ *   d_021DA9F0 0x021DA9F0 data a4
+ *   d_021DA680 0x021DA680 data a4
+ *   d_021DA658 0x021DA658 data a4
+ *   d_021DAA20 0x021DAA20 data a1
+ *   func_02012204 0x02012204 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   func_02040618 0x02040618 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   TCBL_Destroy 0x02031140 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
+ *   func_0203F9B4 0x0203F9B4 arm
+ *   func_020315D4 0x020315D4 arm
+ *   func_020306F0 0x020306F0 arm
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   STRBUF_Clear 0x0204581C arm
+ *   func_020056A0 0x020056A0 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb  arm9
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb  arm9
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb  arm9
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
+ *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
+ *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
+ */
+#include "gsync_menu_types.h"
+
+/* Window rectangle of a button, in tiles. */
+typedef struct ButtonWinDef {
+    u32 x;
+    u32 y;
+    u32 width;
+    u32 height;
+} ButtonWinDef;
+
+struct Point_021D4240 { u16 x, y, z; u8 a, b; };
+
+struct Triple { u8 v[3]; };
+
+struct DispConfigWords { u32 words[4]; };
+
+extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
+
+extern void func_020414AC(u32);
+
+extern void func_020409B4(u32);
+
+extern void func_0204047C(int, u16);
+
+extern void func_02040588(unsigned char which, unsigned char enable);
+
+extern void func_02040C14(u32, u32, u32, u32);
+
+extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
+
+extern void TIME_ICON_Delete(u8 *);
+
+extern u8 *TIME_ICON_CreateNode(void *tcbl, void *window, u8, u8, u16 heapId);
+
+extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+
+extern int GFL_NET_GetRunState(void);
+
+extern void *func_02012138(void *gameSystem);
+
+extern void GAME_COMM_RequestExitNoCallback(void *gameComm);
+
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+
+extern void func_020414EC(u32 i);
+
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+
+extern void CLACT_ResetActorAnimCommand(struct Actor *a);
+
+extern void CLACT_SetActorAutoAnim(struct ClActor *p, u32 v);
+
+extern u32 BMP_WIN_Delete(void *d);
+
+extern int OS_IsRunOnTwl(void);
+
+extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+
+extern void func_0201DD68(void);
+
+extern void BMP_WIN_ClearScreen(void *d);
+
+extern void func_0201F7A8(void *desc, u32 kind);
+
+extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+
+extern void *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+
+extern void *BMP_WIN_GetBmp(void *p);
+
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+
+extern u32 func_0201D42C(struct StrObj *s, void *font);
+
+extern void PRINTSYS_Print(void *x, short y, short z, void *s, void *w);
+
+extern void BMP_WIN_TransferChars(void *d);
+
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+
+extern void BUTTON_MAN_Delete(void *p);
+
+extern void func_02041B6C(u32 bit);
+
+extern struct ClActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+
+extern void CLACT_SetActorDrawEnable(struct ClActor *p, u32 v);
+
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
+extern void *func_020490F4(u32 id, u32 heap);
+
+extern void func_02049B68(void *, u32, u32, u32, u32, u16);
+
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+
+extern void MI_CpuCopy8(const void *, void *, u32);
+
+extern u32 func_020307B0(void *p);
+
+extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
+
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+
+extern void ARC_TOOL_DeleteHandle(void *);
+
+extern void *func_0201F5DC(void *, u32, u32, u32);
+
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+
+extern void *BUTTON_MAN_Create(const void *rects, void (*callback)(int, int, void *), void *work, u32 heapId);
+
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+
+extern void func_020403F4(u32 i);
+
+extern u32 MSGDATA_Delete(void *rec);
+
+extern u32 GF_FONT_Delete(void *ptr);
+
+extern void STRBUF_Delete(struct U16Vec *vec);
+
+extern u32 WIPE_SYS_EndCheck(void);
+
+extern u32 GAME_COMM_GetKind(void *obj);
+
+extern int TOUCHPANEL_GetTrg(void);
+
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+
+extern void func_0204BA00(void *actor, const GsyncActorAnimCallback *callback);
+
+extern void CLACT_RestartActorAnim(struct Actor *a);
+
+extern void CLACT_SetActorAnimSeq(struct ClActor *p, u16 value);
+
+extern u16 CLACT_GetActorAnimSeq(struct ClActor *);
+
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
+
+extern void *PALANM_Create(u32 heap);
+
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+
+extern int PALANM_GetTransWork(char *p, int i);
+
+extern void DWCi_ScreenDC_FlushRange(void *, int);
+
+extern void func_0207E5D0(void *, int, int);
+
+extern void func_0207E468(void *, int, int);
+
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+
+extern u32 PALANM_Delete(void *a0);
+
+extern void *APP_TASKMENU_OpenMenu(TaskMenuTmpl *tmpl, void *res);
+
+extern int APP_TASKMENU_SetDisableKey(int a0, int a1);
+
+extern void APP_KEYCURSOR_Update(u32 keyCursor, void *printStream, void *window);
+
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+
+extern void PRINTSYS_PrintStreamShortWait(void *p, s32 v);
+
+extern int TOUCHPANEL_GetCont(void);
+
+extern signed char func_02012FFC(void);
+
+extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
+
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+
+extern void func_02041570(int channel, u16 val);
+
+extern int GAME_DATA_SaveMain(u8 *p);
+
+extern int GAME_DATA_SaveStart(int a0);
+
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+
+extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
+
+extern void CLACT_VBlankSystem(void);
+
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+
+extern void MI_CpuFill8(void *,u8,u32);
+
+extern void func_0204363C(u32 swap);
+
+extern void func_0207D534(volatile u16 *reg, int brightness);
+
+extern void GX_DispOn(void);
+
+extern void func_0203F8F4(u16 heapId);
+
+extern void BMP_WIN_Init(u16);
+
+extern void func_0201DD60(void);
+
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+
+extern void func_0203FC28(struct DispConfig *cfg);
+
+extern void BG_SYS_SetMainVisiblePlanes(u32);
+
+extern void BG_SYS_SetSubVisiblePlanes(u32);
+
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
+extern void *func_020056A0(void *,void *,int);
+
+extern void *func_02030734(u32,u32,int,const char *,u16);
+
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+
+extern u32 func_02028590(u32,u32,u32,u32);
+
+extern void *PRINTSYS_QUE_Create(u32 heapId);
+
+extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, void *printQue, u16 heap);
+
+extern void func_0207D63C(void *,int,int,int,int);
+
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+
+extern void func_020355D8(u8 v);
+
+extern void APP_TASKMENU_UpdateMenu(void *);
+
+extern u32 WIH_DWC_PollStatus(void *key);
+
+extern void TCBL_Main(struct Tcbl *p);
+
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+
+extern void func_02040618(u32 layer, u32 a, u32 b);
+
+extern void CLACT_DrawSystem(void);
+
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
+
+extern u32 func_02012204(const struct Ctx *p);
+
+extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
+
+extern void CLACT_DeleteActor(struct ClActor *p);
+
+extern void CLACT_ReleasePalette(u32 i);
+
+extern void CLACT_ReleaseCharacter(u32 i);
+
+extern void CLACT_ReleaseCellAnim(u32 i);
+
+extern void func_02030EAC(struct Node *n);
+
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+
+extern void CLACT_ExitSystem(void);
+
+extern int APP_KEYCURSOR_Delete(int a0);
+
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+
+extern void TCBL_Destroy(struct S02031140 *p);
+
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+
+extern void BMP_WIN_Exit(void);
+
+extern void func_0203F9B4(void);
+
+extern void func_020315D4(struct S020315D4 *p);
+
+extern void func_020306F0(unsigned int);
+
+/* Sets the function the proc main runs each frame. */
+void GSYNC_MENU_SetStateFunc(GsyncMenuStateFunc *slot, GsyncMenuStateFunc func);
+/* lineNo is the source line of the call site in the original (unused in the retail build). */
+void GSYNC_MENU_ChangeState(GsyncMenuWork *work, GsyncMenuStateFunc func, int lineNo);
+void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work);
+void GSYNC_MENU_RestartTimeIcon(GsyncMenuWork *work);
+void GSYNC_MENU_AddPaletteEntries(u16 *palette, const u16 *add, int rowCount);
+void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work);
+void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work);
+void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work);
+void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work);
+void GSYNC_MENU_NoOp(void);
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY);
+void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work);
+void GSYNC_MENU_RunButtonCallback(int buttonIndex, int event, void *work);
+void GSYNC_MENU_CreateActors(GsyncMenuWork *work);
+void GSYNC_MENU_LoadResources(GsyncMenuWork *work);
+void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work);
+void GSYNC_MENU_FreeResources(GsyncMenuWork *work);
+void GSYNC_MENU_StateWaitFadeOut(GsyncMenuWork *work);
+void GSYNC_MENU_StateWaitTouchAfterMessage(GsyncMenuWork *work);
+void GSYNC_MENU_StatePlayButtonAnim(GsyncMenuWork *work);
+int GSYNC_MENU_OnButtonPressed(int button, GsyncMenuWork *work);
+void GSYNC_MENU_SetCursorAnimIfChanged(GsyncMenuWork *work, int animSeq);
+void GSYNC_MENU_UpdateCursorAnimFromKeys(GsyncMenuWork *work);
+void GSYNC_MENU_StateButtonsActive(GsyncMenuWork *work);
+void GSYNC_MENU_FadePaletteSlot(GsyncMenuWork *work, int palSlot, int rowCount);
+void GSYNC_MENU_SetPaletteFade(GsyncMenuWork *work, int enable);
+void GSYNC_MENU_OpenYesNoMenu(GsyncMenuWork *work);
+void GSYNC_MENU_HideMessage(GsyncMenuWork *work);
+void GSYNC_MENU_DeleteMessageWindow(GsyncMenuWork *work);
+int GSYNC_MENU_UpdateMessageStream(GsyncMenuWork *work);
+void GSYNC_MENU_PrintMessage(GsyncMenuWork *work, int lineCount, int stream);
+void GSYNC_MENU_PrintMessageNoStream(GsyncMenuWork *work);
+void GSYNC_MENU_StatePrintConfirmMessage(GsyncMenuWork *work);
+void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work);
+void GSYNC_MENU_StateSaveStart(GsyncMenuWork *work);
+void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work);
+void GSYNC_MENU_StateOpenConfirmMenu(GsyncMenuWork *work);
+void GSYNC_MENU_VBlank(void);
+int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param);
+int GSYNC_MENU_ProcMain(int a, int b, int c, GsyncMenuWork *work);
+int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWork *work);
+
+extern const struct BgTemplate d_021DA690;
+extern const struct BgTemplate d_021DA6B0;
+extern const struct BgTemplate d_021DA6D0;
+extern const struct BgTemplate d_021DA6F0;
+extern const struct BgTemplate d_021DA710;
+extern const struct Triple d_021DA638;
+extern const struct Triple d_021DA634;
+extern const struct Triple d_021DA63C;
+extern const char d_021DA9D0[];
+extern char func_021DA9C0[];
+extern int d_021DA640[];
+extern int d_021DA648[];
+extern const struct DispConfigWords d_021DA680;
+extern const u32 d_021DA9F0[];
+extern const u32 d_021DA658[];
+extern const char d_021DAA20[];
+
+void GSYNC_MENU_SetStateFunc(GsyncMenuStateFunc *slot, GsyncMenuStateFunc func)
+{
+    *slot = func;
+}
+
+void GSYNC_MENU_ChangeState(GsyncMenuWork *work, GsyncMenuStateFunc func, int lineNo)
+{
+    GSYNC_MENU_SetStateFunc(&work->stateFunc, func);
+}
+
+/* Sets up BG 0 and BGs 4 to 7 of the sub screen from the layer templates. */
+void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
+{
+    struct BgTemplate b[5];
+    b[4] = d_021DA690;
+    func_0203FCA0(0, &b[4], 0);
+    func_020414AC(0);
+    func_020409B4(0);
+    func_0204047C(0, 0);
+    func_02040588(0, 1);
+    b[3] = d_021DA6B0;
+    func_0203FCA0(4, &b[3], 0);
+    func_02040588(4, 1);
+    func_020409B4(4);
+    b[2] = d_021DA6D0;
+    func_0203FCA0(5, &b[2], 0);
+    func_02040C14(5, 0, 1, 0);
+    func_02041300(5, 0, 0, 0, 32, 32, 17);
+    func_020409B4(5);
+    func_02040588(5, 1);
+    b[1] = d_021DA6F0;
+    func_0203FCA0(6, &b[1], 0);
+    func_02040588(6, 1);
+    func_020409B4(6);
+    b[0] = d_021DA710;
+    func_0203FCA0(7, &b[0], 0);
+    func_02040588(7, 1);
+    func_020409B4(7);
+}
+
+void GSYNC_MENU_RestartTimeIcon(GsyncMenuWork *work)
+{
+    if (work->timeIcon) {
+        TIME_ICON_Delete(work->timeIcon);
+        work->timeIcon = 0;
+    }
+    work->timeIcon = TIME_ICON_CreateNode(work->tcbl, work->msgWin, 15, 16, work->heapId);
+}
+
+/* Adds add[column] to the three color channels of every entry in rowCount palette rows of 16 colors, clamped to 31. */
+void GSYNC_MENU_AddPaletteEntries(u16 *palette, const u16 *add, int rowCount)
+{
+    int row, col;
+    u16 *rowColors;
+    u16 r, g, b;
+    for (row = 0; row < rowCount; row++) {
+        rowColors = palette + row * 16;
+        for (col = 0; col < 16; col++) {
+            r = rowColors[col] & 31;
+            g = (rowColors[col] & 0x3e0) >> 5;
+            b = (rowColors[col] & 0x7c00) >> 10;
+            r += add[col];
+            g += add[col];
+            b += add[col];
+            if (r > 31) r = 31;
+            if (g > 31) g = 31;
+            if (b > 31) b = 31;
+            rowColors[col] = r + (g << 5) + (b << 10);
+        }
+    }
+}
+
+/* Starts the fade out; after a button choice the link session is closed first. */
+void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work)
+{
+    work->exiting = 1;
+    WIPE_SYS_Start(0, 0, 0, 0, 6, 1, work->heapId);
+    switch (work->exitMode) {
+    case GSYNC_MENU_EXIT_BUTTON_0:
+    case GSYNC_MENU_EXIT_BUTTON_1:
+        if (GFL_NET_GetRunState())
+            GAME_COMM_RequestExitNoCallback(func_02012138(work->gameSystem));
+        break;
+    }
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitFadeOut, 0x1aa);
+}
+
+void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work)
+{
+    if (APP_TASKMENU_IsFinish(work->taskMenu)) {
+        if (!APP_TASKMENU_GetCursorPos(work->taskMenu)) {
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, 0x1b6);
+        } else {
+            func_020414EC(5);
+            work->exitMode = GSYNC_MENU_EXIT_NONE;
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x1bb);
+        }
+        APP_TASKMENU_CloseMenu(work->taskMenu);
+        work->taskMenu = 0;
+        GSYNC_MENU_SetPaletteFade(work, 0);
+    }
+}
+
+void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work)
+{
+    if (GSYNC_MENU_UpdateMessageStream(work)) {
+        GSYNC_MENU_OpenYesNoMenu(work);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitMenuSelect, 0x1c9);
+    }
+}
+
+/*
+ * extent: follower 021D45F0 already filed separately.
+ */
+/* Animation end callback of the cursor sprite: moves on according to the chosen button. */
+void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work)
+{
+    CLACT_ResetActorAnimCommand(work->actors[work->pressedButton]);
+    CLACT_SetActorAutoAnim(work->actors[work->pressedButton], 0);
+    if (work->exitMode == GSYNC_MENU_EXIT_BUTTON_1) {
+        if (work->msgWin) {
+            BMP_WIN_Delete(work->msgWin);
+            work->msgWin = 0;
+        }
+        if (OS_IsRunOnTwl()) {
+            func_02045CAC(work->msgBankSub, 0x20, work->msgBuf);
+            GSYNC_MENU_PrintMessage(work, 10, 0);
+            GSYNC_MENU_SetPaletteFade(work, 1);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x1df);
+        } else {
+            func_02045CAC(work->msgBank, 7, work->msgBuf);
+            GSYNC_MENU_PrintMessageNoStream(work);
+            GSYNC_MENU_SetPaletteFade(work, 1);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenYesNoAfterMessage, 0x1e6);
+        }
+    } else if (work->exitMode == GSYNC_MENU_EXIT_BUTTON_0 || work->exitMode == GSYNC_MENU_EXIT_BUTTON_1) {
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, 0x1f2);
+    } else {
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, 0x1f5);
+    }
+}
+
+/*
+ * extent: bx lr callback stub, two zero alignment bytes, then labelled GSYNC_MENU_CreateButtonWindows.
+ */
+void GSYNC_MENU_NoOp(void) {}
+
+/*
+ * note 2026-10-05 (wD6 lane17): closed by the real callee prototypes: func_0201DD68 takes no
+ *   argument (so count is spilled and reloaded for the +0x25C store) and the record pointer is not
+ *   const (the a/b/c loads stay after the outgoing stack-argument stores).
+ */
+/* Replaces the button windows: one window per definition, each with its text centered on (centerX, centerY). */
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY)
+{
+    int i;
+    int j;
+    int textX;
+    int textY;
+    work->buttonCount = count;
+    func_0201DD68();
+    for (i = 0; i < 4; i++) {
+        if (work->buttonWins[i] != 0) {
+            BMP_WIN_ClearScreen(work->buttonWins[i]);
+            func_0201F7A8(work->buttonWins[i], 2);
+            BMP_WIN_Delete(work->buttonWins[i]);
+        }
+        work->buttonWins[i] = 0;
+    }
+    func_02049B40(0x17, 5, 4, 0x100, 0x20, work->heapId);
+    for (j = 0; j < count; j++) {
+        ButtonWinDef *def = &defs[j];
+        work->buttonWins[j] = BMP_WIN_Create(7, (u8)def->x, (u8)def->y, (u8)def->width, (u8)def->height, 8, 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->buttonWins[j]), 0);
+        func_02045CAC(work->msgBank, messageIds[j], work->msgBuf);
+        GF_FONT_SetTextColor(0xF, 2, 0);
+        if (centerX != 0)
+            textX = centerX[j] - func_0201D304(work->msgBuf, (u32)work->font, 0) / 2;
+        else
+            textX = 0;
+        if (centerY != 0)
+            textY = centerY[j] - func_0201D42C(work->msgBuf, work->font) / 2;
+        else
+            textY = 0;
+        PRINTSYS_Print(BMP_WIN_GetBmp(work->buttonWins[j]), (short)textX, (short)textY, work->msgBuf, work->font);
+        BMP_WIN_TransferChars(work->buttonWins[j]);
+        BMP_WIN_MakeScreen(work->buttonWins[j]);
+    }
+    if (work->buttonMan != 0)
+        BUTTON_MAN_Delete(work->buttonMan);
+    work->buttonMan = 0;
+    func_020409B4(7);
+}
+
+void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work)
+{
+    int i;
+    if (work->buttonMan)
+        BUTTON_MAN_Delete(work->buttonMan);
+    work->buttonMan = 0;
+    for (i = 0; i < 4; i++) {
+        if (work->buttonWins[i]) {
+            BMP_WIN_ClearScreen(work->buttonWins[i]);
+            func_02041B6C(5);
+            func_0201F7A8(work->buttonWins[i], 2);
+            BMP_WIN_Delete(work->buttonWins[i]);
+        }
+        work->buttonWins[i] = 0;
+    }
+    work->buttonCount = 0;
+}
+
+/* Button manager callback: forwards a press (event 0) to the work's button callback. */
+void GSYNC_MENU_RunButtonCallback(int buttonIndex, int event, void *work)
+{
+    GsyncMenuWork *menu = work;
+    if (event)
+        return;
+    if (!menu->buttonCallback)
+        return;
+    if (menu->buttonCallback(buttonIndex, menu))
+        return;
+}
+
+/*
+ * lever: seven independent offset locals each receive 0x2ac then their final literal; both spill stores survive.
+ * note 2026-10-05 (wave D9r lane 131): removed the 7 dead first assignments
+ * (`o1 = 0x2ac;` before `o1 = 0x294;`; `o2 = 0x2ac;` before `o2 = 0x290;`
+ * and 5 more). Game code has no line table, so these were stand-ins. The
+ * plain single assignment gives EXACT in --lang c99 and --lang c: the output
+ * bytes do not change. Older text in this header that asks for the double
+ * assignment is superseded.
+ */
+void GSYNC_MENU_CreateActors(GsyncMenuWork *work)
+{
+    struct Triple x, y, z;
+    struct Point_021D4240 pt;
+    int i;
+    x = d_021DA638;
+    y = d_021DA634;
+    z = d_021DA63C;
+    for (i = 0; i < 3; i++) {
+        pt.x = x.v[i]; pt.y = y.v[i]; pt.z = z.v[i];
+        pt.a = 0; pt.b = 2;
+        work->actors[i] = CLACT_CreateActor(work->clactUnit, work->charHandle, work->palHandle, work->cellHandle, &pt, 1, work->heapId);
+        CLACT_SetActorAutoAnim(work->actors[i], 0);
+        CLACT_SetActorDrawEnable(work->actors[i], 1);
+        CLACT_SetActorObjMode(work->actors[i], 1);
+    }
+}
+
+/*
+ * interface: 02049990 arg5 is u16 at both original call-site truncations; 02049F78 arg3 is an unchanged address payload passed to 02062A98, whose body stores through it.
+ */
+void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
+{
+    void *arc;
+    void *paletteBlock;
+    GsyncPaletteData *paletteData;
+    work->msgBuf = STRBUF_Create(300, work->heapId);
+    work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
+    work->msgBank = func_02045B38(0, 2, 39, work->heapId);
+    work->msgBankSub = func_02045B38(0, 2, 232, work->heapId);
+    arc = func_020490F4(29, work->heapId);
+    func_02049B68(arc, 1, 4, 0, 0, work->heapId);
+    func_02049B68(arc, 0, 0, 0, 0, work->heapId);
+    paletteBlock = func_02049F78(arc, 1, (u32)(&paletteData), work->heapId);
+    MI_CpuCopy8(paletteData->rawData, work->palette, 0xe0);
+    MI_CpuCopy8(paletteData->rawData, work->paletteDim, 0xe0);
+    GSYNC_MENU_AddPaletteEntries(work->paletteDim, (const u16 *)d_021DA9D0, 7);
+    func_020307B0(paletteBlock);
+    work->charBase = func_02049740(arc, 4, 4, 0, 0, work->heapId);
+    func_02049990(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
+    func_02049990(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
+    ARC_TOOL_DeleteHandle(arc);
+    work->bgFrame = (u32)func_0201F5DC((void *)5, 12, 0, work->heapId);
+    func_02049B40(23, 5, 4, 0x1a0, 32, work->heapId);
+    arc = func_020490F4(29, work->heapId);
+    work->charHandle = CLACT_RegisterCharacter(arc, 5, 0, 1, work->heapId);
+    work->palHandle = CLACT_RegisterPaletteEx(arc, 3, 1, 0, 0, 10, work->heapId);
+    work->cellHandle = CLACT_RegisterCellAnim(arc, 7, 16, work->heapId);
+    ARC_TOOL_DeleteHandle(arc);
+    GSYNC_MENU_CreateActors(work);
+}
+
+/* Creates the button windows and the touch button manager for the main screen of the menu. */
+void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work)
+{
+    /* one-entry message id table; the struct form keeps the original stack layout */
+    struct { int id; } messageIds = {0};
+    GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)func_021DA9C0, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
+    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, GSYNC_MENU_RunButtonCallback, work, work->heapId);
+    work->buttonCallback = GSYNC_MENU_OnButtonPressed;
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, 0x321);
+}
+
+void GSYNC_MENU_FreeResources(GsyncMenuWork *work)
+{
+    func_0201DD68();
+    GSYNC_MENU_DeleteButtonWindows(work);
+    func_02040DA8(5, 1, 0);
+    func_0203FB44((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
+    func_020403F4(5);
+    func_020403F4(4);
+    MSGDATA_Delete(work->msgBank);
+    MSGDATA_Delete(work->msgBankSub);
+    GF_FONT_Delete(work->font);
+    STRBUF_Delete(work->msgBuf);
+}
+
+/* Waits for the fade out to end, then leaves the proc state loop. */
+void GSYNC_MENU_StateWaitFadeOut(GsyncMenuWork *work)
+{
+    if (WIPE_SYS_EndCheck() != 0) {
+        switch (work->exitMode) {
+        case GSYNC_MENU_EXIT_BUTTON_0:
+        case GSYNC_MENU_EXIT_BUTTON_1:
+            if (GAME_COMM_GetKind(func_02012138(work->gameSystem)) == 0)
+                GSYNC_MENU_ChangeState(work, 0, 0x345);
+            break;
+        default:
+            GSYNC_MENU_ChangeState(work, 0, 0x349);
+            break;
+        }
+    }
+}
+
+void GSYNC_MENU_StateWaitTouchAfterMessage(GsyncMenuWork *work)
+{
+    if (GSYNC_MENU_UpdateMessageStream(work) != 0 && TOUCHPANEL_GetTrg() != 0) {
+        GSYNC_MENU_DeleteMessageWindow(work);
+        work->keyPrev = 0;
+        GFL_USE_PlaySeDefaultVolume(0x73b);
+        GSYNC_MENU_SetPaletteFade(work, 0);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x360);
+    }
+}
+
+/*
+ * evidence: callback 0x021D45F0 resolved by its verified ov123 shard.
+ */
+/* Plays the press animation of the chosen button; its end callback is GSYNC_MENU_OnButtonAnimEnd. */
+void GSYNC_MENU_StatePlayButtonAnim(GsyncMenuWork *work)
+{
+    GsyncActorAnimCallback cb;
+    cb.frame = 0;
+    cb.work = work;
+    cb.callback = GSYNC_MENU_OnButtonAnimEnd;
+    CLACT_SetActorAutoAnim(work->actors[work->pressedButton], 1);
+    func_0204BA00(work->actors[work->pressedButton], &cb);
+    CLACT_RestartActorAnim(work->actors[work->pressedButton]);
+    GSYNC_MENU_ChangeState(work, (GsyncMenuStateFunc)GSYNC_MENU_NoOp, 0x376);
+}
+
+/* Button callback: 0 and 1 are the two buttons, 2 is the back button. Returns 1. */
+int GSYNC_MENU_OnButtonPressed(int button, GsyncMenuWork *work)
+{
+    work->pressedButton = button;
+    switch (button) {
+    case 0:
+        GFL_USE_PlaySeDefaultVolume(0x73b);
+        CLACT_SetActorAnimSeq(work->actors[0], 14);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x389);
+        work->exitMode = GSYNC_MENU_EXIT_BUTTON_0;
+        break;
+    case 1:
+        GFL_USE_PlaySeDefaultVolume(0x73b);
+        work->exitMode = GSYNC_MENU_EXIT_BUTTON_1;
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x393);
+        break;
+    case 2:
+        GFL_USE_PlaySeDefaultVolume(0x73c);
+        work->exitMode = GSYNC_MENU_EXIT_NONE;
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x399);
+        break;
+    }
+    return 1;
+}
+
+void GSYNC_MENU_SetCursorAnimIfChanged(GsyncMenuWork *work, int animSeq)
+{
+    if (animSeq != CLACT_GetActorAnimSeq(work->actors[0])) {
+        CLACT_SetActorAutoAnim(work->actors[0], 1);
+        CLACT_SetActorAnimSeq(work->actors[0], animSeq);
+    }
+}
+
+/* Picks the first cursor sprite animation from the direction keys held. */
+void GSYNC_MENU_UpdateCursorAnimFromKeys(GsyncMenuWork *work)
+{
+    u32 keys = work->keyNow;
+    if (keys != work->keyPrev) {
+        if (keys & GSYNC_KEY_UP) GSYNC_MENU_SetCursorAnimIfChanged(work, 0x18);
+        else if (keys & GSYNC_KEY_DOWN) GSYNC_MENU_SetCursorAnimIfChanged(work, 0x16);
+        else if (keys & GSYNC_KEY_R) GSYNC_MENU_SetCursorAnimIfChanged(work, 0x15);
+        else if (keys & GSYNC_KEY_L) GSYNC_MENU_SetCursorAnimIfChanged(work, 0x15);
+        else GSYNC_MENU_SetCursorAnimIfChanged(work, 0xe);
+    }
+}
+
+/*
+ * Addresses are Black-image addresses.
+ */
+void GSYNC_MENU_StateButtonsActive(GsyncMenuWork *work)
+{
+    if (WIPE_SYS_EndCheck() != 0)
+        BUTTON_MAN_UpdateSlots(work->buttonMan);
+    GSYNC_MENU_UpdateCursorAnimFromKeys(work);
+}
+
+/*
+ * extent: two zero padding bytes at 0x021D4D3E before next labelled function.
+ */
+/* Fades rowCount rows of palette slot palSlot toward the target color and uploads the result to palette RAM. */
+void GSYNC_MENU_FadePaletteSlot(GsyncMenuWork *work, int palSlot, int rowCount)
+{
+    void *palAnm;
+    void *transBuf;
+    int byteSize;
+    palAnm = PALANM_Create(work->heapId);
+    PALANM_AllocSlotBuffers(palAnm, palSlot, 0x200, work->heapId);
+    byteSize = rowCount * 32;
+    PALANM_CopyHwPaletteToSlot(palAnm, palSlot, 0, byteSize);
+    PALANM_BlendChannel(palAnm, (int)palSlot, (int)0, (u16)(rowCount * 16), (int)6, (int)0);
+    transBuf = (void *)PALANM_GetTransWork(palAnm, palSlot);
+    DWCi_ScreenDC_FlushRange(transBuf, byteSize);
+    switch (palSlot) {
+    case 3: func_0207E5D0(transBuf, 0, byteSize); break;
+    case 1: func_0207E468(transBuf, 0, byteSize); break;
+    }
+    PALANM_FreeSlotBuffers(palAnm, palSlot);
+    PALANM_Delete(palAnm);
+}
+
+/* enable: save the palette RAM and fade it; otherwise restore the saved palettes. */
+void GSYNC_MENU_SetPaletteFade(GsyncMenuWork *work, int enable)
+{
+    if (enable) {
+        MI_CpuCopy8((void *)0x05000600, work->palBufMain, 0x200);
+        MI_CpuCopy8((void *)0x05000400, work->palBufSub, 0x200);
+        GSYNC_MENU_FadePaletteSlot(work, 3, 14);
+        GSYNC_MENU_FadePaletteSlot(work, 1, 9);
+    } else {
+        func_0207E5D0(work->palBufMain, 0, 0x1c0);
+        func_0207E468(work->palBufSub, 0, 0x120);
+    }
+}
+
+/* Opens the two entry Yes/No task menu below the message window. */
+void GSYNC_MENU_OpenYesNoMenu(GsyncMenuWork *work)
+{
+    TaskMenuTmpl tmpl;
+    tmpl.heapId = work->heapId;
+    tmpl.itemNum = 2;
+    tmpl.items = work->menuItems;
+    tmpl.posType = 1;
+    tmpl.charPosX = 32;
+    tmpl.charPosY = 14;
+    tmpl.width = 13;
+    tmpl.height = 3;
+    work->menuItems[0].text = STRBUF_Create(100, work->heapId);
+    func_02045CAC(work->msgBank, 4, work->menuItems[0].text);
+    work->menuItems[0].color = 0x39e0;
+    work->menuItems[1].text = STRBUF_Create(100, work->heapId);
+    func_02045CAC(work->msgBank, 5, work->menuItems[1].text);
+    work->menuItems[1].color = 0x39e0;
+    work->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
+    APP_TASKMENU_SetDisableKey((int)(work->taskMenu), 1);
+    STRBUF_Delete(work->menuItems[0].text);
+    STRBUF_Delete(work->menuItems[1].text);
+}
+
+void GSYNC_MENU_HideMessage(GsyncMenuWork *work)
+{
+    if (work->timeIcon) {
+        TIME_ICON_Delete(work->timeIcon);
+        work->timeIcon = 0;
+    }
+    func_0201F7A8(work->msgWin, 2);
+    BMP_WIN_ClearScreen(work->msgWin);
+    func_02041B6C(5);
+}
+
+void GSYNC_MENU_DeleteMessageWindow(GsyncMenuWork *work)
+{
+    GSYNC_MENU_HideMessage(work);
+    BMP_WIN_Delete(work->msgWin);
+    work->msgWin = 0;
+}
+
+/* Runs the message print stream; returns 1 when no stream is active any more. */
+int GSYNC_MENU_UpdateMessageStream(GsyncMenuWork *work)
+{
+    if (work->printStream) {
+        if (work->msgWin)
+            APP_KEYCURSOR_Update(work->keyCursor, work->printStream, work->msgWin);
+        switch (PRINTSYS_PrintStreamGetState(work->printStream)) {
+        case 2:
+            PRINTSYS_PrintStreamDelete(work->printStream);
+            work->printStream = 0;
+            break;
+        case 1:
+            if (TOUCHPANEL_GetTrg()) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(work->printStream);
+            }
+            break;
+        case 0:
+            if (TOUCHPANEL_GetCont()) PRINTSYS_PrintStreamShortWait(work->printStream, 0);
+            break;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+/* Prints msgBuf into the message window (created on first use, lineCount tiles high); stream: print one character at a time. */
+void GSYNC_MENU_PrintMessage(GsyncMenuWork *work, int lineCount, int stream)
+{
+    void *win;
+    if (work->msgWin == 0)
+        work->msgWin = BMP_WIN_Create(5, 1, 3, 30, (u8)lineCount, 13, 1);
+    win = work->msgWin;
+    BMP_Clear(BMP_WIN_GetBmp(win), 15);
+    GF_FONT_SetTextColor(1, 2, 15);
+    if (stream) {
+        int textSpeed;
+        textSpeed = func_02012FFC();
+        work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->msgBuf, work->font, textSpeed, work->tcbl, 2, work->heapId, 15);
+    } else {
+        PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
+    }
+    func_0201F73C(win, 1, (u16)(work->bgFrame), 12);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
+    func_02041B6C(5);
+}
+
+void GSYNC_MENU_PrintMessageNoStream(GsyncMenuWork *work)
+{
+    GSYNC_MENU_PrintMessage(work, 4, 1);
+}
+
+/* Prints the confirmation text and waits for it to finish before the Yes/No menu opens. */
+void GSYNC_MENU_StatePrintConfirmMessage(GsyncMenuWork *work)
+{
+    GSYNC_MENU_SetPaletteFade(work, 1);
+    func_02041570(5, 0);
+    func_02045CAC(work->msgBank, 3, work->msgBuf);
+    GSYNC_MENU_PrintMessageNoStream(work);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenConfirmMenu, 0x4d0);
+}
+
+void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work)
+{
+    if (GAME_DATA_SaveMain(work->gameData) == 2) {
+        GSYNC_MENU_DeleteMessageWindow(work);
+        GSYNC_MENU_SetPaletteFade(work, 0);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, 0x4ea);
+    }
+}
+
+void GSYNC_MENU_StateSaveStart(GsyncMenuWork *work)
+{
+    if (GSYNC_MENU_UpdateMessageStream(work)) {
+        GAME_DATA_SaveStart((int)(work->gameData));
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveFinish, 0x4fa);
+    }
+}
+
+/* Handles the answer of the confirmation menu: Yes saves (or reports that saving is impossible), No returns to the buttons. */
+void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work)
+{
+    if (APP_TASKMENU_IsFinish(work->taskMenu)) {
+        if (!APP_TASKMENU_GetCursorPos(work->taskMenu)) {
+            if (func_020071F0(GAME_DATA_GetSaveControl(work->gameData))) {
+                func_02045CAC(work->msgBank, 46, work->msgBuf);
+                GSYNC_MENU_PrintMessageNoStream(work);
+                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x50d);
+            } else {
+                func_02045CAC(work->msgBank, 6, work->msgBuf);
+                GSYNC_MENU_PrintMessage(work, 4, 0);
+                GSYNC_MENU_RestartTimeIcon(work);
+                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveStart, 0x519);
+            }
+        } else {
+            func_020414EC(5);
+            work->exitMode = GSYNC_MENU_EXIT_NONE;
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x51f);
+            GSYNC_MENU_SetPaletteFade(work, 0);
+        }
+        APP_TASKMENU_CloseMenu(work->taskMenu);
+        work->taskMenu = 0;
+    }
+}
+
+void GSYNC_MENU_StateOpenConfirmMenu(GsyncMenuWork *work)
+{
+    if (GSYNC_MENU_UpdateMessageStream(work)) {
+        GSYNC_MENU_OpenYesNoMenu(work);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateConfirmSelect, 0x536);
+    }
+}
+
+/*
+ * evidence: root claimed this sole blocker of 021D5128; target's matched
+ * definition and original body read no incoming argument registers.
+ */
+void GSYNC_MENU_VBlank(void)
+{
+    CLACT_VBlankSystem();
+}
+
+/*
+ * evidence: sole callback blocker ov123 021D5120 filed and verified before
+ * caller recheck; ABS32 at +01E0 now resolves through its matched shard.
+ * volatile: display register 04001000 read/write at 021D5198/021D519C.
+ * interface: 0203159C leaves its allocation result in r0, which is used
+ * throughout this caller; its legacy matched definition is void.
+ */
+int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
+{
+    GsyncMenuWork *work;
+    int bright;
+    int color;
+    struct DispConfigWords cfg;
+    GFL_HEAP_CreateChildHeap(1, 31, 0x18000);
+    work = PROCSYS_AllocProcWork(proc, 0x2b4, 31);
+    MI_CpuFill8(work, 0, 0x2b4);
+    work->heapId = 31;
+    work->gameData = param->gameData;
+    work->gameSystem = param->gameSystem;
+    func_0204363C(1);
+    if (param->fadeFromWhite) bright = 16; else bright = -16;
+    func_0207D534((void *)0x0400006c, bright);
+    func_0207D534((void *)0x0400106c, bright);
+    *(volatile u32 *)0x04001000 |= 0x10000;
+    GX_DispOn();
+    func_0203F8F4(work->heapId);
+    BMP_WIN_Init(work->heapId);
+    func_0201DD60();
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
+    cfg = d_021DA680;
+    func_0203FC28((struct DispConfig *)(&cfg));
+    BG_SYS_SetMainVisiblePlanes(0);
+    BG_SYS_SetSubVisiblePlanes(0);
+    CLACT_InitSystem((const struct Cfg *)d_021DA658, (u32)d_021DA9F0, work->heapId);
+    work->clactUnit = CLACT_CreateUnit(40, 0, work->heapId);
+    work->vblankTcb = func_020056A0(GSYNC_MENU_VBlank, work, 0);
+    GSYNC_MENU_InitBgLayers(work);
+    GSYNC_MENU_LoadResources(work);
+    work->palBufMain = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
+    work->palBufSub = func_02030734(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
+    work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
+    work->keyCursor = func_02028590(15, 0, 1, work->heapId);
+    work->printQue = PRINTSYS_QUE_Create(work->heapId);
+    work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
+    func_0207D63C((void *)0x04001050, 4, 1, 15, 4);
+    color = 0;
+    if (param->fadeFromWhite) color = 0x7fff;
+    WIPE_SYS_Start(0, 1, 1, (u16)color, 6, 1, work->heapId);
+    param->fadeFromWhite = 0;
+    BG_SYS_SetSubVisiblePlanes(31);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x5bf);
+    work->param = param;
+    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    func_020355D8(1);
+    return 1;
+}
+
+/*
+ * extent: two bytes zero alignment padding follow the return.
+ */
+/* Proc main: runs the state function, polls the keys, draws; returns 1 when the proc is done. */
+int GSYNC_MENU_ProcMain(int a, int b, int c, GsyncMenuWork *work)
+{
+    int result = 1;
+    if (work->stateFunc) {
+        work->stateFunc(work);
+        result = 0;
+    }
+    if (work->taskMenu) APP_TASKMENU_UpdateMenu(work->taskMenu);
+    if (GFL_NET_GetRunState()) {
+        work->keyPrev = work->keyNow;
+        work->keyNow = WIH_DWC_PollStatus(0);
+    }
+    TCBL_Main(work->tcbl);
+    PRINTSYS_QUE_Main(work->printQue);
+    func_02040618(4, 3, work->bgScrollY);
+    --work->bgScrollY;
+    CLACT_DrawSystem();
+    if (!work->exiting) GAMESYSTEM_TryStartAutoComm(work->gameSystem);
+    if (WIPE_SYS_EndCheck() && func_02012204(work->gameSystem)) {
+        work->exitMode = GSYNC_MENU_EXIT_NONE;
+        result = 1;
+        WIPE_SetBrightnessFadeOut(0, 0);
+        WIPE_SetBrightnessFadeOut(1, 0);
+    }
+    return result;
+}
+
+/*
+ * extent: two zero alignment bytes at 021D54DE follow the return.
+ */
+int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWork *work)
+{
+    int i;
+    if (!WIPE_SYS_EndCheck()) return 0;
+    for (i = 0; i < 3; i++) CLACT_DeleteActor(work->actors[i]);
+    CLACT_ReleasePalette(work->palHandle);
+    CLACT_ReleaseCharacter(work->charHandle);
+    CLACT_ReleaseCellAnim(work->cellHandle);
+    func_02030EAC(work->vblankTcb);
+    CLACT_DeleteUnit(work->clactUnit);
+    CLACT_ExitSystem();
+    if (work->timeIcon) {
+        TIME_ICON_Delete(work->timeIcon);
+        work->timeIcon = 0;
+    }
+    if (work->printStream) PRINTSYS_PrintStreamDelete(work->printStream);
+    if (work->taskMenu) {
+        APP_TASKMENU_CloseMenu(work->taskMenu);
+        work->taskMenu = 0;
+    }
+    GSYNC_MENU_FreeResources(work);
+    param->result = work->exitMode;
+    func_020307B0(work->palBufMain);
+    func_020307B0(work->palBufSub);
+    APP_KEYCURSOR_Delete(work->keyCursor);
+    func_020403F4(5);
+    PRINTSYS_QUE_Clear(work->printQue);
+    PRINTSYS_QUE_Delete(work->printQue);
+    if (work->msgWin) BMP_WIN_Delete(work->msgWin);
+    TCBL_Destroy(work->tcbl);
+    APP_TASKMENU_RES_Delete(work->taskMenuRes);
+    BMP_WIN_Exit();
+    func_0203F9B4();
+    func_020315D4(proc);
+    func_020306F0(31);
+    return 1;
+}

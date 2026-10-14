@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFE4
+ * function: COMM_TVT_SYS_GetComm
  * address:  0x021BDFE4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BDFE4(void *p)
+u32 COMM_TVT_SYS_GetComm(void *p)
 {
     return ((struct Obj24108 *)p)->f1E4;
 }

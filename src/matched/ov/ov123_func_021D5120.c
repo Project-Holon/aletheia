@@ -1,5 +1,5 @@
 /*
- * function: func_021D5120
+ * function: GSYNC_MENU_VBlank
  * address: 0x021D5120
  * packet: pkt_ov123_021D5120
  * region: ov123
@@ -14,7 +14,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021D5120(void)
+void GSYNC_MENU_VBlank(void)
 {
     CLACT_VBlankSystem();
 }

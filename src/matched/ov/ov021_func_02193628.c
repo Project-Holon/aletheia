@@ -1,5 +1,5 @@
 /*
- * function: func_02193628
+ * function: FIELD_G3D_MAP_BLOCK_UpdateWfbc
  * address:  0x02193628
  * packet:   pkt_ov021_02193628
  * region:   ov021
@@ -61,7 +61,7 @@ extern int FIELD_G3D_MAPPER_SlotResGetGroundAnime(unsigned int *a0);
 typedef unsigned int   u32;
 extern int FIELD_GROUND_ANIME_BindAnm(u32 a, u32 b, u32 c, u32 d);
 
-int func_02193628(u8 *o, unsigned int *q)
+int FIELD_G3D_MAP_BLOCK_UpdateWfbc(u8 *o, unsigned int *q)
 {
     u16 *st;
     int x;

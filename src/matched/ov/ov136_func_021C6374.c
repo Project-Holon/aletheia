@@ -1,5 +1,5 @@
 /*
- * function: func_021C6374
+ * function: MB_SEQ_DrawMailDetail
  * address: 0x021C6374
  * packet: pkt_ov136_021C6374
  * region: ov136
@@ -22,7 +22,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02008F84 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
- *   func_021C5F80 0x021C5F80 thumb
+ *   MB_SEQ_PrintTextToSlot 0x021C5F80 thumb
  */
 #include "../include/Obj00627.h"
 #include "../include/Obj23579.h"
@@ -59,9 +59,9 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
+extern void MB_SEQ_PrintTextToSlot(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
 
-void func_021C6374(u8 *p)
+void MB_SEQ_DrawMailDetail(u8 *p)
 {
     u32 i;
     void *mon;
@@ -85,7 +85,7 @@ void func_021C6374(u8 *p)
     }
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj23586 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0), 0);
     STRBUF_SetString(((struct Obj23587 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, (const u16 *)func_02008F84(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298)));
-    func_021C5F80(((struct Obj23588 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0, ((struct Obj23589 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x1BC,
+    MB_SEQ_PrintTextToSlot(((struct Obj23588 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0, ((struct Obj23589 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x1BC,
                   ((struct Obj23590 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1C4, 0, 2, ((struct Obj00627 *)p)->f18, 0x440, 0);
     w = ((struct Obj23591 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0;
     BMP_WIN_TransferChars(w);

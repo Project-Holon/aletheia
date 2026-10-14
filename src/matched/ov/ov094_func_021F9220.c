@@ -1,5 +1,5 @@
 /*
- * function: func_021F9220
+ * function: BTLV_EFFECT_StepScalarWithLimit
  * address:  0x021F9220
  * packet:   pkt_ov094_021F9220
  * region:   ov094
@@ -13,7 +13,7 @@
  * padding pair.
  */
 
-void func_021F9220(int *p, int *d, int *lim, int *flag)
+void BTLV_EFFECT_StepScalarWithLimit(int *p, int *d, int *lim, int *flag)
 {
     int n = *p + *d;
     *p = n;

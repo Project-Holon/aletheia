@@ -104,46 +104,6 @@ typedef struct IrcStepEntry {
     void (*destroyArgs)(void *args, IrcCompatibleWork *work);
 } IrcStepEntry;
 
-typedef struct IrcMenuArgs {
-    void *gameSystem;
-    void *view;
-    int mode;                /* 0 first entry, 1 normal, 2 back from help */
-    int choice;              /* out */
-    IrcCompatibleProfile *profile;
-} IrcMenuArgs;
-
-typedef struct IrcSecondTestArgs {
-    void *gameSystem;
-    void *view;
-    IrcCompatibleProfile *profile;
-    int result;              /* out */
-    u8 score;                /* out */
-    u8 penalty;              /* out */
-    u8 bonus;                /* out */
-    u8 pad13;
-} IrcSecondTestArgs;
-
-typedef struct IrcFirstTestArgs {
-    void *gameSystem;
-    void *view;
-    IrcCompatibleProfile *profile;
-    int result;              /* out */
-    u8 score;                /* out */
-    u8 pad11[3];
-    int penalty;             /* out */
-} IrcFirstTestArgs;
-
-typedef struct IrcResultArgs {
-    void *gameSystem;
-    void *view;
-    IrcCompatibleProfile *profile;
-    u8 compatibility;
-} IrcResultArgs;
-
-typedef struct IrcHelpArgs {
-    void *gameSystem;
-} IrcHelpArgs;
-
 struct DateBytes { unsigned year, month, day, weekday; };
 
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);

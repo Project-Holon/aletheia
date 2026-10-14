@@ -1,5 +1,5 @@
 /*
- * function: func_021F8554
+ * function: WORLDTRADE_DEPOSIT_BuildOffer
  * address:  0x021F8554
  * packet:   pkt_021F8554
  * region:   ov135
@@ -15,8 +15,8 @@
   *
   *
  * symbols:
- *   func_021F6B34  0x021F6B34  thumb
- *   func_022026A0  0x022026A0  thumb
+ *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
+ *   WORLDTRADE_ADAPTER_CopyBoxMon  0x022026A0  thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
@@ -45,7 +45,7 @@ typedef struct {
     void *mon;
 } Work;
 
-extern int func_021F6B34(int v);
+extern int WORLDTRADE_BOX_ClampSlot(int v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
@@ -53,7 +53,7 @@ extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 struct Sub0200852CObj;
 struct Sub02009470Obj;
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
-extern void func_022026A0(u8 *p, u32 k);
+extern void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -65,11 +65,11 @@ extern u8 func_02009628(const struct Sub02009470Obj *obj);
 extern u8 func_02009584(const struct Sub02009470Obj *obj);
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 
-void func_021F8554(u8 *dst, Work *p)
+void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
 {
     u32 species;
 
-    if (func_021F6B34(p->box) != 0) {
+    if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);
@@ -80,7 +80,7 @@ void func_021F8554(u8 *dst, Work *p)
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
         }
-        func_022026A0(p->mon, (u32)dst);
+        WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (u32)dst);
     }
     func_0201F41C(func_020084F4(p->ctx->prof), (u16 *)(dst + 0x110), 8);
     *(u32 *)(dst + 0x10C) = func_02008530(p->ctx->prof);

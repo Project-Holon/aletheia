@@ -1,5 +1,5 @@
 /*
- * function: func_02204588
+ * function: BTLV_INPUT_BgWipeTaskEnd
  * address:  0x02204588
  * packet:   pkt_ov094_02204588
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_02204588(void *h)
+void BTLV_INPUT_BgWipeTaskEnd(void *h)
 {
     char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits *)(p + 0x68))->n--;

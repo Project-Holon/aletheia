@@ -1,5 +1,5 @@
 /*
- * function: func_021B66B0
+ * function: CTVT_CAMERA_OnFrameDmaDone
  * address: 0x021B66B0
  * packet: pkt_ov172_021B66B0
  * region: ov172
@@ -13,7 +13,7 @@
  *   func_021B672C 0x021B672C arm ov172
  *   func_021B6734 0x021B6734 arm ov172
  *   func_021B673C 0x021B673C arm ov172
- *   func_021B644C 0x021B644C thumb ov172
+ *   CTVT_CAMERA_StartFrameDma 0x021B644C thumb ov172
  *   g_021C88E0 0x021C88E0 data a4
  */
 #include "../include/Obj02879.h"
@@ -24,9 +24,9 @@ extern void func_021B6724(int);
 extern int func_021B672C(void);
 extern int func_021B6734(int);
 extern void func_021B673C(int);
-extern void func_021B644C(char *);
+extern void CTVT_CAMERA_StartFrameDma(char *);
 extern char *g_021C88E0;
-void func_021B66B0(void)
+void CTVT_CAMERA_OnFrameDmaDone(void)
 {
     char *p = g_021C88E0;
     int one;
@@ -41,6 +41,6 @@ void func_021B66B0(void)
                 (*(void (**)(u32, u32))(p + 0x3C))((*(u32 **)(p + 4))[((struct Obj02879 *)p)->f18], ((struct Obj02879 *)p)->f40);
             ((struct Obj02879 *)p)->f18 = (((struct Obj02879 *)p)->f18 + 1) % ((struct Obj02879 *)p)->f8;
         }
-        if (((struct Obj02879 *)p)->f10 == 1) func_021B644C(p);
+        if (((struct Obj02879 *)p)->f10 == 1) CTVT_CAMERA_StartFrameDma(p);
     }
 }

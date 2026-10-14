@@ -1,5 +1,5 @@
 /*
- * function: func_0217A034
+ * function: IRCi_Send
  * address:  0x0217A034
  * packet:   pkt_ov015_0217A034
  * region:   ov015
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * notes:    w9_nm2: DIFF 10 B (was 16). A dedicated local buf = g_0217ABD8 assigned after the copy loop (declared before pHeader) puts i in ip and the pointers in r6/r5; the final call keeps the pool word. Left: object stores sumLo before sumHi (scheduler swaps; tried order, masks, byte pointer, locals) and loop 2 counter is r1 not ip (tried i=0 hoists).
+ * notes:    w9_nm2: DIFF 10 B (was 16). A dedicated local buf = gIrcBuffer assigned after the copy loop (declared before pHeader) puts i in ip and the pointers in r6/r5; the final call keeps the pool word. Left: object stores sumLo before sumHi (scheduler swaps; tried order, masks, byte pointer, locals) and loop 2 counter is r1 not ip (tried i=0 hoists).
  * blocker:  10 concrete bytes, one allocator tie-break in the second loop.
  *           The image keeps the XOR counter i in r12/ip and therefore stores
  *           sumLo/sumHi in source order; mwcc here colours the fresh zero of
@@ -57,10 +57,10 @@
  * sdk:      IRCi_Send (libirc.a irc.o)
  *
  * symbols:
- *   func_02179EE0  0x02179EE0  arm  ov015
- *   func_0217A8EC  0x0217A8EC  arm  ov015
- *   g_0217ABD8     0x0217ABD8  data
- *   g_0217ABDC     0x0217ABDC  data
+ *   IRCi_CalcSum  0x02179EE0  arm  ov015
+ *   IRCi_Write  0x0217A8EC  arm  ov015
+ *   gIrcBuffer     0x0217ABD8  data
+ *   gIrcBufferPayload     0x0217ABDC  data
  */
 
 #pragma opt_lifetimes off
@@ -73,12 +73,12 @@ typedef struct {
     unsigned char sumHi;
 } IRCHeader;
 
-extern unsigned short func_02179EE0(void *input, unsigned long length);
-extern void func_0217A8EC(unsigned char *data, unsigned char size);
-extern unsigned char g_0217ABD8[184];
-extern unsigned char g_0217ABDC[184];
+extern unsigned short IRCi_CalcSum(void *input, unsigned long length);
+extern void IRCi_Write(unsigned char *data, unsigned char size);
+extern unsigned char gIrcBuffer[184];
+extern unsigned char gIrcBufferPayload[184];
 
-void func_0217A034(unsigned char *data, unsigned char size, int command, unsigned char id)
+void IRCi_Send(unsigned char *data, unsigned char size, int command, unsigned char id)
 {
     unsigned char *p;
     unsigned short sum;
@@ -86,20 +86,20 @@ void func_0217A034(unsigned char *data, unsigned char size, int command, unsigne
     unsigned char *buf;
     IRCHeader *pHeader;
 
-    pHeader = (IRCHeader *)g_0217ABD8;
+    pHeader = (IRCHeader *)gIrcBuffer;
     pHeader->command = command;
     pHeader->id = id;
     pHeader->sumLo = 0;
     pHeader->sumHi = 0;
-    p = g_0217ABDC;
+    p = gIrcBufferPayload;
     for (i = 0; (i < size) ? 1 : 0; i++)
         *p++ = *data++;
     size += 4;
-    buf = g_0217ABD8;
-    sum = func_02179EE0(buf, size);
+    buf = gIrcBuffer;
+    sum = IRCi_CalcSum(buf, size);
     pHeader->sumLo = sum;
     pHeader->sumHi = sum >> 8;
     for (i = 0; (i < size) ? 1 : 0; i++)
         buf[i] ^= 0xAA;
-    func_0217A8EC(g_0217ABD8, size);
+    IRCi_Write(gIrcBuffer, size);
 }

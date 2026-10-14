@@ -1,5 +1,5 @@
 /*
- * function: func_021D7BCC
+ * function: GDS_SOCKET_GetStateUnlocked
  * address:  0x021D7BCC
  * packet:   pkt_021D7BCC
  * region:   ov125
@@ -14,16 +14,16 @@
  * overlay start, so the ABS32 pool relocation resolves.
  *
  * symbols:
- *   d_021D9E40  0x021D9E40  data  a4
+ *   gGdsSocket  0x021D9E40  data  a4
  *
  * Addresses are Black-image addresses.
  */
 
 #include "../include/G_Clear.h"
 
-extern struct Clear d_021D9E40;
+extern struct Clear gGdsSocket;
 
-unsigned int func_021D7BCC(void)
+unsigned int GDS_SOCKET_GetStateUnlocked(void)
 {
-    return ((unsigned int *)&d_021D9E40)[0x4f];
+    return ((unsigned int *)&gGdsSocket)[0x4f];
 }

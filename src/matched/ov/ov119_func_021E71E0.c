@@ -1,5 +1,5 @@
 /*
- * function: func_021E71E0
+ * function: POKETRADE_2D_FadePaletteAll
  * address: 0x021E71E0
  * packet: pkt_ov119_021E71E0
  * region: ov119
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E7160 0x021E7160 thumb ov119
+ *   POKETRADE_2D_FadePaletteCopy 0x021E7160 thumb ov119
  */
-extern void func_021E7160(void *p, int a1, int a2, int a3);
+extern void POKETRADE_2D_FadePaletteCopy(void *p, int a1, int a2, int a3);
 
-void func_021E71E0(void *p, int a)
+void POKETRADE_2D_FadePaletteAll(void *p, int a)
 {
-    func_021E7160(p, a, 3, 0xfffe);
+    POKETRADE_2D_FadePaletteCopy(p, a, 3, 0xfffe);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC560",
+   "name": "ZUKAN_DETAIL_COMMON_CreatePaletteAnim",
    "address": "0x021BC560",
    "kind": "game",
    "region": "ov208",

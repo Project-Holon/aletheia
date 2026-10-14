@@ -1,5 +1,5 @@
 /*
- * function: func_021E31FC
+ * function: POKETRADE_3D_UploadCubeTextures
  * address:  0x021E31FC
  * packet:   pkt_ov119_021E31FC
  * region:   ov119
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E3838  0x021E3838  thumb  ov119
+ *   POKETRADE_3D_UploadTexturePages  0x021E3838  thumb  ov119
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021E3838(char *p, int count);
-void func_021E31FC(void *p) { func_021E3838(p, 0x19); }
+extern void POKETRADE_3D_UploadTexturePages(char *p, int count);
+void POKETRADE_3D_UploadCubeTextures(void *p) { POKETRADE_3D_UploadTexturePages(p, 0x19); }

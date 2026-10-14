@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02202840",
+   "name": "WORLDTRADE_ADAPTER_IsStreamDone",
    "address": "0x02202840",
    "kind": "game",
    "region": "ov135",

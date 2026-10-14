@@ -1,5 +1,5 @@
 /*
- * function: func_021FEB1C
+ * function: BR_FADE_StepPalette
  * address: 0x021FEB1C
  * packet: pkt_ov186_021FEB1C
  * region: ov186
@@ -28,7 +28,7 @@ extern u32 _u32_div_f(u32,u32);
 extern void PALANM_RequestFullTransfer(struct Obj02021F08 *,int);
 extern void PALANM_BlendChannelMask(u32,u32,u16,u32,u32);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
-int func_021FEB1C(char *p,int *state)
+int BR_FADE_StepPalette(char *p,int *state)
 {
     switch(*state) {
     case 0: {

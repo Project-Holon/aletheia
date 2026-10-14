@@ -1,5 +1,5 @@
 /*
- * function: func_02206A7C
+ * function: BTLV_INPUT_GetMessageBoxMode
  * address:  0x02206A7C
  * packet:   pkt_ov094_02206A7C
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F88A8  0x021F88A8  thumb  ov094
+ *   BTLV_EFFECT_GetVisibilityMode  0x021F88A8  thumb  ov094
  */
 #include "../include/Obj06328.h"
 typedef struct {
@@ -18,13 +18,13 @@ typedef struct {
     unsigned int b4 : 1;
 } Bf;
 
-extern int func_021F88A8(void);
+extern int BTLV_EFFECT_GetVisibilityMode(void);
 
-int func_02206A7C(char *p)
+int BTLV_INPUT_GetMessageBoxMode(char *p)
 {
     if (!((Bf *)(p + 0x68))->b4) {
         if (((struct Obj06328 *)p)->f50 == 2) {
-            if (func_021F88A8() == 1) {
+            if (BTLV_EFFECT_GetVisibilityMode() == 1) {
                 if (((struct Obj06328 *)p)->f278 == 4)
                     return 0x65;
                 return 0x5f;
@@ -33,16 +33,16 @@ int func_02206A7C(char *p)
                 return 0x5d;
             return 0x5e;
         }
-        if (func_021F88A8() == 1)
+        if (BTLV_EFFECT_GetVisibilityMode() == 1)
             return 0x65;
         return 0x5d;
     }
     if (((struct Obj06328 *)p)->f50 == 2 && ((struct Obj06328 *)p)->f278 != 4) {
-        if (func_021F88A8() == 1)
+        if (BTLV_EFFECT_GetVisibilityMode() == 1)
             return 0x67;
         return 0x61;
     }
-    if (func_021F88A8() == 1)
+    if (BTLV_EFFECT_GetVisibilityMode() == 1)
         return 0x66;
     return 0x60;
 }

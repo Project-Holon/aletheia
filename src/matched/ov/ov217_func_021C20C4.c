@@ -1,5 +1,5 @@
 /*
- * function: func_021C20C4
+ * function: ARROW_Update
  * address:  0x021C20C4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C20EC.
+ * Tail-call veneer: branch to ARROW_RunState.
  *
  * symbols:
- *   func_021C20EC  0x021C20EC  thumb  ov217
+ *   ARROW_RunState  0x021C20EC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C20EC(void *p);
+extern void ARROW_RunState(void *p);
 
-void func_021C20C4(void *p)
+void ARROW_Update(void *p)
 {
-    func_021C20EC(p);
+    ARROW_RunState(p);
 }

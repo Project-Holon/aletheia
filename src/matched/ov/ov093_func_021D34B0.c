@@ -11,23 +11,23 @@
  * extent: compiled 54 bytes followed by two zero alignment bytes.
  * symbols:
  *   BTL_CLIENT_IsMainStepActive 0x021CD9E0 thumb ov093
- *   func_021F7998 0x021F7998 thumb ov094
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021F7998(unsigned int);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_StartEffect(unsigned int);
+extern int BTLV_EFFECT_IsBusy(void);
 int BTL_CLIENT_StepPlayEffectById(char *p, int *state, unsigned int *q)
 {
     if (*state == 0) {
         if (BTL_CLIENT_IsMainStepActive((u8 *)p) != 0) return 1;
-        func_021F7998(q[0]);
+        BTLV_EFFECT_StartEffect(q[0]);
         (*state)++;
     } else {
-        if (func_021F7EB4() == 0) return 1;
+        if (BTLV_EFFECT_IsBusy() == 0) return 1;
     }
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0A8C
+ * function: ZUKAN_DETAIL_AREA_UpdateSelectorAnim
  * address:  0x021C0A8C
  * packet:   pkt_ov208_021C0A8C
  * region:   ov208
@@ -34,7 +34,7 @@ extern void ov208_func_021BDC48(void *s, u32 on);
 
 #define OBJ(i) (((u32 *)(p + 0xbc))[i])
 
-void ov208_func_021C0A8C(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateSelectorAnim(u16 *heap, u8 *p, int key)
 {
     void *scene;
     u8 sel;

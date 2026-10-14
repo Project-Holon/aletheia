@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B6C
+ * function: ZUKAN_DETAIL_AREA_CreatePokemonIcon
  * address:  0x021C0B6C
  * packet:   pkt_ov208_021C0B6C
  * region:   ov208
@@ -46,7 +46,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form,
+u32 ZUKAN_DETAIL_AREA_CreatePokemonIcon(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form,
                   u32 gender, u32 isEgg, u8 x, u8 y)
 {
     ObjPos pos;

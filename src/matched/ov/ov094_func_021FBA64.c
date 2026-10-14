@@ -1,5 +1,5 @@
 /*
- * function: func_021FBA64
+ * function: BTLV_EFFVM_CmdPlaySe
  * address:  0x021FBA64
  * packet:   pkt_ov094_021FBA64
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_021F9858  0x021F9858  thumb  ov094
+ *   BTLV_EFFVM_StartSePlayTask  0x021F9858  thumb  ov094
  */
 typedef struct {
     char pad[0x23c];
@@ -21,9 +21,9 @@ typedef struct {
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
-extern void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
+extern void BTLV_EFFVM_StartSePlayTask(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
 
-int func_021FBA64(struct Cursor *a, State *s)
+int BTLV_EFFVM_CmdPlaySe(struct Cursor *a, State *s)
 {
     int v0 = VM_GetU32(a);
     int v1 = VM_GetU32(a);
@@ -35,6 +35,6 @@ int func_021FBA64(struct Cursor *a, State *s)
     int v7 = VM_GetU32(a);
 
     VM_GetU32(a);
-    func_021F9858((void *)a, v0, v1, v2, v4, v5, v6, v7, v3);
+    BTLV_EFFVM_StartSePlayTask((void *)a, v0, v1, v2, v4, v5, v6, v7, v3);
     return s->f23c;
 }

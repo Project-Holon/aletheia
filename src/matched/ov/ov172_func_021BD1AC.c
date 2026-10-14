@@ -15,12 +15,12 @@
  *   func_021BD844 0x021BD844 thumb ov172
  *   func_021BDBC4 0x021BDBC4 thumb ov172
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_021B6EE0 0x021B6EE0 thumb ov172
+ *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
  *   func_021B7BA8 0x021B7BA8 thumb ov172
  *   func_021B8C3C 0x021B8C3C thumb ov172
- *   func_021BA280 0x021BA280 thumb ov172
+ *   CTVT_DRAW_Create 0x021BA280 thumb ov172
  *   func_021BBA6C 0x021BBA6C thumb ov172
- *   func_021B6BE0 0x021B6BE0 thumb ov172
+ *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
  *   func_021BD5AC 0x021BD5AC thumb ov172
  *   func_020056A0 0x020056A0 thumb
  *   func_0202EB14 0x0202EB14 thumb
@@ -47,12 +47,12 @@ extern void func_021BD5D8(u8 *p);
 extern void func_021BD844(u8 *p);
 extern void func_021BDBC4(u8 *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern char *func_021B6EE0(void *a, u16 b);
+extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 extern char *func_021B7BA8(void *p, u16 heap);
 extern char *func_021B8C3C(char *unused, u16 heap);
-extern u32 func_021BA280(char *, u16);
+extern u32 CTVT_DRAW_Create(char *, u16);
 extern void *func_021BBA6C(int unused, void *p);
-extern u32 func_021B6BE0(Params *);
+extern u32 DRAW_SYSTEM_CreateCanvas(Params *);
 extern void func_021BD5AC(int, char *);
 extern u32 func_020056A0(void (*)(int, char *), char *, int);
 extern int func_0202EB14(void);
@@ -82,10 +82,10 @@ void func_021BD1AC(char *self)
     func_021BD844((u8 *)self);
     func_021BDBC4((u8 *)self);
     W(0x1d4) = (u32)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
-    W(0x1e0) = (u32)func_021B6EE0(self, H(0));
+    W(0x1e0) = (u32)CTVT_CAMVIEW_Create(self, H(0));
     W(0x1e4) = (u32)func_021B7BA8(self, H(0));
     W(0x1e8) = (u32)func_021B8C3C(self, H(0));
-    W(0x1ec) = func_021BA280(self, H(0));
+    W(0x1ec) = CTVT_DRAW_Create(self, H(0));
     W(0x1f0) = (u32)func_021BBA6C((int)self, (void *)H(0));
     st.heap = H(0);
     st.kind = 2;
@@ -94,7 +94,7 @@ void func_021BD1AC(char *self)
     st.b = 0x100;
     st.c = z;
     st.d = 0xc0;
-    W(0x1f4) = func_021B6BE0(&st);
+    W(0x1f4) = DRAW_SYSTEM_CreateCanvas(&st);
     W(4) = func_020056A0(func_021BD5AC, self, 8);
     W(8) = z;
     H(0x38) = z;

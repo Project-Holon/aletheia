@@ -1,5 +1,5 @@
 /*
- * function: func_021FB390
+ * function: BTLV_EFFVM_CmdSetPokeAnimIndex
  * address:  0x021FB390
  * packet:   pkt_ov094_021FB390
  * region:   ov094
@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Script command: when func_0220041C(x, y) reports 1, calls func_02200468(x).
+ * Script command: when BTLV_MCSS_SetAnimIndexIfValid(x, y) reports 1, calls BTLV_MCSS_SetAnimPendingCallback(x).
  *
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_0220041C 0x0220041C thumb ov094
- *   func_02200468 0x02200468 thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_MCSS_SetAnimIndexIfValid 0x0220041C thumb ov094
+ *   BTLV_MCSS_SetAnimPendingCallback 0x02200468 thumb ov094
  */
 #include "../include/Obj21661.h"
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021F8694(void);
-extern int func_0220041C(void *, int, int);
-extern void func_02200468(void *, int);
+extern int BTLV_EFFECT_GetMcss(void);
+extern int BTLV_MCSS_SetAnimIndexIfValid(void *, int, int);
+extern void BTLV_MCSS_SetAnimPendingCallback(void *, int);
 
-int func_021FB390(void *a, char *s)
+int BTLV_EFFVM_CmdSetPokeAnimIndex(void *a, char *s)
 {
     int x = VM_GetU32(a);
     int y = VM_GetU32(a);
 
-    if (func_0220041C((void *)func_021F8694(), x, y) == 1)
-        func_02200468((void *)func_021F8694(), x);
+    if (BTLV_MCSS_SetAnimIndexIfValid((void *)BTLV_EFFECT_GetMcss(), x, y) == 1)
+        BTLV_MCSS_SetAnimPendingCallback((void *)BTLV_EFFECT_GetMcss(), x);
     return ((struct Obj21661 *)s)->f23C;
 }

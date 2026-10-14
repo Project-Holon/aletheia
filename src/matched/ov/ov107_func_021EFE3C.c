@@ -1,5 +1,5 @@
 /*
- * function: func_021EFE3C
+ * function: MB_COMM_SYS_NoOp
  * address:  0x021EFE3C
  * packet:   pkt_ov107_021EFE3C
  * region:   ov107
@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-void func_021EFE3C(void) {}
+void MB_COMM_SYS_NoOp(void) {}

@@ -13,8 +13,8 @@
  *   func_02030734 0x02030734 arm
  *   func_0207C768 0x0207C768 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F918C 0x021F918C thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
  *   BTLV_BG_OnScrollJobEnd 0x02209A40 thumb ov094
  *   sBtlvBgSiteName 0x0220AEF0 data ov094 a1
  *   _fflt 0x0209BDBC arm
@@ -31,8 +31,8 @@ extern char sBtlvBgSiteName[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_0207C768(u32, u32);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021F918C(const Vec *, const Vec *, Vec *, int);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFECT_ComputeVectorStep(const Vec *, const Vec *, Vec *, int);
 extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
@@ -66,7 +66,7 @@ void BTLV_BG_StartScrollJob(char *o, u32 mode, Vec *v, Vec *w, int s1, int s2, i
     p->b.z = w->z;
     switch (mode) {
     case 1:
-        func_021F918C(&p->a, w, &p->delta, Round(s1));
+        BTLV_EFFECT_ComputeVectorStep(&p->a, w, &p->delta, Round(s1));
         break;
     case 3:
         p->n2 *= 2;
@@ -80,5 +80,5 @@ void BTLV_BG_StartScrollJob(char *o, u32 mode, Vec *v, Vec *w, int s1, int s2, i
     default:
         break;
     }
-    func_021F896C(func_02030DA8(((struct Obj13628 *)o)->f0, f1, p, 0), BTLV_BG_OnScrollJobEnd, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(((struct Obj13628 *)o)->f0, f1, p, 0), BTLV_BG_OnScrollJobEnd, 0);
 }

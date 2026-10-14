@@ -1,5 +1,5 @@
 /*
- * function: func_021F4D50
+ * function: WORLDTRADE_OpenTaskMenuList
  * address: 0x021F4D50
  * packet: pkt_ov135_021F4D50
  * region: ov135
@@ -13,7 +13,7 @@
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   func_02034714 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021F5008 0x021F5008 thumb ov135
+ *   WORLDTRADE_SetBrightnessIn 0x021F5008 thumb ov135
  *   str_02203B08 0x02203B08 data
  *   data_02202C2C 0x02202C2C data a4
  */
@@ -33,8 +33,8 @@ extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 hea
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_021F5008(u32 x);
-void func_021F4D50(u8 *p, u16 a, int count, int b)
+extern void WORLDTRADE_SetBrightnessIn(u32 x);
+void WORLDTRADE_OpenTaskMenuList(u8 *p, u16 a, int count, int b)
 {
     Items items;
     Menu menu;
@@ -55,5 +55,5 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     menu.c=13;
     menu.d=3;
     ((struct Obj00448 *)p)->fE08=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),((struct Obj00448 *)p)->fE04);
-    func_021F5008(1);
+    WORLDTRADE_SetBrightnessIn(1);
 }

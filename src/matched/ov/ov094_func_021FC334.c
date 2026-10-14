@@ -1,5 +1,5 @@
 /*
- * function: func_021FC334
+ * function: BTLV_EFFVM_CmdJumpScript
  * address:  0x021FC334
  * packet:   pkt_ov094_021FC334
  * region:   ov094
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
-int func_021FC334(struct Cursor *a, char *s)
+int BTLV_EFFVM_CmdJumpScript(struct Cursor *a, char *s)
 {
     int off = VM_GetU32(a);
     VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + off);

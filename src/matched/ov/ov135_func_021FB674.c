@@ -1,5 +1,5 @@
 /*
- * function: func_021FB674
+ * function: WORLDTRADE_INPUT_StateCategoryInputAlt
  * address: 0x021FB674
  * packet: pkt_ov135_021FB674
  * region: ov135
@@ -11,7 +11,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021FA514 0x021FA514 thumb ov135
+ *   WORLDTRADE_INPUT_UpdateCategoryGridAlt 0x021FA514 thumb ov135
  */
 #include "../include/Obj00195.h"
 typedef unsigned char u8;
@@ -22,11 +22,11 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int on);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021FA514(void *p, u8 *flags);
-int func_021FB674(u8 *p)
+extern int WORLDTRADE_INPUT_UpdateCategoryGridAlt(void *p, u8 *flags);
+int WORLDTRADE_INPUT_StateCategoryInputAlt(u8 *p)
 {
     int r;
-    r = func_021FA514(p, p + 0x60);
+    r = WORLDTRADE_INPUT_UpdateCategoryGridAlt(p, p + 0x60);
     switch ((u32)r) {
     case -2:
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00195 *)p)->f8, 1);

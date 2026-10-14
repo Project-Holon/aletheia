@@ -1,5 +1,5 @@
 /*
- * function: func_021FF2D0
+ * function: WORLDTRADE_SEARCH_StateCursorAnimC
  * address: 0x021FF2D0
  * packet: pkt_ov135_021FF2D0
  * region: ov135
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_021FE9B0 0x021FE9B0 thumb ov135
+ *   WORLDTRADE_SEARCH_GetSelectedButton 0x021FE9B0 thumb ov135
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -22,16 +22,16 @@ typedef unsigned int u32;
 struct Actor;
 struct Obj;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern int func_021FE9B0(u8 *);
+extern int WORLDTRADE_SEARCH_GetSelectedButton(u8 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern const u16 d_02203D4A[][4];
-int func_021FF2D0(u8 *p)
+int WORLDTRADE_SEARCH_StateCursorAnimC(u8 *p)
 {
     if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj00018 *)p)->fBF4)) == 0) {
-        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00018 *)p)->fBF4), d_02203D4A[func_021FE9B0(p)][0]);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00018 *)p)->fBF4), d_02203D4A[WORLDTRADE_SEARCH_GetSelectedButton(p)][0]);
         if (func_020355C4() == 1) {
             CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
         } else {

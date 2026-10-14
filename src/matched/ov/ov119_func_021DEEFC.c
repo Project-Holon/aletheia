@@ -1,5 +1,5 @@
 /*
- * function: func_021DEEFC
+ * function: POKETRADE_NEGO_AbortHttpRequest
  * address:  0x021DEEFC
  * packet:   pkt_ov119_021DEEFC
  * region:   ov119
@@ -20,7 +20,7 @@ extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 
-void func_021DEEFC(void **p)
+void POKETRADE_NEGO_AbortHttpRequest(void **p)
 {
     if (*p != 0) {
         NHTTP_RAP_DeleteConnection(*p);

@@ -2,7 +2,7 @@
 #define OV107_MB_PARENT_H
 /*
  * Parent-side multiboot work area (NitroSDK MB library), shared by the
- * ov107 translation units unit_021F1B3C and unit_021F4560.  The pointer at
+ * ov107 translation units mb_parent and mb_wm_base.  The pointer at
  * 0x021F6FA0 (mbc) points at an MBCommPWork; the same block is the
  * MB_CommCommonWork that WmBase.ext points at.
  */

@@ -34,14 +34,14 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_021D7540 0x021D7540 thumb ov125
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
+ *   GDS_RAP_SaveVideoSeq 0x021D7540 thumb ov125
  *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -57,14 +57,14 @@ typedef unsigned char  u8;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
-extern void func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *);
-extern int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
+extern void BR_FADE_Start(int,int,int,int);
+extern int BR_FADE_GetResult(int *);
+extern int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -83,14 +83,14 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13d);
         initial.x=0x80;initial.y=0x60;
         func_021FD860(*(int *)(p+0x30),4,&initial);
-        func_021FE784(**(int **)(p+0x3c),2,3,0);++*state;break;
-    case 1:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;
+        BR_FADE_Start(**(int **)(p+0x3c),2,3,0);++*state;break;
+    case 1:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 2:
         *(int *)(p+0x44)=0;
         *(u16 *)(p+0x40)=0;*(u16 *)(p+0x42)=0;
         ++*state;break;
     case 3:
-        r=func_021D7540((void *)(*(int *)(*(char **)(p+0x3c)+0x14)),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(u16 *)(p+0x42),*(u16 *)(p+0x38));
+        r=GDS_RAP_SaveVideoSeq((void *)(*(int *)(*(char **)(p+0x3c)+0x14)),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(u16 *)(p+0x42),*(u16 *)(p+0x38));
         if((unsigned)(r-2)<=1) {
             *(int *)(*(char **)(p+0x3c)+0x28)=1;
             *(int *)(*(char **)(p+0x3c)+0x2c)=*(int *)(p+0x10)+1;
@@ -100,12 +100,12 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
     case 4:
         MI_CpuFill8(&cfg,0,8);
         cfg.wide=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
-        func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
+        BR_NET_StartRequest(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;
     case 5:
         ++*(unsigned *)(p+0x44);++*(unsigned *)(p+0x48);
-        if(func_021FF648(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
+        if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
             func_021FD860(*(int *)(p+0x30),0,0);
             func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x140);
             ++*state;
@@ -116,8 +116,8 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
             func_021FD860(*(int *)(p+0x34),1,&pair);
             GFL_USE_PlaySeDefaultVolume((int)0x703);++*state;
         }break;
-    case 7:func_021FE784(**(int **)(p+0x3c),2,3,1);++*state;break;
-    case 8:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;
+    case 7:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);++*state;break;
+    case 8:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 9:
         if(*(void **)(p+8)) {func_021FD15C(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8));*(int *)(p+8)=0;}
         func_021FD744(task);break;

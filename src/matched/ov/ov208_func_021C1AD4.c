@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AD4
+ * function: ZUKAN_DETAIL_AREA_LoadAreaEntries
  * address:  0x021C1AD4
  * packet:   pkt_ov208_021C1AD4
  * region:   ov208
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3C0  0x021BC3C0  thumb  ov208
- *   func_021C1F44  0x021C1F44  thumb  ov208
- *   func_021C1F28  0x021C1F28  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FreeAreaEntryData  0x021C1F44  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_LoadAreaEntryData  0x021C1F28  thumb  ov208
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_021C0C00  0x021C0C00  thumb  ov208
- *   func_021BC3A4  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_DeletePokemonIcon  0x021C0C00  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_GetViewGenderAndForm  0x0200CC40  thumb
- *   func_021C0B6C  0x021C0B6C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_CreatePokemonIcon  0x021C0B6C  thumb  ov208
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -32,7 +32,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_021C0740  0x021C0740  thumb  ov208
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_021C1F50  0x021C1F50  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_DrawAreaSetTitle  0x021C1F50  thumb  ov208
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 #include "../include/Obj00081.h"
@@ -47,21 +47,21 @@ typedef struct {
     u8 rest[0x3c];
 } Entry;
 
-extern u16  func_021BC3C0(int key);
+extern u16  ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 struct CharBuf;
 struct U16Vec;
 struct WordSet;
-extern void func_021C1F44(int a);
-extern void *func_021C1F28(int a, int b, int c);
+extern void ZUKAN_DETAIL_AREA_FreeAreaEntryData(int a);
+extern void *ZUKAN_DETAIL_AREA_LoadAreaEntryData(int a, int b, int c);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 struct MsgBank;
 struct PrintSys;
-extern void func_021C0C00(void *a, void *b);
-extern int func_021BC3A4(int *p);
+extern void ZUKAN_DETAIL_AREA_DeletePokemonIcon(void *a, void *b);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
-extern u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg, u8 x, u8 y);
+extern u32 ZUKAN_DETAIL_AREA_CreatePokemonIcon(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg, u8 x, u8 y);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -76,14 +76,14 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
-extern void func_021C1F50(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, int key);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define SLOT4C(i) (((u32 *)(p + 0x4c))[i])
 #define SLOT5C(i) (((u32 *)(p + 0x5c))[i])
 
-void func_021C1AD4(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
 {
     u32 prev;
     u16 id;
@@ -93,9 +93,9 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     u32 out1, out2, form;
 
     prev = W(0x8c);
-    id = func_021BC3C0(key);
-    func_021C1F44(W(0x94));
-    W(0x94) = (u32)func_021C1F28(id, *heap, W(0x40c));
+    id = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
+    ZUKAN_DETAIL_AREA_FreeAreaEntryData(W(0x94));
+    W(0x94) = (u32)ZUKAN_DETAIL_AREA_LoadAreaEntryData(id, *heap, W(0x40c));
     W(0x8c) = ((Entry *)W(0x94))->f0 == 0;
     if (W(0x8c) == 0)
         W(0x90) = ((Entry *)W(0x94))[0].f1 == 0;
@@ -107,12 +107,12 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     ((struct Obj00081 *)p)->f64 = (((struct Obj00081 *)p)->f64 + 1) % 2;
     if (SLOT5C(((struct Obj00081 *)p)->f64) != 0) {
         if (SLOT5C(((struct Obj00081 *)p)->f64) != 0)
-            func_021C0C00((void *)SLOT4C(((struct Obj00081 *)p)->f64), (void *)SLOT5C(((struct Obj00081 *)p)->f64));
+            ZUKAN_DETAIL_AREA_DeletePokemonIcon((void *)SLOT4C(((struct Obj00081 *)p)->f64), (void *)SLOT5C(((struct Obj00081 *)p)->f64));
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
-    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
-    SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(((struct Obj00081 *)p)->f64), W(0x54), W(0x58), W(0),
+    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData((void *)ZUKAN_DETAIL_COMMON_GetSource((int *)key)), id, &out1, &out2, &form, *heap);
+    SLOT5C(*(int *)(p + 0x64)) = ZUKAN_DETAIL_AREA_CreatePokemonIcon(&SLOT4C(((struct Obj00081 *)p)->f64), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x34));
@@ -140,7 +140,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
             CLACT_SetActorDrawEnable((struct Obj *)W(0xc0), 0);
         }
     } else if (prev == 0) {
-        func_021C1F50(heap, p, key);
+        ZUKAN_DETAIL_AREA_DrawAreaSetTitle(heap, p, key);
         CLACT_SetActorDrawEnable((struct Obj *)W(0xbc), 1);
         CLACT_SetActorAnimSeq((struct Obj *)W(0xc4), 2);
         CLACT_SetActorDrawEnable((struct Obj *)W(0xc4), 1);

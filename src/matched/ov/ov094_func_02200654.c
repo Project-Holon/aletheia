@@ -1,5 +1,5 @@
 /*
- * function: func_02200654
+ * function: BTLV_MCSS_RestoreVanishStates
  * address:  0x02200654
  * packet:   pkt_ov094_02200654
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FF374  0x021FF374  thumb  ov094
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_SetVanishMode  0x021FF374  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef enum { SLOT_0, SLOT_MAX = 8 } Slot;
 
@@ -33,19 +33,19 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
-extern int func_021FFD9C(char *p, int key);
-extern void func_021FF374(Work *w, int key, int kind);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern void BTLV_MCSS_SetVanishMode(Work *w, int key, int kind);
 
-void func_02200654(Work *w)
+void BTLV_MCSS_RestoreVanishStates(Work *w)
 {
     Slot i;
     int j;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C((char *)w, i)) {
-            j = func_022019F4((char *)w, i);
-            func_021FF374(w, i, w->e[j].f10);
+        if (BTLV_MCSS_IsSpriteLoaded((char *)w, i)) {
+            j = BTLV_MCSS_FindSpriteIndex((char *)w, i);
+            BTLV_MCSS_SetVanishMode(w, i, w->e[j].f10);
             w->e[j].f5 = 0;
         }
     }

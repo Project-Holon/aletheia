@@ -1,5 +1,5 @@
 /*
- * function: func_021D5AB0
+ * function: GSYNC_MESSAGE_PrintDefault
  * address:  0x021D5AB0
  * packet:   pkt_021D5AB0
  * region:   ov123
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D97CC  0x021D97CC  thumb
+ *   PDWACC_MESSAGE_FormatNumber  0x021D97CC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021D97CC(int, void *);
+extern void PDWACC_MESSAGE_FormatNumber(int, void *);
 
-void func_021D5AB0(u8 *p, int x)
+void GSYNC_MESSAGE_PrintDefault(u8 *p, int x)
 {
-    func_021D97CC(x, ((struct Obj22941 *)p)->f2C);
+    PDWACC_MESSAGE_FormatNumber(x, ((struct Obj22941 *)p)->f2C);
 }

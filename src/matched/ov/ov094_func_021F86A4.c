@@ -1,5 +1,5 @@
 /*
- * function: func_021F86A4
+ * function: BTLV_EFFECT_GetStage
  * address:  0x021F86A4
  * packet:   pkt_ov094_021F86A4
  * region:   ov094
@@ -12,11 +12,11 @@
  * Returns the word at 0x194 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 
-int func_021F86A4(void)
+int BTLV_EFFECT_GetStage(void)
 {
-    return *(int *)(d_0220AF20 + 0x194);
+    return *(int *)(gBtlvEff + 0x194);
 }

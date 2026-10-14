@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D7C
+ * function: RESEARCH_COMMON_UpdatePaletteAnimeImpl
  * address:  0x021C0D7C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Indexed getter, tail call to func_021C29F0.
+ * Indexed getter, tail call to PALETTE_ANIME_Update.
  *
  * symbols:
- *   func_021C29F0  0x021C29F0  thumb  ov217
+ *   PALETTE_ANIME_Update  0x021C29F0  thumb  ov217
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C29F0(u32);
-void func_021C0D7C(u32 *p)
+extern void PALETTE_ANIME_Update(u32);
+void RESEARCH_COMMON_UpdatePaletteAnimeImpl(u32 *p)
 {
-    func_021C29F0(p[0xb]);
+    PALETTE_ANIME_Update(p[0xb]);
 }
 

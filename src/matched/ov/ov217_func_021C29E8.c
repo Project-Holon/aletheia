@@ -1,5 +1,5 @@
 /*
- * function: func_021C29E8
+ * function: PALETTE_ANIME_Bind
  * address:  0x021C29E8
  * packet:   pkt_ov217_021C29E8
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2DE0  0x021C2DE0  thumb  ov217
+ *   PALETTE_ANIME_BindImpl  0x021C2DE0  thumb  ov217
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_021C2DE0(char *p, unsigned short *dst, unsigned short *src, int count);
+extern void PALETTE_ANIME_BindImpl(char *p, unsigned short *dst, unsigned short *src, int count);
 
-void func_021C29E8(void *p, u32 b, u32 c, u32 d)
+void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d)
 {
-    func_021C2DE0(p, (short unsigned int *)b, (short unsigned int *)c, d);
+    PALETTE_ANIME_BindImpl(p, (short unsigned int *)b, (short unsigned int *)c, d);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FEB50
+ * function: WORLDTRADE_SEARCH_StateStartWipeOutPage
  * address:  0x021FEB50
  * packet:   pkt_021FEB50
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021FEB50(u8 *p)
+int WORLDTRADE_SEARCH_StateStartWipeOutPage(u8 *p)
 {
     if (((struct Obj12213 *)p)->fD3C == 0) {
         WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);

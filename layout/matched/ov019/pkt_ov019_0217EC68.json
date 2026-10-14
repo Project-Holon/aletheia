@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217EC68",
+   "name": "UNION_MSG_GetTalkChildOfferMsg",
    "address": "0x0217EC68",
    "kind": "game",
    "region": "ov019",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6340
+ * function: HALL_OF_FAME_ExitBackgrounds
  * address: 0x021B6340
  * packet: pkt_ov180_021B6340
  * region: ov180
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_020403F4(u32);
-void func_021B6340(void) {BG_SYS_SetMainPlaneVisible(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}
+void HALL_OF_FAME_ExitBackgrounds(void) {BG_SYS_SetMainPlaneVisible(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}

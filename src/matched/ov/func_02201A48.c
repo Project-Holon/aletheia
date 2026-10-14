@@ -1,5 +1,5 @@
 /*
- * function: func_02201A48
+ * function: WORLDTRADE_SERVER_StartDownloadB
  * address:  0x02201A48
  * packet:   pkt_02201A48
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void DPW_TR_DownloadAsync(u8 *p);
 
-int func_02201A48(u8 *p)
+int WORLDTRADE_SERVER_StartDownloadB(u8 *p)
 {
     DPW_TR_DownloadAsync(p + 0xe4);
     ((struct Obj12237 *)p)->f28 = 0x1f;

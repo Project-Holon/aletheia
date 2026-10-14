@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D30
+ * function: ZUKAN_DETAIL_AREA_DrawTownName
  * address:  0x021C1D30
  * packet:   pkt_ov208_021C1D30
  * region:   ov208
@@ -59,7 +59,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void func_021C1D30(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_DrawTownName(u16 *heap, u8 *p, int key)
 {
     void *str;
     Pt pt;

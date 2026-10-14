@@ -14,7 +14,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FAFCC 0x021FAFCC thumb ov186
+ *   BR_BTN_SetPos 0x021FAFCC thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FAFA0 0x021FAFA0 thumb ov186
  *   func_021FAA74 0x021FAA74 thumb ov186
@@ -31,7 +31,7 @@ extern int func_021FAD04(int *,int,int),func_021FAF24(char *,int);
 extern void func_021FD15C(void *p, int a1);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021FD860(char *,unsigned,const Pair *);
-extern void func_021FAFCC(char *p, unsigned value);
+extern void BR_BTN_SetPos(char *p, unsigned value);
 extern int *func_021FD73C(int *p, int v);
 extern int func_021FAFA0(void *,int);
 extern void func_021FAA74(void *,int *,unsigned *);
@@ -56,7 +56,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
      found=1;
      ((struct Obj00313 *)ctx)->f30=x;((struct Obj00313 *)ctx)->f34=y;
      func_021FD860(*(char * *)&((struct Obj00313 *)ctx)->f58,7,(Pair *)(ctx+0x30));
-     func_021FAFCC(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,(unsigned int)((Pair *)(ctx+0x30)));
+     BR_BTN_SetPos(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,(unsigned int)((Pair *)(ctx+0x30)));
      ((struct Obj00313 *)ctx)->f54=0;
     }else{
      kind=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,5);

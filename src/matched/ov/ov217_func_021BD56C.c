@@ -13,16 +13,16 @@
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_021C2A08  0x021C2A08  thumb  ov217
+ *   PALETTE_ANIME_Restore  0x021C2A08  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_021C2A08(char *p);
+extern int PALETTE_ANIME_Restore(char *p);
 
 void func_021BD56C(int *p)
 {
     int i;
     for (i = 0; i < 6; i++)
-        func_021C2A08((char *)p[i + 0x27]);
+        PALETTE_ANIME_Restore((char *)p[i + 0x27]);
 }

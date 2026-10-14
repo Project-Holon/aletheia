@@ -1,5 +1,5 @@
 /*
- * function: func_021E5158
+ * function: POKETRADE_2D_WrapIndex12
  * address:  0x021E5158
  * packet:   pkt_021E5158
  * region:   ov119
@@ -20,7 +20,7 @@ typedef int s32;
 
 extern s32 _s32_div_f(s32 num, s32 den);
 
-s32 func_021E5158(s32 x)
+s32 POKETRADE_2D_WrapIndex12(s32 x)
 {
     return x % 12;
 }

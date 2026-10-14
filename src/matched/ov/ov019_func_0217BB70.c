@@ -26,7 +26,7 @@
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
- *   func_0217F7E4  0x0217F7E4  thumb  ov019
+ *   UNION_ONESELF_IsPlayerAtReceptionSpot  0x0217F7E4  thumb  ov019
  *
  * Addresses are Black-image addresses.
  */
@@ -67,7 +67,7 @@ extern int UNION_CHARA_CheckTalkable(char *a, u16 key);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
 extern int UNION_ONESELF_CheckNetError(char *p);
-extern int func_0217F7E4(u32 arg);
+extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 arg);
 
 int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
 {
@@ -125,7 +125,7 @@ int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
         UNION_ONESELF_SetNextPlayCategory((char *)w, 4);
         return 1;
     }
-    if (func_0217F7E4((u32)q) == 1) {
+    if (UNION_ONESELF_IsPlayerAtReceptionSpot((u32)q) == 1) {
         if (((struct Obj07382 *)w)->f3564 == 1) {
             UNION_ONESELF_SetFieldBusy((char *)w, (int)q, 1);
             UNION_ONESELF_SetNextPlayCategory((char *)w, 3);

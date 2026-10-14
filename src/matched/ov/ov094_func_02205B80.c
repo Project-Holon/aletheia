@@ -1,5 +1,5 @@
 /*
- * function: func_02205B80
+ * function: BTLV_INPUT_SetActionUnitVisible
  * address:  0x02205B80
  * packet:   pkt_ov094_02205B80
  * region:   ov094
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Bank;
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 
-void func_02205B80(char *p, int a)
+void BTLV_INPUT_SetActionUnitVisible(char *p, int a)
 {
     CLACT_SetUnitDrawEnable(((struct Obj21785 *)p)->f1C4, a);
 }

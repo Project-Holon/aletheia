@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC24
+ * function: DENDOU_VIEW_InitText
  * address: 0x021DCC24
  * packet: pkt_ov171_021DCC24
  * region: ov171
@@ -25,7 +25,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-void func_021DCC24(char *p)
+void DENDOU_VIEW_InitText(char *p)
 {
     ((struct Obj03850 *)p)->fB60=func_02045B38(0,2,0x55,0x8c);
     ((struct Obj03850 *)p)->fB58=GF_FONT_Create(0x17,0,0,0,0x8c);

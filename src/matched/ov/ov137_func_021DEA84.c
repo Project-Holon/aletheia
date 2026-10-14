@@ -1,5 +1,5 @@
 /*
- * function: func_021DEA84
+ * function: GURU2_MAIN_StateWaitWipeIn
  * address: 0x021DEA84
  * packet: pkt_ov137_021DEA84
  * region: ov137
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-int func_021DEA84(u8 *p)
+int GURU2_MAIN_StateWaitWipeIn(u8 *p)
 {
     if (WIPE_SYS_EndCheck()) {
         ((struct Obj08214 *)p)->f0 = GFL_NET_SYSTEM_GetCurrentAid() == 0 ? 2 : 8;

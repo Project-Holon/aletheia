@@ -1,5 +1,5 @@
 /*
- * function: func_021BD764
+ * function: ZKND_TBAR_UpdateButtonTouch
  * address: 0x021BD764
  * packet: pkt_ov208_021BD764
  * region: ov208
@@ -23,7 +23,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 KEY_GetTrg(void);
-int func_021BD764(char *p)
+int ZKND_TBAR_UpdateButtonTouch(char *p)
 {
     unsigned x,y;
     int hit=0;

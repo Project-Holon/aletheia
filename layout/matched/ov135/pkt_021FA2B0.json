@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA2B0",
+   "name": "WORLDTRADE_INPUT_ScrollPage4Alt",
    "address": "0x021FA2B0",
    "kind": "game",
    "region": "ov135",

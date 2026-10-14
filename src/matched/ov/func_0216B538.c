@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdRaiseResearchRank
+ * function: SCRCMD_RESEARCH_CmdRaiseResearchRank
  * address:  0x0216B538
  * packet:   pkt_0216B538
  * region:   ov010
@@ -35,7 +35,7 @@ extern u8 func_0200C224(struct Blk34 *p);
 extern int func_0200C22C();
 extern int GAME_BEACON_SetResearchTeamRank();
 
-int FIELD_G3D_MAP_CmdRaiseResearchRank(int a0, int a1)
+int SCRCMD_RESEARCH_CmdRaiseResearchRank(int a0, int a1)
 {
     int t4;
     void *t5;

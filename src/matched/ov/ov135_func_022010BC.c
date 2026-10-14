@@ -1,5 +1,5 @@
 /*
- * function: func_022010BC
+ * function: WORLDTRADE_SERVER_PollUploadResponse
  * address:  0x022010BC
  * packet:   pkt_022010BC
  * region:   ov135
@@ -27,7 +27,7 @@
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_0220254C  0x0220254C  thumb
+ *   WORLDTRADE_ADAPTER_CreateMail  0x0220254C  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   func_0200FBA0  0x0200FBA0  thumb
@@ -68,13 +68,13 @@ extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
 extern void GFL_NET_ERR_RaiseFatal(u32 id);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void func_0220254C(void *mon, u32 heap);
+extern void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-int func_022010BC(Work *p)
+int WORLDTRADE_SERVER_PollUploadResponse(Work *p)
 {
     int st;
     int r;
@@ -129,7 +129,7 @@ int func_022010BC(Work *p)
                 } else if (p->done == 0) {
                     p->done++;
                     p->state = 2;
-                    func_0220254C(p->mon, 0x48);
+                    WORLDTRADE_ADAPTER_CreateMail(p->mon, 0x48);
                 } else {
                     p->err = -7;
                     p->state = 0x2D;
@@ -137,7 +137,7 @@ int func_022010BC(Work *p)
             } else if (p->done == 0) {
                 p->done++;
                 p->state = 2;
-                func_0220254C(p->mon, 0x48);
+                WORLDTRADE_ADAPTER_CreateMail(p->mon, 0x48);
             } else {
                 p->err = -7;
                 p->state = 0x2D;

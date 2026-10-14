@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF14
+ * function: GURU2_MAIN_StateDelayRole
  * address: 0x021DEF14
  * packet: pkt_ov137_021DEF14
  * region: ov137
@@ -14,4 +14,4 @@
 #include "../include/Obj08216.h"
 typedef unsigned short u16;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-int func_021DEF14(char *p) {if(++((struct Obj08216 *)p)->fC>30){((struct Obj08216 *)p)->fC=0;if(GFL_NET_SYSTEM_GetCurrentAid()==0)((struct Obj08216 *)p)->f0=20;else ((struct Obj08216 *)p)->f0=21;}return 0;}
+int GURU2_MAIN_StateDelayRole(char *p) {if(++((struct Obj08216 *)p)->fC>30){((struct Obj08216 *)p)->fC=0;if(GFL_NET_SYSTEM_GetCurrentAid()==0)((struct Obj08216 *)p)->f0=20;else ((struct Obj08216 *)p)->f0=21;}return 0;}

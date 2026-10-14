@@ -13,7 +13,7 @@
  *   func_021FD964 0x021FD964 thumb ov186
  *   func_021FE2BC 0x021FE2BC thumb ov186
  *   func_021FE2F8 0x021FE2F8 thumb ov186
- *   func_021FE4D8 0x021FE4D8 thumb ov186
+ *   BR_UTIL_Init 0x021FE4D8 thumb ov186
  *   func_021FE54C 0x021FE54C thumb ov186
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -27,7 +27,7 @@ struct Pair;
 extern int *func_021FD73C(int *p, int v);
 extern void func_021FD964(void *unused, int *state, u8 *p);
 extern int func_021FE2BC(u8 *p, const struct Pair *origin, u16 a, u16 b, u16 c, u16 d, int duration);
-extern void func_021FE4D8(int *p, int a, const int *values, int duration);
+extern void BR_UTIL_Init(int *p, int a, const int *values, int duration);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_AddActorSurfacePos(void *,ShortPair *,u16);
 extern int func_021FE2F8(char *p, int *out, int step);
@@ -59,7 +59,7 @@ void func_021FDFF4(int *obj,int *state,Motion *p)
         break;
     case 3:
         for(i=0;i<6;i++)
-            func_021FE4D8((int *)p->record[i],p->target,p->positions[i],0x4000-(i*0x99A)/2);
+            BR_UTIL_Init((int *)p->record[i],p->target,p->positions[i],0x4000-(i*0x99A)/2);
         *state=4;
     case 4:
         all=1;

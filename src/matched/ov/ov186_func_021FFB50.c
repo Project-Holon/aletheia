@@ -1,5 +1,5 @@
 /*
- * function: func_021FFB50
+ * function: BR_NET_DestroyTask
  * address: 0x021FFB50
  * packet: pkt_ov186_021FFB50
  * region: ov186
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FFB50(void *p) {func_020307B0(p);}
+void BR_NET_DestroyTask(void *p) {func_020307B0(p);}

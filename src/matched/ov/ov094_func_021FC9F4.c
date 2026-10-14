@@ -1,5 +1,5 @@
 /*
- * function: func_021FC9F4
+ * function: BTLV_EFFVM_WaitParticleCallback
  * address:  0x021FC9F4
  * packet:   pkt_ov094_021FC9F4
  * region:   ov094
@@ -16,7 +16,7 @@ typedef struct {
     unsigned bit : 1;
 } Flags;
 
-int func_021FC9F4(void *a, Flags *s)
+int BTLV_EFFVM_WaitParticleCallback(void *a, Flags *s)
 {
     if (s->bit)
         return 0;

@@ -24,9 +24,9 @@
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   func_0217EE40  0x0217EE40  thumb  ov019
- *   func_0217EE1C  0x0217EE1C  thumb  ov019
- *   func_0217EDF8  0x0217EDF8  thumb  ov019
+ *   UNION_MSG_GetMultiBattleBusyMsg  0x0217EE40  thumb  ov019
+ *   UNION_MSG_GetDrawBusyMsg  0x0217EE1C  thumb  ov019
+ *   UNION_MSG_GetSpinTradeBusyMsg  0x0217EDF8  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
@@ -73,9 +73,9 @@ extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 KEY_GetTrg(void);
-extern u16 func_0217EE40(int i);
-extern u16 func_0217EE1C(int i);
-extern u16 func_0217EDF8(int i);
+extern u16 UNION_MSG_GetMultiBattleBusyMsg(int i);
+extern u16 UNION_MSG_GetDrawBusyMsg(int i);
+extern u16 UNION_MSG_GetSpinTradeBusyMsg(int i);
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern void UNION_COMM_RequestRestart(u8 *a);
 extern int UNION_COMM_IsResetting(u8 *a);
@@ -147,13 +147,13 @@ int UNION_ONESELF_JoinMain(u8 *a, Obj *b, u8 *c, u8 *d)
         case 0x15:
         case 0x16:
         case 0x17:
-            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE40(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetMultiBattleBusyMsg(b->f14->b3));
             break;
         case 3:
-            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE1C(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetDrawBusyMsg(b->f14->b3));
             break;
         case 0x19:
-            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDF8(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetSpinTradeBusyMsg(b->f14->b3));
             break;
         }
         *d = 3;

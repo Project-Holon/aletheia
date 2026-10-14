@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CF0
+ * function: RESEARCH_COMMON_ClearPaletteAnime
  * address:  0x021C0CF0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0CF0(void *p)
+void RESEARCH_COMMON_ClearPaletteAnime(void *p)
 {
     ((struct Obj25992 *)p)->f2C = 0;
 }

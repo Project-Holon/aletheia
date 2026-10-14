@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDD60",
+   "name": "POKETRADE_NEGO_StepWaitReplySync",
    "address": "0x021DDD60",
    "kind": "game",
    "region": "ov119",

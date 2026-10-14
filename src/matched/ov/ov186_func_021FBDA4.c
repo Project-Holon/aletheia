@@ -1,5 +1,5 @@
 /*
- * function: func_021FBDA4
+ * function: BR_RES_ApplyBgSet
  * address: 0x021FBDA4
  * packet: pkt_ov186_021FBDA4
  * region: ov186
@@ -14,7 +14,7 @@
 typedef unsigned int   u32;
 extern void func_020414EC(u32 i);
 extern void func_020409B4(u32 index);
-void func_021FBDA4(int a,unsigned mode)
+void BR_RES_ApplyBgSet(int a,unsigned mode)
 {
     switch(mode){
     case 24:

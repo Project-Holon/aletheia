@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C3C70
+ * function: ZUKAN_DETAIL_FORM_Exit
  * address: 0x021C3C70
  * packet: pkt_ov208_021C3C70
  * region: ov208
@@ -57,7 +57,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void ov208_func_021BC34C(void *proc);
 
-int ov208_func_021C3C70(void *proc, int *seq, u16 *heap, u8 *p, int key)
+int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, u8 *p, int key)
 {
     void *sys;
     u8 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B8C
+ * function: RESEARCH_COMMON_ClearClactUnit
  * address:  0x021C0B8C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0B8C(void *p)
+void RESEARCH_COMMON_ClearClactUnit(void *p)
 {
     ((struct Obj25985 *)p)->f20 = 0;
 }

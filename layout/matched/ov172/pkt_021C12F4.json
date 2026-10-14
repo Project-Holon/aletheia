@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6A30",
+   "name": "CTVT_ADPCM_EncodeSamples",
    "address": "0x021B6A30",
    "kind": "game",
    "region": "ov172",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B792C",
+   "name": "CTVT_CAMVIEW_StepValue",
    "address": "0x021B792C",
    "kind": "game",
    "region": "ov172",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BB9E4",
+   "name": "CTVT_DRAW_ClosePickers",
    "address": "0x021BB9E4",
    "kind": "game",
    "region": "ov172",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE318",
+   "name": "COMM_TVT_SYS_CreateTimeIcon",
    "address": "0x021BE318",
    "kind": "game",
    "region": "ov172",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C12F4",
+   "name": "Yos_JpegEncoderHuffmanEncoderOutputSize",
    "address": "0x021C12F4",
    "kind": "sdk",
    "region": "ov172",

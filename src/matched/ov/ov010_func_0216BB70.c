@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionKind
+ * function: SCRCMD_RESEARCH_GetMissionKind
  * address: 0x0216BB70
  * packet: pkt_ov010_0216BB70
  * region: ov010
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 sMissionKind[];
-int FIELD_G3D_MAP_GetMissionKind(int index)
+int SCRCMD_RESEARCH_GetMissionKind(int index)
 {
     return *(const u8 *)((u32)sMissionKind + (u32)index * 7u);
 }

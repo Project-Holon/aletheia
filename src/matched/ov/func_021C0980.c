@@ -1,5 +1,5 @@
 /*
- * function: func_021C0980
+ * function: ZUKAN_DETAIL_AREA_UpdateScrollFade
  * address:  0x021C0980
  * packet:   pkt_021C0980
  * region:   ov208
@@ -28,7 +28,7 @@ struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-void func_021C0980(int a, unsigned char *p, int a2)
+void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2)
 {
     switch (*(unsigned int *)&((struct Obj02346 *)p)->f70) {
     case 0:

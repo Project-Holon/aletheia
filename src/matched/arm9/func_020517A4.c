@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Stores a vector at offset 0x34. Filed as the witness for ov094 func_021FD1CC.
+ * Stores a vector at offset 0x34. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 
 typedef struct {

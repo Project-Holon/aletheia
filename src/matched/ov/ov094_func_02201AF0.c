@@ -1,5 +1,5 @@
 /*
- * function: func_02201AF0
+ * function: BTLV_CLACT_Draw
  * address:  0x02201AF0
  * packet:   pkt_02201AF0
  * region:   ov094
@@ -15,7 +15,7 @@
 
 void CLACT_DrawSystem(void);
 
-void func_02201AF0(void *a0)
+void BTLV_CLACT_Draw(void *a0)
 {
     CLACT_DrawSystem();
 }

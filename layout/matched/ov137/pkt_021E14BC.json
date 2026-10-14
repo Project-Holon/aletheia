@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E14BC",
+   "name": "GURU2_MAIN_DeletePulseEffectTask",
    "address": "0x021E14BC",
    "kind": "game",
    "region": "ov137",

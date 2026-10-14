@@ -1,5 +1,5 @@
 /*
- * function: func_021C414C
+ * function: MAILSYS_WriteMessageToMail
  * address:  0x021C414C
  * packet:   pkt_ov136_021C414C
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C414C 0x021C414C thumb
+ *   MAILSYS_WriteMessageToMail 0x021C414C thumb
  *   func_02008FD8 0x02008FD8 thumb
  *   func_02008FC4 0x02008FC4 thumb
  *   func_02008FA8 0x02008FA8 thumb
@@ -23,7 +23,7 @@ struct Sub02008F80Obj;
 extern void func_02008FD8(struct Sub02008F80Obj *obj, void *arg, u32 i);
 extern void func_02008FC4(struct Sub02008F80Obj *obj, u16 value);
 extern void func_02008FA8(struct Sub02008F80Obj *obj, u32 value);
-void func_021C414C(void *a, u8 *p)
+void MAILSYS_WriteMessageToMail(void *a, u8 *p)
 {
     u16 i;
     for (i = 0; i < 3; i++) func_02008FD8(a, p + 0x16 + i * 8, (u8)i);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F7000
+ * function: BTLV_CAMERA_StartMoveWithEasing
  * address:  0x021F7000
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -16,7 +16,7 @@
  *   _ffix          0x0209C494  arm
  *   func_0207C768  0x0207C768  arm
  *
- * Follower of func_021F6F48; bl from ov094 at 0x021FA08E.
+ * Follower of BTLV_CAMERA_StartMove; bl from ov094 at 0x021FA08E.
  */
 typedef int fx32;
 
@@ -47,7 +47,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 #define FX_INT_TO_FX32(x) ((fx32)(((x) > 0) ? ((float)((x) << 12) + .5f) \
                                             : ((float)((x) << 12) - .5f)))
 
-void func_021F7000(Cam *c, int mode, fx32 v, int unused, int n, int g, int h)
+void BTLV_CAMERA_StartMoveWithEasing(Cam *c, int mode, fx32 v, int unused, int n, int g, int h)
 {
     c->f78 = 3;
     c->fa0 = n;

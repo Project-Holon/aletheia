@@ -1,5 +1,5 @@
 /*
- * function: func_021FD088
+ * function: BTLV_EFFVM_ResolveAnchorSlot
  * address:  0x021FD088
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011324  0x02011324  thumb
- *   func_021F8710  0x021F8710  thumb  ov094
+ *   VM_GetUserData  0x02011324  thumb
+ *   BTLV_EFFECT_GetMode  0x021F8710  thumb  ov094
  *   d_0220AD58     0x0220AD58  data   ov094
  */
 typedef struct {
@@ -26,14 +26,14 @@ typedef struct {
 } Unit;
 
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
-extern int func_021F8710(void);
+extern void *VM_GetUserData(struct ScriptVm *vm);
+extern int BTLV_EFFECT_GetMode(void);
 extern const int d_0220AD58[];
 
-int func_021FD088(int a, int *out)
+int BTLV_EFFVM_ResolveAnchorSlot(int a, int *out)
 {
-    Unit *s = func_02011324((struct ScriptVm *)a);
-    int mode = func_021F8710();
+    Unit *s = VM_GetUserData((struct ScriptVm *)a);
+    int mode = BTLV_EFFECT_GetMode();
     int v;
 
     *out = s->e0;

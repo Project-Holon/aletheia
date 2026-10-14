@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFEA8",
+   "name": "BR_POKESEARCH_CreateBackButton",
    "address": "0x021FFEA8",
    "kind": "game",
    "region": "ov186",

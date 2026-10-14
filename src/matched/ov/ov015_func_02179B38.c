@@ -1,5 +1,5 @@
 /*
- * function: func_02179B38
+ * function: IRCNET_OnRecv
  * address:  0x02179B38
  * packet:   pkt_ov015_02179B38
  * region:   ov015
@@ -14,17 +14,17 @@
  * checksum at +0 against func_0203F1FC over the rest, filters on the byte
  * at +0xC (through the optional hook at d_0217AB40+0x48), tracks the
  * session words at +4/+8, then hands the payload at +0xE to the callback
- * at d_0217AAC0+0 once per new low nibble of the byte at +3.
+ * at gIrcNetWork+0 once per new low nibble of the byte at +3.
  *
  * symbols:
  *   d_0217AB80     0x0217AB80  data   ov015
  *   d_0217AB40     0x0217AB40  data   ov015
- *   d_0217AAAC     0x0217AAAC  data   ov015
- *   d_0217AAC0     0x0217AAC0  data   ov015
+ *   gIrcNetAssertText     0x0217AAAC  data   ov015
+ *   gIrcNetWork     0x0217AAC0  data   ov015
  *   d_0217ABA0     0x0217ABA0  data   ov015
  *   func_02034714  0x02034714  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_02179D14  0x02179D14  thumb  ov015
+ *   IRCNET_OnPeerFound  0x02179D14  thumb  ov015
  *   func_02179C98  0x02179C98  thumb  ov015
  */
 #include "../include/Obj01643.h"
@@ -54,19 +54,19 @@ struct s_aac0 {
 };
 
 extern struct s_ab40 d_0217AB40;
-extern u8 d_0217AAAC[];
-extern struct s_aac0 d_0217AAC0;
+extern u8 gIrcNetAssertText[];
+extern struct s_aac0 gIrcNetWork;
 extern struct s_aba0 d_0217ABA0;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_02179D14(void);
+extern void IRCNET_OnPeerFound(void);
 extern int func_02179C98(void);
 
 typedef int (*filter_fn)(u8 a, u8 b);
 typedef int (*recv_fn)(u16 id, u8 *data, u16 len);
 
-void func_02179B38(u8 *pkt, u32 len, u32 type)
+void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type)
 {
     u8 buf[6] = {0, 0, 0, 0, 0, 0};
     int lo;
@@ -79,7 +79,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
     ((struct flags_ab80 *)((u8 *)&d_0217AB80))->fE = 1;
 
     if (len > 0xB4)
-        func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
+        func_02034714((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     if (!(len != 0 && len <= 0xB4))
         return;
     if (((struct Obj01643 *)pkt)->f0 != func_0203F1FC(pkt + 2, len - 2))
@@ -87,26 +87,26 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
 
     filter = d_0217AB40.f48;
     if (filter != 0) {
-        if (!filter(d_0217AAC0.f10, pkt[0xC]))
+        if (!filter(gIrcNetWork.f10, pkt[0xC]))
             return;
     } else {
-        if (d_0217AAC0.f10 != pkt[0xC])
+        if (gIrcNetWork.f10 != pkt[0xC])
             return;
     }
 
-    if (((struct Obj01643 *)pkt)->f8 == d_0217AAC0.f8 &&
+    if (((struct Obj01643 *)pkt)->f8 == gIrcNetWork.f8 &&
         ((struct Obj01643 *)pkt)->f4 == d_0217AB40.f38) {
         if (!((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1) {
-            func_02179D14();
+            IRCNET_OnPeerFound();
             ((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1 = 1;
         }
     } else if (((struct Obj01643 *)pkt)->f8 == 0 && d_0217AB40.f38 == 0) {
-        d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
+        gIrcNetWork.fC = ((struct Obj01643 *)pkt)->f4;
         d_0217AB40.f38 = ((struct Obj01643 *)pkt)->f4;
         return;
-    } else if (((struct Obj01643 *)pkt)->f8 == d_0217AAC0.f8 &&
+    } else if (((struct Obj01643 *)pkt)->f8 == gIrcNetWork.f8 &&
                d_0217AB40.f38 == 0) {
-        d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
+        gIrcNetWork.fC = ((struct Obj01643 *)pkt)->f4;
         d_0217AB40.f38 = ((struct Obj01643 *)pkt)->f4;
     } else {
         if (((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1)
@@ -139,7 +139,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
 
     {
         int id = func_02179C98();
-        recv = d_0217AAC0.f0;
+        recv = gIrcNetWork.f0;
         if (recv == 0 || recv((u16)id, pkt + 0xE, (u16)(len - 0xE)) != 0)
             ((u8 *)&d_0217ABA0)[3] = lo;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220663C
+ * function: BTLV_INPUT_ButtonFlashTaskMain
  * address: 0x0220663C
  * packet: pkt_ov094_0220663C
  * region: ov094
@@ -10,7 +10,7 @@
  * symbols:
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_0220687C 0x0220687C thumb ov094
+ *   BTLV_INPUT_DeleteTask 0x0220687C thumb ov094
  */
 #include "../include/Obj21789.h"
 #include "../include/Obj21791.h"
@@ -26,8 +26,8 @@ typedef struct PalAnmObj PalAnmObj;
 typedef struct { char *p; int state, colour, flag; } Ctx;
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 PALANM_GetFadeRequestBits(const char *);
-extern void func_0220687C(char *, void *);
-void func_0220663C(void *task, Ctx *c)
+extern void BTLV_INPUT_DeleteTask(char *, void *);
+void BTLV_INPUT_ButtonFlashTaskMain(void *task, Ctx *c)
 {
     switch (c->state) {
     case 0:
@@ -48,7 +48,7 @@ void func_0220663C(void *task, Ctx *c)
         break;
     case 2:
         if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj21798 *)(c->p))->f64) == 0)
-            func_0220687C(c->p, task);
+            BTLV_INPUT_DeleteTask(c->p, task);
         break;
     }
 }

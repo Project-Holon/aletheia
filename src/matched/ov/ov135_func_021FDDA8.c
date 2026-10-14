@@ -1,5 +1,5 @@
 /*
- * function: func_021FDDA8
+ * function: WORLDTRADE_SEARCH_CreateActors
  * address:  0x021FDDA8
  * packet:   pkt_021FDDA8
  * region:   ov135
@@ -78,7 +78,7 @@ extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-void func_021FDDA8(Obj *p)
+void WORLDTRADE_SEARCH_CreateActors(Obj *p)
 {
     ObjPos pos;
 

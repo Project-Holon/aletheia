@@ -11,7 +11,7 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
  *   func_021DD018 0x021DD018 thumb ov119
- *   func_021E4E0C 0x021E4E0C thumb ov119
+ *   POKETRADE_2D_GetVisibleColumnRange 0x021E4E0C thumb ov119
  *   func_021DB4EC 0x021DB4EC thumb ov119
  *   func_021DB4B4 0x021DB4B4 thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern void func_021DD018(char *, int);
-extern int func_021E4E0C(char *, int *);
+extern int POKETRADE_2D_GetVisibleColumnRange(char *, int *);
 extern int func_021DB4EC(char *, int);
 extern int func_021DB4B4(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -67,7 +67,7 @@ void func_021DB52C(char *p)
         func_021DD018(p, changed);
     } else if (KEY_GetRepeat() == 0x40) {
         func_020355D8(0);
-        if (func_021E4E0C(p, &v) == 0)
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &v) == 0)
             ((struct Obj00130 *)p)->fF74 = v;
         if (--((struct Obj00130 *)p)->fF78 < 0) {
             if (((struct Obj00130 *)p)->fF74 < 2)
@@ -80,7 +80,7 @@ void func_021DB52C(char *p)
     } else if (KEY_GetRepeat() == 0x80) {
         int x;
         func_020355D8(0);
-        if (func_021E4E0C(p, &v) == 0)
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &v) == 0)
             ((struct Obj00130 *)p)->fF74 = v;
         x = ++((struct Obj00130 *)p)->fF78;
         if (((struct Obj00130 *)p)->fF74 < 2) {
@@ -94,7 +94,7 @@ void func_021DB52C(char *p)
         func_020355D8(0);
         ((struct Obj00130 *)p)->f1080 = ((struct Obj00130 *)p)->f1080 - 1;
         changed = 1;
-        if (func_021E4E0C(p, &v) == 0) {
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &v) == 0) {
             ((struct Obj00130 *)p)->fF74 = v;
         } else {
             ((struct Obj00130 *)p)->fF74 = ((struct Obj00130 *)p)->fF74 + 1;
@@ -111,7 +111,7 @@ void func_021DB52C(char *p)
         func_020355D8(0);
         ((struct Obj00130 *)p)->f1080 = ((struct Obj00130 *)p)->f1080 + 1;
         changed = 1;
-        if (func_021E4E0C(p, &v) == 0) {
+        if (POKETRADE_2D_GetVisibleColumnRange(p, &v) == 0) {
             ((struct Obj00130 *)p)->fF74 = v;
         } else {
             ((struct Obj00130 *)p)->fF74 = ((struct Obj00130 *)p)->fF74 - 1;

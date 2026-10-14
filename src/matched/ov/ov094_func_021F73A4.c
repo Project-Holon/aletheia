@@ -1,5 +1,5 @@
 /*
- * function: func_021F73A4
+ * function: BTLV_CAMERA_SyncOrbitFromCamera
  * address:  0x021F73A4
  * packet:   pkt_ov094_021F73A4
  * region:   ov094
@@ -21,7 +21,7 @@ extern void G3D_CAMERA_GetUp(int, int *);
 extern int func_0207CFB8(int, int);
 extern int func_0207CBD0(int *);
 
-void func_021F73A4(int *p)
+void BTLV_CAMERA_SyncOrbitFromCamera(int *p)
 {
     int a[3];
     int b[3];

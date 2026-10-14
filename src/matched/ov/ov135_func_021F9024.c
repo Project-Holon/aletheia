@@ -1,5 +1,5 @@
 /*
- * function: func_021F9024
+ * function: WORLDTRADE_ENTER_ShutdownDwcStep
  * address: 0x021F9024
  * packet: pkt_ov135_021F9024
  * region: ov135
@@ -20,7 +20,7 @@ extern int func_021D5C70(u8 *p);
 extern void func_021C8658(void);
 extern void DWC_ShutdownFriendsMatch(void);
 extern void func_0205CC20(void);
-int func_021F9024(u8 *p, void *dialog)
+int WORLDTRADE_ENTER_ShutdownDwcStep(u8 *p, void *dialog)
 {
     switch (((struct Obj04528 *)p)->fF88) {
     case 0:

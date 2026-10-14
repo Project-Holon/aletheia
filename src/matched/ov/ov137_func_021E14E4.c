@@ -1,5 +1,5 @@
 /*
- * function: func_021E14E4
+ * function: GURU2_MAIN_AddPulseEffectsForMask
  * address: 0x021E14E4
  * packet: pkt_ov137_021E14E4
  * region: ov137
@@ -9,9 +9,9 @@
  * status: EXACT
  * lever: base declared before i; initialize i and base before loading count.
  * symbols:
- *   func_021E14CC 0x021E14CC thumb ov137
+ *   GURU2_MAIN_AddPulseEffect 0x021E14CC thumb ov137
  */
-extern void func_021E14CC(char *, char *);
+extern void GURU2_MAIN_AddPulseEffect(char *, char *);
 typedef struct
 {
   int active;
@@ -25,7 +25,7 @@ typedef struct
   char pad[0x140];
   Record records[1];
 } Block;
-void func_021E14E4(const char *p)
+void GURU2_MAIN_AddPulseEffectsForMask(const char *p)
 {
   int mask = *((int *) (p + 28));
   const Block *base;
@@ -37,6 +37,6 @@ void func_021E14E4(const char *p)
   for (; i < count; i++)
   {
     if ((base->records[i].active != 0) && (mask & (1 << base->records[i].key)))
-      func_021E14CC((char *) p, (char *) (&base->records[i]));
+      GURU2_MAIN_AddPulseEffect((char *) p, (char *) (&base->records[i]));
   }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6134
+ * function: HALL_OF_FAME_ProcMain
  * address:  0x021B6134
  * packet:   pkt_021B6134
  * region:   ov180
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6A10  0x021B6A10  thumb  ov180
+ *   HALL_OF_FAME_RunState  0x021B6A10  thumb  ov180
  */
 
-extern int func_021B6A10(char *p);
+extern int HALL_OF_FAME_RunState(char *p);
 
-int func_021B6134(int a, int b, int c, int d)
+int HALL_OF_FAME_ProcMain(int a, int b, int c, int d)
 {
-    if (func_021B6A10((char *)d))
+    if (HALL_OF_FAME_RunState((char *)d))
         return 0;
     return 1;
 }

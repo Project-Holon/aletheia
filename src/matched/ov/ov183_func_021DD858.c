@@ -9,12 +9,12 @@
  * status: EXACT*
  * note: 2026-10-05 wave P10 lane Y1. Twin of func_021DD684 (same body: other table d_021E3400, getter func_021DE02C, selector 6/1, argument 11, strings 0x84/0x7f). 468 B; the 1140 B listing extent also holds func_021DDA2C, filed separately. The clamps are n = (n > 9999) ? 9999 : n; as in the twin.
  * symbols:
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   func_021DE02C 0x021DE02C thumb ov183
- *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_0200DB44 0x0200DB44 thumb
  *   func_0200DAC4 0x0200DAC4 thumb
@@ -26,7 +26,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_0200DABC 0x0200DABC thumb
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021DE084 0x021DE084 thumb ov183
  *   d_021E3400 0x021E3400 data a4
  */
@@ -40,13 +40,13 @@ struct Blk1AC;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern int func_021DE02C(void *p, void *q);
-extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
+extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
@@ -57,7 +57,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern u16 func_0200DABC(struct Blk1AC *p);
-extern int func_021FC124(int,int,struct Triple *);
+extern int BR_RES_GetSprite(int,int,struct Triple *);
 extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
 void func_021DD858(char *p,char *q)
 {
@@ -68,14 +68,14 @@ void func_021DD858(char *p,char *q)
  int number1,number2;
  void *obj;
  struct Triple triple;
- first=func_021FC20C(*(char **)(q+8));
- second=func_021FC214(*(char **)(q+8));
- third=func_021FC21C(*(char **)(q+8));
- func_021FB964((void *)(*(int *)(q+8)),11,*(u16 *)(p+0x7c));
+ first=BR_RES_GetFont(*(char **)(q+8));
+ second=BR_RES_GetMsgData(*(char **)(q+8));
+ third=BR_RES_GetWordSet(*(char **)(q+8));
+ BR_RES_LoadBgGraphics((void *)(*(int *)(q+8)),11,*(u16 *)(p+0x7c));
  select=func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?6:1;
  for(index=0;index<8;index++){
   rec=&d_021E3400[index];slot=p+index*4;
-  *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
   func_021FC868(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
@@ -108,6 +108,6 @@ void func_021DD858(char *p,char *q)
   STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
- func_021FC124(*(int *)(q+8),13,&triple);
+ BR_RES_GetSprite(*(int *)(q+8),13,&triple);
  func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }

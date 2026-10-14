@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF0D0",
+   "name": "MB_COMM_SYS_InitBgLayer",
    "address": "0x021EF0D0",
    "kind": "game",
    "region": "ov107",

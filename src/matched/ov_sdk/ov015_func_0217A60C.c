@@ -1,5 +1,5 @@
 /*
- * function: func_0217A60C
+ * function: IRCi_Init
  * address:  0x0217A60C
  * packet:   pkt_ov015_0217A60C
  * region:   ov015
@@ -13,20 +13,20 @@
  *
  * symbols:
  *   OS_GetLockID  0x02084EB8  arm
- *   g_0217AAB4     0x0217AAB4  data
- *   g_0217AC90     0x0217AC90  data
+ *   gIrcLockId     0x0217AAB4  data
+ *   gIrcCommParamAlias2     0x0217AC90  data
  */
 
 #include "../include/G_IRCParam.h"
 
 extern long OS_GetLockID(void);
-extern unsigned short g_0217AAB4;
-extern struct IRCParam g_0217AC90;
+extern unsigned short gIrcLockId;
+extern struct IRCParam gIrcCommParamAlias2;
 
-void func_0217A60C(void)
+void IRCi_Init(void)
 {
-    (*(int *)&g_0217AC90) = 1;
-    if (g_0217AAB4 != 0xFFFD)
+    (*(int *)&gIrcCommParamAlias2) = 1;
+    if (gIrcLockId != 0xFFFD)
         return;
-    g_0217AAB4 = OS_GetLockID();
+    gIrcLockId = OS_GetLockID();
 }

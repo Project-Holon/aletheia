@@ -1,5 +1,5 @@
 /*
- * function: func_02206710
+ * function: BTLV_INPUT_ButtonFlashTaskEnd
  * address:  0x02206710
  * packet:   pkt_ov094_02206710
  * region:   ov094
@@ -16,7 +16,7 @@
 typedef struct { char pad[0x68]; unsigned int f68; } W;
 extern W **TCBL_GetTaskUserData(void *h);
 
-void func_02206710(void *h)
+void BTLV_INPUT_ButtonFlashTaskEnd(void *h)
 {
     (*TCBL_GetTaskUserData(h))->f68 &= 0x7fffffff;
 }

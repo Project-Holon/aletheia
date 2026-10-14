@@ -1,5 +1,5 @@
 /*
- * function: func_021F6FD4
+ * function: WORLDTRADE_DEMO_EvolveStep
  * address:  0x021F6FD4
  * packet:   pkt_021F6FD4
  * region:   ov135
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F7338  0x021F7338  thumb
- *   func_021F7374  0x021F7374  thumb
- *   func_021F4EC0  0x021F4EC0  thumb
- *   func_02202608  0x02202608  thumb
+ *   WORLDTRADE_DEMO_GetSlotRecord  0x021F7338  thumb
+ *   WORLDTRADE_DEMO_InitSlotRecord  0x021F7374  thumb
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
+ *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012984  0x02012984  thumb
@@ -36,14 +36,14 @@
  *
  * Two-state step. State 0, once the +0x12F4 busy word clears: for kind 9
  * (or kinds 8/10 when the stored entry differs from the one rebuilt from
- * the save data by func_02202608/WORLDTRADE_CopyPokemon) build a 0x14-byte request
+ * the save data by WORLDTRADE_ADAPTER_AllocHeapBuf/WORLDTRADE_CopyPokemon) build a 0x14-byte request
  * (SHINKA_CHECK_CheckEvolution result, list holding the entry, out byte) at +0x10DC,
  * load overlay 67 and start the overlay-195 task (d_02208C40, hinted to
  * ov195 because this function names ov195_id), then go to state 1; any
- * failure calls func_021F4EC0(p, 1, 0) and returns 3. State 1 copies the
+ * failure calls WORLDTRADE_SetStateAndReturn(p, 1, 0) and returns 3. State 1 copies the
  * result back into the entry, frees the request, refreshes the record
- * (func_021F7374), clears the DISPCNT window bits, unloads overlay 67 and
- * calls func_021F4EC0(p, 7, 0xC). Returns 2 while waiting, else 3.
+ * (WORLDTRADE_DEMO_InitSlotRecord), clears the DISPCNT window bits, unloads overlay 67 and
+ * calls WORLDTRADE_SetStateAndReturn(p, 7, 0xC). Returns 2 while waiting, else 3.
  */
 
 typedef unsigned char u8;
@@ -87,10 +87,10 @@ extern u8 d_02208C40[];
 extern u8 ov067_id[];
 extern u8 ov195_id[];
 
-extern void *func_021F7338(Obj *p, int kind);
-extern void func_021F7374(Obj *p);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
-extern void *func_02202608(u32 heap);
+extern void *WORLDTRADE_DEMO_GetSlotRecord(Obj *p, int kind);
+extern void WORLDTRADE_DEMO_InitSlotRecord(Obj *p);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
+extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct BigObj;
@@ -113,7 +113,7 @@ extern void WORLDTRADE_CopyPokemon(void *save, void *mon);
 extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 
-int func_021F6FD4(Obj *p)
+int WORLDTRADE_DEMO_EvolveStep(Obj *p)
 {
     int ret = 2;
 
@@ -123,7 +123,7 @@ int func_021F6FD4(Obj *p)
             break;
         }
         if (p->kind == 9) {
-            void *e = func_021F7338(p, p->kind);
+            void *e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
             u32 out;
             u32 r;
 
@@ -151,12 +151,12 @@ int func_021F6FD4(Obj *p)
                 PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                 p->state = 1;
             } else {
-                func_021F4EC0((u8 *)p, 1, 0);
+                WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
                 ret = 3;
             }
         } else if (p->kind == 8 || p->kind == 10) {
-            void *e = func_021F7338(p, p->kind);
-            void *mon = func_02202608(0x48);
+            void *e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
+            void *mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
             u32 out;
             u32 r;
 
@@ -191,16 +191,16 @@ int func_021F6FD4(Obj *p)
                     PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                     p->state = 1;
                 } else {
-                    func_021F4EC0((u8 *)p, 1, 0);
+                    WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
                     ret = 3;
                 }
             } else {
-                func_021F4EC0((u8 *)p, 1, 0);
+                WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
                 ret = 3;
             }
             func_020307B0(mon);
         } else {
-            func_021F4EC0((u8 *)p, 1, 0);
+            WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
             ret = 3;
         }
         break;
@@ -210,17 +210,17 @@ int func_021F6FD4(Obj *p)
         }
         if (p->req != 0) {
             Req *w = p->req;
-            void *e = func_021F7338(p, p->kind);
+            void *e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
             func_02019CE0(POKEPARTY_GetMember(w->list, 0), e);
             func_020307B0(w->list);
             func_020307B0(p->req);
             p->req = 0;
         }
-        func_021F7374(p);
+        WORLDTRADE_DEMO_InitSlotRecord(p);
         *(volatile u32 *)0x04000000 &= ~0xE000;
         func_02034AC4((u32)ov067_id);
-        func_021F4EC0((u8 *)p, 7, 0xC);
+        WORLDTRADE_SetStateAndReturn((u8 *)p, 7, 0xC);
         ret = 3;
         break;
     }

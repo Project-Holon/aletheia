@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD7C
+ * function: POKETRADE_SAVE_PopBgmFadeIn24
  * address:  0x021DFD7C
  * packet:   pkt_ov119_021DFD7C
  * region:   ov119
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-void func_021DFD7C(void *p)
+void POKETRADE_SAVE_PopBgmFadeIn24(void *p)
 {
     u8 *b = p;
 

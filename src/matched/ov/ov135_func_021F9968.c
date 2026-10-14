@@ -1,5 +1,5 @@
 /*
- * function: func_021F9968
+ * function: WORLDTRADE_INPUT_MenuSetMode
  * address: 0x021F9968
  * packet: pkt_ov135_021F9968
  * region: ov135
@@ -12,7 +12,7 @@
 #include "../include/Obj01259.h"
 typedef unsigned char u8;
 typedef signed short s16;
-void func_021F9968(u8 *p, int mode)
+void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode)
 {
     ((struct Obj01259 *)p)->f54 = mode;
     switch (mode) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021FFB58
+ * function: BR_NET_RunTask
  * address:  0x021FFB58
  * packet:   pkt_021FFB58
  * region:   ov186
@@ -16,7 +16,7 @@ typedef struct {
     int   arg_08;
 } S;
 
-void func_021FFB58(S *p)
+void BR_NET_RunTask(S *p)
 {
     if (p->fn != 0)
         p->fn(p, (char *)p + 4, p->arg_08);

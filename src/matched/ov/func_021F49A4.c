@@ -1,5 +1,5 @@
 /*
- * function: func_021F49A4
+ * function: WORLDTRADE_Nop
  * address:  0x021F49A4
  * packet:   pkt_021F49A4
  * region:   ov135
@@ -14,6 +14,6 @@
  * Empty stub: a bare `bx lr`, the overlay's no-op placeholder body.
  */
 
-void func_021F49A4(void *a0)
+void WORLDTRADE_Nop(void *a0)
 {
 }

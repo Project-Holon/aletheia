@@ -1,5 +1,5 @@
 /*
- * function: func_021C0370
+ * function: GetWord
  * address:  0x021C0370
  * packet:   pkt_ov172_021C0370
  * region:   ov172
@@ -30,7 +30,7 @@
  *   (none)
  */
 
-unsigned short func_021C0370(unsigned char *src, unsigned long cur, short Endian)
+unsigned short GetWord(unsigned char *src, unsigned long cur, short Endian)
 {
     unsigned short word;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021FF4D0
+ * function: WORLDTRADE_SEARCH_CompareRecords
  * address:  0x021FF4D0
  * packet:   pkt_021FF4D0
  * region:   ov135
@@ -23,7 +23,7 @@ typedef struct {
     s8 d;
 } Rec;
 
-int func_021FF4D0(Rec *x, Rec *y, int m, int n)
+int WORLDTRADE_SEARCH_CompareRecords(Rec *x, Rec *y, int m, int n)
 {
     if (x->a == y->a && x->b == y->b && x->c == y->c && x->d == y->d && m == n) {
         return 1;

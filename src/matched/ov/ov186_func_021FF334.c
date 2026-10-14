@@ -1,5 +1,5 @@
 /*
- * function: func_021FF334
+ * function: BR_SIDEBAR_UpdateSlide
  * address: 0x021FF334
  * packet: pkt_ov186_021FF334
  * region: ov186
@@ -20,7 +20,7 @@
  *   CLACT_GetActorScaleAxis 0x0204B5E4 arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
- *   func_021FF038 0x021FF038 thumb ov186
+ *   BR_SIDEBAR_SetSlotMode 0x021FF038 thumb ov186
  * Width: space argument truncated by original caller to u16 despite callee u32.
  */
 typedef unsigned short u16;
@@ -34,8 +34,8 @@ extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis
 extern u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
-extern void func_021FF038(u8 *p, u32 mode);
-void func_021FF334(char *p)
+extern void BR_SIDEBAR_SetSlotMode(u8 *p, u32 mode);
+void BR_SIDEBAR_UpdateSlide(char *p)
 {
     s16 x;
     u32 y;
@@ -68,6 +68,6 @@ void func_021FF334(char *p)
         CLACT_SetActorSurfacePosAxis(*(void **)(p+4),x,(u16)(*(u32 *)(p+0x44)),0);
         CLACT_SetActorScaleAxis(*(void **)(p+4),y,0);
         break;
-    case 2:func_021FF038((u8 *)p,0);break;
+    case 2:BR_SIDEBAR_SetSlotMode((u8 *)p,0);break;
     }
 }

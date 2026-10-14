@@ -1,5 +1,5 @@
 /*
- * function: func_021D57B8
+ * function: GSYNC_MESSAGE_PrintStreamId
  * address:  0x021D57B8
  * packet:   pkt_021D57B8
  * region:   ov123
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_021D56FC  0x021D56FC  thumb
+ *   GSYNC_MESSAGE_PrintStream  0x021D56FC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned int u32;
 
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021D56FC(char *, int);
+extern void GSYNC_MESSAGE_PrintStream(char *, int);
 
-void func_021D57B8(char *p, int a)
+void GSYNC_MESSAGE_PrintStreamId(char *p, int a)
 {
     MSGDATA_ReadString(((struct Obj01933 *)p)->f20, a, ((struct Obj01933 *)p)->f2C);
-    func_021D56FC(p, 0);
+    GSYNC_MESSAGE_PrintStream(p, 0);
 }

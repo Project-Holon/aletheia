@@ -1,5 +1,5 @@
 /*
- * function: func_021C6688
+ * function: MB_SEQ_DeleteAllActors
  * address:  0x021C6688
  * packet:   pkt_021C6688
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C666C  0x021C666C  thumb
+ *   MB_SEQ_DeleteActor  0x021C666C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C666C(u8 *, int);
+extern void MB_SEQ_DeleteActor(u8 *, int);
 
-void func_021C6688(u8 *p)
+void MB_SEQ_DeleteAllActors(u8 *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        func_021C666C(p, i);
+        MB_SEQ_DeleteActor(p, i);
 }

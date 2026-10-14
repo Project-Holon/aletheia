@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F1370",
-    "func_021F13AC"
+    "MB_COMM_SYS_SendHeader",
+    "MB_COMM_SYS_OnHeaderReceived"
+   ],
+   "addresses": [
+    "0x021F1370",
+    "0x021F13AC"
    ]
   }
  ]

@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCD14",
-    "func_021DCD34",
-    "func_021DCD44",
-    "func_021DCD5C",
-    "func_021DCD6C",
-    "func_021DCD7C"
+    "GURU2_COMM_RecvMemberCount",
+    "GURU2_COMM_RecvStatusFlags",
+    "GURU2_COMM_RecvPlayerReady",
+    "GURU2_COMM_RecvSlotAssignment",
+    "GURU2_COMM_RecvPlayerCount",
+    "GURU2_COMM_RecvPlayerInput"
+   ],
+   "addresses": [
+    "0x021DCD14",
+    "0x021DCD34",
+    "0x021DCD44",
+    "0x021DCD5C",
+    "0x021DCD6C",
+    "0x021DCD7C"
    ]
   }
  ]

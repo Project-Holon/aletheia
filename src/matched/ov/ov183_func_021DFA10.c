@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021FC830 0x021FC830 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_021FD854 0x021FD854 thumb ov186
@@ -22,8 +22,8 @@ typedef unsigned int u32;
 typedef int (*Method)(char *,int *);
 struct Methods { Method init,update,finish; };
 extern const struct Methods d_021E37A8[];
-extern void func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int,int,int,int);
+extern int BR_FADE_GetResult(int *);
 typedef unsigned char  u8;
 struct PrintSys;
 extern int func_021FC830(u8 *p);
@@ -35,21 +35,21 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     int i;
     switch(*state) {
     case 0: if(d_021E37A8[*(int *)(p+0x4c)].init(p,q)) ++*state; break;
-    case 1: func_021FE784(q[0],2,3,0); ++*state; break;
-    case 2: if(func_021FE7B0((int *)q[0])) *state=3; break;
+    case 1: BR_FADE_Start(q[0],2,3,0); ++*state; break;
+    case 2: if(BR_FADE_GetResult((int *)q[0])) *state=3; break;
     case 3: if(d_021E37A8[*(int *)(p+0x4c)].update(p,q)) {
         if(((struct Obj05476 *)p)->f50==-1) *state=10; else *state=4;
     } break;
-    case 4: func_021FE784(q[0],2,2,1); ++*state; break;
-    case 5: if(func_021FE7B0((int *)q[0])) ++*state; break;
+    case 4: BR_FADE_Start(q[0],2,2,1); ++*state; break;
+    case 5: if(BR_FADE_GetResult((int *)q[0])) ++*state; break;
     case 6: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) {
         ((struct Obj05476 *)p)->f4C=((struct Obj05476 *)p)->f50; ++*state;
     } break;
     case 7: if(d_021E37A8[*(int *)(p+0x4c)].init(p,q)) ++*state; break;
-    case 8: func_021FE784(q[0],2,2,0); ++*state; break;
-    case 9: if(func_021FE7B0((int *)q[0])) *state=3; break;
-    case 10: func_021FE784(q[0],2,3,1); ++*state; break;
-    case 11: if(func_021FE7B0((int *)q[0])) *state=12; break;
+    case 8: BR_FADE_Start(q[0],2,2,0); ++*state; break;
+    case 9: if(BR_FADE_GetResult((int *)q[0])) *state=3; break;
+    case 10: BR_FADE_Start(q[0],2,3,1); ++*state; break;
+    case 11: if(BR_FADE_GetResult((int *)q[0])) *state=12; break;
     case 12: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) return 1; break;
     }
     for(i=0;i<3;i++) if(*(void **)(p+i*4)) func_021FC830(*(void **)(p+i*4));

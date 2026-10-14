@@ -1,5 +1,5 @@
 /*
- * function: func_021BE054
+ * function: COMM_TVT_SYS_GetMemberCount
  * address:  0x021BE054
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 func_021BE054(void *p)
+u8 COMM_TVT_SYS_GetMemberCount(void *p)
 {
     return ((struct Obj24121 *)p)->f18;
 }

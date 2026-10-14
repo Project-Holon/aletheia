@@ -1,5 +1,5 @@
 /*
- * function: func_02202248
+ * function: BTLV_INPUT_LoadScreenResources
  * address: 0x02202248
  * packet: pkt_ov094_02202248
  * region: ov094
@@ -11,9 +11,9 @@
  *   func_0203FC6C 0x0203FC6C arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0220255C 0x0220255C thumb ov094
- *   func_022033F4 0x022033F4 thumb ov094
- *   func_02205E80 0x02205E80 thumb ov094
+ *   BTLV_INPUT_InitBgLayers 0x0220255C thumb ov094
+ *   BTLV_INPUT_LoadCommonGraphics 0x022033F4 thumb ov094
+ *   BTLV_INPUT_CreateTargetActors 0x02205E80 thumb ov094
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -25,10 +25,10 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
- *   func_02202238 0x02202238 thumb ov094
- *   func_0220270C 0x0220270C thumb ov094
+ *   BTLV_INPUT_InfoWindowTask 0x02202238 thumb ov094
+ *   BTLV_INPUT_ChangeScreen 0x0220270C thumb ov094
  *   d_0220A3D4 0x0220A3D4 data ov094 a4
  */
 #include "../include/Obj00083.h"
@@ -46,9 +46,9 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct PalAnmSlot;
-extern void func_0220255C(void *p);
-extern void func_022033F4(struct Main *m);
-extern void func_02205E80(char *);
+extern void BTLV_INPUT_InitBgLayers(void *p);
+extern void BTLV_INPUT_LoadCommonGraphics(struct Main *m);
+extern void BTLV_INPUT_CreateTargetActors(char *);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -60,11 +60,11 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_02202238(void *unused, void **p);
-extern void func_0220270C(char *s, int mode, void *arg);
-void func_02202248(char *p)
+extern void BTLV_INPUT_InfoWindowTask(void *unused, void **p);
+extern void BTLV_INPUT_ChangeScreen(char *s, int mode, void *arg);
+void BTLV_INPUT_LoadScreenResources(char *p)
 {
     func_0203FC6C((const struct BgVramReq *)d_0220A3D4, 1);
     ((struct Obj00083 *)p)->f48 = func_020490F4(0xb, ((struct Obj00083 *)p)->f240);
@@ -74,9 +74,9 @@ void func_02202248(char *p)
     ((struct Obj00083 *)p)->f1C4 = (int)CLACT_CreateUnit(3, 2, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f20C = (int)CLACT_CreateUnit(2, 2, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f218 = (int)CLACT_CreateUnit(1, 1, ((struct Obj00083 *)p)->f240);
-    func_0220255C(p);
-    func_022033F4((struct Main *)p);
-    func_02205E80(p);
+    BTLV_INPUT_InitBgLayers(p);
+    BTLV_INPUT_LoadCommonGraphics((struct Main *)p);
+    BTLV_INPUT_CreateTargetActors(p);
     ((struct Obj00083 *)p)->f228 = (void *)BMP_WIN_Create(6, 0, 4, 32, 12, 13, 1);
     ((struct Obj00083 *)p)->f22C = BMP_WIN_GetBmp(((struct Obj00083 *)p)->f228);
     ((struct Obj00083 *)p)->f230 = (void *)BMP_WIN_Create(6, 3, 22, 3, 2, 13, 1);
@@ -95,6 +95,6 @@ void func_02202248(char *p)
     PALANM_CopyHwPaletteToSlot(((struct Obj00083 *)p)->f64, 3, 0xe0, 0x20);
     ((struct Obj00083 *)p)->f68 |= 0x2000;
     if (((struct Obj00083 *)p)->f23C == 1)
-        ((struct Obj00083 *)p)->f238 = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02202238, p, 0);
-    func_0220270C(p, 0, 0);
+        ((struct Obj00083 *)p)->f238 = func_02030DA8(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_INPUT_InfoWindowTask, p, 0);
+    BTLV_INPUT_ChangeScreen(p, 0, 0);
 }

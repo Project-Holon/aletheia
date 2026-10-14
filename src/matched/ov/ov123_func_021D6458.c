@@ -1,5 +1,5 @@
 /*
- * function: func_021D6458
+ * function: GSYNC_DISP_CreateMonIconActor
  * address: 0x021D6458
  * packet: pkt_ov123_021D6458
  * region: ov123
@@ -39,7 +39,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021D6458(struct Obj02181 *p, void *n, int i)
+void GSYNC_DISP_CreateMonIconActor(struct Obj02181 *p, void *n, int i)
 {
     struct Pair a = d_021DA738;
     struct Pair b = d_021DA748;

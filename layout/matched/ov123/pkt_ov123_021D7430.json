@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D7430",
+   "name": "GSYNC_STATE_StateSaveMainWait",
    "address": "0x021D7430",
    "kind": "game",
    "region": "ov123",

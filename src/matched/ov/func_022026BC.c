@@ -1,5 +1,5 @@
 /*
- * function: func_022026BC
+ * function: WORLDTRADE_ADAPTER_GetBoxParam
  * address:  0x022026BC
  * packet:   pkt_022026BC
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void *POKE_TOOL_GetBoxParam(void *a);
 
-u32 func_022026BC(void *mon)
+u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
 {
     return (u32)POKE_TOOL_GetBoxParam(mon);
 }

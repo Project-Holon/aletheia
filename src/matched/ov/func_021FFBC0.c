@@ -1,5 +1,5 @@
 /*
- * function: func_021FFBC0
+ * function: WORLDTRADE_SUBLCD_GetSlotAnimBase
  * address:  0x021FFBC0
  * packet:   pkt_021FFBC0
  * region:   ov135
@@ -16,7 +16,7 @@
  * Index helper: returns index times 4 plus 0xe.
  */
 
-int func_021FFBC0(int i)
+int WORLDTRADE_SUBLCD_GetSlotAnimBase(int i)
 {
     return (i << 2) + 0xe;
 }

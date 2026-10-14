@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA2DC",
+   "name": "PDWACC_STATE_StateOpenConfirmMenu",
    "address": "0x021DA2DC",
    "kind": "game",
    "region": "ov123",

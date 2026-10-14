@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DDC
+ * function: ListViewState_Destroy
  * address:  0x021C0DDC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C0DDC(void *a0)
+void ListViewState_Destroy(void *a0)
 {
     func_020307B0(a0);
 }

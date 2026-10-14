@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021D62A8
+ * function: GSYNC_DISP_CreateEffectActorDefault
  * address: 0x021D62A8
  * packet: pkt_ov123_021D62A8
  * region: ov123
@@ -10,10 +10,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D62F8 0x021D62F8 thumb ov123
+ *   GSYNC_DISP_CreateEffectActorAt 0x021D62F8 thumb ov123
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_021D62F8(u8 *,int,int);
-void func_021D62A8(u8 *p){func_021D62F8(p,133,128);}
+extern void GSYNC_DISP_CreateEffectActorAt(u8 *,int,int);
+void GSYNC_DISP_CreateEffectActorDefault(u8 *p){GSYNC_DISP_CreateEffectActorAt(p,133,128);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021F9844
+ * function: BTLV_EFFVM_InitParams
  * address:  0x021F9844
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F9844   0x021F9844  thumb
+ *   BTLV_EFFVM_InitParams   0x021F9844  thumb
  *
  * lane O10 candidate
  */
@@ -25,7 +25,7 @@ typedef struct {
     unsigned short h1;
 } S9844;
 
-void func_021F9844(S9844 *p)
+void BTLV_EFFVM_InitParams(S9844 *p)
 {
     p->b0 = 0;
     p->b1 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0968
+ * function: ZUKAN_DETAIL_AREA_UpdateScroll
  * address:  0x021C0968
  * packet:   pkt_021C0968
  * region:   ov208
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0980 0x021C0980  thumb  ov208
- *   func_021C0A88 0x021C0A88  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_UpdateScrollFade 0x021C0980  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_NoOpUpdate 0x021C0A88  thumb  ov208
 
  */
 
-extern void func_021C0980(int a, unsigned char *p, int a2);
-extern void func_021C0A88(int, int, int);
+extern void ZUKAN_DETAIL_AREA_UpdateScrollFade(int a, unsigned char *p, int a2);
+extern void ZUKAN_DETAIL_AREA_NoOpUpdate(int, int, int);
 
-void func_021C0968(int a, int b, int c)
+void ZUKAN_DETAIL_AREA_UpdateScroll(int a, int b, int c)
 {
-    func_021C0980(a, (unsigned char *)b, c);
-    func_021C0A88(a, b, c);
+    ZUKAN_DETAIL_AREA_UpdateScrollFade(a, (unsigned char *)b, c);
+    ZUKAN_DETAIL_AREA_NoOpUpdate(a, b, c);
 }
 

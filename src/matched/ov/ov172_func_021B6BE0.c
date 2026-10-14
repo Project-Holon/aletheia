@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BE0
+ * function: DRAW_SYSTEM_CreateCanvas
  * address: 0x021B6BE0
  * packet: pkt_ov172_021B6BE0
  * region: ov172
@@ -20,7 +20,7 @@ typedef struct { u8 kind, pad; u16 count, x, y, a, b, c, d; void *data; } Object
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 extern const char d_021C71D0[];
-Object *func_021B6BE0(Params *p)
+Object *DRAW_SYSTEM_CreateCanvas(Params *p)
 {
     Object *q;
     q = func_02030734(p->heap, 20, 1, d_021C71D0, 64);

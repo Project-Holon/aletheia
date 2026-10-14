@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C7860
+ * function: ZUKAN_DETAIL_FORM_UpdateSlideBoth
  * address:  0x021C7860
  * packet:   pkt_ov208_021C7860
  * region:   ov208
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021C5F34  0x021C5F34  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_HandleStateEvent  0x021C5F34  thumb  ov208
  *   ov208_func_021C80CC  0x021C80CC  thumb  ov208
- *   ov208_func_021C7FF8  0x021C7FF8  thumb  ov208
+ *   ZUKAN_DETAIL_FORM_ConvertModelPosition  0x021C7FF8  thumb  ov208
  *   MCSS_GetPosition  0x02015C30  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
  *   _fflt  0x0209BDBC  arm
@@ -43,9 +43,9 @@ typedef struct {
     float z;
 } VecF;
 
-extern void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev);
+extern void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev);
 extern void ov208_func_021C80CC(void *u, int k, VecF *v);
-extern void ov208_func_021C7FF8(void *u, int k, Vec *v);
+extern void ZUKAN_DETAIL_FORM_ConvertModelPosition(void *u, int k, Vec *v);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 
@@ -56,7 +56,7 @@ extern void MCSS_SetPosition(void *p, u32 *src);
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
+void ZUKAN_DETAIL_FORM_UpdateSlideBoth(void *a0, u8 *p, void *ctx)
 {
     Vec v1;
     VecF a1;
@@ -74,11 +74,11 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
 
     if (H(0x548) < 2) {
         if (W(0x6b8) == 2) {
-            ov208_func_021C5F34(a0, p, ctx, 3);
+            ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 3);
             return;
         }
         if (W(0x6b8) == 6) {
-            ov208_func_021C5F34(a0, p, ctx, 7);
+            ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 7);
             return;
         }
     } else if (W(0x6b8) == 2) {
@@ -101,11 +101,11 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0x50), (u32 *)(&v1));
             if (W(0x6cc) != 0) {
                 if (W(0xc) != 0) {
-                    ov208_func_021C7FF8(p + 0xc, 3, &b1);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0xc, 3, &b1);
                     MCSS_SetPosition((void *)W(0xc), (u32 *)(&b1));
                 }
                 if (W(0x50) != 0) {
-                    ov208_func_021C7FF8(p + 0x50, 3, &b1);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0x50, 3, &b1);
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&b1));
                 }
             }
@@ -129,21 +129,21 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v1));
             if (W(0x6d0) != 0) {
                 if (W(0x94) != 0) {
-                    ov208_func_021C7FF8(p + 0x94, 4, &c1);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0x94, 4, &c1);
                     MCSS_SetPosition((void *)W(0x94), (u32 *)(&c1));
                 }
                 if (W(0xd8) != 0) {
-                    ov208_func_021C7FF8(p + 0xd8, 4, &c1);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0xd8, 4, &c1);
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&c1));
                 }
             }
         }
         if (W(0x6cc) != 0 && W(0x6d0) != 0) {
-            ov208_func_021C5F34(a0, p, ctx, 3);
+            ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 3);
             return;
         }
     } else if (W(0x6b8) == 3) {
-        ov208_func_021C5F34(a0, p, ctx, 4);
+        ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 4);
         return;
     } else if (W(0x6b8) == 6) {
         if (W(0x6cc) == 0) {
@@ -166,11 +166,11 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0x50), (u32 *)(&v2));
             if (W(0x6cc) != 0) {
                 if (W(0xc) != 0) {
-                    ov208_func_021C7FF8(p + 0xc, 0, &b3);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0xc, 0, &b3);
                     MCSS_SetPosition((void *)W(0xc), (u32 *)(&b3));
                 }
                 if (W(0x50) != 0) {
-                    ov208_func_021C7FF8(p + 0x50, 0, &b3);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0x50, 0, &b3);
                     MCSS_SetPosition((void *)W(0x50), (u32 *)(&b3));
                 }
             }
@@ -195,20 +195,20 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v2));
             if (W(0x6d0) != 0) {
                 if (W(0x94) != 0) {
-                    ov208_func_021C7FF8(p + 0x94, 2, &c4);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0x94, 2, &c4);
                     MCSS_SetPosition((void *)W(0x94), (u32 *)(&c4));
                 }
                 if (W(0xd8) != 0) {
-                    ov208_func_021C7FF8(p + 0xd8, 2, &c4);
+                    ZUKAN_DETAIL_FORM_ConvertModelPosition(p + 0xd8, 2, &c4);
                     MCSS_SetPosition((void *)W(0xd8), (u32 *)(&c4));
                 }
             }
         }
         if (W(0x6cc) != 0 && W(0x6d0) != 0) {
-            ov208_func_021C5F34(a0, p, ctx, 7);
+            ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 7);
             return;
         }
     } else if (W(0x6b8) == 7) {
-        ov208_func_021C5F34(a0, p, ctx, 0);
+        ZUKAN_DETAIL_FORM_HandleStateEvent(a0, p, ctx, 0);
     }
 }

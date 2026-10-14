@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E64
+ * function: MB_SEQ_ShowMailDetail
  * address:  0x021C6E64
  * packet:   pkt_ov136_021C6E64
  * region:   ov136
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5C64  0x021C5C64  thumb
- *   func_021C6284 0x021C6284 thumb
- *   func_021C62BC 0x021C62BC thumb
- *   func_021C66B8 0x021C66B8 thumb
- *   func_021C71A8 0x021C71A8 thumb
- *   func_021C7298 0x021C7298 thumb
+ *   MB_SEQ_DrawSelectedMail  0x021C5C64  thumb
+ *   MB_SEQ_PrintDetailMessage 0x021C6284 thumb
+ *   MB_SEQ_ShowMessageWindow 0x021C62BC thumb
+ *   MB_SEQ_SetActorVisible 0x021C66B8 thumb
+ *   MB_SEQ_SetMessageWait 0x021C71A8 thumb
+ *   MB_SEQ_SetButtonsEnabled 0x021C7298 thumb
  */
 #include "../include/Obj00127.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C66B8(u8 *, int, u32);
-extern void func_021C7298(void *p, int v);
-extern void func_021C5C64(u8 *);
-extern void func_021C62BC(u8 *);
-extern void func_021C6284(u8 *);
-extern int func_021C71A8(char *p, int v, int w);
-void func_021C6E64(u8 *p)
+extern void MB_SEQ_SetActorVisible(u8 *, int, u32);
+extern void MB_SEQ_SetButtonsEnabled(void *p, int v);
+extern void MB_SEQ_DrawSelectedMail(u8 *);
+extern void MB_SEQ_ShowMessageWindow(u8 *);
+extern void MB_SEQ_PrintDetailMessage(u8 *);
+extern int MB_SEQ_SetMessageWait(char *p, int v, int w);
+void MB_SEQ_ShowMailDetail(u8 *p)
 {
-    func_021C66B8(*(u8 * *)&((struct Obj00127 *)p)->f8, 2, 0);
-    func_021C7298(*(u8 * *)&((struct Obj00127 *)p)->f8, 1);
-    func_021C5C64(p);
-    func_021C62BC(p);
-    func_021C6284(p);
-    func_021C71A8((char *)p, 0, 0xD);
+    MB_SEQ_SetActorVisible(*(u8 * *)&((struct Obj00127 *)p)->f8, 2, 0);
+    MB_SEQ_SetButtonsEnabled(*(u8 * *)&((struct Obj00127 *)p)->f8, 1);
+    MB_SEQ_DrawSelectedMail(p);
+    MB_SEQ_ShowMessageWindow(p);
+    MB_SEQ_PrintDetailMessage(p);
+    MB_SEQ_SetMessageWait((char *)p, 0, 0xD);
 }

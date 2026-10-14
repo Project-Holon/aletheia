@@ -1,5 +1,5 @@
 /*
- * function: func_02205E30
+ * function: BTLV_INPUT_DeleteWazaCursorActors
  * address:  0x02205E30
  * packet:   pkt_ov094_02205E30
  * region:   ov094
@@ -20,7 +20,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02205E30(char *o)
+void BTLV_INPUT_DeleteWazaCursorActors(char *o)
 {
     int i;
     int j;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FB3D8
+ * function: WORLDTRADE_INPUT_DrawSpeciesListScreen
  * address:  0x021FB3D8
  * packet:   pkt_021FB3D8
  * region:   ov135
@@ -15,12 +15,12 @@
  *   tbl_02203324  0x02203324  data  a4
  *   tbl_02203220  0x02203220  data
  *   func_021F9260  0x021F9260  thumb
- *   func_021FB26C  0x021FB26C  thumb
- *   func_021FB2F0  0x021FB2F0  thumb
- *   func_021F9EEC  0x021F9EEC  thumb
- *   func_021FBF04  0x021FBF04  thumb
- *   func_021FBEB8  0x021FBEB8  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_INPUT_CreateSpeciesMenu  0x021FB26C  thumb
+ *   WORLDTRADE_INPUT_PrintPageNumberA  0x021FB2F0  thumb
+ *   WORLDTRADE_INPUT_PlayCursorSe  0x021F9EEC  thumb
+ *   WORLDTRADE_INPUT_PrintPageLabel  0x021FBF04  thumb
+ *   WORLDTRADE_INPUT_PrintFrameStringAlt  0x021FBEB8  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
@@ -75,39 +75,39 @@ extern const Cell tbl_02203220[];
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
-extern int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
-extern void func_021FB2F0(Obj *p, int page, int total);
+extern int WORLDTRADE_INPUT_CreateSpeciesMenu(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
+extern void WORLDTRADE_INPUT_PrintPageNumberA(Obj *p, int page, int total);
 struct Obj;
-extern u32 func_021F9EEC(u8 *p, u32 n);
-extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
-extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
+extern u32 WORLDTRADE_INPUT_PlayCursorSe(u8 *p, u32 n);
+extern void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages);
+extern void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
-int func_021FB3D8(Obj *p)
+int WORLDTRADE_INPUT_DrawSpeciesListScreen(Obj *p)
 {
     u8 pages;
 
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x1D, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 0);
-    p->count = func_021FB26C(&p->menu, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
+    p->count = WORLDTRADE_INPUT_CreateSpeciesMenu(&p->menu, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
     p->page = 0;
-    func_021FB2F0(p, 0, p->count);
-    pages = func_021F9EEC((u8 *)p->count, 4);
-    func_021FBF04(p->mgr, p->list, p->strs[4], p->page, pages);
-    func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
+    WORLDTRADE_INPUT_PrintPageNumberA(p, 0, p->count);
+    pages = WORLDTRADE_INPUT_PlayCursorSe((u8 *)p->count, 4);
+    WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->list, p->strs[4], p->page, pages);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 6);
     p->pos = 0;
-    func_021F4FF4(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
-    func_021F4FF4(p->left, 0xE4, 0x78);
-    func_021F4FF4(p->right, 0x9A, 0x78);
+    WORLDTRADE_SetActorPos(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
+    WORLDTRADE_SetActorPos(p->left, 0xE4, 0x78);
+    WORLDTRADE_SetActorPos(p->right, 0x9A, 0x78);
     if (func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {

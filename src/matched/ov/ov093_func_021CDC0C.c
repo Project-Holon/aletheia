@@ -19,9 +19,9 @@
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_021F88BC 0x021F88BC thumb ov094
+ *   BTLV_EFFECT_SetFlag26 0x021F88BC thumb ov094
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
- *   func_021F8678 0x021F8678 thumb ov094
+ *   BTLV_EFFECT_GetWorkPtr 0x021F8678 thumb ov094
  *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
  *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
@@ -44,9 +44,9 @@ extern void BTL_CLIENT_ResetSendWord(u8 *);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void BTLV_CORE_ClearWaitWindow(u8 *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void func_021F88BC(int);
+extern void BTLV_EFFECT_SetFlag26(int);
 extern void PM_VOICE_ResetMasterVolume(void);
-extern void *func_021F8678(void);
+extern void *BTLV_EFFECT_GetWorkPtr(void);
 extern int BTL_ADAPTER_SetRecvTarget(void *,void *,u32);
 extern int BTLV_CORE_GetWaitState(u8 *p);
 extern int GFL_USE_IsBgmFading(void);
@@ -83,7 +83,7 @@ int BTL_CLIENT_StepRemote(u8 *p)
                 GFL_USE_SetPlayersAudible(1,1);
                 BTLV_CORE_ClearWaitWindow(((struct Obj00818 *)p)->f54);
                 GFL_USE_FadeInBgmFull(30);
-                func_021F88BC(0);
+                BTLV_EFFECT_SetFlag26(0);
                 PM_VOICE_ResetMasterVolume();
             }
             p[0x1a8] = 4;
@@ -93,7 +93,7 @@ int BTL_CLIENT_StepRemote(u8 *p)
         if ((*(Callback *)(p+0xc8))(p,(int *)(p+0xcc))) {
             p[0x1a8] = 3;
             ((struct Obj00818 *)p)->fCC = 0;
-            if (func_021F8678()) func_021F88BC(1);
+            if (BTLV_EFFECT_GetWorkPtr()) BTLV_EFFECT_SetFlag26(1);
         }
         break;
     case 3:

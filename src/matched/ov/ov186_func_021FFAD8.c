@@ -1,5 +1,5 @@
 /*
- * function: func_021FFAD8
+ * function: BR_NET_OnDownloadEntries
  * address: 0x021FFAD8
  * packet: pkt_ov186_021FFAD8
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24868.h"
-void func_021FFAD8(char *p) {((struct Obj24868 *)p)->f5BC=1;}
+void BR_NET_OnDownloadEntries(char *p) {((struct Obj24868 *)p)->f5BC=1;}

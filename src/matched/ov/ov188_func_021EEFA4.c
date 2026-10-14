@@ -1,5 +1,5 @@
 /*
- * function: func_021EEFA4
+ * function: BATTLE_REC_TOOL_PackParties
  * address:  0x021EEFA4
  * packet:   pkt_021EEFA4
  * region:   ov188
@@ -16,7 +16,7 @@
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
- *   func_021EEED8   0x021EEED8  thumb
+ *   BATTLE_REC_TOOL_PackParty   0x021EEED8  thumb
  *
  * Clear 0xA90 bytes at p+0xC38, then release each non-null entry of the
  *   four-record table at a+0x24.
@@ -24,9 +24,9 @@
 
 
 extern void MI_CpuFill8(int, int, int);
-extern void func_021EEED8(int, char *);
+extern void BATTLE_REC_TOOL_PackParty(int, char *);
 
-void func_021EEFA4(int *a, char *p)
+void BATTLE_REC_TOOL_PackParties(int *a, char *p)
 {
     char *base;
     unsigned int i;
@@ -35,6 +35,6 @@ void func_021EEFA4(int *a, char *p)
     for (i = 0; i < 4; i++) {
         int v = a[9 + i];
         if (v != 0)
-            func_021EEED8(v, base + i * 0x2A4);
+            BATTLE_REC_TOOL_PackParty(v, base + i * 0x2A4);
     }
 }

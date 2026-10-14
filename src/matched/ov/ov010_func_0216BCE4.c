@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdStartSpPokeGimmickStepA
+ * function: SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepA
  * address: 0x0216BCE4
  * packet: pkt_ov010_0216BCE4
  * region: ov010
@@ -23,7 +23,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *, u32);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
-int FIELD_G3D_MAP_CmdStartSpPokeGimmickStepA(void *ctx, void *vm)
+int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepA(void *ctx, void *vm)
 {
     void *ws, *p, *task;
     ws = SCRCMD_WORK_GetScriptWork(vm);

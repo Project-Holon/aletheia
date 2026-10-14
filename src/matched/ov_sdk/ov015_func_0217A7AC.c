@@ -1,5 +1,5 @@
 /*
- * function: func_0217A7AC
+ * function: IRCi_Read
  * address:  0x0217A7AC
  * packet:   pkt_ov015_0217A7AC
  * region:   ov015
@@ -46,7 +46,7 @@
  *     the file from 177 concrete bytes to 29.
  *   - `size` is `int` (the image compares signed: `blt`) but the clamp is
  *     unsigned: `if ((unsigned int)size > 0xB5)` gives the image's `movhi`.
- *   - the address 0x0217AC90 is named through TWO externs (g_0217AC90 and
+ *   - the address 0x0217AC90 is named through TWO externs (gIrcCommParamAlias2 and
  *     g_0217AC90b at the same address); the image's pool carries the word
  *     twice.  One name CSE'd both uses into a callee-saved register and left
  *     the function 4 bytes short.
@@ -67,15 +67,15 @@
  * symbols:
  *   func_02075E9C  0x02075E9C  arm
  *   func_02084DF4  0x02084DF4  arm
- *   func_0217A674  0x0217A674  arm    ov015
- *   func_0217A5B4  0x0217A5B4  arm    ov015
- *   func_0217A718  0x0217A718  arm    ov015
+ *   IRCi_CommWrite  0x0217A674  arm    ov015
+ *   IRCi_WaitCommand  0x0217A5B4  arm    ov015
+ *   IRCi_CommRead  0x0217A718  arm    ov015
  *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
- *   g_0217ACA0     0x0217ACA0  data
- *   g_0217AC90     0x0217AC90  data
+ *   gIrcReadBuffer     0x0217ACA0  data
+ *   gIrcCommParamAlias2     0x0217AC90  data
  *   g_0217AC90b    0x0217AC90  data
- *   g_0217AAB4     0x0217AAB4  data
+ *   gIrcLockId     0x0217AAB4  data
  */
 
 #include "../include/G_IRCParam.h"
@@ -92,60 +92,60 @@ struct irc_param {
     u8 *recv;
 };
 
-extern u8 g_0217ACA0[181];
-extern struct IRCParam g_0217AC90;
+extern u8 gIrcReadBuffer[181];
+extern struct IRCParam gIrcCommParamAlias2;
 extern struct IRCParam g_0217AC90b;
-extern u16 g_0217AAB4;
+extern u16 gIrcLockId;
 
 extern void func_02075E9C(u16 id);
 extern long func_02084DF4(u16 id);
-extern u8 func_0217A674(struct irc_param *p);
-extern void func_0217A5B4(void);
-extern void func_0217A718(struct irc_param *p);
+extern u8 IRCi_CommWrite(struct irc_param *p);
+extern void IRCi_WaitCommand(void);
+extern void IRCi_CommRead(struct irc_param *p);
 extern void OS_UnLockCard();
 extern void func_02075EAC(u16 id);
 
-int func_0217A7AC(u8 *buf)
+int IRCi_Read(u8 *buf)
 {
     int size;
     int i;
 
-    g_0217AC90.send = g_0217ACA0;
-    g_0217AC90.recv = buf;
-    g_0217ACA0[0] = 1;
+    gIrcCommParamAlias2.send = gIrcReadBuffer;
+    gIrcCommParamAlias2.recv = buf;
+    gIrcReadBuffer[0] = 1;
     buf[0] = 0;
-    func_02075E9C(g_0217AAB4);
-    func_02084DF4(g_0217AAB4);
+    func_02075E9C(gIrcLockId);
+    func_02084DF4(gIrcLockId);
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
     *(volatile u16 *)0x040001A0 = 0xA042;
-    func_0217A674(((struct irc_param *)&g_0217AC90b));
-    func_0217A5B4();
-    func_0217A718(((struct irc_param *)&g_0217AC90b));
-    func_0217A5B4();
+    IRCi_CommWrite(((struct irc_param *)&g_0217AC90b));
+    IRCi_WaitCommand();
+    IRCi_CommRead(((struct irc_param *)&g_0217AC90b));
+    IRCi_WaitCommand();
     size = buf[0];
     if ((unsigned int)size > 0xB5)
         size = 0;
     i = 0;
-    g_0217AC90.send = 0;
-    g_0217AC90.recv = buf;
+    gIrcCommParamAlias2.send = 0;
+    gIrcCommParamAlias2.recv = buf;
     buf[0] = 0;
     if (size != 0) {
         for (; (i < size) ? 1 : 0; i++) {
             if (i == size - 1)
                 *(volatile u16 *)0x040001A0 = 0xA002;
-            func_0217A718(((struct irc_param *)&g_0217AC90b));
+            IRCi_CommRead(((struct irc_param *)&g_0217AC90b));
         }
     } else {
         *(volatile u16 *)0x040001A0 = 0xA002;
-        func_0217A718(((struct irc_param *)&g_0217AC90b));
+        IRCi_CommRead(((struct irc_param *)&g_0217AC90b));
     }
     for (i = 0; (i < size) ? 1 : 0; i++) {
         buf[i] ^= 0xAA;
     }
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
-    OS_UnLockCard(g_0217AAB4);
-    func_02075EAC(g_0217AAB4);
+    OS_UnLockCard(gIrcLockId);
+    func_02075EAC(gIrcLockId);
     return size;
 }

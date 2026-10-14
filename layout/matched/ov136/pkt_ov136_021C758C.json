@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C758C",
+   "name": "MB_SEQ_ReloadMailList",
    "address": "0x021C758C",
    "kind": "game",
    "region": "ov136",

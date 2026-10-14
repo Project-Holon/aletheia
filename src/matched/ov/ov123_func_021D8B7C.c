@@ -1,5 +1,5 @@
 /*
- * function: func_021D8B7C
+ * function: GSYNC_STATE_StateTrainerRecordSaveStart
  * address: 0x021D8B7C
  * packet: pkt_ov123_021D8B7C
  * region: ov123
@@ -13,8 +13,8 @@
  *   func_020093D8 0x020093D8 thumb
  *   func_02009428 0x02009428 thumb
  *   func_020093F0 0x020093F0 thumb
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D8B0C 0x021D8B0C thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateSaveErrorExit 0x021D8B0C thumb ov123
  *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb  arm9
  */
@@ -34,9 +34,9 @@ extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern int GAME_DATA_SaveStart(int a0);
 typedef unsigned char  u8;
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D8B0C(char *p);
-void func_021D8B7C(char *p)
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateSaveErrorExit(char *p);
+void GSYNC_STATE_StateTrainerRecordSaveStart(char *p)
 {
     void *q;
     struct RtcDate date;
@@ -52,5 +52,5 @@ void func_021D8B7C(char *p)
     func_02008DF0(GAME_DATA_GetTrainerRecord(((struct Obj05369 *)p)->f2C),119);
     p[0xad]=1;
     GAME_DATA_SaveStart((int)(((struct Obj05369 *)p)->f2C));
-    func_021D6EE0((u8 *)p,(int)func_021D8B0C,0x914);
+    GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateSaveErrorExit,0x914);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F7CDC",
+   "name": "WORLDTRADE_DEPOSIT_StateOpenGenderMenu",
    "address": "0x021F7CDC",
    "kind": "game",
    "region": "ov135",

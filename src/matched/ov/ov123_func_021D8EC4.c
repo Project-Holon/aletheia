@@ -1,5 +1,5 @@
 /*
- * function: func_021D8EC4
+ * function: GSYNC_STATE_StateStoreReceivedMon
  * address: 0x021D8EC4
  * packet: pkt_ov123_021D8EC4
  * region: ov123
@@ -11,9 +11,9 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02009294 0x02009294 thumb
  *   func_020092F8 0x020092F8 thumb
- *   func_021D62B4 0x021D62B4 thumb ov123
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D8E98 0x021D8E98 thumb ov123
+ *   GSYNC_DISP_CreateSlotActor 0x021D62B4 thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateCreateReceivedMonIcon 0x021D8E98 thumb ov123
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  */
 #include "../include/Obj01545.h"
@@ -31,10 +31,10 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
-extern void func_021D62B4(u8 *p, unsigned int i);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D8E98(char *p);
-void func_021D8EC4(char *p)
+extern void GSYNC_DISP_CreateSlotActor(u8 *p, unsigned int i);
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateCreateReceivedMonIcon(char *p);
+void GSYNC_STATE_StateStoreReceivedMon(char *p)
 {
     void *v;
     void *q;
@@ -53,7 +53,7 @@ void func_021D8EC4(char *p)
         func_020092F8(v,1);
         ((struct Obj01545 *)p)->fAA=1;
     }
-    func_021D62B4(((struct Obj01545 *)p)->f14,0);
-    func_021D62B4(((struct Obj01545 *)p)->f14,12);
-    func_021D6EE0((u8 *)p,(int)func_021D8E98,0xa2a);
+    GSYNC_DISP_CreateSlotActor(((struct Obj01545 *)p)->f14,0);
+    GSYNC_DISP_CreateSlotActor(((struct Obj01545 *)p)->f14,12);
+    GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateCreateReceivedMonIcon,0xa2a);
 }

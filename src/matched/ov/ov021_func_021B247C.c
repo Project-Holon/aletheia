@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag
+ * function: SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEventWithFlag
  * address:  0x021B247C
  * packet:   pkt_ov021_021B247C
  * region:   ov021
@@ -28,7 +28,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern u32 FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(void *, u8, u32);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEventWithFlag(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

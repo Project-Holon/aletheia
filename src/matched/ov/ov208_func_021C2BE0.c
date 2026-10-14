@@ -1,5 +1,5 @@
 /*
- * function: func_021C2BE0
+ * function: ZUKAN_DETAIL_VOICE_FadeOutBgm
  * address:  0x021C2BE0
  * packet:   pkt_ov208_021C2BE0
  * region:   ov208
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern void GFL_USE_FadeOutBgm(u32 v);
 
-void func_021C2BE0(void *unused, u8 *p, void *a2)
+void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, u8 *p, void *a2)
 {
     GFL_USE_FadeOutBgm(0x1e);
     ((struct Obj25506 *)p)->fB8 = 1;

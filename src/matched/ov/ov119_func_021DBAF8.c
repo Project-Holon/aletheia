@@ -10,24 +10,24 @@
  * symbols:
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
- *   func_021D8980 0x021D8980 thumb ov119
+ *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021E4420 0x021E4420 thumb ov119
- *   func_021E6700 0x021E6700 thumb ov119
- *   func_021D8B38 0x021D8B38 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
+ *   POKETRADE_2D_CreateBoxWindows 0x021E4420 thumb ov119
+ *   POKETRADE_2D_SetupSubBlend 0x021E6700 thumb ov119
+ *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
 #include "../include/Obj00001.h"
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
-extern int func_021D8980(char *p);
+extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void func_021E4420(char *p);
-extern void func_021E6700(void *);
-extern void func_021D8B38(char *p);
-extern void func_021D8E84(void *,int);
+extern void POKETRADE_2D_CreateBoxWindows(char *p);
+extern void POKETRADE_2D_SetupSubBlend(void *);
+extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
+extern void POKETRADE_PROC_SetStep(void *,int);
 extern void func_021DBE70(char *p);
 void func_021DBAF8(char *p)
 {
@@ -35,12 +35,12 @@ void func_021DBAF8(char *p)
     TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,1);
     TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,1);
     TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),9,0);
-    func_021D8980(p);
+    POKETRADE_PROC_ResetTouchbarBackButton(p);
     CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,1);
-    func_021E4420(p);
-    func_021E6700(p);
+    POKETRADE_2D_CreateBoxWindows(p);
+    POKETRADE_2D_SetupSubBlend(p);
     ((struct Obj00001 *)p)->fF84=-1;
     ((struct Obj00001 *)p)->fF88=-1;
-    func_021D8B38(p);
-    func_021D8E84(p,(int)func_021DBE70);
+    POKETRADE_PROC_RequestBoxRedraw(p);
+    POKETRADE_PROC_SetStep(p,(int)func_021DBE70);
 }

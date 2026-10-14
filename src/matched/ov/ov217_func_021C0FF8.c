@@ -1,5 +1,5 @@
 /*
- * function: func_021C0FF8
+ * function: BgTextLabel_SetVisible
  * address: 0x021C0FF8
  * packet: pkt_ov217_021C0FF8
  * region: ov217
@@ -25,7 +25,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021C0FF8(u8 *p,int visible)
+void BgTextLabel_SetVisible(u8 *p,int visible)
 {
     if (((struct Obj06716 *)p)->f1C==0 && visible!=0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;

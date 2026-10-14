@@ -1,5 +1,5 @@
 /*
- * function: func_021FF1F4
+ * function: BTLV_MCSS_EnableBillboard
  * address:  0x021FF1F4
  * packet:   pkt_ov094_021FF1F4
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_SetOrthoBillboardFlag  0x02015C0C  thumb
- *   func_022006B4  0x022006B4  thumb  ov094
+ *   BTLV_MCSS_ApplySlotScale  0x022006B4  thumb  ov094
  */
 
 typedef struct {
@@ -30,17 +30,17 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_SetOrthoBillboardFlag(void *h);
-extern void func_022006B4(Work *w, int key);
+extern void BTLV_MCSS_ApplySlotScale(Work *w, int key);
 
-void func_021FF1F4(Work *w, int key)
+void BTLV_MCSS_EnableBillboard(Work *w, int key)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;
     w->e[idx].flip = 1;
     MCSS_SetOrthoBillboardFlag(w->e[idx].h);
-    func_022006B4(w, key);
+    BTLV_MCSS_ApplySlotScale(w, key);
 }

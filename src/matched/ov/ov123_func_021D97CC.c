@@ -1,5 +1,5 @@
 /*
- * function: func_021D97CC
+ * function: PDWACC_MESSAGE_FormatNumber
  * address: 0x021D97CC
  * packet: pkt_ov123_021D97CC
  * region: ov123
@@ -29,7 +29,7 @@ struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
-void func_021D97CC(int value, void *p)
+void PDWACC_MESSAGE_FormatNumber(int value, void *p)
 {
     Table table;
     int copy;

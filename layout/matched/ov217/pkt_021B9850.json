@@ -3439,7 +3439,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C099C",
+   "name": "RESEARCH_COMMON_Destroy",
    "address": "0x021C099C",
    "kind": "game",
    "region": "ov217",
@@ -3451,7 +3451,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09AC",
+   "name": "RESEARCH_COMMON_GetHeapId",
    "address": "0x021C09AC",
    "kind": "game",
    "region": "ov217",
@@ -3463,7 +3463,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09B0",
+   "name": "RESEARCH_COMMON_GetContext",
    "address": "0x021C09B0",
    "kind": "game",
    "region": "ov217",
@@ -3475,7 +3475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09B4",
+   "name": "RESEARCH_COMMON_GetAppResource",
    "address": "0x021C09B4",
    "kind": "game",
    "region": "ov217",
@@ -3487,7 +3487,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09B8",
+   "name": "RESEARCH_COMMON_GetTouchRects",
    "address": "0x021C09B8",
    "kind": "game",
    "region": "ov217",
@@ -3499,7 +3499,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09BC",
+   "name": "RESEARCH_COMMON_SetScreen",
    "address": "0x021C09BC",
    "kind": "game",
    "region": "ov217",
@@ -3511,7 +3511,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09C4",
+   "name": "RESEARCH_COMMON_SetEntryHandled",
    "address": "0x021C09C4",
    "kind": "game",
    "region": "ov217",
@@ -3523,7 +3523,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09C8",
+   "name": "RESEARCH_COMMON_GetPreviousScreen",
    "address": "0x021C09C8",
    "kind": "game",
    "region": "ov217",
@@ -3535,7 +3535,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09CC",
+   "name": "RESEARCH_COMMON_GetEntryHandled",
    "address": "0x021C09CC",
    "kind": "game",
    "region": "ov217",
@@ -3547,7 +3547,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09D0",
+   "name": "RESEARCH_COMMON_UpdatePaletteAnime",
    "address": "0x021C09D0",
    "kind": "game",
    "region": "ov217",
@@ -3559,7 +3559,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09E0",
+   "name": "RESEARCH_COMMON_StopPaletteAnime",
    "address": "0x021C09E0",
    "kind": "game",
    "region": "ov217",
@@ -3571,7 +3571,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09EC",
+   "name": "RESEARCH_COMMON_RestorePaletteAnime",
    "address": "0x021C09EC",
    "kind": "game",
    "region": "ov217",
@@ -3583,7 +3583,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09F8",
+   "name": "RESEARCH_COMMON_GetInputFlag",
    "address": "0x021C09F8",
    "kind": "game",
    "region": "ov217",
@@ -3595,7 +3595,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C09FC",
+   "name": "RESEARCH_COMMON_SetInputFlag",
    "address": "0x021C09FC",
    "kind": "game",
    "region": "ov217",
@@ -3607,7 +3607,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0A38",
+   "name": "RESEARCH_COMMON_Alloc",
    "address": "0x021C0A38",
    "kind": "game",
    "region": "ov217",
@@ -3619,7 +3619,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0A54",
+   "name": "RESEARCH_COMMON_Free",
    "address": "0x021C0A54",
    "kind": "game",
    "region": "ov217",
@@ -3631,7 +3631,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0AA4",
+   "name": "RESEARCH_COMMON_Exit",
    "address": "0x021C0AA4",
    "kind": "game",
    "region": "ov217",
@@ -3643,7 +3643,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0AF0",
+   "name": "RESEARCH_COMMON_ExitClact",
    "address": "0x021C0AF0",
    "kind": "game",
    "region": "ov217",
@@ -3655,7 +3655,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0AF8",
+   "name": "RESEARCH_COMMON_ClearResourceIds",
    "address": "0x021C0AF8",
    "kind": "game",
    "region": "ov217",
@@ -3667,7 +3667,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0B74",
+   "name": "RESEARCH_COMMON_ReleaseResources",
    "address": "0x021C0B74",
    "kind": "game",
    "region": "ov217",
@@ -3679,7 +3679,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0B8C",
+   "name": "RESEARCH_COMMON_ClearClactUnit",
    "address": "0x021C0B8C",
    "kind": "game",
    "region": "ov217",
@@ -3691,7 +3691,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0B94",
+   "name": "RESEARCH_COMMON_CreateClactUnit",
    "address": "0x021C0B94",
    "kind": "game",
    "region": "ov217",
@@ -3703,7 +3703,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0BA8",
+   "name": "RESEARCH_COMMON_DeleteClactUnit",
    "address": "0x021C0BA8",
    "kind": "game",
    "region": "ov217",
@@ -3715,7 +3715,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0BB4",
+   "name": "RESEARCH_COMMON_ClearActor",
    "address": "0x021C0BB4",
    "kind": "game",
    "region": "ov217",
@@ -3727,7 +3727,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0C2C",
+   "name": "RESEARCH_COMMON_DeleteActor",
    "address": "0x021C0C2C",
    "kind": "game",
    "region": "ov217",
@@ -3739,7 +3739,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0C38",
+   "name": "RESEARCH_COMMON_ClearPalAnm",
    "address": "0x021C0C38",
    "kind": "game",
    "region": "ov217",
@@ -3751,7 +3751,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0C40",
+   "name": "RESEARCH_COMMON_CreatePalAnm",
    "address": "0x021C0C40",
    "kind": "game",
    "region": "ov217",
@@ -3763,7 +3763,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0C50",
+   "name": "RESEARCH_COMMON_DeletePalAnm",
    "address": "0x021C0C50",
    "kind": "game",
    "region": "ov217",
@@ -3775,7 +3775,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0CF0",
+   "name": "RESEARCH_COMMON_ClearPaletteAnime",
    "address": "0x021C0CF0",
    "kind": "game",
    "region": "ov217",
@@ -3787,7 +3787,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0CF8",
+   "name": "RESEARCH_COMMON_CreatePaletteAnime",
    "address": "0x021C0CF8",
    "kind": "game",
    "region": "ov217",
@@ -3799,7 +3799,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0D08",
+   "name": "RESEARCH_COMMON_DestroyPaletteAnime",
    "address": "0x021C0D08",
    "kind": "game",
    "region": "ov217",
@@ -3811,7 +3811,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D14",
+   "name": "RESEARCH_COMMON_BindPaletteAnime",
    "address": "0x021C0D14",
    "kind": "game",
    "region": "ov217",
@@ -3823,7 +3823,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D2C",
+   "name": "RESEARCH_COMMON_ExitPaletteAnime",
    "address": "0x021C0D2C",
    "kind": "game",
    "region": "ov217",
@@ -3835,7 +3835,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D5C",
+   "name": "RESEARCH_COMMON_StopPaletteAnimeImpl",
    "address": "0x021C0D5C",
    "kind": "game",
    "region": "ov217",
@@ -3847,7 +3847,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D6C",
+   "name": "RESEARCH_COMMON_RestorePaletteAnimeImpl",
    "address": "0x021C0D6C",
    "kind": "game",
    "region": "ov217",
@@ -3859,7 +3859,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0D7C",
+   "name": "RESEARCH_COMMON_UpdatePaletteAnimeImpl",
    "address": "0x021C0D7C",
    "kind": "game",
    "region": "ov217",
@@ -3871,7 +3871,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DB4",
+   "name": "RESEARCH_COMMON_GetResourceId",
    "address": "0x021C0DB4",
    "kind": "game",
    "region": "ov217",
@@ -3883,7 +3883,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DBC",
+   "name": "RESEARCH_COMMON_GetClactUnit",
    "address": "0x021C0DBC",
    "kind": "game",
    "region": "ov217",
@@ -3895,7 +3895,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DC4",
+   "name": "ListViewState_Create",
    "address": "0x021C0DC4",
    "kind": "game",
    "region": "ov217",
@@ -3907,7 +3907,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DDC",
+   "name": "ListViewState_Destroy",
    "address": "0x021C0DDC",
    "kind": "game",
    "region": "ov217",
@@ -3919,7 +3919,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DE4",
+   "name": "ListViewState_Reset",
    "address": "0x021C0DE4",
    "kind": "game",
    "region": "ov217",
@@ -3931,7 +3931,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DF0",
+   "name": "ListViewState_GetMode",
    "address": "0x021C0DF0",
    "kind": "game",
    "region": "ov217",
@@ -3943,7 +3943,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DF4",
+   "name": "ListViewState_GetScrollX",
    "address": "0x021C0DF4",
    "kind": "game",
    "region": "ov217",
@@ -3955,7 +3955,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DF8",
+   "name": "ListViewState_GetScrollY",
    "address": "0x021C0DF8",
    "kind": "game",
    "region": "ov217",
@@ -3967,7 +3967,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0DFC",
+   "name": "ListViewState_SetMode",
    "address": "0x021C0DFC",
    "kind": "game",
    "region": "ov217",
@@ -3979,7 +3979,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E00",
+   "name": "ListViewState_SetScrollX",
    "address": "0x021C0E00",
    "kind": "game",
    "region": "ov217",
@@ -3991,7 +3991,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E04",
+   "name": "ListViewState_SetScrollY",
    "address": "0x021C0E04",
    "kind": "game",
    "region": "ov217",
@@ -4003,7 +4003,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E4C",
+   "name": "RingQueue_Push",
    "address": "0x021C0E4C",
    "kind": "game",
    "region": "ov217",
@@ -4015,7 +4015,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E54",
+   "name": "RingQueue_Pop",
    "address": "0x021C0E54",
    "kind": "game",
    "region": "ov217",
@@ -4027,7 +4027,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E5C",
+   "name": "RingQueue_Reset",
    "address": "0x021C0E5C",
    "kind": "game",
    "region": "ov217",
@@ -4039,7 +4039,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E64",
+   "name": "RingQueue_IsEmpty",
    "address": "0x021C0E64",
    "kind": "game",
    "region": "ov217",
@@ -4051,7 +4051,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E6C",
+   "name": "RingQueue_ClearFields",
    "address": "0x021C0E6C",
    "kind": "game",
    "region": "ov217",
@@ -4063,7 +4063,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0E78",
+   "name": "RingQueue_AllocBuffer",
    "address": "0x021C0E78",
    "kind": "game",
    "region": "ov217",
@@ -4075,7 +4075,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E98",
+   "name": "RingQueue_FreeBuffer",
    "address": "0x021C0E98",
    "kind": "game",
    "region": "ov217",
@@ -4087,7 +4087,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0EDC",
+   "name": "RingQueue_ResetImpl",
    "address": "0x021C0EDC",
    "kind": "game",
    "region": "ov217",
@@ -4099,7 +4099,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0EE4",
+   "name": "RingQueue_IsEmptyImpl",
    "address": "0x021C0EE4",
    "kind": "game",
    "region": "ov217",
@@ -4111,7 +4111,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0F48",
+   "name": "BgTextLabel_Destroy",
    "address": "0x021C0F48",
    "kind": "game",
    "region": "ov217",
@@ -4123,7 +4123,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C0F5C",
+   "name": "BgTextLabel_PrintMessage",
    "address": "0x021C0F5C",
    "kind": "game",
    "region": "ov217",
@@ -4135,7 +4135,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C10C8",
+   "name": "CircleGraph_Create",
    "address": "0x021C10C8",
    "kind": "game",
    "region": "ov217",
@@ -4147,7 +4147,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C10D8",
+   "name": "CircleGraph_Destroy",
    "address": "0x021C10D8",
    "kind": "game",
    "region": "ov217",
@@ -4159,7 +4159,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1124",
+   "name": "CircleGraph_Update",
    "address": "0x021C1124",
    "kind": "game",
    "region": "ov217",
@@ -4171,7 +4171,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C112C",
+   "name": "CircleGraph_Draw",
    "address": "0x021C112C",
    "kind": "game",
    "region": "ov217",
@@ -4183,7 +4183,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1154",
+   "name": "CircleGraph_QueueDrawSlow",
    "address": "0x021C1154",
    "kind": "game",
    "region": "ov217",
@@ -4195,7 +4195,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1160",
+   "name": "CircleGraph_QueueDrawFast",
    "address": "0x021C1160",
    "kind": "game",
    "region": "ov217",
@@ -4207,7 +4207,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C116C",
+   "name": "CircleGraph_QueueErase",
    "address": "0x021C116C",
    "kind": "game",
    "region": "ov217",
@@ -4219,7 +4219,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1178",
+   "name": "CircleGraph_QueueDrawMedium",
    "address": "0x021C1178",
    "kind": "game",
    "region": "ov217",
@@ -4231,7 +4231,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1184",
+   "name": "CircleGraph_SetEnabled",
    "address": "0x021C1184",
    "kind": "game",
    "region": "ov217",
@@ -4243,7 +4243,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C118C",
+   "name": "CircleGraph_HoldUpdate",
    "address": "0x021C118C",
    "kind": "game",
    "region": "ov217",
@@ -4255,7 +4255,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1194",
+   "name": "CircleGraph_SetCenter",
    "address": "0x021C1194",
    "kind": "game",
    "region": "ov217",
@@ -4267,7 +4267,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C11C8",
+   "name": "CircleGraph_FindSliceIndex",
    "address": "0x021C11C8",
    "kind": "game",
    "region": "ov217",
@@ -4279,7 +4279,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C11D0",
+   "name": "CircleGraph_GetSliceKey",
    "address": "0x021C11D0",
    "kind": "game",
    "region": "ov217",
@@ -4291,7 +4291,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C11DC",
+   "name": "CircleGraph_GetPercentByKey",
    "address": "0x021C11DC",
    "kind": "game",
    "region": "ov217",
@@ -4303,7 +4303,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C11E8",
+   "name": "CircleGraph_GetPercentByIndex",
    "address": "0x021C11E8",
    "kind": "game",
    "region": "ov217",
@@ -4315,7 +4315,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C11F4",
+   "name": "CircleGraph_IsAnimating",
    "address": "0x021C11F4",
    "kind": "game",
    "region": "ov217",
@@ -4327,7 +4327,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C11FC",
+   "name": "CircleGraph_GetLabelPositionByKey",
    "address": "0x021C11FC",
    "kind": "game",
    "region": "ov217",
@@ -4339,7 +4339,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1224",
+   "name": "CircleGraph_GetLabelPositionByIndex",
    "address": "0x021C1224",
    "kind": "game",
    "region": "ov217",
@@ -4351,7 +4351,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1610",
+   "name": "CircleGraph_UpdateHidden",
    "address": "0x021C1610",
    "kind": "game",
    "region": "ov217",
@@ -4363,7 +4363,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1628",
+   "name": "CircleGraph_UpdateDrawSlow",
    "address": "0x021C1628",
    "kind": "game",
    "region": "ov217",
@@ -4375,7 +4375,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1638",
+   "name": "CircleGraph_UpdateDrawFast",
    "address": "0x021C1638",
    "kind": "game",
    "region": "ov217",
@@ -4387,7 +4387,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1648",
+   "name": "CircleGraph_UpdateErase",
    "address": "0x021C1648",
    "kind": "game",
    "region": "ov217",
@@ -4399,7 +4399,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1658",
+   "name": "CircleGraph_UpdateShown",
    "address": "0x021C1658",
    "kind": "game",
    "region": "ov217",
@@ -4411,7 +4411,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1670",
+   "name": "CircleGraph_UpdateDrawMedium",
    "address": "0x021C1670",
    "kind": "game",
    "region": "ov217",
@@ -4423,7 +4423,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1680",
+   "name": "CircleGraph_AdvanceFrame",
    "address": "0x021C1680",
    "kind": "game",
    "region": "ov217",
@@ -4435,7 +4435,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C16C4",
+   "name": "CircleGraph_TickHold",
    "address": "0x021C16C4",
    "kind": "game",
    "region": "ov217",
@@ -4447,7 +4447,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C16DC",
+   "name": "CircleGraph_QueueCommand",
    "address": "0x021C16DC",
    "kind": "game",
    "region": "ov217",
@@ -4459,7 +4459,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C16E8",
+   "name": "CircleGraph_NextCommand",
    "address": "0x021C16E8",
    "kind": "game",
    "region": "ov217",
@@ -4471,7 +4471,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C16FC",
+   "name": "CircleGraph_SetState",
    "address": "0x021C16FC",
    "kind": "game",
    "region": "ov217",
@@ -4483,7 +4483,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1704",
+   "name": "CircleGraph_ClearSlices",
    "address": "0x021C1704",
    "kind": "game",
    "region": "ov217",
@@ -4495,7 +4495,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1720",
+   "name": "CircleGraph_AddSlice",
    "address": "0x021C1720",
    "kind": "game",
    "region": "ov217",
@@ -4507,7 +4507,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1A58",
+   "name": "CircleGraph_SetEnabledImpl",
    "address": "0x021C1A58",
    "kind": "game",
    "region": "ov217",
@@ -4519,7 +4519,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1A5C",
+   "name": "CircleGraph_StartHold",
    "address": "0x021C1A5C",
    "kind": "game",
    "region": "ov217",
@@ -4531,7 +4531,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1AB4",
+   "name": "CircleGraph_GetSlice",
    "address": "0x021C1AB4",
    "kind": "game",
    "region": "ov217",
@@ -4543,7 +4543,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1AC0",
+   "name": "CircleGraph_GetSliceByKey",
    "address": "0x021C1AC0",
    "kind": "game",
    "region": "ov217",
@@ -4555,7 +4555,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1B4C",
+   "name": "CircleGraph_GetRimColor",
    "address": "0x021C1B4C",
    "kind": "game",
    "region": "ov217",
@@ -4567,7 +4567,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1B60",
+   "name": "CircleGraph_GetCenterColor",
    "address": "0x021C1B60",
    "kind": "game",
    "region": "ov217",
@@ -4579,7 +4579,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1D24",
+   "name": "CircleGraph_IsEnabled",
    "address": "0x021C1D24",
    "kind": "game",
    "region": "ov217",
@@ -4591,7 +4591,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1D28",
+   "name": "CircleGraph_IsAnimatingImpl",
    "address": "0x021C1D28",
    "kind": "game",
    "region": "ov217",
@@ -4603,7 +4603,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1D64",
+   "name": "CircleGraph_Init",
    "address": "0x021C1D64",
    "kind": "game",
    "region": "ov217",
@@ -4615,7 +4615,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1D74",
+   "name": "CircleGraph_DestroyQueueImpl",
    "address": "0x021C1D74",
    "kind": "game",
    "region": "ov217",
@@ -4627,7 +4627,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1DBC",
+   "name": "CircleGraph_Alloc",
    "address": "0x021C1DBC",
    "kind": "game",
    "region": "ov217",
@@ -4639,7 +4639,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1DE8",
+   "name": "CircleGraph_Free",
    "address": "0x021C1DE8",
    "kind": "game",
    "region": "ov217",
@@ -4651,7 +4651,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1E00",
+   "name": "CircleGraph_DestroyQueue",
    "address": "0x021C1E00",
    "kind": "game",
    "region": "ov217",
@@ -4663,7 +4663,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2070",
+   "name": "ARROW_Create",
    "address": "0x021C2070",
    "kind": "game",
    "region": "ov217",
@@ -4675,7 +4675,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C209C",
+   "name": "ARROW_Destroy",
    "address": "0x021C209C",
    "kind": "game",
    "region": "ov217",
@@ -4687,7 +4687,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C20C4",
+   "name": "ARROW_Update",
    "address": "0x021C20C4",
    "kind": "game",
    "region": "ov217",
@@ -4699,7 +4699,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C20CC",
+   "name": "ARROW_Start",
    "address": "0x021C20CC",
    "kind": "game",
    "region": "ov217",
@@ -4711,7 +4711,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C20D8",
+   "name": "ARROW_Reset",
    "address": "0x021C20D8",
    "kind": "game",
    "region": "ov217",
@@ -4723,7 +4723,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C2118",
+   "name": "ARROW_RunIdle",
    "address": "0x021C2118",
    "kind": "game",
    "region": "ov217",
@@ -4735,7 +4735,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C2188",
+   "name": "ARROW_RunDone",
    "address": "0x021C2188",
    "kind": "game",
    "region": "ov217",
@@ -4747,7 +4747,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C218C",
+   "name": "ARROW_SetState",
    "address": "0x021C218C",
    "kind": "game",
    "region": "ov217",
@@ -4759,7 +4759,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2250",
+   "name": "ARROW_StopPart",
    "address": "0x021C2250",
    "kind": "game",
    "region": "ov217",
@@ -4771,7 +4771,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C253C",
+   "name": "ARROW_InitPart",
    "address": "0x021C253C",
    "kind": "game",
    "region": "ov217",
@@ -4783,7 +4783,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2550",
+   "name": "ARROW_Alloc",
    "address": "0x021C2550",
    "kind": "game",
    "region": "ov217",
@@ -4795,7 +4795,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C256C",
+   "name": "ARROW_Init",
    "address": "0x021C256C",
    "kind": "game",
    "region": "ov217",
@@ -4807,7 +4807,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C25A8",
+   "name": "ARROW_Free",
    "address": "0x021C25A8",
    "kind": "game",
    "region": "ov217",
@@ -4819,7 +4819,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C25B0",
+   "name": "ARROW_CreateUnit",
    "address": "0x021C25B0",
    "kind": "game",
    "region": "ov217",
@@ -4831,7 +4831,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C25C4",
+   "name": "ARROW_DeleteUnit",
    "address": "0x021C25C4",
    "kind": "game",
    "region": "ov217",
@@ -4843,7 +4843,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2644",
+   "name": "GRAPHTABLE_GetEntryId",
    "address": "0x021C2644",
    "kind": "game",
    "region": "ov217",
@@ -4855,7 +4855,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2654",
+   "name": "GRAPHTABLE_GetEntryRed",
    "address": "0x021C2654",
    "kind": "game",
    "region": "ov217",
@@ -4867,7 +4867,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2664",
+   "name": "GRAPHTABLE_GetEntryGreen",
    "address": "0x021C2664",
    "kind": "game",
    "region": "ov217",
@@ -4879,7 +4879,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2674",
+   "name": "GRAPHTABLE_GetEntryBlue",
    "address": "0x021C2674",
    "kind": "game",
    "region": "ov217",
@@ -4891,7 +4891,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2684",
+   "name": "GRAPHTABLE_FindGroup",
    "address": "0x021C2684",
    "kind": "game",
    "region": "ov217",
@@ -4903,7 +4903,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C26E8",
+   "name": "PERCENTAGE_Create",
    "address": "0x021C26E8",
    "kind": "game",
    "region": "ov217",
@@ -4915,7 +4915,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C270C",
+   "name": "PERCENTAGE_Destroy",
    "address": "0x021C270C",
    "kind": "game",
    "region": "ov217",
@@ -4927,7 +4927,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C271C",
+   "name": "PERCENTAGE_SetPosition",
    "address": "0x021C271C",
    "kind": "game",
    "region": "ov217",
@@ -4939,7 +4939,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C272C",
+   "name": "PERCENTAGE_SetValue",
    "address": "0x021C272C",
    "kind": "game",
    "region": "ov217",
@@ -4951,7 +4951,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2740",
+   "name": "PERCENTAGE_SetVisible",
    "address": "0x021C2740",
    "kind": "game",
    "region": "ov217",
@@ -4963,7 +4963,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2748",
+   "name": "PERCENTAGE_SetVisibleImpl",
    "address": "0x021C2748",
    "kind": "game",
    "region": "ov217",
@@ -4975,7 +4975,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2888",
+   "name": "PERCENTAGE_StoreValue",
    "address": "0x021C2888",
    "kind": "game",
    "region": "ov217",
@@ -4987,7 +4987,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C288C",
+   "name": "PERCENTAGE_StorePosition",
    "address": "0x021C288C",
    "kind": "game",
    "region": "ov217",
@@ -4999,7 +4999,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C28FC",
+   "name": "PERCENTAGE_Alloc",
    "address": "0x021C28FC",
    "kind": "game",
    "region": "ov217",
@@ -5011,7 +5011,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2914",
+   "name": "PERCENTAGE_Free",
    "address": "0x021C2914",
    "kind": "game",
    "region": "ov217",
@@ -5023,7 +5023,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2934",
+   "name": "PERCENTAGE_Setup",
    "address": "0x021C2934",
    "kind": "game",
    "region": "ov217",
@@ -5035,7 +5035,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2950",
+   "name": "PERCENTAGE_Exit",
    "address": "0x021C2950",
    "kind": "game",
    "region": "ov217",
@@ -5047,7 +5047,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2958",
+   "name": "PERCENTAGE_StoreUnit",
    "address": "0x021C2958",
    "kind": "game",
    "region": "ov217",
@@ -5059,7 +5059,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C29B4",
+   "name": "PERCENTAGE_StoreTemplate",
    "address": "0x021C29B4",
    "kind": "game",
    "region": "ov217",
@@ -5071,7 +5071,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C29C8",
+   "name": "PALETTE_ANIME_Create",
    "address": "0x021C29C8",
    "kind": "game",
    "region": "ov217",
@@ -5083,7 +5083,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C29D8",
+   "name": "PALETTE_ANIME_Destroy",
    "address": "0x021C29D8",
    "kind": "game",
    "region": "ov217",
@@ -5095,7 +5095,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C29F0",
+   "name": "PALETTE_ANIME_Update",
    "address": "0x021C29F0",
    "kind": "game",
    "region": "ov217",
@@ -5107,7 +5107,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2A00",
+   "name": "PALETTE_ANIME_Stop",
    "address": "0x021C2A00",
    "kind": "game",
    "region": "ov217",
@@ -5119,7 +5119,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2A08",
+   "name": "PALETTE_ANIME_Restore",
    "address": "0x021C2A08",
    "kind": "game",
    "region": "ov217",
@@ -5131,7 +5131,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2A10",
+   "name": "PALETTE_ANIME_IsRunning",
    "address": "0x021C2A10",
    "kind": "game",
    "region": "ov217",
@@ -5143,7 +5143,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2A28",
+   "name": "PALETTE_ANIME_StopImpl",
    "address": "0x021C2A28",
    "kind": "game",
    "region": "ov217",
@@ -5155,7 +5155,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C2A30",
+   "name": "PALETTE_ANIME_UpdateImpl",
    "address": "0x021C2A30",
    "kind": "game",
    "region": "ov217",
@@ -5167,7 +5167,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2D9C",
+   "name": "PALETTE_ANIME_IsRunningImpl",
    "address": "0x021C2D9C",
    "kind": "game",
    "region": "ov217",
@@ -5179,7 +5179,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2DA0",
+   "name": "PALETTE_ANIME_Alloc",
    "address": "0x021C2DA0",
    "kind": "game",
    "region": "ov217",
@@ -5191,7 +5191,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2DC4",
+   "name": "PALETTE_ANIME_Free",
    "address": "0x021C2DC4",
    "kind": "game",
    "region": "ov217",

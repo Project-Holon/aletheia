@@ -1,5 +1,5 @@
 /*
- * function: func_0220B1D8
+ * function: BR_MAIN_DeleteReplayScene
  * address: 0x0220B1D8
  * packet: pkt_ov187_0220B1D8
  * region: ov187
@@ -15,7 +15,7 @@
  *   FIELD_SOUND_SYSTEM_FadeVolume 0x02028A58 thumb
  *   func_020307B0 0x020307B0 arm
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
- *   func_0220B0F8 0x0220B0F8 thumb ov187
+ *   BR_MAIN_SetDesiredScene 0x0220B0F8 thumb ov187
  */
 #include "../include/Obj01819.h"
 #include "../include/Obj10802.h"
@@ -34,8 +34,8 @@ extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 fr
 extern u32 func_020307B0(void *p);
 struct Obj;
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
-extern void func_0220B0F8(u8 *p, u32 v);
-void func_0220B1D8(u8 *a, u8 *b)
+extern void BR_MAIN_SetDesiredScene(u8 *p, u32 v);
+void BR_MAIN_DeleteReplayScene(u8 *a, u8 *b)
 {
     void *p = (void *)GAME_DATA_GetBgmInfo(((struct Obj24886 *)(*(u8 * *)&((struct Obj10802 *)b)->f17F0))->f4);
     GFL_USE_PopBgm();
@@ -46,5 +46,5 @@ void func_0220B1D8(u8 *a, u8 *b)
     func_020307B0(((struct Obj01819 *)a)->f34);
     BTL_SETUP_ClearWithSlots((struct Obj *)a);
     func_020307B0(a);
-    func_0220B0F8((u8 *)((u32)b),0);
+    BR_MAIN_SetDesiredScene((u8 *)((u32)b),0);
 }

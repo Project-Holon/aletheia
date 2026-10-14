@@ -15,13 +15,13 @@
  * symbols:
  *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   func_02040618  0x02040618  arm
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 struct S02030EE8;
 extern unsigned int TCBL_GetTaskUserData(struct S02030EE8 *p);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_021F89BC(void *h);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
 void BTLV_BG_ApplyScrollTask(void *h)
 {
@@ -29,5 +29,5 @@ void BTLV_BG_ApplyScrollTask(void *h)
 
     func_02040618(3, 0, p[0]);
     func_02040618(3, 3, p[1]);
-    func_021F89BC(h);
+    BTLV_EFFECT_DeleteTask(h);
 }

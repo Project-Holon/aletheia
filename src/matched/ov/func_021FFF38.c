@@ -1,5 +1,5 @@
 /*
- * function: func_021FFF38
+ * function: BTLV_MCSS_GetSpriteAttrFlags
  * address:  0x021FFF38
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FFF38   0x021FFF38  thumb
- *   func_022019F4 0x022019F4 thumb ov094
+ *   BTLV_MCSS_GetSpriteAttrFlags   0x021FFF38  thumb
+ *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
 
  *
  * lane O10 candidate
  */
 #include "../include/Obj12224.h"
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-int func_021FFF38(char *p, int key)
+int BTLV_MCSS_GetSpriteAttrFlags(char *p, int key)
 {
     int i;
     char *e;
 
     if (key == 0xff)
         return 0;
-    i = func_022019F4(p, key);
+    i = BTLV_MCSS_FindSpriteIndex(p, key);
     if (i == -1)
         return 0;
     e = p + i * 0x5c;

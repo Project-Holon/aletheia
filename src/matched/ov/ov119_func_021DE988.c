@@ -1,5 +1,5 @@
 /*
- * function: func_021DE988
+ * function: POKETRADE_NEGO_StepDeclineMenuChoice
  * address: 0x021DE988
  * packet: pkt_ov119_021DE988
  * region: ov119
@@ -10,13 +10,13 @@
  * symbols:
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
- *   func_021E12F8 0x021E12F8 thumb ov119
- *   func_021E1098 0x021E1098 thumb ov119
- *   func_021D8980 0x021D8980 thumb ov119
+ *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
+ *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
+ *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
  *   func_021DD09C 0x021DD09C thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021DE950 0x021DE950 thumb ov119
- *   func_021DEA24 0x021DEA24 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_NEGO_StepBeginDeclineConfirm 0x021DE950 thumb ov119
+ *   POKETRADE_NEGO_StepBrowseOffersMain 0x021DEA24 thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
@@ -24,28 +24,28 @@ typedef unsigned char  u8;
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-extern void func_021E12F8(char *p);
-extern void func_021E1098(char *p);
-extern int func_021D8980(char *p);
+extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
+extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
+extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 extern void func_021DD09C(char *p);
-extern void func_021D8E84(void *,int);
-extern void func_021DE950(char *p);
-extern void func_021DEA24(char *p);
-void func_021DE988(char *p)
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_NEGO_StepBeginDeclineConfirm(char *p);
+extern void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
+void POKETRADE_NEGO_StepDeclineMenuChoice(char *p)
 {
     int v;
     if(APP_TASKMENU_IsFinish((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
         v=APP_TASKMENU_GetCursorPos((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
-        func_021E12F8(p);
-        func_021E1098(p);
+        POKETRADE_SAVE_CloseTaskMenu(p);
+        POKETRADE_SAVE_CloseMessageWindowClear(p);
         *(int *)&((struct Obj00001 *)p)->f64C=0;
         if(v==0) {
-            func_021D8E84(p,(int)func_021DE950);
+            POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBeginDeclineConfirm);
             return;
         }
-        func_021E1098(p);
-        func_021D8980(p);
+        POKETRADE_SAVE_CloseMessageWindowClear(p);
+        POKETRADE_PROC_ResetTouchbarBackButton(p);
         func_021DD09C(p);
-        func_021D8E84(p,(int)func_021DEA24);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
     }
 }

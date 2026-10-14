@@ -1,5 +1,5 @@
 /*
- * function: func_021C7048
+ * function: MB_SEQ_FinishPartyListChoice
  * address: 0x021C7048
  * packet: pkt_ov136_021C7048
  * region: ov136
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj10607.h"
 typedef unsigned char u8;
-int func_021C7048(u8 *p)
+int MB_SEQ_FinishPartyListChoice(u8 *p)
 {
     if (p[0x20] != 6) {
         ((struct Obj10607 *)p)->f28 = 0x15;

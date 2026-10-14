@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Continues script_work.c (script command handlers, VM_* calls).
- * script_work.c ends at 0x021592D8 and unit_021592F0.c (0x021592F0..0x0215930C)
+ * script_work.c ends at 0x021592D8 and script_work_cmd_local.c (0x021592F0..0x0215930C)
  * sits between; this piece starts at 0x0215932C, so the three ranges are
  * contiguous and merge into script_work.c at cut time.
  *

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6844
+ * function: HALL_OF_FAME_SetParticleCamera
  * address: 0x021B6844
  * packet: pkt_ov180_021B6844
  * region: ov180
@@ -14,7 +14,7 @@
  */
 typedef struct { int a,b,c,d,e,f,g,h; } Desc;
 extern int PARTICLE_ReleaseCamera(int a0); extern void PARTICLE_InitCamera(void *,Desc *,unsigned short,void *,void *,void *,unsigned);
-void func_021B6844(char *p,void *q,int mode) {
+void HALL_OF_FAME_SetParticleCamera(char *p,void *q,int mode) {
  Desc d;
  if(q!=0) {
   if(mode==1) { d.b=0x4000; d.c=-0x4000; } else { d.b=0xE000; d.c=0x6000; }

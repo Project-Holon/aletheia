@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2F0
+ * function: ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate
  * address:  0x021BC2F0
  * packet:   pkt_021BC2F0
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj09194.h"
 
 
-void func_021BC2F0(char *p, int a, int b)
+void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int a, int b)
 {
     void (*fn)(char *, char *, int, int, int, int);
 

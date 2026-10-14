@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB10
+ * function: GURU2_MAIN_GetUnionApp
  * address: 0x021DEB10
  * packet: pkt_ov137_021DEB10
  * region: ov137
@@ -15,4 +15,4 @@
 #include "../include/Obj23744.h"
 typedef unsigned short u16;
 
-void *func_021DEB10(char *p) {return **(void ** *)&((struct Obj23744 *)(*(char * *)&((struct Obj01753 *)p)->fD8))->f14;}
+void *GURU2_MAIN_GetUnionApp(char *p) {return **(void ** *)&((struct Obj23744 *)(*(char * *)&((struct Obj01753 *)p)->fD8))->f14;}

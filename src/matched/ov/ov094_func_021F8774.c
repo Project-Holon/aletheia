@@ -1,5 +1,5 @@
 /*
- * function: func_021F8774
+ * function: BTLV_EFFECT_PollLowHpBgm
  * address:  0x021F8774
  * packet:   pkt_ov094_021F8774
  * region:   ov094
@@ -12,13 +12,13 @@
  * Tail call to BTLV_GAUGE_IsLowHpBgmPlaying with the handle at 0x1a4 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  *   BTLV_GAUGE_IsLowHpBgmPlaying 0x022088F4 thumb ov094
  */
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 extern void BTLV_GAUGE_IsLowHpBgmPlaying(void *);
 
-void func_021F8774(void)
+void BTLV_EFFECT_PollLowHpBgm(void)
 {
-    BTLV_GAUGE_IsLowHpBgmPlaying(*(void **)(d_0220AF20 + 0x1a4));
+    BTLV_GAUGE_IsLowHpBgmPlaying(*(void **)(gBtlvEff + 0x1a4));
 }

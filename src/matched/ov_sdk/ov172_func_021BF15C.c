@@ -1,5 +1,5 @@
 /*
- * function: func_021BF15C
+ * function: decode_block
  * address:  0x021BF15C
  * packet:   pkt_ov172_021BF15C
  * region:   ov172
@@ -12,7 +12,7 @@
  * sdk:      decode_block (jpegdec.o)
  *
  * symbols:
- *   func_021BF1E0  0x021BF1E0  arm  ov172
+ *   decode_block_sub  0x021BF1E0  arm  ov172
  *   g_021C8B1C     0x021C8B1C  data
  *   g_021C726C     0x021C726C  data
  *   g_021C8B9C     0x021C8B9C  data
@@ -21,9 +21,9 @@
 extern short g_021C8B1C[5][64];
 extern unsigned char g_021C726C[64];
 extern short g_021C8B9C[64];
-extern void func_021BF1E0(short *s, short *d, int n);
+extern void decode_block_sub(short *s, short *d, int n);
 
-void func_021BF15C(short *d, short n)
+void decode_block(short *d, short n)
 {
     int i;
     int p;
@@ -33,8 +33,8 @@ void func_021BF15C(short *d, short n)
         g_021C8B1C[1][g_021C726C[q]] = g_021C8B1C[n][p];
     }
     if (n == 0) {
-        func_021BF1E0(g_021C8B9C, d, 0);
+        decode_block_sub(g_021C8B9C, d, 0);
     } else {
-        func_021BF1E0(g_021C8B9C, d, 64);
+        decode_block_sub(g_021C8B9C, d, 64);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA308
+ * function: PDWACC_STATE_StatePrintIntroMessage
  * address: 0x021DA308
  * packet: pkt_ov123_021DA308
  * region: ov123
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9514 0x021D9514 thumb ov123
- *   func_021DA2DC 0x021DA2DC thumb ov123
- *   func_021DA034 0x021DA034 thumb ov123
+ *   PDWACC_MESSAGE_PrintStream 0x021D9514 thumb ov123
+ *   PDWACC_STATE_StateOpenConfirmMenu 0x021DA2DC thumb ov123
+ *   PDWACC_STATE_ChangeState 0x021DA034 thumb ov123
  */
 #include "../include/Obj22988.h"
 typedef unsigned char u8;
-extern void func_021D9514(char *,int);
-extern void func_021DA2DC(char *);
-extern void func_021DA034(char *,int,int);
-void func_021DA308(char *p) { func_021D9514(*(char * *)&((struct Obj22988 *)p)->f10,2); func_021DA034(p,(int)func_021DA2DC,0x1b7); }
+extern void PDWACC_MESSAGE_PrintStream(char *,int);
+extern void PDWACC_STATE_StateOpenConfirmMenu(char *);
+extern void PDWACC_STATE_ChangeState(char *,int,int);
+void PDWACC_STATE_StatePrintIntroMessage(char *p) { PDWACC_MESSAGE_PrintStream(*(char * *)&((struct Obj22988 *)p)->f10,2); PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StateOpenConfirmMenu,0x1b7); }

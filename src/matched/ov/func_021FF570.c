@@ -1,5 +1,5 @@
 /*
- * function: func_021FF570
+ * function: WORLDTRADE_SEARCH_SetBlendEffect
  * address:  0x021FF570
  * packet:   pkt_021FF570
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021FF570(u32 v)
+void WORLDTRADE_SEARCH_SetBlendEffect(u32 v)
 {
     if (v != 0) {
         func_0207D658(0x04000050, 0xa, v);

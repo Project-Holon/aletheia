@@ -1,5 +1,5 @@
 /*
- * function: func_021FC604, func_021FC60C
+ * function: BR_GRAPHIC_VBlankActors, BR_GRAPHIC_GetUnitFromActorSys
  * address: 0x021FC604
  * packet: pkt_ov186_021FC604
  * region: ov186
@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021FC604(void *a0){CLACT_VBlankSystem();}
-u32 func_021FC60C(u32*p){return *p;}
+void BR_GRAPHIC_VBlankActors(void *a0){CLACT_VBlankSystem();}
+u32 BR_GRAPHIC_GetUnitFromActorSys(u32*p){return *p;}

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0B10
+ * function: ZUKAN_DETAIL_AREA_LoadMarkerResources
  * address:  0x021C0B10
  * packet:   pkt_ov208_021C0B10
  * region:   ov208
@@ -33,7 +33,7 @@ extern int func_0201BCEC(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void ov208_func_021C0B10(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_LoadMarkerResources(u16 *heap, u8 *p, int key)
 {
     void *h;
 

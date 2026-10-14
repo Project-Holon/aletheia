@@ -1,5 +1,5 @@
 /*
- * function: func_021F8498
+ * function: WORLDTRADE_DEPOSIT_LoadSpeciesList
  * address:  0x021F8498
  * packet:   pkt_021F8498
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 
-u16 *func_021F8498(u32 heap, u32 unused, u32 *count)
+u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count)
 {
     u32 size;
     u16 *list;

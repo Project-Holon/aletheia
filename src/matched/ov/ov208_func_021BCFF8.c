@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFF8
+ * function: ZUKAN_DETAIL_GRAPHIC_DeleteWindows
  * address: 0x021BCFF8
  * packet: pkt_ov208_021BCFF8
  * region: ov208
@@ -23,7 +23,7 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void MI_CpuFill8(void *, int, int);
-void func_021BCFF8(void *p)
+void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)

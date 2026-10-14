@@ -1,5 +1,5 @@
 /*
- * function: func_021DD94C
+ * function: GURU2_RECEIPT_StateWaitMessage
  * address: 0x021DD94C
  * packet: pkt_ov137_021DD94C
  * region: ov137
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT*
  * extent: two zero alignment bytes follow the compiled function.
- * prototype: original r0 holds p at the call to func_021DD924; retain that
+ * prototype: original r0 holds p at the call to GURU2_RECEIPT_Noop; retain that
  * explicit input despite the pending empty callee's no-argument declaration.
  * symbols:
- *   func_021DD924 0x021DD924 thumb ov137
- *   func_021DE55C 0x021DE55C thumb ov137
+ *   GURU2_RECEIPT_Noop 0x021DD924 thumb ov137
+ *   GURU2_RECEIPT_IsMessageDone 0x021DE55C thumb ov137
  */
 #include "../include/Obj14209.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021DD924(char *p);
-extern int func_021DE55C(char *);
-int func_021DD94C(char *p,int state) {if(func_021DE55C(p)) ((struct Obj14209 *)p)->f118=((struct Obj14209 *)p)->f11C;func_021DD924(p);return state;}
+extern void GURU2_RECEIPT_Noop(char *p);
+extern int GURU2_RECEIPT_IsMessageDone(char *);
+int GURU2_RECEIPT_StateWaitMessage(char *p,int state) {if(GURU2_RECEIPT_IsMessageDone(p)) ((struct Obj14209 *)p)->f118=((struct Obj14209 *)p)->f11C;GURU2_RECEIPT_Noop(p);return state;}

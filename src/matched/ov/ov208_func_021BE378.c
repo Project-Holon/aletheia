@@ -1,5 +1,5 @@
 /*
- * function: func_021BE378
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetRightPalette
  * address: 0x021BE378
  * packet: pkt_ov208_021BE378
  * region: ov208
@@ -9,7 +9,7 @@
  * status: EXACT*
  * trailing: 021BE3C2..021BE3C4 is two-byte zero alignment padding.
  */
-unsigned func_021BE378(unsigned n)
+unsigned ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(unsigned n)
 {
     switch(n) {
     case 0: break;

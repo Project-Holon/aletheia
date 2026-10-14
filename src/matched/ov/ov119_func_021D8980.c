@@ -1,5 +1,5 @@
 /*
- * function: func_021D8980
+ * function: POKETRADE_PROC_ResetTouchbarBackButton
  * address: 0x021D8980
  * packet: pkt_ov119_021D8980
  * region: ov119
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 a1);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
-int func_021D8980(char *p)
+int POKETRADE_PROC_ResetTouchbarBackButton(char *p)
 {
     TOUCHBAR_ResetAndEnableButton(*(u32 * *)&((struct Obj00001 *)p)->f9C0, 1);
     TOUCHBAR_SetButtonVisible((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);

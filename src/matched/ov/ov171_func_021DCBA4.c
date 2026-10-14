@@ -1,5 +1,5 @@
 /*
- * function: func_021DCBA4
+ * function: DENDOU_VIEW_ApplyPaletteFade
  * address: 0x021DCBA4
  * packet: pkt_ov171_021DCBA4
  * region: ov171
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned);
 struct Obj02021EE4;
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-void func_021DCBA4(char *p)
+void DENDOU_VIEW_ApplyPaletteFade(char *p)
 {
     unsigned i;
     for (i=0; i<6; i++)

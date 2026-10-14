@@ -1,5 +1,5 @@
 /*
- * function: func_022004DC
+ * function: WORLDTRADE_TITLE_StateWaitWipeInAlt
  * address:  0x022004DC
  * packet:   pkt_022004DC
  * region:   ov135
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern u32 WIPE_SYS_EndCheck(void);
 
-int func_022004DC(u8 *p)
+int WORLDTRADE_TITLE_StateWaitWipeInAlt(u8 *p)
 {
     if (WIPE_SYS_EndCheck()) {
         ((struct Obj18607 *)p)->f28 = 5;

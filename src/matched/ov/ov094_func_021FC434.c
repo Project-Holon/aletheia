@@ -1,5 +1,5 @@
 /*
- * function: func_021FC434
+ * function: BTLV_EFFVM_CmdSetPokeSpriteAnimMode
  * address:  0x021FC434
  * packet:   pkt_ov094_021FC434
  * region:   ov094
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Script command: passes one argument to func_021F8934.
+ * Script command: passes one argument to BTLV_EFFECT_SetAllPokeSpriteAnim.
  *
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021F8934 0x021F8934 thumb ov094
+ *   BTLV_EFFECT_SetAllPokeSpriteAnim 0x021F8934 thumb ov094
  */
 #include "../include/Obj21684.h"
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern void func_021F8934(int);
+extern void BTLV_EFFECT_SetAllPokeSpriteAnim(int);
 
-int func_021FC434(void *a, char *s)
+int BTLV_EFFVM_CmdSetPokeSpriteAnimMode(void *a, char *s)
 {
-    func_021F8934(VM_GetU32(a));
+    BTLV_EFFECT_SetAllPokeSpriteAnim(VM_GetU32(a));
     return ((struct Obj21684 *)s)->f23C;
 }

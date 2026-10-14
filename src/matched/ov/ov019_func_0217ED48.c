@@ -1,5 +1,5 @@
 /*
- * function: func_0217ED48
+ * function: UNION_MSG_GetTradeChatMsg
  * address: 0x0217ED48
  * packet: pkt_ov019_0217ED48
  * region: ov019
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056EC(u32 v);
 extern const u16 d_02180360[][2];
-u16 func_0217ED48(int i)
+u16 UNION_MSG_GetTradeChatMsg(int i)
 {
     return d_02180360[func_020056EC(2)][i];
 }

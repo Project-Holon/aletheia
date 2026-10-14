@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B8C
+ * function: WORLDTRADE_BOX_SelectMonForRequest
  * address:  0x021F5B8C
  * packet:   pkt_021F5B8C
  * region:   ov135
@@ -12,13 +12,13 @@
   *
   *
  * symbols:
- *   func_021F6C48  0x021F6C48  thumb
- *   func_021F6BA4  0x021F6BA4  thumb
- *   func_021F6B40  0x021F6B40  thumb
- *   func_021F6CDC  0x021F6CDC  thumb
- *   func_022025E4  0x022025E4  thumb
- *   func_021F663C  0x021F663C  thumb
- *   func_021F4E98  0x021F4E98  thumb
+ *   WORLDTRADE_BOX_GetMonTradeState  0x021F6C48  thumb
+ *   WORLDTRADE_BOX_CanRemoveMon  0x021F6BA4  thumb
+ *   WORLDTRADE_BOX_GetPartyMon  0x021F6B40  thumb
+ *   WORLDTRADE_BOX_MonMatchesRequest  0x021F6CDC  thumb
+ *   WORLDTRADE_ADAPTER_CreateMonFromBox  0x022025E4  thumb
+ *   WORLDTRADE_BOX_PrintMessage  0x021F663C  thumb
+ *   WORLDTRADE_SetNextState  0x021F4E98  thumb
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
@@ -64,15 +64,15 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern int func_021F6C48(void *party, void *save, int box, int slot);
-extern int func_021F6BA4(void *party, void *save, int box, int slot);
-extern void *func_021F6B40(void *party, void *save, int box, int slot);
-extern int func_021F6CDC(void *mon, void *want);
-extern void func_022025E4(u32 a, u32 b, u32 c);
-extern void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
-extern void func_021F4E98(u8 *p, u32 a, u32 b);
+extern int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot);
+extern int WORLDTRADE_BOX_CanRemoveMon(void *party, void *save, int box, int slot);
+extern void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
+extern int WORLDTRADE_BOX_MonMatchesRequest(void *mon, void *want);
+extern void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_BOX_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
+extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
 
-void func_021F5B8C(Work *p)
+void WORLDTRADE_BOX_SelectMonForRequest(Work *p)
 {
     void *mon;
 
@@ -85,18 +85,18 @@ void func_021F5B8C(Work *p)
     if (p->slot == 0x1F) {
         return;
     }
-    switch (func_021F6C48(p->ctx->party, p->ctx->save, p->box, p->slot)) {
+    switch (WORLDTRADE_BOX_GetMonTradeState(p->ctx->party, p->ctx->save, p->box, p->slot)) {
     case 1:
-        mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
-        if (func_021F6CDC(mon, p->list[p->sel].want) != 0) {
-            if (func_021F6BA4(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
-                func_022025E4((u32)p->msg, 0, (u32)mon);
-                func_021F663C((u8 *)p, 0x12, 1, 0, 0xF0F, 0);
-                func_021F4E98((u8 *)p, 3, 9);
+        mon = WORLDTRADE_BOX_GetPartyMon(p->ctx->party, p->ctx->save, p->box, p->slot);
+        if (WORLDTRADE_BOX_MonMatchesRequest(mon, p->list[p->sel].want) != 0) {
+            if (WORLDTRADE_BOX_CanRemoveMon(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
+                WORLDTRADE_ADAPTER_CreateMonFromBox((u32)p->msg, 0, (u32)mon);
+                WORLDTRADE_BOX_PrintMessage((u8 *)p, 0x12, 1, 0, 0xF0F, 0);
+                WORLDTRADE_SetNextState((u8 *)p, 3, 9);
                 GFL_USE_PlaySeDefaultVolume(0x54C);
             } else {
-                func_021F663C((u8 *)p, 0x1A, 1, 0, 0xF0F, 1);
-                func_021F4E98((u8 *)p, 4, 1);
+                WORLDTRADE_BOX_PrintMessage((u8 *)p, 0x1A, 1, 0, 0xF0F, 1);
+                WORLDTRADE_SetNextState((u8 *)p, 4, 1);
             }
         } else {
             GFL_USE_PlaySeDefaultVolume(0x551);

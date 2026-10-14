@@ -1,5 +1,5 @@
 /*
- * function: func_021D9D34
+ * function: PDWACC_DISP_VBlankTask
  * address: 0x021D9D34
  * packet: pkt_ov123_021D9D34
  * region: ov123
@@ -13,7 +13,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021D9D34(void)
+void PDWACC_DISP_VBlankTask(void)
 {
     CLACT_VBlankSystem();
 }

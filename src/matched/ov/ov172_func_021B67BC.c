@@ -1,5 +1,5 @@
 /*
- * function: func_021B67BC
+ * function: CTVT_CAMERA_FreeFrames
  * address: 0x021B67BC
  * packet: pkt_ov172_021B67BC
  * region: ov172
@@ -20,7 +20,7 @@ extern int OS_IsRunOnTwl(void);
 extern int func_021B680C(void);
 extern void GFL_NET_FreeAligned(void *);
 extern u32 func_020307B0(void *p);
-void func_021B67BC(char *p)
+void CTVT_CAMERA_FreeFrames(char *p)
 {
     u8 i;
     if (((struct Obj02504 *)p)->f10 != 0) return;

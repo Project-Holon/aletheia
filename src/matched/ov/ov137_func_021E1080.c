@@ -1,5 +1,5 @@
 /*
- * function: func_021E1080
+ * function: GURU2_MAIN_DeleteWobbleEffectTask
  * address:  0x021E1080
  * packet:   pkt_021E1080
  * region:   ov137
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021E1080(u8 *p)
+void GURU2_MAIN_DeleteWobbleEffectTask(u8 *p)
 {
     func_02030EAC(((struct Obj23793 *)p)->fD84);
 }

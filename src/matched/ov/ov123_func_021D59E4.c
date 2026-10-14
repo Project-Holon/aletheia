@@ -1,5 +1,5 @@
 /*
- * function: func_021D59E4
+ * function: GSYNC_MESSAGE_PrintInSubWindow
  * address: 0x021D59E4
  * packet: pkt_ov123_021D59E4
  * region: ov123
@@ -36,7 +36,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021D59E4(char *p)
+void GSYNC_MESSAGE_PrintInSubWindow(char *p)
 {
     void *q;
     if (((struct Obj05362 *)p)->f48) BMP_WIN_Delete(((struct Obj05362 *)p)->f48);

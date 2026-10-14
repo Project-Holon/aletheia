@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD7C
+ * function: ZUKAN_LIST_LoadSpeciesIcon
  * address: 0x021BDD7C
  * packet: pkt_ov209_021BDD7C
  * region: ov209
@@ -11,7 +11,7 @@
  * prototype: D7C8 only reads/forwards a0; stale trailing args omitted. D81C/D898 tail scalars occupy their exact word slots; both full bodies read only low halfword of final heap slot, never padding.
  * symbols:
  *   d_021BE9BC 0x021BE9BC data a4
- *   func_021BDD40 0x021BDD40 thumb ov209
+ *   ZUKAN_LIST_DeleteActor 0x021BDD40 thumb ov209
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -20,7 +20,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021BD8D8 0x021BD8D8 thumb ov209
+ *   ZUKAN_LIST_SetActorVisible 0x021BD8D8 thumb ov209
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
@@ -44,7 +44,7 @@ typedef unsigned int u32;
 typedef struct Template { u32 w0,w4,w8,wC,w10; u16 h14,h16; } Template;
 typedef struct Flags { u16 side:1; u16 rest:15; } Flags;
 extern const Template d_021BE9BC;
-extern void func_021BDD40(char *,unsigned);
+extern void ZUKAN_LIST_DeleteActor(char *,unsigned);
 extern void CLACT_ReleaseCharacter(u32),CLACT_ReleasePalette(u32),CLACT_ReleaseCellAnim(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
@@ -56,7 +56,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 struct Actor;
 struct Blk37;
 struct Personal;
-extern void func_021BD8D8(char *p, u32 idx, u32 value);
+extern void ZUKAN_LIST_SetActorVisible(char *p, u32 idx, u32 value);
 extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern int POKEGRA_OpenHandle(int a0);
 extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
@@ -71,7 +71,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-void func_021BDD7C(char *p,u16 species)
+void ZUKAN_LIST_LoadSpeciesIcon(char *p,u16 species)
 {
     Template t;
     unsigned out1,outForm,out2;
@@ -86,7 +86,7 @@ void func_021BDD7C(char *p,u16 species)
         base=0x180;
     }
     if (*(unsigned *)(p+0xa74+index*4)!=0) {
-        func_021BDD40(p,index);
+        ZUKAN_LIST_DeleteActor(p,index);
         if (*(unsigned *)(p+t.w8*4+0xb64)!=(unsigned)-1)
             CLACT_ReleaseCharacter(*(unsigned *)(p+t.w8*4+0xb64));
         if (*(unsigned *)(p+t.wC*4+0xbf4)!=(unsigned)-1)
@@ -101,7 +101,7 @@ void func_021BDD7C(char *p,u16 species)
         *(unsigned *)(p+t.wC*4+0xbf4)=CLACT_RegisterPaletteEx(arc,0x32,0,(u16)base,0,1,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=CLACT_RegisterCellAnim(arc,0x3c,0x46,0x6b);
         ARC_TOOL_DeleteHandle(arc);
-        func_021BD8D8(p,2,0);
+        ZUKAN_LIST_SetActorVisible(p,2,0);
     } else {
         void *arc;
         unsigned personality;
@@ -112,7 +112,7 @@ void func_021BDD7C(char *p,u16 species)
         *(unsigned *)(p+t.wC*4+0xbf4)=POKEGRA_RegisterPalette((int)arc,species,outForm,out1,out2,0,0,0,base,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);
         ARC_TOOL_DeleteHandle(arc);
-        func_021BD8D8(p,2,1);
+        ZUKAN_LIST_SetActorVisible(p,2,1);
     }
     t.w8=*(unsigned *)(p+t.w8*4+0xb64);
     t.wC=*(unsigned *)(p+t.wC*4+0xbf4);
@@ -123,7 +123,7 @@ void func_021BDD7C(char *p,u16 species)
     if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)
         CLACT_SetActorFlip(*(void **)(p+0xa74+index*4),1,1);
     POKE_PERSONAL_Delete(personal);
-    func_021BD8D8(p,other,0);
+    ZUKAN_LIST_SetActorVisible(p,other,0);
     PALANM_CopyHwPaletteToSlot(((struct Obj08410 *)p)->fC,2,(u16)((base>>5)<<4),0x20);
     ((Flags *)(p+0xc24))->side^=1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F7E38",
+   "name": "BTLV_EFFECT_ResetPokeSprite",
    "address": "0x021F7E38",
    "kind": "game",
    "region": "ov094",

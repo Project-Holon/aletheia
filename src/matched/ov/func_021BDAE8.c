@@ -1,5 +1,5 @@
 /*
- * function: func_021BDAE8
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled
  * address:  0x021BDAE8
  * packet:   pkt_021BDAE8
  * region:   ov208
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD358 0x021BD358  thumb  ov208
+ *   ZKND_TBAR_SetTouchEnable 0x021BD358  thumb  ov208
 
  * Stores the argument at +0x20 and, when +8 is set, restarts it at state 3.
  */
 #include "../include/Obj02345.h"
 
 
-extern void func_021BD358(char *, int);
+extern void ZKND_TBAR_SetTouchEnable(char *, int);
 
-void func_021BDAE8(char *p, int v)
+void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(char *p, int v)
 {
     ((struct Obj02345 *)p)->f20 = v;
     if (((struct Obj02345 *)p)->f8 != 0) {
         ((struct Obj02345 *)p)->f8 = 3;
         p[0x24] = 0;
-        func_021BD358(*(char * *)&((struct Obj02345 *)p)->f30, 0);
+        ZKND_TBAR_SetTouchEnable(*(char * *)&((struct Obj02345 *)p)->f30, 0);
     }
 }
 

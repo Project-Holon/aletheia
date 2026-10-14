@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_G3D_MAP_StartSymbolEntry",
+   "name": "FIELD_INTRUDE_EVENT_StartSymbolEntry",
    "address": "0x0216B3A8",
    "kind": "game",
    "region": "ov010",

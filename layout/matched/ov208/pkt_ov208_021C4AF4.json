@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4AF4",
+   "name": "ZUKAN_DETAIL_FORM_DeletePrintQueues",
    "address": "0x021C4AF4",
    "kind": "game",
    "region": "ov208",

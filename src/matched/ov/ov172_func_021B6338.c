@@ -1,5 +1,5 @@
 /*
- * function: func_021B6338
+ * function: CTVT_CAMERA_OnPowerOff
  * address: 0x021B6338
  * packet: pkt_ov172_021B6338
  * region: ov172
@@ -17,7 +17,7 @@
  *   func_021B63A0 0x021B63A0 arm ov172
  *   func_021B63A8 0x021B63A8 arm ov172
  *   func_021B63B0 0x021B63B0 arm ov172
- *   func_021B6868 0x021B6868 thumb ov172
+ *   CTVT_CAMERA_StopCapture 0x021B6868 thumb ov172
  */
 typedef unsigned int   u32;
 extern void OS_Sleep(u32 msec);
@@ -27,8 +27,8 @@ extern void func_021B6398(void);
 extern void func_021B63A0(void);
 extern void func_021B63A8(int);
 extern void func_021B63B0(void);
-extern void func_021B6868(char *);
-void func_021B6338(char *p)
+extern void CTVT_CAMERA_StopCapture(char *);
+void CTVT_CAMERA_OnPowerOff(char *p)
 {
     int result;
     goto test;
@@ -39,7 +39,7 @@ test:
         if (OS_IsRunOnTwl() != 0) result = func_021B6390();
     } while (result == 1);
     if (OS_IsRunOnTwl() != 0) func_021B6398();
-    func_021B6868(p);
+    CTVT_CAMERA_StopCapture(p);
     if (OS_IsRunOnTwl() == 1) func_021B63A0();
     func_021B63A8(1);
     if (OS_IsRunOnTwl() == 1) func_021B63B0();

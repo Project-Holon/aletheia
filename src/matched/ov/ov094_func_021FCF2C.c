@@ -1,5 +1,5 @@
 /*
- * function: func_021FCF2C
+ * function: BTLV_EFFVM_ResolveSlotKey
  * address:  0x021FCF2C
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011324  0x02011324  thumb
- *   func_021F7F1C  0x021F7F1C  thumb  ov094
- *   func_021FD070  0x021FD070  thumb  ov094
+ *   VM_GetUserData  0x02011324  thumb
+ *   BTLV_EFFECT_IsPokeSpriteLoaded  0x021F7F1C  thumb  ov094
+ *   BTLV_EFFVM_ResolveSideFromVm  0x021FD070  thumb  ov094
  */
 typedef struct {
     unsigned int word0;
@@ -22,13 +22,13 @@ typedef struct {
 } Unit;
 
 struct ScriptVm;
-extern void *func_02011324(struct ScriptVm *vm);
-extern int func_021F7F1C(int i);
-extern int func_021FD070(int a, int b);
+extern void *VM_GetUserData(struct ScriptVm *vm);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
+extern int BTLV_EFFVM_ResolveSideFromVm(int a, int b);
 
-int func_021FCF2C(int a, int idx)
+int BTLV_EFFVM_ResolveSlotKey(int a, int idx)
 {
-    Unit *s = func_02011324((struct ScriptVm *)a);
+    Unit *s = VM_GetUserData((struct ScriptVm *)a);
     int v;
 
     switch (idx) {
@@ -51,11 +51,11 @@ int func_021FCF2C(int a, int idx)
     case 14:
         v = s->dc;
         if (v == 0xff) {
-            if (func_021F7F1C(2) == 1)
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(2) == 1)
                 return 2;
-            if (func_021F7F1C(4) == 1)
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(4) == 1)
                 return 4;
-            if (func_021F7F1C(6) == 1)
+            if (BTLV_EFFECT_IsPokeSpriteLoaded(6) == 1)
                 return 6;
             return 0;
         }
@@ -70,19 +70,19 @@ int func_021FCF2C(int a, int idx)
         v = s->e0;
         if (v == 0xff) {
             if (s->dc & 1) {
-                if (func_021F7F1C(2) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(2) == 1)
                     return 2;
-                if (func_021F7F1C(4) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(4) == 1)
                     return 4;
-                if (func_021F7F1C(6) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(6) == 1)
                     return 6;
                 return 0;
             } else {
-                if (func_021F7F1C(3) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(3) == 1)
                     return 3;
-                if (func_021F7F1C(5) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(5) == 1)
                     return 5;
-                if (func_021F7F1C(7) == 1)
+                if (BTLV_EFFECT_IsPokeSpriteLoaded(7) == 1)
                     return 7;
                 return 1;
             }
@@ -95,5 +95,5 @@ int func_021FCF2C(int a, int idx)
             v = 0xff;
         break;
     }
-    return func_021FD070(a, v);
+    return BTLV_EFFVM_ResolveSideFromVm(a, v);
 }

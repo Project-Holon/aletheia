@@ -1,5 +1,5 @@
 /*
- * function: func_021F1BE0
+ * function: MB_CommIsBootable
  * address:  0x021F1BE0
  * packet:   pkt_ov107_021F1BE0
  * region:   ov107
@@ -19,7 +19,7 @@
 extern char *g_021F6FA0;
 extern int func_021F2EE8(unsigned short child_aid);
 
-int func_021F1BE0(unsigned short child_aid)
+int MB_CommIsBootable(unsigned short child_aid)
 {
     if (g_021F6FA0 && func_021F2EE8(child_aid)) {
         if (((int *)(g_021F6FA0 + 0x14E8))[child_aid - 1] == 7)

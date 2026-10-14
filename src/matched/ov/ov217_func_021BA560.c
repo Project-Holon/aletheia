@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C09C8 0x021C09C8 thumb ov217
- *   func_021C09CC 0x021C09CC thumb ov217
+ *   RESEARCH_COMMON_GetPreviousScreen 0x021C09C8 thumb ov217
+ *   RESEARCH_COMMON_GetEntryHandled 0x021C09CC thumb ov217
  *   func_021BA3B0 0x021BA3B0 thumb ov217
  *   func_021BA3B4 0x021BA3B4 thumb ov217
  */
 #include "../include/Obj25827.h"
-extern unsigned func_021C09C8(void *);
-extern unsigned func_021C09CC(void *);
+extern unsigned RESEARCH_COMMON_GetPreviousScreen(void *);
+extern unsigned RESEARCH_COMMON_GetEntryHandled(void *);
 extern void func_021BA3B0(void *,unsigned);
 extern unsigned func_021BA3B4(unsigned,unsigned);
 void func_021BA560(char *p)
 {
     void *owner=((struct Obj25827 *)p)->f0;
-    unsigned a=func_021C09C8(owner),b=func_021C09CC(owner);
+    unsigned a=RESEARCH_COMMON_GetPreviousScreen(owner),b=RESEARCH_COMMON_GetEntryHandled(owner);
     if(a!=0 && b==0) {
         unsigned mode;
         switch(a) {case 2:default:mode=0;break;case 3:mode=1;break;}

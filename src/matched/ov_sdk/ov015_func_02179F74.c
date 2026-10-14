@@ -1,5 +1,5 @@
 /*
- * function: func_02179F74
+ * function: IRC_Init
  * address:  0x02179F74
  * packet:   pkt_ov015_02179F74
  * region:   ov015
@@ -20,9 +20,9 @@
  *   are the image's (.data 0217AAB0 = ff ff).
  *
  * symbols:
- *   func_0217A60C  0x0217A60C  arm  ov015
- *   func_0217A7AC  0x0217A7AC  arm  ov015
- *   func_02179F48  0x02179F48  arm  ov015
+ *   IRCi_Init  0x0217A60C  arm  ov015
+ *   IRCi_Read  0x0217A7AC  arm  ov015
+ *   IRCi_ResetState  0x02179F48  arm  ov015
  *   func_0217A594  0x0217A594  arm  ov015
  *   myUnitNumber   0x0217AAB0  data
  *   unit_number    0x0217AAB1  data
@@ -37,9 +37,9 @@ typedef void (*IRCConnectCallback)(u8 unitId, int isSender);
 typedef void (*IRCRecvCallback)(u8 *data, u8 size, u8 command, u8 id);
 typedef void (*IRCShutdownCallback)(int isError);
 
-extern void func_0217A60C(void);
-extern int func_0217A7AC(u8 *buf);
-extern void func_02179F48(void);
+extern void IRCi_Init(void);
+extern int IRCi_Read(u8 *buf);
+extern void IRCi_ResetState(void);
 extern void func_0217A594(u8 id);
 
 static u8 unit_number = 0xFF;
@@ -56,13 +56,13 @@ static u64 sStatus = 0;
 static u64 timeout = 0;
 static u8 sIrcBuf[184] = {0};
 
-void func_02179F74(u8 unitId)
+void IRC_Init(u8 unitId)
 {
     u8 size;
 
-    func_0217A60C();
-    size = func_0217A7AC(sIrcBuf);
-    func_02179F48();
+    IRCi_Init();
+    size = IRCi_Read(sIrcBuf);
+    IRCi_ResetState();
     func_0217A594(unitId);
     unit_number = 0xFF;
     sConnectCallback = 0;

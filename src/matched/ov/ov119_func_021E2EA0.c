@@ -1,5 +1,5 @@
 /*
- * function: func_021E2EA0
+ * function: POKETRADE_3D_DeleteIcaStreams
  * address: 0x021E2EA0
  * packet: pkt_ov119_021E2EA0
  * region: ov119
@@ -14,7 +14,7 @@
 #include "../include/Obj02173.h"
 struct IcaAnime;
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-void func_021E2EA0(char *p) {
+void POKETRADE_3D_DeleteIcaStreams(char *p) {
     if (((struct Obj02173 *)p)->f90) {ICA_ANIME_Delete(((struct Obj02173 *)p)->f90); ((struct Obj02173 *)p)->f90=0;}
     if (((struct Obj02173 *)p)->f94) {ICA_ANIME_Delete(((struct Obj02173 *)p)->f94); ((struct Obj02173 *)p)->f94=0;}
     if (((struct Obj02173 *)p)->f98) {ICA_ANIME_Delete(((struct Obj02173 *)p)->f98); ((struct Obj02173 *)p)->f98=0;}

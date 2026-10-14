@@ -1,5 +1,5 @@
 /*
- * function: func_021D730C
+ * function: GDS_RAP_IsIdle
  * address: 0x021D730C
  * packet: pkt_ov125_021D730C
  * region: ov125
@@ -10,4 +10,4 @@
  * symbols:
  */
 #include "../include/Obj02838.h"
-int func_021D730C(char *p) { if (*(unsigned int *)&((struct Obj02838 *)p)->f3D8==0x55f4 && ((struct Obj02838 *)p)->f3DC==0x55f4) return 1; return 0; }
+int GDS_RAP_IsIdle(char *p) { if (*(unsigned int *)&((struct Obj02838 *)p)->f3D8==0x55f4 && ((struct Obj02838 *)p)->f3DC==0x55f4) return 1; return 0; }

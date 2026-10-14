@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F80E4  0x021F80E4  thumb  ov094
- *   func_021F7F04  0x021F7F04  thumb  ov094
+ *   BTLV_EFFECT_GaugeDeleteSlot  0x021F80E4  thumb  ov094
+ *   BTLV_EFFECT_DeletePokeSprite  0x021F7F04  thumb  ov094
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   BTLV_SCU_TaskMonWithdraw  0x021ED384  thumb  ov093
@@ -23,9 +23,9 @@
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021F80E4(u32 a);
+extern void BTLV_EFFECT_GaugeDeleteSlot(u32 a);
 struct S02030FB4;
-extern void func_021F7F04(int a);
+extern void BTLV_EFFECT_DeletePokeSprite(int a);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void BTLV_SCU_TaskMonWithdraw(u32 a, u8 *t);
@@ -35,8 +35,8 @@ void BTLV_SCU_StartMonWithdraw(char *p, u16 k, u16 a, int flag)
     u8 *t;
 
     if (flag != 0 || a == 0) {
-        func_021F80E4(k);
-        func_021F7F04(k);
+        BTLV_EFFECT_GaugeDeleteSlot(k);
+        BTLV_EFFECT_DeletePokeSprite(k);
         return;
     }
     t = TCBL_GetWork(TCBL_AddTask(((struct Obj21591 *)p)->f2C, (void *)BTLV_SCU_TaskMonWithdraw, 0x10, 1));

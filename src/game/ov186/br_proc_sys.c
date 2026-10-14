@@ -1,7 +1,7 @@
 /*
  * file:     br_proc_sys.c
  * unit:     yes
- * function: func_021F90C0, func_021F9244, func_021F92F4, func_021F9390, func_021F93D4, func_021F94D0, func_021F94E4, func_021F961C, func_021F962C, func_021F9668, func_021F966C, func_021F96A8, func_021F96AC,func_021F9728, func_021F972C, func_021F9750, func_021F9754, func_021F9774, func_021F97A0, func_021F97EC, func_021F9810, func_021F9868, func_021F98A8, func_021F98CC, func_021F98D0, func_021F98F4, func_021F98F8, func_021F99CC, func_021F9A6C, func_021F9A80, func_021F9B98, func_021F9B9C, func_021F9BA0, func_021F9BF4, func_021F9C50, func_021F9C6C, func_021F9C84, func_021F9CA4
+ * function: BR_PROC_SYS_Init, BR_PROC_SYS_Exit, BR_PROC_SYS_Main, func_021F9390, func_021F93D0, func_021F93D4, func_021F94D0, func_021F94E4, func_021F961C, func_021F962C, func_021F9668, func_021F966C, func_021F96A8, func_021F96AC, func_021F9728, func_021F972C, func_021F9750, func_021F9754, func_021F9770, func_021F9774, func_021F979C, func_021F97A0, func_021F97EC, func_021F9810, func_021F9868, func_021F98A8, func_021F98CC, func_021F98D0, func_021F98F4, func_021F98F8, BR_PROC_SYS_Create, BR_PROC_SYS_Delete, func_021F9A80, func_021F9B98, func_021F9B9C, func_021F9BA0, func_021F9BF4, func_021F9C50, func_021F9C6C, func_021F9C84, func_021F9CA4
  * address:  0x021F90C0
  * region:   ov186
  * compiler: dsi/1.1p1
@@ -10,54 +10,54 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from br_proc_sys.c, br_btn.c, br_graphic.c, br_util.c, br_net.c, ov186_func_02200228.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FC3BC 0x021FC3BC thumb ov186
+ *   BR_GRAPHIC_Create 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C3E0 0x0200C3E0 thumb
- *   func_021FB884 0x021FB884 thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FE6C0 0x021FE6C0 thumb ov186
- *   func_021FE7B4 0x021FE7B4 thumb ov186
- *   func_021FC224 0x021FC224 thumb ov186
- *   func_021FE7F4 0x021FE7F4 thumb ov186
- *   func_021FE7F8 0x021FE7F8 thumb ov186
- *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_021FED50 0x021FED50 thumb ov186
- *   func_021FF408 0x021FF408 thumb ov186
+ *   BR_RES_Create 0x021FB884 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_FADE_Create 0x021FE6C0 thumb ov186
+ *   BR_FADE_CaptureHwPalettes 0x021FE7B4 thumb ov186
+ *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
+ *   BR_FADE_SetBlendColor 0x021FE7F4 thumb ov186
+ *   BR_FADE_BlendFull 0x021FE7F8 thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
+ *   BR_SIDEBAR_Create 0x021FED50 thumb ov186
+ *   BR_NET_Create 0x021FF408 thumb ov186
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02012A30 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_021FEE9C 0x021FEE9C thumb ov186
- *   func_021FEE4C 0x021FEE4C thumb ov186
- *   func_021FE840 0x021FE840 thumb ov186
+ *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
+ *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
+ *   BR_FADE_SetBlendLevel 0x021FE840 thumb ov186
  *   d_02200254 0x02200254 data a4
  *   ov125_id 0x0000007D data
- *   func_021FF8D4 0x021FF8D4 thumb ov186
- *   func_021FF4E4 0x021FF4E4 thumb ov186
+ *   BR_NET_IsFatal 0x021FF8D4 thumb ov186
+ *   BR_NET_Destroy 0x021FF4E4 thumb ov186
  *   func_02034A5C 0x02034A5C arm
- *   func_021FEDC4 0x021FEDC4 thumb ov186
- *   func_021FE734 0x021FE734 thumb ov186
- *   func_021FC238 0x021FC238 thumb ov186
+ *   BR_SIDEBAR_Destroy 0x021FEDC4 thumb ov186
+ *   BR_FADE_Delete 0x021FE734 thumb ov186
+ *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   func_0200C3EC 0x0200C3EC thumb
- *   func_021FBDA4 0x021FBDA4 thumb ov186
- *   func_021FB92C 0x021FB92C thumb ov186
- *   func_021FC474 0x021FC474 thumb ov186
+ *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
+ *   BR_RES_Delete 0x021FB92C thumb ov186
+ *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_021FE768 0x021FE768 thumb ov186
- *   func_021FEE00 0x021FEE00 thumb ov186
- *   func_021FC4C8 0x021FC4C8 thumb ov186
- *   func_021FF52C 0x021FF52C thumb ov186
+ *   BR_FADE_Update 0x021FE768 thumb ov186
+ *   BR_SIDEBAR_Update 0x021FEE00 thumb ov186
+ *   BR_GRAPHIC_Draw 0x021FC4C8 thumb ov186
+ *   BR_NET_Main 0x021FF52C thumb ov186
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -129,33 +129,27 @@
 #include "../../matched/include/Obj24811.h"
 #include "../../matched/include/Obj08325.h"
 #include "../../matched/include/Obj24813.h"
+#include "br_proc_sys_shared_types.h"
 
 struct Obj0203159C;
+
 struct SoundSys;
+
 struct BigObj;
+
 struct Blk34;
+
 struct S020315D4;
-struct Big;
-struct GdsProfile;
+
 struct ObjC4;
+
 struct Sub020071CCCtrl;
-struct Pair;
-struct PrintSys;
+
 struct Bits;
-struct RecGet;
-struct U16Vec;
+
 struct S020314B8;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef signed int     s32;
 
 typedef struct {int x[3];} S;
-
-typedef signed short s16;
 
 typedef struct { struct { u16 id; u16 x; } e[6]; int n; } Stk_021F94D0;
 
@@ -236,125 +230,224 @@ typedef struct {
 } S_021F9C6C;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
+
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void *func_021FC3BC(unsigned mode, int setting, unsigned heap);
+
+extern void *BR_GRAPHIC_Create(unsigned mode, int setting, unsigned heap);
+
 extern void *GAME_DATA_GetMiscSave(int *);
-extern void *func_021FB884(unsigned,unsigned,unsigned);
+
+extern void *BR_RES_Create(unsigned,unsigned,unsigned);
+
 extern u8 func_0200C3E0(struct Blk34 *p);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern int *func_021FE6C0(unsigned);
-extern void func_021FE7B4(char *),func_021FE7F4(int *,int),func_021FE7F8(char *,int);
-extern int func_021FC224(char *);
-extern u32 func_021FC4DC(u8 *p);
-extern char *func_021FED50(int,int,char *,unsigned);
-extern char *func_021FF408(void *owner, void *arg, u32 heap);
+
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+
+extern int *BR_FADE_Create(unsigned);
+
+extern void BR_FADE_CaptureHwPalettes(char *),BR_FADE_SetBlendColor(int *,int),BR_FADE_BlendFull(char *,int);
+
+extern int BR_RES_GetCurrentSetParam(char *);
+
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
+
+extern char *BR_SIDEBAR_Create(int,int,char *,unsigned);
+
+extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
+
 extern int func_02034AC4(int),GFL_NET_GetRunState(void);
+
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+
 extern u32 func_02012A30(const struct BigObj *p);
+
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
+
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
-extern void func_021FEE9C(char *p);
-extern void func_021FEE4C(char *p);
-extern void func_021FE840(int,int,int);
-extern int func_021FF8D4(char *);
-extern void func_021FF4E4(char *p);
+
+extern void BR_SIDEBAR_ResetPositions(char *p);
+
+extern void BR_SIDEBAR_StartWobble(char *p);
+
+extern void BR_FADE_SetBlendLevel(int,int,int);
+
+extern int BR_NET_IsFatal(char *);
+
+extern void BR_NET_Destroy(char *p);
+
 extern void func_02034A5C(int);
-extern void func_021FEDC4(char *p, char *ctx);
-extern void func_021FE734(char *p);
-extern int func_021FC238(char *p);
+
+extern void BR_SIDEBAR_Destroy(char *p, char *ctx);
+
+extern void BR_FADE_Delete(char *p);
+
+extern int BR_RES_GetPalSet(char *p);
+
 extern void func_0200C3EC(struct Blk34 *p, u32 v);
-extern void func_021FBDA4(int,unsigned);
-extern void func_021FB92C(char *p);
-extern void func_021FC474(char *);
+
+extern void BR_RES_ApplyBgSet(int,unsigned);
+
+extern void BR_RES_Delete(char *p);
+
+extern void BR_GRAPHIC_Destroy(char *);
+
 extern void func_020315D4(struct S020315D4 *p);
+
 extern void func_020306F0(unsigned int heap);
+
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+
 extern int FADE_IsActive(void);
-extern void func_021FE768(S *);
-extern void func_021FEE00(char *p);
-extern void func_021FC4C8(char *);
-extern void func_021FF52C(char *p);
+
+extern void BR_FADE_Update(S *);
+
+extern void BR_SIDEBAR_Update(char *p);
+
+extern void BR_GRAPHIC_Draw(char *);
+
+extern void BR_NET_Main(char *p);
+
 extern void func_02034714(const char *expr, u32 line, const char *file);
+
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
+
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
+
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
+
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
+
 extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
+
 extern void *func_0200E9F4(void *p);
+
 extern int func_0200EA04(int);
+
 extern u8 *BATTLE_REC_GetHeader(void);
+
 extern void *func_0200A5F8(void *);
+
 extern void STRBUF_Delete(struct U16Vec *vec);
+
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
+
 extern u32 func_0200D6EC(struct RecGet *p);
+
 extern u32 func_0200A630(struct Bits *p);
+
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern void *PROCSYS_Create(int a0);
+
 extern void func_0203133C(struct S020314B8 *);
+
 extern u32 func_020307B0(void *p);
+
 extern void PROCSYS_Push(u32_021F9A80,u32_021F9A80,u32_021F9A80,void *);
+
 extern u32_021F9A80 PROCSYS_Main(void *);
+
 extern void MI_CpuCopy8(void *, void *, int);
-int func_021F90C0(void *obj,int unused,char *q);
-int func_021F9244(int sys,int unused,int unused2,int *p);
-int func_021F92F4(int sys,int *state,int unused,int *p);
+
+int BR_PROC_SYS_Init(void *obj,int unused,char *q);
+
+int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p);
+
+int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p);
+
 void func_021F9390(int *out,int *source,int unused,int type);
+
 void func_021F93D0(void);
+
 void func_021F93D4(int *out,int *source,int *ctx,int type);
+
 void func_021F94D0(Obj_021F94D0 *o);
+
 void func_021F94E4(int *out,int *source,const char *ctx,int type);
+
 void func_021F961C(u32 *a, u32 *b);
+
 void func_021F962C(char *r5, int *r4);
+
 void func_021F9668(void);
+
 void func_021F966C(char *r5, int *r4);
+
 void func_021F96A8(void);
+
 void func_021F96AC(int *out, int *source, const int *ctx, int type);
+
 void func_021F9728(void);
+
 void func_021F972C(char *p,char *q);
+
 void func_021F9750(void);
+
 void func_021F9754(int *out,int *source);
+
 void func_021F9770(void);
+
 void func_021F9774(char *p,char *q);
+
 void func_021F979C(void);
+
 void func_021F97A0(int *out,int *source,int *ctx,int type);
+
 void func_021F97EC(char *p,char *q);
+
 void func_021F9810(int *out,int *source,const char *ctx,int type);
+
 void func_021F9868(Top *p, Top *q);
+
 void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b);
+
 void func_021F98CC(void);
+
 void func_021F98D0(A_021F98D0 *a, B_021F98D0 *b);
+
 void func_021F98F4(void);
+
 void func_021F98F8(char *p, int skip, void *sys, int heap);
-Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
-void func_021F9A6C(int *p);
+
+Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
+
+void BR_PROC_SYS_Delete(int *p);
+
 void func_021F9A80(char *p);
+
 int func_021F9B98(int *p);
+
 unsigned func_021F9B9C(struct Obj24810 *p);
+
 void func_021F9BA0(unsigned *ctx);
+
 void func_021F9BF4(unsigned *ctx, unsigned index);
+
 void func_021F9C50(S_021F9A80 *p);
+
 void func_021F9C6C(S_021F9C6C *p);
+
 void func_021F9C84(char *p,int a,int b);
+
 void func_021F9CA4(void *p);
+
 extern char ov125_id[];
+
 extern const char d_02200254[];
+
 extern const char d_02200D00[];
+
 extern const char d_02200D04[];
+
 extern const char d_02200D04[],d_02200D14[];
-
-
-
-
-
-
-
 
 /*
  * Lever: name the zero after allocation; initialise the second flag before FC3BC, not at entry (first spelling DIFF 46 bytes).
  * abi: caller consumes 0203159C's live r0 at 021F90E0, overriding its void matched signature.
  */
-int func_021F90C0(void *obj,int unused,char *q)
+int BR_PROC_SYS_Init(void *obj,int unused,char *q)
 {
     char *p;
     int flag=1;
@@ -369,85 +462,71 @@ int func_021F90C0(void *obj,int unused,char *q)
     ((struct Obj24765 *)(*(char * *)&((struct Obj24764 *)q)->fC))->fC=zero;
     if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;
     enabled=1;
-    ((struct Obj00387 *)p)->f0=func_021FC3BC(flag,1,0x5a);
+    ((struct Obj00387 *)p)->f0=BR_GRAPHIC_Create(flag,1,0x5a);
     mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
     if(**(int * *)&((struct Obj24770 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) enabled=0;
-    ((struct Obj00387 *)p)->f4=func_021FB884(mode,enabled,0x5a);
-    func_021FB964((void *)(*(int *)&((struct Obj00387 *)p)->f4),0,0x5a);
-    func_021FB964((void *)(*(int *)&((struct Obj00387 *)p)->f4),1,0x5a);
-    ((struct Obj00387 *)p)->f8=func_021F99CC(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct Obj24772 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1728),0x5a);
-    *(int * *)&((struct Obj00387 *)p)->fC=func_021FE6C0(0x5a);
-    func_021FE7B4(*(char * *)&((struct Obj00387 *)p)->fC);
-    func_021FE7F4(*(int * *)&((struct Obj00387 *)p)->fC,func_021FC224(*(char * *)&((struct Obj00387 *)p)->f4));
-    if(!((struct Obj24773 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4) func_021FE7F8(*(char * *)&((struct Obj00387 *)p)->fC,3);
-    *(char * *)&((struct Obj00387 *)p)->f10=func_021FED50(func_021FC4DC((u8 *)(*(int *)&((struct Obj00387 *)p)->f0)),*(int *)&((struct Obj00387 *)p)->fC,*(char * *)&((struct Obj00387 *)p)->f4,0x5a);
+    ((struct Obj00387 *)p)->f4=BR_RES_Create(mode,enabled,0x5a);
+    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj00387 *)p)->f4),0,0x5a);
+    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj00387 *)p)->f4),1,0x5a);
+    ((struct Obj00387 *)p)->f8=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct Obj24772 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1728),0x5a);
+    *(int * *)&((struct Obj00387 *)p)->fC=BR_FADE_Create(0x5a);
+    BR_FADE_CaptureHwPalettes(*(char * *)&((struct Obj00387 *)p)->fC);
+    BR_FADE_SetBlendColor(*(int * *)&((struct Obj00387 *)p)->fC,BR_RES_GetCurrentSetParam(*(char * *)&((struct Obj00387 *)p)->f4));
+    if(!((struct Obj24773 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4) BR_FADE_BlendFull(*(char * *)&((struct Obj00387 *)p)->fC,3);
+    *(char * *)&((struct Obj00387 *)p)->f10=BR_SIDEBAR_Create(BR_GRAPHIC_GetActorUnit((u8 *)(*(int *)&((struct Obj00387 *)p)->f0)),*(int *)&((struct Obj00387 *)p)->fC,*(char * *)&((struct Obj00387 *)p)->f4,0x5a);
     func_021F98F8((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,(void *)(((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x5a);
     if(**(int * *)&((struct Obj24777 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
-        ((struct Obj00387 *)p)->f14=func_021FF408(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
+        ((struct Obj00387 *)p)->f14=BR_NET_Create(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
     } else func_02034AC4((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct Obj24788 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4==1) {
-        func_021FEE9C((char *)(*(int *)&((struct Obj00387 *)p)->f10));func_021FEE4C((char *)(*(int *)&((struct Obj00387 *)p)->f10));
-        func_021FE840(*(int *)&((struct Obj00387 *)p)->fC,3,0);
+        BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct Obj00387 *)p)->f10));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct Obj00387 *)p)->f10));
+        BR_FADE_SetBlendLevel(*(int *)&((struct Obj00387 *)p)->fC,3,0);
     }
     return 1;
 }
 
-
-
-
-
-
-
-
-int func_021F9244(int sys,int unused,int unused2,int *p)
+int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
     if(nested[0]==0) func_02028A58((struct SoundSys *)func_02012A30((const struct BigObj *)nested[1]),0x7f,0);
     if(p[5]) {
-        if(func_021FF8D4((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
-        func_021FF4E4((char *)p[5]); p[5]=0;
+        if(BR_NET_IsFatal((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
+        BR_NET_Destroy((char *)p[5]); p[5]=0;
     } else func_02034A5C((int)ov125_id);
-    func_021FEDC4((char *)p[4],(char *)p[1]);
-    func_021FE734((char *)p[3]);
-    func_021F9A6C((int *)p[2]);
+    BR_SIDEBAR_Destroy((char *)p[4],(char *)p[1]);
+    BR_FADE_Delete((char *)p[3]);
+    BR_PROC_SYS_Delete((int *)p[2]);
     nested=(int *)((int *)p[6])[3];
     if(nested[0]==0) {
         int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
-        int b=func_021FC238((char *)p[1]);
+        int b=BR_RES_GetPalSet((char *)p[1]);
         func_0200C3EC((struct Blk34 *)a,(unsigned char)b);
     }
-    func_021FBDA4(p[1],0);
-    func_021FBDA4(p[1],1);
-    func_021FB92C((char *)p[1]);
-    func_021FC474((char *)p[0]);
+    BR_RES_ApplyBgSet(p[1],0);
+    BR_RES_ApplyBgSet(p[1],1);
+    BR_RES_Delete((char *)p[1]);
+    BR_GRAPHIC_Destroy((char *)p[0]);
     func_020315D4((struct S020315D4 *)sys);
     func_020306F0(0x5a);
     return 1;
 }
 
-
-
-
-
-
-
-
-int func_021F92F4(int sys,int *state,int unused,int *p)
+int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p)
 {
     switch(*state) {
     case 0: *state=1; break;
     case 1: FADE_Start(3,16,0,0); *state=2; break;
     case 2: if(!FADE_IsActive()) *state=3; break;
     case 3:
-        func_021FE768((S *)p[3]);
-        func_021FEE00((char *)p[4]);
+        BR_FADE_Update((S *)p[3]);
+        BR_SIDEBAR_Update((char *)p[4]);
         func_021F9A80((char *)p[2]);
-        func_021FC4C8((char *)p[0]);
-        if(p[5]) func_021FF52C((char *)p[5]);
+        BR_GRAPHIC_Draw((char *)p[0]);
+        if(p[5]) BR_NET_Main((char *)p[5]);
         if(func_021F9B98((int *)p[2])) *state=4;
         break;
     case 4: FADE_Start(3,0,16,0); *state=5; break;
@@ -457,13 +536,6 @@ int func_021F92F4(int sys,int *state,int unused,int *p)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * Extent includes empty follower021F93D0; zeros021F93CE and021F93D2 are alignment.
  */
@@ -472,30 +544,16 @@ void func_021F9390(int *out,int *source,int unused,int type)
     out[3]=source[1];
     out[2]=source[3];
     out[4]=source[2];
-    out[1]=func_021FC4DC((u8 *)source[0]);
+    out[1]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[5]=source[4];
     if(type==1) out[0]=1;
     else if(((int *)source[6])[1]==0) out[0]=0;
     else out[0]=2;
 }
 
-
-
-
-
-
-
-
 void func_021F93D0(void)
 {
 }
-
-
-
-
-
-
-
 
 /*
  * note: 2026-10-05 wave P15 D3. Real extent 252 bytes (pool ends 0x021F94CC); the unlabelled
@@ -540,21 +598,11 @@ void func_021F93D4(int *out,int *source,int *ctx,int type)
     out[6]=source[1];
     out[4]=source[3];
     out[7]=source[2];
-    out[5]=func_021FC4DC((u8 *)source[0]);
+    out[5]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[8]=*(int *)((char *)source[6]+8)+0x1748;
 }
 
-
-
-
-
-
 void func_021F94D0(Obj_021F94D0 *o) { Stk_021F94D0 *s = o->s; int i = s->n - 1; if (s->e[(u16)i].id == 8) s->n = i; }
-
-
-
-
-
 
 /*
  * note: final push 2026-10-05 G1L5. Real extent 312 bytes (pool ends 0x021F961A); the unlabelled
@@ -570,7 +618,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
     void *sys;
     unsigned a,b;
     out[4]=source[1];out[3]=source[3];out[5]=source[2];
-    out[6]=func_021FC4DC((u8 *)source[0]);
+    out[6]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[9]=source[5];
     out[10]=(*(int **)((char *)source[6]+12))[1];
     out[11]=*(int *)((char *)source[6]+8)+0x1720;
@@ -612,19 +660,7 @@ done:
     return;
 }
 
-
-
-
-
-
-
-
 void func_021F961C(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }
-
-
-
-
-
 
 /*
  * Fill the output record from the source object and its nested handle.
@@ -636,21 +672,12 @@ void func_021F962C(char *r5, int *r4)
     ((struct Obj05492 *)r5)->f8 = r4[1];
     ((struct Obj05492 *)r5)->f0 = r4[3];
     ((struct Obj05492 *)r5)->fC = r4[2];
-    ((struct Obj05492 *)r5)->f4 = func_021FC4DC((u8 *)r4[0]);
+    ((struct Obj05492 *)r5)->f4 = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
     ((struct Obj05492 *)r5)->f10 = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
     ((struct Obj05492 *)r5)->f14 = *(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4);
 }
 
-
-
-
-
-
 void func_021F9668(void) {}
-
-
-
-
 
 /*
  *   unlabelled Thumb leaves with no branch anywhere outside this range, so
@@ -665,19 +692,12 @@ void func_021F966C(char *r5, int *r4)
     ((struct Obj05494 *)r5)->f8 = r4[1];
     ((struct Obj05494 *)r5)->f4 = r4[3];
     ((struct Obj05494 *)r5)->fC = r4[2];
-    ((struct Obj05494 *)r5)->f0 = func_021FC4DC((u8 *)r4[0]);
+    ((struct Obj05494 *)r5)->f0 = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
     ((struct Obj05494 *)r5)->f10 = *(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4);
     ((struct Obj05494 *)r5)->f14 = func_0200EA04((int)func_0200E9F4((void *)x));
 }
 
-
-
-
-
 void func_021F96A8(void) {}
-
-
-
 
 /*
  * extent: empty-return follower 0x021F9728; zero halfwords at 0x021F9726
@@ -707,45 +727,28 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     out[4] = source[1];
     out[2] = source[3];
     out[5] = source[2];
-    out[3] = func_021FC4DC((u8 *)source[0]);
+    out[3] = BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[6] = source[5];
 }
-
-
-
 
 void func_021F9728(void)
 {
 }
 
-
-
-
 /*
  * extent: empty-return follower 0x021F9750; trailing two-byte padding.
  */
-void func_021F972C(char *p,char *q) { ((struct Obj06625 *)p)->f8=((struct Obj06626 *)q)->f4;((struct Obj06625 *)p)->f0=((struct Obj06626 *)q)->fC;((struct Obj06625 *)p)->fC=((struct Obj06626 *)q)->f8;((struct Obj06625 *)p)->f4=func_021FC4DC((u8 *)(((struct Obj06626 *)q)->f0));((struct Obj06625 *)p)->f10=((struct Obj24790 *)(*(char * *)&((struct Obj24789 *)(*(char * *)&((struct Obj06626 *)q)->f18))->fC))->f4; }
-
-
-
+void func_021F972C(char *p,char *q) { ((struct Obj06625 *)p)->f8=((struct Obj06626 *)q)->f4;((struct Obj06625 *)p)->f0=((struct Obj06626 *)q)->fC;((struct Obj06625 *)p)->fC=((struct Obj06626 *)q)->f8;((struct Obj06625 *)p)->f4=BR_GRAPHIC_GetActorUnit((u8 *)(((struct Obj06626 *)q)->f0));((struct Obj06625 *)p)->f10=((struct Obj24790 *)(*(char * *)&((struct Obj24789 *)(*(char * *)&((struct Obj06626 *)q)->f18))->fC))->f4; }
 
 void func_021F9750(void) {}
-
-
-
-
 
 void func_021F9754(int *out,int *source)
 {
     out[2]=source[1];
     out[0]=source[3];
     out[3]=source[2];
-    out[1]=func_021FC4DC((u8 *)source[0]);
+    out[1]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
 }
-
-
-
-
 
 /*
  * Extent includes empty follower func_021F9770; zeros at 021F976E and 021F9772 are alignment.
@@ -754,24 +757,12 @@ void func_021F9770(void)
 {
 }
 
-
-
-
-
-void func_021F9774(char *p,char *q) { ((struct Obj05496 *)p)->f8=((struct Obj05497 *)q)->f4;((struct Obj05496 *)p)->f0=((struct Obj05497 *)q)->fC;((struct Obj05496 *)p)->fC=((struct Obj05497 *)q)->f8;((struct Obj05496 *)p)->f4=func_021FC4DC((u8 *)(((struct Obj05497 *)q)->f0));((struct Obj05496 *)p)->f10=((struct Obj05497 *)q)->f14;((struct Obj05496 *)p)->f14=((struct Obj24792 *)(*(char * *)&((struct Obj24791 *)(*(char * *)&((struct Obj05497 *)q)->f18))->fC))->f4; }
-
-
-
-
+void func_021F9774(char *p,char *q) { ((struct Obj05496 *)p)->f8=((struct Obj05497 *)q)->f4;((struct Obj05496 *)p)->f0=((struct Obj05497 *)q)->fC;((struct Obj05496 *)p)->fC=((struct Obj05497 *)q)->f8;((struct Obj05496 *)p)->f4=BR_GRAPHIC_GetActorUnit((u8 *)(((struct Obj05497 *)q)->f0));((struct Obj05496 *)p)->f10=((struct Obj05497 *)q)->f14;((struct Obj05496 *)p)->f14=((struct Obj24792 *)(*(char * *)&((struct Obj24791 *)(*(char * *)&((struct Obj05497 *)q)->f18))->fC))->f4; }
 
 /*
  * extent: empty-return follower 0x021F979C; trailing two-byte padding.
  */
 void func_021F979C(void) {}
-
-
-
-
 
 void func_021F97A0(int *out,int *source,int *ctx,int type)
 {
@@ -780,7 +771,7 @@ void func_021F97A0(int *out,int *source,int *ctx,int type)
         out[3]=source[1];
         out[1]=source[3];
         out[4]=source[2];
-        out[2]=func_021FC4DC((u8 *)source[0]);
+        out[2]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
         out[5]=(*(int **)((char *)source[6]+0xc))[1];
         out[6]=*(int *)((char *)source[6]+8)+0x1748;
     } else {
@@ -788,14 +779,7 @@ void func_021F97A0(int *out,int *source,int *ctx,int type)
     }
 }
 
-
-
-
-
 void func_021F97EC(char *p,char *q) { char *s;if(((struct Obj24794 *)p)->f1C){s=*(char * *)&((struct Obj24795 *)q)->f18;func_021F98F8((char *)(((struct Obj14449 *)s)->f8+0x1748),0,(void *)(((struct Obj24796 *)(*(char * *)&((struct Obj14449 *)s)->fC))->f4),90);} }
-
-
-
 
 /*
  * Lever: compute ctx+0x20 before storing the getter result, then read ctx+0x1c.
@@ -810,7 +794,7 @@ void func_021F9810(int *out,int *source,const char *ctx,int type)
     out[0]=source[3];
     out[3]=source[5];
     out[4]=source[2];
-    result=func_021FC4DC((u8 *)source[0]);
+    result=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     a=((struct Obj10774 *)ctx)->f20;
     out[1]=result;
     b=((struct Obj10774 *)ctx)->f1C;
@@ -820,9 +804,6 @@ void func_021F9810(int *out,int *source,const char *ctx,int type)
     out[6]=*(int *)((char *)source[6]+8)+0x1748;
     out[9]=((struct Obj10774 *)ctx)->f4;
 }
-
-
-
 
 void func_021F9868(Top *p, Top *q)
 {
@@ -834,23 +815,13 @@ void func_021F9868(Top *p, Top *q)
     BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
 }
 
-
 void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
-
-
-
 
 void func_021F98CC(void) {}
 
-
 void func_021F98D0(A_021F98D0 *a, B_021F98D0 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
 
-
-
-
 void func_021F98F4(void) {}
-
-
 
 /*
  * note: 2026-10-05 recoup. The old draft had the save and tag spill slots swapped
@@ -897,10 +868,7 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
     }
 }
 
-
-
-
-Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
+Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
 {
     Context *ctx;
     unsigned i = 0;
@@ -927,21 +895,11 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     return ctx;
 }
 
-
-
-
-
-void func_021F9A6C(int *p)
+void BR_PROC_SYS_Delete(int *p)
 {
     func_0203133C((struct S020314B8 *)p[0]);
     func_020307B0(p);
 }
-
-
-
-
-
-
 
 /*
  * tail: existing matched accessor followers 021F9B98 and 021F9B9C; lead only.
@@ -978,12 +936,6 @@ void func_021F9A80(char *p)
  }
 }
 
-
-
-
-
-
-
 /*
  * Follower021F9B9C has its existing matched source/shard; no unit.
  */
@@ -992,12 +944,6 @@ int func_021F9B98(int *p)
     return p[5];
 }
 
-
-
-
-
-
-
 /*
  * leaf: sole blocker of ov183 021DB2E0; parent cleared ownership.
  */
@@ -1005,12 +951,6 @@ unsigned func_021F9B9C(struct Obj24810 *p)
 {
     return p->f10;
 }
-
-
-
-
-
-
 
 void func_021F9BA0(unsigned *ctx)
 {
@@ -1029,12 +969,6 @@ void func_021F9BA0(unsigned *ctx)
     }
 }
 
-
-
-
-
-
-
 void func_021F9BF4(unsigned *ctx, unsigned index)
 {
     Info_021F9BF4 info;
@@ -1050,11 +984,6 @@ void func_021F9BF4(unsigned *ctx, unsigned index)
     *(Info_021F9BF4 *)((char *)ctx + 0x3c) = info;
 }
 
-
-
-
-
-
 void func_021F9C50(S_021F9A80 *p)
 {
     MI_CpuCopy8(p->unk_4c, p->unk_68, 0x18);
@@ -1062,24 +991,13 @@ void func_021F9C50(S_021F9A80 *p)
     func_021F9C6C((S_021F9C6C *)p);
 }
 
-
-
-
-
 void func_021F9C6C(S_021F9C6C *p)
 {
     while (p->unk_64 != 0)
         func_021F9BA0((unsigned int *)p);
 }
 
-
-
-
 void func_021F9C84(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
-
-
-
-
 
 void func_021F9CA4(void *p)
 {

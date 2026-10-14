@@ -1,5 +1,5 @@
 /*
- * function: func_021C1680
+ * function: CircleGraph_AdvanceFrame
  * address:  0x021C1680
  * packet:   pkt_021B9850
  * region:   ov217
@@ -30,7 +30,7 @@ typedef struct {
     u32 counter;
 } Rec;
 
-void func_021C1680(Rec *p)
+void CircleGraph_AdvanceFrame(Rec *p)
 {
     u32 v;
 

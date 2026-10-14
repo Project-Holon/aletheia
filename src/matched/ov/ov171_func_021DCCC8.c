@@ -1,5 +1,5 @@
 /*
- * function: func_021DCCC8
+ * function: DENDOU_VIEW_LoadHallOfFame
  * address: 0x021DCCC8
  * packet: pkt_ov171_021DCCC8
  * region: ov171
@@ -72,7 +72,7 @@ struct Ent { void *a; void *b; u8 pad[0x14]; };
 struct Row { struct Ent ents[6]; u8 hdr[0x10]; u16 cnt; u16 cnt2; };
 struct P { struct S *s; u8 pad[8]; struct Row rows[15]; u8 pad2[0xC5F - 0xB10]; u8 n; };
 
-void func_021DCCC8(struct P *p)
+void DENDOU_VIEW_LoadHallOfFame(struct P *p)
 {
     u16 j;
     void *c;

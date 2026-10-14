@@ -1,5 +1,5 @@
 /*
- * function: func_021D9404
+ * function: PDWACC_MESSAGE_UpdateSystem
  * address:  0x021D9404
  * packet:   pkt_021D9404
  * region:   ov123
@@ -24,7 +24,7 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-void func_021D9404(char *p)
+void PDWACC_MESSAGE_UpdateSystem(char *p)
 {
     TCBL_Main(((struct Obj13998 *)p)->f88);
     PRINTSYS_QUE_Main(((struct Obj13998 *)p)->f8C);

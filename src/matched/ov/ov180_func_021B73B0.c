@@ -1,5 +1,5 @@
 /*
- * function: func_021B73B0
+ * function: HALL_OF_FAME_UpdateActors
  * address: 0x021B73B0
  * packet: pkt_ov180_021B73B0
  * region: ov180
@@ -21,4 +21,4 @@ struct Obj;
 extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
-void func_021B73B0(char *p){u32 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}CLACT_DrawSystem();}
+void HALL_OF_FAME_UpdateActors(char *p){u32 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}CLACT_DrawSystem();}

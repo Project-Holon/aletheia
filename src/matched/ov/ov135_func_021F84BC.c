@@ -1,5 +1,5 @@
 /*
- * function: func_021F84BC
+ * function: WORLDTRADE_DEPOSIT_GetSpeciesRange
  * address:  0x021F84BC
  * packet:   pkt_021F84BC
  * region:   ov135
@@ -24,7 +24,7 @@ extern const int tbl_0220307C[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_021F84BC(u32 i, int *start, int *end)
+void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end)
 {
     if (i >= 0x1B) {
         func_02034714((void *)0x02203C18, 0, (void *)0x02203C18);

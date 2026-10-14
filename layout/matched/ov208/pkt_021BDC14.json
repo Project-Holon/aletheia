@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDC14",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq",
    "address": "0x021BDC14",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDC2C",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive",
    "address": "0x021BDC2C",
    "kind": "game",
    "region": "ov208",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BDCDC",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_FlushBar",
    "address": "0x021BDCDC",
    "kind": "game",
    "region": "ov208",

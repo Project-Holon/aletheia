@@ -1,5 +1,5 @@
 /*
- * function: func_021E5DFC
+ * function: POKETRADE_2D_CreateMarkingIcon
  * address: 0x021E5DFC
  * packet: pkt_ov119_021E5DFC
  * region: ov119
@@ -45,7 +45,7 @@ extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
 extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
-void func_021E5DFC(char *p, int side, void *mon)
+void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
 {
     char *q = p + 0x950;
     In in;

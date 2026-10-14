@@ -1,5 +1,5 @@
 /*
- * function: func_021FFACC
+ * function: BR_NET_OnUploadEntry
  * address: 0x021FFACC
  * packet: pkt_ov186_021FFACC
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24867.h"
-void func_021FFACC(char *p) {((struct Obj24867 *)p)->f5B8=1;}
+void BR_NET_OnUploadEntry(char *p) {((struct Obj24867 *)p)->f5B8=1;}

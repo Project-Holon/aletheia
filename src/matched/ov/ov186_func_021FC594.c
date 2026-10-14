@@ -1,5 +1,5 @@
 /*
- * function: func_021FC594
+ * function: BR_GRAPHIC_DrawBg
  * address: 0x021FC594
  * packet: pkt_ov186_021FC594
  * region: ov186
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021FC594(void *a0){}
+void BR_GRAPHIC_DrawBg(void *a0){}

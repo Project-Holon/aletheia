@@ -1,5 +1,5 @@
 /*
- * function: func_021FC668
+ * function: WORLDTRADE_DETAIL_StateConfirmYesNoInput
  * address: 0x021FC668
  * packet: pkt_ov135_021FC668
  * region: ov135
@@ -9,35 +9,35 @@
  * status: EXACT
  * spelling: if/else keeps the first arm before the second compare; switch moved both compares ahead.
  * symbols:
- *   func_021F4D14 0x021F4D14 thumb ov135
- *   func_021F4CE4 0x021F4CE4 thumb ov135
- *   func_021F4EC0 0x021F4EC0 thumb ov135
- *   func_021FCBF0 0x021FCBF0 thumb ov135
+ *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
+ *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
+ *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
+ *   WORLDTRADE_DETAIL_DrawRequestWindow 0x021FCBF0 thumb ov135
  *   func_0201F7A8 0x0201F7A8 thumb
  */
 #include "../include/Obj08186.h"
-extern int func_021F4D14(char *p);
-extern void func_021F4CE4(char *p);
+extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
+extern void WORLDTRADE_CloseTaskMenu(char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
-extern void func_021FCBF0(char *p);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_DETAIL_DrawRequestWindow(char *p);
 extern void func_0201F7A8(void *p, unsigned kind);
-int func_021FC668(char *p)
+int WORLDTRADE_DETAIL_StateConfirmYesNoInput(char *p)
 {
     unsigned r;
-    r = func_021F4D14(p);
+    r = WORLDTRADE_UpdateTaskMenuYesNo(p);
     if (r == 1) {
-        func_021F4CE4(p);
+        WORLDTRADE_CloseTaskMenu(p);
         ((struct Obj08186 *)p)->f28 = 2;
         ((struct Obj08186 *)p)->fEB4 = 1;
-        func_021F4EC0((u8 *)p, 7, 8);
-        func_021FCBF0(p);
+        WORLDTRADE_SetStateAndReturn((u8 *)p, 7, 8);
+        WORLDTRADE_DETAIL_DrawRequestWindow(p);
     } else if (r == 2) {
-        func_021F4CE4(p);
+        WORLDTRADE_CloseTaskMenu(p);
         ((struct Obj08186 *)p)->f28 = 0;
         func_0201F7A8(((struct Obj08186 *)p)->fD40, 0);
-        func_021FCBF0(p);
+        WORLDTRADE_DETAIL_DrawRequestWindow(p);
     }
     return 2;
 }

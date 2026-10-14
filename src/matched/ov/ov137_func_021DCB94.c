@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB94
+ * function: GURU2_COMM_SendWithHeader
  * address: 0x021DCB94
  * packet: pkt_ov137_021DCB94
  * region: ov137
@@ -21,4 +21,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}
+void GURU2_COMM_SendWithHeader(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}

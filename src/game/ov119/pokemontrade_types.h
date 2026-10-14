@@ -17,8 +17,8 @@ typedef struct TradeWork {
     void * f5E0;
     unsigned char pad_5E4[8];
     int  f5EC;
-    void * f5F0;
-    unsigned short  f5F4;
+    void * timeIcon;
+    unsigned short  heapId;
     unsigned char pad_5F6[22];
     void * f60C;
     void * f610;
@@ -29,54 +29,52 @@ typedef struct TradeWork {
     void * f624;
     unsigned char pad_628[4];
     int  f62C;
-    int  f630;
+    int  partyBoxId;
     int  f634;
     int  f638;
     int  f63C;
     unsigned char pad_640[4];
     unsigned int  f644;
-    void * f648;
-    int  f64C;
-    void * f650;
+    void * taskMenuWindow;
+    int  taskMenu;
+    void * messageBuffer;
     unsigned short  f654;
     unsigned char pad_656[2];
     int  f658;
     unsigned char pad_65C[84];
-    void * f6B0;
+    void * taskMenuRes;
     int  f6B4;
     unsigned char pad_6B8[100];
     int  f71C;
-    int  f720;
+    int  messageBank;
     int  f724;
     void * f728;
-    int  f72C;
+    int  printStream;
     int  f730;
     int  f734;
     int  f738;
     void * f73C;
-    void * f740;
+    void * printQueue;
     void * f744;
     unsigned char pad_748[4];
-    void * f74C;
+    void * keyCursor;
     unsigned char pad_750[176];
     int  f800;
     unsigned char pad_804[12];
-    int  f810;
+    int  camera;
     unsigned char pad_814[12];
-    void * f820;
-    unsigned short  f824;
+    void * g3dUtil;
+    unsigned short  g3dUnitHandle;
     unsigned char pad_826[2];
-    int  f828;
+    int  gameData;
     void * f82C;
     int  f830;
     int  f834;
     void * f838;
-    void * f83C;
-    void * f840;
-    unsigned int  f844;
-    unsigned int  f848;
-    unsigned char pad_84C[8];
-    unsigned int  f854;
+    void * subCamera;
+    void * mcssSystem;
+    void * mcssPokemon[4];
+    unsigned int  mcssAnimStopped;
     unsigned char pad_858[4];
     void * f85C;
     unsigned char pad_860[12];
@@ -105,8 +103,8 @@ typedef struct TradeWork {
     unsigned char pad_8C4[216];
     int  f99C;
     unsigned char pad_9A0[32];
-    int  f9C0;
-    int  f9C4;
+    int  touchbar;
+    int  clactSystem;
     void * f9C8;
     void * f9CC;
     unsigned char pad_9D0[240];
@@ -146,26 +144,21 @@ typedef struct TradeWork {
     int  fF78;
     int  fF7C;
     int  fF80;
-    int  fF84;
-    int  fF88;
+    int  selectedSlot;
+    int  selectedBox;
     unsigned char pad_F8C[8];
-    int  fF94;
-    int  fF98;
+    int  peerSelectedSlot;
+    int  peerSelectedBox;
     int  fF9C;
     int  fFA0;
-    int  fFA4;
-    unsigned char pad_FA8[20];
-    int  fFBC;
-    unsigned char pad_FC0[20];
-    int  fFD4;
-    void * fFD8;
-    unsigned char pad_FDC[20];
-    int  fFF0;
-    unsigned char pad_FF4[20];
-    int  f1008;
-    unsigned char pad_100C[20];
-    int  f1020;
-    unsigned char pad_1024[20];
+    /* Offer table: [side][index]; side 0 = own offers, side 1 = partner offers, three entries per side. */
+    int offerSlot[2][3];
+    int offerBox[2][3];
+    void * pickedIconActor;
+    void * offerMon[2][3];
+    int offerReceivedValue[2][3];
+    void * offerIconActor[2][3];
+    int offerIconCharRes[2][3];
     void * f1038;
     unsigned char pad_103C[12];
     int  f1048;
@@ -191,9 +184,9 @@ typedef struct TradeWork {
     unsigned short  f1098;
     unsigned short  f109A;
     unsigned int  f109C;
-    int  f10A0;
-    void * f10A4;
-    void * f10A8;
+    int  cursorIndex;
+    void * subObjPaletteCopy;
+    void * subBgPaletteCopy;
     unsigned char pad_10AC[64];
     int  f10EC;
     unsigned int  f10F0;
@@ -234,12 +227,159 @@ typedef struct TradeWork {
     signed char  f11F3;
     unsigned char  f11F4;
     signed char  f11F5;
-    unsigned char  f11F6;
+    unsigned char  nationalDexEnabled;
     signed char  f11F7;
-    unsigned char  f11F8;
+    unsigned char  sceneState;
     unsigned char  f11F9;
     unsigned char  f11FA;
-    unsigned char  f11FB;
+    union {
+        unsigned char byte;
+        struct {
+            unsigned char sendBusy:4;
+            unsigned char replyPending:4;
+        } bits;
+    } stateFlags;
 } TradeWork;
+
+/* Timed slide of one MCSS sprite from its current position to a target (heap block of 0x38 bytes). */
+typedef struct McssSlideVec {
+    int x;
+    int y;
+    int z;
+} McssSlideVec;
+
+typedef struct McssSlide {
+    void * mcss;
+    int frameCount;
+    int frame;
+    int fC;
+    int f10;
+    unsigned short wobblePhase;
+    unsigned short wobbleEnabled;
+    int f18;
+    McssSlideVec start;
+    McssSlideVec target;
+    McssSlideVec * offsetTable;
+} McssSlide;
+
+/* shared with pokemontrade_proc */
+struct Sub02008F80Obj;
+
+struct Actor;
+
+struct PtS;
+
+struct Obj;
+
+struct Vec2;
+
+struct Node;
+
+struct Sub020079BCEntry;
+
+struct Entry;
+
+struct Link;
+
+struct Big;
+
+struct Sub02009470Obj;
+
+struct Sub0200852CObj;
+
+struct MsgBank;
+
+struct TaskMenu;
+
+struct WordSet;
+
+struct Bank;
+
+struct Blk37;
+
+struct Light;
+
+struct Tcbl;
+
+struct PrintSys;
+
+struct Sav;
+
+typedef unsigned int u32;
+
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned u32_021DB7AC;
+
+typedef signed int     s32_021D8EC8;
+
+typedef unsigned u32_021DCD38;
+
+/* shared with pokemontrade_nego */
+struct BigObj;
+
+struct Cfg;
+
+struct Descriptor;
+
+struct Rec;
+
+struct U16Vec;
+
+typedef unsigned int u32_021DEA24;
+
+typedef unsigned u32_021DEBD4;
+
+typedef unsigned int   u32_021DEC4C;
+
+typedef unsigned int   u32_021DECA0;
+
+typedef unsigned int   u32_021DEDBC;
+
+typedef unsigned int u32_021DEF1C;
+
+typedef unsigned int   u32_021DF168;
+
+typedef unsigned int   u32_021DF918;
+
+/* shared with pokemontrade_mcss */
+typedef unsigned int u32_021DFB84;
+
+typedef signed short s16_021DFBF0;
+
+typedef unsigned int u32_021DFC28;
+
+/* shared with pokemontrade_save */
+struct CharBuf;
+
+struct Ctx;
+
+struct IcaAnime;
+
+typedef struct Descriptor {int a,b,c,d,e,f,g;u8 h,i,j,k;} Descriptor;
+
+typedef signed short s16_021E0EF4;
+
+typedef struct {
+    u16 a;
+    u16 b;
+    int amount;
+    unsigned int c;
+} Cfg;
+
+typedef struct {
+    char pad0[0x5f4];
+    u16 heap;
+    char pad5f6[0x840 - 0x5f6];
+    void *res;
+    void *obj[4];
+    char pad854[0x118c - 0x854];
+    int mode;
+} Work_021E3004;
+
+/* shared with pokemontrade_3d */
+struct Personal;
 
 #endif

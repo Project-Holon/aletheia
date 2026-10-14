@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: CTVT_CAMERA_Create
  * address: 0x021B6100
  * packet: pkt_ov172_021B6100
  * region: ov172
@@ -33,11 +33,11 @@
  *   func_021B6320 0x021B6320 arm ov172
  *   func_021B6328 0x021B6328 arm ov172
  *   func_021B6330 0x021B6330 arm ov172
- *   func_021B68A0 0x021B68A0 thumb ov172
- *   func_021B6338 0x021B6338 thumb ov172
- *   func_021B65D8 0x021B65D8 thumb ov172
- *   func_021B6620 0x021B6620 thumb ov172
- *   func_021B662C 0x021B662C thumb ov172
+ *   CTVT_CAMERA_ResetTrimming 0x021B68A0 thumb ov172
+ *   CTVT_CAMERA_OnPowerOff 0x021B6338 thumb ov172
+ *   CTVT_CAMERA_OnBufferError 0x021B65D8 thumb ov172
+ *   CTVT_CAMERA_OnReboot 0x021B6620 thumb ov172
+ *   CTVT_CAMERA_OnVsync 0x021B662C thumb ov172
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  */
@@ -68,15 +68,15 @@ extern void func_021B6318(int, int);
 extern void func_021B6320(int, int);
 extern void func_021B6328(void *);
 extern int func_021B6330(void *, int, int);
-extern void func_021B68A0(char *);
-extern void func_021B6338(char *p);
-extern void func_021B65D8(void);
-extern void func_021B6620(int x);
-extern void func_021B662C(void);
+extern void CTVT_CAMERA_ResetTrimming(char *);
+extern void CTVT_CAMERA_OnPowerOff(char *p);
+extern void CTVT_CAMERA_OnBufferError(void);
+extern void CTVT_CAMERA_OnReboot(int x);
+extern void CTVT_CAMERA_OnVsync(void);
 extern const char d_021C71C0[];
 extern char *g_021C88E0;
 
-char *func_021B6100(int id)
+char *CTVT_CAMERA_Create(int id)
 {
     char *p;
     int r;
@@ -122,10 +122,10 @@ char *func_021B6100(int id)
     if (r == 6) return 0;
     ((struct Obj00917 *)p)->f28 = 0;
     OS_EnableIrqMask(0x20000000);
-    if (OS_IsRunOnTwl() == 1) func_021B62D8((void *)func_021B662C);
-    if (OS_IsRunOnTwl() == 1) func_021B62E0((void *)func_021B65D8);
-    if (OS_IsRunOnTwl() == 1) func_021B62E8((void *)func_021B6620);
-    func_021B68A0(p);
+    if (OS_IsRunOnTwl() == 1) func_021B62D8((void *)CTVT_CAMERA_OnVsync);
+    if (OS_IsRunOnTwl() == 1) func_021B62E0((void *)CTVT_CAMERA_OnBufferError);
+    if (OS_IsRunOnTwl() == 1) func_021B62E8((void *)CTVT_CAMERA_OnReboot);
+    CTVT_CAMERA_ResetTrimming(p);
     if (OS_IsRunOnTwl() == 1) func_021B62F0(1);
     ((struct Obj00917 *)p)->f48 = 0;
     ((struct Obj00917 *)p)->f44 = 0;
@@ -139,6 +139,6 @@ char *func_021B6100(int id)
     if (OS_IsRunOnTwl() != 0) r = func_021B6330(buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
-    func_020351F8((u32)((void *)func_021B6338), (u32)p);
+    func_020351F8((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);
     return p;
 }

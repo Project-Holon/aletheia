@@ -1,5 +1,5 @@
 /*
- * function: func_021D95B4
+ * function: PDWACC_MESSAGE_RestartTimeIcon
  * address: 0x021D95B4
  * packet: pkt_ov123_021D95B4
  * region: ov123
@@ -17,4 +17,4 @@
 typedef unsigned char  u8;
 extern void TIME_ICON_Delete(u8 *p);
 extern unsigned char *TIME_ICON_CreateNode(unsigned int,void *,unsigned char,unsigned char,unsigned short);
-void func_021D95B4(char *p) { if(((struct Obj04501 *)p)->f90) { TIME_ICON_Delete(((struct Obj04501 *)p)->f90); ((struct Obj04501 *)p)->f90=0; } ((struct Obj04501 *)p)->f90=TIME_ICON_CreateNode(((struct Obj04501 *)p)->f88,((struct Obj04501 *)p)->f48,15,16,((struct Obj04501 *)p)->fB0); }
+void PDWACC_MESSAGE_RestartTimeIcon(char *p) { if(((struct Obj04501 *)p)->f90) { TIME_ICON_Delete(((struct Obj04501 *)p)->f90); ((struct Obj04501 *)p)->f90=0; } ((struct Obj04501 *)p)->f90=TIME_ICON_CreateNode(((struct Obj04501 *)p)->f88,((struct Obj04501 *)p)->f48,15,16,((struct Obj04501 *)p)->fB0); }

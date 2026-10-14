@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A08
+ * function: PALETTE_ANIME_Restore
  * address:  0x021C2A08
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C2D88.
+ * Tail-call veneer: branch to PALETTE_ANIME_RestoreImpl.
  *
  * symbols:
- *   func_021C2D88  0x021C2D88  thumb  ov217
+ *   PALETTE_ANIME_RestoreImpl  0x021C2D88  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021C2D88(char *p);
+extern int PALETTE_ANIME_RestoreImpl(char *p);
 
-int func_021C2A08(char *p)
+int PALETTE_ANIME_Restore(char *p)
 {
-    return func_021C2D88(p);
+    return PALETTE_ANIME_RestoreImpl(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02205768
+ * function: BTLV_INPUT_GetNeighbourIndex
  * address:  0x02205768
  * packet:   pkt_ov094_02205768
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  */
-int func_02205768(int a, int b)
+int BTLV_INPUT_GetNeighbourIndex(int a, int b)
 {
     if (a == 0) {
         return 0x1d00;

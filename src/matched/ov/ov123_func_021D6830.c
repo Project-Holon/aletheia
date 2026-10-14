@@ -1,5 +1,5 @@
 /*
- * function: func_021D6830
+ * function: GSYNC_DISP_UpdateParticle
  * address: 0x021D6830
  * packet: pkt_ov123_021D6830
  * region: ov123
@@ -15,7 +15,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorScale 0x0204B5C0 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
- *   func_021D679C 0x021D679C thumb ov123
+ *   GSYNC_DISP_HideParticle 0x021D679C thumb ov123
  *   func_020056EC 0x020056EC thumb
  */
 typedef unsigned short u16;
@@ -36,9 +36,9 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 typedef unsigned char  u8;
-extern void func_021D679C(u8 *p);
+extern void GSYNC_DISP_HideParticle(u8 *p);
 extern u32 func_020056EC(u32 range);
-void func_021D6830(struct Record *p)
+void GSYNC_DISP_UpdateParticle(struct Record *p)
 {
     struct Pos pos;
     struct Pair scale;
@@ -61,10 +61,10 @@ void func_021D6830(struct Record *p)
             CLACT_GetActorScale(p->h, &scale);
             scale.x -= 16;
             scale.y -= 16;
-            if (scale.x < 0 || scale.y < 0) func_021D679C((u8 *)p);
+            if (scale.x < 0 || scale.y < 0) GSYNC_DISP_HideParticle((u8 *)p);
             else CLACT_SetActorScale(p->h, &scale);
         }
-        if (pos.y > 50) func_021D679C((u8 *)p);
+        if (pos.y > 50) GSYNC_DISP_HideParticle((u8 *)p);
     } else p->g = 1;
     if (p->g == 0) {
         p->a += (u16)(func_020056EC(12) + 200);

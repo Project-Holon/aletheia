@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF7C
+ * function: GURU2_RECEIPT_UnionAppNoop
  * address: 0x021DCF7C
  * packet: pkt_ov137_021DCF7C
  * region: ov137
@@ -7,6 +7,6 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * extent: two zero alignment bytes before func_021DCF80.
+ * extent: two zero alignment bytes before GURU2_RECEIPT_ProcMain.
  */
-void func_021DCF7C(void) {}
+void GURU2_RECEIPT_UnionAppNoop(void) {}

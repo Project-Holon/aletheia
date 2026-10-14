@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionTimeLimitHours
+ * function: SCRCMD_RESEARCH_GetMissionTimeLimitHours
  * address: 0x0216BBC4
  * packet: pkt_ov010_0216BBC4
  * region: ov010
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 sMissionTimeLimitHours[];
-int FIELD_G3D_MAP_GetMissionTimeLimitHours(int index)
+int SCRCMD_RESEARCH_GetMissionTimeLimitHours(int index)
 {
     return *(const u8 *)((u32)sMissionTimeLimitHours + (u32)index * 7u);
 }

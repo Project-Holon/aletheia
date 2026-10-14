@@ -28,7 +28,7 @@
  *   4. g_021F6F90.p_parm is read twice at +0x02E0/+0x02E4 -- once for the
  *      case-0x0F `contSend` ternary and once for the WM_StartMPEx argument
  *      list.  mwccarm CSEs the two plain reads into one; the first is
- *      spelled `*(char *volatile *)(d_021F6F90 + 0xC)` to defeat the CSE
+ *      spelled `*(char *volatile *)(gMbWm + 0xC)` to defeat the CSE
  *      (rule 4d's volatile-pointer lever), which restores the load and the
  *      4-byte extent.  A second alias symbol for 0x021F6F90 is worse (2012).
  *   5. The inner wlCmdID switch of case 0x80 ends in `break;`, not
@@ -52,7 +52,7 @@
  *   WM_SetPortCallback               0x0208eb0c arm
  *   WM_SetIndCallback                0x0208eac8 arm
  *   OS_Terminate                     0x02088234 arm
- *   d_021F6F90                       0x021f6f90 data ov107
+ *   gMbWm                       0x021f6f90 data ov107
  *   MBi_ParentCallback               0x021f46c8 arm ov107
  *   mbi_life_mp                      0x021f6e58 data ov107
  *
@@ -90,7 +90,7 @@ struct MB_CommCommonWork {
     int is_started_ex;
 };
 
-extern char d_021F6F90[];
+extern char gMbWm[];
 extern struct MBiLife mbi_life_mp;
 
 extern void MBi_OnInitializeDone(void);
@@ -122,7 +122,7 @@ static void MBi_ParentCallback(void *arg)
     switch (buf->apiid) {
     case 0x00:
         if (buf->errcode != 0) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
@@ -130,21 +130,21 @@ static void MBi_ParentCallback(void *arg)
         return;
     case 0x1D:
         if (buf->errcode != 0) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
-        MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, *(char **)(d_021F6F90 + 0xC)));
+        MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, *(char **)(gMbWm + 0xC)));
         return;
     case 0x07:
-        callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+        callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
         callback(0x15, arg);
         MBi_CheckWmErrcode(0x19, WM_SetBeaconIndication(MBi_ParentCallback, 1));
         return;
     case 0x19:
-        if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0) {
+        if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) == 0) {
             if (buf->errcode != 0) {
-                callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+                callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
                 callback(0x100, arg);
                 return;
             }
@@ -152,8 +152,8 @@ static void MBi_ParentCallback(void *arg)
             return;
         }
         if (buf->errcode != 0) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 0;
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) = 0;
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
@@ -161,28 +161,28 @@ static void MBi_ParentCallback(void *arg)
         return;
     case 0x08:
         if (buf->errcode != 0) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
         switch (*(u16 *)((char *)arg + 8)) {
         case 0x00:
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) = 0;
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 0;
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x52A) = 0;
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x528) = 0;
             return;
         case 0x07:
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 1)
+            if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) == 1)
                 return;
             f = 1;
             bit = *(u16 *)((char *)arg + 0x10);
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) |= (u16)(f << bit);
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x52A) |= (u16)(f << bit);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0, arg);
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) == 0 && ((struct MB_CommCommonWork *)*(char **)(d_021F6F90 + 0x10))->start_mp_busy == 0) {
-                ((struct MB_CommCommonWork *)*(char **)(d_021F6F90 + 0x10))->start_mp_busy = f;
-                f = (*(u16 *)(*(char *volatile *)(d_021F6F90 + 0xC) + 0x52C) != 0) ? 0 : f;
+            if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x528) == 0 && ((struct MB_CommCommonWork *)*(char **)(gMbWm + 0x10))->start_mp_busy == 0) {
+                ((struct MB_CommCommonWork *)*(char **)(gMbWm + 0x10))->start_mp_busy = f;
+                f = (*(u16 *)(*(char *volatile *)(gMbWm + 0xC) + 0x52C) != 0) ? 0 : f;
                 {
-                    char *parm = *(char **)(d_021F6F90 + 0xC);
+                    char *parm = *(char **)(gMbWm + 0xC);
                     MBi_CheckWmErrcode(0x0E, WM_StartMPEx(MBi_ParentCallback,
                         *(u16 **)(parm + 0x504),
                         *(u16 *)(parm + 0x51A),
@@ -193,50 +193,50 @@ static void MBi_ParentCallback(void *arg)
                 return;
             }
             if (MBi_IsSendEnabled()) {
-                callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+                callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
                 callback(0x19, 0);
             }
             return;
         case 0x09:
             bit = *(u16 *)((char *)arg + 0x10);
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) &= (u16)~(1 << bit);
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x52A) &= (u16)~(1 << bit);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(1, arg);
             return;
         case 0x02:
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) != 1) {
-                callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) != 1) {
+                callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
                 callback(0x1C, arg);
             }
             return;
         case 0x1A:
             return;
         default:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
     case 0x0E:
-        ((struct MB_CommCommonWork *)*(char **)(d_021F6F90 + 0x10))->start_mp_busy = 0;
+        ((struct MB_CommCommonWork *)*(char **)(gMbWm + 0x10))->start_mp_busy = 0;
         switch (buf->wlCmdID) {
         case 0x0A:
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 1;
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) != 0)
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x528) = 1;
+            if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) != 0)
                 return;
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x19, 0);
             return;
         case 0x0B:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(3, *(void **)((char *)arg + 8));
             return;
         default:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
     case 0x0F:
-        work = *(char **)(d_021F6F90 + 0x10);
+        work = *(char **)(gMbWm + 0x10);
         if (*(u32 *)(work + 0x74C8) != 0) {
             n = 0;
             for (i = 0; i < 15; i++) {
@@ -249,47 +249,47 @@ static void MBi_ParentCallback(void *arg)
             if (n == 1)
                 OS_SpinWaitSysCycles(6500);
         }
-        *(u8 *)(*(char **)(d_021F6F90 + 0xC) + 0x50C) = 0;
+        *(u8 *)(*(char **)(gMbWm + 0xC) + 0x50C) = 0;
         if (buf->errcode == 0) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(2, arg);
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0) {
-                callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) == 0) {
+                callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
                 callback(0x19, 0);
             }
             return;
         }
         if (buf->errcode == 0x0A) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x2A, arg);
             return;
         }
-        callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+        callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
         callback(0x13, arg);
-        if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0) {
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+        if (*(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) == 0) {
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x19, 0);
         }
         return;
     case 0x01:
-        work = *(char **)(d_021F6F90 + 0x10);
+        work = *(char **)(gMbWm + 0x10);
         if (((struct MB_CommCommonWork *)work)->is_started_ex == 0) {
             if (buf->errcode != 0) {
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 0;
-                callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+                *(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) = 0;
+                callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
                 callback(0x100, arg);
                 return;
             }
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) = 0;
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 0;
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x52A) = 0;
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x528) = 0;
             MBi_CheckWmErrcode(2, WM_End(MBi_ParentCallback));
             return;
         }
         WM_SetPortCallback(1, 0, 0);
         WM_SetIndCallback(0);
         if (buf->errcode != 0) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 0;
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) = 0;
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
@@ -297,8 +297,8 @@ static void MBi_ParentCallback(void *arg)
         return;
     case 0x02:
         if (buf->errcode != 0) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 0;
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            *(u16 *)(*(char **)(gMbWm + 0xC) + 0x526) = 0;
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x100, arg);
             return;
         }
@@ -307,24 +307,24 @@ static void MBi_ParentCallback(void *arg)
     case 0x0D:
         if (buf->errcode != 0)
             return;
-        *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) &= (u16)~*(u16 *)((char *)arg + 0xA);
+        *(u16 *)(*(char **)(gMbWm + 0xC) + 0x52A) &= (u16)~*(u16 *)((char *)arg + 0xA);
         return;
     case 0x80:
         switch (*(u16 *)((char *)arg + 4)) {
         case 0x10:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x1D, arg);
             break;
         case 0x11:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x1F, arg);
             break;
         case 0x12:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x20, arg);
             break;
         case 0x13:
-            callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+            callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
             callback(0x21, arg);
             break;
         case 0x17:
@@ -335,7 +335,7 @@ static void MBi_ParentCallback(void *arg)
         }
         break;
     default:
-        callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+        callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
         callback(0x100, arg);
         return;
     }

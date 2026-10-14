@@ -13,14 +13,14 @@
  * symbols:
  *   func_021E2F98 0x021E2F98 thumb ov183
  *   func_021E2E30 0x021E2E30 thumb ov183
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF698 0x021FF698 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetVideoReply 0x021FF698 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_SetData 0x0200B938 thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
@@ -46,12 +46,12 @@ struct Big;
 struct SOCLResource;
 extern void func_021E2F98(struct SOCLResource *resource);
 extern void func_021E2E30(char *,int,int);
-extern void func_021FE784(int,int,int,int);extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int,int,int,int);extern int BR_FADE_GetResult(int *);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *p);
-extern int func_021FF72C(char *p, int *out);
-extern int func_021FF698(char *p, int a1, int *out);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *p);
+extern int BR_NET_PollErrorMessage(char *p, int *out);
+extern int BR_NET_GetVideoReply(char *p, int a1, int *out);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,void *);
@@ -76,21 +76,21 @@ void func_021E26B8(int *task,State *state,char *p) {
     case 0:
         func_021E2F98((struct SOCLResource *)(&cb));arg=*(char **)(p+0x3c);*(Pair *)(p+0x4c)=cb;
         func_021E2E30((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
-    case 1:func_021FE784(**(int **)(p+0x3c),2,3,0);*state=2;break;
-    case 2:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=3;break;
+    case 1:BR_FADE_Start(**(int **)(p+0x3c),2,3,0);*state=2;break;
+    case 2:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=3;break;
     case 3:
         MI_CpuFill8(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(p+0x3c)+0x1c);
-        func_021FF54C(*(void **)(*(char **)(p+0x3c)+12),3,(const int *)req);
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0x3c)+12),3,(const int *)req);
         *(u32 *)(p+0x44)=0;*state=4;break;
     case 4:
         ++*(u32 *)(p+0x44);
-        if(func_021FF648(*(void **)(*(char **)(p+0x3c)+12)) && *(u32 *)(p+0x44)>96) {
+        if(BR_NET_IsIdle(*(void **)(*(char **)(p+0x3c)+12)) && *(u32 *)(p+0x44)>96) {
             func_021FD860(*(int *)(p+0x30),0,0);*state=5;
         }break;
     case 5:
-        result=func_021FF72C(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
+        result=BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
         if(result==0) {
-            if(func_021FF698(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
+            if(BR_NET_GetVideoReply(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
                 BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0x3c)+0x14)));
                 found=0;value=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
                 i=1;arg=*(char **)(p+0x3c);
@@ -107,11 +107,11 @@ void func_021E26B8(int *task,State *state,char *p) {
             TOUCHPANEL_GetPointTrg(&x,&y);click.a=x;click.b=y;func_021FD860(*(int *)(p+0x34),1,&click);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
-    case 6:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=7;break;
-    case 7:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=8;break;
+    case 6:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=7;break;
+    case 7:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=8;break;
     case 8:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD73C((int *)task,(int)func_021E2910);break;
-    case 10:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=11;break;
-    case 11:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=12;break;
+    case 10:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=11;break;
+    case 11:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=12;break;
     case 12:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD744(task);break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6678
+ * function: GSYNC_DISP_UpdateBlendFade
  * address: 0x021D6678
  * packet: pkt_ov123_021D6678
  * region: ov123
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *, int, int, int, int);
-void func_021D6678(u8 *p)
+void GSYNC_DISP_UpdateBlendFade(u8 *p)
 {
     int v;
     if (((struct Obj03267 *)p)->f4558 != 0) {

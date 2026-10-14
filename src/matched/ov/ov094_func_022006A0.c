@@ -1,5 +1,5 @@
 /*
- * function: func_022006A0
+ * function: BTLV_MCSS_MakeAddWorkFromTrainer
  * address:  0x022006A0
  * packet:   pkt_ov094_022006A0
  * region:   ov094
@@ -18,7 +18,7 @@
 struct Stats;
 extern void MCSS_TOOL_MakeAddWorkFromTrainer(void *p, struct Stats *out, void *q);
 
-void func_022006A0(void *p, void *out, int flags)
+void BTLV_MCSS_MakeAddWorkFromTrainer(void *p, void *out, int flags)
 {
     MCSS_TOOL_MakeAddWorkFromTrainer(p, out, (void *)((flags & 1) == 0));
 }

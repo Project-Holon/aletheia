@@ -1,5 +1,5 @@
 /*
- * function: func_021F86A8
+ * function: WORLDTRADE_DEPOSIT_CreateSpeciesMenu
  * address: 0x021F86A8
  * packet: pkt_ov135_021F86A8
  * region: ov135
@@ -21,7 +21,7 @@ extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Slot;
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag)
+int WORLDTRADE_DEPOSIT_CreateSpeciesMenu(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag)
 {
     int i;
     int size;

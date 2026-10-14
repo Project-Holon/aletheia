@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE32C",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette",
    "address": "0x021BE32C",
    "kind": "game",
    "region": "ov208",

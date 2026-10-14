@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0D4
+ * function: COMM_TVT_SYS_SetEndRequested
  * address:  0x021BE0D4
  * packet:   pkt_ov172_021BE0D4
  * region:   ov172
@@ -12,13 +12,13 @@
  * symbols:
  *   (none)
  *
- * Field setter, u32 at +0x2c (unlabelled; follows the getter func_021BE0D0).
+ * Field setter, u32 at +0x2c (unlabelled; follows the getter COMM_TVT_SYS_GetEndRequested).
  */
 #include "../include/Obj24135.h"
 
 typedef unsigned long u32;
 
-void func_021BE0D4(void *p, u32 v)
+void COMM_TVT_SYS_SetEndRequested(void *p, u32 v)
 {
     ((struct Obj24135 *)p)->f2C = v;
 }

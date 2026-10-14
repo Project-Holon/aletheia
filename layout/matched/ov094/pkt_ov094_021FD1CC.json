@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD1CC",
+   "name": "BTLV_EFFVM_ParticleStartCallback",
    "address": "0x021FD1CC",
    "kind": "game",
    "region": "ov094",

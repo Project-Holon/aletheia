@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0714
+ * function: ZUKAN_DETAIL_AREA_UpdatePrintQueues
  * address:  0x021C0714
  * packet:   pkt_ov208_021C0714
  * region:   ov208
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   ov208_func_021C0740  0x021C0740  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_FlushPrintWindow  0x021C0740  thumb  ov208
  */
 
 typedef unsigned char  u8;
@@ -21,14 +21,14 @@ typedef int            s32;
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void ov208_func_021C0740(u16 *heap, u8 *p, int key, u8 i);
+extern void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, int key, u8 i);
 
-void ov208_func_021C0714(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdatePrintQueues(u16 *heap, u8 *p, int key)
 {
     u8 i;
 
     for (i = 0; i < 4; i++) {
         PRINTSYS_QUE_Main((struct PrintSys *)(((u32 *)(p + 0x34))[i]));
-        ov208_func_021C0740(heap, p, key, i);
+        ZUKAN_DETAIL_AREA_FlushPrintWindow(heap, p, key, i);
     }
 }

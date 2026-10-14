@@ -1,5 +1,5 @@
 /*
- * function: func_021797F8
+ * function: IRCNET_CbReturnTrue
  * address:  0x021797F8
  * packet:   pkt_021797F8
  * region:   ov015
@@ -15,4 +15,4 @@
  *   (none)
  */
 
-int func_021797F8(void) { return 1; }
+int IRCNET_CbReturnTrue(void) { return 1; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF0B8
+ * function: POKETRADE_NEGO_StepStartMonCheck
  * address: 0x021DF0B8
  * packet: pkt_ov119_021DF0B8
  * region: ov119
@@ -17,11 +17,11 @@
  *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
  *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
  *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
- *   func_021D89EC 0x021D89EC thumb ov119
+ *   POKETRADE_PROC_IsMonValid 0x021D89EC thumb ov119
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021DEEFC 0x021DEEFC thumb ov119
- *   func_021DEF1C 0x021DEF1C thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_NEGO_AbortHttpRequest 0x021DEEFC thumb ov119
+ *   POKETRADE_NEGO_StepPollMonCheck 0x021DEF1C thumb ov119
  */
 #include "../include/Obj02827.h"
 #include "../include/Obj22746.h"
@@ -37,19 +37,19 @@ extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
 extern void NHTTP_RAP_AppendPostData(u8 *,int,int);
 extern int NHTTP_RAP_CreatePostRequest(u8 *);
 extern int NHTTP_RAP_StartConnection(u8 *);
-extern int func_021D89EC(const u8 *p);
+extern int POKETRADE_PROC_IsMonValid(const u8 *p);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_021D8E84(void *,int);
-extern void func_021DEEFC(void **p);
-extern void func_021DEF1C(u8 *p);
-void func_021DF0B8(char *p) {
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_NEGO_AbortHttpRequest(void **p);
+extern void POKETRADE_NEGO_StepPollMonCheck(u8 *p);
+void POKETRADE_NEGO_StepStartMonCheck(char *p) {
  int n=0;
  int i;
  DWC_RAPCOMMON_CreateSubHeapUnlimited(13,0x10000,((struct Obj02827 *)p)->f5F4);
  *(u8 * *)&((struct Obj02827 *)p)->f0=NHTTP_RAP_Create(((struct Obj02827 *)p)->f5F4,func_0200853C(((struct Obj02827 *)p)->f830),((struct Obj22746 *)(*(char * *)&((struct Obj02827 *)p)->f8))->f24);
- DWC_RAP_SetErrorCallback((int)func_021DEEFC,(int)p);
- for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+0xfe4+i*4))) n++;
+ DWC_RAP_SetErrorCallback((int)POKETRADE_NEGO_AbortHttpRequest,(int)p);
+ for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(*(void **)(p+0xfe4+i*4))) n++;
  NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj02827 *)p)->f0,((struct Obj02827 *)p)->f5F4,POKE_TOOL_GetPartyParamSize()*n,2);
- for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),POKE_TOOL_GetPartyParamSize());
- NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct Obj02827 *)p)->f0);NHTTP_RAP_StartConnection(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021D8E84(p,(int)func_021DEF1C);
+ for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid(*(void **)(p+i*4+0xfe4))) NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),POKE_TOOL_GetPartyParamSize());
+ NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct Obj02827 *)p)->f0);NHTTP_RAP_StartConnection(*(u8 * *)&((struct Obj02827 *)p)->f0);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepPollMonCheck);
 }

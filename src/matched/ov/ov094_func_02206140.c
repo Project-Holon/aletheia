@@ -1,5 +1,5 @@
 /*
- * function: func_02206140
+ * function: BTLV_INPUT_ProcessButtonSelection
  * address:  0x02206140
  * packet:   pkt_ov094_02206140
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02206950  0x02206950  thumb
- *   func_022064CC  0x022064CC  thumb
- *   func_02206908  0x02206908  thumb
- *   func_02206B14  0x02206B14  thumb
- *   func_02206B30  0x02206B30  thumb
- *   func_02206B58  0x02206B58  thumb
+ *   BTLV_INPUT_UpdateWazaRow  0x02206950  thumb
+ *   BTLV_INPUT_UpdateButtonActors  0x022064CC  thumb
+ *   BTLV_INPUT_IsWazaSelectable  0x02206908  thumb
+ *   BTLV_INPUT_PlayCancelSe  0x02206B14  thumb
+ *   BTLV_INPUT_PlaySelectSe  0x02206B30  thumb
+ *   BTLV_INPUT_PlayCursorSe  0x02206B58  thumb
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   KEY_GetCont  0x0203630C  arm  arm9
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
@@ -66,14 +66,14 @@ extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 struct Bank;
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
-extern void func_02206950(W *p);
-extern void func_022064CC(W *p, u8 (*tab)[4], s8 (*rows)[12]);
-extern int func_02206908(char *p, char *q, int i);
-extern void func_02206B14(char *p);
-extern void func_02206B30(char *p);
-extern void func_02206B58(char *p);
+extern void BTLV_INPUT_UpdateWazaRow(W *p);
+extern void BTLV_INPUT_UpdateButtonActors(W *p, u8 (*tab)[4], s8 (*rows)[12]);
+extern int BTLV_INPUT_IsWazaSelectable(char *p, char *q, int i);
+extern void BTLV_INPUT_PlayCancelSe(char *p);
+extern void BTLV_INPUT_PlaySelectSe(char *p);
+extern void BTLV_INPUT_PlayCursorSe(char *p);
 
-int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg6)
+int BTLV_INPUT_ProcessButtonSelection(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg6)
 {
     int keys;
     int cont;
@@ -90,8 +90,8 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
         keys &= ~2;
     if (p->redraw) {
         p->redraw = 0;
-        func_02206950(p);
-        func_022064CC(p, c->tab, rows);
+        BTLV_INPUT_UpdateWazaRow(p);
+        BTLV_INPUT_UpdateButtonActors(p, c->tab, rows);
         CLACT_SetUnitDrawEnable(p->f17c, 1);
     }
     v = -1;
@@ -99,7 +99,7 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
         *p->f274 = 0;
         p->cur = 0;
         p->prev = 0xF;
-        func_022064CC(p, c->tab, rows);
+        BTLV_INPUT_UpdateButtonActors(p, c->tab, rows);
         return ret;
     }
     if (keys == 0)
@@ -137,16 +137,16 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
             if (ret < 4 && (cont & 0x200) && p->f58 == 2 && arg6 == 1)
                 goto draw;
             if (p->f25a[ret] == 1) {
-                if (func_02206908((char *)p, (char *)c, ret) == 0)
-                    func_02206B30((char *)p);
+                if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, ret) == 0)
+                    BTLV_INPUT_PlaySelectSe((char *)p);
                 else
-                    func_02206B58((char *)p);
+                    BTLV_INPUT_PlayCursorSe((char *)p);
                 done = 1;
             } else if (ret < 4 && (cont & 0x200) && p->f58 == 2 && p->f262[ret] == 1) {
-                func_02206B30((char *)p);
+                BTLV_INPUT_PlaySelectSe((char *)p);
             }
         } else if (v != -128) {
-            func_02206B14((char *)p);
+            BTLV_INPUT_PlayCancelSe((char *)p);
             if (v < 0) {
                 if (-v != p->prev && p->prev != 0xF)
                     v = (s8)p->prev;
@@ -166,32 +166,32 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
             p->cur = v;
             if (keys == 2) {
                 if (v != 0xF)
-                    func_02206B58((char *)p);
+                    BTLV_INPUT_PlayCursorSe((char *)p);
                 ret = v;
                 done = 1;
             }
         }
     } else if (keys & 0xcf3) {
         *p->f274 = 1;
-        func_02206950(p);
-        func_02206B14((char *)p);
+        BTLV_INPUT_UpdateWazaRow(p);
+        BTLV_INPUT_PlayCancelSe((char *)p);
     }
 draw:
-    func_022064CC(p, c->tab, rows);
+    BTLV_INPUT_UpdateButtonActors(p, c->tab, rows);
 end:
     if (done == 1) {
         switch (p->f58) {
         case 2:
-            if (func_02206908((char *)p, (char *)c, p->cur) == 0)
+            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, p->cur) == 0)
                 p->f266[p->f27c] = p->f26c[p->cur];
         case 1:
         case 5:
-            if (func_02206908((char *)p, (char *)c, p->cur) == 0)
+            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, p->cur) == 0)
                 p->tbl[p->f27c][p->f58] = p->cur;
             p->b1 = 1;
             break;
         case 3:
-            if (func_02206908((char *)p, (char *)c, ret) == 0)
+            if (BTLV_INPUT_IsWazaSelectable((char *)p, (char *)c, ret) == 0)
                 p->tbl[p->f27c][p->f58] = p->cur | (p->tbl[p->f27c][2] << 4);
             p->b1 = 1;
             break;

@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
- *   func_021F823C 0x021F823C thumb ov094
- *   func_021F7EB4 0x021F7EB4 thumb ov094
- *   func_021F7998 0x021F7998 thumb ov094
- *   func_021F827C 0x021F827C thumb ov094
+ *   BTLV_EFFECT_CreatePartyBallBar 0x021F823C thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_IsPartyBallBarActive 0x021F827C thumb ov094
  *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   BTL_MAIN_IsOwnClientSecondTeam 0x021B8FE4 thumb ov093
  *   BTL_MAIN_GetSlotFromViewPos 0x021B8ED8 thumb ov093
@@ -22,11 +22,11 @@
  *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   BTLV_SCU_StartMessage 0x021ECEB8 thumb ov093
  *   BTLV_SCU_UpdateMessage 0x021ECF68 thumb ov093
- *   func_021F8260 0x021F8260 thumb ov094
+ *   BTLV_EFFECT_DeletePartyBallBar 0x021F8260 thumb ov094
  *   BTLV_SCU_StartMsgWinFadeOut 0x021ED798 thumb ov093
  *   BTLV_SCU_UpdateMsgWinFade 0x021ED814 thumb ov093
  *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
- *   func_021F7EE8 0x021F7EE8 thumb ov094
+ *   BTLV_EFFECT_SetPokeSpriteKey 0x021F7EE8 thumb ov094
  *   BTLV_SCU_ShowMonSlot 0x021EDA04 thumb ov093
  */
 #include "../include/Obj00027.h"
@@ -35,10 +35,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BTLV_SCU_GetBallStates(u8 *, u32 *, u32, u32, u32);
-extern void func_021F823C(u32 *);
-extern int func_021F7EB4(void);
-extern void func_021F7998(u32);
-extern int func_021F827C(u32);
+extern void BTLV_EFFECT_CreatePartyBallBar(u32 *);
+extern int BTLV_EFFECT_IsBusy(void);
+extern void BTLV_EFFECT_StartEffect(u32);
+extern int BTLV_EFFECT_IsPartyBallBarActive(u32);
 extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern u8 BTL_MAIN_IsOwnClientSecondTeam(u8 *);
 extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
@@ -52,11 +52,11 @@ struct E;
 struct S;
 struct T;
 extern int BTLV_SCU_UpdateMessage(struct T *p);
-extern void func_021F8260(u32 i);
+extern void BTLV_EFFECT_DeletePartyBallBar(u32 i);
 extern void BTLV_SCU_StartMsgWinFadeOut(struct S *s);
 extern int BTLV_SCU_UpdateMsgWinFade(struct S *s);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
-extern void func_021F7EE8(void *, int);
+extern void BTLV_EFFECT_SetPokeSpriteKey(void *, int);
 extern void BTLV_SCU_ShowMonSlot(struct E *e);
 int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
 {
@@ -70,17 +70,17 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
     case 0:
         if (a < c) BTLV_SCU_GetBallStates(p, buf, a, c, 0);
         else BTLV_SCU_GetBallStates(p, buf, c, a, 0);
-        func_021F823C(buf);
+        BTLV_EFFECT_CreatePartyBallBar(buf);
         (*state)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
-            func_021F7998(0x233);
+        if (!BTLV_EFFECT_IsBusy()) {
+            BTLV_EFFECT_StartEffect(0x233);
             (*state)++;
         }
         break;
     case 2:
-        if (!func_021F7EB4() && !func_021F827C(0)) {
+        if (!BTLV_EFFECT_IsBusy() && !BTLV_EFFECT_IsPartyBallBarActive(0)) {
             b[10] = 2;
             b[11] = 4;
             b[15] = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj00027 *)p)->f134);
@@ -98,7 +98,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
         break;
     case 3:
         if (BTLV_SCU_UpdateMessage((struct T *)p)) {
-            func_021F8260(0);
+            BTLV_EFFECT_DeletePartyBallBar(0);
             BTLV_SCU_StartMsgWinFadeOut((struct S *)(p + 0x154));
             (*state)++;
         }
@@ -106,9 +106,9 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
     case 4:
         if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154))) {
             winner = BTL_MAIN_IsOwnClientSecondTeam(*(u8 * *)&((struct Obj00027 *)p)->f134);
-            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(*(void **)b), b[10]);
-            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj01523 *)b)->f4), b[11]);
-            func_021F7998(0x234);
+            BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(*(void **)b), b[10]);
+            BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(((struct Obj01523 *)b)->f4), b[11]);
+            BTLV_EFFECT_StartEffect(0x234);
             BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, 11, 1, (b + winner)[12]);
             BTLV_SCU_StartMessage(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
@@ -121,7 +121,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
         }
         break;
     case 6:
-        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !func_021F7EB4()) {
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !BTLV_EFFECT_IsBusy()) {
             BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + b[8] * 12));
             BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + b[9] * 12));
             return 1;

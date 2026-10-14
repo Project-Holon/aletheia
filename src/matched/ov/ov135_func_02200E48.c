@@ -1,5 +1,5 @@
 /*
- * function: func_02200E48
+ * function: WORLDTRADE_SERVER_CreateWindows
  * address: 0x02200E48
  * packet: pkt_ov135_02200E48
  * region: ov135
@@ -30,7 +30,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
-void func_02200E48(u8 *p)
+void WORLDTRADE_SERVER_CreateWindows(u8 *p)
 {
     u32 w;
     ((struct Obj10594 *)p)->fD40 = BMP_WIN_Create(0, 2, 0x13, 0x1b, 4, 0xd, 1);

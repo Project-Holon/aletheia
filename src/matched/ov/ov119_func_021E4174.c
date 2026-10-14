@@ -1,5 +1,5 @@
 /*
- * function: func_021E4174
+ * function: POKETRADE_2D_ClearSummaryBackground
  * address: 0x021E4174
  * packet: pkt_ov119_021E4174
  * region: ov119
@@ -12,19 +12,19 @@
  *   func_02040618 0x02040618 arm
  *   func_020414EC 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
- *   func_021E6700 0x021E6700 thumb ov119
+ *   POKETRADE_2D_SetupSubBlend 0x021E6700 thumb ov119
  */
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_021E6700(void *);
+extern void POKETRADE_2D_SetupSubBlend(void *);
 extern void func_020414EC(u32 i);
 extern void func_02041B6C(u32 bit);
-void func_021E4174(char *p)
+void POKETRADE_2D_ClearSummaryBackground(char *p)
 {
     func_02040588(4, 0);
     func_02040618(4, 0, 0);
-    func_021E6700(p);
+    POKETRADE_2D_SetupSubBlend(p);
     func_020414EC(4);
     func_02041B6C(4);
 }

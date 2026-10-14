@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E380C",
+   "name": "POKETRADE_3D_FillTextureHeader",
    "address": "0x021E380C",
    "kind": "game",
    "region": "ov119",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C7360
+ * function: MB_SEQ_ClearMailDetailText
  * address: 0x021C7360
  * packet: pkt_ov136_021C7360
  * region: ov136
@@ -37,7 +37,7 @@ extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i)
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_020414EC(u32);
-void func_021C7360(u8 *p)
+void MB_SEQ_ClearMailDetailText(u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

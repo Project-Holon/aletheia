@@ -1,5 +1,5 @@
 /*
- * function: func_021C11A4
+ * function: CircleGraph_SetCenterDepth
  * address:  0x021C11A4
  * packet:   pkt_ov217_021C11A4
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1194  0x021C1194  thumb  ov217
+ *   CircleGraph_SetCenter  0x021C1194  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ struct Pos {
     s16 c;
 };
 
-extern void func_021C1194(u8 *p, struct Pos *v);
+extern void CircleGraph_SetCenter(u8 *p, struct Pos *v);
 
-void func_021C11A4(u8 *p, int a1)
+void CircleGraph_SetCenterDepth(u8 *p, int a1)
 {
     struct Pos v;
     s16 y = ((struct Obj14758 *)p)->f1B6;
@@ -35,5 +35,5 @@ void func_021C11A4(u8 *p, int a1)
     v.a = x;
     v.b = y;
     v.c = a1;
-    func_021C1194(p, &v);
+    CircleGraph_SetCenter(p, &v);
 }

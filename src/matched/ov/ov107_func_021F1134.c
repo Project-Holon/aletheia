@@ -1,5 +1,5 @@
 /*
- * function: func_021F1134
+ * function: MB_COMM_SYS_GetOfferFlagA
  * address:  0x021F1134
  * packet:   pkt_ov107_021F1134
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-int func_021F1134(Ov107Ctx *p)
+int MB_COMM_SYS_GetOfferFlagA(Ov107Ctx *p)
 {
     if (p->f24 & 0x40000000) {
         return 1;

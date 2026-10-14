@@ -1,5 +1,5 @@
 /*
- * function: func_021B746C
+ * function: HALL_OF_FAME_SetActorVisible
  * address:  0x021B746C
  * packet:   pkt_021B746C
  * region:   ov180
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 
-void func_021B746C(int *p, int i, int a)
+void HALL_OF_FAME_SetActorVisible(int *p, int i, int a)
 {
     int v = *(int *)((char *)p + i * 4 + 0x9048);
 

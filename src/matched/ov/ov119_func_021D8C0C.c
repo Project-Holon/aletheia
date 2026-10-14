@@ -1,5 +1,5 @@
 /*
- * function: func_021D8C0C
+ * function: POKETRADE_PROC_UpdateDragIcon
  * address: 0x021D8C0C
  * packet: pkt_ov119_021D8C0C
  * region: ov119
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021D8C0C(void *p) {
+void POKETRADE_PROC_UpdateDragIcon(void *p) {
  int x,y; s16 pos[2];
  if(((struct Obj06422 *)p)->fF60!=0) {
  if(TOUCHPANEL_GetPointCont((unsigned int *)(&x),(unsigned int *)(&y))!=0) {

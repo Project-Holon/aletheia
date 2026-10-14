@@ -8,8 +8,21 @@
 #define BTLV_GAUGE_BPP_MAX_HP 14
 #define BTLV_GAUGE_BPP_LEVEL 15
 #define BTLV_GAUGE_BPP_FORM 19
+#define BTLV_GAUGE_BPP_EXP 20
+
+/* Value ids of POKE_TOOL_GetPartyValue read by the battle view. */
+#ifndef BTLV_PARTY_VALUE_SPECIES
+#define BTLV_PARTY_VALUE_SPECIES 5
+#define BTLV_PARTY_VALUE_FORM 0x6f
+#define BTLV_PARTY_VALUE_HP 0xa0
+#define BTLV_PARTY_VALUE_MAX_HP 0xa1
+#endif
+#define BTLV_PARTY_VALUE_EXP 8
+#define BTLV_PARTY_VALUE_LEVEL 0x9e
+#define BTLV_PARTY_VALUE_NICKNAME 0x73
 
 /* Sound numbers. */
+#define BTLV_GAUGE_SE_EXP_TICK 0x56d
 #define BTLV_GAUGE_SE_LEVEL_UP 0x56e
 #define BTLV_GAUGE_BGM_LOW_HP 0x47a
 

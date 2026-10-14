@@ -1,5 +1,5 @@
 /*
- * function: func_021C19E4
+ * function: Yos_JPEGGetMemorySize
  * address:  0x021C19E4
  * packet:   pkt_ov172_021C19E4
  * region:   ov172
@@ -17,7 +17,7 @@
  *   _u32_div_f  0x0209C2B0  arm
  */
 
-unsigned long func_021C19E4(unsigned long width, unsigned long height, unsigned long sampling)
+unsigned long Yos_JPEGGetMemorySize(unsigned long width, unsigned long height, unsigned long sampling)
 {
     unsigned long i;
     unsigned long mx;

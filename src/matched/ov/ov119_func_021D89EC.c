@@ -1,5 +1,5 @@
 /*
- * function: func_021D89EC
+ * function: POKETRADE_PROC_IsMonValid
  * address:  0x021D89EC
  * packet:   pkt_ov119_021D89EC
  * region:   ov119
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-int func_021D89EC(const u8 *p)
+int POKETRADE_PROC_IsMonValid(const u8 *p)
 {
     int n;
     int i;

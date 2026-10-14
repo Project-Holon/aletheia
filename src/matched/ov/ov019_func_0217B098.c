@@ -15,7 +15,7 @@
  *   UNION_CHARA_CheckMemberUnique  0x0217B158  thumb  ov019
  *   UNION_CHARA_AddSlot  0x0217AFE4  thumb  ov019
  *   UNION_CHARA_SetNextAction  0x0217AE38  thumb  ov019
- *   func_0217F894  0x0217F894  thumb  ov019
+ *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
  */
@@ -48,7 +48,7 @@ struct ent;
 extern int UNION_CHARA_CheckMemberUnique(char *base, struct ent *excl, u8 *mac);
 extern u8 *UNION_CHARA_AddSlot(int, Obj *, Ent8 *, int, int, int *);
 extern int UNION_CHARA_SetNextAction(char *p, char v);
-extern int func_0217F894(void *p, char *q);
+extern int UNION_CHARA_IsWifiFriendBeacon(void *p, char *q);
 typedef unsigned int   u32;
 struct L0200EDC4;
 extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
@@ -71,7 +71,7 @@ void UNION_CHARA_AddBeaconMembers(int a, int b, int c, int d, Obj *e)
             e->slot[i][8] = 1;
             UNION_CHARA_SetNextAction((char *)e->slot[i], 0);
             if (i == 0) {
-                if (func_0217F894((void *)c, (char *)e) == 1)
+                if (UNION_CHARA_IsWifiFriendBeacon((void *)c, (char *)e) == 1)
                     UNION_EFF_AddIcon((char *)d, out, 0);
                 else if (func_0200EDC4((struct L0200EDC4 *)b, e->f5c) == 1)
                     UNION_EFF_AddIcon((char *)d, out, 1);

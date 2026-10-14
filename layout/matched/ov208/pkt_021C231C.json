@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C231C",
+   "name": "ZUKAN_DETAIL_AREA_ApplyBrightness",
    "address": "0x021C231C",
    "kind": "game",
    "region": "ov208",

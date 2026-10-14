@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8B6C",
+   "name": "BTLV_EFFECT_DeleteAllTasks",
    "address": "0x021F8B6C",
    "kind": "game",
    "region": "ov094",

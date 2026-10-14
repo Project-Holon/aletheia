@@ -16,7 +16,7 @@
  *   DWCi_CELLlDelete  0x021d4f60  arm  ov016
  *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
  *   gButtonWork  0x021de508  data
- *   g_021DE508_b  0x021DE508  data
+ *   gMemButton  0x021DE508  data
  */
 
 #include "../include/G_tagMEMBTN.h"
@@ -31,7 +31,7 @@ extern void DWCi_TSKlDelete(int kind, void *task);
 typedef unsigned char  u8;
 extern void DWCi_CELLlDelete(u8 *p);
 extern void DWCi_HEAPlFree_(void **mem);
-extern struct tagMEMBTN *g_021DE508_b;
+extern struct tagMEMBTN *gMemButton;
 
 void func_021BCEE0(void *task)
 {
@@ -45,5 +45,5 @@ void func_021BCEE0(void *task)
             DWCi_CELLlDelete(gButtonWork->cellButton[i]);
     }
     DWCi_CELLlDelete(gButtonWork->cellBack);
-    DWCi_HEAPlFree_((void **)&g_021DE508_b);
+    DWCi_HEAPlFree_((void **)&gMemButton);
 }

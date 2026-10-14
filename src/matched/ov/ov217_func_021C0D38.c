@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D38
+ * function: RESEARCH_COMMON_StartPaletteAnimeImpl
  * address:  0x021C0D38
  * packet:   pkt_ov217_021C09D8
  * region:   ov217
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled 22-byte ov217 leaf in a .word run; tail-calls func_021C29F8 with
+ * Unlabelled 22-byte ov217 leaf in a .word run; tail-calls PALETTE_ANIME_Start with
  * two ov217 data-table loads indexed by i*0x14.  Middle of the
  * func_021BA31C blocker chain.
  *
  * symbols:
- *   func_021C29F8  0x021C29F8  thumb  ov217
+ *   PALETTE_ANIME_Start  0x021C29F8  thumb  ov217
  *   d_021C3F5C     0x021C3F5C  data   a4
  *   d_021C3F60     0x021C3F60  data   a1
  *
@@ -25,13 +25,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021C29F8(u8 *p, u32 b, u16 c);
+extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
 extern u8 d_021C3F5C[];
 extern u8 d_021C3F60[];
 
-void func_021C0D38(u8 *p, u32 i)
+void RESEARCH_COMMON_StartPaletteAnimeImpl(u8 *p, u32 i)
 {
-    func_021C29F8((u8 *)(*(u32 *)(p + i * 4 + 0x2c)),
+    PALETTE_ANIME_Start((u8 *)(*(u32 *)(p + i * 4 + 0x2c)),
                   *(u32 *)(d_021C3F5C + i * 0x14),
                   *(u16 *)(d_021C3F60 + i * 0x14));
 }

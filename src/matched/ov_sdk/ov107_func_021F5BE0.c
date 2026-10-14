@@ -1,5 +1,5 @@
 /*
- * function: func_021F5BE0
+ * function: MBi_StartCommon
  * address:  0x021F5BE0
  * packet:   pkt_ov107_021F5BE0
  * region:   ov107
@@ -37,7 +37,7 @@ extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern int WM_SetIndCallback(void *callback);
 extern void func_021F4628(void);
 
-int func_021F5BE0(void)
+int MBi_StartCommon(void)
 {
     int errcode = 0;
 

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DD3F4, func_021DD498
+ * function: DENDOU_VIEW_StateRotate, DENDOU_VIEW_StateStartExit
  * address: 0x021DD3F4
  * packet: pkt_ov171_021DD3F4
  * region: ov171
@@ -9,29 +9,29 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD774 0x021DD774 thumb ov171
- *   func_021DCBE8 0x021DCBE8 thumb ov171
- *   func_021DDC28 0x021DDC28 thumb ov171
- *   func_021DCBA4 0x021DCBA4 thumb ov171
- *   func_021DD4D0 0x021DD4D0 thumb ov171
+ *   DENDOU_VIEW_AdvanceRotation 0x021DD774 thumb ov171
+ *   DENDOU_VIEW_IsPaletteFadeBusy 0x021DCBE8 thumb ov171
+ *   DENDOU_VIEW_DrawMemberInfo 0x021DDC28 thumb ov171
+ *   DENDOU_VIEW_ApplyPaletteFade 0x021DCBA4 thumb ov171
+ *   DENDOU_VIEW_StartWipeOut 0x021DD4D0 thumb ov171
  */
 #include "../include/Obj00142.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021DD774(char *);
-extern int func_021DCBE8(u8 *p);
-extern void func_021DDC28(u8 *p);
-extern void func_021DCBA4(char *);
-extern int func_021DD4D0(u8 *p, int value);
-int func_021DD3F4(char *p)
+extern int DENDOU_VIEW_AdvanceRotation(char *);
+extern int DENDOU_VIEW_IsPaletteFadeBusy(u8 *p);
+extern void DENDOU_VIEW_DrawMemberInfo(u8 *p);
+extern void DENDOU_VIEW_ApplyPaletteFade(char *);
+extern int DENDOU_VIEW_StartWipeOut(u8 *p, int value);
+int DENDOU_VIEW_StateRotate(char *p)
 {
     unsigned i;
-    if (!func_021DD774(p)) {
+    if (!DENDOU_VIEW_AdvanceRotation(p)) {
         for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i)
             *(u8 *)(p + i + 0xb34) = *(u8 *)(p + i + 0xb40);
-        func_021DCBE8((u8 *)p);
-        func_021DDC28((u8 *)p);
+        DENDOU_VIEW_IsPaletteFadeBusy((u8 *)p);
+        DENDOU_VIEW_DrawMemberInfo((u8 *)p);
         return 7;
     } else {
         for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i) {
@@ -40,11 +40,11 @@ int func_021DD3F4(char *p)
             else if (*(u8 *)(p + i + 0xb3a) < *(u8 *)(p + i + 0xb40))
                 ++*(u8 *)(p + i + 0xb3a);
         }
-        func_021DCBA4(p);
+        DENDOU_VIEW_ApplyPaletteFade(p);
         return 9;
     }
 }
-int func_021DD498(char *p)
+int DENDOU_VIEW_StateStartExit(char *p)
 {
-    return func_021DD4D0((u8 *)p, 1);
+    return DENDOU_VIEW_StartWipeOut((u8 *)p, 1);
 }

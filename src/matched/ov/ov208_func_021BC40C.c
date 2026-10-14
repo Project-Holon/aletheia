@@ -1,5 +1,5 @@
 /*
- * function: func_021BC40C
+ * function: ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies
  * address: 0x021BC40C
  * packet: pkt_ov208_021BC40C
  * region: ov208
@@ -19,7 +19,7 @@ struct Ov208Cur { void *blk; int f4; int f8; int fc; int f10; int f14; u16 *ids;
 struct Blk37;
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
-void func_021BC40C(struct Ov208Cur *p)
+void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p)
 {
     u16 start = *p->cur;
     u32 h = (u32)ZUKAN_SAVE_GetFromGameData(p->blk);

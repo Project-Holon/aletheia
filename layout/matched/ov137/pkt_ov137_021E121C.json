@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E121C",
+   "name": "GURU2_MAIN_CenterActorTask",
    "address": "0x021E121C",
    "kind": "game",
    "region": "ov137",

@@ -29,8 +29,8 @@
  *   RINGTONE_SYS_Stop  0x02029F60  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
- *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
+ *   FIELD_SOUND_SYSTEM_FindSlotSound  0x021D21C0  thumb ov021
+ *   FIELD_SOUND_SYSTEM_IsSlotSoundTracked  0x021D21E0  thumb ov021
  *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
@@ -121,8 +121,8 @@ extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
 extern void RINGTONE_SYS_Start(void *p);
 extern void RINGTONE_SYS_Stop(void *p);
-extern int SCRCMD_FindRegisteredEntry(u32 id);
-extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
+extern int FIELD_SOUND_SYSTEM_FindSlotSound(u32 id);
+extern int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 id);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
@@ -404,11 +404,11 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId)
 {
     u32 slotIndex;
 
-    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
+    if (FIELD_SOUND_SYSTEM_FindSlotSound(soundId) == 0) {
         GFL_USE_PlaySeDefaultVolume(soundId);
         return;
     }
-    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSlotSoundTracked(soundId) != 0) {
         slotIndex = GFL_USE_GetSeSlot(soundId) - 1;
         s->slotSoundId[slotIndex] = soundId;
         s->slotOwner[slotIndex] = 0xFFFF;
@@ -424,11 +424,11 @@ void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32
 {
     u32 slotIndex;
 
-    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
+    if (FIELD_SOUND_SYSTEM_FindSlotSound(soundId) == 0) {
         GFL_USE_PlaySeDefaultVolume(soundId);
         return;
     }
-    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSlotSoundTracked(soundId) != 0) {
         slotIndex = GFL_USE_GetSeSlot(soundId) - 1;
         s->slotSoundId[slotIndex] = soundId;
         s->slotOwner[slotIndex] = owner;
@@ -444,7 +444,7 @@ void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner
 {
     int i;
 
-    if (SCRCMD_FindRegisteredEntry(soundId) != 0) {
+    if (FIELD_SOUND_SYSTEM_FindSlotSound(soundId) != 0) {
         for (i = 0; i < 2; i++) {
             if (s->slotSoundId[i] == soundId) {
                 GFL_USE_SetSeSlotVolume(i + 1, owner);
@@ -462,11 +462,11 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
     u32 slotNumber;
 
     slotNumber = GFL_USE_GetSeSlot(soundId);
-    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
+    if (FIELD_SOUND_SYSTEM_FindSlotSound(soundId) == 0) {
         GFL_USE_StopSeSlot(slotNumber);
         return;
     }
-    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSlotSoundTracked(soundId) != 0) {
         if (soundId == s->slotSoundId[slotNumber - 1]) {
             s->slotSoundId[slotNumber - 1] = 0xffff;
             s->slotOwner[slotNumber - 1] = 0xffff;

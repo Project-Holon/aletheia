@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DF7CC",
-    "func_021DF7E4"
+    "GURU2_MAIN_StateWaitWipeOut",
+    "GURU2_MAIN_StateFinished"
+   ],
+   "addresses": [
+    "0x021DF7CC",
+    "0x021DF7E4"
    ]
   }
  ]

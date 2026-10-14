@@ -1,5 +1,5 @@
 /*
- * function: func_021E58A0
+ * function: POKETRADE_2D_RegisterIconSpriteResources
  * address: 0x021E58A0
  * packet: pkt_ov119_021E58A0
  * region: ov119
@@ -32,7 +32,7 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-void func_021E58A0(int p)
+void POKETRADE_2D_RegisterIconSpriteResources(int p)
 {
     void *a;
     Sprite s;

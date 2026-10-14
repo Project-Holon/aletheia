@@ -1,5 +1,5 @@
 /*
- * function: func_022001F4
+ * function: WORLDTRADE_TITLE_CreateActors
  * address: 0x022001F4
  * packet: pkt_ov135_022001F4
  * region: ov135
@@ -30,7 +30,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_022001F4(u8 *p)
+void WORLDTRADE_TITLE_CreateActors(u8 *p)
 {
     ObjPos pos;
     pos.x = d_022038E0[*(u16 *)(p + 0xC0)].x;

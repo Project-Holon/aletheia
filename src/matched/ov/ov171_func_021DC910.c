@@ -1,5 +1,5 @@
 /*
- * function: func_021DC910
+ * function: DENDOU_VIEW_InitVram
  * address:  0x021DC910
  * packet:   pkt_021DC910
  * region:   ov171
@@ -19,7 +19,7 @@ extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021DC910(void)
+void DENDOU_VIEW_InitVram(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)0x021DEB20);

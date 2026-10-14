@@ -1,5 +1,5 @@
 /*
- * function: func_021FDBCC
+ * function: WORLDTRADE_SEARCH_SetupBgPlanes
  * address:  0x021FDBCC
  * packet:   pkt_021FDBCC
  * region:   ov135
@@ -76,7 +76,7 @@ extern struct BgTemplate g_02203864;
 extern struct BgTemplate g_02203804;
 extern struct BgTemplate g_02203824;
 
-void func_021FDBCC(void)
+void WORLDTRADE_SEARCH_SetupBgPlanes(void)
 {
     struct DispConfig c = g_022037F4;
     u32 v = BG_SYS_GetSubVisiblePlanes();

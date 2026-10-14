@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F6F48",
+   "name": "BTLV_CAMERA_StartMove",
    "address": "0x021F6F48",
    "kind": "game",
    "region": "ov094",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021F7000",
+   "name": "BTLV_CAMERA_StartMoveWithEasing",
    "address": "0x021F7000",
    "kind": "game",
    "region": "ov094",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F7208",
+   "name": "BTLV_CAMERA_GetDefaultEyeAndTarget",
    "address": "0x021F7208",
    "kind": "game",
    "region": "ov094",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F8684",
+   "name": "BTLV_EFFECT_GetCamera",
    "address": "0x021F8684",
    "kind": "game",
    "region": "ov094",
@@ -60,7 +60,7 @@
    }
   },
   {
-   "name": "func_021F896C",
+   "name": "BTLV_EFFECT_RegisterTask",
    "address": "0x021F896C",
    "kind": "game",
    "region": "ov094",
@@ -77,7 +77,7 @@
    }
   },
   {
-   "name": "func_021F899C",
+   "name": "BTLV_EFFECT_FindTaskIndex",
    "address": "0x021F899C",
    "kind": "game",
    "region": "ov094",
@@ -94,7 +94,7 @@
    }
   },
   {
-   "name": "func_021F89BC",
+   "name": "BTLV_EFFECT_DeleteTask",
    "address": "0x021F89BC",
    "kind": "game",
    "region": "ov094",
@@ -111,7 +111,7 @@
    }
   },
   {
-   "name": "func_021F8B40",
+   "name": "BTLV_EFFECT_FindFreeTaskSlot",
    "address": "0x021F8B40",
    "kind": "game",
    "region": "ov094",
@@ -128,7 +128,7 @@
    }
   },
   {
-   "name": "func_021F918C",
+   "name": "BTLV_EFFECT_ComputeVectorStep",
    "address": "0x021F918C",
    "kind": "game",
    "region": "ov094",
@@ -140,7 +140,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021F9AB8",
+   "name": "BTLV_EFFVM_CmdSetupCamera",
    "address": "0x021F9AB8",
    "kind": "game",
    "region": "ov094",
@@ -175,7 +175,7 @@
    }
   },
   {
-   "name": "func_021FDB20",
+   "name": "BTLV_EFFVM_RefreshMcssOrtho",
    "address": "0x021FDB20",
    "kind": "game",
    "region": "ov094",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FF16C",
+   "name": "BTLV_MCSS_EnableOrthoMode",
    "address": "0x021FF16C",
    "kind": "game",
    "region": "ov094",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FF1B0",
+   "name": "BTLV_MCSS_DisableOrthoMode",
    "address": "0x021FF1B0",
    "kind": "game",
    "region": "ov094",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021FF630",
+   "name": "BTLV_MCSS_StartScaleTween",
    "address": "0x021FF630",
    "kind": "game",
    "region": "ov094",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0220074C",
+   "name": "BTLV_MCSS_CreateTweenTask",
    "address": "0x0220074C",
    "kind": "game",
    "region": "ov094",
@@ -240,7 +240,7 @@
    }
   },
   {
-   "name": "func_02201934",
+   "name": "BTLV_MCSS_CalcSlotScale",
    "address": "0x02201934",
    "kind": "game",
    "region": "ov094",

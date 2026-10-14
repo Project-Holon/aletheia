@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1B4
+ * function: GURU2_RECEIPT_UpdateQueues
  * address:  0x021DD1B4
  * packet:   pkt_021DD1B4
  * region:   ov137
@@ -27,7 +27,7 @@ struct Tcbl;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 
-void func_021DD1B4(u8 *p)
+void GURU2_RECEIPT_UpdateQueues(u8 *p)
 {
     if (((struct Obj10615 *)p)->fEC)
         PRINTSYS_QUE_Main(((struct Obj10615 *)p)->fEC);

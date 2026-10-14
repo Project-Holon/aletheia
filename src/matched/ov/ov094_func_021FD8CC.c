@@ -1,5 +1,5 @@
 /*
- * function: func_021FD8CC
+ * function: BTLV_EFFVM_ParticleMotionStep
  * address:  0x021FD8CC
  * packet:   pkt_ov094_021FD8CC
  * region:   ov094
@@ -12,7 +12,7 @@
  * symbols:
  *   BUTTON_MAN_GetUserData  0x02051A34  arm
  *   MTX_MultVec43  0x0207BC08  arm
- *   func_021FE1B8  0x021FE1B8  thumb  ov094
+ *   BTLV_EFFVM_TransformVecByMtx44  0x021FE1B8  thumb  ov094
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   _ll_mul  0x0209C054  arm
@@ -21,7 +21,7 @@
  * whole MUL repeated; the compiler cross-jumps their common tail, and the
  * 0 high word of the rounding addend stays CSE'd in r4 across all three
  * arms (a ternary index colours it differently).
- * Caller func_021FD1CC (same lane) shows s is a 0x60 object: 3x3 matrix,
+ * Caller BTLV_EFFVM_ParticleStartCallback (same lane) shows s is a 0x60 object: 3x3 matrix,
  * pos at 0x24, counters from 0x30.
  */
 typedef signed short s16;
@@ -31,9 +31,9 @@ extern const s16 FX_SinCosTable_[];
 extern int BUTTON_MAN_GetUserData(void *p);
 extern void MTX_MultVec43(const VecFx32 *a, const void *b, VecFx32 *out);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
-extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
+extern void BTLV_EFFVM_TransformVecByMtx44(VecFx32 *v, const VecFx32 *ofs);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
-void func_021FD8CC(void *p, int active)
+void BTLV_EFFVM_ParticleMotionStep(void *p, int active)
 {
     VecFx32 v;
     u16 a;
@@ -75,6 +75,6 @@ void func_021FD8CC(void *p, int active)
     }
     MTX_MultVec43(&v, s, &v);
     if (s[23] != 0)
-        func_021FE1B8(&v, 0);
+        BTLV_EFFVM_TransformVecByMtx44(&v, 0);
     BUTTON_MAN_SetEmitterPos(p, &v);
 }

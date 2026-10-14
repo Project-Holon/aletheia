@@ -1,5 +1,5 @@
 /*
- * function: func_021C25C4
+ * function: ARROW_DeleteUnit
  * address:  0x021C25C4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021C25C4(u8 *a0)
+void ARROW_DeleteUnit(u8 *a0)
 {
     CLACT_DeleteUnit((struct Bank *)((u32)(((struct Obj26022 *)a0)->f4)));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C7084
+ * function: MB_SEQ_ShowBagResultMessage
  * address:  0x021C7084
  * packet:   pkt_ov136_021C7084
  * region:   ov136
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C62BC 0x021C62BC thumb
- *   func_021C7620 0x021C7620 thumb
+ *   MB_SEQ_ShowMessageWindow 0x021C62BC thumb
+ *   MB_SEQ_ShowItemMessage 0x021C7620 thumb
  */
 
 typedef unsigned char u8;
-extern void func_021C62BC(u8 *);
-extern void func_021C7620(u8 *);
-void func_021C7084(u8 *p)
+extern void MB_SEQ_ShowMessageWindow(u8 *);
+extern void MB_SEQ_ShowItemMessage(u8 *);
+void MB_SEQ_ShowBagResultMessage(u8 *p)
 {
-    func_021C62BC(p);
-    func_021C7620(p);
+    MB_SEQ_ShowMessageWindow(p);
+    MB_SEQ_ShowItemMessage(p);
 }

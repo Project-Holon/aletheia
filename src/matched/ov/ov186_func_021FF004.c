@@ -1,5 +1,5 @@
 /*
- * function: func_021FF004
+ * function: BR_SIDEBAR_DestroySlot
  * address: 0x021FF004
  * packet: pkt_ov186_021FF004
  * region: ov186
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *);
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021FF004(u8 *p){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj24851 *)p)->f4);MI_CpuFill8(p,0,76);}
+void BR_SIDEBAR_DestroySlot(u8 *p){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj24851 *)p)->f4);MI_CpuFill8(p,0,76);}

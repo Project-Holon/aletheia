@@ -1,5 +1,5 @@
 /*
- * function: func_021E2984
+ * function: POKETRADE_SAVE_OpenTaskMenuWindow
  * address: 0x021E2984
  * packet: pkt_ov119_021E2984
  * region: ov119
@@ -28,7 +28,7 @@ extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
-void *func_021E2984(char *p,int a) {
+void *POKETRADE_SAVE_OpenTaskMenuWindow(char *p,int a) {
     void *t;
     t=STRBUF_Create(100,((struct Obj02172 *)p)->f5F4);
     ((struct Obj02172 *)p)->f650=t;

@@ -18,8 +18,8 @@
  * sdk:      jpeg_encode_ifd_direct (libssp.TWL.HYB.a exifenc.o)
  *
  * symbols:
- *   func_021C2DC8  0x021C2DC8  arm  ov172
- *   func_021C2E1C  0x021C2E1C  arm  ov172
+ *   jpeg_exif_get_tag_size  0x021C2DC8  arm  ov172
+ *   jpeg_exif_set_tag_value  0x021C2E1C  arm  ov172
  *   g_021CADF0     0x021CADF0  data ov172
  *
  * The definition takes an unused first argument: r1 is the ifd pointer and
@@ -52,8 +52,8 @@ typedef struct exif_ifd_data {
 
 typedef struct exifenc_vars exifenc_vars;
 
-extern unsigned long func_021C2DC8(exif_tag_entry *entry);
-extern void func_021C2E1C(exif_tag_entry *entry);
+extern unsigned long jpeg_exif_get_tag_size(exif_tag_entry *entry);
+extern void jpeg_exif_set_tag_value(exif_tag_entry *entry);
 extern struct exifenc_vars g_021CADF0;
 
 #define PUT(v)  (g_021CADF0.buf[g_021CADF0.pos++] = (unsigned char)(v))
@@ -81,7 +81,7 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
         PUT((entry->count & 0xff00) >> 8);
         PUT(entry->count);
 
-        size = func_021C2DC8(entry);
+        size = jpeg_exif_get_tag_size(entry);
         if (size <= 4) {
             if (size == 2) {
                 PUT(0);
@@ -116,10 +116,10 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
 
     entry = ifd->entries;
     for (i = 0; i < ifd->count; entry++, i++) {
-        size = func_021C2DC8(entry);
+        size = jpeg_exif_get_tag_size(entry);
         if (size > 4) {
             if (entry->tag == 0x1000) {
-                func_021C2E1C(entry);
+                jpeg_exif_set_tag_value(entry);
                 if (size & 1)
                     PUT(0);
             } else if (entry->tag == 0x1001) {

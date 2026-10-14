@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2E0
+ * function: COMM_TVT_SYS_HideSlotMarker
  * address:  0x021BE2E0
  * packet:   pkt_021B6100
  * region:   ov172
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *v, unsigned int zero);
 
-void func_021BE2E0(void *p)
+void COMM_TVT_SYS_HideSlotMarker(void *p)
 {
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj24141 *)p)->f1B0, 0);
 }

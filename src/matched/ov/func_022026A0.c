@@ -1,5 +1,5 @@
 /*
- * function: func_022026A0
+ * function: WORLDTRADE_ADAPTER_CopyBoxMon
  * address:  0x022026A0
  * packet:   pkt_022026A0
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220262C  0x0220262C  thumb  ov135
+ *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb  ov135
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
 
  * Create the 0x48 sub-object, register the handle and hand it to the callback.
@@ -22,13 +22,13 @@ typedef unsigned int u32;
 typedef signed int s32;
 struct Mon;
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void func_0220262C(u32 h, u32 k);
+extern void WORLDTRADE_ADAPTER_CopyMon(u32 h, u32 k);
 extern u32 func_020307B0(void *p);
 
-void func_022026A0(u8 *p, u32 k)
+void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k)
 {
     u32 h = (u32)POKE_TOOL_CreateFromBoxParam((struct Mon *)p, 0x48);
 
-    func_0220262C(h, k);
+    WORLDTRADE_ADAPTER_CopyMon(h, k);
     func_020307B0((void *)h);
 }

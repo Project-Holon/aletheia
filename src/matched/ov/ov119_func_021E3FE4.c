@@ -1,5 +1,5 @@
 /*
- * function: func_021E3FE4
+ * function: POKETRADE_2D_CreateFontResource
  * address:  0x021E3FE4
  * packet:   pkt_ov119_021E3FE4
  * region:   ov119
@@ -16,7 +16,7 @@
 
 extern void *func_0201F5DC(void *, unsigned, unsigned, unsigned);
 
-void func_021E3FE4(char *p)
+void POKETRADE_2D_CreateFontResource(char *p)
 {
     ((struct Obj13916 *)p)->f644 = func_0201F5DC((void *)6, 15, 0, ((struct Obj13916 *)p)->f5F4);
 }

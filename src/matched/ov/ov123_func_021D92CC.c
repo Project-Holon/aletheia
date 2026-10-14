@@ -1,5 +1,5 @@
 /*
- * function: func_021D92CC
+ * function: PDWACC_MESSAGE_InitSystem
  * address: 0x021D92CC
  * packet: pkt_ov123_021D92CC
  * region: ov123
@@ -44,7 +44,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_0201F5DC(void *,u32,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-u8 *func_021D92CC(u32 heap,u32 bank)
+u8 *PDWACC_MESSAGE_InitSystem(u32 heap,u32 bank)
 {
     u8 *p;
     p=func_02030734(heap,0xb4,1,d_021DABA8,0x9b);

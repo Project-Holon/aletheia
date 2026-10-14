@@ -1,5 +1,5 @@
 /*
- * function: func_021C0A88
+ * function: ZUKAN_DETAIL_AREA_NoOpUpdate
  * address:  0x021C0A88
  * packet:   pkt_021C0A88
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021C0A88(int a0, int a1, int a2)
+void ZUKAN_DETAIL_AREA_NoOpUpdate(int a0, int a1, int a2)
 {
 }
 

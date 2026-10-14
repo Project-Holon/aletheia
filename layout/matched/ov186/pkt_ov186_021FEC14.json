@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FEC14",
+   "name": "BR_FADE_StepSubPlane3",
    "address": "0x021FEC14",
    "kind": "game",
    "region": "ov186",

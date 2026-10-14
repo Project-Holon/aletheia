@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217A280",
+   "name": "IRCi_CheckPacket",
    "address": "0x0217A280",
    "kind": "game",
    "region": "ov015",

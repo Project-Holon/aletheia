@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0DBC",
+   "name": "POKETRADE_SAVE_CreateTypeIconActor",
    "address": "0x021E0DBC",
    "kind": "game",
    "region": "ov119",

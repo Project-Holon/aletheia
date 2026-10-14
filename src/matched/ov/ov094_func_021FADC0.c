@@ -1,5 +1,5 @@
 /*
- * function: func_021FADC0
+ * function: BTLV_EFFVM_CmdStartPokeBounce
  * address:  0x021FADC0
  * packet:   pkt_ov094_021FADC0
  * region:   ov094
@@ -12,9 +12,9 @@
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  *   func_0207C768  0x0207C768  arm
- *   func_021FCA04  0x021FCA04  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FFB04  0x021FFB04  thumb  ov094
+ *   BTLV_EFFVM_ResolveBattlerList  0x021FCA04  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_StartBounceTask  0x021FFB04  thumb  ov094
  */
 typedef struct {
     char pad[0x23C];
@@ -39,11 +39,11 @@ struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_021FCA04(State *s, int id, int *out);
-extern int func_021F8694(void);
-extern void func_021FFB04(void *w, Req *r);
+extern int BTLV_EFFVM_ResolveBattlerList(State *s, int id, int *out);
+extern int BTLV_EFFECT_GetMcss(void);
+extern void BTLV_MCSS_StartBounceTask(void *w, Req *r);
 
-int func_021FADC0(void *a, State *s)
+int BTLV_EFFVM_CmdStartPokeBounce(void *a, State *s)
 {
     Req q;
     int buf[8];
@@ -55,7 +55,7 @@ int func_021FADC0(void *a, State *s)
     int v;
     int i;
 
-    n = func_021FCA04(s, VM_GetU32(a), buf);
+    n = BTLV_EFFVM_ResolveBattlerList(s, VM_GetU32(a), buf);
     p = VM_GetU32(a);
     r = VM_GetU32(a);
     t = VM_GetU32(a);
@@ -69,7 +69,7 @@ int func_021FADC0(void *a, State *s)
     if (n != 0) {
         for (i = 0; i < n; i++) {
             q.item = buf[i];
-            func_021FFB04((void *)func_021F8694(), &q);
+            BTLV_MCSS_StartBounceTask((void *)BTLV_EFFECT_GetMcss(), &q);
         }
     }
     return s->f23c;

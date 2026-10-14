@@ -1,5 +1,5 @@
 /*
- * function: func_021F899C
+ * function: BTLV_EFFECT_FindTaskIndex
  * address:  0x021F899C
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
  */
 typedef struct {
     char pad[8];
@@ -19,14 +19,14 @@ typedef struct {
     int arg[32];           /* 0x108 */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-int func_021F899C(void *h)
+int BTLV_EFFECT_FindTaskIndex(void *h)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (d_0220AF20->handle[i] == h)
+        if (gBtlvEff->handle[i] == h)
             break;
     }
     return i;

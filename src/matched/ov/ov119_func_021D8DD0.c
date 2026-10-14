@@ -1,5 +1,5 @@
 /*
- * function: func_021D8DD0
+ * function: POKETRADE_PROC_LoadSlotMonAlt
  * address: 0x021D8DD0
  * packet: pkt_ov119_021D8DD0
  * region: ov119
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 
-void *func_021D8DD0(void *a, int b, int c, char *p)
+void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p)
 {
     void *m;
     int n;

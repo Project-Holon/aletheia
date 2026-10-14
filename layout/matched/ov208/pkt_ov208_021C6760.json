@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov208_func_021C6760",
+   "name": "ZUKAN_DETAIL_FORM_HandleTouchArrows",
    "address": "0x021C6760",
    "kind": "game",
    "region": "ov208",

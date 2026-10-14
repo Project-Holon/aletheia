@@ -32,26 +32,7 @@
  *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb
  *   func_021B86A0  0x021B86A0  thumb
  */
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-#define BTL_POSPOKE_COUNT 6
-#define BTL_POSPOKE_NO_POKE 0x1f    /* pokeId of an empty position */
-#define BTL_POSPOKE_NO_POS 6        /* position of a poke that is not on the field */
-
-/* One battle position. */
-typedef struct BtlPosPokeEntry {
-    u8 valid;       /* the position exists in this battle */
-    u8 clientId;    /* client that owns the position */
-    u8 pokeId;      /* poke standing there, BTL_POSPOKE_NO_POKE when empty */
-} BtlPosPokeEntry;
-
-/* Which poke stands on which battle position, and the reverse lookup. */
-typedef struct BtlPosPoke {
-    BtlPosPokeEntry entry[BTL_POSPOKE_COUNT];
-    u8 posOfPoke[BTL_POSPOKE_COUNT];    /* position by poke id */
-} BtlPosPoke;
+#include "../ov093/btl_records_types.h"
 
 extern u32 func_021B8640(int);
 extern void BTL_MAIN_GetSlotClientAndNth(int, int, u8 *, u8 *);

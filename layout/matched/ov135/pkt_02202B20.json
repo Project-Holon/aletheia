@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02202B20",
+   "name": "WORLDTRADE_ADAPTER_QueueMessagePrint",
    "address": "0x02202B20",
    "kind": "game",
    "region": "ov135",

@@ -13,9 +13,9 @@
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   func_021F80FC  0x021F80FC  thumb  ov094
- *   func_021F7C2C  0x021F7C2C  thumb  ov094
- *   func_021F8118  0x021F8118  thumb  ov094
+ *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
+ *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
+ *   BTLV_EFFECT_GaugeStartHpChangeInstant  0x021F8118  thumb  ov094
  */
 #include "../include/Obj13565.h"
 
@@ -24,9 +24,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
-extern void func_021F80FC(u32 a, u32 b);
-extern void func_021F7C2C(int a, int b);
-extern void func_021F8118(u32 a, u32 b);
+extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
+extern void BTLV_EFFECT_StartDamageTintTask(int a, int b);
+extern void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 a, u32 b);
 
 void BTLV_SCU_StartMonDamageAnim(char *p, u8 k, u16 a, int flag)
 {
@@ -36,9 +36,9 @@ void BTLV_SCU_StartMonDamageAnim(char *p, u8 k, u16 a, int flag)
     t = func_021D59B4(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj13565 *)p)->f138, k), 0xd);
     v = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13565 *)p)->f134, k);
     if (flag == 0) {
-        func_021F80FC(v, t);
-        func_021F7C2C(v, a);
+        BTLV_EFFECT_GaugeStartHpChangeAnimated(v, t);
+        BTLV_EFFECT_StartDamageTintTask(v, a);
     } else {
-        func_021F8118(v, t);
+        BTLV_EFFECT_GaugeStartHpChangeInstant(v, t);
     }
 }

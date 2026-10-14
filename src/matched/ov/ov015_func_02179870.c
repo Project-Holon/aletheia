@@ -1,5 +1,5 @@
 /*
- * function: func_02179870
+ * function: IRCNET_CbCanSend
  * address: 0x02179870
  * packet: pkt_ov015_02179870
  * region: ov015
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_02179A18 0x02179A18 thumb
+ *   IRCNET_IsIdle 0x02179A18 thumb
  */
 
-int func_02179870(void);
-int func_02179A18(void);
+int IRCNET_CbCanSend(void);
+int IRCNET_IsIdle(void);
 
-int func_02179870(void)
+int IRCNET_CbCanSend(void)
 {
-    return func_02179A18();
+    return IRCNET_IsIdle();
 }

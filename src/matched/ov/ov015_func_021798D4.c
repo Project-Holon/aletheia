@@ -1,5 +1,5 @@
 /*
- * function: func_021798D4
+ * function: IRCNET_GetHandlerTable
  * address:  0x021798D4
  * packet:   pkt_021798D4
  * region:   ov015
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_0217A9E0  0x0217A9E0  data  a4
+ *   gIrcNetHandlerTable  0x0217A9E0  data  a4
  */
 
-void *func_021798D4(void)
+void *IRCNET_GetHandlerTable(void)
 {
     return (void *)0x0217A9E0;
 }

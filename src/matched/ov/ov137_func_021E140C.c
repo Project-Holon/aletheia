@@ -1,5 +1,5 @@
 /*
- * function: func_021E140C
+ * function: GURU2_MAIN_StartScreenFlash
  * address:  0x021E140C
  * packet:   pkt_021E140C
  * region:   ov137
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E140C(char *p)
+void GURU2_MAIN_StartScreenFlash(char *p)
 {
     char *q = p + 0xC88;
 

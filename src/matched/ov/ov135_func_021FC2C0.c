@@ -1,5 +1,5 @@
 /*
- * function: func_021FC2C0
+ * function: WORLDTRADE_DETAIL_LoadBgGraphics
  * address: 0x021FC2C0
  * packet: pkt_ov135_021FC2C0
  * region: ov135
@@ -15,7 +15,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02200B34 0x02200B34 thumb ov135
+ *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -28,8 +28,8 @@ extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02200B34(u8 *p);
-void func_021FC2C0(void *p)
+extern void WORLDTRADE_TITLE_LoadSubBgSwap(u8 *p);
+void WORLDTRADE_DETAIL_LoadBgGraphics(void *p)
 {
     void *h;
     h = func_020490F4(0x60, 0x48);
@@ -40,6 +40,6 @@ void func_021FC2C0(void *p)
     func_02049658(h, 0x10, 1, 0, 0, 1, 0x48);
     func_020498F4(h, 0x16, 1, 0, 0x600, 1, 0x48);
     func_02049B40(0x17, 5, 4, 0x20, 0x20, 0x48);
-    func_02200B34(p);
+    WORLDTRADE_TITLE_LoadSubBgSwap(p);
     ARC_TOOL_DeleteHandle(h);
 }

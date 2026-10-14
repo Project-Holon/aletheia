@@ -1,5 +1,5 @@
 /*
- * function: func_021C28FC
+ * function: PERCENTAGE_Alloc
  * address:  0x021C28FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C28FC  0x021C28FC  thumb  ov217
+ *   PERCENTAGE_Alloc  0x021C28FC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-u32 func_021C28FC(u32 a0)
+u32 PERCENTAGE_Alloc(u32 a0)
 {
     return (u32)func_02030734(a0, 52, 0, (const char *)0x21C407C, 420);
 }

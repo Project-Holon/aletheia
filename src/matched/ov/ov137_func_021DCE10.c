@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE10
+ * function: GURU2_RECEIPT_ProcInit
  * address: 0x021DCE10
  * packet: pkt_ov137_021DCE10
  * region: ov137
@@ -36,15 +36,15 @@
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
- * func_021DD1D0 0x021DD1D0 thumb ov137
- * func_021DD1E0 0x021DD1E0 thumb ov137
- * func_021DD3D8 0x021DD3D8 thumb ov137
- * func_021DD1A4 0x021DD1A4 thumb ov137
- * func_021DD2E0 0x021DD2E0 thumb ov137
- * func_021DD4A8 0x021DD4A8 thumb ov137
- * func_021DD5AC 0x021DD5AC thumb ov137
- * func_021DD638 0x021DD638 thumb ov137
- * func_021DCB78 0x021DCB78 thumb ov137
+ * GURU2_RECEIPT_SetVramBanks 0x021DD1D0 thumb ov137
+ * GURU2_RECEIPT_InitBg 0x021DD1E0 thumb ov137
+ * GURU2_RECEIPT_LoadGraphics 0x021DD3D8 thumb ov137
+ * GURU2_RECEIPT_VBlank 0x021DD1A4 thumb ov137
+ * GURU2_RECEIPT_InitStrings 0x021DD2E0 thumb ov137
+ * GURU2_RECEIPT_InitActors 0x021DD4A8 thumb ov137
+ * GURU2_RECEIPT_CreatePlayerActors 0x021DD5AC thumb ov137
+ * GURU2_RECEIPT_CreateWindows 0x021DD638 thumb ov137
+ * GURU2_COMM_RegisterCommands 0x021DCB78 thumb ov137
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,18 +63,18 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_021DD1D0(void),func_021DD1E0(void);
+extern void GURU2_RECEIPT_SetVramBanks(void),GURU2_RECEIPT_InitBg(void);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern void func_021DD3D8(void *,void *);
-extern void func_021DD1A4(void *a0, void *work);
+extern void GURU2_RECEIPT_LoadGraphics(void *,void *);
+extern void GURU2_RECEIPT_VBlank(void *a0, void *work);
 extern void *func_020056A0(u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
-extern void func_021DCB78(u32 a);
+extern void GURU2_RECEIPT_InitStrings(u8 *,void *),GURU2_RECEIPT_InitActors(u8 *,void *),GURU2_RECEIPT_CreatePlayerActors(u8 *),GURU2_RECEIPT_CreateWindows(u8 *);
+extern void GURU2_COMM_RegisterCommands(u32 a);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *);
-int func_021DCE10(void *a,u32 *state,u8 *ctx)
+int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
 {
     u8 *p;
     void *arc;
@@ -93,14 +93,14 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         *(void **)(p+60)=func_0201EC64(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
         *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
-        func_021DD1D0(); func_021DD1E0();
+        GURU2_RECEIPT_SetVramBanks(); GURU2_RECEIPT_InitBg();
         WIPE_SYS_Start(0,1,1,0,16,1,114);
-        func_021DD3D8(p,arc);
-        *(void **)(p+48)=func_020056A0((u32)func_021DD1A4,(u32)p,1);
+        GURU2_RECEIPT_LoadGraphics(p,arc);
+        *(void **)(p+48)=func_020056A0((u32)GURU2_RECEIPT_VBlank,(u32)p,1);
         *(void **)(p+244)=TCBL_Create(114,114,32,32);
         *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
-        func_021DD2E0(p,arc); func_021DD4A8(p,arc); func_021DD5AC(p); func_021DD638(p);
-        func_021DCB78((u32)(*(void **)(ctx+24)));
+        GURU2_RECEIPT_InitStrings(p,arc); GURU2_RECEIPT_InitActors(p,arc); GURU2_RECEIPT_CreatePlayerActors(p); GURU2_RECEIPT_CreateWindows(p);
+        GURU2_COMM_RegisterCommands((u32)(*(void **)(ctx+24)));
         GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);
         (*state)++;
         break;

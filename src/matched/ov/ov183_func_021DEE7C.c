@@ -52,13 +52,13 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF6DC 0x021FF6DC thumb ov186
- *   func_021FF704 0x021FF704 thumb ov186
- *   func_021FF6B4 0x021FF6B4 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetSearchResultsForRanking 0x021FF6DC thumb ov186
+ *   BR_NET_GetSearchResultsForNewest 0x021FF704 thumb ov186
+ *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DF18C 0x021DF18C thumb ov183
@@ -66,8 +66,8 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  *   func_021FD744 0x021FD744 thumb ov186
  *   d_021E3964 0x021E3964 data a1
@@ -79,12 +79,12 @@ struct Pair { u32 x,y; };
 struct Data { u8 pad[0x1718]; int count; u32 selected; };
 extern const char d_021E3964[];
 extern void MI_CpuFill8(void *,int,int),func_02034714(const char *,u32,const char *);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *);
-extern int func_021FF72C(char *p, int *out);
-extern int func_021FF6DC(char *p, void *buffer, int count, int *out);
-extern int func_021FF704(char *p, void *buffer, int count, int *out);
-extern int func_021FF6B4(char *p, void *buffer, int count, int *out);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *);
+extern int BR_NET_PollErrorMessage(char *p, int *out);
+extern int BR_NET_GetSearchResultsForRanking(char *p, void *buffer, int count, int *out);
+extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, int *out);
+extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021FD170(char *p, char *q, void *text);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
@@ -92,8 +92,8 @@ extern int *func_021FD73C(int *p, int v);
 extern void func_021DF18C(int *p, int *state, char *q);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
-extern void GFL_USE_PlaySeDefaultVolume(u32),func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *);
+extern void GFL_USE_PlaySeDefaultVolume(u32),BR_FADE_Start(int,int,int,int);
+extern int BR_FADE_GetResult(int *);
 extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
 void func_021DEE7C(int *task,u32 *state,char *p)
@@ -112,12 +112,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         }
         MI_CpuFill8(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
         *(u32 *)(p+0xfc)=0;
-        func_021FF54C(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
         *state=1; break;
     }
     case 1:
         ++*(u32 *)(p+0xfc);
-        if(func_021FF648(*(char **)(*(char **)(p+0x108)+0x18)) && *(u32 *)(p+0xfc)>96) {
+        if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x108)+0x18)) && *(u32 *)(p+0xfc)>96) {
             func_021FD860(*(int *)(p+0x1c),0,0); *state=2;
         } break;
     case 2: {
@@ -126,12 +126,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         enum { COUNT_OFFSET=0x1718 } offset;
         data=*(struct Data **)(*(char **)(p+0x108)+0x1c);
         offset=COUNT_OFFSET;
-        if(!func_021FF72C(*(void **)(*(char **)(p+0x108)+0x18),&message)) {
+        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0x108)+0x18),&message)) {
             switch(**(u32 **)(p+0x108)) {
-            case 0: success=func_021FF6DC(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 1: success=func_021FF6DC(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 2: success=func_021FF704(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 3: success=func_021FF6B4(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 0: success=BR_NET_GetSearchResultsForRanking(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 1: success=BR_NET_GetSearchResultsForRanking(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 2: success=BR_NET_GetSearchResultsForNewest(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 3: success=BR_NET_GetSearchResults(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
             default: func_02034714(d_021E3964,0,d_021E3964); break;
             }
             if(success) {
@@ -157,12 +157,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
             clicked.x=x; clicked.y=y;
             func_021FD860(*(int *)(p+0x20),1,&clicked);
             GFL_USE_PlaySeDefaultVolume(0x703);
-            func_021FE784(*(int *)(*(char **)(p+0x108)+8),2,3,1);
+            BR_FADE_Start(*(int *)(*(char **)(p+0x108)+8),2,3,1);
             *state=4;
         } break;
     }
     case 4:
-        if(func_021FE7B0(*(int **)(*(char **)(p+0x108)+8))) *state=5;
+        if(BR_FADE_GetResult(*(int **)(*(char **)(p+0x108)+8))) *state=5;
         break;
     case 5:
         func_021F9BA0(*(void **)(*(char **)(p+0x108)+0x14)); func_021FD744((int *)task); break;

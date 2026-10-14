@@ -1,5 +1,5 @@
 /*
- * function: func_021E1974
+ * function: GURU2_MAIN_IsAbortVoted
  * address:  0x021E1974
  * packet:   pkt_021E1974
  * region:   ov137
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021E1974(char *p)
+int GURU2_MAIN_IsAbortVoted(char *p)
 {
     return ((struct Obj23812 *)(*(char * *)&((struct Obj06536 *)p)->fDC))->f48 != 0;
 }

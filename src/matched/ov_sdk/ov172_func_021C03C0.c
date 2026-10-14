@@ -1,5 +1,5 @@
 /*
- * function: func_021C03C0
+ * function: GetLong
  * address:  0x021C03C0
  * packet:   pkt_ov172_021C03C0
  * region:   ov172
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-unsigned long func_021C03C0(unsigned char *src, unsigned long cur, short Endian)
+unsigned long GetLong(unsigned char *src, unsigned long cur, short Endian)
 {
     unsigned long word;
 

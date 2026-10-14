@@ -1,5 +1,5 @@
 /*
- * function: func_021FD19C
+ * function: BTLV_EFFVM_SetEmitterHandle
  * address:  0x021FD19C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FD19C   0x021FD19C  thumb
+ *   BTLV_EFFVM_SetEmitterHandle   0x021FD19C  thumb
  *
  * lane O10 candidate
  */
 #include "../include/Obj18571.h"
 
-void func_021FD19C(char *p, int i, char *q)
+void BTLV_EFFVM_SetEmitterHandle(char *p, int i, char *q)
 {
     *(int *)(p + i * 4 + 0x8c) = ((struct Obj18571 *)q)->f8;
 }

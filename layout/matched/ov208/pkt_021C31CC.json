@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C31CC",
+   "name": "ZUKAN_DETAIL_VOICE_ResetPokemonTransform",
    "address": "0x021C31CC",
    "kind": "game",
    "region": "ov208",

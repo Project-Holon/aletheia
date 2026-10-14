@@ -1,5 +1,5 @@
 /*
- * function: func_021B65D8
+ * function: CTVT_CAMERA_OnBufferError
  * address:  0x021B65D8
  * packet:   pkt_021B6A00
  * region:   ov172
@@ -33,7 +33,7 @@ extern u32 func_021B6610(u32 a);
 extern void func_021B6618(void);
 extern u32 g_021C88E0;
 
-void func_021B65D8(void)
+void CTVT_CAMERA_OnBufferError(void)
 {
     u32 *p = (u32 *)g_021C88E0;
 

@@ -11,12 +11,12 @@
  *
  * symbols:
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
- *   func_0217EC1C  0x0217EC1C  thumb ov019
- *   func_0217EC88  0x0217EC88  thumb ov019
- *   func_0217EC28  0x0217EC28  thumb ov019
- *   func_0217ECA0  0x0217ECA0  thumb ov019
- *   func_0217ECAC  0x0217ECAC  thumb ov019
- *   func_0217ECB8  0x0217ECB8  thumb ov019
+ *   UNION_MSG_GetTalkParentGreetingMsg  0x0217EC1C  thumb ov019
+ *   UNION_MSG_GetTalkMenuPromptMsg  0x0217EC88  thumb ov019
+ *   UNION_MSG_GetTalkParentCancelMsg  0x0217EC28  thumb ov019
+ *   UNION_MSG_GetNotEnoughPokemonMsg  0x0217ECA0  thumb ov019
+ *   UNION_MSG_GetNoEggInPartyMsg  0x0217ECAC  thumb ov019
+ *   UNION_MSG_GetBadEggInPartyMsg  0x0217ECB8  thumb ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  *   UNION_MSG_SetupMainMenu  0x0217F360  thumb ov019
@@ -65,12 +65,12 @@ int UNION_ONESELF_CheckNetError(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BigObj;
-u16 func_0217EC1C(int i);
-u16 func_0217EC88(int i);
-u16 func_0217EC28(int i);
-u16 func_0217ECA0(int i);
-u16 func_0217ECAC(int i);
-u16 func_0217ECB8(void ***ctx);
+u16 UNION_MSG_GetTalkParentGreetingMsg(int i);
+u16 UNION_MSG_GetTalkMenuPromptMsg(int i);
+u16 UNION_MSG_GetTalkParentCancelMsg(int i);
+u16 UNION_MSG_GetNotEnoughPokemonMsg(int i);
+u16 UNION_MSG_GetNoEggInPartyMsg(int i);
+u16 UNION_MSG_GetBadEggInPartyMsg(void ***ctx);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 void UNION_MSG_SetupMainMenu(char *p, u32 a);
@@ -97,10 +97,10 @@ int UNION_ONESELF_TalkParentMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         if (obj->f6e == 1) {
             obj->f6e = 0;
         } else if (obj->f5c == 0) {
-            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC1C(obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkParentGreetingMsg(obj->f14->flag));
             obj->f5c++;
         } else {
-            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC88(obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkMenuPromptMsg(obj->f14->flag));
         }
         (*state)++;
         break;
@@ -119,7 +119,7 @@ int UNION_ONESELF_TalkParentMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
             break;
         UNION_MSG_DeleteMainMenu(ctx);
         if (r == -2 || r == 0) {
-            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC28(obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetTalkParentCancelMsg(obj->f14->flag));
             obj->f2d = 0;
             UNION_ONESELF_SetNextPlayCategory((char *)ctx, 8);
             return 1;
@@ -127,17 +127,17 @@ int UNION_ONESELF_TalkParentMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         if (r == 0x18) {
             GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->fc);
             if ((int)POKEPARTY_GetNonEggCount(h) < 2) {
-                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217ECA0(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetNotEnoughPokemonMsg(obj->f14->flag));
                 *state = 4;
                 break;
             }
         } else if (r == 0x19) {
             if ((int)POKEPARTY_GetBadEggCount(h) > 0) {
-                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217ECB8((void ***)ctx));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetBadEggInPartyMsg((void ***)ctx));
                 *state = 4;
                 break;
             } else if (POKEPARTY_GetEggCount(h) == 0) {
-                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217ECAC(obj->f14->flag));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, UNION_MSG_GetNoEggInPartyMsg(obj->f14->flag));
                 *state = 4;
                 break;
             }

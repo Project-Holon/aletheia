@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BTL_MAIN_IsSecondTeamClient 0x021B8FC0 thumb ov093
- * Leaf: sole unresolved overlay blocker of ov094 func_021F745C.
+ * Leaf: sole unresolved overlay blocker of ov094 BTLV_EFFECT_CreateSetupFromBattleMain.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

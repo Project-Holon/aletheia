@@ -1,5 +1,5 @@
 /*
- * function: func_0220251C
+ * function: WORLDTRADE_ADAPTER_SetPair
  * address:  0x0220251C
  * packet:   pkt_0220251C
  * region:   ov135
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0220251C(u8 *p, u16 a, u16 b)
+void WORLDTRADE_ADAPTER_SetPair(u8 *p, u16 a, u16 b)
 {
     ((struct Obj00018 *)p)->fE0C = a;
     ((struct Obj00018 *)p)->fE0E = b;

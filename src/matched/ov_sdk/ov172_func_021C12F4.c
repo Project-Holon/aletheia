@@ -1,5 +1,5 @@
 /*
- * function: func_021C12F4
+ * function: Yos_JpegEncoderHuffmanEncoderOutputSize
  * address:  0x021C12F4
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -17,7 +17,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021C12F4(unsigned char *p)
+int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p)
 {
     unsigned int i;
     int sum = 0;

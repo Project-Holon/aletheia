@@ -1,5 +1,5 @@
 /*
- * function: func_021C18C4
+ * function: CircleGraph_ComputePointRanges
  * address:  0x021C18C4
  * packet:   pkt_ov217_021C18C4
  * region:   ov217
@@ -25,7 +25,7 @@ struct Ent {
     u8 pad1[9];
 };
 
-void func_021C18C4(u8 *p)
+void CircleGraph_ComputePointRanges(u8 *p)
 {
     int i;
     int n;

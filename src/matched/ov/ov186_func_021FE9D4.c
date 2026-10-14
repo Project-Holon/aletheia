@@ -1,5 +1,5 @@
 /*
- * function: func_021FE9D4
+ * function: BR_FADE_StepBlend
  * address: 0x021FE9D4
  * packet: pkt_ov186_021FE9D4
  * region: ov186
@@ -27,7 +27,7 @@ extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-int func_021FE9D4(char *p,int *state)
+int BR_FADE_StepBlend(char *p,int *state)
 {
     switch(*state) {
     case 0: {

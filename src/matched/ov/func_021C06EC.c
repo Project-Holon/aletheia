@@ -1,5 +1,5 @@
 /*
- * function: func_021C06EC
+ * function: ZUKAN_DETAIL_AREA_DeletePrintQueues
  * address:  0x021C06EC
  * packet:   pkt_021C06EC
  * region:   ov208
@@ -23,7 +23,7 @@ struct PrintSys;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
-void func_021C06EC(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeletePrintQueues(void *unused, char *p, void *a2)
 {
     unsigned char i;
 

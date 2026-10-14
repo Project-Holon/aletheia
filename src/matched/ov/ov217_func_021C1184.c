@@ -1,5 +1,5 @@
 /*
- * function: func_021C1184
+ * function: CircleGraph_SetEnabled
  * address:  0x021C1184
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C1A58.
+ * Tail-call veneer: branch to CircleGraph_SetEnabledImpl.
  *
  * symbols:
- *   func_021C1A58  0x021C1A58  thumb  ov217
+ *   CircleGraph_SetEnabledImpl  0x021C1A58  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C1A58(void *h, u32 v);
+extern void CircleGraph_SetEnabledImpl(void *h, u32 v);
 
-void func_021C1184(u8 *h, u32 v)
+void CircleGraph_SetEnabled(u8 *h, u32 v)
 {
-    func_021C1A58(h, v);
+    CircleGraph_SetEnabledImpl(h, v);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8540
+ * function: OSi_ReloadRomData
  * address:  0x01FF8540
  * packet:   pkt_01FF8540
  * region:   arm9_autoload0_ITCM
@@ -19,7 +19,7 @@
  *           words.  The .o matches the game in 443 of 448 bytes; the five
  *           differences are the low byte of the five `bl` PC24 fields.
  * symbols:
- *   func_01FF8700    0x01FF8700  arm
+ *   OSi_ReadCardRom32    0x01FF8700  arm
  */
 
 typedef unsigned char u8;
@@ -41,9 +41,9 @@ typedef int BOOL;
 #define HW_DCACHE_SIZE            0x1000
 #define HW_C7_CACHE_SET_NO_SHIFT  30
 
-extern void func_01FF8700(u32 src, void *dst, int len);
+extern void OSi_ReadCardRom32(u32 src, void *dst, int len);
 
-asm void func_01FF8540(BOOL ontwl)
+asm void OSi_ReloadRomData(BOOL ontwl)
 {
     stmfd   sp!, {r4, lr}
     mov     r4, r0
@@ -76,7 +76,7 @@ asm void func_01FF8540(BOOL ontwl)
     cmp     r0, #0x8000
     ldrcs   r1, =HW_ROM_HEADER_BUF
     movcs   r2, #0x160
-    blcs    func_01FF8700
+    blcs    OSi_ReadCardRom32
 
 @loadStatic:
     ldr     r12, =HW_ROM_HEADER_BUF
@@ -90,7 +90,7 @@ asm void func_01FF8540(BOOL ontwl)
     sublt   r1, r1, r3
     addlt   r2, r2, r3
     cmp     r2, #0
-    blgt    func_01FF8700
+    blgt    OSi_ReadCardRom32
 
     ldr     r12, =HW_ROM_HEADER_BUF
     ldr     r0, [r12, #0x30]
@@ -99,7 +99,7 @@ asm void func_01FF8540(BOOL ontwl)
     ldr     r3, [sp]
     add     r0, r0, r3
     cmp     r2, #0
-    blgt    func_01FF8700
+    blgt    OSi_ReadCardRom32
     ldmfd   sp!, {r0}
 
 @loadLtdStatic:
@@ -117,7 +117,7 @@ asm void func_01FF8540(BOOL ontwl)
     sublt   r1, r1, r3
     addlt   r2, r2, r3
     cmp     r2, #0
-    blgt    func_01FF8700
+    blgt    OSi_ReadCardRom32
 
     ldr     r12, =HW_TWL_ROM_HEADER_BUF
     ldr     r0, [r12, #0x1d0]
@@ -131,7 +131,7 @@ asm void func_01FF8540(BOOL ontwl)
     sublt   r1, r1, r3
     addlt   r2, r2, r3
     cmp     r2, #0
-    blgt    func_01FF8700
+    blgt    OSi_ReadCardRom32
 @loadLtdStatic_end:
 
 @arrangeCache:

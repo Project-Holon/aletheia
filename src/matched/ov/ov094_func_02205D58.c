@@ -1,5 +1,5 @@
 /*
- * function: func_02205D58
+ * function: BTLV_INPUT_CreateWazaCursorActors
  * address:  0x02205D58
  * packet:   pkt_ov094_02205D58
  * region:   ov094
@@ -32,7 +32,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_02205D58(char *p, int mode)
+void BTLV_INPUT_CreateWazaCursorActors(char *p, int mode)
 {
     Slot *slots;
     Point pos;

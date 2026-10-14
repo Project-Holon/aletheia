@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9F4
+ * function: GURU2_EntryStateAfterPartyList
  * address: 0x021DC9F4
  * packet: pkt_ov137_021DC9F4
  * region: ov137
@@ -12,9 +12,9 @@
  * func_02030734 0x02030734 arm
  * MI_CpuFill8 0x02082BCC arm
  * PROCSYS_Push 0x02031348 arm
- * d_021E2260 0x021E2260 data a4
+ * gGuru2AllocFileName 0x021E2260 data a4
  * gPokeStatusProcData 0x021DC800 data a4 ov131
- * d_021E1A44 0x021E1A44 data a4
+ * gGuru2MainProcData 0x021E1A44 data a4
  * d_00000083 0x00000083 data a1
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
@@ -34,8 +34,8 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void PROCSYS_Push(void *,int,const void *,void *);
-extern const u8 d_021E2260[],gPokeStatusProcData[],d_021E1A44[],d_00000083[];
-int func_021DC9F4(u32 *p)
+extern const u8 gGuru2AllocFileName[],gPokeStatusProcData[],gGuru2MainProcData[],d_00000083[];
+int GURU2_EntryStateAfterPartyList(u32 *p)
 {
     u32 *v=(u32 *)p[6];
     int mode=v[16],sel=v[15];
@@ -45,7 +45,7 @@ int func_021DC9F4(u32 *p)
     if(mode==1) {
         func_02012944((void *)p[4]);
         q=ZUKAN_SAVE_GetFromGameData((void *)p[4]);
-        p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
+        p[7]=(u32)func_02030734(4,40,0,(const char *)gGuru2AllocFileName,328);
         MI_CpuFill8((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
         *(void **)p[7]=r;
@@ -63,7 +63,7 @@ int func_021DC9F4(u32 *p)
         p[0]=3;
     } else {
         *(u32 *)(p[3]+4)=sel;
-        PROCSYS_Push((void *)p[8],-1,d_021E1A44,(void *)p[3]);
+        PROCSYS_Push((void *)p[8],-1,gGuru2MainProcData,(void *)p[3]);
         *(u32 *)p[3]=3;
         p[0]=4;
     }

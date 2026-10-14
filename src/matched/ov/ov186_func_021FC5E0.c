@@ -1,5 +1,5 @@
 /*
- * function: func_021FC5E0
+ * function: BR_GRAPHIC_ExitActors
  * address:  0x021FC5E0
  * packet:   pkt_021FC5E0
  * region:   ov186
@@ -22,7 +22,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021FC5E0(void *p)
+void BR_GRAPHIC_ExitActors(void *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj24836 *)p)->f0));
     CLACT_ExitSystem();

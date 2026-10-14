@@ -15,8 +15,8 @@
  *   func_021DD684 0x021DD684 thumb ov183
  *   func_021DD858 0x021DD858 thumb ov183
  *   func_021DDA2C 0x021DDA2C thumb ov183
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
@@ -30,8 +30,8 @@
 #include "../include/Obj00731.h"
 typedef unsigned int u32;
 struct Pair { int x,y; };
-extern void func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int,int,int,int);
+extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021DDFA0(char *,int,int);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
@@ -50,8 +50,8 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
  int x,y,i;
  struct Pair pair;
  switch(*state){
- case 0:func_021FE784(*(int *)&((struct Obj00363 *)q)->f0,2,3,0);*state=1;break;
- case 1:if(func_021FE7B0(*(int * *)&((struct Obj00363 *)q)->f0)) *state=2;break;
+ case 0:BR_FADE_Start(*(int *)&((struct Obj00363 *)q)->f0,2,3,0);*state=1;break;
+ case 1:if(BR_FADE_GetResult(*(int * *)&((struct Obj00363 *)q)->f0)) *state=2;break;
  case 2:
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    ((struct Obj00731 *)p)->f78=func_021DDFA0(p,x,y);
@@ -62,8 +62,8 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
     *state=7;
    }
   }break;
- case 3:func_021FE784(*(int *)&((struct Obj00363 *)q)->f0,2,1,1);++*state;break;
- case 4:if(func_021FE7B0(*(int * *)&((struct Obj00363 *)q)->f0)) ++*state;break;
+ case 3:BR_FADE_Start(*(int *)&((struct Obj00363 *)q)->f0,2,1,1);++*state;break;
+ case 4:if(BR_FADE_GetResult(*(int * *)&((struct Obj00363 *)q)->f0)) ++*state;break;
  case 5:
   func_021DDDE8(p,q);
   switch(*(u32 *)&((struct Obj00731 *)p)->f78){
@@ -72,10 +72,10 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
   case 3:func_021DDA2C(p,q);break;
   case 4:func_021DDCCC(p,q);break;
   }
-  func_021FE784(*(int *)&((struct Obj00363 *)q)->f0,2,1,0);++*state;break;
- case 6:if(func_021FE7B0(*(int * *)&((struct Obj00363 *)q)->f0)) *state=2;break;
- case 7:func_021FE784(*(int *)&((struct Obj00363 *)q)->f0,2,3,1);*state=8;break;
- case 8:if(func_021FE7B0(*(int * *)&((struct Obj00363 *)q)->f0)) *state=9;break;
+  BR_FADE_Start(*(int *)&((struct Obj00363 *)q)->f0,2,1,0);++*state;break;
+ case 6:if(BR_FADE_GetResult(*(int * *)&((struct Obj00363 *)q)->f0)) *state=2;break;
+ case 7:BR_FADE_Start(*(int *)&((struct Obj00363 *)q)->f0,2,3,1);*state=8;break;
+ case 8:if(BR_FADE_GetResult(*(int * *)&((struct Obj00363 *)q)->f0)) *state=9;break;
  case 9:func_021F9BA0(((struct Obj00363 *)q)->fC);return 1;
  }
  for(i=0;i<4;i++) if(*(void **)(p+i*4+0x24)) func_021FC830(*(void **)(p+i*4+0x24));

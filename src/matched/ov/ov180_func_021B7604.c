@@ -1,5 +1,5 @@
 /*
- * function: func_021B7604
+ * function: HALL_OF_FAME_DeleteAllActors
  * address:  0x021B7604
  * packet:   pkt_021B7604
  * region:   ov180
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B75E8  0x021B75E8  thumb  ov180
+ *   HALL_OF_FAME_DeleteActor  0x021B75E8  thumb  ov180
  */
 
-extern void func_021B75E8(char *p, int i);
+extern void HALL_OF_FAME_DeleteActor(char *p, int i);
 
-void func_021B7604(int *p)
+void HALL_OF_FAME_DeleteAllActors(int *p)
 {
     unsigned int i;
 
     for (i = 0; i < 0x21; i++)
-        func_021B75E8((char *)p, i);
+        HALL_OF_FAME_DeleteActor((char *)p, i);
 }

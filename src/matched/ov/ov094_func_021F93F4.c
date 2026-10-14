@@ -1,5 +1,5 @@
 /*
- * function: func_021F93F4
+ * function: BTLV_EFFVM_Create
  * address:  0x021F93F4
  * packet:   pkt_ov094_021F93F4
  * region:   ov094
@@ -44,7 +44,7 @@ struct ScriptVmParams;
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(struct ScriptVm *vm, void *user);
 
-void *func_021F93F4(void *a, u32 b)
+void *BTLV_EFFVM_Create(void *a, u32 b)
 {
     T *t;
     void *vm;

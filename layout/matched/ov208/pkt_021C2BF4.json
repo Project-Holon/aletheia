@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2BF4",
+   "name": "ZUKAN_DETAIL_VOICE_RestoreBgm",
    "address": "0x021C2BF4",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C2C1C",
+   "name": "ZUKAN_DETAIL_VOICE_UpdateBgmFade",
    "address": "0x021C2C1C",
    "kind": "game",
    "region": "ov208",

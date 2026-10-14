@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdStartMission
+ * function: SCRCMD_RESEARCH_CmdStartMission
  * address:  0x0216B63C
  * packet:   pkt_ov010_0216B63C
  * region:   ov010
@@ -43,7 +43,7 @@ extern void func_0200C358(struct Blk34 *p, u32 i, int v);
 extern u64 func_0203F524();
 extern void func_0200C384(struct Blk34 *p, u32 lo, u32 hi);
 
-int FIELD_G3D_MAP_CmdStartMission(int a0, int a1)
+int SCRCMD_RESEARCH_CmdStartMission(int a0, int a1)
 {
     void *h;
     u16 s[3];

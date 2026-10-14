@@ -1,5 +1,5 @@
 /*
- * function: func_021B6744
+ * function: CTVT_CAMERA_SetFrameCallback
  * address:  0x021B6744
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B6744(void *p, u32 a, u32 b)
+void CTVT_CAMERA_SetFrameCallback(void *p, u32 a, u32 b)
 {
     ((struct Obj14293 *)p)->f3C = a;
     ((struct Obj14293 *)p)->f40 = b;

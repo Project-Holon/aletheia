@@ -1,5 +1,5 @@
 /*
- * function: func_022028C8
+ * function: WORLDTRADE_ADAPTER_PrintQueColor
  * address:  0x022028C8
  * packet:   pkt_022028C8
  * region:   ov135
@@ -40,7 +40,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-u32 func_022028C8(void *win, u32 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ctx *g)
+u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u32 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ctx *g)
 {
     Slot *found = 0;
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6EA4
+ * function: GSYNC_STATE_IsCommIdleWithTarget
  * address:  0x021D6EA4
  * packet:   pkt_021D6EA4
  * region:   ov123
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021D6EA4(char *p)
+int GSYNC_STATE_IsCommIdleWithTarget(char *p)
 {
     char *q = *(char * *)&((struct Obj22953 *)p)->f20;
 

@@ -1,7 +1,7 @@
 /*
  * file:     btlv_effect.c
  * unit:     yes
- * function: func_021F73F0, func_021F745C, func_021F7544, func_021F7808, func_021F78E4, func_021F7998, func_021F7A28, func_021F7AAC, func_021F7B2C, func_021F7BEC, func_021F7C0C, func_021F7C2C, func_021F7CE4, func_021F7CFC, func_021F7D44, func_021F7D80, func_021F7E38, func_021F7E74, func_021F7E84, func_021F7E94, func_021F7EA4, func_021F7EB4, func_021F7EE8, func_021F7F04, func_021F7F1C, func_021F7F58, func_021F8010, func_021F803C, func_021F8090, func_021F80E4, func_021F80FC, func_021F8118, func_021F8134, func_021F8150, func_021F8168, func_021F8180, func_021F8198, func_021F81B4, func_021F81D0, func_021F81EC, func_021F8204, func_021F821C, func_021F823C, func_021F8260, func_021F827C, func_021F8298, func_021F8324, func_021F839C, func_021F8414, func_021F84B4, func_021F84D0, func_021F84E8, func_021F8504, func_021F8524, func_021F853C, func_021F8554, func_021F8628, func_021F8678, func_021F8684, func_021F8694, func_021F86A4, func_021F86B4, func_021F86C4, func_021F86D4, func_021F86E0, func_021F86F0, func_021F8700, func_021F8710, func_021F8720, func_021F8730, func_021F8740, func_021F8754, func_021F8764, func_021F8774, func_021F878C, func_021F87D4, func_021F87EC, func_021F882C, func_021F883C, func_021F8884, func_021F88A8, func_021F88BC, func_021F88E0, func_021F88F4, func_021F8914, func_021F8934, func_021F896C, func_021F899C, func_021F89BC, func_021F8A10, func_021F8A40, func_021F8A78, func_021F8AC0, func_021F8AE8, func_021F8AFC, func_021F8B10, func_021F8B28, func_021F8B40, func_021F8B6C, func_021F8B90, func_021F8BAC, func_021F8C78, func_021F8CB0, func_021F8EF8, func_021F8F30, func_021F8FB0, func_021F8FE8, func_021F9028, func_021F903C, func_021F9154, func_021F918C, func_021F9220, func_021F9260, func_021F935C, func_021F9364
+ * function: BTLV_EFFECT_CreateSetup, BTLV_EFFECT_CreateSetupFromBattleMain, BTLV_EFFECT_Init, BTLV_EFFECT_Exit, BTLV_EFFECT_Main, BTLV_EFFECT_StartEffect, BTLV_EFFECT_StartEffectOnPoke, BTLV_EFFECT_StartEffectBetweenPokes, BTLV_EFFECT_StartEffectWithRequest, BTLV_EFFECT_PauseVm, BTLV_EFFECT_ResumeVm, BTLV_EFFECT_StartDamageTintTask, BTLV_EFFECT_StartPokeAppearEffect, BTLV_EFFECT_StartEffectWithColor, BTLV_EFFECT_StartEffectWithValue, BTLV_EFFECT_StartHitTask, BTLV_EFFECT_ResetPokeSprite, BTLV_EFFECT_StartPokeEffectId285, BTLV_EFFECT_StartPokeEffectId286, BTLV_EFFECT_StartPokeEffectId26E, BTLV_EFFECT_StartPokeEffectId26F, BTLV_EFFECT_IsBusy, BTLV_EFFECT_SetPokeSpriteKey, BTLV_EFFECT_DeletePokeSprite, BTLV_EFFECT_IsPokeSpriteLoaded, BTLV_EFFECT_AddPokeSprite, BTLV_EFFECT_ReleasePokeSprite, BTLV_EFFECT_GaugeInitSlotFromBattlePoke, BTLV_EFFECT_GaugeInitSlotFromPartyPoke, BTLV_EFFECT_GaugeDeleteSlot, BTLV_EFFECT_GaugeStartHpChangeAnimated, BTLV_EFFECT_GaugeStartHpChangeInstant, BTLV_EFFECT_GaugeStartExpGain, BTLV_EFFECT_GaugeRefreshForLevelUp, BTLV_EFFECT_GaugeRequestStop, BTLV_EFFECT_GaugeIsAnimating, BTLV_EFFECT_GaugeSetSideVisible, BTLV_EFFECT_GaugeSetSlotVisible, BTLV_EFFECT_GaugeSetStatusIcon, BTLV_EFFECT_GaugeSelectSlot, BTLV_EFFECT_GaugeIsSlotOccupied, BTLV_EFFECT_GaugeGetSlotHealthInfo, BTLV_EFFECT_CreatePartyBallBar, BTLV_EFFECT_DeletePartyBallBar, BTLV_EFFECT_IsPartyBallBarActive, BTLV_EFFECT_SetStageFieldTint, BTLV_EFFECT_IsStageFieldBusy, BTLV_EFFECT_SetStageLayerEnable, BTLV_EFFECT_StartPokeSpriteTransitionTask, BTLV_EFFECT_SetPokeSpriteVisible, BTLV_EFFECT_GetPokeSlot, BTLV_EFFECT_TimerStart, BTLV_EFFECT_TimerSetVisible, BTLV_EFFECT_TimerIsExpired, BTLV_EFFECT_GetPokeSpriteState, BTLV_EFFECT_StartCameraMove, BTLV_EFFECT_GetPokeSpriteCameraTarget, BTLV_EFFECT_GetWorkPtr, BTLV_EFFECT_GetCamera, BTLV_EFFECT_GetMcss, BTLV_EFFECT_GetStage, BTLV_EFFECT_GetGauge, BTLV_EFFECT_GetEffvm, BTLV_EFFECT_GetOwner, BTLV_EFFECT_GetPalanm, BTLV_EFFECT_GetClact, BTLV_EFFECT_GetBg, BTLV_EFFECT_GetMode, BTLV_EFFECT_GetCompetitorType, BTLV_EFFECT_GetFieldSituationFlags, BTLV_EFFECT_GetTrainerType, BTLV_EFFECT_GetBattleMain, BTLV_EFFECT_GetRule, BTLV_EFFECT_PollLowHpBgm, BTLV_EFFECT_StopLowHpBgm, BTLV_EFFECT_SetLowHpBgmSuppressed, BTLV_EFFECT_SaveBgmNo, BTLV_EFFECT_IsBgmSaved, BTLV_EFFECT_StopLowHpBgmAndSuppress, BTLV_EFFECT_SetVisibilityMode, BTLV_EFFECT_GetVisibilityMode, BTLV_EFFECT_SetFlag26, BTLV_EFFECT_GetFlag26, BTLV_EFFECT_IsRecordEnabledInComm, BTLV_EFFECT_IsRecordAllowed, BTLV_EFFECT_SetAllPokeSpriteAnim, BTLV_EFFECT_RegisterTask, BTLV_EFFECT_FindTaskIndex, BTLV_EFFECT_DeleteTask, BTLV_EFFECT_DeleteTasksByArg, BTLV_EFFECT_SetIntroState, BTLV_EFFECT_StartIntroEffect, BTLV_EFFECT_ResetIntroState, BTLV_EFFECT_SetPokeEffectValue, BTLV_EFFECT_GetPokeEffectValue, BTLV_EFFECT_SuspendVmWait, BTLV_EFFECT_ResumeVmWait, BTLV_EFFECT_FindFreeTaskSlot, BTLV_EFFECT_DeleteAllTasks, BTLV_EFFECT_VBlankTask, BTLV_EFFECT_DamageTintTaskMain, BTLV_EFFECT_ClearTaskMaskM0, BTLV_EFFECT_SequenceTaskMain, BTLV_EFFECT_ClearTaskMaskM1, BTLV_EFFECT_PokeSpriteTransitionTaskMain, BTLV_EFFECT_ClearTaskMaskM2, BTLV_EFFECT_DelayedStartEffectTaskMain, BTLV_EFFECT_FreeTaskArg, BTLV_EFFECT_UpdateIntroInput, BTLV_EFFECT_ComputeScalarStep, BTLV_EFFECT_ComputeVectorStep, BTLV_EFFECT_StepScalarWithLimit, BTLV_EFFECT_StepMover, BTLV_EFFECT_GetBitMask, BTLV_EFFECT_UpdateTexturePaletteFade
  * address:  0x021F73F0
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   sub_020307B0 0x020307B0 arm
  *   func_020307B0  0x020307B0  arm
  *   func_0207C768  0x0207C768  arm
- *   d_0220AC90     0x0220AC90  data   ov094  a1
+ *   gBtlvEffectFileName     0x0220AC90  data   ov094  a1
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_IsOwnClientSecondTeam 0x021B8FE4 thumb ov093
  *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
@@ -32,7 +32,7 @@
  *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
- *   d_0220AF20     0x0220AF20  data   a4
+ *   gBtlvEff     0x0220AF20  data   a4
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
@@ -95,87 +95,87 @@
  *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   d_0220AC70 0x0220AC70 data a4
- *   d_0220AC78 0x0220AC78 data a4
+ *   gBtlvIntroPickTableA 0x0220AC70 data a4
+ *   gBtlvIntroPickTableB 0x0220AC78 data a4
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02061CA4  0x02061CA4  arm
- *   func_021F882C 0x021F882C thumb ov094
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F89BC 0x021F89BC thumb ov094
- *   func_021F918C 0x021F918C thumb ov094
- *   func_021F9260  0x021F9260  thumb  ov094
- *   func_021F6560 0x021F6560 thumb ov094
- *   func_021F6898 0x021F6898 thumb ov094
- *   func_021F6934 0x021F6934 thumb ov094
- *   func_021F69B0 0x021F69B0 thumb ov094
- *   func_021F69E8 0x021F69E8 thumb ov094
- *   func_021F6A18 0x021F6A18 thumb ov094
- *   func_021F6A28 0x021F6A28 thumb ov094
- *   func_021F6AD0 0x021F6AD0 thumb ov094
- *   func_021F6B04 0x021F6B04 thumb ov094
- *   func_021F6CF0 0x021F6CF0 thumb ov094
- *   func_021F6D5C 0x021F6D5C thumb ov094
- *   func_021F6DD4 0x021F6DD4 thumb ov094
- *   func_021F6DEC 0x021F6DEC thumb ov094
- *   func_021F6E1C 0x021F6E1C thumb ov094
- *   func_021F6E2C 0x021F6E2C thumb ov094
- *   func_021F6E3C 0x021F6E3C thumb ov094
- *   func_021F6EC0 0x021F6EC0 thumb ov094
- *   func_021F6ED4 0x021F6ED4 thumb ov094
- *   func_021F6EDC 0x021F6EDC thumb ov094
- *   func_021F6F48 0x021F6F48 thumb ov094
- *   func_021F93F4 0x021F93F4 thumb ov094
- *   func_021F9478 0x021F9478 thumb ov094
- *   func_021F94D8 0x021F94D8 thumb ov094
- *   func_021F94F8 0x021F94F8 thumb ov094
- *   func_021F97E4 0x021F97E4 thumb ov094
- *   func_021F9814 0x021F9814 thumb ov094
- *   func_021F9844 0x021F9844 thumb ov094
- *   func_021F9858 0x021F9858 thumb ov094
- *   func_021F9948 0x021F9948 thumb ov094
- *   func_021F9A7C 0x021F9A7C thumb ov094
- *   func_021F9AA4 0x021F9AA4 thumb ov094
- *   func_021FEAC0 0x021FEAC0 thumb ov094
- *   func_021FEB78 0x021FEB78 thumb ov094
- *   func_021FEBAC 0x021FEBAC thumb ov094
- *   func_021FEE9C 0x021FEE9C thumb ov094
- *   func_021FEEA8 0x021FEEA8 thumb ov094
- *   func_021FF088 0x021FF088 thumb ov094
- *   func_021FF0F8 0x021FF0F8 thumb ov094
- *   func_021FF144 0x021FF144 thumb ov094
- *   func_021FF16C 0x021FF16C thumb ov094
- *   func_021FF348 0x021FF348 thumb ov094
- *   func_021FF374 0x021FF374 thumb ov094
- *   func_021FF3F4 0x021FF3F4 thumb ov094
- *   func_021FF7B0 0x021FF7B0 thumb ov094
- *   func_021FF924 0x021FF924 thumb ov094
- *   func_021FFBBC 0x021FFBBC thumb ov094
- *   func_021FFCB0 0x021FFCB0 thumb ov094
- *   func_021FFD6C 0x021FFD6C thumb ov094
- *   func_021FFD9C 0x021FFD9C thumb ov094
- *   func_021FFDB4 0x021FFDB4 thumb ov094
- *   func_021FFE48 0x021FFE48 thumb ov094
- *   func_021FFF38 0x021FFF38 thumb ov094
- *   func_022001DC 0x022001DC thumb ov094
- *   func_02200344 0x02200344 thumb ov094
- *   func_022003EC 0x022003EC thumb ov094
- *   func_0220055C 0x0220055C thumb ov094
- *   func_02200608 0x02200608 thumb ov094
- *   func_02201A8C 0x02201A8C thumb ov094
- *   func_02201AC4 0x02201AC4 thumb ov094
- *   func_02201AF0 0x02201AF0 thumb ov094
- *   func_02206BC8 0x02206BC8 thumb ov094
- *   func_02206E28 0x02206E28 thumb ov094
- *   func_02206EB4 0x02206EB4 thumb ov094
- *   func_022070C0 0x022070C0 thumb ov094
- *   func_02207288 0x02207288 thumb ov094
- *   func_02207960 0x02207960 thumb ov094
+ *   BTLV_EFFECT_IsBgmSaved 0x021F882C thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
+ *   BTLV_STAGE_Create 0x021F6560 thumb ov094
+ *   BTLV_STAGE_Delete 0x021F6898 thumb ov094
+ *   BTLV_STAGE_UpdateLayerAnims 0x021F6934 thumb ov094
+ *   BTLV_STAGE_DrawLayers 0x021F69B0 thumb ov094
+ *   BTLV_STAGE_InitLayerEntry 0x021F69E8 thumb ov094
+ *   BTLV_STAGE_IsEffectActive 0x021F6A18 thumb ov094
+ *   BTLV_STAGE_SetLayerEnableMask 0x021F6A28 thumb ov094
+ *   BTLV_STAGE_IsAnyLayerArmed 0x021F6AD0 thumb ov094
+ *   BTLV_FIELD_Create 0x021F6B04 thumb ov094
+ *   BTLV_FIELD_Delete 0x021F6CF0 thumb ov094
+ *   BTLV_FIELD_UpdateAnims 0x021F6D5C thumb ov094
+ *   BTLV_FIELD_Draw 0x021F6DD4 thumb ov094
+ *   BTLV_FIELD_InitEntry 0x021F6DEC thumb ov094
+ *   BTLV_FIELD_IsEffectActive 0x021F6E1C thumb ov094
+ *   BTLV_FIELD_SetState 0x021F6E2C thumb ov094
+ *   BTLV_CAMERA_Create 0x021F6E3C thumb ov094
+ *   BTLV_CAMERA_Delete 0x021F6EC0 thumb ov094
+ *   BTLV_CAMERA_UpdateMove 0x021F6ED4 thumb ov094
+ *   BTLV_CAMERA_SetEyeAndTarget 0x021F6EDC thumb ov094
+ *   BTLV_CAMERA_StartMove 0x021F6F48 thumb ov094
+ *   BTLV_EFFVM_Create 0x021F93F4 thumb ov094
+ *   BTLV_EFFVM_Main 0x021F9478 thumb ov094
+ *   BTLV_EFFVM_Destroy 0x021F94D8 thumb ov094
+ *   BTLV_EFFVM_StartScript 0x021F94F8 thumb ov094
+ *   BTLV_EFFVM_StopScript 0x021F97E4 thumb ov094
+ *   BTLV_EFFVM_ClearBlockedFlag 0x021F9814 thumb ov094
+ *   BTLV_EFFVM_InitParams 0x021F9844 thumb ov094
+ *   BTLV_EFFVM_StartSePlayTask 0x021F9858 thumb ov094
+ *   BTLV_EFFVM_StartSeVolumeTask 0x021F9948 thumb ov094
+ *   BTLV_EFFVM_StopLiveSounds 0x021F9A7C thumb ov094
+ *   BTLV_EFFVM_ClearLastEffect 0x021F9AA4 thumb ov094
+ *   BTLV_MCSS_Create 0x021FEAC0 thumb ov094
+ *   BTLV_MCSS_Delete 0x021FEB78 thumb ov094
+ *   BTLV_MCSS_Update 0x021FEBAC thumb ov094
+ *   BTLV_MCSS_Draw 0x021FEE9C thumb ov094
+ *   BTLV_MCSS_AddPoke 0x021FEEA8 thumb ov094
+ *   BTLV_MCSS_AddTrainer 0x021FF088 thumb ov094
+ *   BTLV_MCSS_RemoveSprite 0x021FF0F8 thumb ov094
+ *   BTLV_MCSS_SetPosition 0x021FF144 thumb ov094
+ *   BTLV_MCSS_EnableOrthoMode 0x021FF16C thumb ov094
+ *   BTLV_MCSS_IsVanished 0x021FF348 thumb ov094
+ *   BTLV_MCSS_SetVanishMode 0x021FF374 thumb ov094
+ *   BTLV_MCSS_GetSlotPosition 0x021FF3F4 thumb ov094
+ *   BTLV_MCSS_SwapSprites 0x021FF7B0 thumb ov094
+ *   BTLV_MCSS_StartAlphaTween 0x021FF924 thumb ov094
+ *   BTLV_MCSS_StartMosaicTween 0x021FFBBC thumb ov094
+ *   BTLV_MCSS_IsSpriteBusy 0x021FFCB0 thumb ov094
+ *   BTLV_MCSS_IsAnySpriteBusy 0x021FFD6C thumb ov094
+ *   BTLV_MCSS_IsSpriteLoaded 0x021FFD9C thumb ov094
+ *   BTLV_MCSS_SetPaletteFade 0x021FFDB4 thumb ov094
+ *   BTLV_MCSS_RefreshSpriteFromParty 0x021FFE48 thumb ov094
+ *   BTLV_MCSS_GetSpriteAttrFlags 0x021FFF38 thumb ov094
+ *   BTLV_MCSS_ReloadSpriteResource 0x022001DC thumb ov094
+ *   BTLV_MCSS_StartRotation 0x02200344 thumb ov094
+ *   BTLV_MCSS_MakeAddWorkFromPoke 0x022003EC thumb ov094
+ *   BTLV_MCSS_SetSpriteWorkFlagForRule 0x0220055C thumb ov094
+ *   BTLV_MCSS_SaveVanishStates 0x02200608 thumb ov094
+ *   BTLV_CLACT_Create 0x02201A8C thumb ov094
+ *   BTLV_CLACT_Delete 0x02201AC4 thumb ov094
+ *   BTLV_CLACT_Draw 0x02201AF0 thumb ov094
+ *   BTLV_GAUGE_Create 0x02206BC8 thumb ov094
+ *   BTLV_GAUGE_Delete 0x02206E28 thumb ov094
+ *   BTLV_GAUGE_FlashTaskMain 0x02206EB4 thumb ov094
+ *   BTLV_GAUGE_InitSlotFromBattlePoke 0x022070C0 thumb ov094
+ *   BTLV_GAUGE_InitSlotFromPartyPoke 0x02207288 thumb ov094
+ *   BTLV_GAUGE_DeleteSlotTask 0x02207960 thumb ov094
  */
 #include "btlv_effvm_types.h"
 #include "btlv_stage_shared_types.h"
@@ -185,219 +185,69 @@
 
 #define REG_04000604 (*(volatile u16 *)0x04000604)
 
-struct Obj02021EE4;
+struct BtlMain;
 
-struct S02021D50;
+struct BtlPokeParam;
 
-typedef struct {
-    int w[4];
-} Q_v6560;
+struct ZukanSave;
 
-typedef struct {
-    int f0;
-    int f4;
-    Q_v6560 q;            /* 0x08 */
-    u16 h[4];       /* 0x18 */
-    int f20;
-    int f24;
-    int f28;
-} Obj_v6560;
+/* Row of the stage table (archive 0x98 member 0), 0x24 bytes, indexed by BtlvEffFieldSituation.stageGroup. */
+typedef struct BtlvEffStageRow {
+    u8 hasLight;            /* 0x00: nonzero when the stage sets a light */
+    u8 hasVariant;          /* 0x01: nonzero when BtlvEffFieldSituation.variant selects a stage variant */
+    u8 fieldId[17];         /* 0x02: field id by stageIndex */
+    u8 stageId[17];         /* 0x13: stage id by stageIndex */
+} BtlvEffStageRow;
 
-typedef struct {
-    int f0;          /* 0x00 */
-    int f4;          /* 0x04 */
-    int f8;          /* 0x08 */
-    int fc;          /* 0x0c */
-    u8 f10;          /* 0x10 */
-    u8 f11;          /* 0x11 */
-    u16 f12;         /* 0x12 */
-    u8 f14;          /* 0x14 */
-    u8 f15;          /* 0x15 */
-    char pad16[0x28 - 0x16];
-    void *battle;    /* 0x28 */
-} Param;
+/* Light direction and color handed to G3D_SYSTEM_SetLight. */
+typedef struct BtlvEffLight {
+    s16 x;
+    s16 y;
+    s16 z;
+    u16 color;
+} BtlvEffLight;
 
-typedef struct {
-    void *owner;     /* 0x000 */
-    void *buf;       /* 0x004 */
-    char pad08[0x188 - 8];
-    void *h188;      /* 0x188 */
-    int h18c;        /* 0x18c */
-    void *h190;      /* 0x190 */
-    void *h194;      /* 0x194 */
-    void *h198;      /* 0x198 */
-    void *h19c;      /* 0x19c */
-    void *h1a0;      /* 0x1a0 */
-    void *h1a4;      /* 0x1a4 */
-    char pad1a8[8];
-    void *h1b0;      /* 0x1b0 */
-    void *h1b4;      /* 0x1b4 */
-    void *h1b8;      /* 0x1b8 */
-    Param param;     /* 0x1bc */
-    int f1e8;        /* 0x1e8 */
-    char pad1ec[4];
-    u16 heap;        /* 0x1f0 */
-    char pad1f2[6];
-    int slots[8];    /* 0x1f8 */
-    char pad218[0x244 - 0x218];
-    int f244;        /* 0x244 */
-    int f248;        /* 0x248 */
-} Work_v6560;
+/* Task record that waits for the running effects, then starts an effect script (0x14 bytes). */
+typedef struct BtlvEffQueuedScript {
+    int unused00;                   /* 0x00: never written or read */
+    int attackerPos;                /* 0x04 */
+    int defenderPos;                /* 0x08 */
+    u32 scriptId;                   /* 0x0C */
+    BtlvEffVmParams *params;        /* 0x10: freed with the task, 0 when the script has no parameters */
+} BtlvEffQueuedScript;
 
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 a2[0x13 - 2];
-    u8 a13[0x24 - 0x13];
-} Entry_021F7208;
+/* Task record of the damage tint flicker (0x18 bytes). */
+typedef struct BtlvEffDamageTintTask {
+    int pos;                        /* 0x00: sprite position */
+    int step;                       /* 0x04: 0 tint, 1 flash, 2 end of the cycle */
+    int cyclesLeft;                 /* 0x08 */
+    int wait;                       /* 0x0C: frames before the next step */
+    u32 color;                      /* 0x10 */
+    int skip;                       /* 0x14: nonzero leaves the sprite untouched (result of BTLV_MCSS_IsVanished) */
+} BtlvEffDamageTintTask;
 
-typedef struct {
-    s16_021F6560 x;
-    s16_021F6560 y;
-    s16_021F6560 z;
-    u16 w;
-} Rect;
+/* Task record of the faint animation (0x2C bytes). */
+typedef struct BtlvEffHitTask {
+    int pos;                        /* 0x00: sprite position */
+    int step;                       /* 0x04 */
+    BtlvMcssAddWork addWork;        /* 0x08: sprite resources to restore */
+} BtlvEffHitTask;
 
-typedef struct BtlvEff {
-    void *owner;                /* 0x000 */
-    void *buf;                  /* 0x004 */
-    void *handle[32];           /* 0x008 */
-    void (*cb[32])(void *);     /* 0x088 */
-    int arg[32];                /* 0x108 */
-    void *h188;                 /* 0x188 */
-    void *h18c;
-    void *h190;                 /* 0x190 */
-    void *h194;
-    void *h198;
-    void *h19c;
-    void *h1a0;
-    void *h1a4;
-    void *h1a8[2];              /* 0x1a8 */
-    void *h1b0;                 /* 0x1b0 */
-    void *h1b4;
-    void *h1b8;
-    int mode;                   /* 0x1bc */
-    int f1c0;
-    char pad1c4[0x10];
-    unsigned short f1d4[4];                /* 0x1d4 */
-    int f1dc;
-    int f1e0;
-    void *param_battle;         /* 0x1e4 */
-    int f1e8;                   /* 0x1e8 */
-    unsigned int m0 : 8;                 /* 0x1ec */
-    unsigned int m1 : 8;
-    unsigned int m2 : 2;
-    unsigned int v : 8;
-    unsigned int b26 : 1;
-    unsigned short heap;                   /* 0x1f0 */
-    char pad1f2[2];
-    int f1f4;                   /* 0x1f4 */
-    int slots[8];               /* 0x1f8 */
-    unsigned int tbl[8];                 /* 0x218 */
-    int f238;                   /* 0x238 */
-    int f23c;
-    int f240;
-    int f244;
-    int f248;
-} BtlvEff;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-} Job_021F7998;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-} Job_021F7A28;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-} Job_021F7AAC;
-
-typedef struct {
-    u8 b0, b1, b2;
-} Small;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    Small *s;           /* 0x10 */
-} Job_021F7B2C;
-
-typedef struct {
-    u16 h0;
-    int f4;
-    int f8;
-    u8 c;               /* 0x0c */
-    u8 d;               /* 0x0d */
-    int f10;
-} Req_021F7208;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-} Job_021F7208;
-
-typedef struct {
-    int w[3];
-    unsigned short v;
-} Req_021F7D44;
-
-typedef struct {
-    int f0;
-    int f4;
-    int buf[9];         /* 0x08 */
-} Job_021F7D80;
-
-typedef struct {
-    int state;              /* 0 */
-    u8 b;                   /* 4 */
-    int c;                  /* 8 */
-    int d;                  /* 0xC */
-} St;
-
-typedef struct { int x, y, z; } VecFx32_021F8204;
-
-typedef struct {
-    int pad0;
-    int a;              /* 4 */
-    u32 b;              /* 8 */
-    u32 c;              /* 0xC */
-    void *d;            /* 0x10 */
-} Arg_v8204;
-
-typedef struct {
-    char pad[0x2C];
-    u32 w2c;            /* 0x2C */
-    u16 h30;            /* 0x30 */
-    char pad2[6];
-    u32 o38;            /* 0x38 */
-} Q_v8204;
+/* Task record of the sprite transition (0x10 bytes). */
+typedef struct BtlvEffSpriteTransitionTask {
+    int step;                       /* 0x00 */
+    u8 dir;                         /* 0x04: 0 when entering, 1 otherwise */
+    int pos;                        /* 0x08: sprite position */
+    int playSound;                  /* 0x0C */
+} BtlvEffSpriteTransitionTask;
 
 extern void *sub_02030734(u32, u32, int, const char *, u16);
 
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
-extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
 extern u32 sub_020307B0(void *p);
 
@@ -427,9 +277,9 @@ extern unsigned func_02030CB0(unsigned);
 
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 
-extern void *PALANM_Create(u32 heap);
+extern struct PalAnmSlot *PALANM_Create(u32 heap);
 
-extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palanm, int v);
 
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
@@ -437,11 +287,11 @@ extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 
 extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
 
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const BtlvEffLight *light);
 
-extern void *BTLV_TIMER_Create(u16 heap);
+BtlvTimer *BTLV_TIMER_Create(u16 heapId);
 
-extern void *BTLV_BG_Create(void *a, u16 heap);
+BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
 extern void PARTICLE_InitManager(u32);
 
@@ -455,9 +305,9 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
 extern u32 PALANM_Delete(void *a0);
 
-extern void BTLV_TIMER_Delete(void *);
+void BTLV_TIMER_Delete(BtlvTimer *timer);
 
-extern void BTLV_BG_Delete(void *);
+void BTLV_BG_Delete(BtlvBg *bg);
 
 extern void PARTICLE_ExitManager(void);
 
@@ -479,35 +329,35 @@ extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32
 
 extern int WAZA_TOOL_GetDamageType(int);
 
-extern void BTLV_GAUGE_StartHpChangeAnimated(char *p, int i, int n);
+void BTLV_GAUGE_StartHpChangeAnimated(BtlvGaugeWork *work, int slotIdx, int newHp);
 
-extern void BTLV_GAUGE_StartHpChangeInstant(char *p, int i, int n);
+void BTLV_GAUGE_StartHpChangeInstant(BtlvGaugeWork *work, int slotIdx, int newHp);
 
-extern void BTLV_GAUGE_StartExpGain(void *, int, u32);
+void BTLV_GAUGE_StartExpGain(BtlvGaugeWork *work, int slotIdx, int gain);
 
-extern void BTLV_GAUGE_RefreshForLevelUp(void *, void *, int);
+void BTLV_GAUGE_RefreshForLevelUp(BtlvGaugeWork *work, struct BtlPokeParam *pp, int slotIdx);
 
-extern void BTLV_GAUGE_RequestStop(void *);
+void BTLV_GAUGE_RequestStop(BtlvGaugeWork *work);
 
-extern int BTLV_GAUGE_IsAnimating(u8 *p);
+int BTLV_GAUGE_IsAnimating(BtlvGaugeWork *work);
 
-extern void BTLV_GAUGE_SetSideVisible(struct O *obj, int a, int c);
+void BTLV_GAUGE_SetSideVisible(BtlvGaugeWork *work, int visible, int side);
 
-extern void BTLV_GAUGE_SetSlotVisible(struct O *obj, int a, int idx);
+void BTLV_GAUGE_SetSlotVisible(BtlvGaugeWork *work, int visible, int slotIdx);
 
-extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
+void BTLV_GAUGE_SetStatusIcon(BtlvGaugeWork *work, int status, int slotIdx);
 
-void BTLV_GAUGE_SelectSlot(void *w, int sel);
+void BTLV_GAUGE_SelectSlot(BtlvGaugeWork *work, int selectedSlot);
 
-extern int BTLV_GAUGE_IsSlotOccupied(u8 *, int);
+int BTLV_GAUGE_IsSlotOccupied(BtlvGaugeWork *work, int slotIdx);
 
-extern int BTLV_GAUGE_GetSlotHealthInfo(void *, int, int *, int *);
+int BTLV_GAUGE_GetSlotHealthInfo(BtlvGaugeWork *work, int slotIdx, int *hpState, int *statusAnim);
 
-extern u32 BTLV_B_GAUGE_CreatePartyBallBar(u32 *p, u32 v);
+BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *param, u32 heapId);
 
-extern void BTLV_B_GAUGE_DeletePartyBallBar(void *);
+void BTLV_B_GAUGE_DeletePartyBallBar(BtlvPartyBallBar *bar);
 
-extern int BTLV_B_GAUGE_IsPartyBallBarActive(int *);
+int BTLV_B_GAUGE_IsPartyBallBarActive(BtlvPartyBallBar *bar);
 
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *ctx);
 
@@ -515,39 +365,39 @@ extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern void BTLV_TIMER_Start(void *, int, int);
+void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy);
 
-extern void BTLV_TIMER_SetVisible(u8 *p, int i, int a, int b);
+void BTLV_TIMER_SetVisible(BtlvTimer *timer, int side, int visible, int restart);
 
-extern int BTLV_TIMER_IsExpired(struct W *w, int i);
+int BTLV_TIMER_IsExpired(BtlvTimer *timer, int side);
 
-extern int BTLV_GAUGE_IsLowHpBgmPlaying(void *);
+unsigned int BTLV_GAUGE_IsLowHpBgmPlaying(BtlvGaugeWork *work);
 
-extern void BTLV_GAUGE_SetLowHpBgmPlaying(u32 obj, u32 v);
+void BTLV_GAUGE_SetLowHpBgmPlaying(BtlvGaugeWork *work, int playing);
 
-extern void BTLV_GAUGE_SetLowHpBgmSuppressed(u32 obj, u32 v);
+void BTLV_GAUGE_SetLowHpBgmSuppressed(BtlvGaugeWork *work, int suppressed);
 
 extern int GFL_USE_PopBgm(void);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
 
-extern void BTLV_GAUGE_SetSavedBgmNo(char *p, int v);
+void BTLV_GAUGE_SetSavedBgmNo(BtlvGaugeWork *work, int bgmNo);
 
-extern void BTLV_GAUGE_SetBgmReplaced(void *o, u32 v);
+void BTLV_GAUGE_SetBgmReplaced(BtlvGaugeWork *work, int replaced);
 
 extern int BTL_MAIN_IsRecordEnabledInComm(char **p);
 
 extern int BTL_MAIN_IsRecordAllowed(char **p);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern void *TCBL_GetTaskUserData(void *task);
 
 extern void sub_02030EAC(struct Node *n);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void PALANM_TransferPalettes(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct PalAnmSlot *palanm);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern void *TCBL_GetTaskUserData(void *task);
 
 extern u32 KEY_GetTrg(void);
 
@@ -561,404 +411,404 @@ extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 co
 
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-Obj_021F6560 *func_021F6560(int mode, int group, int variant, u16 heap);
+BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap);
 
-void func_021F6898(Obj_021F6898 *o);
+void BTLV_STAGE_Delete(BtlvStage *stage);
 
-void func_021F6934(Obj_021F6934 *o);
+void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage);
 
-void func_021F69B0(Obj_021F69B0 *p);
+void BTLV_STAGE_DrawLayers(BtlvStage *stage);
 
-void func_021F69E8(S69E8 *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d);
+void BTLV_STAGE_InitLayerEntry(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int func_021F6A18(char *p);
+int BTLV_STAGE_IsEffectActive(BtlvStage *stage);
 
-void func_021F6A28(Obj_021F6A28 *o, u32 mode, u32 on);
+void BTLV_STAGE_SetLayerEnableMask(BtlvStage *stage, u32 side, u32 hide);
 
-int func_021F6AD0(Obj_021F6AD0 *p);
+int BTLV_STAGE_IsAnyLayerArmed(BtlvStage *stage);
 
-Obj_021F6B04 *func_021F6B04(int unused, int group, u8 variant, u16 heap);
+BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap);
 
-void func_021F6CF0(Obj_021F6CF0 *o);
+void BTLV_FIELD_Delete(BtlvField *field);
 
-void func_021F6D5C(Obj_021F6D5C *o);
+void BTLV_FIELD_UpdateAnims(BtlvField *field);
 
-void func_021F6DD4(Obj_021F6DD4 *p);
+void BTLV_FIELD_Draw(BtlvField *field);
 
-void func_021F6DEC(S6DEC *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d);
+void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int func_021F6E1C(char *p);
+int BTLV_FIELD_IsEffectActive(BtlvField *field);
 
-void func_021F6E2C(Obj_021F6E2C *o, u32 v);
+void BTLV_FIELD_SetState(BtlvField *field, u32 hide);
 
-Obj_021F6E3C *func_021F6E3C(int a, u16 b);
+BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap);
 
-void func_021F6EC0(void **p);
+void BTLV_CAMERA_Delete(BtlvCamera *camera);
 
-void func_021F6ED4(int *p);
+void BTLV_CAMERA_UpdateMove(BtlvCamera *camera);
 
-void func_021F6EDC(int *p, int *a, int *b);
+void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const BtlvVec3 *target);
 
-void func_021F6F48(Cam_021F6F48 *c, VecFx32_v6560 *a, VecFx32_v6560 *b, int n, int s, int t);
+void BTLV_CAMERA_StartMove(BtlvCamera *camera, const BtlvVec3 *eyeDest, const BtlvVec3 *targetDest, int frames, int delay, int easeCount);
 
-Obj_v6560 *func_021F73F0(int a, int b, Q_v6560 *q, int c, u16 *h, int e, int f, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap);
 
-void *func_021F745C(u8 *p, int a, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap);
 
-void func_021F7544(Param *p, int arg, u16 heap);
+void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap);
 
-void func_021F7808(void);
+void BTLV_EFFECT_Exit(void);
 
-void func_021F78E4(void);
+void BTLV_EFFECT_Main(void);
 
-void func_021F7998(u32 a);
+void BTLV_EFFECT_StartEffect(u32 a);
 
-void func_021F7A28(int a, u32 b);
+void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
 
-void func_021F7AAC(int a, int b, u32 c);
+void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c);
 
-void func_021F7B2C(const Req_021F7208 *r);
+void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r);
 
-void func_021F7BEC(void);
+void BTLV_EFFECT_PauseVm(void);
 
-void func_021F7C0C(void);
+void BTLV_EFFECT_ResumeVm(void);
 
-void func_021F7C2C(int a, int b);
+void BTLV_EFFECT_StartDamageTintTask(int a, int b);
 
-void func_021F7CE4(int a);
+void BTLV_EFFECT_StartPokeAppearEffect(int a);
 
-void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
+void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e);
 
-void func_021F7D44(int a, unsigned short b);
+void BTLV_EFFECT_StartEffectWithValue(int a, unsigned short b);
 
-void func_021F7D80(void *a, int b);
+void BTLV_EFFECT_StartHitTask(void *a, int b);
 
-void func_021F7E38(void *a, int b);
+void BTLV_EFFECT_ResetPokeSprite(void *a, int b);
 
-void func_021F7E74(u32 a);
+void BTLV_EFFECT_StartPokeEffectId285(u32 a);
 
-void func_021F7E84(u32 a);
+void BTLV_EFFECT_StartPokeEffectId286(u32 a);
 
-void func_021F7E94(int a);
+void BTLV_EFFECT_StartPokeEffectId26E(int a);
 
-void func_021F7EA4(u32 a);
+void BTLV_EFFECT_StartPokeEffectId26F(u32 a);
 
-int func_021F7EB4(void);
+int BTLV_EFFECT_IsBusy(void);
 
-void func_021F7EE8(void *m, int key);
+void BTLV_EFFECT_SetPokeSpriteKey(void *m, int key);
 
-void func_021F7F04(int a);
+void BTLV_EFFECT_DeletePokeSprite(int a);
 
-int func_021F7F1C(int i);
+int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
 
-void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e);
+void BTLV_EFFECT_AddPokeSprite(int a, u32 b, u32 c, u32 d, u32 e);
 
-void func_021F8010(int a);
+void BTLV_EFFECT_ReleasePokeSprite(int a);
 
-void func_021F803C(u32 a, void *m, u32 c);
+void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, u32 slotIdx);
 
-void func_021F8090(u32 a, u32 b, u32 c);
+void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct ZukanSave *zukanSave, void *partyPoke, u32 slotIdx);
 
-void func_021F80E4(u32 a);
+void BTLV_EFFECT_GaugeDeleteSlot(u32 a);
 
-void func_021F80FC(u32 a, u32 b);
+void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b);
 
-void func_021F8118(u32 a, u32 b);
+void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 a, u32 b);
 
-void func_021F8134(int index, u32 amount);
+void BTLV_EFFECT_GaugeStartExpGain(int index, u32 amount);
 
-void func_021F8150(int index, void *obj);
+void BTLV_EFFECT_GaugeRefreshForLevelUp(int index, struct BtlPokeParam *obj);
 
-void func_021F8168(void);
+void BTLV_EFFECT_GaugeRequestStop(void);
 
-int func_021F8180(void);
+int BTLV_EFFECT_GaugeIsAnimating(void);
 
-void func_021F8198(int a, int b);
+void BTLV_EFFECT_GaugeSetSideVisible(int a, int b);
 
-void func_021F81B4(u32 a, u32 b);
+void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b);
 
-void func_021F81D0(u32 a, u32 b);
+void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b);
 
-void func_021F81EC(int sel);
+void BTLV_EFFECT_GaugeSelectSlot(int sel);
 
-int func_021F8204(int index);
+int BTLV_EFFECT_GaugeIsSlotOccupied(int index);
 
-int func_021F821C(int a, int *b, int *c);
+int BTLV_EFFECT_GaugeGetSlotHealthInfo(int a, int *b, int *c);
 
-void func_021F823C(u32 *p);
+void BTLV_EFFECT_CreatePartyBallBar(const BtlvPartyBallBarParam *p);
 
-void func_021F8260(u32 i);
+void BTLV_EFFECT_DeletePartyBallBar(u32 i);
 
-int func_021F827C(u32 i);
+int BTLV_EFFECT_IsPartyBallBarActive(u32 i);
 
-void func_021F8298(u32 a, u8 b, u8 c, u8 d, u16 e);
+void BTLV_EFFECT_SetStageFieldTint(u32 a, u8 b, u8 c, u8 d, u16 e);
 
-int func_021F8324(u32 a);
+int BTLV_EFFECT_IsStageFieldBusy(u32 a);
 
-void func_021F839C(u32 a, u32 b);
+void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b);
 
-void func_021F8414(int a, int b, int c);
+void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c);
 
-void func_021F84B4(u32 a, u32 b);
+void BTLV_EFFECT_SetPokeSpriteVisible(u32 a, u32 b);
 
-int func_021F84D0(int a);
+int BTLV_EFFECT_GetPokeSlot(int a);
 
-void func_021F84E8(int a, int b);
+void BTLV_EFFECT_TimerStart(int a, int b);
 
-void func_021F8504(u32 a, u32 b, u32 c);
+void BTLV_EFFECT_TimerSetVisible(u32 a, u32 b, u32 c);
 
-int func_021F8524(int i);
+int BTLV_EFFECT_TimerIsExpired(int i);
 
-int func_021F853C(int a);
+int BTLV_EFFECT_GetPokeSpriteState(int a);
 
-void func_021F8554(u32 flags, int kind, int n, int s, int t);
+void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t);
 
-void func_021F8628(u32 a, int *out, int *p);
+void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, BtlvVec3 *eyeOut, BtlvVec3 *basePos);
 
-void *func_021F8678(void);
+void *BTLV_EFFECT_GetWorkPtr(void);
 
-int func_021F8684(void);
+BtlvCamera *BTLV_EFFECT_GetCamera(void);
 
-int func_021F8694(void);
+BtlvMcssWork *BTLV_EFFECT_GetMcss(void);
 
-int func_021F86A4(void);
+BtlvStage *BTLV_EFFECT_GetStage(void);
 
-int func_021F86B4(void);
+BtlvGaugeWork *BTLV_EFFECT_GetGauge(void);
 
-int func_021F86C4(void);
+BtlvEffVmWork *BTLV_EFFECT_GetEffvm(void);
 
-void *func_021F86D4(void);
+void *BTLV_EFFECT_GetOwner(void);
 
-int func_021F86E0(void);
+struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
-int func_021F86F0(void);
+BtlvClact *BTLV_EFFECT_GetClact(void);
 
-int func_021F8700(void);
+BtlvBg *BTLV_EFFECT_GetBg(void);
 
-int func_021F8710(void);
+int BTLV_EFFECT_GetMode(void);
 
-int func_021F8720(void);
+int BTLV_EFFECT_GetCompetitorType(void);
 
-int func_021F8730(void);
+int BTLV_EFFECT_GetFieldSituationFlags(void);
 
-unsigned short func_021F8740(int a);
+unsigned short BTLV_EFFECT_GetTrainerType(int a);
 
-int func_021F8754(void);
+void *BTLV_EFFECT_GetBattleMain(void);
 
-int func_021F8764(void);
+int BTLV_EFFECT_GetRule(void);
 
-void func_021F8774(void);
+void BTLV_EFFECT_PollLowHpBgm(void);
 
-void func_021F878C(u32 a);
+void BTLV_EFFECT_StopLowHpBgm(u32 a);
 
-void func_021F87D4(u32 v);
+void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 v);
 
-void func_021F87EC(u32 v);
+void BTLV_EFFECT_SaveBgmNo(u32 v);
 
-int func_021F882C(void);
+int BTLV_EFFECT_IsBgmSaved(void);
 
-void func_021F883C(u32 a);
+void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32 a);
 
-void func_021F8884(int a);
+void BTLV_EFFECT_SetVisibilityMode(int a);
 
-int func_021F88A8(void);
+int BTLV_EFFECT_GetVisibilityMode(void);
 
-void func_021F88BC(int a);
+void BTLV_EFFECT_SetFlag26(int a);
 
-int func_021F88E0(void);
+int BTLV_EFFECT_GetFlag26(void);
 
-int func_021F88F4(void);
+int BTLV_EFFECT_IsRecordEnabledInComm(void);
 
-int func_021F8914(void);
+int BTLV_EFFECT_IsRecordAllowed(void);
 
-void func_021F8934(int a);
+void BTLV_EFFECT_SetAllPokeSpriteAnim(int a);
 
-void func_021F896C(void *h, void (*cb)(void *), int arg);
+void BTLV_EFFECT_RegisterTask(void *task, void (*cb)(void *), int arg);
 
-int func_021F899C(void *h);
+int BTLV_EFFECT_FindTaskIndex(void *h);
 
-void func_021F89BC(void *h);
+void BTLV_EFFECT_DeleteTask(void *task);
 
-void func_021F8A10(int a);
+void BTLV_EFFECT_DeleteTasksByArg(int a);
 
-void func_021F8A40(int a);
+void BTLV_EFFECT_SetIntroState(int a);
 
-void func_021F8A78(void);
+void BTLV_EFFECT_StartIntroEffect(void);
 
-void func_021F8AC0(int a);
+void BTLV_EFFECT_ResetIntroState(int a);
 
-void func_021F8AE8(int i, u32 v);
+void BTLV_EFFECT_SetPokeEffectValue(int i, u32 v);
 
-int func_021F8AFC(int i);
+int BTLV_EFFECT_GetPokeEffectValue(int i);
 
-void func_021F8B10(void);
+void BTLV_EFFECT_SuspendVmWait(void);
 
-void func_021F8B28(void);
+void BTLV_EFFECT_ResumeVmWait(void);
 
-int func_021F8B40(void);
+int BTLV_EFFECT_FindFreeTaskSlot(void);
 
-void func_021F8B6C(void);
+void BTLV_EFFECT_DeleteAllTasks(void);
 
-void func_021F8B90(void *h, void *arg);
+void BTLV_EFFECT_VBlankTask(void *h, void *arg);
 
-void func_021F8BAC(void *h, void *arg);
+void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg);
 
-void func_021F8C78(void *h);
+void BTLV_EFFECT_ClearTaskMaskM0(void *h);
 
-void func_021F8CB0(void *h, void *arg);
+void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg);
 
-void func_021F8EF8(void *h);
+void BTLV_EFFECT_ClearTaskMaskM1(void *h);
 
-void func_021F8F30(void *h, void *p);
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, void *p);
 
-void func_021F8FB0(void *h);
+void BTLV_EFFECT_ClearTaskMaskM2(void *h);
 
-void func_021F8FE8(void *h, void *arg);
+void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, void *arg);
 
-void func_021F9028(void *h);
+void BTLV_EFFECT_FreeTaskArg(void *h);
 
-void func_021F903C(void);
+void BTLV_EFFECT_UpdateIntroInput(void);
 
-void func_021F9154(int a, int b, int *out, int c);
+void BTLV_EFFECT_ComputeScalarStep(fx32 from, fx32 to, fx32 *stepOut, fx32 frames);
 
-void func_021F918C(const VecFx32_021F8F30 *a, const VecFx32_021F8F30 *b, VecFx32_021F8F30 *out, fx32 div);
+void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames);
 
-void func_021F9220(int *p, int *d, int *lim, int *flag);
+void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *notDone);
 
-int func_021F9260(Mover_v8204 *m, VecFx32_021F8F30 *out);
+int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
 
-int func_021F935C(int x);
+int BTLV_EFFECT_GetBitMask(int x);
 
-void func_021F9364(P *p);
+void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
 
-void *func_021F93F4(void *a, u32 b);
+BtlvEffVmWork *BTLV_EFFVM_Create(void *owner, u16 heap);
 
-int func_021F9478(void *vm);
+int BTLV_EFFVM_Main(BtlvEffVmWork *vm);
 
-void func_021F94D8(void *a);
+void BTLV_EFFVM_Destroy(BtlvEffVmWork *vm);
 
-void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, BtlvEffVmParams *q);
+void BTLV_EFFVM_StartScript(BtlvEffVmWork *vm, u32 a1, u32 a2, u16 id, BtlvEffVmParams *q);
 
-void func_021F97E4(void *a);
+void BTLV_EFFVM_StopScript(BtlvEffVmWork *vm);
 
-void func_021F9814(void *a);
+void BTLV_EFFVM_ClearBlockedFlag(BtlvEffVmWork *vm);
 
-void func_021F9844(S9844 *p);
+void BTLV_EFFVM_InitParams(BtlvEffVmParams *p);
 
-void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
+void BTLV_EFFVM_StartSePlayTask(BtlvEffVmWork *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
 
-void func_021F9948(void *vm, u32 a, int mode, int c, int x, int dest, int e, int f, int g, int duration);
+void BTLV_EFFVM_StartSeVolumeTask(BtlvEffVmWork *vm, u32 a, int mode, int c, int x, int dest, int e, int f, int g, int duration);
 
-void func_021F9A7C(void *a);
+void BTLV_EFFVM_StopLiveSounds(BtlvEffVmWork *vm);
 
-void func_021F9AA4(void *a);
+void BTLV_EFFVM_ClearLastEffect(BtlvEffVmWork *vm);
 
-Work_021FEAC0 *func_021FEAC0(int mode, int a1, u16 a2);
+BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId);
 
-void func_021FEB78(Work_021FEB78 *w);
+void BTLV_MCSS_Delete(BtlvMcssWork *w);
 
-void func_021FEBAC(Work_021FEBAC *w);
+void BTLV_MCSS_Update(BtlvMcssWork *w);
 
-void func_021FEE9C(int *p);
+void BTLV_MCSS_Draw(BtlvMcssWork *w);
 
-void func_021FEEA8(char *w, void *src, int key);
+void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos);
 
-void func_021FF088(Work_vE254 *w, void *src, int key);
+void BTLV_MCSS_AddTrainer(BtlvMcssWork *w, void *trainer, int pos);
 
-void func_021FF0F8(Work_021FF0F8 *w, int key);
+void BTLV_MCSS_RemoveSprite(BtlvMcssWork *w, int pos);
 
-void func_021FF144(Work_021FF144 *w, int key, fx32 x, fx32 y, fx32 z);
+void BTLV_MCSS_SetPosition(BtlvMcssWork *w, int pos, int x, int y, int z);
 
-void func_021FF16C(Work_021FF16C *w);
+void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *w);
 
-int func_021FF348(Work_021FF348 *w, int key);
+int BTLV_MCSS_IsVanished(BtlvMcssWork *w, int pos);
 
-void func_021FF374(Work_vF228 *w, int key, int kind);
+void BTLV_MCSS_SetVanishMode(BtlvMcssWork *w, int pos, int mode);
 
-void func_021FF3F4(void *obj, void *out, int idx);
+void BTLV_MCSS_GetSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos);
 
-void func_021FF7B0(Work_021FF7B0 *w, int a, int b);
+void BTLV_MCSS_SwapSprites(BtlvMcssWork *w, int posA, int posB);
 
-void func_021FF924(char *w, int key, int kind, int value, int a, int b, int c);
+void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *w, int pos, int kind, int alpha, int frames, int waitFrames, int repeat);
 
-void func_021FFBBC(char *w, int key, int kind, int value, int a, int b, int c);
+void BTLV_MCSS_StartMosaicTween(BtlvMcssWork *w, int pos, int kind, int mosaic, int frames, int waitFrames, int repeat);
 
-int func_021FFCB0(Work_021FFCB0 *w, int key);
+int BTLV_MCSS_IsSpriteBusy(BtlvMcssWork *w, int pos);
 
-int func_021FFD6C(Work_021FFD6C *w);
+int BTLV_MCSS_IsAnySpriteBusy(BtlvMcssWork *w);
 
-int func_021FFD9C(char *p, int key);
+int BTLV_MCSS_IsSpriteLoaded(BtlvMcssWork *w, int pos);
 
-void func_021FFDB4(Work_vFCB0 *w, int key, u8 cur, u8 target, u8 step, u32 e);
+void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *w, int pos, u8 cur, u8 target, u8 step, u32 color);
 
-void func_021FFE48(Work_021FFE48 *w, int key, void *p);
+void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *w, int pos, void *pp);
 
-int func_021FFF38(char *p, int key);
+int BTLV_MCSS_GetSpriteAttrFlags(BtlvMcssWork *w, int pos);
 
-void func_022001DC(Work_022001DC *w, int key, Rec_022001DC *r);
+void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *w, int pos, BtlvMcssAddWork *addWork);
 
-void func_02200344(Work_02200344 *w, int a, int b, int flag);
+void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound);
 
-void func_022003EC(Work_022003EC *w, void *p, int *a, int flags);
+void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *w, void *pp, BtlvMcssAddWork *out, int pos);
 
-void func_0220055C(Work_0220055C *w, int key, int mode);
+void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *w, int pos, int mode);
 
-void func_02200608(Work_02200608 *w);
+void BTLV_MCSS_SaveVanishStates(BtlvMcssWork *w);
 
-Res_02201894 *func_02201A8C(void *owner, u16 heap);
+BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap);
 
-void func_02201AC4(Res_02201AC4 *r);
+void BTLV_CLACT_Delete(BtlvClact *clact);
 
-void func_02201AF0(void *a0);
+void BTLV_CLACT_Draw(void *unused);
 
-Obj_02206BC8 *func_02206BC8(int a, u16 heap);
+BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId);
 
-void func_02206E28(char *p);
+void BTLV_GAUGE_Delete(BtlvGaugeWork *work);
 
-void func_02206EB4(W_02206BC8 *p);
+void BTLV_GAUGE_FlashTaskMain(BtlvGaugeWork *work);
 
-void func_022070C0(W_022070C0 *p, void *a, void *q, int mode, int i);
+void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, int layout, int slotIdx);
 
-void func_02207288(W_02207288 *p, void *a, void *q, int mode, int i);
+void BTLV_GAUGE_InitSlotFromPartyPoke(BtlvGaugeWork *work, struct ZukanSave *zukanSave, void *partyPoke, int layout, int slotIdx);
 
-void func_02207960(char *p, int i);
+void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx);
 
-extern const char d_0220AC90[];
+extern const char gBtlvEffectFileName[];
 
-extern BtlvEff *d_0220AF20;
+extern BtlvEff *gBtlvEff;
 
 extern u8 d_02209D0C[];
 
 extern BtlvEff *g_0220AF20;
 
-extern u32 d_0220AC70[];
+extern u32 gBtlvIntroPickTableA[];
 
-extern u32 d_0220AC78[];
+extern u32 gBtlvIntroPickTableB[];
 
-Obj_v6560 *func_021F73F0(int a, int b, Q_v6560 *q, int c, u16 *h, int e, int f, u16 heap)
+BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap)
 {
-    Obj_v6560 *o;
+    BtlvEffSetup *o;
     int i = 0;
 
-    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, d_0220AC90, 0xca);
-    o->f0 = a;
-    o->f4 = b;
-    o->q = *q;
-    o->f20 = c;
-    o->f24 = f;
-    o->f28 = e;
+    o = sub_02030734((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
+    o->mode = rule;
+    o->competitor = competitor;
+    o->situation = *situation;
+    o->isMultiMode = isMultiMode;
+    o->param = param;
+    o->battle = battle;
     for (; i < 4; i++)
-        o->h[i] = h[i];
+        o->trainerType[i] = trainerTypes[i];
     return o;
 }
 
-void *func_021F745C(u8 *p, int a, u16 heap)
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap)
 {
     u16 h[4];
     unsigned int i;
     int side, idx, other;
     int mode, type;
-    Q_v6560 *q;
+    BtlvEffFieldSituation *q;
     for (i = 0; i < 4; i++) h[i] = 0;
     if (BTL_MAIN_IsMultiMode((unsigned char **)p) == 1) {
         side = BTL_MAIN_IsOwnClientSecondTeam(p);
@@ -976,127 +826,127 @@ void *func_021F745C(u8 *p, int a, u16 heap)
     }
     mode = BTL_MAIN_GetRule((void **)p);
     type = (int)BTL_MAIN_GetCompetitor((void ***)p);
-    q = (Q_v6560 *)BTL_MAIN_GetFieldSituation((char **)p);
-    return func_021F73F0(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, (int)p, a, heap);
+    q = (BtlvEffFieldSituation *)BTL_MAIN_GetFieldSituation((char **)p);
+    return BTLV_EFFECT_CreateSetup(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, p, a, heap);
 }
 
 /*
- * note:     the two func_021F6B04 calls and the two f244 stores are written per arm;
+ * note:     the two BTLV_FIELD_Create calls and the two f244 stores are written per arm;
  *           the compiler tail-merges them, which is what keeps the 0x194-based
- *           offsets and the reload of &d_0220AF20 seen in the listing.
+ *           offsets and the reload of &gBtlvEff seen in the listing.
  */
-void func_021F7544(Param *p, int arg, u16 heap)
+void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap)
 {
-    Work_v6560 *w;
-    Entry_021F7208 *tbl;
+    BtlvEff *w;
+    BtlvEffStageRow *tbl;
     u8 v;
     int i;
-    Rect r;
+    BtlvEffLight r;
     u16 out[10];
 
-    w = sub_02030734(heap, sizeof(Work_v6560), 1, d_0220AC90, 0x116);
-    d_0220AF20 = (BtlvEff *)(w);
-    w->param = *p;
+    w = sub_02030734(heap, sizeof(BtlvEff), 1, gBtlvEffectFileName, 0x116);
+    gBtlvEff = w;
+    w->setup = *p;
     w->heap = heap;
-    d_0220AF20->buf = sub_02030734(heap, func_02030CB0(0x20), 1, d_0220AC90, 0x11c);
-    d_0220AF20->owner = func_02030CBC(0x20, d_0220AF20->buf);
-    d_0220AF20->h188 = func_021F93F4(d_0220AF20->owner, heap);
-    d_0220AF20->h18c = (void *)PALANM_Create(heap);
-    PALANM_SetAutoTransfer((struct Obj02021EE4 *)d_0220AF20->h18c, 1);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 0, 0x200, heap);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 1, 0x1e0, heap);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 2, 0x200, heap);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 3, 0x1e0, heap);
+    gBtlvEff->taskBuf = sub_02030734(heap, func_02030CB0(0x20), 1, gBtlvEffectFileName, 0x11c);
+    gBtlvEff->owner = func_02030CBC(0x20, gBtlvEff->taskBuf);
+    gBtlvEff->effvm = BTLV_EFFVM_Create(gBtlvEff->owner, heap);
+    gBtlvEff->palanm = PALANM_Create(heap);
+    PALANM_SetAutoTransfer(gBtlvEff->palanm, 1);
+    PALANM_AllocSlotBuffers(gBtlvEff->palanm, 0, 0x200, heap);
+    PALANM_AllocSlotBuffers(gBtlvEff->palanm, 1, 0x1e0, heap);
+    PALANM_AllocSlotBuffers(gBtlvEff->palanm, 2, 0x200, heap);
+    PALANM_AllocSlotBuffers(gBtlvEff->palanm, 3, 0x1e0, heap);
     v = 0;
-    d_0220AF20->h190 = (void *)func_021FEAC0(p->f0, (int)d_0220AF20->owner, heap);
-    tbl = ARC_TOOL_LoadMember(0x98, 0, (u16)((d_0220AF20->heap & 0x7fff) | 0x8000));
-    if (tbl[p->f8].f1 != 0) {
-        v = p->f11;
+    gBtlvEff->mcss = BTLV_MCSS_Create(p->mode, gBtlvEff->owner, heap);
+    tbl = ARC_TOOL_LoadMember(0x98, 0, (u16)((gBtlvEff->heap & 0x7fff) | 0x8000));
+    if (tbl[p->situation.stageGroup].hasVariant != 0) {
+        v = p->situation.variant;
     }
-    d_0220AF20->h194 = (void *)func_021F6560(p->f0, tbl[p->f8].a13[p->fc], v, heap);
-    if (d_0220AF20->param_battle != 0) {
-        d_0220AF20->h198 = (void *)func_021F6B04(BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x400), tbl[p->f8].a2[p->fc], v, heap);
+    gBtlvEff->stage = BTLV_STAGE_Create(p->mode, tbl[p->situation.stageGroup].stageId[p->situation.stageIndex], v, heap);
+    if (gBtlvEff->setup.battle != 0) {
+        gBtlvEff->field = BTLV_FIELD_Create(BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400), tbl[p->situation.stageGroup].fieldId[p->situation.stageIndex], v, heap);
     } else {
-        d_0220AF20->h198 = (void *)func_021F6B04(0, tbl[p->f8].a2[p->fc], v, heap);
+        gBtlvEff->field = BTLV_FIELD_Create(0, tbl[p->situation.stageGroup].fieldId[p->situation.stageIndex], v, heap);
     }
-    if (tbl[p->f8].f0 != 0) {
-        func_0201493C(p->f12, p->f14, p->f15, p->f10, p->f11, out, d_0220AF20->heap);
-        r.w = out[0];
+    if (tbl[p->situation.stageGroup].hasLight != 0) {
+        func_0201493C(p->situation.lightArg1, p->situation.lightArg2, p->situation.lightArg3, p->situation.lightArg0, p->situation.variant, out, gBtlvEff->heap);
+        r.color = out[0];
         r.x = 0;
         r.y = -0x1000;
         r.z = 0;
-        G3D_SYSTEM_SetLight(0, (const u16 *)(&r));
+        G3D_SYSTEM_SetLight(0, &r);
     }
     func_020307B0(tbl);
-    d_0220AF20->h19c = (void *)func_021F6E3C((int)d_0220AF20->owner, heap);
-    d_0220AF20->h1a0 = (struct Res *)func_02201A8C(d_0220AF20->owner, heap);
-    d_0220AF20->h1a4 = (void *)func_02206BC8(arg, heap);
-    d_0220AF20->h1b0 = BTLV_TIMER_Create(heap);
-    d_0220AF20->h1b4 = BTLV_BG_Create(d_0220AF20->owner, heap);
-    func_021FF16C((Work_021FF16C *)d_0220AF20->h190);
+    gBtlvEff->camera = BTLV_CAMERA_Create(gBtlvEff->owner, heap);
+    gBtlvEff->clact = BTLV_CLACT_Create(gBtlvEff->owner, heap);
+    gBtlvEff->gauge = BTLV_GAUGE_Create(font, heap);
+    gBtlvEff->timer = BTLV_TIMER_Create(heap);
+    gBtlvEff->bg = BTLV_BG_Create(gBtlvEff->owner, heap);
+    BTLV_MCSS_EnableOrthoMode(gBtlvEff->mcss);
     PARTICLE_InitManager(heap);
     for (i = 0; i < 8; i++) {
-        d_0220AF20->slots[i] = -1;
+        gBtlvEff->pokeSprite[i] = -1;
     }
-    if (d_0220AF20->param_battle != 0) {
-        if (BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x800)) {
-            d_0220AF20->f244 = 300;
+    if (gBtlvEff->setup.battle != 0) {
+        if (BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x800)) {
+            gBtlvEff->introTimerMax = 300;
         } else {
-            d_0220AF20->f244 = 900;
+            gBtlvEff->introTimerMax = 900;
         }
     }
-    d_0220AF20->h1b8 = func_020056A0(func_021F8B90, 0, 1);
-    PM_VOICE_AllocBuffers(2, d_0220AF20->heap);
+    gBtlvEff->vblankTask = func_020056A0(BTLV_EFFECT_VBlankTask, 0, 1);
+    PM_VOICE_AllocBuffers(2, gBtlvEff->heap);
 }
 
-void func_021F7808(void)
+void BTLV_EFFECT_Exit(void)
 {
-    if (d_0220AF20 != 0) {
+    if (gBtlvEff != 0) {
         PM_VOICE_FreeBuffers();
-        func_021F8B6C();
-        PALANM_FreeSlotBuffers(d_0220AF20->h18c, 0);
-        PALANM_FreeSlotBuffers(d_0220AF20->h18c, 1);
-        PALANM_FreeSlotBuffers(d_0220AF20->h18c, 2);
-        PALANM_FreeSlotBuffers(d_0220AF20->h18c, 3);
-        PALANM_Delete(d_0220AF20->h18c);
-        func_021FEB78((Work_021FEB78 *)d_0220AF20->h190);
-        func_021F6898((Obj_021F6898 *)d_0220AF20->h194);
-        func_021F6CF0((Obj_021F6CF0 *)d_0220AF20->h198);
-        func_021F6EC0(d_0220AF20->h19c);
-        func_02201AC4((Res_02201AC4 *)d_0220AF20->h1a0);
-        func_02206E28(d_0220AF20->h1a4);
-        BTLV_TIMER_Delete(d_0220AF20->h1b0);
-        BTLV_BG_Delete(d_0220AF20->h1b4);
+        BTLV_EFFECT_DeleteAllTasks();
+        PALANM_FreeSlotBuffers(gBtlvEff->palanm, 0);
+        PALANM_FreeSlotBuffers(gBtlvEff->palanm, 1);
+        PALANM_FreeSlotBuffers(gBtlvEff->palanm, 2);
+        PALANM_FreeSlotBuffers(gBtlvEff->palanm, 3);
+        PALANM_Delete(gBtlvEff->palanm);
+        BTLV_MCSS_Delete(gBtlvEff->mcss);
+        BTLV_STAGE_Delete(gBtlvEff->stage);
+        BTLV_FIELD_Delete(gBtlvEff->field);
+        BTLV_CAMERA_Delete(gBtlvEff->camera);
+        BTLV_CLACT_Delete(gBtlvEff->clact);
+        BTLV_GAUGE_Delete(gBtlvEff->gauge);
+        BTLV_TIMER_Delete(gBtlvEff->timer);
+        BTLV_BG_Delete(gBtlvEff->bg);
         PARTICLE_ExitManager();
-        func_021F94D8(d_0220AF20->h188);
-        func_02030EAC(d_0220AF20->h1b8);
-        func_02030DA4(d_0220AF20->owner);
-        func_020307B0(d_0220AF20->buf);
-        func_020307B0(d_0220AF20);
-        d_0220AF20 = 0;
+        BTLV_EFFVM_Destroy(gBtlvEff->effvm);
+        func_02030EAC(gBtlvEff->vblankTask);
+        func_02030DA4(gBtlvEff->owner);
+        func_020307B0(gBtlvEff->taskBuf);
+        func_020307B0(gBtlvEff);
+        gBtlvEff = 0;
     }
 }
 
 /*
  * volatile: 0x021F7980 0x021F7986 (0x04000604 read twice, results unused)
  */
-void func_021F78E4(void)
+void BTLV_EFFECT_Main(void)
 {
-    if (d_0220AF20 != 0) {
-        d_0220AF20->f1e8 = func_021F9478(d_0220AF20->h188);
-        func_021F903C();
-        func_02030D28(d_0220AF20->owner);
-        func_021FEBAC((Work_021FEBAC *)d_0220AF20->h190);
-        func_021F6934((Obj_021F6934 *)d_0220AF20->h194);
-        func_021F6D5C((Obj_021F6D5C *)d_0220AF20->h198);
-        func_021F6ED4(d_0220AF20->h19c);
-        func_02206EB4((W_02206BC8 *)d_0220AF20->h1a4);
-        func_02201AF0(d_0220AF20->h1a0);
+    if (gBtlvEff != 0) {
+        gBtlvEff->effvmActive = BTLV_EFFVM_Main(gBtlvEff->effvm);
+        BTLV_EFFECT_UpdateIntroInput();
+        func_02030D28(gBtlvEff->owner);
+        BTLV_MCSS_Update(gBtlvEff->mcss);
+        BTLV_STAGE_UpdateLayerAnims(gBtlvEff->stage);
+        BTLV_FIELD_UpdateAnims(gBtlvEff->field);
+        BTLV_CAMERA_UpdateMove(gBtlvEff->camera);
+        BTLV_GAUGE_FlashTaskMain(gBtlvEff->gauge);
+        BTLV_CLACT_Draw(gBtlvEff->clact);
         func_02047964();
         G3D_SYSTEM_ApplyLookAt();
-        func_021F69B0((Obj_021F69B0 *)d_0220AF20->h194);
-        func_021F6DD4((Obj_021F6DD4 *)d_0220AF20->h198);
-        func_021FEE9C(d_0220AF20->h190);
+        BTLV_STAGE_DrawLayers(gBtlvEff->stage);
+        BTLV_FIELD_Draw(gBtlvEff->field);
+        BTLV_MCSS_Draw(gBtlvEff->mcss);
         REG_04000604;
         PARTICLE_Main();
         REG_04000604;
@@ -1104,208 +954,208 @@ void func_021F78E4(void)
     }
 }
 
-void func_021F7998(u32 a)
+void BTLV_EFFECT_StartEffect(u32 a)
 {
-    Job_021F7998 *o;
+    BtlvEffQueuedScript *o;
 
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h188, 0xff, 0xff, a, (BtlvEffVmParams *)0);
-        d_0220AF20->f1e8 = 1;
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0xff, 0xff, a, 0);
+        gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734((u16)((d_0220AF20->heap & 0x7fff) | 0x8000), 0x14, 1, d_0220AC90, 0x210);
-    o->f4 = 0xff;
-    o->f8 = 0xff;
-    o->fc = a;
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8FE8, o, 0), func_021F9028, 0);
+    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
+    o->attackerPos = 0xff;
+    o->defenderPos = 0xff;
+    o->scriptId = a;
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void func_021F7A28(int a, u32 b)
+void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b)
 {
-    Job_021F7A28 *o;
+    BtlvEffQueuedScript *o;
 
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h188, a, 0xff, b, (BtlvEffVmParams *)0);
-        d_0220AF20->f1e8 = 1;
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, a, 0xff, b, 0);
+        gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(d_0220AF20->heap, 0x14, 1, d_0220AC90, 0x22c);
-    o->f4 = a;
-    o->f8 = 0xff;
-    o->fc = b;
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8FE8, o, 0), func_021F9028, 0);
+    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x22c);
+    o->attackerPos = a;
+    o->defenderPos = 0xff;
+    o->scriptId = b;
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void func_021F7AAC(int a, int b, u32 c)
+void BTLV_EFFECT_StartEffectBetweenPokes(int a, int b, u32 c)
 {
-    Job_021F7AAC *o;
+    BtlvEffQueuedScript *o;
 
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h188, a, b, c, (BtlvEffVmParams *)0);
-        d_0220AF20->f1e8 = 1;
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, a, b, c, 0);
+        gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(d_0220AF20->heap, 0x14, 1, d_0220AC90, 0x249);
-    o->f4 = a;
-    o->f8 = b;
-    o->fc = c;
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8FE8, o, 0), func_021F9028, 0);
+    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
+    o->attackerPos = a;
+    o->defenderPos = b;
+    o->scriptId = c;
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
-void func_021F7B2C(const Req_021F7208 *r)
+void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *r)
 {
-    Job_021F7B2C *o;
-    Arg_v6560 l;
+    BtlvEffQueuedScript *o;
+    BtlvEffVmParams l;
 
-    if (func_021F7EB4() == 0) {
-        func_021F9844((S9844 *)&l);
-        l.b0 = r->f10;
-        l.b1 = r->c;
-        l.b2 = r->d;
-        func_021F94F8(d_0220AF20->h188, r->f4, r->f8, r->h0, (BtlvEffVmParams *)&l);
-        d_0220AF20->f1e8 = 1;
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_InitParams(&l);
+        l.kind = r->kind;
+        l.variant = r->variant;
+        l.option = r->option;
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, r->attackerPos, r->defenderPos, r->scriptId, &l);
+        gBtlvEff->effvmActive = 1;
         return;
     }
-    o = sub_02030734(d_0220AF20->heap, 0x14, 1, d_0220AC90, 0x26b);
-    o->s = sub_02030734(d_0220AF20->heap, 0x10, 1, d_0220AC90, 0x26c);
-    o->f4 = r->f4;
-    o->f8 = r->f8;
-    o->fc = r->h0;
-    o->s->b0 = r->f10;
-    o->s->b1 = r->c;
-    o->s->b2 = r->d;
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8FE8, o, 0), func_021F9028, 0);
+    o = sub_02030734(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x26b);
+    o->params = sub_02030734(gBtlvEff->heap, 0x10, 1, gBtlvEffectFileName, 0x26c);
+    o->attackerPos = r->attackerPos;
+    o->defenderPos = r->defenderPos;
+    o->scriptId = r->scriptId;
+    o->params->kind = r->kind;
+    o->params->variant = r->variant;
+    o->params->option = r->option;
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DelayedStartEffectTaskMain, o, 0), BTLV_EFFECT_FreeTaskArg, 0);
 }
 
 /*
- * Calls func_021F97E4 on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 0.
+ * Calls BTLV_EFFVM_StopScript on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 0.
  */
-void func_021F7BEC(void)
+void BTLV_EFFECT_PauseVm(void)
 {
-    func_021F97E4(d_0220AF20->h188);
-    d_0220AF20->f1e8 = 0;
+    BTLV_EFFVM_StopScript(gBtlvEff->effvm);
+    gBtlvEff->effvmActive = 0;
 }
 
 /*
- * Calls func_021F9814 on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 1.
+ * Calls BTLV_EFFVM_ClearBlockedFlag on the handle at 0x188 of the global work block, then sets the word at 0x1e8 to 1.
  */
-void func_021F7C0C(void)
+void BTLV_EFFECT_ResumeVm(void)
 {
-    func_021F9814(d_0220AF20->h188);
-    d_0220AF20->f1e8 = 1;
+    BTLV_EFFVM_ClearBlockedFlag(gBtlvEff->effvm);
+    gBtlvEff->effvmActive = 1;
 }
 
 /*
  * witness: arm9 WAZA_TOOL_GetDamageType filed as src/matched/arm9/WAZA_TOOL_GetDamageType.c.
  */
-void func_021F7C2C(int a, int b)
+void BTLV_EFFECT_StartDamageTintTask(int a, int b)
 {
-    Job_021F7208 *o;
+    BtlvEffDamageTintTask *o;
 
-    o = sub_02030734((u16)((d_0220AF20->heap & 0x7fff) | 0x8000), 0x18, 0, d_0220AC90, 0x29b);
-    o->f4 = 0;
-    o->f0 = a;
-    o->f8 = 3;
-    o->fc = 0;
-    o->f14 = func_021FF348((Work_021FF348 *)d_0220AF20->h190, a);
+    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x18, 0, gBtlvEffectFileName, 0x29b);
+    o->step = 0;
+    o->pos = a;
+    o->cyclesLeft = 3;
+    o->wait = 0;
+    o->skip = BTLV_MCSS_IsVanished(gBtlvEff->mcss, a);
     if (WAZA_TOOL_GetDamageType(b) == 1)
-        o->f10 = 0x842;
+        o->color = 0x842;
     else
-        o->f10 = 0x6318;
-    d_0220AF20->m0 |= func_021F935C(a);
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8BAC, o, 0), func_021F8C78, 0);
+        o->color = 0x6318;
+    gBtlvEff->damageTintTaskMask |= BTLV_EFFECT_GetBitMask(a);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_DamageTintTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM0, 0);
 }
 
 /*
- * Runs func_021F7A28 with code 0x23b, then func_021F8AE8 with 0.
+ * Runs BTLV_EFFECT_StartEffectOnPoke with code 0x23b, then BTLV_EFFECT_SetPokeEffectValue with 0.
  */
-void func_021F7CE4(int a)
+void BTLV_EFFECT_StartPokeAppearEffect(int a)
 {
-    func_021F7A28(a, 0x23b);
-    func_021F8AE8(a, 0);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x23b);
+    BTLV_EFFECT_SetPokeEffectValue(a, 0);
 }
 
-void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e)
+void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e)
 {
-    Arg_v6560 l;
+    BtlvEffVmParams l;
 
-    func_021F9844((S9844 *)&l);
-    l.b3 = c;
-    l.f8 = e;
-    l.f4 = d;
-    l.fc = b;
-    func_021F94F8(d_0220AF20->h188, 0, a, 0x23a, (BtlvEffVmParams *)&l);
-    d_0220AF20->f1e8 = 1;
+    BTLV_EFFVM_InitParams(&l);
+    l.side = c;
+    l.argB = e;
+    l.argA = d;
+    l.typeCode = b;
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, a, 0x23a, &l);
+    gBtlvEff->effvmActive = 1;
 }
 
 /*
  * Queues request 0x23d with value b on the handle at 0x188, then sets the word at 0x1e8 to 1.
  */
-void func_021F7D44(int a, unsigned short b)
+void BTLV_EFFECT_StartEffectWithValue(int a, unsigned short b)
 {
-    Req_021F7D44 req;
+    BtlvEffVmParams req;
 
-    func_021F9844((S9844 *)((Arg_v6560 *)&req));
-    req.v = b;
-    func_021F94F8(d_0220AF20->h188, 0, a, 0x23d, (BtlvEffVmParams *)&req);
-    d_0220AF20->f1e8 = 1;
+    BTLV_EFFVM_InitParams(&req);
+    req.typeCode = b;
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, a, 0x23d, (BtlvEffVmParams *)&req);
+    gBtlvEff->effvmActive = 1;
 }
 
-void func_021F7D80(void *a, int b)
+void BTLV_EFFECT_StartHitTask(void *a, int b)
 {
-    Job_021F7D80 *o;
+    BtlvEffHitTask *o;
 
-    o = sub_02030734((u16)((d_0220AF20->heap & 0x7fff) | 0x8000), 0x2c, 0, d_0220AC90, 0x2f9);
-    o->f4 = 0;
-    o->f0 = b;
-    func_021FFE48((Work_021FFE48 *)d_0220AF20->h190, b, a);
-    func_022003EC((Work_022003EC *)d_0220AF20->h190, a, o->buf, b);
-    d_0220AF20->m1 |= func_021F935C(b);
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8CB0, o, 0), func_021F8EF8, 0);
+    o = sub_02030734((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0x2f9);
+    o->step = 0;
+    o->pos = b;
+    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
+    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, a, &o->addWork, b);
+    gBtlvEff->hitTaskMask |= BTLV_EFFECT_GetBitMask(b);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_SequenceTaskMain, o, 0), BTLV_EFFECT_ClearTaskMaskM1, 0);
 }
 
-void func_021F7E38(void *a, int b)
+void BTLV_EFFECT_ResetPokeSprite(void *a, int b)
 {
-    int buf[9];
+    BtlvMcssAddWork buf;
 
-    func_021FFE48((Work_021FFE48 *)d_0220AF20->h190, b, a);
-    func_022003EC((Work_022003EC *)d_0220AF20->h190, a, buf, b);
-    func_022001DC((Work_022001DC *)d_0220AF20->h190, b, (Rec_022001DC *)buf);
+    BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, b, a);
+    BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, a, &buf, b);
+    BTLV_MCSS_ReloadSpriteResource(gBtlvEff->mcss, b, &buf);
 }
 
-void func_021F7E74(u32 a)
+void BTLV_EFFECT_StartPokeEffectId285(u32 a)
 {
-    func_021F7A28(a, 0x285);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x285);
 }
 
 /*
  * Unlabelled tail-call stub, filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  */
-void func_021F7E84(u32 a)
+void BTLV_EFFECT_StartPokeEffectId286(u32 a)
 {
-    func_021F7A28(a, 0x286);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x286);
 }
 
 /*
  * Thumb tail call through r3 with a constant second argument. Labelled in wave D8.
  */
-void func_021F7E94(int a)
+void BTLV_EFFECT_StartPokeEffectId26E(int a)
 {
-    func_021F7A28(a, 0x26E);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x26E);
 }
 
 /*
  * Unlabelled tail-call stub, filed for the caller ov093 func_021D284C (lane S16).
  */
-void func_021F7EA4(u32 a)
+void BTLV_EFFECT_StartPokeEffectId26F(u32 a)
 {
-    func_021F7A28(a, 0x26F);
+    BTLV_EFFECT_StartEffectOnPoke(a, 0x26F);
 }
 
-int func_021F7EB4(void)
+int BTLV_EFFECT_IsBusy(void)
 {
-    BtlvEff *p = d_0220AF20;
-    u32 t = p->f1e8 | p->m0 | p->m1 | p->m2;
+    BtlvEff *p = gBtlvEff;
+    u32 t = p->effvmActive | p->damageTintTaskMask | p->hitTaskMask | p->spriteTransitionTaskMask;
 
     if (t != 0)
         return 1;
@@ -1315,35 +1165,35 @@ int func_021F7EB4(void)
 /*
  * Unlabelled leaf, filed as the blocker of ov093 callers (lane S15).
  */
-void func_021F7EE8(void *m, int key)
+void BTLV_EFFECT_SetPokeSpriteKey(void *m, int key)
 {
-    func_021FEEA8((char *)d_0220AF20->h190, m, key);
+    BTLV_MCSS_AddPoke(gBtlvEff->mcss, m, key);
 }
 
 /*
- * Tail call to func_021FF0F8 with the handle at 0x190 of the global work block.
+ * Tail call to BTLV_MCSS_RemoveSprite with the handle at 0x190 of the global work block.
  */
-void func_021F7F04(int a)
+void BTLV_EFFECT_DeletePokeSprite(int a)
 {
-    func_021FF0F8((Work_021FF0F8 *)d_0220AF20->h190, a);
+    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, a);
 }
 
-int func_021F7F1C(int i)
+int BTLV_EFFECT_IsPokeSpriteLoaded(int i)
 {
     if (i < 8)
-        return func_021FFD9C((char *)d_0220AF20->h190, i);
-    if (d_0220AF20->slots[i - 8] != -1)
+        return BTLV_MCSS_IsSpriteLoaded(gBtlvEff->mcss, i);
+    if (gBtlvEff->pokeSprite[i - 8] != -1)
         return 1;
     return 0;
 }
 
-void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e)
+void BTLV_EFFECT_AddPokeSprite(int a, u32 b, u32 c, u32 d, u32 e)
 {
     if (!(b & 1)) {
         switch (a) {
         case 0:
         case 1:
-            if (func_021F88F4())
+            if (BTLV_EFFECT_IsRecordEnabledInComm())
                 a += 4;
             break;
         case 0x3D:
@@ -1363,34 +1213,34 @@ void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e)
         switch (a) {
         case 0:
         case 1:
-            if (func_021F88F4())
+            if (BTLV_EFFECT_IsRecordEnabledInComm())
                 a += 0x67;
             break;
         }
     }
-    func_021FF088((Work_vE254 *)((u32)d_0220AF20->h190), (void *)a, b);
+    BTLV_MCSS_AddTrainer(gBtlvEff->mcss, (void *)a, b);
     if (c != 0 || d != 0 || e != 0)
-        func_021FF144((Work_021FF144 *)((u32)d_0220AF20->h190), b, c, d, e);
-    d_0220AF20->slots[b - 8] = b;
+        BTLV_MCSS_SetPosition(gBtlvEff->mcss, b, c, d, e);
+    gBtlvEff->pokeSprite[b - 8] = b;
 }
 
-void func_021F8010(int a)
+void BTLV_EFFECT_ReleasePokeSprite(int a)
 {
-    func_021FF0F8((Work_021FF0F8 *)d_0220AF20->h190, a);
-    d_0220AF20->slots[a - 8] = -1;
+    BTLV_MCSS_RemoveSprite(gBtlvEff->mcss, a);
+    gBtlvEff->pokeSprite[a - 8] = -1;
 }
 
-void func_021F803C(u32 a, void *m, u32 c)
+void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, u32 slotIdx)
 {
-    switch ((u32)d_0220AF20->mode) {
+    switch ((u32)gBtlvEff->setup.mode) {
     case 2:
-        func_022070C0((W_022070C0 *)((struct W *)d_0220AF20->h1a4), (void *)a, m, 2, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke(gBtlvEff->gauge, battleMain, battlePoke, 2, slotIdx);
         break;
     case 3:
-        func_022070C0((W_022070C0 *)((struct W *)d_0220AF20->h1a4), (void *)a, m, 3, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke(gBtlvEff->gauge, battleMain, battlePoke, 3, slotIdx);
         break;
     default:
-        func_022070C0((W_022070C0 *)((struct W *)d_0220AF20->h1a4), (void *)a, m, 0, c);
+        BTLV_GAUGE_InitSlotFromBattlePoke(gBtlvEff->gauge, battleMain, battlePoke, 0, slotIdx);
         break;
     }
 }
@@ -1398,17 +1248,17 @@ void func_021F803C(u32 a, void *m, u32 c)
 /*
  * extent: Already matched followers begin at 0x021F80E4.
  */
-void func_021F8090(u32 a, u32 b, u32 c)
+void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct ZukanSave *zukanSave, void *partyPoke, u32 slotIdx)
 {
-    switch ((u32)d_0220AF20->mode) {
+    switch ((u32)gBtlvEff->setup.mode) {
     case 2:
-        func_02207288((W_02207288 *)((struct W *)d_0220AF20->h1a4), (void *)a, (void *)b, 2, c);
+        BTLV_GAUGE_InitSlotFromPartyPoke(gBtlvEff->gauge, zukanSave, partyPoke, 2, slotIdx);
         break;
     case 3:
-        func_02207288((W_02207288 *)((struct W *)d_0220AF20->h1a4), (void *)a, (void *)b, 3, c);
+        BTLV_GAUGE_InitSlotFromPartyPoke(gBtlvEff->gauge, zukanSave, partyPoke, 3, slotIdx);
         break;
     default:
-        func_02207288((W_02207288 *)((struct W *)d_0220AF20->h1a4), (void *)a, (void *)b, 0, c);
+        BTLV_GAUGE_InitSlotFromPartyPoke(gBtlvEff->gauge, zukanSave, partyPoke, 0, slotIdx);
         break;
     }
 }
@@ -1416,301 +1266,301 @@ void func_021F8090(u32 a, u32 b, u32 c)
 /*
  * Unlabelled leaf, filed as the blocker of ov093 callers (lane S17).
  */
-void func_021F80E4(u32 a)
+void BTLV_EFFECT_GaugeDeleteSlot(u32 a)
 {
-    func_02207960((char *)d_0220AF20->h1a4, a);
+    BTLV_GAUGE_DeleteSlotTask(gBtlvEff->gauge, a);
 }
 
-void func_021F80FC(u32 a, u32 b)
+void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 a, u32 b)
 {
-    BTLV_GAUGE_StartHpChangeAnimated((char *)d_0220AF20->h1a4, a, b);
+    BTLV_GAUGE_StartHpChangeAnimated(gBtlvEff->gauge, a, b);
 }
 
-void func_021F8118(u32 a, u32 b)
+void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 a, u32 b)
 {
-    BTLV_GAUGE_StartHpChangeInstant((char *)d_0220AF20->h1a4, a, b);
+    BTLV_GAUGE_StartHpChangeInstant(gBtlvEff->gauge, a, b);
 }
 
-void func_021F8134(int index, u32 amount)
+void BTLV_EFFECT_GaugeStartExpGain(int index, u32 amount)
 {
-    BTLV_GAUGE_StartExpGain(d_0220AF20->h1a4, index, amount);
+    BTLV_GAUGE_StartExpGain(gBtlvEff->gauge, index, amount);
 }
 
-void func_021F8150(int index, void *obj)
+void BTLV_EFFECT_GaugeRefreshForLevelUp(int index, struct BtlPokeParam *obj)
 {
-    BTLV_GAUGE_RefreshForLevelUp(d_0220AF20->h1a4, obj, index);
+    BTLV_GAUGE_RefreshForLevelUp(gBtlvEff->gauge, obj, index);
 }
 
 /*
  * Tail call to BTLV_GAUGE_RequestStop with the handle at 0x1a4 of the global work block.
  */
-void func_021F8168(void)
+void BTLV_EFFECT_GaugeRequestStop(void)
 {
-    BTLV_GAUGE_RequestStop(d_0220AF20->h1a4);
+    BTLV_GAUGE_RequestStop(gBtlvEff->gauge);
 }
 
 /*
  * Tail call to BTLV_GAUGE_IsAnimating with the handle at 0x1a4 of the global work block.
  */
-int func_021F8180(void)
+int BTLV_EFFECT_GaugeIsAnimating(void)
 {
-    return BTLV_GAUGE_IsAnimating(d_0220AF20->h1a4);
+    return BTLV_GAUGE_IsAnimating(gBtlvEff->gauge);
 }
 
 /*
  * Tail call to BTLV_GAUGE_SetSideVisible with the handle at 0x1a4 of the global work block.
  */
-void func_021F8198(int a, int b)
+void BTLV_EFFECT_GaugeSetSideVisible(int a, int b)
 {
-    BTLV_GAUGE_SetSideVisible(d_0220AF20->h1a4, a, b);
+    BTLV_GAUGE_SetSideVisible(gBtlvEff->gauge, a, b);
 }
 
-void func_021F81B4(u32 a, u32 b)
+void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b)
 {
-    BTLV_GAUGE_SetSlotVisible((struct O *)d_0220AF20->h1a4, a, b);
+    BTLV_GAUGE_SetSlotVisible(gBtlvEff->gauge, a, b);
 }
 
 /*
  * Unlabelled leaf, filed as the blocker of ov093 func_021D2234 (lane S15).
  */
-void func_021F81D0(u32 a, u32 b)
+void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b)
 {
-    BTLV_GAUGE_SetStatusIcon((struct O *)d_0220AF20->h1a4, a, b);
+    BTLV_GAUGE_SetStatusIcon(gBtlvEff->gauge, a, b);
 }
 
-void func_021F81EC(int sel)
+void BTLV_EFFECT_GaugeSelectSlot(int sel)
 {
-    BTLV_GAUGE_SelectSlot((void *)d_0220AF20->h1a4, sel);
+    BTLV_GAUGE_SelectSlot(gBtlvEff->gauge, sel);
 }
 
-int func_021F8204(int index)
+int BTLV_EFFECT_GaugeIsSlotOccupied(int index)
 {
-    return BTLV_GAUGE_IsSlotOccupied((u8 *)d_0220AF20->h1a4, index);
+    return BTLV_GAUGE_IsSlotOccupied(gBtlvEff->gauge, index);
 }
 
 /*
  * Forwards three arguments to BTLV_GAUGE_GetSlotHealthInfo with the handle at 0x1a4 of the global work block.
  */
-int func_021F821C(int a, int *b, int *c)
+int BTLV_EFFECT_GaugeGetSlotHealthInfo(int a, int *b, int *c)
 {
-    return BTLV_GAUGE_GetSlotHealthInfo(d_0220AF20->h1a4, a, b, c);
+    return BTLV_GAUGE_GetSlotHealthInfo(gBtlvEff->gauge, a, b, c);
 }
 
-void func_021F823C(u32 *p)
+void BTLV_EFFECT_CreatePartyBallBar(const BtlvPartyBallBarParam *p)
 {
-    u32 r = BTLV_B_GAUGE_CreatePartyBallBar(p, d_0220AF20->heap);
+    BtlvPartyBallBar *r = BTLV_B_GAUGE_CreatePartyBallBar(p, gBtlvEff->heap);
 
-    d_0220AF20->h1a8[p[0]] = (void *)r;
+    gBtlvEff->partyBallBar[p->side] = r;
 }
 
 /*
  * Leaf blocking ov093 BTLV_SCU_ProcEntrySingleTrainer.
  */
-void func_021F8260(u32 i)
+void BTLV_EFFECT_DeletePartyBallBar(u32 i)
 {
-    BTLV_B_GAUGE_DeletePartyBallBar(d_0220AF20->h1a8[i]);
+    BTLV_B_GAUGE_DeletePartyBallBar(gBtlvEff->partyBallBar[i]);
 }
 
-int func_021F827C(u32 i)
+int BTLV_EFFECT_IsPartyBallBarActive(u32 i)
 {
-    return BTLV_B_GAUGE_IsPartyBallBarActive((int *)d_0220AF20->h1a8[i]);
+    return BTLV_B_GAUGE_IsPartyBallBarActive(gBtlvEff->partyBallBar[i]);
 }
 
-void func_021F8298(u32 a, u8 b, u8 c, u8 d, u16 e)
+void BTLV_EFFECT_SetStageFieldTint(u32 a, u8 b, u8 c, u8 d, u16 e)
 {
     if (a == 0 || a == 2 || a == 4)
-        func_021F69E8((S69E8 *)((u32)d_0220AF20->h194), b, c, d, e);
+        BTLV_STAGE_InitLayerEntry(gBtlvEff->stage, b, c, d, e);
     if (a == 1 || a == 2 || a == 4)
-        func_021F6DEC((S6DEC *)((u32)d_0220AF20->h198), b, c, d, e);
+        BTLV_FIELD_InitEntry(gBtlvEff->field, b, c, d, e);
     if (a - 3 <= 1)
-        PALANM_RequestFade(d_0220AF20->h18c, 1, 0xFF00, (s8)d, b, c, e, *(void **)d_0220AF20);
+        PALANM_RequestFade(gBtlvEff->palanm, 1, 0xFF00, (s8)d, b, c, e, *(void **)gBtlvEff);
 }
 
-int func_021F8324(u32 a)
+int BTLV_EFFECT_IsStageFieldBusy(u32 a)
 {
     int x = 0;
     int y = 0;
     int z = 0;
 
     if (a == 0 || a == 2 || a == 4)
-        x = func_021F6A18((char *)d_0220AF20->h194);
+        x = BTLV_STAGE_IsEffectActive(gBtlvEff->stage);
     if (a == 1 || a == 2 || a == 4)
-        y = func_021F6E1C((char *)d_0220AF20->h198);
+        y = BTLV_FIELD_IsEffectActive(gBtlvEff->field);
     if (a - 3 <= 1) {
-        z = PALANM_GetFadeRequestBits((const char *)d_0220AF20->h18c) != 0;
+        z = PALANM_GetFadeRequestBits((const char *)gBtlvEff->palanm) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
         return 1;
     return 0;
 }
 
-void func_021F839C(u32 a, u32 b)
+void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b)
 {
     switch (a) {
     case 0:
-        func_021F6A28((Obj_021F6A28 *)((u32)d_0220AF20->h194), 2, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 2, b);
         break;
     case 1:
-        func_021F6E2C((Obj_021F6E2C *)((u32)d_0220AF20->h198), b);
+        BTLV_FIELD_SetState(gBtlvEff->field, b);
         break;
     case 2:
         func_02040588(3, (u8)(b ^ 1));
         break;
     case 3:
-        func_021F6A28((Obj_021F6A28 *)((u32)d_0220AF20->h194), 0, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 0, b);
         break;
     case 4:
-        func_021F6A28((Obj_021F6A28 *)((u32)d_0220AF20->h194), 1, b);
+        BTLV_STAGE_SetLayerEnableMask(gBtlvEff->stage, 1, b);
         break;
     }
 }
 
-void func_021F8414(int a, int b, int c)
+void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c)
 {
-    St *s = sub_02030734((u16)((d_0220AF20->heap & 0x7FFF) | 0x8000), 0x10, 0, d_0220AC90, 0x538);
+    BtlvEffSpriteTransitionTask *s = sub_02030734((u16)((gBtlvEff->heap & 0x7FFF) | 0x8000), 0x10, 0, gBtlvEffectFileName, 0x538);
 
     if (a != 1) {
-        s->state = 0;
-        s->b = (a == 3) ? 0 : 1;
-        s->c = b;
-        s->d = c;
-        d_0220AF20->m2 |= func_021F935C(b);
-        func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8F30, s, 0), func_021F8FB0, 0);
+        s->step = 0;
+        s->dir = (a == 3) ? 0 : 1;
+        s->pos = b;
+        s->playSound = c;
+        gBtlvEff->spriteTransitionTaskMask |= BTLV_EFFECT_GetBitMask(b);
+        BTLV_EFFECT_RegisterTask(func_02030DA8(gBtlvEff->owner, BTLV_EFFECT_PokeSpriteTransitionTaskMain, s, 0), BTLV_EFFECT_ClearTaskMaskM2, 0);
     }
 }
 
-void func_021F84B4(u32 a, u32 b)
+void BTLV_EFFECT_SetPokeSpriteVisible(u32 a, u32 b)
 {
-    func_021FF7B0((Work_021FF7B0 *)((u32)d_0220AF20->h190), a, b);
+    BTLV_MCSS_SwapSprites(gBtlvEff->mcss, a, b);
 }
 
 /*
  * Returns slot a-8 of the table at 0x1f8 of the global work block.
  */
-int func_021F84D0(int a)
+int BTLV_EFFECT_GetPokeSlot(int a)
 {
-    return d_0220AF20->slots[a - 8];
+    return gBtlvEff->pokeSprite[a - 8];
 }
 
 /*
  * Tail call to BTLV_TIMER_Start with the handle at 0x1b0 of the global work block.
  */
-void func_021F84E8(int a, int b)
+void BTLV_EFFECT_TimerStart(int a, int b)
 {
-    BTLV_TIMER_Start(d_0220AF20->h1b0, a, b);
+    BTLV_TIMER_Start(gBtlvEff->timer, a, b);
 }
 
-void func_021F8504(u32 a, u32 b, u32 c)
+void BTLV_EFFECT_TimerSetVisible(u32 a, u32 b, u32 c)
 {
-    BTLV_TIMER_SetVisible((u8 *)d_0220AF20->h1b0, a, b, c);
+    BTLV_TIMER_SetVisible(gBtlvEff->timer, a, b, c);
 }
 
 /*
- * Thumb tail call through r3: the work record at +0x1B0 of d_0220AF20 and the argument. Labelled in wave D8.
+ * Thumb tail call through r3: the work record at +0x1B0 of gBtlvEff and the argument. Labelled in wave D8.
  */
-int func_021F8524(int i)
+int BTLV_EFFECT_TimerIsExpired(int i)
 {
-    return BTLV_TIMER_IsExpired((struct W *)d_0220AF20->h1b0, i);
+    return BTLV_TIMER_IsExpired(gBtlvEff->timer, i);
 }
 
 /*
- * Tail call to func_021FF348 with the handle at 0x190 of the global work block.
+ * Tail call to BTLV_MCSS_IsVanished with the handle at 0x190 of the global work block.
  * Unlabelled; filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  */
-int func_021F853C(int a)
+int BTLV_EFFECT_GetPokeSpriteState(int a)
 {
-    return func_021FF348((Work_021FF348 *)d_0220AF20->h190, a);
+    return BTLV_MCSS_IsVanished(gBtlvEff->mcss, a);
 }
 
-void func_021F8554(u32 flags, int kind, int n, int s, int t)
+void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t)
 {
-    VecFx32_021F8204 a;
-    VecFx32_021F8204 b;
+    BtlvVec3 a;
+    BtlvVec3 b;
 
     if (flags & 1) {
-        func_021F8628(flags, (int *)(&a), (int *)(&b));
+        BTLV_EFFECT_GetPokeSpriteCameraTarget(flags, &a, &b);
         switch (kind) {
         case 0:
-            func_021F6EDC(d_0220AF20->h19c, (int *)(&a), (int *)(&b));
+            BTLV_CAMERA_SetEyeAndTarget(gBtlvEff->camera, &a, &b);
             break;
         case 1:
-            func_021F6F48((Cam_021F6F48 *)d_0220AF20->h19c, (VecFx32_v6560 *)&a, (VecFx32_v6560 *)&b, n, s, t);
+            BTLV_CAMERA_StartMove(gBtlvEff->camera, &a, &b, n, s, t);
             break;
         }
         return;
     }
-    switch (d_0220AF20->mode) {
+    switch (gBtlvEff->setup.mode) {
     case 0:
-        func_021F7998(0x23F);
+        BTLV_EFFECT_StartEffect(0x23F);
         break;
     case 1:
         if (flags == 2) {
-            func_021F7998(0x240);
+            BTLV_EFFECT_StartEffect(0x240);
         } else {
-            func_021F7998(0x241);
+            BTLV_EFFECT_StartEffect(0x241);
         }
         break;
     case 2:
         if (flags == 2) {
-            func_021F7998(0x242);
+            BTLV_EFFECT_StartEffect(0x242);
         } else if (flags == 4) {
-            func_021F7998(0x23F);
+            BTLV_EFFECT_StartEffect(0x23F);
         } else {
-            func_021F7998(0x243);
+            BTLV_EFFECT_StartEffect(0x243);
         }
         break;
     case 3:
-        func_021F7998(0x245);
+        BTLV_EFFECT_StartEffect(0x245);
         break;
     }
 }
 
-void func_021F8628(u32 a, int *out, int *p)
+void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, BtlvVec3 *eyeOut, BtlvVec3 *basePos)
 {
-    func_021FF3F4((void *)d_0220AF20->h190, p, a);
-    out[0] = p[0] + 0x4B33;
-    out[1] = p[1] + 0x2299;
-    out[2] = p[2] + 0x99CD;
-    p[1] = p[1] + 0x2000;
+    BTLV_MCSS_GetSlotPosition(gBtlvEff->mcss, basePos, slot);
+    eyeOut->x = basePos->x + 0x4B33;
+    eyeOut->y = basePos->y + 0x2299;
+    eyeOut->z = basePos->z + 0x99CD;
+    basePos->y = basePos->y + 0x2000;
 }
 
-void *func_021F8678(void)
+void *BTLV_EFFECT_GetWorkPtr(void)
 {
     return g_0220AF20;
 }
 
-int func_021F8684(void)
+BtlvCamera *BTLV_EFFECT_GetCamera(void)
 {
-    return (int)d_0220AF20->h19c;
+    return gBtlvEff->camera;
 }
 
-int func_021F8694(void)
+BtlvMcssWork *BTLV_EFFECT_GetMcss(void)
 {
-    return (int)d_0220AF20->h190;
+    return gBtlvEff->mcss;
 }
 
-int func_021F86A4(void)
+BtlvStage *BTLV_EFFECT_GetStage(void)
 {
-    return (int)d_0220AF20->h194;
+    return gBtlvEff->stage;
 }
 
 /*
  * Returns the word at 0x1a4 of the global work block.
  */
-int func_021F86B4(void)
+BtlvGaugeWork *BTLV_EFFECT_GetGauge(void)
 {
-    return (int)d_0220AF20->h1a4;
+    return gBtlvEff->gauge;
 }
 
 /*
  * Returns the word at 0x188 of the global work block.
  */
-int func_021F86C4(void)
+BtlvEffVmWork *BTLV_EFFECT_GetEffvm(void)
 {
-    return (int)d_0220AF20->h188;
+    return gBtlvEff->effvm;
 }
 
-void *func_021F86D4(void)
+void *BTLV_EFFECT_GetOwner(void)
 {
     return *(void **)g_0220AF20;
 }
@@ -1718,156 +1568,156 @@ void *func_021F86D4(void)
 /*
  * Returns the word at 0x18c of the global work block.
  */
-int func_021F86E0(void)
+struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void)
 {
-    return (int)d_0220AF20->h18c;
+    return gBtlvEff->palanm;
 }
 
 /*
  * Returns the word at 0x1a0 of the global work block.
  */
-int func_021F86F0(void)
+BtlvClact *BTLV_EFFECT_GetClact(void)
 {
-    return (int)d_0220AF20->h1a0;
+    return gBtlvEff->clact;
 }
 
 /*
  * Returns the word at 0x1b4 of the global work block.
  */
-int func_021F8700(void)
+BtlvBg *BTLV_EFFECT_GetBg(void)
 {
-    return (int)d_0220AF20->h1b4;
+    return gBtlvEff->bg;
 }
 
-int func_021F8710(void)
+int BTLV_EFFECT_GetMode(void)
 {
-    return d_0220AF20->mode;
+    return gBtlvEff->setup.mode;
 }
 
 /*
  * Returns the word at 0x1c0 of the global work block.
  */
-int func_021F8720(void)
+int BTLV_EFFECT_GetCompetitorType(void)
 {
-    return d_0220AF20->f1c0;
+    return gBtlvEff->setup.competitor;
 }
 
 /*
- * Returns the word at 0x1dc of the global work block.
+ * Returns the multi battle flag (word at 0x1dc of the global work block).
  */
-int func_021F8730(void)
+int BTLV_EFFECT_GetFieldSituationFlags(void)
 {
-    return d_0220AF20->f1dc;
+    return gBtlvEff->setup.isMultiMode;
 }
 
 /*
  * Returns halfword a of the table at 0x1d4 of the global work block.
  */
-unsigned short func_021F8740(int a)
+unsigned short BTLV_EFFECT_GetTrainerType(int a)
 {
-    return d_0220AF20->f1d4[a];
+    return gBtlvEff->setup.trainerType[a];
 }
 
 /*
  * Returns the word at 0x1e4 of the global work block.
  */
-int func_021F8754(void)
+void *BTLV_EFFECT_GetBattleMain(void)
 {
-    return (int)d_0220AF20->param_battle;
+    return gBtlvEff->setup.battle;
 }
 
 /*
  * Returns the word at 0x1e0 of the global work block.
  */
-int func_021F8764(void)
+int BTLV_EFFECT_GetRule(void)
 {
-    return d_0220AF20->f1e0;
+    return gBtlvEff->setup.param;
 }
 
 /*
  * Tail call to BTLV_GAUGE_IsLowHpBgmPlaying with the handle at 0x1a4 of the global work block.
  */
-void func_021F8774(void)
+void BTLV_EFFECT_PollLowHpBgm(void)
 {
-    BTLV_GAUGE_IsLowHpBgmPlaying(d_0220AF20->h1a4);
+    BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge);
 }
 
-void func_021F878C(u32 a)
+void BTLV_EFFECT_StopLowHpBgm(u32 a)
 {
-    if (BTLV_GAUGE_IsLowHpBgmPlaying((void *)d_0220AF20->h1a4)) {
-        BTLV_GAUGE_SetLowHpBgmPlaying((u32)d_0220AF20->h1a4, 0);
+    if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge)) {
+        BTLV_GAUGE_SetLowHpBgmPlaying(gBtlvEff->gauge, 0);
         GFL_USE_PopBgm();
     }
-    BTLV_GAUGE_SetLowHpBgmSuppressed((u32)d_0220AF20->h1a4, 1);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, 1);
     GFL_USE_CancelChangeAndPlayBgm(a, 0xFFFF);
 }
 
 /*
  * Witness leaf for ov093 BTLV_SCU_HideMonPair: tail call (obj, v) to BTLV_GAUGE_SetLowHpBgmSuppressed.
  */
-void func_021F87D4(u32 v)
+void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 v)
 {
-    BTLV_GAUGE_SetLowHpBgmSuppressed((u32)d_0220AF20->h1a4, v);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, v);
 }
 
-void func_021F87EC(u32 v)
+void BTLV_EFFECT_SaveBgmNo(u32 v)
 {
-    d_0220AF20->f1f4 = 1;
-    BTLV_GAUGE_SetSavedBgmNo(d_0220AF20->h1a4, v);
-    if (BTLV_GAUGE_IsLowHpBgmPlaying(d_0220AF20->h1a4) == 0)
-        BTLV_GAUGE_SetBgmReplaced(d_0220AF20->h1a4, 1);
+    gBtlvEff->bgmSaved = 1;
+    BTLV_GAUGE_SetSavedBgmNo(gBtlvEff->gauge, v);
+    if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge) == 0)
+        BTLV_GAUGE_SetBgmReplaced(gBtlvEff->gauge, 1);
 }
 
-int func_021F882C(void)
+int BTLV_EFFECT_IsBgmSaved(void)
 {
-    return d_0220AF20->f1f4;
+    return gBtlvEff->bgmSaved;
 }
 
-void func_021F883C(u32 a)
+void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32 a)
 {
-    if (BTLV_GAUGE_IsLowHpBgmPlaying(d_0220AF20->h1a4) == 1)
+    if (BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge) == 1)
         GFL_USE_PopBgm();
-    BTLV_GAUGE_SetLowHpBgmSuppressed((u32)d_0220AF20->h1a4, 1);
-    BTLV_GAUGE_SetLowHpBgmPlaying((u32)d_0220AF20->h1a4, 0);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(gBtlvEff->gauge, 1);
+    BTLV_GAUGE_SetLowHpBgmPlaying(gBtlvEff->gauge, 0);
     GFL_USE_CancelChangeAndPlayBgm(a, 0x0000FFFF);
 }
 
 /*
  * Stores the low 8 bits of the argument in bits 18..25 of the word at 0x1ec of the global work block.
  */
-void func_021F8884(int a)
+void BTLV_EFFECT_SetVisibilityMode(int a)
 {
-    d_0220AF20->v = a;
+    gBtlvEff->visibilityMode = a;
 }
 
 /*
  * Returns bits 18..25 of the word at 0x1ec of the global work block.
  */
-int func_021F88A8(void)
+int BTLV_EFFECT_GetVisibilityMode(void)
 {
-    return d_0220AF20->v;
+    return gBtlvEff->visibilityMode;
 }
 
 /*
  * Sets flag bit 26 of the word at 0x1ec of the global work block.
  */
-void func_021F88BC(int a)
+void BTLV_EFFECT_SetFlag26(int a)
 {
-    d_0220AF20->b26 = a;
+    gBtlvEff->flag26 = a;
 }
 
-int func_021F88E0(void)
+int BTLV_EFFECT_GetFlag26(void)
 {
-    return d_0220AF20->b26;
+    return gBtlvEff->flag26;
 }
 
 /*
  * Returns BTL_MAIN_IsRecordEnabledInComm of the handle at 0x1e4 of the global work block, or 0 when it is null.
  */
-int func_021F88F4(void)
+int BTLV_EFFECT_IsRecordEnabledInComm(void)
 {
     int r = 0;
-    void *h = d_0220AF20->param_battle;
+    void *h = gBtlvEff->setup.battle;
     if (h != 0)
         r = BTL_MAIN_IsRecordEnabledInComm(h);
     return r;
@@ -1876,200 +1726,200 @@ int func_021F88F4(void)
 /*
  * Returns BTL_MAIN_IsRecordAllowed of the handle at 0x1e4 of the global work block, or 0 when it is null.
  */
-int func_021F8914(void)
+int BTLV_EFFECT_IsRecordAllowed(void)
 {
     int r = 0;
-    void *h = d_0220AF20->param_battle;
+    void *h = gBtlvEff->setup.battle;
     if (h != 0)
         r = BTL_MAIN_IsRecordAllowed(h);
     return r;
 }
 
 /*
- * Runs func_0220055C with a (enum counter keeps the entry guard) on each of the first 8 active slots of the handle at 0x190.
+ * Runs BTLV_MCSS_SetSpriteWorkFlagForRule with a (enum counter keeps the entry guard) on each of the first 8 active slots of the handle at 0x190.
  */
-void func_021F8934(int a)
+void BTLV_EFFECT_SetAllPokeSpriteAnim(int a)
 {
     Slot_021F6560 i;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(d_0220AF20->h190, i) != 0)
-            func_0220055C((Work_0220055C *)d_0220AF20->h190, i, a);
+        if (BTLV_MCSS_IsSpriteLoaded(gBtlvEff->mcss, i) != 0)
+            BTLV_MCSS_SetSpriteWorkFlagForRule(gBtlvEff->mcss, i, a);
     }
 }
 
-void func_021F896C(void *h, void (*cb)(void *), int arg)
+void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg)
 {
-    int i = func_021F8B40();
+    int i = BTLV_EFFECT_FindFreeTaskSlot();
 
-    d_0220AF20->handle[i] = h;
-    d_0220AF20->cb[i] = cb;
-    d_0220AF20->arg[i] = arg;
+    gBtlvEff->taskHandle[i] = h;
+    gBtlvEff->taskCallback[i] = cb;
+    gBtlvEff->taskArg[i] = arg;
 }
 
-int func_021F899C(void *h)
+int BTLV_EFFECT_FindTaskIndex(void *h)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (d_0220AF20->handle[i] == h)
+        if (gBtlvEff->taskHandle[i] == h)
             break;
     }
     return i;
 }
 
-void func_021F89BC(void *h)
+void BTLV_EFFECT_DeleteTask(void *h)
 {
-    int i = func_021F899C(h);
+    int i = BTLV_EFFECT_FindTaskIndex(h);
     void *w;
 
     if (h == 0)
         return;
-    w = (void *)TCBL_GetTaskUserData(h);
-    if (d_0220AF20->cb[i] != 0)
-        d_0220AF20->cb[i](h);
+    w = TCBL_GetTaskUserData(h);
+    if (gBtlvEff->taskCallback[i] != 0)
+        gBtlvEff->taskCallback[i](h);
     if (w != 0)
         sub_020307B0(w);
     sub_02030EAC(h);
-    d_0220AF20->handle[i] = 0;
-    d_0220AF20->cb[i] = 0;
+    gBtlvEff->taskHandle[i] = 0;
+    gBtlvEff->taskCallback[i] = 0;
 }
 
 /*
- * Runs func_021F89BC on each live object owned by a.
+ * Runs BTLV_EFFECT_DeleteTask on each live object owned by a.
  */
-void func_021F8A10(int a)
+void BTLV_EFFECT_DeleteTasksByArg(int a)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (d_0220AF20->handle[i] != 0 && a == d_0220AF20->arg[i])
-            func_021F89BC(d_0220AF20->handle[i]);
+        if (gBtlvEff->taskHandle[i] != 0 && a == gBtlvEff->taskArg[i])
+            BTLV_EFFECT_DeleteTask(gBtlvEff->taskHandle[i]);
     }
 }
 
-void func_021F8A40(int a)
+void BTLV_EFFECT_SetIntroState(int a)
 {
-    d_0220AF20->f238 = a;
-    if (d_0220AF20->f238 != 2) {
-        d_0220AF20->f23c = 0;
-        d_0220AF20->f240 = 0;
+    gBtlvEff->introState = a;
+    if (gBtlvEff->introState != 2) {
+        gBtlvEff->introPhase = 0;
+        gBtlvEff->introTimer = 0;
     }
     if (a == 3)
-        func_02200608((Work_02200608 *)d_0220AF20->h190);
+        BTLV_MCSS_SaveVanishStates(gBtlvEff->mcss);
 }
 
-void func_021F8A78(void)
+void BTLV_EFFECT_StartIntroEffect(void)
 {
-    func_021F7BEC();
-    if (d_0220AF20->f238 == 3 && BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x400))
-        func_021F7998(0x251);
+    BTLV_EFFECT_PauseVm();
+    if (gBtlvEff->introState == 3 && BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400))
+        BTLV_EFFECT_StartEffect(0x251);
     else
-        func_021F7998(0x236);
-    d_0220AF20->f238 = 0;
+        BTLV_EFFECT_StartEffect(0x236);
+    gBtlvEff->introState = 0;
 }
 
 /*
- * Calls func_021F7BEC, then stores the argument at 0x238 and clears 0x23c and 0x240 of the global work block.
+ * Calls BTLV_EFFECT_PauseVm, then stores the argument at 0x238 and clears 0x23c and 0x240 of the global work block.
  */
-void func_021F8AC0(int a)
+void BTLV_EFFECT_ResetIntroState(int a)
 {
-    func_021F7BEC();
-    d_0220AF20->f238 = a;
-    d_0220AF20->f23c = 0;
-    d_0220AF20->f240 = 0;
+    BTLV_EFFECT_PauseVm();
+    gBtlvEff->introState = a;
+    gBtlvEff->introPhase = 0;
+    gBtlvEff->introTimer = 0;
 }
 
-void func_021F8AE8(int i, u32 v)
+void BTLV_EFFECT_SetPokeEffectValue(int i, u32 v)
 {
-    d_0220AF20->tbl[i] = v;
+    gBtlvEff->pokeEffectValue[i] = v;
 }
 
-int func_021F8AFC(int i)
+int BTLV_EFFECT_GetPokeEffectValue(int i)
 {
-    return d_0220AF20->tbl[i];
+    return gBtlvEff->pokeEffectValue[i];
 }
 
-void func_021F8B10(void)
+void BTLV_EFFECT_SuspendVmWait(void)
 {
-    func_021F9A7C(d_0220AF20->h188);
+    BTLV_EFFVM_StopLiveSounds(gBtlvEff->effvm);
 }
 
-void func_021F8B28(void)
+void BTLV_EFFECT_ResumeVmWait(void)
 {
-    func_021F9AA4(d_0220AF20->h188);
+    BTLV_EFFVM_ClearLastEffect(gBtlvEff->effvm);
 }
 
-int func_021F8B40(void)
+int BTLV_EFFECT_FindFreeTaskSlot(void)
 {
     BtlvEff *w;
     int i;
 
     i = 0;
-    w = d_0220AF20;
+    w = gBtlvEff;
     for (; i < 32; i++) {
-        if (w->handle[i] == 0)
+        if (w->taskHandle[i] == 0)
             break;
     }
     if (i == 32) {
-        func_021F89BC(w->handle[0]);
+        BTLV_EFFECT_DeleteTask(w->taskHandle[0]);
         i = 0;
     }
     return i;
 }
 
 /*
- * Runs func_021F89BC on each of the 32 live objects at 8 of the global work block.
+ * Runs BTLV_EFFECT_DeleteTask on each of the 32 live objects at 8 of the global work block.
  */
-void func_021F8B6C(void)
+void BTLV_EFFECT_DeleteAllTasks(void)
 {
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (d_0220AF20->handle[i] != 0)
-            func_021F89BC(d_0220AF20->handle[i]);
+        if (gBtlvEff->taskHandle[i] != 0)
+            BTLV_EFFECT_DeleteTask(gBtlvEff->taskHandle[i]);
     }
 }
 
 /*
  * Calls CLACT_VBlankSystem, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
  */
-void func_021F8B90(void *h, void *arg)
+void BTLV_EFFECT_VBlankTask(void *h, void *arg)
 {
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes(d_0220AF20->h18c);
+    PALANM_TransferPalettes(gBtlvEff->palanm);
 }
 
-void func_021F8BAC(void *h, void *arg)
+void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg)
 {
-    int *p = arg;
+    BtlvEffDamageTintTask *p = arg;
 
-    if (p[3] != 0) {
-        p[3]--;
+    if (p->wait != 0) {
+        p->wait--;
         return;
     }
-    switch (p[1]) {
+    switch (p->step) {
     case 0:
-        if (p[5] == 0)
-            func_021FFDB4((Work_vFCB0 *)d_0220AF20->h190, p[0], 16, 16, 0, p[4]);
-        p[3] = 3;
-        p[1] = 1;
+        if (p->skip == 0)
+            BTLV_MCSS_SetPaletteFade(gBtlvEff->mcss, p->pos, 16, 16, 0, p->color);
+        p->wait = 3;
+        p->step = 1;
         break;
     case 1:
-        if (p[5] == 0)
-            func_021FF374((Work_vF228 *)d_0220AF20->h190, p[0], 1);
-        p[3] = 3;
-        p[1] = 2;
+        if (p->skip == 0)
+            BTLV_MCSS_SetVanishMode(gBtlvEff->mcss, p->pos, 1);
+        p->wait = 3;
+        p->step = 2;
         break;
     case 2:
-        p[1] = 0;
-        if (p[5] == 0) {
-            func_021FF374((Work_vF228 *)d_0220AF20->h190, p[0], 0);
-            func_021FFDB4((Work_vFCB0 *)d_0220AF20->h190, p[0], 0, 0, 0, 0x7fff);
+        p->step = 0;
+        if (p->skip == 0) {
+            BTLV_MCSS_SetVanishMode(gBtlvEff->mcss, p->pos, 0);
+            BTLV_MCSS_SetPaletteFade(gBtlvEff->mcss, p->pos, 0, 0, 0, 0x7fff);
         }
-        p[3] = 3;
-        if (--p[2] == 0)
-            func_021F89BC(h);
+        p->wait = 3;
+        if (--p->cyclesLeft == 0)
+            BTLV_EFFECT_DeleteTask(h);
         break;
     }
 }
@@ -2077,71 +1927,72 @@ void func_021F8BAC(void *h, void *arg)
 /*
  * Clears the current task's mask bits from the low byte at 0x1ec of the global work block.
  */
-void func_021F8C78(void *h)
+void BTLV_EFFECT_ClearTaskMaskM0(void *h)
 {
-    int m = func_021F935C(*((int *)TCBL_GetTaskUserData(h)));
-    d_0220AF20->m0 &= m ^ 0xffffffff;
+    BtlvEffDamageTintTask *task = TCBL_GetTaskUserData(h);
+    int m = BTLV_EFFECT_GetBitMask(task->pos);
+    gBtlvEff->damageTintTaskMask &= m ^ 0xffffffff;
 }
 
-void func_021F8CB0(void *h, void *arg)
+void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg)
 {
-    int *p = arg;
+    BtlvEffHitTask *p = arg;
 
-    switch (p[1]) {
+    switch (p->step) {
     case 0:
-        func_021F94F8(d_0220AF20->h188, p[0], 0xff, 0x253, 0);
-        d_0220AF20->f1e8 = 1;
-        p[1]++;
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x253, 0);
+        gBtlvEff->effvmActive = 1;
+        p->step++;
         break;
     case 1:
-        if (d_0220AF20->f1e8 == 0) {
-            if (func_021FFF38(d_0220AF20->h190, p[0]) & 1) {
-                func_021F94F8(d_0220AF20->h188, p[0], 0xff, 0x264, 0);
-                d_0220AF20->f1e8 = 1;
+        if (gBtlvEff->effvmActive == 0) {
+            if (BTLV_MCSS_GetSpriteAttrFlags(gBtlvEff->mcss, p->pos) & 1) {
+                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x264, 0);
+                gBtlvEff->effvmActive = 1;
             }
-            p[1]++;
+            p->step++;
         }
         break;
     case 2:
-        if (d_0220AF20->f1e8 == 0) {
-            func_021FF924(d_0220AF20->h190, p[0], 0, 16, 0, 0, 0);
-            func_021FFBBC(d_0220AF20->h190, p[0], 1, 8, 8, 1, 0);
-            func_021F9858(d_0220AF20->h188, 0x5aa, 1, 14, -500, 127, 0, 0, 0);
-            func_021F9948(d_0220AF20->h188, 1, 0, 1, 127, 0, 30, 10, 0, 0);
-            p[1]++;
+        if (gBtlvEff->effvmActive == 0) {
+            BTLV_MCSS_StartAlphaTween(gBtlvEff->mcss, p->pos, 0, 16, 0, 0, 0);
+            BTLV_MCSS_StartMosaicTween(gBtlvEff->mcss, p->pos, 1, 8, 8, 1, 0);
+            BTLV_EFFVM_StartSePlayTask(gBtlvEff->effvm, 0x5aa, 1, 14, -500, 127, 0, 0, 0);
+            BTLV_EFFVM_StartSeVolumeTask(gBtlvEff->effvm, 1, 0, 1, 127, 0, 30, 10, 0, 0);
+            p->step++;
         }
         break;
     case 3:
-        if (func_021FFCB0((Work_021FFCB0 *)d_0220AF20->h190, p[0]) == 0) {
-            func_022001DC((Work_022001DC *)d_0220AF20->h190, p[0], (Rec_022001DC *)(&p[2]));
-            p[1]++;
+        if (BTLV_MCSS_IsSpriteBusy(gBtlvEff->mcss, p->pos) == 0) {
+            BTLV_MCSS_ReloadSpriteResource(gBtlvEff->mcss, p->pos, &p->addWork);
+            p->step++;
         }
         break;
     case 4:
-        func_021FFBBC(d_0220AF20->h190, p[0], 1, 0, 8, 1, 0);
-        p[1]++;
+        BTLV_MCSS_StartMosaicTween(gBtlvEff->mcss, p->pos, 1, 0, 8, 1, 0);
+        p->step++;
         break;
     case 5:
-        if (func_021FFCB0((Work_021FFCB0 *)d_0220AF20->h190, p[0]) == 0) {
-            func_021F9858(d_0220AF20->h188, 0x560, 1, 14, 0, 0, 0, 0, 0);
-            func_021FF924(d_0220AF20->h190, p[0], 0, 31, 0, 0, 0);
-            if (func_021FFF38(d_0220AF20->h190, p[0]) & 1) {
-                func_021F94F8(d_0220AF20->h188, p[0], 0xff, 0x265, 0);
-                d_0220AF20->f1e8 = 1;
+        if (BTLV_MCSS_IsSpriteBusy(gBtlvEff->mcss, p->pos) == 0) {
+            BTLV_EFFVM_StartSePlayTask(gBtlvEff->effvm, 0x560, 1, 14, 0, 0, 0, 0, 0);
+            BTLV_MCSS_StartAlphaTween(gBtlvEff->mcss, p->pos, 0, 31, 0, 0, 0);
+            if (BTLV_MCSS_GetSpriteAttrFlags(gBtlvEff->mcss, p->pos) & 1) {
+                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x265, 0);
+                gBtlvEff->effvmActive = 1;
             }
-            p[1]++;
+            p->step++;
         }
         break;
     case 6:
-        if (d_0220AF20->f1e8 == 0) {
-            func_021F94F8(d_0220AF20->h188, p[0], 0xff, 0x254, 0);
-            d_0220AF20->f1e8 = 1;
-            p[1]++;
+        if (gBtlvEff->effvmActive == 0) {
+            BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x254, 0);
+            gBtlvEff->effvmActive = 1;
+            p->step++;
         }
         break;
     case 7:
-        if (d_0220AF20->f1e8 == 0)
-            func_021F89BC(h);
+        if (gBtlvEff->effvmActive == 0)
+            BTLV_EFFECT_DeleteTask(h);
         break;
     }
 }
@@ -2149,53 +2000,55 @@ void func_021F8CB0(void *h, void *arg)
 /*
  * Clears the current task's mask bits from bits 8..15 of the word at 0x1ec of the global work block.
  */
-void func_021F8EF8(void *h)
+void BTLV_EFFECT_ClearTaskMaskM1(void *h)
 {
-    int m = func_021F935C(((int *)TCBL_GetTaskUserData(h))[0]);
-    d_0220AF20->m1 &= m ^ 0xffffffff;
+    BtlvEffHitTask *task = TCBL_GetTaskUserData(h);
+    int m = BTLV_EFFECT_GetBitMask(task->pos);
+    gBtlvEff->hitTaskMask &= m ^ 0xffffffff;
 }
 
-void func_021F8F30(void *h, void *p)
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, void *p)
 {
-    St *s = p;
+    BtlvEffSpriteTransitionTask *s = p;
     int st;
     u32 m;
 
-    st = s->state;
+    st = s->step;
     switch (st) {
     case 0:
-        m = d_0220AF20->m0 | d_0220AF20->f1e8 | d_0220AF20->m1;
+        m = gBtlvEff->damageTintTaskMask | gBtlvEff->effvmActive | gBtlvEff->hitTaskMask;
         if (m)
             return;
-        s->state = st + 1;
+        s->step = st + 1;
     case 1:
-        func_02200344((Work_02200344 *)d_0220AF20->h190, s->c, s->b, s->d);
-        s->state = s->state + 1;
+        BTLV_MCSS_StartRotation(gBtlvEff->mcss, s->pos, s->dir, s->playSound);
+        s->step = s->step + 1;
         return;
     case 2:
-        if (func_021F6AD0((Obj_021F6AD0 *)d_0220AF20->h194))
+        if (BTLV_STAGE_IsAnyLayerArmed(gBtlvEff->stage))
             return;
-        if (func_021FFD6C((Work_021FFD6C *)d_0220AF20->h190))
+        if (BTLV_MCSS_IsAnySpriteBusy(gBtlvEff->mcss))
             return;
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
 }
 
-void func_021F8FB0(void *h)
+void BTLV_EFFECT_ClearTaskMaskM2(void *h)
 {
-    int m = func_021F935C(((int *)TCBL_GetTaskUserData(h))[2]);
-    d_0220AF20->m2 &= m ^ 0xffffffff;
+    BtlvEffSpriteTransitionTask *task = TCBL_GetTaskUserData(h);
+    int m = BTLV_EFFECT_GetBitMask(task->pos);
+    gBtlvEff->spriteTransitionTaskMask &= m ^ 0xffffffff;
 }
 
-void func_021F8FE8(void *h, void *arg)
+void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, void *arg)
 {
-    Arg_v8204 *p = arg;
+    BtlvEffQueuedScript *p = arg;
 
-    if (func_021F7EB4() == 0) {
-        func_021F94F8(d_0220AF20->h188, p->a, p->b, p->c, p->d);
-        d_0220AF20->f1e8 = 1;
-        func_021F89BC(h);
+    if (BTLV_EFFECT_IsBusy() == 0) {
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->attackerPos, p->defenderPos, p->scriptId, p->params);
+        gBtlvEff->effvmActive = 1;
+        BTLV_EFFECT_DeleteTask(h);
     }
 }
 
@@ -2204,55 +2057,55 @@ void func_021F8FE8(void *h, void *arg)
  *
  * Frees the buffer at 0x10 of the current task's work, if any.
  */
-void func_021F9028(void *h)
+void BTLV_EFFECT_FreeTaskArg(void *h)
 {
-    void *p = *(void **)(TCBL_GetTaskUserData(h) + 0x10);
-    if (p != 0)
-        func_020307B0(p);
+    BtlvEffQueuedScript *task = TCBL_GetTaskUserData(h);
+    if (task->params != 0)
+        func_020307B0(task->params);
 }
 
 /*
  * lever: Assign table lookups to a shared local before the call; duplicated
  * calls cross-jump the indexed load and shorten the function by four bytes.
  */
-void func_021F903C(void)
+void BTLV_EFFECT_UpdateIntroInput(void)
 {
     int a, b;
     u32 n, value;
     a = KEY_GetTrg();
     b = TOUCHPANEL_GetTrg();
-    if (d_0220AF20->f238 == 0)
+    if (gBtlvEff->introState == 0)
         return;
-    if (d_0220AF20->f238 != 2 && d_0220AF20->f238 != 3 && (a != 0 || b != 0)) {
-        func_021F7BEC();
-        func_021F7998(0x252);
-        d_0220AF20->f23c = 0;
-        d_0220AF20->f240 = 0;
+    if (gBtlvEff->introState != 2 && gBtlvEff->introState != 3 && (a != 0 || b != 0)) {
+        BTLV_EFFECT_PauseVm();
+        BTLV_EFFECT_StartEffect(0x252);
+        gBtlvEff->introPhase = 0;
+        gBtlvEff->introTimer = 0;
     }
-    switch (d_0220AF20->f23c) {
+    switch (gBtlvEff->introPhase) {
     case 0:
-        if (d_0220AF20->f240 < d_0220AF20->f244) {
-            d_0220AF20->f240++;
+        if (gBtlvEff->introTimer < gBtlvEff->introTimerMax) {
+            gBtlvEff->introTimer++;
             return;
         }
-        d_0220AF20->f23c = 1;
+        gBtlvEff->introPhase = 1;
     case 1:
-        if (func_021F7EB4() == 0) {
-            if (d_0220AF20->f238 == 3 && BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x400)) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
+            if (gBtlvEff->introState == 3 && BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400)) {
                 do {
                     n = (u32)(((u64)func_0203F0A8() * 2) >> 32);
-                } while (d_0220AF20->f248 == n);
-                d_0220AF20->f248 = n;
-                value = d_0220AC70[d_0220AF20->f248];
+                } while (gBtlvEff->introLastPick == n);
+                gBtlvEff->introLastPick = n;
+                value = gBtlvIntroPickTableA[gBtlvEff->introLastPick];
             } else {
                 do {
                     n = (u32)(((u64)func_0203F0A8() * 6) >> 32);
-                } while (d_0220AF20->f248 == n);
-                d_0220AF20->f248 = n;
-                value = d_0220AC78[d_0220AF20->f248];
+                } while (gBtlvEff->introLastPick == n);
+                gBtlvEff->introLastPick = n;
+                value = gBtlvIntroPickTableB[gBtlvEff->introLastPick];
             }
-            func_021F7998(value);
-            d_0220AF20->f1e8 = 1;
+            BTLV_EFFECT_StartEffect(value);
+            gBtlvEff->effvmActive = 1;
         }
         break;
     }
@@ -2261,47 +2114,47 @@ void func_021F903C(void)
 /*
  * Signed step from a to b in units of c (default 0x1000), at least one unit.
  */
-void func_021F9154(int a, int b, int *out, int c)
+void BTLV_EFFECT_ComputeScalarStep(fx32 from, fx32 to, fx32 *stepOut, fx32 frames)
 {
-    *out = 0;
-    if (b - a == 0)
+    *stepOut = 0;
+    if (to - from == 0)
         return;
-    if (c == 0)
-        c = 0x1000;
-    *out = func_0207C768(b - a, c);
-    if (*out == 0) {
-        if (b > a)
-            *out = 1;
+    if (frames == 0)
+        frames = 0x1000;
+    *stepOut = func_0207C768(to - from, frames);
+    if (*stepOut == 0) {
+        if (to > from)
+            *stepOut = 1;
         else
-            *out = -1;
+            *stepOut = -1;
     }
 }
 
-void func_021F918C(const VecFx32_021F8F30 *a, const VecFx32_021F8F30 *b, VecFx32_021F8F30 *out, fx32 div)
+void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames)
 {
-    out->x = 0;
-    out->y = 0;
-    out->z = 0;
-    if (div == 0)
-        div = 0x1000;
-    if (b->x - a->x != 0) {
-        out->x = FX_Div(b->x - a->x, div);
-        if (out->x == 0)
-            out->x = (b->x > a->x) ? 1 : -1;
+    stepOut->x = 0;
+    stepOut->y = 0;
+    stepOut->z = 0;
+    if (frames == 0)
+        frames = 0x1000;
+    if (to->x - from->x != 0) {
+        stepOut->x = FX_Div(to->x - from->x, frames);
+        if (stepOut->x == 0)
+            stepOut->x = (to->x > from->x) ? 1 : -1;
     }
-    if (b->y - a->y != 0) {
-        out->y = FX_Div(b->y - a->y, div);
-        if (out->y == 0)
-            out->y = (b->y > a->y) ? 1 : -1;
+    if (to->y - from->y != 0) {
+        stepOut->y = FX_Div(to->y - from->y, frames);
+        if (stepOut->y == 0)
+            stepOut->y = (to->y > from->y) ? 1 : -1;
     }
-    if (b->z - a->z != 0) {
-        out->z = FX_Div(b->z - a->z, div);
-        if (out->z == 0)
+    if (to->z - from->z != 0) {
+        stepOut->z = FX_Div(to->z - from->z, frames);
+        if (stepOut->z == 0)
         {
-            if (b->z > a->z)
-                out->z = 1;
+            if (to->z > from->z)
+                stepOut->z = 1;
             else
-                out->z = -1;
+                stepOut->z = -1;
         }
     }
 }
@@ -2310,44 +2163,44 @@ void func_021F918C(const VecFx32_021F8F30 *a, const VecFx32_021F8F30 *b, VecFx32
  * EXACT*: inferred extent runs two bytes long; the follower is an unlabelled
  * padding pair.
  */
-void func_021F9220(int *p, int *d, int *lim, int *flag)
+void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *notDone)
 {
-    int n = *p + *d;
-    *p = n;
-    if (*d < 0) {
-        if (n <= *lim) {
-            *p = *lim;
+    int n = *value + *step;
+    *value = n;
+    if (*step < 0) {
+        if (n <= *limit) {
+            *value = *limit;
         } else {
-            if (flag)
-                *flag = 0;
+            if (notDone)
+                *notDone = 0;
         }
     } else {
-        if (n >= *lim) {
-            *p = *lim;
+        if (n >= *limit) {
+            *value = *limit;
         } else {
-            if (flag)
-                *flag = 0;
+            if (notDone)
+                *notDone = 0;
         }
     }
 }
 
-int func_021F9260(Mover_v8204 *m, VecFx32_021F8F30 *out)
+int BTLV_EFFECT_StepMover(BtlvMover *m, BtlvVec3 *out)
 {
     int ret = 1;
 
     switch (m->mode) {
     case 0:
-        out->x = m->start.x;
-        out->y = m->start.y;
-        out->z = m->start.z;
+        out->x = m->end.x;
+        out->y = m->end.y;
+        out->z = m->end.z;
         break;
     case 1:
     case 4:
         if (m->wait == 0) {
             m->wait = m->waitReset;
-            func_021F9220(&out->x, &m->step.x, &m->start.x, &ret);
-            func_021F9220(&out->y, &m->step.y, &m->start.y, &ret);
-            func_021F9220(&out->z, &m->step.z, &m->start.z, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->x, &m->step.x, &m->end.x, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->y, &m->step.y, &m->end.y, &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&out->z, &m->step.z, &m->end.z, &ret);
         } else {
             m->wait--;
             ret = 0;
@@ -2375,46 +2228,46 @@ int func_021F9260(Mover_v8204 *m, VecFx32_021F8F30 *out)
         if (m->repeat != 0) {
             ret = 0;
         } else {
-            out->x = m->end.x;
-            out->y = m->end.y;
-            out->z = m->end.z;
+            out->x = m->start.x;
+            out->y = m->start.y;
+            out->z = m->start.z;
         }
         break;
     }
     return ret;
 }
 
-int func_021F935C(int x)
+int BTLV_EFFECT_GetBitMask(int x)
 {
     return 1 << x;
 }
 
-void func_021F9364(P *p)
+void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)
 {
     int i;
-    Q_v8204 *q;
-    u32 sz;
-    u32 off;
+    NNSG3dResTex *tex;
+    u32 size;
+    u32 vramOffset;
 
-    if (p->en != 0) {
-        if (p->cnt == 0) {
-            p->cnt = p->rl;
-            for (i = 0; i < p->n; i++) {
-                q = (Q_v8204 *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile((struct Tagged *)p->a0[i]));
-                sz = q->h30 << 3;
-                off = (u16)q->w2c << 3;
-                PALANM_BlendColors((u16 *)((char *)q + q->o38), p->a4[i], (u16)(sz >> 1), p->cur, p->col);
-                func_02061CA4((void *)1, off, (u32)p->a4[i], sz);
+    if (fade->enabled != 0) {
+        if (fade->wait == 0) {
+            fade->wait = fade->interval;
+            for (i = 0; i < fade->count; i++) {
+                tex = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(fade->resources[i]));
+                size = tex->plttInfo.sizePltt << 3;
+                vramOffset = (u16)tex->plttInfo.vramKey << 3;
+                PALANM_BlendColors((u16 *)((char *)tex + tex->plttInfo.ofsPlttData), fade->palettes[i], (u16)(size >> 1), fade->current, fade->color);
+                func_02061CA4((void *)1, vramOffset, (u32)fade->palettes[i], size);
             }
-            if (p->cur == p->tgt) {
-                p->en = 0;
-            } else if (p->cur > p->tgt) {
-                p->cur = p->cur - 1;
+            if (fade->current == fade->target) {
+                fade->enabled = 0;
+            } else if (fade->current > fade->target) {
+                fade->current = fade->current - 1;
             } else {
-                p->cur = p->cur + 1;
+                fade->current = fade->current + 1;
             }
         } else {
-            p->cnt = p->cnt - 1;
+            fade->wait = fade->wait - 1;
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D424C
+ * function: GSYNC_MENU_InitBgLayers
  * address: 0x021D424C
  * packet: pkt_ov123_021D424C
  * region: ov123
@@ -40,7 +40,7 @@ extern void func_0204047C(int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
-void func_021D424C(char *a0)
+void GSYNC_MENU_InitBgLayers(char *a0)
 {
     struct BgTemplate b[5];
     b[4] = d_021DA690;

@@ -11,13 +11,13 @@
  * lever: first types search extracted full-word temporaries and took kind's address;
  * its volatile parameter was removed, and the clean spelling independently matched.
  * symbols:
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
  */
 typedef unsigned short u16;
@@ -31,13 +31,13 @@ typedef struct
   unsigned char pad;
 } Config;
 typedef unsigned char  u8;
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern void func_021FBE54(char *, u32, u32);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+extern void BR_RES_LoadSprite(char *, u32, u32);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
 extern void MI_CpuFill8(void *, int, unsigned);
-extern u32 func_021FC4DC(u8 *p);
-extern int func_021FC124(char *, unsigned, void *);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
+extern int BR_RES_GetSprite(char *, unsigned, void *);
 extern int func_021FB378(Config *, u16, int, int, void *, int, int, int, void *, u16);
 void func_021F891C(char *p, const char *q)
 {
@@ -54,15 +54,15 @@ void func_021F891C(char *p, const char *q)
   if (*((int *) (p + 4)))
     return;
   tmp1 = (char **) (q + 12);
-  func_021FB964((void *)(*((u32 *) (q + 12))), 23, *((u16 *) (p + 36)));
-  func_021FBE54(*tmp1, 6, *((u16 *) (p + 36)));
-  v0 = func_021FC20C(*((char **) (q + 12)));
-  v1 = func_021FC214(*((char **) (q + 12)));
+  BR_RES_LoadBgGraphics((void *)(*((u32 *) (q + 12))), 23, *((u16 *) (p + 36)));
+  BR_RES_LoadSprite(*tmp1, 6, *((u16 *) (p + 36)));
+  v0 = BR_RES_GetFont(*((char **) (q + 12)));
+  v1 = BR_RES_GetMsgData(*((char **) (q + 12)));
   MI_CpuFill8(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
-  v = (void *)func_021FC4DC(*((void **) (q + 8)));
-  func_021FC124(*((char **) (q + 12)), 6, resources);
+  v = (void *)BR_GRAPHIC_GetActorUnit(*((void **) (q + 8)));
+  BR_RES_GetSprite(*((char **) (q + 12)), 6, resources);
   for (i = 0; i < 2; i++)
   {
     if (i == 0)

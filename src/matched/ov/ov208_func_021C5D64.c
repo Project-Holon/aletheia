@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C5D64
+ * function: ZUKAN_DETAIL_FORM_UpdateState
  * address:  0x021C5D64
  * packet:   pkt_ov208_021C5D64
  * region:   ov208
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb
- *   ov208_func_021C6760  0x021C6760  thumb
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb
+ *   ZUKAN_DETAIL_FORM_HandleTouchArrows  0x021C6760  thumb
  *   ov208_func_021C526C  0x021C526C  thumb
  *   ov208_func_021C5B00  0x021C5B00  thumb
  *   ov208_func_021C51D4  0x021C51D4  thumb
  *   ov208_func_021C7448  0x021C7448  thumb
- *   ov208_func_021C5F34  0x021C5F34  thumb
+ *   ZUKAN_DETAIL_FORM_HandleStateEvent  0x021C5F34  thumb
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   ov208_func_021C7CE8  0x021C7CE8  thumb
- *   ov208_func_021C7534  0x021C7534  thumb
+ *   ZUKAN_DETAIL_FORM_PlaceSideModels  0x021C7534  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   ov208_func_021BDC48  0x021BDC48  thumb
@@ -36,17 +36,17 @@ struct Ov208Mdl {
     u8  pos[0x3c];
 };
 
-extern int func_021BC3B4(int *p);
-extern u32  ov208_func_021C6760(u16 *heap, u8 *p, int key);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern u32  ZUKAN_DETAIL_FORM_HandleTouchArrows(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C526C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C5B00(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C51D4(struct Ov208Mdl *m);
 extern void ov208_func_021C7448(u16 *heap, u8 *p, int key);
-extern void ov208_func_021C5F34(u16 *heap, u8 *p, int key, int ev);
+extern void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, u8 *p, int key, int ev);
 extern u32  KEY_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void ov208_func_021C7CE8(u16 *heap, u8 *p, int key);
-extern void ov208_func_021C7534(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_FORM_PlaceSideModels(u16 *heap, u8 *p, int key);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void func_020355D8(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
@@ -55,7 +55,7 @@ extern void ov208_func_021BDC48(void *scene, u32 on);
 #define H(o) (*(u16 *)(p + (o)))
 #define MDL(i) ((struct Ov208Mdl *)(p + 0xc) + (i))
 
-void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_FORM_UpdateState(u16 *heap, u8 *p, int key)
 {
     u32 x;
     u32 y;
@@ -65,12 +65,12 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
     u32 r;
     u8 i;
 
-    scene = (void *)func_021BC3B4((int *)key);
+    scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
     switch (W(0x6b8)) {
     case 0:
         if (W(0x6b4) == 0)
             break;
-        r = ov208_func_021C6760(heap, p, key);
+        r = ZUKAN_DETAIL_FORM_HandleTouchArrows(heap, p, key);
         if (r != 5) {
             switch (r) {
             case 0:
@@ -84,12 +84,12 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
             case 2:
                 W(0x6c8) = 1;
                 ov208_func_021C7448(heap, p, key);
-                ov208_func_021C5F34(heap, p, key, 1);
+                ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 1);
                 return;
             case 3:
                 W(0x6c8) = 0;
                 ov208_func_021C7448(heap, p, key);
-                ov208_func_021C5F34(heap, p, key, 1);
+                ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 1);
                 return;
             }
         } else {
@@ -105,9 +105,9 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
                 if ((W(0x124) != 0 && MDL(2)->obj == 0) || (W(0x124) == 0 && MDL(3)->obj == 0)) {
                     ov208_func_021C7CE8(heap, p, key);
                     W(0x6c8) = 1;
-                    ov208_func_021C7534(heap, p, key);
+                    ZUKAN_DETAIL_FORM_PlaceSideModels(heap, p, key);
                 }
-                ov208_func_021C5F34(heap, p, key, 2);
+                ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, key, 2);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_020355D8(touch);
                 ov208_func_021BDC48(scene, 0);
@@ -118,7 +118,7 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
     case 4:
         if (W(0x6b4) == 0 || W(0x69c) != 0)
             break;
-        r = ov208_func_021C6760(heap, p, key);
+        r = ZUKAN_DETAIL_FORM_HandleTouchArrows(heap, p, key);
         if (r != 5) {
             switch (r) {
             case 0:

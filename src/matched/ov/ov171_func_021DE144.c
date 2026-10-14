@@ -1,5 +1,5 @@
 /*
- * function: func_021DE144
+ * function: DENDOU_VIEW_LoadButtonResources
  * address: 0x021DE144
  * packet: pkt_ov171_021DE144
  * region: ov171
@@ -34,7 +34,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(u8 *);
-void func_021DE144(char *p)
+void DENDOU_VIEW_LoadButtonResources(char *p)
 {
     unsigned i;
     u8 *s;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE820",
-    "func_021DE8C0"
+    "POKETRADE_NEGO_StepRebuildSceneAfterWipe",
+    "POKETRADE_NEGO_StepWaitMessageThenWipe"
+   ],
+   "addresses": [
+    "0x021DE820",
+    "0x021DE8C0"
    ]
   }
  ]

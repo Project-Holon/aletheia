@@ -1,5 +1,5 @@
 /*
- * function: func_021E1210
+ * function: GURU2_MAIN_GetEntranceEffectActive
  * address: 0x021E1210
  * packet: pkt_ov137_021E1210
  * region: ov137
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021E1210(char *p)
+int GURU2_MAIN_GetEntranceEffectActive(char *p)
 {
     return ((struct Obj23796 *)p)->fC7C;
 }

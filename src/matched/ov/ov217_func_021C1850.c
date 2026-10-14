@@ -1,5 +1,5 @@
 /*
- * function: func_021C1850
+ * function: CircleGraph_ComputePercents
  * address: 0x021C1850
  * packet: pkt_ov217_021C1850
  * region: ov217
@@ -15,19 +15,19 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_021C1AD4 0x021C1AD4 thumb ov217
- *   func_021C1AFC 0x021C1AFC thumb ov217
+ *   CircleGraph_SumValues 0x021C1AD4 thumb ov217
+ *   CircleGraph_SumPercents 0x021C1AFC thumb ov217
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj14759.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021C1AD4(u8 *p);
-extern int func_021C1AFC(u8 *);
-void func_021C1850(u8 *p)
+extern int CircleGraph_SumValues(u8 *p);
+extern int CircleGraph_SumPercents(u8 *);
+void CircleGraph_ComputePercents(u8 *p)
 {
     u8 *base;
-    u32 total=func_021C1AD4(p);
+    u32 total=CircleGraph_SumValues(p);
     int count=p[0x1ac];
     int i=0;
     int remaining;
@@ -39,7 +39,7 @@ void func_021C1850(u8 *p)
             i++;
         } while (i<count);
     }
-    remaining=100-func_021C1AFC(p);
+    remaining=100-CircleGraph_SumPercents(p);
     i=0;
     while (remaining>0) {
         p[i*20+0x24]+=1;

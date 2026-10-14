@@ -1,5 +1,5 @@
 /*
- * function: func_021DD294
+ * function: POKETRADE_NEGO_CloseCancelMenu
  * address: 0x021DD294
  * packet: pkt_ov119_021DD294
  * region: ov119
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E2A1C 0x021E2A1C thumb ov119
+ *   POKETRADE_SAVE_CloseTaskMenuWindow 0x021E2A1C thumb ov119
  */
 #include "../include/Obj22738.h"
-extern void func_021E2A1C(char *p, int a, int b);
-void func_021DD294(char *p, int a, int b)
+extern void POKETRADE_SAVE_CloseTaskMenuWindow(char *p, int a, int b);
+void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b)
 {
     if (((struct Obj22738 *)p)->f118C == 3)
-        func_021E2A1C(p, a, b);
+        POKETRADE_SAVE_CloseTaskMenuWindow(p, a, b);
 }

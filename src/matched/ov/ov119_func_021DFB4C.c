@@ -1,5 +1,5 @@
 /*
- * function: func_021DFB4C
+ * function: POKETRADE_MCSS_SlideBegin
  * address:  0x021DFB4C
  * packet:   pkt_ov119_021DFB4C
  * region:   ov119
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-void func_021DFB4C(void *p, void *a1, void *a2)
+void POKETRADE_MCSS_SlideBegin(void *p, void *a1, void *a2)
 {
     u8 buf[12];
 

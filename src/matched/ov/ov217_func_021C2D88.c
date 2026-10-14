@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D88
+ * function: PALETTE_ANIME_RestoreImpl
  * address:  0x021C2D88
  * packet:   pkt_021C2D88
  * region:   ov217
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 
 extern int MI_CpuCopy8(int, int, int);
 
-int func_021C2D88(char *p)
+int PALETTE_ANIME_RestoreImpl(char *p)
 {
     return MI_CpuCopy8(((struct Obj10968 *)p)->fC, ((struct Obj10968 *)p)->f8,
                          ((struct Obj10968 *)p)->f10 << 1);

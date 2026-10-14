@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FC604",
-    "func_021FC60C"
+    "BR_GRAPHIC_VBlankActors",
+    "BR_GRAPHIC_GetUnitFromActorSys"
+   ],
+   "addresses": [
+    "0x021FC604",
+    "0x021FC60C"
    ]
   }
  ]

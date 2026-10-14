@@ -1,5 +1,5 @@
 /*
- * function: func_02200118
+ * function: WORLDTRADE_TITLE_ExitBgPlanesSub
  * address:  0x02200118
  * packet:   pkt_02200118
  * region:   ov135
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern void sub_020403F4(u32 i);
 
-void func_02200118(void)
+void WORLDTRADE_TITLE_ExitBgPlanesSub(void)
 {
     sub_020403F4(2);
     sub_020403F4(1);

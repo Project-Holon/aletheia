@@ -1,5 +1,5 @@
 /*
- * function: func_021C0EE4
+ * function: RingQueue_IsEmptyImpl
  * address:  0x021C0EE4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Whether two words of a record are equal.  Reached only from the tail-call
- * veneer func_021C0E64.
+ * veneer RingQueue_IsEmpty.
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef struct {
     u32 b;
 } Rec;
 
-int func_021C0EE4(Rec *p)
+int RingQueue_IsEmptyImpl(Rec *p)
 {
     return p->a == p->b;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02202B20
+ * function: WORLDTRADE_ADAPTER_QueueMessagePrint
  * address:  0x02202B20
  * packet:   pkt_02202B20
  * region:   ov135
@@ -29,12 +29,12 @@
  * five).  Both pool words are plain constants, not relocations: 0x3DC8 is
  * the seventh argument to PRINTSYS_PrintQueColor and 0x02203F74 is the file/message
  * word of the func_02034714 report (the same raw-address assert shape as
- * func_021BA1B4).  The sibling func_022028C8 writes the identical
+ * func_021BA1B4).  The sibling WORLDTRADE_ADAPTER_PrintQueColor writes the identical
  * PRINTSYS_PrintQueColor report with a u16 stack argument instead of 0x3DC8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02202B20.c \
- *       --func func_02202B20 --addr 0x02202B20 --region ov135 \
+ *   python tools/match.py one --src src/matched/WORLDTRADE_ADAPTER_QueueMessagePrint.c \
+ *       --func WORLDTRADE_ADAPTER_QueueMessagePrint --addr 0x02202B20 --region ov135 \
  *       --thumb --cc 1.1p1 --flags=-O4,p
  */
 
@@ -70,7 +70,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4)
+void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int arg1, void *arg2, int arg3, int arg4)
 {
     void *buf = func_02045EC0(p->f0c, 0xfe);
     int i;

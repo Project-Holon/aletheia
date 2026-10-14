@@ -1,5 +1,5 @@
 /*
- * function: func_02179D14
+ * function: IRCNET_OnPeerFound
  * address: 0x02179D14
  * packet: pkt_ov015_02179D14
  * region: ov015
@@ -23,4 +23,4 @@ extern struct s_aba0 d_0217ABA0;
 extern struct State d_0217AB80;
 extern unsigned int func_0217A014(void);
 extern unsigned int func_0217A5A4(void);
-void func_02179D14(void) { ((u8 *)&d_0217AB80)[0x1c] = func_0217A014(); ((u8 *)&d_0217ABA0)[7] = func_0217A5A4(); }
+void IRCNET_OnPeerFound(void) { ((u8 *)&d_0217AB80)[0x1c] = func_0217A014(); ((u8 *)&d_0217ABA0)[7] = func_0217A5A4(); }

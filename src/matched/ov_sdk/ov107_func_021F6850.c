@@ -1,5 +1,5 @@
 /*
- * function: func_021F6850
+ * function: MBi_ClearParentPieceBuffer
  * address:  0x021F6850
  * packet:   pkt_ov107_021F6850
  * region:   ov107
@@ -26,7 +26,7 @@ extern struct piece g_021F7008;
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 
-void func_021F6850(u16 child_aid)
+void MBi_ClearParentPieceBuffer(u16 child_aid)
 {
     int i;
 

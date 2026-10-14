@@ -14,8 +14,8 @@
  *   func_021E2E48 0x021E2E48 thumb ov183
  *   func_021E31E8 0x021E31E8 thumb ov183
  *   func_021E3228 0x021E3228 thumb ov183
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021E2C2C 0x021E2C2C thumb ov183
@@ -27,9 +27,9 @@ extern void func_021E2E60(Pair *);
 extern void func_021E2E30(char *,int,int);
 extern void func_021E2E48(char *p, int a, int b);
 extern int func_021E31E8(char *,int,int),func_021E3228(char *,int,int);
-extern void func_021FE784(int,int,int,int);
+extern void BR_FADE_Start(int,int,int,int);
 typedef unsigned int   u32;
-extern int func_021FE7B0(int *);
+extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021E2C2C(int *task, unsigned *state, char *p);
@@ -45,10 +45,10 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         func_021E2E30(p+0x4c,(int)p,*(int *)&((struct Obj03334 *)p)->f3C);
         ++*state; break;
     case 1:
-        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,0);
+        BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,0);
         ++*state; break;
     case 2:
-        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 3:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
@@ -57,19 +57,19 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         }
         break;
     case 4:
-        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
+        BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
     case 5:
-        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 6:
         func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
         func_021FD73C(task,(int)func_021E2C2C); break;
     case 7:
-        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
+        BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
     case 8:
-        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 9:
         func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));

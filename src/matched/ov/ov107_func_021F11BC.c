@@ -1,5 +1,5 @@
 /*
- * function: func_021F11BC
+ * function: MB_COMM_SYS_HasMonsReceived
  * address:  0x021F11BC
  * packet:   pkt_ov107_021F11BC
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-int func_021F11BC(Ov107Ctx *p)
+int MB_COMM_SYS_HasMonsReceived(Ov107Ctx *p)
 {
     return p->f18.b01;
 }

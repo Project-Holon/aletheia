@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E9C
+ * function: MAILTOOL_ProcMain
  * address: 0x021C3E9C
  * packet: pkt_ov136_021C3E9C
  * region: ov136
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note 2026-10-05 (wD7 lane15): closed. func_021C414C takes a second argument (u8 *p, its matched
+ * note 2026-10-05 (wD7 lane15): closed. MAILSYS_WriteMessageToMail takes a second argument (u8 *p, its matched
  *   definition reads r1), so case 2 keeps the ctx+0x10 pointer in r1 for that call.
  * symbols:
  *   PROCSYS_Main 0x02031330 arm
@@ -21,8 +21,8 @@
  *   PMSI_PARAM_Delete 0x020240FC thumb
  *   func_02008C58 0x02008C58 thumb
  *   func_02008DF0 0x02008DF0 thumb
- *   func_021C414C 0x021C414C thumb ov136
- *   func_021C3FC8 0x021C3FC8 thumb ov136
+ *   MAILSYS_WriteMessageToMail 0x021C414C thumb ov136
+ *   MAILTOOL_StartWordInput 0x021C3FC8 thumb ov136
  *   ov110_id 0x0000006E data
  *   D_021C7750 0x021C7750 data
  *   D_021C775C 0x021C775C data
@@ -41,12 +41,12 @@ extern unsigned int PMSI_PARAM_GetWord(unsigned short *p);
 extern void PMSI_PARAM_Delete(void *a);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void func_021C414C(void *a, u8 *p);
-extern void func_021C3FC8(u8 *ctx, u8 *arg);
+extern void MAILSYS_WriteMessageToMail(void *a, u8 *p);
+extern void MAILTOOL_StartWordInput(u8 *ctx, u8 *arg);
 extern u8 ov110_id[];
 extern u8 D_021C7750[];
 extern u8 D_021C775C[];
-int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
+int MAILTOOL_ProcMain(int unused, u32 *state, u16 *msg, u8 *ctx)
 {
     u32 ret = PROCSYS_Main(*(void **)(ctx + 0x1C));
     switch (*state) {
@@ -78,7 +78,7 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
             u32 r;
             u8 *p = *(u8 **)(ctx + 0x10);
             if (*(u16 *)p == 4) {
-                func_021C414C(*(void **)(msg + 10), p);
+                MAILSYS_WriteMessageToMail(*(void **)(msg + 10), p);
                 func_02008DF0(func_02008C58(*(void **)(msg + 8)), 0x1D);
                 r = 1;
             } else {
@@ -89,7 +89,7 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
         return 1;
     case 3:
         func_02034AC4((int)ov110_id);
-        func_021C3FC8(ctx, (u8 *)msg);
+        MAILTOOL_StartWordInput(ctx, (u8 *)msg);
         PROCSYS_Push(*(void **)(ctx + 0x1C), (u32)-1, D_021C775C, *(void **)(ctx + 8));
         *state = 4;
         break;

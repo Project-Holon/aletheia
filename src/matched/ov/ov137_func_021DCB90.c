@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB90
+ * function: GURU2_COMM_Exit
  * address: 0x021DCB90
  * packet: pkt_ov137_021DCB90
  * region: ov137
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021DCB90(void *p) { }
+void GURU2_COMM_Exit(void *p) { }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DDFE8
+ * function: DENDOU_VIEW_InitActors
  * address: 0x021DDFE8
  * packet: pkt_ov171_021DDFE8
  * region: ov171
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE114 0x021DE114 thumb ov171
- *   func_021DE144 0x021DE144 thumb ov171
- *   func_021DE2D4 0x021DE2D4 thumb ov171
- *   func_021DE80C 0x021DE80C thumb ov171
+ *   DENDOU_VIEW_InitClactSystem 0x021DE114 thumb ov171
+ *   DENDOU_VIEW_LoadButtonResources 0x021DE144 thumb ov171
+ *   DENDOU_VIEW_CreateButtonActors 0x021DE2D4 thumb ov171
+ *   DENDOU_VIEW_InitPageCounterOam 0x021DE80C thumb ov171
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
@@ -19,18 +19,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021DE114(u8 *);
-extern void func_021DE144(char *);
-extern void func_021DE2D4(char *);
-extern void func_021DE80C(char *);
+extern void DENDOU_VIEW_InitClactSystem(u8 *);
+extern void DENDOU_VIEW_LoadButtonResources(char *);
+extern void DENDOU_VIEW_CreateButtonActors(char *);
+extern void DENDOU_VIEW_InitPageCounterOam(char *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-void func_021DDFE8(u8 *p)
+void DENDOU_VIEW_InitActors(u8 *p)
 {
-    func_021DE114(p);
-    func_021DE144((char *)p);
-    func_021DE2D4((char *)p);
-    func_021DE80C((char *)p);
+    DENDOU_VIEW_InitClactSystem(p);
+    DENDOU_VIEW_LoadButtonResources((char *)p);
+    DENDOU_VIEW_CreateButtonActors((char *)p);
+    DENDOU_VIEW_InitPageCounterOam((char *)p);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
 }

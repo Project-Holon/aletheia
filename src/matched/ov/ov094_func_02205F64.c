@@ -1,5 +1,5 @@
 /*
- * function: func_02205F64
+ * function: BTLV_INPUT_DeleteWazaActors
  * address:  0x02205F64
  * packet:   pkt_ov094_02205F64
  * region:   ov094
@@ -18,7 +18,7 @@ typedef struct { char pad[0x1fc]; E a[4]; } W;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02205F64(W *p)
+void BTLV_INPUT_DeleteWazaActors(W *p)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_LIFT_Cleanup
+ * function: SCRCMD_FIELD_GIMMICK_LIFT_SnapLiftToBottom
  * address:  0x021B269C
  * packet:   pkt_021B269C
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *a);
 
-int SCRCMD_FIELD_GIMMICK_LIFT_Cleanup(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FIELD_GIMMICK_LIFT_SnapLiftToBottom(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_GIMMICK_LIFT_SnapLiftToBottom(SCRCMD_WORK_GetGameSystem((void *)b));
 return 0;

@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F80E4  0x021F80E4  thumb  ov094
+ *   BTLV_EFFECT_GaugeDeleteSlot  0x021F80E4  thumb  ov094
  */
 typedef unsigned char u8;
 struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
 typedef unsigned int   u32;
-extern void func_021F80E4(u32 a);
+extern void BTLV_EFFECT_GaugeDeleteSlot(u32 a);
 void BTLV_SCU_HideMonSlot(struct E *e)
 {
     if (e->fa != 0) {
-        func_021F80E4(e->v9);
+        BTLV_EFFECT_GaugeDeleteSlot(e->v9);
         e->fa = 0;
     }
 }

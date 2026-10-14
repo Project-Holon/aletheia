@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF22C",
+   "name": "GURU2_MAIN_StepAngle",
    "address": "0x021DF22C",
    "kind": "game",
    "region": "ov137",

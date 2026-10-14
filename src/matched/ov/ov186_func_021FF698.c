@@ -1,5 +1,5 @@
 /*
- * function: func_021FF698
+ * function: BR_NET_GetVideoReply
  * address:  0x021FF698
  * packet:   pkt_ov186_021FF698
  * region:   ov186
@@ -21,21 +21,21 @@
  *
  * 2026-10-05: tried a local k=0x5c4 reused as the call argument, pointer-typed value, u32 types, struct field access, early return for v==0, static inline getter, out alias inside the if. All still give out in r5 and value in r4 (original: out r4, value r5). Residue unchanged: 5 bytes, pure r4/r5 swap.
  *
- * 2026-10-05 (D9-14): closed. The swap was a wrong callee arity: func_021D74D8
+ * 2026-10-05 (D9-14): closed. The swap was a wrong callee arity: GDS_RAP_GetVideoReply
  *   (matched in ov125) takes two arguments; the 0x5c4 in r2 at the call is only the
  *   leftover offset register. Two-argument call, no alias local: EXACT.
  *
  * symbols:
- *   func_021D74D8  0x021D74D8  thumb  ov125
+ *   GDS_RAP_GetVideoReply  0x021D74D8  thumb  ov125
  */
 
-extern int func_021D74D8(void *unused, char **out);
+extern int GDS_RAP_GetVideoReply(void *unused, char **out);
 
-int func_021FF698(char *p, int a1, int *out)
+int BR_NET_GetVideoReply(char *p, int a1, int *out)
 {
     int v = *(int *)(p + 0x5c4);
 
     if (v != 0)
-        *out = func_021D74D8(p, (char **)a1);
+        *out = GDS_RAP_GetVideoReply(p, (char **)a1);
     return v;
 }

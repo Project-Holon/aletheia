@@ -1,5 +1,5 @@
 /*
- * function: func_021E4B00
+ * function: POKETRADE_2D_CreateBoxIcon
  * address:  0x021E4B00
  * packet:   pkt_ov119_021E4B00
  * region:   ov119
@@ -14,13 +14,13 @@
  * symbols:
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021E4984 0x021E4984 thumb ov119
- *   func_021E49DC 0x021E49DC thumb ov119
- *   func_021E4AD0 0x021E4AD0 thumb ov119
- *   func_021E496C 0x021E496C thumb ov119
+ *   POKETRADE_2D_ResolveGridCell 0x021E4984 thumb ov119
+ *   POKETRADE_2D_GetGridCellMon 0x021E49DC thumb ov119
+ *   POKETRADE_2D_UpdateIconObjMode 0x021E4AD0 thumb ov119
+ *   POKETRADE_2D_GetGridCellPos 0x021E496C thumb ov119
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_021D8AF4 0x021D8AF4 thumb ov119
- *   func_021D8B0C 0x021D8B0C thumb ov119
+ *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb ov119
+ *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb ov119
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_02061CA4 0x02061CA4 arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -28,7 +28,7 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02017E88 0x02017E88 thumb
- *   func_021E4A84 0x021E4A84 thumb ov119
+ *   POKETRADE_2D_IsBoxIconFiltered 0x021E4A84 thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef short s16;
@@ -41,14 +41,14 @@ typedef struct { int a, b, c, d[6]; } Info;
 struct Obj;
 extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern int func_021E4984(int v, int a, int b, char *p, int *out);
+extern int POKETRADE_2D_ResolveGridCell(int v, int a, int b, char *p, int *out);
 struct Struct36;
-extern char *func_021E49DC(int a, int b, char *p);
-extern void func_021E4AD0(char *p, int a1, int a2, int a3, int a4, int a5);
-extern void func_021E496C(int x, int y, u16 *out);
+extern char *POKETRADE_2D_GetGridCellMon(int a, int b, char *p);
+extern void POKETRADE_2D_UpdateIconObjMode(char *p, int a1, int a2, int a3, int a4, int a5);
+extern void POKETRADE_2D_GetGridCellPos(int x, int y, u16 *out);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern int func_021D8AF4(int, char *);
-extern int func_021D8B0C(int, int);
+extern int POKETRADE_PROC_GetBoxIndexForSlot(int, char *);
+extern int POKETRADE_PROC_GetSlotIndexInBox(int, int);
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -59,8 +59,8 @@ extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_021E4A84(char *p, int i);
-void func_021E4B00(char *p, int v, int a, int row, int flag)
+extern int POKETRADE_2D_IsBoxIconFiltered(char *p, int i);
+void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
 {
     int j, rec, id, b2, b3, idx, n;
     Ent *e;
@@ -73,8 +73,8 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
         CLACT_SetActorDrawEnable(((void **)(p + row * 20 + 0xbb0))[((struct Obj00001 *)p)->fF78], 1);
     }
     for (j = 0; j < 5; j++) {
-        rec = func_021E4984(v, a, j, p, &kind);
-        e = (Ent *)func_021E49DC(a, j, p);
+        rec = POKETRADE_2D_ResolveGridCell(v, a, j, p, &kind);
+        e = (Ent *)POKETRADE_2D_GetGridCellMon(a, j, p);
         if (e == 0) {
             *(u8 *)(p + row * 5 + j + 0xd90) = 0xff;
             continue;
@@ -90,17 +90,17 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
         if (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 == ((u8 *)(p + row * 5) + j)[0xd18]
             && b3 == ((u8 *)(p + row * 5) + j)[0xd54]) {
             CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + j * 4 + 0xac0), 1);
-            func_021E4AD0(p, a, j, rec, kind, row);
+            POKETRADE_2D_UpdateIconObjMode(p, a, j, rec, kind, row);
         } else if (id != *(u16 *)(p + row * 10 + j * 2 + 0xca0)
             || (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 != ((u8 *)(p + row * 5) + j)[0xd18])
             || (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b3 != ((u8 *)(p + row * 5) + j)[0xd54])) {
             *(u16 *)(p + row * 10 + j * 2 + 0xca0) = id;
             *(u8 *)(p + row * 5 + j + 0xd18) = b2;
             *(u8 *)(p + row * 5 + j + 0xd54) = b3;
-            func_021E496C(a, j, pos);
+            POKETRADE_2D_GetGridCellPos(a, j, pos);
             CLACT_GetActorImageProxy(*(void **)(p + row * 20 + j * 4 + 0xac0), (struct Struct36 *)(&info));
-            n = func_021D8AF4(a, p);
-            idx = func_021D8B0C(a, j);
+            n = POKETRADE_PROC_GetBoxIndexForSlot(a, p);
+            idx = POKETRADE_PROC_GetSlotIndexInBox(a, j);
             idx += n * 30;
             CLACT_GetActorSurfacePos((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
@@ -112,12 +112,12 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 vram = VRAM_BASE;
                 MI_CpuCopy8(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
-            func_021E4AD0(p, a, j, rec, kind, row);
+            POKETRADE_2D_UpdateIconObjMode(p, a, j, rec, kind, row);
             CLACT_SetActorPaletteOffset(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
             CLACT_SetActorAutoAnim(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
-        if (func_02017E88((void *)rec, 0x4c, 0) == 0 && func_021E4A84(p, id)) {
+        if (func_02017E88((void *)rec, 0x4c, 0) == 0 && POKETRADE_2D_IsBoxIconFiltered(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;
         }
     }

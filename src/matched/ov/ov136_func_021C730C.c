@@ -1,5 +1,5 @@
 /*
- * function: func_021C730C
+ * function: MB_SEQ_SetDetailButtons
  * address: 0x021C730C
  * packet: pkt_ov136_021C730C
  * region: ov136
@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C670C 0x021C670C thumb ov136
+ *   MB_SEQ_SetActorObjMode 0x021C670C thumb ov136
  *   func_0207D63C 0x0207D63C arm
  */
 typedef unsigned char  u8;
-extern void func_021C670C(u8 *p, int i, int on);
+extern void MB_SEQ_SetActorObjMode(u8 *p, int i, int on);
 extern void func_0207D63C(void *, int, int, int, int);
-void func_021C730C(void *p)
+void MB_SEQ_SetDetailButtons(void *p)
 {
-    func_021C670C(p, 0, 1);
-    func_021C670C(p, 1, 1);
-    func_021C670C(p, 3, 0);
-    func_021C670C(p, 7, 0);
+    MB_SEQ_SetActorObjMode(p, 0, 1);
+    MB_SEQ_SetActorObjMode(p, 1, 1);
+    MB_SEQ_SetActorObjMode(p, 3, 0);
+    MB_SEQ_SetActorObjMode(p, 7, 0);
     func_0207D63C((void *)0x04000050, 4, 8, 4, 12);
 }

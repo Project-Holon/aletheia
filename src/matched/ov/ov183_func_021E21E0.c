@@ -14,12 +14,12 @@
  *   func_021E24F8 0x021E24F8 thumb ov183
  *   func_021E2538 0x021E2538 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   func_021E24C4 0x021E24C4 thumb ov183
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021D76A8 0x021D76A8 thumb ov125
- *   func_021D76D8 0x021D76D8 thumb ov125
+ *   GDS_RAP_StartVideoSave 0x021D76A8 thumb ov125
+ *   GDS_RAP_StepVideoSave 0x021D76D8 thumb ov125
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD73C 0x021FD73C thumb ov186
@@ -43,11 +43,11 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int TOUCHPANEL_GetTrg(void);
 extern int func_021E24F8(char *,int,int),func_021E2538(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
-extern void func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *);
+extern void BR_FADE_Start(int,int,int,int);
+extern int BR_FADE_GetResult(int *);
 extern void func_021E24C4(char *,char *),func_021FD860(int,int,Pair *);
-extern void func_021D76A8(int,int,int);
-extern int func_021D76D8(char *p, int id);
+extern void GDS_RAP_StartVideoSave(int,int,int);
+extern int GDS_RAP_StepVideoSave(char *p, int id);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021E2194(int *task, int *state, char *p);
@@ -65,21 +65,21 @@ void func_021E21E0(int task,int *state,char *p) {
             if(func_021E24F8(p,x1,y1))*state=2;
             else if(func_021E2538(p,x1,y1))*state=10;
         } break;
-    case 2:func_021FE784(((struct Obj24655 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4,2,2,1);++*state;break;
+    case 2:BR_FADE_Start(((struct Obj24655 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4,2,2,1);++*state;break;
     case 3:
-        if(func_021FE7B0(*(int * *)&((struct Obj24656 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4)) {
+        if(BR_FADE_GetResult(*(int * *)&((struct Obj24656 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4)) {
             func_021E24C4(p,*(char * *)&((struct Obj00683 *)p)->f20);
             func_021FD170((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24657 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)323);
             first.a=128;first.b=96;func_021FD860(((struct Obj00683 *)p)->f14,4,&first);
             ((struct Obj00683 *)p)->f24=0;++*state;
         } break;
-    case 4:func_021FE784(((struct Obj24658 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4,2,2,0);++*state;break;
-    case 5:if(func_021FE7B0(*(int * *)&((struct Obj24659 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4))++*state;break;
+    case 4:BR_FADE_Start(((struct Obj24658 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4,2,2,0);++*state;break;
+    case 5:if(BR_FADE_GetResult(*(int * *)&((struct Obj24659 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4))++*state;break;
     case 6:
-        func_021D76A8(((struct Obj24660 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f14,((struct Obj00683 *)p)->f1C,**(int * *)&((struct Obj00683 *)p)->f20);
+        GDS_RAP_StartVideoSave(((struct Obj24660 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f14,((struct Obj00683 *)p)->f1C,**(int * *)&((struct Obj00683 *)p)->f20);
         ++((struct Obj00683 *)p)->f24;++*state;break;
     case 7:
-        result=func_021D76D8((char *)(((struct Obj24662 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f14),**(int * *)&((struct Obj00683 *)p)->f20);
+        result=GDS_RAP_StepVideoSave((char *)(((struct Obj24662 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f14),**(int * *)&((struct Obj00683 *)p)->f20);
         ++((struct Obj00683 *)p)->f24;
         if((u32)(result-2)<=1) {((struct Obj24664 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f1C=1;*state=8;}break;
     case 8:

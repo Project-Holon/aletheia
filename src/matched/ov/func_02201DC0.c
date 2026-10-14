@@ -1,5 +1,5 @@
 /*
- * function: func_02201DC0
+ * function: WORLDTRADE_SERVER_StateSetBusyMessage
  * address:  0x02201DC0
  * packet:   pkt_02201DC0
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4EC0  0x021F4EC0  thumb  ov135
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb  ov135
  *
 
  *
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 
-int func_02201DC0(u8 *p)
+int WORLDTRADE_SERVER_StateSetBusyMessage(u8 *p)
 {
     ((struct Obj12240 *)p)->f32 = 1;
-    func_021F4EC0(p, 9, 7);
+    WORLDTRADE_SetStateAndReturn(p, 9, 7);
     ((struct Obj12240 *)p)->f28 = 0x28;
     return 2;
 }

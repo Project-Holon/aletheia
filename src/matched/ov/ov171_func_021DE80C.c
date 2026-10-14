@@ -1,5 +1,5 @@
 /*
- * function: func_021DE80C
+ * function: DENDOU_VIEW_InitPageCounterOam
  * address: 0x021DE80C
  * packet: pkt_ov171_021DE80C
  * region: ov171
@@ -34,7 +34,7 @@ struct Param;
 struct Sys;
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
-void func_021DE80C(char *p)
+void DENDOU_VIEW_InitPageCounterOam(char *p)
 {
     Descriptor descriptor;
     ((struct Obj01756 *)p)->fC50 = BMP_OAM_CreateSys(0x8C, ((struct Obj01756 *)p)->fB70);

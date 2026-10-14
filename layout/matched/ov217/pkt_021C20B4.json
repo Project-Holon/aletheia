@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C20B4",
+   "name": "ARROW_Layout",
    "address": "0x021C20B4",
    "kind": "sdk",
    "region": "ov217",

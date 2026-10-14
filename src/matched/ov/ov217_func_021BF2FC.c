@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BF810 0x021BF810 thumb ov217
- *   func_021C0F78 0x021C0F78 thumb ov217
+ *   BgTextLabel_PrintText 0x021C0F78 thumb ov217
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
 struct U16Vec;
-extern void func_021C0F78(u8 *p, struct U16Vec *text);
+extern void BgTextLabel_PrintText(u8 *p, struct U16Vec *text);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -67,7 +67,7 @@ void func_021BF2FC(char *p)
     b = STRBUF_Create(0x80, ((struct Obj00021 *)p)->f4);
     func_0201EFA4(c, 0, x, 6, 1, 1);
     func_0201F250(c, b, a);
-    func_021C0F78((u8 *)(((struct Obj00021 *)p)->f35C), b);
+    BgTextLabel_PrintText((u8 *)(((struct Obj00021 *)p)->f35C), b);
     STRBUF_Delete(a);
     STRBUF_Delete(b);
 }

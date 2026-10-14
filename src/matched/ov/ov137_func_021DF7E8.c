@@ -1,5 +1,5 @@
 /*
- * function: func_021DF7E8
+ * function: GURU2_MAIN_VBlank
  * address: 0x021DF7E8
  * packet: pkt_ov137_021DF7E8
  * region: ov137
@@ -14,4 +14,4 @@
  */
 #include "../include/Obj23766.h"
 struct S02021D50;extern void PALANM_TransferPalettes(struct S02021D50 *);extern void CLACT_VBlankSystem(void);extern void func_020419E4(void);
-void func_021DF7E8(void *arg,char *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj23766 *)p)->fD78);CLACT_VBlankSystem();func_020419E4();}
+void GURU2_MAIN_VBlank(void *arg,char *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj23766 *)p)->fD78);CLACT_VBlankSystem();func_020419E4();}

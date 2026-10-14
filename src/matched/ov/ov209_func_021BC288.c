@@ -1,5 +1,5 @@
 /*
- * function: func_021BC288
+ * function: ZUKAN_LIST_ProcExit
  * address:  0x021BC288
  * packet:   pkt_021BC288
  * region:   ov209
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_021BC288(void *p)
+int ZUKAN_LIST_ProcExit(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x6b);

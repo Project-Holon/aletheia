@@ -1,5 +1,5 @@
 /*
- * function: func_021FE8D8
+ * function: BTLV_EFFVM_WaitVoiceTaskMain
  * address:  0x021FE8D8
  * packet:   pkt_ov094_021FE8D8
  * region:   ov094
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   PM_VOICE_IsActive  0x02006BD0  thumb
- *   func_021FE410  0x021FE410  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFVM_StartSeVolumeTweenTask  0x021FE410  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef struct {
     unsigned int f0 : 10;
@@ -26,10 +26,10 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 PM_VOICE_IsActive(u32 i);
-extern void func_021FE410(Obj *o, int a, int b, int n);
-extern void func_021F89BC(void *h);
+extern void BTLV_EFFVM_StartSeVolumeTweenTask(Obj *o, int a, int b, int n);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021FE8D8(void *h, Obj **pp)
+void BTLV_EFFVM_WaitVoiceTaskMain(void *h, Obj **pp)
 {
     int i;
 
@@ -40,7 +40,7 @@ void func_021FE8D8(void *h, Obj **pp)
             (*pp)->tbl[i] = -1;
         }
     }
-    func_021FE410(*pp, 0x6b000, 0x7f000, 10);
+    BTLV_EFFVM_StartSeVolumeTweenTask(*pp, 0x6b000, 0x7f000, 10);
     (*pp)->fl.f10 = 0;
-    func_021F89BC(h);
+    BTLV_EFFECT_DeleteTask(h);
 }

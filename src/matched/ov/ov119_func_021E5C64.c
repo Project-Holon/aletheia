@@ -1,5 +1,5 @@
 /*
- * function: func_021E5C64
+ * function: POKETRADE_2D_LoadSubScreenGfx
  * address: 0x021E5C64
  * packet: pkt_ov119_021E5C64
  * region: ov119
@@ -46,7 +46,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021E5C64(char *p)
+void POKETRADE_2D_LoadSubScreenGfx(char *p)
 {
     u32 i;
     void *h;

@@ -206,6 +206,13 @@ Field, position and side handlers (ov095) use `HAND_FIELD_`, `HAND_POS_` and
 overlays keeps the library style for internal names (`DWCi_` for DWC internals):
 library prefix, then `i` for internal.
 
+Wave 5 applied the same table to the remaining overlays. The module prefix of a
+function comes from the name of the file that holds it (`vct.c` gives `VCT_`,
+`irc_internal.c` gives `IRC_`, `worldtrade_*.c` files give `WORLDTRADE_`); data
+objects follow the same rule with the `s` or `g` prefix in front of the module
+word (`sVctWork`, `gIrcCommandTable`). Internal helpers of a file keep the module
+prefix of the file, not the prefix of the caller.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4DA4
+ * function: GSYNC_MENU_OpenYesNoMenu
  * address: 0x021D4DA4
  * packet: pkt_ov123_021D4DA4
  * region: ov123
@@ -28,7 +28,7 @@ struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern int APP_TASKMENU_SetDisableKey(int a0, int a1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021D4DA4(char *p)
+void GSYNC_MENU_OpenYesNoMenu(char *p)
 {
     Descriptor desc;
     desc.heap = ((struct Obj00626 *)p)->fC;

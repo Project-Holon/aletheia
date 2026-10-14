@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB54
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId
  * address: 0x021BDB54
  * packet: pkt_ov208_021BDB54
  * region: ov208
@@ -10,16 +10,16 @@
  * trailing: 021BDB9E..021BDBA0 is two-byte zero alignment padding.
  * matching: initialize the byte counter before reading the bound.
  * symbols:
- *   func_021BD308 0x021BD308 thumb ov208
+ *   ZKND_TBAR_GetHeldKey 0x021BD308 thumb ov208
  */
 #include "../include/Obj10896.h"
 #include "../include/Obj14650.h"
 struct Ov208Mgr;
-extern int func_021BD308(struct Ov208Mgr *m);
+extern int ZKND_TBAR_GetHeldKey(struct Ov208Mgr *m);
 struct State { char pad[0x68]; unsigned char count; };
-unsigned func_021BDB54(const struct State *p)
+unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(const struct State *p)
 {
-    int key=func_021BD308((struct Ov208Mgr *)(*(char * *)&((struct Obj10896 *)p)->f30));
+    int key=ZKND_TBAR_GetHeldKey((struct Ov208Mgr *)(*(char * *)&((struct Obj10896 *)p)->f30));
     unsigned result=0;
     unsigned char i;
     unsigned count;

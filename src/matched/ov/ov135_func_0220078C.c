@@ -1,5 +1,5 @@
 /*
- * function: func_0220078C
+ * function: WORLDTRADE_TITLE_StateWaitActive
  * address: 0x0220078C
  * packet: pkt_ov135_0220078C
  * region: ov135
@@ -15,9 +15,9 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef struct { u8 pad0[0x28]; int state; u8 pad2C[0xE18 - 0x2C]; u16 active; } Work_0220078C;
-int func_0220078C(Work_0220078C *p);
+int WORLDTRADE_TITLE_StateWaitActive(Work_0220078C *p);
 
-int func_0220078C(Work_0220078C *p)
+int WORLDTRADE_TITLE_StateWaitActive(Work_0220078C *p)
 {
     if (p->active != 0) {
         p->state = 9;

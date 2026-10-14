@@ -1,5 +1,5 @@
 /*
- * function: func_021FC4DC
+ * function: BR_GRAPHIC_GetActorUnit
  * address: 0x021FC4DC
  * packet: pkt_ov186_021FC4DC
  * region: ov186
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC60C 0x021FC60C thumb ov186
+ *   BR_GRAPHIC_GetUnitFromActorSys 0x021FC60C thumb ov186
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021FC60C(u32 *p);
-u32 func_021FC4DC(u8*p){return func_021FC60C((u32 *)(p+4));}
+extern u32 BR_GRAPHIC_GetUnitFromActorSys(u32 *p);
+u32 BR_GRAPHIC_GetActorUnit(u8*p){return BR_GRAPHIC_GetUnitFromActorSys((u32 *)(p+4));}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CF0
+ * function: HALL_OF_FAME_CreateMonSceneObjects
  * address: 0x021B7CF0
  * packet: pkt_ov180_021B7CF0
  * region: ov180
@@ -8,31 +8,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7C78 0x021B7C78 thumb ov180
- *   func_021B7750 0x021B7750 thumb ov180
- *   func_021B75A4 0x021B75A4 thumb ov180
- *   func_021B746C 0x021B746C thumb ov180
- *   func_021B7814 0x021B7814 thumb ov180
- *   d_021B81BC 0x021B81BC data a4
- *   d_021B81D4 0x021B81D4 data a4
- *   d_021B81A4 0x021B81A4 data a4
+ *   HALL_OF_FAME_LoadUiResources 0x021B7C78 thumb ov180
+ *   HALL_OF_FAME_LoadUiPalette 0x021B7750 thumb ov180
+ *   HALL_OF_FAME_CreateActorFromTemplate 0x021B75A4 thumb ov180
+ *   HALL_OF_FAME_SetActorVisible 0x021B746C thumb ov180
+ *   HALL_OF_FAME_CreateMonPlates 0x021B7814 thumb ov180
+ *   gHallOfFamePlateLeftTemplate 0x021B81BC data a4
+ *   gHallOfFamePlateRightTemplate 0x021B81D4 data a4
+ *   gHallOfFameVoiceMarkTemplate 0x021B81A4 data a4
  */
 #include "../include/Obj00547.h"
 typedef struct { unsigned short a, b; unsigned c; int d, e, f; unsigned short g, h; } S24;
-extern S24 d_021B81BC, d_021B81D4, d_021B81A4;
-extern void func_021B7C78(char *);
-extern void func_021B7750(char *);
+extern S24 gHallOfFamePlateLeftTemplate, gHallOfFamePlateRightTemplate, gHallOfFameVoiceMarkTemplate;
+extern void HALL_OF_FAME_LoadUiResources(char *);
+extern void HALL_OF_FAME_LoadUiPalette(char *);
 struct Obj;
-extern struct Obj *func_021B75A4(char *p, const char *q);
-extern void func_021B746C(int *, int, int);
-extern void func_021B7814(char *);
-void func_021B7CF0(char *p)
+extern struct Obj *HALL_OF_FAME_CreateActorFromTemplate(char *p, const char *q);
+extern void HALL_OF_FAME_SetActorVisible(int *, int, int);
+extern void HALL_OF_FAME_CreateMonPlates(char *);
+void HALL_OF_FAME_CreateMonSceneObjects(char *p)
 {
-    func_021B7C78(p);
-    func_021B7750(p);
-    ((struct Obj00547 *)p)->f9050 = (int)func_021B75A4(p, (const char *)(&d_021B81BC));
-    ((struct Obj00547 *)p)->f9054 = (int)func_021B75A4(p, (const char *)(&d_021B81D4));
-    ((struct Obj00547 *)p)->f9058 = (int)func_021B75A4(p, (const char *)(&d_021B81A4));
-    func_021B746C((int *)p, 4, 0);
-    func_021B7814(p);
+    HALL_OF_FAME_LoadUiResources(p);
+    HALL_OF_FAME_LoadUiPalette(p);
+    ((struct Obj00547 *)p)->f9050 = (int)HALL_OF_FAME_CreateActorFromTemplate(p, (const char *)(&gHallOfFamePlateLeftTemplate));
+    ((struct Obj00547 *)p)->f9054 = (int)HALL_OF_FAME_CreateActorFromTemplate(p, (const char *)(&gHallOfFamePlateRightTemplate));
+    ((struct Obj00547 *)p)->f9058 = (int)HALL_OF_FAME_CreateActorFromTemplate(p, (const char *)(&gHallOfFameVoiceMarkTemplate));
+    HALL_OF_FAME_SetActorVisible((int *)p, 4, 0);
+    HALL_OF_FAME_CreateMonPlates(p);
 }

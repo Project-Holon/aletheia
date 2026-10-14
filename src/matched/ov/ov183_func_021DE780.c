@@ -9,16 +9,16 @@
  * status: EXACT*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
  * symbols:
- *   func_021FC734 0x021FC734 thumb ov186
- *   func_021FBDA4 0x021FBDA4 thumb ov186
+ *   BR_UTIL_Delete 0x021FC734 thumb ov186
+ *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  */
 #include "../include/Obj08312.h"
 #include "../include/Obj10742.h"
 #include "../include/Obj10743.h"
 typedef unsigned char  u8;
-extern void func_021FC734(u8 *p);
-extern void func_021FBDA4(int a, unsigned mode);
+extern void BR_UTIL_Delete(u8 *p);
+extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_021FD15C(void *, int);
 void func_021DE780(char *p, char *q)
 {
@@ -26,11 +26,11 @@ void func_021DE780(char *p, char *q)
     for (i = 0; i < 18; i++) {
         char *slot = p + i * 4;
         if (((struct Obj10743 *)slot)->f1C != 0) {
-            func_021FC734(((struct Obj10743 *)slot)->f1C);
+            BR_UTIL_Delete(((struct Obj10743 *)slot)->f1C);
             ((struct Obj10743 *)slot)->f1C = 0;
         }
     }
-    func_021FBDA4(((struct Obj08312 *)q)->f8, 17);
+    BR_RES_ApplyBgSet(((struct Obj08312 *)q)->f8, 17);
     if (((struct Obj10742 *)p)->f8 != 0) {
         func_021FD15C(((struct Obj10742 *)p)->f8, ((struct Obj08312 *)q)->f8);
         ((struct Obj10742 *)p)->f8 = 0;

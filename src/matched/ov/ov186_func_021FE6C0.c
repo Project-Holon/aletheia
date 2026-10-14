@@ -1,5 +1,5 @@
 /*
- * function: func_021FE6C0
+ * function: BR_FADE_Create
  * address: 0x021FE6C0
  * packet: pkt_ov186_021FE6C0
  * region: ov186
@@ -25,7 +25,7 @@ extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void *PALANM_Create(unsigned);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-int *func_021FE6C0(unsigned heap)
+int *BR_FADE_Create(unsigned heap)
 {
     int *p = func_02030734(heap, 0x40, 0, d_02200D6C, 0x62);
     MI_CpuFill8(p, 0, 0x40);

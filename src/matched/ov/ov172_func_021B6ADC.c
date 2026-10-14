@@ -1,5 +1,5 @@
 /*
- * function: func_021B6ADC
+ * function: CTVT_ADPCM_EncodeSample
  * address: 0x021B6ADC
  * packet: pkt_ov172_021B6ADC
  * region: ov172
@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C4D20 0x021C4D20 data a4
- *   d_021C4D10 0x021C4D10 data a1
+ *   gImaStepTable 0x021C4D20 data a4
+ *   gImaIndexTable 0x021C4D10 data a1
  */
 #include "../include/Obj08255.h"
 typedef signed char s8;
 typedef signed short s16;
-extern const int d_021C4D20[];
-extern const s8 d_021C4D10[];
-s8 func_021B6ADC(int sample, char *p)
+extern const int gImaStepTable[];
+extern const s8 gImaIndexTable[];
+s8 CTVT_ADPCM_EncodeSample(int sample, char *p)
 {
     int code, delta, step, value, index;
     code = 0;
     index = ((struct Obj08255 *)p)->f2;
     value = ((struct Obj08255 *)p)->f0;
-    step = d_021C4D20[index];
+    step = gImaStepTable[index];
     sample -= value;
     if (sample < 0) { code = 8; sample = -sample; }
     delta = step >> 3;
@@ -35,7 +35,7 @@ s8 func_021B6ADC(int sample, char *p)
     else value += delta;
     if (value > 32767) value = 32767;
     else if (value < -32767) value = -32767;
-    index += d_021C4D10[code];
+    index += gImaIndexTable[code];
     if (index < 0) index = 0;
     if (index > 88) index = 88;
     ((struct Obj08255 *)p)->f0 = value;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8B54
+ * function: POKETRADE_PROC_UpdateDragState
  * address:  0x021D8B54
  * packet:   pkt_021D8B54
  * region:   ov119
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-void func_021D8B54(void *p)
+void POKETRADE_PROC_UpdateDragState(void *p)
 {
     int o1, o2;
     int d;

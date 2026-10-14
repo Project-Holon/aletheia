@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Returns the halfword at offset 0x70. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the halfword at offset 0x70. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 #include "../include/Obj16178.h"
 

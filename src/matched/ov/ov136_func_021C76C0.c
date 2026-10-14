@@ -1,5 +1,5 @@
 /*
- * function: func_021C76C0
+ * function: MB_SEQ_MoveCursorA
  * address: 0x021C76C0
  * packet: pkt_ov136_021C76C0
  * region: ov136
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov136/mb_seq.c and filed here.
  *
  * symbols:
- *   func_021C76D0 0x021C76D0 thumb
+ *   MB_SEQ_MoveCursorToPosition 0x021C76D0 thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021C76C0(u8 *p, u32 v);
-void func_021C76D0(u8 *p, u32 v);
+void MB_SEQ_MoveCursorA(u8 *p, u32 v);
+void MB_SEQ_MoveCursorToPosition(u8 *p, u32 v);
 
-void func_021C76C0(u8 *p, u32 v)
+void MB_SEQ_MoveCursorA(u8 *p, u32 v)
 {
-    func_021C76D0(p, v);
+    MB_SEQ_MoveCursorToPosition(p, v);
 }

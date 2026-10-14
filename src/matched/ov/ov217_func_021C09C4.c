@@ -1,5 +1,5 @@
 /*
- * function: func_021C09C4
+ * function: RESEARCH_COMMON_SetEntryHandled
  * address:  0x021C09C4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C09C4(u8 *p, u32 v);
-void func_021C09C4(u8 *p, u32 v)
+void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
+void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v)
 {
     ((struct Obj25979 *)p)->f38 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E4C
+ * function: RingQueue_Push
  * address:  0x021C0E4C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer to func_021C0EA4.
+ * Tail-call veneer to RingQueue_PushImpl.
  *
  * symbols:
- *   func_021C0EA4  0x021C0EA4  thumb  ov217
+ *   RingQueue_PushImpl  0x021C0EA4  thumb  ov217
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0EA4(char *p, int v);
-void func_021C0E4C(u32 a0, u32 a1)
+extern void RingQueue_PushImpl(char *p, int v);
+void RingQueue_Push(u32 a0, u32 a1)
 {
-    func_021C0EA4((char *)a0, (int)a1);
+    RingQueue_PushImpl((char *)a0, (int)a1);
 }
 

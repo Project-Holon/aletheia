@@ -1,5 +1,5 @@
 /*
- * function: func_021B621C
+ * function: HALL_OF_FAME_ExitGraphicsSystem
  * address: 0x021B621C
  * packet: pkt_ov180_021B621C
  * region: ov180
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 extern void func_0203F9B4(void);
-void func_021B621C(void) { func_0203F9B4(); }
+void HALL_OF_FAME_ExitGraphicsSystem(void) { func_0203F9B4(); }

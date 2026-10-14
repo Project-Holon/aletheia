@@ -1,5 +1,5 @@
 /*
- * function: func_021D89EC
+ * function: GDS_SOCKET_GetMaxReplySizeOf
  * address: 0x021D89EC
  * packet: pkt_ov125_021D89EC
  * region: ov125
@@ -8,15 +8,15 @@
  * isa: arm
  * status: EXACT*
  * lever: for(;;) with an explicit sentinel break preserves the uninverted loop.
- * extent: already matched func_021D8B3C follows the function.
+ * extent: already matched GDS_SOCKET_SslAuthCallback follows the function.
  * symbols:
- *   d_021D8CD0 0x021D8CD0 data a4
+ *   sGdsRequestIds 0x021D8CD0 data a4
  */
 typedef struct { int words[8]; } Table;
-extern const Table d_021D8CD0;
-int func_021D89EC(int n)
+extern const Table sGdsRequestIds;
+int GDS_SOCKET_GetMaxReplySizeOf(int n)
 {
-    Table table = d_021D8CD0;
+    Table table = sGdsRequestIds;
     int size;
     int i;
     int got;
@@ -25,7 +25,7 @@ int func_021D89EC(int n)
         size = -1;
         for (i = 0; ; i++) {
             if (table.words[i] == -1) break;
-            got = func_021D89EC(table.words[i]);
+            got = GDS_SOCKET_GetMaxReplySizeOf(table.words[i]);
             if (got > size) size = got;
         }
         if (size == -1) return -1;

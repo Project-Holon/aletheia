@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B68
+ * function: CTVT_ADPCM_DecodeSample
  * address: 0x021B6B68
  * packet: pkt_ov172_021B6B68
  * region: ov172
@@ -9,15 +9,15 @@
  * status: EXACT
  * lever: declare step,value,index,delta; loads remain value,index,step.
  * symbols:
- *   d_021C4D20 0x021C4D20 data a4
- *   d_021C4D10 0x021C4D10 data a1
+ *   gImaStepTable 0x021C4D20 data a4
+ *   gImaIndexTable 0x021C4D10 data a1
  */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
-extern const int d_021C4D20[];
-extern const s8 d_021C4D10[];
-s16 func_021B6B68(u8 code, const char *p)
+extern const int gImaStepTable[];
+extern const s8 gImaIndexTable[];
+s16 CTVT_ADPCM_DecodeSample(u8 code, const char *p)
 {
   int step;
   int value;
@@ -25,7 +25,7 @@ s16 func_021B6B68(u8 code, const char *p)
   int delta;
   value = *((s16 *) p);
   index = *((s8 *) (p + 2));
-  step = d_021C4D20[index];
+  step = gImaStepTable[index];
   delta = step >> 3;
   if (code & 4)
     delta += step;
@@ -45,7 +45,7 @@ s16 func_021B6B68(u8 code, const char *p)
     if (value > 32767)
       value = 32767;
   }
-  index += d_021C4D10[code];
+  index += gImaIndexTable[code];
   if (index < 0)
     index = 0;
   else

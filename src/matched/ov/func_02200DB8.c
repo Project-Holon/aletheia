@@ -1,5 +1,5 @@
 /*
- * function: func_02200DB8
+ * function: WORLDTRADE_SERVER_ExitBgPlanes
  * address:  0x02200DB8
  * packet:   pkt_02200DB8
  * region:   ov135
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern void sub_020403F4(u32 i);
 
-void func_02200DB8(void)
+void WORLDTRADE_SERVER_ExitBgPlanes(void)
 {
     sub_020403F4(2);
     sub_020403F4(1);

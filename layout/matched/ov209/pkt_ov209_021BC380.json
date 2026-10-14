@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC380",
+   "name": "ZUKAN_LIST_GetVramBankConfig",
    "address": "0x021BC380",
    "kind": "game",
    "region": "ov209",

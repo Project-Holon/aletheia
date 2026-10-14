@@ -1,5 +1,5 @@
 /*
- * function: func_021E1CC8
+ * function: POKETRADE_SAVE_DeleteTypeIcons
  * address: 0x021E1CC8
  * packet: pkt_ov119_021E1CC8
  * region: ov119
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E0DA0 0x021E0DA0 thumb ov119
+ *   POKETRADE_SAVE_DeleteTypeIconActor 0x021E0DA0 thumb ov119
  */
-extern void func_021E0DA0(char *p);
-void func_021E1CC8(char *p)
+extern void POKETRADE_SAVE_DeleteTypeIconActor(char *p);
+void POKETRADE_SAVE_DeleteTypeIcons(char *p)
 {
     char *q;
     int i = 0;
     q = p + 0x900;
     for (; i < 4; i++) {
-        func_021E0DA0(q + i * 0x14);
+        POKETRADE_SAVE_DeleteTypeIconActor(q + i * 0x14);
     }
 }

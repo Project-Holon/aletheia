@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D28
+ * function: CircleGraph_IsAnimatingImpl
  * address:  0x021C1D28
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef struct {
     u32 type;
 } Rec;
 
-s32 func_021C1D28(Rec *p)
+s32 CircleGraph_IsAnimatingImpl(Rec *p)
 {
     switch (p->type) {
     case 0:

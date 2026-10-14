@@ -1,5 +1,5 @@
 /*
- * function: func_021FF074
+ * function: BR_SIDEBAR_ResetSlot
  * address: 0x021FF074
  * packet: pkt_ov186_021FF074
  * region: ov186
@@ -21,4 +21,4 @@ struct Actor;
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor*,u32,u32);
 /* Space is explicitly truncated to u16 at the original call. */
-void func_021FF074(u8*p){((struct Obj05508 *)p)->f14=410;CLACT_SetActorSurfacePosAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f3C,(u16)(((struct Obj05508 *)p)->f44),0);CLACT_SetActorScaleAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f14,0);}
+void BR_SIDEBAR_ResetSlot(u8*p){((struct Obj05508 *)p)->f14=410;CLACT_SetActorSurfacePosAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f3C,(u16)(((struct Obj05508 *)p)->f44),0);CLACT_SetActorScaleAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f14,0);}

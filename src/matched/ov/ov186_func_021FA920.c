@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FB7B0 0x021FB7B0 thumb ov186
+ *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
  *   func_021FAD18 0x021FAD18 thumb ov186
  *   func_021FAFA0 0x021FAFA0 thumb ov186
  *   func_021FAD74 0x021FAD74 thumb ov186
@@ -19,7 +19,7 @@
  */
 #include "../include/Obj02234.h"
 typedef unsigned char u8;
-extern int func_021FB7B0(void *,int);
+extern int BR_BTN_DATA_GetRowField(void *,int);
 extern void func_021FAD18(char *,int,const int *);
 extern int func_021FAFA0(void *,int),func_021FAD74(char *);
 extern void func_021FA21C(u8 *,int);
@@ -35,8 +35,8 @@ void func_021FA920(int *task,int *state,u8 *ctx)
     case 0:
         for(i=0;i<ctx[0x3B];i++) {
             if(i==ctx[0x3B]-1) {
-                position[0]=func_021FB7B0(*(void **)(*(u8 * *)&((struct Obj02234 *)ctx)->f3C+i*0x44+0xC),0);
-                position[1]=func_021FB7B0(*(void **)(*(u8 * *)&((struct Obj02234 *)ctx)->f3C+i*0x44+0xC),1);
+                position[0]=BR_BTN_DATA_GetRowField(*(void **)(*(u8 * *)&((struct Obj02234 *)ctx)->f3C+i*0x44+0xC),0);
+                position[1]=BR_BTN_DATA_GetRowField(*(void **)(*(u8 * *)&((struct Obj02234 *)ctx)->f3C+i*0x44+0xC),1);
                 func_021FAD18(*(char * *)&((struct Obj02234 *)ctx)->f3C+i*0x44,3,position);
                 func_021FAFA0(*(char * *)&((struct Obj02234 *)ctx)->f3C+i*0x44,1);
             } else func_021FAD18(*(char * *)&((struct Obj02234 *)ctx)->f3C+i*0x44,4,(const int *)((unsigned)d_02200358+(ctx[0x3B]-i-2)*8));

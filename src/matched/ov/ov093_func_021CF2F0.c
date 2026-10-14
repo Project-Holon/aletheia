@@ -14,7 +14,7 @@
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTL_CLIENT_StopTimeLimit  0x021CE0E0  thumb  ov093
  */
 #include "../include/Obj07772.h"
@@ -25,7 +25,7 @@ extern void BTL_CLIENT_FlushSlotLinkWords(u8 *p);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern void BTLV_CORE_StartWaitMessage(char *p);
 extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 
 u32 BTL_CLIENT_StepSendActions(u8 *p, s32 *st)
@@ -47,7 +47,7 @@ u32 BTL_CLIENT_StepSendActions(u8 *p, s32 *st)
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTL_CLIENT_StopTimeLimit(p);
             *st = *st + 1;
             return 1;

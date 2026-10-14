@@ -1,5 +1,5 @@
 /*
- * function: func_022020A0
+ * function: BTLV_INPUT_Create
  * address:  0x022020A0
  * packet:   pkt_ov094_022020A0
  * region:   ov094
@@ -9,9 +9,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220684C  0x0220684C  thumb  ov094
- *   func_02202248  0x02202248  thumb  ov094
- *   func_02204BAC  0x02204BAC  thumb  ov094
+ *   BTLV_INPUT_RegisterTask  0x0220684C  thumb  ov094
+ *   BTLV_INPUT_LoadScreenResources  0x02202248  thumb  ov094
+ *   BTLV_INPUT_VisibilityTaskMain  0x02204BAC  thumb  ov094
  *   d_0220AEB0  0x0220AEB0  data  a4
  */
 typedef unsigned short u16;
@@ -57,12 +57,12 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_02202248(char *p);
-extern void func_02204BAC(int a, int *b);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_LoadScreenResources(char *p);
+extern void BTLV_INPUT_VisibilityTaskMain(int a, int *b);
 extern const char d_0220AEB0[];
 
-Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap)
+Obj *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap)
 {
     Obj *p;
     Res *r;
@@ -97,10 +97,10 @@ Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 h
     }
     p->a5c = (int)func_02045B38(0, 2, 12, p->heap);
     p->a70 = -1;
-    func_02202248((char *)p);
+    BTLV_INPUT_LoadScreenResources((char *)p);
     r = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = p;
     r->v = g;
-    func_0220684C((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Res *))func_02204BAC, r, 0), 0);
+    BTLV_INPUT_RegisterTask((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Res *))BTLV_INPUT_VisibilityTaskMain, r, 0), 0);
     return p;
 }

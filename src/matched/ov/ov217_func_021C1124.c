@@ -1,5 +1,5 @@
 /*
- * function: func_021C1124
+ * function: CircleGraph_Update
  * address:  0x021C1124
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C15B8.
+ * Tail-call veneer: branch to CircleGraph_UpdateState.
  *
  * symbols:
- *   func_021C15B8  0x021C15B8  thumb  ov217
+ *   CircleGraph_UpdateState  0x021C15B8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C15B8(u8 *p);
+extern void CircleGraph_UpdateState(u8 *p);
 
-void func_021C1124(u8 *p)
+void CircleGraph_Update(u8 *p)
 {
-    func_021C15B8(p);
+    CircleGraph_UpdateState(p);
 }

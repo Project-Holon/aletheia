@@ -1,5 +1,5 @@
 /*
- * function: func_021E7058
+ * function: POKETRADE_2D_DeleteCursorActor
  * address: 0x021E7058
  * packet: pkt_ov119_021E7058
  * region: ov119
@@ -14,7 +14,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021E7058(void *p)
+void POKETRADE_2D_DeleteCursorActor(void *p)
 {
     if (((struct Obj00001 *)p)->fF24) {
         CLACT_DeleteActor((struct Obj *)(((struct Obj00001 *)p)->fF24));

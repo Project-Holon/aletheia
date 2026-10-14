@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E00
+ * function: ListViewState_SetScrollX
  * address:  0x021C0E00
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0E00(void *p, u32 v)
+void ListViewState_SetScrollX(void *p, u32 v)
 {
     ((struct Obj26001 *)p)->f4 = v;
 }

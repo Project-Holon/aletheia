@@ -1,5 +1,5 @@
 /*
- * function: func_021D62BC
+ * function: GSYNC_DISP_SetSlotAnimSeq
  * address:  0x021D62BC
  * packet:   pkt_021D62BC
  * region:   ov123
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021D62BC(u8 *p, int i, u32 v)
+void GSYNC_DISP_SetSlotAnimSeq(u8 *p, int i, u32 v)
 {
     CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 0x74), (u16)v);
 }

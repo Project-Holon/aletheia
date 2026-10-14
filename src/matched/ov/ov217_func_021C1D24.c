@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D24
+ * function: CircleGraph_IsEnabled
  * address:  0x021C1D24
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C1D24(void *p)
+u32 CircleGraph_IsEnabled(void *p)
 {
     return ((struct Obj26017 *)p)->f4;
 }

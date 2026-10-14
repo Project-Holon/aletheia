@@ -1,5 +1,5 @@
 /*
- * function: func_021FA0A8
+ * function: BR_BTN_Init
  * address: 0x021FA0A8
  * packet: pkt_ov186_021FA0A8
  * region: ov186
@@ -9,7 +9,7 @@
  */
 typedef struct { unsigned words[17]; } Record;
 extern void MI_CpuFill8(void *, int, unsigned);
-int func_021FA0A8(unsigned char *ctx, Record *out)
+int BR_BTN_Init(unsigned char *ctx, Record *out)
 {
     if (ctx[0x3b]) {
         ctx[0x3b]--;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2B10
+ * function: PALETTE_ANIME_StepSinePulse30
  * address: 0x021C2B10
  * packet: pkt_ov217_021C2B10
  * region: ov217
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Rgb555 { u16 r:5; u16 g:5; u16 b:5; u16 pad:1; };
 extern const short FX_SinCosTable_[];
 extern void PALANM_BlendColors(u16 *,u16 *,u32,u8,u16);
-void func_021C2B10(u8 *p)
+void PALETTE_ANIME_StepSinePulse30(u8 *p)
 {
     u16 angle=(u16)((((struct Obj00115 *)p)->f1C<<16)/30u);
     u8 value=(u8)(int)(16.0f+16.0f*((float)FX_SinCosTable_[(angle>>4)*2]/4096.0f));

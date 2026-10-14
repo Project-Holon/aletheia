@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   PALANM_RequestFade 0x0202173C thumb
  */
 #include "../include/Obj25089.h"
 typedef unsigned short u16;typedef unsigned char u8;typedef short s16;typedef struct PalAnmObj PalAnmObj;
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
-int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,func_021F86D4());return 19;}
+int func_0220D370(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj25089 *)p)->f8,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}

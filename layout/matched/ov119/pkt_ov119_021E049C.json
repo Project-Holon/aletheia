@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E049C",
+   "name": "POKETRADE_SAVE_ApplyTradeResult",
    "address": "0x021E049C",
    "kind": "game",
    "region": "ov119",

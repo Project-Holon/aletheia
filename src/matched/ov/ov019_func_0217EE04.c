@@ -1,5 +1,5 @@
 /*
- * function: func_0217EE04
+ * function: UNION_MSG_GetDrawWaitMsg
  * address:  0x0217EE04
  * packet:   pkt_ov019_0217EE04
  * region:   ov019
@@ -13,14 +13,14 @@
  *   d_021802F8  0x021802F8  data a2
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run)
- * inside the listing extent of func_0217ED64.
+ * inside the listing extent of UNION_MSG_GetSpinTradeChatMsg.
  */
 
 typedef unsigned short u16;
 
 extern const u16 d_021802F8[];
 
-u16 func_0217EE04(int i)
+u16 UNION_MSG_GetDrawWaitMsg(int i)
 {
     return d_021802F8[i];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4290
+ * function: MAILSYS_ProcExit
  * address:  0x021C4290
  * packet:   pkt_ov136_021C4290
  * region:   ov136
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C4290 0x021C4290 thumb
+ *   MAILSYS_ProcExit 0x021C4290 thumb
  *   func_0203F9B4 0x0203F9B4 arm
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -28,7 +28,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_0203084C(u16 v);
 extern void func_020306F0(u32 v);
-int func_021C4290(void *a, void *b, void *c, u32 *p)
+int MAILSYS_ProcExit(void *a, void *b, void *c, u32 *p)
 {
     u32 h;
     func_0203F9B4();

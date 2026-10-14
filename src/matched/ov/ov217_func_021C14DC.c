@@ -1,5 +1,5 @@
 /*
- * function: func_021C14DC
+ * function: CircleGraph_SetupCamera
  * address:  0x021C14DC
  * packet:   pkt_ov217_021C14DC
  * region:   ov217
@@ -48,7 +48,7 @@ extern void func_0207BCA0(V *a, V *b, V *c, V *d);
 extern void func_0207C554(int a, int b, int c, int d, int e, int f, int g, V *h);
 extern void NNS_G3dGlbFlush(void);
 
-void func_021C14DC(u8 *p)
+void CircleGraph_SetupCamera(u8 *p)
 {
     V a;
     V b;

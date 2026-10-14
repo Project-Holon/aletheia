@@ -1,5 +1,5 @@
 /*
- * function: func_021D5950
+ * function: GSYNC_MESSAGE_PrintId
  * address:  0x021D5950
  * packet:   pkt_021D5950
  * region:   ov123
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern int MSGDATA_ReadString(void *, int, void *);
 
-int func_021D5950(u8 *p, int x)
+int GSYNC_MESSAGE_PrintId(u8 *p, int x)
 {
     return MSGDATA_ReadString(((struct Obj13972 *)p)->f20, x, ((struct Obj13972 *)p)->f2C);
 }

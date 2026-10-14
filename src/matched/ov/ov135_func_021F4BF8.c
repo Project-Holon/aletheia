@@ -1,5 +1,5 @@
 /*
- * function: func_021F4BF8
+ * function: WORLDTRADE_OpenTaskMenuYesNo
  * address: 0x021F4BF8
  * packet: pkt_ov135_021F4BF8
  * region: ov135
@@ -15,7 +15,7 @@
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021F5008 0x021F5008 thumb ov135
+ *   WORLDTRADE_SetBrightnessIn 0x021F5008 thumb ov135
  *   str_02203B08 0x02203B08 data
  *   data_02202BC8 0x02202BC8 data a4
  */
@@ -39,8 +39,8 @@ struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021F5008(u32 x);
-void func_021F4BF8(u8 *p,int b,int unused,int a,int c,u8 flag)
+extern void WORLDTRADE_SetBrightnessIn(u32 x);
+void WORLDTRADE_OpenTaskMenuYesNo(u8 *p,int b,int unused,int a,int c,u8 flag)
 {
     Items items;
     Menu menu;
@@ -66,6 +66,6 @@ void func_021F4BF8(u8 *p,int b,int unused,int a,int c,u8 flag)
     STRBUF_Delete(items.item[1].text);
     if (flag) {
         if(c<=3) on=1;
-        func_021F5008(on);
+        WORLDTRADE_SetBrightnessIn(on);
     }
 }

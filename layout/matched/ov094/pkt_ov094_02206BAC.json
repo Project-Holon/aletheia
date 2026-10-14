@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02206BAC",
+   "name": "BTLV_INPUT_PlayBackSe",
    "address": "0x02206BAC",
    "kind": "game",
    "region": "ov094",

@@ -17,23 +17,23 @@
  *   case 6 jumps into case 10 by tail merge (code written twice).
  *
  * symbols:
- *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_021BE004  0x021BE004  thumb  ov172
- *   func_021BE010  0x021BE010  thumb  ov172
- *   func_021BE02C  0x021BE02C  thumb  ov172
- *   func_021BE030  0x021BE030  thumb  ov172
- *   func_021BE044  0x021BE044  thumb  ov172
- *   func_021BE054  0x021BE054  thumb  ov172
- *   func_021BE0D0  0x021BE0D0  thumb  ov172
- *   func_021BE0EC  0x021BE0EC  thumb  ov172
- *   func_021BE0F0  0x021BE0F0  thumb  ov172
- *   func_021BE318  0x021BE318  thumb  ov172
- *   func_021BE34C  0x021BE34C  thumb  ov172
- *   func_021BDFDC  0x021BDFDC  thumb  ov172
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
- *   func_021B7578  0x021B7578  thumb  ov172
- *   func_021B7590  0x021B7590  thumb  ov172
- *   func_021B7B64  0x021B7B64  thumb  ov172
+ *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
+ *   COMM_TVT_SYS_GetLaunchParams  0x021BE004  thumb  ov172
+ *   COMM_TVT_SYS_GetArc  0x021BE010  thumb  ov172
+ *   COMM_TVT_SYS_GetReturnedFromChild  0x021BE02C  thumb  ov172
+ *   COMM_TVT_SYS_SetReturnedFromChild  0x021BE030  thumb  ov172
+ *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
+ *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
+ *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
+ *   COMM_TVT_SYS_GetHostBusy  0x021BE0EC  thumb  ov172
+ *   COMM_TVT_SYS_ClearHostBusy  0x021BE0F0  thumb  ov172
+ *   COMM_TVT_SYS_CreateTimeIcon  0x021BE318  thumb  ov172
+ *   COMM_TVT_SYS_DeleteTimeIcon  0x021BE34C  thumb  ov172
+ *   COMM_TVT_SYS_GetCamView  0x021BDFDC  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
+ *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
+ *   CTVT_CAMVIEW_IsShutterIdle  0x021B7590  thumb  ov172
+ *   CTVT_CAMVIEW_RequestShutterSound0  0x021B7B64  thumb  ov172
  *   func_021B80DC  0x021B80DC  thumb  ov172
  *   func_021B80EC  0x021B80EC  thumb  ov172
  *   func_021B8B7C  0x021B8B7C  thumb  ov172
@@ -75,23 +75,23 @@ struct PrintSys;
 struct Obj;
 struct Actor;
 
-extern u16 func_021BE00C(u16 *p);
-extern u32 func_021BE004(void *p);
-extern u32 func_021BE010(void *c);
-extern u32 func_021BE02C(void *c);
-extern void func_021BE030(void *c, u32 v);
-extern u32 func_021BE044(void *c);
-extern u8 func_021BE054(void *c);
-extern u32 func_021BE0D0(void *c);
-extern u32 func_021BE0EC(void *c);
-extern void func_021BE0F0(u8 *c);
-extern void func_021BE318(char *a0, void *a1);
-extern void func_021BE34C(void *c);
-extern u32 func_021BDFDC(void *c);
-extern u32 func_021BDFE4(void *c);
-extern void func_021B7578(int x, char *p);
-extern int func_021B7590(int x, char *p);
-extern void func_021B7B64(int x, char *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32 COMM_TVT_SYS_GetLaunchParams(void *p);
+extern u32 COMM_TVT_SYS_GetArc(void *c);
+extern u32 COMM_TVT_SYS_GetReturnedFromChild(void *c);
+extern void COMM_TVT_SYS_SetReturnedFromChild(void *c, u32 v);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *c);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *c);
+extern u32 COMM_TVT_SYS_GetEndRequested(void *c);
+extern u32 COMM_TVT_SYS_GetHostBusy(void *c);
+extern void COMM_TVT_SYS_ClearHostBusy(u8 *c);
+extern void COMM_TVT_SYS_CreateTimeIcon(char *a0, void *a1);
+extern void COMM_TVT_SYS_DeleteTimeIcon(void *c);
+extern u32 COMM_TVT_SYS_GetCamView(void *c);
+extern u32 COMM_TVT_SYS_GetComm(void *c);
+extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
+extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
+extern void CTVT_CAMVIEW_RequestShutterSound0(int x, char *p);
 extern void func_021B80DC(int unused, char *p, u32 v);
 extern void func_021B80EC(int unused, char *p, const u8 *src);
 extern u8 *func_021B8B7C(void *c, u8 *x);
@@ -147,11 +147,11 @@ int func_021BBF2C(void *a0, char *p)
     u32 w;
     struct Descriptor *d;
 
-    v = func_021BE00C(a0);
-    st = (u32 *)func_021BE004(a0);
+    v = COMM_TVT_SYS_GetHeapId(a0);
+    st = (u32 *)COMM_TVT_SYS_GetLaunchParams(a0);
     switch (W(8)) {
     case 0:
-        if (func_021BE02C(a0) == 1)
+        if (COMM_TVT_SYS_GetReturnedFromChild(a0) == 1)
             WIPE_SYS_Start((void *)0, 1, 1, 0, 6, 1, v);
         else
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, v);
@@ -159,8 +159,8 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 1:
         if (WIPE_SYS_EndCheck() == 1) {
-            u32 *s = (u32 *)func_021BE004(a0);
-            if (func_021BE0EC(a0) == 1)
+            u32 *s = (u32 *)COMM_TVT_SYS_GetLaunchParams(a0);
+            if (COMM_TVT_SYS_GetHostBusy(a0) == 1)
                 W(8) = 11;
             else if (s[1] == 2 || s[1] == 3)
                 W(8) = 8;
@@ -170,13 +170,13 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 2:
         WIPE_SYS_Start((void *)4, 0, 0, 0, 6, 1, v);
-        func_021BE030(a0, 0);
+        COMM_TVT_SYS_SetReturnedFromChild(a0, 0);
         W(8) = 4;
         break;
     case 3:
-        if (func_021B7590((int)a0, (char *)func_021BDFDC(a0)) == 1) {
+        if (CTVT_CAMVIEW_IsShutterIdle((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0)) == 1) {
             WIPE_SYS_Start((void *)0, 0, 0, 0, 6, 1, v);
-            func_021BE030(a0, 0);
+            COMM_TVT_SYS_SetReturnedFromChild(a0, 0);
             W(8) = 4;
         }
         break;
@@ -194,7 +194,7 @@ int func_021BBF2C(void *a0, char *p)
     case 6:
         if (W(0x18) == 0 || W(0x18) == 5) {
             if (CLACT_IsActorAnimActive((struct Actor *)OBJ) == 0) {
-                func_021B7578((int)a0, (char *)func_021BDFDC(a0));
+                CTVT_CAMVIEW_StopCapture((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0));
                 W(0x18) = 0;
                 W(8) = 3;
             }
@@ -203,7 +203,7 @@ int func_021BBF2C(void *a0, char *p)
         if (APP_TASKMENU_WIN_IsFinish((void *)W(0x1c)) != 1)
             break;
         if (W(0x18) == 2) {
-            t = func_021BDFE4(a0);
+            t = COMM_TVT_SYS_GetComm(a0);
             func_021B80DC((int)a0, (char *)t, 4);
             func_021B80EC((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
             func_021BD134(a0, p, 0x18);
@@ -214,7 +214,7 @@ int func_021BBF2C(void *a0, char *p)
             APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
         } else {
-            t2 = func_021BDFE4(a0);
+            t2 = COMM_TVT_SYS_GetComm(a0);
             W(8) = 9;
             func_021BD134(a0, p, 0x14);
             W(0x38) = 1;
@@ -240,13 +240,13 @@ int func_021BBF2C(void *a0, char *p)
     case 7:
     case 8:
     case 9:
-        func_021BDFE4(a0);
-        if (func_021BE054(a0) >= 2) {
+        COMM_TVT_SYS_GetComm(a0);
+        if (COMM_TVT_SYS_GetMemberCount(a0) >= 2) {
             if (W(0x28) == 0) {
-                t = func_021BDFDC(a0);
+                t = COMM_TVT_SYS_GetCamView(a0);
                 GFL_USE_StopAllSe();
                 GFL_USE_PlaySeDefaultVolume(0x73e);
-                func_021B7B64((int)a0, (char *)t);
+                CTVT_CAMVIEW_RequestShutterSound0((int)a0, (char *)t);
             }
             W(8) = 2;
         }
@@ -258,15 +258,15 @@ int func_021BBF2C(void *a0, char *p)
             }
         }
         if (W(8) == 9) {
-            if (func_021B8C20(a0, (u8 *)func_021BDFE4(a0)) == 1) {
-                func_021B80DC((int)a0, (char *)func_021BDFE4(a0), 2);
+            if (func_021B8C20(a0, (u8 *)COMM_TVT_SYS_GetComm(a0)) == 1) {
+                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
-                func_021B80DC((int)a0, (char *)func_021BDFE4(a0), 2);
+                func_021B80DC((int)a0, (char *)COMM_TVT_SYS_GetComm(a0), 2);
                 func_021BD134(a0, p, 0x28);
                 W(8) = 10;
             }
@@ -274,8 +274,8 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 10:
         if (TOUCHPANEL_GetTrg() == 1) {
-            if (((u32 *)func_021BE004(a0))[1] == 2) {
-                func_021B7578((int)a0, (char *)func_021BDFDC(a0));
+            if (((u32 *)COMM_TVT_SYS_GetLaunchParams(a0))[1] == 2) {
+                CTVT_CAMVIEW_StopCapture((int)a0, (char *)COMM_TVT_SYS_GetCamView(a0));
                 W(0x18) = 0;
                 W(8) = 3;
             } else {
@@ -287,7 +287,7 @@ int func_021BBF2C(void *a0, char *p)
                 d = (struct Descriptor *)W(0x30);
                 BMP_WIN_ClearScreen(d);
                 func_020409B4(BMP_WIN_GetBgLayer(d));
-                func_021BE34C(a0);
+                COMM_TVT_SYS_DeleteTimeIcon(a0);
                 CLACT_SetActorAnimSeq(OBJ, 1);
                 W(0x18) = 4;
             }
@@ -300,12 +300,12 @@ int func_021BBF2C(void *a0, char *p)
         W(8) = 12;
         break;
     case 12:
-        if (func_021BE054(a0) >= 2 && W(0x28) == 0) {
+        if (COMM_TVT_SYS_GetMemberCount(a0) >= 2 && W(0x28) == 0) {
             GFL_USE_StopAllSe();
             W(0x28) = 1;
             GFL_USE_PlaySeDefaultVolume(0x73e);
         }
-        if (TOUCHPANEL_GetTrg() == 1 || func_021BE0D0(a0) == 1) {
+        if (TOUCHPANEL_GetTrg() == 1 || COMM_TVT_SYS_GetEndRequested(a0) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x54c);
             func_0201F7A8((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
@@ -313,10 +313,10 @@ int func_021BBF2C(void *a0, char *p)
             func_020409B4(BMP_WIN_GetBgLayer(d));
             BMP_WIN_Delete((struct Descriptor *)W(0x2c));
             W(0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
-            func_021BE0F0(a0);
+            COMM_TVT_SYS_ClearHostBusy(a0);
             if (st[1] == 2 || st[1] == 3) {
                 CLACT_SetActorAnimSeq(OBJ, 0xf);
-                if (func_021BE054(a0) < 2)
+                if (COMM_TVT_SYS_GetMemberCount(a0) < 2)
                     func_021BD134(a0, p, 0x18);
                 W(0x38) = 1;
                 W(0x18) = 3;
@@ -325,8 +325,8 @@ int func_021BBF2C(void *a0, char *p)
                 W(8) = 5;
                 W(0x18) = 4;
                 CLACT_SetActorAnimSeq(OBJ, 1);
-                v = func_021BE00C(a0);
-                w = func_021BE010(a0);
+                v = COMM_TVT_SYS_GetHeapId(a0);
+                w = COMM_TVT_SYS_GetArc(a0);
                 func_02049658((void *)w, 0xb, 4, 0, 0x2800, 0, v);
                 func_020498F4((void *)w, 0x12, 4, 0, 0, 0, v);
                 func_020409B4(4);
@@ -334,12 +334,12 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     }
-    if (st[1] != 3 && func_021BE0EC(a0) == 0) {
+    if (st[1] != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         func_021BC7FC(a0, (u8 *)p);
         for (i = 0; i < 15; i++) {
             r = p + i * 0x1c;
             if (*(u32 *)(r + 0x44) == 1) {
-                struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
+                struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
                 if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp(*(struct Descriptor **)(r + 0x54))) == 0) {
                     d = *(struct Descriptor **)(r + 0x54);
                     BMP_WIN_TransferChars(d);
@@ -378,7 +378,7 @@ int func_021BBF2C(void *a0, char *p)
         }
     }
     if (W(0x20) == 1) {
-        struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
+        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x2c))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x2c));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x2c));
@@ -387,7 +387,7 @@ int func_021BBF2C(void *a0, char *p)
         }
     }
     if (W(0x24) == 1) {
-        struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
+        struct PrintSys *ps = (struct PrintSys *)COMM_TVT_SYS_GetPrintQue(a0);
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x30))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x30));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x30));
@@ -395,7 +395,7 @@ int func_021BBF2C(void *a0, char *p)
             W(0x24) = 0;
             if (W(0x38) == 1) {
                 W(0x38) = 0;
-                func_021BE318(a0, (void *)W(0x30));
+                COMM_TVT_SYS_CreateTimeIcon(a0, (void *)W(0x30));
             }
         }
     }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2E1C  0x021C2E1C  thumb  ov093
+ *   jpeg_exif_set_tag_value  0x021C2E1C  thumb  ov093
  *   func_021C2E2C  0x021C2E2C  thumb  ov093
  *   func_021C2E3C  0x021C2E3C  thumb  ov093
  *   BTL_SERVER_FLOW_ProcMoveRankEffects  0x021C2E64  thumb  ov093
@@ -21,7 +21,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct { u8 pad[5]; u8 f : 1; } BF;
 
-extern void func_021C2E1C(u32 c);
+extern void jpeg_exif_set_tag_value(u32 c);
 extern u32 func_021C2E2C(u32 c);
 extern u32 func_021C2E3C(u32 c);
 extern int BTL_SERVER_FLOW_ProcMoveRankEffects(u8 *p, const u16 *q, u8 *a, u8 *b, int k);
@@ -29,7 +29,7 @@ extern int BTL_SERVER_FLOW_ProcMoveRankEffects(u8 *p, const u16 *q, u8 *a, u8 *b
 void BTL_SERVER_FLOW_ProcMoveRankEffectAllTargets(u8 *p, u32 a, u32 b, u32 c)
 {
     u32 t;
-    func_021C2E1C(c);
+    jpeg_exif_set_tag_value(c);
     for (t = func_021C2E2C(c); t != 0; t = func_021C2E3C(c)) {
         if (BTL_SERVER_FLOW_ProcMoveRankEffects(p, (const u16 *)a, (u8 *)b, (u8 *)t, 1) != 0) {
             BF *f = *(BF * *)&((struct Obj21085 *)p)->f4A8;

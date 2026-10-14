@@ -1,5 +1,5 @@
 /*
- * function: func_021D74D8
+ * function: GDS_RAP_GetVideoReply
  * address:  0x021D74D8
  * packet:   pkt_ov125_021D74D8
  * region:   ov125
@@ -10,7 +10,7 @@
  * status: EXACT
  * note: 2026-10-05 (D4-14): the xor/orr equality is a 64-bit compare; written as u64 loads, EXACT.
  * symbols:
- *   func_021D85E8  0x021D85E8  arm  ov125
+ *   GDS_SOCKET_GetReply  0x021D85E8  arm  ov125
  *   func_0203F1FC  0x0203F1FC  arm
  */
 
@@ -18,14 +18,14 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 
-extern char *func_021D85E8(void);
+extern char *GDS_SOCKET_GetReply(void);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 typedef unsigned long long u64;
-int func_021D74D8(void *unused, char **out)
+int GDS_RAP_GetVideoReply(void *unused, char **out)
 {
-    char *p = (char *)func_021D85E8();
+    char *p = (char *)GDS_SOCKET_GetReply();
     char *s = p + 4;
     u64 id;
 

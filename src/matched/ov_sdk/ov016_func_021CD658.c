@@ -1,5 +1,5 @@
 /*
- * function: func_021CD658
+ * function: DWCi_SceneSetTestCompletet_procInit1
  * address:  0x021CD658
  * packet:   pkt_ov016_021CD658
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD658.c \n *       --func func_021CD658 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD658.c \n *       --func DWCi_SceneSetTestCompletet_procInit1 --addr 0x021CD658 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_EFFlCheck  0x021D5580  arm  ov016
@@ -24,7 +24,7 @@ extern int DWCi_EFFlCheck(int lcd);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetTestCompletet_procScene(void);
 
-void func_021CD658(void)
+void DWCi_SceneSetTestCompletet_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;

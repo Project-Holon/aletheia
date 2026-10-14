@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdClearMission
+ * function: SCRCMD_RESEARCH_CmdClearMission
  * address:  0x0216B6DC
  * packet:   pkt_ov010_0216B6DC
  * region:   ov010
@@ -34,7 +34,7 @@ struct Blk34;
 extern void func_0200C334(struct Blk34 *p, u8 v);
 extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
 
-int FIELD_G3D_MAP_CmdClearMission(int a0, int a1)
+int SCRCMD_RESEARCH_CmdClearMission(int a0, int a1)
 {
     void *w;
     void *h;

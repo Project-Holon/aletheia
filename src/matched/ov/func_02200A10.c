@@ -1,5 +1,5 @@
 /*
- * function: func_02200A10
+ * function: WORLDTRADE_TITLE_PrintMessageSub
  * address:  0x02200A10
  * packet:   pkt_02200A10
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02202858  0x02202858  thumb  ov135
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
@@ -35,20 +35,20 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 extern void BMP_WIN_TransferChars(struct Descriptor *v);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
-void func_02200A10(u8 *p, int k, int a2, int a3, int a4)
+void WORLDTRADE_TITLE_PrintMessageSub(u8 *p, int k, int a2, int a3, int a4)
 {
     u32 v;
 
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj04139 *)p)->fB6C), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj04139 *)p)->fDD0)), 0xf);
     func_0201F73C((void *)(((struct Obj04139 *)p)->fDD0), 0, 1, 0xe);
-    func_02202858((void *)(((struct Obj04139 *)p)->fDD0), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj04139 *)p)->fDD0), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
     v = ((struct Obj04139 *)p)->fDD0;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);

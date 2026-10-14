@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FC20C 0x021FC20C thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_020490F4 0x020490F4 arm
  *   func_021E1244 0x021E1244 thumb ov183
  *   func_021E1910 0x021E1910 thumb ov183
@@ -31,7 +31,7 @@ typedef unsigned long long u64;
 struct Source { int words[10]; };
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, u32);
-extern unsigned func_021FC20C(char *p);
+extern unsigned BR_RES_GetFont(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021E1244(char *);
 extern void func_021E1910(char *);
@@ -47,7 +47,7 @@ char *func_021E06D0(const struct Source *src, u16 heap)
     *(struct Source *)(p + 0x324) = *src;
     ((struct Obj03331 *)p)->f34C = heap;
     ((struct Obj03331 *)p)->f25C = src->words[7];
-    ((struct Obj03331 *)p)->f310 = func_021FC20C((char *)src->words[8]);
+    ((struct Obj03331 *)p)->f310 = BR_RES_GetFont((char *)src->words[8]);
     ((struct Obj03331 *)p)->f258 = func_020490F4(59, ((struct Obj03331 *)p)->f34C);
     func_021E1244(p);
     func_021E1910(p);

@@ -1,5 +1,5 @@
 /*
- * function: func_02202744
+ * function: WORLDTRADE_ADAPTER_ExitPrinter
  * address:  0x02202744
  * packet:   pkt_02202744
  * region:   ov135
@@ -35,7 +35,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void MI_CpuFill8(u32 p, u32 v, u32 n);
 
-void func_02202744(u8 *p)
+void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p)
 {
     APP_KEYCURSOR_Delete(((struct Obj07257 *)p)->f138);
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj07257 *)p)->fC));

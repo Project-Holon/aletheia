@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D44
+ * function: HALL_OF_FAME_DeleteMonSceneObjects
  * address:  0x021B7D44
  * packet:   pkt_021B7D44
  * region:   ov180
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B77C4  0x021B77C4  thumb  ov180
- *   func_021B7604  0x021B7604  thumb  ov180
- *   func_021B756C  0x021B756C  thumb  ov180
+ *   HALL_OF_FAME_DeleteAllTextPlates  0x021B77C4  thumb  ov180
+ *   HALL_OF_FAME_DeleteAllActors  0x021B7604  thumb  ov180
+ *   HALL_OF_FAME_ReleaseAllResources  0x021B756C  thumb  ov180
  */
 
-extern void func_021B77C4(int *);
-extern void func_021B7604(int *);
-extern void func_021B756C(char *p);
+extern void HALL_OF_FAME_DeleteAllTextPlates(int *);
+extern void HALL_OF_FAME_DeleteAllActors(int *);
+extern void HALL_OF_FAME_ReleaseAllResources(char *p);
 
-void func_021B7D44(int *p)
+void HALL_OF_FAME_DeleteMonSceneObjects(int *p)
 {
-    func_021B77C4(p);
-    func_021B7604(p);
-    func_021B756C((char *)p);
+    HALL_OF_FAME_DeleteAllTextPlates(p);
+    HALL_OF_FAME_DeleteAllActors(p);
+    HALL_OF_FAME_ReleaseAllResources((char *)p);
 }

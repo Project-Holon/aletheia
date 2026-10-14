@@ -1,5 +1,5 @@
 /*
- * function: func_02200FF4
+ * function: WORLDTRADE_SERVER_SendUploadRequest
  * address: 0x02200FF4
  * packet: pkt_ov135_02200FF4
  * region: ov135
@@ -39,7 +39,7 @@ extern int NHTTP_RAP_CreatePostRequest(u8 *);
 extern int NHTTP_RAP_StartConnection(u8 *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char str_02203F58[];
-int func_02200FF4(u8 *p)
+int WORLDTRADE_SERVER_SendUploadRequest(u8 *p)
 {
     u8 *mon=p+0xE4;
     int ready;

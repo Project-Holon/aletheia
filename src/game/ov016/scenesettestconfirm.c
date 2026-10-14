@@ -72,7 +72,7 @@
  *   scenemenu_bss                    0x021DE59C  data
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
- *   g_021DA8AC     0x021DA8AC  data
+ *   gSceneSetTestConfirmMessageIds     0x021DA8AC  data
  *   DWCi_WINlInitEx  0x021D1208  arm  ov016
  *   DWCi_WINlGet  0x021D1568  arm  ov016
  *   DWCi_WINlEnd  0x021D1524  arm  ov016
@@ -151,7 +151,7 @@ extern char sceneoptmovdisco_str_20611[];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
-extern MsgTable g_021DA8AC;
+extern MsgTable gSceneSetTestConfirmMessageIds;
 
 static void initGraphics(void);
 static void procInit(void);
@@ -216,7 +216,7 @@ static void procInit(void)
 static void procInit1(void)
 {
     int prm;
-    MsgTable msg = g_021DA8AC;
+    MsgTable msg = gSceneSetTestConfirmMessageIds;
     if (DWCi_EFFlCheck(1))
         return;
     if (DWCi_EFFlCheck(0))

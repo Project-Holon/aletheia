@@ -1,5 +1,5 @@
 /*
- * function: func_021E1954
+ * function: GURU2_MAIN_CountContinueVotes
  * address: 0x021E1954
  * packet: pkt_ov137_021E1954
  * region: ov137
@@ -15,4 +15,4 @@
 #include "../include/Obj06536.h"
 #include "../include/Obj23811.h"
 
-int func_021E1954(char *p) { int count; unsigned int x; count=0;x=((struct Obj23811 *)(*(char * *)&((struct Obj06536 *)p)->fDC))->f4A;while(x) { count+=x&1; x>>=1; }return count; }
+int GURU2_MAIN_CountContinueVotes(char *p) { int count; unsigned int x; count=0;x=((struct Obj23811 *)(*(char * *)&((struct Obj06536 *)p)->fDC))->f4A;while(x) { count+=x&1; x>>=1; }return count; }

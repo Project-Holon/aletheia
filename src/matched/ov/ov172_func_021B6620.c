@@ -1,5 +1,5 @@
 /*
- * function: func_021B6620
+ * function: CTVT_CAMERA_OnReboot
  * address:  0x021B6620
  * packet:   pkt_021B6100
  * region:   ov172
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Delegate to func_021B65D8 unless the argument is 7.
+ * Delegate to CTVT_CAMERA_OnBufferError unless the argument is 7.
  *
  * symbols:
- *   func_021B65D8  0x021B65D8  thumb  ov172
+ *   CTVT_CAMERA_OnBufferError  0x021B65D8  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021B65D8(void);
+extern void CTVT_CAMERA_OnBufferError(void);
 
-void func_021B6620(int x)
+void CTVT_CAMERA_OnReboot(int x)
 {
     if (x != 7) {
-        func_021B65D8();
+        CTVT_CAMERA_OnBufferError();
     }
 }

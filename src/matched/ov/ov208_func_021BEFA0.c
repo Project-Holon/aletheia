@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFA0
+ * function: ZUKAN_DETAIL_INFO_HandleTouchLanguageButton
  * address:  0x021BEFA0
  * packet:   pkt_ov208_021BEFA0
  * region:   ov208
@@ -20,14 +20,14 @@
  * 2026-10-05 (D4-18): still 4 bytes. Tried: positive form x >= x0 && x < x0 + w (4 bytes, same as now), !(e->x0 > x || ...) (13 bytes: x0 lands in r0), int-cast compares (17 bytes, bgt). The compare order of the image needs x0 in r1 with the unsigned-greater test; every spelling that gives that order puts x0 in r0.
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   ov208_func_021BF280  0x021BF280  thumb  ov208
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
- *   func_021BDC48  0x021BDC48  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
  */
 
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ struct S {
     u32 prev;
 };
 
-extern int func_021BC3B4(int *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 struct Obj;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
@@ -64,9 +64,9 @@ extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020355D8(u8 v);
-extern void func_021BDC48(int p, u32 on);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(int p, u32 on);
 
-int func_021BEFA0(void *a0, struct S *st, int *obj)
+int ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(void *a0, struct S *st, int *obj)
 {
     int sc;
     int res;
@@ -77,7 +77,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
     u8 *c;
     int k;
 
-    sc = func_021BC3B4(obj);
+    sc = ZUKAN_DETAIL_COMMON_GetWorkPtr(obj);
     res = 0;
     if (st->cur == 6 && TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
         for (i = 0; i < 6; i++) {
@@ -101,7 +101,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
         CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
         GFL_USE_PlaySeDefaultVolume(0x54a);
         func_020355D8(1);
-        func_021BDC48(sc, 0);
+        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(sc, 0);
     }
     return res;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E26AC
+ * function: POKETRADE_SAVE_SetupWindowRegsSummary
  * address:  0x021E26AC
  * packet:   pkt_021D8B54
  * region:   ov119
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021E26AC(void *a0)
+void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
 {
     u32 v;
 

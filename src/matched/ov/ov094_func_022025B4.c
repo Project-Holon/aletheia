@@ -1,5 +1,5 @@
 /*
- * function: func_022025B4
+ * function: BTLV_INPUT_ReleaseBgLayers
  * address:  0x022025B4
  * packet:   pkt_ov094_022025B4
  * region:   ov094
@@ -13,7 +13,7 @@ typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
 
-void func_022025B4(void)
+void BTLV_INPUT_ReleaseBgLayers(void)
 {
     u32 i;
     for (i = 0; i < 4; i++) {

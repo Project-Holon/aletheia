@@ -12,7 +12,7 @@
  *   func_022135CC 0x022135CC thumb ov199
  *   func_02213684 0x02213684 thumb ov199
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
- *   func_021EEE78 0x021EEE78 thumb ov188
+ *   BATTLE_REC_TOOL_PackSetup 0x021EEE78 thumb ov188
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
@@ -34,7 +34,7 @@ typedef struct Bytes { u8 a,b,c; } Bytes;
 extern void func_022135CC(u8 *,u8 *,u8 *);
 extern void func_02213684(const u8 *,u8 *,u8 *);
 extern void BATTLE_REC_LoadToolOverlay(void);
-extern void func_021EEE78(void *);
+extern void BATTLE_REC_TOOL_PackSetup(void *);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -66,7 +66,7 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
     p[0x1bc] = bytes.c;
     func_02213684(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.a, p + 0x1bd);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEE78(((struct Obj03909 *)arg)->f4);
+    BATTLE_REC_TOOL_PackSetup(((struct Obj03909 *)arg)->f4);
     BATTLE_REC_UnloadToolOverlay();
     if (((struct Obj01007 *)p)->f1C == 0) {
         rules = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01007 *)p)->f4)),0);

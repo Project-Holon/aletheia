@@ -1,7 +1,7 @@
 /*
  * file:     btlv_field.c
  * unit:     yes
- * function: func_021F6B04, func_021F6CF0, func_021F6D5C, func_021F6DD4, func_021F6DEC, func_021F6E1C, func_021F6E2C
+ * function: BTLV_FIELD_Create, BTLV_FIELD_Delete, BTLV_FIELD_UpdateAnims, BTLV_FIELD_Draw, BTLV_FIELD_InitEntry, BTLV_FIELD_IsEffectActive, BTLV_FIELD_SetState
  * address:  0x021F6B04
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -32,10 +32,9 @@
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   d_0220AC50 0x0220AC50 data ov094 a1
- *   func_021F9364 0x021F9364 thumb ov094
+ *   gBtlvFieldFileName 0x0220AC50 data ov094 a1
+ *   BTLV_EFFECT_UpdateTexturePaletteFade 0x021F9364 thumb ov094
  */
-#include "../../matched/include/Obj18551.h"
 #include "btlv_effvm_types.h"
 #include "btlv_stage_shared_types.h"
 #include "btlv_field_shared_types.h"
@@ -44,207 +43,207 @@ extern void *sub_02030734(u32, u32, int, const char *, u16);
 
 extern void *ARC_TOOL_LoadMember(u32, u32, u32);
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32, u32);
+extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32, u32);
 
-extern int G3D_SYSTEM_TransVramTexture(int *);
+extern int G3D_SYSTEM_TransVramTexture(G3dResource *);
 
-extern void *G3D_SYSTEM_CreateRender(void *, u32, void *);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *, u32, G3dResource *);
 
-extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *, const G3dResource *, u32);
 
-extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *, G3dAnime **, int);
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_EnableObjectAnime(G3dObject *, u32 idx);
 
-extern void func_0207ADC4(int *);
+extern void func_0207ADC4(int *rotate);
 
-extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 
 extern u32 sub_020307B0(void *p);
 
-extern void G3D_SYSTEM_DeleteAnime(struct Rec_v6560 *p);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
-extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *);
 
 extern u32 func_020307B0(void *p);
 
-extern void G3D_SYSTEM_DeleteObject(struct Rec_v6560 *p);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *);
 
-extern void G3D_SYSTEM_DeleteRender(struct Rec_v6560 *p);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *, int idx, int amount);
 
-extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg_v6560 *a1);
+extern void G3D_SYSTEM_DrawObject(G3dObject *, G3dObjectStatus *);
 
-Obj_021F6B04 *func_021F6B04(int unused, int group, u8 variant, u16 heap);
+BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap);
 
-void func_021F6CF0(Obj_021F6CF0 *o);
+void BTLV_FIELD_Delete(BtlvField *field);
 
-void func_021F6D5C(Obj_021F6D5C *o);
+void BTLV_FIELD_UpdateAnims(BtlvField *field);
 
-void func_021F6DD4(Obj_021F6DD4 *p);
+void BTLV_FIELD_Draw(BtlvField *field);
 
-void func_021F6DEC(S6DEC *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d);
+void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int func_021F6E1C(char *p);
+int BTLV_FIELD_IsEffectActive(BtlvField *field);
 
-void func_021F6E2C(Obj_021F6E2C *o, u32 v);
+void BTLV_FIELD_SetState(BtlvField *field, u32 hide);
 
-void func_021F9364(P *p);
+void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
 
-extern const char d_0220AC50[];
+extern const char gBtlvFieldFileName[];
 
 /*
  * Lever: u8 variant spills at entry before the other parameter copies;
  * int variant moves that spill three instructions later (8 differing bytes).
  * The ov094 caller at 021F76D6 passes the byte-derived selector.
  */
-Obj_021F6B04 *func_021F6B04(int unused, int group, u8 variant, u16 heap)
+BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
 {
-    Obj_021F6B04 *o;
+    BtlvField *field;
     int (*table)[4][4];
     int i, j;
     int bytes;
-    o = sub_02030734(heap, 0x70, 1, d_0220AC50, 0x56);
+    field = sub_02030734(heap, 0x70, 1, gBtlvFieldFileName, 0x56);
     table = ARC_TOOL_LoadMember(0x98, 1, (u16)((heap & 0x7fff) | 0x8000));
-    o->heap = heap;
+    field->heap = heap;
     if (table[group][0][variant] != -1)
-        o->f0 = G3D_SYSTEM_CreateResourceArc(11, table[group][0][variant]);
+        field->resource = G3D_SYSTEM_CreateResourceArc(11, table[group][0][variant]);
     else
-        o->f0 = G3D_SYSTEM_CreateResourceArc(11, table[group][0][0]);
-    G3D_SYSTEM_TransVramTexture(o->f0);
-    o->n = 0;
+        field->resource = G3D_SYSTEM_CreateResourceArc(11, table[group][0][0]);
+    G3D_SYSTEM_TransVramTexture(field->resource);
+    field->animCount = 0;
     for (i = 1; i < 4; i++)
-        if (table[group][i][variant] != -1) o->n++;
-    o->f14 = G3D_SYSTEM_CreateRender(o->f0, 0, o->f0);
+        if (table[group][i][variant] != -1) field->animCount++;
+    field->render = G3D_SYSTEM_CreateRender(field->resource, 0, field->resource);
     j = 0;
-    if (o->n != 0) {
-        o->fc = sub_02030734(o->heap, o->n * 4, 0, d_0220AC50, 0x7e);
-        o->f10 = sub_02030734(o->heap, o->n * 4, 0, d_0220AC50, 0x7f);
-        o->f8 = sub_02030734(o->heap, o->n * 16, 1, d_0220AC50, 0x80);
+    if (field->animCount != 0) {
+        field->animResource = sub_02030734(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7e);
+        field->anime = sub_02030734(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7f);
+        field->animState = sub_02030734(field->heap, field->animCount * 16, 1, gBtlvFieldFileName, 0x80);
         for (i = 1; i < 4; i++) {
             if (table[group][i][variant] != -1) {
-                o->fc[j] = G3D_SYSTEM_CreateResourceArc(11, table[group][i][variant]);
-                o->f10[j] = G3D_SYSTEM_CreateAnime(o->f14, o->fc[j], 0);
-                o->f8[j].kind = 0;
+                field->animResource[j] = G3D_SYSTEM_CreateResourceArc(11, table[group][i][variant]);
+                field->anime[j] = G3D_SYSTEM_CreateAnime(field->render, field->animResource[j], 0);
+                field->animState[j].kind = BTLV_ANIM_LOOP;
                 j++;
             }
         }
-        o->f18 = G3D_SYSTEM_CreateObject((u32)o->f14, (u32 *)o->f10, (u16)o->n);
-        for (j = 0; j < o->n; j++) G3D_SYSTEM_EnableObjectAnime(o->f18, (u16)j);
+        field->object = G3D_SYSTEM_CreateObject(field->render, field->anime, (u16)field->animCount);
+        for (j = 0; j < field->animCount; j++) G3D_SYSTEM_EnableObjectAnime(field->object, (u16)j);
     } else {
-        o->f18 = G3D_SYSTEM_CreateObject((u32)o->f14, 0, (u16)0);
+        field->object = G3D_SYSTEM_CreateObject(field->render, 0, (u16)0);
     }
-    o->f1c = 0;
-    o->f20 = 0;
-    o->f24 = 0;
-    o->f28 = 0x1000;
-    o->f2c = 0x1000;
-    o->f30 = 0x1000;
-    func_0207ADC4(o->matrix);
-    bytes = *(u16 *)(NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(o->f0)) + 0x30) * 8;
-    o->f58 = sub_02030734(o->heap, 4, 0, d_0220AC50, 0xaa);
-    o->f5c = sub_02030734(o->heap, 4, 0, d_0220AC50, 0xab);
-    *o->f58 = o->f0;
-    *o->f5c = sub_02030734(o->heap, bytes, 0, d_0220AC50, 0xae);
-    o->f60 = 0;
-    o->f61 = 1;
+    field->status.trans.x = 0;
+    field->status.trans.y = 0;
+    field->status.trans.z = 0;
+    field->status.scale.x = 0x1000;
+    field->status.scale.y = 0x1000;
+    field->status.scale.z = 0x1000;
+    func_0207ADC4(field->status.rotate);
+    bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource))->plttInfo.sizePltt * 8;
+    field->palFade.resources = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
+    field->palFade.palettes = sub_02030734(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
+    *field->palFade.resources = field->resource;
+    *field->palFade.palettes = sub_02030734(field->heap, bytes, 0, gBtlvFieldFileName, 0xae);
+    field->palFade.enabled = 0;
+    field->palFade.count = 1;
     sub_020307B0(table);
-    return o;
+    return field;
 }
 
-void func_021F6CF0(Obj_021F6CF0 *o)
+void BTLV_FIELD_Delete(BtlvField *field)
 {
     int i;
 
-    G3D_SYSTEM_DeleteObject(o->f18);
-    if (o->n != 0) {
-        for (i = 0; i < o->n; i++) {
-            G3D_SYSTEM_DeleteAnime(o->f10[i]);
-            G3D_SYSTEM_DeleteResource(o->fc[i]);
+    G3D_SYSTEM_DeleteObject(field->object);
+    if (field->animCount != 0) {
+        for (i = 0; i < field->animCount; i++) {
+            G3D_SYSTEM_DeleteAnime(field->anime[i]);
+            G3D_SYSTEM_DeleteResource(field->animResource[i]);
         }
-        func_020307B0(o->f8);
-        func_020307B0(o->f10);
-        func_020307B0(o->fc);
+        func_020307B0(field->animState);
+        func_020307B0(field->anime);
+        func_020307B0(field->animResource);
     }
-    G3D_SYSTEM_DeleteRender(o->f14);
-    G3D_SYSTEM_DeleteResource(o->f0);
-    func_020307B0(*o->f5c);
-    func_020307B0(o->f5c);
-    func_020307B0(o->f58);
-    func_020307B0(o);
+    G3D_SYSTEM_DeleteRender(field->render);
+    G3D_SYSTEM_DeleteResource(field->resource);
+    func_020307B0(*field->palFade.palettes);
+    func_020307B0(field->palFade.palettes);
+    func_020307B0(field->palFade.resources);
+    func_020307B0(field);
 }
 
 /*
  * Lever: the `adds r6, r4, #0` before the loop is a zero (r4 is 0 there) that
  * the loop-back branch skips; it is the constant 0 (default amount and the
- * cleared field), not a copy of i. Flags_021F6560 word is a bitfield (lsls/lsrs).
+ * cleared field), not a copy of i. The flag word is a bitfield (lsls/lsrs).
  */
-void func_021F6D5C(Obj_021F6D5C *o)
+void BTLV_FIELD_UpdateAnims(BtlvField *field)
 {
     int i;
-    int amt;
+    int amount;
 
-    if (o->bit1) {
-        o->bit1 = 0;
+    if (field->skipUpdate) {
+        field->skipUpdate = 0;
         return;
     }
-    if (o->n != 0) {
-        for (i = 0; i < o->n; i++) {
-            Ent_021F6D5C *e;
+    if (field->animCount != 0) {
+        for (i = 0; i < field->animCount; i++) {
+            BtlvAnimState *state;
 
-            e = &o->arr[i];
-            amt = 0;
-            switch (e->kind) {
-            case 0:
-                amt = 0x1000;
+            state = &field->animState[i];
+            amount = 0;
+            switch (state->kind) {
+            case BTLV_ANIM_LOOP:
+                amount = 0x1000;
                 break;
-            case 1:
-                if (e->f4 == 1) {
-                    amt = e->f8;
-                    e->fc--;
-                    if (o->arr[i].fc == 0)
-                        o->arr[i].f4 = 0;
+            case BTLV_ANIM_TIMED:
+                if (state->armed == 1) {
+                    amount = state->speed;
+                    state->updatesLeft--;
+                    if (field->animState[i].updatesLeft == 0)
+                        field->animState[i].armed = 0;
                 }
                 break;
             }
-            if (amt != 0)
-                G3D_SYSTEM_LoopObjectAnimeFrame(o->h18, (u16)i, amt);
+            if (amount != 0)
+                G3D_SYSTEM_LoopObjectAnimeFrame(field->object, (u16)i, amount);
         }
     }
-    func_021F9364((P *)o->sub);
+    BTLV_EFFECT_UpdateTexturePaletteFade(&field->palFade);
 }
 
 /*
- * Unless flag bit 0 at 0x68 is set, applies the vector at 0x1c to the handle at 0x18.
+ * Draws the field unless it is hidden.
  */
-void func_021F6DD4(Obj_021F6DD4 *p)
+void BTLV_FIELD_Draw(BtlvField *field)
 {
-    if (!p->b0)
-        G3D_SYSTEM_DrawObject(p->h, (struct Arg_v6560 *)p->v);
+    if (!field->hidden)
+        G3D_SYSTEM_DrawObject(field->object, &field->status);
 }
 
-void func_021F6DEC(S6DEC *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d)
+void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color)
 {
-    p->f0 = 1;
-    p->f2 = a;
-    p->f3 = b;
-    p->f4 = 0;
-    p->f5 = c;
-    p->f6 = d;
+    field->palFade.enabled = 1;
+    field->palFade.current = startLevel;
+    field->palFade.target = targetLevel;
+    field->palFade.wait = 0;
+    field->palFade.interval = interval;
+    field->palFade.color = color;
 }
 
-int func_021F6E1C(char *p)
+int BTLV_FIELD_IsEffectActive(BtlvField *field)
 {
-    return ((struct Obj18551 *)p)->f60 != 0;
+    return field->palFade.enabled != 0;
 }
 
 /*
- * Unlabelled leaf, filed as the blocker of ov094 func_021F839C (lane S22).
+ * Unlabelled leaf, filed as the blocker of ov094 BTLV_EFFECT_SetStageLayerEnable (lane S22).
  */
-void func_021F6E2C(Obj_021F6E2C *o, u32 v)
+void BTLV_FIELD_SetState(BtlvField *field, u32 hide)
 {
-    o->f = v;
+    field->hidden = hide;
 }

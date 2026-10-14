@@ -15,7 +15,7 @@
  * symbols:
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_021C5078 0x021C5078 thumb ov093
+ *   ZUKAN_DETAIL_FORM_DeleteModel 0x021C5078 thumb ov093
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_MAIN_PokeIdToClientIdThunk 0x021B8DDC thumb ov093
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern int BTL_POKEPARAM_IsFainted(void *);
-extern void func_021C5078(u8 *, u8);
+extern void ZUKAN_DETAIL_FORM_DeleteModel(u8 *, u8);
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
@@ -57,7 +57,7 @@ int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *p, u8 *a)
     int health;
     if (!flags[k] && BTL_POKEPARAM_IsFainted(a)) {
     flags[k] = 1;
-    func_021C5078(p + 0x3e0, k);
+    ZUKAN_DETAIL_FORM_DeleteModel(p + 0x3e0, k);
     if (!(BTL_MAIN_CheckSetupStatusFlag(*(void **)(p + 4), 0x200) && BTL_MAIN_PokeIdToClientIdThunk(k) != 0) && p[0x789] != k)
         BTL_SERVER_CMD_PushVariable(*(void **)(p + 12), 0x5b, 0, k, 0xffff0000);
     BTL_SERVER_CMD_Push(*(void **)(p + 12), 0x39, k);

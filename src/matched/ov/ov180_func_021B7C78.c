@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C78
+ * function: HALL_OF_FAME_LoadUiResources
  * address: 0x021B7C78
  * packet: pkt_ov180_021B7C78
  * region: ov180
@@ -26,7 +26,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B7C78(char *p)
+void HALL_OF_FAME_LoadUiResources(char *p)
 {
     void *h = func_020490F4(0xD8, 0x808D);
     ((struct Obj00547 *)p)->f90D4 = (void *)CLACT_RegisterCharacter(h, 0x18, 0, 0, 0x8D);

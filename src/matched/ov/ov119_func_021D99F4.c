@@ -9,21 +9,21 @@
  * status: EXACT
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_021D8FA4 0x021D8FA4 thumb ov119
- *   func_021E1D68 0x021E1D68 thumb ov119
- *   func_021D8B38 0x021D8B38 thumb ov119
+ *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
+ *   POKETRADE_SAVE_OpenSummaryScreen 0x021E1D68 thumb ov119
+ *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb ov119
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021D98AC 0x021D98AC thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_StepMain 0x021D98AC thumb ov119
  */
 #include "../include/Obj03775.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
-extern void *func_021D8FA4(void *,int);
-extern void func_021E1D68(char *p, void *a);
-extern void func_021D8B38(char *p);
+extern void *POKETRADE_PROC_GetSideMon(void *,int);
+extern void POKETRADE_SAVE_OpenSummaryScreen(char *p, void *a);
+extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_021D8E84(void *,int);
-extern void func_021D98AC(char *p);
-void func_021D99F4(char *p) { if(WIPE_SYS_EndCheck()) { ((struct Obj03775 *)p)->f10A0=0; func_021E1D68(p,func_021D8FA4(p,0));func_021D8B38(p);WIPE_SYS_Start((void *)3,1,1,0,6,1,((struct Obj03775 *)p)->f5F4);func_021D8E84(p,(int)func_021D98AC); } }
+extern void POKETRADE_PROC_SetStep(void *,int);
+extern void POKETRADE_PROC_StepMain(char *p);
+void func_021D99F4(char *p) { if(WIPE_SYS_EndCheck()) { ((struct Obj03775 *)p)->f10A0=0; POKETRADE_SAVE_OpenSummaryScreen(p,POKETRADE_PROC_GetSideMon(p,0));POKETRADE_PROC_RequestBoxRedraw(p);WIPE_SYS_Start((void *)3,1,1,0,6,1,((struct Obj03775 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepMain); } }

@@ -1,5 +1,5 @@
 /*
- * function: func_0220B240
+ * function: BR_MAIN_SanitizeBgmIds
  * address: 0x0220B240
  * packet: pkt_ov187_0220B240
  * region: ov187
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0220B240(u16 *a, u16 *b)
+void BR_MAIN_SanitizeBgmIds(u16 *a, u16 *b)
 {
     u16 x = *a;
     u16 y = *b;

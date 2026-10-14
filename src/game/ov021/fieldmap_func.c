@@ -71,7 +71,7 @@
  *   func_0201283C  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200ED48  0x0200ED48  thumb
- *   func_0217F894  0x0217F894  thumb  ov019
+ *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   gUnionChatEmptyMac     0x021D9AE0  data  a4
@@ -298,7 +298,7 @@ void *func_020120F4(void *gameSystem);
 void *func_0201283C(void *gameData);
 void *GAME_DATA_GetSaveControl(void *gameData);
 void *func_0200ED48(void *saveControl);
-int func_0217F894(void *wifiList, UnionBeacon *beacon);
+int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
 int func_0200EDC4(void *list, u32 trainerId);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void *FIELDMAP_GetEffectBbdAct(void *fieldMap);
@@ -671,7 +671,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         saveControl = func_020120F4(work->parent->gameSystem);
         wifiList = func_0201283C(saveControl);
         saveControl = func_0200ED48(GAME_DATA_GetSaveControl(saveControl));
-        if (func_0217F894(wifiList, &beaconPc->beacon) == 1) {
+        if (UNION_CHARA_IsWifiFriendBeacon(wifiList, &beaconPc->beacon) == 1) {
             relation = 1;
         } else if (func_0200EDC4(saveControl, beaconPc->beacon.trainerId) == 1) {
             relation = 2;

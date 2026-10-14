@@ -1,5 +1,5 @@
 /*
- * function: func_021D66D0
+ * function: GSYNC_DISP_UpdateProgressPosition
  * address: 0x021D66D0
  * packet: pkt_ov123_021D66D0
  * region: ov123
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj13978.h"
 typedef unsigned char u8;
-void func_021D66D0(u8 *p, int n)
+void GSYNC_DISP_UpdateProgressPosition(u8 *p, int n)
 {
     float x = (float)(1.2 * (double)(float)n);
     int v;

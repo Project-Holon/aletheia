@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FCBF0",
+   "name": "WORLDTRADE_DETAIL_DrawRequestWindow",
    "address": "0x021FCBF0",
    "kind": "game",
    "region": "ov135",

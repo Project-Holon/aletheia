@@ -8,7 +8,7 @@
  */
 #include "../ov093/hand_common_types.h"
 
-struct BtlSvFlow;
+struct BtlServerFlow;
 struct BtlPokeParam;
 
 /* Factor types (first argument of BTL_EVENT_AddFactor). 4 is the ability type, 7 means "any". */
@@ -18,12 +18,12 @@ struct BtlPokeParam;
 #define BTL_EVENT_TYPE_FIELD_EFFECT 3
 
 /* Battle server flow and poke parameter services used by the position effect handlers. */
-extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlSvFlow *flow, int pokeId);
-extern int BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(struct BtlSvFlow *flow, int position);
-extern u32 BTL_SERVER_FLOW_GetTurnCount(struct BtlSvFlow *flow);
-extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlSvFlow *flow);
-extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlSvFlow *flow, int kind, int pokeId);
-extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlSvFlow *flow, void *cmd);
+extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlServerFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(struct BtlServerFlow *flow, int position);
+extern u32 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
+extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlServerFlow *flow, int kind, int pokeId);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlServerFlow *flow, void *cmd);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *message, int kind, int messageId);
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *message, u32 arg);
 extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);

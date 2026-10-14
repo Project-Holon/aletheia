@@ -31,15 +31,15 @@
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
  *   func_02040618 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
- *   func_021F896C 0x021F896C thumb ov094
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  *   sBtlvBgSiteName     0x0220AEF0  data  ov094
- *   func_021F918C 0x021F918C thumb ov094
- *   func_021F9260  0x021F9260  thumb  ov094
+ *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
  */
 #include "btlv_effvm_types.h"
-#include "btlv_clact_shared_types.h"
-#include "btlv_timer_shared_types.h"
+#include "btlv_camera_shared_types.h"
+#include "btlv_bg_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -55,31 +55,15 @@ extern float _fsub(float, float);
 
 extern int _ffix(float);
 
-extern void func_021F896C(void *task, void (*onDelete)(void *), int arg);
+extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
 
-extern void func_021F89BC(void *task);
+extern void BTLV_EFFECT_DeleteTask(void *task);
 
-/* Battle background: scroll state of BG layer 3 (0x0c bytes). */
-typedef struct BtlvBg {
-    void *taskSystem;               /* 0x00 */
-    u32 scrolling : 1;              /* 0x04: set while a scroll job runs */
-    u32 reservedFlags : 31;
-    u16 heapId;                     /* 0x08 */
-} BtlvBg;
-
-/* One scroll animation job (0x4c bytes). */
+/* One scroll animation job (0x4c bytes). Mode 4 adds mover.end to pos every frame (a per-frame step) and ends when mover.count runs out; the other modes run the mover. */
 typedef struct BtlvBgScrollJob {
     BtlvBg *bg;                     /* 0x00 */
-    Vec pos;                        /* 0x04: current scroll offset, 20.12 fixed */
-    int mode;                       /* 0x10 */
-    Vec origin;                     /* 0x14 */
-    Vec amount;                     /* 0x20: target, or per-frame step in mode 4 */
-    Vec delta;                      /* 0x2c: per-frame step for modes 1 to 3 */
-    int framesLeft;                 /* 0x38 */
-    int framesTotal;                /* 0x3c */
-    int elapsed;                    /* 0x40 */
-    int phaseFrames;                /* 0x44 */
-    int cycleFrames;                /* 0x48 */
+    BtlvVec3 pos;                   /* 0x04: current scroll offset, 20.12 fixed */
+    BtlvMover mover;                /* 0x10 */
 } BtlvBgScrollJob;
 
 /* Two arguments carried to the deferred scroll apply task. */
@@ -93,11 +77,11 @@ extern void *func_020056A0(void (*callback)(void *), void *context, int priority
 
 extern u32 func_0207C768(u32 value, u32 divisor);
 
-extern void func_021F918C(const Vec *from, const Vec *to, Vec *outDelta, int frames);
+extern void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *outDelta, int frames);
 
-extern int func_021F9260(void *mover, int *outPos);
+extern int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *outPos);
 
-extern u32 TCBL_GetTaskUserData(struct Task *task);
+extern u32 TCBL_GetTaskUserData(void *task);
 
 extern void func_02040618(u32 layer, u32 param, u32 value);
 
@@ -111,7 +95,7 @@ void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int 
 
 unsigned int BTLV_BG_IsScrolling(BtlvBg *bg);
 
-void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, Vec *origin, Vec *amount, int frames, int phaseFrames, int cycleFrames, void (*onTick)(void *, void *));
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *amount, int frames, int phaseFrames, int cycleFrames, void (*onTick)(void *, void *));
 
 void BTLV_BG_ScrollTask(void *task, void *arg);
 
@@ -141,13 +125,13 @@ void BTLV_BG_SetScroll(BtlvBg *bg, u32 scrollX, u32 scrollY)
     args = func_02030734((u16)((bg->heapId & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
     args->scrollX = scrollX;
     args->scrollY = scrollY;
-    func_021F896C(func_020056A0(BTLV_BG_ApplyScrollTask, args, 0), 0, 0);
+    BTLV_EFFECT_RegisterTask(func_020056A0(BTLV_BG_ApplyScrollTask, args, 0), 0, 0);
 }
 
 void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int frames, int phaseFrames, int cycleFrames)
 {
-    Vec origin;
-    Vec amount;
+    BtlvVec3 origin;
+    BtlvVec3 amount;
 
     amount.x = x << 12;
     amount.y = y << 12;
@@ -181,7 +165,7 @@ static inline int BTLV_BG_ToFixedRounded(int value)
  * lever: matched twin 02201E04 with its unused idx slot removed; this
  *   caller registers fixed callback 02209A40, not a ninth parameter.
  */
-void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, Vec *origin, Vec *amount, int frames, int phaseFrames, int cycleFrames,
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *amount, int frames, int phaseFrames, int cycleFrames,
                    void (*onTick)(void *, void *))
 {
     BtlvBgScrollJob *job;
@@ -190,35 +174,35 @@ void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, Vec *origin, Vec *amount, int 
     job->pos.x = origin->x;
     job->pos.y = origin->y;
     job->pos.z = origin->z;
-    job->mode = mode;
-    job->framesLeft = frames;
-    job->framesTotal = frames;
-    job->elapsed = 0;
-    job->phaseFrames = phaseFrames;
-    job->cycleFrames = cycleFrames * 2;
-    job->origin.x = origin->x;
-    job->origin.y = origin->y;
-    job->origin.z = origin->z;
-    job->amount.x = amount->x;
-    job->amount.y = amount->y;
-    job->amount.z = amount->z;
+    job->mover.mode = mode;
+    job->mover.count = frames;
+    job->mover.countReset = frames;
+    job->mover.wait = 0;
+    job->mover.waitReset = phaseFrames;
+    job->mover.repeat = cycleFrames * 2;
+    job->mover.start.x = origin->x;
+    job->mover.start.y = origin->y;
+    job->mover.start.z = origin->z;
+    job->mover.end.x = amount->x;
+    job->mover.end.y = amount->y;
+    job->mover.end.z = amount->z;
     switch (mode) {
     case 1:
-        func_021F918C(&job->origin, amount, &job->delta, BTLV_BG_ToFixedRounded(frames));
+        BTLV_EFFECT_ComputeVectorStep(&job->mover.start, amount, &job->mover.step, BTLV_BG_ToFixedRounded(frames));
         break;
     case 3:
-        job->framesTotal *= 2;
-        job->cycleFrames *= 2;
+        job->mover.countReset *= 2;
+        job->mover.repeat *= 2;
     case 2:
-        job->delta.x = func_0207C768(amount->x, BTLV_BG_ToFixedRounded(frames));
-        job->delta.y = func_0207C768(amount->y, BTLV_BG_ToFixedRounded(frames));
-        job->delta.z = func_0207C768(amount->z, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.x = func_0207C768(amount->x, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.y = func_0207C768(amount->y, BTLV_BG_ToFixedRounded(frames));
+        job->mover.step.z = func_0207C768(amount->z, BTLV_BG_ToFixedRounded(frames));
         break;
     case 0:
     default:
         break;
     }
-    func_021F896C(func_02030DA8(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
 }
 
 void BTLV_BG_ScrollTask(void *task, void *arg)
@@ -227,21 +211,21 @@ void BTLV_BG_ScrollTask(void *task, void *arg)
     BtlvBg *bg = job->bg;
     int done;
 
-    if (job->mode == 4) {
-        job->pos.x += job->amount.x;
-        job->pos.y += job->amount.y;
-        if (job->framesLeft == 0) {
+    if (job->mover.mode == 4) {
+        job->pos.x += job->mover.end.x;
+        job->pos.y += job->mover.end.y;
+        if (job->mover.count == 0) {
             done = 1;
         } else {
-            job->framesLeft--;
+            job->mover.count--;
             done = 0;
         }
     } else {
-        done = func_021F9260(&job->mode, &job->pos.x);
+        done = BTLV_EFFECT_StepMover(&job->mover, &job->pos);
     }
     BTLV_BG_SetScroll(bg, job->pos.x >> 12, job->pos.y >> 12);
     if (done == 1)
-        func_021F89BC(task);
+        BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_BG_OnScrollJobEnd(void *task)
@@ -261,5 +245,5 @@ void BTLV_BG_ApplyScrollTask(void *task)
 
     func_02040618(3, 0, args->scrollX);
     func_02040618(3, 3, args->scrollY);
-    func_021F89BC(task);
+    BTLV_EFFECT_DeleteTask(task);
 }

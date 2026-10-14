@@ -13,8 +13,8 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_021FC734 0x021FC734 thumb ov186
- *   func_021FBDA4 0x021FBDA4 thumb ov186
+ *   BR_UTIL_Delete 0x021FC734 thumb ov186
+ *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00050.h"
@@ -28,8 +28,8 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void func_021FC734(u8 *p);
-extern void func_021FBDA4(int a, unsigned mode);
+extern void BR_UTIL_Delete(u8 *p);
+extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void func_020409B4(u32 index);
 void func_021DCE48(char *p,char *q)
 {
@@ -49,9 +49,9 @@ void func_021DCE48(char *p,char *q)
         if(((struct Obj00050 *)p)->f4C!=-1) { CLACT_ReleaseCellAnim(((struct Obj00050 *)p)->f4C); ((struct Obj00050 *)p)->f4C=-1; }
         for(i=0;i<5;i++) {
             slot=p+i*4;
-            if(((struct Obj02893 *)slot)->f30) { func_021FC734(((struct Obj02893 *)slot)->f30); *(int *)&((struct Obj02893 *)slot)->f30=0; }
+            if(((struct Obj02893 *)slot)->f30) { BR_UTIL_Delete(((struct Obj02893 *)slot)->f30); *(int *)&((struct Obj02893 *)slot)->f30=0; }
         }
-        func_021FBDA4(((struct Obj24572 *)q)->f10,6);
+        BR_RES_ApplyBgSet(((struct Obj24572 *)q)->f10,6);
         func_020409B4(1);
         ((struct Obj00050 *)p)->fD4=0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E131C
+ * function: POKETRADE_SAVE_OpenTaskMenuAt
  * address: 0x021E131C
  * packet: pkt_ov119_021E131C
  * region: ov119
@@ -26,7 +26,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E131C(char *p,int *ids,int count,int x,int y)
+void POKETRADE_SAVE_OpenTaskMenuAt(char *p,int *ids,int count,int x,int y)
 {
     Template t;
     int i;

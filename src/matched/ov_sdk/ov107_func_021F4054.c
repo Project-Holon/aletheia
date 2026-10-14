@@ -1,5 +1,5 @@
 /*
- * function: func_021F4054
+ * function: MBi_ReadyBeaconSendStatus
  * address:  0x021F4054
  * packet:   pkt_ov107_021F4054
  * region:   ov107
@@ -30,7 +30,7 @@ extern unsigned short func_021F62A0(void);
 extern int WM_SetGameInfo(void *callback, void *userGameInfo, unsigned short size, unsigned long ggid, unsigned short tgid, unsigned char attr);
 extern void func_021F3FA4(void);
 
-int func_021F4054(void)
+int MBi_ReadyBeaconSendStatus(void)
 {
     unsigned char *nextGameInfop;
 

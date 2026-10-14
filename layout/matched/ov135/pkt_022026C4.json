@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022026C4",
+   "name": "WORLDTRADE_ADAPTER_StrObjThunk",
    "address": "0x022026C4",
    "kind": "game",
    "region": "ov135",

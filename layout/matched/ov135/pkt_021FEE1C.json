@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FEE1C",
+   "name": "WORLDTRADE_SEARCH_StatePrintLevelPrompt",
    "address": "0x021FEE1C",
    "kind": "game",
    "region": "ov135",

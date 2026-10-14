@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3CC
+ * function: ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies
  * address: 0x021BC3CC
  * packet: pkt_ov208_021BC3CC
  * region: ov208
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Blk37;
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
-void func_021BC3CC(char *p)
+void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p)
 {
     unsigned short old=**(unsigned short * *)&((struct Obj01178 *)p)->f20;
     void *owner=ZUKAN_SAVE_GetFromGameData((void *)(*(int *)&((struct Obj01178 *)p)->f0));

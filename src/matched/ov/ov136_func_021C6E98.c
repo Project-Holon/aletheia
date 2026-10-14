@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E98
+ * function: MB_SEQ_StateOpenActionMenu
  * address:  0x021C6E98
  * packet:   pkt_ov136_021C6E98
  * region:   ov136
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C5AEC  0x021C5AEC  thumb
+ *   MB_SEQ_OpenFourEntryMenu  0x021C5AEC  thumb
  */
 
 typedef unsigned char u8;
-extern void func_021C5AEC(u8 *);
-int func_021C6E98(u8 *p)
+extern void MB_SEQ_OpenFourEntryMenu(u8 *);
+int MB_SEQ_StateOpenActionMenu(u8 *p)
 {
-    func_021C5AEC(p);
+    MB_SEQ_OpenFourEntryMenu(p);
     return 0xE;
 }

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD444
+ * function: ZKND_TBAR_LoadButtonResources
  * address:  0x021BD444
  * packet:   pkt_ov208_021BD444
  * region:   ov208
@@ -18,7 +18,7 @@
  *   func_02027628        0x02027628  thumb
  *   func_02049740        0x02049740  arm
  *   func_0202762C        0x0202762C  thumb
- *   ov208_func_021BD574  0x021BD574  thumb
+ *   ZKND_TBAR_LoadCellArchive  0x021BD574  thumb
  *   func_02027614        0x02027614  thumb
  *   CLACT_RegisterPaletteEx        0x0204AC18  arm
  *   func_02027618        0x02027618  thumb
@@ -52,7 +52,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32  func_02027628(void);
 extern u32  func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 flags);
 extern u32  func_0202762C(void);
-extern void ov208_func_021BD574(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 a6,
+extern void ZKND_TBAR_LoadCellArchive(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 a6,
                                 u8 a7, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 a13, u32 heap);
 extern u32  func_02027614(void);
 extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -64,7 +64,7 @@ typedef signed int     s32;
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
+void ZKND_TBAR_LoadButtonResources(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                          u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap)
 {
     void *h;
@@ -75,7 +75,7 @@ void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 pal
     if (skip == 0) {
         func_02049B68(h, func_02027624(), palOfs, pal << 5, 0x20, heap);
         p->f10 = func_02049740(h, func_02027628(), p->fc, 0x800, 0, heap);
-        ov208_func_021BD574(h, func_0202762C(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
+        ZKND_TBAR_LoadCellArchive(h, func_0202762C(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
                             0, 0x15, 0x20, 3, pal, 0, heap);
     }
     p->f0 = CLACT_RegisterPaletteEx(h, func_02027614(), objChannel, (u16)(objPal << 5), 0, 3, heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FE744
+ * function: WORLDTRADE_SEARCH_WaitDownloadResult
  * address:  0x021FE744
  * packet:   pkt_021FE744
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
@@ -46,14 +46,14 @@ typedef signed int s32;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
+extern void WORLDTRADE_CancelSave(u8 *p);
 extern void GFL_USE_StopAllSe(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
-int func_021FE744(u8 *p)
+int WORLDTRADE_SEARCH_WaitDownloadResult(u8 *p)
 {
     s32 n;
 
@@ -83,7 +83,7 @@ int func_021FE744(u8 *p)
             break;
         case 2:
             GFL_USE_StopAllSe();
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         case 0:
         case 3:
@@ -94,7 +94,7 @@ int func_021FE744(u8 *p)
     } else {
         if (++((struct Obj04907 *)p)->fF8C == 0x1c20) {
             GFL_USE_StopAllSe();
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
         }
     }
     return 2;

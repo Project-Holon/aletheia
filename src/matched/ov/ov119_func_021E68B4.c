@@ -1,5 +1,5 @@
 /*
- * function: func_021E68B4
+ * function: POKETRADE_2D_DeleteMarkerButtonPair
  * address: 0x021E68B4
  * packet: pkt_ov119_021E68B4
  * region: ov119
@@ -19,7 +19,7 @@ static inline void clear(int p, int i) {
         *(int *)(p+(unsigned int)i*4+0x10ac)=0;
     }
 }
-void func_021E68B4(int p, int n) {
+void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n) {
     int i=n*2;
     clear(p,i+1);
     clear(p,i);

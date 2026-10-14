@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_IntrudeRequestEventMain
+ * function: FIELD_INTRUDE_EVENT_IntrudeRequestEventMain
  * address:  0x0216B280
  * packet:   pkt_ov010_0216B280
  * region:   ov010
@@ -30,7 +30,7 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_COMM_SendValueNow(u8 *p, u8 value);
 extern u32 INTRUDE_COMM_IsRecordReceived(u8 *p);
 
-int FIELD_G3D_MAP_IntrudeRequestEventMain(int a0, int *state, u8 **work)
+int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(int a0, int *state, u8 **work)
 {
     int r;
     u16 *p;

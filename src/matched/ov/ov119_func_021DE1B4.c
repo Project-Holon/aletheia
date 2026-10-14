@@ -1,5 +1,5 @@
 /*
- * function: func_021DE1B4
+ * function: POKETRADE_NEGO_ShowOfferSummary
  * address: 0x021DE1B4
  * packet: pkt_ov119_021DE1B4
  * region: ov119
@@ -8,23 +8,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D89EC 0x021D89EC thumb ov119
- *   func_021E219C 0x021E219C thumb ov119
- *   func_021E6440 0x021E6440 thumb ov119
+ *   POKETRADE_PROC_IsMonValid 0x021D89EC thumb ov119
+ *   POKETRADE_SAVE_ShowSummaryMon 0x021E219C thumb ov119
+ *   POKETRADE_2D_UpdateOfferIconHighlight 0x021E6440 thumb ov119
  */
 typedef unsigned char  u8;
-extern int func_021D89EC(const u8 *p);
-extern void func_021E219C(char *p, void *mon, int side, int flag);
-extern void func_021E6440(int p, int a, int b);
+extern int POKETRADE_PROC_IsMonValid(const u8 *p);
+extern void POKETRADE_SAVE_ShowSummaryMon(char *p, void *mon, int side, int flag);
+extern void POKETRADE_2D_UpdateOfferIconHighlight(int p, int a, int b);
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
-void func_021DE1B4(State *p,int index)
+void POKETRADE_NEGO_ShowOfferSummary(State *p,int index)
 {
     int col=index%3;
     int row=index/3;
     int other=1-row;
     void *obj=p->obj[other][col];
-    if(func_021D89EC(obj)) {
-        func_021E219C((char *)p,obj,other,1);
-        func_021E6440((int)p,row,col);
+    if(POKETRADE_PROC_IsMonValid(obj)) {
+        POKETRADE_SAVE_ShowSummaryMon((char *)p,obj,other,1);
+        POKETRADE_2D_UpdateOfferIconHighlight((int)p,row,col);
     }
 }

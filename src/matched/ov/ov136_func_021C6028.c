@@ -1,5 +1,5 @@
 /*
- * function: func_021C6028
+ * function: MB_SEQ_DrawMailEntry
  * address: 0x021C6028
  * packet: pkt_ov136_021C6028
  * region: ov136
@@ -15,7 +15,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Blit 0x020439A0 arm
  *   func_02008F9C 0x02008F9C thumb
- *   func_021C5F80 0x021C5F80 thumb
+ *   MB_SEQ_PrintTextToSlot 0x021C5F80 thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   BMP_Delete 0x020437AC arm
  */
@@ -42,11 +42,11 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
-extern void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
+extern void MB_SEQ_PrintTextToSlot(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_021C6028(u8 *p, u32 a1, int idx, int sel)
+void MB_SEQ_DrawMailEntry(u8 *p, u32 a1, int idx, int sel)
 {
     void *mon;
     void *b0;
@@ -70,10 +70,10 @@ void func_021C6028(u8 *p, u32 a1, int idx, int sel)
     }
     BMP_Clear(BMP_WIN_GetBmp(win), 4);
     if (func_02008F9C(mon) == 0) {
-        func_021C5F80(win, ((struct Obj23550 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, slot,
+        MB_SEQ_PrintTextToSlot(win, ((struct Obj23550 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, slot,
                       ((struct Obj23551 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1C4, 0, 0, ((struct Obj01945 *)p)->f18, 0x14C4, 0);
     } else {
-        func_021C5F80(win, ((struct Obj23552 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, slot,
+        MB_SEQ_PrintTextToSlot(win, ((struct Obj23552 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, slot,
                       ((struct Obj23553 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1C4, 0, 0, ((struct Obj01945 *)p)->f18, 0x1D04, 0);
     }
     BGWINFRM_PutBmpWin(**(void ** *)&((struct Obj01945 *)p)->f8, a1, win);

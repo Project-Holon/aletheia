@@ -1,5 +1,5 @@
 /*
- * function: func_021F4BCC
+ * function: WORLDTRADE_SetPlaneVisibleAll
  * address:  0x021F4BCC
  * packet:   pkt_021F4BCC
  * region:   ov135
@@ -25,7 +25,7 @@ typedef signed short s16;
 extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
 
-void func_021F4BCC(u8 *p)
+void WORLDTRADE_SetPlaneVisibleAll(u8 *p)
 {
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD35C
+ * function: ZKND_TBAR_GetTouchEnable
  * address:  0x021BD35C
  * packet:   pkt_021BD35C
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj18230.h"
 
 
-int func_021BD35C(char *p)
+int ZKND_TBAR_GetTouchEnable(char *p)
 {
     return ((struct Obj18230 *)p)->fC;
 }

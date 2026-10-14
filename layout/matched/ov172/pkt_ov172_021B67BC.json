@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B67BC",
+   "name": "CTVT_CAMERA_FreeFrames",
    "address": "0x021B67BC",
    "kind": "game",
    "region": "ov172",

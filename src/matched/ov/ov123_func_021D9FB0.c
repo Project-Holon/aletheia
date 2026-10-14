@@ -1,5 +1,5 @@
 /*
- * function: func_021D9FB0
+ * function: PDWACC_DISP_DeleteActors
  * address: 0x021D9FB0
  * packet: pkt_ov123_021D9FB0
  * region: ov123
@@ -15,4 +15,4 @@
 #include "../include/Obj10454.h"
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021D9FB0(unsigned int p) { int i; unsigned int q; for(i=0;i<13;i++) { q=p+(unsigned)i*4; if(((struct Obj10454 *)q)->f9B0) { CLACT_DeleteActor(((struct Obj10454 *)q)->f9B0); ((struct Obj10454 *)q)->f9B0=0; } } }
+void PDWACC_DISP_DeleteActors(unsigned int p) { int i; unsigned int q; for(i=0;i<13;i++) { q=p+(unsigned)i*4; if(((struct Obj10454 *)q)->f9B0) { CLACT_DeleteActor(((struct Obj10454 *)q)->f9B0); ((struct Obj10454 *)q)->f9B0=0; } } }

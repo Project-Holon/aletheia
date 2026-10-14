@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1A0
+ * function: ZUKAN_LIST_StateScrollWait
  * address: 0x021BD1A0
  * packet: pkt_ov209_021BD1A0
  * region: ov209
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD8C4 0x021BD8C4 thumb ov209
- *   func_021BE5D4 0x021BE5D4 thumb ov209
+ *   ZUKAN_LIST_IsActorAnimActive 0x021BD8C4 thumb ov209
+ *   ZUKAN_LIST_UpdateArrowActors 0x021BE5D4 thumb ov209
  */
 #include "../include/Obj00088.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bits {u16 low:1;u16 high:15;};
-extern u32 func_021BD8C4(char *p, u32 idx);extern void func_021BE5D4(char *,int);
-int func_021BD1A0(char *p) { if(func_021BD8C4(p,((struct Bits *)(p+0xc24))->high)==0){func_021BE5D4(p,0);return ((struct Obj00088 *)p)->f18;}return 6; }
+extern u32 ZUKAN_LIST_IsActorAnimActive(char *p, u32 idx);extern void ZUKAN_LIST_UpdateArrowActors(char *,int);
+int ZUKAN_LIST_StateScrollWait(char *p) { if(ZUKAN_LIST_IsActorAnimActive(p,((struct Bits *)(p+0xc24))->high)==0){ZUKAN_LIST_UpdateArrowActors(p,0);return ((struct Obj00088 *)p)->f18;}return 6; }

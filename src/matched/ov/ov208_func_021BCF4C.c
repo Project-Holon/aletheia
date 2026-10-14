@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF4C
+ * function: ZUKAN_DETAIL_GRAPHIC_Reset3dState
  * address: 0x021BCF4C
  * packet: pkt_ov208_021BCF4C
  * region: ov208
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD0A8 0x021BD0A8 thumb
- * 2026-10-02: blocked on the relocation to func_021BD0A8, an unlabelled Thumb getter (ldr r0,[r0]; bx lr).
+ *   ZUKAN_DETAIL_GRAPHIC_ResetCameraState 0x021BD0A8 thumb
+ * 2026-10-02: blocked on the relocation to ZUKAN_DETAIL_GRAPHIC_ResetCameraState, an unlabelled Thumb getter (ldr r0,[r0]; bx lr).
  * Matched as ov208_func_021BD0A8.c, but 0x021BD0A8 is not a function start in layout (figure move).
  */
-extern int func_021BD0A8(int *p);
-int func_021BCF4C(char *p)
+extern int ZUKAN_DETAIL_GRAPHIC_ResetCameraState(int *p);
+int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p)
 {
-    return func_021BD0A8((int *)(p + 4));
+    return ZUKAN_DETAIL_GRAPHIC_ResetCameraState((int *)(p + 4));
 }

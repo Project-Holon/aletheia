@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F48
+ * function: BgTextLabel_Destroy
  * address:  0x021C0F48
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Two-call wrapper: field +0x18, then the object itself.
  *
  * symbols:
- *   func_021C0F48  0x021C0F48  thumb  ov217
+ *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -29,7 +29,7 @@ typedef signed int     s32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-void func_021C0F48(u8 *p)
+void BgTextLabel_Destroy(u8 *p)
 {
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj26004 *)p)->f18));
     func_020307B0(p);

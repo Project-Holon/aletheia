@@ -1,5 +1,5 @@
 /*
- * function: func_021D4FAC
+ * function: GSYNC_MENU_PrintMessageNoStream
  * address: 0x021D4FAC
  * packet: pkt_ov123_021D4FAC
  * region: ov123
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4EF0 0x021D4EF0 thumb ov123
+ *   GSYNC_MENU_PrintMessage 0x021D4EF0 thumb ov123
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D4EF0(char *,int,int);
-void func_021D4FAC(char *p) { func_021D4EF0(p,4,1); }
+extern void GSYNC_MENU_PrintMessage(char *,int,int);
+void GSYNC_MENU_PrintMessageNoStream(char *p) { GSYNC_MENU_PrintMessage(p,4,1); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCBE8
+ * function: DENDOU_VIEW_IsPaletteFadeBusy
  * address: 0x021DCBE8
  * packet: pkt_ov171_021DCBE8
  * region: ov171
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 extern u32 PALANM_GetFadeRequestBits(const char*);
 struct Obj02021EE4;
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-int func_021DCBE8(u8*p){if(PALANM_GetFadeRequestBits(*(char* *)&((struct Obj14284 *)p)->fB30))return 1;PALANM_SetAutoTransfer((struct Obj02021EE4 *)(*(u32 *)&((struct Obj14284 *)p)->fB30),0);return 0;}
+int DENDOU_VIEW_IsPaletteFadeBusy(u8*p){if(PALANM_GetFadeRequestBits(*(char* *)&((struct Obj14284 *)p)->fB30))return 1;PALANM_SetAutoTransfer((struct Obj02021EE4 *)(*(u32 *)&((struct Obj14284 *)p)->fB30),0);return 0;}

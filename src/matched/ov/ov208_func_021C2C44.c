@@ -1,5 +1,5 @@
 /*
- * function: func_021C2C44
+ * function: ZUKAN_DETAIL_VOICE_CreateNumberActors
  * address:  0x021C2C44
  * packet:   pkt_ov208_021C2C44
  * region:   ov208
@@ -61,7 +61,7 @@ struct S {
     u32 a9c[7];
 };
 
-void func_021C2C44(u16 *heap, struct S *st, int a2)
+void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heap, struct S *st, int a2)
 {
     int arc;
     u8 i;

@@ -12,21 +12,21 @@
  *   instead of a local x stored once; tail merging then keeps the later x=2 copy and the first
  *   arm becomes the b stub, as in the listing.
  * symbols:
- *   func_021BDFE4 0x021BDFE4 thumb ov172
- *   func_021BE054 0x021BE054 thumb ov172
+ *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
+ *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
  *   func_021B9DF8 0x021B9DF8 thumb ov172
- *   func_021BE0B4 0x021BE0B4 thumb ov172
- *   func_021BDFDC 0x021BDFDC thumb ov172
- *   func_021B7B3C 0x021B7B3C thumb ov172
+ *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
+ *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
+ *   CTVT_CAMVIEW_SetCameraEffect 0x021B7B3C thumb ov172
  *   func_021BA270 0x021BA270 thumb ov172
  *   func_021B8B5C 0x021B8B5C thumb ov172
  *   func_021B8B68 0x021B8B68 thumb ov172
  *   func_021B8740 0x021B8740 thumb ov172
  *   func_021B9F4C 0x021B9F4C thumb ov172
- *   func_021BE0B8 0x021BE0B8 thumb ov172
- *   func_021BE0A4 0x021BE0A4 thumb ov172
- *   func_021B77B4 0x021B77B4 thumb ov172
- *   func_021BE08C 0x021BE08C thumb ov172
+ *   COMM_TVT_SYS_ToggleViewSwapped 0x021BE0B8 thumb ov172
+ *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
+ *   CTVT_CAMVIEW_IsLayoutChanging 0x021B77B4 thumb ov172
+ *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
  *   func_021B99F4 0x021B99F4 thumb ov172
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -41,21 +41,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern u32 func_021BDFE4(void *);
-extern u8 func_021BE054(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 extern int func_021B9DF8(void *p, int *out);
-extern u32 func_021BE0B4(void *);
-extern u32 func_021BDFDC(void *);
-extern void func_021B7B3C(int x, int y, int z);
+extern u32 COMM_TVT_SYS_GetViewSwapped(void *);
+extern u32 COMM_TVT_SYS_GetCamView(void *);
+extern void CTVT_CAMVIEW_SetCameraEffect(int x, int y, int z);
 extern int func_021BA270(void *p);
 extern u32 func_021B8B5C(void *, u32);
 extern u8 func_021B8B68(int unused, char *p);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021B9F4C(int a, int b, int mode);
-extern void func_021BE0B8(void *);
-extern u32 func_021BE0A4(void *);
-extern u32 func_021B77B4(int unused, void *p);
-extern void func_021BE08C(void *);
+extern void COMM_TVT_SYS_ToggleViewSwapped(void *);
+extern u32 COMM_TVT_SYS_GetSelfSlot(void *);
+extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
+extern void COMM_TVT_SYS_ToggleHalfRes(void *);
 extern void func_021B99F4(void *unused, u8 *q);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
@@ -68,18 +68,18 @@ extern const u8 d_021C6F77[];
 
 void func_021B9580(u8 *c, u8 *q)
 {
-    u32 a = func_021BDFE4(c);
-    u32 b = func_021BE054(c);
+    u32 a = COMM_TVT_SYS_GetComm(c);
+    u32 b = COMM_TVT_SYS_GetMemberCount(c);
     int r6;
 
     if (func_021B9DF8(c, (int *)q) == 1)
         return;
-    if (*(int *)q <= 8 && func_021BE0B4(c) == 0) {
-        u32 s = func_021BDFDC(c);
-        if (KEY_GetTrg() & 0x40) func_021B7B3C((int)c, s, 0);
-        if (KEY_GetTrg() & 0x10) func_021B7B3C((int)c, s, 5);
-        if (KEY_GetTrg() & 0x80) func_021B7B3C((int)c, s, 1);
-        if (KEY_GetTrg() & 0x20) func_021B7B3C((int)c, s, 3);
+    if (*(int *)q <= 8 && COMM_TVT_SYS_GetViewSwapped(c) == 0) {
+        u32 s = COMM_TVT_SYS_GetCamView(c);
+        if (KEY_GetTrg() & 0x40) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 0);
+        if (KEY_GetTrg() & 0x10) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 5);
+        if (KEY_GetTrg() & 0x80) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 1);
+        if (KEY_GetTrg() & 0x20) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 3);
     }
     if (b == 1 || func_021BA270((void *)(*(u32 *)(q + 0x10))) == 0) {
         *(int *)(q + 0xa4) = 2;
@@ -125,17 +125,17 @@ void func_021B9580(u8 *c, u8 *q)
             GFL_USE_PlaySeDefaultVolume(0x551);
             CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x98), 9);
         } else if (r6 == 1 || (KEY_GetTrg() & 0xc)) {
-            func_021BE0B8(c);
+            COMM_TVT_SYS_ToggleViewSwapped(c);
             GFL_USE_PlaySeDefaultVolume(0x66F);
-            if (func_021BE0B4(c) == 1)
+            if (COMM_TVT_SYS_GetViewSwapped(c) == 1)
                 CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x15);
             else
                 CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x16);
         }
     }
-    if (func_021BE0A4(c) == 0 && (KEY_GetTrg() & 0x200)) {
-        if (func_021B77B4((int)c, (void *)func_021BDFDC(c)) == 0) {
-            func_021BE08C(c);
+    if (COMM_TVT_SYS_GetSelfSlot(c) == 0 && (KEY_GetTrg() & 0x200)) {
+        if (CTVT_CAMVIEW_IsLayoutChanging((int)c, (void *)COMM_TVT_SYS_GetCamView(c)) == 0) {
+            COMM_TVT_SYS_ToggleHalfRes(c);
             GFL_USE_PlaySeDefaultVolume(0x66C);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0D1C
+ * function: MB_PARENT_SYS_SetState
  * address:  0x021F0D1C
  * packet:   pkt_ov107_021F0D1C
  * region:   ov107
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F6EAC  0x021F6EAC  data
+ *   gMbParentSys  0x021F6EAC  data
  */
 
 #include "../include/G_Masks.h"
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern struct Masks d_021F6EAC;
-void func_021F0D1C(u16 v) { *(u16 *)(((u8 *)&d_021F6EAC) + 8) = v; }
+extern struct Masks gMbParentSys;
+void MB_PARENT_SYS_SetState(u16 v) { *(u16 *)(((u8 *)&gMbParentSys) + 8) = v; }

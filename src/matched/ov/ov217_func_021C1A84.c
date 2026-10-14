@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A84
+ * function: CircleGraph_FindSliceIndexImpl
  * address:  0x021C1A84
  * packet:   pkt_ov217_021C1A84
  * region:   ov217
@@ -21,7 +21,7 @@ struct Ent {
     u8 pad0[0x1C];
 };
 
-u8 func_021C1A84(u8 *p, u8 key)
+u8 CircleGraph_FindSliceIndexImpl(u8 *p, u8 key)
 {
     int i;
     int n;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8F58
+ * function: GSYNC_STATE_CommitReceivedMon
  * address: 0x021D8F58
  * packet: pkt_ov123_021D8F58
  * region: ov123
@@ -32,7 +32,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
-void func_021D8F58(char *p)
+void GSYNC_STATE_CommitReceivedMon(char *p)
 {
     void *v;
     void *q;

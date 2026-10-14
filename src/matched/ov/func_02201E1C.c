@@ -1,5 +1,5 @@
 /*
- * function: func_02201E1C
+ * function: WORLDTRADE_SERVER_StateStartUploadFinishAsync
  * address:  0x02201E1C
  * packet:   pkt_02201E1C
  * region:   ov135
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void DPW_TR_UploadFinishAsync(u8 *p);
 
-int func_02201E1C(u8 *p)
+int WORLDTRADE_SERVER_StateStartUploadFinishAsync(u8 *p)
 {
     DPW_TR_UploadFinishAsync(p);
     ((struct Obj12243 *)p)->f28 = 0x1b;

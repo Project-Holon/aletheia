@@ -1,5 +1,5 @@
 /*
- * function: func_021C0BB4
+ * function: RESEARCH_COMMON_ClearActor
  * address:  0x021C0BB4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0BB4(void *p)
+void RESEARCH_COMMON_ClearActor(void *p)
 {
     ((struct Obj25987 *)p)->f24 = 0;
 }

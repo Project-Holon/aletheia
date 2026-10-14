@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdGetResearchRank
+ * function: SCRCMD_RESEARCH_CmdGetResearchRank
  * address:  0x0216B504
  * packet:   pkt_0216B504
  * region:   ov010
@@ -33,7 +33,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C224(struct Blk34 *p);
 
-int FIELD_G3D_MAP_CmdGetResearchRank(int a0, int a1)
+int SCRCMD_RESEARCH_CmdGetResearchRank(int a0, int a1)
 {
     int t4;
     int t5;

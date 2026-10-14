@@ -1,5 +1,5 @@
 /*
- * function: func_022047F8
+ * function: BTLV_INPUT_CursorActorTaskEnd
  * address:  0x022047F8
  * packet:   pkt_ov094_022047F8
  * region:   ov094
@@ -35,7 +35,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_022047F8(void *h)
+void BTLV_INPUT_CursorActorTaskEnd(void *h)
 {
     Ctx *c = (Ctx *)TCBL_GetTaskUserData(h);
     int i;

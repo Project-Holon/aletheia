@@ -1,5 +1,5 @@
 /*
- * function: func_021DD528
+ * function: POKETRADE_NEGO_RegisterIconResources
  * address: 0x021DD528
  * packet: pkt_ov119_021DD528
  * region: ov119
@@ -27,7 +27,7 @@ extern int func_0201BC3C(void);
 extern int func_0201BC78(void);
 extern int func_0201BCB4(void);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021DD528(char *p,int n)
+void POKETRADE_NEGO_RegisterIconResources(char *p,int n)
 {
     void *v;int off;int a;v=func_020490F4(7,((struct Obj06425 *)p)->f5F4);off=96;if(n!=1)off=0;((struct Obj06425 *)p)->f890=CLACT_RegisterPaletteCompressed(v,func_0201BC3C(),n,(u16)off,((struct Obj06425 *)p)->f5F4);a=func_0201BC78();((struct Obj06425 *)p)->f8C0=CLACT_RegisterCellAnim(v,a,func_0201BCB4(),((struct Obj06425 *)p)->f5F4);ARC_TOOL_DeleteHandle(v);
 }

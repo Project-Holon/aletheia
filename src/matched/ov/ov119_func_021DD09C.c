@@ -9,21 +9,21 @@
  * status: EXACT
  * symbols:
  *   func_020355C4 0x020355C4 arm
- *   func_021E68F4 0x021E68F4 thumb ov119
+ *   POKETRADE_2D_MovePickedIconActor 0x021E68F4 thumb ov119
  */
 #include "../include/Obj22736.h"
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_021E68F4(int p, int i);
+extern void POKETRADE_2D_MovePickedIconActor(int p, int i);
 void func_021DD09C(char *p)
 {
     if (func_020355C4()) {
-        func_021E68F4((int)p, -1);
+        POKETRADE_2D_MovePickedIconActor((int)p, -1);
         return;
     }
     {
         int v = ((struct Obj22736 *)p)->f10A0;
         if (v != -1)
-            func_021E68F4((int)p, v);
+            POKETRADE_2D_MovePickedIconActor((int)p, v);
     }
 }

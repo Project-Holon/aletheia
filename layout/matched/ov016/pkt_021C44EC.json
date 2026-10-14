@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C44EC",
+   "name": "DWCi_SceneOptMovWait_DetectFold",
    "address": "0x021C44EC",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C48E4",
+   "name": "DWCi_SceneOptMovWait_DetectFoldEnd",
    "address": "0x021C48E4",
    "kind": "sdk",
    "region": "ov016",

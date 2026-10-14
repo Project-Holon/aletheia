@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7A4
+ * function: ZUKAN_DETAIL_HEADBAR_Update
  * address: 0x021BE7A4
  * packet: pkt_ov208_021BE7A4
  * region: ov208
@@ -22,7 +22,7 @@ extern u32 func_02040804(u32 layer);
 extern void func_02041EE4(unsigned,unsigned,unsigned);
 extern void func_021BE9CC(struct Ov208Icon *);
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
-void func_021BE7A4(struct Ov208Icon *p)
+void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
 {
     switch(p->f8) {
     case 0: case 2: break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F75C0
+ * function: WORLDTRADE_DEPOSIT_SetupBgPlanes
  * address:  0x021F75C0
  * packet:   pkt_021F75C0
  * region:   ov135
@@ -75,7 +75,7 @@ extern struct BgTemplate g_02202F84;
 extern struct BgTemplate g_02202F44;
 extern struct BgTemplate g_02202FA4;
 
-void func_021F75C0(void)
+void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
 {
     {
         struct BgTemplate t = g_02202F64;

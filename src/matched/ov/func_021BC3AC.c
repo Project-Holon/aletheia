@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3AC
+ * function: ZUKAN_DETAIL_COMMON_GetFont
  * address:  0x021BC3AC
  * packet:   pkt_021BC3A4
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-int func_021BC3AC(int *p)
+int ZUKAN_DETAIL_COMMON_GetFont(int *p)
 {
     return p[2];
 }

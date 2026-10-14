@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC4C8
+ * function: ZUKAN_DETAIL_COMMON_IsBlendBusy
  * address:  0x021BC4C8
  * packet:   pkt_ov208_021BC4C8
  * region:   ov208
@@ -19,7 +19,7 @@ struct Ov208Blend {
     int wait;
 };
 
-int ov208_func_021BC4C8(struct Ov208Blend *p)
+int ZUKAN_DETAIL_COMMON_IsBlendBusy(struct Ov208Blend *p)
 {
     if (p->step != 0)
         return 1;

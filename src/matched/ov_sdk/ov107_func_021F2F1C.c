@@ -1,5 +1,5 @@
 /*
- * function: func_021F2F1C
+ * function: MB_GetSegmentLength
  * address:  0x021F2F1C
  * packet:   pkt_ov107_021F2F1C
  * region:   ov107
@@ -33,7 +33,7 @@ extern u32 func_02078AEC(struct FSFile *file);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 
-u32 func_021F2F1C(void *file)
+u32 MB_GetSegmentLength(void *file)
 {
     u8 rom[96];
     RomHeader *p;

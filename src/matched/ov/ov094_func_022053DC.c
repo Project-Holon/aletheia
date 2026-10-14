@@ -1,5 +1,5 @@
 /*
- * function: func_022053DC
+ * function: BTLV_INPUT_InitButtonState
  * address: 0x022053DC
  * packet: pkt_ov094_022053DC
  * region: ov094
@@ -15,8 +15,8 @@
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_POKEPARAM_GetMovePP 0x021D5528 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_02204CC0 0x02204CC0 thumb ov094
- *   func_02205F88 0x02205F88 thumb ov094
+ *   BTLV_INPUT_DrawWazaButtons 0x02204CC0 thumb ov094
+ *   BTLV_INPUT_CreateBackActor 0x02205F88 thumb ov094
  *   PALANM_RequestFadeOverwrite 0x02021848 thumb
  *   d_0220A386 0x0220A386 data a1
  */
@@ -34,13 +34,13 @@ extern u16 BTL_POKEPARAM_GetMovePP(u8 *, u8, u8 *, u8 *);
 extern int BTL_POKEPARAM_IsFainted(void *);
 struct Slots;
 struct Work;
-extern void func_02204CC0(struct Work *p, const struct Slots *q);
-extern void func_02205F88(char *p);
+extern void BTLV_INPUT_DrawWazaButtons(struct Work *p, const struct Slots *q);
+extern void BTLV_INPUT_CreateBackActor(char *p);
 extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 extern const Palette d_0220A386[];
 #define INDEX (((Flags *)m)->index)
 #define OBJECT (*(u8 **)(m + INDEX * 4 + 0x2a4))
-void func_022053DC(char *m)
+void BTLV_INPUT_InitButtonState(char *m)
 {
     int i;
     Buffer buf;
@@ -51,7 +51,7 @@ void func_022053DC(char *m)
     }
     for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)OBJECT); i++)
         buf.value[i] = BTL_POKEPARAM_GetMovePP(OBJECT, i, &buf.a[i], &buf.b[i]);
-    func_02204CC0((struct Work *)m, (const struct Slots *)(&buf));
+    BTLV_INPUT_DrawWazaButtons((struct Work *)m, (const struct Slots *)(&buf));
     ((struct Obj00168 *)m)->f25F = d_0220A386[INDEX].first;
     ((struct Obj00168 *)m)->f260 = d_0220A386[INDEX].second;
     ((struct Obj00168 *)m)->f220 = 1;
@@ -69,7 +69,7 @@ void func_022053DC(char *m)
     }
     if (((struct Obj00168 *)m)->f220 == 1) {
         ((struct Obj00168 *)m)->f25A = 1;
-        func_02205F88(m);
+        BTLV_INPUT_CreateBackActor(m);
         PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         return;

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC758
+ * function: ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots
  * address:  0x021BC758
  * packet:   pkt_ov208_021BC758
  * region:   ov208
@@ -26,7 +26,7 @@ struct Ov208PalFade {
 struct PalAnmSlot;
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
-void ov208_func_021BC758(struct Ov208PalFade *p)
+void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p)
 {
     if (p->mask & 1)
         PALANM_CopyHwPaletteToSlot(p->slots, 0, 0, 0x1a0);

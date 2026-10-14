@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A5C
+ * function: CircleGraph_StartHold
  * address:  0x021C1A5C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Stores a constant 1 at offset 0x14 and the argument at offset 0x18.
- * Reached only from the tail-call veneer func_021C118C.
+ * Reached only from the tail-call veneer CircleGraph_HoldUpdate.
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef struct {
     u32 value;
 } Rec;
 
-void func_021C1A5C(Rec *p, u32 v)
+void CircleGraph_StartHold(Rec *p, u32 v)
 {
     p->flag = 1;
     p->value = v;

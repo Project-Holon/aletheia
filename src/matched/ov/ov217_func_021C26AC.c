@@ -1,5 +1,5 @@
 /*
- * function: func_021C26AC
+ * function: GRAPHTABLE_FindEntry
  * address:  0x021C26AC
  * packet:   pkt_ov217_021C26AC
  * region:   ov217
@@ -12,7 +12,7 @@
  * Const base pointer, i declared before e, e assigned in its own statement.
  *
  * symbols:
- *   func_021C2684  0x021C2684  thumb  ov217
+ *   GRAPHTABLE_FindGroup  0x021C2684  thumb  ov217
  */
 
 typedef unsigned char u8;
@@ -22,13 +22,13 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021C2684(void *p, u32 v);
+extern u32 GRAPHTABLE_FindGroup(void *p, u32 v);
 
-u32 func_021C26AC(const u8 *p, u8 unused, u8 key)
+u32 GRAPHTABLE_FindEntry(const u8 *p, u8 unused, u8 key)
 {
     s32 i;
     const u8 *e;
-    e = p + 4 + func_021C2684((void *)p, unused) * 0xd4;
+    e = p + 4 + GRAPHTABLE_FindGroup((void *)p, unused) * 0xd4;
     for (i = 0; i < e[1]; i++) {
         if (key == *(u16 *)(e + 8 + i * 0xc))
             return (u8)i;

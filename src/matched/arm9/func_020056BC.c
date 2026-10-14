@@ -15,7 +15,7 @@
  * Unlabelled Thumb leaf in the ARM9 module (disasm.py emits it as ARM
  * because nothing saves lr). Reads a pointer field out of the data object
  * d_020AA194 (+0x10), then a word at +0x20 of that. Called by the ov119
- * wrappers func_021E71F0/func_021E7208.
+ * wrappers POKETRADE_2D_ScheduleMainPlaneVisible/POKETRADE_2D_ScheduleSubPlaneVisible.
  *
  * Addresses are Black-image addresses.
  */

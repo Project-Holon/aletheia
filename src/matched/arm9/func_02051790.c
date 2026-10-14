@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Copies the vector at offset 0x34 out. Filed as the witness for ov094 func_021FD1CC.
+ * Copies the vector at offset 0x34 out. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 
 typedef struct {

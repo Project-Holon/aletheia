@@ -1,5 +1,5 @@
 /*
- * function: func_0220AF94
+ * function: BR_MAIN_Exit
  * address:  0x0220AF94
  * packet:   pkt_0220AF94
  * region:   ov187
@@ -13,7 +13,7 @@
  *   STRBUF_Delete   0x02045808  arm
  *   func_020315D4   0x020315D4  arm
  *   func_020306F0   0x020306F0  arm
- *   func_0220B0CC   0x0220B0CC  thumb
+ *   BR_MAIN_FreeSceneManager   0x0220B0CC  thumb
  *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *
  * Tear down the four table slots at p+0x1780 when p+0x17C4 is set, then
@@ -27,10 +27,10 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-extern void func_0220B0CC(int *);
+extern void BR_MAIN_FreeSceneManager(int *);
 extern void BATTLE_REC_FreeWork(void);
 
-int func_0220AF94(int a, int b, int c, char *p)
+int BR_MAIN_Exit(int a, int b, int c, char *p)
 {
     int i;
     if (((struct Obj24882 *)p)->f17C4 != 0) {
@@ -40,7 +40,7 @@ int func_0220AF94(int a, int b, int c, char *p)
                 STRBUF_Delete((struct U16Vec *)v);
         }
     }
-    func_0220B0CC((int *)p);
+    BR_MAIN_FreeSceneManager((int *)p);
     BATTLE_REC_FreeWork();
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x59);

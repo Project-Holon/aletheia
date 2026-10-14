@@ -1,5 +1,5 @@
 /*
- * function: func_021F99D0
+ * function: WORLDTRADE_INPUT_MenuDelete
  * address:  0x021F99D0
  * packet:   pkt_021F99D0
  * region:   ov135
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02202744  0x02202744  thumb  ov135
- *   func_022029D4  0x022029D4  thumb  ov135
+ *   WORLDTRADE_ADAPTER_ExitPrinter  0x02202744  thumb  ov135
+ *   WORLDTRADE_ADAPTER_ExitMessageSystem  0x022029D4  thumb  ov135
  *   BGWINFRM_Delete  0x0202CA0C  thumb  arm9
  *
 
@@ -26,15 +26,15 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 struct WinMgr;
-extern void func_02202744(u8 *p);
-extern void func_022029D4(u8 *p);
+extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
+extern void WORLDTRADE_ADAPTER_ExitMessageSystem(u8 *p);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern u32 func_020307B0(void *p);
 
-void func_021F99D0(u8 *p)
+void WORLDTRADE_INPUT_MenuDelete(u8 *p)
 {
-    func_02202744(p + 0x7c);
-    func_022029D4(*(u8 * *)&((struct Obj12206 *)p)->f34);
+    WORLDTRADE_ADAPTER_ExitPrinter(p + 0x7c);
+    WORLDTRADE_ADAPTER_ExitMessageSystem(*(u8 * *)&((struct Obj12206 *)p)->f34);
     BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj12206 *)p)->f18);
     func_020307B0((void *)((u32)p));
 }

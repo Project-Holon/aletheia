@@ -1,5 +1,5 @@
 /*
- * function: func_021F4FC4
+ * function: WORLDTRADE_DeleteTimeIcon
  * address:  0x021F4FC4
  * packet:   pkt_021F4FC4
  * region:   ov135
@@ -30,7 +30,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
-void func_021F4FC4(u8 *p)
+void WORLDTRADE_DeleteTimeIcon(u8 *p)
 {
     if (((struct Obj00018 *)p)->fDF8 != 0) {
         TIME_ICON_Delete((u8 *)(((struct Obj00018 *)p)->fDF8));

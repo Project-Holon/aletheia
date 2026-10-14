@@ -1,5 +1,5 @@
 /*
- * function: func_0220B0CC
+ * function: BR_MAIN_FreeSceneManager
  * address:  0x0220B0CC
  * packet:   pkt_0220B0CC
  * region:   ov187
@@ -23,7 +23,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0203133C(struct S020314B8 *p);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-void func_0220B0CC(int *p)
+void BR_MAIN_FreeSceneManager(int *p)
 {
     if (((struct Obj14488 *)p)->f8 != 0)
         func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);

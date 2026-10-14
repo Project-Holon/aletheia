@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0F0
+ * function: POKETRADE_NEGO_StepSendConfirm
  * address:  0x021DE0F0
  * packet:   pkt_ov119_021DE0F0
  * region:   ov119
@@ -13,8 +13,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
- *   func_021D8E84  0x021D8E84  thumb  ov119
- *   func_021DDF74  0x021DDF74  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
+ *   POKETRADE_NEGO_StepResolveConfirm  0x021DDF74  thumb  ov119
  */
 
 typedef unsigned char u8;
@@ -26,15 +26,15 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
-extern void func_021D8E84(void *p, int next);
-extern void func_021DDF74(char *p);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
+extern void POKETRADE_NEGO_StepResolveConfirm(char *p);
 
-void func_021DE0F0(void *p)
+void POKETRADE_NEGO_StepSendConfirm(void *p)
 {
     u8 cmd;
     cmd = 0xB;
     if (GFL_NET_SendToHandle((struct Entry *)((u32)GFL_NET_HANDLE_GetCurrentHandle()), 0xC00, 1, (u32)(&cmd)) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8);
-        func_021D8E84(p, (int)func_021DDF74);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepResolveConfirm);
     }
 }

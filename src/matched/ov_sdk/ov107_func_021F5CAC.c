@@ -1,5 +1,5 @@
 /*
- * function: func_021F5CAC
+ * function: MBi_StartParentCore
  * address:  0x021F5CAC
  * packet:   pkt_ov107_021F5CAC
  * region:   ov107
@@ -19,10 +19,10 @@
  *   func_021F6830  0x021F6830  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F3F78  0x021F3F78  arm  ov107
- *   func_021F5BE0  0x021F5BE0  arm  ov107
+ *   MBi_StartCommon  0x021F5BE0  arm  ov107
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   PXI_IsCallbackReady  0x020885EC  arm
- *   func_021F1D80  0x021F1D80  arm  ov107
+ *   MBi_CommParentCallback  0x021F1D80  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
  *   g_021F6F90     0x021F6F90  data
  */
@@ -42,16 +42,16 @@ extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F3F78(void);
-extern int func_021F5BE0(void);
+extern int MBi_StartCommon(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int PXI_IsCallbackReady(int fifotag, int proc);
-extern void func_021F1D80(u16 type, void *arg);
+extern void MBi_CommParentCallback(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 
 #define WM   (*(u8 **)(((unsigned char *)&g_021F6F90) + 0xC))
 #define PBUF (*(u8 **)(((unsigned char *)&g_021F6F90) + 0x10))
 
-int func_021F5CAC(int channel)
+int MBi_StartParentCore(int channel)
 {
     int i;
     int ret;
@@ -77,14 +77,14 @@ int func_021F5CAC(int channel)
     MI_CpuFill8(PBUF + 0x354 + 0x1400, ret, 0x1e);
     ret = 1;
     *(u16 *)(WM + 0x500 + 0x24) = ret;
-    *(void **)(WM + 0x51c) = (void *)func_021F1D80;
+    *(void **)(WM + 0x51c) = (void *)MBi_CommParentCallback;
     *(void **)(WM + 0x508) = (void *)func_021F46C8;
     *(u16 *)(WM + 0x34) = *(u16 *)(WM + 0x500);
     *(u16 *)(WM + 0x500 + 0x18) = (*(u16 *)(WM + 0x34) + 0x23) & ~0x1f;
     *(u16 *)(WM + 0x36) = *(u16 *)(WM + 0x502);
     *(u16 *)(WM + 0x500 + 0x1a) = (((*(u16 *)(WM + 0x36) + 0xe) * 15 + 0x29) & ~0x1f) << 1;
     func_021F3F78();
-    i = func_021F5BE0();
+    i = MBi_StartCommon();
     OS_RestoreInterrupts(enabled);
     *(int *)(PBUF + 0x7000 + 0x4c8) = PXI_IsCallbackReady(0xf, ret);
     return i;

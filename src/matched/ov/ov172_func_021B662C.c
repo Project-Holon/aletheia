@@ -1,5 +1,5 @@
 /*
- * function: func_021B662C
+ * function: CTVT_CAMERA_OnVsync
  * address: 0x021B662C
  * packet: pkt_ov172_021B662C
  * region: ov172
@@ -12,7 +12,7 @@
  *   func_021B6698 0x021B6698 arm ov172
  *   func_021B66A0 0x021B66A0 arm ov172
  *   func_021B66A8 0x021B66A8 arm ov172
- *   func_021B644C 0x021B644C thumb ov172
+ *   CTVT_CAMERA_StartFrameDma 0x021B644C thumb ov172
  *   OS_Terminate 0x02088234 arm
  *   g_021C88E0 0x021C88E0 data a4
  */
@@ -22,10 +22,10 @@ extern int OS_IsRunOnTwl(void);
 extern int func_021B6698(u32);
 extern void func_021B66A0(void);
 extern void func_021B66A8(void);
-extern void func_021B644C(char *);
+extern void CTVT_CAMERA_StartFrameDma(char *);
 extern void OS_Terminate(void);
 extern char *g_021C88E0;
-void func_021B662C(void)
+void CTVT_CAMERA_OnVsync(void)
 {
     char *p = g_021C88E0;
     u32 v;
@@ -39,7 +39,7 @@ void func_021B662C(void)
             ((struct Obj03311 *)p)->f20 = 0;
         }
         if (((struct Obj03311 *)p)->f1C != 0) {
-            func_021B644C(p);
+            CTVT_CAMERA_StartFrameDma(p);
             if (OS_IsRunOnTwl() == 1) func_021B66A0();
             if (OS_IsRunOnTwl() == 1) func_021B66A8();
             ((struct Obj03311 *)p)->f1C = 0;

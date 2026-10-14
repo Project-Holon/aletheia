@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AA8
+ * function: BTLV_STAGE_ArmLayerEntry
  * address:  0x021F6AA8
  * packet:   pkt_ov094_021F6AA8
  * region:   ov094
@@ -23,7 +23,7 @@ typedef struct {
     Entry *tab[1];
 } Obj;
 
-void func_021F6AA8(Obj *p, int i, int j, int a, int b)
+void BTLV_STAGE_ArmLayerEntry(Obj *p, int i, int j, int a, int b)
 {
     if (p->tab[i][j].state == 1) {
         p->tab[i][j].armed = 1;

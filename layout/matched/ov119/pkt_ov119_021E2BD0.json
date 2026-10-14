@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E2BD0",
-    "func_021E2C34"
+    "POKETRADE_SAVE_SetCameraTrade",
+    "POKETRADE_SAVE_Update3DParticles"
+   ],
+   "addresses": [
+    "0x021E2BD0",
+    "0x021E2C34"
    ]
   }
  ]

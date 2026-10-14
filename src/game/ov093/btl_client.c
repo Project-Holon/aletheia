@@ -444,16 +444,16 @@
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_021F88BC 0x021F88BC thumb ov094
- *   func_021F8678 0x021F8678 thumb ov094
+ *   BTLV_EFFECT_SetFlag26 0x021F88BC thumb ov094
+ *   BTLV_EFFECT_GetWorkPtr 0x021F8678 thumb ov094
  *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
  *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
  *   gBtlClientCommandTable 0x021EFFEC data a4
- *   func_021F8524 0x021F8524 thumb ov094
+ *   BTLV_EFFECT_TimerIsExpired 0x021F8524 thumb ov094
  *   BTLV_CORE_StartOpening  0x021E90A0  thumb  ov093
  *   BTLV_CORE_PollOpening  0x021E90D0  thumb  ov093
- *   func_021F84E8  0x021F84E8  thumb  ov094
- *   func_021F8504  0x021F8504  thumb  ov094
+ *   BTLV_EFFECT_TimerStart  0x021F84E8  thumb  ov094
+ *   BTLV_EFFECT_TimerSetVisible  0x021F8504  thumb  ov094
  *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
  *   BTLV_CORE_InitInputWork  0x021EAA00  thumb  ov093
@@ -478,14 +478,14 @@
  *   BTL_PICK_Pop 0x0689CB08 thumb ov095
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
- *   func_021F7F58 0x021F7F58 thumb ov094
- *   func_021F7998 0x021F7998 thumb ov094
+ *   BTLV_EFFECT_AddPokeSprite 0x021F7F58 thumb ov094
+ *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
  *   BTLV_CORE_PrintTrainerMessage 0x021EA6B0 thumb ov093
  *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
- *   func_021F87EC 0x021F87EC thumb ov094
- *   func_021F8774 0x021F8774 thumb ov094
+ *   BTLV_EFFECT_SaveBgmNo 0x021F87EC thumb ov094
+ *   BTLV_EFFECT_PollLowHpBgm 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   func_0202A298 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
@@ -546,7 +546,7 @@
  *   BTL_REC_AppendPacket  0x021EE608  thumb  ov093
  *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
- *   func_021F878C   0x021F878C  thumb ov094
+ *   BTLV_EFFECT_StopLowHpBgm   0x021F878C  thumb ov094
  *   BTLV_CORE_PrintMessageBuffer 0x021EA600 thumb ov093
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
@@ -573,7 +573,7 @@
  *   BTLV_CORE_ProcMultiDamageEffect  0x021EA2BC  thumb  ov093
  *   BTLV_CORE_StartMonSpriteUpdate  0x021EA384  thumb  ov093
  *   BTLV_CORE_WaitMonSpriteUpdate  0x021EA3A0  thumb  ov093
- *   func_021F81D0  0x021F81D0  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetStatusIcon  0x021F81D0  thumb  ov094
  *   BTLV_CORE_StartMonReset  0x021EA40C  thumb  ov093
  *   BTLV_CORE_WaitMonReset  0x021EA428  thumb  ov093
  *   BTLV_CORE_StartMonRefresh  0x021EA438  thumb  ov093
@@ -588,8 +588,8 @@
  *   BTLV_CORE_WaitSlotEffect25F  0x021EA850  thumb  ov093
  *   BTLV_CORE_StartRotation  0x021EA904  thumb  ov093
  *   BTLV_CORE_WaitRotation  0x021EA950  thumb  ov093
- *   func_021F7E94 0x021F7E94 thumb ov094
- *   func_021F7EA4  0x021F7EA4  thumb  ov094
+ *   BTLV_EFFECT_StartPokeEffectId26E 0x021F7E94 thumb ov094
+ *   BTLV_EFFECT_StartPokeEffectId26F  0x021F7EA4  thumb  ov094
  *   BTLV_CORE_StartMonSpriteChangeAt  0x021EA8B4  thumb  ov093
  *   BTLV_CORE_WaitMonSpriteChangeAt  0x021EA8D4  thumb  ov093
  *   BTLV_CORE_StartHitAnim  0x021EA1B8  thumb  ov093
@@ -597,12 +597,12 @@
  *   BTLV_CORE_StartMonSpriteUnload 0x021EA8E4 thumb ov093
  *   BTLV_CORE_WaitMonSpriteUnload 0x021EA8F4 thumb ov093
  *   gEffortValueParams     0x021EFF88  data  ov093  a2
- *   func_021F8204 0x021F8204 thumb ov094
- *   func_021F8134 0x021F8134 thumb ov094
- *   func_021F8180 0x021F8180 thumb ov094
+ *   BTLV_EFFECT_GaugeIsSlotOccupied 0x021F8204 thumb ov094
+ *   BTLV_EFFECT_GaugeStartExpGain 0x021F8134 thumb ov094
+ *   BTLV_EFFECT_GaugeIsAnimating 0x021F8180 thumb ov094
  *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
- *   func_021F8150 0x021F8150 thumb ov094
+ *   BTLV_EFFECT_GaugeRefreshForLevelUp 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
  *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
@@ -624,11 +624,11 @@
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
  *   sLevelUpMoveScan      0x021F3B64  data
- *   func_021F7CFC 0x021F7CFC thumb ov094
- *   func_021F883C 0x021F883C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StopLowHpBgmAndSuppress 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
- *   func_021F7C0C 0x021F7C0C thumb ov094
- *   func_021F7D44  0x021F7D44  thumb  ov094
+ *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
+ *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
  *   BTLV_CORE_StartClearSidePosition  0x021EAA6C  thumb  ov093
  *   BTLV_CORE_RunProc  0x021EAAD8  thumb  ov093
  *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
@@ -720,7 +720,7 @@
  *   BTLV_CORE_PollCounterInput 0x021EAE64 thumb ov093
  *   BTLV_CORE_StartFadeIn 0x021EAE04 thumb ov093
  *   BTLV_CORE_SetCounterValueMode 0x021EAECC thumb ov093
- *   func_021F8B10 0x021F8B10 thumb ov094
+ *   BTLV_EFFECT_SuspendVmWait 0x021F8B10 thumb ov094
  *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
@@ -1170,15 +1170,15 @@ extern int GFL_USE_IsBgmFading(void);
 extern void PM_VOICE_SetMasterVolume(u8);
 extern void BTLV_CORE_ClearWaitWindow(u8 *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void func_021F88BC(int);
-extern void *func_021F8678(void);
+extern void BTLV_EFFECT_SetFlag26(int);
+extern void *BTLV_EFFECT_GetWorkPtr(void);
 extern int BTLV_CORE_GetWaitState(u8 *p);
 extern void BTLV_CORE_SetCounterDisplay(char *p, u32 a, u32 b);
-extern int func_021F8524(int);
+extern int BTLV_EFFECT_TimerIsExpired(int);
 extern void BTLV_CORE_StartOpening(unsigned int *o, unsigned int key);
 extern int BTLV_CORE_PollOpening(void *s);
-extern void func_021F84E8(int a, int b);
-extern void func_021F8504(u32 a, u32 b, u32 c);
+extern void BTLV_EFFECT_TimerStart(int a, int b);
+extern void BTLV_EFFECT_TimerSetVisible(u32 a, u32 b, u32 c);
 extern void BTLV_CORE_ShowCounterValue(u8 *p, int v);
 extern int BTL_REC_ReadSkipFlag(int, int);
 extern void BTLV_CORE_InitInputWork(u8 *p, u8 v);
@@ -1203,14 +1203,14 @@ extern void BTLV_CORE_CloseMenuToReselect(u32);
 extern void BTL_PICK_Pop(u8 *);
 extern int BTLV_CORE_IsMenuClosed(u32);
 extern void BTLV_CORE_CloseMenu(void *);
-extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void func_021F7998(u32 a);
+extern void BTLV_EFFECT_AddPokeSprite(int, u32, u32, u32, u32);
+extern void BTLV_EFFECT_StartEffect(u32 a);
 extern int BTLV_CORE_PrintTrainerMessage(char *, u16, u16);
 extern int BTL_CALC_IsGymLeaderTrainer(u32 n);
-extern void func_021F87EC(u32);
-extern int func_021F8774(void);
+extern void BTLV_EFFECT_SaveBgmNo(u32);
+extern int BTLV_EFFECT_PollLowHpBgm(void);
 extern void GFL_USE_FadeOutBgm(u32);
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 extern u32 func_0202A298(u32,u32,u32);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern void BTLV_CORE_StartMoveMenu(char *p, u8 *a, int b);
@@ -1269,7 +1269,7 @@ extern void BTL_ACTION_SetChangeDepleted(u32 *p);
 extern void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n);
 extern u8 BTL_REC_GetPacketId(u8 *p);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void func_021F878C(u32 a);
+extern void BTLV_EFFECT_StopLowHpBgm(u32 a);
 extern void BTLV_CORE_PrintMessageBuffer(char *p);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
@@ -1296,7 +1296,7 @@ extern void BTLV_CORE_StartMultiDamageEffect(char *ctx, u32 n, int b, const u8 *
 extern int BTLV_CORE_ProcMultiDamageEffect(char *ctx);
 extern void BTLV_CORE_StartMonSpriteUpdate(char *ctx, int a);
 extern int BTLV_CORE_WaitMonSpriteUpdate(u32 *p);
-extern void func_021F81D0(u32 a, u32 b);
+extern void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b);
 extern void BTLV_CORE_StartMonReset(char *ctx, int a);
 extern int BTLV_CORE_WaitMonReset(u32 *p);
 extern void BTLV_CORE_StartMonRefresh(u32 *p, u32 a2);
@@ -1310,20 +1310,20 @@ extern void BTLV_CORE_StartSlotEffect25F(u32 *p, u32 k);
 extern int BTLV_CORE_WaitSlotEffect25F(u32 *p, u32 k);
 extern void BTLV_CORE_StartRotation(void *w, u32 a, u32 b, u32 c, int d, int e);
 extern int BTLV_CORE_WaitRotation(void *w);
-extern void func_021F7E94(int a);
-extern void func_021F7EA4(u32 v);
+extern void BTLV_EFFECT_StartPokeEffectId26E(int a);
+extern void BTLV_EFFECT_StartPokeEffectId26F(u32 v);
 extern void BTLV_CORE_StartMonSpriteChangeAt(char *ctx, u32 a, u32 b);
 extern int BTLV_CORE_WaitMonSpriteChangeAt(u32 *p);
 extern void BTLV_CORE_StartHitAnim(void *s, u32 a, int b, int c);
 extern int BTLV_CORE_WaitHitAnim(void *s);
 extern void BTLV_CORE_StartMonSpriteUnload(u32 *p);
 extern int BTLV_CORE_WaitMonSpriteUnload(u32 *p);
-extern int func_021F8204(int);
-extern void func_021F8134(int, u32);
-extern int func_021F8180(void);
+extern int BTLV_EFFECT_GaugeIsSlotOccupied(int);
+extern void BTLV_EFFECT_GaugeStartExpGain(int, u32);
+extern int BTLV_EFFECT_GaugeIsAnimating(void);
 extern void BTL_EVENT_ReleaseClientHandle(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
-extern void func_021F8150(int, void *);
+extern void BTLV_EFFECT_GaugeRefreshForLevelUp(int, void *);
 extern int GFL_USE_IsAnySeBusy(void);
 extern void BTLV_CORE_StartViewEffect(char *ctx, int a, int b);
 extern int BTLV_CORE_WaitViewEffect(void *);
@@ -1343,10 +1343,10 @@ extern void BTLV_CORE_BuildAndPrintMessageFlag(char *p, void *h, int c);
 extern void BTLV_CORE_StartMoveForgetScreen(u8 *p, u8 a, int c);
 extern int BTLV_CORE_ProcMoveForgetScreen(u8 *p, u8 *out);
 extern void func_020181F4(void *p, u16 move, u32 slot);
-extern void func_021F7CFC(u32, u16, u8, int, int);
-extern void func_021F883C(u32);
-extern void func_021F7C0C(void);
-extern void func_021F7D44(int a, u16 b);
+extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
+extern void BTLV_EFFECT_StopLowHpBgmAndSuppress(u32);
+extern void BTLV_EFFECT_ResumeVm(void);
+extern void BTLV_EFFECT_StartEffectWithValue(int a, u16 b);
 extern void BTLV_CORE_StartClearSidePosition(u32 a, int b, int c);
 extern int BTLV_CORE_RunProc(u32 a);
 extern void BTLV_CORE_ShowPortrait(u32 *p, u32 a2, u32 a3);
@@ -1474,7 +1474,7 @@ extern u8 BTL_POKEPARAM_GetCritStage(struct BtlPokeParam *p);
 extern int BTLV_CORE_PollCounterInput(void *);
 extern void BTLV_CORE_StartFadeIn(u32 *p);
 extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
-extern int func_021F8B10(void);
+extern int BTLV_EFFECT_SuspendVmWait(void);
 extern int BTLV_CORE_PollFadeInDone(u32 *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -1998,7 +1998,7 @@ int BTL_CLIENT_StepRemote(BtlClient *client)
                 GFL_USE_SetPlayersAudible(1,1);
                 BTLV_CORE_ClearWaitWindow(client->view);
                 GFL_USE_FadeInBgmFull(30);
-                func_021F88BC(0);
+                BTLV_EFFECT_SetFlag26(0);
                 PM_VOICE_ResetMasterVolume();
             }
             client->stepPhase = 4;
@@ -2008,7 +2008,7 @@ int BTL_CLIENT_StepRemote(BtlClient *client)
         if ((client->stepFn)(client,&client->stepState)) {
             client->stepPhase = 3;
             client->stepState = 0;
-            if (func_021F8678()) func_021F88BC(1);
+            if (BTLV_EFFECT_GetWorkPtr()) BTLV_EFFECT_SetFlag26(1);
         }
         break;
     case 3:
@@ -2058,14 +2058,14 @@ void BTL_CLIENT_GetCursor(BtlClient *client, int *outCursor)
  * unresolved THM_CALL at +0x14. Region hint ov094 does not supply a witness.
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F8524 is an ov094 Thumb wrapper (pool-based tail), other overlay, not filed here (ov094 belongs to another owner). Integrator: seed label.
  */
-int BTL_CLIENT_IsWindowWaiting(BtlClient *client) { if(client->kind!=2) { if(client->timeElapsed) return func_021F8524(0); return 0; } return client->flags.bit.windowOpen; }
+int BTL_CLIENT_IsWindowWaiting(BtlClient *client) { if(client->kind!=2) { if(client->timeElapsed) return BTLV_EFFECT_TimerIsExpired(0); return 0; } return client->flags.bit.windowOpen; }
 
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client) { return client->flags.bit.windowDone; }
 
 /*
  * Levers (from the DIFF note): case 0 is the call written in each arm, `!= 4` arm first
  * (a-boolean-argument-is-a-call-in-each-arm.md; a flag value hoists `movs r1,#1`);
- * func_021F84E8 takes two arguments as its own file says, the second being the 0xe4
+ * BTLV_EFFECT_TimerStart takes two arguments as its own file says, the second being the 0xe4
  * halfword still live in r1 from the || test; BTL_CLIENT_GetCounterTarget is declared u32 here because
  * the original narrows its result before the u16 parameter of BTLV_CORE_ShowCounterValue.
  */
@@ -2087,9 +2087,9 @@ int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
         client->timeLimit = BTL_MAIN_GetLimitTimeCommand(client->main);
         client->timeElapsed = BTL_MAIN_GetLimitTimeGame(client->main);
         if (client->timeLimit != 0 || client->timeElapsed != 0) {
-            func_021F84E8(client->timeElapsed, client->timeLimit);
+            BTLV_EFFECT_TimerStart(client->timeElapsed, client->timeLimit);
             if (client->timeElapsed != 0) {
-                func_021F8504(0, 1, 1);
+                BTLV_EFFECT_TimerSetVisible(0, 1, 1);
             }
         }
         BTL_CLIENT_StoreMonParam(client);
@@ -2208,16 +2208,16 @@ int BTL_CLIENT_ReturnTrue(void)
 
 void BTL_CLIENT_StartWindowModeSend(BtlClient *client) { client->windowMode=BTL_CLIENT_PickWindowMode(client->windowMode); client->sendData=&client->windowMode; client->sendSize=1; }
 
-void BTL_CLIENT_StartTimeLimit(BtlClient *client) { if(client->timeLimit) { func_021F8504(1,1,1); client->limitReady=0; } }
+void BTL_CLIENT_StartTimeLimit(BtlClient *client) { if(client->timeLimit) { BTLV_EFFECT_TimerSetVisible(1,1,1); client->limitReady=0; } }
 
 /*
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Same blocker as 021CDDA0: ov094 0x021F8524 needs a label/witness.
  */
-int BTL_CLIENT_PollTimeLimitReady(BtlClient *client) { if(client->timeLimit!=0) { if(client->limitReady==0) { if(func_021F8524(1)) client->limitReady=1; } return client->limitReady; } return 0; }
+int BTL_CLIENT_PollTimeLimitReady(BtlClient *client) { if(client->timeLimit!=0) { if(client->limitReady==0) { if(BTLV_EFFECT_TimerIsExpired(1)) client->limitReady=1; } return client->limitReady; } return 0; }
 
 int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q) { if(BTL_CLIENT_PollTimeLimitReady(client)) { if(q) BTL_CLIENT_SetSubFn(client,q); return 1; } return 0; }
 
-void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) func_021F8504(1,0,0); }
+void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) BTLV_EFFECT_TimerSetVisible(1,0,0); }
 
 void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, struct BtlPokeParam *mon, u8 *outMessage)
 {
@@ -2514,13 +2514,13 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
         zero = 0;
         opponentClientId = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
         trainerId = BTL_MAIN_GetTrainerId(client->main, opponentClientId);
-        func_021F7F58(BTL_MAIN_GetTrainerType(client->main, opponentClientId), 9, 0, 0, zero);
-        func_021F7998(0x270);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, opponentClientId), 9, 0, 0, zero);
+        BTLV_EFFECT_StartEffect(0x270);
         BTLV_CORE_PrintTrainerMessage(client->view, trainerId, client->receivedCode);
         if ((u16)(client->receivedCode + 0xffed) <= 1 &&
             BTL_CALC_IsGymLeaderTrainer(BTL_MAIN_GetTrainerType(client->main, opponentClientId)) && !client->flags.bit.resultPending) {
-            func_021F87EC(0x47b);
-            if (!func_021F8774()) {
+            BTLV_EFFECT_SaveBgmNo(0x47b);
+            if (!BTLV_EFFECT_PollLowHpBgm()) {
                 GFL_USE_FadeOutBgm(8);
                 *state = 1;
                 break;
@@ -2536,13 +2536,13 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
         }
         break;
     case 2:
-        if (!func_021F7EB4() && BTLV_CORE_WaitMessage(client->view)) {
-            func_021F7998(0x271);
+        if (!BTLV_EFFECT_IsBusy() && BTLV_CORE_WaitMessage(client->view)) {
+            BTLV_EFFECT_StartEffect(0x271);
             ++*state;
         }
         break;
     case 3:
-        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
+        if (!BTLV_EFFECT_IsBusy()) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
         break;
     }
     return 0;
@@ -3059,7 +3059,7 @@ u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st)
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTL_CLIENT_StopTimeLimit(client);
             *st = *st + 1;
             return 1;
@@ -4445,7 +4445,7 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
     switch (*state) {
     case 0:
         if (BTL_CLIENT_GetOutcomeForClient(client) == 1) {
-            func_021F878C(BTL_MAIN_GetWinBgm(client->main));
+            BTLV_EFFECT_StopLowHpBgm(BTL_MAIN_GetWinBgm(client->main));
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             secondTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
             if (firstTrainerIndex == secondTrainerIndex) {
@@ -4472,13 +4472,13 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
     case 1:
         if (BTLV_CORE_WaitMessage(client->view)) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
-            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             *state = 2;
         }
         break;
     case 2:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             BTLV_CORE_PrintTrainerMessage(client->view, BTL_MAIN_GetTrainerId(client->main, firstTrainerIndex), 1);
             *state = 3;
@@ -4488,7 +4488,7 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view)) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             if (firstTrainerIndex != BTL_MAIN_GetOwnOpponentClient(client->main, 1)) {
-                func_021F7998(0x271);
+                BTLV_EFFECT_StartEffect(0x271);
                 *state = 4;
             } else {
                 *state = 7;
@@ -4496,15 +4496,15 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         }
         break;
     case 4:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
-            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
             BTLV_CORE_PrintTrainerMessage(client->view, BTL_MAIN_GetTrainerId(client->main, firstTrainerIndex), 1);
             *state = 6;
@@ -4595,17 +4595,17 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
         if (client->flags.bit.windowDone != 0) return 1;
         outcome = BTL_CLIENT_GetOutcomeForClient(client);
         BTL_MAIN_SetOutcomeIfUnset(client->main, outcome);
-        if (outcome == 1) func_021F878C(BTL_MAIN_GetWinBgm(client->main));
+        if (outcome == 1) BTLV_EFFECT_StopLowHpBgm(BTL_MAIN_GetWinBgm(client->main));
         if (outcome <= 1) {
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
-            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             BTL_CLIENT_ShowEndSpeech(client, outcome, 0);
             *state = 1;
         } else return 1;
         break;
     case 1:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTLV_CORE_PrintMessageBuffer(client->view);
             *state = 2;
         }
@@ -4614,22 +4614,22 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view) != 0) {
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             if (trainerIndex == BTL_MAIN_GetOwnOpponentClient(client->main, 1)) return 1;
-            func_021F7998(0x271);
+            BTLV_EFFECT_StartEffect(0x271);
             *state = 3;
         }
         break;
     case 3:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             outcome = BTL_CLIENT_GetOutcomeForClient(client);
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
-            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
-            func_021F7998(0x270);
+            BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
+            BTLV_EFFECT_StartEffect(0x270);
             BTL_CLIENT_ShowEndSpeech(client, outcome, 1);
             *state = 4;
         }
         break;
     case 4:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTLV_CORE_PrintMessageBuffer(client->view);
             *state = 5;
         }
@@ -5135,7 +5135,7 @@ int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *args)
         *state = *state + 1;
         break;
     case 1:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             return 1;
         }
         return 0;
@@ -5219,7 +5219,7 @@ int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *args)
     switch (*state) {
     case 0:
         t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
-        func_021F81D0(args[1], BTL_MAIN_GetViewPosOfSlot(client->main, t));
+        BTLV_EFFECT_GaugeSetStatusIcon(args[1], BTL_MAIN_GetViewPosOfSlot(client->main, t));
         *state = *state + 1;
         break;
     case 1:
@@ -5343,11 +5343,11 @@ int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args)
         if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
         if (weatherId < 5)
-            func_021F7998(gWeatherEffects[weatherId].b);
+            BTLV_EFFECT_StartEffect(gWeatherEffects[weatherId].b);
         (*state)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             BTLV_CORE_PrintSideMessage(client->view, gWeatherEffects[weatherId].a, 0);
             (*state)++;
         }
@@ -5476,11 +5476,11 @@ int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args
 {
     switch (*state) {
     case 0:
-        func_021F7998(0x281);
+        BTLV_EFFECT_StartEffect(0x281);
         (*state)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             u8 side = args[0], fromIndex = args[1];
             u32 trainerIndexA, trainerIndexB, trainerA, trainerB;
             trainerIndexA = BTL_MAIN_GetClientTrainerIndex(client->main, side, fromIndex);
@@ -5520,11 +5520,11 @@ int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *
 {
     switch (*state) {
     case 0:
-        func_021F7E94((u8)BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]));
+        BTLV_EFFECT_StartPokeEffectId26E((u8)BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]));
         (*state)++;
         break;
     case 1:
-        if (func_021F7EB4() == 0) return 1;
+        if (BTLV_EFFECT_IsBusy() == 0) return 1;
         break;
     }
     return 0;
@@ -5536,15 +5536,15 @@ int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *state, u32 *args)
     case 0: {
         u32 t = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)(*args));
         if (BTL_CLIENT_IsMainStepActive(client))
-            func_021F88BC(1);
-        func_021F7EA4(t);
+            BTLV_EFFECT_SetFlag26(1);
+        BTLV_EFFECT_StartPokeEffectId26F(t);
         (*state)++;
         break;
     }
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             if (BTL_CLIENT_IsMainStepActive(client))
-                func_021F88BC(0);
+                BTLV_EFFECT_SetFlag26(0);
             return 1;
         }
         break;
@@ -5597,7 +5597,7 @@ int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *state, u32 *args)
 
 int BTL_CLIENT_StepChangeBgm(int unusedClient, int unusedState, int *bgmId)
 {
-    func_021F878C(*bgmId);
+    BTLV_EFFECT_StopLowHpBgm(*bgmId);
     return 1;
 }
 
@@ -5654,7 +5654,7 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
     pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, pokeId);
     monSlot = BTL_MAIN_GetViewPosOfPoke(client->main, client->side, pokeId);
     gaugeActive = 0;
-    if (monSlot != 0xff && func_021F8204(monSlot)) gaugeActive = 1;
+    if (monSlot != 0xff && BTLV_EFFECT_GaugeIsSlotOccupied(monSlot)) gaugeActive = 1;
     switch (*state) {
     case 0:
         gExpGainWork.s.remaining = args[1];
@@ -5667,7 +5667,7 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
                 *state = 3;
             } else {
                 if (gaugeActive) {
-                    func_021F8134(monSlot, gExpGainWork.s.remaining);
+                    BTLV_EFFECT_GaugeStartExpGain(monSlot, gExpGainWork.s.remaining);
                     *state = 2;
                 } else *state = 13;
                 expRemaining = 0;
@@ -5676,18 +5676,18 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
         } else *state = 13;
         break;
     case 2:
-        if (!func_021F8180()) *state = 13;
+        if (!BTLV_EFFECT_GaugeIsAnimating()) *state = 13;
         break;
     case 3:
         BTL_EVENT_ReleaseClientHandle(pokeParam);
         BTL_POKEPARAM_ReloadFromParam(pokeParam);
         if (gaugeActive) {
-            func_021F8150(monSlot, pokeParam);
+            BTLV_EFFECT_GaugeRefreshForLevelUp(monSlot, pokeParam);
             *state = 4;
         } else *state = 6;
         break;
     case 4:
-        if (!func_021F8180() && !GFL_USE_IsAnySeBusy()) {
+        if (!BTLV_EFFECT_GaugeIsAnimating() && !GFL_USE_IsAnySeBusy()) {
             BTLV_CORE_StartViewEffect(client->view, monSlot, 0x25d);
             *state = 5;
         }
@@ -5917,16 +5917,16 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
 {
     switch (*state) {
     case 0:
-        func_021F7CFC(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[5], (u8)args[1], args[2], args[4]);
+        BTLV_EFFECT_StartEffectWithColor(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[5], (u8)args[1], args[2], args[4]);
         (*state)++;
         break;
     case 1:
-        if (!func_021F7EB4()) {
+        if (!BTLV_EFFECT_IsBusy()) {
             if (args[2]) {
                 struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x41);
                 func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
-                func_021F883C(0x518);
+                BTLV_EFFECT_StopLowHpBgmAndSuppress(0x518);
             } else {
                 int messageId;
                 if (args[1] < 4) messageId = gCatchShakeMessages[args[1]];
@@ -5947,7 +5947,7 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
         break;
     case 3:
         if (!GFL_USE_IsBgmPlaying()) {
-            func_021F7C0C();
+            BTLV_EFFECT_ResumeVm();
             GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             BTL_MAIN_SetKeepBgm(client->main);
             if (args[3]) {
@@ -5972,11 +5972,11 @@ int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
-        func_021F7D44(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
+        BTLV_EFFECT_StartEffectWithValue(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
         (*state)++;
         break;
     case 1:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x43);
             BTLV_CORE_BuildAndPrintMessage(client->view, ((u8 *)&client->messageA));
             (*state)++;
@@ -6194,10 +6194,10 @@ int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *a
 {
     if (*state == 0) {
         if (BTL_CLIENT_IsMainStepActive(client) != 0) return 1;
-        func_021F7998(args[0]);
+        BTLV_EFFECT_StartEffect(args[0]);
         (*state)++;
     } else {
-        if (func_021F7EB4() == 0) return 1;
+        if (BTLV_EFFECT_IsBusy() == 0) return 1;
     }
     return 0;
 }
@@ -6994,7 +6994,7 @@ void BTL_CLIENT_DisableCounter(BtlClientCounter *counter)
 }
 
 /*
- * note 2026-10-05: now verifies EXACT (func_021F8B10 resolves).
+ * note 2026-10-05: now verifies EXACT (BTLV_EFFECT_SuspendVmWait resolves).
  * match-note: A goto to the bottom epilogue reproduces the entry guards;
  * input is called before adjusted=0, preserving the original scheduling.
  */
@@ -7037,7 +7037,7 @@ void BTL_CLIENT_TickCounter(BtlClient *client, BtlClientCounter *counter)
             GFL_USE_FadeOutBgm(30);
             GFL_USE_SetPlayersAudible(0,62);
             PM_VOICE_SetMasterVolume(0);
-            func_021F8B10();
+            BTLV_EFFECT_SuspendVmWait();
             BTL_MAIN_SetKeepBgm((u8 *)client->main);
             break;
         case 0:
@@ -7060,7 +7060,7 @@ void BTL_CLIENT_TickCounter(BtlClient *client, BtlClientCounter *counter)
                 GFL_USE_FadeOutBgm(30);
                 GFL_USE_SetPlayersAudible(0,62);
                 PM_VOICE_SetMasterVolume(0);
-                func_021F8B10();
+                BTLV_EFFECT_SuspendVmWait();
             }
         }
         break;

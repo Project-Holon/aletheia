@@ -1,5 +1,5 @@
 /*
- * function: func_021BC380
+ * function: ZUKAN_LIST_GetVramBankConfig
  * address: 0x021BC380
  * packet: pkt_ov209_021BC380
  * region: ov209
@@ -12,4 +12,4 @@
  *   d_021BE7D4 0x021BE7D4 data a4
  */
 extern char d_021BE7D4[];
-void *func_021BC380(void){return d_021BE7D4;}
+void *ZUKAN_LIST_GetVramBankConfig(void){return d_021BE7D4;}

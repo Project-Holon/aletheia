@@ -1,7 +1,7 @@
 /*
  * file:     scenesetusbcomplete.c
  * unit:     yes
- * function: DWCi_SceneSetUsbComplete, initGraphics, procInit, func_021CDB84, DWCi_SceneSetUsbCompleteCallback, DWCi_SceneSetUsbCompleteNop, endScene, func_021CDC00, wait
+ * function: DWCi_SceneSetUsbComplete, initGraphics, procInit, DWCi_SceneSetUsbComplete_procInit1, DWCi_SceneSetUsbCompleteCallback, DWCi_SceneSetUsbCompleteNop, endScene, DWCi_SceneSetUsbComplete_endScene1, wait
  * address:  0x021CDA88
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettest.o)
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDB84.c \n *       --func func_021CDB84 --addr 0x021CDB84 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDB84.c \n *       --func DWCi_SceneSetUsbComplete_procInit1 --addr 0x021CDB84 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovdisco), symbol endScene (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
@@ -24,13 +24,13 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDBBC.c \
  *       --func endScene --addr 0x021CDBBC --region ov016 --cc 1.1p1 --arm --lang c99
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesetusbcompl)
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDC00.c \n *       --func func_021CDC00 --addr 0x021CDC00 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDC00.c \n *       --func DWCi_SceneSetUsbComplete_endScene1 --addr 0x021CDC00 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovdisco), symbol wait (name and prototype from the
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDC78.c \
  *       --func wait --addr 0x021CDC78 --region ov016 --cc 1.1p1 --arm --lang c99
  *
  * symbols:
- *   g_021DE624     0x021DE624  data
+ *   gSceneSetUsbCompleteWaitCount     0x021DE624  data
  *   DWCi_HLlLoad  0x021BD674  arm  ov016
  *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
  *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
@@ -84,11 +84,11 @@ extern void DWCi_SceneOptMenu(void);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_SceneSetTestConfirm(void);
 void DWCi_SceneSetUsbComplete(void);
-void func_021CDB84(void);
+void DWCi_SceneSetUsbComplete_procInit1(void);
 void DWCi_SceneSetUsbCompleteCallback(void);
 void DWCi_SceneSetUsbCompleteNop(void);
-void func_021CDC00(void);
-extern unsigned char g_021DE624;
+void DWCi_SceneSetUsbComplete_endScene1(void);
+extern unsigned char gSceneSetUsbCompleteWaitCount;
 /* sceneoptmovdisco .bss */
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
@@ -107,7 +107,7 @@ static void endScene(void);
 static void wait(void);
 void DWCi_SceneSetUsbComplete(void)
 {
-    g_021DE624 = 0;
+    gSceneSetUsbCompleteWaitCount = 0;
     initGraphics();
     DWCi_HLlLoad(8);
     DWCi_CMNlMsgDraw(41);
@@ -137,11 +137,11 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 21, 8);
     DWCi_GXlVisible(0, 21);
-    DWCi_ChangeScene(func_021CDB84);
+    DWCi_ChangeScene(DWCi_SceneSetUsbComplete_procInit1);
 }
 
 
-void func_021CDB84(void)
+void DWCi_SceneSetUsbComplete_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
@@ -193,7 +193,7 @@ static void endScene(void)
 }
 
 
-void func_021CDC00(void)
+void DWCi_SceneSetUsbComplete_endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
@@ -211,6 +211,6 @@ void func_021CDC00(void)
 
 static void wait(void)
 {
-    if (++g_021DE624 >= 120)
+    if (++gSceneSetUsbCompleteWaitCount >= 120)
         DWCi_ChangeScene(endScene);
 }

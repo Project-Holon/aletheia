@@ -1,5 +1,5 @@
 /*
- * function: func_021F7208
+ * function: BTLV_CAMERA_GetDefaultEyeAndTarget
  * address:  0x021F7208
  * packet:   pkt_ov094_021F9AB8
  * region:   ov094
@@ -13,7 +13,7 @@ typedef struct {
     int x, y, z;
 } VecFx32;
 
-void func_021F7208(VecFx32 *a, VecFx32 *b)
+void BTLV_CAMERA_GetDefaultEyeAndTarget(VecFx32 *a, VecFx32 *b)
 {
     a->x = 0x6b33;
     a->y = 0x6b33;

@@ -1,5 +1,5 @@
 /*
- * function: func_0220180C
+ * function: WORLDTRADE_SERVER_WaitTradeFinish
  * address:  0x0220180C
  * packet:   pkt_0220180C
  * region:   ov135
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F513C  0x021F513C  thumb  ov135
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   DPW_TR_IsAsyncEnd  0x021C866C  arm
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
  * Switch on the 0x021C86A8 index (case value = index + 15): state 0x25
- * or a plain func_021F513C redraw.
+ * or a plain WORLDTRADE_CancelSave redraw.
  * The shape is settled and every concrete byte is reproduced; the site is
  * parked because TWO of its callees have no witness anywhere in the tree.
  * Both BLX sites resolve as "(arm, from name) has no witness outside
@@ -43,9 +43,9 @@ typedef signed int s32;
 
 extern u32 DPW_TR_IsAsyncEnd(u8 *p);
 extern s32 DPW_TR_GetAsyncResult(void);
-extern void func_021F513C(u8 *p);
+extern void WORLDTRADE_CancelSave(u8 *p);
 
-int func_0220180C(u8 *p)
+int WORLDTRADE_SERVER_WaitTradeFinish(u8 *p)
 {
     s32 n;
 
@@ -57,21 +57,21 @@ int func_0220180C(u8 *p)
             ((struct Obj09246 *)p)->f28 = 0x25;
             break;
         case 10:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         case 0:
         case 1:
         case 3:
         case 13:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         case 2:
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
             break;
         }
     } else {
         if (++((struct Obj09246 *)p)->fF8C == 0xe10) {
-            func_021F513C(p);
+            WORLDTRADE_CancelSave(p);
         }
     }
     return 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FC568, func_021FC598
+ * function: WORLDTRADE_DETAIL_DeleteStrings, WORLDTRADE_DETAIL_StateStart
  * address: 0x021FC568
  * packet: pkt_ov135_021FC568
  * region: ov135
@@ -16,5 +16,5 @@
 #include "../include/Obj23406.h"
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *);
-void func_021FC568(char *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct U16Vec **)((unsigned)p+i*4+0xb90));STRBUF_Delete(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB88);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB8C);}
-int func_021FC598(char *p) {((struct Obj23406 *)p)->f28=1;return 2;}
+void WORLDTRADE_DETAIL_DeleteStrings(char *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct U16Vec **)((unsigned)p+i*4+0xb90));STRBUF_Delete(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB88);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB8C);}
+int WORLDTRADE_DETAIL_StateStart(char *p) {((struct Obj23406 *)p)->f28=1;return 2;}

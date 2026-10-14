@@ -1,5 +1,5 @@
 /*
- * function: func_021BE364
+ * function: COMM_TVT_SYS_ProcInit
  * address: 0x021BE364
  * packet: pkt_ov172_021BE364
  * region: ov172
@@ -32,7 +32,7 @@ extern void *GAME_DATA_Create(u16 heap);
 extern unsigned int KEY_GetCont(void);
 extern void func_021BD1AC(char *self);
 extern u8 d_021C724C[];
-int func_021BE364(struct Obj0203159C *obj,int unused,u8 *arg)
+int COMM_TVT_SYS_ProcInit(struct Obj0203159C *obj,int unused,u8 *arg)
 {
     u8 *p;
     if (arg && ((struct Obj24143 *)arg)->f4==3) GFL_HEAP_CreateChildHeap(1,109,0xd0000);

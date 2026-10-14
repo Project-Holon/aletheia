@@ -1,5 +1,5 @@
 /*
- * function: func_021BD9B4
+ * function: ZUKAN_LIST_LoadActorResources
  * address: 0x021BD9B4
  * packet: pkt_ov209_021BD9B4
  * region: ov209
@@ -51,7 +51,7 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 
 struct R { u8 pad[0xB64]; int a[0x24]; int b[6]; int c[6]; };
-void func_021BD9B4(struct R *p)
+void ZUKAN_LIST_LoadActorResources(struct R *p)
 {
     int h, h2, h3;
     u32 i;

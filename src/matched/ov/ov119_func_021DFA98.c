@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA98
+ * function: POKETRADE_NEGO_PlaySeByKeyB
  * address: 0x021DFA98
  * packet: pkt_ov119_021DFA98
  * region: ov119
@@ -16,7 +16,7 @@ typedef struct { Ent e[22]; } Tbl;
 extern const Tbl d_021E7794;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021DFA98(int key)
+void POKETRADE_NEGO_PlaySeByKeyB(int key)
 {
     Tbl t = d_021E7794;
     unsigned i;

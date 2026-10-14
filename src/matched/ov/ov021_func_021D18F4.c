@@ -18,7 +18,7 @@
  *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
  *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
- *   d_021DD5E0     0x021DD5E0  data    ov021  a4
+ *   gMmdlIcaReleaseMoveBitTable     0x021DD5E0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01673.h"
@@ -41,7 +41,7 @@ extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void FLDMMDL_InitPosition(void *a, int *p, int b);
 extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
 extern void FLDMMDL_CallDrawProc(void *a0);
-extern u32 d_021DD5E0[];
+extern u32 gMmdlIcaReleaseMoveBitTable[];
 
 void SCRCMD_MMDL_ICA_Update(u32 a, u32 b, u8 *p)
 {
@@ -59,7 +59,7 @@ void SCRCMD_MMDL_ICA_Update(u32 a, u32 b, u8 *p)
             p[0x19A] = 0;
             FLDMMDL_GetPos((const struct Actor *)((struct Obj01673 *)p)->f0, (struct VecFx32 *)&v);
             FLDMMDL_InitPosition((void *)(((struct Obj01673 *)p)->f0), (int *)(&v), FLDMMDL_GetDirDisp((void *)(((struct Obj01673 *)p)->f0)));
-            if (d_021DD5E0[p[0x199]] != 0) {
+            if (gMmdlIcaReleaseMoveBitTable[p[0x199]] != 0) {
                 FLDMMDL_ClearMoveBit((char *)(((struct Obj01673 *)p)->f0), 0x8000);
             }
         }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD398",
+   "name": "ZUKAN_LIST_CreateWindows",
    "address": "0x021BD398",
    "kind": "game",
    "region": "ov209",

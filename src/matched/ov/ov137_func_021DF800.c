@@ -1,5 +1,5 @@
 /*
- * function: func_021DF800
+ * function: GURU2_MAIN_SetupAll
  * address: 0x021DF800
  * packet: pkt_ov137_021DF800
  * region: ov137
@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021DF984 0x021DF984 thumb ov137
- *   func_021DFAD8 0x021DFAD8 thumb ov137
- *   func_021DFB60 0x021DFB60 thumb ov137
- *   func_021DFEC4 0x021DFEC4 thumb ov137
- *   func_021DFF44 0x021DFF44 thumb ov137
- *   func_021DFC74 0x021DFC74 thumb ov137
- *   func_021DFFF8 0x021DFFF8 thumb ov137
- *   func_021DFF70 0x021DFF70 thumb ov137
- *   func_021DF998 0x021DF998 thumb ov137
+ *   GURU2_MAIN_SetupVram 0x021DF984 thumb ov137
+ *   GURU2_MAIN_Setup3dSystem 0x021DFAD8 thumb ov137
+ *   GURU2_MAIN_SetupBg 0x021DFB60 thumb ov137
+ *   GURU2_MAIN_CreatePaletteAnim 0x021DFEC4 thumb ov137
+ *   GURU2_MAIN_InitActorSystem 0x021DFF44 thumb ov137
+ *   GURU2_MAIN_LoadBgPalette 0x021DFC74 thumb ov137
+ *   GURU2_MAIN_CreateWindows 0x021DFFF8 thumb ov137
+ *   GURU2_MAIN_LoadActorResources 0x021DFF70 thumb ov137
+ *   GURU2_MAIN_ShowPlanes 0x021DF998 thumb ov137
  */
-extern void func_021DF984(char *);
+extern void GURU2_MAIN_SetupVram(char *);
 typedef unsigned char  u8;
-extern void func_021DFAD8(u8 *p);
-extern void func_021DFB60(char *);
-extern void func_021DFEC4(char *);
-extern void func_021DFF44(u8 *p);
-extern void func_021DFC74(char *);
-extern void func_021DFFF8(u8 *p);
-extern void func_021DFF70(u8 *p);
-extern void func_021DF998(char *);
-void func_021DF800(char *p){func_021DF984(p);func_021DFAD8((u8 *)p);func_021DFB60(p);func_021DFEC4(p);func_021DFF44((u8 *)p);func_021DFC74(p);func_021DFFF8((u8 *)p);func_021DFF70((u8 *)p);func_021DF998(p);}
+extern void GURU2_MAIN_Setup3dSystem(u8 *p);
+extern void GURU2_MAIN_SetupBg(char *);
+extern void GURU2_MAIN_CreatePaletteAnim(char *);
+extern void GURU2_MAIN_InitActorSystem(u8 *p);
+extern void GURU2_MAIN_LoadBgPalette(char *);
+extern void GURU2_MAIN_CreateWindows(u8 *p);
+extern void GURU2_MAIN_LoadActorResources(u8 *p);
+extern void GURU2_MAIN_ShowPlanes(char *);
+void GURU2_MAIN_SetupAll(char *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem((u8 *)p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem((u8 *)p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows((u8 *)p);GURU2_MAIN_LoadActorResources((u8 *)p);GURU2_MAIN_ShowPlanes(p);}

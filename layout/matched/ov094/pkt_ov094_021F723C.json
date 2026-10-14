@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F723C",
+   "name": "BTLV_CAMERA_StepMove",
    "address": "0x021F723C",
    "kind": "game",
    "region": "ov094",

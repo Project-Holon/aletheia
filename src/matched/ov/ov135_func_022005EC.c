@@ -1,5 +1,5 @@
 /*
- * function: func_022005EC
+ * function: WORLDTRADE_TITLE_StateMainInput
  * address:  0x022005EC
  * packet:   pkt_022005EC
  * region:   ov135
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220052C  0x0220052C  thumb
+ *   WORLDTRADE_TITLE_HitTestMenu  0x0220052C  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
@@ -44,9 +44,9 @@ typedef struct {
 
 extern const Pos tbl_022038E0[];
 
-extern int func_0220052C(void);
+extern int WORLDTRADE_TITLE_HitTestMenu(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Actor;
@@ -56,15 +56,15 @@ extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-int func_022005EC(Work *p)
+int WORLDTRADE_TITLE_StateMainInput(Work *p)
 {
     int r;
 
-    r = func_0220052C();
+    r = WORLDTRADE_TITLE_HitTestMenu();
     if (r != -1) {
         p->sel = r;
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+        WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
@@ -84,7 +84,7 @@ int func_022005EC(Work *p)
     }
     if (KEY_GetTrg() & 2) {
         p->sel = 2;
-        func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+        WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
@@ -100,7 +100,7 @@ int func_022005EC(Work *p)
             GFL_USE_PlaySeDefaultVolume(0x548);
             CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
             CLACT_RestartActorAnim((struct Actor *)p->cursor);
-            func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+            WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     } else if (KEY_GetTrg() & 0x80) {
         if (p->sel < 2) {
@@ -108,7 +108,7 @@ int func_022005EC(Work *p)
             GFL_USE_PlaySeDefaultVolume(0x548);
             CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
             CLACT_RestartActorAnim((struct Actor *)p->cursor);
-            func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+            WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     }
     return 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD24
+ * function: ZUKAN_DETAIL_TOUCHBAR_ReleaseResources
  * address:  0x021BDD24
  * packet:   pkt_021BDD24
  * region:   ov208
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BDFA8 0x021BDFA8  thumb  ov208
- *   func_021BE4DC 0x021BE4DC  thumb  ov208
- *   func_021BE680 0x021BE680  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources 0x021BDFA8  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_ReleaseLeftArrowResources 0x021BE4DC  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_ReleaseRightArrowResources 0x021BE680  thumb  ov208
 
  */
 #include "../include/Obj01081.h"
 
 struct Ov208Eff;
-extern void func_021BDFA8(struct Ov208Eff *e);
-extern void func_021BE4DC(struct Ov208Eff *e);
-extern void func_021BE680(char *);
+extern void ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources(struct Ov208Eff *e);
+extern void ZUKAN_DETAIL_TOUCHBAR_ReleaseLeftArrowResources(struct Ov208Eff *e);
+extern void ZUKAN_DETAIL_TOUCHBAR_ReleaseRightArrowResources(char *);
 
-void func_021BDD24(char *p)
+void ZUKAN_DETAIL_TOUCHBAR_ReleaseResources(char *p)
 {
     switch (((struct Obj01081 *)p)->fC) {
     case 0:
-        func_021BDFA8((struct Ov208Eff *)p);
+        ZUKAN_DETAIL_TOUCHBAR_ReleaseBarResources((struct Ov208Eff *)p);
         break;
     case 1:
-        func_021BE4DC((struct Ov208Eff *)p);
+        ZUKAN_DETAIL_TOUCHBAR_ReleaseLeftArrowResources((struct Ov208Eff *)p);
         break;
     case 2:
-        func_021BE680(p);
+        ZUKAN_DETAIL_TOUCHBAR_ReleaseRightArrowResources(p);
         break;
     }
 }

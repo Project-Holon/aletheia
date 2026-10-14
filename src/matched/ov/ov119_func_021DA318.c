@@ -17,42 +17,42 @@
  *   APP_TASKMENU_IsDecide 0x02027A20 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020355D8 0x020355D8 arm
- *   func_021D8C84 0x021D8C84 thumb ov119
+ *   POKETRADE_PROC_ShowDragIcon 0x021D8C84 thumb ov119
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   func_020355C4 0x020355C4 arm
  *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_021D9EBC 0x021D9EBC thumb ov119
+ *   POKETRADE_PROC_PollGridTouch 0x021D9EBC thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021E2484 0x021E2484 thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021DA158 0x021DA158 thumb ov119
- *   func_021D8C0C 0x021D8C0C thumb ov119
+ *   POKETRADE_SAVE_CloseSummaryWindow 0x021E2484 thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_PROC_ShowPeerSummary 0x021DA158 thumb ov119
+ *   POKETRADE_PROC_UpdateDragIcon 0x021D8C0C thumb ov119
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_021D8B54 0x021D8B54 thumb ov119
+ *   POKETRADE_PROC_UpdateDragState 0x021D8B54 thumb ov119
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
- *   func_021D8DD0 0x021D8DD0 thumb ov119
+ *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb ov119
  *   func_021DBD70 0x021DBD70 thumb ov119
- *   func_021D8AA8 0x021D8AA8 thumb ov119
+ *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  *   func_021D9548 0x021D9548 thumb ov119
- *   func_021DF7AC 0x021DF7AC thumb ov119
- *   func_021DA0CC 0x021DA0CC thumb ov119
+ *   POKETRADE_NEGO_SetOfferMarkersState 0x021DF7AC thumb ov119
+ *   POKETRADE_PROC_ShowCancelMessage 0x021DA0CC thumb ov119
  *   func_021DD0CC 0x021DD0CC thumb ov119
- *   func_021DA110 0x021DA110 thumb ov119
- *   func_021D9E54 0x021D9E54 thumb ov119
+ *   POKETRADE_PROC_ShowSelectMessage 0x021DA110 thumb ov119
+ *   POKETRADE_PROC_HideTouchbarButtons 0x021D9E54 thumb ov119
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
- *   func_021DD2A8 0x021DD2A8 thumb ov119
+ *   POKETRADE_NEGO_CanConfirmOffers 0x021DD2A8 thumb ov119
  *   func_021DA27C 0x021DA27C thumb ov119
  *   func_021DA1DC 0x021DA1DC thumb ov119
  *   func_021DA2F4 0x021DA2F4 thumb ov119
  *   func_021DBB6C 0x021DBB6C thumb ov119
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021E5EF8 0x021E5EF8 thumb ov119
- *   func_021E4174 0x021E4174 thumb ov119
- *   func_021E12F8 0x021E12F8 thumb ov119
+ *   POKETRADE_2D_DeleteMarkingIcon 0x021E5EF8 thumb ov119
+ *   POKETRADE_2D_ClearSummaryBackground 0x021E4174 thumb ov119
+ *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj04475.h"
@@ -65,30 +65,30 @@ extern unsigned APP_TASKMENU_IsDecide(char *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8),func_021D8C84(void *),TOUCHBAR_Update(struct S *);
+extern void func_020355D8(u8),POKETRADE_PROC_ShowDragIcon(void *),TOUCHBAR_Update(struct S *);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *),TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),TOUCHPANEL_GetPointTrg(u32 *,u32 *),APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
-extern int func_021D9EBC(char *,int *,int *,int *,int *);
-extern void GFL_USE_PlaySeDefaultVolume(u32),func_021E2484(char *,int),func_021D8E84(void *,int),func_021D8C0C(void *),func_021D8B54(void *);
-extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern int POKETRADE_PROC_PollGridTouch(char *,int *,int *,int *,int *);
+extern void GFL_USE_PlaySeDefaultVolume(u32),POKETRADE_SAVE_CloseSummaryWindow(char *,int),POKETRADE_PROC_SetStep(void *,int),POKETRADE_PROC_UpdateDragIcon(void *),POKETRADE_PROC_UpdateDragState(void *);
+extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern int func_021DBD70(char *,int,int);
-extern int func_021D8AA8(void *);
+extern int POKETRADE_PROC_IsHostSide(void *);
 extern int func_021D9548(char *,int,int);
 extern int func_021DD0CC(char *,int);
-extern int func_021DD2A8(char *);
-extern void func_021DF7AC(void *,int);
+extern int POKETRADE_NEGO_CanConfirmOffers(char *);
+extern void POKETRADE_NEGO_SetOfferMarkersState(void *,int);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021DBB6C(char *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern void func_021E5EF8(void *);
-extern void func_021E4174(char *p);
-extern void func_021E12F8(char *p);
+extern void POKETRADE_2D_DeleteMarkingIcon(void *);
+extern void POKETRADE_2D_ClearSummaryBackground(char *p);
+extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
 extern void func_02041B6C(u32);
-extern void func_021DA158(char *p);
-extern void func_021DA0CC(char *p);
-extern void func_021DA110(char *p);
-extern void func_021D9E54(char *p);
+extern void POKETRADE_PROC_ShowPeerSummary(char *p);
+extern void POKETRADE_PROC_ShowCancelMessage(char *p);
+extern void POKETRADE_PROC_ShowSelectMessage(char *p);
+extern void POKETRADE_PROC_HideTouchbarButtons(char *p);
 extern void func_021DA27C(char *p);
 extern void func_021DA1DC(char *p);
 extern void func_021DA2F4(void *);
@@ -106,7 +106,7 @@ void func_021DA318(char *p)
     if(!APP_TASKMENU_IsDecide(P(0x64c))) {
         n=TOUCHPANEL_GetTrg();
         if(n) func_020355D8(keep);
-        if(n) func_021D8C84(p);
+        if(n) POKETRADE_PROC_ShowDragIcon(p);
         TOUCHBAR_Update(P(0x9c0));
         if(TOUCHBAR_GetPressedButtonIdIfPressing(P(0x9c0))==9 && func_020355C4()) APP_TASKMENU_SetCursorActive(P(0x64c),0);
         if(TOUCHBAR_GetPressedButtonIdIfDone(P(0x9c0))==9) {
@@ -116,7 +116,7 @@ void func_021DA318(char *p)
         if(TOUCHPANEL_GetPointTrg(&x,&y)==1) {
             func_020355D8(1);
             APP_TASKMENU_SetCursorActive(P(0x64c),0);
-            if(func_021D9EBC(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
+            if(POKETRADE_PROC_PollGridTouch(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
                 I(0xf78)=column;
                 I(0xf74)=slot;
                 ((struct Obj04475 *)p)->fF54=x;
@@ -126,20 +126,20 @@ void func_021DA318(char *p)
             } else if(y>=16 && y<144) active=1;
         }
         if(changed) {
-            func_021E2484(p,1);
-            func_021D8E84(p,(int)func_021DA158);
+            POKETRADE_SAVE_CloseSummaryWindow(p,1);
+            POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_ShowPeerSummary);
             return;
         }
-        func_021D8C0C(p);
+        POKETRADE_PROC_UpdateDragIcon(p);
         if(!active && !TOUCHPANEL_GetCont() && I(0xf34)) {
             if(I(0xf60) && I(0xf5c)) {
                 GFL_USE_PlaySeDefaultVolume(0x72a);
                 choice=0;
                 active=1;
-            } else func_021D8C84(p);
+            } else POKETRADE_PROC_ShowDragIcon(p);
         }
-        func_021D8B54(p);
-        func_021D8C0C(p);
+        POKETRADE_PROC_UpdateDragState(p);
+        POKETRADE_PROC_UpdateDragIcon(p);
     }
     if(APP_TASKMENU_IsFinish(P(0x64c))) {
         choice=APP_TASKMENU_GetCursorPos(P(0x64c));
@@ -147,29 +147,29 @@ void func_021DA318(char *p)
     }
     if(active) {
         if(choice==0) {
-            n=(int)func_021D8DD0((void *)I(0x828),I(0xf98),I(0xf94),p);
-            if(func_021DBD70(p,I(0xf98),I(0xf94)) && func_021D8AA8(p)) {
+            n=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)I(0x828),I(0xf98),I(0xf94),p);
+            if(func_021DBD70(p,I(0xf98),I(0xf94)) && POKETRADE_PROC_IsHostSide(p)) {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
-                func_021D8E84(p,(int)func_021DA1DC);
+                POKETRADE_PROC_SetStep(p,(int)func_021DA1DC);
             } else if(func_021D9548(p,I(0xf98),I(0xf94))) {
-                func_021DF7AC(p,1);
-                func_021D8E84(p,(int)func_021DA0CC);
+                POKETRADE_NEGO_SetOfferMarkersState(p,1);
+                POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_ShowCancelMessage);
             } else if(func_021DD0CC(p,n)) {
-                func_021D8E84(p,(int)func_021DA110);
-                func_021DF7AC(p,1);
-            } else if(!func_021D8AA8(p)) {
+                POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_ShowSelectMessage);
+                POKETRADE_NEGO_SetOfferMarkersState(p,1);
+            } else if(!POKETRADE_PROC_IsHostSide(p)) {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
-                func_021D8E84(p,(int)func_021D9E54);
+                POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_HideTouchbarButtons);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
                 keep=0;
-            } else if(func_021DD2A8(p) && !func_020355C4()) {
+            } else if(POKETRADE_NEGO_CanConfirmOffers(p) && !func_020355C4()) {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
-                func_021D8E84(p,(int)func_021DA27C);
+                POKETRADE_PROC_SetStep(p,(int)func_021DA27C);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
                 TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
@@ -177,11 +177,11 @@ void func_021DA318(char *p)
             } else {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
-                func_021D8E84(p,(int)func_021DA1DC);
+                POKETRADE_PROC_SetStep(p,(int)func_021DA1DC);
             }
         } else {
-            func_021DF7AC(p,1);
-            func_021D8E84(p,(int)func_021DA2F4);
+            POKETRADE_NEGO_SetOfferMarkersState(p,1);
+            POKETRADE_PROC_SetStep(p,(int)func_021DA2F4);
         }
         I(0xf98)=-1;
         I(0xf94)=-1;
@@ -189,13 +189,13 @@ void func_021DA318(char *p)
             func_021DBB6C(p);
             CLACT_SetActorDrawEnable(P(0xf04),1);
         }
-        func_021E5EF8(p+0x950);
-        func_021E5EF8(p+0x964);
-        func_021E5EF8(p+0x978);
-        func_021E2484(p,1);
+        POKETRADE_2D_DeleteMarkingIcon(p+0x950);
+        POKETRADE_2D_DeleteMarkingIcon(p+0x964);
+        POKETRADE_2D_DeleteMarkingIcon(p+0x978);
+        POKETRADE_SAVE_CloseSummaryWindow(p,1);
         func_02041B6C(6);
-        func_021E4174(p);
-        func_021E12F8(p);
+        POKETRADE_2D_ClearSummaryBackground(p);
+        POKETRADE_SAVE_CloseTaskMenu(p);
         P(0x64c)=0;
     }
     I(0xf34)=TOUCHPANEL_GetCont();

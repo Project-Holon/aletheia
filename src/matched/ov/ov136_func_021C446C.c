@@ -1,5 +1,5 @@
 /*
- * function: func_021C446C
+ * function: MAILSYS_IsMessageIncomplete
  * address:  0x021C446C
  * packet:   pkt_ov136_021C446C
  * region:   ov136
@@ -12,7 +12,7 @@
  * note:     2026-10-02 only unresolved witness PMSI_PARAM_IsEnabled (file exists in src/matched/arm9, no shard yet)
  *
  * symbols:
- *   func_021C446C 0x021C446C thumb
+ *   MAILSYS_IsMessageIncomplete 0x021C446C thumb
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   d_021C77A0 0x021C77A0 data a1
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct T;
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
-int func_021C446C(void *a)
+int MAILSYS_IsMessageIncomplete(void *a)
 {
     int t = 1;
     int n = 0;

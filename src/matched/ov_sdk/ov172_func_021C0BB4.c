@@ -1,5 +1,5 @@
 /*
- * function: func_021C0BB4
+ * function: SSP_ExifDecode
  * address:  0x021C0BB4
  * packet:   pkt_ov172_021C0BB4
  * region:   ov172
@@ -12,7 +12,7 @@
  * sdk:      SSP_ExifDecode (exifdec.o)
  *
  * symbols:
- *   func_021C0440  0x021C0440  arm  ov172
+ *   GetAPP1  0x021C0440  arm  ov172
  *   g_021CAD9C     0x021CAD9C  data
  */
 
@@ -25,10 +25,10 @@ struct ExifState {
     unsigned long f10;
 };
 
-extern short func_021C0440(unsigned char *src, unsigned long src_size, unsigned long cur, long *soi_addr, int option);
+extern short GetAPP1(unsigned char *src, unsigned long src_size, unsigned long cur, long *soi_addr, int option);
 extern struct ExifState g_021CAD9C;
 
-long func_021C0BB4(unsigned char *src, unsigned long src_size, int *cur, int option)
+long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int option)
 {
     short result;
     unsigned long c = *cur;
@@ -39,7 +39,7 @@ long func_021C0BB4(unsigned char *src, unsigned long src_size, int *cur, int opt
     g_021CAD9C.h2 = 0;
     g_021CAD9C.h4 = 0;
 
-    result = func_021C0440(src, src_size, c, (long *)cur, option);
+    result = GetAPP1(src, src_size, c, (long *)cur, option);
 
     if (g_021CAD9C.f10 != 0)
         g_021CAD9C.f10 = g_021CAD9C.f10 + (unsigned long)(src + 12);

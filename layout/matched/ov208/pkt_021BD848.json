@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD848",
+   "name": "ZKND_TBAR_SetAnimByState",
    "address": "0x021BD848",
    "kind": "game",
    "region": "ov208",

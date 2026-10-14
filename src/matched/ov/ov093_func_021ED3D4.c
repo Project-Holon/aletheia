@@ -17,8 +17,8 @@
  *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   func_021F7EE8  0x021F7EE8  thumb  ov094
- *   func_021F7A28  0x021F7A28  thumb  ov094
+ *   BTLV_EFFECT_SetPokeSpriteKey  0x021F7EE8  thumb  ov094
+ *   BTLV_EFFECT_StartEffectOnPoke  0x021F7A28  thumb  ov094
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   BTLV_SCU_TaskMonSendOut  0x021ED460  thumb  ov093
@@ -33,10 +33,10 @@ extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 struct Work;
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
-extern void func_021F7EE8(void *m, int key);
+extern void BTLV_EFFECT_SetPokeSpriteKey(void *m, int key);
 struct Q;
 struct S02030FB4;
-extern void func_021F7A28(int a, u32 b);
+extern void BTLV_EFFECT_StartEffectOnPoke(int a, u32 b);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void BTLV_SCU_TaskMonSendOut(void *task, struct Q *q);
@@ -54,7 +54,7 @@ void BTLV_SCU_StartMonSendOut(char *p, u8 k, int a, u8 b, int flag)
     (*t->cnt)++;
     m = BTL_SIDE_GetClientPoke(((struct Obj10119 *)p)->f138, a, b);
     y = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
-    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)m), y);
+    BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon((struct Work *)m), y);
     if (flag == 0)
-        func_021F7A28(y, 0x26d);
+        BTLV_EFFECT_StartEffectOnPoke(y, 0x26d);
 }

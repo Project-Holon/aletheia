@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB884",
+   "name": "BR_RES_Create",
    "address": "0x021FB884",
    "kind": "game",
    "region": "ov186",

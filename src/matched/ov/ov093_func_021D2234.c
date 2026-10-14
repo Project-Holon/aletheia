@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   func_021F81D0  0x021F81D0  thumb  ov094
+ *   BTLV_EFFECT_GaugeSetStatusIcon  0x021F81D0  thumb  ov094
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ typedef struct {
 
 extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
-extern void func_021F81D0(u32 a, u32 b);
+extern void BTLV_EFFECT_GaugeSetStatusIcon(u32 a, u32 b);
 
 int BTL_CLIENT_StepStartEffectForMon(Seq *s, int *state, u32 *a)
 {
@@ -35,7 +35,7 @@ int BTL_CLIENT_StepStartEffectForMon(Seq *s, int *state, u32 *a)
     switch (*state) {
     case 0:
         t = BTL_MAIN_GetTrainerSlotOfPoke((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
-        func_021F81D0(a[1], BTL_MAIN_GetViewPosOfSlot((u8 *)s->unk00, t));
+        BTLV_EFFECT_GaugeSetStatusIcon(a[1], BTL_MAIN_GetViewPosOfSlot((u8 *)s->unk00, t));
         *state = *state + 1;
         break;
     case 1:

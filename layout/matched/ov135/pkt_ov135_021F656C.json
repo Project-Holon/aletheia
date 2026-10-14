@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F656C",
+   "name": "WORLDTRADE_BOX_StateSelectConfirmInput",
    "address": "0x021F656C",
    "kind": "game",
    "region": "ov135",

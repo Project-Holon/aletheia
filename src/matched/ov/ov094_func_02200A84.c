@@ -1,5 +1,5 @@
 /*
- * function: func_02200A84
+ * function: BTLV_MCSS_ScaleTweenTaskMain
  * address:  0x02200A84
  * packet:   pkt_ov094_02200A84
  * region:   ov094
@@ -12,11 +12,11 @@
  * symbols:
  *   MCSS_GetScale  0x02015C94  thumb
  *   MCSS_SetScale  0x02015CAC  thumb
- *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_021F9260  0x021F9260  thumb  ov094
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
- * Task callback passed by func_021FF630.
+ * Task callback passed by BTLV_MCSS_StartScaleTween.
  */
 typedef unsigned char u8;
 typedef int fx32;
@@ -53,32 +53,32 @@ typedef struct {
 typedef unsigned int   u32;
 extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetScale(void *p, u32 *src);
-extern void func_021F89BC(void *h);
-extern int func_021F9260(Mover *m, VecFx32 *out);
-extern int func_022019F4(char *p, int key);
+extern void BTLV_EFFECT_DeleteTask(void *h);
+extern int BTLV_EFFECT_StepMover(Mover *m, VecFx32 *out);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-void func_02200A84(void *h, Ctx *c)
+void BTLV_MCSS_ScaleTweenTaskMain(void *h, Ctx *c)
 {
     Work *w = c->w;
-    int i = func_022019F4((char *)w, c->key);
+    int i = BTLV_MCSS_FindSpriteIndex((char *)w, c->key);
     VecFx32 v;
     int r;
 
     if (i == -1) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     if (w->e[i].h == 0) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     if (c->tag != w->tag[c->key]) {
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
         return;
     }
     MCSS_GetScale(w->e[i].h, (u32 *)(&v));
-    r = func_021F9260(&c->mv, &v);
+    r = BTLV_EFFECT_StepMover(&c->mv, &v);
     MCSS_SetScale(w->e[i].h, (u32 *)(&v));
     if (r == 1)
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
 }

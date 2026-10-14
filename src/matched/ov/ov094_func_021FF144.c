@@ -1,5 +1,5 @@
 /*
- * function: func_021FF144
+ * function: BTLV_MCSS_SetPosition
  * address:  0x021FF144
  * packet:   pkt_ov094_021FF144
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_SetPosition  0x02015C48  thumb
  */
 
@@ -34,12 +34,12 @@ typedef struct {
 } Work;
 
 typedef unsigned int   u32;
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-void func_021FF144(Work *w, int key, fx32 x, fx32 y, fx32 z)
+void BTLV_MCSS_SetPosition(Work *w, int key, fx32 x, fx32 y, fx32 z)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
     VecFx32 v;
 
     v.x = x;

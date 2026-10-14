@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3E0
+ * function: ZUKAN_LIST_DeleteWindows
  * address: 0x021BD3E0
  * packet: pkt_ov209_021BD3E0
  * region: ov209
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021BD3E0(char *p) { u32 i;for(i=0;i<3;i++)BMP_WIN_Delete(*(struct Descriptor **)((u32)p+i*8+32));BMP_WIN_Exit(); }
+void ZUKAN_LIST_DeleteWindows(char *p) { u32 i;for(i=0;i<3;i++)BMP_WIN_Delete(*(struct Descriptor **)((u32)p+i*8+32));BMP_WIN_Exit(); }

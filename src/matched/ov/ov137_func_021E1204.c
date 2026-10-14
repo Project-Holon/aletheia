@@ -1,5 +1,5 @@
 /*
- * function: func_021E1204
+ * function: GURU2_MAIN_GetEntranceEffectState
  * address: 0x021E1204
  * packet: pkt_ov137_021E1204
  * region: ov137
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021E1204(char *p)
+int GURU2_MAIN_GetEntranceEffectState(char *p)
 {
     return ((struct Obj23795 *)p)->fC78;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9918
+ * function: PDWACC_MESSAGE_DeleteNumberWindows
  * address: 0x021D9918
  * packet: pkt_ov123_021D9918
  * region: ov123
@@ -20,7 +20,7 @@ extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-void func_021D9918(char *p)
+void PDWACC_MESSAGE_DeleteNumberWindows(char *p)
 {
     if (((struct Obj03273 *)p)->f40) {
         func_0201F7A8(((struct Obj03273 *)p)->f40,2);

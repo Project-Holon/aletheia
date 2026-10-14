@@ -1,5 +1,5 @@
 /*
- * function: func_021C09B4
+ * function: RESEARCH_COMMON_GetAppResource
  * address:  0x021C09B4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C09B4(void *p)
+u32 RESEARCH_COMMON_GetAppResource(void *p)
 {
     return ((struct Obj25978 *)p)->f8;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFB20",
+   "name": "WORLDTRADE_SUBLCD_UpdateSlotPalettes",
    "address": "0x021FFB20",
    "kind": "game",
    "region": "ov135",

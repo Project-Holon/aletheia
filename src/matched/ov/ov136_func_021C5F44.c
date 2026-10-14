@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F44
+ * function: MB_SEQ_DeleteWindows
  * address: 0x021C5F44
  * packet: pkt_ov136_021C5F44
  * region: ov136
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C5F44 0x021C5F44 thumb
+ *   MB_SEQ_DeleteWindows 0x021C5F44 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -29,7 +29,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BMP_WIN_Exit(void);
 
-void func_021C5F44(u8 *p)
+void MB_SEQ_DeleteWindows(u8 *p)
 {
     u32 i;
     PRINTSYS_QUE_Delete(((struct Obj23546 *)(*(u8 * *)&((struct Obj08203 *)p)->f8))->f1C4);

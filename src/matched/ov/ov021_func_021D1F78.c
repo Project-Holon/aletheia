@@ -20,7 +20,7 @@
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   d_021DD60C     0x021DD60C  data  a2
+ *   gPerapIconActorParam     0x021DD60C  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -31,7 +31,7 @@ typedef struct {
     u16 h[4];
 } Tbl;
 
-extern Tbl d_021DD60C;
+extern Tbl gPerapIconActorParam;
 
 typedef unsigned char  u8;
 struct Bank;
@@ -62,6 +62,6 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(u32 *w)
     w[0x48 / 4] = POKEGRA_RegisterCellAnimPP(r4, 0, 1, 0, 0x15);
     POKE_TOOL_EncodeBoxParam((struct Sav *)r4, t);
     ARC_TOOL_DeleteHandle(r7);
-    buf = d_021DD60C;
+    buf = gPerapIconActorParam;
     w[0x3c / 4] = (u32)CLACT_CreateActor((void *)w[0x38 / 4], w[0x40 / 4], w[0x44 / 4], w[0x48 / 4], &buf, 0, 0x15);
 }

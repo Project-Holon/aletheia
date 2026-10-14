@@ -13,7 +13,7 @@
  * (via 0x021BD7F8) equals the second argument; returns the record or NULL.
  *
  * symbols:
- *   func_021BD7F8  0x021BD7F8  thumb
+ *   ZKND_TBAR_GetButtonActorBase  0x021BD7F8  thumb
  */
 
 typedef unsigned int u32;
@@ -29,14 +29,14 @@ struct Ov208Mgr {
     struct Ov208Rec recs[1];
 };
 
-extern int func_021BD7F8(char *p);
+extern int ZKND_TBAR_GetButtonActorBase(char *p);
 
 struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key)
 {
     u32 i;
 
     for (i = 0; i < p->count; i++) {
-        if (key == func_021BD7F8((char *)((u32)p + 0x28 + i * 0x38)))
+        if (key == ZKND_TBAR_GetButtonActorBase((char *)((u32)p + 0x28 + i * 0x38)))
             return (struct Ov208Rec *)((u32)p + 0x28 + i * 0x38);
     }
     return 0;

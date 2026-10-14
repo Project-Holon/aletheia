@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9C8
+ * function: ZUKAN_DETAIL_HEADBAR_ClearIcon
  * address:  0x021BE9C8
  * packet:   pkt_021BE9C8
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-void func_021BE9C8(void)
+void ZUKAN_DETAIL_HEADBAR_ClearIcon(void)
 {
 }
 

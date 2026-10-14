@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02201554",
+   "name": "WORLDTRADE_SERVER_StartDownload",
    "address": "0x02201554",
    "kind": "game",
    "region": "ov135",

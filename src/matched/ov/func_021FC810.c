@@ -1,5 +1,5 @@
 /*
- * function: func_021FC810
+ * function: WORLDTRADE_DETAIL_PrintMessage
  * address:  0x021FC810
  * packet:   pkt_021FC810
  * region:   ov135
@@ -21,7 +21,7 @@
  *   sub_020409B4   0x020409B4  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   STRBUF_Delete   0x02045808  arm
- *   func_02202858  0x02202858  thumb  ov135
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *
  * The two-parameter member of the 021F7538 family: an extra 0201EE84 call
  * keyed by the sixth argument, the same 0xb6c/0xb88 fields and the same
@@ -50,9 +50,9 @@ extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
-void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
+void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
 {
     u32 v;
     u32 h;
@@ -66,6 +66,6 @@ void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
-    func_02202858((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
 }

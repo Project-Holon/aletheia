@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8A24 0x021D8A24 thumb ov119
+ *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
-extern int func_021D8A24(void *);
+extern int POKETRADE_PROC_IsNetSession(void *);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 void func_021DD080(void *a, void *b, void *c)
 {
-    if (func_021D8A24(c))
+    if (POKETRADE_PROC_IsNetSession(c))
         GFL_NET_HANDLE_SetTimingSyncRange(a, (unsigned int)b, 8);
 }

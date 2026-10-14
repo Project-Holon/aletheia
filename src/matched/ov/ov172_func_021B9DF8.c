@@ -12,10 +12,10 @@
  * Maps the +4 state to an output code through the two ARM9 probes.
  *
  * symbols:
- *   func_021BE0D0  0x021BE0D0  thumb  ov172
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
+ *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   func_021B80E4  0x021B80E4  thumb  ov172
- *   func_021BE054  0x021BE054  thumb  ov172
+ *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -25,20 +25,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021BE0D0(void *p);
-extern u32 func_021BDFE4(void *p);
+extern u32 COMM_TVT_SYS_GetEndRequested(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u32 func_021B80E4(int unused, char *p);
-extern u8 func_021BE054(void *p);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 
 int func_021B9DF8(void *p, int *out)
 {
-    if (func_021BE0D0(p) == 1) {
-        int v = func_021B80E4((int)p, (char *)func_021BDFE4(p));
+    if (COMM_TVT_SYS_GetEndRequested(p) == 1) {
+        int v = func_021B80E4((int)p, (char *)COMM_TVT_SYS_GetComm(p));
 
         *out = (v == 5) ? 0x10 : 0xd;
         return 1;
     }
-    if (func_021BE054(p) <= 1) {
+    if (COMM_TVT_SYS_GetMemberCount(p) <= 1) {
         *out = 0x14;
         return 1;
     }

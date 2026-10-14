@@ -1,5 +1,5 @@
 /*
- * function: func_021D5AC0
+ * function: GSYNC_DOWNLOAD_SetRequestMode
  * address: 0x021D5AC0
  * packet: pkt_ov123_021D5AC0
  * region: ov123
@@ -44,7 +44,7 @@ static inline u32 func_021D5AC0_next(u32 mode)
     return mode;
 }
 
-void func_021D5AC0(void *unused, u32 mode)
+void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 mode)
 {
     u32 next = func_021D5AC0_next(mode);
     *(u32 *)(d_021DAC20 + 0xB0) = 1;

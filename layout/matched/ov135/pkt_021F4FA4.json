@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F4FA4",
+   "name": "WORLDTRADE_CreateTimeIcon",
    "address": "0x021F4FA4",
    "kind": "game",
    "region": "ov135",

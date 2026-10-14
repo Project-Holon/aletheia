@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdMoveSpPokeGimmick
+ * function: SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick
  * address:  0x0216BC88
  * packet:   pkt_ov010_0216BC88
  * region:   ov010
@@ -23,7 +23,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void SP_POKE_GIMMICK_ShowAndPlay();
 
-int FIELD_G3D_MAP_CmdMoveSpPokeGimmick(int c, int vm)
+int SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick(int c, int vm)
 {
     void *p;
     int a1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F11CC
+ * function: MB_COMM_SYS_GetMon
  * address:  0x021F11CC
  * packet:   pkt_ov107_021F11CC
  * region:   ov107
@@ -20,7 +20,7 @@ typedef struct {
 typedef unsigned int   u32;
 u32 POKE_TOOL_GetBoxParamSize(void);
 
-void *func_021F11CC(Ov107Ctx *p, int i)
+void *MB_COMM_SYS_GetMon(Ov107Ctx *p, int i)
 {
     return p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4;
 }

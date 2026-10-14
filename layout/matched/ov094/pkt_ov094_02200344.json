@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02200344",
+   "name": "BTLV_MCSS_StartRotation",
    "address": "0x02200344",
    "kind": "game",
    "region": "ov094",

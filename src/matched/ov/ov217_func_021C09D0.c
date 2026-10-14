@@ -1,5 +1,5 @@
 /*
- * function: func_021C09D0
+ * function: RESEARCH_COMMON_UpdatePaletteAnime
  * address:  0x021C09D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards its first argument to func_021C0D7C.
+ * Tail-call veneer: forwards its first argument to RESEARCH_COMMON_UpdatePaletteAnimeImpl.
  *
  * symbols:
- *   func_021C0D7C  0x021C0D7C  thumb  ov217
+ *   RESEARCH_COMMON_UpdatePaletteAnimeImpl  0x021C0D7C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0D7C(u32 *p);
+extern void RESEARCH_COMMON_UpdatePaletteAnimeImpl(u32 *p);
 
-void func_021C09D0(u32 a0)
+void RESEARCH_COMMON_UpdatePaletteAnime(u32 a0)
 {
-    func_021C0D7C((u32 *)a0);
+    RESEARCH_COMMON_UpdatePaletteAnimeImpl((u32 *)a0);
 }
 

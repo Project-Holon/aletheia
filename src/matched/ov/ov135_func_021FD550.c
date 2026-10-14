@@ -1,5 +1,5 @@
 /*
- * function: func_021FD550
+ * function: WORLDTRADE_LIST_StateConfirmYesNoInput
  * address: 0x021FD550
  * packet: pkt_ov135_021FD550
  * region: ov135
@@ -8,40 +8,40 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4D14 0x021F4D14 thumb ov135
- *   func_021F4CE4 0x021F4CE4 thumb ov135
- *   func_021F4EC0 0x021F4EC0 thumb ov135
- *   func_021FD760 0x021FD760 thumb ov135
- *   func_021FD790 0x021FD790 thumb ov135
- *   func_021FD5F0 0x021FD5F0 thumb ov135
+ *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
+ *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
+ *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
+ *   WORLDTRADE_LIST_PrintLabel 0x021FD760 thumb ov135
+ *   WORLDTRADE_LIST_PrintHeader 0x021FD790 thumb ov135
+ *   WORLDTRADE_LIST_DrawSelectedRecord 0x021FD5F0 thumb ov135
  */
 #include "../include/Obj00045.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern int func_021F4D14(char *p);
-extern void func_021F4CE4(char *p);
+extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
+extern void WORLDTRADE_CloseTaskMenu(char *p);
 typedef unsigned char  u8;
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
-extern void func_021FD760(void *, void *, u32, void *, u16);
-extern void func_021FD790(void *, void *, u32, void *);
-extern void func_021FD5F0(void *);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_LIST_PrintLabel(void *, void *, u32, void *, u16);
+extern void WORLDTRADE_LIST_PrintHeader(void *, void *, u32, void *);
+extern void WORLDTRADE_LIST_DrawSelectedRecord(void *);
 extern void func_0201F7A8(void *, u32);
-int func_021FD550(unsigned char *p)
+int WORLDTRADE_LIST_StateConfirmYesNoInput(unsigned char *p)
 {
-    unsigned r = func_021F4D14((char *)p);
+    unsigned r = WORLDTRADE_UpdateTaskMenuYesNo((char *)p);
     if (r == 1) {
-        func_021F4CE4((char *)p);
+        WORLDTRADE_CloseTaskMenu((char *)p);
         *(int *)&((struct Obj00045 *)p)->f28 = 2;
-        func_021F4EC0(p, 5, 6);
-        func_021FD760(((struct Obj00045 *)p)->fB6C, p + 0xdc8, 0x53, p + 0xfa0, 0x440);
-        func_021FD760(((struct Obj00045 *)p)->fB6C, p + 0xdb4, 0x57, p + 0xfa0, 0x3c40);
-        func_021FD5F0(p);
+        WORLDTRADE_SetStateAndReturn(p, 5, 6);
+        WORLDTRADE_LIST_PrintLabel(((struct Obj00045 *)p)->fB6C, p + 0xdc8, 0x53, p + 0xfa0, 0x440);
+        WORLDTRADE_LIST_PrintLabel(((struct Obj00045 *)p)->fB6C, p + 0xdb4, 0x57, p + 0xfa0, 0x3c40);
+        WORLDTRADE_LIST_DrawSelectedRecord(p);
     } else if (r == 2) {
-        func_021F4CE4((char *)p);
+        WORLDTRADE_CloseTaskMenu((char *)p);
         func_0201F7A8(((struct Obj00045 *)p)->fD40, 0);
         *(int *)&((struct Obj00045 *)p)->f28 = 1;
-        func_021FD790(((struct Obj00045 *)p)->fB6C, p + 0xd50, 0x5e, p + 0xfa0);
-        func_021FD790(((struct Obj00045 *)p)->fB6C, p + 0xd54, 0x73, p + 0xfa0);
+        WORLDTRADE_LIST_PrintHeader(((struct Obj00045 *)p)->fB6C, p + 0xd50, 0x5e, p + 0xfa0);
+        WORLDTRADE_LIST_PrintHeader(((struct Obj00045 *)p)->fB6C, p + 0xd54, 0x73, p + 0xfa0);
     }
     return 2;
 }

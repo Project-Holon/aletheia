@@ -1,5 +1,5 @@
 /*
- * function: func_021F1164
+ * function: MB_COMM_SYS_HasKind21
  * address:  0x021F1164
  * packet:   pkt_ov107_021F1164
  * region:   ov107
@@ -39,7 +39,7 @@ typedef struct {
     unsigned int f24;
 } Ov107Ctx;
 
-int func_021F1164(Ov107Ctx *p)
+int MB_COMM_SYS_HasKind21(Ov107Ctx *p)
 {
     return p->f1A.b00;
 }

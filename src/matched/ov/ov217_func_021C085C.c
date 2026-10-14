@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C29D8  0x021C29D8  thumb  ov217
+ *   PALETTE_ANIME_Destroy  0x021C29D8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern u32 func_021C29D8(void *a0);
+extern u32 PALETTE_ANIME_Destroy(void *a0);
 
 void func_021C085C(int *p)
 {
     int i;
     for (i = 0; i < 8; i++)
-        func_021C29D8((void *)p[i + 0xC9]);
+        PALETTE_ANIME_Destroy((void *)p[i + 0xC9]);
 }

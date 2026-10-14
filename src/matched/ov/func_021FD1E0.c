@@ -1,5 +1,5 @@
 /*
- * function: func_021FD1E0
+ * function: WORLDTRADE_LIST_DeleteWindows
  * address:  0x021FD1E0
  * packet:   pkt_021FD1E0
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02202940  0x02202940  thumb  ov135
+ *   WORLDTRADE_ADAPTER_DeletePrintStream  0x02202940  thumb  ov135
  *   BMP_WIN_Delete   0x020452E8  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   unit_02045730  0x02045730  arm
@@ -28,19 +28,19 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 struct Obj;
-extern void func_02202940(struct Obj *p);
+extern void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 
-void func_021FD1E0(u8 *p)
+void WORLDTRADE_LIST_DeleteWindows(u8 *p)
 {
     u32 h;
     s32 i;
 
-    func_02202940((struct Obj *)(p + 0xfa0));
+    WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)(p + 0xfa0));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD40));
     if (((struct Obj03069 *)p)->f12FC == 0) {
         h = ((struct Obj03069 *)p)->fD54;

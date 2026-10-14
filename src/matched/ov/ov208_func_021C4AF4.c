@@ -1,5 +1,5 @@
 /*
- * function: func_021C4AF4
+ * function: ZUKAN_DETAIL_FORM_DeletePrintQueues
  * address: 0x021C4AF4
  * packet: pkt_ov208_021C4AF4
  * region: ov208
@@ -22,7 +22,7 @@ struct Ov208Menu {
 struct PrintSys;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-void func_021C4AF4(u16 *heap, struct Ov208Menu *p)
+void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Menu *p)
 {
     u8 i;
     for (i = 0; i < 5; i++) {

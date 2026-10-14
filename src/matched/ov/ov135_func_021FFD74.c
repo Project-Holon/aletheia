@@ -1,5 +1,5 @@
 /*
- * function: func_021FFD74
+ * function: WORLDTRADE_SUBLCD_SetSlotActorPositionsLower
  * address: 0x021FFD74
  * packet: pkt_ov135_021FFD74
  * region: ov135
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F4EA0 0x021F4EA0 thumb ov135
+ *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  */
 #include "../include/Obj10592.h"
-extern void func_021F4EA0(void *,int,int);
-void func_021FFD74(char *p) {int i;for(i=0;i<8;i++) {unsigned a=(unsigned)p+i*4;void *v=((struct Obj10592 *)a)->fD0C;if(v) func_021F4EA0(v,((struct Obj10592 *)a)->fEC4,((struct Obj10592 *)a)->fEC6+32);}}
+extern void WORLDTRADE_SetActorSurfacePos(void *,int,int);
+void WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(char *p) {int i;for(i=0;i<8;i++) {unsigned a=(unsigned)p+i*4;void *v=((struct Obj10592 *)a)->fD0C;if(v) WORLDTRADE_SetActorSurfacePos(v,((struct Obj10592 *)a)->fEC4,((struct Obj10592 *)a)->fEC6+32);}}

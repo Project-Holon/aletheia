@@ -1,5 +1,5 @@
 /*
- * function: func_021E6008
+ * function: POKETRADE_2D_CreateCuredPokerusIcon
  * address: 0x021E6008
  * packet: pkt_ov119_021E6008
  * region: ov119
@@ -34,7 +34,7 @@ extern int func_02027750(int);
 extern int func_02027754(int);
 extern void UI_SCENE_LoadActorGfx(void *, In *, int, u16);
 extern int UI_SCENE_CreateActor(void *, int, u8, u16, u8, u16);
-void func_021E6008(char *p, int b, void *c)
+void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c)
 {
     char *q = p + 0x978;
     In in;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FE84C",
+   "name": "WORLDTRADE_SEARCH_StateShowEmptyHistoryMessage",
    "address": "0x021FE84C",
    "kind": "game",
    "region": "ov135",

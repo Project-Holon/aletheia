@@ -1,5 +1,5 @@
 /*
- * function: func_021B6ECC
+ * function: DRAW_SYSTEM_AdvanceIndex
  * address:  0x021B6ECC
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B6ECC(void *o, u16 *c)
+void DRAW_SYSTEM_AdvanceIndex(void *o, u16 *c)
 {
     *c += 1;
     if (*c >= ((struct Obj24068 *)o)->f2) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD1CC
+ * function: BTLV_EFFVM_ParticleStartCallback
  * address: 0x021FD1CC
  * packet: pkt_ov094_021FD1CC
  * region: ov094
@@ -15,16 +15,16 @@
  * leave the spill on old b.y or the add operands reversed.
  * symbols:
  *   func_02051774 0x02051774 arm
- *   func_021FD070 0x021FD070 thumb ov094
- *   func_021FCF2C 0x021FCF2C thumb ov094
- *   func_021FD088 0x021FD088 thumb ov094
- *   func_021F8694 0x021F8694 thumb ov094
- *   func_021F8710 0x021F8710 thumb ov094
- *   func_021FF3FC 0x021FF3FC thumb ov094
- *   func_021FF3F4 0x021FF3F4 thumb ov094
- *   func_021FE1B8 0x021FE1B8 thumb ov094
- *   func_021FD8CC 0x021FD8CC thumb ov094
- *   func_02011324 0x02011324 thumb
+ *   BTLV_EFFVM_ResolveSideFromVm 0x021FD070 thumb ov094
+ *   BTLV_EFFVM_ResolveSlotKey 0x021FCF2C thumb ov094
+ *   BTLV_EFFVM_ResolveAnchorSlot 0x021FD088 thumb ov094
+ *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
+ *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
+ *   BTLV_MCSS_GetSlotPositionForRule 0x021FF3FC thumb ov094
+ *   BTLV_MCSS_GetSlotPosition 0x021FF3F4 thumb ov094
+ *   BTLV_EFFVM_TransformVecByMtx44 0x021FE1B8 thumb ov094
+ *   BTLV_EFFVM_ParticleMotionStep 0x021FD8CC thumb ov094
+ *   VM_GetUserData 0x02011324 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   BUTTON_MAN_SetUserData 0x02051A2C arm
@@ -111,17 +111,17 @@ struct Obj;
 struct S12;
 struct Vec3;
 extern u32 func_02051774(void);
-extern int func_021FD070(int a, int b);
-extern int func_021FCF2C(int a, int idx);
-extern int func_021FD088(int a, int *out);
+extern int BTLV_EFFVM_ResolveSideFromVm(int a, int b);
+extern int BTLV_EFFVM_ResolveSlotKey(int a, int idx);
+extern int BTLV_EFFVM_ResolveAnchorSlot(int a, int *out);
 struct ScriptVm;
-extern int func_021F8694(void);
-extern int func_021F8710(void);
-extern void func_021FF3FC(const Vec *def, Vec *out, int idx, int kind);
-extern void func_021FF3F4(void *obj, void *out, int idx);
-extern void func_021FE1B8(Vec *v, const Vec *ofs);
-extern void func_021FD8CC(void *p, int active);
-extern void *func_02011324(struct ScriptVm *vm);
+extern int BTLV_EFFECT_GetMcss(void);
+extern int BTLV_EFFECT_GetMode(void);
+extern void BTLV_MCSS_GetSlotPositionForRule(const Vec *def, Vec *out, int idx, int kind);
+extern void BTLV_MCSS_GetSlotPosition(void *obj, void *out, int idx);
+extern void BTLV_EFFVM_TransformVecByMtx44(Vec *v, const Vec *ofs);
+extern void BTLV_EFFVM_ParticleMotionStep(void *p, int active);
+extern void *VM_GetUserData(struct ScriptVm *vm);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
@@ -156,7 +156,7 @@ extern void BUTTON_MAN_SetOffsetY(char *p, int v);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const Vec *v);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 
-void func_021FD1CC(void *p)
+void BTLV_EFFVM_ParticleStartCallback(void *p)
 {
     Vec a;
     Vec b;
@@ -183,11 +183,11 @@ void func_021FD1CC(void *p)
     flip = r->flip;
     switch (r->k1) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        r->k1 = func_021FD070(r->vm, r->k1);
+        r->k1 = BTLV_EFFVM_ResolveSideFromVm(r->vm, r->k1);
         break;
     case 9:
     case 11:
-        r->k1 = func_021FCF2C(r->vm, r->k1 + 5);
+        r->k1 = BTLV_EFFVM_ResolveSlotKey(r->vm, r->k1 + 5);
         break;
     case 8:
         a.x = r->pa.x;
@@ -195,11 +195,11 @@ void func_021FD1CC(void *p)
         a.z = r->pa.z;
         break;
     case 14: case 15: case 16: case 17:
-        func_021FF3FC((const Vec *)func_021F8694(), &a, r->k1 - 12, 1);
+        BTLV_MCSS_GetSlotPositionForRule((const Vec *)BTLV_EFFECT_GetMcss(), &a, r->k1 - 12, 1);
         r->k1 = -1;
         break;
     case 18: case 19: case 20: case 21:
-        func_021FF3FC((const Vec *)func_021F8694(), &a, r->k1 - 16, 1);
+        BTLV_MCSS_GetSlotPositionForRule((const Vec *)BTLV_EFFECT_GetMcss(), &a, r->k1 - 16, 1);
         switch (r->k1) {
         case 18: a.z += 0x1a00; break;
         case 19: a.z += 0x2600; break;
@@ -210,23 +210,23 @@ void func_021FD1CC(void *p)
         break;
     }
     if (r->k1 != -1 && r->k1 != 8)
-        func_021FF3F4((void *)func_021F8694(), &a, r->k1);
+        BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), &a, r->k1);
     switch (r->k2) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        r->k2 = func_021FD070(r->vm, r->k2);
+        r->k2 = BTLV_EFFVM_ResolveSideFromVm(r->vm, r->k2);
         break;
     case 9:
-        r->k2 = func_021FCF2C(r->vm, r->k2 + 5);
+        r->k2 = BTLV_EFFVM_ResolveSlotKey(r->vm, r->k2 + 5);
         break;
     case 10:
         flip = 1;
-        r->k2 = func_021FCF2C(r->vm, r->k2 + 4);
+        r->k2 = BTLV_EFFVM_ResolveSlotKey(r->vm, r->k2 + 4);
         break;
     case 12:
         flip = 1;
     case 11:
-        n = func_021FD088(r->vm, &r->k2);
-        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2, n);
+        n = BTLV_EFFVM_ResolveAnchorSlot(r->vm, &r->k2);
+        BTLV_MCSS_GetSlotPositionForRule((const Vec *)BTLV_EFFECT_GetMcss(), &b, r->k2, n);
         r->k2 = -1;
         break;
     case 8:
@@ -235,11 +235,11 @@ void func_021FD1CC(void *p)
         b.z = r->pb.z;
         break;
     case 14: case 15: case 16: case 17:
-        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2 - 12, 1);
+        BTLV_MCSS_GetSlotPositionForRule((const Vec *)BTLV_EFFECT_GetMcss(), &b, r->k2 - 12, 1);
         r->k2 = -1;
         break;
     case 18: case 19: case 20: case 21:
-        func_021FF3FC((const Vec *)func_021F8694(), &b, r->k2 - 16, 1);
+        BTLV_MCSS_GetSlotPositionForRule((const Vec *)BTLV_EFFECT_GetMcss(), &b, r->k2 - 16, 1);
         switch (r->k1) {
         case 18: b.z += 0x1a00; break;
         case 19: b.z += 0x2600; break;
@@ -250,29 +250,29 @@ void func_021FD1CC(void *p)
         break;
     }
     if (r->k2 != -1 && r->k2 != 8)
-        func_021FF3F4((void *)func_021F8694(), &b, r->k2);
-    func_021F8710();
+        BTLV_MCSS_GetSlotPosition((void *)BTLV_EFFECT_GetMcss(), &b, r->k2);
+    BTLV_EFFECT_GetMode();
     a.z += 0x500;
     b.z += 0x500;
     if ((u32)(r->mode - 1) <= 1) {
-        func_021FE1B8(&a, &r->ofs);
-        func_021FE1B8(&b, &r->ofs);
+        BTLV_EFFVM_TransformVecByMtx44(&a, &r->ofs);
+        BTLV_EFFVM_TransformVecByMtx44(&b, &r->ofs);
     } else if (r->mode == 3) {
         c.x = a.x;
         c.y = a.y;
         c.z = a.z;
         a.y += r->ofs.y;
-        func_021FE1B8(&c, &r->ofs);
+        BTLV_EFFVM_TransformVecByMtx44(&c, &r->ofs);
     } else {
         a.y += r->ofs.y;
     }
     b.y += r->ofs.y;
     if (r->kind != 0) {
-        s = func_02011324((struct ScriptVm *)r->vm);
+        s = VM_GetUserData((struct ScriptVm *)r->vm);
         *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj07881 *)s)->f238 & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         o = *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4);
         BUTTON_MAN_SetUserData(p, (int)o);
-        BUTTON_MAN_SetCallback(p, (int)func_021FD8CC);
+        BUTTON_MAN_SetCallback(p, (int)BTLV_EFFVM_ParticleMotionStep);
         ((struct Obj07881 *)s)->f234 += 1;
         o->f38 = 0;
         o->f50 = 0;

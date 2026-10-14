@@ -13,7 +13,7 @@
  *   BMP_Delete 0x020437AC arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021FC0C8 0x021FC0C8 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01571.h"
@@ -25,7 +25,7 @@ struct Obj020437AC;
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021FC0C8(char *p, unsigned i);
+extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021FCC80(char *p)
@@ -37,8 +37,8 @@ void func_021FCC80(char *p)
         if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) BMP_Delete((struct Obj020437AC *)(*(int *)(p+0x8C+i*4)));
     }
     BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj01571 *)p)->f38));BMP_WIN_Delete((struct Descriptor *)(((struct Obj01571 *)p)->f38));
-    if(((struct Obj01571 *)p)->fD<4) func_021FC0C8((char *)(((struct Obj01571 *)p)->f14),7);
-    else func_021FC0C8((char *)(((struct Obj01571 *)p)->f14),8);
+    if(((struct Obj01571 *)p)->fD<4) BR_RES_ReleaseSprite((char *)(((struct Obj01571 *)p)->f14),7);
+    else BR_RES_ReleaseSprite((char *)(((struct Obj01571 *)p)->f14),8);
     if(((struct Obj01571 *)p)->f24) {
         *(unsigned short *)(((struct Obj01571 *)p)->f24)=((struct Obj01571 *)p)->f42;
         *(unsigned short *)(((struct Obj01571 *)p)->f24+2)=((struct Obj01571 *)p)->f40;

@@ -1,5 +1,5 @@
 /*
- * function: func_021799FC
+ * function: IRCNET_IsSendReady
  * address: 0x021799FC
  * packet: pkt_ov015_021799FC
  * region: ov015
@@ -18,7 +18,7 @@
 #include "../include/G_State.h"
 
 typedef unsigned char u8;
-u8 func_021799FC(void);
+u8 IRCNET_IsSendReady(void);
 extern struct State d_0217AB80;
 
-u8 func_021799FC(void) { return d_0217AB80.f14; }
+u8 IRCNET_IsSendReady(void) { return d_0217AB80.f14; }

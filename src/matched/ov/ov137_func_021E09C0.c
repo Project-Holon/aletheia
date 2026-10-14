@@ -1,5 +1,5 @@
 /*
- * function: func_021E09C0
+ * function: GURU2_MAIN_UpdateRecordPosition
  * address: 0x021E09C0
  * packet: pkt_ov137_021E09C0
  * region: ov137
@@ -23,20 +23,20 @@
  *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  * }
  * symbols:
- *   func_021E15DC 0x021E15DC thumb ov137
+ *   GURU2_MAIN_AddAngleWrapped 0x021E15DC thumb ov137
  *   func_0203F63C 0x0203F63C arm
  *   func_0203F5FC 0x0203F5FC arm
  */
 typedef unsigned short u16;
-extern void func_021E15DC(int *,int);
+extern void GURU2_MAIN_AddAngleWrapped(int *,int);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern s16 func_0203F63C(u32 x);
 extern int func_0203F5FC(u32 x);
-void func_021E09C0(char *p,int *q,int amount,int extra)
+void GURU2_MAIN_UpdateRecordPosition(char *p,int *q,int amount,int extra)
 {
     u16 angle;
-    func_021E15DC(&amount,*(int *)(p+0x20));
+    GURU2_MAIN_AddAngleWrapped(&amount,*(int *)(p+0x20));
     angle=amount/4096;
     *(int *)(p+0x44)=*(int *)(p+0x50)+q[0]+22*func_0203F63C(angle);
     *(int *)(p+0x48)=extra+(*(int *)(p+0x54)-0x6000+q[1]);

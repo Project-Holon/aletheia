@@ -1,5 +1,5 @@
 /*
- * function: func_021BB938
+ * function: CTVT_DRAW_ShowMessage
  * address: 0x021BB938
  * packet: pkt_ov172_021BB938
  * region: ov172
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE034 0x021BE034 thumb ov172
- *   func_021BE03C 0x021BE03C thumb ov172
- *   func_021BE044 0x021BE044 thumb ov172
+ *   COMM_TVT_SYS_GetFont 0x021BE034 thumb ov172
+ *   COMM_TVT_SYS_GetMsgData 0x021BE03C thumb ov172
+ *   COMM_TVT_SYS_GetPrintQue 0x021BE044 thumb ov172
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -26,9 +26,9 @@
 #include "../include/Obj02881.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021BE034(void *);
-extern u32 func_021BE03C(void *);
-extern u32 func_021BE044(void *);
+extern u32 COMM_TVT_SYS_GetFont(void *);
+extern u32 COMM_TVT_SYS_GetMsgData(void *);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *);
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
@@ -47,11 +47,11 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-void func_021BB938(void *p, u8 *q, int id)
+void CTVT_DRAW_ShowMessage(void *p, u8 *q, int id)
 {
-    u32 font = func_021BE034(p);
-    u32 msgs = func_021BE03C(p);
-    u32 sys = func_021BE044(p);
+    u32 font = COMM_TVT_SYS_GetFont(p);
+    u32 msgs = COMM_TVT_SYS_GetMsgData(p);
+    u32 sys = COMM_TVT_SYS_GetPrintQue(p);
     u32 text;
     if (*(u32 *)&((struct Obj02881 *)q)->f50 != 0) BMP_WIN_Delete(((struct Obj02881 *)q)->f50);
     *(u32 *)&((struct Obj02881 *)q)->f50 = BMP_WIN_Create(0, 1, q[4] == 0 ? 4 : 1, 30, 4, 10, 1);

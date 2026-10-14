@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021799FC",
+   "name": "IRCNET_IsSendReady",
    "address": "0x021799FC",
    "kind": "game",
    "region": "ov015",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C295C
+ * function: PERCENTAGE_CreateActors
  * address:  0x021C295C
  * packet:   pkt_021C295C
  * region:   ov217
@@ -26,7 +26,7 @@ struct arg_021C295C {
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
-void func_021C295C(unsigned char *p)
+void PERCENTAGE_CreateActors(unsigned char *p)
 {
     struct arg_021C295C s;
     int *q = (int *)(p + 0x20);

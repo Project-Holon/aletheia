@@ -1,5 +1,5 @@
 /*
- * function: func_0220793C
+ * function: BTLV_GAUGE_UpdateHpBarPixels
  * address:  0x0220793C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220793C   0x0220793C  thumb
+ *   BTLV_GAUGE_UpdateHpBarPixels   0x0220793C  thumb
  *   BTLV_GAUGE_CalcBarPixels 0x02208D38 thumb ov094
 
  *
@@ -20,7 +20,7 @@
 
 extern int BTLV_GAUGE_CalcBarPixels(int a, int b, int c);
 
-void func_0220793C(char *p)
+void BTLV_GAUGE_UpdateHpBarPixels(char *p)
 {
     int a = ((struct Obj00974 *)p)->f48;
     int b = ((struct Obj00974 *)p)->f4C;

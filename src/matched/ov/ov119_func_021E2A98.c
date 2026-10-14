@@ -1,5 +1,5 @@
 /*
- * function: func_021E2A98
+ * function: POKETRADE_SAVE_VBlankSetupWindowRegs
  * address: 0x021E2A98
  * packet: pkt_ov119_021E2A98
  * region: ov119
@@ -43,7 +43,7 @@ static inline void Position0(int x1,int y1,int x2,int y2) {
 static inline void Visible(int window) {DISPCNT=(DISPCNT&~0xe000)|(window<<13);}
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021E2A98(void *a,char *p) {
+void POKETRADE_SAVE_VBlankSetupWindowRegs(void *a,char *p) {
     W1Inside(0x10,0);
     Position1(0x30,0,0xd0,0x20);
     W0Inside(0x11,0);

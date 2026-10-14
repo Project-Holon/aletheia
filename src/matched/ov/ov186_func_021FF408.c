@@ -1,5 +1,5 @@
 /*
- * function: func_021FF408
+ * function: BR_NET_Create
  * address: 0x021FF408
  * packet: pkt_ov186_021FF408
  * region: ov186
@@ -16,21 +16,21 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02012944 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_021D6660 0x021D6660 thumb ov125
+ *   GDS_RAP_Init 0x021D6660 thumb ov125
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GDS_PROFILE_Create 0x0200D59C thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
- *   func_021FFB14 0x021FFB14 thumb ov186
+ *   BR_NET_CreateTask 0x021FFB14 thumb ov186
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_021FFACC 0x021FFACC thumb ov186
- *   func_021FFAD8 0x021FFAD8 thumb ov186
- *   func_021FFAE4 0x021FFAE4 thumb ov186
- *   func_021FFAF0 0x021FFAF0 thumb ov186
- *   func_021FFAFC 0x021FFAFC thumb ov186
- *   func_021FFB08 0x021FFB08 thumb ov186
- *   func_021FF8E0 0x021FF8E0 thumb ov186
- *   func_021FFB80 0x021FFB80 thumb ov186
- *   d_02200D8C 0x02200D8C data a1
+ *   BR_NET_OnUploadEntry 0x021FFACC thumb ov186
+ *   BR_NET_OnDownloadEntries 0x021FFAD8 thumb ov186
+ *   BR_NET_OnUploadVideo 0x021FFAE4 thumb ov186
+ *   BR_NET_OnSearchVideos 0x021FFAF0 thumb ov186
+ *   BR_NET_OnGetVideo 0x021FFAFC thumb ov186
+ *   BR_NET_OnMarkVideo 0x021FFB08 thumb ov186
+ *   BR_NET_StepIdle 0x021FF8E0 thumb ov186
+ *   BR_NET_OnRapError 0x021FFB80 thumb ov186
+ *   gBrNetSourceFile 0x02200D8C data a1
  */
 #include "../include/Obj06637.h"
 typedef unsigned long u32;
@@ -45,23 +45,23 @@ struct GdsProfile;
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern int func_021D6660(char *p, char *a);
+extern int GDS_RAP_Init(char *p, char *a);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
-extern char *func_021FFB14(void *p, int f, unsigned heap);
+extern char *BR_NET_CreateTask(void *p, int f, unsigned heap);
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
-extern void func_021FFACC(char *),func_021FFAD8(char *),func_021FFAE4(char *),func_021FFAF0(char *),func_021FFAFC(char *),func_021FFB08(char *);
-extern void func_021FF8E0(void);
-extern int func_021FFB80(char *,int,int,int);
-extern const char d_02200D8C[];
+extern void BR_NET_OnUploadEntry(char *),BR_NET_OnDownloadEntries(char *),BR_NET_OnUploadVideo(char *),BR_NET_OnSearchVideos(char *),BR_NET_OnGetVideo(char *),BR_NET_OnMarkVideo(char *);
+extern void BR_NET_StepIdle(void);
+extern int BR_NET_OnRapError(char *,int,int,int);
+extern const char gBrNetSourceFile[];
 extern char ov125_id[];
-char *func_021FF408(void *owner,void *arg,u32 heap)
+char *BR_NET_Create(void *owner,void *arg,u32 heap)
 {
     char *p;
     Config cfg;
     func_02034AC4((int)ov125_id);
-    p=func_02030734(heap,0x5E4,0,d_02200D8C,0x97);
+    p=func_02030734(heap,0x5E4,0,gBrNetSourceFile,0x97);
     MI_CpuFill8(p,0,0x5E4);
     ((struct Obj06637 *)p)->f5E0=owner;
     MI_CpuFill8(&cfg,0,0x2C);
@@ -69,14 +69,14 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     cfg.value=func_0200853C((const struct Sub0200852CObj *)func_02012944(owner));
     cfg.arg=arg;
     cfg.context=p;
-    cfg.a=func_021FFACC;cfg.b=func_021FFAD8;cfg.c=func_021FFAE4;
-    cfg.d=func_021FFAF0;cfg.e=func_021FFAFC;cfg.f=func_021FFB08;
-    func_021D6660(p,(char *)(&cfg));
+    cfg.a=BR_NET_OnUploadEntry;cfg.b=BR_NET_OnDownloadEntries;cfg.c=BR_NET_OnUploadVideo;
+    cfg.d=BR_NET_OnSearchVideos;cfg.e=BR_NET_OnGetVideo;cfg.f=BR_NET_OnMarkVideo;
+    GDS_RAP_Init(p,(char *)(&cfg));
     ((struct Obj06637 *)p)->f5A4=1;
     GAME_DATA_GetSaveControl(owner);
     ((struct Obj06637 *)p)->f5A8=GDS_PROFILE_Create(heap);
     GDS_PROFILE_Init(((struct Obj06637 *)p)->f5A8,owner);
-    ((struct Obj06637 *)p)->f5AC=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
-    DWC_RAP_SetErrorHookCallback((int)((void *)func_021FFB80),(int)p);
+    ((struct Obj06637 *)p)->f5AC=BR_NET_CreateTask(p,(int)((void *)BR_NET_StepIdle),heap);
+    DWC_RAP_SetErrorHookCallback((int)((void *)BR_NET_OnRapError),(int)p);
     return p;
 }

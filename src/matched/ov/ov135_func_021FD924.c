@@ -1,5 +1,5 @@
 /*
- * function: func_021FD924
+ * function: WORLDTRADE_SEARCH_Init
  * address:  0x021FD924
  * packet:   pkt_021FD924
  * region:   ov135
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FE118  0x021FE118  thumb
- *   func_021FDBCC  0x021FDBCC  thumb
- *   func_021FDD00  0x021FDD00  thumb
- *   func_021FDF2C  0x021FDF2C  thumb
- *   func_021FDDA8  0x021FDDA8  thumb
- *   func_021FFFE8  0x021FFFE8  thumb
- *   func_02200B34  0x02200B34  thumb
- *   func_02200BAC  0x02200BAC  thumb
- *   func_021F9890  0x021F9890  thumb
- *   func_021FF384  0x021FF384  thumb
- *   func_021FF474  0x021FF474  thumb
- *   func_021F7F9C  0x021F7F9C  thumb
- *   func_021F8098  0x021F8098  thumb
- *   func_021F886C  0x021F886C  thumb
- *   func_021F8154  0x021F8154  thumb
- *   func_021F8010  0x021F8010  thumb
- *   func_021FF50C  0x021FF50C  thumb
+ *   WORLDTRADE_SEARCH_CreateStrings  0x021FE118  thumb
+ *   WORLDTRADE_SEARCH_SetupBgPlanes  0x021FDBCC  thumb
+ *   WORLDTRADE_SEARCH_LoadBgGraphics  0x021FDD00  thumb
+ *   WORLDTRADE_SEARCH_CreateWindows  0x021FDF2C  thumb
+ *   WORLDTRADE_SEARCH_CreateActors  0x021FDDA8  thumb
+ *   WORLDTRADE_TITLE_ScrollBg  0x021FFFE8  thumb
+ *   WORLDTRADE_TITLE_LoadSubBgSwap  0x02200B34  thumb
+ *   WORLDTRADE_TITLE_CreateMenuWindow  0x02200BAC  thumb
+ *   WORLDTRADE_INPUT_MenuCreate  0x021F9890  thumb
+ *   WORLDTRADE_SEARCH_DrawFormLabels  0x021FF384  thumb
+ *   WORLDTRADE_SEARCH_DrawHistoryHeader  0x021FF474  thumb
+ *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
+ *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
+ *   WORLDTRADE_DEPOSIT_GetConditionIndex  0x021F886C  thumb
+ *   WORLDTRADE_DEPOSIT_PrintLevelRange  0x021F8154  thumb
+ *   WORLDTRADE_DEPOSIT_PrintMessageLine  0x021F8010  thumb
+ *   WORLDTRADE_SEARCH_ScrollBgs  0x021FF50C  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  */
 
@@ -112,37 +112,37 @@ typedef struct {
     u32 f12E4;
 } Work;
 
-extern void func_021FE118(u8 *p);
-extern void func_021FDBCC(void);
-extern void func_021FDD00(void *p);
-extern void func_021FDF2C(Work *p);
-extern void func_021FDDA8(Work *p);
-extern void func_021FFFE8(u8 *p, u32 a, u32 b);
-extern void func_02200B34(u8 *p);
-extern void func_02200BAC(u8 *p, u32 k);
-extern void *func_021F9890(Init *init, u32 a, u32 b);
-extern void func_021FF384(void **win, void **win2, void *bank, void *g);
-extern void func_021FF474(void *win, void *bank, int flag, void *g);
-extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
-extern void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
-extern int func_021F886C(int key, int val, int which);
-extern void func_021F8154(void *win, void *bank, int idx, u32 e, u32 y, u16 color, int alt, void *g);
-extern void func_021F8010(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g);
-extern void func_021FF50C(void *p);
+extern void WORLDTRADE_SEARCH_CreateStrings(u8 *p);
+extern void WORLDTRADE_SEARCH_SetupBgPlanes(void);
+extern void WORLDTRADE_SEARCH_LoadBgGraphics(void *p);
+extern void WORLDTRADE_SEARCH_CreateWindows(Work *p);
+extern void WORLDTRADE_SEARCH_CreateActors(Work *p);
+extern void WORLDTRADE_TITLE_ScrollBg(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_TITLE_LoadSubBgSwap(u8 *p);
+extern void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k);
+extern void *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
+extern void WORLDTRADE_SEARCH_DrawFormLabels(void **win, void **win2, void *bank, void *g);
+extern void WORLDTRADE_SEARCH_DrawHistoryHeader(void *win, void *bank, int flag, void *g);
+extern void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
+extern void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
+extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which);
+extern void WORLDTRADE_DEPOSIT_PrintLevelRange(void *win, void *bank, int idx, u32 e, u32 y, u16 color, int alt, void *g);
+extern void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g);
+extern void WORLDTRADE_SEARCH_ScrollBgs(void *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-int func_021FD924(Work *p)
+int WORLDTRADE_SEARCH_Init(Work *p)
 {
     Init init;
 
-    func_021FE118((u8 *)p);
-    func_021FDBCC();
-    func_021FDD00(p);
-    func_021FDF2C(p);
-    func_021FDDA8(p);
-    func_021FFFE8((u8 *)p, 0, 0);
-    func_02200B34((u8 *)p);
-    func_02200BAC((u8 *)p, 4);
+    WORLDTRADE_SEARCH_CreateStrings((u8 *)p);
+    WORLDTRADE_SEARCH_SetupBgPlanes();
+    WORLDTRADE_SEARCH_LoadBgGraphics(p);
+    WORLDTRADE_SEARCH_CreateWindows(p);
+    WORLDTRADE_SEARCH_CreateActors(p);
+    WORLDTRADE_TITLE_ScrollBg((u8 *)p, 0, 0);
+    WORLDTRADE_TITLE_LoadSubBgSwap((u8 *)p);
+    WORLDTRADE_TITLE_CreateMenuWindow((u8 *)p, 4);
     p->f12E4 = 0;
     init.w00 = p->fD50;
     init.w04 = p->fDD4;
@@ -155,14 +155,14 @@ int func_021FD924(Work *p)
     init.w20 = p->msg;
     init.w24 = p->ctx->f10;
     init.w28 = p->aux->f14;
-    p->menu = func_021F9890(&init, 2, 1);
-    func_021FF384(p->win, p->win2, p->bank, p->fFA0);
-    func_021FF474(p->wDB0, p->bank, p->fE1A, p->fFA0);
-    func_021F7F9C(p->win[1], p->names, p->rec.name, 0, 0, 0x3C40, p->fFA0);
-    func_021F8098(p->win[3], p->bank, p->rec.mode, 1, 0, 0, 0x3C40, p->fFA0);
-    func_021F8154(p->wDA4, p->bank, func_021F886C(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->fFA0);
-    func_021F8010(p->win2[1], p->msg, p->bank, p->fF84, 0, 0, 0x3C40, p->fFA0);
-    p->vblank = func_021FF50C;
+    p->menu = WORLDTRADE_INPUT_MenuCreate(&init, 2, 1);
+    WORLDTRADE_SEARCH_DrawFormLabels(p->win, p->win2, p->bank, p->fFA0);
+    WORLDTRADE_SEARCH_DrawHistoryHeader(p->wDB0, p->bank, p->fE1A, p->fFA0);
+    WORLDTRADE_DEPOSIT_PrintName(p->win[1], p->names, p->rec.name, 0, 0, 0x3C40, p->fFA0);
+    WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->win[3], p->bank, p->rec.mode, 1, 0, 0, 0x3C40, p->fFA0);
+    WORLDTRADE_DEPOSIT_PrintLevelRange(p->wDA4, p->bank, WORLDTRADE_DEPOSIT_GetConditionIndex(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->fFA0);
+    WORLDTRADE_DEPOSIT_PrintMessageLine(p->win2[1], p->msg, p->bank, p->fF84, 0, 0, 0x3C40, p->fFA0);
+    p->vblank = WORLDTRADE_SEARCH_ScrollBgs;
     if (p->kind == 0xd) {
         WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     }

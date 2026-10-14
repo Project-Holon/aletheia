@@ -14,7 +14,7 @@ struct BtlPokeCon;
 struct BtlParty;
 struct BtlPokeParam;
 struct BtlvInput;
-struct BtlNetCtx;
+struct BtlClient;
 struct PrintQueue;
 struct Strbuf;
 struct BtlvCore;
@@ -75,7 +75,7 @@ typedef struct BtlvAuxView {
     u8 pad00[8];
     void *fontMain;                 /* 0x08 */
     struct Strbuf *msgBuffer;       /* 0x0c, 0x80 characters */
-    struct BtlNetCtx *netCtx;       /* 0x10 */
+    struct BtlClient *client;       /* 0x10 */
     struct PrintQueue *printQueue;  /* 0x14 */
     u8 pad18[8];
     BtlvScdTask taskStack[BTLV_SCD_TASK_MAX];  /* 0x20 */

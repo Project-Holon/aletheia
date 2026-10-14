@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BF7CC 0x021BF7CC thumb ov217
- *   func_021C0F5C 0x021C0F5C thumb ov217
+ *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C369A 0x021C369A data a1
  *
  * Addresses are Black-image addresses.
@@ -22,11 +22,11 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF7CC(void *p);
-extern u32 func_021C0F5C(u32 a0, u32 a1);
+extern u32 BgTextLabel_PrintMessage(u32 a0, u32 a1);
 extern u8 d_021C369A[];
 void func_021BF13C(char *p)
 {
     u32 o = ((struct Obj25925 *)p)->f350;
     u32 i = func_021BF7CC(p);
-    func_021C0F5C(o, d_021C369A[i]);
+    BgTextLabel_PrintMessage(o, d_021C369A[i]);
 }

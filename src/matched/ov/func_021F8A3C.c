@@ -1,5 +1,5 @@
 /*
- * function: func_021F8A3C
+ * function: WORLDTRADE_ENTER_EmptyInitHook
  * address:  0x021F8A3C
  * packet:   pkt_021F8A3C
  * region:   ov135
@@ -16,6 +16,6 @@
  * Empty stub.
  */
 
-void func_021F8A3C(void *a0)
+void WORLDTRADE_ENTER_EmptyInitHook(void *a0)
 {
 }

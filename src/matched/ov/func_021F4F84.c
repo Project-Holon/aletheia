@@ -1,5 +1,5 @@
 /*
- * function: func_021F4F84
+ * function: WORLDTRADE_DecrementTimer
  * address:  0x021F4F84
  * packet:   pkt_021F4F84
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-void func_021F4F84(u8 *p)
+void WORLDTRADE_DecrementTimer(u8 *p)
 {
     u16 v = ((struct Obj12193 *)p)->f36;
 

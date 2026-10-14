@@ -18,14 +18,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F10D4",
-    "func_021F10DC",
-    "func_021F10E4",
-    "func_021F10EC",
-    "func_021F10F4",
-    "func_021F10FC",
-    "func_021F1104",
-    "func_021F110C"
+    "MB_COMM_SYS_HasKind11",
+    "MB_COMM_SYS_HasKind12",
+    "MB_COMM_SYS_HasKind12Again",
+    "MB_COMM_SYS_HasKind14",
+    "MB_COMM_SYS_HasKind1",
+    "MB_COMM_SYS_HasKind2",
+    "MB_COMM_SYS_HasKind4",
+    "MB_COMM_SYS_GetCount"
+   ],
+   "addresses": [
+    "0x021F10D4",
+    "0x021F10DC",
+    "0x021F10E4",
+    "0x021F10EC",
+    "0x021F10F4",
+    "0x021F10FC",
+    "0x021F1104",
+    "0x021F110C"
    ]
   }
  ]

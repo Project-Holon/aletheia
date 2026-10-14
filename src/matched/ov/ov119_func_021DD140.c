@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8ADC 0x021D8ADC thumb ov119
+ *   POKETRADE_PROC_IsWifiMode 0x021D8ADC thumb ov119
  */
 #include "../include/Obj00001.h"
-extern int func_021D8ADC(char *p);
+extern int POKETRADE_PROC_IsWifiMode(char *p);
 int func_021DD140(char *p)
 {
     if (((struct Obj00001 *)p)->f11F1) {
-        if (func_021D8ADC(p))
+        if (POKETRADE_PROC_IsWifiMode(p))
             ((struct Obj00001 *)p)->f11F1 = ((struct Obj00001 *)p)->f11F1 - 1;
         else
             ((struct Obj00001 *)p)->f11F1 = 0;

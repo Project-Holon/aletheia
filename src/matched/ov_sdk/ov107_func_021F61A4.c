@@ -1,5 +1,5 @@
 /*
- * function: func_021F61A4
+ * function: MBi_SendMP
  * address:  0x021F61A4
  * packet:   pkt_ov107_021F61A4
  * region:   ov107
@@ -39,7 +39,7 @@ extern struct WmBase g_021F6F90;
 extern int func_021F6158(void *callback, unsigned short *sendData, unsigned short sendDataSize, unsigned short arg3, unsigned short pollbmp);
 extern void func_021F4EFC(void *arg);
 
-int func_021F61A4(unsigned short *buf, int len, int pollbmp)
+int MBi_SendMP(unsigned short *buf, int len, int pollbmp)
 {
     unsigned short size = len;
     unsigned short pollbitmap = pollbmp;

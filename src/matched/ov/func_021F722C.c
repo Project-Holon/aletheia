@@ -1,5 +1,5 @@
 /*
- * function: func_021F722C
+ * function: BTLV_CAMERA_IsMoving
  * address:  0x021F722C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F722C   0x021F722C  thumb
+ *   BTLV_CAMERA_IsMoving   0x021F722C  thumb
  *
  * lane O10 candidate
  */
 #include "../include/Obj18557.h"
 
-int func_021F722C(char *p)
+int BTLV_CAMERA_IsMoving(char *p)
 {
     return ((struct Obj18557 *)p)->f14 != 0;
 }

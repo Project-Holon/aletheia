@@ -1,5 +1,5 @@
 /*
- * function: func_021FFC9C
+ * function: BR_POKESEARCH_Main
  * address: 0x021FFC9C
  * packet: pkt_ov186_021FFC9C
  * region: ov186
@@ -9,48 +9,48 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_022000F0 0x022000F0 thumb ov186
+ *   BR_POKESEARCH_PollGroupTouch 0x022000F0 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FCD0C 0x021FCD0C thumb ov186
  *   func_021FCDA8 0x021FCDA8 thumb ov186
  *   func_021FD938 0x021FD938 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_021FFFCC 0x021FFFCC thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
+ *   BR_POKESEARCH_DestroyGroupWindows 0x021FFFCC thumb ov186
  *   func_02034714 0x02034714 arm
- *   func_02200188 0x02200188 thumb ov186
- *   func_021FFFF8 0x021FFFF8 thumb ov186
- *   func_022000D0 0x022000D0 thumb ov186
+ *   BR_POKESEARCH_BuildSeenList 0x02200188 thumb ov186
+ *   BR_POKESEARCH_CreateSpeciesList 0x021FFFF8 thumb ov186
+ *   BR_POKESEARCH_DestroySpeciesList 0x022000D0 thumb ov186
  *   func_020307B0 0x020307B0 arm
- *   func_021FFF28 0x021FFF28 thumb ov186
- *   func_021FFE34 0x021FFE34 thumb ov186
- *   d_02200DAC 0x02200DAC data
+ *   BR_POKESEARCH_CreateGroupWindows 0x021FFF28 thumb ov186
+ *   BR_POKESEARCH_UpdatePrint 0x021FFE34 thumb ov186
+ *   gBrPokeSearchAssertString 0x02200DAC data
  */
 #include "../include/Obj00221.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
-extern int func_022000F0(char *);
+extern int BR_POKESEARCH_PollGroupTouch(char *);
 typedef unsigned char  u8;
 struct Work;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(char *,u32,const Pair *);
 extern void func_021FCD0C(char *);
-extern int func_021FCDA8(char *),func_021FD938(char *),func_021FE7B0(int *);
-extern void func_021FE784(int a, int b, int c, int d);
-extern void func_021FFFCC(u8 *p);
-extern void func_022000D0(u8 *p);
-extern void func_021FFF28(struct Work *p);
-extern void func_021FFFF8(char *);
-extern u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap);
+extern int func_021FCDA8(char *),func_021FD938(char *),BR_FADE_GetResult(int *);
+extern void BR_FADE_Start(int a, int b, int c, int d);
+extern void BR_POKESEARCH_DestroyGroupWindows(u8 *p);
+extern void BR_POKESEARCH_DestroySpeciesList(u8 *p);
+extern void BR_POKESEARCH_CreateGroupWindows(struct Work *p);
+extern void BR_POKESEARCH_CreateSpeciesList(char *);
+extern u16 *BR_POKESEARCH_BuildSeenList(void *p, u32 index, const u16 *table, u32 *out, u16 heap);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
-extern unsigned func_021FFE34(char *p);
-extern char d_02200DAC[];
-int func_021FFC9C(char *p)
+extern unsigned BR_POKESEARCH_UpdatePrint(char *p);
+extern char gBrPokeSearchAssertString[];
+int BR_POKESEARCH_Main(char *p)
 {
     if (((struct Obj00221 *)p)->f6C) {
         switch (((struct Obj00221 *)p)->f0) {
@@ -59,7 +59,7 @@ int func_021FFC9C(char *p)
         case 2: {
             int x,y,held;
             Pair pair;
-            ((struct Obj00221 *)p)->fC=func_022000F0(p);
+            ((struct Obj00221 *)p)->fC=BR_POKESEARCH_PollGroupTouch(p);
             held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
             if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
@@ -87,37 +87,37 @@ int func_021FFC9C(char *p)
         }
         case 4:
             if (func_021FD938(*(char * *)&((struct Obj00221 *)p)->f78)) {
-                func_021FE784((int)(((struct Obj00221 *)p)->f30),2,2,1);
+                BR_FADE_Start((int)(((struct Obj00221 *)p)->f30),2,2,1);
                 (((struct Obj00221 *)p)->f0)++;
             }
             break;
         case 5:
-            if (func_021FE7B0(*(int * *)&((struct Obj00221 *)p)->f30)) (((struct Obj00221 *)p)->f0)++;
+            if (BR_FADE_GetResult(*(int * *)&((struct Obj00221 *)p)->f30)) (((struct Obj00221 *)p)->f0)++;
             break;
         case 6:
             if (((struct Obj00221 *)p)->f4==3) {
-                func_021FFFCC((u8 *)p);
-                if (((struct Obj00221 *)p)->f88) func_02034714(d_02200DAC,0,d_02200DAC);
-                *(u16 * *)&((struct Obj00221 *)p)->f88=func_02200188(((struct Obj00221 *)p)->f7C,*(u32 *)&((struct Obj00221 *)p)->fC,*(u16 * *)&((struct Obj00221 *)p)->f80,(u32 *)(p+0x8c),((struct Obj00221 *)p)->f24);
-                func_021FFFF8(p);
+                BR_POKESEARCH_DestroyGroupWindows((u8 *)p);
+                if (((struct Obj00221 *)p)->f88) func_02034714(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+                *(u16 * *)&((struct Obj00221 *)p)->f88=BR_POKESEARCH_BuildSeenList(((struct Obj00221 *)p)->f7C,*(u32 *)&((struct Obj00221 *)p)->fC,*(u16 * *)&((struct Obj00221 *)p)->f80,(u32 *)(p+0x8c),((struct Obj00221 *)p)->f24);
+                BR_POKESEARCH_CreateSpeciesList(p);
             } else {
-                func_022000D0((u8 *)p);
+                BR_POKESEARCH_DestroySpeciesList((u8 *)p);
                 if (((struct Obj00221 *)p)->f88) {
                     func_020307B0(((struct Obj00221 *)p)->f88);
                     ((struct Obj00221 *)p)->f88=0;
                 }
-                func_021FFF28((struct Work *)p);
+                BR_POKESEARCH_CreateGroupWindows((struct Work *)p);
             }
-            func_021FE784((int)(((struct Obj00221 *)p)->f30),2,2,0);
+            BR_FADE_Start((int)(((struct Obj00221 *)p)->f30),2,2,0);
             (((struct Obj00221 *)p)->f0)++;
             break;
         case 7:
-            if (func_021FE7B0(*(int * *)&((struct Obj00221 *)p)->f30)) ((struct Obj00221 *)p)->f0=*(u32 *)&((struct Obj00221 *)p)->f4;
+            if (BR_FADE_GetResult(*(int * *)&((struct Obj00221 *)p)->f30)) ((struct Obj00221 *)p)->f0=*(u32 *)&((struct Obj00221 *)p)->f4;
             break;
         case 8: (((struct Obj00221 *)p)->f0)++; break;
         case 9: (((struct Obj00221 *)p)->f0)++; break;
         case 10: ((struct Obj00221 *)p)->f20=1; break;
         }
     }
-    return func_021FFE34(p);
+    return BR_POKESEARCH_UpdatePrint(p);
 }

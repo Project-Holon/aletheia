@@ -1,5 +1,5 @@
 /*
- * function: func_021BC88C
+ * function: ZUKAN_LIST_LoadFormTable
  * address: 0x021BC88C
  * packet: pkt_ov209_021BC88C
  * region: ov209
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=POKE_PERSONAL_LoadFormTable(107,0); }
+void ZUKAN_LIST_LoadFormTable(char *p) { ((struct Obj00123 *)p)->fC38=POKE_PERSONAL_LoadFormTable(107,0); }

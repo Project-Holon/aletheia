@@ -1,5 +1,5 @@
 /*
- * function: func_021FAB0C
+ * function: BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset
  * address: 0x021FAB0C
  * packet: pkt_ov094_021FAB0C
  * region: ov094
@@ -16,9 +16,9 @@
  *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   BUTTON_MAN_GetBlock 0x02051788 arm
- *   func_021FE38C 0x021FE38C thumb ov094
- *   func_021FD1A8 0x021FD1A8 thumb ov094
- *   func_021FD1CC 0x021FD1CC thumb ov094
+ *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
+ *   BTLV_EFFVM_FindEmitterSlot 0x021FD1A8 thumb ov094
+ *   BTLV_EFFVM_ParticleStartCallback 0x021FD1CC thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  *   d_02209DA8 0x02209DA8 data ov094 a4
  *   d_02209D9C 0x02209D9C data ov094 a4
@@ -37,17 +37,17 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void PARTICLE_InitCamera(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
 extern int BUTTON_MAN_GetBlock(char *p);
-extern u32 func_021FE38C(char *, u32);
-extern int func_021FD1A8(char *, int);
-extern void func_021FD1CC(void *p);
-int func_021FAB0C(void *a, char *s)
+extern u32 BTLV_EFFVM_ResolveParticleKey(char *, u32);
+extern int BTLV_EFFVM_FindEmitterSlot(char *, int);
+extern void BTLV_EFFVM_ParticleStartCallback(void *p);
+int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(void *a, char *s)
 {
     Desc desc;
     int *p;
     int idx;
     int x;
     p = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x92d);
-    idx = func_021FD1A8(s, func_021FE38C(s, VM_GetU32(a)));
+    idx = BTLV_EFFVM_FindEmitterSlot(s, BTLV_EFFVM_ResolveParticleKey(s, VM_GetU32(a)));
     x = VM_GetU32(a);
     p[0] = (int)a;
     p[8] = VM_GetU32(a);
@@ -82,7 +82,7 @@ int func_021FAB0C(void *a, char *s)
         desc.v[7] = 0x1000;
         if (BUTTON_MAN_GetBlock(*(void **)(s + 0xc + idx * 4)) == 0)
             PARTICLE_InitCamera(*(void **)(s + 0xc + idx * 4), &desc, 0x2000, &zero, &v1, &v2, (((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000);
-        if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD1CC, (int)p) == -1) {
+        if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)BTLV_EFFVM_ParticleStartCallback, (int)p) == -1) {
             func_020307B0(p);
         }
     } else {

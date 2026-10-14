@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E18CC",
+   "name": "GURU2_MAIN_PartyHasEligiblePokemon",
    "address": "0x021E18CC",
    "kind": "game",
    "region": "ov137",

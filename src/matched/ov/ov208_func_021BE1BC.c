@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE1BC
+ * function: ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight
  * address:  0x021BE1BC
  * packet:   pkt_ov208_021BE1BC
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD3C0  0x021BD3C0  thumb
+ *   ZKND_TBAR_GetButtonActor  0x021BD3C0  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 
@@ -95,10 +95,10 @@ struct Ov208Scene {
 };
 
 struct Obj;
-extern int func_021BD3C0(void *mgr, int key);
+extern int ZKND_TBAR_GetButtonActor(void *mgr, int key);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
-void ov208_func_021BE1BC(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(struct Ov208Scene *p)
 {
     int slot = 9;
 
@@ -117,7 +117,7 @@ void ov208_func_021BE1BC(struct Ov208Scene *p)
         break;
     }
     if (slot != 9) {
-        CLACT_SetActorPaletteOffset((struct Obj *)func_021BD3C0((void *)p->mgr, p->slots[slot].src->id), 0, 0);
+        CLACT_SetActorPaletteOffset((struct Obj *)ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[slot].src->id), 0, 0);
         p->f1c = 4;
     }
 }

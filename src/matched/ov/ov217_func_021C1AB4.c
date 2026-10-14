@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AB4
+ * function: CircleGraph_GetSlice
  * address:  0x021C1AB4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void *func_021C1AB4(void *p, u32 n)
+void *CircleGraph_GetSlice(void *p, u32 n)
 {
     return (char *)p + 0x1c + n * 0x14;
 }

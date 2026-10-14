@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0C0
+ * function: DENDOU_VIEW_MoveActor
  * address: 0x021DE0C0
  * packet: pkt_ov171_021DE0C0
  * region: ov171
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Obj;
 typedef struct Vec2 {s16 x,y;} Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
-void func_021DE0C0(u8 *p, int i, int x, int y)
+void DENDOU_VIEW_MoveActor(u8 *p, int i, int x, int y)
 {
     Vec2 pos;
     pos.x=x; pos.y=y;

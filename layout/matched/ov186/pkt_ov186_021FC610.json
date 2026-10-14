@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC610",
+   "name": "BR_GRAPHIC_Begin3d",
    "address": "0x021FC610",
    "kind": "game",
    "region": "ov186",

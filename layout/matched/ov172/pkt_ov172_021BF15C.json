@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF15C",
+   "name": "decode_block",
    "address": "0x021BF15C",
    "kind": "sdk",
    "region": "ov172",

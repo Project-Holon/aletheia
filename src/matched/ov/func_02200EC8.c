@@ -1,5 +1,5 @@
 /*
- * function: func_02200EC8
+ * function: WORLDTRADE_SERVER_DeleteStrings
  * address:  0x02200EC8
  * packet:   pkt_02200EC8
  * region:   ov135
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_02200EC8(u8 *p)
+void WORLDTRADE_SERVER_DeleteStrings(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj18611 *)p)->fB88));
 }

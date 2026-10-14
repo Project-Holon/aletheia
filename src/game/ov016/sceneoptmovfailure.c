@@ -40,7 +40,7 @@
  *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
  *   DWCi_COMMENTlDispEx  0x021BD060  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
- *   g_021DE5C0     0x021DE5C0  data
+ *   gSceneOptMovFailureState     0x021DE5C0  data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_EFFlFade  0x021D55A4  arm  ov016
  *   DWCi_GXlVisible  0x021D603C  arm  ov016
@@ -118,7 +118,7 @@ extern void DWCi_SceneOptMovWait();
 void DWCi_SceneOptMovFailure(void);
 void DWCi_SceneOptMovFailure_procScene(void);
 void DWCi_SceneOptMovFailure_draw(void);
-extern unsigned char g_021DE5C0[];
+extern unsigned char gSceneOptMovFailureState[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 
@@ -139,7 +139,7 @@ void DWCi_SceneOptMovFailure(void)
 {
     initGraphics();
     DWCi_CMNlMsgDraw(0x20);
-    g_021DE5C0[0] = DWCi_COMMENTlDispEx(0x3C, -1, 0);
+    gSceneOptMovFailureState[0] = DWCi_COMMENTlDispEx(0x3C, -1, 0);
     DWCi_ChangeScene(procInit);
 }
 
@@ -162,7 +162,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    if (g_021DE5C0[0]) {
+    if (gSceneOptMovFailureState[0]) {
         DWCi_EFFlFade(2, 1, 1, 8);
         DWCi_GXlVisible(1, 1);
     }
@@ -229,10 +229,10 @@ static void button(void)
     if (r != 0) {
         if (r != 1)
             return;
-        g_021DE5C0[1] = 1;
+        gSceneOptMovFailureState[1] = 1;
         DWCi_SNDlPlay(6);
     } else {
-        g_021DE5C0[1] = 0;
+        gSceneOptMovFailureState[1] = 0;
         DWCi_SNDlPlay(7);
     }
     DWCi_ChangeScene(endScene);
@@ -258,7 +258,7 @@ static void endScene1(void)
     if (DWCi_EFFlCheck(1))
         return;
     DWCi_BTNlEnd();
-    if (!g_021DE5C0[1])
+    if (!gSceneOptMovFailureState[1])
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
@@ -277,12 +277,12 @@ static void endScene2(void)
     if (!DWCi_BTNlIsEnd())
         return;
     DWCi_FNTlDeleteBgLcd(0);
-    if (!g_021DE5C0[1]) {
+    if (!gSceneOptMovFailureState[1]) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (!g_021DE5C0[1]) {
+    if (!gSceneOptMovFailureState[1]) {
         DWCi_SetParam_(0, 1);
         DWCi_ChangeScene(DWCi_SceneOptMenu);
     } else {

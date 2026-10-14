@@ -1,5 +1,5 @@
 /*
- * function: func_021D62E0
+ * function: GSYNC_DISP_DeleteSlotActor
  * address:  0x021D62E0
  * packet:   pkt_021D62E0
  * region:   ov123
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021D62E0(u8 *p, int i)
+void GSYNC_DISP_DeleteSlotActor(u8 *p, int i)
 {
     if (*(u32 *)(p + 0x74 + i * 4)) {
         CLACT_DeleteActor(*(void **)(p + 0x74 + i * 4));

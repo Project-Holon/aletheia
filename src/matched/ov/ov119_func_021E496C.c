@@ -1,5 +1,5 @@
 /*
- * function: func_021E496C
+ * function: POKETRADE_2D_GetGridCellPos
  * address: 0x021E496C
  * packet: pkt_ov119_021E496C
  * region: ov119
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021E496C(int x, int y, unsigned short *out)
+void POKETRADE_2D_GetGridCellPos(int x, int y, unsigned short *out)
 {
     out[0] = (x + 1) * 0x18;
     out[1] = y * 0x18 + 0x48;

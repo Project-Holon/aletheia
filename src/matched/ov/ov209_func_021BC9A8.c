@@ -1,5 +1,5 @@
 /*
- * function: func_021BC9A8
+ * function: ZUKAN_LIST_CreateFrameList
  * address: 0x021BC9A8
  * packet: pkt_ov209_021BC9A8
  * region: ov209
@@ -51,7 +51,7 @@ extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021BC9A8(struct Context *p)
+void ZUKAN_LIST_CreateFrameList(struct Context *p)
 {
     struct Template tmpl;
     void *arc,*str;

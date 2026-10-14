@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E31BC",
+   "name": "POKETRADE_3D_Delete3DScene",
    "address": "0x021E31BC",
    "kind": "game",
    "region": "ov119",

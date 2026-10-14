@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAD84",
+   "name": "WORLDTRADE_INPUT_StateWaitFrameHide",
    "address": "0x021FAD84",
    "kind": "game",
    "region": "ov135",

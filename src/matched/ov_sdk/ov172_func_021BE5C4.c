@@ -1,5 +1,5 @@
 /*
- * function: func_021BE5C4
+ * function: Mel_JPEGDecode
  * address:  0x021BE5C4
  * packet:   pkt_ov172_021BE5C4
  * region:   ov172
@@ -52,9 +52,9 @@
  *   dcb               0x021C891C  data
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   SSP_ExifDecode    0x021C0BB4  arm  ov172
- *   func_021BEFB8     0x021BEFB8  arm  ov172
- *   func_021BF15C     0x021BF15C  arm  ov172
- *   func_021BFA68     0x021BFA68  arm  ov172
+ *   getmatrix     0x021BEFB8  arm  ov172
+ *   decode_block     0x021BF15C  arm  ov172
+ *   writeblock     0x021BFA68  arm  ov172
  */
 
 typedef unsigned char u8;
@@ -89,11 +89,11 @@ extern short dcb[64];
 
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern long SSP_ExifDecode(u8 *src, unsigned long src_size, int *cur, int option);
-extern void func_021BEFB8(u8 *g, short *d, int *p, int n);
-extern void func_021BF15C(short *d, short n);
-extern void func_021BFA68(u8 *d, int x, int y, int dx, int dy);
+extern void getmatrix(u8 *g, short *d, int *p, int n);
+extern void decode_block(short *d, short n);
+extern void writeblock(u8 *d, int x, int y, int dx, int dy);
 
-int func_021BE5C4(u8 *d, u8 *a, unsigned long length, long maxWidth,
+int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                   long maxHeight, int option)
 {
     int dx;
@@ -270,14 +270,14 @@ int func_021BE5C4(u8 *d, u8 *a, unsigned long length, long maxWidth,
                         mtx[0][0] = mtx[3][0] = mtx[4][0] = 0;
                     }
                     for (i = 0; i < xblock * yblock; i++) {
-                        func_021BEFB8(a, mtx[0], &p, 0);
-                        func_021BF15C(&draw_block[i * 64], 0);
+                        getmatrix(a, mtx[0], &p, 0);
+                        decode_block(&draw_block[i * 64], 0);
                     }
-                    func_021BEFB8(a, mtx[3], &p, 2);
-                    func_021BF15C(dcr, 3);
-                    func_021BEFB8(a, mtx[4], &p, 2);
-                    func_021BF15C(dcb, 4);
-                    func_021BFA68(d, x, y, dx, dy);
+                    getmatrix(a, mtx[3], &p, 2);
+                    decode_block(dcr, 3);
+                    getmatrix(a, mtx[4], &p, 2);
+                    decode_block(dcb, 4);
+                    writeblock(d, x, y, dx, dy);
                 }
             }
             break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FCB54
+ * function: WORLDTRADE_DETAIL_LoadMonGraphics
  * address:  0x021FCB54
  * packet:   pkt_021FCB54
  * region:   ov135
@@ -45,7 +45,7 @@ extern u32 POKE_TOOL_IsShiny(void *mon);
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021FCB54(void *mon)
+void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon)
 {
     PalFile *pal;
     void *h;

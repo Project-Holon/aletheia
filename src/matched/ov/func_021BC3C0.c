@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3C0
+ * function: ZUKAN_DETAIL_COMMON_GetCurrentEntry
  * address:  0x021BC3C0
  * packet:   pkt_021BC3C0
  * region:   ov208
@@ -23,7 +23,7 @@ typedef struct {
     unsigned short *idx;
 } S;
 
-unsigned short func_021BC3C0(S *p)
+unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(S *p)
 {
     return p->tbl[*p->idx];
 }

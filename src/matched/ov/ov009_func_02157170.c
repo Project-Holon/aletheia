@@ -29,7 +29,7 @@
  *       }
  *   }
  *
- * Filing that leaf makes this file (and ov135 func_022010BC) EXACT.
+ * Filing that leaf makes this file (and ov135 WORLDTRADE_SERVER_PollUploadResponse) EXACT.
  *
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm

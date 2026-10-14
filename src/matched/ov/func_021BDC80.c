@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC80
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot
  * address:  0x021BDC80
  * packet:   pkt_021BDC80
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj07227.h"
 
 
-int func_021BDC80(char *p)
+int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p)
 {
     switch (((struct Obj07227 *)p)->f10) {
     case 0:

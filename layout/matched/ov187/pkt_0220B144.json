@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0220B144",
+   "name": "BR_MAIN_DeleteListScene",
    "address": "0x0220B144",
    "kind": "game",
    "region": "ov187",

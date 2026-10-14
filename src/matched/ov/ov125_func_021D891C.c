@@ -1,5 +1,5 @@
 /*
- * function: func_021D891C
+ * function: GDS_SOCKET_GetRequestSize
  * address: 0x021D891C
  * packet: pkt_ov125_021D891C
  * region: ov125
@@ -8,7 +8,7 @@
  * isa: arm
  * status: EXACT
  */
-int func_021D891C(int n)
+int GDS_SOCKET_GetRequestSize(int n)
 {
     int size;
     switch (n) {

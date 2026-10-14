@@ -1,5 +1,5 @@
 /*
- * function: func_021FB574
+ * function: BTLV_EFFVM_CmdSetBlendRegister
  * address:  0x021FB574
  * packet:   pkt_ov094_021FB574
  * region:   ov094
@@ -19,7 +19,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void func_0207D63C(int reg, int a, int b, int c, int d);
 
-int func_021FB574(struct Cursor *a, unsigned int *b)
+int BTLV_EFFVM_CmdSetBlendRegister(struct Cursor *a, unsigned int *b)
 {
     int t2;
 

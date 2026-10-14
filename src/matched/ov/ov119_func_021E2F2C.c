@@ -1,5 +1,5 @@
 /*
- * function: func_021E2F2C
+ * function: POKETRADE_3D_FreeParticleResources
  * address:  0x021E2F2C
  * packet:   pkt_ov119_021E2F2C
  * region:   ov119
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E2EA0  0x021E2EA0  thumb  ov119
+ *   POKETRADE_3D_DeleteIcaStreams  0x021E2EA0  thumb  ov119
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021E2EA0(char *p);
-void func_021E2F2C(void *a0) { func_021E2EA0(a0); }
+extern void POKETRADE_3D_DeleteIcaStreams(char *p);
+void POKETRADE_3D_FreeParticleResources(void *a0) { POKETRADE_3D_DeleteIcaStreams(a0); }

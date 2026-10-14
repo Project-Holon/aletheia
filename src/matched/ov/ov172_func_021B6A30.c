@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A30
+ * function: CTVT_ADPCM_EncodeSamples
  * address:  0x021B6A30
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Packs the halfwords of src[0..n) into nibble pairs through func_021B6ADC and
+ * Packs the halfwords of src[0..n) into nibble pairs through CTVT_ADPCM_EncodeSample and
  * writes the pair bytes to dst.
  *
  * symbols:
- *   func_021B6ADC  0x021B6ADC  thumb  ov172
+ *   CTVT_ADPCM_EncodeSample  0x021B6ADC  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
 
 typedef signed char    s8;
-extern s8 func_021B6ADC(int sample, char *p);
+extern s8 CTVT_ADPCM_EncodeSample(int sample, char *p);
 
-void func_021B6A30(short *src, unsigned char *dst, int n, int ctx)
+void CTVT_ADPCM_EncodeSamples(short *src, unsigned char *dst, int n, int ctx)
 {
     int i;
     int out = 0;
@@ -29,7 +29,7 @@ void func_021B6A30(short *src, unsigned char *dst, int n, int ctx)
     int have = 0;
 
     for (i = 0; i < n; i++) {
-        unsigned char v = (unsigned char)func_021B6ADC(src[i], (char *)ctx);
+        unsigned char v = (unsigned char)CTVT_ADPCM_EncodeSample(src[i], (char *)ctx);
 
         if (have == 0) {
             pend = v;

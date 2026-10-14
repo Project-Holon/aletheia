@@ -1,5 +1,5 @@
 /*
- * function: func_021F5074
+ * function: WORLDTRADE_ClearAndShowPlanes
  * address:  0x021F5074
  * packet:   pkt_021F5074
  * region:   ov135
@@ -12,9 +12,9 @@
   *
   *
  * symbols:
- *   func_021F4EDC  0x021F4EDC  thumb
- *   func_021F49A8  0x021F49A8  thumb
- *   func_021F4864  0x021F4864  thumb
+ *   WORLDTRADE_SetupGraphics  0x021F4EDC  thumb
+ *   WORLDTRADE_SetupWindowPlanes  0x021F49A8  thumb
+ *   WORLDTRADE_VBlankTask  0x021F4864  thumb
  *   tbl_02202BB8  0x02202BB8  data
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm  arm9
  *   BG_SYS_ClearSubPlanes  0x02043588  arm  arm9
@@ -48,23 +48,23 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
-extern void func_021F4EDC(u8 *p);
+extern void WORLDTRADE_SetupGraphics(u8 *p);
 extern void func_0203F8F4(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_021F49A8(void);
+extern void WORLDTRADE_SetupWindowPlanes(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021F4864(void *unused, Work *p);
+extern void WORLDTRADE_VBlankTask(void *unused, Work *p);
 
 extern const struct DispConfig tbl_02202BB8;
 
-void func_021F5074(Work *p)
+void WORLDTRADE_ClearAndShowPlanes(Work *p)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    func_021F4EDC((u8 *)p);
+    WORLDTRADE_SetupGraphics((u8 *)p);
     func_0203F8F4(0x48);
     BMP_WIN_Init(0x48);
     {
@@ -72,10 +72,10 @@ void func_021F5074(Work *p)
 
         func_0203FC28(&c);
     }
-    func_021F49A8();
+    WORLDTRADE_SetupWindowPlanes();
     *(vu16 *)0x04000050 = 0;
     *(vu16 *)0x04001050 = 0;
     if (p->vblank == 0) {
-        p->vblank = func_020056A0(func_021F4864, p, 0);
+        p->vblank = func_020056A0(WORLDTRADE_VBlankTask, p, 0);
     }
 }

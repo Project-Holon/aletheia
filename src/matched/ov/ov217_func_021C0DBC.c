@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DBC
+ * function: RESEARCH_COMMON_GetClactUnit
  * address:  0x021C0DBC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C0DBC(void *p, u32 i)
+u32 RESEARCH_COMMON_GetClactUnit(void *p, u32 i)
 {
     return *(u32 *)((char *)p + i * 4 + 0x20);
 }

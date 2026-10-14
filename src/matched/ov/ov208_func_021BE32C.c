@@ -1,5 +1,5 @@
 /*
- * function: func_021BE32C
+ * function: ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette
  * address: 0x021BE32C
  * packet: pkt_ov208_021BE32C
  * region: ov208
@@ -9,7 +9,7 @@
  * status: EXACT*
  * trailing: 021BE376..021BE378 is two-byte zero alignment padding.
  */
-unsigned func_021BE32C(unsigned n)
+unsigned ZUKAN_DETAIL_TOUCHBAR_GetLeftPalette(unsigned n)
 {
     switch(n) {
     case 0: break;

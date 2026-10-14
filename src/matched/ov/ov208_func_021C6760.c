@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6760
+ * function: ZUKAN_DETAIL_FORM_HandleTouchArrows
  * address: 0x021C6760
  * packet: pkt_ov208_021C6760
  * region: ov208
@@ -43,7 +43,7 @@ extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 #define F32(b, o) (*(u32 *)((b) + (o)))
 
-int ov208_func_021C6760(void *unused, u8 *p, int key)
+int ZUKAN_DETAIL_FORM_HandleTouchArrows(void *unused, u8 *p, int key)
 {
     void *sys;
     enum { HIT_NONE = 5 } hit;

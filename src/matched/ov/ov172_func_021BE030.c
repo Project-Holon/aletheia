@@ -1,5 +1,5 @@
 /*
- * function: func_021BE030
+ * function: COMM_TVT_SYS_SetReturnedFromChild
  * address: 0x021BE030
  * packet: pkt_ov172_021BE030
  * region: ov172
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj24116.h"
 typedef unsigned int u32;
-void func_021BE030(void *p, u32 v)
+void COMM_TVT_SYS_SetReturnedFromChild(void *p, u32 v)
 {
     ((struct Obj24116 *)p)->f10 = v;
 }

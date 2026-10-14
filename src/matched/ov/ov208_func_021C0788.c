@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C0788
+ * function: ZUKAN_DETAIL_AREA_CreateTextWindows
  * address:  0x021C0788
  * packet:   pkt_ov208_021C0788
  * region:   ov208
@@ -59,7 +59,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C0788(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateTextWindows(u16 *heap, u8 *p, int key)
 {
     struct WinCfg2 a;
     struct WinCfg4 b;

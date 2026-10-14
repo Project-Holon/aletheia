@@ -1,5 +1,5 @@
 /*
- * function: func_021C2614
+ * function: ARROW_DeleteActors
  * address:  0x021C2614
  * packet:   pkt_021C2614
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C2614(char *p)
+void ARROW_DeleteActors(char *p)
 {
     int i;
     for (i = 0; i < 0x1A; i++)

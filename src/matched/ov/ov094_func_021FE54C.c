@@ -1,5 +1,5 @@
 /*
- * function: func_021FE54C
+ * function: BTLV_EFFVM_SePlayTaskMain
  * address:  0x021FE54C
  * packet:   pkt_ov094_021FE54C
  * region:   ov094
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FDB40  0x021FDB40  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFVM_PlaySeWithParams  0x021FDB40  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef unsigned int   u32;
-extern void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g);
-extern void func_021F89BC(void *h);
+extern void BTLV_EFFVM_PlaySeWithParams(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021FE54C(void *h, int *s)
+void BTLV_EFFVM_SePlayTaskMain(void *h, int *s)
 {
     if (--s[4] == 0) {
-        func_021FDB40(s[1], s[2], s[3], s[5], s[6], s[7], s[8]);
-        func_021F89BC(h);
+        BTLV_EFFVM_PlaySeWithParams(s[1], s[2], s[3], s[5], s[6], s[7], s[8]);
+        BTLV_EFFECT_DeleteTask(h);
     }
 }

@@ -33,8 +33,8 @@
  *   func_0202761C 0x0202761C thumb
  *   func_02027620 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021BE024 0x021BE024 thumb ov172
- *   func_021BE018 0x021BE018 thumb ov172
+ *   COMM_TVT_SYS_GetClactUnit 0x021BE024 thumb ov172
+ *   COMM_TVT_SYS_GetResId 0x021BE018 thumb ov172
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -71,8 +71,8 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern u32 func_021BE024(void *p);
-extern u32 func_021BE018(void *p, int i);
+extern u32 COMM_TVT_SYS_GetClactUnit(void *p);
+extern u32 COMM_TVT_SYS_GetResId(void *p, int i);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *e, unsigned short f, unsigned short g);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -134,10 +134,10 @@ void func_021BD844(u8 *p)
     cfg.c = z;
     cfg.d = z;
     cfg.e = z;
-    o = func_021BE024(p);
-    i0 = func_021BE018(p, 4);
-    i1 = func_021BE018(p, z);
-    i2 = func_021BE018(p, 8);
+    o = COMM_TVT_SYS_GetClactUnit(p);
+    i0 = COMM_TVT_SYS_GetResId(p, 4);
+    i1 = COMM_TVT_SYS_GetResId(p, z);
+    i2 = COMM_TVT_SYS_GetResId(p, 8);
     W(0x1b0) = (u32)CLACT_CreateActor((void *)o, i0, i1, i2, &cfg, z, HEAP);
     CLACT_SetActorDrawEnable((void *)W(0x1b0), z);
     CLACT_SetActorAutoAnim((void *)W(0x1b0), 1);

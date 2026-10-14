@@ -16,8 +16,8 @@
  *           halfwords) gives the object's registers (pool address in r1, pointee r3).
  *
  * symbols:
- *   func_021F1C30  0x021F1C30  arm  ov107
- *   func_021F5FB0  0x021F5FB0  arm  ov107
+ *   MB_CommResponseRequest  0x021F1C30  arm  ov107
+ *   MB_DisconnectChild  0x021F5FB0  arm  ov107
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gDwcMovMbpWork     0x021DE65C  data
@@ -27,14 +27,14 @@ typedef unsigned short u16;
 typedef struct { u16 a[7]; } WPB;
 extern WPB *gDwcMovMbpWork;
 
-extern int func_021F1C30(unsigned short child_aid, int ack);
-extern void func_021F5FB0(u16 aid);
+extern int MB_CommResponseRequest(unsigned short child_aid, int ack);
+extern void MB_DisconnectChild(u16 aid);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long);
 
 void DWCi_MOV_MBP_AcceptChild(u16 aid)
 {
-    if (func_021F1C30(aid, 1) != 0)
+    if (MB_CommResponseRequest(aid, 1) != 0)
         return;
     {
         u16 m = ~(1 << aid);
@@ -47,5 +47,5 @@ void DWCi_MOV_MBP_AcceptChild(u16 aid)
         gDwcMovMbpWork->a[6] &= m;
         OS_RestoreInterrupts(e);
     }
-    func_021F5FB0(aid);
+    MB_DisconnectChild(aid);
 }

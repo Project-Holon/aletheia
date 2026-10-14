@@ -1,5 +1,5 @@
 /*
- * function: func_021E5868
+ * function: POKETRADE_2D_ReleaseMarkerResources
  * address:  0x021E5868
  * packet:   pkt_ov119_021E5868
  * region:   ov119
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021E5868(char *p)
+void POKETRADE_2D_ReleaseMarkerResources(char *p)
 {
     if (((struct Obj04483 *)p)->f898 != 0) {
         CLACT_ReleaseCharacter(((struct Obj04483 *)p)->f898);

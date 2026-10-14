@@ -1,7 +1,7 @@
 /*
  * file:     br_main.c
  * unit:     yes
- * function: func_0220AF40, func_0220AF94, func_0220AFD8, func_0220B008, func_0220B02C, func_0220B0CC, func_0220B0F8, func_0220B0FC, func_0220B144, func_0220B164, func_0220B1D8
+ * function: BR_MAIN_Init, BR_MAIN_Exit, BR_MAIN_Main, BR_MAIN_InitSceneManager, BR_MAIN_RunSceneStep, BR_MAIN_FreeSceneManager, BR_MAIN_SetDesiredScene, BR_MAIN_CreateListScene, BR_MAIN_DeleteListScene, BR_MAIN_CreateReplayScene, BR_MAIN_DeleteReplayScene, BR_MAIN_SanitizeBgmIds
  * address:  0x0220AF40
  * region:   ov187
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from br_main.c, ov187_func_0220B240.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -27,17 +27,16 @@
  *   PROCSYS_Main 0x02031330 arm
  *   func_02034714  0x02034714  arm
  *   func_0203133C  0x0203133C  arm
- *   d_0220B2E0     0x0220B2E0  data  ov187  a4
  *   func_02030734 0x02030734 arm
  *   d_0220B2E4 0x0220B2E4 data a1
  *   func_020307B0  0x020307B0  arm
  *   BTL_SETUP_InitWithSlots 0x020138C4 thumb
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
- *   func_021EEEA8 0x021EEEA8 thumb ov188
+ *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
- *   func_0220B240 0x0220B240 thumb ov187
+ *   BR_MAIN_SanitizeBgmIds 0x0220B240 thumb ov187
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02012A30 0x02012A30 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
@@ -45,227 +44,308 @@
  *   func_02028A58 0x02028A58 thumb
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  */
-#include "../../matched/include/Obj24881.h"
-#include "../../matched/include/Obj24882.h"
-#include "../../matched/include/Obj14488.h"
-#include "../../matched/include/Obj24883.h"
-#include "../../matched/include/Obj24884.h"
-#include "../../matched/include/Obj01819.h"
-#include "../../matched/include/Obj10802.h"
-#include "../../matched/include/Obj24886.h"
+#include "../arm9/btl_setup_types.h"
 
-struct Obj0203159C;
-struct S;
-struct U16Vec;
-struct S020315D4;
-struct State;
-struct S020314B8;
-struct BigObj;
+struct GameData;
 struct SoundSys;
-struct Obj;
+struct StrBuf;
+
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-struct S {
-    u32 *f0;
-    u8 pad[0xc];
-    u16 f10;
-    u8 pad2[2];
-    u32 f14;
-    u32 f18;
-};
+/* One screen of the recorder: how to build its work block, which proc to push, how to free it. */
+typedef struct BrSceneEntry {
+    int procId;
+    const void *procDescriptor;
+    void *(*create)(unsigned short heapId, void *owner, unsigned previousScene);
+    void (*destroy)(void *sceneWork, void *owner);
+} BrSceneEntry;
 
-typedef struct Entry { int id; const void *descriptor; void *(*create)(unsigned short, void *, unsigned); void (*destroy)(void *, void *); } Entry;
+/* Scene manager, 0x28 bytes at the start of the recorder work block. */
+typedef struct BrSceneManager {
+    void *procSys;
+    unsigned step;
+    void *sceneWork;
+    unsigned unused0C;      /* never read or written */
+    unsigned short heapId;
+    unsigned short unused12;
+    void *owner;
+    const BrSceneEntry *scenes;
+    unsigned previousScene;
+    unsigned desiredScene;
+    unsigned currentScene;
+} BrSceneManager;
 
-typedef struct State { void *handle; unsigned state; void *work; unsigned pad; unsigned short heap, pad2; void *payload; Entry *table; unsigned previous, desired, current; } State;
+/* Parameter block the caller passes in as the proc's argument. */
+typedef struct BrLaunchParam {
+    u32 kind;
+    struct GameData *gameData;
+} BrLaunchParam;
 
-typedef struct { int state, mode; void *data, *owner; } Work;
+/* Work block of the recorder proc, 0x17F4 bytes. */
+typedef struct BrMainWork {
+    BrSceneManager sceneManager;        /* 0x0000 */
+    u8 sceneData[0x1758];               /* 0x0028 */
+    struct StrBuf *slotNames[4];        /* 0x1780 */
+    u8 unknown1790[0x34];               /* 0x1790 */
+    u32 hasRecords;                     /* 0x17C4 */
+    u8 unknown17C8[0x1C];               /* 0x17C8 */
+    u32 hidePlayerNames;                /* 0x17E4 */
+    u8 unknown17E8[8];                  /* 0x17E8 */
+    BrLaunchParam *launch;              /* 0x17F0 */
+} BrMainWork;
 
-typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
+/* Work block of the list scene, 16 bytes. */
+typedef struct BrListSceneWork {
+    int launchKind;
+    int mode;
+    void *data;
+    BrLaunchParam *launch;
+} BrListSceneWork;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+
+extern void *PROCSYS_AllocProcWork(void *proc, unsigned int size, unsigned int heap);
+
 extern void *MI_CpuFill8(void *, int, unsigned);
+
 extern void BATTLE_REC_AllocWork(unsigned);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_020315D4(struct S020315D4 *p);
+
+extern void STRBUF_Delete(struct StrBuf *vec);
+
+extern void func_020315D4(void *p);
+
 extern void func_020306F0(unsigned int heap);
+
 extern void BATTLE_REC_FreeWork(void);
-extern void *PROCSYS_Create(int a0);
+
+extern void *PROCSYS_Create(int heapId);
+
 extern void PROCSYS_Push(void *, int, const void *, void *);
+
 extern unsigned int PROCSYS_Main(void *p);
+
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0203133C(struct S020314B8 *p);
+
+extern void func_0203133C(void *procSys);
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 func_020307B0(void *p);
-extern void BTL_SETUP_InitWithSlots(void *,int,void *);
+
+extern void BTL_SETUP_InitWithSlots(struct BattleSetupParam *, struct GameData *, u32 heapId);
+
 extern void BATTLE_REC_LoadToolOverlay(void);
+
 extern void BATTLE_REC_UnloadToolOverlay(void);
-extern void func_021EEEA8(void *,u32);
+
+extern void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *, u32);
+
 extern void GFL_USE_SetBgmPlayerParam(void *p);
+
 extern int GFL_USE_PushBgm(void);
-extern void func_0220B240(u16 *,u16 *);
+
+extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
+
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
-extern unsigned int func_02012A30(const struct BigObj *);
+
+extern unsigned int func_02012A30(const struct GameData *);
+
 extern int GFL_USE_PopBgm(void);
+
 extern void GFL_USE_FadeInBgmFull(u32);
+
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
-extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
-int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode);
-int func_0220AF94(int a, int b, int c, char *p);
-int func_0220AFD8(void *a,int *state,int b,void *p);
-void func_0220B008(struct S *p, u32 a, u32 b, u32 c);
-int func_0220B02C(State *p);
-void func_0220B0CC(int *p);
-void func_0220B0F8(u8 *p,u32 v);
-Work *func_0220B0FC(unsigned short heap, char *p, int mode);
-void func_0220B144(u32 *p, u32 a);
-void *func_0220B164(u32 a,u8 *b);
-void func_0220B1D8(u8 *a, u8 *b);
-extern const char d_0220B2A0[];
+
+extern void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *p);
+
+int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch);
+
+int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work);
+
+int BR_MAIN_Main(void *a, int *state, int b, BrMainWork *work);
+
+void BR_MAIN_InitSceneManager(BrSceneManager *mgr, const BrSceneEntry *scenes, void *owner, u32 heapId);
+
+int BR_MAIN_RunSceneStep(BrSceneManager *mgr);
+
+void BR_MAIN_FreeSceneManager(BrSceneManager *mgr);
+
+void BR_MAIN_SetDesiredScene(BrMainWork *work, u32 scene);
+
+BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work, int mode);
+
+void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work);
+
+void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work);
+
+void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work);
+
+extern const BrSceneEntry d_0220B2A0[];
+
 extern const char d_0220B2E4[];
 
-int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode)
+int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch)
 {
-    char *p;
+    BrMainWork *work;
     GFL_HEAP_CreateChildHeap(1, 0x59, 0x12000);
-    p = PROCSYS_AllocProcWork(a, 0x17f4, 0x59);
-    MI_CpuFill8(p, 0, 0x17f4);
-    ((struct Obj24881 *)p)->f17F0 = mode;
+    work = PROCSYS_AllocProcWork(proc, sizeof(BrMainWork), 0x59);
+    MI_CpuFill8(work, 0, sizeof(BrMainWork));
+    work->launch = launch;
     BATTLE_REC_AllocWork(0x59);
-    func_0220B008((struct S *)p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
-    func_0220B0F8((u8 *)p, 0);
+    BR_MAIN_InitSceneManager(&work->sceneManager, d_0220B2A0, work, 0x59);
+    BR_MAIN_SetDesiredScene(work, 0);
     return 1;
 }
 
-
-/*
- * Tear down the four table slots at p+0x1780 when p+0x17C4 is set, then
- *   release the channel.
- */
-int func_0220AF94(int a, int b, int c, char *p)
+/* Free the saved-record name strings when records exist, then the scene manager and the work. */
+int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
 {
     int i;
-    if (((struct Obj24882 *)p)->f17C4 != 0) {
+    if (work->hasRecords != 0) {
         for (i = 0; i < 4; i++) {
-            int v = *(int *)(p + 0x1780 + i * 4);
-            if (v != 0)
-                STRBUF_Delete((struct U16Vec *)v);
+            struct StrBuf *name = work->slotNames[i];
+            if (name != 0)
+                STRBUF_Delete(name);
         }
     }
-    func_0220B0CC((int *)p);
+    BR_MAIN_FreeSceneManager(&work->sceneManager);
     BATTLE_REC_FreeWork();
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((void *)a);
     func_020306F0(0x59);
     return 1;
 }
 
-int func_0220AFD8(void *a,int *state,int b,void *p) { switch(*state) { case 0: *state=1; break; case 1: if(func_0220B02C(p)) *state=2; break; case 2: return 1; } return 0; }
-
-
-void func_0220B008(struct S *p, u32 a, u32 b, u32 c)
+int BR_MAIN_Main(void *a, int *state, int b, BrMainWork *work)
 {
-    MI_CpuFill8(p, 0, 0x28);
-    p->f0 = PROCSYS_Create(c);
-    p->f14 = b;
-    p->f18 = a;
-    p->f10 = c;
-}
-
-int func_0220B02C(State *p)
-{
-    switch (p->state) {
+    switch (*state) {
     case 0:
-        p->previous = p->current;
-        p->current = p->desired;
-        p->state = 1;
+        *state = 1;
         break;
     case 1:
-        if (p->table[p->current].create) p->work = p->table[p->current].create(p->heap, p->payload, p->previous);
-        else p->work = 0;
-        PROCSYS_Push(p->handle, p->table[p->current].id, p->table[p->current].descriptor, p->work);
-        p->state = 2;
+        if (BR_MAIN_RunSceneStep(&work->sceneManager))
+            *state = 2;
         break;
     case 2:
-        if (!PROCSYS_Main(p->handle)) p->state = 3;
+        return 1;
+    }
+    return 0;
+}
+
+void BR_MAIN_InitSceneManager(BrSceneManager *mgr, const BrSceneEntry *scenes, void *owner, u32 heapId)
+{
+    MI_CpuFill8(mgr, 0, sizeof(BrSceneManager));
+    mgr->procSys = PROCSYS_Create(heapId);
+    mgr->owner = owner;
+    mgr->scenes = scenes;
+    mgr->heapId = heapId;
+}
+
+/* Scene state machine: 0 select next scene, 1 create its work and push its proc, 2 run, 3 destroy, 4 done. */
+int BR_MAIN_RunSceneStep(BrSceneManager *mgr)
+{
+    switch (mgr->step) {
+    case 0:
+        mgr->previousScene = mgr->currentScene;
+        mgr->currentScene = mgr->desiredScene;
+        mgr->step = 1;
+        break;
+    case 1:
+        if (mgr->scenes[mgr->currentScene].create) mgr->sceneWork = mgr->scenes[mgr->currentScene].create(mgr->heapId, mgr->owner, mgr->previousScene);
+        else mgr->sceneWork = 0;
+        PROCSYS_Push(mgr->procSys, mgr->scenes[mgr->currentScene].procId, mgr->scenes[mgr->currentScene].procDescriptor, mgr->sceneWork);
+        mgr->step = 2;
+        break;
+    case 2:
+        if (!PROCSYS_Main(mgr->procSys)) mgr->step = 3;
         break;
     case 3:
-        if (p->table[p->current].destroy) {
-            p->table[p->current].destroy(p->work, p->payload);
-            p->work = 0;
+        if (mgr->scenes[mgr->currentScene].destroy) {
+            mgr->scenes[mgr->currentScene].destroy(mgr->sceneWork, mgr->owner);
+            mgr->sceneWork = 0;
         }
-        if (p->current != p->desired) p->state = 0;
-        else p->state = 4;
+        if (mgr->currentScene != mgr->desiredScene) mgr->step = 0;
+        else mgr->step = 4;
         break;
     case 4: return 1;
     }
     return 0;
 }
 
-
-void func_0220B0CC(int *p)
+void BR_MAIN_FreeSceneManager(BrSceneManager *mgr)
 {
-    if (((struct Obj14488 *)p)->f8 != 0)
+    if (mgr->sceneWork != 0)
         func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
-    func_0203133C(((struct Obj14488 *)p)->f0);
-    MI_CpuFill8(p, 0, 0x28);
+    func_0203133C(mgr->procSys);
+    MI_CpuFill8(mgr, 0, sizeof(BrSceneManager));
 }
 
-void func_0220B0F8(u8 *p,u32 v) { ((struct Obj24883 *)p)->f20=v; }
+void BR_MAIN_SetDesiredScene(BrMainWork *work, u32 scene) { work->sceneManager.desiredScene = scene; }
 
-Work *func_0220B0FC(unsigned short heap, char *p, int mode)
+BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work, int mode)
 {
-    Work *w;
-    w = func_02030734(heap, 16, 0, d_0220B2E4, 0x1e7);
-    MI_CpuFill8(w, 0, 16);
-    w->owner = ((struct Obj24884 *)p)->f17F0;
-    w->data = p + 0x28;
-    if (mode == 1) w->mode = 1;
-    else w->mode = 0;
-    return w;
+    BrListSceneWork *list;
+    list = func_02030734(heapId, sizeof(BrListSceneWork), 0, d_0220B2E4, 0x1e7);
+    MI_CpuFill8(list, 0, sizeof(BrListSceneWork));
+    list->launch = work->launch;
+    list->data = work->sceneData;
+    if (mode == 1) list->mode = 1;
+    else list->mode = 0;
+    return list;
 }
 
-
-void func_0220B144(u32 *p, u32 a)
+void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work)
 {
-    switch (p[0]) {
+    switch (listWork->launchKind) {
     case 0:
         break;
     case 1:
-        func_0220B0F8((u8 *)a, 1);
+        BR_MAIN_SetDesiredScene(work, 1);
         break;
     }
-    func_020307B0(p);
+    func_020307B0(listWork);
 }
 
-void *func_0220B164(u32 a,u8 *b)
+void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
 {
-    u8 *p = func_02030734(a,240,0,d_0220B2E4,542);
-    MI_CpuFill8(p,0,240);
-    BTL_SETUP_InitWithSlots(p,*(int *)(*(u8 **)(b+0x17F0)+4),(void *)a);
+    struct BattleSetupParam *setup = func_02030734(heapId, sizeof(struct BattleSetupParam), 0, d_0220B2E4, 542);
+    MI_CpuFill8(setup, 0, sizeof(struct BattleSetupParam));
+    BTL_SETUP_InitWithSlots(setup, work->launch->gameData, heapId);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEEA8(p,a);
+    BATTLE_REC_TOOL_UnpackSetup(setup, heapId);
     BATTLE_REC_UnloadToolOverlay();
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();
-    func_0220B240((u16 *)(p+24),(u16 *)(p+26));
-    GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(p+24),65535);
-    return p;
+    BR_MAIN_SanitizeBgmIds(&setup->bgmBattle, &setup->bgmWin);
+    GFL_USE_CancelChangeAndPlayBgm(setup->bgmBattle, 65535);
+    return setup;
 }
 
-void func_0220B1D8(u8 *a, u8 *b)
+void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
 {
-    void *p = (void *)func_02012A30(((struct Obj24886 *)(*(u8 * *)&((struct Obj10802 *)b)->f17F0))->f4);
+    void *soundSys = (void *)func_02012A30(work->launch->gameData);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPlayerParam(0);
     GFL_USE_FadeInBgmFull(30);
-    if (*(u32 *)*(u8 * *)&((struct Obj10802 *)b)->f17F0 == 0) func_02028A58(p,64,0);
-    ((struct Obj10802 *)b)->f17E4 = ((Flag *)(a+0xC1))->flag;
-    func_020307B0(((struct Obj01819 *)a)->f34);
-    BTL_SETUP_ClearWithSlots((struct Obj *)a);
-    func_020307B0(a);
-    func_0220B0F8((u8 *)((u32)b),0);
+    if (work->launch->kind == 0) func_02028A58(soundSys, 64, 0);
+    work->hidePlayerNames = setup->bits.recordComplete;
+    func_020307B0(setup->playerStatus[0]);
+    BTL_SETUP_ClearWithSlots(setup);
+    func_020307B0(setup);
+    BR_MAIN_SetDesiredScene(work, 0);
+}
+
+/* Force the battle BGM to a known id and the win BGM to 0x47D or 0x480. */
+void BR_MAIN_SanitizeBgmIds(u16 *battleBgm, u16 *winBgm)
+{
+    u16 x = *battleBgm;
+    u16 y = *winBgm;
+    switch (x) {
+    case 0x46B: case 0x470: case 0x48D: case 0x490: break;
+    case 0x48B: case 0x48C: case 0x48E: case 0x48F: default: *battleBgm = 0x490; break;
+    }
+    if (y != 0x47D && y != 0x480) *winBgm = 0x47D;
 }

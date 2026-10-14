@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02201C24",
+   "name": "WORLDTRADE_SERVER_WaitCancel",
    "address": "0x02201C24",
    "kind": "game",
    "region": "ov135",

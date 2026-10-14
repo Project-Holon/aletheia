@@ -15,6 +15,7 @@ typedef signed int     s32;
 typedef s32 fx32;
 
 #include "../ov101/compatible_irc_sys_types.h"
+#include "../ov101/irc_appbar.h"
 
 typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
 typedef struct IrcPoint { int x, y; } IrcPoint;
@@ -162,7 +163,7 @@ typedef struct IrcRhythm {
     IrcTextWindow messageWindow;
     IrcRhythmNetSync netSync;
     IrcRhythmParticles particles;
-    struct IrcAppBar *appBar;
+    IrcAppBar *appBar;
     IrcRhythmCountdown countdown;
     IrcRhythmPulse pulse;
     IrcTextWindow timerWindow;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4FDC
+ * function: ZUKAN_DETAIL_FORM_ExitModelSystem
  * address:  0x021C4FDC
  * packet:   pkt_021C4FDC
  * region:   ov208
@@ -33,7 +33,7 @@ typedef struct {
     int d;
 } T;
 
-void func_021C4FDC(int unused, T *p)
+void ZUKAN_DETAIL_FORM_ExitModelSystem(int unused, T *p)
 {
     MCSS_CloseHandle((struct Sub02014CB8Obj *)p[0].c);
     MCSS_Exit((u8 *)p[0].c);

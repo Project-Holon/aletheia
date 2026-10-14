@@ -1,5 +1,5 @@
 /*
- * function: func_021E02E8
+ * function: POKETRADE_SAVE_RestoreBackups
  * address: 0x021E02E8
  * packet: pkt_ov119_021E02E8
  * region: ov119
@@ -15,9 +15,9 @@
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008C20 0x02008C20 thumb
- *   func_021E017C 0x021E017C thumb ov119
- *   func_021E01E0 0x021E01E0 thumb ov119
- *   func_021E0240 0x021E0240 thumb ov119
+ *   POKETRADE_SAVE_RestoreSaveControl 0x021E017C thumb ov119
+ *   POKETRADE_SAVE_RestoreZukan 0x021E01E0 thumb ov119
+ *   POKETRADE_SAVE_RestoreBlock1F 0x021E0240 thumb ov119
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_020086F8 0x020086F8 thumb
@@ -49,14 +49,14 @@ extern u32 func_02008C20(void);
 extern u32 func_02007AEC(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
-extern void func_021E017C(void *,void *);
-extern void func_021E01E0(void *,void *);
-extern void func_021E0240(void **h, void *dst);
+extern void POKETRADE_SAVE_RestoreSaveControl(void *,void *);
+extern void POKETRADE_SAVE_RestoreZukan(void *,void *);
+extern void POKETRADE_SAVE_RestoreBlock1F(void **h, void *dst);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_020086F8(struct PlayTime *p, const struct PlayTimeStamp *in);
 extern void func_02007B5C(struct PerapVoice *p);
 extern void MI_CpuFill8(void *,int,u32);
-void func_021E02E8(char *p)
+void POKETRADE_SAVE_RestoreBackups(char *p)
 {
     void *dest,*src;
     u32 n;
@@ -76,9 +76,9 @@ void func_021E02E8(char *p)
         MI_CpuCopy8(dest,src,n);
         func_020307B0(dest);
     }
-    if(((struct Obj00589 *)p)->f614) func_021E017C(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f614);
-    if(((struct Obj00589 *)p)->f618) func_021E01E0(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f618);
-    if(((struct Obj00589 *)p)->f61C) func_021E0240(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
+    if(((struct Obj00589 *)p)->f614) POKETRADE_SAVE_RestoreSaveControl(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f614);
+    if(((struct Obj00589 *)p)->f618) POKETRADE_SAVE_RestoreZukan(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f618);
+    if(((struct Obj00589 *)p)->f61C) POKETRADE_SAVE_RestoreBlock1F(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
     if(((struct Obj00589 *)p)->f620) {
         POKEPARTY_Copy(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
         func_020086F8((void *)GAME_DATA_GetPlayTime((int)(((struct Obj00589 *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));

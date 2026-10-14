@@ -1,5 +1,5 @@
 /*
- * function: func_021FF3F4
+ * function: BTLV_MCSS_GetSlotPosition
  * address:  0x021FF3F4
  * packet:   pkt_021FD1CC
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022018A8  0x022018A8  thumb  ov094
+ *   BTLV_MCSS_CalcSlotPosition  0x022018A8  thumb  ov094
  */
-extern void func_022018A8(void *obj, void *out, int idx);
+extern void BTLV_MCSS_CalcSlotPosition(void *obj, void *out, int idx);
 
-void func_021FF3F4(void *obj, void *out, int idx)
+void BTLV_MCSS_GetSlotPosition(void *obj, void *out, int idx)
 {
-    func_022018A8(obj, out, idx);
+    BTLV_MCSS_CalcSlotPosition(obj, out, idx);
 }

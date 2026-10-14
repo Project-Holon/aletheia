@@ -8,7 +8,7 @@
  * isa: thumb
  * lang: c99
  * status: EXACT
- * note 2026-10-05: now verifies EXACT (func_021F8B10 resolves).
+ * note 2026-10-05: now verifies EXACT (BTLV_EFFECT_SuspendVmWait resolves).
  * match-note: A goto to the bottom epilogue reproduces the entry guards;
  * input is called before adjusted=0, preserving the original scheduling.
  * symbols:
@@ -19,7 +19,7 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
- *   func_021F8B10 0x021F8B10 thumb ov094
+ *   BTLV_EFFECT_SuspendVmWait 0x021F8B10 thumb ov094
  *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
  *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  */
@@ -39,7 +39,7 @@ extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_SetMasterVolume(u8);
-extern int func_021F8B10(void);
+extern int BTLV_EFFECT_SuspendVmWait(void);
 extern void BTL_MAIN_SetKeepBgm(u8 *p);
 extern int BTLV_CORE_PollFadeInDone(u32 *p);
 void BTL_CLIENT_TickCounter(u8 *p, struct Q *q)
@@ -81,7 +81,7 @@ void BTL_CLIENT_TickCounter(u8 *p, struct Q *q)
             GFL_USE_FadeOutBgm(30);
             GFL_USE_SetPlayersAudible(0,62);
             PM_VOICE_SetMasterVolume(0);
-            func_021F8B10();
+            BTLV_EFFECT_SuspendVmWait();
             BTL_MAIN_SetKeepBgm((u8 *)(*(u32 *)p));
             break;
         case 0:
@@ -104,7 +104,7 @@ void BTL_CLIENT_TickCounter(u8 *p, struct Q *q)
                 GFL_USE_FadeOutBgm(30);
                 GFL_USE_SetPlayersAudible(0,62);
                 PM_VOICE_SetMasterVolume(0);
-                func_021F8B10();
+                BTLV_EFFECT_SuspendVmWait();
             }
         }
         break;

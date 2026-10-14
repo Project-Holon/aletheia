@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC9BC
+ * function: ZUKAN_DETAIL_COMMON_LoadBgPaletteRange
  * address:  0x021BC9BC
  * packet:   pkt_ov208_021BC9BC
  * region:   ov208
@@ -31,7 +31,7 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02041B6C(u32 bit);
 
-u32 ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs, u32 arc,
+u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs, u32 arc,
                         u32 chr, u32 scr, u32 cell, u32 chrOfs)
 {
     void *h;

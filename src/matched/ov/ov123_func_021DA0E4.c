@@ -1,5 +1,5 @@
 /*
- * function: func_021DA0E4
+ * function: PDWACC_STATE_StateSaveStart
  * address: 0x021DA0E4
  * packet: pkt_ov123_021DA0E4
  * region: ov123
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D95F0 0x021D95F0 thumb ov123
+ *   PDWACC_MESSAGE_UpdateStream 0x021D95F0 thumb ov123
  *   GAME_DATA_SaveStart 0x02012DAC thumb
- *   func_021DA034 0x021DA034 thumb ov123
- *   func_021DA0B8 0x021DA0B8 thumb ov123
+ *   PDWACC_STATE_ChangeState 0x021DA034 thumb ov123
+ *   PDWACC_STATE_StateSaveMainWait 0x021DA0B8 thumb ov123
  */
 #include "../include/Obj10456.h"
-extern int func_021D95F0(char *);
+extern int PDWACC_MESSAGE_UpdateStream(char *);
 extern int GAME_DATA_SaveStart(int);
-extern void func_021DA034(char *,int,int);
-extern void func_021DA0B8(char *p);
-void func_021DA0E4(char *p) { if(func_021D95F0(*(char * *)&((struct Obj10456 *)p)->f10)) { ((struct Obj10456 *)p)->f6C=1; GAME_DATA_SaveStart(((struct Obj10456 *)p)->f20); func_021DA034(p,(int)func_021DA0B8,0x109); } }
+extern void PDWACC_STATE_ChangeState(char *,int,int);
+extern void PDWACC_STATE_StateSaveMainWait(char *p);
+void PDWACC_STATE_StateSaveStart(char *p) { if(PDWACC_MESSAGE_UpdateStream(*(char * *)&((struct Obj10456 *)p)->f10)) { ((struct Obj10456 *)p)->f6C=1; GAME_DATA_SaveStart(((struct Obj10456 *)p)->f20); PDWACC_STATE_ChangeState(p,(int)PDWACC_STATE_StateSaveMainWait,0x109); } }

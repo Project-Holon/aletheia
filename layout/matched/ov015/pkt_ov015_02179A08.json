@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02179A08",
+   "name": "IRCNET_IsClosing",
    "address": "0x02179A08",
    "kind": "game",
    "region": "ov015",

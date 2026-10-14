@@ -1,5 +1,5 @@
 /*
- * function: func_02205B90
+ * function: BTLV_INPUT_CreateStatusIcons
  * address: 0x02205B90
  * packet: pkt_ov094_02205B90
  * region: ov094
@@ -20,9 +20,9 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02030734 0x02030734 arm
  *   func_02030DA8 0x02030DA8 arm
- *   func_0220684C 0x0220684C thumb ov094
- *   func_02204A88 0x02204A88 thumb ov094
- *   func_02204AEC 0x02204AEC thumb ov094
+ *   BTLV_INPUT_RegisterTask 0x0220684C thumb ov094
+ *   BTLV_INPUT_CursorMoveTaskMain 0x02204A88 thumb ov094
+ *   BTLV_INPUT_CursorMoveTaskEnd 0x02204AEC thumb ov094
  */
 #include "../include/Obj00896.h"
 typedef unsigned char u8;
@@ -46,10 +46,10 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_02204A88(int a0, struct Ctx *c);
-extern void func_02204AEC(void *);
-void func_02205B90(char *p, int n)
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_CursorMoveTaskMain(int a0, struct Ctx *c);
+extern void BTLV_INPUT_CursorMoveTaskEnd(void *);
+void BTLV_INPUT_CreateStatusIcons(char *p, int n)
 {
     Five a = d_0220A558;
     Five b = d_0220A56C;
@@ -75,6 +75,6 @@ void func_02205B90(char *p, int n)
     CLACT_SetActorPaletteOffset(((struct Obj00896 *)p)->f214, (u8)a.v[index], 0);
     q = func_02030734((u16)((((struct Obj00896 *)p)->f240 & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
     q[0] = p;
-    func_0220684C(p, (int)func_02030DA8(((struct Obj00896 *)p)->f0, (u32)func_02204A88, (u32)q, 0), (int)((void *)func_02204AEC));
+    BTLV_INPUT_RegisterTask(p, (int)func_02030DA8(((struct Obj00896 *)p)->f0, (u32)BTLV_INPUT_CursorMoveTaskMain, (u32)q, 0), (int)((void *)BTLV_INPUT_CursorMoveTaskEnd));
     ((Bits *)(p + 0x68))->count++;
 }

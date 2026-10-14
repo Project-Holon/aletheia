@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCDC
+ * function: ZUKAN_DETAIL_TOUCHBAR_FlushBar
  * address:  0x021BDCDC
  * packet:   pkt_021BDC14
  * region:   ov208
@@ -19,7 +19,7 @@
 
 extern void func_0204047C(int idx, unsigned short val);
 
-void func_021BDCDC(int unused, char *p)
+void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p)
 {
     if (((struct Obj09201 *)p)->f3C != 0) {
         func_0204047C(1, ((struct Obj09201 *)p)->f38);

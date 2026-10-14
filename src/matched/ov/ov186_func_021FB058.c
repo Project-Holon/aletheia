@@ -13,13 +13,13 @@
  *   func_021FAEE4 0x021FAEE4 thumb ov186
  *   func_021FB548 0x021FB548 thumb ov186
  *   func_021FB514 0x021FB514 thumb ov186
- *   func_021FB7B0 0x021FB7B0 thumb ov186
+ *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
  */
 #include "../include/Obj01281.h"
 extern void func_021FAEE4(char *, int *);
 extern void func_021FB548(char *p, short *x, short *y);
 extern void func_021FB514(char *p, short x, int y);
-extern int func_021FB7B0(void *, int);
+extern int BR_BTN_DATA_GetRowField(void *, int);
 int func_021FB058(char *ctx)
 {
     int position[2];
@@ -30,7 +30,7 @@ int func_021FB058(char *ctx)
     switch (((struct Obj01281 *)ctx)->f1C) {
     case 0:
         func_021FAEE4(ctx, position);
-        target = func_021FB7B0(((struct Obj01281 *)ctx)->fC, 1);
+        target = BR_BTN_DATA_GetRowField(((struct Obj01281 *)ctx)->fC, 1);
         start = position[1];
         ((struct Obj01281 *)ctx)->f22 = target;
         ((struct Obj01281 *)ctx)->f24 = 0;

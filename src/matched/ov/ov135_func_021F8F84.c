@@ -1,5 +1,5 @@
 /*
- * function: func_021F8F84
+ * function: WORLDTRADE_ENTER_ShowErrorMessage
  * address: 0x021F8F84
  * packet: pkt_ov135_021F8F84
  * region: ov135
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 struct MsgBank;
 extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
-int func_021F8F84(u8 *p, void *dialog)
+int WORLDTRADE_ENTER_ShowErrorMessage(u8 *p, void *dialog)
 {
     int text;
     switch (((struct Obj10580 *)p)->f38) {

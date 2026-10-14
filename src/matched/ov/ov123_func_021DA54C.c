@@ -1,5 +1,5 @@
 /*
- * function: func_021DA54C
+ * function: PDWACC_STATE_ProcMain
  * address: 0x021DA54C
  * packet: pkt_ov123_021DA54C
  * region: ov123
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9A14 0x021D9A14 thumb ov123
- *   func_021D9404 0x021D9404 thumb ov123
+ *   PDWACC_DISP_Draw 0x021D9A14 thumb ov123
+ *   PDWACC_MESSAGE_UpdateSystem 0x021D9404 thumb ov123
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
@@ -23,14 +23,14 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_0200FB24(void);
 extern void APP_TASKMENU_UpdateMenu(void *);
-extern void func_021D9A14(int);
-extern void func_021D9404(char *p);
+extern void PDWACC_DISP_Draw(int);
+extern void PDWACC_MESSAGE_UpdateSystem(char *p);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
-int func_021DA54C(int a,int b,char *c,char *p)
+int PDWACC_STATE_ProcMain(int a,int b,char *c,char *p)
 {
     void (*f)(char *);
     int r;
@@ -41,8 +41,8 @@ int func_021DA54C(int a,int b,char *c,char *p)
         r = 0;
     }
     if (((struct Obj03276 *)p)->f14) APP_TASKMENU_UpdateMenu(((struct Obj03276 *)p)->f14);
-    func_021D9A14(((struct Obj03276 *)p)->fC);
-    func_021D9404(((struct Obj03276 *)p)->f10);
+    PDWACC_DISP_Draw(((struct Obj03276 *)p)->fC);
+    PDWACC_MESSAGE_UpdateSystem(((struct Obj03276 *)p)->f10);
     if (WIPE_SYS_EndCheck()) {
         if (func_0200FB24()) {
             NHTTP_RAP_DeleteConnection(((struct Obj03276 *)p)->f8);

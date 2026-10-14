@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D7540, func_021D75C0
+ * function: GDS_RAP_SaveVideoSeq, GDS_RAP_EncodeVideoBody
  * address: 0x021D7540
  * packet: pkt_ov125_021D7540
  * region: ov125
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
 struct BattleRec;
 extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
+int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
 {
     unsigned int value;
     switch (*state) {
@@ -44,7 +44,7 @@ int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
     }
     return 0;
 }
-void func_021D75C0(void)
+void GDS_RAP_EncodeVideoBody(void)
 {
     unsigned int value;
     value = *(u16 *)(((char *)d_0214616C) + 0x18a0);

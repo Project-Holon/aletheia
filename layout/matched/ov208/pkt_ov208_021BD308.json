@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD308",
+   "name": "ZKND_TBAR_GetHeldKey",
    "address": "0x021BD308",
    "kind": "game",
    "region": "ov208",

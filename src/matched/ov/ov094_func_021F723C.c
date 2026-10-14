@@ -1,5 +1,5 @@
 /*
- * function: func_021F723C
+ * function: BTLV_CAMERA_StepMove
  * address: 0x021F723C
  * packet: pkt_ov094_021F723C
  * region: ov094
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9220 0x021F9220 thumb ov094
- *   func_021F9260 0x021F9260 thumb ov094
+ *   BTLV_EFFECT_StepScalarWithLimit 0x021F9220 thumb ov094
+ *   BTLV_EFFECT_StepMover 0x021F9260 thumb ov094
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetUp 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_021F73A4 0x021F73A4 thumb ov094
+ *   BTLV_CAMERA_SyncOrbitFromCamera 0x021F73A4 thumb ov094
  */
-extern void func_021F9220(int *, int *, int *, int *);
-extern int func_021F9260(void *, void *);
+extern void BTLV_EFFECT_StepScalarWithLimit(int *, int *, int *, int *);
+extern int BTLV_EFFECT_StepMover(void *, void *);
 extern void G3D_CAMERA_SetEye(int, int *);
 extern void G3D_CAMERA_SetUp(int, int *);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_021F73A4(int *);
+extern void BTLV_CAMERA_SyncOrbitFromCamera(int *);
 
-void func_021F723C(int *p)
+void BTLV_CAMERA_StepMove(int *p)
 {
     int a[3];
     int b[3];
@@ -43,19 +43,19 @@ void func_021F723C(int *p)
             }
         }
         if (p[5] & 1) {
-            func_021F9220(&p[6], &p[18], &p[12], &ret);
-            func_021F9220(&p[7], &p[19], &p[13], &ret);
-            func_021F9220(&p[8], &p[20], &p[14], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[6], &p[18], &p[12], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[7], &p[19], &p[13], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[8], &p[20], &p[14], &ret);
             if (ret == 1) p[5] &= ~1;
         }
         if (p[5] & 2) {
-            func_021F9220(&p[9], &p[21], &p[15], &ret);
-            func_021F9220(&p[10], &p[22], &p[16], &ret);
-            func_021F9220(&p[11], &p[23], &p[17], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[9], &p[21], &p[15], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[10], &p[22], &p[16], &ret);
+            BTLV_EFFECT_StepScalarWithLimit(&p[11], &p[23], &p[17], &ret);
             if (ret == 1) p[5] &= ~2;
         }
         if (p[5] & 4) {
-            ret = func_021F9260(&p[30], &p[24]);
+            ret = BTLV_EFFECT_StepMover(&p[30], &p[24]);
             if (ret == 1) p[5] &= ~4;
         }
         a[0] = p[6] + p[24];
@@ -67,7 +67,7 @@ void func_021F723C(int *p)
         G3D_CAMERA_SetEye(p[1], a);
         G3D_CAMERA_SetUp(p[1], b);
         G3D_CAMERA_Reset((struct Light *)p[1]);
-        func_021F73A4(p);
+        BTLV_CAMERA_SyncOrbitFromCamera(p);
     } else {
         p[27]--;
     }

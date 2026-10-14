@@ -216,9 +216,21 @@ typedef struct IntrudePageRequest {
     u8 arg3;
 } IntrudePageRequest;
 
+/* Profile data of one player (0x10 bytes): built by INTRUDE_COMM_BuildLocalProfile, sent as command 0x20D. */
+#pragma pack(4)
+typedef struct IntrudeProfileData {
+    u32 kind;                       /* 0x00 */
+    unsigned long long value;       /* 0x04: 64-bit profile value, 4-byte aligned in the original */
+    u8 extra[2];                    /* 0x0C */
+    u8 valid;                       /* 0x0E */
+    u8 pad0F;
+} IntrudeProfileData;
+#pragma pack()
+typedef char IntrudeProfileDataSizeCheck[sizeof(IntrudeProfileData) == 0x10 ? 1 : -1];
+
 /* Trainer profile of one player (command 0x222). */
 typedef struct IntrudeProfile {
-    u8 data[0x10];
+    IntrudeProfileData data;
     u16 code;                       /* 0x10: checked against the valid profile codes, default 0x11 */
     u16 pad12;
 } IntrudeProfile;
@@ -241,9 +253,7 @@ typedef struct IntrudeCommSys {
     u8 expectedReplySeq;                        /* 0x159 */
     u8 pad15A[2];
     IntrudeNoticeBytes notice;                  /* 0x15C */
-    u8 ownMyStatus[0x20];                       /* 0x160: MyStatus of this player */
-    u8 lastBattleRecSlot[0x10];                 /* 0x180 */
-    IntrudePeer selfSnapshot;                   /* 0x190: with ownMyStatus, the record sent as command 0x203 */
+    IntrudeStatusRecord ownStatus;              /* 0x160: this player's record, sent as command 0x203 */
     IntrudeSession session;                     /* 0x1AC */
     IntrudeTally ownTally;                      /* 0x354 */
     IntrudeTally partnerTally;                  /* 0x358: received as command 0x21D */
@@ -323,5 +333,26 @@ typedef struct IntrudeCommSys {
     u8 busyReplies[3];                          /* 0x945: per net ID, sequence of a request still to refuse as busy */
     u8 pendingReplies[4];                       /* 0x948: per net ID, sequence of a reply that came early */
 } IntrudeCommSys;
+
+/* Save block that holds the entry picks; only the used fields. */
+typedef struct IntrudeSaveSlot {
+    u8 picks[6];                /* table row picked for each kind */
+    u8 outcomes[6];             /* 0 open, 1 or 2 done */
+    u16 pointsA;
+    u16 pointsB;
+} IntrudeSaveSlot;
+
+/* Work block of the link proc (INTRUDE_LINK_ProcExit frees the two owned objects). */
+typedef struct IntrudeLinkProc {
+    u8 procHead[0xF4];      /* 0x00: not read here */
+    void *subProcSys;       /* 0xF4: sub proc system, deleted on exit */
+    void *partyList;        /* 0xF8: party list, freed on exit */
+} IntrudeLinkProc;
+
+/* Work of the link event (8 bytes). */
+typedef struct IntrudeLinkEventWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    void *procArg;                  /* 0x04: argument handed to the link proc */
+} IntrudeLinkEventWork;
 
 #endif

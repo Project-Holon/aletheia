@@ -1,5 +1,5 @@
 /*
- * function: func_021C51D4
+ * function: ZUKAN_DETAIL_FORM_RestartModelAnim
  * address: 0x021C51D4
  * packet: pkt_ov208_021C51D4
  * region: ov208
@@ -21,7 +21,7 @@ extern void *MCSS_GetAnimCtrl(void *p);
 struct Obj;
 extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 extern void MCSS_ResetAnmStopFlag(void *p);
-void func_021C51D4(struct Ov208Slot *s)
+void ZUKAN_DETAIL_FORM_RestartModelAnim(struct Ov208Slot *s)
 {
     if (s->obj != 0 && s->anm != 0) {
         void *r = MCSS_GetAnimCtrl(s->obj);

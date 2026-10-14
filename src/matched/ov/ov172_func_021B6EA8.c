@@ -1,5 +1,5 @@
 /*
- * function: func_021B6EA8
+ * function: DRAW_SYSTEM_SetQueueIndex
  * address: 0x021B6EA8
  * packet: pkt_ov172_021B6EA8
  * region: ov172
@@ -10,7 +10,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B6EA8(void *p, u16 v)
+void DRAW_SYSTEM_SetQueueIndex(void *p, u16 v)
 {
     u16 *h = (u16 *)p;
     h[2] = v;

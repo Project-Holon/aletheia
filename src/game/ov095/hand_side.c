@@ -68,7 +68,7 @@ typedef struct {
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
 extern int BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-extern int BTL_SERVER_FLOW_GetRule(struct BtlSvFlow *flow);
+extern int BTL_SERVER_FLOW_GetRule(struct BtlServerFlow *flow);
 void HAND_SIDE_InitTable(void);
 struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont cont);
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId);
@@ -77,37 +77,37 @@ int HAND_SIDE_Remove(u32 side, u32 effectId);
 void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 arg);
 int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
 const BtlEventHandler *HAND_SIDE_GetHandlersReflect(u32 *handlerCount);
-void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work);
+void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersLightScreen(u32 *handlerCount);
-void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work);
-void HAND_SIDE_ScreenReduceDamage(struct BtlSvFlow *flow, int side, int damageType);
+void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work);
+void HAND_SIDE_ScreenReduceDamage(struct BtlServerFlow *flow, int side, int damageType);
 const BtlEventHandler *HAND_SIDE_GetHandlersSafeguard(u32 *handlerCount);
-void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
-void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
+void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersMist(u32 *handlerCount);
-void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
-void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
+void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersTailwind(u32 *handlerCount);
-void HAND_SIDE_TailwindDoubleSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_TailwindDoubleSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersLuckyChant(u32 *handlerCount);
-void HAND_SIDE_LuckyChantBlockCritical(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_LuckyChantBlockCritical(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersStealthRock(u32 *handlerCount);
-void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersWideGuard(u32 *handlerCount);
-void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersQuickGuard(u32 *handlerCount);
-void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSpikes(u32 *handlerCount);
-void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersToxicSpikes(u32 *handlerCount);
-void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount);
-void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
-void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
+void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount);
-void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount);
-void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 extern BtlSideEffectRow gHandSideEffectSlots[BTL_SIDE_COUNT];
 extern const HandSideEffectEntry gHandSideEffectTable[BTL_SIDEEFF_COUNT];
 extern const BtlEventHandler gHandSideReflectHandlers[1];
@@ -266,7 +266,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersReflect(u32 *handlerCount)
 
 
 /* Reflect: reduces physical damage. */
-void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work)
+void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work)
 {
     HAND_SIDE_ScreenReduceDamage(flow, side, BTL_DAMAGE_TYPE_PHYSICAL);
 }
@@ -283,7 +283,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersLightScreen(u32 *handlerCount)
 
 
 /* Light Screen: reduces special damage. */
-void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work)
+void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work)
 {
     HAND_SIDE_ScreenReduceDamage(flow, side, BTL_DAMAGE_TYPE_SPECIAL);
 }
@@ -295,7 +295,7 @@ void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlSvFl
  * category the screen covers and the hit is not a critical hit, the damage ratio is multiplied
  * by one half (one active Pokemon per side) or about two thirds (two or three).
  */
-void HAND_SIDE_ScreenReduceDamage(struct BtlSvFlow *flow, int side, int damageType)
+void HAND_SIDE_ScreenReduceDamage(struct BtlServerFlow *flow, int side, int damageType)
 {
     u8 defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
 
@@ -318,7 +318,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersSafeguard(u32 *handlerCount)
 
 
 /* Blocks a status condition that another Pokemon inflicts on the protected side. */
-void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
     int sickId;
@@ -333,7 +333,7 @@ void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlSvFlo
 
 
 /* Shows the Safeguard notice once after a status condition was blocked. */
-void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 defenderId;
     struct HandExMessage *cmd;
@@ -360,7 +360,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersMist(u32 *handlerCount)
 
 
 /* Blocks a stat drop that another Pokemon causes on the protected side. */
-void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
 
@@ -376,7 +376,7 @@ void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow
 
 
 /* Work slot 0: a stat drop was blocked. Work slot 1: the stat of the last notice. */
-void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     int statId;
     u8 pokeId;
@@ -408,7 +408,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersTailwind(u32 *handlerCount)
 
 
 /* Doubles the speed ratio of the Pokemon on the side with Tailwind. */
-void HAND_SIDE_TailwindDoubleSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_TailwindDoubleSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
 
@@ -429,7 +429,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersLuckyChant(u32 *handlerCount)
 
 
 /* Blocks critical hits against the protected side. */
-void HAND_SIDE_LuckyChantBlockCritical(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_LuckyChantBlockCritical(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
 
@@ -450,7 +450,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersStealthRock(u32 *handlerCount)
 
 
 /* Hurts a Pokemon that enters the side: 1/2 of its max HP at quadruple weakness down to 1/32 at quadruple resistance. */
-void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     int divisor;
     u8 pokeId;
@@ -498,7 +498,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersWideGuard(u32 *handlerCount)
 
 
 /* Blocks a damaging move whose target range is several Pokemon and shows the notice. */
-void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 defenderId;
     u16 moveId;
@@ -533,7 +533,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersQuickGuard(u32 *handlerCount)
 
 
 /* Blocks a move of positive priority that another Pokemon aims at the protected side and shows the notice. */
-void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 defenderId;
     BtlStrParam *message;
@@ -559,7 +559,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersSpikes(u32 *handlerCount)
 
 
 /* Hurts a grounded Pokemon that enters the side: 1/8 of its max HP with one layer, 1/6 with two, 1/4 with three. */
-void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 pokeId;
     int divisor;
@@ -618,7 +618,7 @@ static inline StackCountResult GetStackCountResult(struct BtlEventFactor *factor
  * The wrapper above was accepted by the user as plausible original source (2026-10-05): without it the
  * frame is 4 bytes smaller and the function does not match.
  */
-void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 pokeId;
     u32 i;
@@ -660,7 +660,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount)
 
 
 /* Doubles the secondary effect chance of a move used by the side that owns the rainbow. */
-void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u16 percent;
 
@@ -672,7 +672,7 @@ void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct B
 
 
 /* Second handler of the Rainbow table: sets the critical hit flag for a move of the owning side (guess for the event). */
-void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))) {
         BTL_EVENT_OverwriteVar(BTL_EVAR_CRITICAL_FLAG, 1);
@@ -690,7 +690,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount)
 
 
 /* Plays the fire effect on a Pokemon of the side that is not Fire type and hurts it for 1/8 of its max HP. */
-void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     u8 pokeId;
     struct BtlPokeParam *bpp;
@@ -728,7 +728,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount)
 
 
 /* Reduces the speed of the Pokemon on the side to a quarter. */
-void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)))
         BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, HAND_RATIO_QUARTER);

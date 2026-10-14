@@ -1,5 +1,5 @@
 /*
- * function: func_021F51F0
+ * function: WORLDTRADE_BOX_Main
  * address:  0x021F51F0
  * packet:   pkt_021F51F0
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void *g_02203B0C[];
 
-void func_021F51F0(u8 *p)
+void WORLDTRADE_BOX_Main(u8 *p)
 {
     ((void (*)(u8 *))g_02203B0C[*(u32 *)(p + 0x28)])(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02200B10
+ * function: BTLV_MCSS_ScaleTweenTaskEnd
  * address:  0x02200B10
  * packet:   pkt_ov094_02200A84
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_021F935C  0x021F935C  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
  *
- * Task destructor passed by func_021FF630.
+ * Task destructor passed by BTLV_MCSS_StartScaleTween.
  */
 typedef unsigned char u8;
 typedef int fx32;
@@ -52,12 +52,12 @@ typedef struct {
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int func_021F935C(int x);
+extern int BTLV_EFFECT_GetBitMask(int x);
 
-void func_02200B10(void *h)
+void BTLV_MCSS_ScaleTweenTaskEnd(void *h)
 {
     Ctx *c = (Ctx *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
-        c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
+        c->w->mask &= BTLV_EFFECT_GetBitMask(c->key) ^ 0xFFFFFFFF;
 }

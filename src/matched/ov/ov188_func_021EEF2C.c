@@ -1,5 +1,5 @@
 /*
- * function: func_021EEF2C
+ * function: BATTLE_REC_TOOL_UnpackParty
  * address: 0x021EEF2C
  * packet: pkt_ov188_021EEF2C
  * region: ov188
@@ -11,7 +11,7 @@
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   POKEPARTY_InitEx 0x0201A954 thumb
- *   func_021EEBF0 0x021EEBF0 thumb ov188
+ *   BATTLE_REC_TOOL_UnpackMon 0x021EEBF0 thumb ov188
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
@@ -28,19 +28,19 @@ struct Party;
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 struct Mon;
 struct PartyMon;
-extern void func_021EEBF0(char *p, struct Mon *q);
+extern void BATTLE_REC_TOOL_UnpackMon(char *p, struct Mon *q);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern char d_021EF360[];
-void func_021EEF2C(u8 *a,void *b,u32 c)
+void BATTLE_REC_TOOL_UnpackParty(u8 *a,void *b,u32 c)
 {
     int i;
     u8 *p;
     p=func_02030734((u16)((c & 0x7FFF)|0x8000),POKE_TOOL_GetPartyParamSize(),1,d_021EF360,173);
     POKEPARTY_InitEx(b,((struct Obj14491 *)a)->f0);
     for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
-        func_021EEBF0((char *)(a+4+i*112),(struct Mon *)p);
+        BATTLE_REC_TOOL_UnpackMon((char *)(a+4+i*112),(struct Mon *)p);
         POKE_TOOL_SetPartyValue(p,159,0);
         POKEPARTY_Add(b,(const struct PartyMon *)p);
     }

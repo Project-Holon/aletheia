@@ -1,5 +1,5 @@
 /*
- * function: func_021FBE54
+ * function: BR_RES_LoadSprite
  * address:  0x021FBE54
  * packet:   pkt_ov186_021FBE54
  * region:   ov186
@@ -35,7 +35,7 @@ extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 a2, u32 a3, u32 s0, u32 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_021FBE54(char *base, u32 idx, u32 area)
+void BR_RES_LoadSprite(char *base, u32 idx, u32 area)
 {
     u32 *r4;
 

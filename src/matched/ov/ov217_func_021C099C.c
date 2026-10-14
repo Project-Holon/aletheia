@@ -1,5 +1,5 @@
 /*
- * function: func_021C099C
+ * function: RESEARCH_COMMON_Destroy
  * address:  0x021C099C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C0A54  0x021C0A54  thumb  ov217
- *   func_021C0AA4  0x021C0AA4  thumb  ov217
+ *   RESEARCH_COMMON_Free  0x021C0A54  thumb  ov217
+ *   RESEARCH_COMMON_Exit  0x021C0AA4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0A54(void *a0);
-extern u32 func_021C0AA4(u32);
-u32 func_021C099C(void *a0)
+extern u32 RESEARCH_COMMON_Free(void *a0);
+extern u32 RESEARCH_COMMON_Exit(u32);
+u32 RESEARCH_COMMON_Destroy(void *a0)
 {
-    func_021C0AA4((u32)a0);
-    return func_021C0A54(a0);
+    RESEARCH_COMMON_Exit((u32)a0);
+    return RESEARCH_COMMON_Free(a0);
 }
 

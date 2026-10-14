@@ -40,8 +40,8 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   sBtlvTimerSiteName     0x0220AEE0  data  ov094
  *   func_020870D0 0x020870D0 arm
  *   sBtlvTimerRowY 0x0220ABC0 data a4
@@ -53,21 +53,15 @@
 #include "btlv_effect_shared_types.h"
 #include "btlv_timer_shared_types.h"
 
-typedef short s16;
-
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 
 struct PalAnimSlot;
-
-struct ClactUnit;
-
-typedef unsigned char u8;
 
 /* Sprite position handed to CLACT_CreateActor. */
 typedef struct { s16 x, y, z, rest; } ActorPos;
@@ -78,36 +72,6 @@ typedef struct { int v[6]; } ColumnTable;
 
 typedef struct { int v[2][6]; } SpriteZTable;
 
-/* Slots of one timer side: the clock icon, then minutes, colon, seconds. */
-typedef enum {
-    BTLV_TIMER_SLOT_ICON,
-    BTLV_TIMER_SLOT_MINUTE_TENS,
-    BTLV_TIMER_SLOT_MINUTE_ONES,
-    BTLV_TIMER_SLOT_COLON,
-    BTLV_TIMER_SLOT_SECOND_TENS,
-    BTLV_TIMER_SLOT_SECOND_ONES,
-    BTLV_TIMER_SLOT_COUNT
-} BtlvTimerSlot;
-
-typedef struct {
-    struct ClactActor *actor[BTLV_TIMER_SLOT_COUNT];
-    void *reservedSlot;
-} BtlvTimerSide;
-
-/* Two-sided battle timer (0x78 bytes): one clock per side of the field. */
-typedef struct BtlvTimer {
-    struct ClactUnit *unit[2];      /* 0x00 */
-    BtlvTimerSide side[2];          /* 0x08 */
-    s32 charResId;                  /* 0x40 */
-    s32 cellResId;                  /* 0x44 */
-    s32 paletteResId;               /* 0x48 */
-    int limit[2];                   /* 0x4c: seconds allowed per side */
-    u64 startTick[2];               /* 0x54 */
-    int animBase[2];                /* 0x64: 0 normal, 13 warning colour */
-    struct Task *tickTask;          /* 0x6c */
-    struct Task *spareTask;         /* 0x70 */
-    u16 heapId;                     /* 0x74 */
-} BtlvTimer;
 
 typedef enum { BTLV_TIMER_SIDE_PLAYER, BTLV_TIMER_SIDE_ENEMY } BtlvTimerSideId;
 
@@ -197,7 +161,7 @@ BtlvTimer *BTLV_TIMER_Create(u16 heapId)
     timer->charResId = CLACT_RegisterCharacter(archive, 0x7a, 0, 0, timer->heapId);
     timer->cellResId = CLACT_RegisterCellAnim(archive, 0x7b, 0x7c, timer->heapId);
     timer->paletteResId = CLACT_RegisterPalette(archive, 0xa2, 0, 0xe0, timer->heapId);
-    palSlots = (void *)func_021F86E0();
+    palSlots = (void *)BTLV_EFFECT_GetPalanm();
     PALANM_CopyHwPaletteToSlot(palSlots, 2, (u16)(CLACT_GetPaletteVramAddress(timer->paletteResId, 0) >> 1), 0x20);
     ARC_TOOL_DeleteHandle(archive);
     return timer;
@@ -254,7 +218,7 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
     timer->startTick[0] = timer->startTick[1];
     BTLV_TIMER_SetVisible(timer, 0, 0, 0);
     BTLV_TIMER_SetVisible(timer, 1, 0, 0);
-    timer->tickTask = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
+    timer->tickTask = func_02030DA8(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
 }
 
 void BTLV_TIMER_DeleteActors(BtlvTimer *timer)

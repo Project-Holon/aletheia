@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_GetMissionStatus
+ * function: SCRCMD_RESEARCH_GetMissionStatus
  * address:  0x0216B91C
  * packet:   pkt_0216B91C
  * region:   ov010
@@ -12,9 +12,9 @@
  * symbols:
  *   func_0200E394  0x0200E394  thumb
  *   func_0200C0E8  0x0200C0E8  thumb
- *   FIELD_G3D_MAP_GetMissionKind  0x0216BB70  thumb  ov010
- *   FIELD_G3D_MAP_AreMissionTargetsAtGoal  0x0216B994  thumb  ov010
- *   FIELD_G3D_MAP_AreMissionTargetsAtCap  0x0216BA40  thumb  ov010
+ *   SCRCMD_RESEARCH_GetMissionKind  0x0216BB70  thumb  ov010
+ *   SCRCMD_RESEARCH_AreMissionTargetsAtGoal  0x0216B994  thumb  ov010
+ *   SCRCMD_RESEARCH_AreMissionTargetsAtCap  0x0216BA40  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -23,11 +23,11 @@ typedef unsigned int u32;
 
 extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(void *sys);
-extern int FIELD_G3D_MAP_GetMissionKind(int index);
-extern int FIELD_G3D_MAP_AreMissionTargetsAtGoal(int c, int vm);
-extern int FIELD_G3D_MAP_AreMissionTargetsAtCap(int c, int vm);
+extern int SCRCMD_RESEARCH_GetMissionKind(int index);
+extern int SCRCMD_RESEARCH_AreMissionTargetsAtGoal(int c, int vm);
+extern int SCRCMD_RESEARCH_AreMissionTargetsAtCap(int c, int vm);
 
-int FIELD_G3D_MAP_GetMissionStatus(int a0, int a1, u16 *a2)
+int SCRCMD_RESEARCH_GetMissionStatus(int a0, int a1, u16 *a2)
 {
     u16 *t4;
     int t5;
@@ -43,14 +43,14 @@ a0 = t7 + 0;
     func_0200C0E8((void *)a0);
 loc_0216B930:
 a0 = t5 + 0;
-    a0 = FIELD_G3D_MAP_GetMissionKind(a0);
+    a0 = SCRCMD_RESEARCH_GetMissionKind(a0);
 loc_0216B936:
 a0 = a0 << 0x18;
 a0 = (unsigned)a0 >> 0x18;
     if (a0 != 0) goto loc_0216B954;
 loc_0216B93C:
 a1 = t5 + 0;
-    a0 = FIELD_G3D_MAP_AreMissionTargetsAtGoal((int)t6, a1);
+    a0 = SCRCMD_RESEARCH_AreMissionTargetsAtGoal((int)t6, a1);
 loc_0216B944:
     if (a0 == 0) goto loc_0216B94E;
 loc_0216B948:
@@ -65,7 +65,7 @@ loc_0216B954:
     if (a0 != 1) goto loc_0216B96E;
 loc_0216B958:
 a1 = t5 + 0;
-    a0 = FIELD_G3D_MAP_AreMissionTargetsAtCap((int)t6, a1);
+    a0 = SCRCMD_RESEARCH_AreMissionTargetsAtCap((int)t6, a1);
 loc_0216B960:
     if (a0 == 0) goto loc_0216B96A;
 loc_0216B964:

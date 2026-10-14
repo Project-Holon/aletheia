@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCF18",
+   "name": "ZUKAN_DETAIL_GRAPHIC_DrawFrame",
    "address": "0x021BCF18",
    "kind": "game",
    "region": "ov208",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BCF58",
+   "name": "ZUKAN_DETAIL_GRAPHIC_Init3dSystem",
    "address": "0x021BCF58",
    "kind": "game",
    "region": "ov208",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BCF6C",
+   "name": "ZUKAN_DETAIL_GRAPHIC_Delete3dSystem",
    "address": "0x021BCF6C",
    "kind": "game",
    "region": "ov208",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BCF84",
+   "name": "ZUKAN_DETAIL_GRAPHIC_VBlankTransfer",
    "address": "0x021BCF84",
    "kind": "game",
    "region": "ov208",

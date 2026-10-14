@@ -24,7 +24,7 @@
  * symbols:
  *   func_021B970C  0x021B970C  thumb  ov217
  *   func_021B9774  0x021B9774  thumb  ov217
- *   func_021C09BC  0x021C09BC  thumb  ov217
+ *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *
  * Note 2026-10-04 (wD1 lane06): Retried: void-pointer, u32, u8, s16 and const types for p and c, local v = *p, if-chains, char* a. Still 5 bytes: p lands in r6 and c in r4 (original p r4, c r6).
  *
@@ -34,7 +34,7 @@
 typedef unsigned int   u32;
 extern void func_021B970C(u32 *p, u32 *state);
 extern void func_021B9774(u32 *p, u32 *state, u32 kind);
-extern void func_021C09BC(void *p, u32 v);
+extern void RESEARCH_COMMON_SetScreen(void *p, u32 v);
 
 void func_021B96C8(void *a, int *p, int c)
 {
@@ -42,13 +42,13 @@ void func_021B96C8(void *a, int *p, int c)
     func_021B9774(a, (u32 *)p, c);
     switch (*p) {
     case 1:
-        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 1);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 1);
         break;
     case 2:
-        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 2);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 2);
         break;
     case 3:
-        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 3);
+        RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 3);
         break;
     }
 }

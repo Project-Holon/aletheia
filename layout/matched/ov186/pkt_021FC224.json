@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FC224",
+   "name": "BR_RES_GetCurrentSetParam",
    "address": "0x021FC224",
    "kind": "game",
    "region": "ov186",

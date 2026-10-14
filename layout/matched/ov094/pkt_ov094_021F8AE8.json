@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F8AE8",
-    "func_021F8AFC",
-    "func_021F8B10",
-    "func_021F8B28"
+    "BTLV_EFFECT_SetPokeEffectValue",
+    "BTLV_EFFECT_GetPokeEffectValue",
+    "BTLV_EFFECT_SuspendVmWait",
+    "BTLV_EFFECT_ResumeVmWait"
+   ],
+   "addresses": [
+    "0x021F8AE8",
+    "0x021F8AFC",
+    "0x021F8B10",
+    "0x021F8B28"
    ],
    "evidence": {
     "sole-ref": [

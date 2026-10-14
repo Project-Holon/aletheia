@@ -1,5 +1,5 @@
 /*
- * function: func_021FB704
+ * function: WORLDTRADE_INPUT_StateCategorySelectedAlt
  * address: 0x021FB704
  * packet: pkt_ov135_021FB704
  * region: ov135
@@ -12,7 +12,7 @@
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_021F9660 0x021F9660 thumb ov135
+ *   WORLDTRADE_INPUT_MenuFinish 0x021F9660 thumb ov135
  *   tbl_022033FC 0x022033FC data a4
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
  *   BGWINFRM_StartMove  0x0202CD64  thumb  arm9
@@ -30,15 +30,15 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int on);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_021F9660(void *p, u32 mode);
+extern void WORLDTRADE_INPUT_MenuFinish(void *p, u32 mode);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern const int tbl_022033FC[][2];
-int func_021FB704(u8 *p)
+int WORLDTRADE_INPUT_StateCategorySelectedAlt(u8 *p)
 {
     if (CLACT_IsActorAnimActive(((struct Obj00098 *)p)->f8) != 0) return -1;
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
-    func_021F9660(p, 6);
+    WORLDTRADE_INPUT_MenuFinish(p, 6);
     if (((struct Obj00098 *)p)->f38 < 0) {
         if (((struct Obj00098 *)p)->f38 == -1) return -2;
         else if (((struct Obj00098 *)p)->f38 == -2) return 0;

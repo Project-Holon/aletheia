@@ -1,5 +1,5 @@
 /*
- * function: func_021FFAE4
+ * function: BR_NET_OnUploadVideo
  * address: 0x021FFAE4
  * packet: pkt_ov186_021FFAE4
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24869.h"
-void func_021FFAE4(char *p) {((struct Obj24869 *)p)->f5C0=1;}
+void BR_NET_OnUploadVideo(char *p) {((struct Obj24869 *)p)->f5C0=1;}

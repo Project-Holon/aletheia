@@ -12,16 +12,16 @@
  * SDK: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o).  decl_line 1221.
  *
  * symbols:
- *   d_021F6F90   0x021F6F90  data
+ *   gMbWm   0x021F6F90  data
  */
 
 #include "../include/G_WmBase.h"
 
 typedef unsigned short u16;
 
-extern struct WmBase d_021F6F90;
+extern struct WmBase gMbWm;
 
 u16 MBi_GetTgid(void)
 {
-    return *(u16 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0xC);
+    return *(u16 *)(*(char **)(((char *)&gMbWm) + 0xC) + 0xC);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7210
+ * function: HALL_OF_FAME_BeginFadeIn
  * address: 0x021B7210
  * packet: pkt_ov180_021B7210
  * region: ov180
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021B7210(char *p,int n){WIPE_SYS_Start(0,1,1,0,6,1,141);((struct Obj24488 *)p)->f9194=n;return 2;}
+int HALL_OF_FAME_BeginFadeIn(char *p,int n){WIPE_SYS_Start(0,1,1,0,6,1,141);((struct Obj24488 *)p)->f9194=n;return 2;}

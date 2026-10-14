@@ -1,5 +1,5 @@
 /*
- * function: func_021E7220
+ * function: POKETRADE_2D_TaskSetMainPlaneVisible
  * address: 0x021E7220
  * packet: pkt_ov119_021E7220
  * region: ov119
@@ -16,7 +16,7 @@ struct Node;
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void func_02030EAC(struct Node *n);
 
-void func_021E7220(void *p, int a)
+void POKETRADE_2D_TaskSetMainPlaneVisible(void *p, int a)
 {
     BG_SYS_SetMainVisiblePlanes(a);
     func_02030EAC(p);

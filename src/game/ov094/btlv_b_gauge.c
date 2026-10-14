@@ -40,13 +40,13 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_021F896C 0x021F896C thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
  *   sBtlvBGaugeFileName 0x0220AED0 data a4
  *   sPartyBallBarOrigins 0x0220AB6C data a4
  *   sPartyBallBarAnimSeq 0x0220AB7C data a4
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
 #include "btlv_b_gauge_types.h"
 
@@ -58,9 +58,9 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 
 extern void CLACT_SetActorAnimSeq(struct ClActor *actor, u16 animSeq);
 
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 
 extern void *func_02030734(u16 heapId, u32 size, int clear, const char *file, u16 line);
 
@@ -84,7 +84,7 @@ extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 enable);
 
 extern void *func_02030DA8(void *taskSys, void (*func)(void *, void *), void *work, u32 priority);
 
-extern void func_021F896C(void *task, void (*onDelete)(void *), int arg);
+extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
 
 extern void ARC_TOOL_DeleteHandle(void *handle);
 
@@ -102,7 +102,7 @@ extern u32 func_020307B0(void *mem);
 
 extern void GFL_USE_PlaySeInSlot(u32 seNo, int slot);
 
-extern void func_021F89BC(void *task);
+extern void BTLV_EFFECT_DeleteTask(void *task);
 
 extern BtlvPartyBallTaskArg *TCBL_GetTaskUserData(void *task);
 
@@ -146,7 +146,7 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     bar->charRes = CLACT_RegisterCharacter(arc, 0xbd, 0, 0, bar->heapId);
     bar->cellRes = CLACT_RegisterCellAnim(arc, 0xbf, 0xc0, bar->heapId);
     bar->palRes = CLACT_RegisterPalette(arc, 0xbe, 0, 0xc0, bar->heapId);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(bar->palRes, 0) >> 1), 0x20);
+    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(bar->palRes, 0) >> 1), 0x20);
     {
     BtlvGaugeActorInit actorInit = {0, 0, 0, 0};
     int side = param->side;
@@ -177,7 +177,7 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     bar->entries[i].stepX = param->side == 0 ? -0x10 : 0x10;
     taskArg = func_02030734(fullHeapId, sizeof(BtlvPartyBallTaskArg), 0, sBtlvBGaugeFileName, 0xec);
     taskArg->bar = bar;
-    func_021F896C(func_02030DA8(func_021F86D4(), BTLV_B_GAUGE_TaskPartyBallBar, taskArg, 0), BTLV_B_GAUGE_PartyBallBarTaskDeleted, 0);
+    BTLV_EFFECT_RegisterTask(func_02030DA8(BTLV_EFFECT_GetOwner(), BTLV_B_GAUGE_TaskPartyBallBar, taskArg, 0), BTLV_B_GAUGE_PartyBallBarTaskDeleted, 0);
     bar->active = 1;
     ARC_TOOL_DeleteHandle(arc);
     GFL_USE_PlaySeDefaultVolume(BTLV_GAUGE_SE_BALL_BAR_START);
@@ -272,7 +272,7 @@ void BTLV_B_GAUGE_TaskPartyBallBar(void *task, void *arg)
             }
             CLACT_AddActorSurfacePos(taskArg->bar->entries[i].actor, &taskArg->bar->entries[i].pos, 0);
         }
-        if (!busy) func_021F89BC(task);
+        if (!busy) BTLV_EFFECT_DeleteTask(task);
         break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1B14
+ * function: POKETRADE_SAVE_DrawOfferCardWindow
  * address: 0x021E1B14
  * packet: pkt_ov119_021E1B14
  * region: ov119
@@ -20,14 +20,14 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
- *   func_021D8ADC 0x021D8ADC thumb ov119
- *   func_021E1430 0x021E1430 thumb ov119
- *   func_021E1670 0x021E1670 thumb ov119
- *   func_021E15F8 0x021E15F8 thumb ov119
- *   func_021E1778 0x021E1778 thumb ov119
- *   func_021E0E68 0x021E0E68 thumb ov119
+ *   POKETRADE_PROC_IsWifiMode 0x021D8ADC thumb ov119
+ *   POKETRADE_SAVE_PrintNickname 0x021E1430 thumb ov119
+ *   POKETRADE_SAVE_PrintGender 0x021E1670 thumb ov119
+ *   POKETRADE_SAVE_PrintLevel 0x021E15F8 thumb ov119
+ *   POKETRADE_SAVE_PrintHeldItem 0x021E1778 thumb ov119
+ *   POKETRADE_SAVE_CreateStatusIconActor 0x021E0E68 thumb ov119
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_021E0E4C 0x021E0E4C thumb ov119
+ *   POKETRADE_SAVE_DeleteStatusIconActor 0x021E0E4C thumb ov119
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -47,18 +47,18 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern int func_021D8ADC(char *p);
-extern void func_021E1430(void *,void *,int,int,int,int,char *);
-extern void func_021E1670(void *,void *,int,int,char *,int,int);
-extern void func_021E15F8(void *,void *,int,int,char *);
-extern void func_021E1778(int,int,int,int,char *);
-extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
+extern int POKETRADE_PROC_IsWifiMode(char *p);
+extern void POKETRADE_SAVE_PrintNickname(void *,void *,int,int,int,int,char *);
+extern void POKETRADE_SAVE_PrintGender(void *,void *,int,int,char *,int,int);
+extern void POKETRADE_SAVE_PrintLevel(void *,void *,int,int,char *);
+extern void POKETRADE_SAVE_PrintHeldItem(int,int,int,int,char *);
+extern void POKETRADE_SAVE_CreateStatusIconActor(char *,void *,int,int,int,int,u16,int);
 extern void CLACT_SetActorBgPriority(void *,u32);
-extern void func_021E0E4C(char *p);
+extern void POKETRADE_SAVE_DeleteStatusIconActor(char *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-void func_021E1B14(char *p,int i,void *mon)
+void POKETRADE_SAVE_DrawOfferCardWindow(char *p,int i,void *mon)
 {
     Pair a=d_021E7934;
     Pair b=d_021E7914;
@@ -77,21 +77,21 @@ void func_021E1B14(char *p,int i,void *mon)
     GF_FONT_SetTextColor(15,2,0);
     {
         void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x5bc+index));
-        func_021E1430(mon,window,16,0,flag,func_021D8ADC(p),p);
+        POKETRADE_SAVE_PrintNickname(mon,window,16,0,flag,POKETRADE_PROC_IsWifiMode(p),p);
     }
     if(flag==0) {
         char *items=p+0x5bc;
         void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index));
-        func_021E1670(mon,window,80,0,p,0,func_021D8ADC(p));
+        POKETRADE_SAVE_PrintGender(mon,window,80,0,p,0,POKETRADE_PROC_IsWifiMode(p));
         GF_FONT_SetTextColor(15,2,0);
-        func_021E15F8(mon,BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),16,19,p);
-        func_021E1778((int)mon,*(int *)(items+index),16,128,p);
+        POKETRADE_SAVE_PrintLevel(mon,BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),16,19,p);
+        POKETRADE_SAVE_PrintHeldItem((int)mon,*(int *)(items+index),16,128,p);
         i++;
-        func_021E0E68(p+0x8c4+i*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
+        POKETRADE_SAVE_CreateStatusIconActor(p+0x8c4+i*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
         CLACT_SetActorBgPriority(*(void **)(p+i*20+0x8d4),1);
     } else {
         tmp=p+0x8c4;
-        func_021E0E4C(tmp+(i+1)*20);
+        POKETRADE_SAVE_DeleteStatusIconActor(tmp+(i+1)*20);
     }
     BMP_WIN_TransferChars((struct Descriptor *)*(const int *)(old+index));
     BMP_WIN_MakeScreen((struct Cfg *)(*(const int *)(old+index)));

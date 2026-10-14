@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FC240  0x021FC240  thumb  ov186
+ *   BR_RES_LoadFadePalettes  0x021FC240  thumb  ov186
  */
 #include "../include/Obj08309.h"
 #include "../include/Obj14420.h"
 
-extern void func_021FC240(char *p, void *owner, unsigned short heap);
+extern void BR_RES_LoadFadePalettes(char *p, void *owner, unsigned short heap);
 
 void func_021DB924(int a0, char *p)
 {
@@ -23,7 +23,7 @@ void func_021DB924(int a0, char *p)
     char *q = *(char * *)&((struct Obj08309 *)p)->fC;
 
     if (v == 0) {
-        func_021FC240((char *)(((struct Obj14420 *)q)->f18), (void *)(((struct Obj14420 *)q)->f10),
+        BR_RES_LoadFadePalettes((char *)(((struct Obj14420 *)q)->f18), (void *)(((struct Obj14420 *)q)->f10),
                       ((struct Obj08309 *)p)->f14);
     }
     ((struct Obj08309 *)p)->f10 = 1;

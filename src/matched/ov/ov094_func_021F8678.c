@@ -1,5 +1,5 @@
 /*
- * function: func_021F8678
+ * function: BTLV_EFFECT_GetWorkPtr
  * address:  0x021F8678
  * packet:   pkt_021F8678
  * region:   ov094
@@ -17,7 +17,7 @@
 
 extern struct G_0220AF20 *g_0220AF20;
 
-void *func_021F8678(void)
+void *BTLV_EFFECT_GetWorkPtr(void)
 {
     return g_0220AF20;
 }

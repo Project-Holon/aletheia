@@ -1,5 +1,5 @@
 /*
- * function: func_02201B20
+ * function: BTLV_CLACT_LoadActor
  * address: 0x02201B20
  * packet: pkt_ov094_02201B20
  * region: ov094
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_0220A368 0x0220A368 data a4
+ *   gBtlvClactDefaultActorInit 0x0220A368 data a4
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   CLACT_CreateActor 0x0204B294 arm
@@ -26,14 +26,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 typedef struct Config { s16 x, y; u32 rest[2]; u32 a, b, last; } Config;
-extern const Config d_0220A368;
+extern const Config gBtlvClactDefaultActorInit;
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 struct PalAnmSlot;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern int func_021F86E0(void);
+extern int BTLV_EFFECT_GetPalanm(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 struct Obj;
@@ -41,9 +41,9 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern void ARC_TOOL_DeleteHandle(void *);
-int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
+int BTLV_CLACT_LoadActor(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
 {
-    Config cfg = d_0220A368;
+    Config cfg = gBtlvClactDefaultActorInit;
     void *archive = func_020490F4(archiveId, (u16)((((struct Obj03216 *)p)->f80 & 0x7fff) | 0x8000));
     int i, off;
     void *slots;
@@ -55,7 +55,7 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
     *(int *)(p + 12 + off) = CLACT_RegisterCharacter(archive, a, 0, 0, ((struct Obj03216 *)p)->f80);
     *(int *)(p + 16 + off) = CLACT_RegisterPaletteCompressed(archive, b, 0, (u16)(i * 32 + 0x140), ((struct Obj03216 *)p)->f80);
     *(int *)(p + 20 + off) = CLACT_RegisterCellAnim(archive, c, d, ((struct Obj03216 *)p)->f80);
-    slots = (void *)func_021F86E0();
+    slots = (void *)BTLV_EFFECT_GetPalanm();
     pal = CLACT_GetPaletteVramAddress(*(int *)(p + 16 + off), 0);
     PALANM_LoadArcPaletteToSlot(slots, archiveId, b, ((struct Obj03216 *)p)->f80, 2, 32, (pal & 0x3ff) >> 1);
     cfg.x = x;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4534
+ * function: CG_HELP_SetupBgLayer
  * address: 0x021D4534
  * packet: pkt_ov124_021D4534
  * region: ov124
@@ -23,4 +23,4 @@ extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 /* 020414AC's legacy asm prototype says void, but its body forwards entry r0. */
-void func_021D4534(const struct BgTemplate *p, int layer, int type) {func_0203FCA0(layer,p,type);func_02040588(layer,1);func_020414AC(layer);func_020409B4(layer);}
+void CG_HELP_SetupBgLayer(const struct BgTemplate *p, int layer, int type) {func_0203FCA0(layer,p,type);func_02040588(layer,1);func_020414AC(layer);func_020409B4(layer);}

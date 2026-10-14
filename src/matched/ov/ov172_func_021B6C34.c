@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C34
+ * function: DRAW_SYSTEM_DeleteCanvas
  * address:  0x021B6C34
  * packet:   pkt_021B6868
  * region:   ov172
@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern void GFL_NET_FreeAligned(void *p);
 extern u32 func_020307B0(void *p);
 
-void func_021B6C34(char *p)
+void DRAW_SYSTEM_DeleteCanvas(char *p)
 {
     GFL_NET_FreeAligned(((struct Obj24067 *)p)->f10);
     func_020307B0(p);

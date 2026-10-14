@@ -1,5 +1,5 @@
 /*
- * function: func_021E665C
+ * function: POKETRADE_2D_UpdateIconFlight
  * address: 0x021E665C
  * packet: pkt_ov119_021E665C
  * region: ov119
@@ -10,8 +10,8 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_021E66E8 0x021E66E8 thumb ov119
- *   func_021E729C 0x021E729C thumb ov119
+ *   POKETRADE_2D_DeleteFloatingIconActor 0x021E66E8 thumb ov119
+ *   POKETRADE_2D_StepBezierCurve 0x021E729C thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef struct { short x,y; } Pt;
@@ -23,19 +23,19 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_021E66E8(void *);
+extern void POKETRADE_2D_DeleteFloatingIconActor(void *);
 struct Curve;
-extern int func_021E729C(struct Curve *c);
-int func_021E665C(char *p) {
+extern int POKETRADE_2D_StepBezierCurve(struct Curve *c);
+int POKETRADE_2D_UpdateIconFlight(char *p) {
     Pt pos;
     if (((struct Obj00001 *)p)->f11DC) {
         --((struct Obj00001 *)p)->f11DC;
         if (!((struct Obj00001 *)p)->f11DC) return 1;
         CLACT_GetActorSurfacePos((struct Actor *)((struct Obj00001 *)p)->fF20,(struct PtS *)&pos,1);
         if (pos.y<0) ((struct Obj00001 *)p)->f11DC=1;
-        if (((struct Obj00001 *)p)->f11DC==1) func_021E66E8(p);
+        if (((struct Obj00001 *)p)->f11DC==1) POKETRADE_2D_DeleteFloatingIconActor(p);
         else {
-            func_021E729C((struct Curve *)(p+0x1190));
+            POKETRADE_2D_StepBezierCurve((struct Curve *)(p+0x1190));
             pos.x=((struct Obj00001 *)p)->f1190/4096;
             pos.y=((struct Obj00001 *)p)->f1194/4096;
             CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj00001 *)p)->fF20),(const struct Vec2 *)(&pos),1);

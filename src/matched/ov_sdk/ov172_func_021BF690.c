@@ -1,5 +1,5 @@
 /*
- * function: func_021BF690
+ * function: hloadbit
  * address:  0x021BF690
  * packet:   pkt_ov172_021BF690
  * region:   ov172
@@ -65,7 +65,7 @@ static int ystep = 0;
 extern int ntbl[4];
 extern u8 jw[6144];
 
-int func_021BF690(u8 *b, int *p, int n)
+int hloadbit(u8 *b, int *p, int n)
 {
     int v;
     int t;

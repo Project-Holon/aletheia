@@ -1,5 +1,5 @@
 /*
- * function: func_021DCA7C
+ * function: DENDOU_VIEW_LoadGraphics
  * address:  0x021DCA7C
  * packet:   pkt_021DCA7C
  * region:   ov171
@@ -33,7 +33,7 @@ extern u32 func_0204162C(int a);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021DCA7C(void)
+void DENDOU_VIEW_LoadGraphics(void)
 {
     u8 *p = func_020490F4(0xd5, 0x808c);
 

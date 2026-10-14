@@ -1,5 +1,5 @@
 /*
- * function: func_021F6934
+ * function: BTLV_STAGE_UpdateLayerAnims
  * address:  0x021F6934
  * packet:   pkt_ov094_021F6934
  * region:   ov094
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
- *   func_021F9364  0x021F9364  thumb  ov094
+ *   BTLV_EFFECT_UpdateTexturePaletteFade  0x021F9364  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,9 +38,9 @@ typedef struct {
 } Obj;
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern void func_021F9364(void *p);
+extern void BTLV_EFFECT_UpdateTexturePaletteFade(void *p);
 
-void func_021F6934(Obj *o)
+void BTLV_STAGE_UpdateLayerAnims(Obj *o)
 {
     int i;
     int j;
@@ -71,5 +71,5 @@ void func_021F6934(Obj *o)
             }
         }
     }
-    func_021F9364(o->sub);
+    BTLV_EFFECT_UpdateTexturePaletteFade(o->sub);
 }

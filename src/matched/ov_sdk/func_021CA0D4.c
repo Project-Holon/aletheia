@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021CA0D4   0x021CA0D4  arm
- *   tbl_021DA650   0x021DA650  data
+ *   gSceneSetListFocusColumnTable   0x021DA650  data
  *   func_021C9D10   0x021C9D10  arm
  *   func_021C9F58   0x021C9F58  arm
  *
@@ -21,14 +21,14 @@
 
 extern int func_021C9D10(int);
 extern void func_021C9F58(void);
-extern unsigned char tbl_021DA650[];
+extern unsigned char gSceneSetListFocusColumnTable[];
 
 void func_021CA0D4(int a)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
 
     *g = a;
-    *(unsigned char *)(g + 2) = func_021C9D10(tbl_021DA650[a]);
+    *(unsigned char *)(g + 2) = func_021C9D10(gSceneSetListFocusColumnTable[a]);
     func_021C9F58();
 }
 

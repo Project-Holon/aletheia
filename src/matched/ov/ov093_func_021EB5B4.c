@@ -13,10 +13,10 @@
  *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   func_021F7EE8  0x021F7EE8  thumb  ov094
+ *   BTLV_EFFECT_SetPokeSpriteKey  0x021F7EE8  thumb  ov094
  *   BTLV_SCU_ShowMonSlot  0x021EDA04  thumb  ov093
  *   BTLV_SCU_StartBrightnessFade  0x021EB584  thumb  ov093
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  */
 #include "../include/Obj10117.h"
 typedef unsigned char u8;
@@ -26,10 +26,10 @@ extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 struct E;
 struct Work;
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
-extern void func_021F7EE8(void *, int);
+extern void BTLV_EFFECT_SetPokeSpriteKey(void *, int);
 extern void BTLV_SCU_ShowMonSlot(struct E *e);
 extern void BTLV_SCU_StartBrightnessFade(int);
-extern int func_021F7EB4(void);
+extern int BTLV_EFFECT_IsBusy(void);
 int BTLV_SCU_ProcQuickEntry(u8 *p, int *state, u8 *src, u8 n)
 {
     switch (*state) {
@@ -40,7 +40,7 @@ int BTLV_SCU_ProcQuickEntry(u8 *p, int *state, u8 *src, u8 n)
         for (i = 0; i < n; i++) {
             c = src[i];
             k = BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
-            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
+            BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
             BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + k * 12));
         }
         *state = *state + 1;
@@ -53,7 +53,7 @@ int BTLV_SCU_ProcQuickEntry(u8 *p, int *state, u8 *src, u8 n)
         *state = *state + 1;
         break;
     case 2:
-        if (func_021F7EB4() == 0)
+        if (BTLV_EFFECT_IsBusy() == 0)
             return 1;
         break;
     }

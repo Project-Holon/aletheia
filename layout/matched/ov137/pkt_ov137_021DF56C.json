@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DF56C",
-    "func_021DF598"
+    "GURU2_MAIN_StateWaitEffectToMessage",
+    "GURU2_MAIN_StateWaitTimerToEnd"
+   ],
+   "addresses": [
+    "0x021DF56C",
+    "0x021DF598"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021FFD6C
+ * function: BTLV_MCSS_IsAnySpriteBusy
  * address:  0x021FFD6C
  * packet:   pkt_ov094_021FFD6C
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FFD9C  0x021FFD9C  thumb  ov094
- *   func_021FFCB0  0x021FFCB0  thumb  ov094
+ *   BTLV_MCSS_IsSpriteLoaded  0x021FFD9C  thumb  ov094
+ *   BTLV_MCSS_IsSpriteBusy  0x021FFCB0  thumb  ov094
  */
 typedef enum { KEY_0 } Key;
 
@@ -30,15 +30,15 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_021FFD9C(char *p, int key);
-extern int func_021FFCB0(Work *w, int key);
+extern int BTLV_MCSS_IsSpriteLoaded(char *p, int key);
+extern int BTLV_MCSS_IsSpriteBusy(Work *w, int key);
 
-int func_021FFD6C(Work *w)
+int BTLV_MCSS_IsAnySpriteBusy(Work *w)
 {
     Key i;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C((char *)w, i) && func_021FFCB0(w, i))
+        if (BTLV_MCSS_IsSpriteLoaded((char *)w, i) && BTLV_MCSS_IsSpriteBusy(w, i))
             return 1;
     }
     return 0;

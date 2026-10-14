@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B657C",
+   "name": "CTVT_CAMERA_LoadShutterSound",
    "address": "0x021B657C",
    "kind": "game",
    "region": "ov172",

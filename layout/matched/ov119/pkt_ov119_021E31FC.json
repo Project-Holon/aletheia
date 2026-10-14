@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E31FC",
+   "name": "POKETRADE_3D_UploadCubeTextures",
    "address": "0x021E31FC",
    "kind": "game",
    "region": "ov119",

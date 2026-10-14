@@ -1,5 +1,5 @@
 /*
- * function: func_0217998C
+ * function: IRCNET_SetTimeoutLimit
  * address:  0x0217998C
  * packet:   pkt_ov015_0217998C
  * region:   ov015
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 
 extern struct s_ab40 d_0217AB40;
 
-void func_0217998C(int v)
+void IRCNET_SetTimeoutLimit(int v)
 {
     *(int *)(((u8 *)&d_0217AB40) + 0x3C) = v;
 }

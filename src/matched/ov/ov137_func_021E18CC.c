@@ -1,5 +1,5 @@
 /*
- * function: func_021E18CC
+ * function: GURU2_MAIN_PartyHasEligiblePokemon
  * address: 0x021E18CC
  * packet: pkt_ov137_021E18CC
  * region: ov137
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *, unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
-int func_021E18CC(void *p)
+int GURU2_MAIN_PartyHasEligiblePokemon(void *p)
 {
     int n;
     int i;

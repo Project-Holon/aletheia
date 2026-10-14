@@ -1,5 +1,5 @@
 /*
- * function: func_0220684C
+ * function: BTLV_INPUT_RegisterTask
  * address:  0x0220684C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220684C   0x0220684C  thumb
- *   func_022068C4 0x022068C4 thumb ov094
+ *   BTLV_INPUT_RegisterTask   0x0220684C  thumb
+ *   BTLV_INPUT_AllocTaskSlot 0x022068C4 thumb ov094
 
  *
  * lane O10 candidate
  */
 
-extern int func_022068C4(char *p);
+extern int BTLV_INPUT_AllocTaskSlot(char *p);
 
-void func_0220684C(char *p, int a, int b)
+void BTLV_INPUT_RegisterTask(char *p, int a, int b)
 {
-    int i = func_022068C4(p);
+    int i = BTLV_INPUT_AllocTaskSlot(p);
 
     *(int *)(p + i * 4 + 8) = a;
     *(int *)(p + i * 4 + 0x28) = b;

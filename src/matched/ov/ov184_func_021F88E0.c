@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_021F3BF0  0x021F3BF0  thumb  ov112
- *   func_021FC640  0x021FC640  thumb  ov186
- *   func_021FC148  0x021FC148  thumb  ov186
- *   func_021FB964  0x021FB964  thumb  ov186
- *   func_021FEEC0  0x021FEEC0  thumb  ov186
+ *   BR_GRAPHIC_End3d  0x021FC640  thumb  ov186
+ *   BR_RES_LoadUiPalette  0x021FC148  thumb  ov186
+ *   BR_RES_LoadBgGraphics  0x021FB964  thumb  ov186
+ *   BR_SIDEBAR_SetVisibleBySpace  0x021FEEC0  thumb  ov186
  */
 #include "../include/Obj02233.h"
 #include "../include/Obj04581.h"
@@ -23,10 +23,10 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 extern void func_021F3BF0(u8 *p);
-extern void func_021FC640(u32 a, u16 b);
-extern void func_021FC148(char *p, unsigned i, unsigned heap);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern void func_021FEEC0(char *p, int mode, u32 value);
+extern void BR_GRAPHIC_End3d(u32 a, u16 b);
+extern void BR_RES_LoadUiPalette(char *p, unsigned i, unsigned heap);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+extern void BR_SIDEBAR_SetVisibleBySpace(char *p, int mode, u32 value);
 
 void func_021F88E0(char *p, char *q)
 {
@@ -34,8 +34,8 @@ void func_021F88E0(char *p, char *q)
         return;
     func_021F3BF0(((struct Obj02233 *)p)->f0);
     *(u32 *)&((struct Obj02233 *)p)->f0 = 0;
-    func_021FC640(((struct Obj04581 *)q)->f8, ((struct Obj02233 *)p)->f24);
-    func_021FC148((char *)(*(u32 *)&((struct Obj04581 *)q)->fC), 0, ((struct Obj02233 *)p)->f24);
-    func_021FB964((void *)(*(u32 *)&((struct Obj04581 *)q)->fC), 0, ((struct Obj02233 *)p)->f24);
-    func_021FEEC0((char *)(((struct Obj04581 *)q)->f4), 0, 1);
+    BR_GRAPHIC_End3d(((struct Obj04581 *)q)->f8, ((struct Obj02233 *)p)->f24);
+    BR_RES_LoadUiPalette((char *)(*(u32 *)&((struct Obj04581 *)q)->fC), 0, ((struct Obj02233 *)p)->f24);
+    BR_RES_LoadBgGraphics((void *)(*(u32 *)&((struct Obj04581 *)q)->fC), 0, ((struct Obj02233 *)p)->f24);
+    BR_SIDEBAR_SetVisibleBySpace((char *)(((struct Obj04581 *)q)->f4), 0, 1);
 }

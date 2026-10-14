@@ -1,5 +1,5 @@
 /*
- * function: func_02200C98
+ * function: BTLV_MCSS_RotateTweenTaskEnd
  * address:  0x02200C98
  * packet:   pkt_ov094_02200C98
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   func_021F935C  0x021F935C  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
  *
  */
 typedef unsigned char u8;
@@ -51,12 +51,12 @@ typedef struct {
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int func_021F935C(int x);
+extern int BTLV_EFFECT_GetBitMask(int x);
 
-void func_02200C98(void *h)
+void BTLV_MCSS_RotateTweenTaskEnd(void *h)
 {
     Ctx *c = (Ctx *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
-        c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
+        c->w->mask &= BTLV_EFFECT_GetBitMask(c->key) ^ 0xFFFFFFFF;
 }

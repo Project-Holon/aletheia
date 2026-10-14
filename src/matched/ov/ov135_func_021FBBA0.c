@@ -1,5 +1,5 @@
 /*
- * function: func_021FBBA0
+ * function: WORLDTRADE_INPUT_StateConditionListInput
  * address: 0x021FBBA0
  * packet: pkt_ov135_021FBBA0
  * region: ov135
@@ -11,7 +11,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021FA85C 0x021FA85C thumb ov135
+ *   WORLDTRADE_INPUT_UpdatePagedList5 0x021FA85C thumb ov135
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
  */
 #include "../include/Obj02201.h"
@@ -24,12 +24,12 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int on);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021FA85C(void *p);
+extern int WORLDTRADE_INPUT_UpdatePagedList5(void *p);
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-int func_021FBBA0(u8 *p)
+int WORLDTRADE_INPUT_StateConditionListInput(u8 *p)
 {
     int r;
-    r = func_021FA85C(p);
+    r = WORLDTRADE_INPUT_UpdatePagedList5(p);
     switch (r) {
     case -2:
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02201 *)p)->f8, 1);

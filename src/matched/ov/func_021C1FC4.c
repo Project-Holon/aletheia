@@ -1,5 +1,5 @@
 /*
- * function: func_021C1FC4
+ * function: ZUKAN_DETAIL_AREA_BeginModeTransition
  * address:  0x021C1FC4
  * packet:   pkt_021C1FC4
  * region:   ov208
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1920 0x021C1920  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleModeEvent 0x021C1920  thumb  ov208
  *
- * Dispatches on the word at +0x6C: state 0 hands a 3, state 5 hands an 8 to func_021C1920.
+ * Dispatches on the word at +0x6C: state 0 hands a 3, state 5 hands an 8 to ZUKAN_DETAIL_AREA_HandleModeEvent.
  */
 #include "../include/Obj00081.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
+extern void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode);
 
-void func_021C1FC4(void *a, char *b, int c)
+void ZUKAN_DETAIL_AREA_BeginModeTransition(void *a, char *b, int c)
 {
     int s = ((struct Obj00081 *)b)->f6C;
 
     if (s == 0) {
-        func_021C1920(a, (u8 *)b, c, 3);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 3);
         return;
     }
     if (s == 5) {
-        func_021C1920(a, (u8 *)b, c, 8);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(a, (u8 *)b, c, 8);
     }
 }

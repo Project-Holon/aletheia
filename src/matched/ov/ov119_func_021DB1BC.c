@@ -8,38 +8,38 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E4DBC 0x021E4DBC thumb ov119
- *   func_021D8AF4 0x021D8AF4 thumb ov119
- *   func_021D8B0C 0x021D8B0C thumb ov119
- *   func_021D8DD0 0x021D8DD0 thumb ov119
+ *   POKETRADE_2D_GetScrollColumn 0x021E4DBC thumb ov119
+ *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb ov119
+ *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb ov119
+ *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb ov119
  *   func_02017E88 0x02017E88 thumb
- *   func_021E4AA4 0x021E4AA4 thumb ov119
+ *   POKETRADE_2D_IsBoxIconMatch 0x021E4AA4 thumb ov119
  *   func_021DB4B4 0x021DB4B4 thumb ov119
  *   func_021DB7AC 0x021DB7AC thumb ov119
  */
 #include "../include/Obj00001.h"
-extern int func_021E4DBC(char *);
-extern int func_021D8AF4(int,char *);
-extern int func_021D8B0C(int,int);
+extern int POKETRADE_2D_GetScrollColumn(char *);
+extern int POKETRADE_PROC_GetBoxIndexForSlot(int,char *);
+extern int POKETRADE_PROC_GetSlotIndexInBox(int,int);
 typedef unsigned int   u32;
-extern void *func_021D8DD0(void *a, int b, int c, char *p);
+extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_021E4AA4(int,int);
+extern int POKETRADE_2D_IsBoxIconMatch(int,int);
 extern int func_021DB4B4(int);
 extern void func_021DB7AC(char *,int,int);
 int func_021DB1BC(char *p,int kind)
 {
-    int index=func_021E4DBC(p);
+    int index=POKETRADE_2D_GetScrollColumn(p);
     int outer;
     for(outer=0;outer<((struct Obj00001 *)p)->f634;outer++) {
         int inner;
         index++;
         if(index>=((struct Obj00001 *)p)->f634) index=0;
         for(inner=0;inner<5;inner++) {
-            int a=func_021D8AF4(index,p);
-            int b=func_021D8B0C(index,inner);
-            int obj=(int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828),a,b,p);
-            if(obj && func_021E4AA4(func_02017E88((void *)obj,0xab,0),kind) && !func_02017E88((void *)obj,0x4c,0)) {
+            int a=POKETRADE_PROC_GetBoxIndexForSlot(index,p);
+            int b=POKETRADE_PROC_GetSlotIndexInBox(index,inner);
+            int obj=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)(*(int *)&((struct Obj00001 *)p)->f828),a,b,p);
+            if(obj && POKETRADE_2D_IsBoxIconMatch(func_02017E88((void *)obj,0xab,0),kind) && !func_02017E88((void *)obj,0x4c,0)) {
                 ((struct Obj00001 *)p)->f1080+=1;
                 ((struct Obj00001 *)p)->f107C=func_021DB4B4(index)-0x20;
                 ((struct Obj00001 *)p)->f1084=1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6C8
+ * function: ZUKAN_DETAIL_COMMON_IsFadeBusy
  * address:  0x021BC6C8
  * packet:   pkt_021BC6C8
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj18186.h"
 
 
-int func_021BC6C8(char *p)
+int ZUKAN_DETAIL_COMMON_IsFadeBusy(char *p)
 {
     unsigned int v = ((struct Obj18186 *)p)->f10;
 

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent
+ * function: SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent
  * address:  0x021B273C
  * packet:   pkt_ov021_021B273C
  * region:   ov021
@@ -26,7 +26,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int a0, int a1, int a2);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent(int a, int b)
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int a, int b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     void *y = SCRCMD_WORK_GetGameSystem((void *)b);

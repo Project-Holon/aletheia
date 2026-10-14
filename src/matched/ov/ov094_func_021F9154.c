@@ -1,5 +1,5 @@
 /*
- * function: func_021F9154
+ * function: BTLV_EFFECT_ComputeScalarStep
  * address:  0x021F9154
  * packet:   pkt_ov094_021F9154
  * region:   ov094
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 
-void func_021F9154(int a, int b, int *out, int c)
+void BTLV_EFFECT_ComputeScalarStep(int a, int b, int *out, int c)
 {
     *out = 0;
     if (b - a == 0)

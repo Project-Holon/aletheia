@@ -1,5 +1,5 @@
 /*
- * function: func_021F11C4
+ * function: MB_COMM_SYS_GetMonCount
  * address:  0x021F11C4
  * packet:   pkt_ov107_021F11C4
  * region:   ov107
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 func_021F11C4(u8 *p) { return *(u8 *)(((struct Obj22296 *)p)->f10); }
+u8 MB_COMM_SYS_GetMonCount(u8 *p) { return *(u8 *)(((struct Obj22296 *)p)->f10); }

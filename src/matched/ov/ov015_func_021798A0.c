@@ -1,5 +1,5 @@
 /*
- * function: func_021798A0
+ * function: IRCNET_CbGetLinkState
  * address:  0x021798A0
  * packet:   pkt_021798A0
  * region:   ov015
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02179D3C  0x02179D3C  thumb  ov015
+ *   IRCNET_IsLinkAlive  0x02179D3C  thumb  ov015
  */
 
-extern int func_02179D3C(void);
+extern int IRCNET_IsLinkAlive(void);
 
-int func_021798A0(void)
+int IRCNET_CbGetLinkState(void)
 {
-    if (func_02179D3C())
+    if (IRCNET_IsLinkAlive())
         return 3;
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2D70
+ * function: POKETRADE_3D_CreateIcaStreamsForMode
  * address: 0x021E2D70
  * packet: pkt_ov119_021E2D70
  * region: ov119
@@ -18,7 +18,7 @@ extern void *ICA_ANIME_CreateStream(u32,u32,u32,u32);
 typedef signed int     s32;
 struct IcaAnime;
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
-void func_021E2D70(char *p,unsigned mode)
+void POKETRADE_3D_CreateIcaStreamsForMode(char *p,unsigned mode)
 {
     switch(mode) {
     case 0:

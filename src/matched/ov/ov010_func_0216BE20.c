@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_FindEventMonInParty
+ * function: SCRCMD_EVENT_MON_FindEventMonInParty
  * address:  0x0216BE20
  * packet:   pkt_ov010_0216BE20
  * region:   ov010
@@ -25,7 +25,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int func_0202F488(int a0, int a1);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int FIELD_G3D_MAP_FindEventMonInParty(int a, int b, int e, int d, u16 *out)
+int SCRCMD_EVENT_MON_FindEventMonInParty(int a, int b, int e, int d, u16 *out)
 {
     int found;
     int n;

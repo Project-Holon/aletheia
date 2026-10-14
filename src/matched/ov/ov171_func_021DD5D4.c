@@ -1,5 +1,5 @@
 /*
- * function: func_021DD5D4
+ * function: DENDOU_VIEW_CountRotationSteps
  * address: 0x021DD5D4
  * packet: pkt_ov171_021DD5D4
  * region: ov171
@@ -13,7 +13,7 @@
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
-u8 func_021DD5D4(char *p, s8 i, int target, s8 step)
+u8 DENDOU_VIEW_CountRotationSteps(char *p, s8 i, int target, s8 step)
 {
     u8 count;
     count = 1;

@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FFE70 0x021FFE70 thumb ov186
- *   func_021FFC6C 0x021FFC6C thumb ov186
+ *   BR_POKESEARCH_Close 0x021FFE70 thumb ov186
+ *   BR_POKESEARCH_Destroy 0x021FFC6C thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   func_021FD15C 0x021FD15C thumb ov186
  */
@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
-extern void func_021FFE70(char *p);
-extern void func_021FFC6C(char *p);
+extern void BR_POKESEARCH_Close(char *p);
+extern void BR_POKESEARCH_Destroy(char *p);
 extern void func_020409B4(unsigned);
 extern void func_021FD15C(void *,int);
-void func_021F8F58(char *p,char *q) { if(((struct Obj04584 *)p)->f0){func_021FFE70(((struct Obj04584 *)p)->f0);func_021FFC6C(((struct Obj04584 *)p)->f0);((struct Obj04584 *)p)->f0=0;func_020409B4(4);if(((struct Obj04584 *)p)->f4){func_021FD15C(((struct Obj04584 *)p)->f4,((struct Obj24759 *)q)->fC);((struct Obj04584 *)p)->f4=0;}} }
+void func_021F8F58(char *p,char *q) { if(((struct Obj04584 *)p)->f0){BR_POKESEARCH_Close(((struct Obj04584 *)p)->f0);BR_POKESEARCH_Destroy(((struct Obj04584 *)p)->f0);((struct Obj04584 *)p)->f0=0;func_020409B4(4);if(((struct Obj04584 *)p)->f4){func_021FD15C(((struct Obj04584 *)p)->f4,((struct Obj24759 *)q)->fC);((struct Obj04584 *)p)->f4=0;}} }

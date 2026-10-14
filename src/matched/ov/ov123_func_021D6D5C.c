@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D5C
+ * function: GSYNC_DISP_CreateBackdropActors
  * address: 0x021D6D5C
  * packet: pkt_ov123_021D6D5C
  * region: ov123
@@ -34,7 +34,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021D6D5C(u8 *p)
+void GSYNC_DISP_CreateBackdropActors(u8 *p)
 {
     struct Point pt;
     void *h;

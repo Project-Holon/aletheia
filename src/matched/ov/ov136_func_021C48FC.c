@@ -1,5 +1,5 @@
 /*
- * function: func_021C48FC
+ * function: MAILSYS_OpenConfirmMenu
  * address: 0x021C48FC
  * packet: pkt_ov136_021C48FC
  * region: ov136
@@ -26,7 +26,7 @@ extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *a
 struct Chan02021FD8;
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
-void func_021C48FC(u8 *p)
+void MAILSYS_OpenConfirmMenu(u8 *p)
 {
     Template t;
     ((struct Obj00275 *)p)->f110 = (u32)func_02045EC0(((struct Obj00275 *)p)->f20, 4);

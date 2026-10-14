@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC26C",
+   "name": "ZUKAN_DETAIL_PROCSYS_FreeNode",
    "address": "0x021BC26C",
    "kind": "game",
    "region": "ov208",

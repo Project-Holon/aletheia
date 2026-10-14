@@ -1,5 +1,5 @@
 /*
- * function: func_021D5128
+ * function: GSYNC_MENU_ProcInit
  * address: 0x021D5128
  * packet: pkt_ov123_021D5128
  * region: ov123
@@ -33,11 +33,11 @@
  *   func_0207D63C 0x0207D63C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020355D8 0x020355D8 arm
- *   func_021D5120 0x021D5120 thumb ov123
- *   func_021D424C 0x021D424C thumb ov123
- *   func_021D4884 0x021D4884 thumb ov123
- *   func_021D4A04 0x021D4A04 thumb ov123
- *   func_021D4244 0x021D4244 thumb ov123
+ *   GSYNC_MENU_VBlank 0x021D5120 thumb ov123
+ *   GSYNC_MENU_InitBgLayers 0x021D424C thumb ov123
+ *   GSYNC_MENU_LoadResources 0x021D4884 thumb ov123
+ *   GSYNC_MENU_StateSetupButtons 0x021D4A04 thumb ov123
+ *   GSYNC_MENU_ChangeState 0x021D4244 thumb ov123
  *   d_021DA9F0 0x021DA9F0 data a4
  *   d_021DA680 0x021DA680 data a4
  *   d_021DA658 0x021DA658 data a4
@@ -78,9 +78,9 @@ struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020056A0(void *,void *,int);
-extern void func_021D5120(void);
-extern void func_021D424C(char *);
-extern void func_021D4884(char *);
+extern void GSYNC_MENU_VBlank(void);
+extern void GSYNC_MENU_InitBgLayers(char *);
+extern void GSYNC_MENU_LoadResources(char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32,u32,u32,u32);
@@ -88,11 +88,11 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_021D4244(char *,void *,int);
-extern void func_021D4A04(char *);
+extern void GSYNC_MENU_ChangeState(char *,void *,int);
+extern void GSYNC_MENU_StateSetupButtons(char *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void func_020355D8(u8 v);
-int func_021D5128(void *a,int b,u8 *q)
+int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
 {
     char *p;
     int bright;
@@ -113,8 +113,8 @@ int func_021D5128(void *a,int b,u8 *q)
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct Cfg *)d_021DA658,(u32)d_021DA9F0,((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f2AC=CLACT_CreateUnit(40,0,((struct Obj00590 *)p)->fC);
-    ((struct Obj00590 *)p)->f2B0=func_020056A0(func_021D5120,p,0);
-    func_021D424C(p); func_021D4884(p);
+    ((struct Obj00590 *)p)->f2B0=func_020056A0(GSYNC_MENU_VBlank,p,0);
+    GSYNC_MENU_InitBgLayers(p); GSYNC_MENU_LoadResources(p);
     ((struct Obj00590 *)p)->f280=func_02030734(((struct Obj00590 *)p)->fC,0x200,0,d_021DAA20,0x5a6);
     ((struct Obj00590 *)p)->f284=func_02030734(((struct Obj00590 *)p)->fC,0x200,0,d_021DAA20,0x5a7);
     ((struct Obj00590 *)p)->f230=TCBL_Create(((struct Obj00590 *)p)->fC,((struct Obj00590 *)p)->fC,3,0);
@@ -125,7 +125,7 @@ int func_021D5128(void *a,int b,u8 *q)
     color=0; if(((struct Obj06459 *)q)->f2C8) color=0x7fff;
     WIPE_SYS_Start(0,1,1,(u16)color,6,1,((struct Obj00590 *)p)->fC);
     *(u32 *)&((struct Obj06459 *)q)->f2C8=0; BG_SYS_SetSubVisiblePlanes(31);
-    func_021D4244(p,func_021D4A04,0x5bf);
+    GSYNC_MENU_ChangeState(p,GSYNC_MENU_StateSetupButtons,0x5bf);
     ((struct Obj00590 *)p)->f258=q;
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00590 *)p)->fC); func_020355D8(1);
     return 1;

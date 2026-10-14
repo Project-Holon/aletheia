@@ -310,27 +310,6 @@ typedef struct GsyncStateObj6 {
     void *f2B0;
 } GsyncStateObj6;
 
-typedef struct GsyncStateObj7 {
-    unsigned char pad0[4];
-    void *f4;
-    void *f8;
-    unsigned char padC[20];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    unsigned char pad34[12];
-    unsigned int f40;
-    unsigned char pad44[64];
-    void *f84;
-    unsigned int f88;
-    unsigned char pad8C[24];
-    void *fA4;
-    unsigned char padA8[8];
-    unsigned short fB0;
-} GsyncStateObj7;
-
 typedef struct GsyncStateObj8 {
     void *f0;
     void *f4;
@@ -349,27 +328,6 @@ typedef struct GsyncStateObj8 {
     unsigned short fB0;
 } GsyncStateObj8;
 
-typedef struct GsyncStateObj9 {
-    unsigned char pad0[32];
-    void *f20;
-    unsigned char pad24[32];
-    void *f44;
-    unsigned char pad48[52];
-    void *f7C;
-    unsigned char pad80[4];
-    unsigned int f84;
-    unsigned char pad88[4];
-    void *f8C;
-    unsigned short f90;
-    unsigned char pad92[6];
-    void *f98;
-    unsigned short f9C;
-    unsigned char pad9E[6];
-    void *fA4;
-    unsigned char padA8[8];
-    unsigned short fB0;
-} GsyncStateObj9;
-
 typedef struct GsyncStateObj10 {
     unsigned char pad0[8];
     void *f8;
@@ -386,19 +344,6 @@ typedef struct GsyncStateObj10 {
     void *f40;
     void *f44;
 } GsyncStateObj10;
-
-typedef struct GsyncStateObj11 {
-    unsigned char pad0[176];
-    int fB0;
-    unsigned char padB4[4];
-    void *fB8;
-    int fBC;
-    unsigned char padC0[4];
-    int fC4;
-    unsigned char padC8[4];
-    int fCC;
-    int fD0;
-} GsyncStateObj11;
 
 typedef struct GsyncStateObj12 {
     unsigned char pad0[8];
@@ -504,12 +449,6 @@ typedef struct GsyncStateObj24 {
     unsigned char pad0[20];
     void *f14;
 } GsyncStateObj24;
-
-typedef struct GsyncStateObj25 {
-    unsigned char pad0[184];
-    void *fB8;
-    int fBC;
-} GsyncStateObj25;
 
 typedef struct GsyncStateObj26 {
     unsigned char pad0[12];

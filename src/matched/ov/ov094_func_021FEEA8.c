@@ -1,5 +1,5 @@
 /*
- * function: func_021FEEA8
+ * function: BTLV_MCSS_AddPoke
  * address: 0x021FEEA8
  * packet: pkt_ov094_021FEEA8
  * region: ov094
@@ -32,12 +32,12 @@
  *   MCSS_SetShadowOffset 0x02015D94 thumb
  *   MCSS_SetShadowRotateZ 0x02015D88 thumb
  *   MCSS_SetAnimCallback 0x02015F2C thumb
- *   func_022003EC 0x022003EC thumb ov094
- *   func_022018A8 0x022018A8 thumb ov094
- *   func_0220055C 0x0220055C thumb ov094
- *   func_02201A20 0x02201A20 thumb ov094
- *   func_022006B4 0x022006B4 thumb ov094
- *   func_02201718 0x02201718 thumb ov094
+ *   BTLV_MCSS_MakeAddWorkFromPoke 0x022003EC thumb ov094
+ *   BTLV_MCSS_CalcSlotPosition 0x022018A8 thumb ov094
+ *   BTLV_MCSS_SetSpriteWorkFlagForRule 0x0220055C thumb ov094
+ *   BTLV_MCSS_LookupShadowEntry 0x02201A20 thumb ov094
+ *   BTLV_MCSS_ApplySlotScale 0x022006B4 thumb ov094
+ *   BTLV_MCSS_IdleAnimCallback 0x02201718 thumb ov094
  */
 #include "../include/Obj13604.h"
 typedef unsigned short u16;
@@ -63,13 +63,13 @@ extern void MCSS_SetShadowAlpha(char *p, int v);
 extern void MCSS_SetShadowOffset(char *p, int *src);
 extern void MCSS_SetShadowRotateZ(char *p, u16 value);
 extern void MCSS_SetAnimCallback(void *, u32, void *, u32);
-extern void func_022003EC(void *, void *, int *, int);
-extern void func_022018A8(void *, Vec *, int);
-extern void func_0220055C(void *, int, int);
-extern int func_02201A20(int a, int b, int *o1, u16 *o2, int *o3);
-extern void func_022006B4(void *, int);
-extern void func_02201718(int i);
-void func_021FEEA8(char *w, void *src, int key)
+extern void BTLV_MCSS_MakeAddWorkFromPoke(void *, void *, int *, int);
+extern void BTLV_MCSS_CalcSlotPosition(void *, Vec *, int);
+extern void BTLV_MCSS_SetSpriteWorkFlagForRule(void *, int, int);
+extern int BTLV_MCSS_LookupShadowEntry(int a, int b, int *o1, u16 *o2, int *o3);
+extern void BTLV_MCSS_ApplySlotScale(void *, int);
+extern void BTLV_MCSS_IdleAnimCallback(int i);
+void BTLV_MCSS_AddPoke(char *w, void *src, int key)
 {
     int i;
     int off;
@@ -93,17 +93,17 @@ void func_021FEEA8(char *w, void *src, int key)
         *(u32 *)(w + 0x44 + off) = func_02017E1C(src, 0x98, 0);
         if (func_02017EAC(src) == 1)
             *(int *)(w + 0x48 + off) |= 2;
-        func_022003EC(w, src, (int *)(w + 0xc + off), key);
-        func_022018A8(w, &vectors.pos, key);
+        BTLV_MCSS_MakeAddWorkFromPoke(w, src, (int *)(w + 0xc + off), key);
+        BTLV_MCSS_CalcSlotPosition(w, &vectors.pos, key);
         *(void **)(w + 8 + off) = MCSS_Add(((struct Obj13604 *)w)->f4, vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
-        func_0220055C(w, key, 1);
+        BTLV_MCSS_SetSpriteWorkFlagForRule(w, key, 1);
         *(u32 *)(w + 0x34 + off) = func_02017E1C(src, 5, 0);
         *(u32 *)(w + 0x38 + off) = func_02017E1C(src, 0x6f, 0);
         *(u16 *)(w + 0x40 + off) = func_02019C90(*(u32 *)(w + 0x34 + off), *(u32 *)(w + 0x38 + off), 0x26);
         a = func_02017E1C(src, 0xa0, 0);
         b = func_02017E1C(src, 0xa1, 0);
         *(u16 *)(w + 0x42 + off) = func_0202D034(a, b);
-        if (func_02201A20(*(int *)(w + 0x34 + off), key, (int *)(&vectors.orient), &angle, &visible) == 0) {
+        if (BTLV_MCSS_LookupShadowEntry(*(int *)(w + 0x34 + off), key, (int *)(&vectors.orient), &angle, &visible) == 0) {
             vectors.orient.x = -0x400;
             vectors.orient.y = 0;
             vectors.orient.z = -0x600;
@@ -117,7 +117,7 @@ void func_021FEEA8(char *w, void *src, int key)
             MCSS_SetShadowRotateZ(*(void **)(w + 8 + off), angle);
         }
         ((Flags *)(w + 0x54 + off))->b34 = 3;
-        func_022006B4(w, key);
-        MCSS_SetAnimCallback(*(void **)(w + 8 + off), i, (void *)func_02201718, 1);
+        BTLV_MCSS_ApplySlotScale(w, key);
+        MCSS_SetAnimCallback(*(void **)(w + 8 + off), i, (void *)BTLV_MCSS_IdleAnimCallback, 1);
     }
 }

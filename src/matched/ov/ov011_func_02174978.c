@@ -1,5 +1,5 @@
 /*
- * function: func_02174978
+ * function: INTRUDE_COMM_UpdateRunning
  * address:  0x02174978
  * packet:   pkt_ov011_02174978
  * region:   ov011
@@ -78,7 +78,7 @@ extern u16 *func_0200BE48(void *sys);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 x);
 extern void func_0200BE84(void *, u8 *);
 
-void func_02174978(u8 *s)
+void INTRUDE_COMM_UpdateRunning(u8 *s)
 {
     int h;
     int n;

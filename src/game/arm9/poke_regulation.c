@@ -70,19 +70,7 @@ typedef signed int     s32;
 
 typedef unsigned long long u64;
 
-/* Box pokemon record: personality value, flags, four shuffled 32-byte
- * blocks (order chosen from the personality value). */
-struct BoxPokemon {
-    u32 personality;
-    u16 flags;
-    u16 checksum;
-    u8  blocks[0x80];
-};
-
-/* Block A of a box pokemon (only the species is read here). */
-struct BoxPokemonBlockA {
-    u16 species;
-};
+#include "poke_tool_types.h"
 
 /* Cache of the last personal-data record fetched (species, form, data). */
 struct PersonalCache {

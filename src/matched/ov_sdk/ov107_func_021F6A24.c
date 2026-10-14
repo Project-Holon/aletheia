@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A24
+ * function: MBi_ReceiveRequestDataPiece
  * address:  0x021F6A24
  * packet:   pkt_ov107_021F6A24
  * region:   ov107
@@ -34,7 +34,7 @@ typedef struct {
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern int func_021F6AA4(int a);
 
-u8 *func_021F6A24(ChildBlockHeader *hdr, u16 child)
+u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
 {
     u8 piece;
 

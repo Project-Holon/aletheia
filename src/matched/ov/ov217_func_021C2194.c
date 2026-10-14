@@ -1,5 +1,5 @@
 /*
- * function: func_021C2194
+ * function: ARROW_IsComplete
  * address:  0x021C2194
  * packet:   pkt_ov217_021C2194
  * region:   ov217
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-u32 func_021C2194(void *p)
+u32 ARROW_IsComplete(void *p)
 {
     s32 i;
     for (i = 0; i < ((struct Obj26020 *)p)->f298; i++) {

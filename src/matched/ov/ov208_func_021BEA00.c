@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BEA00
+ * function: ZUKAN_DETAIL_INFO_SetHeapId
  * address:  0x021BEA00
  * packet:   pkt_ov208_021BEA00
  * region:   ov208
@@ -13,7 +13,7 @@
 
 typedef unsigned short u16;
 
-void ov208_func_021BEA00(u16 *p, u16 v)
+void ZUKAN_DETAIL_INFO_SetHeapId(u16 *p, u16 v)
 {
     *p = v;
 }

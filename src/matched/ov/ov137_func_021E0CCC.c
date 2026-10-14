@@ -1,5 +1,5 @@
 /*
- * function: func_021E0CCC
+ * function: GURU2_MAIN_DropEffectStateFall
  * address: 0x021E0CCC
  * packet: pkt_ov137_021E0CCC
  * region: ov137
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021E0CCC(int *p)
+int GURU2_MAIN_DropEffectStateFall(int *p)
 {
     int *q = (int *)p[4];
     q[21] -= p[3];

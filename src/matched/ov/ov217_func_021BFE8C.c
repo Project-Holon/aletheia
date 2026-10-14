@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   func_021BF9F0 0x021BF9F0 thumb ov217
- *   func_021C2070 0x021C2070 thumb ov217
+ *   ARROW_Create 0x021C2070 thumb ov217
  */
 #include "../include/Obj14747.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Params { u32 handles[3]; u16 a, b, c, d, e; };
 extern u32 func_021BF9F0(void *, u32);
-extern u32 func_021C2070(u32, u32);
+extern u32 ARROW_Create(u32, u32);
 void func_021BFE8C(char *p)
 {
     struct Params args;
@@ -28,5 +28,5 @@ void func_021BFE8C(char *p)
     args.c = 1;
     args.d = 2;
     args.e = 3;
-    ((struct Obj14747 *)p)->f2D0 = func_021C2070(((struct Obj14747 *)p)->f4, (u32)&args);
+    ((struct Obj14747 *)p)->f2D0 = ARROW_Create(((struct Obj14747 *)p)->f4, (u32)&args);
 }

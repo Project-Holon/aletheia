@@ -1,5 +1,5 @@
 /*
- * function: func_021FC2DC
+ * function: BTLV_EFFVM_CmdReturnScript
  * address:  0x021FC2DC
  * packet:   pkt_ov094_021FC2DC
  * region:   ov094
@@ -36,7 +36,7 @@ extern u32 func_020307B0(void *p);
 struct Ring;
 extern u32 VM_Return(struct Ring *r);
 
-int func_021FC2DC(int a, State *s)
+int BTLV_EFFVM_CmdReturnScript(int a, State *s)
 {
     int n;
 

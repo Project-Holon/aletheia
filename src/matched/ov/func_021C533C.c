@@ -1,5 +1,5 @@
 /*
- * function: func_021C533C
+ * function: ZUKAN_DETAIL_FORM_ReleaseIconResources
  * address:  0x021C533C
  * packet:   pkt_021C533C
  * region:   ov208
@@ -24,7 +24,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void ARC_TOOL_DeleteHandle(int);
 
-void func_021C533C(void *a, char *q)
+void ZUKAN_DETAIL_FORM_ReleaseIconResources(void *a, char *q)
 {
     CLACT_ReleaseCellAnim(((struct Obj09213 *)q)->f138);
     CLACT_ReleasePalette(((struct Obj09213 *)q)->f134);

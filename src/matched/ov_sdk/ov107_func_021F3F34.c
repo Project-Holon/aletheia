@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F34
+ * function: MB_AddGameInfo
  * address:  0x021F3F34
  * packet:   pkt_ov107_021F3F34
  * region:   ov107
@@ -24,7 +24,7 @@ typedef struct MBGameInfo {
 
 extern struct SUnlock g_021F6EF4;
 
-void func_021F3F34(MBGameInfo *newGameInfop)
+void MB_AddGameInfo(MBGameInfo *newGameInfop)
 {
     MBGameInfo *gInfop;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021FEE9C
+ * function: BTLV_MCSS_Draw
  * address:  0x021FEE9C
  * packet:   pkt_021FEE9C
  * region:   ov094
@@ -16,7 +16,7 @@
 struct McssSys;
 void MCSS_Draw(struct McssSys *sys);
 
-void func_021FEE9C(int *p)
+void BTLV_MCSS_Draw(int *p)
 {
     MCSS_Draw((struct McssSys *)p[1]);
 }

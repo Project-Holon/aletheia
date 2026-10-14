@@ -1,5 +1,5 @@
 /*
- * function: func_021D9248
+ * function: POKETRADE_PROC_RecvTradeSummary
  * address:  0x021D9248
  * packet:   pkt_021D8B54
  * region:   ov119
@@ -46,7 +46,7 @@ extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern u32 func_0202EB7C(u32 a0, u32 a1);
 
-void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
+void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4)
 {
     u8 buf[0x28];
     u8 x, y;

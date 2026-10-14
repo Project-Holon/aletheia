@@ -1,5 +1,5 @@
 /*
- * function: func_02206AF8
+ * function: BTLV_INPUT_PlayConfirmSe
  * address:  0x02206AF8
  * packet:   pkt_ov094_02206AF8
  * region:   ov094
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_02206AF8(char *p)
+void BTLV_INPUT_PlayConfirmSe(char *p)
 {
     if (((struct Obj13619 *)p)->f54 != 3 || ((struct Obj13619 *)p)->f58 == 6)
         GFL_USE_PlaySeDefaultVolume(0x555);

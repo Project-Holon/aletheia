@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  * Extent includes empty follower021F93D0; zeros021F93CE and021F93D2 are alignment.
  */
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 void func_021F9390(int *out,int *source,int unused,int type)
 {
     out[3]=source[1];
     out[2]=source[3];
     out[4]=source[2];
-    out[1]=func_021FC4DC((u8 *)source[0]);
+    out[1]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[5]=source[4];
     if(type==1) out[0]=1;
     else if(((int *)source[6])[1]==0) out[0]=0;

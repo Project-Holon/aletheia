@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C36CC
+ * function: ZUKAN_DETAIL_VOICE_ScrollWaveform
  * address: 0x021C36CC
  * packet: pkt_ov208_021C36CC
  * region: ov208
@@ -42,7 +42,7 @@ struct Ov208Scroll {
     s16 d;
 };
 
-void ov208_func_021C36CC(u16 *heap, struct Ov208Scroll *p, int key)
+void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heap, struct Ov208Scroll *p, int key)
 {
     s16 *qd;
     struct Bmp *bmp;

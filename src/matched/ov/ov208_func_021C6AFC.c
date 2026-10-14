@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6AFC
+ * function: ZUKAN_DETAIL_FORM_UpdateScrollMarkers
  * address:  0x021C6AFC
  * packet:   pkt_ov208_021C6AFC
  * region:   ov208
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   ov208_func_021C6E30  0x021C6E30  thumb
- *   ov208_func_021C6D6C  0x021C6D6C  thumb
+ *   ZUKAN_DETAIL_FORM_CountEntriesBefore  0x021C6E30  thumb
+ *   ZUKAN_DETAIL_FORM_GetScrollSlotRange  0x021C6D6C  thumb
  *   CLACT_AddActorSurfacePos        0x0204B404  arm
  *   CLACT_SetActorDrawEnable        0x0204B3DC  arm
  */
@@ -27,15 +27,15 @@ typedef struct {
     s16 y;
 } Ov208Pos;
 
-extern u16  ov208_func_021C6E30(void *unused, u8 *p, int unused2, u16 skip, u16 stop);
-extern void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi);
+extern u16  ZUKAN_DETAIL_FORM_CountEntriesBefore(void *unused, u8 *p, int unused2, u16 skip, u16 stop);
+extern void ZUKAN_DETAIL_FORM_GetScrollSlotRange(int n, int i, u8 *lo, u8 *mid, u8 *hi);
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void ov208_func_021C6AFC(void *a0, u8 *p, int a2)
+void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(void *a0, u8 *p, int a2)
 {
     int on = 0;
     u16 n;
@@ -51,8 +51,8 @@ void ov208_func_021C6AFC(void *a0, u8 *p, int a2)
         break;
     }
     if (on) {
-        n = ov208_func_021C6E30(a0, p, a2, ((struct Obj01979 *)p)->f54E, ((struct Obj01979 *)p)->f550);
-        ov208_func_021C6D6C((u16)(((struct Obj01979 *)p)->f548 - 1), n, 0, &mid, 0);
+        n = ZUKAN_DETAIL_FORM_CountEntriesBefore(a0, p, a2, ((struct Obj01979 *)p)->f54E, ((struct Obj01979 *)p)->f550);
+        ZUKAN_DETAIL_FORM_GetScrollSlotRange((u16)(((struct Obj01979 *)p)->f548 - 1), n, 0, &mid, 0);
         pos.x = mid;
         pos.y = 0x30;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj01979 *)p)->f5E8), (const struct Vec2 *)(&pos), 0);

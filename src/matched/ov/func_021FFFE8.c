@@ -1,5 +1,5 @@
 /*
- * function: func_021FFFE8
+ * function: WORLDTRADE_TITLE_ScrollBg
  * address:  0x021FFFE8
  * packet:   pkt_021FFFE8
  * region:   ov135
@@ -77,7 +77,7 @@ extern struct BgTemplate g_02203924;
 extern struct BgTemplate g_02203964;
 extern struct BgTemplate g_022039E4;
 
-void func_021FFFE8(u8 *p, u32 a, u32 b)
+void WORLDTRADE_TITLE_ScrollBg(u8 *p, u32 a, u32 b)
 {
     if (((struct Obj12225 *)p)->f12E0 == 0) {
         struct BgTemplate t4;

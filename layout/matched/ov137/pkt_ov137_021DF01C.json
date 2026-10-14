@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF01C",
+   "name": "GURU2_MAIN_StateRoundDelay",
    "address": "0x021DF01C",
    "kind": "game",
    "region": "ov137",

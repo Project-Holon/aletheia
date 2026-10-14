@@ -1,5 +1,5 @@
 /*
- * function: func_021E073C
+ * function: GURU2_MAIN_RemovePlayerUnits
  * address: 0x021E073C
  * packet: pkt_ov137_021E073C
  * region: ov137
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Ctx;
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
-void func_021E073C(char *p)
+void GURU2_MAIN_RemovePlayerUnits(char *p)
 {
     int i;
     char *q = p+0x1a0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC40
+ * function: UNION_MSG_GetTalkParentAcceptMsg
  * address: 0x0217EC40
  * packet: pkt_ov019_0217EC40
  * region: ov019
@@ -13,7 +13,7 @@
  */
 typedef unsigned short u16;
 extern const u16 d_021805E4[][2];
-u16 func_0217EC40(int i, int j)
+u16 UNION_MSG_GetTalkParentAcceptMsg(int i, int j)
 {
     return d_021805E4[i - 2][j];
 }

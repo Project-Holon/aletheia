@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF84
+ * function: ZUKAN_DETAIL_GRAPHIC_VBlankTransfer
  * address:  0x021BCF84
  * packet:   pkt_021BCF18
  * region:   ov208
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD034 0x021BD034  thumb  ov208
- *   func_021BD0A0 0x021BD0A0  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_TransferOam 0x021BD034  thumb  ov208
+ *   ZUKAN_DETAIL_GRAPHIC_VBlankActors 0x021BD0A0  thumb  ov208
 
  */
 
-extern void func_021BD034(char *);
-extern void func_021BD0A0(char *);
+extern void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *);
+extern void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *);
 
-void func_021BCF84(int unused, char *p)
+void ZUKAN_DETAIL_GRAPHIC_VBlankTransfer(int unused, char *p)
 {
-    func_021BD034(p);
-    func_021BD0A0(p + 4);
+    ZUKAN_DETAIL_GRAPHIC_TransferOam(p);
+    ZUKAN_DETAIL_GRAPHIC_VBlankActors(p + 4);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D45F0
+ * function: GSYNC_MENU_NoOp
  * address: 0x021D45F0
  * packet: pkt_ov123_021D45F0
  * region: ov123
@@ -7,6 +7,6 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: bx lr callback stub, two zero alignment bytes, then labelled func_021D45F4.
+ * extent: bx lr callback stub, two zero alignment bytes, then labelled GSYNC_MENU_CreateButtonWindows.
  */
-void func_021D45F0(void) {}
+void GSYNC_MENU_NoOp(void) {}

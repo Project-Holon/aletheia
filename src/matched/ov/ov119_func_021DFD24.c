@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD24
+ * function: POKETRADE_SAVE_FreeIfSet
  * address:  0x021DFD24
  * packet:   pkt_ov119_021DFD24
  * region:   ov119
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u32 func_020307B0(void *p);
-void func_021DFD24(u32 *p) { if (p) { func_020307B0((void *)((u32)p)); } }
+void POKETRADE_SAVE_FreeIfSet(u32 *p) { if (p) { func_020307B0((void *)((u32)p)); } }

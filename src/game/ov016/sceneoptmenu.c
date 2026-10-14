@@ -29,7 +29,7 @@
  *   DWCi_CEINlSetExObj  0x021D5368  arm
  *   DWCi_FOCUSlDisp4  0x021BD4C8  arm
  *   DWCi_ChangeScene  0x021C0E40  arm
- *   g_021DE5A8     0x021DE5A8  data
+ *   gSceneOptMenuState     0x021DE5A8  data
  *   d_021DA4D0     0x021DA4D0  data
  *   d_021DA4D2     0x021DA4D2  data
  *   d_021DA4D4     0x021DA4D4  data
@@ -69,8 +69,8 @@
  *   scenemenu_init_20658             0x021DA474  data
  *   scenemenu_rodata                 0x021DA478  data
  *   procScene                        0x021C2D60  arm
- *   g_021DA4B8  0x021DA4B8  data
- *   g_021DA4D0  0x021DA4D0  data
+ *   gSceneOptMenuButtonRects  0x021DA4B8  data
+ *   gSceneOptMenuFocusRects  0x021DA4D0  data
  *   g_021DA4D4  0x021DA4D4  data
  *   g_021DA4D2  0x021DA4D2  data
  *   g_021DA4D6  0x021DA4D6  data
@@ -87,7 +87,7 @@
  *   DWCi_SceneOptErase 0x021C1F1C arm ov016
  *   DWCi_SceneOptMovConfirm1 0x021C3824 arm ov016
  *   FX_ModS32  0x0207C994  arm
- *   g_021DA4B0  0x021DA4B0  data
+ *   gSceneOptMenuPushPalette  0x021DA4B0  data
  */
 #include "../../matched/include/G_SCENEMENU_BSS.h"
 #include "../../matched/include/G_FocusPosT.h"
@@ -197,17 +197,13 @@ extern int  FX_ModS32(int a, int b);
 void DWCi_SceneOptMenu(void);
 void DWCi_SceneOptMenu_procScene(void);
 void DWCi_SceneOptMenu_draw(void);
-extern struct FocusPosT g_021DE5A8;
-extern u16 d_021DA4D0[][4];
-extern u16 d_021DA4D2[][4];
-extern u16 d_021DA4D4[][4];
-extern u16 d_021DA4D6[][4];
+extern struct FocusPosT gSceneOptMenuState;
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
-extern RectT g_021DA4B8[3];
-extern struct RectT g_021DA4D0[3];
-extern unsigned char g_021DA4B0[3];
+extern RectT gSceneOptMenuButtonRects[3];
+extern struct RectT gSceneOptMenuFocusRects[3];
+extern unsigned char gSceneOptMenuPushPalette[3];
 
 static void initGraphics(void);
 static void procInit(void);
@@ -227,19 +223,19 @@ void DWCi_SceneOptMenu(void)
     int q;
     u8 i;
 
-    g_021DE5A8.flag = 0;
+    gSceneOptMenuState.flag = 0;
     initGraphics();
     DWCi_HLlLoad(0x10);
     DWCi_STEPlChangeScr(3);
     DWCi_COMMENTlDispEx(0x39, -1, 0);
-    g_021DE5A8.obj = (void *)DWCi_CEINlSetExObj(0, 0x5b);
-    q = (int)g_021DE5A8.obj;
+    gSceneOptMenuState.obj = (void *)DWCi_CEINlSetExObj(0, 0x5b);
+    q = (int)gSceneOptMenuState.obj;
     *(u32_021C2A3C *)q = (*(u32_021C2A3C *)q & 0xFE00FF00) | 0x84 | 0xE00000;
-    q = (int)g_021DE5A8.obj;
+    q = (int)gSceneOptMenuState.obj;
     *(u16 *)(q + 4) = (*(u16 *)(q + 4) & ~0xC00) | 0xC00;
-    i = g_021DE5A8.idx;
-    DWCi_FOCUSlDisp4(d_021DA4D0[i][0], d_021DA4D4[i][0],
-                  d_021DA4D2[i][0], d_021DA4D6[i][0]);
+    i = gSceneOptMenuState.idx;
+    DWCi_FOCUSlDisp4(gSceneOptMenuFocusRects[i].l, gSceneOptMenuFocusRects[i].r,
+                  gSceneOptMenuFocusRects[i].t, gSceneOptMenuFocusRects[i].b);
     DWCi_ChangeScene(procInit);
 }
 
@@ -261,7 +257,7 @@ static void initGraphics(void)
     DWCi_CMNlLoadResource("char/jbBgOption.ncg.l", (void (*)(void *, long unsigned int,  long unsigned int))GX_LoadBG2Char);
     DWCi_CMNlLoadResource("char/jb5OptMenu.nsc.l", (void (*)(void *, long unsigned int,  long unsigned int))GX_LoadBG2Scr);
     n = (char *)DWCi_Char((unsigned char *)PLLT1);
-    g_021DE5A8.ptr = DWCi_ARClReadEx(n, 0, 4);
+    gSceneOptMenuState.ptr = DWCi_ARClReadEx(n, 0, 4);
     n = (char *)DWCi_Char((unsigned char *)PLLT0);
     pltt = DWCi_ARClReadEx(n, 0, 4);
     DWCi_BM_GetWiFiInfo(&info);
@@ -333,11 +329,11 @@ static void input(void)
 	unsigned i;
 
 	for (i = 0; i < 3; i++) {
-		if (DWCi_TPlCheckTrigger((RECT *)(&g_021DA4B8[i]))) {
+		if (DWCi_TPlCheckTrigger((RECT *)(&gSceneOptMenuButtonRects[i]))) {
 			DWCi_BTNlSet(1);
-			g_021DE5A8.idx = i;
-			DWCi_FOCUSlDisp4(g_021DA4D0[g_021DE5A8.idx].l, g_021DA4D0[g_021DE5A8.idx].r,
-				g_021DA4D0[g_021DE5A8.idx].t, g_021DA4D0[g_021DE5A8.idx].b);
+			gSceneOptMenuState.idx = i;
+			DWCi_FOCUSlDisp4(gSceneOptMenuFocusRects[gSceneOptMenuState.idx].l, gSceneOptMenuFocusRects[gSceneOptMenuState.idx].r,
+				gSceneOptMenuFocusRects[gSceneOptMenuState.idx].t, gSceneOptMenuFocusRects[gSceneOptMenuState.idx].b);
 			return;
 		}
 	}
@@ -372,14 +368,14 @@ static void button(void)
 		break;
 	case 1:
 		DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)(&info));
-		if (g_021DE5A8.idx != 0 && info.a == 0) {
+		if (gSceneOptMenuState.idx != 0 && info.a == 0) {
 			DWCi_SNDlPlay(9);
 			DWCi_BTNlSetForce(-1);
 			return;
 		}
 		DWCi_SNDlPlay(6);
 		DWCi_SceneOptMenuDispPush();
-		g_021DE5A8.flag = 1;
+		gSceneOptMenuState.flag = 1;
 		break;
 	default:
 		return;
@@ -403,7 +399,7 @@ static void endScene1(void)
 {
 	if (DWCi_EFFlCheck(1))
 		return;
-	if (g_021DE5A8.flag)
+	if (gSceneOptMenuState.flag)
 		DWCi_BTNlEnd();
 	DWCi_EFFlFade(3, 1, 1, 8);
 	DWCi_EFFlFade(3, 0, 0x14, 8);
@@ -422,18 +418,18 @@ static void endScene2(void)
         return;
     if (!DWCi_BTNlIsEnd())
         return;
-    DWCi_OBJlDelete(g_021DE5A8.obj);
+    DWCi_OBJlDelete(gSceneOptMenuState.obj);
     DWCi_FOCUSlDelete();
     DWCi_COMMENTlDelete();
-    DWCi_ARClRelease(g_021DE5A8.ptr);
+    DWCi_ARClRelease(gSceneOptMenuState.ptr);
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
-    if (g_021DE5A8.flag == 0) {
+    if (gSceneOptMenuState.flag == 0) {
         DWCi_SetParam_(0, 0);
         DWCi_ChangeScene(DWCi_SceneMenu);
         return;
     }
-    switch (g_021DE5A8.idx) {
+    switch (gSceneOptMenuState.idx) {
     case 0:
         DWCi_SetParam_(0, (unsigned int)(1));
         DWCi_ChangeScene(DWCi_SceneOptInfo);
@@ -451,20 +447,20 @@ static void endScene2(void)
 
 
 /*
- * Advances the flag byte g_021DE5A8.f0 and dispatches the indexed record.
+ * Advances the flag byte gSceneOptMenuState.f0 and dispatches the indexed record.
  */
 static void moveFocus(int a)
 {
     u8 i;
 
     if (a == 1)
-        g_021DE5A8.idx = (u8)FX_ModS32(g_021DE5A8.idx + 2, 3);
+        gSceneOptMenuState.idx = (u8)FX_ModS32(gSceneOptMenuState.idx + 2, 3);
     else
-        g_021DE5A8.idx = (u8)FX_ModS32(g_021DE5A8.idx + 1, 3);
+        gSceneOptMenuState.idx = (u8)FX_ModS32(gSceneOptMenuState.idx + 1, 3);
     DWCi_SNDlPlay(8);
-    i = g_021DE5A8.idx;
-    DWCi_FOCUSlDisp4(d_021DA4D0[i][0], d_021DA4D4[i][0],
-                  d_021DA4D2[i][0], d_021DA4D6[i][0]);
+    i = gSceneOptMenuState.idx;
+    DWCi_FOCUSlDisp4(gSceneOptMenuFocusRects[i].l, gSceneOptMenuFocusRects[i].r,
+                  gSceneOptMenuFocusRects[i].t, gSceneOptMenuFocusRects[i].b);
 }
 
 
@@ -473,6 +469,6 @@ static void moveFocus(int a)
  */
 static void DWCi_SceneOptMenuDispPush(void)
 {
-	int n = g_021DA4B0[g_021DE5A8.idx];
-	DWCi_SCREENlCopyPalette(g_021DE5A8.ptr, n, n);
+	int n = gSceneOptMenuPushPalette[gSceneOptMenuState.idx];
+	DWCi_SCREENlCopyPalette(gSceneOptMenuState.ptr, n, n);
 }

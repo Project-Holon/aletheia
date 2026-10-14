@@ -1,5 +1,5 @@
 /*
- * function: func_021F5FC0
+ * function: WORLDTRADE_BOX_StateCreateOfferMenu
  * address:  0x021F5FC0
  * packet:   pkt_021F5FC0
  * region:   ov135
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4D50  0x021F4D50  thumb  ov135
+ *   WORLDTRADE_OpenTaskMenuList  0x021F4D50  thumb  ov135
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
 
@@ -26,15 +26,15 @@ typedef signed short s16;
 extern u32 BMP_MENUWORK_Create(u32 a, u32 b);
 struct Slot;
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_021F4D50(u8 *p, u16 a, int count, int b);
+extern void WORLDTRADE_OpenTaskMenuList(u8 *p, u16 a, int count, int b);
 
-int func_021F5FC0(u8 *p)
+int WORLDTRADE_BOX_StateCreateOfferMenu(u8 *p)
 {
     *(u32 *)&((struct Obj00448 *)p)->fDE8 = BMP_MENUWORK_Create(3, 0x48);
     BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x68, 1, 0x48);
     BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x69, 2, 0x48);
     BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x6a, 3, 0x48);
-    func_021F4D50(p, 0, 3, 0x14);
+    WORLDTRADE_OpenTaskMenuList(p, 0, 3, 0x14);
     ((struct Obj00448 *)p)->f28 = 0x8;
     return 2;
 }

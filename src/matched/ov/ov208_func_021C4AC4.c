@@ -1,5 +1,5 @@
 /*
- * function: func_021C4AC4
+ * function: ZUKAN_DETAIL_FORM_CreatePrintQueues
  * address: 0x021C4AC4
  * packet: pkt_ov208_021C4AC4
  * region: ov208
@@ -19,7 +19,7 @@ struct Ov208Menu {
     u32 print[5];
 };
 extern u32 PRINTSYS_QUE_Create(void *p);
-void func_021C4AC4(u16 *heap, struct Ov208Menu *p)
+void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Menu *p)
 {
     u8 i;
     for (i = 0; i < 5; i++) {

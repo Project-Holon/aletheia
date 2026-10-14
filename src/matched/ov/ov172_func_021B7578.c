@@ -1,5 +1,5 @@
 /*
- * function: func_021B7578
+ * function: CTVT_CAMVIEW_StopCapture
  * address:  0x021B7578
  * packet:   pkt_021B6100
  * region:   ov172
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Guarded call to func_021B6868.
+ * Guarded call to CTVT_CAMERA_StopCapture.
  *
  * symbols:
- *   func_021BE100  0x021BE100  thumb  ov172
- *   func_021B6868  0x021B6868  thumb  ov172
+ *   COMM_TVT_SYS_IsNetIdle  0x021BE100  thumb  ov172
+ *   CTVT_CAMERA_StopCapture  0x021B6868  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021BE100(void);
-extern void func_021B6868(char *p);
+extern int COMM_TVT_SYS_IsNetIdle(void);
+extern void CTVT_CAMERA_StopCapture(char *p);
 
-void func_021B7578(int x, char *p)
+void CTVT_CAMVIEW_StopCapture(int x, char *p)
 {
-    if (func_021BE100() == 1) {
-        func_021B6868(((struct Obj06558 *)p)->fA4);
+    if (COMM_TVT_SYS_IsNetIdle() == 1) {
+        CTVT_CAMERA_StopCapture(((struct Obj06558 *)p)->fA4);
     }
 }

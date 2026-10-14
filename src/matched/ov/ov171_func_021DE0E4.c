@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0E4
+ * function: DENDOU_VIEW_GetActorPos
  * address:  0x021DE0E4
  * packet:   pkt_ov171_021DE0E4
  * region:   ov171
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: unresolved dep named by the parked func_021DE960
- * (func_021DE0E4(obj, i, &win[1], &win[0])).  Reads the 0xb74-indexed word and
+ * Recursive MATCH unblocker: unresolved dep named by the parked DENDOU_VIEW_ReadTouchedMember
+ * (DENDOU_VIEW_GetActorPos(obj, i, &win[1], &win[0])).  Reads the 0xb74-indexed word and
  * expands it through the arm9 helper at 0x0204B454 into the two signed shorts.
  *
  * symbols:
@@ -27,7 +27,7 @@ struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-void func_021DE0E4(u8 *obj, int i, s16 *out1, s16 *out2)
+void DENDOU_VIEW_GetActorPos(u8 *obj, int i, s16 *out1, s16 *out2)
 {
     int v = *(int *)(obj + i * 4 + 0xb74);
     s16 tmp[2];

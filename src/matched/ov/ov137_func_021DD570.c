@@ -1,5 +1,5 @@
 /*
- * function: func_021DD570
+ * function: GURU2_RECEIPT_FreeActors
  * address: 0x021DD570
  * packet: pkt_ov137_021DD570
  * region: ov137
@@ -28,4 +28,4 @@ extern void CLACT_ReleaseCellAnim(u32);
 struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021DD570(u8 *p) {int i;u8 *q;ARC_TOOL_DeleteHandle(((struct Obj10616 *)p)->f34);for(i=0;i<5;i++) {q=(u8 *)((u32)p+i*4);CLACT_ReleaseCharacter(((struct Obj14207 *)q)->f6C);CLACT_ReleasePalette(((struct Obj14207 *)q)->f80);}CLACT_ReleaseCellAnim(((struct Obj10616 *)p)->f94);CLACT_DeleteUnit(((struct Obj10616 *)p)->f68);CLACT_ExitSystem();}
+void GURU2_RECEIPT_FreeActors(u8 *p) {int i;u8 *q;ARC_TOOL_DeleteHandle(((struct Obj10616 *)p)->f34);for(i=0;i<5;i++) {q=(u8 *)((u32)p+i*4);CLACT_ReleaseCharacter(((struct Obj14207 *)q)->f6C);CLACT_ReleasePalette(((struct Obj14207 *)q)->f80);}CLACT_ReleaseCellAnim(((struct Obj10616 *)p)->f94);CLACT_DeleteUnit(((struct Obj10616 *)p)->f68);CLACT_ExitSystem();}

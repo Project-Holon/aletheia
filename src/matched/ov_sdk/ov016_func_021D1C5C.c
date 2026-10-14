@@ -17,7 +17,7 @@
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gWindowWork     0x021DE658  data
- *   g_021DE658_b   0x021DE658  data
+ *   gMemWindow   0x021DE658  data
  *   sWindowTable2     0x021DA9A6  data
  */
 
@@ -45,7 +45,7 @@ extern void DWCi_FNTlDelete(char *a);
 extern void DWCi_TSKlDelete();
 extern void DWCi_HEAPlFree_(void **mem);
 extern struct MemWinT *gWindowWork;
-extern struct MemWinT *g_021DE658_b;
+extern struct MemWinT *gMemWindow;
 extern u8 sWindowTable2[6];
 
 void func_021D1C5C(void *task)
@@ -61,5 +61,5 @@ void func_021D1C5C(void *task)
     }
     DWCi_FNTlDelete(gWindowWork->canv);
     DWCi_TSKlDelete(1, task);
-    DWCi_HEAPlFree_((void **)(&g_021DE658_b));
+    DWCi_HEAPlFree_((void **)(&gMemWindow));
 }

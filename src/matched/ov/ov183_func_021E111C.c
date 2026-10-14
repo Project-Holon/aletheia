@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: form slot=&out[index] before the constructor call and store/reload through slot. The direct out[index] spelling sank the output base and left 15 bytes different.
  * symbols:
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   d_021E3850 0x021E3850 data a4
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_Create 0x02043678 arm
@@ -29,7 +29,7 @@ struct Sys;
 typedef struct {char f000[0x300]; struct Sys *f300; struct Grid *f304[1];} Object;
 typedef enum {INDEX_0,INDEX_1} Index;
 extern const int d_021E3850[];
-extern int func_021FC214(char *);
+extern int BR_RES_GetMsgData(char *);
 typedef signed short   s16;
 typedef unsigned int   u32;
 struct Bmp;
@@ -53,7 +53,7 @@ void func_021E111C(const Object *object,Index index,int x,int y)
     u8 xx,yy;
     struct Grid **slots;
     Descriptor desc;
-    source=func_021FC214(*(char * *)&((struct Obj03882 *)p)->f344);
+    source=BR_RES_GetMsgData(*(char * *)&((struct Obj03882 *)p)->f344);
     source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
     handle=(int)BMP_Create(10,2,32,((struct Obj03882 *)p)->f34C);
     PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(((struct Obj03882 *)p)->f310));

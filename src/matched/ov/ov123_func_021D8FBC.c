@@ -1,5 +1,5 @@
 /*
- * function: func_021D8FBC
+ * function: GSYNC_STATE_ProcInit
  * address: 0x021D8FBC
  * packet: pkt_ov123_021D8FBC
  * region: ov123
@@ -18,13 +18,13 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   func_020092EC 0x020092EC thumb
- *   func_021D6EE0 0x021D6EE0 thumb ov123
- *   func_021D87F8 0x021D87F8 thumb ov123
- *   func_021D8EC4 0x021D8EC4 thumb ov123
- *   func_021D88A0 0x021D88A0 thumb ov123
- *   func_021D5D94 0x021D5D94 thumb ov123
- *   func_021D54F4 0x021D54F4 thumb ov123
- *   func_021D8F3C 0x021D8F3C thumb ov123
+ *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
+ *   GSYNC_STATE_StateSendParsedRequest 0x021D87F8 thumb ov123
+ *   GSYNC_STATE_StateStoreReceivedMon 0x021D8EC4 thumb ov123
+ *   GSYNC_STATE_StatePrintFinalMessage 0x021D88A0 thumb ov123
+ *   GSYNC_DISP_Init 0x021D5D94 thumb ov123
+ *   GSYNC_MESSAGE_InitSystem 0x021D54F4 thumb ov123
+ *   GSYNC_STATE_DestroyHttpConnection 0x021D8F3C thumb ov123
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -56,18 +56,18 @@ extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u32 func_0201293C(const struct BigObj *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
-extern void func_021D6EE0(u8 *p, u32 v, int unused);
-extern void func_021D87F8(char *);
-extern void func_021D8EC4(char *);
-extern void func_021D88A0(char *);
+extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
+extern void GSYNC_STATE_StateSendParsedRequest(char *);
+extern void GSYNC_STATE_StateStoreReceivedMon(char *);
+extern void GSYNC_STATE_StatePrintFinalMessage(char *);
 extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void DWC_RAP_SetErrorCallback(int,int);
-extern u8 *func_021D5D94(u32);
-extern u8 *func_021D54F4(u32,u32);
-extern void func_021D8F3C(char *);
+extern u8 *GSYNC_DISP_Init(u32);
+extern u8 *GSYNC_MESSAGE_InitSystem(u32,u32);
+extern void GSYNC_STATE_DestroyHttpConnection(char *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-int func_021D8FBC(void *a,int b,char *q)
+int GSYNC_STATE_ProcInit(void *a,int b,char *q)
 {
     char *p;
     int value;
@@ -91,31 +91,31 @@ int func_021D8FBC(void *a,int b,char *q)
         switch (((struct Obj03799 *)q)->f1C8) {
         case 0:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0((u8 *)p,(int)func_021D87F8,0xa89);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
             break;
         case 1:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0((u8 *)p,(int)func_021D8EC4,0xa8d);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
             break;
         case 2:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0((u8 *)p,(int)func_021D8EC4,0xa91);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
             break;
         case 3:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0((u8 *)p,(int)func_021D87F8,0xa95);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
             break;
         case 4:
-            func_021D6EE0((u8 *)p,(int)func_021D88A0,0xa98);
+            GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StatePrintFinalMessage,0xa98);
             break;
         }
         if (*(int *)&((struct Obj03799 *)q)->f1C8!=4) {
             ((struct Obj01059 *)p)->f10=NHTTP_RAP_Create(98,value,(int)(q+0x54));
-            DWC_RAP_SetErrorCallback((int)func_021D8F3C,(int)p);
+            DWC_RAP_SetErrorCallback((int)GSYNC_STATE_DestroyHttpConnection,(int)p);
         }
     }
-    ((struct Obj01059 *)p)->f14=func_021D5D94(((struct Obj01059 *)p)->f0);
-    ((struct Obj01059 *)p)->f18=func_021D54F4(((struct Obj01059 *)p)->f0,39);
+    ((struct Obj01059 *)p)->f14=GSYNC_DISP_Init(((struct Obj01059 *)p)->f0);
+    ((struct Obj01059 *)p)->f18=GSYNC_MESSAGE_InitSystem(((struct Obj01059 *)p)->f0,39);
     WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01059 *)p)->f0);
     GFL_NET_RestartWithDefaultTimeout(0,((struct Obj01059 *)p)->f0);
     return 1;

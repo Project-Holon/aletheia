@@ -21,7 +21,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKEGRA_RegisterCellAnim  0x0202D898  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   d_021DD710     0x021DD710  data  a2
+ *   gPokeIconActorParam     0x021DD710  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -42,7 +42,7 @@ extern void ARC_TOOL_DeleteHandle(u32 a);
 extern u32 POKEGRA_RegisterCellAnim(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern Pos d_021DD710;
+extern Pos gPokeIconActorParam;
 
 void SCRCMD_POKE_ICON_CreateIcon(u32 *p, int a, int b, int c, int s0, int s1)
 {
@@ -55,6 +55,6 @@ void SCRCMD_POKE_ICON_CreateIcon(u32 *p, int a, int b, int c, int s0, int s1)
     p[4] = (u32)POKEGRA_RegisterPalette((u32)t, (u32)a, (u32)b, (u32)c, (u32)s0, (u32)0, (u32)0, (u32)0, (u32)0, (u32)0x8015);
     ARC_TOOL_DeleteHandle(t);
     p[5] = POKEGRA_RegisterCellAnim(a, b, c, s0, 0, 0, 1, 0, 0x8015);
-    loc = d_021DD710;
+    loc = gPokeIconActorParam;
     p[2] = (u32)CLACT_CreateActor((void *)p[1], p[3], p[4], p[5], &loc, 0, 0x8015);
 }

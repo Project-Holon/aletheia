@@ -1,5 +1,5 @@
 /*
- * function: func_022003BC
+ * function: WORLDTRADE_TITLE_DeleteWindows
  * address: 0x022003BC
  * packet: pkt_ov135_022003BC
  * region: ov135
@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02202940 0x02202940 thumb ov135
+ *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj08194.h"
 typedef unsigned char u8;
 struct Obj;
-extern void func_02202940(struct Obj *p);
+extern void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_022003BC(u8 *p)
+void WORLDTRADE_TITLE_DeleteWindows(u8 *p)
 {
     int i;
-    func_02202940((struct Obj *)(p + 0xFA0));
+    WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)(p + 0xFA0));
     BMP_WIN_Delete(((struct Obj08194 *)p)->fDE0);
     BMP_WIN_Delete(((struct Obj08194 *)p)->fDD0);
     BMP_WIN_Delete(((struct Obj08194 *)p)->fD40);

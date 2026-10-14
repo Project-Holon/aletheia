@@ -14,7 +14,7 @@
  *   sBtlvBgSiteName     0x0220AEF0  data  ov094
  *   func_020056A0  0x020056A0  thumb
  *   BTLV_BG_ApplyScrollTask  0x02209A54  thumb  ov094
- *   func_021F896C  0x021F896C  thumb  ov094
+ *   BTLV_EFFECT_RegisterTask  0x021F896C  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern char sBtlvBgSiteName[];
 extern void *func_020056A0(void (*cb)(void *), void *ctx, int pri);
 extern void BTLV_BG_ApplyScrollTask(void *h);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
+extern void BTLV_EFFECT_RegisterTask(void *h, void (*cb)(void *), int arg);
 
 void BTLV_BG_SetScroll(W *w, u32 a, u32 b)
 {
@@ -38,5 +38,5 @@ void BTLV_BG_SetScroll(W *w, u32 a, u32 b)
     o = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
     o[0] = a;
     o[1] = b;
-    func_021F896C(func_020056A0(BTLV_BG_ApplyScrollTask, o, 0), 0, 0);
+    BTLV_EFFECT_RegisterTask(func_020056A0(BTLV_BG_ApplyScrollTask, o, 0), 0, 0);
 }

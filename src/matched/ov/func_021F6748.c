@@ -1,5 +1,5 @@
 /*
- * function: func_021F6748
+ * function: WORLDTRADE_BOX_CalcLevel
  * address:  0x021F6748
  * packet:   pkt_021F6748
  * region:   ov135
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 
-void func_021F6748(u32 a, u8 *q)
+void WORLDTRADE_BOX_CalcLevel(u32 a, u8 *q)
 {
     q[3] = POKE_TOOL_CalcBoxLevel((void *)a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2CF0
+ * function: PALETTE_ANIME_StepFadeIn
  * address:  0x021C2CF0
  * packet:   pkt_ov217_021C2CF0
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int s32;
 extern void PALANM_BlendColors(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_0209C2B0(u32 a, u32 b);
 
-void func_021C2CF0(void *p)
+void PALETTE_ANIME_StepFadeIn(void *p)
 {
     u32 n = ((struct Obj00115 *)p)->f1C;
     u8 v;

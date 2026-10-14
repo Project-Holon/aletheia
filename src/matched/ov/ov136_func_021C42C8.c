@@ -1,5 +1,5 @@
 /*
- * function: func_021C42C8
+ * function: MAILSYS_RunSequence
  * address:  0x021C42C8
  * packet:   pkt_ov136_021C42C8
  * region:   ov136
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4AF8 0x021C4AF8 thumb ov136
- *   func_021C4BFC 0x021C4BFC thumb ov136
- *   func_021C4B5C 0x021C4B5C thumb ov136
- *   func_021C4D14 0x021C4D14 thumb ov136
+ *   MAILVIEW_HideAllPlanes 0x021C4AF8 thumb ov136
+ *   MAILVIEW_SetupStep 0x021C4BFC thumb ov136
+ *   MAILVIEW_VBlankTask 0x021C4B5C thumb ov136
+ *   MAILVIEW_Teardown 0x021C4D14 thumb ov136
  *   data_021C7774 0x021C7774 data
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
@@ -37,10 +37,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Step021C42C8)(u8 *p);
-extern void func_021C4AF8(void);
-extern int func_021C4BFC(u8 *p);
-extern void func_021C4B5C(void *a, u32 *p);
-extern int func_021C4D14(u8 *p);
+extern void MAILVIEW_HideAllPlanes(void);
+extern int MAILVIEW_SetupStep(u8 *p);
+extern void MAILVIEW_VBlankTask(void *a, u32 *p);
+extern int MAILVIEW_Teardown(u8 *p);
 extern Step021C42C8 data_021C7774[];
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
@@ -63,14 +63,14 @@ extern void func_02030D28(struct Ctx *c);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-int func_021C42C8(u8 *p)
+int MAILSYS_RunSequence(u8 *p)
 {
     int r = 0;
     u32 t;
 
     switch (((struct Obj00539 *)p)->f4) {
     case 0:
-        func_021C4AF8();
+        MAILVIEW_HideAllPlanes();
         WIPE_SetBrightnessFadeOut(0, 0);
         WIPE_SetBrightnessFadeOut(1, 0);
         WIPE_ResetWndMask(0);
@@ -78,8 +78,8 @@ int func_021C42C8(u8 *p)
         (((struct Obj00539 *)p)->f4)++;
         break;
     case 1:
-        if (func_021C4BFC(p)) {
-            ((struct Obj00539 *)p)->f104 = func_020056A0((void *)func_021C4B5C, p, 0x10);
+        if (MAILVIEW_SetupStep(p)) {
+            ((struct Obj00539 *)p)->f104 = func_020056A0((void *)MAILVIEW_VBlankTask, p, 0x10);
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
             func_0207D63C((void *)0x04000050, 4, 8, 0x1C, 4);
@@ -110,13 +110,13 @@ int func_021C42C8(u8 *p)
             WIPE_SetBrightnessFadeOut(0, 0);
             WIPE_SetBrightnessFadeOut(1, 0);
             func_02030EAC(((struct Obj00539 *)p)->f104);
-            func_021C4AF8();
+            MAILVIEW_HideAllPlanes();
             (((struct Obj00539 *)p)->f4)++;
         }
         PMS_DRAW_Main(((struct Obj00539 *)p)->f148);
         break;
     case 5:
-        if (func_021C4D14(p))
+        if (MAILVIEW_Teardown(p))
             r = 1;
         break;
     }

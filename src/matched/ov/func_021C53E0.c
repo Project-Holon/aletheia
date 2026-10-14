@@ -1,5 +1,5 @@
 /*
- * function: func_021C53E0
+ * function: ZUKAN_DETAIL_FORM_DeleteIconActor
  * address:  0x021C53E0
  * packet:   pkt_021C53E0
  * region:   ov208
@@ -22,7 +22,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021C53E0(int a, int b)
+void ZUKAN_DETAIL_FORM_DeleteIconActor(int a, int b)
 {
     CLACT_DeleteActor((struct Obj *)b);
     CLACT_ReleaseCharacter(a);

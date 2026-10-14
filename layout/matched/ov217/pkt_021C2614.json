@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2614",
+   "name": "ARROW_DeleteActors",
    "address": "0x021C2614",
    "kind": "game",
    "region": "ov217",

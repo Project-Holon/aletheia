@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F04
+ * function: SSP_RGB555ToYUV888
  * address:  0x021C1F04
  * packet:   pkt_ov172_021C1F04
  * region:   ov172
@@ -69,7 +69,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov172_func_021C1F04.c \
- *     --func func_021C1F04 --addr 0x021C1F04 --region ov172 --arm --cc 1.1p1 \
+ *     --func SSP_RGB555ToYUV888 --addr 0x021C1F04 --region ov172 --arm --cc 1.1p1 \
  *     --lang c99 --diff
  */
 
@@ -79,7 +79,7 @@ typedef unsigned int u32;
 
 extern u32 _u32_div_f(u32, u32);
 
-void func_021C1F04(void *src, unsigned long width, unsigned long height, void *dst)
+void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, void *dst)
 {
     unsigned long j;
     unsigned long x;

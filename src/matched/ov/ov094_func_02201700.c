@@ -1,5 +1,5 @@
 /*
- * function: func_02201700
+ * function: BTLV_MCSS_RotationTaskEnd
  * address:  0x02201700
  * packet:   pkt_ov094_02201700
  * region:   ov094
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct S02030EE8;
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-void func_02201700(void *h)
+void BTLV_MCSS_RotationTaskEnd(void *h)
 {
     char *p = *((char **)TCBL_GetTaskUserData(h));
     ((struct Obj21729 *)p)->f510 &= ~4;

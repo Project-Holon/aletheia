@@ -1,5 +1,5 @@
 /*
- * function: func_021C31CC
+ * function: ZUKAN_DETAIL_VOICE_ResetPokemonTransform
  * address:  0x021C31CC
  * packet:   pkt_021C31CC
  * region:   ov208
@@ -32,7 +32,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
-void func_021C31CC(int unused, char *q)
+void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(int unused, char *q)
 {
     struct {
         unsigned int w[2];

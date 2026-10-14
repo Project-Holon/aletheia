@@ -1,5 +1,5 @@
 /*
- * function: func_021C660C
+ * function: MB_SEQ_CreateActor
  * address: 0x021C660C
  * packet: pkt_ov136_021C660C
  * region: ov136
@@ -20,7 +20,7 @@ typedef signed short s16;
 typedef struct { s16 x, y; u16 value; u8 flag, mode; } Descriptor;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-void *func_021C660C(u8 *p, const u8 *cfg)
+void *MB_SEQ_CreateActor(u8 *p, const u8 *cfg)
 {
     Descriptor d;
     d.x = ((struct Obj03835 *)cfg)->f0;

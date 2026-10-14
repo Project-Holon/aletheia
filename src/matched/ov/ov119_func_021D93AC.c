@@ -1,5 +1,5 @@
 /*
- * function: func_021D93AC
+ * function: POKETRADE_PROC_RecvPeerByteB
  * address: 0x021D93AC
  * packet: pkt_ov119_021D93AC
  * region: ov119
@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_021DF8A0 0x021DF8A0 thumb ov119
+ *   POKETRADE_NEGO_FlashMarker 0x021DF8A0 thumb ov119
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -18,11 +18,11 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_021DF8A0(void *, int, int);
-void func_021D93AC(u32 a, u32 b, u8 *src, void *base, void *e)
+extern void POKETRADE_NEGO_FlashMarker(void *, int, int);
+void POKETRADE_PROC_RecvPeerByteB(u32 a, u32 b, u8 *src, void *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (a != GFL_NET_SYSTEM_GetCurrentAid())
-            func_021DF8A0(base, *src, 1);
+            POKETRADE_NEGO_FlashMarker(base, *src, 1);
     }
 }

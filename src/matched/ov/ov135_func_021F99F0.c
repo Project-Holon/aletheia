@@ -1,5 +1,5 @@
 /*
- * function: func_021F99F0
+ * function: WORLDTRADE_INPUT_MenuUpdate
  * address:  0x021F99F0
  * packet:   pkt_021F99F0
  * region:   ov135
@@ -13,8 +13,8 @@
   *
  * symbols:
  *   tbl_02203C48  0x02203C48  data  a4
- *   func_02202770  0x02202770  thumb
- *   func_022029F8  0x022029F8  thumb
+ *   WORLDTRADE_ADAPTER_UpdatePrinter  0x02202770  thumb
+ *   WORLDTRADE_ADAPTER_UpdateMessageSystem  0x022029F8  thumb
  *   BGWINFRM_UpdateMoves  0x0202CD94  thumb  arm9
  */
 
@@ -42,15 +42,15 @@ struct WinMgr;
 extern int (*const tbl_02203C48[])(Obj *p);
 
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
-extern void func_02202770(void *g);
-extern void func_022029F8(void *printer);
+extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *g);
+extern void WORLDTRADE_ADAPTER_UpdateMessageSystem(void *printer);
 
-int func_021F99F0(Obj *p)
+int WORLDTRADE_INPUT_MenuUpdate(Obj *p)
 {
     int r = tbl_02203C48[p->state](p);
 
     BGWINFRM_UpdateMoves(p->mgr);
-    func_02202770(p->g);
-    func_022029F8(p->printer);
+    WORLDTRADE_ADAPTER_UpdatePrinter(p->g);
+    WORLDTRADE_ADAPTER_UpdateMessageSystem(p->printer);
     return r;
 }

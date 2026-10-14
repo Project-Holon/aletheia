@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2BC
+ * function: ZUKAN_LIST_VBlankTask
  * address: 0x021BC2BC
  * packet: pkt_ov209_021BC2BC
  * region: ov209
@@ -18,4 +18,4 @@
 #include "../include/Obj25534.h"
 #include "../include/Obj25535.h"
 struct S02021D50;extern void func_020419E4(void),CLACT_VBlankSystem(void);extern void PALANM_TransferPalettes(struct S02021D50 *);
-void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();CLACT_VBlankSystem();PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}
+void ZUKAN_LIST_VBlankTask(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();CLACT_VBlankSystem();PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}

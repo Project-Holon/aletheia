@@ -1,5 +1,5 @@
 /*
- * function: func_01FF8460
+ * function: OSi_DoBoot
  * address:  0x01FF8460
  * packet:   pkt_01FF8460
  * region:   arm9_autoload0_ITCM
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_01FF852C    0x01FF852C  arm
+ *   OSi_CpuClear32    0x01FF852C  arm
  */
 
 typedef unsigned int u32;
@@ -29,9 +29,9 @@ typedef unsigned int u32;
 #define HW_COMPONENT_PARAM            0x02FFFF9C
 #define HW_ROM_HEADER_BUF             0x02FFFE00
 
-extern void func_01FF852C(u32 data, void *destp, u32 size);
+extern void OSi_CpuClear32(u32 data, void *destp, u32 size);
 
-asm void func_01FF8460(void)
+asm void OSi_DoBoot(void)
 {
     mov     r12, #HW_REG_BASE
     str     r12, [r12, #REG_IME_OFFSET]
@@ -57,20 +57,20 @@ asm void func_01FF8460(void)
 
     ldr     r1, =HW_BIOS_EXCP_STACK_MAIN
     mov     r2, #0x80
-    bl      func_01FF852C
+    bl      OSi_CpuClear32
 
     str     r4, [r3]
 
     ldr     r1, =HW_PXI_SIGNAL_PARAM_ARM9
     mov     r2, #0x18
-    bl      func_01FF852C
+    bl      OSi_CpuClear32
 
     ldr     r1, =HW_WM_RSSI_POOL
     strh    r0, [r1]
 
     ldr     r1, =HW_COMPONENT_PARAM
     mov     r2, #0x64
-    bl      func_01FF852C
+    bl      OSi_CpuClear32
 
     ldr     r1, =REG_SUBPINTF_ADDR
 @2:

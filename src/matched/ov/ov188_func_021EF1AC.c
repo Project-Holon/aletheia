@@ -1,5 +1,5 @@
 /*
- * function: func_021EF1AC
+ * function: BATTLE_REC_TOOL_PackInputLog
  * address:  0x021EF1AC
  * packet:   pkt_021EF1AC
  * region:   ov188
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void MI_CpuCopy8(void *, void *, int);
 
-int func_021EF1AC(char *p, char *q)
+int BATTLE_REC_TOOL_PackInputLog(char *p, char *q)
 {
     u32 a = ((struct Obj14493 *)p)->f94;
 

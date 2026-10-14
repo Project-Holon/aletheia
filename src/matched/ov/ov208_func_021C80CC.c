@@ -1,5 +1,5 @@
 /*
- * function: func_021C80CC
+ * function: ZUKAN_DETAIL_FORM_CopyModelPosition
  * address:  0x021C80CC
  * packet:   pkt_ov208_021C80CC
  * region:   ov208
@@ -20,7 +20,7 @@
 
 typedef struct { unsigned int f0; unsigned int f1; unsigned int f2; } Blk12;
 
-void func_021C80CC(char *base, int index, Blk12 *dst)
+void ZUKAN_DETAIL_FORM_CopyModelPosition(char *base, int index, Blk12 *dst)
 {
     *dst = *(Blk12 *)(base + index * 12 + 8);
 }

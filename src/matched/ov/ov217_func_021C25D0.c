@@ -1,5 +1,5 @@
 /*
- * function: func_021C25D0
+ * function: ARROW_CreateActors
  * address: 0x021C25D0
  * packet: pkt_ov217_021C25D0
  * region: ov217
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Arg { u16 a,b,c; u8 d,e; };
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-void func_021C25D0(u8 *p)
+void ARROW_CreateActors(u8 *p)
 {
     struct Arg arg;
     u32 *q=(u32 *)(p+8);

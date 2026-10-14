@@ -15,7 +15,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_020870D0 0x020870D0 arm
  *   BTLV_TIMER_SetVisible 0x022094BC thumb ov094
- *   func_021F86D4 0x021F86D4 thumb ov094
+ *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   BTLV_TIMER_TickTask 0x02209744 thumb ov094
  *   sBtlvTimerRowY 0x0220ABC0 data a4
@@ -45,7 +45,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
 typedef unsigned char  u8;
 extern void BTLV_TIMER_SetVisible(u8 *p, int i, int a, int b);
-extern void *func_021F86D4(void);
+extern void *BTLV_EFFECT_GetOwner(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void BTLV_TIMER_TickTask(int unused, int x);
 void BTLV_TIMER_Start(Work *m, int a, int b)
@@ -83,5 +83,5 @@ void BTLV_TIMER_Start(Work *m, int a, int b)
     m->time[0] = m->time[1];
     BTLV_TIMER_SetVisible((u8 *)m, 0, 0, 0);
     BTLV_TIMER_SetVisible((u8 *)m, 1, 0, 0);
-    m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_TIMER_TickTask, m, 0);
+    m->task = func_02030DA8(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, m, 0);
 }

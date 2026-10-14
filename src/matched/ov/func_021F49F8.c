@@ -1,5 +1,5 @@
 /*
- * function: func_021F49F8
+ * function: WORLDTRADE_InitClactSystem
  * address:  0x021F49F8
  * packet:   pkt_021F49F8
  * region:   ov135
@@ -88,7 +88,7 @@ extern u32 func_020307B0(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-void func_021F49F8(Obj *p, u32 mode)
+void WORLDTRADE_InitClactSystem(Obj *p, u32 mode)
 {
     void *arc;
     void *buf;

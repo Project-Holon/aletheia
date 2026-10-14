@@ -1,5 +1,5 @@
 /*
- * function: func_021BE34C
+ * function: COMM_TVT_SYS_DeleteTimeIcon
  * address:  0x021BE34C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void TIME_ICON_Delete(u8 *p);
 
-void func_021BE34C(void *p)
+void COMM_TVT_SYS_DeleteTimeIcon(void *p)
 {
     u32 v = ((struct Obj05448 *)p)->f1DC;
     if (v != 0) {

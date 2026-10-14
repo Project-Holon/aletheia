@@ -1,5 +1,5 @@
 /*
- * function: func_021DE248
+ * function: GURU2_RECEIPT_PrintMemberList
  * address: 0x021DE248
  * packet: pkt_ov137_021DE248
  * region: ov137
@@ -11,7 +11,7 @@
  * lever: Struct members avoid cached element addresses; block scopes and expanding the first y argument settle the two spill slots.
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_021DE388 0x021DE388 thumb ov137
+ *   GURU2_RECEIPT_UpdateMemberSlots 0x021DE388 thumb ov137
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02008534 0x02008534 thumb
@@ -41,7 +41,7 @@ struct Sub0200852CObj;
 struct U16Vec;
 struct WordSet;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern int func_021DE388(char *p);
+extern int GURU2_RECEIPT_UpdateMemberSlots(char *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
@@ -56,7 +56,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-int func_021DE248(void *window,int unused,u16 color,Context *p) {
+int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p) {
     int player;
     void *format;
     u16 value;
@@ -64,7 +64,7 @@ int func_021DE248(void *window,int unused,u16 color,Context *p) {
     int i;
     u16 ink;
     player=GFL_NET_SYSTEM_GetCurrentAid();
-    if (!func_021DE388((char *)p)) return 0;
+    if (!GURU2_RECEIPT_UpdateMemberSlots((char *)p)) return 0;
     BMP_Clear(BMP_WIN_GetBmp(window),0);
     for(i=0;i<5;i++) {
       do {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E073C",
+   "name": "GURU2_MAIN_RemovePlayerUnits",
    "address": "0x021E073C",
    "kind": "game",
    "region": "ov137",

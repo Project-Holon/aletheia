@@ -1,5 +1,5 @@
 /*
- * function: func_021C09D8
+ * function: RESEARCH_COMMON_StartPaletteAnime
  * address:  0x021C09D8
  * packet:   pkt_ov217_021C09D8
  * region:   ov217
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled 4-byte tail-call veneer in a .word run; pool 0x021C09DC names
- * func_021C0D38.  Top of the func_021BA31C blocker chain.
+ * RESEARCH_COMMON_StartPaletteAnimeImpl.  Top of the func_021BA31C blocker chain.
  *
  * symbols:
- *   func_021C0D38  0x021C0D38  thumb  ov217
+ *   RESEARCH_COMMON_StartPaletteAnimeImpl  0x021C0D38  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021C0D38(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnimeImpl(u8 *p, u32 i);
 
-void func_021C09D8(u8 *p, u32 i)
+void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i)
 {
-    func_021C0D38(p, i);
+    RESEARCH_COMMON_StartPaletteAnimeImpl(p, i);
 }

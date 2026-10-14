@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC2C
+ * function: ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive
  * address:  0x021BDC2C
  * packet:   pkt_021BDC14
  * region:   ov208
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD3B4 0x021BD3B4  thumb  ov208
+ *   ZKND_TBAR_IsButtonAnimActive 0x021BD3B4  thumb  ov208
 
- * Returns the result of func_021BD3B4 on two fields while +0x10 is clear, else 0.
+ * Returns the result of ZKND_TBAR_IsButtonAnimActive on two fields while +0x10 is clear, else 0.
  */
 #include "../include/Obj09200.h"
 
 
-extern int func_021BD3B4(void *mgr, int key);
+extern int ZKND_TBAR_IsButtonAnimActive(void *mgr, int key);
 
-int func_021BDC2C(char *p)
+int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p)
 {
     if (((struct Obj09200 *)p)->f10 == 0)
-        return func_021BD3B4((void *)(((struct Obj09200 *)p)->f30),
+        return ZKND_TBAR_IsButtonAnimActive((void *)(((struct Obj09200 *)p)->f30),
                              *(int *)*(int * *)&((struct Obj09200 *)p)->f7C);
     return 0;
 }

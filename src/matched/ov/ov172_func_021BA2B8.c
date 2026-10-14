@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2B8
+ * function: CTVT_DRAW_Free
  * address:  0x021BA2B8
  * packet:   pkt_021B6100
  * region:   ov172
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021BA2B8(int unused, int v)
+void CTVT_DRAW_Free(int unused, int v)
 {
     func_020307B0((void *)v);
 }

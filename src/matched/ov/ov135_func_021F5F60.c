@@ -1,5 +1,5 @@
 /*
- * function: func_021F5F60
+ * function: WORLDTRADE_BOX_MoveCursorToSlot
  * address:  0x021F5F60
  * packet:   pkt_021F5F60
  * region:   ov135
@@ -12,7 +12,7 @@
   *
  * symbols:
  *   tbl_02202D24  0x02202D24  data
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   CLACT_SetActorBgPriority  0x0204B84C  arm  arm9
  */
 
@@ -30,12 +30,12 @@ typedef struct {
 
 extern const Pos tbl_02202D24[];
 
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorBgPriority(u32 obj, int k);
 
-void func_021F5F60(u32 cursor, int i)
+void WORLDTRADE_BOX_MoveCursorToSlot(u32 cursor, int i)
 {
-    func_021F4FF4(cursor, tbl_02202D24[i].x, tbl_02202D24[i].y);
+    WORLDTRADE_SetActorPos(cursor, tbl_02202D24[i].x, tbl_02202D24[i].y);
     if (i == 0x1F || (i >= 0 && i <= 5)) {
         CLACT_SetActorBgPriority(cursor, 0);
     } else {

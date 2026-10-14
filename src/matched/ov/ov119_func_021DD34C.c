@@ -1,5 +1,5 @@
 /*
- * function: func_021DD34C
+ * function: POKETRADE_NEGO_FindOfferIndex
  * address: 0x021DD34C
  * packet: pkt_ov119_021DD34C
  * region: ov119
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  */
-int func_021DD34C(char *p, int a, int b)
+int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b)
 {
     int i;
     for (i = 0; i < 3; i++) {

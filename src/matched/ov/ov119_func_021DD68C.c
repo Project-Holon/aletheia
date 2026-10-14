@@ -1,5 +1,5 @@
 /*
- * function: func_021DD68C
+ * function: POKETRADE_NEGO_DrawPlayerNames
  * address:  0x021DD68C
  * packet:   pkt_ov119_021DD68C
  * region:   ov119
@@ -55,7 +55,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 
-void func_021DD68C(char *p)
+void POKETRADE_NEGO_DrawPlayerNames(char *p)
 {
     Pair t;
     Pair u;

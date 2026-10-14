@@ -1,5 +1,5 @@
 /*
- * function: func_021C3AA8
+ * function: ZUKAN_DETAIL_VOICE_SetActorsNormalMode
  * address: 0x021C3AA8
  * packet: pkt_ov208_021C3AA8
  * region: ov208
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *p,u32 value);
 extern void func_0207D63C(u32 reg,int p1,int p2,int ev1,int ev2);
-void func_021C3AA8(void *unused, u8 *p, int a2)
+void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, u8 *p, int a2)
 {
     u8 i;
     for(i=0;i<2;i++) {

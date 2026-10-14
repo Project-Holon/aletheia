@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C6A10
+ * function: ZUKAN_DETAIL_FORM_UpdateCursorMarkers
  * address:  0x021C6A10
  * packet:   pkt_ov208_021C6A10
  * region:   ov208
@@ -36,7 +36,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void ov208_func_021C6A10(void *unused, u8 *p)
+void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(void *unused, u8 *p)
 {
     int show = 1;
     int multi = 0;

@@ -44,7 +44,7 @@
  *   DWCi_MOV_MBP_AcceptChild       0x021D1F6C  arm
  *   MB_CommGetChildUser            0x021F1B64  arm  ov107
  *   sDwcMovMbpTable  0x021db9d4  data
- *   g_021DB9D4_b  0x021DB9D4  data
+ *   gMovMbpBuffers  0x021DB9D4  data
  */
 typedef unsigned char u8;
 
@@ -155,7 +155,7 @@ DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
 u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress);
 extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 extern u16 *sDwcMovMbpTable[6];
-extern u16 *g_021DB9D4_b[6];
+extern u16 *gMovMbpBuffers[6];
 
 
 /*
@@ -576,7 +576,7 @@ u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
     sDwcMovMbpTable[3] = &gDwcMovMbpWork->mbpState.downloadChildBmp;
     sDwcMovMbpTable[4] = &gDwcMovMbpWork->mbpState.bootableChildBmp;
     sDwcMovMbpTable[5] = &gDwcMovMbpWork->mbpState.rebootChildBmp;
-    return *g_021DB9D4_b[bmpType];
+    return *gMovMbpBuffers[bmpType];
 }
 
 

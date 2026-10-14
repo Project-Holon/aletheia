@@ -1,5 +1,5 @@
 /*
- * function: func_021DE34C
+ * function: DENDOU_VIEW_DeleteActor
  * address:  0x021DE34C
  * packet:   pkt_ov171_021DE34C
  * region:   ov171
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021DE34C(char *p, int i)
+void DENDOU_VIEW_DeleteActor(char *p, int i)
 {
     if (*(int *)(p + 0xb74 + i * 4) != 0) {
         CLACT_DeleteActor((struct Obj *)(*(int *)(p + 0xb74 + i * 4)));

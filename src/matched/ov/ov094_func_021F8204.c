@@ -1,5 +1,5 @@
 /*
- * function: func_021F8204
+ * function: BTLV_EFFECT_GaugeIsSlotOccupied
  * address: 0x021F8204
  * packet: pkt_ov094_021F8204
  * region: ov094
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BTLV_GAUGE_IsSlotOccupied 0x02207D60 thumb ov094
- *   d_0220AF20 0x0220AF20 data a4
+ *   gBtlvEff 0x0220AF20 data a4
  */
 
 #include "../include/G_0220AF20.h"
@@ -17,8 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTLV_GAUGE_IsSlotOccupied(u8 *, int);
-extern struct G_0220AF20 *d_0220AF20;
-int func_021F8204(int index)
+extern struct G_0220AF20 *gBtlvEff;
+int BTLV_EFFECT_GaugeIsSlotOccupied(int index)
 {
-    return BTLV_GAUGE_IsSlotOccupied(*(u8 **)(((u8 *)d_0220AF20) + 0x1a4), index);
+    return BTLV_GAUGE_IsSlotOccupied(*(u8 **)(((u8 *)gBtlvEff) + 0x1a4), index);
 }

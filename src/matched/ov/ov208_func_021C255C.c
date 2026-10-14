@@ -1,5 +1,5 @@
 /*
- * function: func_021C255C
+ * function: ZUKAN_DETAIL_VOICE_SetHeapId
  * address:  0x021C255C
  * packet:   pkt_ov208_021C255C
  * region:   ov208
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-void func_021C255C(u16 *dst, u16 value)
+void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value)
 {
     *dst = value;
 }

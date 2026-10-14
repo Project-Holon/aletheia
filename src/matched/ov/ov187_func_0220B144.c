@@ -1,5 +1,5 @@
 /*
- * function: func_0220B144
+ * function: BR_MAIN_DeleteListScene
  * address:  0x0220B144
  * packet:   pkt_0220B144
  * region:   ov187
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0220B0F8  0x0220B0F8  thumb  ov187
+ *   BR_MAIN_SetDesiredScene  0x0220B0F8  thumb  ov187
  *   func_020307B0  0x020307B0  arm
  */
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void func_0220B0F8(u8 *p, u32 v);
+extern void BR_MAIN_SetDesiredScene(u8 *p, u32 v);
 extern u32 func_020307B0(void *p);
 
-void func_0220B144(u32 *p, u32 a)
+void BR_MAIN_DeleteListScene(u32 *p, u32 a)
 {
     switch (p[0]) {
     case 0:
         break;
     case 1:
-        func_0220B0F8((u8 *)a, 1);
+        BR_MAIN_SetDesiredScene((u8 *)a, 1);
         break;
     }
     func_020307B0(p);

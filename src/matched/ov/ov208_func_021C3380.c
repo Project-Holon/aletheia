@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C3380
+ * function: ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer
  * address: 0x021C3380
  * packet: pkt_ov208_021C3380
  * region: ov208
@@ -30,7 +30,7 @@ extern void ov208_func_021C337C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C3378(u16 *heap, u8 *p, int key, int first, u16 second);
 extern void ov208_func_021C2DE0(u16 *heap, u8 *p, int key, int first, u16 second);
 
-void ov208_func_021C3380(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_VOICE_UpdatePlaybackTimer(u16 *heap, u8 *p, int key)
 {
     u64 now;
     u64 start;

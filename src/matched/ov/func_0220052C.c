@@ -1,5 +1,5 @@
 /*
- * function: func_0220052C
+ * function: WORLDTRADE_TITLE_HitTestMenu
  * address:  0x0220052C
  * packet:   pkt_0220052C
  * region:   ov135
@@ -20,7 +20,7 @@
 extern int TOUCHPANEL_HitTrg(const void *key);
 extern char g_022038EC[];
 
-int func_0220052C(void)
+int WORLDTRADE_TITLE_HitTestMenu(void)
 {
     return TOUCHPANEL_HitTrg(g_022038EC);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE658
+ * function: ZUKAN_LIST_HandleTouchInput
  * address:  0x021BE658
  * packet:   pkt_021BE658
  * region:   ov209
@@ -44,7 +44,7 @@ extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void FRAME_LIST_HideCursor(u32);
 extern int func_021B940C(u8 *p);
 
-int func_021BE658(void *ctx_)
+int ZUKAN_LIST_HandleTouchInput(void *ctx_)
 {
     u8 *ctx = (u8 *)ctx_;
     int v = TOUCHPANEL_HitTrg((void *)0x021BEAE0);

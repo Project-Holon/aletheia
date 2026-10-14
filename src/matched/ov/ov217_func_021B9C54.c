@@ -13,7 +13,7 @@
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_021C09B8 0x021C09B8 thumb ov217
+ *   RESEARCH_COMMON_GetTouchRects 0x021C09B8 thumb ov217
  *   func_021BA4D4 0x021BA4D4 thumb ov217
  *   func_021BA1C0 0x021BA1C0 thumb ov217
  *   func_021BA1CC 0x021BA1CC thumb ov217
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void * func_021C09B8(void *);
+extern void * RESEARCH_COMMON_GetTouchRects(void *);
 extern u32 func_021BA4D4(void *);
 extern void func_021BA1C0(u8 *,u32);
 extern void func_021BA1CC(void *,u32);
@@ -55,7 +55,7 @@ void func_021B9C54(char *p)
 {
     u32 keys=KEY_GetTrg();
     int choice=TOUCHPANEL_HitTrg(p+44);
-    int other=TOUCHPANEL_HitTrg(func_021C09B8(((struct Obj00511 *)p)->f0));
+    int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct Obj00511 *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {
         func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }

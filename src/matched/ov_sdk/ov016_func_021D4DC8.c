@@ -16,7 +16,7 @@
  *   DWCi_QUElDelete  0x021d5450  arm  ov016
  *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
  *   gCellWork  0x021de670  data
- *   g_021DE670_free  0x021DE670  data
+ *   gMemCell  0x021DE670  data
  */
 
 typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
@@ -39,7 +39,7 @@ typedef struct tagMEMCELL {
 
 extern MEMCELL *gCellWork;
 
-extern MEMCELL *g_021DE670_free;
+extern MEMCELL *gMemCell;
 extern void DWCi_LSTlDelete(void *list);
 extern void DWCi_QUElDelete(void *queue);
 extern void DWCi_HEAPlFree_(void **mem);
@@ -52,5 +52,5 @@ void DWCi_CELLlEnd(void)
         DWCi_LSTlDelete(gCellWork->c[i].list);
         DWCi_QUElDelete(gCellWork->c[i].queue);
     }
-    DWCi_HEAPlFree_((void **)&g_021DE670_free);
+    DWCi_HEAPlFree_((void **)&gMemCell);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5CA4
+ * function: WORLDTRADE_BOX_CheckArrowTouch
  * address:  0x021F5CA4
  * packet:   pkt_021F5CA4
  * region:   ov135
@@ -34,7 +34,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern const u8 tbl_02202E24[];
 
-int func_021F5CA4(Work *p)
+int WORLDTRADE_BOX_CheckArrowTouch(Work *p)
 {
     int r = TOUCHPANEL_HitTrg(tbl_02202E24);
 

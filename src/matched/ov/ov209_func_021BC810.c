@@ -1,5 +1,5 @@
 /*
- * function: func_021BC810
+ * function: ZUKAN_LIST_DisableSubWindows
  * address:  0x021BC810
  * packet:   pkt_021BC810
  * region:   ov209
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021BC810(void)
+void ZUKAN_LIST_DisableSubWindows(void)
 {
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
 }

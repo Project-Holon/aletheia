@@ -1,5 +1,5 @@
 /*
- * function: func_0220648C
+ * function: BTLV_INPUT_ProcessKeyRepeat
  * address:  0x0220648C
  * packet:   pkt_ov094_0220648C
  * region:   ov094
@@ -11,30 +11,30 @@
  *
  * symbols:
  *   KEY_GetRepeat  0x0203633C  arm
- *   func_02206B58  0x02206B58  thumb  ov094
- *   func_02206B30  0x02206B30  thumb  ov094
+ *   BTLV_INPUT_PlayCursorSe  0x02206B58  thumb  ov094
+ *   BTLV_INPUT_PlaySelectSe  0x02206B30  thumb  ov094
  */
 
 typedef unsigned int u32;
 
 extern unsigned int KEY_GetRepeat(void);
-extern void func_02206B58(char *p);
-extern void func_02206B30(char *p);
+extern void BTLV_INPUT_PlayCursorSe(char *p);
+extern void BTLV_INPUT_PlaySelectSe(char *p);
 
-int func_0220648C(char *p)
+int BTLV_INPUT_ProcessKeyRepeat(char *p)
 {
     u32 k = KEY_GetRepeat();
 
     if (k & 2) {
-        func_02206B58(p);
+        BTLV_INPUT_PlayCursorSe(p);
         return 2;
     }
     if (k & 0x20) {
-        func_02206B30(p);
+        BTLV_INPUT_PlaySelectSe(p);
         return 0;
     }
     if (k & 0x10) {
-        func_02206B30(p);
+        BTLV_INPUT_PlaySelectSe(p);
         return 1;
     }
     return -1;

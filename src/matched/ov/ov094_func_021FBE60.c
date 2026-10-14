@@ -1,5 +1,5 @@
 /*
- * function: func_021FBE60
+ * function: BTLV_EFFVM_CmdSetScriptVar
  * address:  0x021FBE60
  * packet:   pkt_ov094_021FBE60
  * region:   ov094
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 
-int func_021FBE60(void *a, char *s)
+int BTLV_EFFVM_CmdSetScriptVar(void *a, char *s)
 {
     ((struct Obj13594 *)s)->f4 = VM_GetU32(a);
     return ((struct Obj13594 *)s)->f23C;

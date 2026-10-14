@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C1810
+ * function: ZUKAN_DETAIL_AREA_UpdateMode
  * address:  0x021C1810
  * packet:   pkt_ov208_021C1810
  * region:   ov208
@@ -15,8 +15,8 @@
  *   ov208_func_021C2090  0x021C2090  thumb  ov208
  *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
  *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
- *   ov208_func_021C2228  0x021C2228  thumb  ov208
- *   ov208_func_021C2234  0x021C2234  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_RequestBlendRestore  0x021C2228  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_NoOpOverlay  0x021C2234  thumb  ov208
  */
 
 typedef unsigned char  u8;
@@ -30,12 +30,12 @@ extern void ov208_func_021C1FE0(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C2090(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C20C0(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
-extern void ov208_func_021C2228(u16 *heap, u8 *p, int key);
-extern void ov208_func_021C2234(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_RequestBlendRestore(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_NoOpOverlay(u16 *heap, u8 *p, int key);
 
 #define W(o) (*(u32 *)(p + (o)))
 
-void ov208_func_021C1810(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_UpdateMode(u16 *heap, u8 *p, int key)
 {
     switch (W(0x6c)) {
     case 1:
@@ -68,11 +68,11 @@ void ov208_func_021C1810(u16 *heap, u8 *p, int key)
             W(0x84) = 2;
             break;
         case 2:
-            ov208_func_021C2228(heap, p, key);
+            ZUKAN_DETAIL_AREA_RequestBlendRestore(heap, p, key);
             W(0x84) = 3;
             break;
         case 3:
-            ov208_func_021C2234(heap, p, key);
+            ZUKAN_DETAIL_AREA_NoOpOverlay(heap, p, key);
             W(0x84) = 0;
             break;
         }

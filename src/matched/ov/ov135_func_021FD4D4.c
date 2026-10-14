@@ -1,5 +1,5 @@
 /*
- * function: func_021FD4D4
+ * function: WORLDTRADE_LIST_StateStartWipeOut
  * address: 0x021FD4D4
  * packet: pkt_ov135_021FD4D4
  * region: ov135
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-int func_021FD4D4(unsigned char *p)
+int WORLDTRADE_LIST_StateStartWipeOut(unsigned char *p)
 {
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08187 *)p)->fD34, 0);
     if (((struct Obj08187 *)p)->f20 != 15) {

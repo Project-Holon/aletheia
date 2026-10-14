@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C50
+ * function: RESEARCH_COMMON_DeletePalAnm
  * address:  0x021C0C50
  * packet:   pkt_021B9850
  * region:   ov217
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   PALANM_Delete  0x02021540  thumb
- *   func_021C0C50  0x021C0C50  thumb  ov217
+ *   RESEARCH_COMMON_DeletePalAnm  0x021C0C50  thumb  ov217
  *
 
  * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
@@ -32,7 +32,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 PALANM_Delete(void *a0);
-void func_021C0C50(u8 *a0)
+void RESEARCH_COMMON_DeletePalAnm(u8 *a0)
 {
     PALANM_Delete((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));
 }

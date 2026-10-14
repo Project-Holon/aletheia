@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021CA390   0x021CA390  arm
- *   tbl_021DA61C   0x021DA61C  data
+ *   gSceneSetListPushPaletteTable   0x021DA61C  data
  *   DWCi_SCREENlCopyPalette   0x021CE7B0  arm
  *
  * Index the shared byte table and tail-call the dispatcher.
@@ -19,13 +19,13 @@
  */
 
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-extern unsigned char tbl_021DA61C[];
+extern unsigned char gSceneSetListPushPaletteTable[];
 
 void func_021CA390(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int i = *g - 0xb;
-    int y = tbl_021DA61C[i];
+    int y = gSceneSetListPushPaletteTable[i];
 
     DWCi_SCREENlCopyPalette((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
 }

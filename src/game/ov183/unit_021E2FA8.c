@@ -18,13 +18,13 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  *   d_021E3910 0x021E3910 data a4
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
- *   func_021FC21C 0x021FC21C thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
@@ -36,7 +36,7 @@
  *   func_021FD19C 0x021FD19C thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FB494 0x021FB494 thumb ov186
- *   func_021FC0C8 0x021FC0C8 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../../matched/include/Obj03885.h"
@@ -74,12 +74,12 @@ extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int, int, int *);
 extern void func_021FD15C(void *,int);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
-extern int func_021FC21C(char *);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
+extern int BR_RES_GetWordSet(char *);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MI_CpuFill8(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
-extern int func_021FC124(void *,int,Triple *);
+extern void MI_CpuFill8(void *,int,unsigned),BR_RES_LoadSprite(char *,unsigned,unsigned);
+extern int BR_RES_GetSprite(void *,int,Triple *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -91,7 +91,7 @@ extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_021FD19C(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021FB494(char *p);
-extern void func_021FC0C8(char *,unsigned);
+extern void BR_RES_ReleaseSprite(char *,unsigned);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021E2FA8(char *p);
 void func_021E2FE8(char *p);
@@ -218,15 +218,15 @@ void func_021E301C(char *p,char *q)
     void *a,*b,*s,*owner,*tmp;
     int i;
     unsigned offset;
-    h=func_021FC20C(*(char **)(q+8));
-    c=func_021FC214(*(char **)(q+8));
-    a=(void *)func_021FC21C(*(char **)(q+8));
+    h=BR_RES_GetFont(*(char **)(q+8));
+    c=BR_RES_GetMsgData(*(char **)(q+8));
+    a=(void *)BR_RES_GetWordSet(*(char **)(q+8));
     b=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     s=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     MI_CpuFill8(&d,0,8);
     d.x=0x30;d.y=0x28;d.n=11;d.flag=1;
-    func_021FBE54(*(char **)(q+8),1,*(u16 *)(p+0x38));
-    func_021FC124(*(void **)(q+8),1,&t);
+    BR_RES_LoadSprite(*(char **)(q+8),1,*(u16 *)(p+0x38));
+    BR_RES_GetSprite(*(void **)(q+8),1,&t);
     for(i=0;i<3;i++) {
         offset=(i+1)*4;
         if(*(unsigned *)(*(unsigned *)(q+0x18)+offset)) {
@@ -250,7 +250,7 @@ void func_021E301C(char *p,char *q)
 }
 
 
-void func_021E31AC(char *p,char *q) { int i;char *s;if(((struct Obj10763 *)p)->f8){func_021FD15C(((struct Obj10763 *)p)->f8,*(int *)&((struct Obj14446 *)q)->f8);*(int *)&((struct Obj10763 *)p)->f8=0;}for(i=0;i<4;i++){s=p+i*4;if(((struct Obj10764 *)s)->f14){func_021FB494(((struct Obj10764 *)s)->f14);((struct Obj10764 *)s)->f14=0;}}func_021FC0C8(*(char * *)&((struct Obj14446 *)q)->f8,1); }
+void func_021E31AC(char *p,char *q) { int i;char *s;if(((struct Obj10763 *)p)->f8){func_021FD15C(((struct Obj10763 *)p)->f8,*(int *)&((struct Obj14446 *)q)->f8);*(int *)&((struct Obj10763 *)p)->f8=0;}for(i=0;i<4;i++){s=p+i*4;if(((struct Obj10764 *)s)->f14){func_021FB494(((struct Obj10764 *)s)->f14);((struct Obj10764 *)s)->f14=0;}}BR_RES_ReleaseSprite(*(char * *)&((struct Obj14446 *)q)->f8,1); }
 
 
 

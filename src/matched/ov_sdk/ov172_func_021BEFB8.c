@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFB8
+ * function: getmatrix
  * address:  0x021BEFB8
  * packet:   pkt_ov172_021BEFB8
  * region:   ov172
@@ -12,14 +12,14 @@
  * sdk:      getmatrix (jpegdec.o)
  *
  * symbols:
- *   func_021BF690  0x021BF690  arm  ov172
- *   func_021BF0B0  0x021BF0B0  arm  ov172
+ *   hloadbit  0x021BF690  arm  ov172
+ *   get_matrix_sub  0x021BF0B0  arm  ov172
  */
 
-extern int func_021BF690(unsigned char *b, int *p, int n);
-extern int func_021BF0B0(unsigned char *s, int *p, int ax, int cx);
+extern int hloadbit(unsigned char *b, int *p, int n);
+extern int get_matrix_sub(unsigned char *s, int *p, int ax, int cx);
 
-void func_021BEFB8(unsigned char *g, short *d, int *p, int n)
+void getmatrix(unsigned char *g, short *d, int *p, int n)
 {
     int ax;
     int cx;
@@ -28,9 +28,9 @@ void func_021BEFB8(unsigned char *g, short *d, int *p, int n)
     int m;
     int k;
 
-    d[0] += func_021BF0B0(g, p, 0, func_021BF690(g, p, n));
+    d[0] += get_matrix_sub(g, p, 0, hloadbit(g, p, n));
     for (i = 63, j = 1; i > 0; i--) {
-        cx = func_021BF690(g, p, n + 1);
+        cx = hloadbit(g, p, n + 1);
         if (cx == 0) {
             for (; j < 64; j++)
                 d[j] = 0;
@@ -42,6 +42,6 @@ void func_021BEFB8(unsigned char *g, short *d, int *p, int n)
             return;
         for (k = 0; k < m; k++)
             d[j++] = 0;
-        d[j++] = func_021BF0B0(g, p, 0, cx & 0xf);
+        d[j++] = get_matrix_sub(g, p, 0, cx & 0xf);
     }
 }

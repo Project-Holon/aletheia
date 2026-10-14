@@ -1,5 +1,5 @@
 /*
- * function: func_021C3DF4
+ * function: jpeg_encode_main
  * address:  0x021C3DF4
  * packet:   pkt_ov172_021C3DF4
  * region:   ov172
@@ -139,7 +139,7 @@ extern const char g_021C88C0[];
 extern void STD_CopyLString(char *dst, const char *src, u32 n);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u8 *thumb_src, u32 thumb_size);
-s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 thumb_size)
+s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 thumb_size)
 {
   s16 cfg_encode_exif;
   s16 cfg_encode_gray_scale;

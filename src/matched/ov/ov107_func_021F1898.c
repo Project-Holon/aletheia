@@ -1,5 +1,5 @@
 /*
- * function: func_021F1898
+ * function: MB_UTIL_MSG_ClearWindow
  * address:  0x021F1898
  * packet:   pkt_ov107_021F1898
  * region:   ov107
@@ -41,7 +41,7 @@ void func_020409B4(u32 index);
 void func_0201F7A8(void *desc, u32 kind);
 void TIME_ICON_Delete(u8 *p);
 
-void func_021F1898(Ov107Ctx *p)
+void MB_UTIL_MSG_ClearWindow(Ov107Ctx *p)
 {
     BMP_Clear(BMP_WIN_GetBmp(p->f10), 0);
     if (p->f04 == 8) {

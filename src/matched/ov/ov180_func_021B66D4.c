@@ -1,5 +1,5 @@
 /*
- * function: func_021B66D4
+ * function: HALL_OF_FAME_Exit3d
  * address:  0x021B66D4
  * packet:   pkt_021B66D4
  * region:   ov180
@@ -19,7 +19,7 @@ struct Rec;
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void G3D_SYSTEM_Exit(void);
 
-void func_021B66D4(int *p)
+void HALL_OF_FAME_Exit3d(int *p)
 {
     G3D_UTIL_Delete((struct Rec *)(((struct Obj24484 *)p)->f10));
     G3D_SYSTEM_Exit();

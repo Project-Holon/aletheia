@@ -1,5 +1,5 @@
 /*
- * function: func_021DEAC8
+ * function: GURU2_MAIN_StateWaitIntroMessage
  * address:  0x021DEAC8
  * packet:   pkt_021DEAC8
  * region:   ov137
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E16D8  0x021E16D8  thumb
+ *   GURU2_MAIN_AreAllOthersReady  0x021E16D8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021E16D8(const char *p);
+extern int GURU2_MAIN_AreAllOthersReady(const char *p);
 
-int func_021DEAC8(u8 *p)
+int GURU2_MAIN_StateWaitIntroMessage(u8 *p)
 {
-    if (func_021E16D8((const char *)p)) {
+    if (GURU2_MAIN_AreAllOthersReady((const char *)p)) {
         ((struct Obj10637 *)p)->f0 = 3;
         return 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1D80
+ * function: MBi_CommParentCallback
  * address:  0x021F1D80
  * packet:   pkt_ov107_021F1D80
  * region:   ov107
@@ -12,16 +12,16 @@
  * sdk:      MBi_CommParentCallback (libmb.TWL.HYB.a mb_parent.o)
  *
  * symbols:
- *   func_021F1D0C  0x021F1D0C  arm  ov107
+ *   MBi_CommChangeParentState  0x021F1D0C  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021F6850  0x021F6850  arm  ov107
- *   func_021F26C0  0x021F26C0  arm  ov107
- *   func_021F2CBC  0x021F2CBC  arm  ov107
- *   func_021F3E9C  0x021F3E9C  arm  ov107
+ *   MBi_ClearParentPieceBuffer  0x021F6850  arm  ov107
+ *   MBi_CommParentRecvData  0x021F26C0  arm  ov107
+ *   MBi_CommParentSendData  0x021F2CBC  arm  ov107
+ *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
  *   func_021F628C  0x021F628C  arm  ov107
  *   func_021F62A0  0x021F62A0  arm  ov107
  *   func_021F62B4  0x021F62B4  arm  ov107
- *   func_021F3FC8  0x021F3FC8  arm  ov107
+ *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   g_021F6FA0     0x021F6FA0  data
@@ -98,25 +98,25 @@ typedef struct MBCommPWork {
 
 extern MBCommPWork *g_021F6FA0;
 
-extern void func_021F1D0C(u16 child, int state, void *arg);
+extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void func_021F6850(u16 child_aid);
-extern void func_021F26C0(void *arg);
-extern int func_021F2CBC(void);
-extern void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
+extern void MBi_ClearParentPieceBuffer(u16 child_aid);
+extern void MBi_CommParentRecvData(void *arg);
+extern int MBi_CommParentSendData(void);
+extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
 extern u32 func_021F628C(void);
 extern u16 func_021F62A0(void);
 extern u8 func_021F62B4(void);
-extern void func_021F3FC8(u32 ggid, u16 tgid, u8 attribute);
+extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 
 #define FIELD(id, off) (*(u16 *)((u8 *)g_021F6FA0 + (id) * 0x5D4 + (off)))
-void func_021F1D80(u16 type, void *arg)
+void MBi_CommParentCallback(u16 type, void *arg)
 {
     switch (type) {
     case 0x15:
-        func_021F1D0C(0, 1, arg);
+        MBi_CommChangeParentState(0, 1, arg);
         break;
 
     case 0x11:
@@ -127,7 +127,7 @@ void func_021F1D80(u16 type, void *arg)
             break;
         if (((WMStartParentCallback *)arg)->aid >= 16)
             break;
-        func_021F1D0C(((WMStartParentCallback *)arg)->aid, 2, arg);
+        MBi_CommChangeParentState(((WMStartParentCallback *)arg)->aid, 2, arg);
         break;
 
     case 1:
@@ -142,7 +142,7 @@ void func_021F1D80(u16 type, void *arg)
             g_021F6FA0->childversion[sparg->aid - 1] = 0;
             MI_CpuFill8(&g_021F6FA0->childggid[sparg->aid - 1], 0, sizeof(u32));
             MI_CpuFill8(&g_021F6FA0->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
-            func_021F6850(sparg->aid);
+            MBi_ClearParentPieceBuffer(sparg->aid);
             g_021F6FA0->req2child[sparg->aid - 1] = 0;
 
             {
@@ -163,19 +163,19 @@ void func_021F1D80(u16 type, void *arg)
             }
 
             if (g_021F6FA0->p_comm_state[sparg->aid - 1] == 8)
-                func_021F1D0C(sparg->aid, 9, 0);
+                MBi_CommChangeParentState(sparg->aid, 9, 0);
 
-            func_021F1D0C(sparg->aid, 3, arg);
+            MBi_CommChangeParentState(sparg->aid, 3, arg);
             g_021F6FA0->p_comm_state[sparg->aid - 1] = 0;
         }
         break;
 
     case 3:
-        func_021F26C0(arg);
+        MBi_CommParentRecvData(arg);
         break;
 
     case 0x19:
-        (void)func_021F2CBC();
+        (void)MBi_CommParentSendData();
         break;
 
     case 0x1C:
@@ -183,14 +183,14 @@ void func_021F1D80(u16 type, void *arg)
             u8 i;
             for (i = 0; i < 16; i++) {
                 if (g_021F6FA0->fileinfo[i].active && g_021F6FA0->fileinfo[i].gameinfo_changed_bmp) {
-                    func_021F3E9C((unsigned char *)(&g_021F6FA0->fileinfo[i].game_info), &g_021F6FA0->childUser[0],
+                    MB_UpdateGameInfoMember((unsigned char *)(&g_021F6FA0->fileinfo[i].game_info), &g_021F6FA0->childUser[0],
                                   g_021F6FA0->fileinfo[i].gameinfo_child_bmp,
                                   g_021F6FA0->fileinfo[i].gameinfo_changed_bmp);
                     g_021F6FA0->fileinfo[i].gameinfo_changed_bmp = 0;
                 }
             }
         }
-        func_021F3FC8(func_021F628C(), func_021F62A0(), func_021F62B4());
+        MB_SendGameInfoBeacon(func_021F628C(), func_021F62A0(), func_021F62B4());
         break;
 
     case 0xFF:

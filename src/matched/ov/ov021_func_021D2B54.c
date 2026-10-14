@@ -26,7 +26,7 @@
  *   func_0203F4CC  0x0203F4CC  arm
  *   func_020056EC  0x020056EC  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   d_021DD774     0x021DD774  data  ov021
+ *   gGreetingCounterTable     0x021DD774  data  ov021
  *   func_02008DFC  0x02008DFC  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_02008550  0x02008550  thumb
@@ -74,7 +74,7 @@ struct Sub0200852CObj;
 extern void func_0203F4CC(struct RtcTime *time);
 extern u32 func_020056EC(u32 v);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern const Entry d_021DD774[];
+extern const Entry gGreetingCounterTable[];
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -120,15 +120,15 @@ int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
         s0 = 0;
         s1 = 0;
         tr = (u32)GAME_DATA_GetTrainerRecord(h);
-        e0 = d_021DD774[k].a;
+        e0 = gGreetingCounterTable[k].a;
         if (e0 != -1) {
             s0 = func_02008DFC((struct Sub02008C20Obj *)tr, e0);
-            func_0201EFA4((struct WordSet *)ws, 1, s0, d_021DD774[k].c, 0, 1);
+            func_0201EFA4((struct WordSet *)ws, 1, s0, gGreetingCounterTable[k].c, 0, 1);
         }
-        e1 = d_021DD774[k].b;
+        e1 = gGreetingCounterTable[k].b;
         if (e1 != -1) {
             s1 = func_02008DFC((struct Sub02008C20Obj *)tr, e1);
-            func_0201EFA4((struct WordSet *)ws, 2, s1, d_021DD774[k].d, 0, 1);
+            func_0201EFA4((struct WordSet *)ws, 2, s1, gGreetingCounterTable[k].d, 0, 1);
         }
         if (k < 11) {
             if (e0 != -1 && e1 != -1) {

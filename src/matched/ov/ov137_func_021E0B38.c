@@ -1,5 +1,5 @@
 /*
- * function: func_021E0B38
+ * function: GURU2_MAIN_InitPlayerUnit
  * address: 0x021E0B38
  * packet: pkt_ov137_021E0B38
  * region: ov137
@@ -14,7 +14,7 @@
 #include "../include/Obj23782.h"
 #include "../include/Obj23783.h"
 typedef struct { int x,y,z; } Vec;
-void func_021E0B38(char *p,char *q,int amount)
+void GURU2_MAIN_InitPlayerUnit(char *p,char *q,int amount)
 {
     int n;
     ((struct Obj01555 *)q)->f4=0;

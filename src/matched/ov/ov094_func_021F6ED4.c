@@ -1,5 +1,5 @@
 /*
- * function: func_021F6ED4
+ * function: BTLV_CAMERA_UpdateMove
  * address:  0x021F6ED4
  * packet:   pkt_021F6ED4
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F723C  0x021F723C  thumb  ov094
+ *   BTLV_CAMERA_StepMove  0x021F723C  thumb  ov094
  */
 
-void func_021F723C(int *p);
+void BTLV_CAMERA_StepMove(int *p);
 
-void func_021F6ED4(int *p)
+void BTLV_CAMERA_UpdateMove(int *p)
 {
-    func_021F723C(p);
+    BTLV_CAMERA_StepMove(p);
 }

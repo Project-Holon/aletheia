@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B30
+ * function: CTVT_CAMVIEW_IsWindowMoving
  * address:  0x021B7B30
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021B7B30(int unused, char *base, int i)
+u32 CTVT_CAMVIEW_IsWindowMoving(int unused, char *base, int i)
 {
     return *(u32 *)(base + i * 0x1c + 0x34);
 }

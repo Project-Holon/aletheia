@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DE4
+ * function: ListViewState_Reset
  * address:  0x021C0DE4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0DE4(void *p)
+void ListViewState_Reset(void *p)
 {
     ((struct Obj10965 *)p)->f0 = 0;
     ((struct Obj10965 *)p)->f4 = 0;

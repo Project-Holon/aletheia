@@ -1,5 +1,5 @@
 /*
- * function: func_021D97B0
+ * function: PDWACC_MESSAGE_ClearWindow
  * address:  0x021D97B0
  * packet:   pkt_021D97B0
  * region:   ov123
@@ -25,7 +25,7 @@ extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 
-void func_021D97B0(char *p)
+void PDWACC_MESSAGE_ClearWindow(char *p)
 {
     func_0201F7A8(((struct Obj13999 *)p)->f4C, 2);
     BMP_WIN_ClearScreen(((struct Obj13999 *)p)->f4C);

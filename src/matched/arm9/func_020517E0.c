@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Returns the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
+ * Returns the word at offset 0x60. Filed as the witness for ov094 BTLV_EFFVM_ParticleStartCallback.
  */
 #include "../include/Obj16171.h"
 

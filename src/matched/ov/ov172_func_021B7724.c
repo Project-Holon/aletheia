@@ -1,5 +1,5 @@
 /*
- * function: func_021B7724
+ * function: CTVT_CAMVIEW_ClearWindowDirty
  * address: 0x021B7724
  * packet: pkt_ov172_021B7724
  * region: ov172
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj06553.h"
 typedef unsigned char u8;
-void func_021B7724(void *a, char *b, int c)
+void CTVT_CAMVIEW_ClearWindowDirty(void *a, char *b, int c)
 {
     int m;
     if (((struct Obj06553 *)b)->f14 == 0) {

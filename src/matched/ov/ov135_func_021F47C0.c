@@ -1,5 +1,5 @@
 /*
- * function: func_021F47C0
+ * function: WORLDTRADE_ProcExit
  * address: 0x021F47C0
  * packet: pkt_ov135_021F47C0
  * region: ov135
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F50EC 0x021F50EC thumb ov135
- *   func_021F49A4 0x021F49A4 thumb ov135
+ *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
+ *   WORLDTRADE_Nop 0x021F49A4 thumb ov135
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0203133C 0x0203133C arm
- *   func_02202744 0x02202744 thumb ov135
+ *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -25,8 +25,8 @@
 #include "../include/Obj02854.h"
 typedef unsigned char u8;
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void func_021F50EC(u8 *);
-extern void func_021F49A4(void *a0);
+extern void WORLDTRADE_ExitPlanes(u8 *);
+extern void WORLDTRADE_Nop(void *a0);
 typedef signed int     s32;
 struct Rec;
 struct S020314B8;
@@ -38,17 +38,17 @@ extern void func_02030DA4(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_02202744(u8 *p);
+extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(s32 handle);
 extern const u8 ov067_id[];
 extern const u8 ov114_id[];
-int func_021F47C0(void *ctx, int unused1, int unused2, u8 *p)
+int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, u8 *p)
 {
     GFL_USE_CancelChangeAndStopBgm();
-    func_021F50EC(p);
-    func_021F49A4(p);
+    WORLDTRADE_ExitPlanes(p);
+    WORLDTRADE_Nop(p);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB70);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB78);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB74);
@@ -59,7 +59,7 @@ int func_021F47C0(void *ctx, int unused1, int unused2, u8 *p)
     func_020307B0(((struct Obj02854 *)p)->fF9C);
     func_0203133C(((struct Obj02854 *)p)->f12F0);
     func_020307B0(((struct Obj02854 *)p)->fEA8);
-    func_02202744(p + 0xfa0);
+    WORLDTRADE_ADAPTER_ExitPrinter(p + 0xfa0);
     func_020315D4(ctx);
     func_020306F0(0x48);
     func_02034A5C((unsigned int)ov067_id);

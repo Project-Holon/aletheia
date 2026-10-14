@@ -2,8 +2,8 @@
 #define OV107_MB_WM_H
 /*
  * WM (wireless manager) callback types and the multiboot WM-side work block
- * (NitroSDK MB library), shared by the ov107 translation unit unit_021F4560.
- * d_021F6F90 (struct WmBase) holds the DMA number, the WM system buffer, the
+ * (NitroSDK MB library), shared by the ov107 translation unit mb_wm_base.
+ * gMbWm (struct WmBase) holds the DMA number, the WM system buffer, the
  * MBiParam block (work) and the MB_CommCommonWork block (ext).
  */
 #include "mb_parent.h"
@@ -173,7 +173,7 @@ typedef struct MBiParam {
     u8 reserved1[2];
     u16 uname[4];                               /* 0x530 */
     u16 gname[16];                              /* 0x538 */
-    u8 reserved2[0x560 - 0x558];                /* 0x548: u16 cleared by func_021F5BE0 */
+    u8 reserved2[0x560 - 0x558];                /* 0x548: u16 cleared by MBi_StartCommon */
     u16 userGameInfo[64];                       /* 0x560 */
     u16 found_parent_count;                     /* 0x5E0 */
     u16 my_aid;                                 /* 0x5E2 */
@@ -193,11 +193,11 @@ typedef struct WmBase {
     MB_CommCommonWork *ext;                     /* 0x10 */
 } WmBase;
 
-extern char d_021F6F90[];
-#define mbWm (*(WmBase *)d_021F6F90)
+extern char gMbWm[];
+#define mbWm (*(WmBase *)gMbWm)
 
 /*
- * Initialised data at 0x021F6E58 .. 0x021F6E70 (defined in unit_021F4560).
+ * Initialised data at 0x021F6E58 .. 0x021F6E70 (defined in mb_wm_base).
  * The compiler lays statics out in an order set by the definition order and
  * the types, so each part that needs a different subset of them (p03 needs
  * the reject words before MB_Init, p04 defines them after MB_Init's `game`)

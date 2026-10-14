@@ -1,5 +1,5 @@
 /*
- * function: func_021D63D4
+ * function: GSYNC_DISP_SetMainActorAnimSeq
  * address:  0x021D63D4
  * packet:   pkt_021D63D4
  * region:   ov123
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021D63D4(u8 *p)
+void GSYNC_DISP_SetMainActorAnimSeq(u8 *p)
 {
     CLACT_SetActorAnimSeq(((struct Obj22949 *)p)->fA8, 2);
 }

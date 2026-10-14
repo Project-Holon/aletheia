@@ -1,5 +1,5 @@
 /*
- * function: func_021BD340
+ * function: ZUKAN_LIST_StateSelectSpecies
  * address:  0x021BD340
  * packet:   pkt_ov209_021BD340
  * region:   ov209
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD314 0x021BD314 thumb
+ *   ZUKAN_LIST_StoreLastViewedSpecies 0x021BD314 thumb
  */
 #include "../include/Obj00088.h"
 
-extern void func_021BD314(char *p, int i);
+extern void ZUKAN_LIST_StoreLastViewedSpecies(char *p, int i);
 
-int func_021BD340(char *a, int arg)
+int ZUKAN_LIST_StateSelectSpecies(char *a, int arg)
 {
-    func_021BD314(a, arg);
+    ZUKAN_LIST_StoreLastViewedSpecies(a, arg);
     *(int *)(*(int *)&((struct Obj00088 *)a)->f0 + 0x10) = 3;
     return 7;
 }

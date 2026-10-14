@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C4B60
+ * function: ZUKAN_DETAIL_FORM_FlushPrintWindow
  * address:  0x021C4B60
  * packet:   pkt_ov208_021C4B60
  * region:   ov208
@@ -38,7 +38,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 layer);
 
-void ov208_func_021C4B60(void *a0, struct Ov208Menu *p, int a2, int i)
+void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *a0, struct Ov208Menu *p, int a2, int i)
 {
     u32 w;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021FBF6C
+ * function: WORLDTRADE_INPUT_CountSpeciesInList
  * address:  0x021FBF6C
  * packet:   pkt_021FBF6C
  * region:   ov135
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F8498  0x021F8498  thumb
- *   func_021F84BC  0x021F84BC  thumb
- *   func_021FB240  0x021FB240  thumb
+ *   WORLDTRADE_DEPOSIT_LoadSpeciesList  0x021F8498  thumb
+ *   WORLDTRADE_DEPOSIT_GetSpeciesRange  0x021F84BC  thumb
+ *   WORLDTRADE_INPUT_CheckSpeciesSeen  0x021FB240  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -29,12 +29,12 @@ typedef struct {
     u32 f2C;
 } Menu;
 
-extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
-extern void func_021F84BC(u32 i, int *start, int *end);
-extern int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
+extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
+extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
+extern int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
 extern u32 func_020307B0(void *p);
 
-int func_021FBF6C(Menu *m, u32 idx)
+int WORLDTRADE_INPUT_CountSpeciesInList(Menu *m, u32 idx)
 {
     u32 n;
     int start;
@@ -42,10 +42,10 @@ int func_021FBF6C(Menu *m, u32 idx)
     u16 *list;
     int r;
 
-    list = func_021F8498(0x48, 0, &n);
-    func_021F84BC(idx, &start, &end);
+    list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &n);
+    WORLDTRADE_DEPOSIT_GetSpeciesRange(idx, &start, &end);
     n = end - start;
-    r = func_021FB240(m->f2C, m->item, n, list, start, end);
+    r = WORLDTRADE_INPUT_CheckSpeciesSeen(m->f2C, m->item, n, list, start, end);
     func_020307B0(list);
     return r;
 }

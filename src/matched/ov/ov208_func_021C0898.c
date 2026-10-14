@@ -1,5 +1,5 @@
 /*
- * function: func_021C0898
+ * function: ZUKAN_DETAIL_AREA_DeleteTextWindows
  * address: 0x021C0898
  * packet: pkt_ov208_021C0898
  * region: ov208
@@ -20,7 +20,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
-void func_021C0898(void *unused, char *p, void *a2)
+void ZUKAN_DETAIL_AREA_DeleteTextWindows(void *unused, char *p, void *a2)
 {
     u8 i;
     for (i = 0; i < 2; i++) MSGDATA_Delete(*(struct Rec **)(p + i * 4 + 0xc));

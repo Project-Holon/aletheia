@@ -1,5 +1,5 @@
 /*
- * function: func_021F8AC0
+ * function: BTLV_EFFECT_ResetIntroState
  * address:  0x021F8AC0
  * packet:   pkt_ov094_021F8AC0
  * region:   ov094
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_021F7BEC, then stores the argument at 0x238 and clears 0x23c and 0x240 of the global work block.
+ * Calls BTLV_EFFECT_PauseVm, then stores the argument at 0x238 and clears 0x23c and 0x240 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021F7BEC 0x021F7BEC thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_EFFECT_PauseVm 0x021F7BEC thumb ov094
  */
-extern char *d_0220AF20;
-extern void func_021F7BEC(void);
+extern char *gBtlvEff;
+extern void BTLV_EFFECT_PauseVm(void);
 
-void func_021F8AC0(int a)
+void BTLV_EFFECT_ResetIntroState(int a)
 {
-    func_021F7BEC();
-    *(int *)(d_0220AF20 + 0x238) = a;
-    *(int *)(d_0220AF20 + 0x23c) = 0;
-    *(int *)(d_0220AF20 + 0x240) = 0;
+    BTLV_EFFECT_PauseVm();
+    *(int *)(gBtlvEff + 0x238) = a;
+    *(int *)(gBtlvEff + 0x23c) = 0;
+    *(int *)(gBtlvEff + 0x240) = 0;
 }

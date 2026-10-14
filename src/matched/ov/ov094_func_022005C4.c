@@ -1,5 +1,5 @@
 /*
- * function: func_022005C4
+ * function: BTLV_MCSS_TakeSpriteRefreshedFlag
  * address:  0x022005C4
  * packet:   pkt_ov094_022005C4
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef struct {
     void *h;                /* 0x00 */
@@ -27,11 +27,11 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-int func_022005C4(Work *w, int key)
+int BTLV_MCSS_TakeSpriteRefreshedFlag(Work *w, int key)
 {
-    int i = func_022019F4((char *)w, key);
+    int i = BTLV_MCSS_FindSpriteIndex((char *)w, key);
     int r;
 
     if (i == -1)

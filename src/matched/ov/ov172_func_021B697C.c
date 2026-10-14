@@ -1,5 +1,5 @@
 /*
- * function: func_021B697C
+ * function: CTVT_CAMERA_GetSizeWidth
  * address:  0x021B697C
  * packet:   pkt_021B6100
  * region:   ov172
@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern int OS_IsRunOnTwl(void *p);
 extern int func_021B6994(u32 v);
 
-int func_021B697C(void *p)
+int CTVT_CAMERA_GetSizeWidth(void *p)
 {
     u32 f = ((struct Obj24061 *)p)->f30;
     if (OS_IsRunOnTwl(p) == 1) {

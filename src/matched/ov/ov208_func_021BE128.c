@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE128
+ * function: ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer
  * address:  0x021BE128
  * packet:   pkt_ov208_021BE128
  * region:   ov208
@@ -29,7 +29,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
-void ov208_func_021BE128(u8 *p)
+void ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer(u8 *p)
 {
     struct Ov208Pltt *pltt;
     u32 file;

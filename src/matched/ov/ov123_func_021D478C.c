@@ -1,5 +1,5 @@
 /*
- * function: func_021D478C
+ * function: GSYNC_MENU_CreateActors
  * address: 0x021D478C
  * packet: pkt_ov123_021D478C
  * region: ov123
@@ -39,7 +39,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-void func_021D478C(char *p)
+void GSYNC_MENU_CreateActors(char *p)
 {
     struct Triple x, y, z;
     struct Point pt;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9844
+ * function: PDWACC_MESSAGE_PrintNumberWindows
  * address: 0x021D9844
  * packet: pkt_ov123_021D9844
  * region: ov123
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D97CC 0x021D97CC thumb ov123
+ *   PDWACC_MESSAGE_FormatNumber 0x021D97CC thumb ov123
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -22,7 +22,7 @@
 #include "../include/Obj01737.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021D97CC(int,void *);
+extern void PDWACC_MESSAGE_FormatNumber(int,void *);
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 typedef unsigned int   u32;
 struct Cfg;
@@ -38,10 +38,10 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02041B6C(u32 bit);
-void func_021D9844(char *p, int n, int a2)
+void PDWACC_MESSAGE_PrintNumberWindows(char *p, int n, int a2)
 {
     void *q;
-    func_021D97CC(n,((struct Obj01737 *)p)->f2C);
+    PDWACC_MESSAGE_FormatNumber(n,((struct Obj01737 *)p)->f2C);
     if (!((struct Obj01737 *)p)->f40) ((struct Obj01737 *)p)->f40=(void *)BMP_WIN_Create((int)1,(int)1,(u8)8,(int)30,4,11,1);
     q=((struct Obj01737 *)p)->f40;
     BMP_Clear(BMP_WIN_GetBmp(q),15);

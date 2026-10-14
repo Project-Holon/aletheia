@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState
+ * function: SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet
  * address:  0x021B271C
  * packet:   pkt_021B271C
  * region:   ov021
@@ -28,7 +28,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(void *a0, int a1);
 
-int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(SCRCMD_WORK_GetGameSystem((void *)b), VM_GetU16((struct Stream *)a));
 return 0;

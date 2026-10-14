@@ -1,5 +1,5 @@
 /*
- * function: func_021FC354
+ * function: BTLV_EFFVM_CmdWaitForTask
  * address:  0x021FC354
  * packet:   pkt_ov094_021FC354
  * region:   ov094
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Script command: sets flag bit 7, waits on func_021FC9E4, and suspends.
+ * Script command: sets flag bit 7, waits on BTLV_EFFVM_WaitTaskCallback, and suspends.
  *
  * symbols:
  *   VM_SetWait 0x020113D0 thumb
- *   func_021FC9E4 0x021FC9E4 thumb ov094
+ *   BTLV_EFFVM_WaitTaskCallback 0x021FC9E4 thumb ov094
  */
 #include "../include/Obj13597.h"
 extern void VM_SetWait(char *p, int val);
-extern int func_021FC9E4(void *, void *);
+extern int BTLV_EFFVM_WaitTaskCallback(void *, void *);
 
-int func_021FC354(void *a, char *s)
+int BTLV_EFFVM_CmdWaitForTask(void *a, char *s)
 {
     ((struct Obj13597 *)s)->f0 |= 0x80;
-    VM_SetWait(a, (int)func_021FC9E4);
+    VM_SetWait(a, (int)BTLV_EFFVM_WaitTaskCallback);
     ((struct Obj13597 *)s)->f23C = 1;
     return 1;
 }

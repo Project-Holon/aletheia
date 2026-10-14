@@ -45,7 +45,7 @@
  *   INTRUDE_FIELD_CreateNoticeEvent  0x0217B810  thumb  ov018
  *   INTRUDE_COMM_ConsumeAreaNoticeSeen  0x0217689C  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   FIELD_G3D_MAP_StartSymbolEntry  0x0216B3A8  thumb  ov010
+ *   FIELD_INTRUDE_EVENT_StartSymbolEntry  0x0216B3A8  thumb  ov010
  *   INTRUDE_COMM_GetActiveRequestTarget  0x021754B4  thumb  ov011
  *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb
  *   EVENT_COMM_COMMON_CreateTalkedStartEvent  0x0217FC6C  thumb  ov018
@@ -163,7 +163,7 @@ extern void *INTRUDE_FIELD_CreateNoticeEvent(void *a, u8 *pos);
 extern int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg);
 extern int GAME_DATA_GetSymbolMapFlag(unsigned char *base);
 struct Desc;
-extern struct Desc *FIELD_G3D_MAP_StartSymbolEntry(int a0, int a1, int a2);
+extern struct Desc *FIELD_INTRUDE_EVENT_StartSymbolEntry(int a0, int a1, int a2);
 extern int INTRUDE_COMM_GetActiveRequestTarget(u8 *p, int *out);
 extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
 extern void *EVENT_COMM_COMMON_CreateTalkedStartEvent(void *p, int a, int b, int c, int d, u16 e);
@@ -281,7 +281,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
         if (GAME_DATA_GetIntrudeCount(in.f8) == 1 && INTRUDE_FIELD_IsStartRequested(ev) == 1)
             return (int)INTRUDE_FIELD_CreateNoticeEvent(sys, (u8 *)pos);
         if (INTRUDE_COMM_ConsumeAreaNoticeSeen(ev, in.f10) == 1)
-            return (int)FIELD_G3D_MAP_StartSymbolEntry((int)sys, 9, (u32)GAME_DATA_GetSymbolMapFlag(in.f8));
+            return (int)FIELD_INTRUDE_EVENT_StartSymbolEntry((int)sys, 9, (u32)GAME_DATA_GetSymbolMapFlag(in.f8));
         if (in.b10 == 1 && INTRUDE_COMM_GetActiveRequestTarget(ev, (int *)(&out)) == 1) {
             FIELD_PLAYER_ResetMoveWork((u32 *)in.f18);
             return (int)EVENT_COMM_COMMON_CreateTalkedStartEvent(sys, (int)pos, (int)ev, (int)model, out, in.f0);

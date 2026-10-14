@@ -1,5 +1,5 @@
 /*
- * function: func_021D7630
+ * function: GDS_RAP_SaveVideoSecured
  * address: 0x021D7630
  * packet: pkt_ov125_021D7630
  * region: ov125
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
 struct BattleRec;
 extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c)
+int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c)
 {
     unsigned int value;
     switch (*state) {

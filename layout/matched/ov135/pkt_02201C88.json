@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02201C88",
+   "name": "WORLDTRADE_SERVER_StateStartWipeOutDisconnect",
    "address": "0x02201C88",
    "kind": "game",
    "region": "ov135",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022018A8",
+   "name": "BTLV_MCSS_CalcSlotPosition",
    "address": "0x022018A8",
    "kind": "game",
    "region": "ov094",

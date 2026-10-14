@@ -1,5 +1,5 @@
 /*
- * function: func_02177214
+ * function: NET_WHPIPE_QueryOwnAid
  * address: 0x02177214
  * packet: pkt_ov014_02177214
  * region: ov014
@@ -16,9 +16,9 @@
  */
 
 extern int NET_WHPIPE_GetOwnAid(void);
-int func_02177214(void);
+int NET_WHPIPE_QueryOwnAid(void);
 
-int func_02177214(void)
+int NET_WHPIPE_QueryOwnAid(void)
 {
     return NET_WHPIPE_GetOwnAid();
 }

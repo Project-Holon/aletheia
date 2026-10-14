@@ -13,9 +13,9 @@
  * 0xf-wide tile window and the 0x440 record, then flags the object busy.
  *
  * symbols:
- *   func_021BE034  0x021BE034  thumb  ov172
- *   func_021BE03C  0x021BE03C  thumb  ov172
- *   func_021BE044  0x021BE044  thumb  ov172
+ *   COMM_TVT_SYS_GetFont  0x021BE034  thumb  ov172
+ *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
+ *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -29,9 +29,9 @@
 
 typedef unsigned int u32;
 
-extern u32  func_021BE034(void *p);
-extern u32  func_021BE03C(void *p);
-extern u32  func_021BE044(void *p);
+extern u32  COMM_TVT_SYS_GetFont(void *p);
+extern u32  COMM_TVT_SYS_GetMsgData(void *p);
+extern u32  COMM_TVT_SYS_GetPrintQue(void *p);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned char  u8;
@@ -47,9 +47,9 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 void func_021BD0C4(void *a0, char *a1, int a2)
 {
-    u32 x = func_021BE034(a0);
-    u32 y = func_021BE03C(a0);
-    u32 z = func_021BE044(a0);
+    u32 x = COMM_TVT_SYS_GetFont(a0);
+    u32 y = COMM_TVT_SYS_GetMsgData(a0);
+    u32 z = COMM_TVT_SYS_GetPrintQue(a0);
     u32 w;
 
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00543 *)a1)->f2C)), 0xf);

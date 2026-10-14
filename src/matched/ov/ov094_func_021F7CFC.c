@@ -1,5 +1,5 @@
 /*
- * function: func_021F7CFC
+ * function: BTLV_EFFECT_StartEffectWithColor
  * address:  0x021F7CFC
  * packet:   pkt_ov094_021F7CFC
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F9844  0x021F9844  thumb  ov094
- *   func_021F94F8  0x021F94F8  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFVM_InitParams  0x021F9844  thumb  ov094
+ *   BTLV_EFFVM_StartScript  0x021F94F8  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,20 +32,20 @@ typedef struct {
     int f1e8;
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern void func_021F9844(Arg *a);
-extern void func_021F94F8(void *h, int a, u32 b, u16 c, Arg *d);
+extern void BTLV_EFFVM_InitParams(Arg *a);
+extern void BTLV_EFFVM_StartScript(void *h, int a, u32 b, u16 c, Arg *d);
 
-void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e)
+void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e)
 {
     Arg l;
 
-    func_021F9844(&l);
+    BTLV_EFFVM_InitParams(&l);
     l.b3 = c;
     l.f8 = e;
     l.f4 = d;
     l.fc = b;
-    func_021F94F8(d_0220AF20->h188, 0, a, 0x23a, &l);
-    d_0220AF20->f1e8 = 1;
+    BTLV_EFFVM_StartScript(gBtlvEff->h188, 0, a, 0x23a, &l);
+    gBtlvEff->f1e8 = 1;
 }

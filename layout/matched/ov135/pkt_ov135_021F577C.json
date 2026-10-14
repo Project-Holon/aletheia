@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F577C",
+   "name": "WORLDTRADE_BOX_DeleteActors",
    "address": "0x021F577C",
    "kind": "game",
    "region": "ov135",

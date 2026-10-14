@@ -1,5 +1,5 @@
 /*
- * function: func_02206908
+ * function: BTLV_INPUT_IsWazaSelectable
  * address:  0x02206908
  * packet:   pkt_ov094_02206908
  * region:   ov094
@@ -17,7 +17,7 @@ typedef struct {
     unsigned int b4 : 1;
 } Bf;
 
-int func_02206908(char *p, char *q, int i)
+int BTLV_INPUT_IsWazaSelectable(char *p, char *q, int i)
 {
     int r;
 

@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF660 0x021FF660 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetDownloadEntries 0x021FF660 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -34,8 +34,8 @@ typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
 typedef struct Pair {int x,y;} Pair;
 extern void MI_CpuFill8(void *,int,unsigned);
 typedef unsigned int   u32;
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *),BR_NET_PollErrorMessage(char *,int *),BR_NET_GetDownloadEntries(char *,int,int,int *);
 extern void func_021FD860(int,int,Pair *);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021FD170(char *p, char *q, void *text);
@@ -54,18 +54,18 @@ void func_021F8790(int *task,unsigned *state,char *p)
         MI_CpuFill8(&cfg,0,8);
         cfg.heap=((struct Obj01276 *)p)->f8;
         ((struct Obj01276 *)p)->fA=0;
-        func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
+        BR_NET_StartRequest(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
         *state=1; break;
     case 1:
         ((struct Obj01276 *)p)->fA=((struct Obj01276 *)p)->fA+1;
-        if(func_021FF648(*(char * *)&((struct Obj24724 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14) && ((struct Obj01276 *)p)->fA>0x60) {
+        if(BR_NET_IsIdle(*(char * *)&((struct Obj24724 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14) && ((struct Obj01276 *)p)->fA>0x60) {
             func_021FD860(((struct Obj01276 *)p)->f38,0,0);
             *state=2;
         }
         break;
     case 2:
-        if(!func_021FF72C(*(char * *)&((struct Obj24725 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,&out)) {
-            if(func_021FF660(*(char * *)&((struct Obj24726 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,(int)(p+0x40),5,(int *)(p+0x54)) && ((struct Obj01276 *)p)->f54) {
+        if(!BR_NET_PollErrorMessage(*(char * *)&((struct Obj24725 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,&out)) {
+            if(BR_NET_GetDownloadEntries(*(char * *)&((struct Obj24726 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,(int)(p+0x40),5,(int *)(p+0x54)) && ((struct Obj01276 *)p)->f54) {
                 ((struct Obj01276 *)p)->fC=0;
                 func_021FD73C(task,(int)func_021F88B0);
                 break;

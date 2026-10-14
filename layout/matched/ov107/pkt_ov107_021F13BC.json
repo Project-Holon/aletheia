@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F13BC",
-    "func_021F13E8",
-    "func_021F13F4",
-    "func_021F13F8",
-    "func_021F1400"
+    "MB_COMM_SYS_GetHeaderBuffer",
+    "MB_COMM_SYS_OnMonsReceived",
+    "MB_COMM_SYS_GetMonBuffer",
+    "MB_COMM_SYS_GetChildDataPtr",
+    "MB_COMM_SYS_GetMemberCount"
+   ],
+   "addresses": [
+    "0x021F13BC",
+    "0x021F13E8",
+    "0x021F13F4",
+    "0x021F13F8",
+    "0x021F1400"
    ],
    "evidence": {
     "sole-ref": [

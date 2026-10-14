@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D71D8, func_021D72EC, func_021D72F8
+ * function: GDS_RAP_ReadReply, GDS_RAP_GetResult, GDS_RAP_ClearResult
  * address: 0x021D71D8
  * packet: pkt_ov125_021D71D8
  * region: ov125
@@ -10,68 +10,68 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021D8D28 0x021D8D28 data a4
- *   func_021D85E8 0x021D85E8 arm ov125
- *   func_021D85F4 0x021D85F4 arm ov125
+ *   sGdsEmptyString 0x021D8D28 data a4
+ *   GDS_SOCKET_GetReply 0x021D85E8 arm ov125
+ *   GDS_SOCKET_GetReplySize 0x021D85F4 arm ov125
  *   func_02034714 0x02034714 arm
- *   func_021D732C 0x021D732C thumb ov125
- *   func_021D7354 0x021D7354 thumb ov125
- *   func_021D73B8 0x021D73B8 thumb ov125
- *   func_021D73F0 0x021D73F0 thumb ov125
- *   func_021D74B4 0x021D74B4 thumb ov125
- *   func_021D7520 0x021D7520 thumb ov125
- *   func_021D7064 0x021D7064 thumb ov125
+ *   GDS_RAP_CheckUploadEntryReply 0x021D732C thumb ov125
+ *   GDS_RAP_CheckDownloadEntriesReply 0x021D7354 thumb ov125
+ *   GDS_RAP_CheckUploadVideoReply 0x021D73B8 thumb ov125
+ *   GDS_RAP_CheckSearchVideosReply 0x021D73F0 thumb ov125
+ *   GDS_RAP_CheckGetVideoReply 0x021D74B4 thumb ov125
+ *   GDS_RAP_CheckMarkVideoReply 0x021D7520 thumb ov125
+ *   GDS_RAP_PollSaveUploadedVideo 0x021D7064 thumb ov125
  *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00327.h"
 #include "../include/Obj23000.h"
 typedef unsigned short u16;
-extern char d_021D8D28[];
-extern char *func_021D85E8(void);
-extern int func_021D85F4(void);
+extern char sGdsEmptyString[];
+extern char *GDS_SOCKET_GetReply(void);
+extern int GDS_SOCKET_GetReplySize(void);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_021D732C(char *, const u16 *);
-extern int func_021D7354(char *, const u16 *);
-extern int func_021D73B8(char *, const u16 *);
-extern int func_021D73F0(char *, const u16 *);
-extern int func_021D74B4(char *, const u16 *);
-extern int func_021D7520(char *, const u16 *);
-extern int func_021D7064(char *, const u16 *);
+extern int GDS_RAP_CheckUploadEntryReply(char *, const u16 *);
+extern int GDS_RAP_CheckDownloadEntriesReply(char *, const u16 *);
+extern int GDS_RAP_CheckUploadVideoReply(char *, const u16 *);
+extern int GDS_RAP_CheckSearchVideosReply(char *, const u16 *);
+extern int GDS_RAP_CheckGetVideoReply(char *, const u16 *);
+extern int GDS_RAP_CheckMarkVideoReply(char *, const u16 *);
+extern int GDS_RAP_PollSaveUploadedVideo(char *, const u16 *);
 extern void MI_CpuFill8(void *, int, unsigned int);
-int func_021D71D8(char *p)
+int GDS_RAP_ReadReply(char *p)
 {
     const u16 *state;
     int result = 1;
-    state = (const u16 *)func_021D85E8();
-    func_021D85F4();
-    if (((struct Obj00327 *)p)->f3DC != state[0]) func_02034714(d_021D8D28, 0, d_021D8D28);
+    state = (const u16 *)GDS_SOCKET_GetReply();
+    GDS_SOCKET_GetReplySize();
+    if (((struct Obj00327 *)p)->f3DC != state[0]) func_02034714(sGdsEmptyString, 0, sGdsEmptyString);
     ((struct Obj00327 *)p)->f3F0 = 0;
     switch (state[0]) {
     case 0: break;
     case 21000:
-        result = func_021D732C(p, state);
+        result = GDS_RAP_CheckUploadEntryReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f14C;
         break;
     case 21001:
-        result = func_021D7354(p, state);
+        result = GDS_RAP_CheckDownloadEntriesReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f150;
         break;
     case 22000:
-        result = func_021D73B8(p, state);
+        result = GDS_RAP_CheckUploadVideoReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f154;
-        if (result == 1) ((struct Obj00327 *)p)->f3FC = (void *)func_021D7064;
+        if (result == 1) ((struct Obj00327 *)p)->f3FC = (void *)GDS_RAP_PollSaveUploadedVideo;
         break;
     case 22001:
-        result = func_021D73F0(p, state);
+        result = GDS_RAP_CheckSearchVideosReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f158;
         break;
     case 22002:
-        result = func_021D74B4(p, state);
+        result = GDS_RAP_CheckGetVideoReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f15C;
         break;
     case 22003:
-        result = func_021D7520(p, state);
+        result = GDS_RAP_CheckMarkVideoReply(p, state);
         ((struct Obj00327 *)p)->f3F0 = ((struct Obj00327 *)p)->f160;
         break;
     }
@@ -83,12 +83,12 @@ int func_021D71D8(char *p)
     } else ((struct Obj00327 *)p)->f164 = 0;
     return result;
 }
-int func_021D72EC(char *p, int **out)
+int GDS_RAP_GetResult(char *p, int **out)
 {
     *out = (int *)(p + 0x164);
     return ((struct Obj23000 *)p)->f164;
 }
-void func_021D72F8(char *p)
+void GDS_RAP_ClearResult(char *p)
 {
     MI_CpuFill8(p + 0x164, 0, 16);
 }

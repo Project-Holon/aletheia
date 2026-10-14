@@ -1,5 +1,5 @@
 /*
- * function: func_02201CBC
+ * function: WORLDTRADE_SERVER_StateFinishTrade
  * address: 0x02201CBC
  * packet: pkt_ov135_02201CBC
  * region: ov135
@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_0200ADE0 0x0200ADE0 thumb
- *   func_022022B8 0x022022B8 thumb ov135
- *   func_022024B0 0x022024B0 thumb ov135
- *   func_02201B44 0x02201B44 thumb ov135
- *   func_0220251C 0x0220251C thumb ov135
+ *   WORLDTRADE_ADAPTER_RegisterReceivedMon 0x022022B8 thumb ov135
+ *   WORLDTRADE_ADAPTER_RegisterLanguageVersion 0x022024B0 thumb ov135
+ *   WORLDTRADE_SERVER_RecordTradeResult 0x02201B44 thumb ov135
+ *   WORLDTRADE_ADAPTER_SetPair 0x0220251C thumb ov135
  */
 #include "../include/Obj00018.h"
 #include "../include/Obj23457.h"
@@ -23,18 +23,18 @@ typedef unsigned int u32;
 struct Rec0200AD94;
 struct RegB;
 extern u16 func_0200ADE0(struct RegB *p);
-extern void func_022022B8(void *, void *, u32, int);
-extern void func_022024B0(void *obj, u8 *p);
-extern void func_02201B44(u8 *p, void *mon, u8 *r, void *old);
+extern void WORLDTRADE_ADAPTER_RegisterReceivedMon(void *, void *, u32, int);
+extern void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj, u8 *p);
+extern void WORLDTRADE_SERVER_RecordTradeResult(u8 *p, void *mon, u8 *r, void *old);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
-extern void func_0220251C(u8 *p, u16 a, u16 b);
-int func_02201CBC(u8 *p)
+extern void WORLDTRADE_ADAPTER_SetPair(u8 *p, u16 a, u16 b);
+int WORLDTRADE_SERVER_StateFinishTrade(u8 *p)
 {
-    func_022022B8(p, p + 0xe4, func_0200ADE0(**(void ** *)&((struct Obj00018 *)p)->f0), ((struct Obj00018 *)p)->f207);
-    func_022024B0(((struct Obj23457 *)(*(u8 * *)&((struct Obj00018 *)p)->f0))->f18, p + 0xe4);
-    func_02201B44(p, p + 0xe4, p + 0xe4, 0);
+    WORLDTRADE_ADAPTER_RegisterReceivedMon(p, p + 0xe4, func_0200ADE0(**(void ** *)&((struct Obj00018 *)p)->f0), ((struct Obj00018 *)p)->f207);
+    WORLDTRADE_ADAPTER_RegisterLanguageVersion(((struct Obj23457 *)(*(u8 * *)&((struct Obj00018 *)p)->f0))->f18, p + 0xe4);
+    WORLDTRADE_SERVER_RecordTradeResult(p, p + 0xe4, p + 0xe4, 0);
     func_0200AD94(**(void ** *)&((struct Obj00018 *)p)->f0, 0);
     ((struct Obj00018 *)p)->f28 = 0x22;
-    func_0220251C(p, 0x17, 0xf);
+    WORLDTRADE_ADAPTER_SetPair(p, 0x17, 0xf);
     return 2;
 }

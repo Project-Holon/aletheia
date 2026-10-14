@@ -1,5 +1,5 @@
 /*
- * function: func_021BC464
+ * function: ZUKAN_DETAIL_COMMON_FreeBlendWork
  * address:  0x021BC464
  * packet:   pkt_021BC464
  * region:   ov208
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC464(void *a0)
+void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *a0)
 {
     func_020307B0(a0);
 }

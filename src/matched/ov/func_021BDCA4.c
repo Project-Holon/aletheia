@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCA4
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetBgPriority
  * address:  0x021BDCA4
  * packet:   pkt_021BDCA4
  * region:   ov208
@@ -20,7 +20,7 @@
 
 extern void CLACT_SetActorBgPriority(int, int);
 
-void func_021BDCA4(char *p, unsigned char v)
+void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char v)
 {
     unsigned char i;
 

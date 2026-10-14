@@ -12,25 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-#define BTL_DEADREC_TURNS 4
-#define BTL_DEADREC_MAX 24
-#define BTL_DEADREC_NONE 31
-
-/* The pokemon that fainted in one turn. */
-typedef struct BtlDeadRecTurn {
-    u8 count;
-    u8 reported[BTL_DEADREC_MAX];   /* set once the faint was handled */
-    u8 pokeId[BTL_DEADREC_MAX];     /* BTL_DEADREC_NONE when unset */
-} BtlDeadRecTurn;
-
-/* Faint history of the last four turns, newest turn first. */
-typedef struct BtlDeadRec {
-    BtlDeadRecTurn turn[BTL_DEADREC_TURNS];
-} BtlDeadRec;
+#include "../ov093/btl_records_types.h"
 
 void BTL_DEADREC_ClearTurn(BtlDeadRecTurn *t);
 void BTL_DEADREC_Init(BtlDeadRec *p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1A4
+ * function: COMM_TVT_SYS_ClearNameWindows
  * address:  0x021BE1A4
  * packet:   pkt_021B6868
  * region:   ov172
@@ -31,7 +31,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
-void func_021BE1A4(char *p)
+void COMM_TVT_SYS_ClearNameWindows(char *p)
 {
     u8 i;
 

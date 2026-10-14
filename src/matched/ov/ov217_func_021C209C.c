@@ -1,5 +1,5 @@
 /*
- * function: func_021C209C
+ * function: ARROW_Destroy
  * address:  0x021C209C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C25A8  0x021C25A8  thumb  ov217
- *   func_021C25C4  0x021C25C4  thumb  ov217
- *   func_021C2614  0x021C2614  thumb  ov217
+ *   ARROW_Free  0x021C25A8  thumb  ov217
+ *   ARROW_DeleteUnit  0x021C25C4  thumb  ov217
+ *   ARROW_DeleteActors  0x021C2614  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,13 +26,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C25A8(void *a0);
-extern void func_021C25C4(u8 *a0);
-extern void func_021C2614(char *p);
-u32 func_021C209C(void *a0)
+extern u32 ARROW_Free(void *a0);
+extern void ARROW_DeleteUnit(u8 *a0);
+extern void ARROW_DeleteActors(char *p);
+u32 ARROW_Destroy(void *a0)
 {
-    func_021C2614((char *)a0);
-    func_021C25C4((u8 *)a0);
-    return func_021C25A8(a0);
+    ARROW_DeleteActors((char *)a0);
+    ARROW_DeleteUnit((u8 *)a0);
+    return ARROW_Free(a0);
 }
 

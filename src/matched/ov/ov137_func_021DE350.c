@@ -1,5 +1,5 @@
 /*
- * function: func_021DE350
+ * function: GURU2_RECEIPT_Noop2
  * address: 0x021DE350
  * packet: pkt_ov137_021DE350
  * region: ov137
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021DE350(char *a0) {}
+void GURU2_RECEIPT_Noop2(char *a0) {}

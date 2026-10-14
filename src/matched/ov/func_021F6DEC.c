@@ -1,5 +1,5 @@
 /*
- * function: func_021F6DEC
+ * function: BTLV_FIELD_InitEntry
  * address:  0x021F6DEC
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F6DEC   0x021F6DEC  thumb
+ *   BTLV_FIELD_InitEntry   0x021F6DEC  thumb
  *   BODY
 
  *
@@ -28,7 +28,7 @@ typedef struct {
     unsigned short f6;
 } S6DEC;
 
-void func_021F6DEC(S6DEC *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d)
+void BTLV_FIELD_InitEntry(S6DEC *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d)
 {
     p->f0 = 1;
     p->f2 = a;

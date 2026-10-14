@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FDFA0",
+   "name": "BTLV_EFFVM_SetupEmitterCallbacks",
    "address": "0x021FDFA0",
    "kind": "game",
    "region": "ov094",

@@ -152,6 +152,7 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "irc_screen_types.h"
+#include "../ov101/irc_appbar.h"
 
 /* Number of sprite slots the screen reserves (slot 30 stays unused). */
 #define IRC_MENU_SPRITE_COUNT 32
@@ -160,10 +161,8 @@
 /* Number of floating sprites the floater system can run. */
 #define IRC_MENU_FLOATER_MAX 30
 
-struct IrcAppBar;
 struct IrcMenuWork;
 
-/* Parameter block of the menu step; a copy of IrcMenuArgs in ov101 irc_compatible.c. */
 enum {
     IRC_MENU_CHOICE_RUN_TESTS = 0,
     IRC_MENU_CHOICE_HELP = 1,
@@ -176,13 +175,6 @@ enum {
     IRC_MENU_MODE_BACK_FROM_HELP = 2
 };
 
-typedef struct IrcMenuArgs {
-    void *gameSystem;
-    IrcSys *view;
-    int mode;                /* 0 first entry, 1 normal, 2 back from help */
-    int choice;              /* out */
-    IrcCompatibleProfile *profile;
-} IrcMenuArgs;
 
 typedef void (*IrcMenuHandler)(struct IrcMenuWork *work, u16 *state);
 
@@ -267,7 +259,7 @@ typedef struct IrcMenuWork {
     IrcButtons buttons;              /* 0x0C0 */
     IrcScrollEffect scroll;          /* 0x0FC */
     IrcFloaters floaters;            /* 0x118 */
-    struct IrcAppBar *appBar;        /* 0x468 */
+    IrcAppBar *appBar;        /* 0x468 */
     IrcWindow bottomWin;             /* 0x46C */
     IrcMenuHandler handler;          /* 0x480 */
     u16 handlerState;                /* 0x484 */
@@ -292,10 +284,8 @@ extern void *func_020120F4(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_020070A4(void);
 extern void *func_0200A8A0(void *saveControl);
-extern struct IrcAppBar *IRC_APPBAR_Create(u32 unusedArg, void *clactUnit, u16 layer, u16 x, u8 paletteSlot, u32 unusedExtra, void *font, void *printQueue, u16 heapId);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void IRC_APPBAR_Delete(struct IrcAppBar *bar);
 extern void func_020315D4(void *proc);
 extern void func_020306F0(unsigned heapId);
 extern void FADE_Start(u32, int, int, int);
@@ -376,10 +366,6 @@ extern u32 func_0201D304(void *strBuf, void *font, u32 margin);
 extern u32 func_0201D42C(void *strBuf, void *font);
 extern void PRINTSYS_QUE_Clear(void *printQueue);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font, u16 color);
-extern int IRC_APPBAR_GetResult(struct IrcAppBar *bar);
-extern void IRC_APPBAR_Reset(struct IrcAppBar *bar);
-extern void IRC_APPBAR_SetActive(struct IrcAppBar *bar, int enable);
-extern void IRC_APPBAR_SetLabel(struct IrcAppBar *bar, unsigned labelIndex);
 extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepConnectChild(IrcSys *sys);
@@ -399,11 +385,9 @@ extern u32 func_02008530(const u8 *myStatus);
 extern void func_0200ED54(void *saveData, u32 value);
 extern unsigned long long func_020870D0(void);
 extern u32 func_0209C2B0(u32, u32);
-extern int IRC_APPBAR_IsPressed(struct IrcAppBar *bar);
 extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
-extern void IRC_APPBAR_Update(struct IrcAppBar *bar);
 extern void *BUTTON_MAN_Create(u8 *bounds, void (*callback)(u16, int, struct IrcButtons *), struct IrcButtons *userData, u32 heapId);
 extern void *func_02045EC0(void *msgData, u32 msgId);
 extern void GF_FONT_SetTextColor(u32, u32, u32);

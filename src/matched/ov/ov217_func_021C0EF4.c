@@ -1,5 +1,5 @@
 /*
- * function: func_021C0EF4
+ * function: BgTextLabel_Create
  * address: 0x021C0EF4
  * packet: pkt_ov217_021C0EF4
  * region: ov217
@@ -20,7 +20,7 @@ struct Record { struct Config config; u32 a,b,handle,active; };
 extern const char d_021C4058[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap)
+struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap)
 {
     struct Record *p = func_02030734(heap,32,0,d_021C4058,55);
     p->config = *config;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2F34
+ * function: POKETRADE_3D_InitParticleSystems
  * address: 0x021E2F34
  * packet: pkt_ov119_021E2F34
  * region: ov119
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern void PARTICLE_InitManager(u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
-void func_021E2F34(char *p) {
+void POKETRADE_3D_InitParticleSystems(char *p) {
     int i,flag;
     PARTICLE_InitManager(((struct Obj04480 *)p)->fBA);
     ((struct Obj04480 *)p)->fB4=0;

@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BE3C4
+ * function: ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources
  * address:  0x021BE3C4
  * packet:   pkt_ov208_021BE3C4
  * region:   ov208
@@ -17,7 +17,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BD148  0x021BD148  thumb
- *   func_021BD3C0  0x021BD3C0  thumb
+ *   ZKND_TBAR_GetButtonActor  0x021BD3C0  thumb
  *   data_021C8390  0x021C8390  data
  */
 
@@ -93,10 +93,10 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
-extern int func_021BD3C0(void *mgr, int key);
+extern int ZKND_TBAR_GetButtonActor(void *mgr, int key);
 extern struct Ov208ActSrc data_021C8390[];
 
-void ov208_func_021BE3C4(struct Ov208Scene *p)
+void ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(struct Ov208Scene *p)
 {
     struct Ov208ActList list;
     struct Ov208ActDesc descs[1];
@@ -127,5 +127,5 @@ void ov208_func_021BE3C4(struct Ov208Scene *p)
     list.f18 = 2;
     p->mgr = func_021BD148(&list, p->heap);
     for (i = 0; i < p->count; i++)
-        p->slots[i].obj = func_021BD3C0((void *)p->mgr, p->slots[i].src->id);
+        p->slots[i].obj = ZKND_TBAR_GetButtonActor((void *)p->mgr, p->slots[i].src->id);
 }

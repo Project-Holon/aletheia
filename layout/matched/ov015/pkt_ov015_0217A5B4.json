@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217A5B4",
+   "name": "IRCi_WaitCommand",
    "address": "0x0217A5B4",
    "kind": "sdk",
    "region": "ov015",

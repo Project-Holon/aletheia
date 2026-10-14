@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD634
+ * function: ZKND_TBAR_CreateButton
  * address:  0x021BD634
  * packet:   pkt_ov208_021BD634
  * region:   ov208
@@ -25,7 +25,7 @@
  * 2026-10-05 (D4-18): still 8 bytes. Tried: p->f4 as a raw *(u32 *)((u8 *)p + 4) = 1 (same 8 bytes); p->f4 after the pos memset call (16 bytes, r7=1 then lands after the call). Image has movs r7,#1 before the f34 store and the f4 store between the memset argument moves and the blx; no honest statement order produces that.
  *
  * 2026-10-05 (D5-03): still 8 bytes. Re-read: the r7 = 1 is also the second argument of
- *   func_021BD56C(res, 1) (`adds r1, r7, #0`), so it is one value live across the calls; ours has
+ *   ZKND_TBAR_GetResourceSlot(res, 1) (`adds r1, r7, #0`), so it is one value live across the calls; ours has
  *   the same colouring, only the store schedule differs. Tried: MI_CpuClear8-style static inline
  *   wrapper for both clears, one `int one` shared by the f4 store and the 021BD56C argument only,
  *   f4 store in its own block after f34, f34 before the desc copy with f4 after it (23 bytes).
@@ -46,11 +46,11 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_020416D4  0x020416D4  arm
- *   func_021BD56C  0x021BD56C  thumb
+ *   ZKND_TBAR_GetResourceSlot  0x021BD56C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
- *   func_021BD880  0x021BD880  thumb
- *   func_021BD89C  0x021BD89C  thumb
+ *   ZKND_TBAR_PlayCancelAnim  0x021BD880  thumb
+ *   ZKND_TBAR_PlayButtonAnim  0x021BD89C  thumb
  *   data_021C8314  0x021C8314  data
  */
 
@@ -105,14 +105,14 @@ struct Ov208ActObj {
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u8   func_020416D4(u32 layer);
 struct Obj;
-extern int func_021BD56C(int *p, int i);
+extern int ZKND_TBAR_GetResourceSlot(int *p, int i);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void func_021BD880(char *p);
-extern void func_021BD89C(char *p);
+extern void ZKND_TBAR_PlayCancelAnim(char *p);
+extern void ZKND_TBAR_PlayButtonAnim(char *p);
 extern const struct Ov208ActKind data_021C8314[];
 
-void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struct Ov208ActDesc *desc,
+void ZKND_TBAR_CreateButton(struct Ov208ActObj *p, u32 owner, const int *res, struct Ov208ActDesc *desc,
                          u32 prio, u16 mode)
 {
     struct Ov208Pos pos;
@@ -135,9 +135,9 @@ void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struc
         k = desc->he;
         p->f10 = 0;
     } else {
-        i = func_021BD56C((int *)res, 1);
-        j = func_021BD56C((int *)res, 0);
-        k = func_021BD56C((int *)res, 2);
+        i = ZKND_TBAR_GetResourceSlot((int *)res, 1);
+        j = ZKND_TBAR_GetResourceSlot((int *)res, 0);
+        k = ZKND_TBAR_GetResourceSlot((int *)res, 2);
         n = desc->f0;
         p->desc.h10 = data_021C8314[n].a;
         p->desc.h12 = data_021C8314[n].b;
@@ -152,10 +152,10 @@ void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struc
     CLACT_SetActorAutoAnim((struct Obj *)p->f0, 1);
     switch (p->f10) {
     case 0:
-        p->fc = (void (*)(void))func_021BD880;
+        p->fc = (void (*)(void))ZKND_TBAR_PlayCancelAnim;
         break;
     case 1:
-        p->fc = (void (*)(void))func_021BD89C;
+        p->fc = (void (*)(void))ZKND_TBAR_PlayButtonAnim;
         break;
     }
 }

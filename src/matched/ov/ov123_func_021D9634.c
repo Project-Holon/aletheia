@@ -1,5 +1,5 @@
 /*
- * function: func_021D9634
+ * function: PDWACC_MESSAGE_ClearStream
  * address: 0x021D9634
  * packet: pkt_ov123_021D9634
  * region: ov123
@@ -24,4 +24,4 @@ extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021D9634(char *p) { if(((struct Obj03800 *)p)->f90) { TIME_ICON_Delete(((struct Obj03800 *)p)->f90); ((struct Obj03800 *)p)->f90=0; } if(((struct Obj03800 *)p)->f48) { func_0201F7A8(((struct Obj03800 *)p)->f48,2); BMP_WIN_ClearScreen(((struct Obj03800 *)p)->f48); func_02041B6C(5); BMP_WIN_Delete(((struct Obj03800 *)p)->f48); ((struct Obj03800 *)p)->f48=0; } }
+void PDWACC_MESSAGE_ClearStream(char *p) { if(((struct Obj03800 *)p)->f90) { TIME_ICON_Delete(((struct Obj03800 *)p)->f90); ((struct Obj03800 *)p)->f90=0; } if(((struct Obj03800 *)p)->f48) { func_0201F7A8(((struct Obj03800 *)p)->f48,2); BMP_WIN_ClearScreen(((struct Obj03800 *)p)->f48); func_02041B6C(5); BMP_WIN_Delete(((struct Obj03800 *)p)->f48); ((struct Obj03800 *)p)->f48=0; } }

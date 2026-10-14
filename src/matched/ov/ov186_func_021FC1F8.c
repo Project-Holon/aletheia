@@ -1,5 +1,5 @@
 /*
- * function: func_021FC1F8
+ * function: BR_RES_ReleaseUiPalette
  * address:  0x021FC1F8
  * packet:   pkt_021FC1F8
  * region:   ov186
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
 
-void func_021FC1F8(int *p, int i)
+void BR_RES_ReleaseUiPalette(int *p, int i)
 {
     CLACT_ReleasePalette(p[i]);
     p[i] = -1;

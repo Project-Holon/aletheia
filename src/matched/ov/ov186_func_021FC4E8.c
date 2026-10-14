@@ -1,5 +1,5 @@
 /*
- * function: func_021FC4E8
+ * function: BR_GRAPHIC_VBlankTask
  * address:  0x021FC4E8
  * packet:   pkt_021FC4E8
  * region:   ov186
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FC598  0x021FC598  thumb  ov186
- *   func_021FC604  0x021FC604  thumb  ov186
+ *   BR_GRAPHIC_VBlankBg  0x021FC598  thumb  ov186
+ *   BR_GRAPHIC_VBlankActors  0x021FC604  thumb  ov186
  */
 
-extern void func_021FC598(void *);
-extern void func_021FC604(void *);
+extern void BR_GRAPHIC_VBlankBg(void *);
+extern void BR_GRAPHIC_VBlankActors(void *);
 
-void func_021FC4E8(int a0, char *p)
+void BR_GRAPHIC_VBlankTask(int a0, char *p)
 {
-    func_021FC598(p);
-    func_021FC604(p + 4);
+    BR_GRAPHIC_VBlankBg(p);
+    BR_GRAPHIC_VBlankActors(p + 4);
 }

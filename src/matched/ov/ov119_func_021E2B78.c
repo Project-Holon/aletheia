@@ -1,5 +1,5 @@
 /*
- * function: func_021E2B78
+ * function: POKETRADE_SAVE_SetCameraSummary
  * address: 0x021E2B78
  * packet: pkt_ov119_021E2B78
  * region: ov119
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Light;
 extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetTarget(void *,Vec *);
-void func_021E2B78(char *p) {
+void POKETRADE_SAVE_SetCameraSummary(char *p) {
     Vec a;
     Vec b;
     a.x=0; a.y=0x2b000; a.z=0xf1000;

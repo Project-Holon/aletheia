@@ -1,5 +1,5 @@
 /*
- * function: func_02205D34
+ * function: BTLV_INPUT_DeleteStatusIcons
  * address:  0x02205D34
  * packet:   pkt_ov094_02205D34
  * region:   ov094
@@ -18,7 +18,7 @@ typedef struct { char pad[0x210]; E a[2]; } W;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02205D34(W *p)
+void BTLV_INPUT_DeleteStatusIcons(W *p)
 {
     int i;
 

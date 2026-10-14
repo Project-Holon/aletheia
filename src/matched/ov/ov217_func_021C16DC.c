@@ -1,5 +1,5 @@
 /*
- * function: func_021C16DC
+ * function: CircleGraph_QueueCommand
  * address:  0x021C16DC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Word at +0xc forwarded to func_021C0E4C.
+ * Word at +0xc forwarded to RingQueue_Push.
  *
  * symbols:
- *   func_021C0E4C  0x021C0E4C  thumb  ov217
+ *   RingQueue_Push  0x021C0E4C  thumb  ov217
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0E4C(u32, u32);
-void func_021C16DC(u32 *p, u32 a1)
+extern void RingQueue_Push(u32, u32);
+void CircleGraph_QueueCommand(u32 *p, u32 a1)
 {
-    func_021C0E4C(p[3], a1);
+    RingQueue_Push(p[3], a1);
 }
 

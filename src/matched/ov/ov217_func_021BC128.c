@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C0FF8  0x021C0FF8  thumb  ov217
+ *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,13 +25,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C0FF8();
+extern u32 BgTextLabel_SetVisible();
 u32 func_021BC128(u32 a0)
 {
-    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fE4, 1);
-    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fE8, 1);
-    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fEC, 1);
-    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fF0, 1);
-    return func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fF4, 1);
+    BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fE4, 1);
+    BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fE8, 1);
+    BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fEC, 1);
+    BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fF0, 1);
+    return BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fF4, 1);
 }
 

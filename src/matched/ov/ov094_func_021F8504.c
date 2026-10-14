@@ -1,5 +1,5 @@
 /*
- * function: func_021F8504
+ * function: BTLV_EFFECT_TimerSetVisible
  * address:  0x021F8504
  * packet:   pkt_ov094_021F8504
  * region:   ov094
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094  a4
+ *   gBtlvEff     0x0220AF20  data   ov094  a4
  *   BTLV_TIMER_SetVisible  0x022094BC  thumb  ov094
  */
 typedef unsigned int u32;
 
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 typedef unsigned char  u8;
 extern void BTLV_TIMER_SetVisible(u8 *p, int i, int a, int b);
 
-void func_021F8504(u32 a, u32 b, u32 c)
+void BTLV_EFFECT_TimerSetVisible(u32 a, u32 b, u32 c)
 {
-    BTLV_TIMER_SetVisible((u8 *)(*(u32 *)(d_0220AF20 + 0x1B0)), a, b, c);
+    BTLV_TIMER_SetVisible((u8 *)(*(u32 *)(gBtlvEff + 0x1B0)), a, b, c);
 }

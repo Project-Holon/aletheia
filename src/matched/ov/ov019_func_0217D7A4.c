@@ -13,7 +13,7 @@
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   COLOSSEUM_Create  0x02174F4C  thumb  ov012
- *   func_0217EC94  0x0217EC94  thumb  ov019
+ *   UNION_MSG_GetColosseumStartMsg  0x0217EC94  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -49,7 +49,7 @@ typedef struct {
 extern int UNION_ONESELF_CheckNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern int COLOSSEUM_Create(int a, int b, int c, int d);
-extern u16 func_0217EC94(int i);
+extern u16 UNION_MSG_GetColosseumStartMsg(int i);
 typedef unsigned int   u32;
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
@@ -75,7 +75,7 @@ int UNION_ONESELF_ColosseumEnterParentMain(u8 *a, Obj *b, u8 *c, u8 *d)
             func_02034714((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
         p = *(int * *)&((struct Obj09412 *)a)->f0;
         ((struct Obj09412 *)a)->f355C = COLOSSEUM_Create(p[2], p[3], p[0], b->b1);
-        UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EC94(b->f14->b3));
+        UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetColosseumStartMsg(b->f14->b3));
         (*d)++;
         break;
     case 1:

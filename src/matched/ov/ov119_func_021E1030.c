@@ -1,5 +1,5 @@
 /*
- * function: func_021E1030
+ * function: POKETRADE_SAVE_ShowTimeIcon
  * address: 0x021E1030
  * packet: pkt_ov119_021E1030
  * region: ov119
@@ -17,7 +17,7 @@ extern void TIME_ICON_Delete(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
-void func_021E1030(char *p)
+void POKETRADE_SAVE_ShowTimeIcon(char *p)
 {
     if (((struct Obj00001 *)p)->f5F0) {
         TIME_ICON_Delete(((struct Obj00001 *)p)->f5F0);

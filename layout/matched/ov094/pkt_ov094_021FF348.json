@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FF348",
+   "name": "BTLV_MCSS_IsVanished",
    "address": "0x021FF348",
    "kind": "game",
    "region": "ov094",

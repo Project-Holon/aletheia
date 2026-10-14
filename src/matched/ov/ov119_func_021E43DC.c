@@ -1,5 +1,5 @@
 /*
- * function: func_021E43DC
+ * function: POKETRADE_2D_FreeBoxScreenData
  * address: 0x021E43DC
  * packet: pkt_ov119_021E43DC
  * region: ov119
@@ -13,7 +13,7 @@
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E43DC(char *p)
+void POKETRADE_2D_FreeBoxScreenData(char *p)
 {
     if (((struct Obj00001 *)p)->f1174) {
         func_020307B0(((struct Obj00001 *)p)->f1174);

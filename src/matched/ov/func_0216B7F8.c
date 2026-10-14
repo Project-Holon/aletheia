@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdStartResearchReport
+ * function: SCRCMD_RESEARCH_CmdStartResearchReport
  * address:  0x0216B7F8
  * packet:   pkt_0216B7F8
  * region:   ov010
@@ -26,7 +26,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *EVENT_RESEARCH_RADAR_CreateReportTask(void *p);
 extern int SCRIPT_SYS_CallEvent();
 
-int FIELD_G3D_MAP_CmdStartResearchReport(int a0, int a1)
+int SCRCMD_RESEARCH_CmdStartResearchReport(int a0, int a1)
 {    int t5;
     void *p;
     void *v0;

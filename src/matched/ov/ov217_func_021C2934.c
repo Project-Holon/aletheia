@@ -1,5 +1,5 @@
 /*
- * function: func_021C2934
+ * function: PERCENTAGE_Setup
  * address:  0x021C2934
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C2958  0x021C2958  thumb  ov217
- *   func_021C295C  0x021C295C  thumb  ov217
- *   func_021C29B4  0x021C29B4  thumb  ov217
+ *   PERCENTAGE_StoreUnit  0x021C2958  thumb  ov217
+ *   PERCENTAGE_CreateActors  0x021C295C  thumb  ov217
+ *   PERCENTAGE_StoreTemplate  0x021C29B4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,13 +26,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021C2958(void *p, u32 v);
-extern u32 func_021C295C();
-extern void func_021C29B4(void *p, const void *src);
-u32 func_021C2934(u32 a0, u32 a1, u32 a2)
+extern void PERCENTAGE_StoreUnit(void *p, u32 v);
+extern u32 PERCENTAGE_CreateActors();
+extern void PERCENTAGE_StoreTemplate(void *p, const void *src);
+u32 PERCENTAGE_Setup(u32 a0, u32 a1, u32 a2)
 {
-    func_021C2958((void *)a0, a2);
-    func_021C29B4((void *)a0, (const void *)a1);
-    return func_021C295C(a0);
+    PERCENTAGE_StoreUnit((void *)a0, a2);
+    PERCENTAGE_StoreTemplate((void *)a0, (const void *)a1);
+    return PERCENTAGE_CreateActors(a0);
 }
 

@@ -1,7 +1,7 @@
 /*
  * file:     event_gtsnego.c
  * unit:     yes
- * function: EVENT_GTSNEGO_Main, EVENT_GTSNEGO_InitWork, EVENT_GTSNEGO_Create
+ * function: EVENT_GTSNEGO_Main, EVENT_GTSNEGO_InitWork, EVENT_GTSNEGO_Create, EVENT_GTSNEGO_Entry
  * address:  0x021542C0
  * region:   ov001
  * compiler: dsi/1.1p1
@@ -11,6 +11,9 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * Tail-call thunk to EVENT_GTSNEGO_Create, stored as a callback by ov021
+ * SCRCMD_PROC_FLD_CallOv001Event (pool word 0x02154695).
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -172,6 +175,10 @@ int MYSTATUS_GetSize(void);
 u8 *func_02012944(void *gameData);
 void MI_CpuCopy8(u32 src, void *dst, u32 size);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
+void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
+void *EVENT_GTSNEGO_Create(void *gameSystem, int a);
+void *EVENT_GTSNEGO_Entry(void *gameSystem, int a);
 extern char ov115_id[];
 extern char ov120_id[];
 extern char ov119_id[];
@@ -182,9 +189,7 @@ extern char d_021D890C[];
 extern char d_021E759C[];
 extern char d_02208C40[];
 extern char d_021546A0[];
-u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
-void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
-void *EVENT_GTSNEGO_Create(void *gameSystem, int a);
+
 
 
 u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
@@ -326,6 +331,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
 }
 
 
+
 /*
  * Builder: guard + allocator, then a straight slab/field layout.
  * Fills the event work: game system, party for traded Pokemon, status copies
@@ -358,6 +364,7 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
 }
 
 
+
 /*
  * Allocator call with a callback, then a two-argument tail setup; returns the
  * allocator result.
@@ -367,4 +374,11 @@ void *EVENT_GTSNEGO_Create(void *gameSystem, int a)
     void *event = func_020122C0(gameSystem, 0, EVENT_GTSNEGO_Main, 0x3B4);
     EVENT_GTSNEGO_InitWork(event, gameSystem, a, 0);
     return event;
+}
+
+
+/* Overlay entry point: forwards to the event constructor. */
+void *EVENT_GTSNEGO_Entry(void *gameSystem, int a)
+{
+    return EVENT_GTSNEGO_Create(gameSystem, a);
 }

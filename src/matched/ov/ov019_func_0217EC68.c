@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC68
+ * function: UNION_MSG_GetTalkChildOfferMsg
  * address:  0x0217EC68
  * packet:   pkt_ov019_0217EC68
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_0218053C[];
 
-u16 func_0217EC68(int i)
+u16 UNION_MSG_GetTalkChildOfferMsg(int i)
 {
     return d_0218053C[i - 2];
 }

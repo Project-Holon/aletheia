@@ -1,5 +1,5 @@
 /*
- * function: func_021E6F0C
+ * function: POKETRADE_2D_LoadMonPalette
  * address: 0x021E6F0C
  * packet: pkt_ov119_021E6F0C
  * region: ov119
@@ -28,7 +28,7 @@ extern u32 func_020307B0(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02041B6C(u32 bit);
-void func_021E6F0C(char *p, int side, void *mon)
+void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
 {
     void *h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     void *f;

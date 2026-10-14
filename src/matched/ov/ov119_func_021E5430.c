@@ -1,5 +1,5 @@
 /*
- * function: func_021E5430
+ * function: POKETRADE_2D_SetupMainBgs
  * address: 0x021E5430
  * packet: pkt_ov119_021E5430
  * region: ov119
@@ -31,7 +31,7 @@ extern void func_020409B4(u32);
 extern void func_0204044C(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int,u16);
-void func_021E5430(void *a0)
+void POKETRADE_2D_SetupMainBgs(void *a0)
 {
  BgTemplate a,b,c;
  a=d_021E7F24;

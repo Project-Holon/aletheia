@@ -1,5 +1,5 @@
 /*
- * function: func_021DF8E0
+ * function: POKETRADE_NEGO_ResetMarkers
  * address:  0x021DF8E0
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,23 +12,23 @@
  * Reset the two sub-objects and the decoder when in the first state.
  *
  * symbols:
- *   func_021D8AA8  0x021D8AA8  thumb  ov119
- *   func_021E68B4  0x021E68B4  thumb  ov119
- *   func_021E5868  0x021E5868  thumb  ov119
+ *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
+ *   POKETRADE_2D_DeleteMarkerButtonPair  0x021E68B4  thumb  ov119
+ *   POKETRADE_2D_ReleaseMarkerResources  0x021E5868  thumb  ov119
  */
 
-extern int func_021D8AA8(void *p);
-extern void func_021E68B4(int p, int n);
-extern void func_021E5868(char *p);
+extern int POKETRADE_PROC_IsHostSide(void *p);
+extern void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n);
+extern void POKETRADE_2D_ReleaseMarkerResources(char *p);
 
-void func_021DF8E0(void *p)
+void POKETRADE_NEGO_ResetMarkers(void *p)
 {
     int i;
 
-    if (func_021D8AA8(p) == 0)
+    if (POKETRADE_PROC_IsHostSide(p) == 0)
         return;
     for (i = 0; i < 2; i++)
-        func_021E68B4((int)p, i);
-    func_021E5868(p);
+        POKETRADE_2D_DeleteMarkerButtonPair((int)p, i);
+    POKETRADE_2D_ReleaseMarkerResources(p);
 }
 

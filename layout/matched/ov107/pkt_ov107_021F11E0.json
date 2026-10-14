@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F11E0",
-    "func_021F11E8"
+    "MB_COMM_SYS_GetMaxSeen",
+    "MB_COMM_SYS_HasKind0"
+   ],
+   "addresses": [
+    "0x021F11E0",
+    "0x021F11E8"
    ]
   }
  ]

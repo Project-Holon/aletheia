@@ -1,5 +1,5 @@
 /*
- * function: func_021F8BE8
+ * function: WORLDTRADE_ENTER_WaitProfileResult
  * address:  0x021F8BE8
  * packet:   pkt_ov135_021F8BE8
  * region:   ov135
@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `func_021F513C(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.
+ * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `WORLDTRADE_CancelSave(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.
  *
  * symbols:
  *   DPW_TR_Main  0x021C7C1C  arm  ov114
  *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
- *   func_021F4FC4  0x021F4FC4  thumb
- *   func_021F513C  0x021F513C  thumb
- *   func_021F4EC0  0x021F4EC0  thumb
+ *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb
+ *   WORLDTRADE_CancelSave  0x021F513C  thumb
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  */
 
 typedef signed char s8;
@@ -39,11 +39,11 @@ typedef struct {
 extern void DPW_TR_Main(void);
 extern int DPW_TR_IsAsyncEnd(void);
 extern int DPW_TR_GetAsyncResult(void);
-extern void func_021F4FC4(u8 *p);
-extern void func_021F513C(u8 *p);
-extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void WORLDTRADE_DeleteTimeIcon(u8 *p);
+extern void WORLDTRADE_CancelSave(u8 *p);
+extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 
-int func_021F8BE8(Work *p)
+int WORLDTRADE_ENTER_WaitProfileResult(Work *p)
 {
     int code;
 
@@ -57,7 +57,7 @@ int func_021F8BE8(Work *p)
             case 0:
                 switch (p->sub) {
                 case 0:
-                    func_021F4EC0((u8 *)p, 1, 0);
+                    WORLDTRADE_SetStateAndReturn((u8 *)p, 1, 0);
                     return 1;
                 case 3:
                     p->err = -5003;
@@ -69,7 +69,7 @@ int func_021F8BE8(Work *p)
                     p->err = -5001;
                     return 2;
                 }
-                func_021F513C((u8 *)p);
+                WORLDTRADE_CancelSave((u8 *)p);
                 goto done;
             case 1:
                 p->err = -5004;
@@ -78,36 +78,36 @@ int func_021F8BE8(Work *p)
                 p->err = -5005;
                 return 2;
             default:
-                func_021F4FC4((u8 *)p);
+                WORLDTRADE_DeleteTimeIcon((u8 *)p);
                 break;
             }
             break;
         case 1:
-            func_021F4FC4((u8 *)p);
+            WORLDTRADE_DeleteTimeIcon((u8 *)p);
             p->err = code;
             return 2;
         case -1:
         case 2:
-            func_021F4FC4((u8 *)p);
+            WORLDTRADE_DeleteTimeIcon((u8 *)p);
             p->err = code;
             return 2;
         case -15:
         case -12:
-            func_021F4FC4((u8 *)p);
+            WORLDTRADE_DeleteTimeIcon((u8 *)p);
             p->err = code;
             return 2;
         case -14:
         case -2:
-            func_021F4FC4((u8 *)p);
+            WORLDTRADE_DeleteTimeIcon((u8 *)p);
             p->err = code;
             return 2;
         default:
-            func_021F4FC4((u8 *)p);
+            WORLDTRADE_DeleteTimeIcon((u8 *)p);
             break;
         }
-        func_021F513C((u8 *)p);
+        WORLDTRADE_CancelSave((u8 *)p);
     } else if (++p->wait == 0xE10) {
-        func_021F513C((u8 *)p);
+        WORLDTRADE_CancelSave((u8 *)p);
     }
 done:
     return 0;

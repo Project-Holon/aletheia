@@ -1,5 +1,5 @@
 /*
- * function: func_021FFC18
+ * function: WORLDTRADE_SUBLCD_LoadPalette
  * address:  0x021FFC18
  * packet:   pkt_021FFC18
  * region:   ov135
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void DC_FlushRange(void *p, u32 size);
 
-void func_021FFC18(Obj *p)
+void WORLDTRADE_SUBLCD_LoadPalette(Obj *p)
 {
     int i;
 

@@ -63,8 +63,8 @@
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   overlay94 0x0000005E data
- *   func_02202058 0x02202058 thumb ov094
- *   func_022021F4 0x022021F4 thumb ov094
+ *   BTLV_INPUT_CreateDefault 0x02202058 thumb ov094
+ *   BTLV_INPUT_Delete 0x022021F4 thumb ov094
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   func_02034A5C 0x02034A5C arm
@@ -154,8 +154,8 @@ extern int func_02034AC4(int);
 extern void *PALANM_Create(unsigned);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
-extern void func_022021F4(Obj *);
+extern struct Obj *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k);
+extern void BTLV_INPUT_Delete(Obj *);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);
 extern void PALANM_Delete(struct PalAnmSlot *);
 extern void func_02034A5C(int);
@@ -332,11 +332,11 @@ void func_0220B954(unsigned *p)
     PALANM_SetAutoTransfer((void *)p[22],1);
     PALANM_AllocSlotBuffers((void *)p[22],1,480,((struct Obj00174 *)p)->f0);
     PALANM_AllocSlotBuffers((void *)p[22],3,480,((struct Obj00174 *)p)->f0);
-    p[21]=(unsigned)func_02202058((int)((void *)p[8]),0,(int)((void *)p[22]),(int)((void *)p[6]),(int)(p+20),((struct Obj00174 *)p)->f0);
+    p[21]=(unsigned)BTLV_INPUT_CreateDefault((int)((void *)p[8]),0,(int)((void *)p[22]),(int)((void *)p[6]),(int)(p+20),((struct Obj00174 *)p)->f0);
     p[19]=0;
 }
 
 /*
  * lever: pooled FS overlay ID is the overlay94 linker symbol address, as in matched ov207 0220B048; literal 94 compiles as movs.
  */
-void func_0220B9B0(char *p){func_022021F4(*(Obj * *)&((struct Obj01975 *)p)->f54);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,3);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58);*(unsigned *)&((struct Obj01975 *)p)->f58=0;func_02034A5C((int)overlay94);}
+void func_0220B9B0(char *p){BTLV_INPUT_Delete(*(Obj * *)&((struct Obj01975 *)p)->f54);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,3);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58);*(unsigned *)&((struct Obj01975 *)p)->f58=0;func_02034A5C((int)overlay94);}

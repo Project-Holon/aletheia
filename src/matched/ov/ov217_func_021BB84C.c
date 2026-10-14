@@ -14,8 +14,8 @@
  *   func_021BD5E0 0x021BD5E0 thumb ov217
  *   func_021BD56C 0x021BD56C thumb ov217
  *   func_021BD520 0x021BD520 thumb ov217
- *   func_021C09E0 0x021C09E0 thumb ov217
- *   func_021C09EC 0x021C09EC thumb ov217
+ *   RESEARCH_COMMON_StopPaletteAnime 0x021C09E0 thumb ov217
+ *   RESEARCH_COMMON_RestorePaletteAnime 0x021C09EC thumb ov217
  *   func_021BD4CC 0x021BD4CC thumb ov217
  *   func_021BD370 0x021BD370 thumb ov217
  *   func_021BD458 0x021BD458 thumb ov217
@@ -43,8 +43,8 @@ extern void func_021BC688(char *);
 extern void func_021BD5E0(unsigned);
 extern void func_021BD56C(int *);
 extern void func_021BD520(int *);
-extern void func_021C09E0(unsigned);
-extern void func_021C09EC(unsigned);
+extern void RESEARCH_COMMON_StopPaletteAnime(unsigned);
+extern void RESEARCH_COMMON_RestorePaletteAnime(unsigned);
 extern unsigned func_021BD4CC(unsigned);
 extern void func_021BD370(int *);
 extern void func_021BD458(int *);
@@ -71,8 +71,8 @@ void func_021BB84C(u8 *p)
     func_021BD5E0((unsigned)p);
     func_021BD56C((int *)p);
     func_021BD520((int *)p);
-    func_021C09E0(*(unsigned *)p);
-    func_021C09EC(*(unsigned *)p);
+    RESEARCH_COMMON_StopPaletteAnime(*(unsigned *)p);
+    RESEARCH_COMMON_RestorePaletteAnime(*(unsigned *)p);
     func_021BD4CC((unsigned)p);
     func_021BD370((int *)p);
     func_021BD458((int *)p);

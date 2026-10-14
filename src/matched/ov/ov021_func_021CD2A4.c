@@ -23,7 +23,7 @@
  *   func_0200C20C  0x0200C20C  thumb
  *   STRBUF_SetString  0x02045924  arm
  *   EVENT_NAMEIN_Main  0x021CD348  thumb  ov021
- *   d_021DB44C     0x021DB44C  data  a1
+ *   gNameInMaxLength     0x021DB44C  data  a1
  */
 
 typedef unsigned char u8;
@@ -51,7 +51,7 @@ typedef struct {
     u32 f4c;
 } Obj;
 
-extern const u8 d_021DB44C[];
+extern const u8 gNameInMaxLength[];
 struct Big;
 struct BigObj;
 struct Blk34;
@@ -94,7 +94,7 @@ u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d)
     o->f1c = c;
     o->f20 = func_02008550((const struct Sub0200852CObj *)o->f0c);
     o->f44 = o->f08;
-    o->f34 = d_021DB44C[c - 5];
+    o->f34 = gNameInMaxLength[c - 5];
     o->f3c = (u32)STRBUF_Create(o->f34 + 1, o->f48);
     switch (c) {
     case 5:

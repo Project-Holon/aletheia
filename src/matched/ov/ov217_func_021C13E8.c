@@ -1,5 +1,5 @@
 /*
- * function: func_021C13E8
+ * function: CircleGraph_DrawOutline
  * address:  0x021C13E8
  * packet:   pkt_ov217_021C13E8
  * region:   ov217
@@ -16,9 +16,9 @@
  * and i is declared before n (spill slots n@0, i@4).
  *
  * symbols:
- *   func_021C1D28  0x021C1D28  thumb  ov217
- *   func_021C1AB4  0x021C1AB4  thumb  ov217
- *   func_021C1B28  0x021C1B28  thumb  ov217
+ *   CircleGraph_IsAnimatingImpl  0x021C1D28  thumb  ov217
+ *   CircleGraph_GetSlice  0x021C1AB4  thumb  ov217
+ *   CircleGraph_GetPointRange  0x021C1B28  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -36,23 +36,23 @@ struct Cam {
 };
 struct Big { u8 pad[0x1AC]; struct Cam c; };
 
-extern int func_021C1D28(u8 *p);
-extern void *func_021C1AB4(void *p, u32 n);
-extern void func_021C1B28(u8 *e, u8 *a, u8 *b);
+extern int CircleGraph_IsAnimatingImpl(u8 *p);
+extern void *CircleGraph_GetSlice(void *p, u32 n);
+extern void CircleGraph_GetPointRange(u8 *e, u8 *a, u8 *b);
 
-void func_021C13E8(struct Big *p)
+void CircleGraph_DrawOutline(struct Big *p)
 {
     u8 b[2];
     u8 *e;
     int i;
     int n;
 
-    if (func_021C1D28((u8 *)p) == 0) {
+    if (CircleGraph_IsAnimatingImpl((u8 *)p) == 0) {
         *(volatile u32 *)0x040004A4 = 0x001F00C0;
         n = p->c.cnt;
         for (i = 0; i < n; i++) {
-            e = func_021C1AB4((u8 *)p, i);
-            func_021C1B28(e, &b[1], &b[0]);
+            e = CircleGraph_GetSlice((u8 *)p, i);
+            CircleGraph_GetPointRange(e, &b[1], &b[0]);
             if (e[8] >= 3) {
                 s16 px, py, x, y;
                 u32 va, vb;

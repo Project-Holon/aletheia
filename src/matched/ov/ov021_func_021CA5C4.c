@@ -185,7 +185,7 @@
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   FLDEFF_BTRAIN_SetAnime  0x021D024C  thumb  ov021
  *   FLDEFF_BTRAIN_SetHidden  0x021D028C  thumb  ov021
- *   func_021EEE78  0x021EEE78  thumb  ov188
+ *   BATTLE_REC_TOOL_PackSetup  0x021EEE78  thumb  ov188
  *   FIELD_GIMMICK_BSUBWAY_StartTrain  0x021F37C0  thumb  ov052
  *   FIELD_GIMMICK_BSUBWAY_GetTrainEffect  0x021F380C  thumb  ov052
  *   FIELD_GIMMICK_BSUBWAY_HaltTrainSway  0x021F388C  thumb  ov052
@@ -365,7 +365,7 @@ extern void BSUBWAY_SCR_LoadPartyCopy(u8 *w);
 extern int BSUBWAY_SCR_GetMemberNum(u16 kind);
 extern u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id);
 extern void BATTLE_REC_LoadToolOverlay(void);
-extern void func_021EEE78(void *p);
+extern void BATTLE_REC_TOOL_PackSetup(void *p);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void VM_SetWait(char *p, int val);
 extern void BATTLE_REC_FreeWork(void);
@@ -958,7 +958,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 345:
         BATTLE_REC_LoadToolOverlay();
-        func_021EEE78((void *)(*(u32 *)&((struct Obj00335 *)w)->f7CC));
+        BATTLE_REC_TOOL_PackSetup((void *)(*(u32 *)&((struct Obj00335 *)w)->f7CC));
         BATTLE_REC_UnloadToolOverlay();
         break;
     case 346:

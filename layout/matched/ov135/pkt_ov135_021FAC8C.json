@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAC8C",
+   "name": "WORLDTRADE_INPUT_StateWaitFrameIn",
    "address": "0x021FAC8C",
    "kind": "game",
    "region": "ov135",

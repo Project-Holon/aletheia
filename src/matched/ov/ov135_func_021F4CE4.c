@@ -1,5 +1,5 @@
 /*
- * function: func_021F4CE4
+ * function: WORLDTRADE_CloseTaskMenu
  * address: 0x021F4CE4
  * packet: pkt_ov135_021F4CE4
  * region: ov135
@@ -20,4 +20,4 @@ struct TaskMenu;
 struct TaskMenuState;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-void func_021F4CE4(char *p) { if(((struct Obj00045 *)p)->fE08) { APP_TASKMENU_CloseMenu(((struct Obj00045 *)p)->fE08); ((struct Obj00045 *)p)->fE08=0; } if(((struct Obj00045 *)p)->fE04) { APP_TASKMENU_RES_Delete(((struct Obj00045 *)p)->fE04); ((struct Obj00045 *)p)->fE04=0; } }
+void WORLDTRADE_CloseTaskMenu(char *p) { if(((struct Obj00045 *)p)->fE08) { APP_TASKMENU_CloseMenu(((struct Obj00045 *)p)->fE08); ((struct Obj00045 *)p)->fE08=0; } if(((struct Obj00045 *)p)->fE04) { APP_TASKMENU_RES_Delete(((struct Obj00045 *)p)->fE04); ((struct Obj00045 *)p)->fE04=0; } }

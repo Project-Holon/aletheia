@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021C24F0
+ * function: ZUKAN_DETAIL_AREA_SetIconsNormalMode
  * address:  0x021C24F0
  * packet:   pkt_ov208_021C24F0
  * region:   ov208
@@ -23,7 +23,7 @@ struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 
-void ov208_func_021C24F0(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, int key)
 {
     u8 i;
 

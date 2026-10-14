@@ -1,5 +1,5 @@
 /*
- * function: func_021C11D0
+ * function: CircleGraph_GetSliceKey
  * address:  0x021C11D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C1AB4  0x021C1AB4  thumb  ov217
+ *   CircleGraph_GetSlice  0x021C1AB4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_021C1AB4(void *p, u32 n);
+extern void *CircleGraph_GetSlice(void *p, u32 n);
 
-u8 func_021C11D0(u8 *p, u8 n)
+u8 CircleGraph_GetSliceKey(u8 *p, u8 n)
 {
-    return *(u8 *)func_021C1AB4(p, n);
+    return *(u8 *)CircleGraph_GetSlice(p, n);
 }
 
 

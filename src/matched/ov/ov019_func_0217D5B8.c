@@ -27,10 +27,10 @@
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
  *   UNION_COMMAND_SendAppEntry  0x02173D38  thumb  ov012
- *   func_0217EE10  0x0217EE10  thumb  ov019
- *   func_0217EDEC  0x0217EDEC  thumb  ov019
- *   func_0217EE1C  0x0217EE1C  thumb  ov019
- *   func_0217EDF8  0x0217EDF8  thumb  ov019
+ *   UNION_MSG_GetDrawStartMsg  0x0217EE10  thumb  ov019
+ *   UNION_MSG_GetSpinTradeStartMsg  0x0217EDEC  thumb  ov019
+ *   UNION_MSG_GetDrawBusyMsg  0x0217EE1C  thumb  ov019
+ *   UNION_MSG_GetSpinTradeBusyMsg  0x0217EDF8  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
  *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
@@ -79,10 +79,10 @@ extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void UNION_COMM_RequestStart(u8 *a);
 extern int UNION_COMM_IsResetting(u8 *a);
 extern u32 UNION_COMMAND_SendAppEntry(u8 *p);
-extern u16 func_0217EE10(int i);
-extern u16 func_0217EDEC(int i);
-extern u16 func_0217EE1C(int i);
-extern u16 func_0217EDF8(int i);
+extern u16 UNION_MSG_GetDrawStartMsg(int i);
+extern u16 UNION_MSG_GetSpinTradeStartMsg(int i);
+extern u16 UNION_MSG_GetDrawBusyMsg(int i);
+extern u16 UNION_MSG_GetSpinTradeBusyMsg(int i);
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern void UNION_COMM_RequestRestart(u8 *a);
 extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
@@ -151,16 +151,16 @@ int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
         switch (a[0x282B]) {
         case 1:
             if (b->f01 == 0xe)
-                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE10(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetDrawStartMsg(b->f14->b3));
             else
-                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDEC(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetSpinTradeStartMsg(b->f14->b3));
             *d = 3;
             break;
         case 2:
             if (b->f01 == 0xe)
-                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE1C(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetDrawBusyMsg(b->f14->b3));
             else
-                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDF8(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_GetSpinTradeBusyMsg(b->f14->b3));
             UNION_COMM_RequestRestart(a);
             *d = 8;
             break;

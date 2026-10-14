@@ -1,5 +1,5 @@
 /*
- * function: func_021F6AD0
+ * function: BTLV_STAGE_IsAnyLayerArmed
  * address:  0x021F6AD0
  * packet:   pkt_ov094_021F6AD0
  * region:   ov094
@@ -25,7 +25,7 @@ typedef struct {
     Entry *y;           /* 0x0c */
 } Obj;
 
-int func_021F6AD0(Obj *p)
+int BTLV_STAGE_IsAnyLayerArmed(Obj *p)
 {
     int i;
 

@@ -9,47 +9,47 @@
  * status: EXACT
  * volatile: 021DC726 reads hardware DISPCNT 0x04001000 before updating it.
  * symbols:
- *   func_021E64B8 0x021E64B8 thumb ov119
- *   func_021E3230 0x021E3230 thumb ov119
- *   func_021DD588 0x021DD588 thumb ov119
- *   func_021DF8E0 0x021DF8E0 thumb ov119
- *   func_021DD9DC 0x021DD9DC thumb ov119
- *   func_021E4570 0x021E4570 thumb ov119
- *   func_021E36D8 0x021E36D8 thumb ov119
- *   func_021E69A4 0x021E69A4 thumb ov119
- *   func_021DF7D0 0x021DF7D0 thumb ov119
- *   func_021E2680 0x021E2680 thumb ov119
- *   func_021E4888 0x021E4888 thumb ov119
- *   func_021E2438 0x021E2438 thumb ov119
+ *   POKETRADE_2D_DeleteAllOfferIconActors 0x021E64B8 thumb ov119
+ *   POKETRADE_3D_RemoveCurrentUnit 0x021E3230 thumb ov119
+ *   POKETRADE_NEGO_ReleaseIconResources 0x021DD588 thumb ov119
+ *   POKETRADE_NEGO_ResetMarkers 0x021DF8E0 thumb ov119
+ *   POKETRADE_NEGO_DeleteHeaderWindows 0x021DD9DC thumb ov119
+ *   POKETRADE_2D_DeleteBoxWindows 0x021E4570 thumb ov119
+ *   POKETRADE_3D_DeleteMcssSlot 0x021E36D8 thumb ov119
+ *   POKETRADE_2D_DeletePickedIconActor 0x021E69A4 thumb ov119
+ *   POKETRADE_NEGO_UpdateOfferMarkers 0x021DF7D0 thumb ov119
+ *   POKETRADE_SAVE_DeleteOfferListWindows 0x021E2680 thumb ov119
+ *   POKETRADE_2D_DeleteAllBoxIcons 0x021E4888 thumb ov119
+ *   POKETRADE_SAVE_DeleteOfferCardWindow 0x021E2438 thumb ov119
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
- *   func_021E48E0 0x021E48E0 thumb ov119
+ *   POKETRADE_2D_DeleteOfferIcons 0x021E48E0 thumb ov119
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_021E11A8 0x021E11A8 thumb ov119
- *   func_021DD174 0x021DD174 thumb ov119
- *   func_021E293C 0x021E293C thumb ov119
- *   func_021E3F08 0x021E3F08 thumb ov119
- *   func_021E4000 0x021E4000 thumb ov119
- *   func_021E57A4 0x021E57A4 thumb ov119
+ *   POKETRADE_SAVE_DeleteMessageResources 0x021E11A8 thumb ov119
+ *   POKETRADE_NEGO_FreeOfferMons 0x021DD174 thumb ov119
+ *   POKETRADE_SAVE_DeletePartnerOfferCard 0x021E293C thumb ov119
+ *   POKETRADE_2D_FreeBackgroundPalette 0x021E3F08 thumb ov119
+ *   POKETRADE_2D_FreeMainResources 0x021E4000 thumb ov119
+ *   POKETRADE_2D_ExitSubBgs 0x021E57A4 thumb ov119
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10357.h"
 typedef unsigned char  u8;
 struct Bank;
-extern void func_021E64B8(void *);
-extern void func_021E3230(void *);
-extern void func_021DD588(char *p);
-extern void func_021DF8E0(void *);
-extern void func_021E4570(char *p);
-extern void func_021DD9DC(unsigned char *),func_021E36D8(void *,int),func_021E69A4(char *),func_021DF7D0(void *),func_021E2680(char *),func_021E4888(char *),func_021E2438(char *,int);
+extern void POKETRADE_2D_DeleteAllOfferIconActors(void *);
+extern void POKETRADE_3D_RemoveCurrentUnit(void *);
+extern void POKETRADE_NEGO_ReleaseIconResources(char *p);
+extern void POKETRADE_NEGO_ResetMarkers(void *);
+extern void POKETRADE_2D_DeleteBoxWindows(char *p);
+extern void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *),POKETRADE_3D_DeleteMcssSlot(void *,int),POKETRADE_2D_DeletePickedIconActor(char *),POKETRADE_NEGO_UpdateOfferMarkers(void *),POKETRADE_SAVE_DeleteOfferListWindows(char *),POKETRADE_2D_DeleteAllBoxIcons(char *),POKETRADE_SAVE_DeleteOfferCardWindow(char *,int);
 extern void TOUCHBAR_Delete(u8 *p);
-extern void func_021E48E0(char *);
+extern void POKETRADE_2D_DeleteOfferIcons(char *);
 extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
-extern void func_021E11A8(char *);
-extern void func_021DD174(char *);
-extern void func_021E293C(char *p, int i);
-extern void func_021E3F08(char *);
-extern void func_021E4000(char *);
-extern void func_021E57A4(int);
+extern void POKETRADE_SAVE_DeleteMessageResources(char *);
+extern void POKETRADE_NEGO_FreeOfferMons(char *);
+extern void POKETRADE_SAVE_DeletePartnerOfferCard(char *p, int i);
+extern void POKETRADE_2D_FreeBackgroundPalette(char *);
+extern void POKETRADE_2D_FreeMainResources(char *);
+extern void POKETRADE_2D_ExitSubBgs(int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 #define P(o) (*(void **)(p+(o)))
@@ -57,14 +57,14 @@ void func_021DC720(char *p)
 {
     int i;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_021E64B8(p);func_021E3230(p);func_021DD588(p);func_021DF8E0(p);func_021DD9DC((unsigned char *)p);func_021E4570(p);
-    func_021E36D8(p,1);func_021E69A4(p);func_021DF7D0(p);func_021E2680(p);func_021E4888(p);
-    func_021E2438(p,0);func_021E2438(p,1);
+    POKETRADE_2D_DeleteAllOfferIconActors(p);POKETRADE_3D_RemoveCurrentUnit(p);POKETRADE_NEGO_ReleaseIconResources(p);POKETRADE_NEGO_ResetMarkers(p);POKETRADE_NEGO_DeleteHeaderWindows((unsigned char *)p);POKETRADE_2D_DeleteBoxWindows(p);
+    POKETRADE_3D_DeleteMcssSlot(p,1);POKETRADE_2D_DeletePickedIconActor(p);POKETRADE_NEGO_UpdateOfferMarkers(p);POKETRADE_SAVE_DeleteOfferListWindows(p);POKETRADE_2D_DeleteAllBoxIcons(p);
+    POKETRADE_SAVE_DeleteOfferCardWindow(p,0);POKETRADE_SAVE_DeleteOfferCardWindow(p,1);
     if(P(0x9c0)) {TOUCHBAR_Delete(P(0x9c0));P(0x9c0)=0;}
-    func_021E48E0(p);
+    POKETRADE_2D_DeleteOfferIcons(p);
     if(P(0x9c4)) {CLACT_DeleteUnit(P(0x9c4));P(0x9c4)=0;}
-    func_021E11A8(p);func_021DD174(p);
-    func_021E293C(p,0);func_021E293C(p,1);func_021E3F08(p);func_021E4000(p);func_021E57A4((int)p);
+    POKETRADE_SAVE_DeleteMessageResources(p);POKETRADE_NEGO_FreeOfferMons(p);
+    POKETRADE_SAVE_DeletePartnerOfferCard(p,0);POKETRADE_SAVE_DeletePartnerOfferCard(p,1);POKETRADE_2D_FreeBackgroundPalette(p);POKETRADE_2D_FreeMainResources(p);POKETRADE_2D_ExitSubBgs((int)p);
     if(P(0x818)) {func_020307B0(P(0x818));P(0x818)=0;}
     for(i=0;i<4;i++) {
         char *q=p+i*4;

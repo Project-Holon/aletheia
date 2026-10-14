@@ -1,5 +1,5 @@
 /*
- * function: func_021FFE48
+ * function: BTLV_MCSS_RefreshSpriteFromParty
  * address:  0x021FFE48
  * packet:   pkt_ov094_021FFE48
  * region:   ov094
@@ -14,7 +14,7 @@
  *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   func_02019C90  0x02019C90  thumb
  *   func_0202D034  0x0202D034  thumb
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,15 +40,15 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_IsShiny(void *p);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_0202D034(u32 a, u32 b);
 
-void func_021FFE48(Work *w, int key, void *p)
+void BTLV_MCSS_RefreshSpriteFromParty(Work *w, int key, void *p)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;

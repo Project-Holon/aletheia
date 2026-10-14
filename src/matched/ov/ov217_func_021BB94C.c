@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021BB978  0x021BB978  thumb  ov217
- *   func_021C0E54  0x021C0E54  thumb  ov217
- *   func_021C0E64  0x021C0E64  thumb  ov217
+ *   RingQueue_Pop  0x021C0E54  thumb  ov217
+ *   RingQueue_IsEmpty  0x021C0E64  thumb  ov217
  *
  * Same guard shape as 021BA158 on the +0x158 word, handing the +0x18
  * handle to func_021BB978.
@@ -30,13 +30,13 @@ typedef signed int     s32;
 
 struct Ring;
 extern int func_021BB978(char *p, int a1);
-extern u32 func_021C0E54(struct Ring *r);
-extern u32 func_021C0E64();
+extern u32 RingQueue_Pop(struct Ring *r);
+extern u32 RingQueue_IsEmpty();
 void func_021BB94C(u32 a0)
 {
     if (((struct Obj00025 *)(((u8*)a0)))->f158 != 0) {
-    if (func_021C0E64(((struct Obj00025 *)(((u8*)a0)))->f18) == 0) {
-    func_021BB978((char *)a0, func_021C0E54((struct Ring *)(((struct Obj00025 *)(((u8*)a0)))->f18)));
+    if (RingQueue_IsEmpty(((struct Obj00025 *)(((u8*)a0)))->f18) == 0) {
+    func_021BB978((char *)a0, RingQueue_Pop((struct Ring *)(((struct Obj00025 *)(((u8*)a0)))->f18)));
     }
     }
 }

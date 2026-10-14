@@ -1,5 +1,5 @@
 /*
- * function: func_021D916C
+ * function: POKETRADE_PROC_RecvPlayerFlag
  * address: 0x021D916C
  * packet: pkt_ov119_021D916C
  * region: ov119
@@ -17,7 +17,7 @@ struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-void func_021D916C(u32 a, u32 b, u8 *src, u8 *base, void *e)
+void POKETRADE_PROC_RecvPlayerFlag(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle())
         *(u32 *)(base + a * 4 + 0x5e4) = *src;

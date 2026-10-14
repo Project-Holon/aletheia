@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0)) to func_021C09B4.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0)) to RESEARCH_COMMON_GetAppResource.
  *
  * symbols:
- *   func_021C09B4  0x021C09B4  thumb  ov217
+ *   RESEARCH_COMMON_GetAppResource  0x021C09B4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_021C09B4(void *p);
+extern u32 RESEARCH_COMMON_GetAppResource(void *p);
 
 u32 func_021BC628(u8 *a0)
 {
-    return func_021C09B4((void *)((u32)(((struct Obj25866 *)a0)->f0)));
+    return RESEARCH_COMMON_GetAppResource((void *)((u32)(((struct Obj25866 *)a0)->f0)));
 }
 

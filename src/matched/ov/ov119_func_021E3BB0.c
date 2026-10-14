@@ -1,5 +1,5 @@
 /*
- * function: func_021E3BB0
+ * function: POKETRADE_3D_FadeTexturePalette
  * address: 0x021E3BB0
  * packet: pkt_ov119_021E3BB0
  * region: ov119
@@ -16,7 +16,7 @@
 extern void func_0207FA0C(void);
 extern void func_0207FA40(const void *, int, int);
 extern void func_0207FADC(void);
-void func_021E3BB0(char *p)
+void POKETRADE_3D_FadeTexturePalette(char *p)
 {
     int i;
     int j;

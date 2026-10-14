@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F116C",
+   "name": "MB_COMM_SYS_GetKind21Value",
    "address": "0x021F116C",
    "kind": "game",
    "region": "ov107",

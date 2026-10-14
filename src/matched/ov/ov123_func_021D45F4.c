@@ -1,5 +1,5 @@
 /*
- * function: func_021D45F4
+ * function: GSYNC_MENU_CreateButtonWindows
  * address:  0x021D45F4
  * packet:   pkt_ov123_021D45F4
  * region:   ov123
@@ -80,7 +80,7 @@ typedef struct {
     int n;
 } Own;
 
-void func_021D45F4(int count, u32 *tbl, Own *owner, Rec *recs, u32 *xs, u32 *ys)
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *tbl, Own *owner, Rec *recs, u32 *xs, u32 *ys)
 {
     int i;
     int j;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FE930
+ * function: BTLV_EFFVM_MultiPokeTaskMain
  * address:  0x021FE930
  * packet:   pkt_ov094_021FE930
  * region:   ov094
@@ -15,13 +15,13 @@
  * `b` and hoists r7/r4 in the other order.
  *
  * symbols:
- *   func_021F7F1C  0x021F7F1C  thumb  ov094
- *   func_021F8694  0x021F8694  thumb  ov094
- *   func_021FFCB0  0x021FFCB0  thumb  ov094
- *   func_021F935C  0x021F935C  thumb  ov094
- *   func_021FF304  0x021FF304  thumb  ov094
- *   func_021FF470  0x021FF470  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded  0x021F7F1C  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
+ *   BTLV_MCSS_IsSpriteBusy  0x021FFCB0  thumb  ov094
+ *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
+ *   BTLV_MCSS_SetAnimStopMode  0x021FF304  thumb  ov094
+ *   BTLV_MCSS_SetShadowVanish  0x021FF470  thumb  ov094
+ *   BTLV_EFFECT_DeleteTask  0x021F89BC  thumb  ov094
  */
 typedef struct {
     int pad0;
@@ -29,15 +29,15 @@ typedef struct {
     int mask;
 } Arg;
 
-extern int func_021F7F1C(int i);
-extern int func_021F8694(void);
-extern int func_021FFCB0(char *p, int key);
-extern int func_021F935C(int x);
-extern void func_021FF304(char *p, int key, int mode);
-extern void func_021FF470(char *p, int key, void *v);
-extern void func_021F89BC(void *h);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
+extern int BTLV_EFFECT_GetMcss(void);
+extern int BTLV_MCSS_IsSpriteBusy(char *p, int key);
+extern int BTLV_EFFECT_GetBitMask(int x);
+extern void BTLV_MCSS_SetAnimStopMode(char *p, int key, int mode);
+extern void BTLV_MCSS_SetShadowVanish(char *p, int key, void *v);
+extern void BTLV_EFFECT_DeleteTask(void *h);
 
-void func_021FE930(void *h, Arg *a)
+void BTLV_EFFVM_MultiPokeTaskMain(void *h, Arg *a)
 {
     int i = 1;
     int want;
@@ -49,19 +49,19 @@ void func_021FE930(void *h, Arg *a)
     else
         want = 0x55;
     while (i <= 7) {
-        if (func_021F7F1C(i)) {
-            if (func_021FFCB0((char *)func_021F8694(), i) == 0) {
-                if ((func_021F935C(i) & a->mask) == 0) {
-                    func_021FF304((char *)func_021F8694(), i, 0);
-                    func_021FF470((char *)func_021F8694(), i, 0);
-                    a->mask |= func_021F935C(i);
+        if (BTLV_EFFECT_IsPokeSpriteLoaded(i)) {
+            if (BTLV_MCSS_IsSpriteBusy((char *)BTLV_EFFECT_GetMcss(), i) == 0) {
+                if ((BTLV_EFFECT_GetBitMask(i) & a->mask) == 0) {
+                    BTLV_MCSS_SetAnimStopMode((char *)BTLV_EFFECT_GetMcss(), i, 0);
+                    BTLV_MCSS_SetShadowVanish((char *)BTLV_EFFECT_GetMcss(), i, 0);
+                    a->mask |= BTLV_EFFECT_GetBitMask(i);
                 }
             }
         } else {
-            a->mask |= func_021F935C(i);
+            a->mask |= BTLV_EFFECT_GetBitMask(i);
         }
         i += 2;
     }
     if (want == a->mask)
-        func_021F89BC(h);
+        BTLV_EFFECT_DeleteTask(h);
 }

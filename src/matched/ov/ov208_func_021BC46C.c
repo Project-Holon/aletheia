@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BC46C
+ * function: ZUKAN_DETAIL_COMMON_UpdateBlendFades
  * address:  0x021BC46C
  * packet:   pkt_ov208_021BC46C
  * region:   ov208
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC520  0x021BC520  thumb
+ *   ZUKAN_DETAIL_COMMON_ApplyBrightness  0x021BC520  thumb
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ struct Ov208Blend {
     int wait;
 };
 
-extern void func_021BC520(int flag, int *p);
+extern void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, int *p);
 
-void ov208_func_021BC46C(struct Ov208Blend *main, struct Ov208Blend *sub)
+void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208Blend *sub)
 {
     struct Ov208Blend *b[2];
     struct Ov208Blend *p;
@@ -48,7 +48,7 @@ void ov208_func_021BC46C(struct Ov208Blend *main, struct Ov208Blend *sub)
                     p->ev = 0;
                     p->step = 0;
                 }
-                func_021BC520(i, (int *)p);
+                ZUKAN_DETAIL_COMMON_ApplyBrightness(i, (int *)p);
             } else {
                 p->wait--;
             }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD1C0
+ * function: BTLV_EFFVM_GetEmitterHandle
  * address:  0x021FD1C0
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FD1C0   0x021FD1C0  thumb
+ *   BTLV_EFFVM_GetEmitterHandle   0x021FD1C0  thumb
  *
  * lane O10 candidate
  */
 
-int func_021FD1C0(char *p, int i)
+int BTLV_EFFVM_GetEmitterHandle(char *p, int i)
 {
     return *(int *)(p + i * 4 + 0x8c);
 }

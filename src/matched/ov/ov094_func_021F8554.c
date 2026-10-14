@@ -1,5 +1,5 @@
 /*
- * function: func_021F8554
+ * function: BTLV_EFFECT_StartCameraMove
  * address:  0x021F8554
  * packet:   pkt_ov094_021F8554
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
- *   func_021F8628  0x021F8628  thumb  ov094
- *   func_021F6EDC  0x021F6EDC  thumb  ov094
- *   func_021F6F48  0x021F6F48  thumb  ov094
- *   func_021F7998  0x021F7998  thumb  ov094
+ *   gBtlvEff     0x0220AF20  data   ov094
+ *   BTLV_EFFECT_GetPokeSpriteCameraTarget  0x021F8628  thumb  ov094
+ *   BTLV_CAMERA_SetEyeAndTarget  0x021F6EDC  thumb  ov094
+ *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
+ *   BTLV_EFFECT_StartEffect  0x021F7998  thumb  ov094
  */
 typedef unsigned int u32;
 typedef struct { int x, y, z; } VecFx32;
@@ -26,52 +26,52 @@ typedef struct {
     int mode;           /* 0x1BC */
 } Work;
 
-extern Work *d_0220AF20;
+extern Work *gBtlvEff;
 
-extern void func_021F8628(u32 a, int *out, int *p);
-extern void func_021F6EDC(int *p, int *a, int *b);
-extern void func_021F6F48(void *cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
-extern void func_021F7998(u32 a);
+extern void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 a, int *out, int *p);
+extern void BTLV_CAMERA_SetEyeAndTarget(int *p, int *a, int *b);
+extern void BTLV_CAMERA_StartMove(void *cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
+extern void BTLV_EFFECT_StartEffect(u32 a);
 
-void func_021F8554(u32 flags, int kind, int n, int s, int t)
+void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t)
 {
     VecFx32 a;
     VecFx32 b;
 
     if (flags & 1) {
-        func_021F8628(flags, (int *)(&a), (int *)(&b));
+        BTLV_EFFECT_GetPokeSpriteCameraTarget(flags, (int *)(&a), (int *)(&b));
         switch (kind) {
         case 0:
-            func_021F6EDC(d_0220AF20->cam, (int *)(&a), (int *)(&b));
+            BTLV_CAMERA_SetEyeAndTarget(gBtlvEff->cam, (int *)(&a), (int *)(&b));
             break;
         case 1:
-            func_021F6F48(d_0220AF20->cam, &a, &b, n, s, t);
+            BTLV_CAMERA_StartMove(gBtlvEff->cam, &a, &b, n, s, t);
             break;
         }
         return;
     }
-    switch (d_0220AF20->mode) {
+    switch (gBtlvEff->mode) {
     case 0:
-        func_021F7998(0x23F);
+        BTLV_EFFECT_StartEffect(0x23F);
         break;
     case 1:
         if (flags == 2) {
-            func_021F7998(0x240);
+            BTLV_EFFECT_StartEffect(0x240);
         } else {
-            func_021F7998(0x241);
+            BTLV_EFFECT_StartEffect(0x241);
         }
         break;
     case 2:
         if (flags == 2) {
-            func_021F7998(0x242);
+            BTLV_EFFECT_StartEffect(0x242);
         } else if (flags == 4) {
-            func_021F7998(0x23F);
+            BTLV_EFFECT_StartEffect(0x23F);
         } else {
-            func_021F7998(0x243);
+            BTLV_EFFECT_StartEffect(0x243);
         }
         break;
     case 3:
-        func_021F7998(0x245);
+        BTLV_EFFECT_StartEffect(0x245);
         break;
     }
 }

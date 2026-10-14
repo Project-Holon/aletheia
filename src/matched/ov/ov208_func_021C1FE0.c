@@ -1,5 +1,5 @@
 /*
- * function: func_021C1FE0
+ * function: ZUKAN_DETAIL_AREA_BeginHideOverlay
  * address: 0x021C1FE0
  * packet: pkt_ov208_021C1FE0
  * region: ov208
@@ -15,8 +15,8 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021C0C8C 0x021C0C8C thumb ov208
- *   func_021C1D30 0x021C1D30 thumb ov208
- *   func_021C2238 0x021C2238 thumb ov208
+ *   ZUKAN_DETAIL_AREA_DrawTownName 0x021C1D30 thumb ov208
+ *   ZUKAN_DETAIL_AREA_UpdateTerrainIcons 0x021C2238 thumb ov208
  */
 #include "../include/Obj00081.h"
 typedef unsigned char u8;
@@ -32,9 +32,9 @@ extern void BMP_Clear(struct CharBuf *, u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern void func_021C0C8C(u16 *, u8 *, int, int);
-extern void func_021C1D30(u16 *, u8 *, int);
-extern void func_021C2238(u16 *, u8 *, int);
-void func_021C1FE0(u16 *heap, u8 *p, int key)
+extern void ZUKAN_DETAIL_AREA_DrawTownName(u16 *, u8 *, int);
+extern void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *, u8 *, int);
+void ZUKAN_DETAIL_AREA_BeginHideOverlay(u16 *heap, u8 *p, int key)
 {
     u8 i;
     if (CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct Obj00081 *)p)->fC8)) {
@@ -52,8 +52,8 @@ void func_021C1FE0(u16 *heap, u8 *p, int key)
             p[0x79] = 255;
             CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00081 *)p)->fCC, 0);
             CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00081 *)p)->fD0, 0);
-            func_021C1D30(heap, p, key);
-            func_021C2238(heap, p, key);
+            ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
+            ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
         }
     }
 }

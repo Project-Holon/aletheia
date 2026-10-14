@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0B8
+ * function: COMM_TVT_SYS_ToggleViewSwapped
  * address:  0x021BE0B8
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE0B8(void *p)
+void COMM_TVT_SYS_ToggleViewSwapped(void *p)
 {
     u32 v = ((struct Obj14311 *)p)->f24;
     if (v == 0) {

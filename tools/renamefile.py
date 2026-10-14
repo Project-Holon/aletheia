@@ -112,6 +112,35 @@ def wr(rel, text):
         f.write(text)
 
 
+def read_bytes(rel):
+    try:
+        with open(os.path.join(ROOT, rel), 'rb') as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+def rollback(snap, wrote):
+    """Restore every snapshotted file; a file edited by someone else after our write is left and reported."""
+    for rel, orig in snap.items():
+        p = os.path.join(ROOT, rel)
+        cur = read_bytes(rel)
+        if rel in wrote and cur is not None and cur != wrote[rel]:
+            print('rollback: %s changed after our write, left as is' % rel)
+            continue
+        if orig is None:
+            if cur is not None:
+                os.remove(p)
+            continue
+        if cur == orig:
+            continue
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        tmp = p + '.rollback.%d' % os.getpid()
+        with open(tmp, 'wb') as f:
+            f.write(orig)
+        os.replace(tmp, p)
+
+
 def norm(p):
     p = p.strip().replace('\\', '/')
     if os.path.isabs(p):
@@ -330,7 +359,7 @@ def check_contiguous(g):
 def note_lines(text):
     """Free-text lines of the header comment (no key lines, symbols, Merged by line)."""
     hd = header_of(text)
-    out, in_sym = [], False
+    out, in_sym, after_key = [], False, False
     for line in hd.split('\n')[1:-1] if hd else []:
         if re.match(r'^\s*\*\s*symbols:\s*$', line):
             in_sym = True
@@ -339,7 +368,13 @@ def note_lines(text):
             if re.match(r'^\s*\*\s+\S+\s+0x[0-9A-Fa-f]{8}\b', line) or re.match(r'^\s*\*\s*$', line):
                 continue
             in_sym = False
-        if KEY_LINE.match(line) or re.match(r'^\s*\*\s*$', line) or 'Merged by tools/restructure.py' in line:
+        if KEY_LINE.match(line):
+            after_key = True
+            continue
+        if after_key and re.match(r'^\s*\*\s{3,}\S', line):
+            continue                    # wrapped continuation of a key line (a long function: list)
+        after_key = False
+        if re.match(r'^\s*\*\s*$', line) or 'Merged by tools/restructure.py' in line:
             continue
         out.append(line.rstrip())
     return out
@@ -498,7 +533,49 @@ def all_text_files(roots):
                 yield os.path.relpath(os.path.join(dp, f), ROOT).replace(os.sep, '/')
 
 
+def selftest():
+    """Rename two files with --apply --verify while a stub gameverify fails: the tree must come back
+    exactly (member files restored, new file gone, include edit in a third file undone)."""
+    import shutil
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix='renamefile_selftest_')
+    try:
+        tools = os.path.join(tmp, 'tools')
+        os.makedirs(tools)
+        shutil.copy(os.path.abspath(__file__), tools)
+        for name, rc in (('gameverify.py', 1), ('gamecheck.py', 0), ('gamelink.py', 0)):
+            with open(os.path.join(tools, name), 'w', newline='') as f:
+                f.write('import sys' + chr(10) + 'sys.exit(%d)' % rc + chr(10))
+        d = os.path.join(tmp, 'src', 'game', 'ov001')
+        os.makedirs(d)
+        files = {}
+        for stem, addr in (('unit_02000000', '0x02000000'), ('unit_02000100', '0x02000100')):
+            files[stem + '.c'] = ('/*' + chr(10) + ' * file:     %s.c' + chr(10) + ' * unit:     yes' + chr(10) + ' * function: f_%s' + chr(10)
+                                  + ' * address:  %s' + chr(10) + ' * region:   ov001' + chr(10) + ' * status:   EXACT' + chr(10) + ' */' + chr(10)
+                                  + 'void f_%s(void) {}' + chr(10)) % (stem, stem, addr, stem)
+        files['user.c'] = '#include "unit_02000000.c"' + chr(10)
+        for n, t in files.items():
+            with open(os.path.join(d, n), 'w', newline='') as f:
+                f.write(t)
+        tbl = os.path.join(tmp, 'rename.tsv')
+        with open(tbl, 'w', newline='') as f:
+            f.write('ov001/unit_02000000.c' + chr(9) + 'ov001/field_a.c' + chr(10))
+        r = subprocess.run([sys.executable, os.path.join(tools, 'renamefile.py'), tbl, '--apply', '--verify'],
+                           capture_output=True, text=True)
+        now = {n: open(os.path.join(d, n), newline='').read() for n in os.listdir(d)}
+        ok = (r.returncode != 0 and now == files and 'applied' in r.stdout and 'RENAME' in r.stdout
+              and 'rolled back' in r.stdout and 'VERIFY FAILED' in r.stdout)
+        print('renamefile selftest:', 'PASS' if ok else 'FAIL', '(exit %d)' % r.returncode)
+        if not ok:
+            print(r.stdout[-800:], r.stderr[-800:], sorted(now))
+        return 0 if ok else 1
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def main():
+    if sys.argv[1:] == ['--selftest']:
+        sys.exit(selftest())
     ap = argparse.ArgumentParser(description='rename and merge src/game .c files (see the top of this file)')
     ap.add_argument('table')
     ap.add_argument('--dry-run', action='store_true')
@@ -677,16 +754,27 @@ def main():
     if a.dry_run:
         return
 
-    # apply: write new, then remove old
-    for rel, text in writes.items():
-        wr(rel, text)
-    for rel in deletes:
-        if rel in writes:
-            continue
-        try:
-            os.remove(os.path.join(ROOT, rel))
-        except FileNotFoundError:
-            pass
+    # apply: write new, then remove old. Every touched file is snapshotted first so a
+    # failed --verify/--link can put the tree back exactly as it was.
+    snap = {}                                   # rel -> original bytes, or None (did not exist)
+    for rel in list(writes) + deletes:
+        if rel not in snap:
+            snap[rel] = read_bytes(rel)
+    wrote = {}                                  # rel -> bytes we wrote (to spot a later edit by someone else)
+    try:
+        for rel, text in writes.items():
+            wr(rel, text)
+            wrote[rel] = read_bytes(rel)
+        for rel in deletes:
+            if rel in writes:
+                continue
+            try:
+                os.remove(os.path.join(ROOT, rel))
+            except FileNotFoundError:
+                pass
+    except BaseException:
+        rollback(snap, wrote)
+        raise
     if a.log:
         with open(a.log, 'a', encoding='utf-8', newline='\n') as f:
             for e in edits:
@@ -696,21 +784,36 @@ def main():
 
     if a.verify:
         rc = 0
+        failed_checks = []
         news = [g.new for g in groups]
         for i in range(0, len(news), 20):
             cmd = [sys.executable, os.path.join(HERE, 'gameverify.py')]
             for n in news[i:i + 20]:
                 cmd += ['--file', os.path.join(ROOT, n)]
             print('$ gameverify --file x%d' % len(news[i:i + 20]), flush=True)
-            rc |= subprocess.call(cmd, cwd=ROOT)
+            r = subprocess.call(cmd, cwd=ROOT)
+            if r:
+                failed_checks.append('gameverify (files %d-%d)' % (i + 1, i + len(news[i:i + 20])))
+            rc |= r
         for d in sorted({os.path.basename(os.path.dirname(n)) for n in news}):
             print('$ gamecheck --region %s' % d, flush=True)
-            rc |= subprocess.call([sys.executable, os.path.join(HERE, 'gamecheck.py'), '--region', d], cwd=ROOT)
+            r = subprocess.call([sys.executable, os.path.join(HERE, 'gamecheck.py'), '--region', d], cwd=ROOT)
+            if r:
+                failed_checks.append('gamecheck --region %s' % d)
+            rc |= r
             if a.link:
                 reg = ('arm9_main' if d == 'arm9' else 'itcm' if d.startswith('arm9_autoload0') else str(int(d[2:])))
                 print('$ gamelink %s' % reg, flush=True)
-                rc |= subprocess.call([sys.executable, os.path.join(HERE, 'gamelink.py'), reg], cwd=ROOT)
-        sys.exit(1 if rc else 0)
+                r = subprocess.call([sys.executable, os.path.join(HERE, 'gamelink.py'), reg], cwd=ROOT)
+                if r:
+                    failed_checks.append('gamelink %s' % reg)
+                rc |= r
+        if rc:
+            print('VERIFY FAILED: ' + '; '.join(failed_checks))
+            rollback(snap, wrote)
+            print('rolled back: the member files are restored and the new files are removed')
+            sys.exit(1)
+        sys.exit(0)
 
 
 if __name__ == '__main__':

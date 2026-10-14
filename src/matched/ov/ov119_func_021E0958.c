@@ -1,5 +1,5 @@
 /*
- * function: func_021E0958
+ * function: POKETRADE_SAVE_StepWaitEvolutionMessage
  * address: 0x021E0958
  * packet: pkt_ov119_021E0958
  * region: ov119
@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E12AC 0x021E12AC thumb ov119
- *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_021E0A64 0x021E0A64 thumb ov119
+ *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
+ *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
+ *   POKETRADE_SAVE_StepCheckEvolution 0x021E0A64 thumb ov119
  */
 #include "../include/Obj22759.h"
-extern int func_021E12AC(char *p);
-extern void func_021D8E84(void *, int);
-extern void func_021E0A64(char *p);
-void func_021E0958(char *p)
+extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
+extern void POKETRADE_PROC_SetStep(void *, int);
+extern void POKETRADE_SAVE_StepCheckEvolution(char *p);
+void POKETRADE_SAVE_StepWaitEvolutionMessage(char *p)
 {
-    if (func_021E12AC(p) && ((struct Obj22759 *)p)->fF2C > 0xB4) {
-        func_021D8E84(p, (int)func_021E0A64);
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) && ((struct Obj22759 *)p)->fF2C > 0xB4) {
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_SAVE_StepCheckEvolution);
     }
 }

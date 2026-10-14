@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D14
+ * function: RESEARCH_COMMON_BindPaletteAnime
  * address:  0x021C0D14
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C29E8  0x021C29E8  thumb  ov217
+ *   PALETTE_ANIME_Bind  0x021C29E8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C29E8();
-u32 func_021C0D14(u8 *a0)
+extern u32 PALETTE_ANIME_Bind();
+u32 RESEARCH_COMMON_BindPaletteAnime(u8 *a0)
 {
-    return func_021C29E8(((struct Obj25994 *)(((u8*)a0)))->f2C, *(u32*)(((u8*)0x21C3F50)), *(u32*)(((u8*)0x21C3F50) + 4), *(u8*)(((u8*)0x21C3F50) + 8));
+    return PALETTE_ANIME_Bind(((struct Obj25994 *)(((u8*)a0)))->f2C, *(u32*)(((u8*)0x21C3F50)), *(u32*)(((u8*)0x21C3F50) + 4), *(u8*)(((u8*)0x21C3F50) + 8));
 }
 

@@ -13,7 +13,7 @@
  *   func_021E5D40   0x021E5D40  thumb
  *   func_021E89D0   0x021E89D0  thumb
  *   func_021E8A00   0x021E8A00  thumb
- *   func_021E5EF8   0x021E5EF8  thumb  ov119
+ *   POKETRADE_2D_DeleteMarkingIcon   0x021E5EF8  thumb  ov119
  *   func_021E5F24   0x021E5F24  thumb
  *
  * Release path for the +0x1c block pointer, freed through 0x021E5EF8
@@ -25,14 +25,14 @@
 
 typedef unsigned long u32;
 
-extern void func_021E5EF8(void *p);
+extern void POKETRADE_2D_DeleteMarkingIcon(void *p);
 
 void func_021D97A4(char *obj)
 {
     u32 p = ((struct Obj00013 *)obj)->f1C;
 
     if (p != 0) {
-        func_021E5EF8((void *)p);
+        POKETRADE_2D_DeleteMarkingIcon((void *)p);
         ((struct Obj00013 *)obj)->f1C = 0;
     }
 }

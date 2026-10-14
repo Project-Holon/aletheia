@@ -1,5 +1,5 @@
 /*
- * function: func_021FFDF8
+ * function: BTLV_MCSS_StartPaletteTrans
  * address:  0x021FFDF8
  * packet:   pkt_ov094_021FFDF8
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022019F4  0x022019F4  thumb  ov094
+ *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_CreatePaletteTransTask  0x020160D4  thumb
  */
 
@@ -32,12 +32,12 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(char *p, int key);
+extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_CreatePaletteTransTask(void *obj, void *h, int a, int b);
 
-void func_021FFDF8(Work *w, int key, int a, int b)
+void BTLV_MCSS_StartPaletteTrans(Work *w, int key, int a, int b)
 {
-    int idx = func_022019F4((char *)w, key);
+    int idx = BTLV_MCSS_FindSpriteIndex((char *)w, key);
 
     if (idx == -1)
         return;

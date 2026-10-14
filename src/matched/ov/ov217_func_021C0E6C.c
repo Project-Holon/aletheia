@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E6C
+ * function: RingQueue_ClearFields
  * address:  0x021C0E6C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0E6C(void *p)
+void RingQueue_ClearFields(void *p)
 {
     ((struct Obj06714 *)p)->f0 = 0;
     ((struct Obj06714 *)p)->f8 = 0;

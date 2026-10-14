@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_FLDMMDL_CheckPlayerAnimeDone
+ * function: SCRCMD_FLDMMDL_CheckPlayerFormChangeDone
  * address:  0x021B1CFC
  * packet:   pkt_021B1CFC
  * region:   ov021
@@ -31,7 +31,7 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
 
-int SCRCMD_FLDMMDL_CheckPlayerAnimeDone(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FLDMMDL_CheckPlayerFormChangeDone(u32 a, u32 b, u32 c, u32 d)
 {
 if (FIELD_PLAYER_StepFormChange(FIELDMAP_GetFieldPlayer(((struct Obj18096 *)((u8 *)(SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))))->f4)) == 1) {
     return 1;

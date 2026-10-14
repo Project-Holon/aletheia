@@ -21,10 +21,10 @@
  *   BTLV_SCU_StartMsgWinFadeOut 0x021ED798 thumb ov093
  *   BTLV_SCU_UpdateMsgWinFade 0x021ED814 thumb ov093
  *   BTLV_SCU_ShowMonSlot 0x021EDA04 thumb ov093
- *   func_021F7EE8 0x021F7EE8 thumb ov094
- *   func_021F7A28 0x021F7A28 thumb ov094
- *   func_021F8260 0x021F8260 thumb ov094
- *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   BTLV_EFFECT_SetPokeSpriteKey 0x021F7EE8 thumb ov094
+ *   BTLV_EFFECT_StartEffectOnPoke 0x021F7A28 thumb ov094
+ *   BTLV_EFFECT_DeletePartyBallBar 0x021F8260 thumb ov094
+ *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  */
 #include "../include/Obj00027.h"
 #include "../include/Obj01696.h"
@@ -48,10 +48,10 @@ extern int BTLV_SCU_UpdateMessage(struct T *p);
 extern void BTLV_SCU_StartMsgWinFadeOut(struct S *s);
 extern int BTLV_SCU_UpdateMsgWinFade(struct S *);
 extern void BTLV_SCU_ShowMonSlot(struct E *e);
-extern void func_021F7EE8(void *, int);
-extern void func_021F7A28(int, u32);
-extern void func_021F8260(u32 i);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_SetPokeSpriteKey(void *, int);
+extern void BTLV_EFFECT_StartEffectOnPoke(int, u32);
+extern void BTLV_EFFECT_DeletePartyBallBar(u32 i);
+extern int BTLV_EFFECT_IsBusy(void);
 int BTLV_SCU_PhaseOpponentSendOutSingle(u8 *p, int *state)
 {
     u8 *b = p + 0xf0;
@@ -73,13 +73,13 @@ int BTLV_SCU_PhaseOpponentSendOutSingle(u8 *p, int *state)
         }
         break;
     case 2:
-        func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj01696 *)b)->f0), b[5]);
-        func_021F7A28(b[5], 0x239);
-        func_021F8260(1);
+        BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(((struct Obj01696 *)b)->f0), b[5]);
+        BTLV_EFFECT_StartEffectOnPoke(b[5], 0x239);
+        BTLV_EFFECT_DeletePartyBallBar(1);
         (*state)++;
         break;
     case 3:
-        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !func_021F7EB4()) {
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !BTLV_EFFECT_IsBusy()) {
             BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + b[4] * 12));
             (*state)++;
         }

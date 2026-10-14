@@ -1,5 +1,5 @@
 /*
- * function: func_021F7F04
+ * function: BTLV_EFFECT_DeletePokeSprite
  * address:  0x021F7F04
  * packet:   pkt_ov094_021F7F04
  * region:   ov094
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021FF0F8 with the handle at 0x190 of the global work block.
+ * Tail call to BTLV_MCSS_RemoveSprite with the handle at 0x190 of the global work block.
  *
  * symbols:
- *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021FF0F8 0x021FF0F8 thumb ov094
+ *   gBtlvEff  0x0220AF20  data  ov094
+ *   BTLV_MCSS_RemoveSprite 0x021FF0F8 thumb ov094
  */
-extern char *d_0220AF20;
-extern void func_021FF0F8(void *, int);
+extern char *gBtlvEff;
+extern void BTLV_MCSS_RemoveSprite(void *, int);
 
-void func_021F7F04(int a)
+void BTLV_EFFECT_DeletePokeSprite(int a)
 {
-    func_021FF0F8(*(void **)(d_0220AF20 + 0x190), a);
+    BTLV_MCSS_RemoveSprite(*(void **)(gBtlvEff + 0x190), a);
 }

@@ -14,7 +14,7 @@
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021D4484  0x021D4484  thumb  ov118
- *   func_021D8E84  0x021D8E84  thumb  ov119
+ *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   func_021D449C  0x021D449C  thumb  ov118
  *   d_021D7C90     0x021D7C90  data
  *
@@ -34,7 +34,7 @@ extern void func_021D4490(u8 *p);
 extern void MCSS_SetAnimeIndex(void *a, u32 flag);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021D4484(u8 *p, u32 v);
-extern void func_021D8E84(void *p, int next);
+extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void func_021D449C(u8 *p);
 extern const Vec d_021D7C90;
 
@@ -48,5 +48,5 @@ void func_021D4AB4(u8 *p)
         MCSS_SetPosition((void *)(((struct Obj08049 *)p)->f844), (u32 *)(&v));
     }
     func_021D4484(p, 0);
-    func_021D8E84(p, (int)func_021D449C);
+    POKETRADE_PROC_SetStep(p, (int)func_021D449C);
 }

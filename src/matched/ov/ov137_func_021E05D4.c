@@ -1,5 +1,5 @@
 /*
- * function: func_021E05D4
+ * function: GURU2_MAIN_DrawCenterUnit
  * address: 0x021E05D4
  * packet: pkt_ov137_021E05D4
  * region: ov137
@@ -30,7 +30,7 @@ static inline void VecSet(Vec *v,int x,int y,int z)
 {
     v->x=x; v->y=y; v->z=z;
 }
-void func_021E05D4(u8 *p)
+void GURU2_MAIN_DrawCenterUnit(u8 *p)
 {
     Transform t;
     u8 *s;

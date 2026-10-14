@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdClearEventMonFlag
+ * function: SCRCMD_EVENT_MON_CmdClearEventMonFlag
  * address:  0x0216BEC0
  * packet:   pkt_ov010_0216BEC0
  * region:   ov010
@@ -30,7 +30,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int func_0202F488(int a0, int a1);
 extern void func_0202F630(u32 a, u32 b);
 
-int FIELD_G3D_MAP_CmdClearEventMonFlag(int c, int vm)
+int SCRCMD_EVENT_MON_CmdClearEventMonFlag(int c, int vm)
 {
     void *r7;
     int k;

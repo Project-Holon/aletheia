@@ -1,5 +1,5 @@
 /*
- * function: func_0220778C
+ * function: BTLV_GAUGE_ReleaseSlotResources
  * address: 0x0220778C
  * packet: pkt_ov094_0220778C
  * region: ov094
@@ -25,7 +25,7 @@ extern void CLACT_ReleaseCharacter(unsigned int);
 extern void CLACT_ReleaseCellAnim(unsigned int);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_0220778C(Work *p, int i)
+void BTLV_GAUGE_ReleaseSlotResources(Work *p, int i)
 {
     if (p->entries[i].f40 == 0)
         return;

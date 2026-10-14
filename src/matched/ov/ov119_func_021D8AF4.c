@@ -1,5 +1,5 @@
 /*
- * function: func_021D8AF4
+ * function: POKETRADE_PROC_GetBoxIndexForSlot
  * address: 0x021D8AF4
  * packet: pkt_ov119_021D8AF4
  * region: ov119
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj22704.h"
 extern int func_0209C0A4(int a, int b);
-int func_021D8AF4(int a, char *p)
+int POKETRADE_PROC_GetBoxIndexForSlot(int a, char *p)
 {
     if (a >= 2)
         return func_0209C0A4(a - 2, 6);

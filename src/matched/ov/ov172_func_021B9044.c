@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE00C 0x021BE00C thumb ov172
- *   func_021BE02C 0x021BE02C thumb ov172
- *   func_021BE030 0x021BE030 thumb ov172
- *   func_021BDFDC 0x021BDFDC thumb ov172
- *   func_021BDFE4 0x021BDFE4 thumb ov172
- *   func_021BE054 0x021BE054 thumb ov172
- *   func_021BE0B0 0x021BE0B0 thumb ov172
- *   func_021BE044 0x021BE044 thumb ov172
- *   func_021BE318 0x021BE318 thumb ov172
- *   func_021BE34C 0x021BE34C thumb ov172
- *   func_021B7590 0x021B7590 thumb ov172
- *   func_021B7578 0x021B7578 thumb ov172
- *   func_021B7B80 0x021B7B80 thumb ov172
+ *   COMM_TVT_SYS_GetHeapId 0x021BE00C thumb ov172
+ *   COMM_TVT_SYS_GetReturnedFromChild 0x021BE02C thumb ov172
+ *   COMM_TVT_SYS_SetReturnedFromChild 0x021BE030 thumb ov172
+ *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
+ *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
+ *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
+ *   COMM_TVT_SYS_SetMessageActive 0x021BE0B0 thumb ov172
+ *   COMM_TVT_SYS_GetPrintQue 0x021BE044 thumb ov172
+ *   COMM_TVT_SYS_CreateTimeIcon 0x021BE318 thumb ov172
+ *   COMM_TVT_SYS_DeleteTimeIcon 0x021BE34C thumb ov172
+ *   CTVT_CAMVIEW_IsShutterIdle 0x021B7590 thumb ov172
+ *   CTVT_CAMVIEW_StopCapture 0x021B7578 thumb ov172
+ *   CTVT_CAMVIEW_RequestShutterSound1 0x021B7B80 thumb ov172
  *   func_021B8084 0x021B8084 thumb ov172
  *   func_021B8740 0x021B8740 thumb ov172
  *   func_021B8B34 0x021B8B34 thumb ov172
@@ -101,19 +101,19 @@ struct Descriptor;
 struct Obj;
 struct PrintSys;
 struct St;
-extern u16 func_021BE00C(u16 *p);
-extern u32 func_021BE02C(void *p);
-extern void func_021BE030(void *p, u32 v);
-extern u32 func_021BDFDC(void *p);
-extern u32 func_021BDFE4(void *p);
-extern u8 func_021BE054(void *p);
-extern void func_021BE0B0(void *p, u32 v);
-extern u32 func_021BE044(void *p);
-extern void func_021BE318(char *a0, void *a1);
-extern void func_021BE34C(void *p);
-extern int func_021B7590(int x, char *p);
-extern void func_021B7578(int x, char *p);
-extern void func_021B7B80(int x, char *p);
+extern u16 COMM_TVT_SYS_GetHeapId(u16 *p);
+extern u32 COMM_TVT_SYS_GetReturnedFromChild(void *p);
+extern void COMM_TVT_SYS_SetReturnedFromChild(void *p, u32 v);
+extern u32 COMM_TVT_SYS_GetCamView(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
+extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
+extern void COMM_TVT_SYS_SetMessageActive(void *p, u32 v);
+extern u32 COMM_TVT_SYS_GetPrintQue(void *p);
+extern void COMM_TVT_SYS_CreateTimeIcon(char *a0, void *a1);
+extern void COMM_TVT_SYS_DeleteTimeIcon(void *p);
+extern int CTVT_CAMVIEW_IsShutterIdle(int x, char *p);
+extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
+extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 extern void func_021B8084(void *a, char *q);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern void func_021B8B34(void *p, u32 a, u32 b);
@@ -157,10 +157,10 @@ u32 func_021B9044(void *p, S *s)
     u32 a;
     u32 b;
 
-    heap = func_021BE00C(p);
+    heap = COMM_TVT_SYS_GetHeapId(p);
     switch (s->state) {
     case 0:
-        if (func_021BE02C(p) == 1)
+        if (COMM_TVT_SYS_GetReturnedFromChild(p) == 1)
             WIPE_SYS_Start(0, 1, 1, 0, 6, 1, heap);
         else
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, heap);
@@ -172,17 +172,17 @@ u32 func_021B9044(void *p, S *s)
         break;
     case 2:
         WIPE_SYS_Start((void *)4, 0, 0, 0, 6, 1, heap);
-        func_021BE030(p, 0);
+        COMM_TVT_SYS_SetReturnedFromChild(p, 0);
         s->state = 4;
         break;
     case 3:
         if (s->f4 == 6 && CLACT_IsActorAnimActive(s->f9C) == 1)
             break;
-        a = func_021BDFDC(p);
-        if (s->f8 != 0 && func_021B7590((int)p, (char *)a) != 1)
+        a = COMM_TVT_SYS_GetCamView(p);
+        if (s->f8 != 0 && CTVT_CAMVIEW_IsShutterIdle((int)p, (char *)a) != 1)
             break;
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, heap);
-        func_021BE030(p, 1);
+        COMM_TVT_SYS_SetReturnedFromChild(p, 1);
         s->state = 4;
         break;
     case 4:
@@ -198,7 +198,7 @@ u32 func_021B9044(void *p, S *s)
         if (func_021B9DF8(p, (int *)s) != 0)
             break;
         if (func_021B9F4C((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
-            if (func_021B8740((int)p, func_021BDFE4(p), 6, 0) == 1)
+            if (func_021B8740((int)p, COMM_TVT_SYS_GetComm(p), 6, 0) == 1)
                 s->state = 7;
             break;
         }
@@ -207,7 +207,7 @@ u32 func_021B9044(void *p, S *s)
     case 7:
         if (func_021B9DF8(p, (int *)s) != 0)
             break;
-        b = func_021BDFE4(p);
+        b = COMM_TVT_SYS_GetComm(p);
         a = func_021B8B68((int)p, (char *)b);
         b = func_021B8B5C(p, b);
         if (func_021B9F4C((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
@@ -233,50 +233,50 @@ u32 func_021B9044(void *p, S *s)
         func_021B9D04((int)p, (int *)s);
         break;
     case 11:
-        if (func_021B8740((int)p, func_021BDFE4(p), 10, 0) == 1)
+        if (func_021B8740((int)p, COMM_TVT_SYS_GetComm(p), 10, 0) == 1)
             s->state = 12;
     case 12:
-        if (func_021BE054(p) > 1)
+        if (COMM_TVT_SYS_GetMemberCount(p) > 1)
             break;
-        a = func_021BDFDC(p);
+        a = COMM_TVT_SYS_GetCamView(p);
         s->f4 = 7;
         s->state = 3;
-        func_021BE0B0(p, 1);
-        func_021B7578((int)p, (char *)a);
-        func_021B7B80((int)p, (char *)a);
+        COMM_TVT_SYS_SetMessageActive(p, 1);
+        CTVT_CAMVIEW_StopCapture((int)p, (char *)a);
+        CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)a);
         s->f8 = 1;
         break;
     case 13:
-        func_021B8084(p, (char *)func_021BDFE4(p));
-        func_021BE0B0(p, 1);
+        func_021B8084(p, (char *)COMM_TVT_SYS_GetComm(p));
+        COMM_TVT_SYS_SetMessageActive(p, 1);
         func_021B9C1C(p, (char *)s, 0x24);
         s->state = 14;
-        func_021B7B80((int)p, (char *)func_021BDFDC(p));
+        CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
         s->f8 = 1;
         break;
     case 14:
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
             s->f4 = 7;
             s->state = 3;
-            func_021B7578((int)p, (char *)func_021BDFDC(p));
+            CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
             s->f8 = 1;
         }
         break;
     case 15:
-        if (func_021B8740((int)p, func_021BDFE4(p), 10, 0) != 1)
+        if (func_021B8740((int)p, COMM_TVT_SYS_GetComm(p), 10, 0) != 1)
             break;
-        a = func_021BDFDC(p);
-        func_021BE0B0(p, 1);
-        func_021B7B80((int)p, (char *)a);
+        a = COMM_TVT_SYS_GetCamView(p);
+        COMM_TVT_SYS_SetMessageActive(p, 1);
+        CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)a);
         s->state = 18;
         break;
     case 16:
-        func_021B8084(p, (char *)func_021BDFE4(p));
+        func_021B8084(p, (char *)COMM_TVT_SYS_GetComm(p));
         func_021B9C1C(p, (char *)s, 0x25);
         s->state = 17;
         s->f88 = 0;
-        func_021BE0B0(p, 1);
-        func_021B7B80((int)p, (char *)func_021BDFDC(p));
+        COMM_TVT_SYS_SetMessageActive(p, 1);
+        CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
         s->f8 = 1;
         break;
     case 17:
@@ -285,33 +285,33 @@ u32 func_021B9044(void *p, S *s)
             s->state = 18;
         break;
     case 18:
-        func_021B8B34(p, func_021BDFE4(p), 0x2F);
+        func_021B8B34(p, COMM_TVT_SYS_GetComm(p), 0x2F);
         s->state = 19;
         break;
     case 19:
-        if (func_021B8B48(p, func_021BDFE4(p), 0x2F) != 1)
+        if (func_021B8B48(p, COMM_TVT_SYS_GetComm(p), 0x2F) != 1)
             break;
         s->f4 = 7;
         s->state = 3;
-        func_021BE34C(p);
-        func_021BE0B0(p, 1);
-        func_021B7578((int)p, (char *)func_021BDFDC(p));
+        COMM_TVT_SYS_DeleteTimeIcon(p);
+        COMM_TVT_SYS_SetMessageActive(p, 1);
+        CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
         s->f8 = 1;
         break;
     case 20:
-        func_021B8084(p, (char *)func_021BDFE4(p));
+        func_021B8084(p, (char *)COMM_TVT_SYS_GetComm(p));
         func_021B9C1C(p, (char *)s, 0x26);
         s->state = 21;
-        func_021BE0B0(p, 1);
-        func_021B7B80((int)p, (char *)func_021BDFDC(p));
+        COMM_TVT_SYS_SetMessageActive(p, 1);
+        CTVT_CAMVIEW_RequestShutterSound1((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
         s->f8 = 1;
         break;
     case 21:
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
             s->f4 = 7;
             s->state = 3;
-            func_021BE0B0(p, 1);
-            func_021B7578((int)p, (char *)func_021BDFDC(p));
+            COMM_TVT_SYS_SetMessageActive(p, 1);
+            CTVT_CAMVIEW_StopCapture((int)p, (char *)COMM_TVT_SYS_GetCamView(p));
             s->f8 = 1;
         }
         break;
@@ -319,7 +319,7 @@ u32 func_021B9044(void *p, S *s)
     func_021B99B4(p, (char *)s);
     func_021BA050(s->f10);
     if (s->f28 == 1) {
-        void *h = (void *)func_021BE044(p);
+        void *h = (void *)COMM_TVT_SYS_GetPrintQue(p);
         if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(s->f7C)) == 0) {
             BMP_WIN_TransferChars(s->f7C);
             BMP_WIN_MakeScreen(s->f7C);
@@ -327,7 +327,7 @@ u32 func_021B9044(void *p, S *s)
             s->f28 = 0;
             if (s->f84 == 1) {
                 s->f84 = 0;
-                func_021BE318(p, s->f7C);
+                COMM_TVT_SYS_CreateTimeIcon(p, s->f7C);
             }
         }
     }
@@ -352,7 +352,7 @@ u32 func_021B9044(void *p, S *s)
             BMP_Clear(BMP_WIN_GetBmp(s->f2C), 0);
             BMP_WIN_TransferChars(s->f2C);
         } else {
-            short *base = (short *)(func_021B8B84((int)p, (char *)func_021BDFE4(p)) + 0x800);
+            short *base = (short *)(func_021B8B84((int)p, (char *)COMM_TVT_SYS_GetComm(p)) + 0x800);
             int n = func_021BA24C(s->f10);
             int max = func_021BA254(s->f10);
             int w = func_021BA248(s->f10);

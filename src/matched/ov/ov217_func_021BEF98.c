@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2740 0x021C2740 thumb ov217
+ *   PERCENTAGE_SetVisible 0x021C2740 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -18,13 +18,13 @@
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_021C2740(u32 a, u32 b);
+extern void PERCENTAGE_SetVisible(u32 a, u32 b);
 void func_021BEF98(char *p)
 {
     int i;
     u8 z = 0;
     for (i = 0; i < 10; i++) {
-        func_021C2740(*(u32 *)(p + i * 4 + 0x2d4), z);
+        PERCENTAGE_SetVisible(*(u32 *)(p + i * 4 + 0x2d4), z);
     }
     ((struct Obj25922 *)p)->f2FD = z;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2EFC
+ * function: POKETRADE_3D_CreateIcaStreamsEnding
  * address: 0x021E2EFC
  * packet: pkt_ov119_021E2EFC
  * region: ov119
@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *ICA_ANIME_CreateStream(u32,u32,u32,u32);
-void func_021E2EFC(char *p)
+void POKETRADE_3D_CreateIcaStreamsEnding(char *p)
 {
     ((struct Obj08067 *)p)->f90=ICA_ANIME_CreateStream(((struct Obj08067 *)p)->fBA,0x68,0xb,10);
     ((struct Obj08067 *)p)->f94=ICA_ANIME_CreateStream(((struct Obj08067 *)p)->fBA,0x68,0xc,10);

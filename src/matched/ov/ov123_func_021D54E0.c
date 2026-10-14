@@ -1,5 +1,5 @@
 /*
- * function: func_021D54E0
+ * function: GSYNC_MESSAGE_DeleteButtonManager
  * address:  0x021D54E0
  * packet:   pkt_ov123_021D54E0
  * region:   ov123
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void BUTTON_MAN_Delete(void *);
 
-void func_021D54E0(u8 *p)
+void GSYNC_MESSAGE_DeleteButtonManager(u8 *p)
 {
     if (((struct Obj10436 *)p)->f1C) {
         BUTTON_MAN_Delete(((struct Obj10436 *)p)->f1C);

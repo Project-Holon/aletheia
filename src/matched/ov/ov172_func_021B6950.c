@@ -1,5 +1,5 @@
 /*
- * function: func_021B6950
+ * function: CTVT_CAMERA_SetSize
  * address: 0x021B6950
  * packet: pkt_ov172_021B6950
  * region: ov172
@@ -11,16 +11,16 @@
  * symbols:
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6974 0x021B6974 arm ov172
- *   func_021B68A0 0x021B68A0 thumb ov172
+ *   CTVT_CAMERA_ResetTrimming 0x021B68A0 thumb ov172
  */
 #include "../include/Obj01264.h"
 extern int OS_IsRunOnTwl(void);
 extern void func_021B6974(int, int, int);
-extern void func_021B68A0(char *);
+extern void CTVT_CAMERA_ResetTrimming(char *);
 
-void func_021B6950(char *p, int v)
+void CTVT_CAMERA_SetSize(char *p, int v)
 {
     if (OS_IsRunOnTwl() == 1) func_021B6974(3, 3, v);
     ((struct Obj01264 *)p)->f30 = v;
-    func_021B68A0(p);
+    CTVT_CAMERA_ResetTrimming(p);
 }

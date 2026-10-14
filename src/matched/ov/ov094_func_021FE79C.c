@@ -1,5 +1,5 @@
 /*
- * function: func_021FE79C
+ * function: BTLV_EFFVM_BlendRegisterTaskMain
  * address: 0x021FE79C
  * packet: pkt_ov094_021FE79C
  * region: ov094
@@ -9,11 +9,11 @@
  * status: EXACT
  * volatile: WININ re-read at 0x021FE7BE; WINOUT and display register accesses.
  * symbols:
- *   func_021F89BC 0x021F89BC thumb ov094
+ *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_021F89BC(void *);
+extern void BTLV_EFFECT_DeleteTask(void *);
 #define REG16(a) (*(volatile u16 *)(a))
 #define REG32(a) (*(volatile unsigned int *)(a))
 static inline void window0(int x1, int y1, int x2, int y2)
@@ -26,7 +26,7 @@ static inline void window1(int x1, int y1, int x2, int y2)
     REG16(0x04000042) = (u16)(((x1 << 8) & 0xff00) | (x2 & 0xff));
     REG16(0x04000046) = (u16)(((y1 << 8) & 0xff00) | (y2 & 0xff));
 }
-void func_021FE79C(void *h, int *s)
+void BTLV_EFFVM_BlendRegisterTaskMain(void *h, int *s)
 {
     switch (s[1]) {
     case 0:
@@ -54,7 +54,7 @@ void func_021FE79C(void *h, int *s)
             }
             s[6]--;
             if (s[6] == 0)
-                func_021F89BC(h);
+                BTLV_EFFECT_DeleteTask(h);
         } else {
             s[7]--;
         }

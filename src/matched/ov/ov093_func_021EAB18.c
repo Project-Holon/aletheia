@@ -12,8 +12,8 @@
  * symbols:
  *   BTLV_CORE_GetTaskWork  0x021E9100  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021F8414  0x021F8414  thumb  ov094
- *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   BTLV_EFFECT_StartPokeSpriteTransitionTask  0x021F8414  thumb  ov094
+ *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_SCU_HideMon  0x021ED53C  thumb  ov093
  *   BTLV_SCU_ShowMon  0x021ED554  thumb  ov093
  */
@@ -24,8 +24,8 @@ typedef unsigned int u32;
 
 extern u8 *BTLV_CORE_GetTaskWork(u8 *p, int n);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021F8414(int a, int b, int c);
-extern int func_021F7EB4(void);
+extern void BTLV_EFFECT_StartPokeSpriteTransitionTask(int a, int b, int c);
+extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_SCU_HideMon(u8 *p, int k);
 extern int BTLV_SCU_ShowMon(u8 *p, int k);
 
@@ -36,11 +36,11 @@ int BTLV_CORE_ProcClearSidePosition(int *st, u8 *b)
 
     switch (*st) {
     case 0:
-        func_021F8414(t[1], t[2] & 1, BTL_CLIENT_IsMainStepActive(((struct Obj04382 *)b)->f4) == 0);
+        BTLV_EFFECT_StartPokeSpriteTransitionTask(t[1], t[2] & 1, BTL_CLIENT_IsMainStepActive(((struct Obj04382 *)b)->f4) == 0);
         *st = *st + 1;
         break;
     case 1:
-        if (func_021F7EB4() == 0) {
+        if (BTLV_EFFECT_IsBusy() == 0) {
             BTLV_SCU_HideMon((u8 *)(((struct Obj04382 *)b)->f17C), t[5]);
             BTLV_SCU_HideMon((u8 *)(((struct Obj04382 *)b)->f17C), t[6]);
             BTLV_SCU_HideMon((u8 *)(((struct Obj04382 *)b)->f17C), t[7]);

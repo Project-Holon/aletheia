@@ -1,5 +1,5 @@
 /*
- * function: func_021F8DE4
+ * function: WORLDTRADE_ENTER_PushWifiError
  * address: 0x021F8DE4
  * packet: pkt_ov135_021F8DE4
  * region: ov135
@@ -13,7 +13,7 @@
  *   func_020120F4 0x020120F4 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
- *   func_021F8F5C 0x021F8F5C thumb ov135
+ *   WORLDTRADE_ENTER_StateAbortConnect 0x021F8F5C thumb ov135
  *   str_02203C34 0x02203C34 data a1
  *   tbl_021D654C 0x021D654C data ov115 a4
  *   ov115_id 0x00000073 data
@@ -37,11 +37,11 @@ extern void MI_CpuFill8(void *, u32, u32);
 extern void *func_020120F4(const struct Ctx *p);
 extern void PROCSYS_Push(void *, u32, void *, void *);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 func_021F8F5C(u8 *p);
+extern u32 WORLDTRADE_ENTER_StateAbortConnect(u8 *p);
 extern char str_02203C34[];
 extern u8 tbl_021D654C[];
 extern u8 ov115_id[];
-int func_021F8DE4(u8 *p)
+int WORLDTRADE_ENTER_PushWifiError(u8 *p)
 {
     Req *r;
     *(Req * *)&((struct Obj04527 *)p)->f10DC = func_02030734(72, 28, 0, str_02203C34, 689);
@@ -50,7 +50,7 @@ int func_021F8DE4(u8 *p)
     r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
     r->zero = 0;
     r->enabled = 1;
-    r->callback = (void (*)(void))func_021F8F5C;
+    r->callback = (void (*)(void))WORLDTRADE_ENTER_StateAbortConnect;
     r->context = p;
     PROCSYS_Push(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req * *)&((struct Obj04527 *)p)->f10DC);
     ((struct Obj04527 *)p)->f28 = 5;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD0C
+ * function: POKETRADE_MCSS_StopAnimation
  * address:  0x021DFD0C
  * packet:   pkt_ov119_021DFD0C
  * region:   ov119
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void MCSS_SetAnmStopFlag(void *p);
 
-void func_021DFD0C(char *p)
+void POKETRADE_MCSS_StopAnimation(char *p)
 {
     MCSS_SetAnmStopFlag((void *)(((struct Obj13907 *)p)->f844));
     ((struct Obj13907 *)p)->f854 = 1;

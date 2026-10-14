@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3A8
+ * function: ZUKAN_DETAIL_COMMON_GetDisplay
  * address:  0x021BC3A8
  * packet:   pkt_021BC3A4
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 
 
-int func_021BC3A8(int *p)
+int ZUKAN_DETAIL_COMMON_GetDisplay(int *p)
 {
     return p[1];
 }

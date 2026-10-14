@@ -1,5 +1,5 @@
 /*
- * function: func_021E32EC
+ * function: POKETRADE_3D_Draw3DScene
  * address:  0x021E32EC
  * packet:   pkt_ov119_021E32EC
  * region:   ov119
@@ -67,7 +67,7 @@ struct IcaAnime;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 
-void func_021E32EC(char *p)
+void POKETRADE_3D_Draw3DScene(char *p)
 {
     char buf[0x3C];
     void *q;

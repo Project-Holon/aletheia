@@ -15,12 +15,12 @@
  *   ahead of the out[0] store (021F96E4..021F96EA); a plain pointer left 13
  *   bytes, block locals for the two loads 74.
  * symbols:
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021FC4DC(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 void func_021F96AC(int *out, int *source, const int *ctx, int type)
 {
@@ -43,7 +43,7 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     out[4] = source[1];
     out[2] = source[3];
     out[5] = source[2];
-    out[3] = func_021FC4DC((u8 *)source[0]);
+    out[3] = BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[6] = source[5];
 }
 void func_021F9728(void)

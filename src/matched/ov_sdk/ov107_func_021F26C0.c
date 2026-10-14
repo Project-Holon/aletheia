@@ -1,5 +1,5 @@
 /*
- * function: func_021F26C0
+ * function: MBi_CommParentRecvData
  * address:  0x021F26C0
  * packet:   pkt_ov107_021F26C0
  * region:   ov107
@@ -26,7 +26,7 @@ struct WMMpRecvHeader;
 extern struct WMMpRecvData *func_0208ED70(const struct WMMpRecvHeader *header, u16 aid);
 extern void func_021F2200(void *arg, unsigned short child);
 
-void func_021F26C0(void *arg)
+void MBi_CommParentRecvData(void *arg)
 {
     unsigned short i;
     unsigned short *datap;

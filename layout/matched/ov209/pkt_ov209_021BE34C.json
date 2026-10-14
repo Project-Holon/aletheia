@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE34C",
+   "name": "ZUKAN_LIST_ScrollActorsBy",
    "address": "0x021BE34C",
    "kind": "game",
    "region": "ov209",

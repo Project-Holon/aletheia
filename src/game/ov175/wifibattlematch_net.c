@@ -97,7 +97,7 @@
  *   func_021E5D40   0x021E5D40  thumb
  *   func_021E89D0   0x021E89D0  thumb
  *   func_021E8A00   0x021E8A00  thumb
- *   func_021E5EF8   0x021E5EF8  thumb  ov119
+ *   POKETRADE_2D_DeleteMarkingIcon   0x021E5EF8  thumb  ov119
  *   func_021E5F24   0x021E5F24  thumb
  *   func_021E64C8  0x021E64C8  thumb  ov177
  *   func_021E65FC  0x021E65FC  thumb  ov177
@@ -1159,7 +1159,7 @@ extern void func_020891E0(struct RTCDate *,struct RTCTime *,s64);
 extern s32 func_02088F58(struct RTCDate *date);
 extern u8 *func_0200B074(struct Reg2 *p);
 extern char *func_021E5D68(char *info, u32_021D965C a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
-extern void func_021E5EF8(void *p);
+extern void POKETRADE_2D_DeleteMarkingIcon(void *p);
 extern void func_021E5F24(u32_021D97E4 a, u32_021D97E4 b, u32_021D97E4 c, u32_021D97E4 d, u32_021D97E4 e, u32_021D97E4 f);
 extern void *func_021E7E3C(void *, int, int, int, int, int, int);
 extern void func_021E82BC(char *p);
@@ -5601,7 +5601,7 @@ void func_021D97A4(char *obj)
     u32_021D97A4 p = ((struct Obj00013 *)obj)->f1C;
 
     if (p != 0) {
-        func_021E5EF8((void *)p);
+        POKETRADE_2D_DeleteMarkingIcon((void *)p);
         ((struct Obj00013 *)obj)->f1C = 0;
     }
 }

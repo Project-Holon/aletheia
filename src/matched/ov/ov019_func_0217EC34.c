@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC34
+ * function: UNION_MSG_GetTalkChildBusyMsg
  * address:  0x0217EC34
  * packet:   pkt_ov019_0217EC34
  * region:   ov019
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern const u16 d_02180348[];
 
-u16 func_0217EC34(int i)
+u16 UNION_MSG_GetTalkChildBusyMsg(int i)
 {
     return d_02180348[i];
 }

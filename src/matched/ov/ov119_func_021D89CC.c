@@ -1,5 +1,5 @@
 /*
- * function: func_021D89CC
+ * function: POKETRADE_PROC_ClearNetAutoExit
  * address: 0x021D89CC
  * packet: pkt_ov119_021D89CC
  * region: ov119
@@ -20,7 +20,7 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 typedef unsigned int   u32;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
-void func_021D89CC(char *p)
+void POKETRADE_PROC_ClearNetAutoExit(char *p)
 {
     GFL_NET_SetAutoExit(0);
     GFL_NET_SetLoginOption(0);

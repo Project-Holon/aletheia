@@ -1,5 +1,5 @@
 /*
- * function: func_02201894
+ * function: BTLV_MCSS_AnimCallbackClearPending
  * address:  0x02201894
  * packet:   pkt_ov094_02201894
  * region:   ov094
@@ -9,11 +9,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F8694  0x021F8694  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
  */
-extern char *func_021F8694(void);
+extern char *BTLV_EFFECT_GetMcss(void);
 
-void func_02201894(int i)
+void BTLV_MCSS_AnimCallbackClearPending(int i)
 {
-    *(int *)(func_021F8694() + i * 0x5c + 0x4c) = 0;
+    *(int *)(BTLV_EFFECT_GetMcss() + i * 0x5c + 0x4c) = 0;
 }

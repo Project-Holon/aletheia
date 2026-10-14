@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEAC8",
+   "name": "GURU2_MAIN_StateWaitIntroMessage",
    "address": "0x021DEAC8",
    "kind": "game",
    "region": "ov137",

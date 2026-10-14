@@ -1,5 +1,5 @@
 /*
- * function: func_02200290
+ * function: WORLDTRADE_TITLE_DeleteActors
  * address:  0x02200290
  * packet:   pkt_02200290
  * region:   ov135
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02200290(u8 *p)
+void WORLDTRADE_TITLE_DeleteActors(u8 *p)
 {
     CLACT_DeleteActor((struct Obj *)(((struct Obj18604 *)p)->fBF4));
 }

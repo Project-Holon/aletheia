@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E421C",
+   "name": "POKETRADE_2D_HitTestBoxGrid",
    "address": "0x021E421C",
    "kind": "game",
    "region": "ov119",

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF38
+ * function: DENDOU_VIEW_StateExit
  * address: 0x021DCF38
  * packet: pkt_ov171_021DCF38
  * region: ov171
@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DC8D4 0x021DC8D4 thumb ov171
- *   func_021DE014 0x021DE014 thumb ov171
- *   func_021DD8BC 0x021DD8BC thumb ov171
- *   func_021DCC88 0x021DCC88 thumb ov171
- *   func_021DCB8C 0x021DCB8C thumb ov171
- *   func_021DCA40 0x021DCA40 thumb ov171
- *   func_021DCE28 0x021DCE28 thumb ov171
+ *   DENDOU_VIEW_StopVBlankTask 0x021DC8D4 thumb ov171
+ *   DENDOU_VIEW_ExitActors 0x021DE014 thumb ov171
+ *   DENDOU_VIEW_ExitWindows 0x021DD8BC thumb ov171
+ *   DENDOU_VIEW_ExitText 0x021DCC88 thumb ov171
+ *   DENDOU_VIEW_ExitPalAnm 0x021DCB8C thumb ov171
+ *   DENDOU_VIEW_ExitBgs 0x021DCA40 thumb ov171
+ *   DENDOU_VIEW_FreeHallOfFame 0x021DCE28 thumb ov171
  *   func_0207D534 0x0207D534 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
-extern int func_021DC8D4(int *);
-extern void func_021DE014(int *);
-extern void func_021DD8BC(int *);
-extern void func_021DCC88(char *p);
-extern void func_021DCB8C(int *);
-extern void func_021DCA40(void);
-extern void func_021DCE28(char *p);
+extern int DENDOU_VIEW_StopVBlankTask(int *);
+extern void DENDOU_VIEW_ExitActors(int *);
+extern void DENDOU_VIEW_ExitWindows(int *);
+extern void DENDOU_VIEW_ExitText(char *p);
+extern void DENDOU_VIEW_ExitPalAnm(int *);
+extern void DENDOU_VIEW_ExitBgs(void);
+extern void DENDOU_VIEW_FreeHallOfFame(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0207D534(volatile u16 *reg, int brightness);
@@ -35,15 +35,15 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02034A5C(int);
 extern char ov067_id[];
-int func_021DCF38(int *p)
+int DENDOU_VIEW_StateExit(int *p)
 {
-    func_021DC8D4(p);
-    func_021DE014(p);
-    func_021DD8BC(p);
-    func_021DCC88((char *)p);
-    func_021DCB8C(p);
-    func_021DCA40();
-    func_021DCE28((char *)p);
+    DENDOU_VIEW_StopVBlankTask(p);
+    DENDOU_VIEW_ExitActors(p);
+    DENDOU_VIEW_ExitWindows(p);
+    DENDOU_VIEW_ExitText((char *)p);
+    DENDOU_VIEW_ExitPalAnm(p);
+    DENDOU_VIEW_ExitBgs();
+    DENDOU_VIEW_FreeHallOfFame((char *)p);
     func_0207D534((void *)0x0400006c, -16);
     func_0207D534((void *)0x0400106c, -16);
     *(unsigned short *)0x04000050 = 0;

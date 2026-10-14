@@ -67,11 +67,11 @@
  *   BTL_SETUP_ApplyRegulation 0x02013160 thumb
  *   BTL_SETUP_AllocRecordBuffer 0x02013980 thumb
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
- *   func_021EEE78 0x021EEE78 thumb ov188
+ *   BATTLE_REC_TOOL_PackSetup 0x021EEE78 thumb ov188
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   BTL_SETUP_FreeSlots 0x020130DC thumb
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
- *   func_021EEEA8 0x021EEEA8 thumb ov188
+ *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  *   func_0200853C 0x0200853C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
@@ -306,13 +306,13 @@ extern void BTL_SETUP_SetParty(void *, void *, int);
 extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32_02212AF8 a2);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32_02212AF8 heap);
 extern void BATTLE_REC_LoadToolOverlay(void);
-extern void func_021EEE78(void *);
+extern void BATTLE_REC_TOOL_PackSetup(void *);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void BTL_SETUP_FreeSlots(void *);
 extern unsigned BATTLE_REC_IsVersionSupported(unsigned);
 extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitWithSlots(char *, void *, int);
-extern void func_021EEEA8(void *p, u32_022132C4 c);
+extern void BATTLE_REC_TOOL_UnpackSetup(void *p, u32_022132C4 c);
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
 extern u32_022133E4 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned POKEPARTY_GetCount(void *);
@@ -753,7 +753,7 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
     p[0x1bc] = bytes.c;
     func_02213684(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.a, p + 0x1bd);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEE78(((struct Obj03909 *)arg)->f4);
+    BATTLE_REC_TOOL_PackSetup(((struct Obj03909 *)arg)->f4);
     BATTLE_REC_UnloadToolOverlay();
     if (((struct Obj01007 *)p)->f1C == 0) {
         rules = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01007 *)p)->f4)),0);
@@ -966,7 +966,7 @@ void *func_022132C4(void *unused, int heap, char *p)
     BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
     func_02034A5C((s32)ov093_id);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEEA8(work, heap);
+    BATTLE_REC_TOOL_UnpackSetup(work, heap);
     BATTLE_REC_UnloadToolOverlay();
     func_02034AC4((s32)ov093_id);
     GFL_USE_CancelChangeAndStopBgm();

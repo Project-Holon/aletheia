@@ -45,11 +45,7 @@ struct Rec;
 struct U16Vec;
 struct TaskMenuState;
 struct Obj;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+#include "irc_appbar.h"
 
 typedef enum { SIDE_ZERO, SIDE_ONE } Side;
 
@@ -61,26 +57,6 @@ typedef struct { unsigned data; u16 tag,pad; unsigned flag; } LabelDesc;
 
 typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 
-/* Single-button bar of the infrared screens (96 bytes, heap allocated). */
-typedef struct IrcAppBar {
-    u8 *taskMenuWin;                   /* 0x00 button window */
-    struct TaskMenuState *taskMenuRes; /* 0x04 button resources */
-    struct Obj *actors[7];             /* 0x08 cell actors; slot 0 is the bar icon */
-    u8 reserved[12];                   /* 0x24 */
-    int paletteId;                     /* 0x30 */
-    int charId;                        /* 0x34 */
-    int cellAnimId;                    /* 0x38 */
-    u32 layer;                         /* 0x3C screen layer */
-    u8 unused40[4];                    /* 0x40 */
-    int result;                        /* 0x44 -1 none, 1 button pressed */
-    int prevResult;                    /* 0x48 */
-    u8 unused4C[4];                    /* 0x4C */
-    int state;                         /* 0x50 0 idle, 1 pressed, 2 done */
-    u32 labelIndex;                    /* 0x54 */
-    u16 heapId;                        /* 0x58 */
-    u8 pad5A[2];                       /* 0x5A */
-    int enabled;                       /* 0x5C */
-} IrcAppBar;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
@@ -113,20 +89,6 @@ extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void CLACT_DeleteActor(struct Obj *);
-void *IRC_APPBAR_Create(u32 unusedArg,u32 clactUnit,u16 layer,u16 x,u8 paletteSlot,u32 unusedExtra,u32 resArg0,u32 resArg1,u16 heapId);
-void IRC_APPBAR_Delete(IrcAppBar *bar);
-void IRC_APPBAR_Update(IrcAppBar *bar);
-int IRC_APPBAR_GetResult(IrcAppBar *bar);
-int IRC_APPBAR_IsPressed(IrcAppBar *bar);
-void IRC_APPBAR_Reset(IrcAppBar *bar);
-int IRC_APPBAR_IsBusy(IrcAppBar *bar);
-void IRC_APPBAR_SetEnabled(IrcAppBar *bar,int enable);
-void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable);
-void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex);
-void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoice,int unusedExtra,int unusedX,u8 paletteSlot,unsigned heapId);
-void IRC_APPBAR_ReleaseResources(IrcAppBar *bar);
-void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId);
-extern char gIrcAppBarFileName[];
 
 /*
  * lever: distinct enum first/choice values preserve branch-local setup and saved-register allocation.
@@ -144,7 +106,7 @@ extern char gIrcAppBarFileName[];
  * MSGDATA_Delete 0x02045C04 arm
  * gIrcAppBarFileName 0x021B7550 data a1
  */
-void *IRC_APPBAR_Create(u32 unusedArg,u32 clactUnit,u16 layer,u16 x,u8 paletteSlot,u32 unusedExtra,u32 resArg0,u32 resArg1,u16 heapId)
+IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 paletteSlot,u32 unusedExtra,void *font,void *printQueue,u16 heapId)
 {
     Side side=SIDE_ZERO;
     MsgDesc desc;
@@ -162,8 +124,8 @@ void *IRC_APPBAR_Create(u32 unusedArg,u32 clactUnit,u16 layer,u16 x,u8 paletteSl
     if(layer>=4) { side=1; first=1; choice=4; }
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
-    bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,resArg0,resArg1,heapId);
-    IRC_APPBAR_CreateActor(bar,clactUnit,unusedArg,side,func_020416D4(layer),heapId);
+    bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,(u32)font,(u32)printQueue,heapId);
+    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,func_020416D4(layer),heapId);
     bank=func_02045B38(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;

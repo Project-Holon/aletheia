@@ -1,5 +1,5 @@
 /*
- * function: func_021C1720
+ * function: CircleGraph_AddSlice
  * address:  0x021C1720
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C1720  0x021C1720  thumb  ov217
+ *   CircleGraph_AddSlice  0x021C1720  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 
-void func_021C1720(u8 *a0, u8 *a1)
+void CircleGraph_AddSlice(u8 *a0, u8 *a1)
 {
     *(u8*)(((u8*)a0 + 20 * ((struct Obj00554 *)(((u8*)a0)))->f1AC) + 28) = ((struct Obj03955 *)((u8*)a1))->f0;
     *(u32*)(((u8*)a0 + 20 * ((struct Obj00554 *)(((u8*)a0)))->f1AC) + 32) = (u32)(((struct Obj03955 *)(((u8*)a1)))->f4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1AA8
+ * function: POKETRADE_SAVE_PrintExperience
  * address: 0x021E1AA8
  * packet: pkt_ov119_021E1AA8
  * region: ov119
@@ -25,7 +25,7 @@ extern unsigned int POKE_TOOL_GetPartyValue(void *,unsigned int,unsigned int);
 extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-void func_021E1AA8(int a,int b,int x,int y,char *p)
+void POKETRADE_SAVE_PrintExperience(int a,int b,int x,int y,char *p)
 {
     int v;
     MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),42,(void *)(*(int *)&((struct Obj00001 *)p)->f734));

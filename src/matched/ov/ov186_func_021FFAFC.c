@@ -1,5 +1,5 @@
 /*
- * function: func_021FFAFC
+ * function: BR_NET_OnGetVideo
  * address: 0x021FFAFC
  * packet: pkt_ov186_021FFAFC
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24871.h"
-void func_021FFAFC(char *p) {((struct Obj24871 *)p)->f5C4=1;}
+void BR_NET_OnGetVideo(char *p) {((struct Obj24871 *)p)->f5C4=1;}

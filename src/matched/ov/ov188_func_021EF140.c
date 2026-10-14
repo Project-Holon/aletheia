@@ -1,5 +1,5 @@
 /*
- * function: func_021EF140
+ * function: BATTLE_REC_TOOL_UnpackPlayerProfile
  * address: 0x021EF140
  * packet: pkt_ov188_021EF140
  * region: ov188
@@ -22,7 +22,7 @@ struct U16Vec;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-void func_021EF140(u8 *a, u8 *b)
+void BATTLE_REC_TOOL_UnpackPlayerProfile(u8 *a, u8 *b)
 {
     unsigned i;
     u16 *p;

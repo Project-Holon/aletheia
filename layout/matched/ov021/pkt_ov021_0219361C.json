@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_MSGBG_BlockQueryClear",
+   "name": "FIELD_G3D_MAP_BLOCK_QueryClear",
    "address": "0x0219361C",
    "kind": "game",
    "region": "ov021",

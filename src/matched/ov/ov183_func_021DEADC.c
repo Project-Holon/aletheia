@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
  * symbols:
- *   func_021FF88C 0x021FF88C thumb ov186
+ *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   func_021F9C6C 0x021F9C6C thumb ov186
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
@@ -24,7 +24,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct PrintSys;
-extern int func_021FF88C(char *p);
+extern int BR_NET_HandleNetError(char *p);
 extern void func_021F9C6C(void *);
 extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *p);
@@ -35,7 +35,7 @@ extern void func_021FD1BC(void *);
 int func_021DEADC(int a, int b, int c, char *p)
 {
     int i;
-    if (func_021FF88C(((struct Obj24585 *)(*(char * *)&((struct Obj02521 *)p)->f108))->f18) == 2) {
+    if (BR_NET_HandleNetError(((struct Obj24585 *)(*(char * *)&((struct Obj02521 *)p)->f108))->f18) == 2) {
         func_021F9C6C(((struct Obj24586 *)(*(char * *)&((struct Obj02521 *)p)->f108))->f14);
         return 1;
     }

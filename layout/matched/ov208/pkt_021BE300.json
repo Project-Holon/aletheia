@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE300",
+   "name": "ZUKAN_DETAIL_TOUCHBAR_GetPaletteForKind",
    "address": "0x021BE300",
    "kind": "game",
    "region": "ov208",

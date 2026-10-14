@@ -30,47 +30,47 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FD938 0x021FD938 thumb ov186
- *   func_021FC6A4 0x021FC6A4 thumb ov186
- *   func_021FC20C 0x021FC20C thumb ov186
- *   func_021FC214 0x021FC214 thumb ov186
+ *   BR_UTIL_Create 0x021FC6A4 thumb ov186
+ *   BR_RES_GetFont 0x021FC20C thumb ov186
+ *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
- *   func_021FE794 0x021FE794 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_021FC734 0x021FC734 thumb ov186
- *   func_021FEE24 0x021FEE24 thumb ov186
+ *   BR_FADE_StartTimed 0x021FE794 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
+ *   BR_UTIL_Delete 0x021FC734 thumb ov186
+ *   BR_SIDEBAR_StartBounce 0x021FEE24 thumb ov186
  *   func_021F9BF4 0x021F9BF4 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FC830 0x021FC830 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020409B4 0x020409B4 arm
- *   func_021FEE74 0x021FEE74 thumb ov186
+ *   BR_SIDEBAR_StartSlide 0x021FEE74 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
- *   func_021FEE9C 0x021FEE9C thumb ov186
- *   func_021FEE4C 0x021FEE4C thumb ov186
+ *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
+ *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
  *   func_021FD744 0x021FD744 thumb ov186
- *   func_021FC1F8 0x021FC1F8 thumb ov186
- *   func_021FC148 0x021FC148 thumb ov186
- *   func_021FB964 0x021FB964 thumb ov186
- *   func_021F9CB8 0x021F9CB8 thumb ov186
- *   func_021FE840 0x021FE840 thumb ov186
- *   func_021FBDA4 0x021FBDA4 thumb ov186
- *   func_021F9F48 0x021F9F48 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
+ *   BR_RES_ReleaseUiPalette 0x021FC1F8 thumb ov186
+ *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
+ *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
+ *   BR_BTN_Create 0x021F9CB8 thumb ov186
+ *   BR_FADE_SetBlendLevel 0x021FE840 thumb ov186
+ *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
+ *   BR_BTN_Delete 0x021F9F48 thumb ov186
+ *   BR_FADE_Start 0x021FE784 thumb ov186
  *   func_021FA018 0x021FA018 thumb ov186
  *   func_021F9FE8 0x021F9FE8 thumb ov186
  *   func_021FA004 0x021FA004 thumb ov186
  *   func_021FA01C 0x021FA01C thumb ov186
- *   func_021FC238 0x021FC238 thumb ov186
- *   func_021FC230 0x021FC230 thumb ov186
- *   func_021FC224 0x021FC224 thumb ov186
- *   func_021FE7F4 0x021FE7F4 thumb ov186
+ *   BR_RES_GetPalSet 0x021FC238 thumb ov186
+ *   BR_RES_SetPalSet 0x021FC230 thumb ov186
+ *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
+ *   BR_FADE_SetBlendColor 0x021FE7F4 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E3280 0x021E3280 data a4
- *   func_021FC240  0x021FC240  thumb  ov186
+ *   BR_RES_LoadFadePalettes  0x021FC240  thumb  ov186
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
@@ -78,27 +78,27 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   GAME_DATA_IsSaving 0x02012E40 thumb
- *   func_021FF88C 0x021FF88C thumb ov186
+ *   BR_NET_HandleNetError 0x021FF88C thumb ov186
  *   func_021F9C6C 0x021F9C6C thumb ov186
  *   func_021FD6B0 0x021FD6B0 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021F9C50 0x021F9C50 thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FF54C 0x021FF54C thumb ov186
- *   func_021FF648 0x021FF648 thumb ov186
- *   func_021FF72C 0x021FF72C thumb ov186
- *   func_021FF698 0x021FF698 thumb ov186
+ *   BR_NET_StartRequest 0x021FF54C thumb ov186
+ *   BR_NET_IsIdle 0x021FF648 thumb ov186
+ *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
+ *   BR_NET_GetVideoReply 0x021FF698 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_SetData 0x0200B938 thumb
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
- *   func_021D7630 0x021D7630 thumb ov125
+ *   GDS_RAP_SaveVideoSecured 0x021D7630 thumb ov125
  *   d_021E3960 0x021E3960 data a1
  *   func_02034714 0x02034714 arm
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_021FC21C 0x021FC21C thumb ov186
+ *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
@@ -134,11 +134,11 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_021FC124 0x021FC124 thumb ov186
+ *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
+ *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
  *   func_021FB494 0x021FB494 thumb ov186
- *   func_021FC0C8 0x021FC0C8 thumb ov186
+ *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   func_021FD12C 0x021FD12C thumb ov186
  *   d_021E32A8 0x021E32A8 data a4
  *   func_0200DABC 0x0200DABC thumb
@@ -168,9 +168,9 @@
  *   d_021E351C 0x021E351C data a4
  *   d_021E3534 0x021E3534 data a4
  *   d_021E3964 0x021E3964 data a1
- *   func_021FF6DC 0x021FF6DC thumb ov186
- *   func_021FF704 0x021FF704 thumb ov186
- *   func_021FF6B4 0x021FF6B4 thumb ov186
+ *   BR_NET_GetSearchResultsForRanking 0x021FF6DC thumb ov186
+ *   BR_NET_GetSearchResultsForNewest 0x021FF704 thumb ov186
+ *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
  *   func_0201EC64 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   func_021FC8C8 0x021FC8C8 thumb ov186
@@ -208,13 +208,13 @@
  *   d_021E3758 0x021E3758 data a4
  *   d_021E3728 0x021E3728 data a4
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
- *   func_021FFBD4 0x021FFBD4 thumb ov186
- *   func_021FFE5C 0x021FFE5C thumb ov186
- *   func_021FFE34 0x021FFE34 thumb ov186
- *   func_021FFE70 0x021FFE70 thumb ov186
- *   func_021FFC6C 0x021FFC6C thumb ov186
- *   func_021FFC9C 0x021FFC9C thumb ov186
- *   func_021FFE90 0x021FFE90 thumb ov186
+ *   BR_POKESEARCH_Create 0x021FFBD4 thumb ov186
+ *   BR_POKESEARCH_Open 0x021FFE5C thumb ov186
+ *   BR_POKESEARCH_UpdatePrint 0x021FFE34 thumb ov186
+ *   BR_POKESEARCH_Close 0x021FFE70 thumb ov186
+ *   BR_POKESEARCH_Destroy 0x021FFC6C thumb ov186
+ *   BR_POKESEARCH_Main 0x021FFC9C thumb ov186
+ *   BR_POKESEARCH_GetResult 0x021FFE90 thumb ov186
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   func_02025B64 0x02025B64 thumb
  *   func_0201F048 0x0201F048 thumb
@@ -254,17 +254,17 @@
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   d_021E38E0 0x021E38E0 data a4
  *   BATTLE_REC_Load 0x0200B570 thumb
- *   func_021FF67C 0x021FF67C thumb ov186
+ *   BR_NET_GetUploadedDataNumber 0x021FF67C thumb ov186
  *   func_021FD19C 0x021FD19C thumb ov186
  *   d_021E39B4 0x021E39B4 data a4
- *   func_021D76A8 0x021D76A8 thumb ov125
- *   func_021D76D8 0x021D76D8 thumb ov125
+ *   GDS_RAP_StartVideoSave 0x021D76A8 thumb ov125
+ *   GDS_RAP_StepVideoSave 0x021D76D8 thumb ov125
  *   d_021E3900 0x021E3900 data a4
  *   func_021E2F98 0x021E2F98 thumb ov183
  *   func_021E300C 0x021E300C thumb ov183
  *   func_021E31E8 0x021E31E8 thumb ov183
  *   func_021E3228 0x021E3228 thumb ov183
- *   func_021D7540 0x021D7540 thumb ov125
+ *   GDS_RAP_SaveVideoSeq 0x021D7540 thumb ov125
  *   d_021E3910 0x021E3910 data a4
  *   d_021E3928 0x021E3928 data a4
  */
@@ -482,40 +482,40 @@ extern int func_021FD72C(int *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void func_021FD860(void *, unsigned, const Point *);
 extern int func_021FD938(char *);
-extern void *func_021FC6A4(unsigned short,unsigned,unsigned short,unsigned short,unsigned char,unsigned char,void *,unsigned short);
-extern unsigned func_021FC20C(char *p);
-extern int func_021FC214(char *);
+extern void *BR_UTIL_Create(unsigned short,unsigned,unsigned short,unsigned short,unsigned char,unsigned char,void *,unsigned short);
+extern unsigned BR_RES_GetFont(char *p);
+extern int BR_RES_GetMsgData(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
-extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
-extern int func_021FE7B0(int *);
-extern void func_021FC734(u8 *p);
-extern void func_021FEE24(char *p);
+extern void BR_FADE_StartTimed(char *p, u32 index, u32 a, u32 b, u32 c);
+extern int BR_FADE_GetResult(int *);
+extern void BR_UTIL_Delete(u8 *p);
+extern void BR_SIDEBAR_StartBounce(char *p);
 extern int func_021FC830(u8 *p);
 extern void func_021F9BF4(unsigned *,unsigned);
 extern int *func_021FD73C(int *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020409B4(u32 index);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_021FEE74(char *p);
+extern void BR_SIDEBAR_StartSlide(char *p);
 extern void func_021F9BA0(unsigned *ctx);
-extern void func_021FEE9C(char *p);
-extern void func_021FEE4C(char *p);
+extern void BR_SIDEBAR_ResetPositions(char *p);
+extern void BR_SIDEBAR_StartWobble(char *p);
 extern int func_021FD744(int *a);
-extern void func_021FC1F8(int *,int);
-extern void func_021FC148(char *p, unsigned i, unsigned heap);
-extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap);
-extern void func_021FE840(int,int,int);
-extern void func_021FE784(int,int,int,int);
+extern void BR_RES_ReleaseUiPalette(int *,int);
+extern void BR_RES_LoadUiPalette(char *p, unsigned i, unsigned heap);
+extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+extern struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap);
+extern void BR_FADE_SetBlendLevel(int,int,int);
+extern void BR_FADE_Start(int,int,int,int);
 extern int func_021FA018(char *),func_021FA01C(char *);
 extern void func_021F9FE8(char *);
 extern int func_021FA004(char *,int *,int *);
-extern int func_021FC238(char *),func_021FC224(char *);
-extern void func_021FC230(char *,int),func_021FE7F4(int *,int);
+extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
+extern void BR_RES_SetPalSet(char *,int),BR_FADE_SetBlendColor(int *,int);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void *func_020056A0(void (*)(void),void *,int);
 extern void func_02030EAC(struct Node *n);
-extern void func_021FC240(char *p, void *owner, unsigned short heap);
+extern void BR_RES_LoadFadePalettes(char *p, void *owner, unsigned short heap);
 extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern char * BATTLE_REC_GetHeader(void);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
@@ -523,25 +523,25 @@ extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int ind
 extern void func_021FD15C(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
-extern int func_021FF88C(char *p);
+extern int BR_NET_HandleNetError(char *p);
 extern void func_021F9C6C(void *);
 extern int func_021FD6B0(u8 *p);
 extern void func_021FD1BC(void *);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021F9C50(S_021DB2E0 *);
 extern void func_021FD170(char *p, char *q, void *text);
-extern void func_021FF54C(char *p, int kind, const int *values);
-extern int func_021FF648(char *p);
-extern int func_021FF72C(char *p, int *out);
-extern int func_021FF698(char *,int,int *);
+extern void BR_NET_StartRequest(char *p, int kind, const int *values);
+extern int BR_NET_IsIdle(char *p);
+extern int BR_NET_PollErrorMessage(char *p, int *out);
+extern int BR_NET_GetVideoReply(char *,int,int *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
+extern int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void BATTLE_REC_DecodeWork(void);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
-extern int func_021FC21C(char *);
+extern int BR_RES_GetWordSet(char *);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
@@ -570,12 +570,12 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void func_021FBDA4(int a, unsigned mode);
-extern void func_021FBE54(char *,u32,u32);
-extern int func_021FC124(void *,int,Triple *);
+extern void BR_RES_ApplyBgSet(int a, unsigned mode);
+extern void BR_RES_LoadSprite(char *,u32,u32);
+extern int BR_RES_GetSprite(void *,int,Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void func_021FB494(char *p);
-extern void func_021FC0C8(char *p, unsigned i);
+extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
@@ -590,9 +590,9 @@ extern u16 BSUBWAY_SAVEDATA_GetStat(Row *,int,int);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *,u32,void *);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
-extern int func_021FF6DC(char *p, void *buffer, int count, int *out);
-extern int func_021FF704(char *p, void *buffer, int count, int *out);
-extern int func_021FF6B4(char *p, void *buffer, int count, int *out);
+extern int BR_NET_GetSearchResultsForRanking(char *p, void *buffer, int count, int *out);
+extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, int *out);
+extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern Slot_021DB2E0 *BMP_MENUWORK_Create(u32,u32);
 extern void *func_021FC8C8(const Config_021DF1DC *,u16);
@@ -626,13 +626,13 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int func_021FB4CC(u32 *p, int a1, int a2);
 extern void BMP_MENUWORK_AddMsgItem(Slot_021DB2E0 *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
-extern char *func_021FFBD4(void *, void *, int, int, int, int, int, u16);
-extern void func_021FFE5C(char *);
-extern unsigned func_021FFE34(char *p);
-extern void func_021FFE70(char *p);
-extern void func_021FFC6C(char *p);
-extern int func_021FFC9C(char *);
-extern int func_021FFE90(int *, u16 *);
+extern char *BR_POKESEARCH_Create(void *, void *, int, int, int, int, int, u16);
+extern void BR_POKESEARCH_Open(char *);
+extern unsigned BR_POKESEARCH_UpdatePrint(char *p);
+extern void BR_POKESEARCH_Close(char *p);
+extern void BR_POKESEARCH_Destroy(char *p);
+extern int BR_POKESEARCH_Main(char *);
+extern int BR_POKESEARCH_GetResult(int *, u16 *);
 extern void BMP_MENUWORK_AddStrItem(Slot_021DB2E0 *table, u32 a, u32 b, u32 tag);
 extern u8 func_02025B64(u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
@@ -656,14 +656,14 @@ extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
-extern u32 func_021FF67C(u8 *p, unsigned long long *out);
+extern u32 BR_NET_GetUploadedDataNumber(u8 *p, unsigned long long *out);
 extern void func_021FD19C(char *p, void *q, void *text);
-extern void func_021D76A8(int,int,int);
-extern int func_021D76D8(char *p, int id);
+extern void GDS_RAP_StartVideoSave(int,int,int);
+extern int GDS_RAP_StepVideoSave(char *p, int id);
 extern void func_021E2F98(SOCLResource *resource);
 extern void func_021E300C(Point *);
 extern int func_021E31E8(char *,int,int),func_021E3228(char *,int,int);
-extern int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
+extern int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 int func_021DB2E0(int *task, int unused, char *p);
 int func_021DB36C(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p);
 int func_021DB394(int a,int b,int c,struct CodeinWorkB *p);
@@ -983,19 +983,19 @@ void func_021DB3C4(int *task,int *state,struct CodeinWorkE *p)
     case 2: {Point args;args.x=128;args.y=-8;func_021FD860((void *)(p->f18), 3, &args);*state=3;break;}
     case 3: if(func_021FD938(*(char * *)&p->f18))*state=4;break;
     case 4:
-        p->f8=func_021FC6A4(4,8,16,16,2,14,p->fC,p->f4);
-        a=func_021FC20C(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
-        b=func_021FC214(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
+        p->f8=BR_UTIL_Create(4,8,16,16,2,14,p->fC,p->f4);
+        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
+        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
         func_021FC754(*(char * *)&p->f8,(void *)b,(void *)228,(void *)a,0x440);
-        func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,1,4);*state=5;break;
-    case 5: if(func_021FE7B0(((struct CodeinSubA *)(p->f1C))->f8))*state=6;break;
-    case 6: func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,0,4);*state=7;break;
-    case 7: if(func_021FE7B0(((struct CodeinSubA *)(p->f1C))->f8))*state=8;break;
-    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);func_021FC734(p->f8);*(int *)&p->f8=0;func_020409B4(4);*state=9;}break;
-    case 9: func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,0,48);func_021FEE24((char *)(((struct CodeinSubA *)(p->f1C))->f14));*state=10;break;
-    case 10: {enum {ONE=1} mask=ONE;if(func_021FE7B0((int *)(((struct CodeinSubA *)(p->f1C))->f8))&mask) {func_021FD860((void *)(p->f18), 8, 0);*state=11;}break;}
-    case 11: func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);*state=12;break;
-    case 12: if(func_021FE7B0(((struct CodeinSubA *)(p->f1C))->f8))*state=13;break;
+        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,1,4);*state=5;break;
+    case 5: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=6;break;
+    case 6: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,0,4);*state=7;break;
+    case 7: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=8;break;
+    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(p->f8);*(int *)&p->f8=0;func_020409B4(4);*state=9;}break;
+    case 9: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct CodeinSubA *)(p->f1C))->f14));*state=10;break;
+    case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(p->f1C))->f8))&mask) {func_021FD860((void *)(p->f18), 8, 0);*state=11;}break;}
+    case 11: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);*state=12;break;
+    case 12: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=13;break;
     case 13: if(func_021FD938(*(char * *)&p->f18)) {func_021F9BF4(*(unsigned * *)&((struct CodeinSubA *)(p->f1C))->f10,1);func_021FD73C(task,(int)func_021DB690);}break;
     }
     if(p->f8)func_021FC830(p->f8);
@@ -1023,20 +1023,20 @@ void func_021DB594(int *task, int *state, struct CodeinWorkA *p)
     switch(*state) {
     case 0: *state=1; break;
     case 1:
-        func_021FEE74((char *)(((struct CodeinSubA *)(p->f1C))->f14));
+        BR_SIDEBAR_StartSlide((char *)(((struct CodeinSubA *)(p->f1C))->f14));
         *state=2;
         break;
     case 2:
         if(((*(int *)&p->f10))++ !=0) {
             (*(int *)&p->f10)=0;
-            func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,1,26);
+            BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,1,26);
             *state=3;
         }
         break;
     case 3:
     {
         enum { MASK=1 } mask=MASK;
-        if(func_021FE7B0(((struct CodeinSubA *)(p->f1C))->f8)&mask) *state=4;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8)&mask) *state=4;
         break;
     }
     case 4:
@@ -1064,15 +1064,15 @@ void func_021DB61C(int *task, int *state, struct CodeinWorkA *p)
 {
     switch(*state) {
     case 0:
-        func_021FE794((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);
+        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);
         *state=1;
         break;
     case 1:
-        if(func_021FE7B0(((struct CodeinSubA *)(p->f1C))->f8)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8)) *state=2;
         break;
     case 2:
-        func_021FEE9C((char *)(((struct CodeinSubA *)(p->f1C))->f14));
-        func_021FEE4C((char *)(((struct CodeinSubA *)(p->f1C))->f14));
+        BR_SIDEBAR_ResetPositions((char *)(((struct CodeinSubA *)(p->f1C))->f14));
+        BR_SIDEBAR_StartWobble((char *)(((struct CodeinSubA *)(p->f1C))->f14));
         func_021F9BF4((unsigned int *)(((struct CodeinSubA *)(p->f1C))->f10),1);
         func_021FD73C(task,(int)func_021DB690);
         break;
@@ -1122,16 +1122,16 @@ int func_021DB698(int *task,int b,char *p)
     MI_CpuFill8(s,0,24);
     s->fC=p;
     s->f14=func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C));
-    func_021FC1F8(*(int * *)&((struct CodeinWorkB *)p)->f18,0);
-    func_021FC1F8(*(int * *)&((struct CodeinWorkB *)p)->f18,1);
-    func_021FC148((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),0,s->f14);
-    func_021FC148((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
-    if(((struct CodeinWorkB *)p)->f0<5) func_021FB964(*(int * *)&((struct CodeinWorkB *)p)->f18,3,s->f14);
-    else func_021FB964(*(int * *)&((struct CodeinWorkB *)p)->f18,4,s->f14);
+    BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,0);
+    BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,1);
+    BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),0,s->f14);
+    BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
+    if(((struct CodeinWorkB *)p)->f0<5) BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)p)->f18,3,s->f14);
+    else BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)p)->f18,4,s->f14);
     s->f4=(int)func_021FD760((*(int *)&((struct CodeinWorkB *)p)->f14),(char *)(*(int *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
-    s->f0=(int)func_021F9CB8(((struct CodeinWorkB *)p)->f0,(*(int *)&((struct CodeinWorkB *)p)->f14),*(int *)&((struct CodeinWorkB *)p)->f18,((struct CodeinWorkB *)p)->f20,(*(int *)&((struct CodeinWorkB *)p)->f24),s->f4,s->f14);
-    if(((struct CodeinWorkB *)p)->fC==4) func_021FE840(((struct CodeinWorkB *)p)->f10,2,0);
-    else func_021FE840(((struct CodeinWorkB *)p)->f10,3,0);
+    s->f0=(int)BR_BTN_Create(((struct CodeinWorkB *)p)->f0,(*(int *)&((struct CodeinWorkB *)p)->f14),*(int *)&((struct CodeinWorkB *)p)->f18,((struct CodeinWorkB *)p)->f20,(*(int *)&((struct CodeinWorkB *)p)->f24),s->f4,s->f14);
+    if(((struct CodeinWorkB *)p)->fC==4) BR_FADE_SetBlendLevel(((struct CodeinWorkB *)p)->f10,2,0);
+    else BR_FADE_SetBlendLevel(((struct CodeinWorkB *)p)->f10,3,0);
     return 1;
 }
 
@@ -1152,7 +1152,7 @@ int func_021DB698(int *task,int b,char *p)
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
-int func_021DB740(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) func_021FBDA4(q->f18,3); else func_021FBDA4(q->f18,4); func_021F9F48(*(u8 * *)&p->f0); func_021FD820(*(char * *)&p->f4); func_020315D4(task); return 1; }
+int func_021DB740(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); func_021FD820(*(char * *)&p->f4); func_020315D4(task); return 1; }
 
 
 
@@ -1175,8 +1175,8 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
 {
     u32 x,y;
     switch(*state) {
-    case 0: func_021FE784(p->f10,p->fC,3,0);*state=1;break;
-    case 1: if(func_021FE7B0(*(int * *)&p->f10))*state=2;break;
+    case 0: BR_FADE_Start(p->f10,p->fC,3,0);*state=1;break;
+    case 1: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     case 2:
         if(p->f0<=4 && !func_021FA018(*(char * *)&q->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
@@ -1185,10 +1185,10 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
         if(func_021FA004(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) *state=3;
         break;
     case 3:
-        if(p->f4==12)func_021FE784(p->f10,4,3,1);
-        else func_021FE784(p->f10,2,3,1);
+        if(p->f4==12)BR_FADE_Start(p->f10,4,3,1);
+        else BR_FADE_Start(p->f10,2,3,1);
         *state=4;break;
-    case 4: if(func_021FE7B0(*(int * *)&p->f10))*state=5;break;
+    case 4: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=5;break;
     case 5:
         switch(func_021FA004(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) {
         case 1: func_021F9BF4(*(unsigned * *)&p->f1C,(unsigned short)p->f4);return 1;
@@ -1196,17 +1196,17 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
         }
         break;
     case 6: {
-        int v=func_021FC238(*(char * *)&p->f18);u32 i;
+        int v=BR_RES_GetPalSet(*(char * *)&p->f18);u32 i;
         for(i=0;i<7;i++) {if(v==d_021E3280[i]) {v=d_021E3280[(i+1)%7];break;}}
-        func_021FC230(*(char * *)&p->f18,v);
-        func_021FE7F4(*(int * *)&p->f10,func_021FC224(*(char * *)&p->f18));
-        func_021FE784(p->f10,3,3,1);*state=7;break;
+        BR_RES_SetPalSet(*(char * *)&p->f18,v);
+        BR_FADE_SetBlendColor(*(int * *)&p->f10,BR_RES_GetCurrentSetParam(*(char * *)&p->f18));
+        BR_FADE_Start(p->f10,3,3,1);*state=7;break;
     }
-    case 7: if(func_021FE7B0(*(int * *)&p->f10))*state=8;break;
+    case 7: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=8;break;
     case 8: (*(void * *)&q->f8)=func_020056A0((void (*)(void))func_021DB924,q,0);q->f10=0;*state=9;break;
     case 9: if(q->f10) {func_02030EAC((*(void * *)&q->f8));*state=10;}break;
-    case 10: func_021FE784(p->f10,3,3,0);*state=11;break;
-    case 11: if(func_021FE7B0(*(int * *)&p->f10))*state=2;break;
+    case 10: BR_FADE_Start(p->f10,3,3,0);*state=11;break;
+    case 11: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     }
     func_021FD854(*(char * *)&q->f4);return 0;
 }
@@ -1232,7 +1232,7 @@ void func_021DB924(int a0, struct CodeinWorkF *p)
     char *q = *(char * *)&p->fC;
 
     if (v == 0) {
-        func_021FC240((char *)(((struct CodeinArgB *)q)->f18), (void *)((*(int *)&((struct CodeinArgB *)q)->f10)),
+        BR_RES_LoadFadePalettes((char *)(((struct CodeinArgB *)q)->f18), (void *)((*(int *)&((struct CodeinArgB *)q)->f10)),
                       p->f14);
     }
     p->f10 = 1;
@@ -1386,7 +1386,7 @@ int func_021DBB3C(int task,int b,char *q,char *p)
 int func_021DBBC4(int a,int b,int c,struct CodeinWorkB *p)
 {
     int i;
-    if(GAME_DATA_IsSaving(((struct CodeinSubA *)(p->fD0))->f28)==0 && func_021FF88C(((struct CodeinSubA *)(p->fD0))->f24)==2) {
+    if(GAME_DATA_IsSaving(((struct CodeinSubA *)(p->fD0))->f28)==0 && BR_NET_HandleNetError(((struct CodeinSubA *)(p->fD0))->f24)==2) {
         func_021F9C6C((*(void * *)&((struct CodeinSubA *)(p->fD0))->f14));
         return 1;
     }
@@ -1443,11 +1443,11 @@ void func_021DBCA8(int *task, int *state, struct CodeinWorkA *p)
 {
     switch(*state) {
     case 0:
-        func_021FE784((*(int *)&((struct CodeinSubA *)(p->fD0))->fC),2,3,0);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(p->fD0))->fC),2,3,0);
         *state=1;
         break;
     case 1:
-        if(func_021FE7B0(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
         break;
     case 2:
         func_021FD73C(task,(int)func_021DBD7C);
@@ -1471,11 +1471,11 @@ void func_021DBCF4(int *task, int *state, struct CodeinWorkA *p)
 {
     switch(*state) {
     case 0:
-        func_021FE784((*(int *)&((struct CodeinSubA *)(p->fD0))->fC),2,3,1);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(p->fD0))->fC),2,3,1);
         *state=1;
         break;
     case 1:
-        if(func_021FE7B0(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
         break;
     case 2:
         func_021FD73C(task,(int)func_021DBD40);
@@ -1582,14 +1582,14 @@ void func_021DBEB0(int *task,int *state,char *p)
     int a,b;
     switch(*state) {
     case 0:
-        func_021FE784((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,1,1);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,1,1);
         (*state)++;break;
     case 1:
-        if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))(*state)++;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))(*state)++;
         break;
     case 2:
-        a=func_021FC20C(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
-        b=func_021FC214(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
+        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
+        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
         if(((struct CodeinWorkB *)p)->fB0) {
             func_021DCE48(p,((struct CodeinWorkB *)p)->fD0);
             func_021FC754(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
@@ -1599,10 +1599,10 @@ void func_021DBEB0(int *task,int *state,char *p)
             func_021FC754(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
             func_021DC8EC(p,(char *)(*(int *)&((struct CodeinWorkB *)p)->fD0));
         }
-        func_021FE784((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,1,0);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,1,0);
         (*state)++;break;
     case 3:
-        if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))func_021FD73C(task,(int)func_021DBD7C);
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))func_021FD73C(task,(int)func_021DBD7C);
         break;
     }
 }
@@ -1632,22 +1632,22 @@ void func_021DBFB0(int *a,int *state,char *p)
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
         func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);*state=1;break;
-    case 1: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=2;break;
-    case 2: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=3;break;
+    case 1: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=2;break;
+    case 2: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=3;break;
     case 3:
         MI_CpuFill8(&t,0,8);
         t=*(u64 *)(*(char **)(p+0xd0)+0x1c);
-        func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=4;break;
     case 4:
         ++*(int *)(p+0xbc);
-        if(func_021FF648(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
+        if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
             func_021FD860((void *)(*(int *)(p+12)), 0, 0);*state=5;
         }
         break;
     case 5:
-        if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
-            if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
+        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
+            if(BR_NET_GetVideoReply(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
                 *(char **)(p+0xc0)=source;
                 *(char **)(p+0xc4)=source+0x80;*state=6;
             } else {
@@ -1664,19 +1664,19 @@ void func_021DBFB0(int *a,int *state,char *p)
             func_021F9BA0((unsigned int *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=12;
         }
         break;
-    case 6: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=7;break;
+    case 6: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=7;break;
     case 7:
-        if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) {
+        if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) {
             func_021DD0F4(p,*(char **)(p+0xd0));
             func_021DCEE4(p,*(char **)(p+0xd0));
             func_021DC8EC(p,*(char **)(p+0xd0));*state=8;
         }
         break;
-    case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=9;break;
-    case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
+    case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=9;break;
+    case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10: func_021FD73C(a,(int)func_021DBD7C);break;
-    case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
-    case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
+    case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
+    case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
     case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)a);break;
     }
 }
@@ -1724,8 +1724,8 @@ void func_021DC228(int *a,int *state,char *p)
     u32 x,y;
     Point args;
     switch(*state) {
-    case 0: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
+    case 0: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2:
         if(*(int *)(p+0xb0)) func_021DCE28(p,*(char **)(p+0xd0));
         else func_021DCE48(p,*(char **)(p+0xd0));
@@ -1733,22 +1733,22 @@ void func_021DC228(int *a,int *state,char *p)
         func_021DD0AC(p,*(char **)(p+0xd0));
         func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
-    case 3: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
-    case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
+    case 3: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
+    case 4: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
     case 5:
         MI_CpuFill8(&t,0,8);
         t=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
-        func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=6;break;
     case 6:
         ++*(int *)(p+0xbc);
-        if(func_021FF648(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
+        if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
             func_021FD860((void *)(*(int *)(p+12)), 0, 0);*state=7;
         }
         break;
     case 7:
-        if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
-            if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
+        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
+            if(BR_NET_GetVideoReply(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
                 BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
@@ -1766,13 +1766,13 @@ void func_021DC228(int *a,int *state,char *p)
             func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
         }
         break;
-    case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
-    case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
+    case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
+    case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
         if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
         break;
-    case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
-    case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
+    case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
+    case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
     case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }
 }
@@ -1816,21 +1816,21 @@ void func_021DC4FC(int *a,int *state,char *p)
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
         func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
-        func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
+        BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2: *state=3;break;
     case 3: *(u16 *)(p+0xb6)=0;*(u16 *)(p+0xb8)=0;*state=4;break;
     case 4:
         if(*(int *)(*(char **)(p+0xd0)+8)>3) func_02034714(d_021E3960,0,d_021E3960);
-        if(func_021D7630((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
+        if(GDS_RAP_SaveVideoSecured((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
             BATTLE_REC_DecodeWork();
             *(int *)(p+0xc8)=(int)BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);
             *state=5;
         }
         break;
-    case 5: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
-    case 6: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
+    case 5: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
+    case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
     case 7: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }
 }
@@ -1851,14 +1851,14 @@ void func_021DC638(int *a,int *state,char *p)
 {
     u32 x,y;
     switch(*state) {
-    case 0: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=1;break;
-    case 1: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=2;break;
+    case 0: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=2;break;
     case 2:
         if(((struct CodeinWorkB *)p)->fB0) func_021DCE28(p,((struct CodeinWorkB *)p)->fD0);
         else func_021DCE48(p,((struct CodeinWorkB *)p)->fD0);
         func_021DD054(p,((struct CodeinWorkB *)p)->fD0);func_021DD128(p,((struct CodeinWorkB *)p)->fD0);*state=3;break;
-    case 3: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,0);++*state;break;
-    case 4: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
+    case 3: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,0);++*state;break;
+    case 4: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
     case 5: ++*state;break;
     case 6:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
@@ -1866,24 +1866,24 @@ void func_021DC638(int *a,int *state,char *p)
             else if(func_021DD33C(p,x,y)) *state=10;
         }
         break;
-    case 7: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);++*state;break;
-    case 8: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
+    case 7: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);++*state;break;
+    case 8: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
     case 9: func_021DD1D4(p,((struct CodeinWorkB *)p)->fD0);*state=13;break;
-    case 10: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);++*state;break;
-    case 11: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
+    case 10: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);++*state;break;
+    case 11: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
     case 12: func_021DD1D4(p,((struct CodeinWorkB *)p)->fD0);func_021FD73C(a,(int)func_021DBC68);break;
     case 13: func_021DD0AC(p,((struct CodeinWorkB *)p)->fD0);*state=14;break;
     case 14:
         func_021FD170(((struct CodeinWorkB *)p)->f18,(char *)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10),(void *)0x152);
-        func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,0);*state=15;break;
-    case 15: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=16;break;
+        BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,0);*state=15;break;
+    case 15: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=16;break;
     case 16: *state=17;break;
     case 17: GAME_DATA_SaveStart((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f28));*state=18;break;
     case 18:
         if(GAME_DATA_SaveMain(*(u8 * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f28)==2) {func_021FD860((void *)(((struct CodeinWorkB *)p)->fC), 0, 0);*state=19;}
         break;
-    case 19: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=20;break;
-    case 20: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=21;break;
+    case 19: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=20;break;
+    case 20: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=21;break;
     case 21:
         if(!GFL_USE_IsSeqPlaying(0x701)) {
             func_021DD0F4(p,((struct CodeinWorkB *)p)->fD0);
@@ -1941,15 +1941,15 @@ void func_021DC8EC(char *p,char *q)
     U16Vec *text;
     if(!*(int *)(p+0xd4)) {
         *(int *)(p+0xd4)=1;
-        if(func_021DD228(*(void **)(p+0xc4))) func_021FB964((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
-        else func_021FB964((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
-        font=(void *)func_021FC20C(*(char **)(q+0x10));
-        bank=(MsgBank *)func_021FC214(*(char **)(q+0x10));
-        words=(WordSet *)func_021FC21C(*(char **)(q+0x10));
+        if(func_021DD228(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
+        else BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
+        font=(void *)BR_RES_GetFont(*(char **)(q+0x10));
+        bank=(MsgBank *)BR_RES_GetMsgData(*(char **)(q+0x10));
+        words=(WordSet *)BR_RES_GetWordSet(*(char **)(q+0x10));
         for(i=0;i<5;i++) {
             d=&d_021E32C8[i];
             slot=p+i*4;
-            *(void **)(slot+0x30)=func_021FC6A4(1,d->x,d->y,d->w,d->h,14,*(void **)(p+4),*(u16 *)(p+0xb4));
+            *(void **)(slot+0x30)=BR_UTIL_Create(1,d->x,d->y,d->w,d->h,14,*(void **)(p+4),*(u16 *)(p+0xb4));
             switch(i) {
             case 0:
                 {
@@ -2187,9 +2187,9 @@ void func_021DCE48(char *p,char *q)
         if(((struct CodeinWorkB *)p)->f4C!=-1) { CLACT_ReleaseCellAnim(((struct CodeinWorkB *)p)->f4C); ((struct CodeinWorkB *)p)->f4C=-1; }
         for(i=0;i<5;i++) {
             slot=p+i*4;
-            if(((struct CodeinWorkC *)slot)->f30) { func_021FC734(((struct CodeinWorkC *)slot)->f30); *(int *)&((struct CodeinWorkC *)slot)->f30=0; }
+            if(((struct CodeinWorkC *)slot)->f30) { BR_UTIL_Delete(((struct CodeinWorkC *)slot)->f30); *(int *)&((struct CodeinWorkC *)slot)->f30=0; }
         }
-        func_021FBDA4(((struct CodeinArgA *)q)->f10,6);
+        BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10,6);
         func_020409B4(1);
         ((struct CodeinWorkB *)p)->fD4=0;
     }
@@ -2208,16 +2208,16 @@ void func_021DCEE4(char *p,char *q)
     int a,b;
     if(!((struct CodeinWorkA *)p)->fD8) {
         ((struct CodeinWorkA *)p)->fD8=1;
-        func_021FB964((void *)(*(int *)&((struct CodeinArgB *)q)->f10),5,((struct CodeinWorkA *)p)->fB4);
-        func_021FBE54(*(char * *)&((struct CodeinArgB *)q)->f10,6,((struct CodeinWorkA *)p)->fB4);
-        a=func_021FC20C(*(char * *)&((struct CodeinArgB *)q)->f10);
-        b=func_021FC214(*(char * *)&((struct CodeinArgB *)q)->f10);
+        BR_RES_LoadBgGraphics((void *)(*(int *)&((struct CodeinArgB *)q)->f10),5,((struct CodeinWorkA *)p)->fB4);
+        BR_RES_LoadSprite(*(char * *)&((struct CodeinArgB *)q)->f10,6,((struct CodeinWorkA *)p)->fB4);
+        a=BR_RES_GetFont(*(char * *)&((struct CodeinArgB *)q)->f10);
+        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgB *)q)->f10);
         if(((struct CodeinWorkA *)p)->fCC) {
             Params d;
             Triple t;
             MI_CpuFill8(&d,0,8);
             d.a=24;d.b=168;d.c=0;d.flag=1;
-            func_021FC124(((struct CodeinArgB *)q)->f10,6,&t);
+            BR_RES_GetSprite(((struct CodeinArgB *)q)->f10,6,&t);
             (*(void * *)&((struct CodeinWorkA *)p)->f1C)=func_021FB378(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
             d.a=136;d.c=3;
             (*(void * *)&((struct CodeinWorkA *)p)->f20)=func_021FB378(&d,84,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
@@ -2226,10 +2226,10 @@ void func_021DCEE4(char *p,char *q)
             Triple t;
             MI_CpuFill8(&d,0,8);
             d.a=80;d.b=168;d.c=0;d.flag=1;
-            func_021FC124(((struct CodeinArgB *)q)->f10,6,&t);
+            BR_RES_GetSprite(((struct CodeinArgB *)q)->f10,6,&t);
             (*(void * *)&((struct CodeinWorkA *)p)->f1C)=func_021FB378(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
         }
-        (*(void * *)&((struct CodeinWorkA *)p)->f28)=func_021FC6A4(4,8,3,16,2,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->fB4);
+        (*(void * *)&((struct CodeinWorkA *)p)->f28)=BR_UTIL_Create(4,8,3,16,2,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->fB4);
         if(((struct CodeinWorkA *)p)->fB0) func_021FC754(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
         else func_021FC754(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
     }
@@ -2248,14 +2248,14 @@ void func_021DD054(char *p, char *q)
     int i;
     char *slot;
     if(((struct CodeinWorkB *)p)->fD8) {
-        if(((struct CodeinWorkB *)p)->f28) { func_021FC734(((struct CodeinWorkB *)p)->f28); *(int *)&((struct CodeinWorkB *)p)->f28=0; }
+        if(((struct CodeinWorkB *)p)->f28) { BR_UTIL_Delete(((struct CodeinWorkB *)p)->f28); *(int *)&((struct CodeinWorkB *)p)->f28=0; }
         for(i=0;i<2;i++) {
             slot=p+i*4;
             if(((struct CodeinSlotA *)slot)->f1C) { func_021FB494(((struct CodeinSlotA *)slot)->f1C); *(int *)&((struct CodeinSlotA *)slot)->f1C=0; }
         }
         func_020409B4(4);
-        func_021FC0C8((char *)(((struct CodeinArgA *)q)->f10),6);
-        func_021FBDA4(((struct CodeinArgA *)q)->f10,5);
+        BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f10),6);
+        BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10,5);
         ((struct CodeinWorkB *)p)->fD8=0;
     }
 }
@@ -2303,13 +2303,13 @@ void func_021DD128(char *p, char *q)
         if (!((struct CodeinWorkB *)p)->f18)
             ((struct CodeinWorkB *)p)->f18 = func_021FD12C(((struct CodeinArgA *)q)->f10, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
         func_021FD170(((struct CodeinWorkB *)p)->f18, (char *)(((struct CodeinArgA *)q)->f10), (void *)0x14f);
-        func_021FB964((void *)(((struct CodeinArgA *)q)->f10), 30, ((struct CodeinWorkB *)p)->fB4);
-        first = func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f10);
-        second = func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f10);
+        BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f10), 30, ((struct CodeinWorkB *)p)->fB4);
+        first = BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f10);
+        second = BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f10);
         for (i = 0; i < 2; i++) {
             rec = &d_021E32A8[i];
             slot = p + i * 4;
-            ((struct CodeinWorkC *)slot)->f28 = func_021FC6A4(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
+            ((struct CodeinWorkC *)slot)->f28 = BR_UTIL_Create(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
             func_021FC754(((struct CodeinWorkC *)slot)->f28, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
         }
     }
@@ -2337,12 +2337,12 @@ void func_021DD1D4(char *p, char *q)
         for (i = 0; i < 2; i++) {
             slot = p + i * 4;
             if (((struct CodeinWorkC *)slot)->f28) {
-                func_021FC734(((struct CodeinWorkC *)slot)->f28);
+                BR_UTIL_Delete(((struct CodeinWorkC *)slot)->f28);
                 *(int *)&((struct CodeinWorkC *)slot)->f28 = 0;
             }
         }
         func_020409B4(4);
-        func_021FBDA4(((struct CodeinArgA *)q)->f10, 30);
+        BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10, 30);
         if (((struct CodeinWorkB *)p)->f18) {
             func_021FD15C(((struct CodeinWorkB *)p)->f18, ((struct CodeinArgA *)q)->f10);
             *(int *)&((struct CodeinWorkB *)p)->f18 = 0;
@@ -2533,7 +2533,7 @@ int func_021DD37C(void *a, int unused, char *q)
     p->f0 = BMP_OAM_CreateSys(p->f7C, (*(void * *)&((struct CodeinArgA *)q)->f4));
     p->f4 = (void *)PRINTSYS_QUE_Create((void *)(p->f7C));
     p->f74 = func_021FD760((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)), (char *)(((struct CodeinArgA *)q)->f8), 1, p->f7C);
-    func_021FBE54(*(char * *)&((struct CodeinArgA *)q)->f8, 13, p->f7C);
+    BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)q)->f8, 13, p->f7C);
     func_021DDE2C(p, q);
     func_021DD5C8(p, q);
     return 1;
@@ -2555,7 +2555,7 @@ int func_021DD3F8(struct S020315D4 *a, int unused, char *q, char *p)
     func_021DDDE8(p, q);
     func_020409B4(4);
     func_020409B4(1);
-    func_021FC0C8((char *)(((struct CodeinArgA *)q)->f8), 13);
+    BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 13);
     func_021FD820(*(char * *)&((struct CodeinWorkA *)p)->f74);
     PRINTSYS_QUE_Delete(((struct CodeinWorkA *)p)->f4);
     BMP_OAM_DeleteSys(((struct CodeinWorkA *)p)->f0);
@@ -2581,8 +2581,8 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
  int x,y,i;
  Point pair;
  switch(*state){
- case 0:func_021FE784(((struct CodeinArgA *)q)->f0,2,3,0);*state=1;break;
- case 1:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=2;break;
+ case 0:BR_FADE_Start(((struct CodeinArgA *)q)->f0,2,3,0);*state=1;break;
+ case 1:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=2;break;
  case 2:
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    ((struct CodeinWorkA *)p)->f78=func_021DDFA0(p,x,y);
@@ -2593,8 +2593,8 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
     *state=7;
    }
   }break;
- case 3:func_021FE784(((struct CodeinArgA *)q)->f0,2,1,1);++*state;break;
- case 4:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f0)) ++*state;break;
+ case 3:BR_FADE_Start(((struct CodeinArgA *)q)->f0,2,1,1);++*state;break;
+ case 4:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) ++*state;break;
  case 5:
   func_021DDDE8(p,q);
   switch(*(u32 *)&((struct CodeinWorkA *)p)->f78){
@@ -2603,10 +2603,10 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
   case 3:func_021DDA2C(p,q);break;
   case 4:func_021DDCCC(p,q);break;
   }
-  func_021FE784(((struct CodeinArgA *)q)->f0,2,1,0);++*state;break;
- case 6:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=2;break;
- case 7:func_021FE784(((struct CodeinArgA *)q)->f0,2,3,1);*state=8;break;
- case 8:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=9;break;
+  BR_FADE_Start(((struct CodeinArgA *)q)->f0,2,1,0);++*state;break;
+ case 6:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=2;break;
+ case 7:BR_FADE_Start(((struct CodeinArgA *)q)->f0,2,3,1);*state=8;break;
+ case 8:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=9;break;
  case 9:func_021F9BA0(((struct CodeinArgA *)q)->fC);return 1;
  }
  for(i=0;i<4;i++) if(*(void **)(p+i*4+0x24)) func_021FC830(*(void **)(p+i*4+0x24));
@@ -2637,21 +2637,21 @@ void func_021DD5C8(struct CodeinWorkA *p, char *q)
     Triple triple;
     const Record *rec;
     u8 a, b, c, d;
-    first = func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    second = func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
-    func_021FB964((void *)(((struct CodeinArgA *)q)->f8), 14, p->f7C);
+    first = BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+    second = BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8), 14, p->f7C);
     rec = &d_021E3350[0];
     d = rec->d;
     a = rec->a;
     b = rec->b;
     c = rec->c;
-    p->f34 = func_021FC6A4(1, a, b, c, d, 14, p->f4, p->f7C);
+    p->f34 = BR_UTIL_Create(1, a, b, c, d, 14, p->f4, p->f7C);
     func_021FC868(p->f34, 0, 1, 0);
     func_021FC754(p->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
     (*(void * *)&p->f1C) = func_021FD12C(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&p->f4), p->f7C);
     func_021FD170((*(void * *)&p->f1C), (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
     v = func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
-    func_021FC124((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
+    BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
     func_021DE084((void *)((char *)p + 8), (void *)(((struct CodeinArgA *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, p->f7C);
 }
 
@@ -2673,14 +2673,14 @@ void func_021DD684(char *p,char *q)
  int number1,number2;
  void *obj;
  Triple triple;
- first=func_021FC20C(*(char **)(q+8));
- second=func_021FC214(*(char **)(q+8));
- third=func_021FC21C(*(char **)(q+8));
- func_021FB964((void *)(*(int *)(q+8)),10,*(u16 *)(p+0x7c));
+ first=BR_RES_GetFont(*(char **)(q+8));
+ second=BR_RES_GetMsgData(*(char **)(q+8));
+ third=BR_RES_GetWordSet(*(char **)(q+8));
+ BR_RES_LoadBgGraphics((void *)(*(int *)(q+8)),10,*(u16 *)(p+0x7c));
  select=func_021DE000((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))?5:0;
  for(index=0;index<8;index++){
   rec=&d_021E33C0[index];slot=p+index*4;
-  *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
   func_021FC868(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
@@ -2713,7 +2713,7 @@ void func_021DD684(char *p,char *q)
   STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
- func_021FC124((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
+ BR_RES_GetSprite((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
  func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }
 
@@ -2738,14 +2738,14 @@ void func_021DD858(char *p,char *q)
  int number1,number2;
  void *obj;
  Triple triple;
- first=func_021FC20C(*(char **)(q+8));
- second=func_021FC214(*(char **)(q+8));
- third=func_021FC21C(*(char **)(q+8));
- func_021FB964((void *)(*(int *)(q+8)),11,*(u16 *)(p+0x7c));
+ first=BR_RES_GetFont(*(char **)(q+8));
+ second=BR_RES_GetMsgData(*(char **)(q+8));
+ third=BR_RES_GetWordSet(*(char **)(q+8));
+ BR_RES_LoadBgGraphics((void *)(*(int *)(q+8)),11,*(u16 *)(p+0x7c));
  select=func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?6:1;
  for(index=0;index<8;index++){
   rec=&d_021E3400[index];slot=p+index*4;
-  *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
   func_021FC868(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
@@ -2778,7 +2778,7 @@ void func_021DD858(char *p,char *q)
   STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
- func_021FC124((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
+ BR_RES_GetSprite((void *)(*(int *)(q+8)), 13, (Triple *)((Triple *)&triple));
  func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }
 
@@ -2812,11 +2812,11 @@ void func_021DDA2C(char *p, char *q)
   Triple triple;
   char **tmp1;
   u16 tmp;
-  first = func_021FC20C(*((char **) (q + 8)));
-  second = func_021FC214(*((char **) (q + 8)));
-  third = func_021FC21C(*((char **) (q + 8)));
+  first = BR_RES_GetFont(*((char **) (q + 8)));
+  second = BR_RES_GetMsgData(*((char **) (q + 8)));
+  third = BR_RES_GetWordSet(*((char **) (q + 8)));
   tmp = *((u16 *) (p + 0x7c));
-  func_021FB964((void *)(*((int *) (q + 8))), 12, tmp);
+  BR_RES_LoadBgGraphics((void *)(*((int *) (q + 8))), 12, tmp);
   if (func_021DE058((void *)(*((int *) (q + 0x10))), (void *)(*((int *) (q + 0x14)))))
   {
     select = 7;
@@ -2832,7 +2832,7 @@ void func_021DDA2C(char *p, char *q)
   {
     rec = &d_021E3490[index];
     slot = p + (index * 4);
-    *((void **) (slot + 0x34)) = func_021FC6A4(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
+    *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
     func_021FC868(*((void **) (slot + 0x34)), 0, 1, 0);
     switch (index)
     {
@@ -2919,7 +2919,7 @@ void func_021DDA2C(char *p, char *q)
   }
 
   v = func_0200DABC((struct Blk1AC *)(*((int *) (q + 0x10))));
-  func_021FC124((void *)(*((int *) (q + 8))), 13, (Triple *)((Triple *)&triple));
+  BR_RES_GetSprite((void *)(*((int *) (q + 8))), 13, (Triple *)((Triple *)&triple));
   func_021DE084(p + 8, *((void **) (q + 4)), (const char *) (&triple), v, 0xa0, 0x20, *((u16 *) (p + 0x7c)));
 }
 
@@ -2941,13 +2941,13 @@ void func_021DDCCC(char *p,char *q)
  char *slot;
  const Record *rec;
  Triple triple;
- first=func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
- second=func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
- third=func_021FC21C(*(char * *)&((struct CodeinArgA *)q)->f8);
- func_021FB964((void *)(((struct CodeinArgA *)q)->f8),13,((struct CodeinWorkA *)p)->f7C);
+ first=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+ second=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
+ third=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)q)->f8);
+ BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8),13,((struct CodeinWorkA *)p)->f7C);
  for(i=0;i<5;i++){
   rec=&d_021E338C[i]; slot=p+i*4;
-  ((struct CodeinWorkC *)slot)->f34=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->f7C);
+  ((struct CodeinWorkC *)slot)->f34=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->f7C);
   if(i==4){
    v=func_0200DC08((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
    text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
@@ -2960,7 +2960,7 @@ void func_021DDCCC(char *p,char *q)
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
  v=func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
- func_021FC124((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
+ BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
  func_021DE084(p+8,(*(void * *)&((struct CodeinArgA *)q)->f4),(const char *)&triple,v,0xa0,0x20,((struct CodeinWorkA *)p)->f7C);
 }
 
@@ -2979,11 +2979,11 @@ void func_021DDDE8(char *p, char *q)
     for (i = 0; i < 16; i++) {
         slot = p + i * 4;
         if (((struct CodeinWorkC *)slot)->f34) {
-            func_021FC734(((struct CodeinWorkC *)slot)->f34);
+            BR_UTIL_Delete(((struct CodeinWorkC *)slot)->f34);
             *(int *)&((struct CodeinWorkC *)slot)->f34 = 0;
         }
     }
-    func_021FBDA4(((struct CodeinArgA *)q)->f8, 10);
+    BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 10);
     if ((*(void * *)&((struct CodeinWorkA *)p)->f1C)) {
         func_021FD15C((*(void * *)&((struct CodeinWorkA *)p)->f1C), ((struct CodeinArgA *)q)->f8);
         *(int *)&((struct CodeinWorkA *)p)->f1C = 0;
@@ -3003,17 +3003,17 @@ void func_021DDE2C(struct CodeinWorkA *p,char *q)
  Position pos;
  const Record *rec;
  char *slot;
- func_021FBE54(*(char * *)&((struct CodeinArgA *)q)->f8,6,p->f7C);
- func_021FB964((void *)(((struct CodeinArgA *)q)->f8),9,p->f7C);
- first=func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
- second=func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
+ BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)q)->f8,6,p->f7C);
+ BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8),9,p->f7C);
+ first=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+ second=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
  MI_CpuFill8(&pos,0,8);
  pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
- func_021FC124((void *)(((struct CodeinArgA *)q)->f8), 6, (Triple *)((Triple *)&triple));
+ BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 6, (Triple *)((Triple *)&triple));
  (*(void * *)&p->f20)=func_021FB378(&pos,4,0x60,1,((struct CodeinArgA *)q)->f4,*(int *)&p->f0,first,second,&triple,p->f7C);
  for(i=0;i<4;i++){
   rec=&d_021E336C[i];slot=(char *)p+i*4;
-  (*(void * *)&((struct CodeinWorkC *)slot)->f24)=func_021FC6A4(4,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f7C);
+  (*(void * *)&((struct CodeinWorkC *)slot)->f24)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f7C);
   switch(i){
    case 0: if(func_021DE000((void *)(((struct CodeinArgA *)q)->f10),(char *)(((struct CodeinArgA *)q)->f14))) id=0x83;else id=0x7e;break;
    case 1: if(func_021DE02C((void *)(((struct CodeinArgA *)q)->f10),(void *)(((struct CodeinArgA *)q)->f14))) id=0x84;else id=0x7f;break;
@@ -3037,7 +3037,7 @@ void func_021DDF5C(char *p, char *q)
     for (i = 0; i < 4; i++) {
         slot = p + i * 4;
         if ((*(void * *)&((struct CodeinWorkC *)slot)->f24)) {
-            func_021FC734((*(void * *)&((struct CodeinWorkC *)slot)->f24));
+            BR_UTIL_Delete((*(void * *)&((struct CodeinWorkC *)slot)->f24));
             *(int *)&((struct CodeinWorkC *)slot)->f24 = 0;
         }
     }
@@ -3045,8 +3045,8 @@ void func_021DDF5C(char *p, char *q)
         func_021FB494((*(void * *)&((struct CodeinWorkA *)p)->f20));
         *(int *)&((struct CodeinWorkA *)p)->f20 = 0;
     }
-    func_021FC0C8((char *)(((struct CodeinArgA *)q)->f8), 6);
-    func_021FBDA4(((struct CodeinArgA *)q)->f8, 9);
+    BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 6);
+    BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 9);
 }
 
 
@@ -3251,8 +3251,8 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
  int x,y,i;
  Point pair;
  switch(*state){
- case 0:func_021FE784(((struct CodeinArgA *)q)->f4,2,3,0);*state=1;break;
- case 1:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=2;break;
+ case 0:BR_FADE_Start(((struct CodeinArgA *)q)->f4,2,3,0);*state=1;break;
+ case 1:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=2;break;
  case 2:
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    p->f68=func_021DE940(p,x,y);
@@ -3263,8 +3263,8 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
     *state=7;
    }
   }break;
- case 3:func_021FE784(((struct CodeinArgA *)q)->f4,2,1,1);++*state;break;
- case 4:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f4)) ++*state;break;
+ case 3:BR_FADE_Start(((struct CodeinArgA *)q)->f4,2,1,1);++*state;break;
+ case 4:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) ++*state;break;
  case 5:
   func_021DE780(p,q);
   switch(*(u32 *)&p->f68){
@@ -3272,10 +3272,10 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
   case 2:func_021DE55C(p,q);break;
   case 3:func_021DE66C(p,q);break;
   }
-  func_021FE784(((struct CodeinArgA *)q)->f4,2,1,0);++*state;break;
- case 6:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=2;break;
- case 7:func_021FE784(((struct CodeinArgA *)q)->f4,2,3,1);*state=8;break;
- case 8:if(func_021FE7B0(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=9;break;
+  BR_FADE_Start(((struct CodeinArgA *)q)->f4,2,1,0);++*state;break;
+ case 6:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=2;break;
+ case 7:BR_FADE_Start(((struct CodeinArgA *)q)->f4,2,3,1);*state=8;break;
+ case 8:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=9;break;
  case 9:func_021F9BA0(((struct CodeinArgA *)q)->fC);return 1;
  }
  for(i=0;i<3;i++) if(*(void **)((char *)p+i*4+0x10)) func_021FC830(*(void **)((char *)p+i*4+0x10));
@@ -3319,15 +3319,15 @@ void func_021DE404(struct CodeinWorkA *p,char *q)
     const Record *rec;
     char *slot;
     void *base;
-    font=func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    bank=func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
-    words=func_021FC21C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    func_021FB964((void *)(((struct CodeinArgA *)q)->f8),16,p->f6C);
+    font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+    bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
+    words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)q)->f8);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8),16,p->f6C);
     for(i=0;i<12;i++) {
         flag=1;
         rec=&d_021E3574[i];
         slot=(char *)p+i*4;
-        ((struct CodeinSlotA *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
+        ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         switch(i) {
         case 0: func_0201F02C((struct WordSet *)words,0,func_02012944((*(void * *)&((struct CodeinArgA *)q)->f10))); break;
@@ -3364,14 +3364,14 @@ void func_021DE55C(struct CodeinWorkA *p,char *q)
     char *slot;
     struct U16Vec *text;
     void *base;
-    font=func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    bank=func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
-    words=func_021FC21C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    func_021FB964((void *)(((struct CodeinArgA *)q)->f8),17,p->f6C);
+    font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+    bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
+    words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)q)->f8);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8),17,p->f6C);
     for(i=0;i<18;i++) {
         rec=&d_021E3664[i];
         slot=(char *)p+i*4;
-        ((struct CodeinSlotA *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
+        ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-3,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,2);flag=1;}
@@ -3403,14 +3403,14 @@ void func_021DE66C(struct CodeinWorkA *p,char *q)
     char *slot;
     struct U16Vec *text;
     void *base;
-    font=func_021FC20C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    bank=func_021FC214(*(char * *)&((struct CodeinArgA *)q)->f8);
-    words=func_021FC21C(*(char * *)&((struct CodeinArgA *)q)->f8);
-    func_021FB964((void *)(((struct CodeinArgA *)q)->f8),17,p->f6C);
+    font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f8);
+    bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f8);
+    words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)q)->f8);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f8),17,p->f6C);
     for(i=0;i<18;i++) {
         rec=&d_021E35D4[i];
         slot=(char *)p+i*4;
-        ((struct CodeinSlotA *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
+        ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-13,2);flag=1;}
@@ -3444,11 +3444,11 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
     for (i = 0; i < 18; i++) {
         char *slot = (char *)p + i * 4;
         if (((struct CodeinSlotA *)slot)->f1C != 0) {
-            func_021FC734(((struct CodeinSlotA *)slot)->f1C);
+            BR_UTIL_Delete(((struct CodeinSlotA *)slot)->f1C);
             ((struct CodeinSlotA *)slot)->f1C = 0;
         }
     }
-    func_021FBDA4(((struct CodeinArgA *)q)->f8, 17);
+    BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 17);
     if (p->f8 != 0) {
         func_021FD15C(p->f8, ((struct CodeinArgA *)q)->f8);
         p->f8 = 0;
@@ -3561,14 +3561,14 @@ void func_021DE7C0(char *p,char *q)
     void *value;
     const Record *rec;
     char *slot;
-    func_021FBE54(*(char **)(q+8),6,*(u16 *)(p+0x6c));
-    func_021FB964((void *)(*(int *)(q+8)),15,*(u16 *)(p+0x6c));
-    font=func_021FC20C(*(char **)(q+8));
-    bank=func_021FC214(*(char **)(q+8));
-    words=func_021FC21C(*(char **)(q+8));
+    BR_RES_LoadSprite(*(char **)(q+8),6,*(u16 *)(p+0x6c));
+    BR_RES_LoadBgGraphics((void *)(*(int *)(q+8)),15,*(u16 *)(p+0x6c));
+    font=BR_RES_GetFont(*(char **)(q+8));
+    bank=BR_RES_GetMsgData(*(char **)(q+8));
+    words=BR_RES_GetWordSet(*(char **)(q+8));
     MI_CpuFill8(&config,0,8);
     config.a=80; config.b=168; config.c=0; config.flag=1;
-    func_021FC124((void *)(*(void **)(q+8)), 6, (Triple *)&triple);
+    BR_RES_GetSprite((void *)(*(void **)(q+8)), 6, (Triple *)&triple);
     *(void **)(p+0xc)=func_021FB378(&config,4,96,1,*(int *)q,*(int *)p,font,bank,&triple,*(u16 *)(p+0x6c));
     base=STRBUF_Create(128,*(u16 *)(p+0x6c));
     text=STRBUF_Create(128,*(u16 *)(p+0x6c));
@@ -3576,7 +3576,7 @@ void func_021DE7C0(char *p,char *q)
     for(i=0;i<3;i++) {
         rec=&d_021E351C[i];
         slot=p+i*4;
-        *(void **)(slot+0x10)=func_021FC6A4(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
+        *(void **)(slot+0x10)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
         if(i==0) {
             func_02045CAC((struct MsgBank *)bank,rec->value,base);
             func_0201F02C((struct WordSet *)words,0,value);
@@ -3602,7 +3602,7 @@ void func_021DE8FC(struct CodeinWorkA *p, char *q)
     for (i = 0; i < 3; i++) {
         char *slot = (char *)p + i * 4;
         if (((struct CodeinWorkC *)slot)->f10) {
-            func_021FC734(((struct CodeinWorkC *)slot)->f10);
+            BR_UTIL_Delete(((struct CodeinWorkC *)slot)->f10);
             ((struct CodeinWorkC *)slot)->f10 = 0;
         }
     }
@@ -3610,8 +3610,8 @@ void func_021DE8FC(struct CodeinWorkA *p, char *q)
         func_021FB494(p->fC);
         p->fC = 0;
     }
-    func_021FC0C8((char *)(((struct CodeinArgA *)q)->f8), 6);
-    func_021FBDA4(((struct CodeinArgA *)q)->f8, 15);
+    BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 6);
+    BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 15);
 }
 
 
@@ -3683,11 +3683,11 @@ int func_021DEA30(void *a, int b, struct CodeinArgA *q, struct CodeinWorkA *p)
         p->f100 = 0;
     }
     if (p->fC != 0) {
-        func_021FC734(p->fC);
+        BR_UTIL_Delete(p->fC);
         p->fC = 0;
     }
     if (p->f8 != 0) {
-        func_021FC734(p->f8);
+        BR_UTIL_Delete(p->f8);
         p->f8 = 0;
     }
     if (p->f4 != 0) {
@@ -3695,8 +3695,8 @@ int func_021DEA30(void *a, int b, struct CodeinArgA *q, struct CodeinWorkA *p)
         p->f4 = 0;
     }
     if (p->f104 != 0) {
-        func_021FC0C8((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
-        func_021FBDA4((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
+        BR_RES_ReleaseSprite((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
+        BR_RES_ApplyBgSet((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
         p->f104 = 0;
     }
     func_021FD714(p->f10);
@@ -3722,7 +3722,7 @@ int func_021DEA30(void *a, int b, struct CodeinArgA *q, struct CodeinWorkA *p)
 int func_021DEADC(int a, int b, int c, struct CodeinWorkA *p)
 {
     int i;
-    if (func_021FF88C(((struct CodeinSubA *)(p->f108))->f18) == 2) {
+    if (BR_NET_HandleNetError(((struct CodeinSubA *)(p->f108))->f18) == 2) {
         func_021F9C6C((*(void * *)&((struct CodeinSubA *)(p->f108))->f14));
         return 1;
     }
@@ -3749,23 +3749,23 @@ void func_021DEB4C(int *task,int *state,struct CodeinWorkD *p)
     int font,bank;
     Params config;
     Triple triple;
-    font=func_021FC20C(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
-    bank=func_021FC214(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
+    font=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
+    bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
     if(p->f24) {
         func_021FD15C(p->f24,((struct CodeinSubA *)(p->f108))->f10);
         p->f24=0;
     }
-    func_021FB964((void *)(((struct CodeinSubA *)(p->f108))->f10),24,p->f18);
-    func_021FBE54(*(char * *)&((struct CodeinSubA *)(p->f108))->f10,6,p->f18);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinSubA *)(p->f108))->f10),24,p->f18);
+    BR_RES_LoadSprite(*(char * *)&((struct CodeinSubA *)(p->f108))->f10,6,p->f18);
     p->f104=1;
     MI_CpuFill8(&config,0,8);
     config.a=80;config.b=168;config.c=0;config.flag=1;
-    if(!func_021FC124((void *)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 6, (Triple *)&triple))
+    if(!BR_RES_GetSprite((void *)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 6, (Triple *)&triple))
         func_02034714(d_021E3964,0,d_021E3964);
     p->f4=func_021FB378(&config,4,96,1,(*(int *)&((struct CodeinSubA *)(p->f108))->fC),(*(int *)&p->f0),font,bank,&triple,p->f18);
-    p->f8=func_021FC6A4(4,11,6,10,4,14,p->f14,p->f18);
+    p->f8=BR_UTIL_Create(4,11,6,10,4,14,p->f14,p->f18);
     func_021FC754(*(char * *)&p->f8,(void *)bank,(void *)0x55,(void *)font,0x3da0);
-    p->fC=func_021FC6A4(1,3,3,26,4,14,p->f14,p->f18);
+    p->fC=BR_UTIL_Create(1,3,3,26,4,14,p->f14,p->f18);
     func_021FC868(p->fC,0,1,0);
     func_021FC754(*(char * *)&p->fC,(void *)bank,(void *)(**(int * *)&p->f108+0x57),(void *)font,0x3da0);
     func_021DF1DC((Menu *)((char *)p+0x28), ((struct CodeinSubA *)(p->f108))->f1C, *(char * *)&((struct CodeinSubA *)(p->f108))->f10, (*(int *)&((struct CodeinSubA *)(p->f108))->fC), (u32)(p->f1C), (u32)((*(void * *)&p->f20)), *(u16 * *)&((struct CodeinSubA *)(p->f108))->f28, p->f18);
@@ -3785,16 +3785,16 @@ void func_021DECB0(void *a, int b, struct CodeinWorkA *p)
 {
     func_021DF388((char *)p + 0x28);
     p->f100 = 0;
-    func_021FC734(p->fC);
+    BR_UTIL_Delete(p->fC);
     p->fC = 0;
-    func_021FC734(p->f8);
+    BR_UTIL_Delete(p->f8);
     p->f8 = 0;
     func_020409B4(4);
     func_020409B4(1);
     func_021FB494(p->f4);
     p->f4 = 0;
-    func_021FC0C8((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
-    func_021FBDA4((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
+    BR_RES_ReleaseSprite((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
+    BR_RES_ApplyBgSet((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
     p->f104 = 0;
     func_021FD744((int *)a);
 }
@@ -3811,11 +3811,11 @@ void func_021DED14(int *a, int *state, struct CodeinWorkA *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f8)), 2, 3, 0);
+        BR_FADE_Start((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f8)), 2, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(((struct CodeinSubA *)(p->f108))->f8) != 0) *state = 2;
+        if (BR_FADE_GetResult(((struct CodeinSubA *)(p->f108))->f8) != 0) *state = 2;
         break;
     case 2:
         func_021FD73C(a, (int)func_021DEDB4);
@@ -3835,11 +3835,11 @@ void func_021DED64(int *p, int *state, struct CodeinArgA *q)
 {
     switch (*state) {
     case 0:
-        func_021FE784((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 1);
+        BR_FADE_Start((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 1);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
+        if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
         break;
     case 2:
         func_021FD73C(p, (int)func_021DECB0);
@@ -3904,12 +3904,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         }
         MI_CpuFill8(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
         *(u32 *)(p+0xfc)=0;
-        func_021FF54C(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
         *state=1; break;
     }
     case 1:
         ++*(u32 *)(p+0xfc);
-        if(func_021FF648(*(char **)(*(char **)(p+0x108)+0x18)) && *(u32 *)(p+0xfc)>96) {
+        if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x108)+0x18)) && *(u32 *)(p+0xfc)>96) {
             func_021FD860((void *)(*(int *)(p+0x1c)), 0, 0); *state=2;
         } break;
     case 2: {
@@ -3918,12 +3918,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         enum { COUNT_OFFSET=0x1718 } offset;
         data=*(struct Data_021DB2E0 **)(*(char **)(p+0x108)+0x1c);
         offset=COUNT_OFFSET;
-        if(!func_021FF72C(*(void **)(*(char **)(p+0x108)+0x18),&message)) {
+        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0x108)+0x18),&message)) {
             switch(**(u32 **)(p+0x108)) {
-            case 0: success=func_021FF6DC(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 1: success=func_021FF6DC(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 2: success=func_021FF704(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
-            case 3: success=func_021FF6B4(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 0: success=BR_NET_GetSearchResultsForRanking(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 1: success=BR_NET_GetSearchResultsForRanking(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 2: success=BR_NET_GetSearchResultsForNewest(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
+            case 3: success=BR_NET_GetSearchResults(*(void **)(*(char **)(p+0x108)+0x18),data,30,(void *)((u32)data+offset)); break;
             default: func_02034714(d_021E3964,0,d_021E3964); break;
             }
             if(success) {
@@ -3949,12 +3949,12 @@ void func_021DEE7C(int *task,u32 *state,char *p)
             clicked.x=x; clicked.y=y;
             func_021FD860((void *)(*(int *)(p+0x20)), 1, &clicked);
             GFL_USE_PlaySeDefaultVolume(0x703);
-            func_021FE784(*(int *)(*(char **)(p+0x108)+8),2,3,1);
+            BR_FADE_Start(*(int *)(*(char **)(p+0x108)+8),2,3,1);
             *state=4;
         } break;
     }
     case 4:
-        if(func_021FE7B0(*(int **)(*(char **)(p+0x108)+8))) *state=5;
+        if(BR_FADE_GetResult(*(int **)(*(char **)(p+0x108)+8))) *state=5;
         break;
     case 5:
         func_021F9BA0(*(void **)(*(char **)(p+0x108)+0x14)); func_021FD744((int *)task); break;
@@ -3986,11 +3986,11 @@ void func_021DF0DC(int *p, int *state, struct CodeinArgA *q)
         *state = 1;
         break;
     case 1:
-        func_021FE784((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 0);
+        BR_FADE_Start((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 0);
         *state = 2;
         break;
     case 2:
-        if (func_021FE7B0(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 3;
+        if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 3;
         break;
     case 3:
         func_021FD73C(p, (int)func_021DEE7C);
@@ -4008,11 +4008,11 @@ void func_021DF18C(int *p, int *state, struct CodeinArgA *q)
 {
     switch (*state) {
     case 0:
-        func_021FE784((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 1);
+        BR_FADE_Start((int)(((struct CodeinSubA *)(q->f108))->f8), 2, 3, 1);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
+        if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
         break;
     case 2:
         func_021FD73C(p, (int)func_021DEB4C);
@@ -4031,8 +4031,8 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     void *bmp;
     void *buf1,*msg,*buf2;
     Config_021DF1DC cfg;
-    first=func_021FC20C(res);
-    second=func_021FC214(res);
+    first=BR_RES_GetFont(res);
+    second=BR_RES_GetMsgData(res);
     MI_CpuFill8(p,0,0xd4);
     p->base=base;
     p->words=func_0201EC64(heap);
@@ -4386,7 +4386,7 @@ int func_021DF920(void *obj, int unused, struct CodeinArgB *q)
     q->f16 = 0xFF;
     q->f17 = 0xFF;
     q->f18 = 0x13;
-    func_021FBE54((char *)(q->f8), 6, p->f54);
+    BR_RES_LoadSprite((char *)(q->f8), 6, p->f54);
     func_021E02F8(p, (int *)q);
     return 1;
 }
@@ -4402,7 +4402,7 @@ int func_021DF9C8(void *p, int unused, struct CodeinArgA *q, char *data)
 {
     int i;
     func_021E037C(data, q);
-    func_021FC0C8((char *)(q->f8), 6);
+    BR_RES_ReleaseSprite((char *)(q->f8), 6);
     for (i = 0; i < 2; i++) func_021FD820(*(char **)(data + i * 4 + 0x3c));
     func_021FD15C(((struct CodeinDataA *)data)->f38, q->f8);
     BMP_OAM_DeleteSys(((struct CodeinDataA *)data)->f44);
@@ -4423,21 +4423,21 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     int i;
     switch(*state) {
     case 0: if(d_021E37A8[*(int *)(p+0x4c)].init(p,q)) ++*state; break;
-    case 1: func_021FE784(q[0],2,3,0); ++*state; break;
-    case 2: if(func_021FE7B0((int *)q[0])) *state=3; break;
+    case 1: BR_FADE_Start(q[0],2,3,0); ++*state; break;
+    case 2: if(BR_FADE_GetResult((int *)q[0])) *state=3; break;
     case 3: if(d_021E37A8[*(int *)(p+0x4c)].update(p,q)) {
         if(((struct CodeinWorkA *)p)->f50==-1) *state=10; else *state=4;
     } break;
-    case 4: func_021FE784(q[0],2,2,1); ++*state; break;
-    case 5: if(func_021FE7B0((int *)q[0])) ++*state; break;
+    case 4: BR_FADE_Start(q[0],2,2,1); ++*state; break;
+    case 5: if(BR_FADE_GetResult((int *)q[0])) ++*state; break;
     case 6: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) {
         ((struct CodeinWorkA *)p)->f4C=((struct CodeinWorkA *)p)->f50; ++*state;
     } break;
     case 7: if(d_021E37A8[*(int *)(p+0x4c)].init(p,q)) ++*state; break;
-    case 8: func_021FE784(q[0],2,2,0); ++*state; break;
-    case 9: if(func_021FE7B0((int *)q[0])) *state=3; break;
-    case 10: func_021FE784(q[0],2,3,1); ++*state; break;
-    case 11: if(func_021FE7B0((int *)q[0])) *state=12; break;
+    case 8: BR_FADE_Start(q[0],2,2,0); ++*state; break;
+    case 9: if(BR_FADE_GetResult((int *)q[0])) *state=3; break;
+    case 10: BR_FADE_Start(q[0],2,3,1); ++*state; break;
+    case 11: if(BR_FADE_GetResult((int *)q[0])) *state=12; break;
     case 12: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) return 1; break;
     }
     for(i=0;i<3;i++) if(*(void **)(p+i*4)) func_021FC830(*(void **)(p+i*4));
@@ -4462,11 +4462,11 @@ int func_021DFB90(struct CodeinWorkA *p,struct CodeinArgA *q)
     Triple triple;
     const struct Rec6 *r;
     const struct Rec8 *s;
-    first=func_021FC20C(*(char * *)&q->f8);
-    second=func_021FC214(*(char * *)&q->f8);
-    func_021FB964((void *)(q->f8),26,p->f54);
+    first=BR_RES_GetFont(*(char * *)&q->f8);
+    second=BR_RES_GetMsgData(*(char * *)&q->f8);
+    BR_RES_LoadBgGraphics((void *)(q->f8),26,p->f54);
     MI_CpuFill8(&req,0,8);
-    func_021FC124((void *)q->f8,6,&triple);
+    BR_RES_GetSprite((void *)q->f8,6,&triple);
     for(i=0;i<2;i++) {
         r=&d_021E3734[i];
         req.a=r->x; req.b=r->y; req.c=r->id; req.flag=1;
@@ -4474,7 +4474,7 @@ int func_021DFB90(struct CodeinWorkA *p,struct CodeinArgA *q)
     }
     for(i=0;i<3;i++) {
         s=&d_021E3740[i];
-        *(void **)((char *)p+i*4)=func_021FC6A4(4,s->a,s->b,s->c,s->d,14,p->f48,p->f54);
+        *(void **)((char *)p+i*4)=BR_UTIL_Create(4,s->a,s->b,s->c,s->d,14,p->f48,p->f54);
         func_021FC754(*(char **)((char *)p+i*4),(void *)second,s->value,(void *)first,0x3da0);
     }
     func_021FD170(p->f38,(char *)(q->f8),(void *)107);
@@ -4493,7 +4493,7 @@ int func_021DFC88(char *p, struct CodeinArgA *q)
     int i;
     for (i = 0; i < 3; i++) {
         if (*(void **)(p + i * 4) != 0) {
-            func_021FC734(*(void **)(p + i * 4));
+            BR_UTIL_Delete(*(void **)(p + i * 4));
             *(void **)(p + i * 4) = 0;
         }
     }
@@ -4504,7 +4504,7 @@ int func_021DFC88(char *p, struct CodeinArgA *q)
         }
     }
     func_020409B4(4);
-    func_021FBDA4(q->f8, 26);
+    BR_RES_ApplyBgSet(q->f8, 26);
     return 1;
 }
 
@@ -4609,9 +4609,9 @@ int func_021DFE98(struct CodeinWorkB *p,struct CodeinArgA *q)
     CfgTpl cfg;
     Triple triple;
     Params params;
-    first=func_021FC20C(*(char * *)&q->f8);
-    second=func_021FC214(*(char * *)&q->f8);
-    func_021FB964((void *)(q->f8),27,p->f54);
+    first=BR_RES_GetFont(*(char * *)&q->f8);
+    second=BR_RES_GetMsgData(*(char * *)&q->f8);
+    BR_RES_LoadBgGraphics((void *)(q->f8),27,p->f54);
     *(Slot_021DB2E0 * *)&p->f14=BMP_MENUWORK_Create(19,p->f54);
     for(i=0;i<19;i++)BMP_MENUWORK_AddMsgItem((Slot_021DB2E0 *)((u32)*(Slot_021DB2E0 * *)&p->f14+i*8),second,i+205,i,p->f54);
     cfg=d_021E3758;
@@ -4619,7 +4619,7 @@ int func_021DFE98(struct CodeinWorkB *p,struct CodeinArgA *q)
     cfg.words[5]=*(u32 *)&q->f8;cfg.words[6]=(*(unsigned int *)&q->f4);
     p->f18=func_021FC8C8((const Config_021DF1DC *)&cfg,p->f54);
     MI_CpuFill8(&params,0,8);
-    func_021FC124((void *)q->f8, 6, (Triple *)&triple);
+    BR_RES_GetSprite((void *)q->f8, 6, (Triple *)&triple);
     params.a=d_021E3728[0].x;params.b=d_021E3728[0].y;params.c=d_021E3728[0].id;params.flag=1;
     (*(void * *)&p->fC)=func_021FB378(&params,d_021E3728[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
     return 1;
@@ -4641,7 +4641,7 @@ int func_021DFF78(struct CodeinWorkB *p, struct CodeinArgA *q)
     p->f18 = 0;
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
-    func_021FBDA4(q->f8, 27);
+    BR_RES_ApplyBgSet(q->f8, 27);
     func_020409B4(4);
     return 1;
 }
@@ -4692,9 +4692,9 @@ int func_021DFFB0(struct CodeinWorkB *p, struct CodeinArgB *q)
 
 void func_021E0044(struct CodeinWorkA *p, struct CodeinArgA *q)
 {
-    p->f1C = func_021FFBD4(ZUKAN_SAVE_GetFromGameData((*(void * *)&q->f10)), (*(void * *)&q->f8), q->f4, p->f44, q->f0, (*(int *)&p->f3C), p->f40, p->f54);
-    func_021FFE5C(p->f1C);
-    func_021FFE34(p->f1C);
+    p->f1C = BR_POKESEARCH_Create(ZUKAN_SAVE_GetFromGameData((*(void * *)&q->f10)), (*(void * *)&q->f8), q->f4, p->f44, q->f0, (*(int *)&p->f3C), p->f40, p->f54);
+    BR_POKESEARCH_Open(p->f1C);
+    BR_POKESEARCH_UpdatePrint(p->f1C);
 }
 
 
@@ -4705,8 +4705,8 @@ void func_021E0044(struct CodeinWorkA *p, struct CodeinArgA *q)
 
 int func_021E0080(struct CodeinWorkA *p)
 {
-    func_021FFE70((*(void * *)&p->f1C));
-    func_021FFC6C((*(void * *)&p->f1C));
+    BR_POKESEARCH_Close((*(void * *)&p->f1C));
+    BR_POKESEARCH_Destroy((*(void * *)&p->f1C));
     func_020409B4(4);
     return 1;
 }
@@ -4723,8 +4723,8 @@ int func_021E009C(struct CodeinWorkB *p, struct CodeinArgB *q)
 {
     u16 out;
     int result;
-    func_021FFC9C(*(char * *)&p->f1C);
-    result = func_021FFE90(*(int * *)&p->f1C, &out);
+    BR_POKESEARCH_Main(*(char * *)&p->f1C);
+    result = BR_POKESEARCH_GetResult(*(int * *)&p->f1C, &out);
     if (result) {
         if (result == 2) {
             q->f14 = out;
@@ -4751,13 +4751,13 @@ int func_021E00D8(struct CodeinWorkB *p,struct CodeinArgA *q)
     CfgTpl cfg;
     Triple triple;
     Params params;
-    first=func_021FC20C(*(char * *)&q->f8);
-    second=func_021FC214(*(char * *)&q->f8);
-    func_021FB964((void *)(q->f8),28,p->f54);
+    first=BR_RES_GetFont(*(char * *)&q->f8);
+    second=BR_RES_GetMsgData(*(char * *)&q->f8);
+    BR_RES_LoadBgGraphics((void *)(q->f8),28,p->f54);
     text=STRBUF_Create(128,p->f54);
     v=func_02012944((*(void * *)&q->f10));
     a=func_0200856C(v);b=func_02008570(v);
-    ws=func_021FC21C(*(char * *)&q->f8);
+    ws=BR_RES_GetWordSet(*(char * *)&q->f8);
     data=func_02045EC0((void *)second,125);
     if(!func_02025B64(a))func_0201F048((void *)ws,0,a);
     else func_0201F094((void *)ws,0,a,b);
@@ -4771,7 +4771,7 @@ int func_021E00D8(struct CodeinWorkB *p,struct CodeinArgA *q)
     cfg.words[5]=*(u32 *)&q->f8;cfg.words[6]=(*(unsigned int *)&q->f4);
     p->f18=func_021FC8C8((const Config_021DF1DC *)&cfg,p->f54);
     MI_CpuFill8(&params,0,8);
-    func_021FC124((void *)q->f8, 6, (Triple *)&triple);
+    BR_RES_GetSprite((void *)q->f8, 6, (Triple *)&triple);
     params.a=d_021E372E[0].x;params.b=d_021E372E[0].y;params.c=d_021E372E[0].id;params.flag=1;
     (*(void * *)&p->fC)=func_021FB378(&params,d_021E372E[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
     return 1;
@@ -4792,7 +4792,7 @@ int func_021E0214(struct CodeinWorkB *p, struct CodeinArgA *q)
     p->f18 = 0;
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
-    func_021FBDA4(q->f8, 28);
+    BR_RES_ApplyBgSet(q->f8, 28);
     func_020409B4(4);
     return 1;
 }
@@ -4851,12 +4851,12 @@ void func_021E02F8(struct CodeinWorkA *p, int *q)
 {
     int first, second, i;
     const Record *r;
-    first = func_021FC20C((char *)q[2]);
-    second = func_021FC214((char *)q[2]);
-    func_021FB964((void *)q[2], 25, p->f54);
+    first = BR_RES_GetFont((char *)q[2]);
+    second = BR_RES_GetMsgData((char *)q[2]);
+    BR_RES_LoadBgGraphics((void *)q[2], 25, p->f54);
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
-        *(void **)((char *)p + i * 4 + 0x20) = func_021FC6A4(1, r->a, r->b, r->c, r->d, 14, p->f48, p->f54);
+        *(void **)((char *)p + i * 4 + 0x20) = BR_UTIL_Create(1, r->a, r->b, r->c, r->d, 14, p->f48, p->f54);
         func_021FC868(*(void **)((char *)p + i * 4 + 0x20), 0, 1, 0);
         func_021FC754(*(void **)((char *)p + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
     }
@@ -4870,7 +4870,7 @@ void func_021E02F8(struct CodeinWorkA *p, int *q)
 /*
  * extent: final two bytes are alignment padding.
  */
-void func_021E037C(char *p,struct CodeinArgA *q){int i;for(i=0;i<6;i++){if(*(void **)(p+i*4+0x20)){func_021FC734(*(void **)(p+i*4+0x20));*(void **)(p+i*4+0x20)=0;}}func_021FBDA4(q->f8,25);func_020409B4(1);}
+void func_021E037C(char *p,struct CodeinArgA *q){int i;for(i=0;i<6;i++){if(*(void **)(p+i*4+0x20)){BR_UTIL_Delete(*(void **)(p+i*4+0x20));*(void **)(p+i*4+0x20)=0;}}BR_RES_ApplyBgSet(q->f8,25);func_020409B4(1);}
 
 
 
@@ -4881,8 +4881,8 @@ void func_021E03B0(struct CodeinWorkB *p,struct CodeinArgB *q,int mode)
 {
     int first,second,ws;
     void *data,*text;
-    first=func_021FC20C(*(char * *)&q->f8);
-    second=func_021FC214(*(char * *)&q->f8);
+    first=BR_RES_GetFont(*(char * *)&q->f8);
+    second=BR_RES_GetMsgData(*(char * *)&q->f8);
     switch(mode) {
     case 0:
         if(q->f18!=19)func_021FC754(p->f24,(void *)second,(void *)(q->f18+205),(void *)first,0x3da0);
@@ -4897,7 +4897,7 @@ void func_021E03B0(struct CodeinWorkB *p,struct CodeinArgB *q,int mode)
             func_021FC754(p->f34,(void *)second,(void *)117,(void *)first,0x3da0);
             return;
         }
-        ws=func_021FC21C(*(char * *)&q->f8);
+        ws=BR_RES_GetWordSet(*(char * *)&q->f8);
         data=func_02045EC0((void *)second,24);
         text=STRBUF_Create(128,p->f54);
         if(!func_02025B64(q->f16))func_0201F048((void *)ws,0,q->f16);
@@ -4947,15 +4947,15 @@ int func_021E050C(void *task, int unused, struct CodeinArgA *q)
 {
     struct Data_021DF388 *p;
     int entries[3];
-    func_021FC20C((char *)(q->f8));
-    func_021FC214(*(char * *)&q->f8);
+    BR_RES_GetFont((char *)(q->f8));
+    BR_RES_GetMsgData(*(char * *)&q->f8);
     p = PROCSYS_AllocProcWork(task, 24, func_021F9B9C(q->fC));
     MI_CpuFill8(p, 0, 24);
     p->heap = func_021F9B9C(q->fC);
-    func_021FB964((void *)(q->f8), 29, p->heap);
-    func_021FBE54(*(char * *)&q->f8, 11, p->heap);
-    func_021FBE54(*(char * *)&q->f8, 12, p->heap);
-    func_021FBE54(*(char * *)&q->f8, 6, p->heap);
+    BR_RES_LoadBgGraphics((void *)(q->f8), 29, p->heap);
+    BR_RES_LoadSprite(*(char * *)&q->f8, 11, p->heap);
+    BR_RES_LoadSprite(*(char * *)&q->f8, 12, p->heap);
+    BR_RES_LoadSprite(*(char * *)&q->f8, 6, p->heap);
     p->e = func_021FD760((unsigned int)((*(void * *)&q->f4)), (char *)(q->f8), 1, p->heap);
     entries[0] = 2;
     entries[1] = 5;
@@ -4983,10 +4983,10 @@ int func_021E05C4(void *a, int unused, int *q, void **p)
     func_021E0808(p[0]);
     PRINTSYS_QUE_Delete(p[3]);
     func_021FD820(p[5]);
-    func_021FBDA4(q[2], 29);
-    func_021FC0C8((char *)q[2], 6);
-    func_021FC0C8((char *)q[2], 12);
-    func_021FC0C8((char *)q[2], 11);
+    BR_RES_ApplyBgSet(q[2], 29);
+    BR_RES_ReleaseSprite((char *)q[2], 6);
+    BR_RES_ReleaseSprite((char *)q[2], 12);
+    BR_RES_ReleaseSprite((char *)q[2], 11);
     func_020315D4(a);
     return 1;
 }
@@ -5003,11 +5003,11 @@ int func_021E0618(int unused, int *state, int *q, int *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784(q[0], 2, 3, 0);
+        BR_FADE_Start(q[0], 2, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0((int *)q[0])) *state = 2;
+        if (BR_FADE_GetResult((int *)q[0])) *state = 2;
         break;
     case 2:
         func_021E0754((char *)p[1]);
@@ -5017,11 +5017,11 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         }
         break;
     case 3:
-        func_021FE784(q[0], 2, 3, 1);
+        BR_FADE_Start(q[0], 2, 3, 1);
         *state = 4;
         break;
     case 4:
-        if (func_021FE7B0((int *)q[0])) *state = 5;
+        if (BR_FADE_GetResult((int *)q[0])) *state = 5;
         break;
     case 5: return 1;
     }
@@ -5044,7 +5044,7 @@ char *func_021E06D0(const CfgTpl *src, u16 heap)
     *(CfgTpl *)(p + 0x324) = *src;
     ((struct CodeinWorkA *)p)->f34C = heap;
     (*(int *)&((struct CodeinWorkA *)p)->f25C) = src->words[7];
-    ((struct CodeinWorkA *)p)->f310 = func_021FC20C((char *)src->words[8]);
+    ((struct CodeinWorkA *)p)->f310 = BR_RES_GetFont((char *)src->words[8]);
     ((struct CodeinWorkA *)p)->f258 = func_020490F4(59, ((struct CodeinWorkA *)p)->f34C);
     func_021E1244((State_021E111C *)p);
     func_021E1910(p);
@@ -5116,15 +5116,15 @@ void func_021E083C(void)
 void func_021E0840(char *p)
 {
     struct Triple t;
-    if (!func_021FC124(((struct CodeinWorkA *)p)->f344, 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);
     ((struct CodeinWorkA *)p)->f260 = t.c;
     ((struct CodeinWorkA *)p)->f26C = t.b;
     ((struct CodeinWorkA *)p)->f284 = t.a;
-    if (!func_021FC124(((struct CodeinWorkA *)p)->f344, 12, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 12, &t)) func_02034714(d_021E3978, 0, d_021E3978);
     ((struct CodeinWorkA *)p)->f268 = t.c;
     ((struct CodeinWorkA *)p)->f274 = t.b;
     ((struct CodeinWorkA *)p)->f28C = t.a;
-    if (!func_021FC124(((struct CodeinWorkA *)p)->f344, 6, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(((struct CodeinWorkA *)p)->f344, 6, &t)) func_02034714(d_021E3978, 0, d_021E3978);
     *(int *)&((struct CodeinWorkA *)p)->f264 = t.c;
     *(int *)&((struct CodeinWorkA *)p)->f270 = t.b;
     *(int *)&((struct CodeinWorkA *)p)->f288 = t.a;
@@ -5440,7 +5440,7 @@ void func_021E111C(const Object *object,Index index,int x,int y,int unused)
     u8 xx,yy;
     struct Grid **slots;
     Descriptor_021E111C desc;
-    source=func_021FC214(*(char * *)&((struct CodeinWorkA *)p)->f344);
+    source=BR_RES_GetMsgData(*(char * *)&((struct CodeinWorkA *)p)->f344);
     source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
     handle=(int)BMP_Create(10,2,32,((struct CodeinWorkA *)p)->f34C);
     PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(((struct CodeinWorkA *)p)->f310));
@@ -6087,7 +6087,7 @@ int func_021E1D10(struct S020315D4 *a,int b,struct CodeinArgA *q,struct CodeinWo
 int func_021E1D48(int a,int b,int c,struct CodeinWorkB *p)
 {
     int i;
-    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f14)) && func_021FF88C((char *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f10))==2) {
+    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f14)) && BR_NET_HandleNetError((char *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f10))==2) {
         func_021F9C6C((void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC)));
         return 1;
     }
@@ -6106,8 +6106,8 @@ int func_021E1D48(int a,int b,int c,struct CodeinWorkB *p)
 void func_021E1DA8(int a,int *state,struct CodeinWorkB *p)
 {
     switch (*state) {
-    case 0: func_021FE784(**(int * *)&p->f18,2,3,0); *state=1; break;
-    case 1: if (func_021FE7B0((int *)(**(int * *)&p->f18))) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&p->f18,2,3,0); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&p->f18))) *state=2; break;
     case 2: func_021FD73C((int *)a,(int)func_021E1E3C); break;
     }
 }
@@ -6119,8 +6119,8 @@ void func_021E1DA8(int a,int *state,struct CodeinWorkB *p)
 void func_021E1DF0(int *a,int *state,struct CodeinWorkB *p)
 {
     switch (*state) {
-    case 0: func_021FE784(**(int * *)&p->f18,2,3,1); *state=1; break;
-    case 1: if (func_021FE7B0((int *)(**(int * *)&p->f18))) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&p->f18,2,3,1); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&p->f18))) *state=2; break;
     case 2: func_021F9BA0((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC))); func_021FD744(a); break;
     }
 }
@@ -6144,17 +6144,17 @@ void func_021E1E3C(int *task,int *state,struct CodeinWorkB *p) {
         BATTLE_REC_Load(GAME_DATA_GetSaveControl((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f14)),89,&out,0);
         if(out==1)*state=1;else func_021FD73C((int *)task,(int)func_021E1DF0);break;
     case 1:
-        p->f1C=0;func_021FF54C((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),2,0);*state=2;break;
+        p->f1C=0;BR_NET_StartRequest((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),2,0);*state=2;break;
     case 2:
         ++p->f1C;
-        if(func_021FF648((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10))) {
+        if(BR_NET_IsIdle((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10))) {
             total=0;
             if(p->f1C>=96) {
-                result=func_021FF72C((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),(int *)(&msg));
+                result=BR_NET_PollErrorMessage((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),(int *)(&msg));
                 if(result==0) {
-                    if(func_021FF67C((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),&total)) {
-                        bank=(void *)func_021FC214(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
-                        ws=(void *)func_021FC21C(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
+                    if(BR_NET_GetUploadedDataNumber((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),&total)) {
+                        bank=(void *)BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
+                        ws=(void *)BR_RES_GetWordSet(*(char * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8);
                         str=func_02045EC0(bank,334);expanded=STRBUF_Create(128,0x8059);
                         copy=total;quotient=copy/100000;
                         func_0201EFA4(ws,2,(u32)(copy%100000),5,2,1);
@@ -6237,8 +6237,8 @@ int func_021E20F8(int a,int b,int c,struct CodeinWorkA *p)
 void func_021E214C(int *task,int *state,struct CodeinWorkA *p)
 {
     switch (*state) {
-    case 0: func_021FE784(((struct CodeinSubA *)(p->f20))->f4,2,3,0); *state=1; break;
-    case 1: if (func_021FE7B0(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
+    case 0: BR_FADE_Start(((struct CodeinSubA *)(p->f20))->f4,2,3,0); *state=1; break;
+    case 1: if (BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
     case 2: func_021FD73C(task,(int)func_021E21E0); break;
     }
 }
@@ -6249,8 +6249,8 @@ void func_021E214C(int *task,int *state,struct CodeinWorkA *p)
 void func_021E2194(int *task,int *state,struct CodeinWorkA *p)
 {
     switch (*state) {
-    case 0: func_021FE784(((struct CodeinSubA *)(p->f20))->f4,2,3,1); *state=1; break;
-    case 1: if (func_021FE7B0(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
+    case 0: BR_FADE_Start(((struct CodeinSubA *)(p->f20))->f4,2,3,1); *state=1; break;
+    case 1: if (BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
     case 2: func_021F9BA0((unsigned int *)(((struct CodeinSubA *)(p->f20))->f10)); func_021FD744(task); break;
     }
 }
@@ -6275,21 +6275,21 @@ void func_021E21E0(int task,int *state,char *p) {
             if(func_021E24F8(p,x1,y1))*state=2;
             else if(func_021E2538(p,x1,y1))*state=10;
         } break;
-    case 2:func_021FE784(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4,2,2,1);++*state;break;
+    case 2:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4,2,2,1);++*state;break;
     case 3:
-        if(func_021FE7B0(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4)) {
+        if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4)) {
             func_021E24C4(p,((struct CodeinWorkC *)p)->f20);
             func_021FD170((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)323);
             first.x=128;first.y=96;func_021FD860((void *)(((struct CodeinWorkC *)p)->f14), 4,&first);
             ((struct CodeinWorkC *)p)->f24=0;++*state;
         } break;
-    case 4:func_021FE784(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4,2,2,0);++*state;break;
-    case 5:if(func_021FE7B0(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4))++*state;break;
+    case 4:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4,2,2,0);++*state;break;
+    case 5:if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4))++*state;break;
     case 6:
-        func_021D76A8(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f14,((struct CodeinWorkC *)p)->f1C,**(int * *)&((struct CodeinWorkC *)p)->f20);
+        GDS_RAP_StartVideoSave(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f14,((struct CodeinWorkC *)p)->f1C,**(int * *)&((struct CodeinWorkC *)p)->f20);
         ++((struct CodeinWorkC *)p)->f24;++*state;break;
     case 7:
-        result=func_021D76D8((char *)(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f14),**(int * *)&((struct CodeinWorkC *)p)->f20);
+        result=GDS_RAP_StepVideoSave((char *)(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f14),**(int * *)&((struct CodeinWorkC *)p)->f20);
         ++((struct CodeinWorkC *)p)->f24;
         if((u32)(result-2)<=1) {(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f1C)=1;*state=8;}break;
     case 8:
@@ -6323,8 +6323,8 @@ void func_021E23C8(char *p,const Input *q) {
     u32 tmp1,tmp;
     u16 *tmp2;
     if(!((struct CodeinWorkC *)p)->f4) ((struct CodeinWorkC *)p)->f4=func_021FD12C((int)q->owner,(void *)(((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
-    ws=(struct WordSet *)func_021FC21C(q->owner);
-    str=func_02045EC0((struct MsgBank *)func_021FC214(q->owner),321);
+    ws=(struct WordSet *)BR_RES_GetWordSet(q->owner);
+    str=func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(q->owner),321);
     tmp2=(u16 *)(p+28);
     expanded=STRBUF_Create(128,*tmp2);
     tmp1=q->base;
@@ -6334,12 +6334,12 @@ void func_021E23C8(char *p,const Input *q) {
     func_0201F250(ws,expanded,str);
     func_021FD19C(((struct CodeinWorkC *)p)->f4,q->owner,expanded);
     STRBUF_Delete(expanded); STRBUF_Delete(str);
-    func_021FB964((void *)((int)q->owner),30,((struct CodeinWorkC *)p)->f1C);
-    font=func_021FC20C(q->owner);
-    bank=func_021FC214(q->owner);
+    BR_RES_LoadBgGraphics((void *)((int)q->owner),30,((struct CodeinWorkC *)p)->f1C);
+    font=BR_RES_GetFont(q->owner);
+    bank=BR_RES_GetMsgData(q->owner);
     for(i=0;i<2;i++) {
         r=&d_021E3900[i]; slot=p; slot=slot+i*4;
-        ((struct CodeinWorkC *)slot)->fC=func_021FC6A4(4,r->a,r->b,r->c,r->d,14,(*(void * *)&((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
+        ((struct CodeinWorkC *)slot)->fC=BR_UTIL_Create(4,r->a,r->b,r->c,r->d,14,(*(void * *)&((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
         func_021FC754(*(char * *)&((struct CodeinWorkC *)slot)->fC,(void *)bank,r->value,(void *)font,0x3da0);
     }
 }
@@ -6366,7 +6366,7 @@ void func_021E24AC(char *p, char *a1)
 /*
  * extent: final two bytes are alignment padding.
  */
-void func_021E24C4(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){func_021FC734(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}func_020409B4(4);func_021FBDA4((*(int *)&((struct CodeinArgA *)q)->fC),30);}
+void func_021E24C4(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){BR_UTIL_Delete(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}func_020409B4(4);BR_RES_ApplyBgSet((*(int *)&((struct CodeinArgA *)q)->fC),30);}
 
 
 
@@ -6471,7 +6471,7 @@ int func_021E25E4(int obj,int b,int c,char *p)
 int func_021E2640(int a,int b,int c,struct CodeinWorkA *p)
 {
     int i;
-    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(p->f3C))->f14)) && func_021FF88C((char *)((*(int *)&((struct CodeinSubA *)(p->f3C))->fC)))==2) {
+    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(p->f3C))->f14)) && BR_NET_HandleNetError((char *)((*(int *)&((struct CodeinSubA *)(p->f3C))->fC)))==2) {
         func_021F9C6C((void *)(((struct CodeinSubA *)(p->f3C))->f10));
         return 1;
     }
@@ -6500,21 +6500,21 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
     case 0:
         func_021E2F98(&cb);arg=*(char **)(p+0x3c);*(SOCLResource *)(p+0x4c)=cb;
         func_021E2E30((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
-    case 1:func_021FE784(**(int **)(p+0x3c),2,3,0);*state=2;break;
-    case 2:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=3;break;
+    case 1:BR_FADE_Start(**(int **)(p+0x3c),2,3,0);*state=2;break;
+    case 2:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=3;break;
     case 3:
         MI_CpuFill8(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(p+0x3c)+0x1c);
-        func_021FF54C(*(void **)(*(char **)(p+0x3c)+12),3,(const int *)req);
+        BR_NET_StartRequest(*(void **)(*(char **)(p+0x3c)+12),3,(const int *)req);
         *(u32 *)(p+0x44)=0;*state=4;break;
     case 4:
         ++*(u32 *)(p+0x44);
-        if(func_021FF648(*(void **)(*(char **)(p+0x3c)+12)) && *(u32 *)(p+0x44)>96) {
+        if(BR_NET_IsIdle(*(void **)(*(char **)(p+0x3c)+12)) && *(u32 *)(p+0x44)>96) {
             func_021FD860((void *)(*(int *)(p+0x30)), 0, 0);*state=5;
         }break;
     case 5:
-        result=func_021FF72C(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
+        result=BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
         if(result==0) {
-            if(func_021FF698(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
+            if(BR_NET_GetVideoReply(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
                 BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0x3c)+0x14)));
                 found=0;value=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
                 i=1;arg=*(char **)(p+0x3c);
@@ -6531,11 +6531,11 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
             TOUCHPANEL_GetPointTrg(&x,&y);click.x=x;click.y=y;func_021FD860((void *)(*(int *)(p+0x34)), 1, &click);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
-    case 6:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=7;break;
-    case 7:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=8;break;
+    case 6:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=7;break;
+    case 7:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=8;break;
     case 8:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD73C((int *)task,(int)func_021E2910);break;
-    case 10:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=11;break;
-    case 11:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=12;break;
+    case 10:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=11;break;
+    case 11:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=12;break;
     case 12:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD744(task);break;
     }
 }
@@ -6559,8 +6559,8 @@ void func_021E2910(int *task,int *state,char *p) {
         func_021E2E30(p+0x4c,(int)p,*(int *)&((struct CodeinWorkA *)p)->f3C);
         *state=1; break;
     }
-    case 1: func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,0); *state=2; break;
-    case 2: if(func_021FE7B0((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=3; break;
+    case 1: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,0); *state=2; break;
+    case 2: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=3; break;
     case 3: {
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             for(i=0;i<=2;i++) {
@@ -6579,14 +6579,14 @@ void func_021E2910(int *task,int *state,char *p) {
         }
         break;
     }
-    case 4: func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=5; break;
-    case 5: if(func_021FE7B0((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=6; break;
+    case 4: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=5; break;
+    case 5: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=6; break;
     case 6: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD73C(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2C2C); break;
-    case 7: func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); ++*state; break;
-    case 8: if(func_021FE7B0((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) ++*state; break;
+    case 7: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); ++*state; break;
+    case 8: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) ++*state; break;
     case 9: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD73C(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2AE0); break;
-    case 10: func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=11; break;
-    case 11: if(func_021FE7B0((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=12; break;
+    case 10: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=11; break;
+    case 11: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=12; break;
     case 12: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD744(task); break;
     }
 }
@@ -6610,10 +6610,10 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         func_021E2E30(p+0x4c,(int)p,*(int *)&((struct CodeinWorkA *)p)->f3C);
         ++*state; break;
     case 1:
-        func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,0);
+        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,0);
         ++*state; break;
     case 2:
-        if(func_021FE7B0(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
         break;
     case 3:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
@@ -6622,19 +6622,19 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         }
         break;
     case 4:
-        func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1);
+        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1);
         ++*state; break;
     case 5:
-        if(func_021FE7B0(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
         break;
     case 6:
         func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C));
         func_021FD73C(task,(int)func_021E2C2C); break;
     case 7:
-        func_021FE784(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1);
+        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1);
         ++*state; break;
     case 8:
-        if(func_021FE7B0(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)p)->f3C)) ++*state;
         break;
     case 9:
         func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C));
@@ -6683,14 +6683,14 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13d);
         initial.x=0x80;initial.y=0x60;
         func_021FD860((void *)(*(int *)(p+0x30)), 4, &initial);
-        func_021FE784(**(int **)(p+0x3c),2,3,0);++*state;break;
-    case 1:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;
+        BR_FADE_Start(**(int **)(p+0x3c),2,3,0);++*state;break;
+    case 1:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 2:
         *(int *)(p+0x44)=0;
         *(u16 *)(p+0x40)=0;*(u16 *)(p+0x42)=0;
         ++*state;break;
     case 3:
-        r=func_021D7540((void *)(*(int *)(*(char **)(p+0x3c)+0x14)),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(u16 *)(p+0x42),*(u16 *)(p+0x38));
+        r=GDS_RAP_SaveVideoSeq((void *)(*(int *)(*(char **)(p+0x3c)+0x14)),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(u16 *)(p+0x42),*(u16 *)(p+0x38));
         if((unsigned)(r-2)<=1) {
             *(int *)(*(char **)(p+0x3c)+0x28)=1;
             *(int *)(*(char **)(p+0x3c)+0x2c)=*(int *)(p+0x10)+1;
@@ -6700,12 +6700,12 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
     case 4:
         MI_CpuFill8(&cfg,0,8);
         cfg.wide=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
-        func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
+        BR_NET_StartRequest(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;
     case 5:
         ++*(unsigned *)(p+0x44);++*(unsigned *)(p+0x48);
-        if(func_021FF648(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
+        if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
             func_021FD860((void *)(*(int *)(p+0x30)), 0, 0);
             func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x140);
             ++*state;
@@ -6716,8 +6716,8 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
             func_021FD860((void *)(*(int *)(p+0x34)), 1, &pair);
             GFL_USE_PlaySeDefaultVolume((int)0x703);++*state;
         }break;
-    case 7:func_021FE784(**(int **)(p+0x3c),2,3,1);++*state;break;
-    case 8:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;
+    case 7:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);++*state;break;
+    case 8:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 9:
         if(*(void **)(p+8)) {func_021FD15C(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8));*(int *)(p+8)=0;}
         func_021FD744(task);break;
@@ -6776,8 +6776,8 @@ void func_021E2E70(char *p, const char *q)
   char *tmp2;
   if (!(*((void **) (p + 8))))
     *((void **) (p + 8)) = func_021FD12C(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
-  a = (void *) func_021FC21C(*((char **) (q + 8)));
-  s = func_02045EC0((struct MsgBank *)func_021FC214(*((char **) (q + 8))), 0x141);
+  a = (void *) BR_RES_GetWordSet(*((char **) (q + 8)));
+  s = func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(*((char **) (q + 8))), 0x141);
   b = STRBUF_Create(0x80, *((u16 *) (p + 0x38)));
   index = *((unsigned *) (p + 0x10));
   index = index * 4;
@@ -6787,15 +6787,15 @@ void func_021E2E70(char *p, const char *q)
   func_021FD19C(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
   STRBUF_Delete(b);
   STRBUF_Delete(s);
-  func_021FB964((void *)(*((int *) (q + 8))), 0x1e, *((u16 *) (p + 0x38)));
-  h = func_021FC20C(*((char **) (q + 8)));
-  c = func_021FC214(*((char **) (q + 8)));
+  BR_RES_LoadBgGraphics((void *)(*((int *) (q + 8))), 0x1e, *((u16 *) (p + 0x38)));
+  h = BR_RES_GetFont(*((char **) (q + 8)));
+  c = BR_RES_GetMsgData(*((char **) (q + 8)));
   for (i = 0; i < 2; i++)
   {
     r = d_021E3928;
     r = r + (i * 8);
     tmp2 = p + 4;
-    *((void **) ((p + (i * 4)) + 0x28)) = func_021FC6A4(4, r[0], r[1], r[2], r[3], 14, *((void **) tmp2), *((u16 *) (p + 0x38)));
+    *((void **) ((p + (i * 4)) + 0x28)) = BR_UTIL_Create(4, r[0], r[1], r[2], r[3], 14, *((void **) tmp2), *((u16 *) (p + 0x38)));
     tmp1 = (void **) (0x28 + (p + (i * 4)));
     tmp = tmp1;
     func_021FC754(*tmp, (void *)c, (void *)(*((int *) (r + 4))), (void *)h, 0x3da0);
@@ -6812,12 +6812,12 @@ void func_021E2F54(struct CodeinWorkA *p,struct CodeinArgA *q)
     int i;
     for (i=0;i<2;i++) {
         if (*(void **)((char *)p+i*4+0x28)) {
-            func_021FC734(*(void **)((char *)p+i*4+0x28));
+            BR_UTIL_Delete(*(void **)((char *)p+i*4+0x28));
             *(int *)((char *)p+i*4+0x28)=0;
         }
     }
     func_020409B4(4);
-    func_021FBDA4(q->f8,0x1e);
+    BR_RES_ApplyBgSet(q->f8,0x1e);
     if (p->f8) {
         func_021FD15C(p->f8,q->f8);
         *(int *)&p->f8=0;

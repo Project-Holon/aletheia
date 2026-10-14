@@ -33,21 +33,21 @@
 struct BtlEventFactor *HAND_FIELD_AddFactor(int effectId, int ownerId);
 void HAND_FIELD_RemoveFactor(struct BtlEventFactor *factor);
 const BtlEventHandler *HAND_FIELD_GetHandlersWeatherMarker(u32 *handlerCount);
-void HAND_FIELD_WeatherMarkerNoop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_WeatherMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersTrickRoom(u32 *handlerCount);
-void HAND_FIELD_TrickRoomReverseSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_TrickRoomReverseSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersGravity(u32 *handlerCount);
-void HAND_FIELD_GravityBoostAccuracy(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
-void HAND_FIELD_GravityOverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_GravityBoostAccuracy(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
+void HAND_FIELD_GravityOverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersWaterSport(u32 *handlerCount);
-void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersMudSport(u32 *handlerCount);
-void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersUseCounter(u32 *handlerCount);
-void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersWonderRoom(u32 *handlerCount);
 const BtlEventHandler *HAND_FIELD_GetHandlersMagicRoom(u32 *handlerCount);
-void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work);
+void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 extern const HandEffectEntry gHandFieldEffectTable[BTL_FLDEFF_COUNT];
 extern const BtlEventHandler gHandFieldWeatherMarkerHandlers[1];
 extern const BtlEventHandler gHandFieldTrickRoomHandlers[1];
@@ -102,7 +102,7 @@ const BtlEventHandler *HAND_FIELD_GetHandlersWeatherMarker(u32 *handlerCount)
 
 
 /* Handler that does nothing; the effect only has to exist. */
-void HAND_FIELD_WeatherMarkerNoop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_WeatherMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
 }
 
@@ -116,7 +116,7 @@ const BtlEventHandler *HAND_FIELD_GetHandlersTrickRoom(u32 *handlerCount)
 
 
 /* Trick Room: the slowest Pokemon moves first. */
-void HAND_FIELD_TrickRoomReverseSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_TrickRoomReverseSpeed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     BTL_EVENT_OverwriteVar(BTL_EVAR_REVERSE_SPEED_ORDER_FLAG, 1);
 }
@@ -131,14 +131,14 @@ const BtlEventHandler *HAND_FIELD_GetHandlersGravity(u32 *handlerCount)
 
 
 /* Gravity: moves hit about 1.67 times as often. */
-void HAND_FIELD_GravityBoostAccuracy(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_GravityBoostAccuracy(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, HAND_RATIO_GRAVITY_ACCURACY);
 }
 
 
 /* Gravity: Ground moves hit Pokemon that would be immune (Flying type, Levitate). */
-void HAND_FIELD_GravityOverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_GravityOverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) == HAND_POKETYPE_GROUND)
         BTL_EVENT_OverwriteVar(BTL_EVAR_IMMUNITY_OVERRIDE_FLAG, 1);
@@ -154,7 +154,7 @@ const BtlEventHandler *HAND_FIELD_GetHandlersWaterSport(u32 *handlerCount)
 
 
 /* Water Sport: Fire moves do about a third of their damage. */
-void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) == HAND_POKETYPE_FIRE)
         BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, HAND_RATIO_SPORT_POWER);
@@ -170,7 +170,7 @@ const BtlEventHandler *HAND_FIELD_GetHandlersMudSport(u32 *handlerCount)
 
 
 /* Mud Sport: Electric moves do about a third of their damage. */
-void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) == HAND_POKETYPE_ELECTRIC)
         BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, HAND_RATIO_SPORT_POWER);
@@ -186,7 +186,7 @@ const BtlEventHandler *HAND_FIELD_GetHandlersUseCounter(u32 *handlerCount)
 
 
 /* Adds one to the use counter event variable. */
-void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     int count;
     count = BTL_EVENT_GetVar(BTL_EVAR_USE_COUNTER);
@@ -211,6 +211,6 @@ const BtlEventHandler *HAND_FIELD_GetHandlersMagicRoom(u32 *handlerCount)
 
 
 /* Handler that does nothing; the effect only has to exist. */
-void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, void *work)
+void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
 }

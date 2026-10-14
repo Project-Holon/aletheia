@@ -1,5 +1,5 @@
 /*
- * function: func_021FAC8C
+ * function: WORLDTRADE_INPUT_StateWaitFrameIn
  * address: 0x021FAC8C
  * packet: pkt_ov135_021FAC8C
  * region: ov135
@@ -14,7 +14,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021F4FF4 0x021F4FF4 thumb ov135
+ *   WORLDTRADE_SetActorPos 0x021F4FF4 thumb ov135
  */
 #include "../include/Obj01745.h"
 typedef unsigned char u8;
@@ -28,8 +28,8 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021F4FF4(u32, u32, u32);
-int func_021FAC8C(u8 *p)
+extern void WORLDTRADE_SetActorPos(u32, u32, u32);
+int WORLDTRADE_INPUT_StateWaitFrameIn(u8 *p)
 {
     if (!BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj01745 *)p)->f18, 0)) {
         if (func_020355C4() == 1)
@@ -41,8 +41,8 @@ int func_021FAC8C(u8 *p)
             CLACT_SetActorAutoAnim(((struct Obj01745 *)p)->f10, 0);
             CLACT_SetActorAnimSeq(((struct Obj01745 *)p)->fC, 38);
             CLACT_SetActorAnimSeq(((struct Obj01745 *)p)->f10, 39);
-            func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->fC, 228, 120);
-            func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->f10, 154, 120);
+            WORLDTRADE_SetActorPos(*(u32 *)&((struct Obj01745 *)p)->fC, 228, 120);
+            WORLDTRADE_SetActorPos(*(u32 *)&((struct Obj01745 *)p)->f10, 154, 120);
             CLACT_SetActorDrawEnable(((struct Obj01745 *)p)->fC, 1);
             CLACT_SetActorDrawEnable(((struct Obj01745 *)p)->f10, 1);
         }

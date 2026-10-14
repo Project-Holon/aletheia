@@ -1,5 +1,5 @@
 /*
- * function: func_021BFE08
+ * function: ZUKAN_DETAIL_AREA_HandleKeyEvent
  * address:  0x021BFE08
  * packet:   pkt_ov208_021BFE08
  * region:   ov208
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC3B4  0x021BC3B4  thumb  ov208
- *   func_021BC3C0  0x021BC3C0  thumb  ov208
- *   func_021BC3CC  0x021BC3CC  thumb  ov208
- *   func_021BC40C  0x021BC40C  thumb  ov208
- *   func_021C1AD4  0x021C1AD4  thumb  ov208
- *   func_021C1D0C  0x021C1D0C  thumb  ov208
- *   func_021C1920  0x021C1920  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_LoadAreaEntries  0x021C1AD4  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay  0x021C1D0C  thumb  ov208
+ *   ZUKAN_DETAIL_AREA_HandleModeEvent  0x021C1920  thumb  ov208
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
- *   func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_021BDC2C  0x021BDC2C  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
+ *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive  0x021BDC2C  thumb  ov208
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  */
 
@@ -38,20 +38,20 @@ struct S {
     u32 f434;
 };
 
-extern int func_021BC3B4(int *p);
-extern u16 func_021BC3C0(void *p);
-extern void func_021BC3CC(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+extern u16 ZUKAN_DETAIL_COMMON_GetCurrentEntry(void *p);
+extern void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
 struct Ov208Cur;
-extern void func_021BC40C(struct Ov208Cur *p);
-extern void func_021C1AD4(u16 *heap, u8 *p, int key);
-extern void func_021C1D0C(int a, int b, int c);
-extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
+extern void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p);
+extern void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key);
+extern void ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay(int a, int b, int c);
+extern void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode);
 extern void func_021BDBA0(int p);
-extern int func_021BC3A4(int *p);
-extern int func_021BDC2C(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
+extern int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
+void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
 {
     int sc;
     u32 flag;
@@ -59,7 +59,7 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
     if (st == 0) {
         return;
     }
-    sc = func_021BC3B4(obj);
+    sc = ZUKAN_DETAIL_COMMON_GetWorkPtr(obj);
     flag = 0;
     switch (key) {
     case 16: case 19:
@@ -76,11 +76,11 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
     }
     switch (key) {
     case 12: {
-        u16 old = func_021BC3C0(obj);
-        func_021BC3CC((char *)obj);
-        if (old != func_021BC3C0(obj)) {
-            func_021C1AD4(heap, (u8 *)st, (int)obj);
-            func_021C1D0C((int)heap, (int)st, (int)obj);
+        u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
+        ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies((char *)obj);
+        if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
+            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
             st->f42c = 1;
             st->f430 = 0;
             st->f434 = 0;
@@ -92,11 +92,11 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         break;
     }
     case 13: {
-        u16 old = func_021BC3C0(obj);
-        func_021BC40C((struct Ov208Cur *)obj);
-        if (old != func_021BC3C0(obj)) {
-            func_021C1AD4(heap, (u8 *)st, (int)obj);
-            func_021C1D0C((int)heap, (int)st, (int)obj);
+        u16 old = ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj);
+        ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies((struct Ov208Cur *)obj);
+        if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
+            ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
+            ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
             st->f42c = 1;
             st->f430 = 0;
             st->f434 = 0;
@@ -138,11 +138,11 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         }
         break;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x12, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
         func_021BDBA0(sc);
         return;
     case 19:
-        func_021C1920(heap, (u8 *)st, (int)obj, 6);
+        ZUKAN_DETAIL_AREA_HandleModeEvent(heap, (u8 *)st, (int)obj, 6);
         return;
     default:
         if (flag != 0) {

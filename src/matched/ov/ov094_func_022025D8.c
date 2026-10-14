@@ -1,5 +1,5 @@
 /*
- * function: func_022025D8
+ * function: BTLV_INPUT_StartPaletteFadeTask
  * address:  0x022025D8
  * packet:   pkt_ov094_022025D8
  * region:   ov094
@@ -13,9 +13,9 @@
  *   func_02030734  0x02030734  arm
  *   PALANM_RequestFade  0x0202173C  thumb
  *   func_02030DA8  0x02030DA8  arm
- *   func_0220684C  0x0220684C  thumb  ov094
- *   func_02204A3C  0x02204A3C  thumb  ov094
- *   func_02204A70  0x02204A70  thumb  ov094
+ *   BTLV_INPUT_RegisterTask  0x0220684C  thumb  ov094
+ *   BTLV_INPUT_WaitFadeTaskMain  0x02204A3C  thumb  ov094
+ *   BTLV_INPUT_WaitFadeTaskEnd  0x02204A70  thumb  ov094
  *   d_0220AEB0     0x0220AEB0  data   ov094  a1
  *
  * lever: the flag test is two whole PALANM_RequestFade calls, one per arm, differing only
@@ -35,11 +35,11 @@ extern char d_0220AEB0[];
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, unsigned int a3);
-extern void func_0220684C(char *p, int a, int b);
-extern void func_02204A3C(void *a, char **s);
-extern void func_02204A70(void *h);
+extern void BTLV_INPUT_RegisterTask(char *p, int a, int b);
+extern void BTLV_INPUT_WaitFadeTaskMain(void *a, char **s);
+extern void BTLV_INPUT_WaitFadeTaskEnd(void *h);
 
-void func_022025D8(char *o, int flag)
+void BTLV_INPUT_StartPaletteFadeTask(char *o, int flag)
 {
     int *p;
 
@@ -50,5 +50,5 @@ void func_022025D8(char *o, int flag)
         PALANM_RequestFade(((struct Obj03718 *)o)->f64, 0xA, 0xFFFF, 1, 0xC, 0x10, 0, ((struct Obj03718 *)o)->f0);
     ((struct Obj03718 *)o)->f68 = (((struct Obj03718 *)o)->f68 & 0xFFFE7FFF) | 0x8000;
     p[0] = (int)o;
-    func_0220684C(o, (int)func_02030DA8(((struct Obj03718 *)o)->f0, (void (*)(void *, void *))func_02204A3C, p, 0), (int)func_02204A70);
+    BTLV_INPUT_RegisterTask(o, (int)func_02030DA8(((struct Obj03718 *)o)->f0, (void (*)(void *, void *))BTLV_INPUT_WaitFadeTaskMain, p, 0), (int)BTLV_INPUT_WaitFadeTaskEnd);
 }

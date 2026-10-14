@@ -1,5 +1,5 @@
 /*
- * function: FIELD_G3D_MAP_CmdStartSpPokeGimmickTask
+ * function: SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask
  * address:  0x0216BBD4
  * packet:   pkt_ov010_0216BBD4
  * region:   ov010
@@ -36,7 +36,7 @@ extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc();
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int FIELD_G3D_MAP_CmdStartSpPokeGimmickTask(int c, int vm)
+int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(int c, int vm)
 {
     void *ws;
     void *p8;

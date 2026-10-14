@@ -1,5 +1,5 @@
 /*
- * function: func_021C5078
+ * function: ZUKAN_DETAIL_FORM_DeleteModel
  * address:  0x021C5078
  * packet:   pkt_021C5078
  * region:   ov208
@@ -20,7 +20,7 @@
 extern void MCSS_SetVanishFlag(void *p);
 extern void MCSS_Del(void *sys, void *obj);
 
-void func_021C5078(int a, int b)
+void ZUKAN_DETAIL_FORM_DeleteModel(int a, int b)
 {
     MCSS_SetVanishFlag((void *)b);
     MCSS_Del((void *)a, (void *)b);

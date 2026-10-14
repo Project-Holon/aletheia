@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE00
+ * function: GURU2_COMM_GetPartyCopy
  * address:  0x021DCE00
  * packet:   pkt_021DCE00
  * region:   ov137
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021DCE00(char *p, int i)
+int GURU2_COMM_GetPartyCopy(char *p, int i)
 {
     return ((struct Obj23702 *)p)->f50 + i * 0x594;
 }

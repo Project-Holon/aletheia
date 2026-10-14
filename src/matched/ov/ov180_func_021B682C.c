@@ -1,5 +1,5 @@
 /*
- * function: func_021B682C
+ * function: HALL_OF_FAME_StartBackdropParticle
  * address:  0x021B682C
  * packet:   pkt_021B682C
  * region:   ov180
@@ -16,7 +16,7 @@
 
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 
-void func_021B682C(int *p, int a)
+void HALL_OF_FAME_StartBackdropParticle(int *p, int a)
 {
     int buf[3] = {0, 0, 0};
 

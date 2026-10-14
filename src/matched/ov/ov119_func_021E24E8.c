@@ -1,5 +1,5 @@
 /*
- * function: func_021E24E8
+ * function: POKETRADE_SAVE_DrawOfferListWindows
  * address: 0x021E24E8
  * packet: pkt_ov119_021E24E8
  * region: ov119
@@ -15,13 +15,13 @@
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201F250 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_021D8ADC 0x021D8ADC thumb ov119
- *   func_021E6CB8 0x021E6CB8 thumb ov119
- *   func_021E6334 0x021E6334 thumb ov119
- *   func_021E6E7C 0x021E6E7C thumb ov119
- *   func_021E1430 0x021E1430 thumb ov119
- *   func_021E1670 0x021E1670 thumb ov119
- *   func_021E15F8 0x021E15F8 thumb ov119
+ *   POKETRADE_PROC_IsWifiMode 0x021D8ADC thumb ov119
+ *   POKETRADE_2D_CreateOfferWindows 0x021E6CB8 thumb ov119
+ *   POKETRADE_2D_CreateOfferIconActor 0x021E6334 thumb ov119
+ *   POKETRADE_2D_UpdateOfferWindowActors 0x021E6E7C thumb ov119
+ *   POKETRADE_SAVE_PrintNickname 0x021E1430 thumb ov119
+ *   POKETRADE_SAVE_PrintGender 0x021E1670 thumb ov119
+ *   POKETRADE_SAVE_PrintLevel 0x021E15F8 thumb ov119
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,16 +35,16 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-extern int func_021D8ADC(char *);
-extern void func_021E6CB8(char *);
-extern void func_021E6334(char *,int,int,void *,int,u32);
-extern void func_021E6E7C(int p);
-extern void func_021E1430(void *,void *,int,int,int,int,char *);
-extern void func_021E1670(void *,void *,int,int,char *,int,int);
-extern void func_021E15F8(void *,void *,int,int,char *);
+extern int POKETRADE_PROC_IsWifiMode(char *);
+extern void POKETRADE_2D_CreateOfferWindows(char *);
+extern void POKETRADE_2D_CreateOfferIconActor(char *,int,int,void *,int,u32);
+extern void POKETRADE_2D_UpdateOfferWindowActors(int p);
+extern void POKETRADE_SAVE_PrintNickname(void *,void *,int,int,int,int,char *);
+extern void POKETRADE_SAVE_PrintGender(void *,void *,int,int,char *,int,int);
+extern void POKETRADE_SAVE_PrintLevel(void *,void *,int,int,char *);
 #define I(k) (*(int *)(p+(k)))
 #define P(k) (*(void **)(p+(k)))
-void func_021E24E8(char *p, int a1)
+void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1)
 {
     void *arr[2];
     void *mon;
@@ -52,7 +52,7 @@ void func_021E24E8(char *p, int a1)
     char *q1,*q2;
     int j,n;
     int k;
-    func_021E6CB8(p);
+    POKETRADE_2D_CreateOfferWindows(p);
     arr[0]=P(0x834);
     arr[1]=P(0x830);
     GF_FONT_SetTextColor(15,2,0);
@@ -72,14 +72,14 @@ void func_021E24E8(char *p, int a1)
             mon=*(void **)(q1+n*4+0xfd8);
             if(*(int *)(q1+n*4+0xfa4)!=-1) {
                 flag76=POKE_TOOL_GetPartyValue(mon,76,0);
-                func_021E6334(p,k,n,mon,0,1);
-                func_021E1430(mon,*(void **)(q2+n*4+0x10f8),0,0,flag76,func_021D8ADC(p),p);
+                POKETRADE_2D_CreateOfferIconActor(p,k,n,mon,0,1);
+                POKETRADE_SAVE_PrintNickname(mon,*(void **)(q2+n*4+0x10f8),0,0,flag76,POKETRADE_PROC_IsWifiMode(p),p);
                 if(flag76==0) {
-                    func_021E1670(mon,*(void **)(q2+n*4+0x10f8),56,16,p,0,func_021D8ADC(p));
-                    func_021E15F8(mon,*(void **)(q2+n*4+0x10f8),0,16,p);
+                    POKETRADE_SAVE_PrintGender(mon,*(void **)(q2+n*4+0x10f8),56,16,p,0,POKETRADE_PROC_IsWifiMode(p));
+                    POKETRADE_SAVE_PrintLevel(mon,*(void **)(q2+n*4+0x10f8),0,16,p);
                 }
             }
         }
     }
-    func_021E6E7C((int)p);
+    POKETRADE_2D_UpdateOfferWindowActors((int)p);
 }

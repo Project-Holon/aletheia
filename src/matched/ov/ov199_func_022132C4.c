@@ -22,7 +22,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021EEEA8 0x021EEEA8 thumb ov188
+ *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   ov093_id 0x0000005D data a1
@@ -44,7 +44,7 @@ extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
-extern void func_021EEEA8(void *p, u32 c);
+extern void BATTLE_REC_TOOL_UnpackSetup(void *p, u32 c);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned short, int);
 extern const char d_02213D04[];
@@ -58,7 +58,7 @@ void *func_022132C4(void *unused, int heap, char *p)
     BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
     func_02034A5C((s32)ov093_id);
     BATTLE_REC_LoadToolOverlay();
-    func_021EEEA8(work, heap);
+    BATTLE_REC_TOOL_UnpackSetup(work, heap);
     BATTLE_REC_UnloadToolOverlay();
     func_02034AC4((s32)ov093_id);
     GFL_USE_CancelChangeAndStopBgm();

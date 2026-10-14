@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BF76C 0x021BF76C thumb ov217
  *   func_021BF77C 0x021BF77C thumb ov217
- *   func_021C11A4 0x021C11A4 thumb ov217
+ *   CircleGraph_SetCenterDepth 0x021C11A4 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021BF76C(void *p);
 extern u8 *func_021BF77C(void *p);
-extern void func_021C11A4(u8 *p, int a1);
+extern void CircleGraph_SetCenterDepth(u8 *p, int a1);
 
 void func_021BEC64(void *p)
 {
-    func_021C11A4(func_021BF76C(p), 0xFFFFE000);
-    func_021C11A4(func_021BF77C(p), 0);
+    CircleGraph_SetCenterDepth(func_021BF76C(p), 0xFFFFE000);
+    CircleGraph_SetCenterDepth(func_021BF77C(p), 0);
 }

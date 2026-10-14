@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FFFCC",
+   "name": "BR_POKESEARCH_DestroyGroupWindows",
    "address": "0x021FFFCC",
    "kind": "game",
    "region": "ov186",

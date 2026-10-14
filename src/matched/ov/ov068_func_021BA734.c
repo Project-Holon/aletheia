@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021B9944  0x021B9944  thumb  ov068
+ *   OPTION_MENU_GetScreenSpriteActor  0x021B9944  thumb  ov068
  *   OPTION_MENU_ScrollList  0x021BABE0  thumb  ov068
  *   func_020355C4  0x020355C4  arm
  *   OPTION_MENU_DrawList  0x021BAA0C  thumb  ov068
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 typedef struct { u32 a; u32 b; u32 c; } Blk;
 
 extern void MI_CpuFill8(void *p, u32 a, u32 b);
-extern int func_021B9944(void *p, int i);
+extern int OPTION_MENU_GetScreenSpriteActor(void *p, int i);
 extern void OPTION_MENU_ScrollList(u8 *p, int a, int b, int c);
 extern u8 func_020355C4(void);
 extern void OPTION_MENU_DrawList(u8 *p, int flag);
@@ -43,7 +43,7 @@ void OPTION_MENU_InitList(u8 *p, u16 a1, u16 a2, u32 a3, Blk *src)
     ((struct Obj00103 *)p)->f34 = 0x10;
     *(Blk *)(p + 0x44) = *src;
     for (i = 0; i < 11; i++) {
-        *(u32 *)(p + i * 4 + 8) = func_021B9944((void *)a3, i + 2);
+        *(u32 *)(p + i * 4 + 8) = OPTION_MENU_GetScreenSpriteActor((void *)a3, i + 2);
     }
     OPTION_MENU_ScrollList(p, -8, -192, 192);
     if (func_020355C4() == 1) {

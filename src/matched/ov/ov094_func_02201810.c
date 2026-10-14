@@ -1,5 +1,5 @@
 /*
- * function: func_02201810
+ * function: BTLV_MCSS_CellCallbackCheckStopCell
  * address:  0x02201810
  * packet:   pkt_ov094_02201810
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F8694  0x021F8694  thumb  ov094
+ *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
  *   MCSS_GetStopCellNum  0x02015EF4  thumb
  *   MCSS_GetStopCellIndex  0x02015EFC  thumb
  *
@@ -43,13 +43,13 @@ typedef struct {
     char pad2[0x5C - 12];
 } Row;
 
-extern int func_021F8694(void);
+extern int BTLV_EFFECT_GetMcss(void);
 extern u8 MCSS_GetStopCellNum(char *p);
 extern u8 MCSS_GetStopCellIndex(char *p, u8 i);
 
-int func_02201810(u32 flags, int a, int *out, int key)
+int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int a, int *out, int key)
 {
-    Row *base = (Row *)func_021F8694();
+    Row *base = (Row *)BTLV_EFFECT_GetMcss();
     u16 idx = flags;
     int found;
     int n;

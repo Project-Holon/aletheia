@@ -1,5 +1,5 @@
 /*
- * function: func_021E6AB0
+ * function: POKETRADE_2D_SetCursorSlidePositions
  * address: 0x021E6AB0
  * packet: pkt_ov119_021E6AB0
  * region: ov119
@@ -28,7 +28,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorBgPriority(void *,unsigned int);
 extern void func_0204047C(int,unsigned short);
-void func_021E6AB0(const char *p)
+void POKETRADE_2D_SetCursorSlidePositions(const char *p)
 {
     int i,j;
     Pt a,b,c;

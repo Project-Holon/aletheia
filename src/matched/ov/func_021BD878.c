@@ -1,5 +1,5 @@
 /*
- * function: func_021BD878
+ * function: ZKND_TBAR_GetButtonCount
  * address:  0x021BD878
  * packet:   pkt_021BD878
  * region:   ov208
@@ -17,7 +17,7 @@
 #include "../include/Obj18243.h"
 
 
-void func_021BD878(char *p)
+void ZKND_TBAR_GetButtonCount(char *p)
 {
     ((struct Obj18243 *)p)->f34 = 0;
 }

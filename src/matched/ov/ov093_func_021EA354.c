@@ -15,25 +15,25 @@
  *           class resolves the three sites through the ov094 hint; re-verify and file EXACT.
  *
  * symbols:
- *   func_021F7F1C  0x021F7F1C  thumb  ov094
- *   func_021F853C  0x021F853C  thumb  ov094
- *   func_021F7E74  0x021F7E74  thumb  ov094
- *   func_021F7E84  0x021F7E84  thumb  ov094
+ *   BTLV_EFFECT_IsPokeSpriteLoaded  0x021F7F1C  thumb  ov094
+ *   BTLV_EFFECT_GetPokeSpriteState  0x021F853C  thumb  ov094
+ *   BTLV_EFFECT_StartPokeEffectId285  0x021F7E74  thumb  ov094
+ *   BTLV_EFFECT_StartPokeEffectId286  0x021F7E84  thumb  ov094
  */
-extern int func_021F7F1C(int i);
-extern int func_021F853C(int i);
+extern int BTLV_EFFECT_IsPokeSpriteLoaded(int i);
+extern int BTLV_EFFECT_GetPokeSpriteState(int i);
 typedef unsigned int   u32;
-extern void func_021F7E74(u32 a);
-extern void func_021F7E84(u32 a);
+extern void BTLV_EFFECT_StartPokeEffectId285(u32 a);
+extern void BTLV_EFFECT_StartPokeEffectId286(u32 a);
 
 void BTLV_CORE_SetMonShown(void *ctx, int a, int b)
 {
-    if (func_021F7F1C(a) != 0) {
-        if (b != func_021F853C(a)) {
+    if (BTLV_EFFECT_IsPokeSpriteLoaded(a) != 0) {
+        if (b != BTLV_EFFECT_GetPokeSpriteState(a)) {
             if (b == 1) {
-                func_021F7E74(a);
+                BTLV_EFFECT_StartPokeEffectId285(a);
             } else {
-                func_021F7E84(a);
+                BTLV_EFFECT_StartPokeEffectId286(a);
             }
         }
     }

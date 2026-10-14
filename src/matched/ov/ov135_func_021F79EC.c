@@ -1,5 +1,5 @@
 /*
- * function: func_021F79EC
+ * function: WORLDTRADE_DEPOSIT_DeleteStrings
  * address: 0x021F79EC
  * packet: pkt_ov135_021F79EC
  * region: ov135
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021F79EC(char *p) { func_020307B0(((struct Obj23384 *)(*(char * *)&((struct Obj00287 *)p)->fE00))->f14); func_020307B0(((struct Obj23385 *)(*(char * *)&((struct Obj00287 *)p)->fE00))->f18); func_020307B0(((struct Obj00287 *)p)->fE00); STRBUF_Delete(((struct Obj00287 *)p)->fB88); }
+void WORLDTRADE_DEPOSIT_DeleteStrings(char *p) { func_020307B0(((struct Obj23384 *)(*(char * *)&((struct Obj00287 *)p)->fE00))->f14); func_020307B0(((struct Obj23385 *)(*(char * *)&((struct Obj00287 *)p)->fE00))->f18); func_020307B0(((struct Obj00287 *)p)->fE00); STRBUF_Delete(((struct Obj00287 *)p)->fB88); }

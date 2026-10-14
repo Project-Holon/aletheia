@@ -1,5 +1,5 @@
 /*
- * function: func_021E0F54
+ * function: GURU2_MAIN_DeleteSettleEffectTask
  * address:  0x021E0F54
  * packet:   pkt_021E0F54
  * region:   ov137
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021E0F54(u8 *p)
+void GURU2_MAIN_DeleteSettleEffectTask(u8 *p)
 {
     func_02030EAC(((struct Obj23791 *)p)->fD80);
 }

@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B71B8  0x021B71B8  thumb  ov172
- *   func_021B6C4C  0x021B6C4C  thumb  ov172
+ *   CTVT_CAMVIEW_UploadWindows  0x021B71B8  thumb  ov172
+ *   DRAW_SYSTEM_FlushStrokes  0x021B6C4C  thumb  ov172
  *   func_021B9574  0x021B9574  thumb  ov172
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
@@ -20,15 +20,15 @@
 typedef unsigned int u32;
 
 struct Q;
-extern void func_021B71B8(void *p, struct Q *q);
+extern void CTVT_CAMVIEW_UploadWindows(void *p, struct Q *q);
 extern void CLACT_VBlankSystem(void);
-extern void func_021B6C4C(char *p);
+extern void DRAW_SYSTEM_FlushStrokes(char *p);
 extern void func_021B9574(int unused, char *p);
 
 void func_021BD5AC(int unused, char *ctx)
 {
-    func_021B71B8(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
+    CTVT_CAMVIEW_UploadWindows(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
     CLACT_VBlankSystem();
-    func_021B6C4C((char *)(((struct Obj10666 *)ctx)->f1F4));
+    DRAW_SYSTEM_FlushStrokes((char *)(((struct Obj10666 *)ctx)->f1F4));
     func_021B9574((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
 }

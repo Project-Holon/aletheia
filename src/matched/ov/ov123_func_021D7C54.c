@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C54
+ * function: GSYNC_STATE_CopyMonRecord
  * address: 0x021D7C54
  * packet: pkt_ov123_021D7C54
  * region: ov123
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
 extern void func_020093F0(struct Sub02009210Obj *obj, int value);
-void func_021D7C54(void *p, char *q)
+void GSYNC_STATE_CopyMonRecord(void *p, char *q)
 {
     int changed = 0;
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FAFF0
+ * function: WORLDTRADE_INPUT_DrawSubCategoryScreen
  * address:  0x021FAFF0
  * packet:   pkt_021FAFF0
  * region:   ov135
@@ -14,12 +14,12 @@
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
  *   ov135_func_021F9260  0x021F9260  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021FBE84  0x021FBE84  thumb
- *   func_021FBF6C  0x021FBF6C  thumb
- *   func_021FBEB8  0x021FBEB8  thumb
+ *   WORLDTRADE_INPUT_PrintFrameString  0x021FBE84  thumb
+ *   WORLDTRADE_INPUT_CountSpeciesInList  0x021FBF6C  thumb
+ *   WORLDTRADE_INPUT_PrintFrameStringAlt  0x021FBEB8  thumb
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_021F4FF4  0x021F4FF4  thumb
+ *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   func_020355C4  0x020355C4  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   tbl_022032C6   0x022032C6  data  a1
@@ -73,18 +73,18 @@ extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 m
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void ov135_func_021F9260(Menu *m, u32 mode);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
-extern int func_021FBF6C(Menu *m, u32 idx);
-extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
+extern void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
+extern int WORLDTRADE_INPUT_CountSpeciesInList(Menu *m, u32 idx);
+extern void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021F4FF4(u32 a, u32 b, u32 c);
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-int func_021FAFF0(Menu *m)
+int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *m)
 {
     int i;
     u16 color;
@@ -94,18 +94,18 @@ int func_021FAFF0(Menu *m)
     BGWINFRM_GetFrameBuffer(m->mgr, 0);
     ov135_func_021F9260(m, 5);
     MI_CpuFill8(m->flags, 1, 0x1A);
-    func_021FBE84(m->mgr, m->bank, m->wins[0], m->page + 0x74, 2, 0x3DC2, m->g);
+    WORLDTRADE_INPUT_PrintFrameString(m->mgr, m->bank, m->wins[0], m->page + 0x74, 2, 0x3DC2, m->g);
     for (i = 1; i < tbl_022033F8[m->page].count + 1; i++) {
-        if (func_021FBF6C(m, tbl_02203324[m->page] + i - 1) > 0) {
+        if (WORLDTRADE_INPUT_CountSpeciesInList(m, tbl_02203324[m->page] + i - 1) > 0) {
             color = 0x3DC2;
             m->flags[tbl_02203324[m->page] + i - 1] = 1;
         } else {
             color = 0x2122;
             m->flags[tbl_02203324[m->page] + i - 1] = 0;
         }
-        func_021FBE84(m->mgr, m->bank, m->wins[i], tbl_02203440[i + tbl_022033F8[m->page].first - 1], 5, color, m->g);
+        WORLDTRADE_INPUT_PrintFrameString(m->mgr, m->bank, m->wins[i], tbl_02203440[i + tbl_022033F8[m->page].first - 1], 5, color, m->g);
     }
-    func_021FBEB8(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
     BGWINFRM_PutFrame(m->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 4);
     if (m->sel < 0) {
@@ -113,7 +113,7 @@ int func_021FAFF0(Menu *m)
     } else {
         m->pos = m->sel;
     }
-    func_021F4FF4(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
+    WORLDTRADE_SetActorPos(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
     if (func_020355C4() == 1) {
         CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F81B4
+ * function: BTLV_EFFECT_GaugeSetSlotVisible
  * address:  0x021F81B4
  * packet:   pkt_ov094_021F81B4
  * region:   ov094
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094  a4
+ *   gBtlvEff     0x0220AF20  data   ov094  a4
  *   BTLV_GAUGE_SetSlotVisible  0x02207D04  thumb  ov094
  */
 typedef unsigned int u32;
 
-extern char *d_0220AF20;
+extern char *gBtlvEff;
 struct O;
 extern void BTLV_GAUGE_SetSlotVisible(struct O *obj, int a, int idx);
 
-void func_021F81B4(u32 a, u32 b)
+void BTLV_EFFECT_GaugeSetSlotVisible(u32 a, u32 b)
 {
-    BTLV_GAUGE_SetSlotVisible((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
+    BTLV_GAUGE_SetSlotVisible((struct O *)(*(u32 *)(gBtlvEff + 0x1A4)), a, b);
 }

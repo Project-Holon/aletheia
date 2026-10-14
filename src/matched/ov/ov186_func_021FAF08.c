@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FB7B0  0x021FB7B0  thumb  ov186
+ *   BR_BTN_DATA_GetRowField  0x021FB7B0  thumb  ov186
  *   func_021FB514  0x021FB514  thumb  ov186
  */
 #include "../include/Obj14455.h"
 
-extern int func_021FB7B0(void *p, int i);
+extern int BR_BTN_DATA_GetRowField(void *p, int i);
 extern void func_021FB514(char *p, short x, int y);
 
 void func_021FAF08(char *p, int a1)
 {
-    short r = (short)func_021FB7B0((void *)(((struct Obj14455 *)p)->fC), 0);
+    short r = (short)BR_BTN_DATA_GetRowField((void *)(((struct Obj14455 *)p)->fC), 0);
 
     func_021FB514(((struct Obj14455 *)p)->f8, r, a1);
 }

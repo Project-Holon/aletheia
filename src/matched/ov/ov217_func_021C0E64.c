@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E64
+ * function: RingQueue_IsEmpty
  * address:  0x021C0E64
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: branch to func_021C0EE4.
+ * Tail-call veneer: branch to RingQueue_IsEmptyImpl.
  *
  * symbols:
- *   func_021C0EE4  0x021C0EE4  thumb  ov217
+ *   RingQueue_IsEmptyImpl  0x021C0EE4  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0EE4(void);
+extern void RingQueue_IsEmptyImpl(void);
 
-void func_021C0E64(void)
+void RingQueue_IsEmpty(void)
 {
-    func_021C0EE4();
+    RingQueue_IsEmptyImpl();
 }

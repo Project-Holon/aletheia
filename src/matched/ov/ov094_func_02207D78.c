@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * lane S13 leaf of func_0220680C
+ * lane S13 leaf of BTLV_INPUT_ClearSlotEvents
  */
 typedef struct {
     unsigned int b0 : 27;

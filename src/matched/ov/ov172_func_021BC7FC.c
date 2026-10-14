@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BDFE4  0x021BDFE4  thumb  ov172
+ *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   func_021B8108  0x021B8108  thumb  ov172
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
@@ -74,7 +74,7 @@ struct Bits2 {
     u8 b6 : 2;
 };
 
-extern u32 func_021BDFE4(void *p);
+extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern int func_021B8108(void *unused, void *p);
 extern u32 GFL_NET_GetScanResult(u32 a);
 extern void *GFL_NET_GetScanResultMac(u32 a);
@@ -137,7 +137,7 @@ void func_021BC7FC(void *ctx, u8 *list)
 
     changed = 0;
     refresh = 0;
-    if (!func_021B8108(ctx, (void *)func_021BDFE4(ctx)))
+    if (!func_021B8108(ctx, (void *)COMM_TVT_SYS_GetComm(ctx)))
         return;
     for (i = 0; i < 15; i++) {
         e = list + i * 0x24;

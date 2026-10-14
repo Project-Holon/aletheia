@@ -1,5 +1,5 @@
 /*
- * function: func_021FB298
+ * function: BTLV_EFFVM_CmdDeletePokeSprites
  * address:  0x021FB298
  * packet:   pkt_ov094_021FB298
  * region:   ov094
@@ -9,30 +9,30 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Script command: runs func_021F7F04 on each id listed by func_021FCA04.
+ * Script command: runs BTLV_EFFECT_DeletePokeSprite on each id listed by BTLV_EFFVM_ResolveBattlerList.
  *
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_021FCA04 0x021FCA04 thumb ov094
- *   func_021F7F04 0x021F7F04 thumb ov094
+ *   BTLV_EFFVM_ResolveBattlerList 0x021FCA04 thumb ov094
+ *   BTLV_EFFECT_DeletePokeSprite 0x021F7F04 thumb ov094
  */
 #include "../include/Obj00177.h"
 typedef unsigned int   u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_021FCA04(char *, int, int *);
-extern void func_021F7F04(int);
+extern int BTLV_EFFVM_ResolveBattlerList(char *, int, int *);
+extern void BTLV_EFFECT_DeletePokeSprite(int);
 
-int func_021FB298(void *a, char *s)
+int BTLV_EFFVM_CmdDeletePokeSprites(void *a, char *s)
 {
     int ids[8];
     int n;
     int i;
 
-    n = func_021FCA04(s, VM_GetU32(a), ids);
+    n = BTLV_EFFVM_ResolveBattlerList(s, VM_GetU32(a), ids);
     if (n != 0) {
         for (i = 0; i < n; i++)
-            func_021F7F04(ids[i]);
+            BTLV_EFFECT_DeletePokeSprite(ids[i]);
     }
     return ((struct Obj00177 *)s)->f23C;
 }

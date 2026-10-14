@@ -1,5 +1,5 @@
 /*
- * function: func_022025E4
+ * function: WORLDTRADE_ADAPTER_CreateMonFromBox
  * address:  0x022025E4
  * packet:   pkt_022025E4
  * region:   ov135
@@ -28,7 +28,7 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u32 func_020307B0(void *p);
 
-void func_022025E4(u32 a, u32 b, u32 c)
+void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c)
 {
     void *blk = POKE_TOOL_CreateFromBoxParam((void *)c, 0x48);
 

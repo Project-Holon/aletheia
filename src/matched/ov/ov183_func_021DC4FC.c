@@ -34,9 +34,9 @@
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FE784 0x021FE784 thumb ov186
- *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_021D7630 0x021D7630 thumb ov125
+ *   BR_FADE_Start 0x021FE784 thumb ov186
+ *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
+ *   GDS_RAP_SaveVideoSecured 0x021D7630 thumb ov125
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DBC68 0x021DBC68 thumb ov183
  *   d_021E3960 0x021E3960 data a1
@@ -49,9 +49,9 @@ extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021FD170(char *p, char *q, void *text);
-extern void func_021FE784(int a, int b, int c, int d);
-extern int func_021FE7B0(int *);
-extern int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
+extern void BR_FADE_Start(int a, int b, int c, int d);
+extern int BR_FADE_GetResult(int *);
+extern int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 extern char d_021E3960[];
@@ -64,21 +64,21 @@ void func_021DC4FC(int *a,int *state,char *p)
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
         func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
-        func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
+        BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2: *state=3;break;
     case 3: *(u16 *)(p+0xb6)=0;*(u16 *)(p+0xb8)=0;*state=4;break;
     case 4:
         if(*(int *)(*(char **)(p+0xd0)+8)>3) func_02034714(d_021E3960,0,d_021E3960);
-        if(func_021D7630((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
+        if(GDS_RAP_SaveVideoSecured((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
             BATTLE_REC_DecodeWork();
             *(int *)(p+0xc8)=(int)BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);
             *state=5;
         }
         break;
-    case 5: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
-    case 6: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
+    case 5: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
+    case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
     case 7: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }
 }

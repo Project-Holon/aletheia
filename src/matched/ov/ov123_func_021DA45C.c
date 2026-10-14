@@ -1,5 +1,5 @@
 /*
- * function: func_021DA45C
+ * function: PDWACC_STATE_DestroyHttpConnection
  * address: 0x021DA45C
  * packet: pkt_ov123_021DA45C
  * region: ov123
@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 extern void NHTTP_RAP_DeleteConnection(u8 *);
 extern void NHTTP_RAP_Destroy(u8 *);
-void func_021DA45C(char *p) { if(*(u8 * *)&((struct Obj08119 *)p)->f8) { NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj08119 *)p)->f8); NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj08119 *)p)->f8); *(u8 * *)&((struct Obj08119 *)p)->f8=0; } }
+void PDWACC_STATE_DestroyHttpConnection(char *p) { if(*(u8 * *)&((struct Obj08119 *)p)->f8) { NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj08119 *)p)->f8); NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj08119 *)p)->f8); *(u8 * *)&((struct Obj08119 *)p)->f8=0; } }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1224
+ * function: CircleGraph_GetLabelPositionByIndex
  * address:  0x021C1224
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C1AB4  0x021C1AB4  thumb  ov217
- *   func_021C1B74  0x021C1B74  thumb  ov217
- *   func_021C1F44  0x021C1F44  thumb  ov217
+ *   CircleGraph_GetSlice  0x021C1AB4  thumb  ov217
+ *   CircleGraph_GetSliceMiddle  0x021C1B74  thumb  ov217
+ *   CircleGraph_ProjectToScreen  0x021C1F44  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,15 +26,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_021C1AB4(void *p, u32 n);
-extern void func_021C1B74(u8 *p, u8 *rec, s16 *out);
-extern void func_021C1F44(const s16 *p, s32 *px, s32 *py);
+extern void *CircleGraph_GetSlice(void *p, u32 n);
+extern void CircleGraph_GetSliceMiddle(u8 *p, u8 *rec, s16 *out);
+extern void CircleGraph_ProjectToScreen(const s16 *p, s32 *px, s32 *py);
 
-void func_021C1224(u8 *h, u8 n, s32 *px, s32 *py)
+void CircleGraph_GetLabelPositionByIndex(u8 *h, u8 n, s32 *px, s32 *py)
 {
     s16 s[4];
-    func_021C1B74(h, func_021C1AB4(h, n), s);
-    func_021C1F44(s, px, py);
+    CircleGraph_GetSliceMiddle(h, CircleGraph_GetSlice(h, n), s);
+    CircleGraph_ProjectToScreen(s, px, py);
 }
 
 

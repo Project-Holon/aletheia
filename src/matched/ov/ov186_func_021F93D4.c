@@ -11,12 +11,12 @@
  * note: 2026-10-05 wave P15 D3. Real extent 252 bytes (pool ends 0x021F94CC); the unlabelled
  *   follower at 0x021F94D0 is a separate function. Written from the listing, EXACT* at the first compile.
  * symbols:
- *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  */
 typedef unsigned char  u8;
-extern unsigned int func_021FC4DC(u8 *p);
+extern unsigned int BR_GRAPHIC_GetActorUnit(u8 *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
@@ -59,6 +59,6 @@ void func_021F93D4(int *out,int *source,int *ctx,int type)
     out[6]=source[1];
     out[4]=source[3];
     out[7]=source[2];
-    out[5]=func_021FC4DC((u8 *)source[0]);
+    out[5]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[8]=*(int *)((char *)source[6]+8)+0x1748;
 }

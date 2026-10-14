@@ -1,5 +1,5 @@
 /*
- * function: func_021F935C
+ * function: BTLV_EFFECT_GetBitMask
  * address:  0x021F935C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F935C   0x021F935C  thumb
+ *   BTLV_EFFECT_GetBitMask   0x021F935C  thumb
  *
  * lane O10 candidate
  */
 
-int func_021F935C(int x)
+int BTLV_EFFECT_GetBitMask(int x)
 {
     return 1 << x;
 }

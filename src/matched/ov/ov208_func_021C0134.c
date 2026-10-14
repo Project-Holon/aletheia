@@ -1,5 +1,5 @@
 /*
- * function: func_021C0134
+ * function: ZUKAN_DETAIL_AREA_CreateMapActors
  * address:  0x021C0134
  * packet:   pkt_ov208_021C0134
  * region:   ov208
@@ -95,7 +95,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 #define WP(o) (*(void **)(p + (o)))
 #define OBJ(i) (*(u32 *)(p + (i) * 4 + 0xbc))
 
-void func_021C0134(u16 *heap, u8 *p, int key)
+void ZUKAN_DETAIL_AREA_CreateMapActors(u16 *heap, u8 *p, int key)
 {
     BankDesc desc;
     Row7 anim, pri, pal;

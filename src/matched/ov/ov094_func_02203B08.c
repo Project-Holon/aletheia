@@ -1,5 +1,5 @@
 /*
- * function: func_02203B08
+ * function: BTLV_INPUT_WazaScreenCloseTask
  * address:  0x02203B08
  * packet:   pkt_ov094_02203B08
  * region:   ov094
@@ -15,8 +15,8 @@
  *   func_020409B4  0x020409B4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
- *   func_02204960  0x02204960  thumb  ov094
- *   func_0220687C  0x0220687C  thumb  ov094
+ *   BTLV_INPUT_StartBgScrollOffsetTask  0x02204960  thumb  ov094
+ *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -48,15 +48,15 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
-extern void func_02204960(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
-extern void func_0220687C(char *p, void *q);
+extern void BTLV_INPUT_StartBgScrollOffsetTask(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
-void func_02203B08(int a0, Ctx *c)
+void BTLV_INPUT_WazaScreenCloseTask(int a0, Ctx *c)
 {
     switch (c->state) {
     case 0:
         func_020498F4((void *)c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
-        func_02204960(c->main, 5, 0, 0xc0, 2, 2, 2, 2);
+        BTLV_INPUT_StartBgScrollOffsetTask(c->main, 5, 0, 0xc0, 2, 2, 2, 2);
         c->state = c->state + 1;
         break;
     case 1:
@@ -65,8 +65,8 @@ void func_02203B08(int a0, Ctx *c)
         func_020498F4((void *)c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
         BMP_WIN_TransferChars(c->main->obj228);
         CLACT_SetUnitDrawEnable(c->main->obj1f8, 1);
-        func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
-        func_0220687C((char *)c->main, (void *)a0);
+        BTLV_INPUT_StartBgScrollOffsetTask(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
+        BTLV_INPUT_DeleteTask((char *)c->main, (void *)a0);
         break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C479C
+ * function: MAILSYS_HandleInput
  * address:  0x021C479C
  * packet:   pkt_ov136_021C479C
  * region:   ov136
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C479C 0x021C479C thumb
- *   func_021C4538 0x021C4538 thumb
- *   func_021C45C0 0x021C45C0 thumb
- *   func_021C4700 0x021C4700 thumb
+ *   MAILSYS_HandleInput 0x021C479C thumb
+ *   MAILSYS_UpdateInputMode 0x021C4538 thumb
+ *   MAILSYS_HandleKeyInput 0x021C45C0 thumb
+ *   MAILSYS_HandleTouchInput 0x021C4700 thumb
  */
 typedef unsigned char u8;
-extern int func_021C4538(u8 *p);
-extern int func_021C45C0(u8 *p);
-extern int func_021C4700(u8 *p);
-int func_021C479C(u8 *p)
+extern int MAILSYS_UpdateInputMode(u8 *p);
+extern int MAILSYS_HandleKeyInput(u8 *p);
+extern int MAILSYS_HandleTouchInput(u8 *p);
+int MAILSYS_HandleInput(u8 *p)
 {
-    if (func_021C4538(p)) return 0;
-    if (p[0xA] == 1) return func_021C45C0(p);
-    return func_021C4700(p);
+    if (MAILSYS_UpdateInputMode(p)) return 0;
+    if (p[0xA] == 1) return MAILSYS_HandleKeyInput(p);
+    return MAILSYS_HandleTouchInput(p);
 }
