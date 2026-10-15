@@ -39,8 +39,8 @@
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   func_021DCBD8 0x021DCBD8 thumb ov183
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -74,8 +74,8 @@ extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
 extern int BR_RES_GetWordSet(char *);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
-extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021FC7C4(char *,void *,void *,u16);
+extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern void func_021DCBD8(char *,void *,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -120,7 +120,7 @@ void func_021DC8EC(char *p,char *q)
                 func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
                 func_0201F250(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
                 ready=1;break;
                 }
             case 1:
@@ -128,7 +128,7 @@ void func_021DC8EC(char *p,char *q)
                 u32 selector;
                 selector=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),3,0);
                 text=func_02045EC0(bank,selector+d->message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);ready=1;break;
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
             case 2:
                 {
@@ -149,7 +149,7 @@ void func_021DC8EC(char *p,char *q)
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 func_0201EFA4(words,2,low,5,2,1);func_0201EFA4(words,1,middle,5,2,1);func_0201EFA4(words,0,high,2,2,1);
                 func_0201F250(words,text,message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
@@ -160,18 +160,18 @@ void func_021DC8EC(char *p,char *q)
                     text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
                     func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);STRBUF_Delete((U16Vec *)message);
-                    func_021FC868(*(void **)(slot+0x30),0,1,1);ready=1;
+                    BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             case 4:
                 if(func_021DD25C(*(void **)(p+0xc4))) {
                     text=func_02045EC0(bank,d->message);
-                    func_021FC868(*(void **)(slot+0x30),0,1,1);ready=1;
+                    BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             }
             if(ready) {
-                func_021FC7C4(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
+                BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
             }
         }
         func_021DCBD8(p,*(void **)(q+0x18),*(void **)(p+0xc4),*(u16 *)(p+0xb4));

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CE8
+ * function: POKETRADE_IRCDEMO_UpdateScene
  * address:  0x021D4CE8
  * packet:   pkt_ov117_021D4CE8
  * region:   ov117
@@ -81,7 +81,7 @@ extern void POKETRADE_PROC_SetStep(void *, int);
 #define HEAP (*(u16 *)(p + 0x5F4))
 #define WORK (*(u32 **)(p + 0xc))
 
-void func_021D4CE8(u8 *p)
+void POKETRADE_IRCDEMO_UpdateScene(u8 *p)
 {
     Vec v;
     Vec v2;

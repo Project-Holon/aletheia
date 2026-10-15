@@ -143,12 +143,12 @@
  *   d_021E770C 0x021E770C data a4
  *   POKETRADE_2D_SetDisplayConfig 0x021E57E8 thumb ov119
  *   d_021E76DC     0x021E76DC  data  a4
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepOpenDeclineMenu 0x021DE9E8 thumb ov119
  *   POKETRADE_NEGO_TrySelectOffer 0x021DE754 thumb ov119
  *   POKETRADE_NEGO_PollOfferCursorKeys 0x021DE208 thumb ov119
- *   func_021DD140 0x021DD140 thumb ov119
+ *   POKETRADE_PROC_TickWifiTimer 0x021DD140 thumb ov119
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
  *   POKETRADE_2D_StepCursorSlide 0x021E69C0 thumb ov119
  *   POKETRADE_NEGO_ReleaseIconResources 0x021DD588 thumb ov119
@@ -186,8 +186,8 @@
  *   POKETRADE_NEGO_CheckCancelTouch 0x021DD24C thumb ov119
  *   POKETRADE_NEGO_CloseCancelMenu 0x021DD294 thumb ov119
  *   POKETRADE_NEGO_DrawOfferStatusLabel 0x021DD90C thumb ov119
- *   func_021DAEF0 0x021DAEF0 thumb ov119
- *   func_021DBBD0 0x021DBBD0 thumb ov119
+ *   POKETRADE_PROC_StepShowWaitMessageA 0x021DAEF0 thumb ov119
+ *   POKETRADE_PROC_StepRebuildBrowseScene 0x021DBBD0 thumb ov119
  *   d_021E76D4 0x021E76D4 data a4
  *   d_021E76EC 0x021E76EC data a4
  *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb ov119
@@ -210,19 +210,19 @@
  *   g_021E7844      0x021E7844  data  ov119
  *   d_021E7794 0x021E7794 data a4
  *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
- *   func_021DACE4 0x021DACE4 thumb ov119
+ *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
  *   POKETRADE_NEGO_HasOffer 0x021DD2F4 thumb ov119
  *   POKETRADE_PROC_LoadSlotMon 0x021D8D4C thumb ov119
  *   POKETRADE_PROC_GetSideValue 0x021D8F20 thumb ov119
  *   POKETRADE_PROC_SetSideValue 0x021D8F60 thumb ov119
  *   POKETRADE_PROC_SetSideMon 0x021D9468 thumb ov119
- *   func_021D94D4 0x021D94D4 thumb ov119
+ *   POKETRADE_PROC_IsSelfMonReady 0x021D94D4 thumb ov119
  *   POKETRADE_PROC_IsHostSideAlt 0x021D95D0 thumb ov119
  *   POKETRADE_PROC_IsGuestSide 0x021D95F0 thumb ov119
- *   func_021D9610 0x021D9610 thumb ov119
- *   func_021DA76C 0x021DA76C thumb ov119
- *   func_021DC720 0x021DC720 thumb ov119
- *   func_021DD080 0x021DD080 thumb ov119
+ *   POKETRADE_PROC_IsMonTradeable 0x021D9610 thumb ov119
+ *   POKETRADE_PROC_StepWaitCursorSync 0x021DA76C thumb ov119
+ *   POKETRADE_PROC_DeleteAllResources 0x021DC720 thumb ov119
+ *   POKETRADE_PROC_SetSyncRange 0x021DD080 thumb ov119
  *   POKETRADE_SAVE_DrawOfferListWindows 0x021E24E8 thumb ov119
  *   POKETRADE_SAVE_SetupWindowRegsSummary 0x021E26AC thumb ov119
  *   POKETRADE_SAVE_DrawPartnerOfferCard 0x021E272C thumb ov119
@@ -231,13 +231,9 @@
 #include "../../matched/include/Obj22746.h"
 #include "../../matched/include/Obj22747.h"
 
-typedef unsigned int   u32_021DD528;
 
-typedef unsigned int   u32_021DD588;
 
-typedef unsigned int u32_021DD68C;
 
-typedef signed short s16_021DBB6C;
 
 typedef struct {
     int a;
@@ -275,19 +271,19 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern unsigned int GFL_NET_GetHandleNetID(struct Link *p);
 
-extern u32_021DEF1C func_02017E1C(void *,u32_021DEF1C,u32_021DEF1C);
+extern u32 func_02017E1C(void *,u32,u32);
 
 extern void POKETRADE_2D_CreateOfferIconActor(char *p, int i, int j, void *mon, int selected, u32 visible);
 
 void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v);
 
-extern u32_021DEC4C WIPE_SYS_EndCheck(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
-extern void WIPE_SYS_Start(void *p1, u32_021DECA0 p2, u32_021DECA0 p3, u32_021DECA0 p4, u32_021DECA0 p5, u32_021DECA0 p6, u32_021DECA0 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 
-extern int GFL_NET_SendToHandle(struct Entry *a, u32_021DEDBC b, u32_021DEDBC c, u32_021DEDBC d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned,unsigned);
 
@@ -309,17 +305,17 @@ extern void POKETRADE_2D_LoadBackgroundGfx(char *p);
 
 extern void POKETRADE_3D_AddUnitAndInit(void *,int);
 
-extern void func_02041B6C(u32_021DF918 bit);
+extern void func_02041B6C(u32 bit);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 
-extern u32_021DEA24 KEY_GetTrg(void);
+extern u32 KEY_GetTrg(void);
 
 extern void func_020355D8(u8);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32_021DEA24 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern void TOUCHBAR_Update(void *p);
 
@@ -345,11 +341,11 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern u32_021DEF1C func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
 extern int TOUCHPANEL_GetCont(void);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32_021DF168 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
 extern void DWC_RAP_SetVchatTalkLock(int);
 
@@ -357,7 +353,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 void POKETRADE_SAVE_OpenTaskMenuAt(char *p,int *ids,int count,int x,int y);
 
-extern u32_021DB7AC GFL_NET_IsNetTypeWifi(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 
@@ -387,7 +383,7 @@ extern void POKETRADE_2D_CreateFontResource(char *p);
 
 extern void POKETRADE_3D_CreateTouchbar(char *p);
 
-extern void GF_FONT_SetTextColor(u32_021DCD38,u32_021DCD38,u32_021DCD38);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 
@@ -403,9 +399,9 @@ extern int func_02007984(void *save);
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-extern int CLACT_RegisterPaletteCompressed(void *a0, u32_021DD528 a1, u32_021DD528 a2, u32_021DD528 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern s32_021D8EC8 CLACT_RegisterCellAnim(void *owner, u32_021DD528 first, u32_021DD528 second, u32_021DD528 mode);
+extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern int func_0201BC3C(void);
 
@@ -415,23 +411,23 @@ extern int func_0201BCB4(void);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void CLACT_ReleasePalette(u32_021DD588 i);
+extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32_021DD588 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind);
 
-extern u32_021DD68C func_020275E4(void);
+extern u32 func_020275E4(void);
 
-extern u32_021DD68C BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern u32_021DD68C BMP_WIN_Create(u32_021DD68C layer, u32_021DD68C a, u32_021DD68C b, u32_021DD68C tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void PRINTSYS_Print(void *, s16_021DBB6C, s16_021DBB6C, void *, void *);
+extern void PRINTSYS_Print(void *, short, short, void *, void *);
 
-extern void func_0201F02C(struct WordSet *p, u32_021DD68C i, void *a);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
@@ -473,25 +469,25 @@ extern void POKETRADE_PROC_StepBeginWipeOut(void *);
 
 void POKETRADE_PROC_SetSideMon(void *p, int a, void *b);
 
-int func_021D94D4(char *p);
+int POKETRADE_PROC_IsSelfMonReady(char *p);
 
 int POKETRADE_PROC_IsHostSideAlt(void *p);
 
 u32 POKETRADE_PROC_IsGuestSide(void *p);
 
-int func_021D9610(unsigned char *p);
+int POKETRADE_PROC_IsMonTradeable(unsigned char *p);
 
-void func_021DA76C(void *p);
+void POKETRADE_PROC_StepWaitCursorSync(void *p);
 
-void func_021DACE4(char *p);
+void POKETRADE_PROC_StepResetForNewRound(char *p);
 
-void func_021DC720(char *p);
+void POKETRADE_PROC_DeleteAllResources(char *p);
 
-void func_021DD080(void *a, void *b, void *c);
+void POKETRADE_PROC_SetSyncRange(void *a, void *b, void *c);
 
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 
-extern int func_021DD140(char *p);
+extern int POKETRADE_PROC_TickWifiTimer(char *p);
 
 void POKETRADE_NEGO_FreeOfferMons(char *p);
 
@@ -771,11 +767,11 @@ void POKETRADE_NEGO_RegisterIconResources(char *p,int n)
 void POKETRADE_NEGO_ReleaseIconResources(char *p)
 {
     if (((TradeWork *)p)->f890 != 0) {
-        CLACT_ReleasePalette((u32_021DD588)(((TradeWork *)p)->f890));
+        CLACT_ReleasePalette((u32)(((TradeWork *)p)->f890));
         ((TradeWork *)p)->f890 = 0;
     }
     if (((TradeWork *)p)->f8C0 != 0) {
-        CLACT_ReleaseCellAnim((u32_021DD588)(((TradeWork *)p)->f8C0));
+        CLACT_ReleaseCellAnim((u32)(((TradeWork *)p)->f8C0));
         ((TradeWork *)p)->f8C0 = 0;
     }
 }
@@ -916,7 +912,7 @@ void POKETRADE_NEGO_StepQuitMenuChoice(void *p)
     case 1:
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p, 0x021DEA25);
         return;
     }
@@ -932,14 +928,14 @@ void POKETRADE_NEGO_StepOpenQuitMenu(char *p)
 
 void POKETRADE_NEGO_StepWaitSync25(unsigned char *p)
 {
-    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession(p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch((char *)p);return;} } POKETRADE_SAVE_CloseMessageWindowClear((char *)p);POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_ResetTouchbarBackButton((char *)p);func_021DD09C((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
+    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession(p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch((char *)p);return;} } POKETRADE_SAVE_CloseMessageWindowClear((char *)p);POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_ResetTouchbarBackButton((char *)p);POKETRADE_PROC_UpdatePickedIcon((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
 }
 
 void POKETRADE_NEGO_StepSendSync25(unsigned char *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
     if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)) {
-        func_021DD080((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)25,p);
+        POKETRADE_PROC_SetSyncRange((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)25,p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitSync25);
     }
 }
@@ -955,7 +951,7 @@ void POKETRADE_NEGO_StepResolveReplies(char *p)
     a = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     b = 1 - a;
     if (POKETRADE_SAVE_IsMessagePrintDone(p) == 0) return;
-    if (func_021DD140(p) == 0) return;
+    if (POKETRADE_PROC_TickWifiTimer(p) == 0) return;
     if (POKETRADE_PROC_IsNetSession(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1D, 8) == 0) {
         POKETRADE_NEGO_CheckCancelTouch(p);
         return;
@@ -963,8 +959,8 @@ void POKETRADE_NEGO_StepResolveReplies(char *p)
     POKETRADE_NEGO_CloseCancelMenu(p, 0, 0);
     c = (unsigned char)(p + a)[0x11E0];
     if (c == 13 && (unsigned char)(p + b)[0x11E0] == 13) {
-        func_021DD080((void *)((u32)GFL_NET_HANDLE_GetCurrentHandle()), (void *)13, p);
-        POKETRADE_PROC_SetStep(p, (int)func_021DA76C);
+        POKETRADE_PROC_SetSyncRange((void *)((u32)GFL_NET_HANDLE_GetCurrentHandle()), (void *)13, p);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepWaitCursorSync);
         return;
     }
     d = (unsigned char)(p + b)[0x11E0];
@@ -987,7 +983,7 @@ void POKETRADE_NEGO_StepResolveReplies(char *p)
 
 void POKETRADE_NEGO_StepSendReply(unsigned char *p)
 {
-    unsigned char b=13;if(func_021D94D4((char *)p))b=5;else if(POKETRADE_PROC_IsHostSideAlt(p))b=7;else if(POKETRADE_PROC_IsGuestSide(p))b=8;else if(func_021D9610(p))b=6;if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32_021DEDBC)&b)){func_021DD080(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveReplies);}
+    unsigned char b=13;if(POKETRADE_PROC_IsSelfMonReady((char *)p))b=5;else if(POKETRADE_PROC_IsHostSideAlt(p))b=7;else if(POKETRADE_PROC_IsGuestSide(p))b=8;else if(POKETRADE_PROC_IsMonTradeable(p))b=6;if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32)&b)){POKETRADE_PROC_SetSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveReplies);}
 }
 
 void POKETRADE_NEGO_StepWaitReplySync(unsigned char *p)
@@ -998,8 +994,8 @@ void POKETRADE_NEGO_StepWaitReplySync(unsigned char *p)
 void POKETRADE_NEGO_StepSendCancelReply(unsigned char *p)
 {
     unsigned char v=14;
-    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32_021DEDBC)&v)) {
-        func_021DD080(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);
+    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32)&v)) {
+        POKETRADE_PROC_SetSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveReplies);
     }
 }
@@ -1011,12 +1007,12 @@ void POKETRADE_NEGO_StepWaitCancelSync(unsigned char *p)
 
 void POKETRADE_NEGO_StepShowWaitMessageA(unsigned char *p)
 {
-    func_021DD080((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->f738)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitReplySync);
+    POKETRADE_PROC_SetSyncRange((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->f738)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitReplySync);
 }
 
 void POKETRADE_NEGO_StepShowWaitMessageB(unsigned char *p)
 {
-    func_021DD080((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->f738)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitCancelSync);
+    POKETRADE_PROC_SetSyncRange((void *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->f738)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitCancelSync);
 }
 
 void POKETRADE_NEGO_StepConfirmMenuChoice(unsigned char *p)
@@ -1041,7 +1037,7 @@ void POKETRADE_NEGO_StepResolveConfirm(char *p)
     a = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     b = 1 - a;
     if (POKETRADE_SAVE_IsMessagePrintDone(p) == 0) return;
-    if (func_021DD140(p) == 0) return;
+    if (POKETRADE_PROC_TickWifiTimer(p) == 0) return;
     if (POKETRADE_PROC_IsNetSession(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
         POKETRADE_NEGO_CheckCancelTouch(p);
         return;
@@ -1092,7 +1088,7 @@ void POKETRADE_NEGO_StepSendConfirm(void *p)
 {
     u8 cmd;
     cmd = 0xB;
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (u32_021DEDBC)&cmd) != 0) {
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (u32)&cmd) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8);
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepResolveConfirm);
     }
@@ -1183,7 +1179,7 @@ void POKETRADE_NEGO_StepReturnFromSummary(char *p)
             POKETRADE_PROC_SetSideMon(p,slot,mon);
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         WIPE_SYS_Start((void *)3,1,1,0,6,1,((TradeWork *)p)->heapId);
@@ -1265,7 +1261,7 @@ void POKETRADE_NEGO_StepOpenSummaryFromBrowse(TradeWork *p)
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
         WIPE_SYS_Start((void *)3,1,1,0,6,1,((TradeWork *)b)->heapId);
-        POKETRADE_PROC_ResetTouchbarBackButton((char *)p); func_021DD09C((char *)p);
+        POKETRADE_PROC_ResetTouchbarBackButton((char *)p); POKETRADE_PROC_UpdatePickedIcon((char *)p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffers);
     }
 }
@@ -1284,7 +1280,7 @@ void POKETRADE_NEGO_StepOfferActionChoice(char *p)
             TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenSummaryFromBrowse); return;
         case 2:
-            POKETRADE_NEGO_SetupWindowRegsOffers(p); POKETRADE_PROC_ResetTouchbarBackButton(p); func_021DD09C(p);
+            POKETRADE_NEGO_SetupWindowRegsOffers(p); POKETRADE_PROC_ResetTouchbarBackButton(p); POKETRADE_PROC_UpdatePickedIcon(p);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain); return;
         }
     }
@@ -1304,7 +1300,7 @@ void POKETRADE_NEGO_StepSendOfferMon(char *p)
     if(((TradeWork *)p)->stateFlags.bits.sendBusy==1) return;
     if(POKETRADE_PROC_IsNetSession(p)!=0) {
         id=(unsigned)GFL_NET_HANDLE_GetCurrentHandle();
-        if(!GFL_NET_SendToHandle((void *)id,(u16)0xc01,(u16)func_020173EC(), (u32_021DEDBC)((void *)(((TradeWork *)p)->f106C)))) return;
+        if(!GFL_NET_SendToHandle((void *)id,(u16)0xc01,(u16)func_020173EC(), (u32)((void *)(((TradeWork *)p)->f106C)))) return;
     }
     ((TradeWork *)p)->stateFlags.bits.sendBusy=1;
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenOfferActionMenu);
@@ -1315,7 +1311,7 @@ void POKETRADE_NEGO_StepSendOfferIndex(void *p)
     u8 v;
     if (POKETRADE_PROC_IsNetSession(p) != 0) {
         v = POKETRADE_PROC_GetSideValue(p, 0);
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)func_020173EC(), (u32_021DEDBC)(&v)) == 0) {
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)func_020173EC(), (u32)(&v)) == 0) {
             return;
         }
     }
@@ -1361,21 +1357,21 @@ fail:
 void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p)
 {
     if(WIPE_SYS_EndCheck()) {
-        func_021DC720(p); POKETRADE_2D_SetDisplayConfig(0); POKETRADE_2D_SetupSubBgs(p);
+        POKETRADE_PROC_DeleteAllResources(p); POKETRADE_2D_SetDisplayConfig(0); POKETRADE_2D_SetupSubBgs(p);
         (*(void * *)&((TradeWork *)p)->clactSystem)=CLACT_CreateUnit(0x154,0,((TradeWork *)p)->heapId);
         POKETRADE_SAVE_CreateMessageResources(p); POKETRADE_2D_RegisterIconSpriteResources(p); POKETRADE_2D_CreateBoxIconActors(p);
         POKETRADE_2D_LoadBackgroundGfx(p); POKETRADE_2D_CreateFontResource(p); POKETRADE_2D_LoadMainGfxAndMessageWindow(p);
         POKETRADE_3D_AddUnitAndInit(p,0); BG_SYS_SetMainVisiblePlanes(31); BG_SYS_SetSubVisiblePlanes(30);
         POKETRADE_3D_CreateTouchbar(p); GFL_NET_RestartWithDefaultTimeout(0,((TradeWork *)p)->heapId);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-        POKETRADE_PROC_SetStep(p,(int)func_021DACE4);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }
 }
 
 void POKETRADE_NEGO_StepWaitMessageThenWipe(char *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
-    if(POKETRADE_SAVE_IsMessagePrintDone(p) && func_021DD140(p) && ((TradeWork *)p)->fF2C>=120) {
+    if(POKETRADE_SAVE_IsMessagePrintDone(p) && POKETRADE_PROC_TickWifiTimer(p) && ((TradeWork *)p)->fF2C>=120) {
         WIPE_SYS_Start(0,0,0,0,6,1,((TradeWork *)p)->heapId);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepRebuildSceneAfterWipe);
     }
@@ -1385,7 +1381,7 @@ void POKETRADE_NEGO_StepSendDeclineConfirm(void *p)
 {
     u8 cmd;
     cmd = 0xC;
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (u32_021DEDBC)&cmd) != 0) {
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (u32)&cmd) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8);
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepResolveConfirm);
     }
@@ -1414,7 +1410,7 @@ void POKETRADE_NEGO_StepDeclineMenuChoice(char *p)
         }
         POKETRADE_SAVE_CloseMessageWindowClear(p);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
     }
 }
@@ -1431,34 +1427,24 @@ void POKETRADE_NEGO_StepOpenDeclineMenu(void *p)
 
 typedef struct S_021DEA24 S_021DEA24;
 
-typedef unsigned int   u32_021DEEA8;
 
-typedef unsigned int   u32_021DF0B8;
 
-typedef unsigned int   u32_021DF338;
 
-typedef unsigned int   u32_021DF37C;
 
-typedef unsigned int   u32_021DF43C;
 
 typedef struct { int a, b; } Pair_021DF490;
 
 typedef struct { int a, b; } Pair_021DF59C;
 
-typedef unsigned int   u32_021DF708;
-
-typedef unsigned int   u32_021DF7F0;
-
-typedef unsigned int   u32_021DF8A0;
 
 
-typedef unsigned int   u32_021DF9E8;
 
-typedef unsigned int u32_021DFA60;
+
+
 
 typedef struct {
-    u32_021DFA60 a;
-    u32_021DFA60 b;
+    u32 a;
+    u32 b;
 } Pair_021DFA60;
 
 typedef struct {
@@ -1475,7 +1461,7 @@ typedef struct { Ent_021DFAD0 e[2]; } T2;
 
 typedef struct { Ent_021DFAD0 e[6]; } T6;
 
-extern void func_0207D658(u32_021DEBD4,int,int);
+extern void func_0207D658(u32,int,int);
 
 extern int POKETRADE_2D_StepCursorSlide(char *p);
 
@@ -1495,13 +1481,13 @@ extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
 
 extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
 
-extern u32_021DEF1C NHTTP_RAP_RecordList_GetValue(u32_021DEF1C p, u32_021DEF1C i);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
 
 extern void NHTTP_RAP_FreePostData(u8 *);
 
-extern void POKE_TOOL_SetPartyValue(void *,u32_021DEF1C,u32_021DEF1C);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
-extern u32_021DEF1C func_0202136C(u16);
+extern u32 func_0202136C(u16);
 
 extern void *MAIL_Create(int);
 
@@ -1509,11 +1495,11 @@ extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 
 extern void func_02019B58(void *);
 
-extern struct MsgBank *func_02045B38(u32_021DEF1C resident, u32_021DEF1C arcId, u32_021DEF1C fileId, u32_021DEF1C heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *func_02045EC0(struct MsgBank *bank, u32_021DEF1C index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-extern u32_021DEF1C MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
@@ -1523,7 +1509,7 @@ extern void DWC_RAP_SetErrorCallback(int a0, int a1);
 
 extern void DWC_RAPCOMMON_CreateSubHeapUnlimited(int,int,int);
 
-extern u32_021DF0B8 func_0200853C(const struct Sub0200852CObj *obj);
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 
 extern u8 *NHTTP_RAP_Create(int,int,int);
 
@@ -1535,11 +1521,11 @@ extern int NHTTP_RAP_CreatePostRequest(u8 *);
 
 extern int NHTTP_RAP_StartConnection(u8 *);
 
-extern void WIPE_ResetBrightness(u32_021DF168 which);
+extern void WIPE_ResetBrightness(u32 which);
 
-extern void func_021DAEF0(char *p);
+extern void POKETRADE_PROC_StepShowWaitMessageA(char *p);
 
-extern void func_021DBBD0(char *p);
+extern void POKETRADE_PROC_StepRebuildBrowseScene(char *p);
 
 extern int POKETRADE_PROC_GetBoxIndexForSlot(int,char *);
 
@@ -1553,7 +1539,7 @@ extern void POKETRADE_2D_SetMarkerActorVisible(void *p, int i, int a);
 
 extern void POKETRADE_2D_DeleteMarkerActor(void *p, int i);
 
-extern u32_021DF7F0 TOUCHPANEL_GetPointTrg(u32_021DF7F0 *outA, u32_021DF7F0 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
 extern void POKETRADE_2D_SetMarkerActorAnim(void *,int);
 
@@ -1561,7 +1547,7 @@ extern void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n);
 
 extern void POKETRADE_2D_CreateMarkerButtonActor(void *, int, int);
 
-extern int GFL_USE_IsSeqPlaying(u32_021DF8A0 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 
 extern void POKETRADE_2D_ReleaseMarkerResources(char *p);
 
@@ -1573,7 +1559,7 @@ extern void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon);
 
 extern void func_02041300(int,int,unsigned char,int,int,int,int);
 
-extern u32_021DF9E8 GFL_NET_SendData(u32_021DF9E8 entry, u32_021DF9E8 sendID, u32_021DF9E8 c, u32_021DF9E8 d, u32_021DF9E8 e, u32_021DF9E8 f, u32_021DF9E8 g, u32_021DF9E8 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p);
 
@@ -1653,7 +1639,7 @@ void POKETRADE_NEGO_ExitMarkers(void *p);
 
 void POKETRADE_NEGO_TickOfferSlotTimers(void *p);
 
-void POKETRADE_NEGO_PlaySeByKeyA(u32_021DFA60 key);
+void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
 
 void POKETRADE_NEGO_PlaySeByKeyB(int key);
 
@@ -1697,7 +1683,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
         func_02045CAC(*(struct MsgBank * *)&((TradeWork *)p)->messageBank,148,(*(void * *)&((TradeWork *)p)->f738));
         POKETRADE_SAVE_OpenMessageWindowTop(p);
         TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenDeclineMenu);
         return;
     }
@@ -1730,7 +1716,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
 void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
 {
     int v;
-    if(func_021DD140(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
+    if(POKETRADE_PROC_TickWifiTimer(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
         v=KEY_GetTrg();
         if(v) func_020355D8(0);
         if(v==0) {
@@ -1754,9 +1740,9 @@ void POKETRADE_NEGO_StepShowNoOfferMessage(char *p)
     POKETRADE_PROC_SetStep(p, (int)POKETRADE_NEGO_StepWaitInputAfterMessage);
 }
 
-static inline void inside(int wnd,int effect) {u32_021DEBD4 tmp=(*(volatile u16 *)0x04001048 & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x04001048=(u16)tmp;}
+static inline void inside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x04001048 & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x04001048=(u16)tmp;}
 
-static inline void outside(int wnd,int effect) {u32_021DEBD4 tmp=(*(volatile u16 *)0x0400104a & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x0400104a=(u16)tmp;}
+static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x0400104a & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x0400104a=(u16)tmp;}
 
 /*
  * volatile: hardware WININ 0x04001048, WINOUT 0x0400104A and DISPCNT 0x04001000 read-modify-written at 0x021DEBE8/0x021DEBF8, 0x021DEC0C/0x021DEC18, 0x021DEC1A/0x021DEC22.
@@ -1767,7 +1753,7 @@ void POKETRADE_NEGO_SetupWindowRegsOffers(void *p) {
  *(volatile u16 *)0x04001040=0x80ff;
  *(volatile u16 *)0x04001044=0xa9;
  outside(31,0);
- *(volatile u32_021DEBD4 *)0x04001000=(*(volatile u32_021DEBD4 *)0x04001000 & ~0xe000)|0x2000;
+ *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000 & ~0xe000)|0x2000;
  func_02040588(3,1);func_02040588(5,1);func_02040588(4,1);
 }
 
@@ -1806,7 +1792,7 @@ void POKETRADE_NEGO_StepSendReady(void *p) {
  u8 b;
  if(POKETRADE_PROC_IsNetSession(p)) {
   b=1;
-  if(GFL_NET_SendToHandle((void *)h,0xc0a,1,(u32_021DEDBC)(&b))) {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWipeToBrowse);return;}
+  if(GFL_NET_SendToHandle((void *)h,0xc0a,1,(u32)(&b))) {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWipeToBrowse);return;}
  } else {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWipeToBrowse);}
 }
 
@@ -1830,7 +1816,7 @@ void POKETRADE_NEGO_StepWaitReadySync(unsigned char *p) {
 void POKETRADE_NEGO_StepSendCheckResult(void *p) {
  void *h=GFL_NET_HANDLE_GetCurrentHandle();
  ((TradeWork *)p)->f109A=0;
- if(GFL_NET_SendToHandle((void *)h,0xc11,1, (u32_021DEDBC)((u32_021DEEA8)((char *)p+0x11e6)))) {
+ if(GFL_NET_SendToHandle((void *)h,0xc11,1, (u32)((u32)((char *)p+0x11e6)))) {
   GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8);
   if(((TradeWork *)p)->f118C==2) DWC_RAP_SetVchatTalkLock(0);
   POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepWaitReadySync);
@@ -1861,7 +1847,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
     u8 *data;
     const u16 *heap;
     void *mon, *bank, *text, *name;
-    u32_021DEF1C value;
+    u32 value;
     status=NHTTP_RAP_GetResultCode(*(u8 * *)&((TradeWork *)p)->f0);
     result=NHTTP_RAP_PollConnection(*(u8 * *)&((TradeWork *)p)->f0);
     if(result==0) {
@@ -1879,20 +1865,20 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                 do {
                     if(POKETRADE_PROC_IsMonValid(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
-                        if(NHTTP_RAP_RecordList_GetValue((u32_021DEF1C)data,n)) {
+                        if(NHTTP_RAP_RecordList_GetValue((u32)data,n)) {
                             value=func_02017E1C(mon,6,0);
                             bank=func_02045B38(0,2,81,((TradeWork *)p)->heapId);
                             text=func_02045EC0(bank,15);
                             MSGDATA_Delete(bank);
                             if(func_0202136C(value)) {
                                 name=MAIL_Create(*heap);
-                                func_02017E1C(mon,167,(u32_021DEF1C)name);
+                                func_02017E1C(mon,167,(u32)name);
                                 func_02008F88(name,STRBUF_GetChars(text));
-                                POKE_TOOL_SetPartyValue(mon,167,(u32_021DEF1C)name);
+                                POKE_TOOL_SetPartyValue(mon,167,(u32)name);
                                 func_020307B0(name);
                             }
                             func_02019B58(mon);
-                            POKE_TOOL_SetPartyValue(mon,142,(u32_021DEF1C)STRBUF_GetChars(text));
+                            POKE_TOOL_SetPartyValue(mon,142,(u32)STRBUF_GetChars(text));
                             STRBUF_Delete(text);
                         }
                         n++;
@@ -2007,7 +1993,7 @@ void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
     ((TradeWork *)p)->f11E1 = 0;
     ((TradeWork *)p)->f11E8 = 0;
     ((TradeWork *)p)->f11E9 = 0;
-    POKETRADE_PROC_SetStep(p, (int)func_021DAEF0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepShowWaitMessageA);
 }
 
 void POKETRADE_NEGO_StepSendFinalAgree(void *p) {
@@ -2015,7 +2001,7 @@ void POKETRADE_NEGO_StepSendFinalAgree(void *p) {
  u8 b;
  if(POKETRADE_PROC_IsNetSession(p)) {
   b=1;
-  if(GFL_NET_SendToHandle((void *)h,0xc0f,1, (u32_021DEDBC)((u32_021DF338)(&b)))) {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveFinalAgree);return;}
+  if(GFL_NET_SendToHandle((void *)h,0xc0f,1, (u32)((u32)(&b)))) {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveFinalAgree);return;}
  } else {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveFinalAgree);}
 }
 
@@ -2025,7 +2011,7 @@ void POKETRADE_NEGO_StepSendFinalReady(u8 *p) {
  if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)) {
   if(POKETRADE_PROC_IsNetSession(p)) {
    b=10;
-   if(GFL_NET_SendToHandle((void *)h,0xc00,1, (u32_021DEDBC)((u32_021DF37C)(&b)))) {
+   if(GFL_NET_SendToHandle((void *)h,0xc00,1, (u32)((u32)(&b)))) {
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);
     POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepSendFinalAgree);return;
    }
@@ -2037,7 +2023,7 @@ void POKETRADE_NEGO_StepWaitMessageThenContinue(void *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        POKETRADE_PROC_SetStep(p, (int)func_021DBBD0);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepRebuildBrowseScene);
     }
 }
 
@@ -2076,7 +2062,7 @@ void POKETRADE_NEGO_StepOpenFinalAgreeMenu(void *p)
 void POKETRADE_NEGO_StepWaitFinalMessage(char *p)
 {
     GFL_NET_GetHandleNetID((struct Link *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()));
-    if (POKETRADE_SAVE_IsMessagePrintDone(p) && func_021DD140(p)) {
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) && POKETRADE_PROC_TickWifiTimer(p)) {
         func_02045CAC((struct MsgBank *)(((TradeWork *)p)->messageBank),0x89,(void *)(((TradeWork *)p)->f738));
         POKETRADE_SAVE_OpenMessageWindowTop(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenFinalAgreeMenu);
@@ -2102,7 +2088,7 @@ void POKETRADE_NEGO_StepCancelMenuChoice(void *p)
     ((TradeWork *)p)->taskMenu=0;
     if (v==0) {POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBeginFinalWait);return;}
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    POKETRADE_PROC_SetStep(p,(int)func_021DBBD0);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepRebuildBrowseScene);
 }
 
 void POKETRADE_NEGO_StepOpenCancelMenu(void *p)
@@ -2154,7 +2140,7 @@ int POKETRADE_NEGO_IsMonPeerSelected(char *p, int a, int b)
 void POKETRADE_NEGO_StepWaitTouchRelease(void *p)
 {
     if (TOUCHPANEL_GetCont() == 0) {
-        POKETRADE_PROC_SetStep(p, (int)func_021DBBD0);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepRebuildBrowseScene);
     }
 }
 
@@ -2164,7 +2150,7 @@ void POKETRADE_NEGO_StepSendOfferRemoval(void *p)
                           ((TradeWork *)p)->peerSelectedSlot);
 
     if (POKETRADE_PROC_IsNetSession(p) == 0 ||
-        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc0b, 4, (u32_021DEDBC)((u32_021DF708)(&v))) != 0) {
+        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc0b, 4, (u32)((u32)(&v))) != 0) {
         ((TradeWork *)p)->selectedSlot = -1;
         ((TradeWork *)p)->selectedBox = -1;
         ((TradeWork *)p)->fF7C = -1;
@@ -2223,7 +2209,7 @@ void POKETRADE_NEGO_PollMarkerTouch(void *p)
     if(slot>=4) slot=3;
     POKETRADE_2D_SetMarkerActorAnim(p,slot);
     POKETRADE_NEGO_FlashMarker(p,slot,0);
-    if(POKETRADE_PROC_IsNetSession(p)) GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc0d,1, (u32_021DEDBC)((u32_021DF7F0)(&slot)));
+    if(POKETRADE_PROC_IsNetSession(p)) GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc0d,1, (u32)((u32)(&slot)));
 }
 
 /*
@@ -2316,12 +2302,12 @@ int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind)
     if(((TradeWork *)p)->stateFlags.bits.sendBusy) return 0;
     MI_CpuCopy8(src,((TradeWork *)p)->f106C,func_020173EC());
     one=1;
-    if(!(int)GFL_NET_SendData(id,255,(u16)kind,func_020173EC(),(u32_021DF9E8)(((TradeWork *)p)->f106C),(int)0,(int)0,(int)one)) return 0;
+    if(!(int)GFL_NET_SendData(id,255,(u16)kind,func_020173EC(),(u32)(((TradeWork *)p)->f106C),(int)0,(int)0,(int)one)) return 0;
     ((TradeWork *)p)->stateFlags.bits.sendBusy=one;
     return one;
 }
 
-void POKETRADE_NEGO_PlaySeByKeyA(u32_021DFA60 key)
+void POKETRADE_NEGO_PlaySeByKeyA(u32 key)
 {
     Table_021DEA24 local;
     unsigned int i;

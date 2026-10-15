@@ -32,7 +32,7 @@
  *   WIFICLUBACTOR_InitLayer  0x021B9D6C  thumb  ov099
  *   WIFICLUBACTOR_LoadPalette  0x021B9E0C  thumb  ov099
  *   WIFICLUBACTOR_InitBlink  0x021BA60C  thumb  ov099
- *   func_021C5EEC  0x021C5EEC  thumb  ov127
+ *   WF2DMAP_CMDQ_CreateStore  0x021C5EEC  thumb  ov127
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern void func_021C59D0(void *p);
 extern int WIFICLUBACTOR_InitLayer(char *p, u32 heap, u32 x, u32 n);
 extern void WIFICLUBACTOR_LoadPalette(void *a, u32 b, u32 c, u32 d);
 extern void WIFICLUBACTOR_InitBlink(char *a, char *p, u32 unused, u32 arc);
-extern void *func_021C5EEC(int n, int heap);
+extern void *WF2DMAP_CMDQ_CreateStore(int n, int heap);
 
 void WIFICLUBACTOR_Init(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7)
 {
@@ -73,6 +73,6 @@ void WIFICLUBACTOR_Init(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a
     WIFICLUBACTOR_InitLayer(p, heap, x2, n);
     WIFICLUBACTOR_LoadPalette(*(void **)(p + 0x10), heap, x2, a5);
     WIFICLUBACTOR_InitBlink(p, p + 0x574, x2, a5);
-    *(void **)(p + 0x59C) = func_021C5EEC(0x80, heap);
+    *(void **)(p + 0x59C) = WF2DMAP_CMDQ_CreateStore(0x80, heap);
     *(u32 *)p = 1;
 }

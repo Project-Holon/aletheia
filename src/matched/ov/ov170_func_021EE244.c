@@ -1,5 +1,5 @@
 /*
- * function: func_021EE244
+ * function: BOX2_UI_MoveSlotOam
  * address:  0x021EE244
  * packet:   pkt_ov170_021EE244
  * region:   ov170
@@ -17,7 +17,7 @@ typedef signed short   s16;
 struct Grid;
 extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 
-void func_021EE244(char *p, int i, int flag)
+void BOX2_UI_MoveSlotOam(char *p, int i, int flag)
 {
     if (flag == 0)
         BMP_OAM_SetPos(*(void **)(p + i * 8 + 4), -0x94, 0x14);

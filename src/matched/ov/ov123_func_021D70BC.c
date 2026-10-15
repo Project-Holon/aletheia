@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021DA844 0x021DA844 data a4
+ *   gGsyncMessageIds 0x021DA844 data a4
  *   GSYNC_MESSAGE_ClearStream 0x021D584C thumb ov123
  *   GSYNC_MESSAGE_PrintId 0x021D5950 thumb ov123
  *   GSYNC_MESSAGE_PrintInWindow 0x021D5960 thumb ov123
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj06463.h"
 typedef struct { int x[8]; } Table;
-extern const Table d_021DA844;
+extern const Table gGsyncMessageIds;
 extern void GSYNC_MESSAGE_ClearStream(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -29,7 +29,7 @@ extern void GSYNC_STATE_StateWaitMessageInput(char *);
 extern void GSYNC_STATE_StateSetErrorExit(char *);
 void GSYNC_STATE_StateClearMessageExit(char *p)
 {
-    Table t=d_021DA844;
+    Table t=gGsyncMessageIds;
     if (((struct Obj06463 *)p)->fA8) {
         GSYNC_MESSAGE_ClearStream(*(char * *)&((struct Obj06463 *)p)->f18);
         GSYNC_MESSAGE_PrintId((u8 *)(*(char * *)&((struct Obj06463 *)p)->f18),t.x[((struct Obj06463 *)p)->fA8]);

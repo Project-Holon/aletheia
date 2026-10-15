@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEA48",
+   "name": "BOX2_UI_UpdateCursorInputE",
    "address": "0x021EEA48",
    "kind": "game",
    "region": "ov170",

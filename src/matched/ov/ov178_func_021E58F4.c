@@ -1,5 +1,5 @@
 /*
- * function: func_021E58F4
+ * function: PARTY_STATUS_NetSync
  * address: 0x021E58F4
  * packet: pkt_ov178_021E58F4
  * region: ov178
@@ -40,7 +40,7 @@ extern u32 func_021DC200(char *,u32),func_021DC240(char *,u32);
 typedef unsigned char  u8;
 extern void func_021D9EA0(u8 *p);
 extern unsigned char ov067_id[],ov114_id[],ov175_id[];
-int func_021E58F4(char **out,u32 *ctx,u32 *state)
+int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
 {
     if(GFL_NET_GetRunState()) {
         switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {

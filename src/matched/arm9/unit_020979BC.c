@@ -18,7 +18,7 @@
  *   _dgr           0x0209B864  arm
  *   _dleq          0x0209B8FC  arm
  *   _f2d           0x0209BD38  arm
- *   func_0209A504  0x0209A504  arm
+ *   fabs  0x0209A504  arm
  *   func_0209C5E0  0x0209C5E0  arm
  *   scalbn         0x02097990  arm
  *   bp             0x020A6300  data
@@ -28,7 +28,7 @@
  *   errno          0x02153FAC  data
  *
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
- * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
+ * docs/notes/pkt_020979C0.c.txt.  fabs = fabs, sqrt = func_0209C5E0.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
  * doubles), four bytes before the disasm body label func_020979BC.
  *
@@ -50,7 +50,7 @@ typedef unsigned int u32;
 
 extern int errno;
 extern const float __float_nan;
-extern double func_0209A504(double x);
+extern double fabs(double x);
 extern double func_0209C5E0(double x);
 extern double scalbn(double x, int n);
 
@@ -139,7 +139,7 @@ double func_020979BC(double x, double y)
 	    }
 	}
 
-	ax   = func_0209A504(x);
+	ax   = fabs(x);
 	if(lx==0) {
 	    if(ix==0x7ff00000||ix==0||ix==0x3ff00000){
 		z = ax;

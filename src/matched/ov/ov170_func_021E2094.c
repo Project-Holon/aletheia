@@ -1,5 +1,5 @@
 /*
- * function: func_021E2094
+ * function: BOX2_SEQ_StateWaitInput
  * address: 0x021E2094
  * packet: pkt_ov170_021E2094
  * region: ov170
@@ -21,7 +21,7 @@ extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-int func_021E2094(char *p)
+int BOX2_SEQ_StateWaitInput(char *p)
 {
     if (TOUCHPANEL_GetTrg() == 1) {
         GFL_USE_PlaySeDefaultVolume(0x54C);

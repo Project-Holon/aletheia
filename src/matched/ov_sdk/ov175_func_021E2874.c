@@ -12,10 +12,10 @@
  * sdk:      wsLoginCertWriteXML (libdwcgswebservices.TWL.HYB.a(authservice.o))
  *
  * symbols:
- *   func_02182CF0  0x02182CF0  arm  ov009
- *   func_02182B68  0x02182B68  arm  ov009
- *   func_021830D0  0x021830D0  arm  ov009
- *   func_02182E90  0x02182E90  arm  ov009
+ *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
+ *   gsXmlWriteAsciiStringElement  0x02182B68  arm  ov009
+ *   gsXmlWriteLargeIntElement  0x021830D0  arm  ov009
+ *   gsXmlWriteHexBinaryElement  0x02182E90  arm  ov009
  *   sWsTagLength  0x021E4B14  data
  *   sWsTagVersion  0x021E4A5C  data
  *   sWsTagPartnerCode  0x021E4A64  data
@@ -57,10 +57,10 @@ typedef struct GSLoginCertificate {
     unsigned char mServerData[128];
 } GSLoginCertificate;
 
-extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int func_02182B68(void *stream, char *namespaceName, char *tag, char *value);
-extern int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt_t *lint);
-extern int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
+extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
+extern int gsXmlWriteAsciiStringElement(void *stream, char *namespaceName, char *tag, char *value);
+extern int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt_t *lint);
+extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
 extern char sWsTagLength[];
 extern char sWsTagVersion[];
 extern char sWsTagPartnerCode[];
@@ -78,20 +78,20 @@ extern char sWsTagSignature[];
 
 int wsLoginCertWriteXML(GSLoginCertificate *cert, char *aNamespace, void *writer)
 {
-    if (!func_02182CF0(writer, aNamespace, sWsTagLength, cert->mLength)
-        || !func_02182CF0(writer, aNamespace, sWsTagVersion, cert->mVersion)
-        || !func_02182CF0(writer, aNamespace, sWsTagPartnerCode, cert->mPartnerCode)
-        || !func_02182CF0(writer, aNamespace, sWsTagNamespaceId, cert->mNamespaceId)
-        || !func_02182CF0(writer, aNamespace, sWsTagUserId, cert->mUserId)
-        || !func_02182CF0(writer, aNamespace, sWsTagProfileId, cert->mProfileId)
-        || !func_02182CF0(writer, aNamespace, sWsTagExpireTime, cert->mExpireTime)
-        || !func_02182B68(writer, aNamespace, sWsTagProfileNick, cert->mProfileNick)
-        || !func_02182B68(writer, aNamespace, sWsTagUniqueNick, cert->mUniqueNick)
-        || !func_02182B68(writer, aNamespace, sWsTagCdKeyHash, cert->mCdKeyHash)
-        || !func_021830D0(writer, aNamespace, sWsTagPeerKeyModulus, &cert->mPeerPublicKey.modulus)
-        || !func_021830D0(writer, aNamespace, sWsTagPeerKeyExponent, &cert->mPeerPublicKey.exponent)
-        || !func_02182E90(writer, aNamespace, sWsTagServerData, cert->mServerData, 128)
-        || !func_02182E90(writer, aNamespace, sWsTagSignature, cert->mSignature, 128))
+    if (!gsXmlWriteIntElement(writer, aNamespace, sWsTagLength, cert->mLength)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagVersion, cert->mVersion)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagPartnerCode, cert->mPartnerCode)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagNamespaceId, cert->mNamespaceId)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagUserId, cert->mUserId)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagProfileId, cert->mProfileId)
+        || !gsXmlWriteIntElement(writer, aNamespace, sWsTagExpireTime, cert->mExpireTime)
+        || !gsXmlWriteAsciiStringElement(writer, aNamespace, sWsTagProfileNick, cert->mProfileNick)
+        || !gsXmlWriteAsciiStringElement(writer, aNamespace, sWsTagUniqueNick, cert->mUniqueNick)
+        || !gsXmlWriteAsciiStringElement(writer, aNamespace, sWsTagCdKeyHash, cert->mCdKeyHash)
+        || !gsXmlWriteLargeIntElement(writer, aNamespace, sWsTagPeerKeyModulus, &cert->mPeerPublicKey.modulus)
+        || !gsXmlWriteLargeIntElement(writer, aNamespace, sWsTagPeerKeyExponent, &cert->mPeerPublicKey.exponent)
+        || !gsXmlWriteHexBinaryElement(writer, aNamespace, sWsTagServerData, cert->mServerData, 128)
+        || !gsXmlWriteHexBinaryElement(writer, aNamespace, sWsTagSignature, cert->mSignature, 128))
         return 0;
     return 1;
 }

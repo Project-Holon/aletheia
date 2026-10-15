@@ -1,5 +1,5 @@
 /*
- * function: func_021BD53C
+ * function: RESEARCH_LIST_BindPaletteAnime
  * address:  0x021BD53C
  * packet:   pkt_ov217_021BD53C
  * region:   ov217
@@ -27,7 +27,7 @@ extern const struct Entry021C3260 d_021C3260[];
 typedef unsigned int   u32;
 extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
 
-void func_021BD53C(int *p)
+void RESEARCH_LIST_BindPaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 6; i++)

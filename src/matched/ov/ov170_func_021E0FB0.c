@@ -1,5 +1,5 @@
 /*
- * function: func_021E0FB0
+ * function: BOX2_MAIN_MoveCursorTo
  * address:  0x021E0FB0
  * packet:   pkt_ov170_021E0FB0
  * region:   ov170
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED14C 0x021ED14C thumb
- *   func_021ED310 0x021ED310 thumb
+ *   BOX2_SEQ_MoveActor 0x021ED14C thumb
+ *   BOX2_SEQ_LayoutHandSlots 0x021ED310 thumb
  */
 #include "../include/Obj14264.h"
 
-extern void func_021ED14C(int a, int b, int c);
-extern void func_021ED310(char *w);
+extern void BOX2_SEQ_MoveActor(int a, int b, int c);
+extern void BOX2_SEQ_LayoutHandSlots(char *w);
 
-void func_021E0FB0(char *w, int x, int y)
+void BOX2_MAIN_MoveCursorTo(char *w, int x, int y)
 {
-    func_021ED14C((int)w, (short)x, (short)y);
-    func_021ED310(w);
+    BOX2_SEQ_MoveActor((int)w, (short)x, (short)y);
+    BOX2_SEQ_LayoutHandSlots(w);
     ((struct Obj14264 *)w)->fA180 = x;
     ((struct Obj14264 *)w)->fA184 = y;
 }

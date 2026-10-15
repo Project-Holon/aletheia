@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDDC
+ * function: RESEARCH_LIST_ClearResources
  * address:  0x021BCDDC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BCDDC(void *p)
+void RESEARCH_LIST_ClearResources(void *p)
 {
     int i;
     for (i = 0; i < 7; i++)

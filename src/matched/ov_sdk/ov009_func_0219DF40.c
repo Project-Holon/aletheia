@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0209ABF8                0x0209ABF8  arm
+ *   strcmp_nocase                0x0209ABF8  arm
 */
 
-extern int func_0209ABF8(char *s1, char *s2);
+extern int strcmp_nocase(char *s1, char *s2);
 
 int RefStringCompare(void *entry1, void *entry2)
 {
-    return func_0209ABF8(*(char **)entry1, *(char **)entry2);
+    return strcmp_nocase(*(char **)entry1, *(char **)entry2);
 }

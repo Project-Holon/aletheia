@@ -12,10 +12,10 @@
  *   func_021DF388 0x021DF388 thumb ov183
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   func_020409B4 0x020409B4 arm
- *   func_021FB494 0x021FB494 thumb ov186
+ *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_021FD744 0x021FD744 thumb ov186
+ *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  */
 #include "../include/Obj02894.h"
 #include "../include/Obj24599.h"
@@ -25,10 +25,10 @@ typedef unsigned char  u8;
 extern void func_021DF388(char *p);
 extern void BR_UTIL_Delete(u8 *p);
 extern void func_020409B4(u32 index);
-extern void func_021FB494(char *p);
+extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-extern int func_021FD744(int *a);
+extern int BR_UTIL_ClearTaskStep(int *a);
 void func_021DECB0(void *a, int b, char *p)
 {
     func_021DF388(p + 0x28);
@@ -39,10 +39,10 @@ void func_021DECB0(void *a, int b, char *p)
     ((struct Obj02894 *)p)->f8 = 0;
     func_020409B4(4);
     func_020409B4(1);
-    func_021FB494(((struct Obj02894 *)p)->f4);
+    BR_BTN_DeleteObject(((struct Obj02894 *)p)->f4);
     ((struct Obj02894 *)p)->f4 = 0;
     BR_RES_ReleaseSprite(((struct Obj24599 *)(*(char * *)&((struct Obj02894 *)p)->f108))->f10, 6);
     BR_RES_ApplyBgSet((int)(((struct Obj24600 *)(*(char * *)&((struct Obj02894 *)p)->f108))->f10), 24);
     ((struct Obj02894 *)p)->f104 = 0;
-    func_021FD744((int *)a);
+    BR_UTIL_ClearTaskStep((int *)a);
 }

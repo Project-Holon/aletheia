@@ -1,5 +1,5 @@
 /*
- * function: func_0200ED54
+ * function: MISC_SAVEDATA_InsertRecentValue
  * address:  0x0200ED54
  * packet:   pkt_0200ED54
  * region:   arm9
@@ -49,7 +49,7 @@ typedef unsigned int u32;
 struct L0200ED54 { u32 arr[32]; u32 count; };
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void func_0200ED54(struct L0200ED54 *l, u32 val)
+void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val)
 {
     u32 i;
     int n;

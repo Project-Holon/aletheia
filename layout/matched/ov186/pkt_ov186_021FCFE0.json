@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FCFE0",
-    "func_021FD094",
-    "func_021FD0A8"
+    "BR_UTIL_ScrollWithCursor",
+    "BR_UTIL_NeedsScroll",
+    "BR_UTIL_HasMultipleRows"
+   ],
+   "addresses": [
+    "0x021FCFE0",
+    "0x021FD094",
+    "0x021FD0A8"
    ],
    "evidence": {
     "sole-ref": [

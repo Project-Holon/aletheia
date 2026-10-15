@@ -11,13 +11,16 @@
  *
  *
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
+ *
+ * symbols:
+ *   OS_InitMutex  0x02086004  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02086004(void);
+extern void OS_InitMutex(void);
 
 void NHTTPi_InitMutex(int *mutex_p)
 {
-    func_02086004();
+    OS_InitMutex();
 }

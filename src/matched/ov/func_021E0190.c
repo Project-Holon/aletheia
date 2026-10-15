@@ -1,5 +1,5 @@
 /*
- * function: func_021E0190
+ * function: BOX2_MAIN_IsWindowMoving
  * address:  0x021E0190
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EF5C4  0x021EF5C4  thumb  ov170
+ *   BOX2_UI_UpdateListPacks  0x021EF5C4  thumb  ov170
  *
  * 1 when the p+0x2c+0x74 object is live.
  */
@@ -18,10 +18,10 @@
 
 
 struct WinMgr;
-extern int func_021EF5C4(struct WinMgr *mgr);
-int func_021E0190(char *p)
+extern int BOX2_UI_UpdateListPacks(struct WinMgr *mgr);
+int BOX2_MAIN_IsWindowMoving(char *p)
 {
-    if (func_021EF5C4(*(struct WinMgr **)(((struct Obj18461 *)p)->f2C + 0x74)) != 0)
+    if (BOX2_UI_UpdateListPacks(*(struct WinMgr **)(((struct Obj18461 *)p)->f2C + 0x74)) != 0)
         return 1;
     return 0;
 }

@@ -14,9 +14,10 @@
  *   NNSi_SndPlayerInsertSeqPlayer  0x02073548  arm
  *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
  *   NNSi_SndAllocFreeSeqPlayer  0x02073624  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
  *
  * Pinned ../2.0/sp2 on the documented "kept constants" tell: under 1.1p1 -O4,p
- * the three `return 0` sites and the null argument of func_02060614 CSE into a
+ * the three `return 0` sites and the null argument of NNS_FndGetNextListObject CSE into a
  * single hoisted `mov r7, #0`, giving 156 bytes against the original's 152 and
  * permuting the whole callee-saved allocation (obj r4->r6, slot r6->r4,
  * pri r7->r5).  The image instead materialises each zero fresh
@@ -46,7 +47,7 @@ struct DList;
 struct Obj_02073548;
 struct Voice;
 extern void NNS_SndHandleReleaseSeq(u32 * volatile *pp);
-extern void *func_02060614(struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 extern void NNSi_SndSeqPlayerStopNow(struct Node *p);
 extern struct Voice *NNSi_SndAllocFreeSeqPlayer(s32 pri);
 extern void NNSi_SndPlayerInsertSeqPlayer(void *list, struct Obj_02073548 *obj);
@@ -60,7 +61,7 @@ struct Node *NNSi_SndPlayerAllocSeqPlayer(struct Obj *o, s32 idx, s32 pri)
         NNS_SndHandleReleaseSeq((u32 * volatile*)o);
     }
     if (s->h08 >= s->f18) {
-        e = func_02060614((struct DList *)s, 0);
+        e = NNS_FndGetNextListObject((struct DList *)s, 0);
         if (e == 0) {
             return 0;
         }

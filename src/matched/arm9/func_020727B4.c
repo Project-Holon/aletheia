@@ -1,5 +1,5 @@
 /*
- * function: func_020727B4
+ * function: NNS_SndReadDriverInfo
  * address:  0x020727B4
  * packet:   pkt_020727B4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Double-buffered SND_ReadDriverInfo pump over the 0x0214BAC0 control block
- * (the same base src/pending/func_020726D0.c initialises) and the pair of
+ * (the same base src/pending/NNS_SndInit.c initialises) and the pair of
  * 0x11E0-byte info buffers at 0x0214BB00.
  *
  * BYTE-CORRECT at 212 bytes, 0 concrete mismatches.  PARKED, NOT FILED: the two
@@ -64,7 +64,7 @@ extern u32  SND_GetCurrentCommandTag(void);
 extern void DC_InvalidateRange(void *p, u32 n);
 extern void SND_FlushCommand(u32 flags);
 
-u32 func_020727B4(void)
+u32 NNS_SndReadDriverInfo(void)
 {
     if (g_0214BAC0.pending == 0) {
         while (SND_RecvCommandReply(0) != 0)

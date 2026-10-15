@@ -1,5 +1,5 @@
 /*
- * function: func_021FCDA0
+ * function: BR_UTIL_ListMenuIsScrollable
  * address: 0x021FCDA0
  * packet: pkt_ov186_021FCDA0
  * region: ov186
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021FCDA0(u8*p){(*(void(**)(u8*))(p+0x54))(p);}
+void BR_UTIL_ListMenuIsScrollable(u8*p){(*(void(**)(u8*))(p+0x54))(p);}

@@ -191,8 +191,6 @@ int qr2_buffer_add_int(qr2_buffer_s *outbuf, int value);
 int qr2_buffer_addA(qr2_buffer_s *outbuf, char *value);
 int func_0219B73C(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent);
 void swap_byte(unsigned char *p, unsigned char *q);
-void gs_encode(unsigned char *ins, int size, unsigned char *result);
-void gs_encrypt(unsigned char *key, int key_len, unsigned char *buffer_ptr, int buffer_len);
 void NatNegProgressCallback(int state, void *userdata);
 void NatNegCompletedCallback(int result, int gamesocket, SOCSockAddrIn *remoteaddr, void *userdata);
 void qr_add_packet_header(qr2_buffer_s *buf, char ptype, char *reqkey);
@@ -205,7 +203,6 @@ void qr_process_query(qr2_implementation_s *qrec, qr2_buffer_s *buf, unsigned ch
 void qr_process_client_message(qr2_implementation_s *qrec, char *buf, int len);
 int qr2_process_ip_verify(qr2_implementation_s *qrec, qr2_buffer_s *buf, SOCSockAddrIn *sender);
 void qr2_expire_ip_verify(qr2_implementation_s *qrec);
-void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockAddr *sender);
 void send_keepalive(qr2_implementation_s *qrec);
 void send_heartbeat(qr2_implementation_s *qrec, int statechanged);
 extern qr2_implementation_s *current_rec;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0A24
+ * function: ProcessMainListData
  * address:  0x021A0A24
  * packet:   pkt_ov009_021A0A24
  * region:   ov009
@@ -12,17 +12,17 @@
  * sdk:      ProcessMainListData (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  *
  * symbols:
- *   func_021A0378  0x021A0378  arm  ov009
+ *   InitCryptKey  0x021A0378  arm  ov009
  *   func_0219D478  0x0219D478  arm  ov009
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
- *   func_0219F8B0  0x0219F8B0  arm  ov009
+ *   SBRefStr  0x0219F8B0  arm  ov009
  *   func_02184234  0x02184234  arm  ov009
- *   func_021A08E8  0x021A08E8  arm  ov009
+ *   IncomingListParseServer  0x021A08E8  arm  ov009
  *   func_02092364  0x02092364  arm
- *   g_021AEB00  0x021AEB00  data
+ *   gSBNullServer  0x021AEB00  data
  *
  * The object is stamped 4.0.0.1025; built with dsi/1.1p1.
  */
@@ -70,21 +70,21 @@ typedef struct _SBServerList {
     struct SBServer *deadlist;                  /* +0x7D8 */
 } SBServerList;
 
-extern void func_021A0378(SBServerList *slist, char *key, int keylen);
+extern void InitCryptKey(SBServerList *slist, char *key, int keylen);
 extern void func_0219D478(void *state, unsigned char *bp, int len);
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 extern void SBServerListSetLastError(SBServerList *slist, char *theError);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern int func_02184200(void *array);
-extern char *func_0219F8B0(SBServerList *slist, char *str);
+extern char *SBRefStr(SBServerList *slist, char *str);
 extern void func_02184234(void *array, void *newElem);
-extern int func_021A08E8(SBServerList *slist, char *buf, int len);
+extern int IncomingListParseServer(SBServerList *slist, char *buf, int len);
 extern void *func_02092364(void *dst, const void *src, unsigned int n);
-extern struct SBServer *g_021AEB00;
+extern struct SBServer *gSBNullServer;
 
 #define NTOHS(x) ((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00))
 
-SBError func_021A0A24(SBServerList *slist)
+SBError ProcessMainListData(SBServerList *slist)
 {
     int reqlen;
     int keyoffset;
@@ -104,7 +104,7 @@ SBError func_021A0A24(SBServerList *slist)
         reqlen = keyoffset + keylen;
         if (inlen < reqlen)
             break;
-        func_021A0378(slist, inbuf + keyoffset, keylen);
+        InitCryptKey(slist, inbuf + keyoffset, keylen);
         slist->pstate = 1;
         memcpy(&slist->backendgameflags, inbuf + 1, 2);
         slist->backendgameflags = NTOHS(slist->backendgameflags);
@@ -115,14 +115,14 @@ SBError func_021A0A24(SBServerList *slist)
         if (inlen < 6)
             break;
         memcpy(&slist->mypublicip, inbuf, 4);
-        slist->ListCallback(slist, 6, g_021AEB00, slist->instance);
+        slist->ListCallback(slist, 6, gSBNullServer, slist->instance);
         memcpy(&slist->defaultport, inbuf + 4, 2);
         if (slist->defaultport == 0xFFFF) {
-            int keylen = func_0219F978(inbuf + 6, inlen - 6);
+            int keylen = NTSLengthSB(inbuf + 6, inlen - 6);
             if (keylen == -1)
                 break;
             SBServerListSetLastError(slist, inbuf + 6);
-            slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
+            slist->ListCallback(slist, 5, gSBNullServer, slist->instance);
             if (slist->inbuffer == NULL)
                 break;
         }
@@ -150,11 +150,11 @@ SBError func_021A0A24(SBServerList *slist)
             int keylen;
             if (inlen < 2)
                 break;
-            keylen = func_0219F978(inbuf + 1, inlen - 1);
+            keylen = NTSLengthSB(inbuf + 1, inlen - 1);
             if (keylen == -1)
                 break;
             ki.keyType = (unsigned char)*inbuf;
-            ki.keyName = func_0219F8B0(slist, inbuf + 1);
+            ki.keyName = SBRefStr(slist, inbuf + 1);
             func_02184234(slist->keylist, &ki);
             inbuf += keylen + 1;
             inlen -= keylen + 1;
@@ -173,10 +173,10 @@ SBError func_021A0A24(SBServerList *slist)
             slist->numpopularvalues = 0;
         }
         while (slist->expectedelements > slist->numpopularvalues) {
-            int keylen = func_0219F978(inbuf, inlen);
+            int keylen = NTSLengthSB(inbuf, inlen);
             if (keylen == -1)
                 break;
-            slist->popularvalues[slist->numpopularvalues++] = func_0219F8B0(slist, inbuf);
+            slist->popularvalues[slist->numpopularvalues++] = SBRefStr(slist, inbuf);
             inbuf += keylen;
             inlen -= keylen;
         }
@@ -187,7 +187,7 @@ SBError func_021A0A24(SBServerList *slist)
         if (inlen < 5)
             break;
         do {
-            keylen = func_021A08E8(slist, inbuf, inlen);
+            keylen = IncomingListParseServer(slist, inbuf, inlen);
             if (keylen == -2)
                 return sbe_allocerror;
             if (keylen == -1) {
@@ -195,7 +195,7 @@ SBError func_021A0A24(SBServerList *slist)
                 slist->pstate = 5;
                 inlen -= 5;
                 inbuf += 5;
-                slist->ListCallback(slist, 3, g_021AEB00, slist->instance);
+                slist->ListCallback(slist, 3, gSBNullServer, slist->instance);
                 break;
             }
             inbuf += keylen;

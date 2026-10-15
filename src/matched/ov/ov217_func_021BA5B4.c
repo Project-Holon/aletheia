@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5B4
+ * function: RESEARCH_TOP_ClearFont
  * address:  0x021BA5B4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA5B4(void *p)
+void RESEARCH_TOP_ClearFont(void *p)
 {
     ((struct Obj25828 *)p)->f8 = 0;
 }

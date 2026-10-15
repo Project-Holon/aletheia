@@ -1,5 +1,5 @@
 /*
- * function: sub_0200E994
+ * function: MISC_SAVEDATA_FindKey
  * address:  0x0200E994
  * packet:   pkt_0200E994
  * region:   arm9
@@ -21,14 +21,14 @@
  * if none of the stored keys match.
  *
  * EXACT* because the 70 compiled bytes fall six short of the disasm.py
- * extent: sub_0200E9DC, a four-byte constant getter with no
+ * extent: MISC_SAVEDATA_GetMacStructSize, a four-byte constant getter with no
  * register-saving prologue, hides in the two trailing pad bytes plus this
  * function's own alignment filler (see "the two missing labels" in
  * docs/MATCHING.md); it is matched separately.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200E994.c \
- *       --func sub_0200E994 --addr 0x0200E994 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_FindKey.c \
+ *       --func MISC_SAVEDATA_FindKey --addr 0x0200E994 --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-u32 sub_0200E994(void *base, void *key)
+u32 MISC_SAVEDATA_FindKey(void *base, void *key)
 {
     int i;
     int count = func_0200E918(base, 0);

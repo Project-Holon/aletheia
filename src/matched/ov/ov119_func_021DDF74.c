@@ -13,7 +13,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   POKETRADE_SAVE_IsMessagePrintDone  0x021E12AC  thumb  ov119
- *   func_021DD140  0x021DD140  thumb  ov119
+ *   POKETRADE_PROC_TickWifiTimer  0x021DD140  thumb  ov119
  *   POKETRADE_PROC_IsNetSession  0x021D8A24  thumb  ov119
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
@@ -42,7 +42,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct MsgBank;
 struct WordSet;
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
-extern int func_021DD140(char *p);
+extern int POKETRADE_PROC_TickWifiTimer(char *p);
 extern int POKETRADE_PROC_IsNetSession(void *p);
 struct Link;
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
@@ -66,7 +66,7 @@ void POKETRADE_NEGO_StepResolveConfirm(char *p)
     a = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     b = 1 - a;
     if (POKETRADE_SAVE_IsMessagePrintDone(p) == 0) return;
-    if (func_021DD140(p) == 0) return;
+    if (POKETRADE_PROC_TickWifiTimer(p) == 0) return;
     if (POKETRADE_PROC_IsNetSession(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
         POKETRADE_NEGO_CheckCancelTouch(p);
         return;

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   SND_StartTimer  0x020894B4  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -27,11 +30,11 @@ struct A {
     u32 f50;
 };
 
-extern void func_020894B4(u32, u32, u32, u32);
+extern void SND_StartTimer(u32, u32, u32, u32);
 extern void func_0208C808(void *);
 extern void func_0208C828(void *);
 void NNS_SndStrmStart(struct A *a) {
-    func_020894B4(a->f4c, 0, 1u << a->f48, 0);
+    SND_StartTimer(a->f4c, 0, 1u << a->f48, 0);
     if (a->u.f.b1) return;
     func_0208C808((u8 *)a + 8);
     func_0208C828((u8 *)a + 0x18);

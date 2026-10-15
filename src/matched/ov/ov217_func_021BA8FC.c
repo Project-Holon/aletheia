@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8FC
+ * function: RESEARCH_TOP_ClearResources
  * address:  0x021BA8FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA8FC(void *p)
+void RESEARCH_TOP_ClearResources(void *p)
 {
     int i;
     for (i = 0; i < 6; i++)

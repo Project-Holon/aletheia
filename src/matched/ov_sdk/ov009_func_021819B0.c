@@ -1,5 +1,5 @@
 /*
- * function: func_021819B0
+ * function: gsXmlCreateStreamWriter
  * address:  0x021819B0
  * packet:   pkt_ov009_021819B0
  * region:   ov009
@@ -15,14 +15,14 @@
  *   func_0217EAB0                    0x0217eab0 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
  *   func_0209477C                    0x0209477c arm
- *   func_0218325C                    0x0218325c arm  ov009
+ *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
  *   func_0217EAE0                    0x0217eae0 arm  ov009
- *   func_02183210                    0x02183210 arm  ov009
- *   g_021A3DE4                       0x021a3de4 data
- *   g_021A3E20                       0x021a3e20 data
- *   g_021A3D0C                       0x021a3d0c data
- *   g_021A3E28                       0x021a3e28 data
- *   g_021A3E64                       0x021a3e64 data
+ *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
+ *   gGsXmlOomWriterFormat                       0x021a3de4 data
+ *   gGsXmlNamespacePrefix                       0x021a3e20 data
+ *   gGsXmlSoapDefaultNamespaces                       0x021a3d0c data
+ *   gGsXmlSoapEnvelopeStart                       0x021a3e28 data
+ *   gGsXmlSoapBodyStart                       0x021a3e64 data
  */
 
 typedef struct GSIXmlStreamWriter {
@@ -36,16 +36,16 @@ extern void *func_0217EAB0(unsigned long size);
 typedef unsigned char  u8;
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0209477C(const u8 *s);
-extern int func_0218325C(GSIXmlStreamWriter *stream, const char *str);
+extern int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
 extern void func_0217EAE0(void *ptr);
-extern int func_02183210(GSIXmlStreamWriter *stream, char ch);
-extern char g_021A3DE4[];
-extern char g_021A3E20[];
-extern const char *g_021A3D0C[4];   /* GS_XML_SOAP_DEFAULT_NAMESPACES */
-extern char g_021A3E28[];
-extern char g_021A3E64[];
+extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
+extern char gGsXmlOomWriterFormat[];
+extern char gGsXmlNamespacePrefix[];
+extern const char *gGsXmlSoapDefaultNamespaces[4];   /* GS_XML_SOAP_DEFAULT_NAMESPACES */
+extern char gGsXmlSoapEnvelopeStart[];
+extern char gGsXmlSoapBodyStart[];
 
-void *func_021819B0(const char **namespaces, int count)
+void *gsXmlCreateStreamWriter(const char **namespaces, int count)
 {
     GSIXmlStreamWriter *newStream;
     int initialCapacity = 1024;
@@ -54,16 +54,16 @@ void *func_021819B0(const char **namespaces, int count)
 
     newStream = func_0217EAB0(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, sizeof(GSIXmlStreamWriter));
+        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
-        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
-        namespaceLen += func_0209477C((const u8 *)g_021A3D0C[i]);
+        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += func_0209477C((const u8 *)gGsXmlSoapDefaultNamespaces[i]);
     }
     for (i = 0; i < count; i++) {
-        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
+        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
         namespaceLen += func_0209477C((const u8 *)namespaces[i]);
     }
     while (initialCapacity < namespaceLen)
@@ -71,7 +71,7 @@ void *func_021819B0(const char **namespaces, int count)
 
     newStream->buffer = func_0217EAB0(initialCapacity);
     if (newStream->buffer == 0) {
-        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, initialCapacity);
+        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;
@@ -79,31 +79,31 @@ void *func_021819B0(const char **namespaces, int count)
     newStream->buffer[0] = '\0';
     newStream->openElements = 0;
 
-    if (!func_0218325C(newStream, g_021A3E28)) {
+    if (!gsiXmlUtilWriteString(newStream, gGsXmlSoapEnvelopeStart)) {
         func_0217EAE0(newStream->buffer);
         func_0217EAE0(newStream);
         return 0;
     }
     for (i = 0; i < 4; i++) {
-        if (!func_02183210(newStream, ' ') ||
-            !func_0218325C(newStream, g_021A3E20) ||
-            !func_0218325C(newStream, g_021A3D0C[i])) {
+        if (!gsiXmlUtilWriteChar(newStream, ' ') ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlSoapDefaultNamespaces[i])) {
             func_0217EAE0(newStream->buffer);
             func_0217EAE0(newStream);
             return 0;
         }
     }
     for (i = 0; i < count; i++) {
-        if (!func_02183210(newStream, ' ') ||
-            !func_0218325C(newStream, g_021A3E20) ||
-            !func_0218325C(newStream, namespaces[i])) {
+        if (!gsiXmlUtilWriteChar(newStream, ' ') ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
+            !gsiXmlUtilWriteString(newStream, namespaces[i])) {
             func_0217EAE0(newStream->buffer);
             func_0217EAE0(newStream);
             return 0;
         }
     }
-    if (!func_02183210(newStream, '>') ||
-        !func_0218325C(newStream, g_021A3E64)) {
+    if (!gsiXmlUtilWriteChar(newStream, '>') ||
+        !gsiXmlUtilWriteString(newStream, gGsXmlSoapBodyStart)) {
         func_0217EAE0(newStream->buffer);
         func_0217EAE0(newStream);
         return 0;

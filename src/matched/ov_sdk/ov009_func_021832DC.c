@@ -1,5 +1,5 @@
 /*
- * function: func_021832DC
+ * function: gsiXmlUtilWriteUnicodeString
  * address:  0x021832DC
  * packet:   pkt_ov009_021832DC
  * region:   ov009
@@ -28,7 +28,7 @@ extern int gsUnicodeStringLen(unsigned short *str);
 extern int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
 extern int gsiXmlUtilWriteXmlSafeString(struct GSIXmlStreamWriter *stream, char *str);
 
-int func_021832DC(struct GSIXmlStreamWriter *stream, unsigned short *str)
+int gsiXmlUtilWriteUnicodeString(struct GSIXmlStreamWriter *stream, unsigned short *str)
 {
     int strLen;
     int pos;

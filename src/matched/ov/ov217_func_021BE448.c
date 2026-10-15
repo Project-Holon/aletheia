@@ -1,5 +1,5 @@
 /*
- * function: func_021BE448
+ * function: RESEARCH_GRAPH_SetStateChanged
  * address:  0x021BE448
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE448(void *p)
+void RESEARCH_GRAPH_SetStateChanged(void *p)
 {
     ((struct Obj25898 *)p)->f3DC = 1;
 }

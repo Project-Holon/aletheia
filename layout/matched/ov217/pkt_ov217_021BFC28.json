@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFC28",
+   "name": "RESEARCH_GRAPH_DestroyCircles",
    "address": "0x021BFC28",
    "kind": "game",
    "region": "ov217",

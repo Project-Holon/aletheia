@@ -1,5 +1,5 @@
 /*
- * function: func_021A174C
+ * function: SBSendNatNegotiateCookieToServer
  * address:  0x021A174C
  * packet:   pkt_ov009_021A174C
  * region:   ov009
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A1620  0x021A1620  arm  ov009
+ *   SBSendMessageToServer  0x021A1620  arm  ov009
  *
  * SBSendNatNegotiateCookieToServer: fills a 10-byte natneg cookie packet
  * (6 magic bytes + the big-endian cookie) and hands it to SBSendMessageToServer.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_021A174C.c \
- *       --func func_021A174C --addr 0x021A174C --region ov009 --arm --cc 1.1p1 --lang c99 --diff
+ *       --func SBSendNatNegotiateCookieToServer --addr 0x021A174C --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -39,9 +39,9 @@
 			) \
 	)
 
-extern int func_021A1620(void *slist, unsigned int ip, unsigned short port, char *data, int len);
+extern int SBSendMessageToServer(void *slist, unsigned int ip, unsigned short port, char *data, int len);
 
-int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie)
+int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie)
 {
 	unsigned char negotiateBuffer[NATNEG_MAGIC_LEN + 4];
 
@@ -53,5 +53,5 @@ int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie)
 	negotiateBuffer[5] = NN_MAGIC_5;
 	cookie = (int)SOC_HtoNl((unsigned int)cookie);
 	memcpy(negotiateBuffer + NATNEG_MAGIC_LEN, &cookie, 4);
-	return func_021A1620(slist, ip, port, (char *)negotiateBuffer, NATNEG_MAGIC_LEN + 4);
+	return SBSendMessageToServer(slist, ip, port, (char *)negotiateBuffer, NATNEG_MAGIC_LEN + 4);
 }

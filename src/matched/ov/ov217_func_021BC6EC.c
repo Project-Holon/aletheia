@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6EC
+ * function: RESEARCH_LIST_SetSelectedIndex
  * address:  0x021BC6EC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC6EC(void *p, u8 v)
+void RESEARCH_LIST_SetSelectedIndex(void *p, u8 v)
 {
     ((struct Obj25873 *)p)->f31 = v;
 }

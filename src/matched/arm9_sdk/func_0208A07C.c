@@ -1,5 +1,5 @@
 /*
- * function: func_0208A07C
+ * function: SND_GetChannelStatus
  * address:  0x0208A07C
  * packet:   pkt_0208A07C
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct SNDSharedWork {
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern SNDSharedWork *SNDi_SharedWork;
 
-unsigned long func_0208A07C(void)
+unsigned long SND_GetChannelStatus(void)
 {
     DC_InvalidateRange(&SNDi_SharedWork->channelStatus, 2);
     return SNDi_SharedWork->channelStatus;

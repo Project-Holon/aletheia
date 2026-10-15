@@ -1,5 +1,5 @@
 /*
- * function: func_021EA1C0
+ * function: BOX2_SEQ_Create
  * address:  0x021EA1C0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 
 
-void func_021EA1C0(void *p)
+void BOX2_SEQ_Create(void *p)
 {
     int v = (int)func_02030734(0x4c, 0xb8, 1, (const char *)0x021F140C, 0x2130);
     *(int *)(((struct Obj18479 *)p)->f2C + 0x60) = v;

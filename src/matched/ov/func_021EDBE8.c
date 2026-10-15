@@ -1,5 +1,5 @@
 /*
- * function: func_021EDBE8
+ * function: BOX2_UI_ReplaceColorIndex
  * address:  0x021EDBE8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -22,7 +22,7 @@
 
 
 extern const unsigned char g_021EFCEC[];
-void func_021EDBE8(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n)
+void BOX2_UI_ReplaceColorIndex(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n)
 {
     unsigned i;
     for (i = 0; i < n; i++)

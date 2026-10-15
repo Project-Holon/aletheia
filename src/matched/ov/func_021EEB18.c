@@ -1,5 +1,5 @@
 /*
- * function: func_021EEB18
+ * function: BOX2_UI_SetCursorSeqD
  * address:  0x021EEB18
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEF74  0x021EEF74  thumb  ov170
- *   func_021DC9B4  0x021DC9B4  thumb  ov170
- *   func_021E066C  0x021E066C  thumb  ov170
+ *   BOX2_UI_MoveCursorBetweenIcons  0x021EEF74  thumb  ov170
+ *   BOX2_MAIN_SetSeqParam  0x021DC9B4  thumb  ov170
+ *   BOX2_MAIN_SceneApplyScroll  0x021E066C  thumb  ov170
  *
  * Release the child at +0x2c and reset its field +0x5c to the handler.
  */
 #include "../include/Obj12181.h"
 
-extern void func_021EEF74(char *q, int a, int b);
-extern void func_021DC9B4(char *p, int v);
-extern int func_021E066C(char *p);
+extern void BOX2_UI_MoveCursorBetweenIcons(char *q, int a, int b);
+extern void BOX2_MAIN_SetSeqParam(char *p, int v);
+extern int BOX2_MAIN_SceneApplyScroll(char *p);
 
-void func_021EEB18(char *p, int a, int b)
+void BOX2_UI_SetCursorSeqD(char *p, int a, int b)
 {
-    func_021EEF74(*(char * *)&((struct Obj12181 *)p)->f2C, a, b);
-    func_021DC9B4(((struct Obj12181 *)p)->f2C, (int)((void *)&func_021E066C));
+    BOX2_UI_MoveCursorBetweenIcons(*(char * *)&((struct Obj12181 *)p)->f2C, a, b);
+    BOX2_MAIN_SetSeqParam(((struct Obj12181 *)p)->f2C, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 

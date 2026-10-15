@@ -1,5 +1,5 @@
 /*
- * function: func_021BE460
+ * function: RESEARCH_GRAPH_SetActive
  * address:  0x021BE460
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE460(void *p, u32 v)
+void RESEARCH_GRAPH_SetActive(void *p, u32 v)
 {
     ((struct Obj25900 *)p)->f3E4 = v;
 }

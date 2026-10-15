@@ -1,5 +1,5 @@
 /*
- * function: func_021EC08C
+ * function: BOX2_SEQ_AddActorSurfacePos
  * address:  0x021EC08C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -22,7 +22,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021EC08C(char *p, int i, int a, int b, unsigned short c)
+void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c)
 {
     unsigned short t[2];
     t[0] = a;

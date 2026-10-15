@@ -41,9 +41,9 @@ typedef struct BoxParam {
     unsigned char pad_18[0x8];
     void * extra;
     int mode;
-    unsigned short modeFlag;
-    unsigned char markA;
-    unsigned char markB;
+    unsigned short swapMode;
+    unsigned char savedBox;
+    unsigned char savedSlot;
 } BoxParam;
 
 /* The task object (0x30 bytes). */

@@ -1,5 +1,5 @@
 /*
- * function: func_0200E458
+ * function: MISC_SAVEDATA_GetHalfword
  * address:  0x0200E458
  * packet:   pkt_0200E458
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 func_0200E458(const u16 *p, int i)
+u16 MISC_SAVEDATA_GetHalfword(const u16 *p, int i)
 {
     return p[i];
 }

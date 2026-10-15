@@ -1,5 +1,5 @@
 /*
- * function: func_021B64AC
+ * function: CDEMO_SCENE_ReturnThree
  * address:  0x021B64AC
  * packet:   pkt_ov179_021B64AC
  * region:   ov179
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
-int func_021B64AC(void)
+int CDEMO_SCENE_ReturnThree(void)
 {
     return 3;
 }

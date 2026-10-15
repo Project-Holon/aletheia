@@ -1,5 +1,5 @@
 /*
- * function: func_02089638
+ * function: SND_SetChannelVolume
  * address:  0x02089638
  * packet:   pkt_02089638
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089638(u32 chBitMask, int volume, int shift)
+void SND_SetChannelVolume(u32 chBitMask, int volume, int shift)
 {
     PushCommand_impl(0x14, chBitMask, (u32)volume, (u32)shift, 0);
 }

@@ -12,7 +12,7 @@
  * sdk:      CPS_TcpClose (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02162E5C  0x02162E5C  arm  ov009
+ *   CPSi_SslClose  0x02162E5C  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   func_02157390  0x02157390  arm  ov009
  *   g_02150FEC  0x02150FEC  data
@@ -21,7 +21,7 @@
 
 extern char g_02150FEC[];
 extern char g_021A826C[];
-extern void func_02162E5C(void *soc);
+extern void CPSi_SslClose(void *soc);
 extern unsigned long long func_020870D0(void);
 extern void func_02157390(void);
 
@@ -33,7 +33,7 @@ void CPS_TcpClose(void)
     if (soc == 0)
         return;
     if (*(unsigned char *)(soc + 9) != 0)
-        func_02162E5C(soc);
+        CPSi_SslClose(soc);
     start = (unsigned long)(func_020870D0() >> 16);
     while ((*(int (**)(void))(g_021A826C + 0x18))() != 0 && *(unsigned char *)(soc + 8) != 0 &&
            (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x27)

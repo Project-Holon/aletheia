@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
- *   func_02087E60  0x02087E60  arm
+ *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  */
 
 typedef unsigned int u32;
@@ -24,12 +24,12 @@ struct DeviceInfo {
 };
 
 extern u32 func_0202EB0C(void);
-extern struct DeviceInfo *func_02087E60(void);
+extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 
 int func_0202EB14(void)
 {
     if (func_0202EB0C()) {
-        if (func_02087E60()->bit0 && func_02087E60()->bit5) {
+        if (OS_GetParentalControlInfoPtr()->bit0 && OS_GetParentalControlInfoPtr()->bit5) {
             return 1;
         }
         return 0;

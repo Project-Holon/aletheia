@@ -81,15 +81,15 @@
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
  *   COMM_TVT_SYS_GetTalkStatus 0x021BDFEC thumb ov172
  *   COMM_TVT_SYS_HideSlotMarker 0x021BE2E0 thumb ov172
- *   func_021BA234 0x021BA234 thumb ov172
+ *   CTVT_MIC_StopVoice 0x021BA234 thumb ov172
  *   COMM_TVT_SYS_GetSprites 0x021BDFFC thumb ov172
  *   DRAW_SYSTEM_SetQueueIndex 0x021B6EA8 thumb ov172
  *   COMM_TVT_SYS_SetInputLocked 0x021BE0CC thumb ov172
  *   COMM_TVT_SYS_SetHalfRes 0x021BE0A0 thumb ov172
- *   func_021BA1E8 0x021BA1E8 thumb ov172
+ *   CTVT_MIC_PlayVoice 0x021BA1E8 thumb ov172
  *   COMM_TVT_SYS_SetEndRequested 0x021BE0D4 thumb ov172
  *   CTVT_ADPCM_ResetDecoder 0x021B69F0 thumb ov172
- *   func_021BA194 0x021BA194 thumb ov172
+ *   CTVT_MIC_DecodeAdpcm 0x021BA194 thumb ov172
  *   d_021C6EC0 0x021C6EC0 data a2
  *   DRAW_SYSTEM_PushStroke 0x021B6E88 thumb ov172
  *   func_021B8084  0x021B8084  thumb  ov172
@@ -290,7 +290,7 @@ extern int COMM_TVT_SYS_GetTalkStatus(void *p);
 
 extern void COMM_TVT_SYS_HideSlotMarker(void *p);
 
-extern void func_021BA234(void *p);
+extern void CTVT_MIC_StopVoice(void *p);
 
 extern u32 COMM_TVT_SYS_GetSprites(void *p);
 
@@ -300,7 +300,7 @@ extern void COMM_TVT_SYS_SetInputLocked(void *p, u32 v);
 
 extern void COMM_TVT_SYS_SetHalfRes(void *p, u32 v);
 
-extern int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq);
+extern int CTVT_MIC_PlayVoice(int *self, char *buf, unsigned n, int vol, int freq);
 
 extern void COMM_TVT_SYS_SetEndRequested(void *p, u32 v);
 
@@ -308,15 +308,12 @@ extern void func_02082A7C();
 
 extern void CTVT_ADPCM_ResetDecoder(void);
 
-extern int func_021BA194(int unused, int a, void *buf, unsigned n);
+extern int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
 
 extern void DRAW_SYSTEM_PushStroke(char *p, void *q);
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 
 u32 CTVT_CAMVIEW_GetWindowWidth(void *p, u32 unused);
 
@@ -1037,7 +1034,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
         } else {
             r = (void *)COMM_TVT_SYS_GetTalkStatus(((struct Obj00593 *)q)->f3DC);
             COMM_TVT_SYS_HideSlotMarker(((struct Obj00593 *)q)->f3DC);
-            func_021BA234(r);
+            CTVT_MIC_StopVoice(r);
         }
         break;
     case 3:
@@ -1071,9 +1068,9 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
     case 7:
         r = (void *)COMM_TVT_SYS_GetTalkStatus(((struct Obj00593 *)q)->f3DC);
         if (id == self)
-            func_021BA1E8(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0, ((struct Obj00593 *)q)->f1A0);
+            CTVT_MIC_PlayVoice(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0, ((struct Obj00593 *)q)->f1A0);
         else
-            func_021BA1E8(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0x7f, ((struct Obj00593 *)q)->f1A0);
+            CTVT_MIC_PlayVoice(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0x7f, ((struct Obj00593 *)q)->f1A0);
         break;
     case 8:
         if (self == 0) {
@@ -1129,7 +1126,7 @@ void func_021B8978(int a, int b, int c, char *q)
         CTVT_ADPCM_ResetDecoder();
         func_02082A7C(0, (int)(((struct Obj03854 *)q)->f1A8), 0xc800);
     }
-    func_021BA194((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
+    CTVT_MIC_DecodeAdpcm((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
     if (((struct Obj05444 *)data)->f4 == 1) {
         table = d_021C6EC0;
         ((struct Obj03854 *)q)->f1A0 = table.a[((struct Obj05444 *)data)->f6];
@@ -1335,7 +1332,7 @@ u32 func_021B8C20(void *c, u8 *x)
 
 /*
  * Return the word at +0x3C8 of the record. Filed as the call witness for
- * ov172 func_021B97AC.
+ * ov172 CTVT_TALK_UpdateVoiceSend.
  */
 u32 func_021B8C34(void *ctx, u8 *rec)
 {

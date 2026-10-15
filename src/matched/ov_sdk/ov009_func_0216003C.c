@@ -1,5 +1,5 @@
 /*
- * function: func_0216003C
+ * function: date2sec
  * address:  0x0216003C
  * packet:   pkt_ov009_0216003C
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   func_02088864  0x02088864  arm
  *   func_0208890C  0x0208890C  arm
- *   func_02089004  0x02089004  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  */
 
 typedef struct {
@@ -34,9 +34,9 @@ struct RTCDate;
 struct RTCTime;
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 
-unsigned long func_0216003C(void)
+unsigned long date2sec(void)
 {
 	unsigned long sec;
 	RTCDate date;
@@ -44,6 +44,6 @@ unsigned long func_0216003C(void)
 
 	func_02088864((struct RTCDate *)(&date));
 	func_0208890C((struct RTCTime *)(&time));
-	sec = func_02089004((struct RTCDate *)(&date), (struct RTCTime *)(&time));
+	sec = RTC_ConvertDateTimeToSecond((struct RTCDate *)(&date), (struct RTCTime *)(&time));
 	return sec + 946684800;
 }

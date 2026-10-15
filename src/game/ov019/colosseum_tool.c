@@ -23,7 +23,7 @@
  *   func_0200873C  0x0200873C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
- *   sub_02034714   0x02034714  arm
+ *   SAVEDATA_PanicFail   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
@@ -65,7 +65,7 @@ extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void sub_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void MTX_Identity33_(void *m);
 extern int FLDMMDL_GetGridNowX(void *);
 extern int FLDMMDL_GetGridNowZ(void *);

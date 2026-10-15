@@ -1,5 +1,5 @@
 /*
- * function: func_0216176C
+ * function: decrypt
  * address:  0x0216176C
  * packet:   pkt_02155168
  * region:   ov009
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void *func_0216176C(char *p, void *a, void *b)
+void *decrypt(char *p, void *a, void *b)
 {
     void func_02163EB8(void *, void *, void *);
     func_02163EB8(p + 0x1e0, a, b);

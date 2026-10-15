@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F9770",
+   "name": "BR_PROC_SYS_NoopF",
    "address": "0x021F9770",
    "kind": "game",
    "region": "ov186",

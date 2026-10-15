@@ -1,5 +1,5 @@
 /*
- * function: func_021D7FC4
+ * function: WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim
  * address: 0x021D7FC4
  * packet: pkt_ov116_021D7FC4
  * region: ov116
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Node;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02030EAC(struct Node *n);
-void func_021D7FC4(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p) {
     u32 x=((struct Obj05322 *)p)->f984;
     func_0203FB44(1,(u16)x,(u16)(x>>16));
     x=((struct Obj05322 *)p)->f988;

@@ -1,5 +1,5 @@
 /*
- * function: func_02088398
+ * function: OS_SignalEvent
  * address:  0x02088398
  * packet:   pkt_02088398
  * region:   arm9
@@ -40,7 +40,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-void func_02088398(OSEvent *event, u32 setPattern)
+void OS_SignalEvent(OSEvent *event, u32 setPattern)
 {
     OSIntrMode enable = OS_DisableInterrupts();
 

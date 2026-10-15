@@ -1,5 +1,5 @@
 /*
- * function: func_02090F18
+ * function: CTRDGi_InitCommon
  * address:  0x02090F18
  * packet:   pkt_02090F18
  * region:   arm9
@@ -22,7 +22,7 @@ extern unsigned char g_02153B80[];
 extern void SVC_CpuSet(u32 *out, unsigned char *p, u32 v);
 extern u16 OS_GetLockID(void);
 
-void func_02090F18(void)
+void CTRDGi_InitCommon(void)
 {
     u32 tmp = 0;
 

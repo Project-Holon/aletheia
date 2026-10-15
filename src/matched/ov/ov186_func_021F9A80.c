@@ -1,5 +1,5 @@
 /*
- * function: func_021F9A80
+ * function: BR_PROC_SYS_RunSlot
  * address: 0x021F9A80
  * packet: pkt_ov186_021F9A80
  * region: ov186
@@ -30,7 +30,7 @@ extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_020307B0(void *p);
 extern void PROCSYS_Push(u32,u32,u32,void *);
 extern u32 PROCSYS_Main(void *);
-void func_021F9A80(char *p)
+void BR_PROC_SYS_RunSlot(char *p)
 {
  struct Slot *current,*old,*next;
  current=(struct Slot *)(p+0x2c);

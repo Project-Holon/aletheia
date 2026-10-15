@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBD0
+ * function: RESEARCH_GRAPH_DeleteWordSet
  * address:  0x021BFBD0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
 
-void func_021BFBD0(u8 *a0)
+void RESEARCH_GRAPH_DeleteWordSet(u8 *a0)
 {
     func_0201ED04((struct WordSet *)((u32)(((struct Obj25954 *)a0)->f18)));
 }

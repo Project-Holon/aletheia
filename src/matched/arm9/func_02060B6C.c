@@ -1,5 +1,5 @@
 /*
- * function: func_02060B6C
+ * function: NNSi_FndRecycleRegion
  * address:  0x02060B6C
  * packet:   pkt_02060764
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060790  0x02060790  arm
- *   func_020607B8  0x020607B8  arm
- *   func_020607E8  0x020607E8  arm
+ *   NNSi_FndRemoveMBlock  0x02060790  arm
+ *   NNSi_FndInsertMBlock  0x020607B8  arm
+ *   NNSi_FndInitMBlock  0x020607E8  arm
  *
  * NitroSystem fnd expanded heap, RecycleRegion: return a region to the free
  * list, coalescing with the free block that starts at its end and the one
  * that ends at its start, and drop it if it is smaller than a block header
- * (0x10).  func_02060790 is RemoveMBlock, func_020607B8 InsertMBlock and
- * func_020607E8 InitMBlock (called with the 'FR' free-block signature 0x4652
+ * (0x10).  NNSi_FndRemoveMBlock is RemoveMBlock, NNSi_FndInsertMBlock InsertMBlock and
+ * NNSi_FndInitMBlock InitMBlock (called with the 'FR' free-block signature 0x4652
  * through an inline InitFreeMBlock).
  *
  * docs/notes/pkt_02060B6C.c.txt stood at 52 bytes with a volatile region
@@ -32,8 +32,8 @@
  * is also byte-exact on this source.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02060B6C.c \
- *       --func func_02060B6C --addr 0x02060B6C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_FndRecycleRegion.c \
+ *       --func NNSi_FndRecycleRegion --addr 0x02060B6C --arm --cc 1.1p1
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -49,15 +49,15 @@ struct MBlockHead {
 typedef struct { MBlockHead *head; MBlockHead *tail; } MBlockList;
 typedef struct { void *start; void *end; } MemRegion;
 typedef struct { MBlockList mbFreeList; } ExpHeapHead;
-extern void *func_02060790(int *p, int *node);
-extern void *func_020607B8(int *p, void *node, int *a);
-extern void *func_020607E8(int *p, int v);
+extern void *NNSi_FndRemoveMBlock(int *p, int *node);
+extern void *NNSi_FndInsertMBlock(int *p, void *node, int *a);
+extern void *NNSi_FndInitMBlock(int *p, int v);
 static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (u32)ptr); }
 static inline void *GetMemPtrForMBlock(MBlockHead *p) { return AddU32ToPtr(p, sizeof(MBlockHead)); }
 static inline void *GetMBlockEndAddr(MBlockHead *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->blockSize); }
 static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (u32)start; }
-static inline MBlockHead *InitFreeMBlock(MemRegion *r) { return func_020607E8((int *)r, 0x4652); }
-BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
+static inline MBlockHead *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
+BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
 {
     MBlockHead *pBlkPrFree = 0;
     MemRegion freeRgn = *pRegion;
@@ -74,7 +74,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
             if ((void *)pBlk == pRegion->end)
             {
                 freeRgn.end = GetMBlockEndAddr(pBlk);
-                (void)func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlk);
+                (void)NNSi_FndRemoveMBlock((int *)(&pEHHead->mbFreeList), (int *)pBlk);
             }
             break;
         }
@@ -83,7 +83,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
     if (pBlkPrFree && GetMBlockEndAddr(pBlkPrFree) == pRegion->start)
     {
         freeRgn.start = pBlkPrFree;
-        pBlkPrFree = func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
+        pBlkPrFree = NNSi_FndRemoveMBlock((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
     }
 
     if (GetOffsetFromPtr(freeRgn.start, freeRgn.end) < sizeof(MBlockHead))
@@ -91,6 +91,6 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
         return 0;
     }
 
-    (void)func_020607B8((int *)(&pEHHead->mbFreeList), InitFreeMBlock(&freeRgn), (int *)pBlkPrFree);
+    (void)NNSi_FndInsertMBlock((int *)(&pEHHead->mbFreeList), InitFreeMBlock(&freeRgn), (int *)pBlkPrFree);
     return 1;
 }

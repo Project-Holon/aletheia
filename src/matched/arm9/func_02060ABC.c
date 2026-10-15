@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060ABC
+ * function: NNSi_FndAllocFromExpHeapTail
  * address:  0x02060ABC
  * packet:   pkt_02060764
  * region:   arm9
@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060888  0x02060888  arm
+ *   NNSi_FndAllocFromExpHeap  0x02060888  arm
  *
  * The tail-end half of the expanded-heap allocator, the mirror of
- * func_02060A08: func_02060CA0 dispatches here when the caller asked for a
+ * NNSi_FndAllocFromExpHeapHead: NNS_FndAllocFromExpHeapEx dispatches here when the caller asked for a
  * negative alignment, which is how src/matched/sub_02030098.c spells "take
  * this block from the high end of the heap".
  *
@@ -29,13 +29,13 @@
  * `~(align - 1)` and the compiler rewrites `sub`/`mvn` in place on the
  * alignment argument.
  *
- * The last argument of func_02060888 is the direction flag, 0 from the head
+ * The last argument of NNSi_FndAllocFromExpHeap is the direction flag, 0 from the head
  * walk and 1 here, which is what tells the carve which side of the block the
  * remainder stays on.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060ABC.c \
- *       --func func_02060ABC --addr 0x02060ABC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapTail.c \
+ *       --func NNSi_FndAllocFromExpHeapTail --addr 0x02060ABC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -64,9 +64,9 @@ struct ExpHeap {
     u16               feature;
 };
 
-extern void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
+extern void *NNSi_FndAllocFromExpHeap(struct ExpHeap *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
 
-void *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -97,5 +97,5 @@ void *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align)
     if (found == 0) {
         return 0;
     }
-    return func_02060888((struct ExpHeap *)(&heap->freeList), found, foundPtr, size, 1);
+    return NNSi_FndAllocFromExpHeap((struct ExpHeap *)(&heap->freeList), found, foundPtr, size, 1);
 }

@@ -22,7 +22,7 @@
  *   SOCL_WriteTo   0x0215e024 arm
  *   func_0215EDD0  0x0215EDD0  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0208CB10  0x0208CB10  arm
+ *   STD_CopyLString  0x0208CB10  arm
  *   g_021AA544     0x021AA544  data
  *   g_021AA4BC     0x021AA4BC  data
  *   g_021AA4BC_ip  0x021AA4BC  data
@@ -149,7 +149,7 @@ extern int func_0215E6B8(int s);
 extern int func_0215E84C(int s);
 extern unsigned long func_0215EDD0(char *hostname);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_0208CB10(char *destp, const char *srcp, int siz);
+extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern unsigned long SOCL_GetHostID(void);
 extern int func_0215EEE0(unsigned long dns1, unsigned long dns2);
 extern int func_0215CA8C(void *socl_config);
@@ -333,7 +333,7 @@ HostEnt *SOC_GetHostByName(const char *name)
 		return 0;
 	}
 	MI_CpuFill8(g_021AA544, 0, 0x101);
-	func_0208CB10(g_021AA544, name, 0x101);
+	STD_CopyLString(g_021AA544, name, 0x101);
 	g_021AA4BC.hostent_name = g_021AA544;
 	g_021AA4BC.hostent_aliases = 0;
 	g_021AA4BC.hostent_addrType = 2;

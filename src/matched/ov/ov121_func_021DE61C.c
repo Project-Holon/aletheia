@@ -1,5 +1,5 @@
 /*
- * function: func_021DE61C
+ * function: MYSTERY_NET_StartSession
  * address: 0x021DE61C
  * packet: pkt_ov121_021DE61C
  * region: ov121
@@ -14,8 +14,8 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02010360 0x02010360 thumb
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
- *   func_021DEEA4 0x021DEEA4 thumb ov121
- *   func_021DE6F8 0x021DE6F8 thumb ov121
+ *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
+ *   MYSTERY_NET_PollWihStatus 0x021DE6F8 thumb ov121
  *   d_021DFABC 0x021DFABC data a4
  */
 #include "../include/Obj10424.h"
@@ -28,10 +28,10 @@ extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 typedef unsigned char  u8;
 extern u8 *func_02010360(int idx, void *heap);
 extern void GFL_NET_BeaconScanStart(void);
-extern void func_021DEEA4(u32 *p, void *f);
-extern void func_021DE6F8(int, int, char *);
+extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
+extern void MYSTERY_NET_PollWihStatus(int, int, char *);
 extern unsigned d_021DFABC[];
-void func_021DE61C(void *a, int *state, char *p)
+void MYSTERY_NET_StartSession(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
@@ -49,7 +49,7 @@ void func_021DE61C(void *a, int *state, char *p)
         break;
     case 2:
         BG_SYS_SetSubPlaneVisible(0x10, 1);
-        func_021DEEA4(a, func_021DE6F8);
+        MYSTERY_NET_SetHandler(a, MYSTERY_NET_PollWihStatus);
         break;
     }
 }

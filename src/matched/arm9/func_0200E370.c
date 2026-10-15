@@ -1,5 +1,5 @@
 /*
- * function: func_0200E370
+ * function: SYMBOL_SAVE_InitBitBlock
  * address:  0x0200E370
  * packet:   pkt_0200E024
  * region:   arm9
@@ -12,8 +12,8 @@
  * Zeroes 0x284 bytes and sets the three trailing descriptor bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E370.c \
- *       --func func_0200E370 --addr 0x0200E370 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_InitBitBlock.c \
+ *       --func SYMBOL_SAVE_InitBitBlock --addr 0x0200E370 --thumb --cc 1.1p1
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
@@ -24,7 +24,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 size);
 
-void func_0200E370(u8 *p)
+void SYMBOL_SAVE_InitBitBlock(u8 *p)
 {
     MI_CpuFill8(p, 0, 0x284);
     p[0x280] = 0;

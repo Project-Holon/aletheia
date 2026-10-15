@@ -1,5 +1,5 @@
 /*
- * function: func_021F9810
+ * function: BR_PROC_SYS_BuildRecord2
  * address: 0x021F9810
  * packet: pkt_ov186_021F9810
  * region: ov186
@@ -20,7 +20,7 @@ extern unsigned int BR_GRAPHIC_GetActorUnit(u8 *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
-void func_021F9810(int *out,int *source,const char *ctx,int type)
+void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type)
 {
     unsigned a;
     int b,result;

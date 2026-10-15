@@ -1,5 +1,5 @@
 /*
- * function: func_021C01B8
+ * function: RESEARCH_GRAPH_CreateLabels
  * address: 0x021C01B8
  * packet: pkt_ov217_021C01B8
  * region: ov217
@@ -24,7 +24,7 @@ extern const struct Entry d_021C3B7C[];
 struct Record;
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 extern u32 BgTextLabel_PrintMessage(u32, u32);
-void func_021C01B8(char *p)
+void RESEARCH_GRAPH_CreateLabels(char *p)
 {
     struct Config args;
     int i;

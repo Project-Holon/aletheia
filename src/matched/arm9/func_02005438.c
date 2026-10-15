@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +0004 ABS32 func_020911A0          -> unresolved: 020911A0 (arm, from header) has no witness outside 02005438..02005440
+ * blocker:  +0004 ABS32 CTRDG_DummyInit          -> unresolved: 020911A0 (arm, from header) has no witness outside 02005438..02005440
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
- *   func_020911A0  0x020911A0  arm
+ *   CTRDG_DummyInit  0x020911A0  arm
  *
  * A one-instruction forwarder: `ldr r3, [pc, #0]; bx r3` with the pool word
  * holding the callee.  The word is even, so the callee is ARM - the Thumb
@@ -24,9 +24,9 @@
  *       --func GFL_USE_CtrdgDummyInit --addr 0x02005438 --cc 1.1p1 --thumb
  */
 
-extern void func_020911A0(void);
+extern void CTRDG_DummyInit(void);
 
 void GFL_USE_CtrdgDummyInit(void)
 {
-    func_020911A0();
+    CTRDG_DummyInit();
 }

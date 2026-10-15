@@ -1,5 +1,5 @@
 /*
- * function: func_0200E024
+ * function: SYMBOL_SAVE_UpdateChecksum
  * address:  0x0200E024
  * packet:   pkt_0200E024
  * region:   arm9
@@ -26,8 +26,8 @@
  * func_0203F328 writes it back with the +0x84E halfword as the high word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E024.c \
- *       --func func_0200E024 --addr 0x0200E024 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_UpdateChecksum.c \
+ *       --func SYMBOL_SAVE_UpdateChecksum --addr 0x0200E024 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00318.h"
 
@@ -40,7 +40,7 @@ extern void func_0203F328(u16 *p, u32 size, u32 seed);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 
-void func_0200E024(void *obj)
+void SYMBOL_SAVE_UpdateChecksum(void *obj)
 {
     u32 a = unk_02FFFC3C;
     u32 b = unk_02FFFC3C;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021D9228 0x021D9228 thumb ov121
- *   func_021DE2F0 0x021DE2F0 thumb ov121
+ *   MYSTERY_NET_Delete 0x021DE2F0 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021DA890 0x021DA890 thumb ov121
  *   func_021D6C28 0x021D6C28 thumb ov121
@@ -35,7 +35,7 @@ struct PrintSys;
 struct Rec;
 struct S020315D4;
 struct WordSet;
-extern void func_021DE2F0(u8 *p);
+extern void MYSTERY_NET_Delete(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -56,7 +56,7 @@ extern char ov_id[];
 int func_021D67D4(void *a, int b, int c, char *p)
 {
     func_021D9228(p + 0x138);
-    func_021DE2F0(((struct Obj02176 *)p)->f3B0);
+    MYSTERY_NET_Delete(((struct Obj02176 *)p)->f3B0);
     if (((struct Obj02176 *)p)->f284) func_021D9E04(((struct Obj02176 *)p)->f284);
     func_021DA890(((struct Obj02176 *)p)->f290);
     func_0201ED04(((struct Obj02176 *)p)->f3A8);

@@ -12,7 +12,7 @@
  * sdk:      SOCLi_CommandPacketHandler (libsoc.TWL.HYB.a(socl_command.o))
  *
  * symbols:
- *   func_02085F8C  0x02085F8C  arm
+ *   OS_ReadMessage  0x02085F8C  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_DisableScheduler  0x02085B30  arm
  *   func_02085E50  0x02085E50  arm
@@ -36,7 +36,7 @@ struct Command {
 
 typedef signed int     s32;
 struct OSMessageQueue;
-extern int func_02085F8C(struct OSMessageQueue *mq, void **msg, s32 flags);
+extern int OS_ReadMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_DisableScheduler(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
@@ -54,7 +54,7 @@ void func_0215CFC0(void *arg)
 
 	cpipe = arg;
 	for (;;) {
-		func_02085F8C(cpipe, (void **)&command, 1);
+		OS_ReadMessage(cpipe, (void **)&command, 1);
 		if (command == 0) {
 			return;
 		}

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB69C",
+   "name": "RESEARCH_LIST_UpdateFadeInWait",
    "address": "0x021BB69C",
    "kind": "game",
    "region": "ov217",

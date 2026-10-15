@@ -29,18 +29,18 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0201210C  0x0201210C  thumb
  *   abs_id_39      0x00000039  data
- *   func_0200E588  0x0200E588  thumb
+ *   BATTLE_EXAMINATION_GetBlockSize  0x0200E588  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   d_021DE674     0x021DE674  data  a4
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
- *   func_0200E5A0  0x0200E5A0  thumb
- *   func_0200E5CC  0x0200E5CC  thumb
+ *   BATTLE_EXAMINATION_IsDeliveryValid  0x0200E5A0  thumb
+ *   BATTLE_EXAMINATION_IsDeliveryUnused  0x0200E5CC  thumb
  *   func_0200734C  0x0200734C  thumb
  *   POKEPARTY_InitEx  0x0201A954  thumb
  *   func_020056EC  0x020056EC  thumb
  *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
- *   func_0200E5F8  0x0200E5F8  thumb
+ *   BATTLE_EXAMINATION_GetTrainerSlot  0x0200E5F8  thumb
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  *   FLD_BTL_INST_TOOL_CreateTrainerMsgEvent  0x021680C8  thumb  ov010
  *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
@@ -50,8 +50,8 @@
  *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
  *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
  *   func_0200E8F8  0x0200E8F8  thumb
- *   func_0200E5E4  0x0200E5E4  thumb
- *   func_0200E608  0x0200E608  thumb
+ *   BATTLE_EXAMINATION_GetDeliveryId  0x0200E5E4  thumb
+ *   BATTLE_EXAMINATION_LoadDelivery  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   func_02008C58  0x02008C58  thumb
@@ -208,17 +208,17 @@ extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
 extern void *POKEPARTY_GetMember(Party *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
-extern u32 func_0200E588(void);
+extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern Party *POKEPARTY_Create(u32 heapId);
 extern void POKEPARTY_InitEx(Party *party, s32 capacity);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
 extern TrialHouseDelivery *func_020073D8(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void func_0200734C(SaveControl *saveControl, unsigned int blockId);
-extern int func_0200E5A0(TrialHouseDelivery *delivery);
-extern int func_0200E5CC(TrialHouseDelivery *delivery);
-extern BtlInstTrainer *func_0200E5F8(TrialHouseDelivery *delivery, u32 index);
-extern u16 func_0200E5E4(TrialHouseDelivery *delivery);
-extern void func_0200E608(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
+extern int BATTLE_EXAMINATION_IsDeliveryValid(TrialHouseDelivery *delivery);
+extern int BATTLE_EXAMINATION_IsDeliveryUnused(TrialHouseDelivery *delivery);
+extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *delivery, u32 index);
+extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
+extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
 extern void func_0200E684(TrialHouseDelivery *delivery);
 extern TrialHouseSave *func_0200E8F8(SaveControl *saveControl);
 extern RecordBlock *func_02008C58(SaveControl *saveControl);
@@ -277,7 +277,7 @@ TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
     TrialHouseWork *work;
     u32 deliverySize;
 
-    deliverySize = func_0200E588();
+    deliverySize = BATTLE_EXAMINATION_GetBlockSize();
     GAME_DATA_GetSaveControl(func_020120F4(gameSystem)); /* result unused in the original */
     work = func_02030734(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
     work->heapId = TRIAL_HOUSE_HEAP_ID;
@@ -300,8 +300,8 @@ void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE);
     state = TRIAL_HOUSE_DELIVERY_NONE;
     delivery = func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
-    if (func_0200E5A0(delivery)) {
-        int notUsed = func_0200E5CC(delivery);
+    if (BATTLE_EXAMINATION_IsDeliveryValid(delivery)) {
+        int notUsed = BATTLE_EXAMINATION_IsDeliveryUnused(delivery);
         state = TRIAL_HOUSE_DELIVERY_FRESH;
         if (notUsed == 0) {
             state = TRIAL_HOUSE_DELIVERY_USED;
@@ -419,7 +419,7 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
     saveControl = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
     buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-        *dst = *func_0200E5F8(func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
+        *dst = *BATTLE_EXAMINATION_GetTrainerSlot(func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
     }
     func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
     func_020307B0(buf);
@@ -453,7 +453,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
     task->trialHouse = work;
     task->waitFrames = 0;
     task->param.gameKind = TRIAL_HOUSE_DELIVERY_GAME_KIND;
-    task->param.destSize = func_0200E588();
+    task->param.destSize = BATTLE_EXAMINATION_GetBlockSize();
     task->param.dest = work->delivery;
     task->param.gameVersion = GAME_LANGUAGE_Code;
     task->param.acceptMask = TRIAL_HOUSE_DELIVERY_ACCEPT_MASK;
@@ -531,12 +531,12 @@ int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
         saveControl = GAME_DATA_GetSaveControl(gameData);
         save = func_0200E8F8(saveControl);
         delivery = task->trialHouse->delivery;
-        deliveryId = func_0200E5E4(delivery);
-        isValid = func_0200E5A0(delivery);
+        deliveryId = BATTLE_EXAMINATION_GetDeliveryId(delivery);
+        isValid = BATTLE_EXAMINATION_IsDeliveryValid(delivery);
         isKnown = TRIAL_HOUSE_IsDeliveryIdReceived(save, deliveryId);
         if (isValid != 0 && (isKnown == 0 || deliveryId == 0)) {
             TRIAL_HOUSE_MarkDeliveryIdReceived(save, deliveryId);
-            func_0200E608(gameData, task->trialHouse->delivery, TRIAL_HOUSE_SAVE_HEAP_ID);
+            BATTLE_EXAMINATION_LoadDelivery(gameData, task->trialHouse->delivery, TRIAL_HOUSE_SAVE_HEAP_ID);
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_RECEIVED;
         } else if (isKnown != 0) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_KNOWN;
@@ -741,7 +741,7 @@ int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
         if (task->mode == 1) {
             func_0200E684(delivery);
         } else {
-            MI_CpuFill8(delivery, 0, func_0200E588());
+            MI_CpuFill8(delivery, 0, BATTLE_EXAMINATION_GetBlockSize());
         }
         GAME_DATA_PartSaveStart(gameData, TRIAL_HOUSE_SAVE_BLOCK);
         *seq = *seq + 1;

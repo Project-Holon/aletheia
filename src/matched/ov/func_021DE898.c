@@ -1,5 +1,5 @@
 /*
- * function: func_021DE898
+ * function: BOX2_MAIN_PlayMonCry
  * address:  0x021DE898
  * packet:   pkt_021DE898
  * region:   ov170
@@ -28,7 +28,7 @@ extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 struct PerapVoice;
 extern void func_02007C34(struct PerapVoice *p, void *a);
 
-void func_021DE898(int *q)
+void BOX2_MAIN_PlayMonCry(int *q)
 {
     int *r = *(int * *)&((struct Obj18454 *)q)->f0;
 

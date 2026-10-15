@@ -1,5 +1,5 @@
 /*
- * function: func_021FD760
+ * function: BR_UTIL_CreateHandles
  * address: 0x021FD760
  * packet: pkt_ov186_021FD760
  * region: ov186
@@ -12,8 +12,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FD6D8 0x021FD6D8 thumb ov186
- *   func_021FD964 0x021FD964 thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
+ *   BR_UTIL_EffectIdle 0x021FD964 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_02034714 0x02034714 arm
@@ -33,16 +33,16 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef unsigned char  u8;
 struct Actor;
-extern int *func_021FD6D8(int payload, int callback, u32 heap);
+extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern int BR_RES_GetSprite(char *,int,Triple *);
-extern void func_021FD964(void *unused, int *state, u8 *p);
+extern void BR_UTIL_EffectIdle(void *unused, int *state, u8 *p);
 extern void BR_RES_LoadSprite(char *,unsigned,unsigned);
 extern int CLACT_CreateActor(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern const char d_02200D5C[],d_02200D68[];
-char *func_021FD760(unsigned owner,char *resources,int index,int heap)
+char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap)
 {
     Triple triple;
     Pair pair;
@@ -52,7 +52,7 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     p=func_02030734(heap,0x264,0,d_02200D5C,0x7CA);
     MI_CpuFill8(p,0,0x264);
     ((Handles *)p)->resources=resources;((Handles *)p)->index=index;
-    ((Handles *)p)->task=(int)func_021FD6D8((int)p,(int)func_021FD964,heap);
+    ((Handles *)p)->task=(int)BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite(((Handles *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
     if(!BR_RES_GetSprite(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);

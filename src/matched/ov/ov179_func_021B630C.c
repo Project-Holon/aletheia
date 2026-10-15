@@ -1,5 +1,5 @@
 /*
- * function: func_021B630C
+ * function: CDEMO_WIPE_StartFadeInWhite
  * address:  0x021B630C
  * packet:   pkt_ov179_021B630C
  * region:   ov179
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-void func_021B630C(char *p, u32 a, u32 b, u32 c)
+void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c)
 {
     WIPE_SYS_Start(0, 0, 0, 0x7fff, a, b, 0x7f);
     ((struct Obj24469 *)p)->f6054 = c;

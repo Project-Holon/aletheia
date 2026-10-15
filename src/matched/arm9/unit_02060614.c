@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_02060614, func_0206062C, func_02060640
+ * function: NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem
  * address:  0x02060614
  * packet:   pkt_02060468
  * region:   arm9
@@ -41,7 +41,7 @@ struct Elem {
     u32 max_val;
 };
 
-void *func_02060614(struct DList *list, void *elem)
+void *NNS_FndGetNextListObject(struct DList *list, void *elem)
 {
     if (elem == 0) {
         return list->head;
@@ -49,7 +49,7 @@ void *func_02060614(struct DList *list, void *elem)
     return ((struct DListNode *)((char *)elem + list->node_offset))->next;
 }
 
-void *func_0206062C(struct DList *list, void *elem)
+void *NNS_FndGetPrevListObject(struct DList *list, void *elem)
 {
     if (elem == 0) {
         return list->tail;
@@ -57,12 +57,12 @@ void *func_0206062C(struct DList *list, void *elem)
     return ((struct DListNode *)((char *)elem + list->node_offset))->prev;
 }
 
-struct Elem *func_02060640(struct DList *list, u32 val)
+struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 {
     struct Elem *elem;
-    for (elem = (struct Elem *)func_02060614(list, 0); elem != 0; elem = (struct Elem *)func_02060614(list, elem)) {
+    for (elem = (struct Elem *)NNS_FndGetNextListObject(list, 0); elem != 0; elem = (struct Elem *)NNS_FndGetNextListObject(list, elem)) {
         if (elem->min_val <= val && val < elem->max_val) {
-            struct Elem *res = func_02060640(&elem->sublist, val);
+            struct Elem *res = NNSi_FndFindElem(&elem->sublist, val);
             if (res == 0) {
                 res = elem;
             }

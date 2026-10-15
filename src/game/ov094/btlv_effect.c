@@ -397,7 +397,6 @@ extern void CLACT_VBlankSystem(void);
 
 extern void PALANM_TransferPalettes(struct PalAnmSlot *palanm);
 
-extern void *TCBL_GetTaskUserData(void *task);
 
 extern u32 KEY_GetTrg(void);
 

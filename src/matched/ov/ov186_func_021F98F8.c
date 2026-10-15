@@ -1,5 +1,5 @@
 /*
- * function: func_021F98F8
+ * function: BR_PROC_SYS_LoadRecords
  * address: 0x021F98F8
  * packet: pkt_ov186_021F98F8
  * region: ov186
@@ -51,7 +51,7 @@ extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200A630(struct Bits *p);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-void func_021F98F8(char *p, int skip, void *sys, int heap)
+void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
 {
     int enabled=1;
     int i;

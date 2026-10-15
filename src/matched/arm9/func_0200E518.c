@@ -1,5 +1,5 @@
 /*
- * function: func_0200E518
+ * function: MISC_SAVEDATA_FoldTally
  * address:  0x0200E518
  * packet:   pkt_0200E518
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct Tally {
     u16 total16[150];   /* 0x154 */
 } Tally;
 
-void func_0200E518(Tally *t)
+void MISC_SAVEDATA_FoldTally(Tally *t)
 {
     int i;
 

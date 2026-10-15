@@ -1,5 +1,5 @@
 /*
- * function: func_021BA01C
+ * function: CTVT_MIC_Delete
  * address:  0x021BA01C
  * packet:   pkt_021B6868
  * region:   ov172
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0200566C  0x0200566C  thumb
- *   func_021BA120  0x021BA120  thumb  ov172
- *   func_021BA1D8  0x021BA1D8  thumb  ov172
+ *   CTVT_MIC_StopCapture  0x021BA120  thumb  ov172
+ *   CTVT_MIC_FreeChannel  0x021BA1D8  thumb  ov172
  *   func_0208BEF0  0x0208BEF0  arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   func_020307B0  0x020307B0  arm
@@ -29,18 +29,18 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_0200566C(void);
-extern int func_021BA120(u32 *p);
-extern void func_021BA1D8(void *p);
+extern int CTVT_MIC_StopCapture(u32 *p);
+extern void CTVT_MIC_FreeChannel(void *p);
 extern unsigned int func_0208BEF0(unsigned int status);
 extern void GFL_NET_FreeAligned(void *p);
 extern u32 func_020307B0(void *p);
 
-void func_021BA01C(char *p)
+void CTVT_MIC_Delete(char *p)
 {
     func_0200566C();
     *(u32 *)0x021C88EC = 0;
-    func_021BA120((u32 *)p);
-    func_021BA1D8(p);
+    CTVT_MIC_StopCapture((u32 *)p);
+    CTVT_MIC_FreeChannel(p);
     func_0208BEF0(0);
     GFL_NET_FreeAligned(((struct Obj04554 *)p)->f4);
     func_020307B0(p);

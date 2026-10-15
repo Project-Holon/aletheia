@@ -1,5 +1,5 @@
 /*
- * function: func_021BFC28
+ * function: RESEARCH_GRAPH_DestroyCircles
  * address:  0x021BFC28
  * packet:   pkt_ov217_021BFC28
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 CircleGraph_Destroy(void *a0);
-void func_021BFC28(char *p)
+void RESEARCH_GRAPH_DestroyCircles(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

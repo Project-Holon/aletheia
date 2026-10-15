@@ -1,5 +1,5 @@
 /*
- * function: func_0219F920
+ * function: SBReleaseStr
  * address:  0x0219F920
  * packet:   pkt_ov009_0219F920
  * region:   ov009
@@ -21,7 +21,7 @@ struct Ref { char *str; int refcount; };
 extern void *func_0219DF64(void *l);
 extern struct Ref *func_0218482C(void *t, void *k);
 extern int func_021847BC(void *t, void *k);
-void func_0219F920(void *slist, char *str)
+void SBReleaseStr(void *slist, char *str)
 {
 	struct Ref ref;
 	struct Ref *val;

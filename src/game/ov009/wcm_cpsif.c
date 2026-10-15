@@ -26,7 +26,7 @@
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
  *   func_02166D2C  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -75,7 +75,7 @@ extern void OS_InitMutex(void *mutex);
 extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 extern int OS_IsRunOnTwl(void);
@@ -236,7 +236,7 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
         OS_RestoreInterrupts(e);
         return -1;
     }
-    func_02086028(g_021AA7E8);
+    OS_LockMutex(g_021AA7E8);
     w = (WCMWork_02166444 *)WCMi_GetSystemWork();
     if (w == 0) {
         OS_UnlockMutex(g_021AA7E8);

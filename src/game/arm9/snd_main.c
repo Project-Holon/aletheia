@@ -1,7 +1,7 @@
 /*
  * file:     snd_main.c
  * unit:     yes
- * function: func_02089848, func_02089880, func_02089894
+ * function: SND_Init, SNDi_LockMutex, SNDi_UnlockMutex
  * address:  0x02089848
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   SND_AlarmInit                0x02089F88  arm
  *   _ZZ8SND_InitvE11initialized  0x02151450  data
  *   sSndMutex                    0x02151454  data
- *   func_02086028    0x02086028  arm
+ *   OS_LockMutex    0x02086028  arm
  *   s_data_02151454  0x02151454  data
  *   func_02086078    0x02086078  arm
  */
@@ -29,21 +29,20 @@ typedef struct OSMutex OSMutex;
 extern void OS_InitMutex(OSMutex *mutex);
 extern void SND_CommandInit(void);
 extern void SND_AlarmInit(void);
-extern void func_02086028(void *arg);
+extern void OS_LockMutex(void *arg);
 extern void func_02086078(void *arg);
-void func_02089848(void);
-void func_02089880(void);
-void func_02089894(void);
+void SND_Init(void);
+void SNDi_LockMutex(void);
+void SNDi_UnlockMutex(void);
 /* SND_Init's function-local static "initialized" */
 extern BOOL _ZZ8SND_InitvE11initialized;
 extern OSMutex sSndMutex;
-extern void *s_data_02151454;
 
 
 /*
  * sdk:      SND_Init (snd_main.o)
  */
-void func_02089848(void)
+void SND_Init(void)
 {
     if (_ZZ8SND_InitvE11initialized) {
         return;
@@ -55,13 +54,13 @@ void func_02089848(void)
 }
 
 
-void func_02089880(void)
+void SNDi_LockMutex(void)
 {
-    func_02086028(&s_data_02151454);
+    OS_LockMutex(&sSndMutex);
 }
 
 
-void func_02089894(void)
+void SNDi_UnlockMutex(void)
 {
-    func_02086078(&s_data_02151454);
+    func_02086078(&sSndMutex);
 }

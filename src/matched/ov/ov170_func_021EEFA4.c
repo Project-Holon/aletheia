@@ -1,5 +1,5 @@
 /*
- * function: func_021EEFA4
+ * function: BOX2_UI_PlaceCursorBetween
  * address: 0x021EEFA4
  * packet: pkt_ov170_021EEFA4
  * region: ov170
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F1418[];
-void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
+void BOX2_UI_PlaceCursorBetween(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
 {
     Motion *s;
     s=func_02030734(0x4c,8,0,d_021F1418,0x98f);

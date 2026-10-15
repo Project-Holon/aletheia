@@ -1,5 +1,5 @@
 /*
- * function: func_021DEC98
+ * function: BOX2_MAIN_SetBoxScroll
  * address:  0x021DEC98
  * packet:   pkt_ov170_021DEC98
  * region:   ov170
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DEC64 0x021DEC64 thumb
- *   func_021EB7E8 0x021EB7E8 thumb
- *   func_021EE224 0x021EE224 thumb
- *   func_021EE234 0x021EE234 thumb
- *   func_021EE244 0x021EE244 thumb
+ *   BOX2_MAIN_LoadBgTiles 0x021DEC64 thumb
+ *   BOX2_SEQ_DrawBoxName 0x021EB7E8 thumb
+ *   BOX2_UI_SetSlotOamEnabled 0x021EE224 thumb
+ *   BOX2_UI_GetSlotOamEnabled 0x021EE234 thumb
+ *   BOX2_UI_MoveSlotOam 0x021EE244 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj14262.h"
@@ -26,13 +26,13 @@
 #include "../include/Obj23859.h"
 #include "../include/Obj23860.h"
 
-extern void func_021DEC64(void *a, void *b, int c, void *d, int e);
-extern void func_021EB7E8(char **p, unsigned box, int i);
-extern void func_021EE224(char *p, int i, int v);
-extern int func_021EE234(int *a, int i);
-extern void func_021EE244(char *p, int i, int flag);
+extern void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e);
+extern void BOX2_SEQ_DrawBoxName(char **p, unsigned box, int i);
+extern void BOX2_UI_SetSlotOamEnabled(char *p, int i, int v);
+extern int BOX2_UI_GetSlotOamEnabled(int *a, int i);
+extern void BOX2_UI_MoveSlotOam(char *p, int i, int flag);
 
-void func_021DEC98(char *p, void *a, int dir)
+void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir)
 {
     int d, e, i;
     char *q;
@@ -54,16 +54,16 @@ void func_021DEC98(char *p, void *a, int dir)
         e = 0xF;
     }
     ((struct Obj14262 *)q)->fA179 ^= 1;
-    func_021DEC64((void *)p, a, ((struct Obj23860 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178, (void *)d, e);
+    BOX2_MAIN_LoadBgTiles((void *)p, a, ((struct Obj23860 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178, (void *)d, e);
     if (dir == 2) {
-        func_021EB7E8((char **)p, (unsigned char)p[0x14], 7);
-        func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, 8, 0);
+        BOX2_SEQ_DrawBoxName((char **)p, (unsigned char)p[0x14], 7);
+        BOX2_UI_SetSlotOamEnabled(*(char * *)&((struct Obj00000 *)p)->f2C, 8, 0);
         return;
     }
     i = 7;
-    if (func_021EE234((int *)(*(char * *)&((struct Obj00000 *)p)->f2C), 7) == 1)
+    if (BOX2_UI_GetSlotOamEnabled((int *)(*(char * *)&((struct Obj00000 *)p)->f2C), 7) == 1)
         i = 8;
-    func_021EB7E8((char **)p, (unsigned char)p[0x14], i);
-    func_021EE244(*(char * *)&((struct Obj00000 *)p)->f2C, i, dir);
-    func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
+    BOX2_SEQ_DrawBoxName((char **)p, (unsigned char)p[0x14], i);
+    BOX2_UI_MoveSlotOam(*(char * *)&((struct Obj00000 *)p)->f2C, i, dir);
+    BOX2_UI_SetSlotOamEnabled(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
 }

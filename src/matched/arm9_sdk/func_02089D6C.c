@@ -1,5 +1,5 @@
 /*
- * function: func_02089D6C
+ * function: SND_IsFinishedCommandTag
  * address:  0x02089D6C
  * packet:   pkt_02089D6C
  * region:   arm9
@@ -43,7 +43,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommandState sFreeList;
 
-BOOL func_02089D6C(u32 tag)
+BOOL SND_IsFinishedCommandTag(u32 tag)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
     BOOL result;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E954C
+ * function: BOX2_SEQ_GotoBox2MainWithSlot
  * address:  0x021E954C
  * packet:   pkt_ov170_021E954C
  * region:   ov170
@@ -30,7 +30,7 @@ typedef struct {
     Work *work;
 } Sys;
 
-int func_021E954C(Sys *p, int id, int lo, int arg)
+int BOX2_SEQ_GotoBox2MainWithSlot(Sys *p, int id, int lo, int arg)
 {
     p->work->flag = 0;
     p->work->id = (unsigned char)id;

@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_021469F8     0x021469F8  data
- *   func_02081B8C  0x02081B8C  arm
+ *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *
  * TU: gf_standard.c.
  *
@@ -42,7 +42,7 @@ struct Mt {
 extern struct Mt *g_021469F8;
 
 struct MATHCRC16Table;
-extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
+extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
 u16 func_0203F1FC(const u8 *src, u32 len)
 {
@@ -51,8 +51,8 @@ u16 func_0203F1FC(const u8 *src, u32 len)
 
         pair[0] = src[0];
         pair[1] = src[0];
-        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
     } else {
-        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
     }
 }

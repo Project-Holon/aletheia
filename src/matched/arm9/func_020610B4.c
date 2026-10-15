@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020610B4
+ * function: NNSi_FndResetFrmHeapState
  * address:  0x020610B4
  * packet:   pkt_02060CD0
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-void func_020610B4(int *p)
+void NNSi_FndResetFrmHeapState(int *p)
 {
     int *q = (int *)p[0xb];
     if (q != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021C00AC
+ * function: RESEARCH_GRAPH_LoadBackground6
  * address: 0x021C00AC
  * packet: pkt_ov217_021C00AC
  * region: ov217
@@ -28,7 +28,7 @@ extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_020409B4(u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C00AC(char *p)
+void RESEARCH_GRAPH_LoadBackground6(char *p)
 {
     void *out;
     void *h;

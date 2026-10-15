@@ -13,8 +13,8 @@
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_020879EC  0x020879EC  arm
- *   func_020860D0  0x020860D0  arm
- *   func_02086028  0x02086028  arm
+ *   OS_TryLockMutex  0x020860D0  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
@@ -101,8 +101,8 @@ struct SOCLiCommandRead {
 
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_020879EC(void);
-extern int func_020860D0(void *mutex);
-extern void func_02086028(void *mutex);
+extern int OS_TryLockMutex(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void OS_Sleep(unsigned long msec);
@@ -185,10 +185,10 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
     }
     recv_pipe = socket->recv_pipe;
     if (!(flag_block & 1)) {
-        if (!func_020860D0(recv_pipe->mutex))
+        if (!OS_TryLockMutex(recv_pipe->mutex))
             return -6;
     } else {
-        func_02086028(recv_pipe->mutex);
+        OS_LockMutex(recv_pipe->mutex);
     }
     result = func_0215D7FC(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
     func_02086078(recv_pipe->mutex);

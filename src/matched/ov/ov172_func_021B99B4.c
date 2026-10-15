@@ -1,5 +1,5 @@
 /*
- * function: func_021B99B4
+ * function: CTVT_TALK_UpdateVoiceIcon
  * address:  0x021B99B4
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021B99B4(void *a0, char *a1)
+void CTVT_TALK_UpdateVoiceIcon(void *a0, char *a1)
 {
     u32 v = ((struct Obj06561 *)a1)->fA4;
     u32 w = ((struct Obj06561 *)a1)->fA8;

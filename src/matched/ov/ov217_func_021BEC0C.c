@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC0C
+ * function: RESEARCH_GRAPH_SwapCenterPairs
  * address:  0x021BEC0C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BEC0C(void *p)
+void RESEARCH_GRAPH_SwapCenterPairs(void *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

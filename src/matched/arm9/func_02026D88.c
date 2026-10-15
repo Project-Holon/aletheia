@@ -44,10 +44,10 @@
  *   GAME_DATA_GetPlayTime    0x02012FCC  thumb
  *   func_0200864C    0x0200864C  thumb
  *   func_02008650    0x02008650  thumb
- *   func_0200E394    0x0200E394  thumb
- *   func_0200E3A0    0x0200E3A0  thumb
+ *   SYMBOL_SAVE_GetBitBlock    0x0200E394  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireBits    0x0200E3A0  thumb
  *   MI_CpuCopy8      0x02082D44  arm
- *   func_0200E6FC    0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord    0x0200E6FC  thumb
  *   GAME_BEACON_SetMyPms    0x020274B4  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_020084F4    0x020084F4  thumb
@@ -134,10 +134,10 @@ extern u32 func_0200C1DC(struct Blk34 *p);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
-extern void *func_0200E394(void *p);
-extern void *func_0200E3A0(void *p);
+extern void *SYMBOL_SAVE_GetBitBlock(void *p);
+extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *p);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void GAME_BEACON_SetMyPms(u32 a0);
 extern u16   STRBUF_GetEosChar(void);
 extern u16  *func_020084F4(void *p);
@@ -188,8 +188,8 @@ void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
     st = (void *)GAME_DATA_GetPlayTime((int)sys);
     o->trainer = func_0200864C(st);
     o->f0chi = func_02008650(st);
-    MI_CpuCopy8(func_0200E3A0(func_0200E394(save)), o->f50, 10);
-    func_0200E6FC(bag, 0, (struct Rec0200E6FC *)(&src));
+    MI_CpuCopy8(SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(save)), o->f50, 10);
+    MISC_SAVEDATA_CopyQuadRecord(bag, 0, (struct Rec0200E6FC *)(&src));
     GAME_BEACON_SetMyPms((u32)(&src));
     v = STRBUF_GetEosChar();
     q = func_020084F4(prof);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA210
+ * function: BR_BTN_PopPosPair
  * address: 0x021FA210
  * packet: pkt_ov186_021FA210
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj14451.h"
-void func_021FA210(char *p) { if (((struct Obj14451 *)p)->f18!=0) (((struct Obj14451 *)p)->f18)--; }
+void BR_BTN_PopPosPair(char *p) { if (((struct Obj14451 *)p)->f18!=0) (((struct Obj14451 *)p)->f18)--; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB70
+ * function: BOX2_MAIN_LoadBgPaletteTile
  * address:  0x021DEB70
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021DEB70(int a, int b, int c)
+void BOX2_MAIN_LoadBgPaletteTile(int a, int b, int c)
 {
     func_02049B40(0x74, b + 0x26, 0, c << 5, 0x20, 0x4c);
 }

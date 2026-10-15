@@ -1,5 +1,5 @@
 /*
- * function: func_021FB3BC
+ * function: BR_BTN_CreateObject
  * address: 0x021FB3BC
  * packet: pkt_ov186_021FB3BC
  * region: ov186
@@ -45,7 +45,7 @@ extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_OAM_SetObjMode(u8 *,u32);
 extern const char d_02200D1C[];
-Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const Triple *triple,u16 heap)
+Obj *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const Triple *triple,u16 heap)
 {
     Param param;
     const Triple *config;

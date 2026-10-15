@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEA3C",
+   "name": "RESEARCH_GRAPH_CycleGroup",
    "address": "0x021BEA3C",
    "kind": "game",
    "region": "ov217",

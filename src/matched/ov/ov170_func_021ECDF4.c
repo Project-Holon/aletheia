@@ -1,5 +1,5 @@
 /*
- * function: func_021ECDF4
+ * function: BOX2_SEQ_LoadBoxScreen
  * address:  0x021ECDF4
  * packet:   pkt_ov170_021ECDF4
  * region:   ov170
@@ -59,7 +59,7 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 
 #define SLOT(w, o) (*(void **)((w) + (o)))
 
-void func_021ECDF4(char *w)
+void BOX2_SEQ_LoadBoxScreen(char *w)
 {
     void *h;
     unsigned i;

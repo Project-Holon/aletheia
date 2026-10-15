@@ -1,5 +1,5 @@
 /*
- * function: func_021DD4B8
+ * function: BOX2_MAIN_RegisterSeenAndForm
  * address: 0x021DD4B8
  * packet: pkt_ov170_021DD4B8
  * region: ov170
@@ -9,11 +9,11 @@
  * status: EXACT
  * lever: declaring m before box selects r7 for m and r6 for box.
  * symbols:
- *   func_021DD684 0x021DD684 thumb ov170
- *   func_021DD8A8 0x021DD8A8 thumb ov170
- *   func_021DD314 0x021DD314 thumb ov170
- *   func_021EDAB0 0x021EDAB0 thumb ov170
- *   func_021EDB34 0x021EDB34 thumb ov170
+ *   BOX2_MAIN_WrapSlot 0x021DD684 thumb ov170
+ *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb ov170
+ *   BOX2_MAIN_ClearSlot 0x021DD314 thumb ov170
+ *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
+ *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb ov170
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
@@ -22,11 +22,11 @@
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0200752C 0x0200752C thumb
  */
-extern int func_021DD684(unsigned char *,unsigned);
-extern void func_021DD8A8(unsigned char *,unsigned);
-extern void func_021DD314(char **p, int a, unsigned b);
-extern void func_021EDAB0(char *p, int i);
-extern void func_021EDB34(char *p, int a);
+extern int BOX2_MAIN_WrapSlot(unsigned char *,unsigned);
+extern void BOX2_MAIN_RecalcPartyParam(unsigned char *,unsigned);
+extern void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b);
+extern void BOX2_UI_DrawSlot(char *p, int i);
+extern void BOX2_UI_DrawSlotByName(char *p, int a);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 typedef unsigned int   u32;
@@ -37,19 +37,19 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
-void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
+void BOX2_MAIN_RegisterSeenAndForm(unsigned char *p,unsigned a,unsigned b)
 {
     void *m;
     unsigned box;
-    box=func_021DD684(p,b);
+    box=BOX2_MAIN_WrapSlot(p,b);
     m=POKEPARTY_GetMember((*(void ***)p)[2],a-30);
     if(POKE_TOOL_GetPartyValue(m,5,0)==492){
         POKE_TOOL_ChangeForm(m,0);
-        func_021DD8A8(p,a);
+        BOX2_MAIN_RecalcPartyParam(p,a);
         ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((*(void ***)p)[0]),m);
     }
     func_0200752C((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam(m));
-    func_021DD314((char **)p,p[0x14],a);
-    func_021EDAB0((char *)p,box);
-    func_021EDB34((char *)p,box);
+    BOX2_MAIN_ClearSlot((char **)p,p[0x14],a);
+    BOX2_UI_DrawSlot((char *)p,box);
+    BOX2_UI_DrawSlotByName((char *)p,box);
 }

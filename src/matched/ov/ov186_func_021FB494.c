@@ -1,5 +1,5 @@
 /*
- * function: func_021FB494
+ * function: BR_BTN_DeleteObject
  * address: 0x021FB494
  * packet: pkt_ov186_021FB494
  * region: ov186
@@ -21,4 +21,4 @@ extern void BMP_Delete(struct Obj020437AC *);
 extern void CLACT_DeleteActor(struct Obj *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FB494(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct Obj10785 *)p)->f4);BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10785 *)p)->f8);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10785 *)p)->f0);func_020307B0(p); }
+void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct Obj10785 *)p)->f4);BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10785 *)p)->f8);CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10785 *)p)->f0);func_020307B0(p); }

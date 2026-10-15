@@ -8,8 +8,8 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
- *   func_021F9CA4 0x021F9CA4 thumb
- *   func_021F9BF4 0x021F9BF4 thumb
+ *   BR_PROC_SYS_ClearEntry 0x021F9CA4 thumb
+ *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb
  *   d_02200D04 0x02200D04 data a1
  */
 typedef unsigned short u16;
@@ -17,8 +17,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void *PROCSYS_Create(int a0);
-extern void func_021F9CA4(void *);
-extern void func_021F9BF4(unsigned *ctx, unsigned index);
+extern void BR_PROC_SYS_ClearEntry(void *);
+extern void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 extern char d_02200D04[];
 typedef struct {
     unsigned object;
@@ -42,17 +42,17 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
     ctx->base = base;
     ctx->list = list;
     ctx->object = (unsigned int)PROCSYS_Create(heap);
-    func_021F9CA4((char *)ctx + 0x2c);
-    func_021F9CA4((char *)ctx + 0x3c);
-    func_021F9CA4((char *)ctx + 0x1c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x2c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x1c);
     if (ctx->list[6]) {
         for (i = 0; i < ctx->list[6]; i++) {
-            func_021F9BF4((unsigned int *)ctx, (unsigned short)ctx->list[i]);
+            BR_PROC_SYS_PushEntry((unsigned int *)ctx, (unsigned short)ctx->list[i]);
         }
         MI_CpuFill8(ctx->list, 0, 0x1c);
         ctx->loaded = 1;
     } else {
-        func_021F9BF4((unsigned int *)ctx, fallback);
+        BR_PROC_SYS_PushEntry((unsigned int *)ctx, fallback);
     }
     return ctx;
 }

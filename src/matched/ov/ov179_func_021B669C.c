@@ -1,5 +1,5 @@
 /*
- * function: func_021B669C
+ * function: CDEMO_SCENE_LoadScreenBlock
  * address:  0x021B669C
  * packet:   pkt_ov179_021B669C
  * region:   ov179
@@ -25,7 +25,7 @@ extern void GX_LoadBG2Scr(int, int, int);
 extern void func_0207ECF0(int, int, int);
 extern u32 func_020307B0(void *p);
 
-void func_021B669C(int a, int b, int c, int d, int e)
+void CDEMO_SCENE_LoadScreenBlock(int a, int b, int c, int d, int e)
 {
     int t = (int)ARC_UTIL_LoadHandleMember((void *)a, b, 1, 0x807f);
 

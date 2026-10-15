@@ -1,5 +1,5 @@
 /*
- * function: func_0200E5CC
+ * function: BATTLE_EXAMINATION_IsDeliveryUnused
  * address:  0x0200E5CC
  * packet:   pkt_0200E5CC
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-int func_0200E5CC(void *p)
+int BATTLE_EXAMINATION_IsDeliveryUnused(void *p)
 {
     if (((struct Obj15607 *)p)->f5C4 & 0x8000) {
         return 0;

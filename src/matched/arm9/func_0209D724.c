@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D724
+ * function: MSL_CONSOLE_IO_NoopFinalizer
  * address:  0x0209D724
  * packet:   pkt_0209D724
  * region:   arm9
@@ -17,6 +17,6 @@
  * (0x0209C2B0..0x0209D724).
  */
 
-void func_0209D724(void)
+void MSL_CONSOLE_IO_NoopFinalizer(void)
 {
 }

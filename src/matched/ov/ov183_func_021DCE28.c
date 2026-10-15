@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FD640 0x021FD640 thumb ov186
+ *   BR_UTIL_DeleteProfileScreen 0x021FD640 thumb ov186
  */
 #include "../include/Obj00050.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void func_021FD640(int *);
-void func_021DCE28(char *p,char *unused) { if(((struct Obj00050 *)p)->fDC && *(int * *)&((struct Obj00050 *)p)->f44) { func_021FD640(*(int * *)&((struct Obj00050 *)p)->f44); *(int *)&((struct Obj00050 *)p)->f44=0; ((struct Obj00050 *)p)->fDC=0; } }
+extern void BR_UTIL_DeleteProfileScreen(int *);
+void func_021DCE28(char *p,char *unused) { if(((struct Obj00050 *)p)->fDC && *(int * *)&((struct Obj00050 *)p)->f44) { BR_UTIL_DeleteProfileScreen(*(int * *)&((struct Obj00050 *)p)->f44); *(int *)&((struct Obj00050 *)p)->f44=0; ((struct Obj00050 *)p)->fDC=0; } }

@@ -4,7 +4,6 @@
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- * unit:     yes
  * address:  0x0200C3F4
  * packet:   pkt_0200C0E8
  * region:   arm9
@@ -13,40 +12,45 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C40C,, func_0200C3F4, func_0200C3F8, func_0200C404, func_0200C520, func_0200C528
- *           func_0200C418, func_0200C44C, func_0200C464, func_0200C468,
- *           func_0200C480, func_0200C4E8
+ * function: RECENT_ID_LIST_SAVEDATA_GetBlock, RECENT_ID_LIST_SAVEDATA_GetBlockFromSys,
+ *           RECENT_ID_LIST_SAVEDATA_GetBlockSize, RECENT_ID_LIST_SAVEDATA_InitBlock,
+ *           RECENT_ID_LIST_SAVEDATA_SetId, RECENT_ID_LIST_SAVEDATA_ContainsId,
+ *           RECENT_ID_LIST_SAVEDATA_GetIdAt, RECENT_ID_LIST_SAVEDATA_CountIds,
+ *           RECENT_ID_LIST_SAVEDATA_InsertId, RECENT_ID_LIST_SAVEDATA_CompactIds,
+ *           RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize, RECENT_ID_LIST_SAVEDATA_InitArea
  *
- * 300 bytes, 0x0200C3F4..0x0200C520, 10 functions, six of which carry no
+ * 300 bytes, 0x0200C3F4..0x0200C520, 12 functions, six of which carry no
  * label in the generated listing.
  *
  * The object is the save block with id 0x36 and it is 26 bytes of nothing but
  * a list: 25 slots holding small ids, with 25 itself as the empty marker, and
- * one slot past the end that func_0200C418 writes into when the list is full.
- * The size getter, the constructor's `MI_CpuFill8(p, 25, 26)` and the three
- * loop bounds all agree, which is what pins the length.
+ * one slot past the end that RECENT_ID_LIST_SAVEDATA_SetId writes into when
+ * the list is full.  The size getter, the constructor's MI_CpuFill8(list, 25,
+ * 26) and the three loop bounds all agree, which is what pins the length.
  *
- * func_0200C480 is a most-recently-used insert: it removes the id if it is
- * already listed, then either takes the first free slot (when the caller
- * passes 0xFF) or shifts the tail down by one and drops the id in at the
- * requested position.  Three things in it are worth recording.
+ * RECENT_ID_LIST_SAVEDATA_InsertId is a most-recently-used insert: it removes
+ * the id if it is already listed, then either takes the first free slot (when
+ * the caller passes 0xFF) or shifts the tail down by one and drops the id in
+ * at the requested position.  Three things in it are worth recording.
  *
  *  - the index of the first loop is `s16` and the index of the second is
  *    `u8`, which is not a guess: one increments through `lsls #0x10 / asrs
  *    #0x10` and the other through `lsls #0x18 / lsrs #0x18`, and the widths
  *    are the types.
- *  - the store `a[pos] = id` and the `return pos` exist once between them
- *    all, reached by a branch from each arm.  Writing the early exit as
- *    `a[pos] = id; goto out;` inside the loop is what produces that: the
- *    compiler cross-jumps the two identical blocks and leaves the loop with
- *    `bne` over a `b` to the shared copy.  Written as `return pos;` the
- *    block is emitted twice and the function is four bytes long; written as
- *    a bare `goto store;` to a label in front of the store it is two bytes
- *    short, because a single conditional branch then reaches the target.
- *  - func_0200C4E8 clamps `i + 1` into 1..24 before using it as the swap
- *    partner, so slot 0 and slot 24 are both their own neighbour at the
- *    ends.  The clamp is two compares against hoisted constants, which is
- *    what an `if`/`else if` pair gives and a `min`/`max` pair does not.
+ *  - the store `ids[position] = id` and the `return position` exist once
+ *    between them all, reached by a branch from each arm.  Writing the early
+ *    exit as `ids[position] = id; goto out;` inside the loop is what produces
+ *    that: the compiler cross-jumps the two identical blocks and leaves the
+ *    loop with `bne` over a `b` to the shared copy.  Written as `return
+ *    position;` the block is emitted twice and the function is four bytes
+ *    long; written as a bare `goto store;` to a label in front of the store
+ *    it is two bytes short, because a single conditional branch then reaches
+ *    the target.
+ *  - RECENT_ID_LIST_SAVEDATA_CompactIds clamps `i + 1` into 1..24 before
+ *    using it as the swap partner, so slot 0 and slot 24 are both their own
+ *    neighbour at the ends.  The clamp is two compares against hoisted
+ *    constants, which is what an `if`/`else if` pair gives and a `min`/`max`
+ *    pair does not.
  */
 
 typedef unsigned char  u8;
@@ -56,194 +60,160 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-struct Sub020071CCCtrl;
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-
-struct Blk36 {
-    u8 unk00[26];
-};
-
-void func_0200C4E8(u8 *a);
+struct SaveControl;
+extern void *func_020071CC(struct SaveControl *saveControl, u32 id);
 
 /*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C418, func_0200C44C, func_0200C464, func_0200C468,
- *           func_0200C480, func_0200C4E8
- *
- * 300 bytes, 0x0200C3F4..0x0200C520, 10 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is the save block with id 0x36 and it is 26 bytes of nothing but
- * a list: 25 slots holding small ids, with 25 itself as the empty marker, and
- * one slot past the end that func_0200C418 writes into when the list is full.
- * The size getter, the constructor's `MI_CpuFill8(p, 25, 26)` and the three
- * loop bounds all agree, which is what pins the length.
- *
- * func_0200C480 is a most-recently-used insert: it removes the id if it is
- * already listed, then either takes the first free slot (when the caller
- * passes 0xFF) or shifts the tail down by one and drops the id in at the
- * requested position.  Three things in it are worth recording.
- *
- *  - the index of the first loop is `s16` and the index of the second is
- *    `u8`, which is not a guess: one increments through `lsls #0x10 / asrs
- *    #0x10` and the other through `lsls #0x18 / lsrs #0x18`, and the widths
- *    are the types.
- *  - the store `a[pos] = id` and the `return pos` exist once between them
- *    all, reached by a branch from each arm.  Writing the early exit as
- *    `a[pos] = id; goto out;` inside the loop is what produces that: the
- *    compiler cross-jumps the two identical blocks and leaves the loop with
- *    `bne` over a `b` to the shared copy.  Written as `return pos;` the
- *    block is emitted twice and the function is four bytes long; written as
- *    a bare `goto store;` to a label in front of the store it is two bytes
- *    short, because a single conditional branch then reaches the target.
- *  - func_0200C4E8 clamps `i + 1` into 1..24 before using it as the swap
- *    partner, so slot 0 and slot 24 are both their own neighbour at the
- *    ends.  The clamp is two compares against hoisted constants, which is
- *    what an `if`/`else if` pair gives and a `min`/`max` pair does not.
+ * The save block with id 0x36.  ids[0..24] hold small ids and the value 25
+ * marks an empty slot; ids[25] is the extra slot the full-list case writes.
  */
-u32 func_0200C3F4(void)
+struct RecentIdList {
+    u8 ids[26];
+};
+
+void RECENT_ID_LIST_SAVEDATA_CompactIds(u8 *ids);
+
+u32 RECENT_ID_LIST_SAVEDATA_GetBlockSize(void)
 {
-    return sizeof(struct Blk36);
+    return sizeof(struct RecentIdList);
 }
 
-void func_0200C3F8(struct Blk36 *p)
+void RECENT_ID_LIST_SAVEDATA_InitBlock(struct RecentIdList *list)
 {
-    MI_CpuFill8(p, 25, sizeof(struct Blk36));
+    MI_CpuFill8(list, 25, sizeof(struct RecentIdList));
 }
 
-void *func_0200C40C(void *sys);
+void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 
-void *func_0200C404(void *sys)
+void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys)
 {
-    return func_0200C40C(sys);
+    return RECENT_ID_LIST_SAVEDATA_GetBlock(sys);
 }
 
-void *func_0200C40C(void *sys)
+void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys)
 {
     return func_020071CC(sys, 0x36);
 }
 
-void func_0200C418(u8 *a, u32 id, u32 on)
+void RECENT_ID_LIST_SAVEDATA_SetId(u8 *ids, u32 id, u32 enabled)
 {
     s32 i;
 
-    if (on) {
+    if (enabled) {
         for (i = 0; i < 25; i++) {
-            if (id == a[i]) {
+            if (id == ids[i]) {
                 return;
             }
-            if (a[i] == 25) {
+            if (ids[i] == 25) {
                 break;
             }
         }
-        a[i] = id;
+        ids[i] = id;
     } else {
         for (i = 0; i < 25; i++) {
-            if (id == a[i]) {
-                a[i] = 25;
+            if (id == ids[i]) {
+                ids[i] = 25;
             }
         }
     }
-    func_0200C4E8(a);
+    RECENT_ID_LIST_SAVEDATA_CompactIds(ids);
 }
 
-u32 func_0200C44C(const u8 *a, u8 id)
+u32 RECENT_ID_LIST_SAVEDATA_ContainsId(const u8 *ids, u8 id)
 {
     s32 i;
 
     for (i = 0; i < 25; i++) {
-        if (id == a[i]) {
+        if (id == ids[i]) {
             return 1;
         }
     }
     return 0;
 }
 
-u8 func_0200C464(const u8 *a, u32 i)
+u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *ids, u32 index)
 {
-    return a[i];
+    return ids[index];
 }
 
-u16 func_0200C468(const u8 *a)
+u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *ids)
 {
     s32 i;
-    s32 n = 0;
+    s32 count = 0;
 
     for (i = 0; i < 25; i++) {
-        if (a[i] != 25) {
-            n++;
+        if (ids[i] != 25) {
+            count++;
         }
     }
-    return n;
+    return count;
 }
 
-u8 func_0200C480(u8 *a, int id, u8 pos)
+u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *ids, int id, u8 position)
 {
+    s16 previousPos;
     s16 i;
-    s16 j;
 
-    for (i = 0; i < 25; i++) {
-        if (id == a[i]) {
+    for (previousPos = 0; previousPos < 25; previousPos++) {
+        if (id == ids[previousPos]) {
             break;
         }
     }
-    func_0200C418(a, id, 0);
-    if (pos == 0xFF) {
-        for (pos = 0; pos < 25; pos++) {
-            if (a[pos] == 25) {
-                a[pos] = id;
+    RECENT_ID_LIST_SAVEDATA_SetId(ids, id, 0);
+    if (position == 0xFF) {
+        for (position = 0; position < 25; position++) {
+            if (ids[position] == 25) {
+                ids[position] = id;
                 goto out;
             }
         }
         goto out;
     }
-    if (i < pos) {
-        pos--;
+    if (previousPos < position) {
+        position--;
     }
-    for (j = 24; j >= pos; j--) {
-        a[j] = a[j - 1];
+    for (i = 24; i >= position; i--) {
+        ids[i] = ids[i - 1];
     }
-    a[pos] = id;
+    ids[position] = id;
 out:
-    return pos;
+    return position;
 }
 
-void func_0200C4E8(u8 *a)
+void RECENT_ID_LIST_SAVEDATA_CompactIds(u8 *ids)
 {
     u16 i;
-    u16 k;
-    s32 t;
-    u8 tmp;
+    u16 neighbor;
+    s32 neighborIndex;
+    u8 value;
 
     for (i = 0; i < 25; i++) {
-        t = i + 1;
-        if (t > 24) {
-            t = 24;
-        } else if (t < 1) {
-            t = 1;
+        neighborIndex = i + 1;
+        if (neighborIndex > 24) {
+            neighborIndex = 24;
+        } else if (neighborIndex < 1) {
+            neighborIndex = 1;
         }
-        k = t;
-        tmp = a[i];
-        if (tmp == 25) {
-            a[i] = a[k];
-            a[k] = tmp;
+        neighbor = neighborIndex;
+        value = ids[i];
+        if (value == 25) {
+            ids[i] = ids[neighbor];
+            ids[neighbor] = value;
         }
     }
 }
 
 
-int func_0200C520(void);
+int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void);
 
-int func_0200C520(void)
+int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void)
 {
     return 0x1FC00;
 }
 
 
-void func_0200C528(void);
+void RECENT_ID_LIST_SAVEDATA_InitArea(void);
 
-void func_0200C528(void)
+void RECENT_ID_LIST_SAVEDATA_InitArea(void)
 {
 }

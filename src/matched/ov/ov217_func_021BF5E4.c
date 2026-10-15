@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5E4
+ * function: RESEARCH_GRAPH_UpdateSlotPalettes
  * address:  0x021BF5E4
  * packet:   pkt_021BF5E4
  * region:   ov217
@@ -17,7 +17,7 @@
 
 extern void PALETTE_ANIME_Update(int);
 
-void func_021BF5E4(int *p)
+void RESEARCH_GRAPH_UpdateSlotPalettes(int *p)
 {
     int i;
     for (i = 0; i < 8; i++)

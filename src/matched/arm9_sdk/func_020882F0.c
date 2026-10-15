@@ -1,5 +1,5 @@
 /*
- * function: func_020882F0
+ * function: OS_WaitEventEx
  * address:  0x020882F0
  * packet:   pkt_020882F0
  * region:   arm9
@@ -40,7 +40,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OS_SleepThread(OSThreadQueue *queue);
 
-u32 func_020882F0(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
+u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
 {
     u32 retval = 0;
     OSIntrMode enable = OS_DisableInterrupts();

@@ -10,14 +10,14 @@
  * symbols:
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   gBrPokeSearchHitTable 0x02200CD0 data a1
  */
 #include "../include/Obj24879.h"
 extern int TOUCHPANEL_HitTrg(const void *);
 extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *outA, unsigned int *outB);
-extern void func_021FD860(int, int, int *);
+extern void BR_UTIL_StartEffect(int, int, int *);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern const char gBrPokeSearchHitTable[];
@@ -30,7 +30,7 @@ int BR_POKESEARCH_PollGroupTouch(char *p)
             TOUCHPANEL_GetPointTrg((unsigned int *)(&x), (unsigned int *)(&y));
             args[0] = x;
             args[1] = y;
-            func_021FD860(((struct Obj24879 *)p)->f78, 1, args);
+            BR_UTIL_StartEffect(((struct Obj24879 *)p)->f78, 1, args);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return index;
         }

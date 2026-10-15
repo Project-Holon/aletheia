@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208A0A4",
+   "name": "SND_ReadTrackInfo",
    "address": "0x0208A0A4",
    "kind": "sdk",
    "region": "arm9",

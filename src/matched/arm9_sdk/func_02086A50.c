@@ -1,5 +1,5 @@
 /*
- * function: func_02086A50
+ * function: OS_InitAlloc
  * address:  0x02086A50
  * packet:   pkt_02086A50
  * region:   arm9
@@ -66,7 +66,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
 #define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
 
-void *func_02086A50(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
+void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
 {
     OSHeapInfo *heapInfo;
     u32 arraySize;

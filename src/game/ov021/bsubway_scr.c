@@ -88,15 +88,15 @@
  *   func_0200D9E8  0x0200D9E8  thumb
  *   func_0200DA28  0x0200DA28  thumb
  *   func_0200DB30  0x0200DB30  thumb
- *   func_0200DE5C  0x0200DE5C  thumb
- *   func_0200DE64  0x0200DE64  thumb
- *   func_0200DE94  0x0200DE94  thumb
+ *   BSUBWAY_SAVEDATA_GetTrainersPresent  0x0200DE5C  thumb
+ *   BSUBWAY_SAVEDATA_GetHistoryPresent  0x0200DE64  thumb
+ *   BSUBWAY_SAVEDATA_GetTrainersTagA  0x0200DE94  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryTagA  0x0200DF40  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryTagB  0x0200DF4C  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
- *   func_0200ED48  0x0200ED48  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   VM_SetWait  0x020113D0  thumb
@@ -401,9 +401,9 @@ extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct Bs
 extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *b);
 extern struct Task *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int EVENT_BSUBWAY_COMM_Start(int x, struct Ov007ProcParam *p);
-extern u8 func_0200DE94(struct BsubwayWifiData *p);
-extern u8 func_0200DE5C(struct BsubwayWifiData *p);
-extern u8 func_0200DE64(struct BsubwayWifiData *p);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwayWifiData *p);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwayWifiData *p);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwayWifiData *p);
 extern void *NAMEIN_SETUP_StartHistoryScreenEvent(void *a);
 extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwayWifiData *p);
 extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwayWifiData *p);
@@ -434,8 +434,8 @@ extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u3
 extern void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u32 arg);
 extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_0200ED54(struct GdsProfileSave *l, u32 val);
-extern void *func_0200ED48(void *p);
+extern void MISC_SAVEDATA_InsertRecentValue(struct GdsProfileSave *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02012124(struct GameSystem *p, u32 v);
 extern u32 func_0200FB24(void);
@@ -1769,10 +1769,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_101:
-        *resultDst = func_0200DE94((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetTrainersTagA((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_FE:
-        *resultDst = func_0200DE5C((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetTrainersPresent((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_11:
         byte11 = arg1;
@@ -1782,7 +1782,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = func_0200D884((struct BsubwayPlayData *)playData, 11, 0);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_FF:
-        *resultDst = func_0200DE64((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_TASK:
         SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartHistoryScreenEvent((void *)gameSystem));
@@ -2176,7 +2176,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         }
         break;
     case BSUBWAY_SCR_CMD_SET_PARTNER_PROFILE_ID:
-        func_0200ED54(func_0200ED48((void *)saveControl), work->partnerMyStatus.id);
+        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)saveControl), work->partnerMyStatus.id);
         break;
     case BSUBWAY_SCR_CMD_GET_LOOK_FIRST:
         *resultDst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)) : work->partnerMyStatus.outfitVariant, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B18
+ * function: STA_ACT_OBJ_AddEntry
  * address: 0x021F6B18
  * packet: pkt_ov112_021F6B18
  * region: ov112
@@ -23,7 +23,7 @@ extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 extern u32 d_021F8328;
 typedef struct { u32 active,dirty; int x,y,z,id,index; } Entry;
 typedef struct { u16 heap,n; void *board; Entry entries[5]; } Object;
-Entry *func_021F6B18(Object *o)
+Entry *STA_ACT_OBJ_AddEntry(Object *o)
 {
     u8 i;
     Entry *p;

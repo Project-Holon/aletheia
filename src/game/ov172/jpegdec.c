@@ -34,8 +34,8 @@
  *   draw_block        0x021C8D9C  data
  *   dcr               0x021C899C  data
  *   dcb               0x021C891C  data
- *   g_021C8B9C        0x021C8B9C  data
- *   g_021C80AC        0x021C80AC  data
+ *   gJpegIdctBlock        0x021C8B9C  data
+ *   gJpegDecodeClampTable        0x021C80AC  data
  *   ntbl              0x021C725C  data
  *   limits            0x021C7F2C  data
  *   Crrtab            0x021C752C  data
@@ -89,8 +89,8 @@ extern u8 zig[64];
 extern short draw_block[1024];
 extern short dcr[64];
 extern short dcb[64];
-extern short g_021C8B9C[64];
-extern unsigned char g_021C80AC[];
+extern short gJpegIdctBlock[64];
+extern unsigned char gJpegDecodeClampTable[];
 extern int ntbl[4];
 extern u8 limits[];
 extern s16 Crrtab[256];
@@ -128,11 +128,11 @@ void writeblock(u8 *d, int x, int y, int dx, int dy);
  * symbols:
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   SSP_ExifDecode  0x021C0BB4  arm  ov172
- *   g_021C88F0     0x021C88F0  data
- *   g_021C8D1C     0x021C8D1C  data ov172
- *   g_021C8C1C     0x021C8C1C  data ov172
- *   g_021C8B1C     0x021C8B1C  data ov172
- *   g_021C959C     0x021C959C  data ov172
+ *   gJpegDecodeState     0x021C88F0  data
+ *   gJpegDecodeQuantTable     0x021C8D1C  data ov172
+ *   gJpegDecodeAcTable     0x021C8C1C  data ov172
+ *   gJpegDecodeDcTable     0x021C8B1C  data ov172
+ *   gJpegDecodeExifState     0x021C959C  data ov172
  *
  * Static: clears the decoder state, validates the SOI marker and walks the marker segments until
  * the APP1 (Exif) segment, which SSP_ExifDecode parses.
@@ -156,7 +156,7 @@ void writeblock(u8 *d, int x, int y, int dx, int dy);
  * Declaration order is confirmed by DWARF (locals listed result, b, s, p = reverse source order).
  *
  * Lane U67 (2026-09-30): the three clears are a *chained assignment*
- *   `g_021C8C1C[0x40] = g_021C8D1C[0] = g_021C8B1C[0] = 0;`
+ *   `gJpegDecodeAcTable[0x40] = gJpegDecodeQuantTable[0] = gJpegDecodeDcTable[0] = 0;`
  * That single change fixed the parameter home-copies (+0x14..+0x1C now `mov r8,r0` / `mov r6,r2` /
  * `mov r7,r1` exactly as the image) and keeps the correct literal pool and store order; 31 -> 21
  * concrete bytes.  Measured over all 6 chain permutations (21/22/23/23/24 diffs; only the
@@ -491,7 +491,7 @@ void getmatrix(unsigned char *g, short *d, int *p, int n)
  *
  * Reads the extra bits of a JPEG coefficient: a leading 0 bit means negative (subtract
  * 2^cx - 1), then cx - 1 more bits are shifted in, with a bounds check before each read.
- * g_021C88F0[2] is the jpegdec.o static SSPiInputDataSize (.bss +8 off the bcode2 anchor).
+ * gJpegDecodeState[2] is the jpegdec.o static SSPiInputDataSize (.bss +8 off the bcode2 anchor).
  * Earlier waves parked a cx<->i register 2-cycle (~230 spellings) as a front-end wall.
  * Closed 2026-10-01 (lane22): `cx--` written in each if/else arm (the image merges it after
  * the arms; a single cx-- after the if gives cx a fresh web and the low register), plus
@@ -533,9 +533,9 @@ void decode_block(short *d, short n)
         mtx[1][zig[q]] = mtx[n][p];
     }
     if (n == 0) {
-        decode_block_sub(g_021C8B9C, d, 0);
+        decode_block_sub(gJpegIdctBlock, d, 0);
     } else {
-        decode_block_sub(g_021C8B9C, d, 64);
+        decode_block_sub(gJpegIdctBlock, d, 64);
     }
 }
 
@@ -543,7 +543,7 @@ void decode_block(short *d, short n)
  * sdk:      decode_block_sub (jpegdec.o)
  *
  * AAN integer IDCT: pass 1 dequantises through qy[n..] into mtx[2], pass 2
- * range-limits through limits+0x180 (g_021C80AC) into d.  The odd-part sum
+ * range-limits through limits+0x180 (gJpegDecodeClampTable) into d.  The odd-part sum
  * is spelled tmp5 + tmp10 in both passes (operand order of the add).
  */
 void decode_block_sub(short *s, short *d, int n)
@@ -551,7 +551,7 @@ void decode_block_sub(short *s, short *d, int n)
     int tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
     int tmp10, tmp11, tmp12, tmp13;
     int z5, z10, z11, z12, z13;
-    unsigned char *limtbl = g_021C80AC;
+    unsigned char *limtbl = gJpegDecodeClampTable;
     int i;
 
     for (i = 0; i < 8; i++) {

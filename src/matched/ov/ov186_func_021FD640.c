@@ -1,5 +1,5 @@
 /*
- * function: func_021FD640
+ * function: BR_UTIL_DeleteProfileScreen
  * address: 0x021FD640
  * packet: pkt_ov186_021FD640
  * region: ov186
@@ -30,7 +30,7 @@ extern void PMS_DRAW_Delete(struct Obj *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
-void func_021FD640(int *p)
+void BR_UTIL_DeleteProfileScreen(int *p)
 {
     int i;
     if(p[10]) {CLACT_DeleteActor((struct Obj *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}

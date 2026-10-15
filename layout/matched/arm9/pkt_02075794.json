@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02075994",
+   "name": "NNSi_SndTrackStop",
    "address": "0x02075994",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02075A2C",
+   "name": "NNSi_SndTrackClose",
    "address": "0x02075A2C",
    "kind": "game",
    "region": "arm9",
@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_02075A94",
+   "name": "NNSi_SndTrackReleaseRef",
    "address": "0x02075A94",
    "kind": "game",
    "region": "arm9",
@@ -53,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075B94",
+   "name": "NNSi_SndFaderReset",
    "address": "0x02075B94",
    "kind": "game",
    "region": "arm9",

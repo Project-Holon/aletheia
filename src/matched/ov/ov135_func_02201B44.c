@@ -10,8 +10,8 @@
  * lever: u16 local joins species branches; byte flags use explicit masked RMW.
  * symbols:
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0200ED48 0x0200ED48 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   WORLDTRADE_DEMO_ReadMyStatus 0x021F72C4 thumb ov135
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009DE8 0x02009DE8 thumb
@@ -44,8 +44,8 @@ struct Sub0200852CObj;
 struct Sub02008C20Obj;
 struct Sub02009D9CObj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void *func_0200ED48(void *);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern void *WORLDTRADE_DEMO_ReadMyStatus(void *);
 extern void *func_02009EC8(void *);
 extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
@@ -60,7 +60,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(u8 *p, void *mon, u8 *r, void *old)
     Record rec;
     u16 species;
     func_02008DF0(((struct Obj23452 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f24, 0x10);
-    func_0200ED54(func_0200ED48(((struct Obj23453 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), ((struct Obj06521 *)r)->f10C);
+    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(((struct Obj23453 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), ((struct Obj06521 *)r)->f10C);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     func_02009DE8(func_02009EC8(((struct Obj23454 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), copy);
     func_020307B0(copy);

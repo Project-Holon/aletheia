@@ -1,5 +1,5 @@
 /*
- * function: func_021DF1BC
+ * function: BOX2_MAIN_HitRect
  * address:  0x021DF1BC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -16,7 +16,7 @@
  */
 
 
-int func_021DF1BC(int a, int b, unsigned char *r)
+int BOX2_MAIN_HitRect(int a, int b, unsigned char *r)
 {
     if (a >= r[0] && a <= r[1] && b >= r[2] && b < r[3])
         return 1;

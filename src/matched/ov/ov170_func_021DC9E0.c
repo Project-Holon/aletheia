@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9E0
+ * function: BOX2_MAIN_InitBgSys
  * address:  0x021DC9E0
  * packet:   pkt_ov170_021DC9E0
  * region:   ov170
@@ -75,7 +75,7 @@ extern const struct BgTemplate d_021EF80C;
 extern const struct BgTemplate d_021EF8AC;
 extern const struct BgTemplate d_021EF84C;
 
-void func_021DC9E0(u8 *a0)
+void BOX2_MAIN_InitBgSys(u8 *a0)
 {
     struct DispConfig c;
     struct BgTemplate t0;

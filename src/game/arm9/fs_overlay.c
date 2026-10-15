@@ -17,6 +17,7 @@
  *   FS_FindArchive  0x02077EB8  arm
  *   fsi_def_digest_key  0x020A19C4  data
  *   _ZZ15FS_StartOverlayP13FSOverlayInfoE4once  0x02150D20  data
+ *   MATH_CalcHMACSHA1  0x020816FC  arm
  *   .bss  0x02150D20  data
  *   FSiOverlayContext  0x02150D24  data
  *   fsi_str_rom  0x020A84A4  data
@@ -155,7 +156,7 @@ extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
 extern void func_0209125C(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern u32 func_0208139C(u32);
-extern void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
+extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern void OS_Terminate(void);
 extern void MIi_UncompressBackward(void *bottom);
 extern u32 OS_DisableInterrupts(void);
@@ -368,7 +369,7 @@ BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode)
         if (table_mode != 0) {
             handle = func_0208139C(1);
         }
-        func_020816FC(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
+        MATH_CalcHMACSHA1(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
         if (table_mode != 0) {
             func_0208139C(handle);
         }

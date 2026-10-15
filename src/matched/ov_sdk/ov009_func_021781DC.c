@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_GetError (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   g_021AB184     0x021AB184  data
  */
@@ -36,7 +36,7 @@ struct DWCAuthCtx {
 
 extern struct DWCAuthGlobal g_021AB184;
 
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
 
 int func_021781DC(void)
@@ -45,7 +45,7 @@ int func_021781DC(void)
 
 	if (g_021AB184.ctx == 0)
 		return 0x16;
-	func_02086028(&g_021AB184.ctx->mutex);
+	OS_LockMutex(&g_021AB184.ctx->mutex);
 	error = g_021AB184.ctx->error;
 	func_02086078(&g_021AB184.ctx->mutex);
 	return error;

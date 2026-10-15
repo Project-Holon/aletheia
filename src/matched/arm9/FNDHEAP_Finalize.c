@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020606A8   0x020606A8  arm
- *   func_020605B4   0x020605B4  arm
+ *   NNSi_FndFindListContainHeap   0x020606A8  arm
+ *   NNS_FndRemoveListObject   0x020605B4  arm
  *
  * Original (24 bytes):
  *   push {r4, lr}
@@ -25,11 +25,11 @@
  */
 
 typedef unsigned int   u32;
-extern void *func_020606A8(u32 a);
+extern void *NNSi_FndFindListContainHeap(u32 a);
 struct DList;
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 
 void FNDHEAP_Finalize(void *p)
 {
-    func_020605B4(func_020606A8((u32)p), p);
+    NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
 }

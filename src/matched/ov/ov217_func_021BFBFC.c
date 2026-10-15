@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBFC
+ * function: RESEARCH_GRAPH_CreateCircles
  * address:  0x021BFBFC
  * packet:   pkt_ov217_021BFBFC
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 CircleGraph_Create(u32 a0);
-void func_021BFBFC(char *p)
+void RESEARCH_GRAPH_CreateCircles(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

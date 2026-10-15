@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF4C
+ * function: RESEARCH_LIST_GetEntryScreenYBottom
  * address:  0x021BBF4C
  * packet:   pkt_021BBF4C
  * region:   ov217
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BBF1C  0x021BBF1C  thumb  ov217
- *   func_021BC3AC  0x021BC3AC  thumb  ov217
+ *   RESEARCH_LIST_GetRowBase  0x021BBF1C  thumb  ov217
+ *   RESEARCH_LIST_GetScrollY  0x021BC3AC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_021BBF1C(unsigned int unused, unsigned int v);
-extern int func_021BC3AC(void);
+extern unsigned int RESEARCH_LIST_GetRowBase(unsigned int unused, unsigned int v);
+extern int RESEARCH_LIST_GetScrollY(void);
 
-int func_021BBF4C(unsigned char *p, unsigned int index)
+int RESEARCH_LIST_GetEntryScreenYBottom(unsigned char *p, unsigned int index)
 {
-    int t = (func_021BBF1C((unsigned int)p, index) << 3) + 0x17;
-    return t - func_021BC3AC();
+    int t = (RESEARCH_LIST_GetRowBase((unsigned int)p, index) << 3) + 0x17;
+    return t - RESEARCH_LIST_GetScrollY();
 }

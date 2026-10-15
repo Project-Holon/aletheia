@@ -1,5 +1,5 @@
 /*
- * function: func_02086B98
+ * function: OS_CreateExtraHeap
  * address:  0x02086B98
  * packet:   pkt_02086B98
  * region:   arm9
@@ -77,7 +77,7 @@ typedef struct OsAllocData {
 extern OsAllocData g_020A86AC;
 extern BOOL OS_IsRunOnTwl(void);
 
-int func_02086B98(OSArenaId id)
+int OS_CreateExtraHeap(OSArenaId id)
 {
     OSHeapInfo *heapInfo;
     int heap;

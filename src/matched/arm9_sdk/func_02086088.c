@@ -1,5 +1,5 @@
 /*
- * function: func_02086088
+ * function: OSi_UnlockAllMutex
  * address:  0x02086088
  * packet:   pkt_02086088
  * region:   arm9
@@ -164,7 +164,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 extern OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-void func_02086088(OSThread *thread)
+void OSi_UnlockAllMutex(OSThread *thread)
 {
     OSMutex *mutex;
 

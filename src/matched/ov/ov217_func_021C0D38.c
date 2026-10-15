@@ -11,7 +11,7 @@
  *
  * Unlabelled 22-byte ov217 leaf in a .word run; tail-calls PALETTE_ANIME_Start with
  * two ov217 data-table loads indexed by i*0x14.  Middle of the
- * func_021BA31C blocker chain.
+ * RESEARCH_TOP_StartPaletteAnime blocker chain.
  *
  * symbols:
  *   PALETTE_ANIME_Start  0x021C29F8  thumb  ov217

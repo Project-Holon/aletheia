@@ -1,5 +1,5 @@
 /*
- * function: func_021DC428
+ * function: POKETRADE_PROC_ExitMcssSystem
  * address: 0x021DC428
  * packet: pkt_ov119_021DC428
  * region: ov119
@@ -20,7 +20,7 @@ extern void MCSS_Exit(u8 *a0);
 typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
-void func_021DC428(char *p)
+void POKETRADE_PROC_ExitMcssSystem(char *p)
 {
     POKETRADE_3D_DeleteMcssSlot(p, 0);
     POKETRADE_3D_DeleteMcssSlot(p, 1);

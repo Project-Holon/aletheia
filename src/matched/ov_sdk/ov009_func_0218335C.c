@@ -1,5 +1,5 @@
 /*
- * function: func_0218335C
+ * function: gsiXmlUtilWriteXmlSafeString
  * address:  0x0218335C
  * packet:   pkt_ov009_0218335C
  * region:   ov009
@@ -13,31 +13,31 @@
  *
  * symbols:
  *   strlen         0x0209477c  arm
- *   func_0218325C  0x0218325c  arm   ov009
+ *   gsiXmlUtilWriteString  0x0218325c  arm   ov009
  *   sprintf        0x02094530  arm
- *   func_02183210  0x02183210  arm   ov009
- *   g_021A3F2C     0x021a3f2c  data
- *   g_021A3F1C     0x021a3f1c  data
- *   g_021A3F24     0x021a3f24  data
- *   g_021A3F34     0x021a3f34  data
- *   g_021A3F3C     0x021a3f3c  data
- *   g_021A3F84     0x021a3f84  data
- *   g_021A3F8C     0x021a3f8c  data
+ *   gsiXmlUtilWriteChar  0x02183210  arm   ov009
+ *   gGsXmlEntityApos     0x021a3f2c  data
+ *   gGsXmlEntityAmp     0x021a3f1c  data
+ *   gGsXmlEntityQuot     0x021a3f24  data
+ *   gGsXmlEntityLt     0x021a3f34  data
+ *   gGsXmlEntityGt     0x021a3f3c  data
+ *   gGsXmlEntitySpace     0x021a3f84  data
+ *   gGsXmlEntityByteFormat     0x021a3f8c  data
  */
 
 extern unsigned int strlen(const char *);
 extern int sprintf(char *, const char *, ...);
-extern int func_0218325C(void *, char *);
-extern int func_02183210(void *, char);
-extern char g_021A3F1C[];
-extern char g_021A3F24[];
-extern char g_021A3F2C[];
-extern char g_021A3F34[];
-extern char g_021A3F3C[];
-extern char g_021A3F84[];
-extern char g_021A3F8C[];
+extern int gsiXmlUtilWriteString(void *, char *);
+extern int gsiXmlUtilWriteChar(void *, char);
+extern char gGsXmlEntityAmp[];
+extern char gGsXmlEntityQuot[];
+extern char gGsXmlEntityApos[];
+extern char gGsXmlEntityLt[];
+extern char gGsXmlEntityGt[];
+extern char gGsXmlEntitySpace[];
+extern char gGsXmlEntityByteFormat[];
 
-int func_0218335C(void *stream, char *str)
+int gsiXmlUtilWriteXmlSafeString(void *stream, char *str)
 {
     int strLen;
     int pos;
@@ -48,23 +48,23 @@ int func_0218335C(void *stream, char *str)
     for (pos = 0; pos < strLen; pos++) {
         char c = str[pos];
         if (c == '&') {
-            result = func_0218325C(stream, g_021A3F1C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityAmp);
         } else if (c == '\'') {
-            result = func_0218325C(stream, g_021A3F2C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityApos);
         } else if (c == '"') {
-            result = func_0218325C(stream, g_021A3F24);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityQuot);
         } else if (c == '<') {
-            result = func_0218325C(stream, g_021A3F34);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityLt);
         } else if (c == '>') {
-            result = func_0218325C(stream, g_021A3F3C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityGt);
         } else if (c == ' ') {
-            result = func_0218325C(stream, g_021A3F84);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntitySpace);
         } else if (c < ' ' || (unsigned char)c > 0x7f) {
-            sprintf(numeric, g_021A3F8C, (unsigned char)c);
+            sprintf(numeric, gGsXmlEntityByteFormat, (unsigned char)c);
             numeric[6] = 0;
-            result = func_0218325C(stream, numeric);
+            result = gsiXmlUtilWriteString(stream, numeric);
         } else {
-            result = func_02183210(stream, c);
+            result = gsiXmlUtilWriteChar(stream, c);
         }
         if (!result)
             return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219F2F8
+ * function: FloatKeyCompare
  * address:  0x0219F2F8
  * packet:   pkt_ov009_0219F2F8
  * region:   ov009
@@ -20,8 +20,8 @@
  *   _d2f  0x0209B64C  arm
  *   _fgr  0x0209BBB0  arm
  *   _fls  0x0209BC74  arm
- *   func_0219F0E0  0x0219F0E0  arm  ov009
- *   g_021AEB04  0x021AEB04  data
+ *   prevKeyCompare  0x0219F0E0  arm  ov009
+ *   gSBSortContext  0x021AEB04  data
  */
 
 #include "../include/G_021AEB04.h"
@@ -39,20 +39,20 @@ typedef struct {
 typedef struct SBServer SBServer;
 
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
-extern int func_0219F0E0(SBServer *server1, SBServer *server2);
-extern struct G_021AEB04 g_021AEB04;
+extern int prevKeyCompare(SBServer *server1, SBServer *server2);
+extern struct G_021AEB04 gSBSortContext;
 
-int func_0219F2F8(void *entry1, void *entry2)
+int FloatKeyCompare(void *entry1, void *entry2)
 {
     SBServer *server1 = *(SBServer **)entry1;
     SBServer *server2 = *(SBServer **)entry2;
     double f;
-    char *currsortkey = ((SBServerList *)g_021AEB04.slist)->currsortinfo.sortkey;
+    char *currsortkey = ((SBServerList *)gSBSortContext.slist)->currsortinfo.sortkey;
 
     f = func_0219E1B8(server1, currsortkey, 0) - func_0219E1B8(server2, currsortkey, 0);
     if (!((float)f > 0 || (float)f < 0))
-        return func_0219F0E0(server1, server2);
-    if (!((SBServerList *)g_021AEB04.slist)->sortascending)
+        return prevKeyCompare(server1, server2);
+    if (!((SBServerList *)gSBSortContext.slist)->sortascending)
         f = 0 - f;
     if ((float)f > 0)
         return 1;

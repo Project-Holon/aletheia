@@ -8,19 +8,20 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 typedef unsigned int u32;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *p);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 struct L0200ED54;
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 void COMM_TVT_SYS_SavePeerRecord(u32 *p, void *q)
 {
-    void *l = func_0200ED48((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)p[0x7e])));
-    func_0200ED54(l, func_02008530(q));
+    void *l = MISC_SAVEDATA_GetBlock44((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)p[0x7e])));
+    MISC_SAVEDATA_InsertRecentValue(l, func_02008530(q));
 }

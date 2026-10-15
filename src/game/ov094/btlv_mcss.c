@@ -2238,7 +2238,7 @@ void BTLV_MCSS_AnimWatchTaskMain(void *task, void *arg)
         *(void **)((char *)w + off + 0x30) = 0;
         break;
     }
-}
+}
 
 /*
  * Rotation battle: turns the three sprites of one side around the field.

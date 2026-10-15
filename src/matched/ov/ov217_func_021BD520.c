@@ -1,5 +1,5 @@
 /*
- * function: func_021BD520
+ * function: RESEARCH_LIST_DestroyPaletteAnime
  * address:  0x021BD520
  * packet:   pkt_021BD520
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 PALETTE_ANIME_Destroy(void *a0);
 
-void func_021BD520(int *p)
+void RESEARCH_LIST_DestroyPaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 6; i++)

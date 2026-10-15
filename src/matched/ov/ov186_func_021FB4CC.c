@@ -1,5 +1,5 @@
 /*
- * function: func_021FB4CC
+ * function: BR_BTN_TestHitBox
  * address:  0x021FB4CC
  * packet:   pkt_ov186_021FB4CC
  * region:   ov186
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Recursive MATCH unblocker: unresolved callee named by the parked
- * func_021FAD04.  Expands p[0] through the arm9 helper 0x0204B454 into two
+ * BR_BTN_HitTest.  Expands p[0] through the arm9 helper 0x0204B454 into two
  * signed shorts and tests the incoming ranges against p[5] and the +/-16
  * window around tmp[1].  The scratch is a raw 4-byte buffer so the two reads
  * stay register-addressed off sp.
@@ -40,7 +40,7 @@ static inline int in_range(int v, int lo, int hi)
     return (u32)(v - lo) <= (u32)(hi - lo);
 }
 
-int func_021FB4CC(u32 *p, int a1, int a2)
+int BR_BTN_TestHitBox(u32 *p, int a1, int a2)
 {
     PtS pos;
     int hx;

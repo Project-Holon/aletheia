@@ -1,5 +1,5 @@
 /*
- * function: func_021EE120
+ * function: BOX2_UI_CreateBmpOam
  * address: 0x021EE120
  * packet: pkt_ov170_021EE120
  * region: ov170
@@ -26,7 +26,7 @@ struct Sys;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
-void func_021EE120(char *p)
+void BOX2_UI_CreateBmpOam(char *p)
 {
     struct Param s;
     u32 i;

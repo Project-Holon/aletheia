@@ -28,7 +28,7 @@
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   d_021DABA4 0x021DABA4 data a1
+ *   gGsyncStateAssertTag 0x021DABA4 data a1
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
@@ -38,7 +38,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char ov114_id[];
-extern const char d_021DABA4[];
+extern const char gGsyncStateAssertTag[];
 extern int func_02034AC4(signed int);
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
@@ -76,7 +76,7 @@ int GSYNC_STATE_ProcInit(void *a,int b,char *q)
     p=PROCSYS_AllocProcWork(a,0xb0,98);
     MI_CpuFill8(p,0,0xb0);
     ((struct Obj01059 *)p)->f0=98;
-    if (!q) func_02034714(d_021DABA4,0,d_021DABA4);
+    if (!q) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
     if (q) {
         *(char * *)&((struct Obj01059 *)p)->f20=q;
         ((struct Obj01059 *)p)->f2C=((struct Obj03799 *)q)->f4;
@@ -90,19 +90,19 @@ int GSYNC_STATE_ProcInit(void *a,int b,char *q)
         func_02009448(((struct Obj01059 *)p)->f28);
         switch (((struct Obj03799 *)q)->f1C8) {
         case 0:
-            if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
+            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
             break;
         case 1:
-            if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
+            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
             break;
         case 2:
-            if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
+            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
             break;
         case 3:
-            if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
+            if (!value) func_02034714(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
             break;
         case 4:

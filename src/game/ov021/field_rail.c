@@ -358,10 +358,7 @@ extern const char d_021DE2B0[];
 extern const char d_021DE2B4[];
 extern const char d_021DE2BC[];
 
-RailLinePos *FIELD_RAIL_SETTING_GetLinePos(FieldRailSetting *setting, u32 linePosIndex);
-RailCameraFunc FIELD_RAIL_SETTING_GetCameraFunc(FieldRailSetting *setting, u32 funcIndex);
 RailLinePosFunc FIELD_RAIL_SETTING_GetLinePosFunc(FieldRailSetting *setting, u32 funcIndex);
-RailLineFunc FIELD_RAIL_SETTING_GetLineFunc(FieldRailSetting *setting, u32 funcIndex);
 int FIELD_RAIL_WORK_ClampWidth(RailWork *work, RailLine *line, u32 lineEnd, int key);
 int FIELD_RAIL_CLOSED_ContainsLine(RailClosedLines *closedLines, RailLine *line, FieldRailSetting *setting);
 void FIELD_RAIL_WORK_MoveClamped(RailClosedLines *closedLines, RailWork *work, int lineDelta, int widthDelta, int key);

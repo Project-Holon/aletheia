@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDC4
+ * function: RESEARCH_GRAPH_DrawCircles
  * address:  0x021BEDC4
  * packet:   pkt_ov217_021BEDC4
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void CircleGraph_Draw(u8 *p);
-void func_021BEDC4(char *p)
+void RESEARCH_GRAPH_DrawCircles(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

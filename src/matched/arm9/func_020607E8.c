@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020607E8
+ * function: NNSi_FndInitMBlock
  * address:  0x020607E8
  * packet:   pkt_02060764
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj00512.h"
 
-void *func_020607E8(int *p, int v)
+void *NNSi_FndInitMBlock(int *p, int v)
 {
     int *q = (int *)p[0];
     ((struct Obj00512 *)q)->f0 = (unsigned short)v;

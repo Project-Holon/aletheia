@@ -15,7 +15,7 @@
  *   strlen         0x0209477C  arm
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_02181E20  0x02181E20  arm  ov009
+ *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
  *   sGhttpQrGSDD     0x021CEE58  data
  *   sGhttpCidId     0x021CEE80  data
  *   sGhttpHttpSchemasXmlsoapOrgSoap     0x021CEE88  data
@@ -24,7 +24,7 @@
  * as not writing memory (so name, length and post->useDIME stay cached in
  * callee-saved registers across it) only when strlen is declared in a header
  * named string.h.  Declared in this file instead, every mismatch is register
- * allocation (DIFF).  The two calls to func_02181E20 (ov009,
+ * allocation (DIFF).  The two calls to gsXmlWriterGetDataLength (ov009,
  * gsXmlWriterGetDataLength) resolve through its catalog row and matched body.
  */
 
@@ -73,7 +73,7 @@ typedef struct {
 #include "../arm9_sdk/libc/string.h"
 extern int func_02184200(void *array);
 extern void *func_02184208(void *array, int n);
-extern int func_02181E20(void *writer);
+extern int gsXmlWriterGetDataLength(void *writer);
 extern char sGhttpQrGSDD[];
 extern char sGhttpCidId[];
 extern char sGhttpHttpSchemasXmlsoapOrgSoap[];
@@ -160,8 +160,8 @@ int ghiPostGetHasFilesContentLength(GHIConnection *connection)
         else if (data->type == 3)
         {
             total += xmlBaseLen;
-            total += func_02181E20(data->data.xml.xml);
-            GHI_DIME_PAD(total, func_02181E20(data->data.xml.xml));
+            total += gsXmlWriterGetDataLength(data->data.xml.xml);
+            GHI_DIME_PAD(total, gsXmlWriterGetDataLength(data->data.xml.xml));
             total += strlen(sGhttpCidId);
             GHI_DIME_PAD(total, (int)strlen(sGhttpCidId));
             total += strlen(sGhttpHttpSchemasXmlsoapOrgSoap);

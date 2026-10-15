@@ -1,5 +1,5 @@
 /*
- * function: func_02081A80
+ * function: MATHi_CRC16UpdateRev
  * address:  0x02081A80
  * packet:   pkt_02081A80
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct MATHCRC32Table
     u32 table[256];
 } MATHCRC32Table;
 
-void func_02081A80(MATHCRC16Table *table, u16 *context, void *input, u32 length)
+void MATHi_CRC16UpdateRev(MATHCRC16Table *table, u16 *context, void *input, u32 length)
 {
     u32 r, i;
     u8 *data;

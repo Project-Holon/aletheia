@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219F6C8",
+   "name": "SBServerListFindServerByIP",
    "address": "0x0219F6C8",
    "kind": "sdk",
    "region": "ov009",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA050",
+   "name": "CTVT_MIC_Update",
    "address": "0x021BA050",
    "kind": "game",
    "region": "ov172",

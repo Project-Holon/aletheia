@@ -21,11 +21,11 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E8F8  0x0200E8F8  thumb
- *   func_0200E5E4  0x0200E5E4  thumb
- *   func_0200E5A0  0x0200E5A0  thumb
+ *   BATTLE_EXAMINATION_GetDeliveryId  0x0200E5E4  thumb
+ *   BATTLE_EXAMINATION_IsDeliveryValid  0x0200E5A0  thumb
  *   TRIAL_HOUSE_IsDeliveryIdReceived  0x021D1058  thumb  ov021
  *   TRIAL_HOUSE_MarkDeliveryIdReceived  0x021D1080  thumb  ov021
- *   func_0200E608  0x0200E608  thumb
+ *   BATTLE_EXAMINATION_LoadDelivery  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   TRIAL_HOUSE_LoadDeliveryState  0x021D09D0  thumb  ov021
@@ -60,11 +60,11 @@ extern int DELIVERY_BEACON_TryComplete(u8 *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
-extern u16 func_0200E5E4(void *p);
-extern int func_0200E5A0(void *a0);
+extern u16 BATTLE_EXAMINATION_GetDeliveryId(void *p);
+extern int BATTLE_EXAMINATION_IsDeliveryValid(void *a0);
 extern u8 TRIAL_HOUSE_IsDeliveryIdReceived(struct Flags *p, u32 n);
 extern void TRIAL_HOUSE_MarkDeliveryIdReceived(struct Flags *p, u32 n);
-extern void func_0200E608(void *sys, void *dst, u32 heap);
+extern void BATTLE_EXAMINATION_LoadDelivery(void *sys, void *dst, u32 heap);
 extern int DELIVERY_BEACON_Delete(void *a0);
 extern u32 GFL_NET_IsIdle(void);
 extern void TRIAL_HOUSE_LoadDeliveryState(int a, char *out);
@@ -125,12 +125,12 @@ int TRIAL_HOUSE_DeliveryTaskMain(u32 unused, u32 *state, W *w)
         h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)x);
         rec = func_0200E8F8(GAME_DATA_GetSaveControl((struct Big *)h));
         sv = ((struct Obj20300 *)(w->f84))->f14C;
-        n = func_0200E5E4((void *)sv);
-        ok = func_0200E5A0((void *)sv);
+        n = BATTLE_EXAMINATION_GetDeliveryId((void *)sv);
+        ok = BATTLE_EXAMINATION_IsDeliveryValid((void *)sv);
         r = TRIAL_HOUSE_IsDeliveryIdReceived((struct Flags *)rec, n);
         if (ok != 0 && (r == 0 || n == 0)) {
             TRIAL_HOUSE_MarkDeliveryIdReceived((struct Flags *)rec, n);
-            func_0200E608((void *)h, (void *)(((struct Obj20301 *)(w->f84))->f14C), 0x8004);
+            BATTLE_EXAMINATION_LoadDelivery((void *)h, (void *)(((struct Obj20301 *)(w->f84))->f14C), 0x8004);
             *w->f88 = 1;
         } else if (r != 0) {
             *w->f88 = 2;

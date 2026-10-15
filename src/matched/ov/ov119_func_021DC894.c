@@ -1,5 +1,5 @@
 /*
- * function: func_021DC894
+ * function: POKETRADE_PROC_InitTradeWork
  * address: 0x021DC894
  * packet: pkt_ov119_021DC894
  * region: ov119
@@ -19,10 +19,10 @@
  *   d_021E80B0 0x021E80B0 data a4
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
- *   func_021DC538 0x021DC538 thumb ov119
- *   func_021DC5F0 0x021DC5F0 thumb ov119
- *   func_021DC3EC 0x021DC3EC thumb ov119
- *   func_021DC458 0x021DC458 thumb ov119
+ *   POKETRADE_PROC_SetupGameData 0x021DC538 thumb ov119
+ *   POKETRADE_PROC_SetupBoxCounts 0x021DC5F0 thumb ov119
+ *   POKETRADE_PROC_InitMcssSystem 0x021DC3EC thumb ov119
+ *   POKETRADE_PROC_InitDisplay 0x021DC458 thumb ov119
  *   CLACT_CreateUnit 0x0204B100 arm
  *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
@@ -30,19 +30,19 @@
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021DC500 0x021DC500 thumb ov119
+ *   POKETRADE_PROC_VBlank 0x021DC500 thumb ov119
  *   POKETRADE_3D_Init3DScene 0x021E30EC thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_SAVE_StepSaveCancelNotice 0x021E0B34 thumb ov119
  *   POKETRADE_SAVE_CreateMessageResources 0x021E10D8 thumb ov119
  *   POKETRADE_2D_CreateFontResource 0x021E3FE4 thumb ov119
- *   func_021DC494 0x021DC494 thumb ov119
+ *   POKETRADE_PROC_LoadSceneResources 0x021DC494 thumb ov119
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   func_021DAC60 0x021DAC60 thumb ov119
+ *   POKETRADE_PROC_StepRestartNetSession 0x021DAC60 thumb ov119
  */
 #include "../include/Obj03256.h"
 #include "../include/Obj04478.h"
@@ -66,23 +66,23 @@ typedef unsigned int   u32;
 struct Bank;
 struct Blk37;
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
-extern void func_021DC538(char *,void *,u16),func_021DC5F0(char *),func_021DC3EC(char *),func_021DC458(char *);
+extern void POKETRADE_PROC_SetupGameData(char *,void *,u16),POKETRADE_PROC_SetupBoxCounts(char *),POKETRADE_PROC_InitMcssSystem(char *),POKETRADE_PROC_InitDisplay(char *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,unsigned);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
-extern void func_021DC500(int a, char *p);
+extern void POKETRADE_PROC_VBlank(int a, char *p);
 extern void POKETRADE_3D_Init3DScene(char *);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_SAVE_StepSaveCancelNotice(char *p);
 extern void POKETRADE_SAVE_CreateMessageResources(char *p);
 extern void POKETRADE_2D_CreateFontResource(char *p);
-extern void func_021DC494(char *);
+extern void POKETRADE_PROC_LoadSceneResources(char *);
 extern void POKETRADE_3D_CreateTouchbar(char *p);
 extern void POKETRADE_3D_AddUnitAndInit(void *,int);
-extern void func_021DAC60(char *p);
+extern void POKETRADE_PROC_StepRestartNetSession(char *p);
 #define I(o) (*(int *)(p+(o)))
 #define H(o) (*(u16 *)(p+(o)))
-int func_021DC894(int a,int b,char *q,char *p,int n)
+int POKETRADE_PROC_InitTradeWork(int a,int b,char *q,char *p,int n)
 {
     if(n<5) {func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);}
     if(n==0 || n==4) func_02034AC4((int)ov117_id);
@@ -96,14 +96,14 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
     I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
     ((struct Obj03256 *)p)->f11F6=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct Obj04478 *)q)->f14));
-    if(q) func_021DC538(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
-    func_021DC5F0(p);func_021DC3EC(p);func_021DC458(p);
+    if(q) POKETRADE_PROC_SetupGameData(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
+    POKETRADE_PROC_SetupBoxCounts(p);POKETRADE_PROC_InitMcssSystem(p);POKETRADE_PROC_InitDisplay(p);
     I(0x9c4)=(int)CLACT_CreateUnit(0x154,0,H(0x5f4));
     if(POKETRADE_PROC_IsNetSession(p)) {
         GFL_NET_COMMAND_AddCommandTable(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
         GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
     }
-    I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))func_021DC500,p,0);
+    I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))POKETRADE_PROC_VBlank,p,0);
     I(0xf60)=0;
     I(0xf84)=-1;I(0x109c)=-1;I(0xf7c)=-1;I(0xf80)=-1;I(0xf98)=-1;I(0xf94)=-1;
     POKETRADE_3D_Init3DScene(p);
@@ -111,7 +111,7 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
         BG_SYS_SetMainVisiblePlanes(16);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepSaveCancelNotice);((struct Obj04478 *)q)->f8=0;return 1;
     }
     POKETRADE_SAVE_CreateMessageResources(p);POKETRADE_2D_CreateFontResource(p);
-    if(I(0x118c)<4) {func_021DC494(p);POKETRADE_3D_CreateTouchbar(p);GFL_NET_RestartWithDefaultTimeout(1,H(0x5f4));}
-    POKETRADE_3D_AddUnitAndInit(p,0);BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);POKETRADE_PROC_SetStep(p,(int)func_021DAC60);
+    if(I(0x118c)<4) {POKETRADE_PROC_LoadSceneResources(p);POKETRADE_3D_CreateTouchbar(p);GFL_NET_RestartWithDefaultTimeout(1,H(0x5f4));}
+    POKETRADE_3D_AddUnitAndInit(p,0);BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepRestartNetSession);
     return 1;
 }

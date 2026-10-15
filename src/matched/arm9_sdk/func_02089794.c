@@ -1,5 +1,5 @@
 /*
- * function: func_02089794
+ * function: SND_ReadDriverInfo
  * address:  0x02089794
  * packet:   pkt_02089794
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089794(struct SNDDriverInfo *info)
+void SND_ReadDriverInfo(struct SNDDriverInfo *info)
 {
     PushCommand_impl(0x21, (u32)info, 0, 0, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E5524
+ * function: PARTY_STATUS_Update
  * address: 0x021E5524
  * packet: pkt_ov178_021E5524
  * region: ov178
@@ -43,7 +43,7 @@ extern void func_02034A5C(int);
 extern void PROCSYS_Push(void *,u32,void *,void *);
 extern u32 PROCSYS_Main(void *);
 extern void PLIST_COMM_Update(u8 *);
-int func_021E5524(void *unused,int unused2,char *q,char *p)
+int PARTY_STATUS_Update(void *unused,int unused2,char *q,char *p)
 {
     if(((struct Obj00349 *)p)->f98==1 && ((struct Obj00349 *)p)->f68!=0) {
         u32 now;

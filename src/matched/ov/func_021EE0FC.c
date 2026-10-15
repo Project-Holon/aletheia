@@ -1,5 +1,5 @@
 /*
- * function: func_021EE0FC
+ * function: BOX2_UI_HideSlots678
  * address:  0x021EE0FC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC000  0x021EC000  thumb  ov170
+ *   BOX2_SEQ_SetActorDrawEnable  0x021EC000  thumb  ov170
  *
  * Release slots 6, 7 and 8 of the 0x9E74 array.
  */
 #include "../include/Obj09226.h"
 
 
-extern void func_021EC000(char *p, int i, int v);
-void func_021EE0FC(char *p)
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+void BOX2_UI_HideSlots678(char *p)
 {
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 6, 0);
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 7, 0);
-    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 8, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)(((struct Obj09226 *)p)->f2C), 6, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)(((struct Obj09226 *)p)->f2C), 7, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)(((struct Obj09226 *)p)->f2C), 8, 0);
 }

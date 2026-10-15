@@ -1,5 +1,5 @@
 /*
- * function: func_0200E5E4
+ * function: BATTLE_EXAMINATION_GetDeliveryId
  * address:  0x0200E5E4
  * packet:   pkt_0200E5E4
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 func_0200E5E4(void *p)
+u16 BATTLE_EXAMINATION_GetDeliveryId(void *p)
 {
     return ((struct Obj15608 *)p)->f5C4 & 0x7F;
 }

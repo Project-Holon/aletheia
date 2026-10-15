@@ -1,5 +1,5 @@
 /*
- * function: func_021BBCFC
+ * function: RESEARCH_LIST_FlipSelectionMode
  * address:  0x021BBCFC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BBCFC(void *p, s32 v)
+void RESEARCH_LIST_FlipSelectionMode(void *p, s32 v)
 {
     *(s32 *)&((struct Obj02928 *)p)->f2C = (*(s32 *)&((struct Obj02928 *)p)->f2C + v + 2) % 2;
 }

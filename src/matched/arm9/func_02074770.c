@@ -12,9 +12,9 @@
  * Drains the whole pending-request structure: an outer walk over the list at
  * o->list, and for each list an inner walk over its nodes, invoking every node
  * whose callback slot at +0x0C is non-null with (node + 0x20, +0x08, +0x10,
- * +0x14). Each exhausted list is unlinked with func_020605B4 and the outer walk
+ * +0x14). Each exhausted list is unlinked with NNS_FndRemoveListObject and the outer walk
  * restarts from the head, so the loop terminates when the list is empty. The
- * tail then releases the heap through func_02061158(o->f00, 3), calls
+ * tail then releases the heap through NNS_FndFreeToFrmHeap(o->f00, 3), calls
  * NNSi_SndHeapFlushCommands once if any callback ran at all, and finishes with
  * NNSi_SndHeapAllocLevel(o).
  *
@@ -30,17 +30,17 @@
  * this is declaration order, not initialisation order: `any` is still assigned
  * its zero after `n` is declared.
  *
- * The inner cursor is re-fetched as func_0206062C(a, n), i.e. the "next after
+ * The inner cursor is re-fetched as NNS_FndGetPrevListObject(a, n), i.e. the "next after
  * this one" form of the same iterator the outer loop calls with a null cursor
  * to get a head -- one function serving both roles is what makes the four call
- * sites to func_0206062C all identical in shape.
+ * sites to NNS_FndGetPrevListObject all identical in shape.
  *
  * All eight relocation sites resolve.
  *
  * symbols:
- *   func_0206062C  0x0206062C  arm
- *   func_020605B4  0x020605B4  arm
- *   func_02061158  0x02061158  arm
+ *   NNS_FndGetPrevListObject  0x0206062C  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
+ *   NNS_FndFreeToFrmHeap  0x02061158  arm
  *   NNSi_SndHeapFlushCommands  0x02074A34  arm
  *   NNSi_SndHeapAllocLevel  0x020749F8  arm
  *
@@ -63,10 +63,10 @@ struct Node {
 struct Obj { u32 f00; u8 list[4]; };
 
 struct DList;
-extern void *func_0206062C(struct DList *list, void *elem);
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void *NNS_FndGetPrevListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 struct Table;
-extern void func_02061158(void *p, int flags);
+extern void NNS_FndFreeToFrmHeap(void *p, int flags);
 extern void  NNSi_SndHeapFlushCommands(void);
 extern int NNSi_SndHeapAllocLevel(struct Table *t);
 
@@ -77,21 +77,21 @@ void NNS_SndHeapClear(struct Obj *o)
     struct Node *n;
 
     any = 0;
-    a = func_0206062C((struct DList *)o->list, 0);
+    a = NNS_FndGetPrevListObject((struct DList *)o->list, 0);
     while (a != 0) {
-        n = (struct Node *)func_0206062C(a, 0);
+        n = (struct Node *)NNS_FndGetPrevListObject(a, 0);
         while (n != 0) {
             if (n->f0c != 0) {
                 ((void (*)(void *, u32, u32, u32))n->f0c)((u8 *)n + 0x20, n->f08, n->f10, n->f14);
                 any = 1;
             }
-            n = (struct Node *)func_0206062C(a, n);
+            n = (struct Node *)NNS_FndGetPrevListObject(a, n);
         }
-        func_020605B4((volatile struct DList *)o->list, a);
-        a = func_0206062C((struct DList *)o->list, 0);
+        NNS_FndRemoveListObject((volatile struct DList *)o->list, a);
+        a = NNS_FndGetPrevListObject((struct DList *)o->list, 0);
     }
 
-    func_02061158((void *)o->f00, 3);
+    NNS_FndFreeToFrmHeap((void *)o->f00, 3);
     if (any != 0) NNSi_SndHeapFlushCommands();
     NNSi_SndHeapAllocLevel((struct Table *)o);
 }

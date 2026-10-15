@@ -1,5 +1,5 @@
 /*
- * function: func_0200E9F4
+ * function: MISC_SAVEDATA_GetBlock3C
  * address:  0x0200E9F4
  * packet:   pkt_0200E9F4
  * region:   arm9
@@ -13,14 +13,14 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0200E9F4  0x0200E9F4  thumb
+ *   MISC_SAVEDATA_GetBlock3C  0x0200E9F4  thumb
  */
 
 typedef unsigned int   u32;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *func_0200E9F4(void *p)
+void *MISC_SAVEDATA_GetBlock3C(void *p)
 {
     return func_020071CC(p, 0x3c);
 }

@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020868E0  0x020868E0  arm
+ *   OS_AllocFromHeap  0x020868E0  arm
  *   gCryptoAllocators     0x021D422C  data
- *   func_020869E8  0x020869E8  arm
+ *   OS_FreeToHeap  0x020869E8  arm
  */
 #include "crypto_types.h"
 
-extern void *func_020868E0(int arenaId, int heap, unsigned long size);
-extern void func_020869E8(int arenaId, int heap, void *ptr);
+extern void *OS_AllocFromHeap(int arenaId, int heap, unsigned long size);
+extern void OS_FreeToHeap(int arenaId, int heap, void *ptr);
 void *CRYPTOi_MyAlloc(unsigned long size);
 void CRYPTOi_MyFree(void *ptr);
 void CRYPTO_SetMemAllocator(void *(*allocFunc)(unsigned long), void (*freeFunc)(void *), void *(*reallocFunc)(void *, unsigned long));
@@ -34,7 +34,7 @@ void *CRYPTOi_MyAlloc(unsigned long size)
 {
     if (gCryptoAllocators.allocFunc != 0)
         return gCryptoAllocators.allocFunc(size);
-    return func_020868E0(0, -1, size);
+    return OS_AllocFromHeap(0, -1, size);
 }
 
 /*
@@ -45,7 +45,7 @@ void CRYPTOi_MyFree(void *ptr)
     if (gCryptoAllocators.freeFunc != 0)
         gCryptoAllocators.freeFunc(ptr);
     else
-        func_020869E8(0, -1, ptr);
+        OS_FreeToHeap(0, -1, ptr);
 }
 
 /*

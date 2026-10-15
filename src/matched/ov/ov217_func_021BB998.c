@@ -1,5 +1,5 @@
 /*
- * function: func_021BB998
+ * function: RESEARCH_LIST_ClearSubState
  * address:  0x021BB998
  * packet:   pkt_ov217_021BB998
  * region:   ov217
@@ -15,7 +15,7 @@
  */
 #include "../include/Obj25852.h"
 
-void *func_021BB998(void *p)
+void *RESEARCH_LIST_ClearSubState(void *p)
 {
     ((struct Obj25852 *)p)->f20 = 0;
     return p;

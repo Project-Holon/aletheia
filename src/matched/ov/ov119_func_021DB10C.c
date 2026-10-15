@@ -1,5 +1,5 @@
 /*
- * function: func_021DB10C
+ * function: POKETRADE_PROC_StepOpenSummaryMenu
  * address: 0x021DB10C
  * packet: pkt_ov119_021DB10C
  * region: ov119
@@ -12,7 +12,7 @@
  *   POKETRADE_SAVE_OpenTaskMenuAt 0x021E131C thumb ov119
  *   POKETRADE_2D_UpdateVisibleColumns 0x021E4E64 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DB030 0x021DB030 thumb ov119
+ *   POKETRADE_PROC_StepSummaryMenuChoice 0x021DB030 thumb ov119
  *   d_021E758C 0x021E758C data a4
  */
 #include "../include/Obj00001.h"
@@ -22,14 +22,14 @@ extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern void POKETRADE_SAVE_OpenTaskMenuAt(char *p, int *ids, int count, int x, int y);
 extern void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DB030(char *p);
-void func_021DB10C(char *p)
+extern void POKETRADE_PROC_StepSummaryMenuChoice(char *p);
+void POKETRADE_PROC_StepOpenSummaryMenu(char *p)
 {
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
         Pair t=d_021E758C;
         POKETRADE_SAVE_OpenTaskMenuAt(p,(int *)(&t),2,0x20,0xc);
         ((struct Obj00001 *)p)->f1080=-1;
         POKETRADE_2D_UpdateVisibleColumns(*(int *)&((struct Obj00001 *)p)->f828,p,0);
-        POKETRADE_PROC_SetStep(p,(int)func_021DB030);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSummaryMenuChoice);
     }
 }

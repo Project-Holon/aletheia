@@ -1,5 +1,5 @@
 /*
- * function: func_021EF108
+ * function: BOX2_UI_HitTablePoint
  * address: 0x021EF108
  * packet: pkt_ov170_021EF108
  * region: ov170
@@ -17,7 +17,7 @@ extern const Bytes d_021F0020;
 typedef unsigned int   u32;
 struct Ctx;
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-int func_021EF108(const char *p, unsigned n, int a, int b)
+int BOX2_UI_HitTablePoint(const char *p, unsigned n, int a, int b)
 {
     Object obj;
     unsigned i;

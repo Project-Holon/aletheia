@@ -1,5 +1,5 @@
 /*
- * function: func_021D8364
+ * function: WIFI_BSUBWAY_GRAPHIC_TeardownBg
  * address:  0x021D8364
  * packet:   pkt_021D8364
  * region:   ov116
@@ -27,7 +27,7 @@ void BMP_WIN_Exit(void);
 void func_0203F9B4(void);
 void MI_CpuFill8(void *dst, int c, int n);
 
-void func_021D8364(void *a0)
+void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
 {
     unsigned int i;
 

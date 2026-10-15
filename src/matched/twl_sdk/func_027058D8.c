@@ -11,6 +11,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   STD_CopyString  0x0208CADC  arm  arm9
  */
 typedef unsigned int u32;
 typedef int s32;
@@ -31,7 +32,7 @@ typedef struct Obj150 {
     void *h104[19];
 } Obj150;
 extern void MI_CpuFill8(void *p, s32 v, u32 n);
-extern void func_0208CADC(void *dst, void *src);
+extern void STD_CopyString(void *dst, void *src);
 void DSP_InitProcessContext(Obj150 *o, void *src)
 {
     s32 i;
@@ -41,7 +42,7 @@ void DSP_InitProcessContext(Obj150 *o, void *src)
     if (src == 0) {
         src = (void *)0x02732D74;
     }
-    func_0208CADC(&o->f4, src);
+    STD_CopyString(&o->f4, src);
     o->f14 = 0;
     o->f20 = 0;
     o->f24 = 0;

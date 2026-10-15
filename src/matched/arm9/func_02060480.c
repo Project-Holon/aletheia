@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060480
+ * function: NNSi_FndSetFirstObject
  * address:  0x02060480
  * packet:   pkt_0205D1BC
  * region:   arm9
@@ -15,7 +15,7 @@
  * +0x04, a u16 count at +0x08 and the u16 byte offset of the embedded link
  * pair at +0x0a -- and the node's own pair is prev at +0x00, next at +0x04.
  * Both links are cleared, head and tail both name the new element, and the
- * count goes up by one.  func_020604AC and func_02060500 both call here when
+ * count goes up by one.  NNS_FndAppendListObject and NNS_FndPrependListObject both call here when
  * the list they were handed is still empty.
  *
  * The `volatile` on the list pointer is load-bearing and is the only lever
@@ -28,8 +28,8 @@
  * residue is exactly one register substitution r1 -> r2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060480.c \
- *       --func func_02060480 --addr 0x02060480 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndSetFirstObject.c \
+ *       --func NNSi_FndSetFirstObject --addr 0x02060480 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ struct DListNode {
     void *next;
 };
 
-void func_02060480(volatile struct DList *list, void *elem)
+void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem)
 {
     struct DListNode *node = (struct DListNode *)((char *)elem + list->node_offset);
 

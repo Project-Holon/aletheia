@@ -1,7 +1,7 @@
 /*
  * file:     br_util.c
  * unit:     yes
- * function: BR_UTIL_Create, BR_UTIL_Delete, func_021FC754, func_021FC7C4, func_021FC830, func_021FC868, func_021FC870, func_021FC8C8, func_021FCC80, func_021FCD0C, func_021FCDA0, func_021FCDA8, func_021FCDAC, func_021FCDE8, func_021FCE0C, func_021FCE50, func_021FCE60, func_021FCEDC, func_021FCF54, func_021FCF90, func_021FCFE0, func_021FD094, func_021FD0A8, func_021FD0B8, func_021FD110, func_021FD12C, func_021FD15C, func_021FD170, func_021FD19C, func_021FD1BC, func_021FD1C4, func_021FD640, func_021FD6B0, func_021FD6D8, func_021FD714, func_021FD71C, func_021FD72C, func_021FD73C, func_021FD744, func_021FD750, func_021FD760, func_021FD820, func_021FD854, func_021FD860, func_021FD938, func_021FD940, func_021FD964, func_021FD9A0, func_021FDA7C, func_021FDBF4, func_021FDE88, func_021FDF40, func_021FDFF0, func_021FDFF4, func_021FE1C4, func_021FE2BC, func_021FE2F8, func_021FE3B4, func_021FE3E4, func_021FE444, func_021FE478, BR_UTIL_Init, func_021FE54C
+ * function: BR_UTIL_Create, BR_UTIL_Delete, BR_UTIL_SetTextFromMessage, BR_UTIL_SetTextFromBuffer, BR_UTIL_FlushText, BR_UTIL_SetTextLayout, BR_UTIL_AlignText, BR_UTIL_CreateListMenu, BR_UTIL_DeleteListMenu, BR_UTIL_MainListMenu, BR_UTIL_ListMenuIsScrollable, BR_UTIL_GetListMenuField48, BR_UTIL_SetListItemBitmap, BR_UTIL_GetListItemBitmap, BR_UTIL_GetListMenuField, BR_UTIL_RefreshList, BR_UTIL_DrawListRows, BR_UTIL_PollScrollDrag, BR_UTIL_BlitRows, BR_UTIL_ScrollRows, BR_UTIL_ScrollWithCursor, BR_UTIL_NeedsScroll, BR_UTIL_HasMultipleRows, BR_UTIL_HandleRowTouch, BR_UTIL_UpdateRowSelection, BR_UTIL_CreateTextWin, BR_UTIL_DeleteTextWin, BR_UTIL_SetWindowText, BR_UTIL_SetWindowTextBuf, BR_UTIL_FlushWindow, BR_UTIL_CreateProfileScreen, BR_UTIL_DeleteProfileScreen, BR_UTIL_MainProfileScreen, BR_UTIL_CreateTask, BR_UTIL_DeleteTask, BR_UTIL_RunTask, BR_UTIL_IsTaskIdle, BR_UTIL_SetTaskStep, BR_UTIL_ClearTaskStep, BR_UTIL_IsTaskStep, BR_UTIL_CreateHandles, BR_UTIL_DeleteHandles, BR_UTIL_RunHandles, BR_UTIL_StartEffect, BR_UTIL_IsEffectDone, BR_UTIL_SetHandlesAnimSeq, BR_UTIL_EffectIdle, BR_UTIL_EffectSpiral, BR_UTIL_EffectFollow12, BR_UTIL_EffectFollow6, BR_UTIL_EffectFlyIn, BR_UTIL_EffectFlyInSlow, BR_UTIL_EffectNoop, BR_UTIL_EffectToTarget, BR_UTIL_EffectToPoint, BR_UTIL_InitOrbit, BR_UTIL_StepOrbit, BR_UTIL_InitSpiral, BR_UTIL_StepSpiral, BR_UTIL_InitLine, BR_UTIL_StepLine, BR_UTIL_Init, BR_UTIL_StepFollow
  * address:  0x021FC6A4
  * region:   ov186
  * compiler: dsi/1.1p1
@@ -22,17 +22,17 @@
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_021FD6D8 0x021FD6D8 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
- *   func_021FD714  0x021FD714  thumb  ov186
- *   func_021FD15C  0x021FD15C  thumb  ov186
- *   func_021FD71C 0x021FD71C thumb ov186
- *   func_021FD1BC 0x021FD1BC thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
+ *   BR_UTIL_DeleteTask  0x021FD714  thumb  ov186
+ *   BR_UTIL_DeleteTextWin  0x021FD15C  thumb  ov186
+ *   BR_UTIL_RunTask 0x021FD71C thumb ov186
+ *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FD12C 0x021FD12C thumb ov186
- *   func_021FD170 0x021FD170 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   STRBUF_Clone 0x02045874 arm
  *   memset 0x02082BCC arm
  *   func_02045EC0 0x02045EC0 arm
@@ -126,16 +126,16 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0207CBD0 0x0207CBD0 arm
  *   func_0207C768 0x0207C768 arm
- *   func_021FCD0C 0x021FCD0C thumb ov186
- *   func_021FCDA8 0x021FCDA8 thumb ov186
- *   func_021FD938 0x021FD938 thumb ov186
- *   func_021FC830 0x021FC830 thumb ov186
+ *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
+ *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
+ *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
- *   func_021FC754 0x021FC754 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
- *   func_021FC8C8 0x021FC8C8 thumb ov186
- *   func_021FCC80 0x021FCC80 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
+ *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  */
 #include "../../matched/include/Obj02901.h"
 #include "../../matched/include/Obj10791.h"
@@ -165,11 +165,7 @@
 #include "../../matched/include/Obj01284.h"
 #include "../../matched/include/Obj10797.h"
 #include "../../matched/include/Obj02904.h"
-#include "br_proc_sys_shared_types.h"
-#include "br_btn_shared_types.h"
-#include "br_btn_data_shared_types.h"
-#include "br_graphic_shared_types.h"
-#include "br_util_shared_types.h"
+#include "br_types.h"
 
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 
@@ -229,11 +225,11 @@ typedef struct {Item *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;
 
 typedef struct {u8 top,bottom,left,right;} Area;
 
-typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u8 pad46[7],scroll,pad4e[2];void (*methods[3])(void);Area areas[10];u8 pad84[8];void *bitmaps[];} View_021FC6A4;
+typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u8 pad46[7],scroll,pad4e[2];void (*methods[3])(void);Area areas[10];u8 pad84[8];void *bitmaps[];} BrUtilListMenu;
 
-typedef struct {char pad[0x8C];int bitmap[1];} View_021FCDA0;
+typedef struct {char pad[0x8C];int bitmap[1];} BrUtilListView;
 
-typedef struct {u32 x,y;} Pair_021FD110;
+typedef struct {u32 x,y;} BrUtilPair;
 
 typedef struct {u16 x,y,z,w;} Req;
 
@@ -245,17 +241,17 @@ typedef struct {char pad[0xC];int index;int task;char *resources;char pad18[0x1E
 
 typedef struct {short x,y;} ShortPair;
 
-typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[6][32];char padD8[0x120];void *handles[12];int timer;} Motion_021FD714;
+typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[6][32];char padD8[0x120];void *handles[12];int timer;} BrUtilMotion6;
 
-typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12];} Motion_021FDA7C;
+typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12];} BrUtilMotion12;
 
 typedef struct {Pair first,second,third;} Table;
 
 typedef struct {int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12];} Motion;
 
-typedef struct {int x,y;char pad8[4];int heap;char pad10[8];char record[6][32];char padD8[0x120];int handles[12];int timer;} Motion_021FDE88;
+typedef struct {int x,y;char pad8[4];int heap;char pad10[8];char record[6][32];char padD8[0x120];int handles[12];int timer;} BrUtilMotionA;
 
-typedef struct {int x,y;int target;int heap;char pad10[8];char record[6][32];char padD8[0xC0];int positions[12][2];void *handles[12];int timer;} Motion_021FDFF4;
+typedef struct {int x,y;int target;int heap;char pad10[8];char record[6][32];char padD8[0xC0];int positions[12][2];void *handles[12];int timer;} BrUtilMotionB;
 
 typedef struct {long x,y,z;} VecFx32;
 
@@ -299,11 +295,11 @@ extern void func_02034714(const char *,u32,const char *);
 
 extern void func_02041B6C(u32);
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, int heap);
+extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, int heap);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *,u32);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *,unsigned int);
 
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 
@@ -313,7 +309,7 @@ extern int BR_RES_GetSprite(char *,int,Triple *);
 
 extern unsigned BR_RES_GetFont(char *p);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *p);
 
 extern void BMP_Delete(struct Obj020437AC *p);
 
@@ -345,7 +341,7 @@ extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 
-extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void PMS_DRAW_PrintOffset(struct Actor *p, u32 a, void *w, u32 i, u32 e);
 
 extern u32 func_0200D6FC(struct RecGet *p);
 
@@ -393,11 +389,11 @@ extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 
 extern void *CLACT_SetActorPaletteOffset(void *,u32,u32);
 
-extern void PMS_DRAW_Delete(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Actor *p);
 
 extern void PMS_DRAW_Main(u8 *);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Actor *,u16);
 
 extern void CLACT_AddActorSurfacePos(void *,const ShortPair *,u16);
 
@@ -409,127 +405,127 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
 
 void BR_UTIL_Delete(u8*p);
 
-void func_021FC754(char *p,void *a,void *b,void *font,unsigned short value);
+void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned short value);
 
-void func_021FC7C4(char *p,void *text,void *font,unsigned short value);
+void BR_UTIL_SetTextFromBuffer(char *p,void *text,void *font,unsigned short value);
 
-int func_021FC830(u8*p);
+int BR_UTIL_FlushText(u8*p);
 
-void func_021FC868(u8*p,u32 a,u32 b,u32 c);
+void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c);
 
-void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out);
+void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out);
 
-View_021FC6A4 *func_021FC8C8(const Config *cfg,u16 heap);
+BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap);
 
-void func_021FCC80(char *p);
+void BR_UTIL_DeleteListMenu(char *p);
 
-void func_021FCD0C(char *p);
+void BR_UTIL_MainListMenu(char *p);
 
-int func_021FCDA0(char *p);
+int BR_UTIL_ListMenuIsScrollable(char *p);
 
-int func_021FCDA8(char *p);
+int BR_UTIL_GetListMenuField48(char *p);
 
-void func_021FCDAC(u8 *p, u16 i, u32 v);
+void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 
-u32 func_021FCDE8(u8 *p, u16 i);
+u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
 
-int func_021FCE0C(char *p,unsigned field);
+int BR_UTIL_GetListMenuField(char *p,unsigned field);
 
-void func_021FCE50(char *p);
+void BR_UTIL_RefreshList(char *p);
 
-void func_021FCE60(char *p,int start);
+void BR_UTIL_DrawListRows(char *p,int start);
 
-int func_021FCEDC(char *p);
+int BR_UTIL_PollScrollDrag(char *p);
 
-void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height);
+void BR_UTIL_BlitRows(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height);
 
-int func_021FCF90(char *p,int change);
+int BR_UTIL_ScrollRows(char *p,int change);
 
-int func_021FCFE0(char *p,int step);
+int BR_UTIL_ScrollWithCursor(char *p,int step);
 
-int func_021FD094(char *p);
+int BR_UTIL_NeedsScroll(char *p);
 
-int func_021FD0A8(char *p);
+int BR_UTIL_HasMultipleRows(char *p);
 
-void func_021FD0B8(char *p);
+void BR_UTIL_HandleRowTouch(char *p);
 
-void func_021FD110(char *p);
+void BR_UTIL_UpdateRowSelection(char *p);
 
-void *func_021FD12C(int a,void *owner,u16 heap);
+void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap);
 
-void func_021FD15C(void *p, int a1);
+void BR_UTIL_DeleteTextWin(void *p, int a1);
 
-void func_021FD170(char *p,char *q,void *text);
+void BR_UTIL_SetWindowText(char *p,char *q,void *text);
 
-void func_021FD19C(char *p,void *q,void *text);
+void BR_UTIL_SetWindowTextBuf(char *p,void *q,void *text);
 
-void func_021FD1BC(void *p);
+void BR_UTIL_FlushWindow(void *p);
 
-char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap);
+char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,u16 heap);
 
-void func_021FD640(int *p);
+void BR_UTIL_DeleteProfileScreen(int *p);
 
-int func_021FD6B0(u8 *p);
+int BR_UTIL_MainProfileScreen(u8 *p);
 
-int *func_021FD6D8(int payload,int callback,u32 heap);
+int *BR_UTIL_CreateTask(int payload,int callback,u32 heap);
 
-void func_021FD714(void *p);
+void BR_UTIL_DeleteTask(void *p);
 
-void func_021FD71C(u8 *p);
+void BR_UTIL_RunTask(u8 *p);
 
-int func_021FD72C(int *p);
+int BR_UTIL_IsTaskIdle(int *p);
 
-int *func_021FD73C(int *p, int v);
+int *BR_UTIL_SetTaskStep(int *p, int v);
 
-int func_021FD744(int *a);
+int BR_UTIL_ClearTaskStep(int *a);
 
-int func_021FD750(int *p, int v);
+int BR_UTIL_IsTaskStep(int *p, int v);
 
-char *func_021FD760(unsigned owner,char *resources,int index,int heap);
+char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap);
 
-void func_021FD820(char *r5);
+void BR_UTIL_DeleteHandles(char *r5);
 
-void func_021FD854(char *p);
+void BR_UTIL_RunHandles(char *p);
 
-void func_021FD860(char *p,u32 mode,const Pair *pair);
+void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair);
 
-int func_021FD938(char *p);
+int BR_UTIL_IsEffectDone(char *p);
 
-void func_021FD940(u8 *p,u32 value);
+void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value);
 
-void func_021FD964(void *unused,int *state,u8 *p);
+void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p);
 
-void func_021FD9A0(int unused,int *state,Motion_021FD714 *p);
+void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p);
 
-void func_021FDA7C(int unused,int *state,Motion_021FDA7C *p);
+void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p);
 
-void func_021FDBF4(int unused,int *state,Motion *p);
+void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p);
 
-void func_021FDE88(int unused,int *state,Motion_021FDE88 *p);
+void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p);
 
-void func_021FDF40(int unused,int *state,Motion_021FDE88 *p);
+void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilMotionA *p);
 
-void func_021FDFF0(void);
+void BR_UTIL_EffectNoop(void);
 
-void func_021FDFF4(int *obj,int *state,Motion_021FDFF4 *p);
+void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p);
 
-void func_021FE1C4(int *task,int *state,char *p);
+void BR_UTIL_EffectToPoint(int *task,int *state,char *p);
 
-int func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration);
+int BR_UTIL_InitOrbit(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration);
 
-int func_021FE2F8(char *p, int *out, int step);
+int BR_UTIL_StepOrbit(char *p, int *out, int step);
 
-int func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration);
+int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration);
 
-int func_021FE3E4(char *p, int *out, int step);
+int BR_UTIL_StepSpiral(char *p, int *out, int step);
 
-void func_021FE444(int *p,const Pair *a,const Pair *b,int c,int d);
+void BR_UTIL_InitLine(int *p,const Pair *a,const Pair *b,int c,int d);
 
-int func_021FE478(int *p, Pair *out, int step);
+int BR_UTIL_StepLine(int *p, Pair *out, int step);
 
 void BR_UTIL_Init(int *p, int a, const int *values, int duration);
 
-int func_021FE54C(char *p,int *out);
+int BR_UTIL_StepFollow(char *p,int *out);
 
 extern const char d_02200D5C[];
 
@@ -541,7 +537,7 @@ extern const char d_02200AF0[];
 
 extern const Ent d_02200B34[];
 
-extern const Pair_021FD110 d_02200B6C;
+extern const BrUtilPair d_02200B6C;
 
 extern const u8 d_02200AFC[];
 
@@ -577,38 +573,38 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
 
 void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);BMP_WIN_Delete(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}
 
-void func_021FC754(char *p,void *a,void *b,void *font,unsigned short value)
+void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned short value)
 {
     Pair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj02902 *)p)->fC),((struct Obj02902 *)p)->f14);
     func_02045CAC(a,(u32)b,((struct Obj02902 *)p)->f10);
-    func_021FC870(((struct Obj02902 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02902 *)p)->fC), ((struct Obj02902 *)p)->f10, font, (Pair *)&xy);
+    BR_UTIL_AlignText(((struct Obj02902 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02902 *)p)->fC), ((struct Obj02902 *)p)->f10, font, (Pair *)&xy);
     owner=((struct Obj02902 *)p)->f8;
     PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((struct Obj02902 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02902 *)p)->f10),(u32)font,value);
     p[4]=1;
 }
 
-void func_021FC7C4(char *p,void *text,void *font,unsigned short value)
+void BR_UTIL_SetTextFromBuffer(char *p,void *text,void *font,unsigned short value)
 {
     Pair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj02903 *)p)->fC),((struct Obj02903 *)p)->f14);
     STRBUF_Copy(((struct Obj02903 *)p)->f10,text);
-    func_021FC870(((struct Obj02903 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02903 *)p)->fC), ((struct Obj02903 *)p)->f10, font, (Pair *)&xy);
+    BR_UTIL_AlignText(((struct Obj02903 *)p)->f18, (Pair *)(p+28), BMP_WIN_GetBmp(((struct Obj02903 *)p)->fC), ((struct Obj02903 *)p)->f10, font, (Pair *)&xy);
     owner=((struct Obj02903 *)p)->f8;
     PRINTSYS_PrintQueColor(owner,(u32)BMP_WIN_GetBmp(((struct Obj02903 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02903 *)p)->f10),(u32)font,value);
     p[4]=1;
 }
 
-int func_021FC830(u8*p){void*owner=*(void* *)&((struct Obj05502 *)p)->f8;if(p[4]){if(!PRINTSYS_QUE_IsExistTarget(owner,BMP_WIN_GetBmp(*(void* *)&((struct Obj05502 *)p)->f0))){BMP_WIN_TransferChars(*(void* *)&((struct Obj05502 *)p)->f0);p[4]=0;}}if(!p[4])return 1;return 0;}
+int BR_UTIL_FlushText(u8*p){void*owner=*(void* *)&((struct Obj05502 *)p)->f8;if(p[4]){if(!PRINTSYS_QUE_IsExistTarget(owner,BMP_WIN_GetBmp(*(void* *)&((struct Obj05502 *)p)->f0))){BMP_WIN_TransferChars(*(void* *)&((struct Obj05502 *)p)->f0);p[4]=0;}}if(!p[4])return 1;return 0;}
 
-void func_021FC868(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}
+void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}
 
 /*
  * extent: two zero alignment bytes follow the 86-byte function.
  */
-void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
+void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
 {
     unsigned x,y;
     switch(mode) {
@@ -624,11 +620,11 @@ void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pai
 /*
  * lever: u16 heap and const Config pointer restore scheduling; bounded permuter count-before-limit restores the clamp registers. Resource before font gives the original spill slots.
  */
-View_021FC6A4 *func_021FC8C8(const Config *cfg,u16 heap)
+BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
 {
     Triple arrows,marks;
     Request arrow,mark;
-    View_021FC6A4 *p;
+    BrUtilListMenu *p;
     int size,mode,count;
     int limit;
     u16 resource;
@@ -655,10 +651,10 @@ View_021FC6A4 *func_021FC8C8(const Config *cfg,u16 heap)
         }
         if(i>=10) func_02034714(d_02200D68,0,d_02200D68);
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
-        p->methods[0]=(void (*)(void))func_021FCF90;p->methods[1]=(void (*)(void))func_021FD094;p->methods[2]=(void (*)(void))func_021FD0B8;
+        p->methods[0]=(void (*)(void))BR_UTIL_ScrollRows;p->methods[1]=(void (*)(void))BR_UTIL_NeedsScroll;p->methods[2]=(void (*)(void))BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
-        p->methods[0]=(void (*)(void))func_021FCFE0;p->methods[1]=(void (*)(void))func_021FD0A8;p->methods[2]=(void (*)(void))func_021FD110;
-        if(p->cfg.cursor) func_021FD860((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
+        p->methods[0]=(void (*)(void))BR_UTIL_ScrollWithCursor;p->methods[1]=(void (*)(void))BR_UTIL_HasMultipleRows;p->methods[2]=(void (*)(void))BR_UTIL_UpdateRowSelection;
+        if(p->cfg.cursor) BR_UTIL_StartEffect((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
     }
     p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
@@ -682,10 +678,10 @@ View_021FC6A4 *func_021FC8C8(const Config *cfg,u16 heap)
         else arrow.y=i==0?64:184;
         arrow.id=i;
         p->handles[i]=(u32)CLACT_CreateActor((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
-        CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
+        CLACT_SetActorAutoAnim((struct Actor *)p->handles[i],1);CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
     }
     i=0;
-    CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);
+    CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
     MI_CpuFill8(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
     if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
@@ -704,27 +700,27 @@ View_021FC6A4 *func_021FC8C8(const Config *cfg,u16 heap)
             PRINTSYS_PrintColor(p->bitmaps[i],0,0,text,(void *)font,0x3da0);
         }
     }
-    func_021FCE60((char *)p,p->start);
+    BR_UTIL_DrawListRows((char *)p,p->start);
     if(cfg->count<p->visible) {
-        p->scroll=0;CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],0);
+        p->scroll=0;CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],0);
     } else {
         p->scroll=1;
         if(p->scroll) {
-            if(p->start==0) CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);
-            else CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],1);
-            if(p->cfg.count==p->start+p->visible) CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],0);
-            else CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],1);
+            if(p->start==0) CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
+            else CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],1);
+            if(p->cfg.count==p->start+p->visible) CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],0);
+            else CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],1);
         }
     }
-    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);
+    if(BR_UTIL_ListMenuIsScrollable((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Actor *)p->handles[i],1);
     return p;
 }
 
-void func_021FCC80(char *p)
+void BR_UTIL_DeleteListMenu(char *p)
 {
     int i;
-    if(((struct Obj01571 *)p)->f1C) func_021FD860((char *)((struct Obj01571 *)p)->f1C,0,0);
-    for(i=0;i<4;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+0x28+i*4)));
+    if(((struct Obj01571 *)p)->f1C) BR_UTIL_StartEffect((char *)((struct Obj01571 *)p)->f1C,0,0);
+    for(i=0;i<4;i++) CLACT_DeleteActor((struct Actor *)(*(int *)(p+0x28+i*4)));
     for(i=0;(unsigned)i<((struct Obj01571 *)p)->f4;i++) {
         if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) BMP_Delete((struct Obj020437AC *)(*(int *)(p+0x8C+i*4)));
     }
@@ -738,44 +734,44 @@ void func_021FCC80(char *p)
     func_020307B0(p);
 }
 
-void func_021FCD0C(char *p)
+void BR_UTIL_MainListMenu(char *p)
 {
-    if(func_021FCDA0(p)) {
-        ((struct Obj00048 *)p)->f4C=func_021FCEDC(p);
+    if(BR_UTIL_ListMenuIsScrollable(p)) {
+        ((struct Obj00048 *)p)->f4C=BR_UTIL_PollScrollDrag(p);
         if(((struct Obj00048 *)p)->f4C) {
             if(((int (*)(char *,int))*(int *)(p+0x50))(p,((struct Obj00048 *)p)->f4C)) {
                 if(GFL_USE_IsSeqPlaying(0x6FE)==0) GFL_USE_PlaySeDefaultVolume(0x6FE);
-                func_021FCE60(p,((struct Obj00048 *)p)->f42);
+                BR_UTIL_DrawListRows(p,((struct Obj00048 *)p)->f42);
             }
             if(((struct Obj00048 *)p)->f4D) {
-                if(((struct Obj00048 *)p)->f42==0) CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00048 *)p)->f28,0);
-                else CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00048 *)p)->f28,1);
-                if(((struct Obj00048 *)p)->f4==((struct Obj00048 *)p)->f42+((struct Obj00048 *)p)->f44) CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00048 *)p)->f2C,0);
-                else CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00048 *)p)->f2C,1);
+                if(((struct Obj00048 *)p)->f42==0) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f28,0);
+                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f28,1);
+                if(((struct Obj00048 *)p)->f4==((struct Obj00048 *)p)->f42+((struct Obj00048 *)p)->f44) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f2C,0);
+                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((struct Obj00048 *)p)->f2C,1);
             }
         }
     }
     ((void (*)(char *))*(int *)(p+0x58))(p);
 }
 
-int func_021FCDA0(char *p){return (*(int(**)(char *))(p+0x54))(p);}
+int BR_UTIL_ListMenuIsScrollable(char *p){return (*(int(**)(char *))(p+0x54))(p);}
 
 /*
  * leaf: S27 parent clearance; ov183 callers DFFB0 and E024C sole blocker.
  */
-int func_021FCDA8(char *p)
+int BR_UTIL_GetListMenuField48(char *p)
 {
     return ((struct Obj24838 *)p)->f48;
 }
 
-void func_021FCDAC(u8 *p, u16 i, u32 v)
+void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
 {
     if(i>=*(u32 *)(p+4))func_02034714(d_02200D68,0,d_02200D68);
     if(*(u32 *)(*(u32 *)p+i*8)!=0)func_02034714(d_02200D68,0,d_02200D68);
     *(u32 *)((u32)p+i*4+0x8c)=v;
 }
 
-u32 func_021FCDE8(u8 *p, u16 i)
+u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
     if(i>=((struct Obj24839 *)p)->f4)func_02034714(d_02200D68,0,d_02200D68);
     return *(u32 *)((u32)p+i*4+0x8c);
@@ -784,7 +780,7 @@ u32 func_021FCDE8(u8 *p, u16 i)
 /*
  * extent: lead plus tail-call stub at 021FCE50.
  */
-int func_021FCE0C(char *p,unsigned field)
+int BR_UTIL_GetListMenuField(char *p,unsigned field)
 {
     switch(field) {
     case 0:return ((struct Obj08332 *)p)->f40;
@@ -795,25 +791,25 @@ int func_021FCE0C(char *p,unsigned field)
     }
 }
 
-void func_021FCE50(char *p)
+void BR_UTIL_RefreshList(char *p)
 {
-    func_021FCE60(p,((struct Obj00048 *)p)->f42);
+    BR_UTIL_DrawListRows(p,((struct Obj00048 *)p)->f42);
 }
 
-void func_021FCE60(char *p,int start)
+void BR_UTIL_DrawListRows(char *p,int start)
 {
     int i,height;
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38)),0);
     for(i=start;i<start+((struct Obj00048 *)p)->f44;i++) {
-        if((unsigned)i<((struct Obj00048 *)p)->f4 && ((View_021FCDA0 *)p)->bitmap[i]) {
+        if((unsigned)i<((struct Obj00048 *)p)->f4 && ((BrUtilListView *)p)->bitmap[i]) {
             height=((struct Obj00048 *)p)->fE;
-            func_021FCF54(((View_021FCDA0 *)p)->bitmap[i],(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38),0,0,0,(i-start)*height,((struct Obj00048 *)p)->fA,height);
+            BR_UTIL_BlitRows(((BrUtilListView *)p)->bitmap[i],(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38),0,0,0,(i-start)*height,((struct Obj00048 *)p)->fA,height);
         }
     }
     BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38);
 }
 
-int func_021FCEDC(char *p)
+int BR_UTIL_PollScrollDrag(char *p)
 {
     int x,y;
     int direction=0;
@@ -837,7 +833,7 @@ int func_021FCEDC(char *p)
  * extent: 80-byte scrolling follower filed as ov186_func_021FCF90.c.
  * lever: width-first multiply preserves the stack load and register order.
  */
-void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
+void BR_UTIL_BlitRows(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
 {
     char *d,*s;
     int doff,soff;
@@ -848,9 +844,9 @@ void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned sho
 }
 
 /*
- * follower: scroll range update after func_021FCF54.
+ * follower: scroll range update after BR_UTIL_BlitRows.
  */
-int func_021FCF90(char *p,int change)
+int BR_UTIL_ScrollRows(char *p,int change)
 {
     if(((struct Obj05503 *)p)->f42!=0 && change==-1) {
         ((struct Obj05503 *)p)->f42+=(unsigned short)change;
@@ -866,7 +862,7 @@ int func_021FCF90(char *p,int change)
 /*
  * followers: unlabelled store-free accessors 021FD094 and 021FD0A8 included; final 2-byte alignment outside TU length.
  */
-int func_021FCFE0(char *p,int step)
+int BR_UTIL_ScrollWithCursor(char *p,int step)
 {
     int count,changed,half;
     count=((struct Obj01283 *)p)->f44;
@@ -885,18 +881,18 @@ int func_021FCFE0(char *p,int step)
             ((struct Obj01283 *)p)->f40+=(u16)step;changed=1;
         }
     }
-    if(changed && ((struct Obj01283 *)p)->f1C) func_021FD860((char *)((struct Obj01283 *)p)->f1C,5,&d_02200B0C[((struct Obj01283 *)p)->f40]);
+    if(changed && ((struct Obj01283 *)p)->f1C) BR_UTIL_StartEffect((char *)((struct Obj01283 *)p)->f1C,5,&d_02200B0C[((struct Obj01283 *)p)->f40]);
     return changed;
 }
 
-int func_021FD094(char *p) { return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44; }
+int BR_UTIL_NeedsScroll(char *p) { return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44; }
 
-int func_021FD0A8(char *p) { return ((struct Obj24840 *)p)->f4>1; }
+int BR_UTIL_HasMultipleRows(char *p) { return ((struct Obj24840 *)p)->f4>1; }
 
 /*
  * extent: accessor at 021FD110 filed separately, then two zero alignment bytes.
  */
-void func_021FD0B8(char *p)
+void BR_UTIL_HandleRowTouch(char *p)
 {
     int x,y;
     Pair pair;
@@ -906,7 +902,7 @@ void func_021FD0B8(char *p)
     if(result!=-1) {
         if(((struct Obj05504 *)p)->f20) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            func_021FD860((char *)((struct Obj05504 *)p)->f20, 1, (const Pair *)&pair);
+            BR_UTIL_StartEffect((char *)((struct Obj05504 *)p)->f20, 1, (const Pair *)&pair);
         }
         GFL_USE_PlaySeDefaultVolume(0x703);
         ((struct Obj05504 *)p)->f48=((int *)(((struct Obj05504 *)p)->f0+(result+((struct Obj05504 *)p)->f42)*8))[1];
@@ -914,14 +910,14 @@ void func_021FD0B8(char *p)
 }
 
 /*
- * follower: accessor after func_021FD0B8; two alignment bytes after return.
+ * follower: accessor after BR_UTIL_HandleRowTouch; two alignment bytes after return.
  */
-void func_021FD110(char *p)
+void BR_UTIL_UpdateRowSelection(char *p)
 {
     ((struct Obj08333 *)p)->f48=((int *)(((struct Obj08333 *)p)->f0+(((struct Obj08333 *)p)->f40+((struct Obj08333 *)p)->f42)*8))[1];
 }
 
-void *func_021FD12C(int a,void *owner,u16 heap)
+void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap)
 {
     u8 *p;
     BR_RES_LoadBgGraphics((void *)a,2,heap);
@@ -930,36 +926,36 @@ void *func_021FD12C(int a,void *owner,u16 heap)
     return p;
 }
 
-void func_021FD15C(void *p, int a1)
+void BR_UTIL_DeleteTextWin(void *p, int a1)
 {
     BR_UTIL_Delete(p);
     BR_RES_ApplyBgSet(a1, 2);
 }
 
-void func_021FD170(char *p,char *q,void *text)
+void BR_UTIL_SetWindowText(char *p,char *q,void *text)
 {
     u32 font;
     font=BR_RES_GetFont(q);
-    func_021FC754(p,(void *)BR_RES_GetMsgData(q),text,(void *)font,0x3dac);
+    BR_UTIL_SetTextFromMessage(p,(void *)BR_RES_GetMsgData(q),text,(void *)font,0x3dac);
 }
 
-void func_021FD19C(char *p,void *q,void *text)
+void BR_UTIL_SetWindowTextBuf(char *p,void *q,void *text)
 {
-    func_021FC7C4(p,text,(void *)BR_RES_GetFont(q),0x3dac);
+    BR_UTIL_SetTextFromBuffer(p,text,(void *)BR_RES_GetFont(q),0x3dac);
 }
 
 /*
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
-void func_021FD1BC(void *p)
+void BR_UTIL_FlushWindow(void *p)
 {
-    func_021FC830(p);
+    BR_UTIL_FlushText(p);
 }
 
 /*
  * 2026-10-05 (wave P2, lane Q6, pengy share): first full draft, 1148 B,
  * same size as the original, 12 bytes differ. Constructor of the GDS
- * profile screen (pair of func_021FD640, the matched destructor): 0x44 B
+ * profile screen (pair of BR_UTIL_DeleteProfileScreen, the matched destructor): 0x44 B
  * object, 7 text windows from the 8-byte table d_02200B34 (switch on the
  * row: 0 name, 1 and 3 and 4 number rows, 6 optional record with a
  * fallback draw, 2 and 5 plain message), then an arc load that builds the
@@ -967,7 +963,7 @@ void func_021FD1BC(void *p)
  * chosen by mode (0, 1, other). The earlier layout residue is closed:
  * the table row is read as d_02200B34[i].f at every use (CSE gives the
  * r6 address), the pair constant d_02200B6C is read twice by initialiser
- * (Pair_021FD110 b = d at function level, Pair_021FD110 c = d in case 6, which gives the
+ * (BrUtilPair b = d at function level, BrUtilPair c = d in case 6, which gives the
  * hidden copy at [sp,#0x38]), the two position records are memset with
  * MI_CpuFill8(&r,0,8) then only x,y,z / x,y are stored, hf is a u32 so
  * the u16 truncation is repeated per call, mode is a switch.
@@ -984,7 +980,7 @@ void func_021FD1BC(void *p)
  * takes the 4-halfword record out pointer.
  *
  * 2026-10-05 (wave P2, lane Q6b): 12 B -> 4 B, and now compiles in --lang c
- * (Pair_021FD110 b moved into a block that wraps the row loop, Req r declared at the
+ * (BrUtilPair b moved into a block that wraps the row loop, Req r declared at the
  * top of its block). Residue (2) closed: assign k3 first in each mode-0 arm
  * (k3=4;k1=0x14;k2=0x12;k4=0x13; and k3=6;k1=0x17;...), which gives the
  * original's movs r7 before the str to [sp,#0x20]; k1,k3,k2,k4 also works.
@@ -1094,7 +1090,7 @@ void func_021FD1BC(void *p)
 /*
  * 2026-10-05 (wave P2, lane Q6, pengy share): first full draft, 1148 B,
  * same size as the original, 12 bytes differ. Constructor of the GDS
- * profile screen (pair of func_021FD640, the matched destructor): 0x44 B
+ * profile screen (pair of BR_UTIL_DeleteProfileScreen, the matched destructor): 0x44 B
  * object, 7 text windows from the 8-byte table d_02200B34 (switch on the
  * row: 0 name, 1 and 3 and 4 number rows, 6 optional record with a
  * fallback draw, 2 and 5 plain message), then an arc load that builds the
@@ -1226,7 +1222,7 @@ void func_021FD1BC(void *p)
  * The integrator should know that the matched definition is spelled void.
  * Also: t inlined into the CLACT_RegisterCellAnim call (same bytes, one fewer local).
  */
-char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
+char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
 {
     char *p;
     void *font;
@@ -1247,10 +1243,10 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     bank=(void *)(u32)BR_RES_GetMsgData(q);
     words=(void *)(u32)BR_RES_GetWordSet(q);
     {
-    Pair_021FD110 b=d_02200B6C;
+    BrUtilPair b=d_02200B6C;
     for(i=0;i<7;i++) {
         *(void **)(p+i*4)=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,a3,heap);
-        func_021FC868(*(void **)(p+i*4),0,1,0);
+        BR_UTIL_SetTextLayout(*(void **)(p+i*4),0,1,0);
         ready=1;
         switch(i) {
         case 0:
@@ -1288,7 +1284,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             func_0201F048(words,0,v);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
-            func_021FC868(*(void **)(p+i*4),8,1,0);
+            BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
             }
         case 4:
@@ -1302,7 +1298,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             func_0201F094(words,0,v,w);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
-            func_021FC868(*(void **)(p+i*4),8,1,0);
+            BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
             }
         case 6:
@@ -1313,9 +1309,9 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             if(msg) {
                 text=STRBUF_Clone(msg,heap);
                 STRBUF_Delete(msg);
-                func_021FC868(*(void **)(p+i*4),8,1,0);
+                BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             } else {
-                Pair_021FD110 c=d_02200B6C;
+                BrUtilPair c=d_02200B6C;
                 PMS_DRAW_SetNullColorPalette(*(void **)(p+0x20),0);
                 PMS_DRAW_SetPrintColor(*(void **)(p+0x20),0x3da0);
                 PMS_DRAW_PrintOffset(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
@@ -1328,7 +1324,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             break;
         }
         if(ready) {
-            func_021FC7C4(*(void **)(p+i*4),text,font,0x3da0);
+            BR_UTIL_SetTextFromBuffer(*(void **)(p+i*4),text,font,0x3da0);
             STRBUF_Delete(text);
         }
     }
@@ -1393,40 +1389,40 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     return p;
 }
 
-void func_021FD640(int *p)
+void BR_UTIL_DeleteProfileScreen(int *p)
 {
     int i;
-    if(p[10]) {CLACT_DeleteActor((struct Obj *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
-    if(p[9]) {CLACT_DeleteActor((struct Obj *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
+    if(p[10]) {CLACT_DeleteActor((struct Actor *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
+    if(p[9]) {CLACT_DeleteActor((struct Actor *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {BR_UTIL_Delete((void *)p[i]);p[i]=0;}
-    PMS_DRAW_Delete((struct Obj *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);func_020409B4(1);
+    PMS_DRAW_Delete((struct Actor *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);func_020409B4(1);
 }
 
-int func_021FD6B0(u8 *p)
+int BR_UTIL_MainProfileScreen(u8 *p)
 {
     int result=1;
     int i;
-    for(i=0;i<7;i++)if(*(void **)((u32)p+(u32)i*4)!=0)result &=func_021FC830(*(void **)((u32)p+(u32)i*4));
+    for(i=0;i<7;i++)if(*(void **)((u32)p+(u32)i*4)!=0)result &=BR_UTIL_FlushText(*(void **)((u32)p+(u32)i*4));
     PMS_DRAW_Main(*(u8 * *)&((struct Obj24841 *)p)->f20);
     return result;
 }
 
-int *func_021FD6D8(int payload,int callback,u32 heap)
+int *BR_UTIL_CreateTask(int payload,int callback,u32 heap)
 {
     int *p;
     p=func_02030734(heap,16,0,d_02200D5C,0x6a2);
     MI_CpuFill8(p,0,16);
     p[2]=payload;
-    func_021FD73C(p,callback);
+    BR_UTIL_SetTaskStep(p,callback);
     return p;
 }
 
-void func_021FD714(void *p)
+void BR_UTIL_DeleteTask(void *p)
 {
     func_020307B0(p);
 }
 
-void func_021FD71C(u8 *p)
+void BR_UTIL_RunTask(u8 *p)
 {
     if(*(Callback *)&((struct Obj14467 *)p)->f0!=0)(*(Callback *)p)(p,(int *)(p+4),((struct Obj14467 *)p)->f8);
 }
@@ -1434,30 +1430,30 @@ void func_021FD71C(u8 *p)
 /*
  * Blocker leaf for ov183 021E1D48 and 021E20F8, parent cleared.
  */
-int func_021FD72C(int *p)
+int BR_UTIL_IsTaskIdle(int *p)
 {
     if (*p==0) return 1;
     return 0;
 }
 
-int *func_021FD73C(int *p, int v)
+int *BR_UTIL_SetTaskStep(int *p, int v)
 {
     p[0] = v;
     p[1] = 0;
     return p;
 }
 
-int func_021FD744(int *a)
+int BR_UTIL_ClearTaskStep(int *a)
 {
-    return (int)func_021FD73C(a, 0);
+    return (int)BR_UTIL_SetTaskStep(a, 0);
 }
 
-int func_021FD750(int *p, int v)
+int BR_UTIL_IsTaskStep(int *p, int v)
 {
     return *p == v;
 }
 
-char *func_021FD760(unsigned owner,char *resources,int index,int heap)
+char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap)
 {
     Triple triple;
     Pair pair;
@@ -1467,7 +1463,7 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     p=func_02030734(heap,0x264,0,d_02200D5C,0x7CA);
     MI_CpuFill8(p,0,0x264);
     ((Handles *)p)->resources=resources;((Handles *)p)->index=index;
-    ((Handles *)p)->task=(int)func_021FD6D8((int)p,(int)func_021FD964,heap);
+    ((Handles *)p)->task=(int)BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite(((Handles *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
     if(!BR_RES_GetSprite(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
@@ -1475,7 +1471,7 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     res=index;
     for(;i<12;i++) {
         ((Handles *)p)->handles[i]=(int)CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&pair,res,heap);
-        CLACT_SetActorDrawEnable((struct Obj *)((Handles *)p)->handles[i],0);
+        CLACT_SetActorDrawEnable((struct Actor *)((Handles *)p)->handles[i],0);
         CLACT_SetActorObjMode((struct Actor *)(((Handles *)p)->handles[i]),1);
     }
     return p;
@@ -1484,65 +1480,65 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
 /*
  * Release the twelve handles at r5+0x1F8, then tear the object down.
  */
-void func_021FD820(char *r5)
+void BR_UTIL_DeleteHandles(char *r5)
 {
     int i;
     for (i = 0; i < 0xC; i++)
-        CLACT_DeleteActor((struct Obj *)(*(int *)(r5 + 0x1F8 + i * 4)));
+        CLACT_DeleteActor((struct Actor *)(*(int *)(r5 + 0x1F8 + i * 4)));
     BR_RES_ReleaseSprite((char *)(((struct Obj10793 *)r5)->f14), ((struct Obj10793 *)r5)->fC + 9);
-    func_021FD714((void *)(((struct Obj10793 *)r5)->f10));
+    BR_UTIL_DeleteTask((void *)(((struct Obj10793 *)r5)->f10));
     func_020307B0((int *)r5);
 }
 
-void func_021FD854(char *p)
+void BR_UTIL_RunHandles(char *p)
 {
-    func_021FD71C((u8 *)(((struct Obj24845 *)p)->f10));
+    BR_UTIL_RunTask((u8 *)(((struct Obj24845 *)p)->f10));
 }
 
 /*
  * follower: 021FD938 already filed separately; lead excludes that existing accessor.
  */
-void func_021FD860(char *p,u32 mode,const Pair *pair)
+void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair)
 {
     if(pair) {
         *(Pair *)p=*pair;
         *(const Pair * *)&((struct Obj02236 *)p)->f8=pair;
     }
     ((struct Obj02236 *)p)->f22C=0;
-    if(mode==0 && func_021FD750(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88)) GFL_USE_PlaySeDefaultVolume(0x701);
+    if(mode==0 && BR_UTIL_IsTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
     switch(mode) {
-    case 0: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD964);break;
-    case 1: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD9A0);break;
-    case 2: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDA7C);break;
-    case 3: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDBF4);break;
-    case 4: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88);break;
-    case 5: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDF40);break;
-    case 6: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF0);break;
-    case 7: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF4);break;
-    case 8: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FE1C4);break;
+    case 0: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectIdle);break;
+    case 1: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectSpiral);break;
+    case 2: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow12);break;
+    case 3: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow6);break;
+    case 4: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn);break;
+    case 5: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyInSlow);break;
+    case 6: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectNoop);break;
+    case 7: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToTarget);break;
+    case 8: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToPoint);break;
     }
 }
 
-int func_021FD938(char *p){return ((struct Obj24846 *)p)->f22C;}
+int BR_UTIL_IsEffectDone(char *p){return ((struct Obj24846 *)p)->f22C;}
 
 /*
  * lever: Set the counter before narrowing value; its initialization splits the two shifts.
  */
-void func_021FD940(u8 *p,u32 value)
+void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value)
 {
     int i;
     u16 narrow;
     i=0;
     narrow=value;
-    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct Obj **)((u32)p+(u32)i*4+0x1f8),narrow);
+    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct Actor **)((u32)p+(u32)i*4+0x1f8),narrow);
 }
 
-void func_021FD964(void *unused,int *state,u8 *p)
+void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
 {
     int i;
     switch(*state) {
     case 0:
-        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct Obj **)((u32)p+(u32)i*4+0x1f8),0);
+        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct Actor **)((u32)p+(u32)i*4+0x1f8),0);
         ((struct Obj24847 *)p)->f22C=1;
         *state=1;
         break;
@@ -1550,7 +1546,7 @@ void func_021FD964(void *unused,int *state,u8 *p)
     }
 }
 
-void func_021FD9A0(int unused,int *state,Motion_021FD714 *p)
+void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilMotion6 *p)
 {
     Pair full;
     ShortPair pos;
@@ -1561,20 +1557,20 @@ void func_021FD9A0(int unused,int *state,Motion_021FD714 *p)
         for(i=0;i<6;i++) {
             int angle;
             angle=i*0xffff/6;
-            func_021FE2BC((unsigned char *)p->record[i],(const Pair *)p,8,20,angle,angle+0x3333,15);
+            BR_UTIL_InitOrbit((unsigned char *)p->record[i],(const Pair *)p,8,20,angle,angle+0x3333,15);
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE2F8(p->record[i],(int *)&full,p->timer);
+            BR_UTIL_StepOrbit(p->record[i],(int *)&full,p->timer);
             pos.x=full.x;pos.y=full.y;
             CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
         }
         if(p->timer++>15) *state=2;
         break;
     case 2:
-        func_021FD73C(p->task,(int)func_021FD964);
+        BR_UTIL_SetTaskStep(p->task,(int)BR_UTIL_EffectIdle);
         break;
     }
 }
@@ -1582,7 +1578,7 @@ void func_021FD9A0(int unused,int *state,Motion_021FD714 *p)
 /*
  * lever: ShortPair declared before Pair gives +2C and +24 stack objects; initialize reused i=1 before FE478 so the call precedes its loop without relocating movs.
  */
-void func_021FDA7C(int unused,int *state,Motion_021FDA7C *p)
+void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilMotion12 *p)
 {
     ShortPair pos;
     Pair initial;
@@ -1595,15 +1591,15 @@ void func_021FDA7C(int unused,int *state,Motion_021FDA7C *p)
             p->positions[i]=initial;
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
-        func_021FE444((int *)p->record[0],&p->positions[0],&d_02200AE8.first,0,50);
+        BR_UTIL_InitLine((int *)p->record[0],&p->positions[0],&d_02200AE8.first,0,50);
         for(i=1;i<12;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x4000-i*0x666/2);
         *state=1;
     case 1:
         i=1;
-        p->flag=func_021FE478((int *)p->record[0],&p->positions[0],p->timer);
+        p->flag=BR_UTIL_StepLine((int *)p->record[0],&p->positions[0],p->timer);
         done=1;
         done&=p->flag;
-        for(;i<12;i++) done&=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
+        for(;i<12;i++) done&=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<12;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
             CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
@@ -1611,11 +1607,11 @@ void func_021FDA7C(int unused,int *state,Motion_021FDA7C *p)
         p->timer++;
         if(done) *state=2;
         break;
-    case 2: func_021FD73C(p->task,(int)func_021FD964);break;
+    case 2: BR_UTIL_SetTaskStep(p->task,(int)BR_UTIL_EffectIdle);break;
     }
 }
 
-void func_021FDBF4(int unused,int *state,Motion *p)
+void BR_UTIL_EffectFollow6(int unused,int *state,Motion *p)
 {
     ShortPair pos;
     ShortPair pos2;
@@ -1629,12 +1625,12 @@ void func_021FDBF4(int unused,int *state,Motion *p)
             p->positions[i]=initial;
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
-        func_021FE444((int *)p->record[0], (const Pair *)(&p->positions[0]), (const Pair *)(&d_02200AD0.second), 0, 36);
+        BR_UTIL_InitLine((int *)p->record[0], (const Pair *)(&p->positions[0]), (const Pair *)(&d_02200AD0.second), 0, 36);
         for(i=1;i<6;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
         *state=1;
     case 1:
-        p->done[1]=func_021FE478((int *)p->record[0], (Pair *)(&p->positions[0]), p->timer);
-        for(i=1;i<6;i++) p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
+        p->done[1]=BR_UTIL_StepLine((int *)p->record[0], (Pair *)(&p->positions[0]), p->timer);
+        for(i=1;i<6;i++) p->done[i+1]=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<6;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
             CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
@@ -1645,14 +1641,14 @@ void func_021FDBF4(int unused,int *state,Motion *p)
     case 2:
         p->timer=0;
         for(i=6;i<12;i++) {
-            func_021FE3B4((u8 *)p->record[i], (const Pair *)((void *)&d_02200AD0.second), 15, (i*0xffff-0x5fffa)/6, 90);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((void *)&d_02200AD0.second), 15, (i*0xffff-0x5fffa)/6, 90);
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=3;
     case 3:
-        for(i=6;i<12;i++) func_021FE3E4(p->record[i],(int *)(&p->positions[i]),p->timer);
+        for(i=6;i<12;i++) BR_UTIL_StepSpiral(p->record[i],(int *)(&p->positions[i]),p->timer);
         for(i=1;i<6;i++) {
-            p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
+            p->done[i+1]=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
             if(p->done[i+1]) CLACT_SetActorDrawEnable(p->handles[i],0);
         }
         for(i=0;i<12;i++) {
@@ -1665,7 +1661,7 @@ void func_021FDBF4(int unused,int *state,Motion *p)
     }
 }
 
-void func_021FDE88(int unused,int *state,Motion_021FDE88 *p)
+void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilMotionA *p)
 {
     Pair full;
     ShortPair pos;
@@ -1674,14 +1670,14 @@ void func_021FDE88(int unused,int *state,Motion_021FDE88 *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            func_021FE3B4((u8 *)p->record[i], (const Pair *)((const Pair *)p), 15, (i*0xFFFF)/6, 90);
-            CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((const Pair *)p), 15, (i*0xFFFF)/6, 90);
+            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
         }
         GFL_USE_PlaySeDefaultVolume(0x705);
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE3E4(p->record[i],(int *)(&full),p->timer);
+            BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
             CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->heap);
         }
@@ -1693,7 +1689,7 @@ void func_021FDE88(int unused,int *state,Motion_021FDE88 *p)
 /*
  * follower: empty return at 021FDFF0; trailing two zero alignment bytes excluded.
  */
-void func_021FDF40(int unused,int *state,Motion_021FDE88 *p)
+void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilMotionA *p)
 {
     Pair full;
     ShortPair pos;
@@ -1702,13 +1698,13 @@ void func_021FDF40(int unused,int *state,Motion_021FDE88 *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            func_021FE3B4((u8 *)p->record[i], (const Pair *)((const Pair *)p), 10, (i*0xFFFF)/6, 90);
-            CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((const Pair *)p), 10, (i*0xFFFF)/6, 90);
+            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE3E4(p->record[i],(int *)(&full),p->timer);
+            BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
             CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->heap);
         }
@@ -1717,11 +1713,11 @@ void func_021FDF40(int unused,int *state,Motion_021FDE88 *p)
     }
 }
 
-void func_021FDFF0(void)
+void BR_UTIL_EffectNoop(void)
 {
 }
 
-void func_021FDFF4(int *obj,int *state,Motion_021FDFF4 *p)
+void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilMotionB *p)
 {
     ShortPair pos;
     ShortPair pos2;
@@ -1731,13 +1727,13 @@ void func_021FDFF4(int *obj,int *state,Motion_021FDFF4 *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            func_021FE2BC((u8 *)p->record[i], (const Pair *)((const Pair *)p), 8, 20, (i*0xFFFF)/6, (i*0xFFFF)/6+0x3333, 16);
-            CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
+            BR_UTIL_InitOrbit((u8 *)p->record[i], (const Pair *)((const Pair *)p), 8, 20, (i*0xFFFF)/6, (i*0xFFFF)/6+0x3333, 16);
+            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE2F8(p->record[i],p->positions[i],p->timer);
+            BR_UTIL_StepOrbit(p->record[i],p->positions[i],p->timer);
             pos.x=p->positions[i][0];pos.y=p->positions[i][1];
             CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos), p->heap);
         }
@@ -1753,14 +1749,14 @@ void func_021FDFF4(int *obj,int *state,Motion_021FDFF4 *p)
     case 4:
         all=1;
         for(i=0;i<6;i++) {
-            all&=func_021FE54C(p->record[i],p->positions[i]);
+            all&=BR_UTIL_StepFollow(p->record[i],p->positions[i]);
             pos2.x=p->positions[i][0];pos2.y=p->positions[i][1];
             CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos2), p->heap);
         }
         if(all) *state=5;
         break;
     case 5:
-        func_021FD73C(obj,(int)func_021FD964);
+        BR_UTIL_SetTaskStep(obj,(int)BR_UTIL_EffectIdle);
         break;
     }
 }
@@ -1775,7 +1771,7 @@ void func_021FDFF4(int *obj,int *state,Motion_021FDFF4 *p)
  * output bytes do not change. Older text in this header that asks for the
  * double assignment is superseded.
  */
-void func_021FE1C4(int *task,int *state,char *p)
+void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
 {
     Pair full;
     ShortPair pos;
@@ -1784,13 +1780,13 @@ void func_021FE1C4(int *task,int *state,char *p)
     case 0: {
         char *start;
         int offset;
-        func_021FD940((unsigned char *)p,0);
+        BR_UTIL_SetHandlesAnimSeq((unsigned char *)p,0);
         start=p+0x18;
         offset=0x1f8;
         for(i=6;i<12;i++) {
             u16 angle;
             angle=*(u16 *)(p+i*32+0x2a)+((struct Obj06632 *)p)->f228/ *(int *)(p+i*32+0x2c);
-            func_021FE2BC((unsigned char *)(start+i*32),(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
+            BR_UTIL_InitOrbit((unsigned char *)(start+i*32),(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
             CLACT_SetActorObjMode(*(void **)(p+i*4+offset),0);
         }
         ((struct Obj06632 *)p)->f228=0;
@@ -1801,21 +1797,21 @@ void func_021FE1C4(int *task,int *state,char *p)
         int offset;
         offset=0x228;start=p;i=6;start=p+0x18;offset=0x1f8;
         for(;i<12;i++) {
-            func_021FE2F8(start+i*32,(int *)&full,((struct Obj06632 *)p)->f228);
+            BR_UTIL_StepOrbit(start+i*32,(int *)&full,((struct Obj06632 *)p)->f228);
             pos.x=full.x;pos.y=full.y;
             CLACT_AddActorSurfacePos((void *)((int)(*(void **)(p+i*4+offset))), (const ShortPair *)((ShortPair *)&pos), ((struct Obj06632 *)p)->fC);
         }
         if((((struct Obj06632 *)p)->f228)++>60)*state=2;
         break;
     }
-    case 2:func_021FD73C(task,(int)func_021FD964);break;
+    case 2:BR_UTIL_SetTaskStep(task,(int)BR_UTIL_EffectIdle);break;
     }
 }
 
 /*
  * lever: A named x load before the last halfword store preserves the interleaved copy.
  */
-int func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
+int BR_UTIL_InitOrbit(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
 {
     int x;
     MI_CpuFill8(p,0,28);
@@ -1827,10 +1823,10 @@ int func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
     ((struct Obj01284 *)p)->f0=x;
     ((struct Obj01284 *)p)->f18=duration;
     ((struct Obj01284 *)p)->f4=origin->y;
-    return func_021FE2F8((char *)p,(int *)(p+8),0);
+    return BR_UTIL_StepOrbit((char *)p,(int *)(p+8),0);
 }
 
-int func_021FE2F8(char *p, int *out, int step)
+int BR_UTIL_StepOrbit(char *p, int *out, int step)
 {
     unsigned short angle_delta;
     signed char direction;
@@ -1863,14 +1859,14 @@ int func_021FE2F8(char *p, int *out, int step)
 /*
  * lever: The two-word origin copy is a Pair assignment; separate field stores reorder it.
  */
-int func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
+int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
 {
     MI_CpuFill8(p,0,24);
     *(Pair *)p=*origin;
     ((struct Obj10797 *)p)->f14=duration;
     ((struct Obj10797 *)p)->f10=a;
     ((struct Obj10797 *)p)->f12=b;
-    return func_021FE3E4((char *)p,0,0);
+    return BR_UTIL_StepSpiral((char *)p,0,0);
 }
 
 #pragma opt_common_subs off
@@ -1885,7 +1881,7 @@ int func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
  *   local i = (angle >> 4) * 2 then gives the shared index the pragma no
  *   longer finds. Earlier lanes: 26 (P19 lane 5), 15 (G6L8).
  */
-int func_021FE3E4(char *p, int *out, int step)
+int BR_UTIL_StepSpiral(char *p, int *out, int step)
 {
     int angle, i, x, y;
     angle = (unsigned short)(*(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14));
@@ -1907,9 +1903,9 @@ static inline void copyPair(Pair *dest,const Pair *src) { int y,x; y=src->y; x=s
 /*
  * lever: inline pair copy loads y then x before storing; aggregate copy differed by 20 bytes, raw field stores by 23, const raw stores by 22.
  */
-void func_021FE444(int *p,const Pair *a,const Pair *b,int c,int d) { MI_CpuFill8(p,0,0x20); copyPair((Pair *)p,a); copyPair((Pair *)(p+2),b); p[7]=d; p[6]=c; func_021FE478(p,0,0); }
+void BR_UTIL_InitLine(int *p,const Pair *a,const Pair *b,int c,int d) { MI_CpuFill8(p,0,0x20); copyPair((Pair *)p,a); copyPair((Pair *)(p+2),b); p[7]=d; p[6]=c; BR_UTIL_StepLine(p,0,0); }
 
-int func_021FE478(int *p, Pair *out, int step)
+int BR_UTIL_StepLine(int *p, Pair *out, int step)
 {
     int done = 0;
     int progress = step - p[6];
@@ -1954,7 +1950,7 @@ static inline int roundFixed(int x)
     return (int)f;
 }
 
-int func_021FE54C(char *p,int *out)
+int BR_UTIL_StepFollow(char *p,int *out)
 {
     VecFx32 delta;
     int length,x,y;

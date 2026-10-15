@@ -1,7 +1,7 @@
 /*
  * file:     os_printf.c
  * unit:     yes
- * function: OS_SPrintf, func_02084F68, func_02084F80, OS_VSNPrintf
+ * function: OS_SPrintf, OS_VSPrintf, OS_SNPrintf, OS_VSNPrintf
  * address:  0x02084F40
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,8 +24,7 @@ typedef char *va_list;
 extern int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
 extern int STD_TVSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
 int OS_SPrintf(char *dst, const char *fmt, ...);
-void func_02084F68(void *a0, int a1, int a2);
-int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 int OS_VSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
 
 
@@ -39,9 +38,9 @@ int OS_SPrintf(char *dst, const char *fmt, ...)
 
 
 
-void func_02084F68(void *a0, int a1, int a2)
+int OS_VSPrintf(char *dst, const char *fmt, va_list vlist)
 {
-    OS_VSNPrintf((char *)a0, 0x7fffffff, (const char *)a1, (void *)a2);
+    return OS_VSNPrintf(dst, 0x7fffffff, fmt, vlist);
 }
 
 
@@ -49,7 +48,7 @@ void func_02084F68(void *a0, int a1, int a2)
 /*
  * note:     os_printf.o OS_SNPrintf.
  */
-int func_02084F80(char *dst, unsigned int len, const char *fmt, ...)
+int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...)
 {
     int ret;
     va_list va;

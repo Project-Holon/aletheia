@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DBE70 0x021DBE70 thumb ov119
+ *   POKETRADE_PROC_StepBrowseGrid 0x021DBE70 thumb ov119
  *   POKETRADE_2D_UpdateVisibleColumns 0x021E4E64 thumb ov119
  */
 #include "../include/Obj00001.h"
@@ -28,7 +28,7 @@ extern void func_020355D8(u8 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DBE70(char *p);
+extern void POKETRADE_PROC_StepBrowseGrid(char *p);
 extern void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b);
 void POKETRADE_PROC_StepWaitKeyAfterMessage(char *p) {
     int v;
@@ -43,7 +43,7 @@ void POKETRADE_PROC_StepWaitKeyAfterMessage(char *p) {
         ((struct Obj00001 *)p)->fF80=-1;
         ((struct Obj00001 *)p)->fF7C=-1;
         POKETRADE_SAVE_CloseMessageWindowClear(p);
-        POKETRADE_PROC_SetStep(p,(int)func_021DBE70);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBrowseGrid);
         ((struct Obj00001 *)p)->f1080=-1;
         POKETRADE_2D_UpdateVisibleColumns(*(int *)&((struct Obj00001 *)p)->f828,p,1);
     }

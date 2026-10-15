@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02089618  0x02089618  arm
+ *   SND_SetChannelTimer  0x02089618  arm
  *   _ll_udiv       0x0209C00C  arm
  *
  * Writes the channel's timer period.  The period is the same chained 64-bit
@@ -34,7 +34,7 @@
  * 64-bit value against r1:r3 with r2 = 0 as its high half, so the local is
  * `u64` all the way to the (u32) narrowing at the call.
  *
- * func_02089618 resolves sole-ref/code: 0x02089618 is a traced ARM function
+ * SND_SetChannelTimer resolves sole-ref/code: 0x02089618 is a traced ARM function
  * start in asm/arm9/src/028_02087EA8.s and the `bl` here is the only branch to
  * it anywhere in the image.
  *
@@ -55,7 +55,7 @@ typedef struct {
     u32 f8;                     /* 0x08  liveness guard                      */
 } Obj;
 
-extern void func_02089618(u32 chBitMask, int timer);
+extern void SND_SetChannelTimer(u32 chBitMask, int timer);
 
 void NNS_SndWaveOutSetSpeed(Obj *s, int v)
 {
@@ -71,5 +71,5 @@ void NNS_SndWaveOutSetSpeed(Obj *s, int v)
     else if (t > 0xFFFF) {
         t = 0xFFFF;
     }
-    func_02089618(1 << s->f0, (u32)t);
+    SND_SetChannelTimer(1 << s->f0, (u32)t);
 }

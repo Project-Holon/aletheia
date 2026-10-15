@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FD714  0x021FD714  thumb  ov186
- *   func_021FD15C  0x021FD15C  thumb  ov186
- *   func_021FACE0  0x021FACE0  thumb  ov186
+ *   BR_UTIL_DeleteTask  0x021FD714  thumb  ov186
+ *   BR_UTIL_DeleteTextWin  0x021FD15C  thumb  ov186
+ *   BR_BTN_DeleteRecord  0x021FACE0  thumb  ov186
  *   BR_RES_ReleaseSprite  0x021FC0C8  thumb  ov186
  *   BR_BTN_DATA_Delete  0x021FB63C  thumb  ov186
  *   func_020307B0  0x020307B0  arm
@@ -24,9 +24,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct PrintSys;
-extern void func_021FD714(void *p);
-extern void func_021FD15C(void *p, int a1);
-extern void func_021FACE0(char *p);
+extern void BR_UTIL_DeleteTask(void *p);
+extern void BR_UTIL_DeleteTextWin(void *p, int a1);
+extern void BR_BTN_DeleteRecord(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_BTN_DATA_Delete(void *p);
 extern u32 func_020307B0(void *p);
@@ -37,16 +37,16 @@ void BR_BTN_Delete(u8 *p)
 {
     int i;
 
-    func_021FD714((void *)(((struct Obj01175 *)p)->fC));
+    BR_UTIL_DeleteTask((void *)(((struct Obj01175 *)p)->fC));
     if (((struct Obj01175 *)p)->f50 != 0) {
-        func_021FD15C((void *)(((struct Obj01175 *)p)->f50), ((struct Obj01175 *)p)->f4);
+        BR_UTIL_DeleteTextWin((void *)(((struct Obj01175 *)p)->f50), ((struct Obj01175 *)p)->f4);
         ((struct Obj01175 *)p)->f50 = 0;
     }
     for (i = 0; i < ((struct Obj01175 *)p)->f3B; i++)
-        func_021FACE0((char *)(((struct Obj01175 *)p)->f3C + i * 0x44));
+        BR_BTN_DeleteRecord((char *)(((struct Obj01175 *)p)->f3C + i * 0x44));
     func_020307B0((void *)((struct Obj01175 *)p)->f3C);
     for (i = 0; i < ((struct Obj01175 *)p)->f39; i++)
-        func_021FACE0((char *)(((struct Obj01175 *)p)->f40 + i * 0x44));
+        BR_BTN_DeleteRecord((char *)(((struct Obj01175 *)p)->f40 + i * 0x44));
     func_020307B0((void *)((struct Obj01175 *)p)->f40);
     BR_RES_ReleaseSprite((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10);
     BR_RES_ReleaseSprite((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10 + 1);

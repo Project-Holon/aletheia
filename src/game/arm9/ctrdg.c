@@ -1,7 +1,7 @@
 /*
  * file:     ctrdg.c
  * unit:     yes
- * function: func_02090EF4, func_02090F18, CTRDG_IsExisting, CTRDGi_ChangeLatestAccessCycle, func_0209109C, func_020910D0, func_0209112C, func_02091150
+ * function: func_02090EF4, CTRDGi_InitCommon, CTRDG_IsExisting, CTRDGi_ChangeLatestAccessCycle, func_0209109C, CTRDGi_LockByProcessor, func_0209112C, CTRDGi_SendtoPxi
  * address:  0x02090EF4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -52,11 +52,11 @@ typedef struct CTRDGModuleInfo {
 } CTRDGModuleInfo;
 
 typedef struct CTRDGHeader {
-    u8 pad0[0xAC];
+    u8 titleArea[0xAC];
     u32 gameCode;
     u16 makerCode;
     u8 fixed;
-    u8 pad1[0xB];
+    u8 reservedArea[0xB];
     u16 moduleID;
 } CTRDGHeader;
 
@@ -80,23 +80,22 @@ typedef struct CTRDGRomCycle {
 
 extern void SVC_CpuSet(u32 *out, void *p, u32 v);
 extern u16 OS_GetLockID(void);
-extern void CTRDGi_LockByProcessor(u16 lockID, CTRDGLockByProc *info);
+extern void CTRDGi_LockByProcessor(u32 lockID, u32 *info);
 extern u32 OS_DisableInterrupts(void);
-extern unsigned short OS_ReadOwnerOfLockWord(char *p);
-extern u32 func_02084DA4(u32 a);
-extern void OS_RestoreInterrupts(u32 h);
-extern void SVC_WaitByLoop(u32 v);
+extern unsigned short OS_ReadOwnerOfLockWord(char *lock);
+extern u32 func_02084DA4(u32 lockID);
+extern void OS_RestoreInterrupts(u32 state);
+extern void SVC_WaitByLoop(u32 cycles);
 extern void OS_UnLockCartridge(u16 lockID);
 
-extern u32 PXI_SendWordByFifo(u32 a, u32 b, u32 c);
+extern u32 PXI_SendWordByFifo(u32 fifotag, u32 data, u32 err);
 asm BOOL CTRDG_IsExistedAtInit(void);
-void func_02090F18(void);
+void CTRDGi_InitCommon(void);
 BOOL CTRDG_IsExisting(void);
 void CTRDGi_ChangeLatestAccessCycle(CTRDGRomCycle *r);
 void CTRDGi_RestoreAccessCycle(CTRDGRomCycle *r);
-void func_020910D0(u32 a0, u32 *a1);
 void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info);
-void func_02091150(u32 a0);
+void CTRDGi_SendtoPxi(u32 data);
 extern CtrdgBss g_02153B80;
 
 asm BOOL CTRDG_IsExistedAtInit(void)
@@ -110,7 +109,7 @@ asm BOOL CTRDG_IsExistedAtInit(void)
     bx	lr
 }
 
-void func_02090F18(void)
+void CTRDGi_InitCommon(void)
 {
     u32 tmp = 0;
 
@@ -140,7 +139,7 @@ BOOL CTRDG_IsExisting(void)
         return 0;
     }
 
-    CTRDGi_LockByProcessor(g_02153B80.lockID, &lockInfo);
+    CTRDGi_LockByProcessor(g_02153B80.lockID, (u32 *)&lockInfo);
     CTRDGi_ChangeLatestAccessCycle(&rc);
 
     isRomCode = chp->fixed;
@@ -192,19 +191,19 @@ void CTRDGi_RestoreAccessCycle(CTRDGRomCycle *r)
  *           own (it is a 0x02084xxx packet, outside this window).
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
-void func_020910D0(u32 a0, u32 *a1)
+void CTRDGi_LockByProcessor(u32 lockID, u32 *lockInfo)
 {
-    u32 t;
+    u32 owner;
 
     while (1) {
-        a1[1] = OS_DisableInterrupts();
-        t = OS_ReadOwnerOfLockWord((void *)0x02FFFFE8) & 0x40;
-        a1[0] = t;
-        if (t != 0)
+        lockInfo[1] = OS_DisableInterrupts();
+        owner = OS_ReadOwnerOfLockWord((void *)0x02FFFFE8) & 0x40;
+        lockInfo[0] = owner;
+        if (owner != 0)
             return;
-        if (func_02084DA4(a0) == 0)
+        if (func_02084DA4(lockID) == 0)
             return;
-        OS_RestoreInterrupts(a1[1]);
+        OS_RestoreInterrupts(lockInfo[1]);
         SVC_WaitByLoop(1);
     }
 }
@@ -217,12 +216,12 @@ void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info)
     (void)OS_RestoreInterrupts(info->irq);
 }
 
-void func_02091150(u32 a0)
+void CTRDGi_SendtoPxi(u32 data)
 {
-    if (PXI_SendWordByFifo(0xd, a0, 0) == 0)
+    if (PXI_SendWordByFifo(0xd, data, 0) == 0)
         return;
 
     do {
         SVC_WaitByLoop(1);
-    } while (PXI_SendWordByFifo(0xd, a0, 0) != 0);
+    } while (PXI_SendWordByFifo(0xd, data, 0) != 0);
 }

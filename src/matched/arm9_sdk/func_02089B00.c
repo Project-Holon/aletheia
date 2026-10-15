@@ -1,5 +1,5 @@
 /*
- * function: func_02089B00
+ * function: SND_PushCommand
  * address:  0x02089B00
  * packet:   pkt_02089B00
  * region:   arm9
@@ -43,7 +43,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommandState sFreeList;
 
-void func_02089B00(SNDCommand *command)
+void SND_PushCommand(SNDCommand *command)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
 

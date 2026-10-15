@@ -72,7 +72,7 @@
  *   g_021A5C60     0x021A5C60  data
  *   func_0217ED38  0x0217ED38  arm
  *   SOC_GetHostByName  0x0215F650  arm
- *   func_02084F80            0x02084F80  arm
+ *   OS_SNPrintf            0x02084F80  arm
  *   g_021A5CA8               0x021A5CA8  data
  *   g_021A5CB0               0x021A5CB0  data
  *   g_021A5CCC               0x021A5CCC  data
@@ -292,7 +292,7 @@ extern int DetermineNatType();
 extern int closesocket(int sock);
 extern int func_0217ED38(int a);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int func_0217EF50(int sock);
@@ -858,7 +858,7 @@ unsigned int func_02199D1C(char *overrideHostname, char *defaultHostname)
     hostname = overrideHostname;
     if (!hostname) {
         hostname = hostnameBuffer;
-        func_02084F80(hostname, 64, g_021A5CA8, gGsAvailabilityGameName, defaultHostname);
+        OS_SNPrintf(hostname, 64, g_021A5CA8, gGsAvailabilityGameName, defaultHostname);
     }
     return func_02199CE8(hostname);
 }

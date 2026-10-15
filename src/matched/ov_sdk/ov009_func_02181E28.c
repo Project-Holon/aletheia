@@ -13,17 +13,17 @@
  *
  * symbols:
  *   strchr                           0x02094a28 arm
- *   g_021A3F14                       0x021a3f14 data
+ *   gGsXmlWhiteSpaceChars                       0x021a3f14 data
  */
 
-extern char g_021A3F14[];
+extern char gGsXmlWhiteSpaceChars[];
 extern char *strchr(const char *s, int c);
 
 static int gsiXmlUtilSkipWhiteSpace(void *unused, char *buffer, int len, int *pos)
 {
     while (*pos < len)
     {
-        if (strchr(g_021A3F14, buffer[*pos]) == 0)
+        if (strchr(gGsXmlWhiteSpaceChars, buffer[*pos]) == 0)
             return 1;
         (*pos)++;
     }

@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084E10 0x02084E10 arm
+ *   OS_UnlockCard 0x02084E10 arm
  */
 
-extern void func_02084E10(void);
+extern void OS_UnlockCard(void);
 
 asm void OS_UnLockCard(void)
 {
-    ldr r1, =func_02084E10
+    ldr r1, =OS_UnlockCard
     bx	r1
 }

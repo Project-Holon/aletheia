@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209A368
+ * function: copysign
  * address:  0x0209A368
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -21,7 +21,7 @@
 
 typedef unsigned int u32;
 
-double func_0209A368(double x, double y)
+double copysign(double x, double y)
 {
     ((u32 *)&x)[1] = (((u32 *)&x)[1] & 0x7fffffff) | (((u32 *)&y)[1] & 0x80000000);
     return x;

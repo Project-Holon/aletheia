@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF54
+ * function: MYSTERY_NET_GetErrorHookState
  * address: 0x021DEF54
  * packet: pkt_ov121_021DEF54
  * region: ov121
@@ -10,7 +10,7 @@
  * extent: Ends at labelled function 021DEF6C.
  */
 #include "../include/Obj22925.h"
-int func_021DEF54(char *p, int unused, int type)
+int MYSTERY_NET_GetErrorHookState(char *p, int unused, int type)
 {
     switch (type) {
     case 3:

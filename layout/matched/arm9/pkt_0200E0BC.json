@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E0BC",
+   "name": "SYMBOL_SAVE_FindBand",
    "address": "0x0200E0BC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E0E8",
+   "name": "SYMBOL_SAVE_FindFreeSlot",
    "address": "0x0200E0E8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E124",
+   "name": "SYMBOL_SAVE_RemoveSlot",
    "address": "0x0200E124",
    "kind": "game",
    "region": "arm9",

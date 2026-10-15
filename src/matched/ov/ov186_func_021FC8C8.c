@@ -1,5 +1,5 @@
 /*
- * function: func_021FC8C8
+ * function: BR_UTIL_CreateListMenu
  * address: 0x021FC8C8
  * packet: pkt_ov186_021FC8C8
  * region: ov186
@@ -24,18 +24,18 @@
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
- *   func_021FCE60 0x021FCE60 thumb ov186
- *   func_021FCDA0 0x021FCDA0 thumb ov186
- *   func_021FCF90 0x021FCF90 thumb ov186
- *   func_021FD094 0x021FD094 thumb ov186
- *   func_021FD0B8 0x021FD0B8 thumb ov186
- *   func_021FCFE0 0x021FCFE0 thumb ov186
- *   func_021FD0A8 0x021FD0A8 thumb ov186
- *   func_021FD110 0x021FD110 thumb ov186
+ *   BR_UTIL_DrawListRows 0x021FCE60 thumb ov186
+ *   BR_UTIL_ListMenuIsScrollable 0x021FCDA0 thumb ov186
+ *   BR_UTIL_ScrollRows 0x021FCF90 thumb ov186
+ *   BR_UTIL_NeedsScroll 0x021FD094 thumb ov186
+ *   BR_UTIL_HandleRowTouch 0x021FD0B8 thumb ov186
+ *   BR_UTIL_ScrollWithCursor 0x021FCFE0 thumb ov186
+ *   BR_UTIL_HasMultipleRows 0x021FD0A8 thumb ov186
+ *   BR_UTIL_UpdateRowSelection 0x021FD110 thumb ov186
  *   d_02200D5C 0x02200D5C data a4
  *   d_02200D68 0x02200D68 data a4
  *   d_02200B0C 0x02200B0C data a4
@@ -72,18 +72,18 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
-extern void func_021FD860(char *,u32,const Pair *),BR_RES_LoadSprite(char *,u32,u32);
+extern void BR_UTIL_StartEffect(char *,u32,const Pair *),BR_RES_LoadSprite(char *,u32,u32);
 extern int BR_RES_GetSprite(char *,int,Triple *);
 extern unsigned BR_RES_GetFont(char *p);
-extern int func_021FCDA0(char *);
-extern void func_021FCE60(char *,int);
-extern int func_021FCF90(char *p, int change);
-extern int func_021FD094(char *p);
-extern void func_021FD0B8(char *p);
-extern int func_021FCFE0(char *p, int step);
-extern int func_021FD0A8(char *p);
-extern void func_021FD110(char *p);
-View *func_021FC8C8(const Config *cfg,u16 heap)
+extern int BR_UTIL_ListMenuIsScrollable(char *);
+extern void BR_UTIL_DrawListRows(char *,int);
+extern int BR_UTIL_ScrollRows(char *p, int change);
+extern int BR_UTIL_NeedsScroll(char *p);
+extern void BR_UTIL_HandleRowTouch(char *p);
+extern int BR_UTIL_ScrollWithCursor(char *p, int step);
+extern int BR_UTIL_HasMultipleRows(char *p);
+extern void BR_UTIL_UpdateRowSelection(char *p);
+View *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
 {
     Triple arrows,marks;
     Request arrow,mark;
@@ -114,10 +114,10 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         }
         if(i>=10) func_02034714(d_02200D68,0,d_02200D68);
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
-        p->methods[0]=(void (*)(void))func_021FCF90;p->methods[1]=(void (*)(void))func_021FD094;p->methods[2]=(void (*)(void))func_021FD0B8;
+        p->methods[0]=(void (*)(void))BR_UTIL_ScrollRows;p->methods[1]=(void (*)(void))BR_UTIL_NeedsScroll;p->methods[2]=(void (*)(void))BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
-        p->methods[0]=(void (*)(void))func_021FCFE0;p->methods[1]=(void (*)(void))func_021FD0A8;p->methods[2]=(void (*)(void))func_021FD110;
-        if(p->cfg.cursor) func_021FD860((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
+        p->methods[0]=(void (*)(void))BR_UTIL_ScrollWithCursor;p->methods[1]=(void (*)(void))BR_UTIL_HasMultipleRows;p->methods[2]=(void (*)(void))BR_UTIL_UpdateRowSelection;
+        if(p->cfg.cursor) BR_UTIL_StartEffect((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
     }
     p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
@@ -163,7 +163,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
             PRINTSYS_PrintColor(p->bitmaps[i],0,0,text,(void *)font,0x3da0);
         }
     }
-    func_021FCE60((char *)p,p->start);
+    BR_UTIL_DrawListRows((char *)p,p->start);
     if(cfg->count<p->visible) {
         p->scroll=0;CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],0);
     } else {
@@ -175,6 +175,6 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
             else CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],1);
         }
     }
-    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);
+    if(BR_UTIL_ListMenuIsScrollable((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);
     return p;
 }

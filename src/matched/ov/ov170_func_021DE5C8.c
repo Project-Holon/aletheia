@@ -1,5 +1,5 @@
 /*
- * function: func_021DE5C8
+ * function: BOX2_MAIN_FindMoverSlot
  * address:  0x021DE5C8
  * packet:   pkt_ov170_021DE5C8
  * region:   ov170
@@ -22,7 +22,7 @@ typedef struct {
     unsigned char pad[0x10];
 } Entry;
 
-int func_021DE5C8(char *p, unsigned id)
+int BOX2_MAIN_FindMoverSlot(char *p, unsigned id)
 {
     Entry *e = *(Entry * *)&((struct Obj23846 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
     unsigned i;

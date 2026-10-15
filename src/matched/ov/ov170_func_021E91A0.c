@@ -1,5 +1,5 @@
 /*
- * function: func_021E91A0
+ * function: BOX2_SEQ_StateUseItemMenu
  * address: 0x021E91A0
  * packet: pkt_ov170_021E91A0
  * region: ov170
@@ -8,29 +8,29 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DEFEC 0x021DEFEC thumb ov170
- *   func_021ED6E4 0x021ED6E4 thumb ov170
- *   func_021EBA5C 0x021EBA5C thumb ov170
- *   func_021DD14C 0x021DD14C thumb ov170
- *   func_021EF670 0x021EF670 thumb ov170
- *   func_021ED108 0x021ED108 thumb ov170
- *   func_021EBFA8 0x021EBFA8 thumb ov170
- *   func_021EBCB4 0x021EBCB4 thumb ov170
- *   func_021DD25C 0x021DD25C thumb ov170
+ *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
+ *   BOX2_UI_ShowWindowA 0x021EF670 thumb ov170
+ *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb ov170
+ *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb ov170
+ *   BOX2_SEQ_PrintPromptB 0x021EBCB4 thumb ov170
+ *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb ov170
  *   func_02007E50 0x02007E50 thumb
- *   func_021DD2D0 0x021DD2D0 thumb ov170
- *   func_021EBB34 0x021EBB34 thumb ov170
- *   func_021DD2B4 0x021DD2B4 thumb ov170
- *   func_021DD718 0x021DD718 thumb ov170
- *   func_021DD8A8 0x021DD8A8 thumb ov170
- *   func_021EC48C 0x021EC48C thumb ov170
- *   func_021DEFF8 0x021DEFF8 thumb ov170
+ *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
+ *   BOX2_SEQ_PrintWordsetB 0x021EBB34 thumb ov170
+ *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb ov170
+ *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb ov170
+ *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb ov170
+ *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb ov170
+ *   BOX2_MAIN_SetBoxForm 0x021DEFF8 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021EBB58 0x021EBB58 thumb ov170
+ *   BOX2_SEQ_PrintMessageD 0x021EBB58 thumb ov170
  *   func_020355C4 0x020355C4 arm
  *   func_020260F4 0x020260F4 thumb
- *   func_021ED55C 0x021ED55C thumb ov170
- *   func_021E8F50 0x021E8F50 thumb ov170
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
+ *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23943.h"
@@ -38,48 +38,48 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
-extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
-extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern void func_021EBB34(char *p, int a, int b);
-extern void func_021DD2B4(int a, int b, int c, int d, int e);
-extern int func_021DD718(void **pp, void *mon);
-extern void func_021DD8A8(void **pp, u32 idx);
-extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
-extern void func_021DEFF8(char *p, unsigned b);
+extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
+extern void BOX2_SEQ_PrintWordsetB(char *p, int a, int b);
+extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
+extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
+extern void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx);
+extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
+extern void BOX2_MAIN_SetBoxForm(char *p, unsigned b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_021EBB58(char *p, int b);
+extern void BOX2_SEQ_PrintMessageD(char *p, int b);
 extern u8 func_020355C4(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern void func_021ED55C(char **p, int flag);
-extern int func_021E8F50(char *p, int v);
-extern void func_021DEFEC(char *p, int b);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EBA5C(char *,int);
-extern void func_021DD14C(char *p);
-extern void func_021EF670(char *);
-extern void func_021ED108(char *,int);
-extern void func_021EBFA8(char *,int,int);
-extern void func_021EBCB4(unsigned char *,int,int);
+extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
+extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_ShowWindowObject(char *,int);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_UI_ShowWindowA(char *);
+extern void BOX2_SEQ_SetActorAffineMode(char *,int);
+extern void BOX2_SEQ_SetActorAnimSeq(char *,int,int);
+extern void BOX2_SEQ_PrintPromptB(unsigned char *,int,int);
 #define WORK(p) (*(char **)((p) + 0x2C))
-int func_021E91A0(unsigned char *p)
+int BOX2_SEQ_StateUseItemMenu(unsigned char *p)
 {
     void *mon;
     if(func_020355C4()==1) func_020260F4(*(void **)(WORK(p)+0x70),0);
-    else { func_020260F4(*(void **)(WORK(p)+0x70),1); func_021ED55C((char **)p,0); }
+    else { func_020260F4(*(void **)(WORK(p)+0x70),1); BOX2_SEQ_SetCursorDraw((char **)p,0); }
     if(func_02007E50(((struct Obj23943 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
-        mon=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
-        func_021DD2B4((int)p,p[0x16],p[0x14],6,0);
-        if(func_021DD718((void **)p,mon)==1) {
-            func_021DD8A8((void **)p,p[0x16]);
-            func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK(p)+p[0x16]+0x3dd2));
+        mon=(void *)BOX2_MAIN_GetMonAt((void ***)p,p[0x14],p[0x16]);
+        BOX2_MAIN_SetBoxValueAt((int)p,p[0x16],p[0x14],6,0);
+        if(BOX2_MAIN_CanPlaceInBox((void **)p,mon)==1) {
+            BOX2_MAIN_RecalcPartyParam((void **)p,p[0x16]);
+            BOX2_SEQ_ShowSlotIcon(p,p[0x14],p[0x16],*(unsigned char *)(WORK(p)+p[0x16]+0x3dd2));
         }
-        func_021DEFEC((char *)p,p[0x16]); func_021ED6E4((char **)p,0);
-        func_021EBA5C(WORK(p),0x18); func_021DD14C((char *)p); func_021EF670(WORK(p));
-        func_021ED108(WORK(p),1); func_021EBFA8(WORK(p),0xa,2);
+        BOX2_MAIN_ChangeBoxFormPreserve((char *)p,p[0x16]); BOX2_SEQ_SetSlotDim((char **)p,0);
+        BOX2_SEQ_ShowWindowObject(WORK(p),0x18); BOX2_MAIN_RefreshCursorBox((char *)p); BOX2_UI_ShowWindowA(WORK(p));
+        BOX2_SEQ_SetActorAffineMode(WORK(p),1); BOX2_SEQ_SetActorAnimSeq(WORK(p),0xa,2);
         return 0x3b;
     }
-    GFL_USE_PlaySeDefaultVolume(0x557); func_021EBCB4(p,6,0x18);
+    GFL_USE_PlaySeDefaultVolume(0x557); BOX2_SEQ_PrintPromptB(p,6,0x18);
     ((struct Obj00000 *)p)->f28=0xe;
-    return func_021E8F50((char *)p,6);
+    return BOX2_SEQ_ReturnAfterClear((char *)p,6);
 }

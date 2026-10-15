@@ -1,5 +1,5 @@
 /*
- * function: func_021BC014
+ * function: RESEARCH_LIST_UpdateEntryActor
  * address: 0x021BC014
  * packet: pkt_ov217_021BC014
  * region: ov217
@@ -9,10 +9,10 @@
  * status: EXACT
  * arity: BF28/BF3C forward entry r0/r1 to BF04/BF1C; preserve both, with observed u8 argument truncation.
  * symbols:
- *   func_021BBC50 0x021BBC50 thumb ov217
- *   func_021BC720 0x021BC720 thumb ov217
- *   func_021BBF28 0x021BBF28 thumb ov217
- *   func_021BBF3C 0x021BBF3C thumb ov217
+ *   RESEARCH_LIST_FindSaveIndex 0x021BBC50 thumb ov217
+ *   RESEARCH_LIST_GetActor 0x021BC720 thumb ov217
+ *   RESEARCH_LIST_GetEntryScreenX 0x021BBF28 thumb ov217
+ *   RESEARCH_LIST_GetEntryScreenY 0x021BBF3C thumb ov217
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -22,26 +22,26 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Obj;
 struct Vec2 { s16 x,y; };
-extern u8 func_021BBC50(u8 *p);
-extern u32 func_021BC720(void *p,u32 index);
-extern int func_021BBF28(unsigned char *p, unsigned int slot);
-extern int func_021BBF3C(u8 *p,u8 index);
+extern u8 RESEARCH_LIST_FindSaveIndex(u8 *p);
+extern u32 RESEARCH_LIST_GetActor(void *p,u32 index);
+extern int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot);
+extern int RESEARCH_LIST_GetEntryScreenY(u8 *p,u8 index);
 extern void CLACT_SetActorDrawEnable(struct Obj *p,u32 value);
 extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 extern void CLACT_SetActorAutoAnim(struct Obj *p,u32 value);
-void func_021BC014(u8 *p)
+void RESEARCH_LIST_UpdateEntryActor(u8 *p)
 {
     struct Vec2 point;
     u32 index;
     struct Obj *obj;
-    index=func_021BBC50(p);
-    obj=(struct Obj *)func_021BC720(p,2);
+    index=RESEARCH_LIST_FindSaveIndex(p);
+    obj=(struct Obj *)RESEARCH_LIST_GetActor(p,2);
     if(index==255) {
         CLACT_SetActorDrawEnable(obj,0);
         return;
     }
-    point.x=func_021BBF28(p,(u8)index);
-    point.y=func_021BBF3C(p,index)+10;
+    point.x=RESEARCH_LIST_GetEntryScreenX(p,(u8)index);
+    point.y=RESEARCH_LIST_GetEntryScreenY(p,index)+10;
     CLACT_AddActorSurfacePos(obj,&point,0);
     CLACT_SetActorAutoAnim(obj,1);
     CLACT_SetActorDrawEnable(obj,1);

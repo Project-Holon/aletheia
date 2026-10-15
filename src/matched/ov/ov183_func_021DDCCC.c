@@ -14,7 +14,7 @@
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   func_0200DC08 0x0200DC08 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -44,7 +44,7 @@ typedef unsigned int   u32;
 struct U16Vec;
 struct WordSet;
 extern void *BR_UTIL_Create(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
-extern void func_021FC7C4(char *,void *,void *,u16);
+extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 struct Blk1AC;
 struct MsgBank;
 extern u8 func_0200DC08(struct Blk1AC *p);
@@ -79,7 +79,7 @@ void func_021DDCCC(char *p,char *q)
    func_0201F250((void *)third,obj,(void *)text);
    STRBUF_Delete((struct U16Vec *)text);
   }else obj=(void *)func_02045EC0((struct MsgBank *)second,rec->value);
-  func_021FC7C4(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromBuffer(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
  v=func_0200DABC((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));

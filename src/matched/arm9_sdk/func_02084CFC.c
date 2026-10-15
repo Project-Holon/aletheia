@@ -1,5 +1,5 @@
 /*
- * function: func_02084CFC
+ * function: OSi_DoTryLockByWord
  * address:  0x02084CFC
  * packet:   pkt_02084CFC
  * region:   arm9
@@ -38,7 +38,7 @@ extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 
 extern u32 MI_SwapWord(u32 setData, volatile u32 *destp);
 
-s32 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
     s32 lastLockFlag;
     OSIntrMode enabled;

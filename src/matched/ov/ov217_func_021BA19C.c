@@ -1,5 +1,5 @@
 /*
- * function: func_021BA19C
+ * function: RESEARCH_TOP_GetTransitionKind
  * address:  0x021BA19C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -13,7 +13,7 @@
  *   RESEARCH_COMMON_GetPreviousScreen  0x021C09C8  thumb  ov217
  *   RESEARCH_COMMON_GetEntryHandled  0x021C09CC  thumb  ov217
  *
- * Same classifier as func_021BE46C with the pair (2, 1).
+ * Same classifier as RESEARCH_GRAPH_GetTransitionKind with the pair (2, 1).
  *
  * Addresses are Black-image addresses.
  */
@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 extern u32 RESEARCH_COMMON_GetPreviousScreen(void *p);
 extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
-u32 func_021BA19C(u8 *a0)
+u32 RESEARCH_TOP_GetTransitionKind(u8 *a0)
 {
     u32 v = ((struct Obj25812 *)a0)->f0;
     u32 a = RESEARCH_COMMON_GetPreviousScreen((void *)v);

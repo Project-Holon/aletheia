@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   SCRCMD_SYMBOL_GetMmdl  0x0216AED0  thumb  ov010
  *   INTRUDE_FIELD_GetMmdlParam0  0x0217C294  thumb  ov018
  *   SYMBOL_MAP_MoveRecordToPairedBand  0x0216628C  thumb  ov010
@@ -33,7 +33,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E0B0(void *p);
+extern void *SYMBOL_SAVE_GetBlock(void *p);
 extern void *SCRCMD_SYMBOL_GetMmdl(void *p, u32 id);
 extern int INTRUDE_FIELD_GetMmdlParam0(char *a0);
 extern int SYMBOL_MAP_MoveRecordToPairedBand(u32 *obj, u32 slot);
@@ -63,7 +63,7 @@ a0 = t5 + 0;
 loc_0216ACE8:
     w = GAME_DATA_GetSaveControl(w);
 loc_0216ACEC:
-    t6 = func_0200E0B0(w);
+    t6 = SYMBOL_SAVE_GetBlock(w);
 loc_0216ACF0:
 a0 = t5 + 0;
 a1 = t7 + 0;

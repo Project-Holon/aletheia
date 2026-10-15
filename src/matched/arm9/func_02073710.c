@@ -11,6 +11,7 @@
  * symbols:
  *   gSndPlayers  0x0214E464  data
  *   NNS_SndHeapDestroy  0x02074758  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -21,10 +22,10 @@ struct E { u8 p0[0xc]; u8 f0c; u8 pad[0x24 - 0xd]; };
 extern struct E gSndPlayers[];
 extern void NNS_SndHeapDestroy(void **a0);
 struct DList;
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 void NNSi_SndPlayerHeapDisposeCallback(struct A *a) {
     if (a->f8 == 0) return;
     NNS_SndHeapDestroy((void **)a->f8);
     if (a->fc != 0) { *(u32 *)(a->fc + 8) = 0; return; }
-    func_020605B4((volatile struct DList *)(&gSndPlayers[a->f10].f0c), a);
+    NNS_FndRemoveListObject((volatile struct DList *)(&gSndPlayers[a->f10].f0c), a);
 }

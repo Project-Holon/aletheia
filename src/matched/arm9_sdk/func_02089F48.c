@@ -1,5 +1,5 @@
 /*
- * function: func_02089F48
+ * function: IsCommandAvailable
  * address:  0x02089F48
  * packet:   pkt_02089F48
  * region:   arm9
@@ -26,7 +26,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 #define REG_EMU_COMMAND (*(volatile u32 *)0x04FFF200)
 
-BOOL func_02089F48(void)
+BOOL IsCommandAvailable(void)
 {
     unsigned long prev_mode;
     u32 res;

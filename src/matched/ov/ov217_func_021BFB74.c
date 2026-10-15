@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB74
+ * function: RESEARCH_GRAPH_CreateMessages
  * address:  0x021BFB74
  * packet:   pkt_ov217_021BFB74
  * region:   ov217
@@ -23,7 +23,7 @@ typedef struct W { u32 w0; u16 h; u16 pad; u32 w8; u32 obj[3]; } W;
 extern u32 d_021C3650[];
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-void func_021BFB74(W *p)
+void RESEARCH_GRAPH_CreateMessages(W *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

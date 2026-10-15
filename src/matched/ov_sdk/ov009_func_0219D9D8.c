@@ -17,7 +17,7 @@
  *   func_020964E0  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
  *   QEStartQuery  0x0219D5C4  arm  ov009
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   func_020949F4  0x020949F4  arm
@@ -71,7 +71,7 @@ typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern void FIFORemove(_SBServerFIFO *fifo, _SBServer *server);
 extern void QEStartQuery(_SBQueryEngine *engine, _SBServer *server);
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 typedef unsigned char  u8;
@@ -100,7 +100,7 @@ void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, 
         }
     } else if (server->state & 0x04) {
         for (i = 0; i < engine->numserverkeys; i++) {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
             if (!func_0219D114(g_021A7C90[engine->serverkeys[i]]))

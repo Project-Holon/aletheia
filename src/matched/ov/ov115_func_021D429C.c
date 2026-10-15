@@ -1,5 +1,5 @@
 /*
- * function: func_021D429C
+ * function: WIFILOGIN_COMMON_IsSameId
  * address: 0x021D429C
  * packet: pkt_ov115_021D429C
  * region: ov115
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov115/unit_021D4240.c and filed here.
  */
 
-int func_021D429C(int a, int b)
+int WIFILOGIN_COMMON_IsSameId(int a, int b)
 {
     if (a == b)
         return 1;

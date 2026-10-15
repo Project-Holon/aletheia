@@ -1,5 +1,5 @@
 /*
- * function: func_021F9C50
+ * function: BR_PROC_SYS_SetupWindow
  * address:  0x021F9C50
  * packet:   pkt_021F9C50
  * region:   ov186
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021F9C6C  0x021F9C6C  thumb  ov186
+ *   BR_PROC_SYS_FlushWindows  0x021F9C6C  thumb  ov186
  */
 #include "../include/Obj24811.h"
 
@@ -23,11 +23,11 @@ typedef struct {
 } S;
 
 extern void MI_CpuCopy8(void *, void *, int);
-extern void func_021F9C6C(S *);
+extern void BR_PROC_SYS_FlushWindows(S *);
 
-void func_021F9C50(S *p)
+void BR_PROC_SYS_SetupWindow(S *p)
 {
     MI_CpuCopy8(p->unk_4c, p->unk_68, 0x18);
     ((struct Obj24811 *)((char *)p->unk_68))->f18 = p->unk_64;
-    func_021F9C6C(p);
+    BR_PROC_SYS_FlushWindows(p);
 }

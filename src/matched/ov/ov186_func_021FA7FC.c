@@ -1,5 +1,5 @@
 /*
- * function: func_021FA7FC
+ * function: BR_BTN_UpdateExpand
  * address: 0x021FA7FC
  * packet: pkt_ov186_021FA7FC
  * region: ov186
@@ -8,29 +8,29 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FAD18 0x021FAD18 thumb ov186
- *   func_021FAD74 0x021FAD74 thumb ov186
- *   func_021FA21C 0x021FA21C thumb ov186
- *   func_021FAF24 0x021FAF24 thumb ov186
- *   func_021FD12C 0x021FD12C thumb ov186
- *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
- *   func_021FA6A8 0x021FA6A8 thumb ov186
- *   func_021FAA34 0x021FAA34 thumb ov186
+ *   BR_BTN_SetAnimMode 0x021FAD18 thumb ov186
+ *   BR_BTN_StepAnim 0x021FAD74 thumb ov186
+ *   BR_BTN_SetTailSelection 0x021FA21C thumb ov186
+ *   BR_BTN_GetRowField 0x021FAF24 thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
+ *   BR_BTN_UpdateRestore 0x021FA6A8 thumb ov186
+ *   BR_BTN_UpdateBack 0x021FAA34 thumb ov186
  *   d_02200358 0x02200358 data a4
  */
 #include "../include/Obj01278.h"
 extern const int d_02200358[];
-extern void func_021FAD18(char *,int,const int *);
-extern int func_021FAD74(char *),func_021FAF24(char *,int);
-extern void func_021FA21C(unsigned char *,int);
+extern void BR_BTN_SetAnimMode(char *,int,const int *);
+extern int BR_BTN_StepAnim(char *),BR_BTN_GetRowField(char *,int);
+extern void BR_BTN_SetTailSelection(unsigned char *,int);
 typedef unsigned short u16;
-extern void *func_021FD12C(int a, void *owner, u16 heap);
-extern void func_021FD170(char *p, char *q, void *text);
-extern int *func_021FD73C(int *p, int v);
-extern void func_021FA6A8(void *,int *,unsigned char *);
-extern void func_021FAA34(void *,int *,int *);
-void func_021FA7FC(void *p,int *state,unsigned char *ctx)
+extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
+extern void BR_BTN_UpdateRestore(void *,int *,unsigned char *);
+extern void BR_BTN_UpdateBack(void *,int *,int *);
+void BR_BTN_UpdateExpand(void *p,int *state,unsigned char *ctx)
 {
  int i,ready,kind;
  unsigned short value;
@@ -38,27 +38,27 @@ void func_021FA7FC(void *p,int *state,unsigned char *ctx)
  switch(*state){
  case 0:
   for(i=0;i<ctx[0x3b];i++){
-   if(i==ctx[0x3b]-1)func_021FAD18(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,2,d_02200358);
-   else func_021FAD18(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,4,d_02200358+(ctx[0x3b]-i-1)*2);
+   if(i==ctx[0x3b]-1)BR_BTN_SetAnimMode(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,2,d_02200358);
+   else BR_BTN_SetAnimMode(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,4,d_02200358+(ctx[0x3b]-i-1)*2);
   }
   *state=1;break;
  case 1:
   ready=1;
-  for(i=0;i<ctx[0x3b];i++)ready&=func_021FAD74(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44);
-  if(ready){func_021FA21C(ctx,0);*state=2;}break;
+  for(i=0;i<ctx[0x3b];i++)ready&=BR_BTN_StepAnim(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44);
+  if(ready){BR_BTN_SetTailSelection(ctx,0);*state=2;}break;
  case 2:
   entry=*(char * *)&((struct Obj01278 *)ctx)->f3C+(ctx[0x3b]-1)*0x44;
-  kind=func_021FAF24(entry,0);
-  value=func_021FAF24(entry,2);
+  kind=BR_BTN_GetRowField(entry,0);
+  value=BR_BTN_GetRowField(entry,2);
   if(kind==1){
-   if(!((struct Obj01278 *)ctx)->f50)((struct Obj01278 *)ctx)->f50=func_021FD12C((int)(((struct Obj01278 *)ctx)->f4),(void *)(((struct Obj01278 *)ctx)->f4C),((struct Obj01278 *)ctx)->f0);
-   func_021FD170(((struct Obj01278 *)ctx)->f50,((struct Obj01278 *)ctx)->f4,(void *)value);
+   if(!((struct Obj01278 *)ctx)->f50)((struct Obj01278 *)ctx)->f50=BR_UTIL_CreateTextWin((int)(((struct Obj01278 *)ctx)->f4),(void *)(((struct Obj01278 *)ctx)->f4C),((struct Obj01278 *)ctx)->f0);
+   BR_UTIL_SetWindowText(((struct Obj01278 *)ctx)->f50,((struct Obj01278 *)ctx)->f4,(void *)value);
   }
   *state=3;break;
  case 3:
   switch(((struct Obj01278 *)ctx)->f1C){
-  case 0:case 1:func_021FD73C(p,(int)func_021FA6A8);break;
-  default:func_021FD73C(p,(int)func_021FAA34);break;
+  case 0:case 1:BR_UTIL_SetTaskStep(p,(int)BR_BTN_UpdateRestore);break;
+  default:BR_UTIL_SetTaskStep(p,(int)BR_BTN_UpdateBack);break;
   }
   break;
  }

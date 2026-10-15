@@ -29,14 +29,14 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E394  0x0200E394  thumb
- *   func_0200E44C  0x0200E44C  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
+ *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   func_02167394  0x02167394  thumb
- *   func_0200E3A4  0x0200E3A4  thumb
- *   func_0200E49C  0x0200E49C  thumb
- *   func_0200E460  0x0200E460  thumb
- *   func_0200E4CC  0x0200E4CC  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
+ *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
+ *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
+ *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C33C  0x0200C33C  thumb
  *   func_0200C364  0x0200C364  thumb
@@ -62,13 +62,13 @@ struct Req {
 
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E394(void *p);
-extern int   func_0200E44C(void *p, int i);
+extern void *SYMBOL_SAVE_GetBitBlock(void *p);
+extern int   MISC_SAVEDATA_GetStatusByte(void *p, int i);
 extern u32   func_02167394(u8 id);
-extern u32   func_0200E3A4(void *p, u8 id);
-extern u32 func_0200E49C(u8 *p, u32 a, u32 count);
-extern void func_0200E460(char *p, int idx, int v);
-extern void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3);
+extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(void *p, u8 id);
+extern u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
+extern void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
+extern void MISC_SAVEDATA_AddTallyValue(u8 *a0, u32 a1, u32 a2, int a3);
 extern void *func_0200C0F0(void *p);
 struct Blk34;
 extern int func_0200C33C(struct Blk34 *p, u32 i);
@@ -83,7 +83,7 @@ static inline u32 calc(struct Req *r, int id)
         if (v > func_02167394(id))
             v = func_02167394(id);
     } else {
-        v = func_0200E3A4(r->f50, id);
+        v = SYMBOL_SAVE_GetQuestionnaireAnswer(r->f50, id);
     }
     return v;
 }
@@ -111,27 +111,27 @@ void GAME_BEACON_AddLog(u8 *base, struct Req *r)
             ((struct Obj00747 *)base)->fBAC = 0;
     }
 
-    bag = func_0200E394(GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0));
+    bag = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0));
     for (i = 0; i < 3; i++) {
-        id = func_0200E44C(bag, i);
+        id = MISC_SAVEDATA_GetStatusByte(bag, i);
         if (id != 0xff) {
             v = calc(r, id);
-            if (v != 0 && func_0200E49C(bag, id, v) == 0) {
-                func_0200E460(bag, id, 1);
-                func_0200E4CC(bag, id, v, 1);
+            if (v != 0 && MISC_SAVEDATA_IsTallyFull(bag, id, v) == 0) {
+                MISC_SAVEDATA_AddHalfwordClamped(bag, id, 1);
+                MISC_SAVEDATA_AddTallyValue(bag, id, v, 1);
                 ((struct Obj00747 *)base)->fBAF = 1;
             }
         }
     }
 
     sys = GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0);
-    bag2 = func_0200E394(sys);
+    bag2 = SYMBOL_SAVE_GetBitBlock(sys);
     tbl = func_0200C0F0(sys);
     for (i = 0; i < 3; i++) {
         id = func_0200C33C(tbl, (u8)i);
         if (id != 0xff) {
             for (j = 0; j < 3; j++) {
-                if (id == func_0200E44C(bag2, j)) {
+                if (id == MISC_SAVEDATA_GetStatusByte(bag2, j)) {
                     if (calc(r, id) != 0)
                         func_0200C364(tbl, i, 1);
                 }

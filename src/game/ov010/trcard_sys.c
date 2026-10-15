@@ -38,7 +38,7 @@
  *   ov110_id 0x0000006E data a1
  *   TRCARD_SYS_RunChildProc  0x0216F088  thumb  ov010
  *   func_0200E6F0  0x0200E6F0  thumb
- *   func_0200E714  0x0200E714  thumb
+ *   MISC_SAVEDATA_StoreQuadRecord  0x0200E714  thumb
  *   GAME_BEACON_SetPms  0x0202715C  thumb
  *   d_021C892C 0x021C892C data a4 ov111
  *   func_02008DFC  0x02008DFC  thumb
@@ -59,7 +59,7 @@
  *   func_02008650  0x02008650  thumb
  *   func_02008A0C  0x02008A0C  thumb
  *   func_02008A28  0x02008A28  thumb
- *   func_0200E6FC  0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
@@ -235,7 +235,7 @@ int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
 extern void *GAME_DATA_GetSaveControl(struct PlayerSave *p);
 extern int func_0200E6F0(void);
-extern void func_0200E714(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
+extern void MISC_SAVEDATA_StoreQuadRecord(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
 extern void GAME_BEACON_SetPms(u32 a0);
 extern u32 func_02008DFC(struct RecordBlock *obj, int i);
 extern struct TrainerCardSignature *func_020089C0(void *gameSystem);
@@ -254,7 +254,7 @@ extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u16 func_02008A0C(const struct TrainerCardSignature *obj);
 extern u8 func_02008A28(const struct TrainerCardSignature *obj);
-extern void func_0200E6FC(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
 extern u32 func_0200C1DC(struct BadgeSave *p);
 extern u16 *func_0200BE48(void *gameSystem);
 extern void *GPOWER_LoadPowerTable(u32 heapId);
@@ -506,7 +506,7 @@ int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work)
 
 
 /*
- * Byte-correct. Blocker: func_0200E714 (site +004C) is an unlabelled ARM9 Thumb
+ * Byte-correct. Blocker: MISC_SAVEDATA_StoreQuadRecord (site +004C) is an unlabelled ARM9 Thumb
  * leaf (copies four halfwords to dst[idx*4]) whose only caller is this
  * function; no witness. Its C is parked: docs/notes/pkt_ov010_0200E714.c.txt
  * (register naming r3/r4 swapped).
@@ -528,7 +528,7 @@ int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
         profile->beaconRecord[1] = beacon[1];
         profile->beaconRecord[2] = beacon[2];
         profile->beaconRecord[3] = beacon[3];
-        func_0200E714((struct BeaconRecord *)beaconSave, 0, (struct BeaconRecord *)work->editedBeacon);
+        MISC_SAVEDATA_StoreQuadRecord((struct BeaconRecord *)beaconSave, 0, (struct BeaconRecord *)work->editedBeacon);
         GAME_BEACON_SetPms((u32)work->editedBeacon);
     }
     return 1;
@@ -684,7 +684,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     }
     out->signatureColor = (u32)func_02008A0C(signature);
     out->signatureStyle = (u32)func_02008A28(signature);
-    func_0200E6FC(beaconData, (u32)0, (struct BeaconRecord *)out->beaconRecord);
+    MISC_SAVEDATA_CopyQuadRecord(beaconData, (u32)0, (struct BeaconRecord *)out->beaconRecord);
 
     RTC_ConvertSecondToDateTime(&date, &time, saveClock->firstPlaySec);
     out->startYear = date.year;

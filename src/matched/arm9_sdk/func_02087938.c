@@ -1,5 +1,5 @@
 /*
- * function: func_02087938
+ * function: OSi_GetVFrame
  * address:  0x02087938
  * packet:   pkt_02087938
  * region:   arm9
@@ -59,7 +59,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
 
-s32 func_02087938(s32 vcount)
+s32 OSi_GetVFrame(s32 vcount)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

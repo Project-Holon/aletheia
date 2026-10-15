@@ -29,7 +29,7 @@
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DACE4 0x021DACE4 thumb ov119
+ *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
  */
 #include "../include/Obj02828.h"
 typedef unsigned short u16;
@@ -57,7 +57,7 @@ extern void POKETRADE_3D_AddUnitAndInit(void *,int);
 extern void POKETRADE_3D_CreateTouchbar(char *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DACE4(char *p);
+extern void POKETRADE_PROC_StepResetForNewRound(char *p);
 void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
 {
     if(((struct Obj02828 *)p)->fF2C>=6 && WIPE_SYS_EndCheck()) {
@@ -73,6 +73,6 @@ void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
         BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);POKETRADE_3D_CreateTouchbar(p);
         GFL_NET_RestartWithDefaultTimeout(1,((struct Obj02828 *)p)->f5F4);
         ((struct Obj02828 *)p)->f11FA=0;
-        POKETRADE_PROC_SetStep(p,(int)func_021DACE4);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }
 }

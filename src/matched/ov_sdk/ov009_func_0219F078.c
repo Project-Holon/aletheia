@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02094798  0x02094798  arm
- *   func_0219F50C  0x0219F50C  arm  ov009
+ *   SBServerListSort  0x0219F50C  arm  ov009
  */
 
 struct SortInfo {
@@ -27,7 +27,7 @@ struct ServerBrowser {
 };
 
 extern char *func_02094798(char *dst, const char *src);
-extern void func_0219F50C(void *slist, int ascending, struct SortInfo sortinfo);
+extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
 
 void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
 {
@@ -35,5 +35,5 @@ void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int c
 
     info.comparemode = comparemode;
     func_02094798(info.sortkey, sortkey);
-    func_0219F50C(&sb->list, ascending, info);
+    SBServerListSort(&sb->list, ascending, info);
 }

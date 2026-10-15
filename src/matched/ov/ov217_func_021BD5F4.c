@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5F4
+ * function: RESEARCH_GRAPH_Create
  * address:  0x021BD5F4
  * packet:   pkt_ov217_021BD5F4
  * region:   ov217
@@ -11,29 +11,29 @@
  *
  * symbols:
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
- *   func_021BFA14  0x021BFA14  thumb  ov217
- *   func_021BFA30  0x021BFA30  thumb  ov217
- *   func_021BF74C  0x021BF74C  thumb  ov217
- *   func_021BF754  0x021BF754  thumb  ov217
+ *   RESEARCH_GRAPH_Alloc  0x021BFA14  thumb  ov217
+ *   RESEARCH_GRAPH_InitFields  0x021BFA30  thumb  ov217
+ *   RESEARCH_GRAPH_SetHeapId  0x021BF74C  thumb  ov217
+ *   RESEARCH_GRAPH_SetOwner  0x021BF754  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 extern u32 RESEARCH_COMMON_GetHeapId(void *p);
-extern u32 func_021BFA14(u32 a0);
-extern void func_021BFA30(char *p);
-extern void func_021BF74C(void *a, void *b);
-extern void func_021BF754(void *p, u32 v);
+extern u32 RESEARCH_GRAPH_Alloc(u32 a0);
+extern void RESEARCH_GRAPH_InitFields(char *p);
+extern void RESEARCH_GRAPH_SetHeapId(void *a, void *b);
+extern void RESEARCH_GRAPH_SetOwner(void *p, u32 v);
 
-void *func_021BD5F4(void *p)
+void *RESEARCH_GRAPH_Create(void *p)
 {
     void *r;
     void *a;
     a = (void *)RESEARCH_COMMON_GetHeapId(p);
-    r = (void *)func_021BFA14((u32)a);
-    func_021BFA30(r);
-    func_021BF74C(r, a);
-    func_021BF754(r, (u32)p);
+    r = (void *)RESEARCH_GRAPH_Alloc((u32)a);
+    RESEARCH_GRAPH_InitFields(r);
+    RESEARCH_GRAPH_SetHeapId(r, a);
+    RESEARCH_GRAPH_SetOwner(r, (u32)p);
     return r;
 }

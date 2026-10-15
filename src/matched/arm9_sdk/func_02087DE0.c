@@ -1,5 +1,5 @@
 /*
- * function: func_02087DE0
+ * function: OS_IsAgreeEULA
  * address:  0x02087DE0
  * packet:   pkt_02087DE0
  * region:   arm9
@@ -63,7 +63,7 @@ extern BOOL OS_IsRunOnTwl(void);
 /* HW_PARAM_TWL_SETTINGS_DATA: a pointer at 0x02FFFDFC to the TWL settings. */
 #define OSi_TWL_SETTINGS (*(u8 **)0x02FFFDFC)
 
-BOOL func_02087DE0(void)
+BOOL OS_IsAgreeEULA(void)
 {
     if (OS_IsRunOnTwl()) {
         return ((*(u32 *)OSi_TWL_SETTINGS >> 24) & 1) ? 1 : 0;

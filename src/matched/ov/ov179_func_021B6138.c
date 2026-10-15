@@ -1,5 +1,5 @@
 /*
- * function: func_021B6138
+ * function: CDEMO_MAIN_Update
  * address:  0x021B6138
  * packet:   pkt_021B6138
  * region:   ov179
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6380  0x021B6380  thumb  ov179
+ *   CDEMO_WIPE_RunScript  0x021B6380  thumb  ov179
  */
 
-extern int func_021B6380(char *p);
+extern int CDEMO_WIPE_RunScript(char *p);
 
-int func_021B6138(int a, int b, int c, int d)
+int CDEMO_MAIN_Update(int a, int b, int c, int d)
 {
-    if (func_021B6380((char *)d))
+    if (CDEMO_WIPE_RunScript((char *)d))
         return 0;
     return 1;
 }

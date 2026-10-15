@@ -1,5 +1,5 @@
 /*
- * function: func_02086284
+ * function: DC_FlushAll
  * address:  0x02086284
  * packet:   pkt_02086284
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_02086284(void)
+asm void DC_FlushAll(void)
 {
     mov r12, #0
     mov r1, #0

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DF8
+ * function: CTVT_TALK_CheckEnd
  * address:  0x021B9DF8
  * packet:   pkt_021B6868
  * region:   ov172
@@ -30,7 +30,7 @@ extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u32 func_021B80E4(int unused, char *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 
-int func_021B9DF8(void *p, int *out)
+int CTVT_TALK_CheckEnd(void *p, int *out)
 {
     if (COMM_TVT_SYS_GetEndRequested(p) == 1) {
         int v = func_021B80E4((int)p, (char *)COMM_TVT_SYS_GetComm(p));

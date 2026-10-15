@@ -1,5 +1,5 @@
 /*
- * function: func_020821C0
+ * function: MIi_DmaFill32
  * address:  0x020821C0
  * packet:   pkt_020821C0
  * region:   arm9
@@ -39,7 +39,7 @@ static inline void MIi_Wait(vu32 *dmaCntp)
     }
 }
 
-void func_020821C0(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable)
+void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable)
 {
     vu32 *dmaCntp;
 

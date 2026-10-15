@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DEEAC, func_021DEEBC, func_021DEEC0, func_021DEEC4, func_021DEED0, func_021DEED8, func_021DEEEC
+ * function: MYSTERY_NET_IsHandler, MYSTERY_NET_GetBuffer, MYSTERY_NET_GetBufferSize, MYSTERY_NET_IsEqual, MYSTERY_NET_FlagExit, MYSTERY_NET_OnNdAsyncDone, MYSTERY_NET_MarkNdDone
  * address: 0x021DEEAC
  * packet: pkt_ov121_021DEEAC
  * region: ov121
@@ -13,34 +13,34 @@
  */
 #include "../include/Obj22922.h"
 extern int d_021DFC00[];
-void func_021DEEEC(void);
-int func_021DEEAC(int *p, int value)
+void MYSTERY_NET_MarkNdDone(void);
+int MYSTERY_NET_IsHandler(int *p, int value)
 {
     return *p == value;
 }
-void *func_021DEEBC(char *p)
+void *MYSTERY_NET_GetBuffer(char *p)
 {
     return p + 0x14;
 }
-int func_021DEEC0(void)
+int MYSTERY_NET_GetBufferSize(void)
 {
     return 0x20;
 }
-int func_021DEEC4(int a, int b)
+int MYSTERY_NET_IsEqual(int a, int b)
 {
     return a == b;
 }
-void func_021DEED0(char *p)
+void MYSTERY_NET_FlagExit(char *p)
 {
     ((struct Obj22922 *)p)->f5C = 1;
 }
-void func_021DEED8(int a, int b)
+void MYSTERY_NET_OnNdAsyncDone(int a, int b)
 {
     d_021DFC00[1] = 1;
     d_021DFC00[3] = b;
-    func_021DEEEC();
+    MYSTERY_NET_MarkNdDone();
 }
-void func_021DEEEC(void)
+void MYSTERY_NET_MarkNdDone(void)
 {
     d_021DFC00[0] = 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0208CE4C
+ * function: STD_CompareNString
  * address:  0x0208CE4C
  * packet:   pkt_0208CE4C
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      STD_CompareNString (std_string.o)
  */
 
-int func_0208CE4C(const char *str1, const char *str2, int len)
+int STD_CompareNString(const char *str1, const char *str2, int len)
 {
     unsigned long dstalign;
     unsigned char chr1;

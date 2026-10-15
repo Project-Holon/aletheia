@@ -94,13 +94,15 @@
  *   NHTTP_CleanupAsync  0x021BE680  arm
  *   sDwciNdUserAgentFormat  0x021CF464  data
  *   gDwciNdGlobalMutex  0x021D3C38  data
+ *   OS_SNPrintf  0x02084F80  arm  arm9
+ *   OS_InitMutex  0x02086004  arm  arm9
  *   @17416                          0x021CF510  data
  *   @17417                          0x021CF518  data
  *   @17442  0x021CF51C  data
  *   sGhttpChunkSizeFormat  0x021CF248  data
  *   gDwciNdHttpMutex  0x021D3C20  data
  *   gDwcEncSession  0x021CF7AC  data
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   d_021D3C20   0x021D3C20  data
  *   OS_GetMacAddress  0x02087C6C  arm
@@ -146,7 +148,7 @@ extern int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen)
 extern int NHTTP_CancelConnection(void *handle);
 extern int func_0205CD24(NdApInfo *apinfo);
 extern void DWCi_BM_GetWiFiInfo(NdWiFiInfo *buf);
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern void *NHTTP_GetUserParam(void *handle);
 extern int NHTTP_GetConnectionError(void *handle);
 extern int NHTTP_GetHeaderField(void *handle, char *label_p, char **value_pp);
@@ -158,7 +160,7 @@ extern int NHTTP_AddHeaderField(void *handle, char *label_p, char *value_p);
 extern int NHTTP_AddPostDataAscii(void *handle, char *label_p, char *value_p);
 extern int NHTTP_StartConnection(void *handle);
 extern int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p);
-extern void func_02086004(void *mutex);
+extern void OS_InitMutex(void *mutex);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern void func_02085DBC(void *event, int a, int b);
@@ -677,7 +679,7 @@ int DWCi_Ndi_getDSdesc(char *gamecode, char *userid)
  */
 void DWCi_Ndi_getUserAgent(char *buffer)
 {
-    func_02084F80(buffer, 0x21, sDwciNdUserAgentFormat, 5, 3);
+    OS_SNPrintf(buffer, 0x21, sDwciNdUserAgentFormat, 5, 3);
 }
 
 int req_callback(void *res, int event, void *arg)
@@ -1204,7 +1206,7 @@ done:
 
 int func_021C78C4(void)
 {
-    func_02086004(gDwciNdGlobalMutex);
+    OS_InitMutex(gDwciNdGlobalMutex);
     return 1;
 }
 
@@ -1213,11 +1215,11 @@ void DWCi_Ndi_freeLockGlobal(void)
 }
 
 /*
- * Tail call of func_02086028 on the 0x021D3C38 block.
+ * Tail call of OS_LockMutex on the 0x021D3C38 block.
  */
 void DWCi_Ndi_lockGlobal(void)
 {
-    func_02086028(gDwciNdGlobalMutex);
+    OS_LockMutex(gDwciNdGlobalMutex);
 }
 
 void DWCi_Ndi_unlockGlobal(void)
@@ -1227,7 +1229,7 @@ void DWCi_Ndi_unlockGlobal(void)
 
 int DWCi_Ndi_initHttpCallback(void)
 {
-    func_02086004(gDwciNdHttpMutex);
+    OS_InitMutex(gDwciNdHttpMutex);
     gDwciNdStatics.httpCallbackBusy = 0;
     return 1;
 }
@@ -1239,7 +1241,7 @@ void DWCi_Ndi_freeHttpCallback(void)
 int DWCi_Ndi_prepareHttpCallback(void)
 {
     int rc;
-    func_02086028(gDwciNdHttpMutex);
+    OS_LockMutex(gDwciNdHttpMutex);
     rc = (gDwciNdStatics.httpCallbackBusy == 0);
     if (rc)
         gDwciNdStatics.httpCallbackBusy = 1;

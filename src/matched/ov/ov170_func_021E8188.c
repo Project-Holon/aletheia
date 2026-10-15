@@ -1,5 +1,5 @@
 /*
- * function: func_021E8188
+ * function: BOX2_SEQ_StateCloseZoom
  * address: 0x021E8188
  * packet: pkt_ov170_021E8188
  * region: ov170
@@ -8,28 +8,28 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE7C8 0x021DE7C8 thumb ov170
- *   func_021EC994 0x021EC994 thumb ov170
- *   func_021ECA24 0x021ECA24 thumb ov170
- *   func_021DE7B4 0x021DE7B4 thumb ov170
- *   func_021E8F50 0x021E8F50 thumb ov170
+ *   BOX2_MAIN_StepScroll 0x021DE7C8 thumb ov170
+ *   BOX2_SEQ_ShrinkActor 0x021EC994 thumb ov170
+ *   BOX2_SEQ_HideActor 0x021ECA24 thumb ov170
+ *   BOX2_MAIN_DeleteScroll 0x021DE7B4 thumb ov170
+ *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  */
-extern int func_021DE7C8(unsigned char *p);
-extern int func_021EC994(char *p);
-extern void func_021ECA24(int *p);
-extern void func_021DE7B4(char *p);
-extern int func_021E8F50(char *p, int v);
+extern int BOX2_MAIN_StepScroll(unsigned char *p);
+extern int BOX2_SEQ_ShrinkActor(char *p);
+extern void BOX2_SEQ_HideActor(int *p);
+extern void BOX2_MAIN_DeleteScroll(char *p);
+extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define SLOT(p) (*(char **)(WORK(p) + 0xA190))
-int func_021E8188(unsigned char *p)
+int BOX2_SEQ_StateCloseZoom(unsigned char *p)
 {
-    func_021DE7C8(p);
-    if (func_021EC994(SLOT(p)) == 0) {
+    BOX2_MAIN_StepScroll(p);
+    if (BOX2_SEQ_ShrinkActor(SLOT(p)) == 0) {
         if (((unsigned char *)SLOT(p))[6] != 0)
-            return func_021E8F50((char *)p, 0x5C);
-        func_021ECA24((int *)SLOT(p));
-        func_021DE7B4((char *)p);
-        return func_021E8F50((char *)p, 0x5B);
+            return BOX2_SEQ_ReturnAfterClear((char *)p, 0x5C);
+        BOX2_SEQ_HideActor((int *)SLOT(p));
+        BOX2_MAIN_DeleteScroll((char *)p);
+        return BOX2_SEQ_ReturnAfterClear((char *)p, 0x5B);
     }
     return 0x5A;
 }

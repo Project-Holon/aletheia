@@ -1,5 +1,5 @@
 /*
- * function: func_021B6248
+ * function: CDEMO_MAIN_Noop
  * address:  0x021B6248
  * packet:   pkt_ov179_021B6248
  * region:   ov179
@@ -9,6 +9,6 @@
  * isa:      thumb
  * status:   EXACT*
  */
-void func_021B6248(char *p)
+void CDEMO_MAIN_Noop(char *p)
 {
 }

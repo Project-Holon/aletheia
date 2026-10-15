@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F9390",
-    "func_021F93D0"
+    "BR_PROC_SYS_BuildBasicRecord",
+    "BR_PROC_SYS_NoopA"
+   ],
+   "addresses": [
+    "0x021F9390",
+    "0x021F93D0"
    ]
   }
  ]

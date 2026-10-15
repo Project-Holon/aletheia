@@ -1,5 +1,5 @@
 /*
- * function: func_021D8134
+ * function: WIFI_BSUBWAY_GRAPHIC_CreateYesNo
  * address: 0x021D8134
  * packet: pkt_ov116_021D8134
  * region: ov116
@@ -23,4 +23,4 @@ struct WinDat; struct BmpMenu;
 extern u8 d_021D8560[];
 extern u8 d_021D8560_menu[];
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
-void func_021D8134(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }

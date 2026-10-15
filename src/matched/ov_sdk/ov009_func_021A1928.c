@@ -1,5 +1,5 @@
 /*
- * function: func_021A1928
+ * function: SBListThink
  * address:  0x021A1928
  * packet:   pkt_021A1928
  * region:   ov009
@@ -16,26 +16,26 @@
  * 0x021A1974 is unlabelled data, not a function; hence EXACT*.
  *
  * symbols:
- *   func_0219F7D8  0x0219F7D8  arm  ov009
- *   func_021A153C  0x021A153C  arm  ov009
- *   func_021A1804  0x021A1804  arm  ov009
+ *   SBFreeDeadList  0x0219F7D8  arm  ov009
+ *   ProcessIncomingData  0x021A153C  arm  ov009
+ *   ProcessLanData  0x021A1804  arm  ov009
  */
 
 struct SBL;
 struct SBServerList;
-extern void func_0219F7D8(struct SBL *slist);
-extern int func_021A153C(struct SBL *slist);
-extern int func_021A1804(struct SBServerList *slist);
+extern void SBFreeDeadList(struct SBL *slist);
+extern int ProcessIncomingData(struct SBL *slist);
+extern int ProcessLanData(struct SBServerList *slist);
 
-int func_021A1928(int *p)
+int SBListThink(int *p)
 {
-    func_0219F7D8((struct SBL *)p);
+    SBFreeDeadList((struct SBL *)p);
     switch (p[0]) {
     case 2:
     case 3:
-        return func_021A153C((struct SBL *)p);
+        return ProcessIncomingData((struct SBL *)p);
     case 0:
-        return func_021A1804((struct SBServerList *)p);
+        return ProcessLanData((struct SBServerList *)p);
     case 1:
     default:
         return 0;

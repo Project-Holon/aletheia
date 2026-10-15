@@ -1,5 +1,5 @@
 /*
- * function: func_021DAE2C
+ * function: POKETRADE_PROC_StepClearOffersNewRound
  * address: 0x021DAE2C
  * packet: pkt_ov119_021DAE2C
  * region: ov119
@@ -16,7 +16,7 @@
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   MI_CpuFill8 0x02082BCC arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DBA80 0x021DBA80 thumb ov119
+ *   POKETRADE_PROC_StepResetGrid 0x021DBA80 thumb ov119
  */
 #include "../include/Obj10354.h"
 struct Entry;
@@ -30,8 +30,8 @@ extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void MI_CpuFill8(void *,int,int);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DBA80(char *p);
-void func_021DAE2C(char *p) {
+extern void POKETRADE_PROC_StepResetGrid(char *p);
+void POKETRADE_PROC_StepClearOffersNewRound(char *p) {
  int i;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch(p);return;}
  POKETRADE_NEGO_CloseCancelMenu(p,1,1);POKETRADE_SAVE_CloseMessageWindowClear(p);
@@ -41,5 +41,5 @@ void func_021DAE2C(char *p) {
   ((struct Obj10354 *)q)->fFA4=-1;
   if(((struct Obj10354 *)q)->fFD8)MI_CpuFill8(((struct Obj10354 *)q)->fFD8,0,func_020173EC());
  }
- POKETRADE_PROC_SetStep(p,(int)func_021DBA80);
+ POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetGrid);
 }

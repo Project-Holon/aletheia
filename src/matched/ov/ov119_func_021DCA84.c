@@ -1,5 +1,5 @@
 /*
- * function: func_021DCA84
+ * function: POKETRADE_PROC_StartRequest2
  * address:  0x021DCA84
  * packet:   pkt_021D8980
  * region:   ov119
@@ -12,17 +12,17 @@
  * Send a two-descriptor request with the timer base 0xc6000.
  *
  * symbols:
- *   func_021DC854  0x021DC854  thumb  ov119
- *   func_021DC894  0x021DC894  thumb  ov119
+ *   POKETRADE_PROC_AllocTradeWork  0x021DC854  thumb  ov119
+ *   POKETRADE_PROC_InitTradeWork  0x021DC894  thumb  ov119
  */
 
-extern void *func_021DC854(void *a, int t);
-extern int func_021DC894(int a, int b, char *q, char *p, int n);
+extern void *POKETRADE_PROC_AllocTradeWork(void *a, int t);
+extern int POKETRADE_PROC_InitTradeWork(int a, int b, char *q, char *p, int n);
 
-void func_021DCA84(void *a, int b, int c)
+void POKETRADE_PROC_StartRequest2(void *a, int b, int c)
 {
-    int r = (int)func_021DC854(a, 0xc6000);
+    int r = (int)POKETRADE_PROC_AllocTradeWork(a, 0xc6000);
 
-    func_021DC894((int)a, b, (char *)c, (char *)r, 2);
+    POKETRADE_PROC_InitTradeWork((int)a, b, (char *)c, (char *)r, 2);
 }
 

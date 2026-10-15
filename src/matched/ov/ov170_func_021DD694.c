@@ -1,5 +1,5 @@
 /*
- * function: func_021DD694
+ * function: BOX2_MAIN_HasOtherTradable
  * address:  0x021DD694
  * packet:   pkt_ov170_021DD694
  * region:   ov170
@@ -19,7 +19,7 @@ extern unsigned POKEPARTY_GetCount(void *party);
 extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 
-int func_021DD694(void ***p, unsigned skip)
+int BOX2_MAIN_HasOtherTradable(void ***p, unsigned skip)
 {
     unsigned i;
     for (i = 0; i < POKEPARTY_GetCount((*p)[2]); i++) {

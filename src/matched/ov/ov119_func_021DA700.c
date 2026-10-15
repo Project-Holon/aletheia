@@ -1,5 +1,5 @@
 /*
- * function: func_021DA700
+ * function: POKETRADE_PROC_StepSendCursorChoice
  * address: 0x021DA700
  * packet: pkt_ov119_021DA700
  * region: ov119
@@ -27,7 +27,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-void func_021DA700(char *p) {
+void POKETRADE_PROC_StepSendCursorChoice(char *p) {
  u8 b=((struct Obj00001 *)p)->f10A0;
  if(POKETRADE_PROC_IsNetSession(p)) {if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc03,1,(u32)(&b))==0) return;}
  *(unsigned *)0x04001000 &= 0xffff1fff;

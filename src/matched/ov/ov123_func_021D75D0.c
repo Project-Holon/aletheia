@@ -16,7 +16,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02009108 0x02009108 thumb
- *   d_021DAB78 0x021DAB78 data ov123 a1
+ *   gGsyncStateAllocSource 0x021DAB78 data ov123 a1
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb  arm9
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
@@ -44,7 +44,7 @@ extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
 extern void GSYNC_STATE_StateErrorMessage(char *p);
 extern void GSYNC_STATE_StateExtraSaveMainSecond(char *p);
 extern void GSYNC_STATE_StateExtraSaveMain(u8 *a);
-extern const char d_021DAB78[];
+extern const char gGsyncStateAllocSource[];
 void GSYNC_STATE_StateExtraSaveLoadStart(int a)
 {
     u16 checksum;
@@ -60,7 +60,7 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int a)
         return;
     }
     ((struct Obj03793 *)a)->fAE=1;
-    x=(int)func_02030734(((struct Obj03793 *)a)->f0,0x3000,0,d_021DAB78,0x34a);
+    x=(int)func_02030734(((struct Obj03793 *)a)->f0,0x3000,0,gGsyncStateAllocSource,0x34a);
     ((struct Obj03793 *)a)->f40=x;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(b,4,((struct Obj03793 *)a)->f0,x,0x3000);
     MI_CpuCopy8(p,(void *)x,0x2600);

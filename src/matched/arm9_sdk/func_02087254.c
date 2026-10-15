@@ -1,5 +1,5 @@
 /*
- * function: func_02087254
+ * function: OS_CreateAlarm
  * address:  0x02087254
  * packet:   pkt_02087254
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct OSiAlarm {
     u32 tag;
 } OSAlarm;
 
-void func_02087254(OSAlarm *alarm)
+void OS_CreateAlarm(OSAlarm *alarm)
 {
     alarm->handler = 0;
     alarm->tag = 0;

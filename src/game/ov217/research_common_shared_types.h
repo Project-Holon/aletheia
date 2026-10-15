@@ -1,6 +1,0 @@
-#ifndef RESEARCH_COMMON_SHARED_TYPES_H
-#define RESEARCH_COMMON_SHARED_TYPES_H
-
-struct Cfg;
-
-#endif

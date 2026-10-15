@@ -1,5 +1,5 @@
 /*
- * function: func_0200E368
+ * function: SYMBOL_SAVE_GetBitBlockSize
  * address:  0x0200E368
  * packet:   pkt_0200E368
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-int func_0200E368(void)
+int SYMBOL_SAVE_GetBitBlockSize(void)
 {
     return 0xa1 * 4;
 }

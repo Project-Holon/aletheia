@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD9D0",
+   "name": "STA_SLOT_ResetStateByKey",
    "address": "0x021FD9D0",
    "kind": "game",
    "region": "ov132",

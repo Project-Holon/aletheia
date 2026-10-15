@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAB0C",
+   "name": "POKETRADE_PROC_StepBuildMarkingTable",
    "address": "0x021DAB0C",
    "kind": "game",
    "region": "ov119",

@@ -1,5 +1,5 @@
 /*
- * function: func_02084614
+ * function: OSi_IrqCallback
  * address:  0x02084614
  * packet:   pkt_02084614
  * region:   arm9
@@ -38,7 +38,7 @@ extern OSIrqCallbackInfo OSi_IrqCallbackInfo[];
 extern u16 OSi_IrqCallbackInfoIndex[];
 extern u32 OS_DisableIrqMask(u32 intr);
 
-void func_02084614(int index)
+void OSi_IrqCallback(int index)
 {
     u32 imask = 1UL << OSi_IrqCallbackInfoIndex[index];
     void (*callback)(void *) = OSi_IrqCallbackInfo[index].func;

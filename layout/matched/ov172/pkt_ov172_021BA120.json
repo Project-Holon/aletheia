@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA120",
-    "func_021BA158",
-    "func_021BA15C",
-    "func_021BA170"
+    "CTVT_MIC_StopCapture",
+    "CTVT_MIC_IsCapturing",
+    "CTVT_MIC_GetReadyBytes",
+    "CTVT_MIC_GetBuffer"
+   ],
+   "addresses": [
+    "0x021BA120",
+    "0x021BA158",
+    "0x021BA15C",
+    "0x021BA170"
    ]
   }
  ]

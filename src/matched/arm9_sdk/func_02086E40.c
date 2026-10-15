@@ -1,5 +1,5 @@
 /*
- * function: func_02086E40
+ * function: OSi_ExceptionHandler
  * address:  0x02086E40
  * packet:   pkt_02086E40
  * region:   arm9
@@ -22,7 +22,7 @@
 extern unsigned long g_02151290[3];
 extern void OSi_GetAndDisplayContext(void);
 
-asm void func_02086E40(void)
+asm void OSi_ExceptionHandler(void)
 {
     ldr     r12, =g_02151290
     ldr     r12, [r12, #0]

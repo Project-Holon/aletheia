@@ -38,13 +38,14 @@
  *   GF_OVERLAY_GetArea  0x02034D60  arm
  *   GF_OVERLAY_GetSlots  0x02034CBC  arm
  *   GF_OVERLAY_GetSlotCount  0x02034D08  arm
- *   sub_02034714         0x02034714  arm
+ *   SAVEDATA_PanicFail         0x02034714  arm
  *   FS_SetDefaultDMA     0x0207AC64  arm
  *   FS_LoadOverlay       0x02079264  arm
  *   _AssertExprZero              0x020A7980  data
  *   GF_OVERLAY_GetRamRange  0x02034DC4  arm
  *   FS_LoadOverlayInfo           0x02078D34  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
+ *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
  */
 #define REG_DISPCNT  (*(vu32 *)0x04000000)
 #define REG_BG0CNT   (*(vu16 *)0x04000008)
@@ -127,11 +128,11 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
-extern void sub_020346EC(u32 initFn, u32 printFn, u32 dieFn);
+extern void SAVEDATA_SetPanicHandlers(u32 initFn, u32 printFn, u32 dieFn);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern int func_020792B8(u32 target, u32 id);
-extern void sub_02034714(const char *file, u32 line, const char *expr);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
@@ -157,7 +158,7 @@ extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
 
 
 /*
- * Bring up the panic screen.  The assert path (sub_02034734 forwards here)
+ * Bring up the panic screen.  The assert path (SAVEDATA_PanicFailPrintf forwards here)
  * has to draw text after the game has already lost whatever video state it
  * was running, so this tears the display down to a known configuration and
  * rebuilds exactly one text layer on it:
@@ -333,7 +334,7 @@ void sub_02034900(void)
 
 
 /*
- * The default-handler registration trampoline: tail-calls sub_020346EC
+ * The default-handler registration trampoline: tail-calls SAVEDATA_SetPanicHandlers
  * (pkt_020345F8, the "register" half of the assert/panic hook: see
  * src/matched/unit_020346EC.c) with the addresses of this packet's own
  * three biggest functions, none of which is matched yet.
@@ -349,7 +350,7 @@ void sub_02034900(void)
  */
 void sub_02034978(void)
 {
-    sub_020346EC((u32)sub_02034768, (u32)func_020348A4, (u32)sub_02034900);
+    SAVEDATA_SetPanicHandlers((u32)sub_02034768, (u32)func_020348A4, (u32)sub_02034900);
 }
 
 
@@ -509,7 +510,7 @@ int GF_OVERLAY_Load(s32 handle)
     }
 
     if (index >= slotCount) {
-        sub_02034714(_FileName, 267, _AssertExprZero);
+        SAVEDATA_PanicFail(_FileName, 267, _AssertExprZero);
         return 0;
     }
 
@@ -578,7 +579,7 @@ int GF_OVERLAY_CheckRangeFree(s32 handle)
                 if ((start >= otherStart && start < otherEnd) ||
                     (end > otherStart && end <= otherEnd) ||
                     (start <= otherStart && end >= otherEnd)) {
-                    sub_02034714(_FileName, 330, _AssertExprZero);
+                    SAVEDATA_PanicFail(_FileName, 330, _AssertExprZero);
                     return 0;
                 }
             }

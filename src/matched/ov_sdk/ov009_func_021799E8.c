@@ -16,8 +16,8 @@
  *   func_021798E4  0x021798E4  arm  ov009
  *   CPS_SocUse  0x0215AB10  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02160108  0x02160108  arm  ov009
- *   func_02162E94  0x02162E94  arm  ov009
+ *   CPS_SetRootCa  0x02160108  arm  ov009
+ *   CPS_SetSsl  0x02162E94  arm  ov009
  *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   CPS_TcpConnect  0x0215AC60  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
@@ -30,7 +30,7 @@
  *   CPS_SocGetLength  0x0215B504  arm  ov009
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   func_021798F8  0x021798F8  arm  ov009
  *   CPS_SocConsume  0x0215B064  arm  ov009
@@ -107,8 +107,8 @@ extern u32 func_021798E4(const char *p);
 extern void CPS_SocUse(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 typedef unsigned char  u8;
-extern void func_02160108(int a, int b);
-extern void func_02162E94(int mode);
+extern void CPS_SetRootCa(int a, int b);
+extern void CPS_SetSsl(int mode);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 extern void CPS_SocRelease(void);
@@ -121,7 +121,7 @@ extern unsigned long long func_020870D0(void);
 extern long CPS_SocGetLength(void);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void func_02086028(OSMutex *mutex);
+extern void OS_LockMutex(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern int func_021798F8(char *http);
 extern void CPS_SocConsume(unsigned long len);
@@ -166,8 +166,8 @@ void func_021799E8(void *arg)
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;
-        func_02160108((int)g_021A2590, 12);
-        func_02162E94(1);
+        CPS_SetRootCa((int)g_021A2590, 12);
+        CPS_SetSsl(1);
     }
 
     CPS_SocBind(0, http->port, ip);
@@ -214,7 +214,7 @@ void func_021799E8(void *arg)
             rep->write_index += copy_length;
             *rep->write_index = 0;
             if (header_received == 1) {
-                func_02086028(&http->content_len_mutex);
+                OS_LockMutex(&http->content_len_mutex);
                 http->receivedbody_len += copy_length;
                 func_02086078(&http->content_len_mutex);
             } else {

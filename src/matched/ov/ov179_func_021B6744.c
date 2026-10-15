@@ -1,5 +1,5 @@
 /*
- * function: func_021B6744
+ * function: CDEMO_SCENE_CmdStartWipe1
  * address:  0x021B6744
  * packet:   pkt_ov179_021B6744
  * region:   ov179
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B62B8  0x021B62B8  thumb  ov179
+ *   CDEMO_WIPE_StartFadeIn  0x021B62B8  thumb  ov179
  */
 #include "../include/Obj14390.h"
 
 typedef unsigned int   u32;
-extern void func_021B62B8(char *p, u32 a, u32 b, u32 c);
+extern void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
 
-int func_021B6744(int a, int *q)
+int CDEMO_SCENE_CmdStartWipe1(int a, int *q)
 {
-    func_021B62B8((char *)a, ((struct Obj14390 *)q)->f4, ((struct Obj14390 *)q)->f8, 5);
+    CDEMO_WIPE_StartFadeIn((char *)a, ((struct Obj14390 *)q)->f4, ((struct Obj14390 *)q)->f8, 5);
     return 1;
 }

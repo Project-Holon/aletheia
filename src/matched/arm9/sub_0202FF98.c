@@ -14,7 +14,7 @@
  *   GFL_HEAP_GetParentHeap   0x0202FBD0  arm
  *   GFL_HEAP_GetBlock   0x0202FBF8  arm
  *   func_02060C94  0x02060C94  arm
- *   func_02060E30  0x02060E30  arm
+ *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   g_02146954     0x02146954  data
  *
  * Heap destroy.  The handle's low fifteen bits are the heap id; the three
@@ -79,7 +79,7 @@ extern u32 GFL_HEAP_GetParentHeap(u32 idx);
 extern u32 GFL_HEAP_GetBlock(u32 idx);
 extern void  func_02060C94(void *block);
 struct ExpHeap;
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
 u32 GFL_HEAP_Delete(u32 handle)
 {
@@ -105,7 +105,7 @@ u32 GFL_HEAP_Delete(u32 handle)
                 return 0;
             }
         } else {
-            func_02060E30(a, b);
+            NNS_FndFreeToExpHeap(a, b);
         }
 
         g_02146954.table[slot].unk00 = 0;

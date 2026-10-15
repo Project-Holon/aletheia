@@ -1,5 +1,5 @@
 /*
- * function: func_0219FDB8
+ * function: BufferAddIntLE
  * address:  0x0219FDB8
  * packet:   pkt_ov009_0219FDB8
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      BufferAddIntLE (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219FD64  0x0219FD64  arm  ov009
+ *   BufferAddInt  0x0219FD64  arm  ov009
  */
 
-extern void func_0219FD64(unsigned char **buffer, int ival, int *len);
+extern void BufferAddInt(unsigned char **buffer, int ival, int *len);
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
-void func_0219FDB8(char **buffer, int ival, int *len)
+void BufferAddIntLE(char **buffer, int ival, int *len)
 {
 	unsigned int ivalNBO;
 	unsigned int ivalBE = 0;
@@ -26,5 +26,5 @@ void func_0219FDB8(char **buffer, int ival, int *len)
 	ivalBE |= (ivalNBO & 0xff00) << 8;
 	ivalBE |= (ivalNBO & 0xff0000) >> 8;
 	ivalBE |= (ivalNBO & 0xff000000) >> 24;
-	func_0219FD64((unsigned char **)buffer, ivalBE, len);
+	BufferAddInt((unsigned char **)buffer, ivalBE, len);
 }

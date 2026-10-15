@@ -1,5 +1,5 @@
 /*
- * function: func_021BD274
+ * function: RESEARCH_LIST_DrawBadgeB
  * address: 0x021BD274
  * packet: pkt_ov217_021BD274
  * region: ov217
@@ -55,7 +55,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 
 #define G ((const struct G *)gb)
-void func_021BD274(struct S *p)
+void RESEARCH_LIST_DrawBadgeB(struct S *p)
 {
     u32 gb = (u32)&d_021C34C8;
     struct Tab tab = d_021C32D8;

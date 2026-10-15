@@ -1,5 +1,5 @@
 /*
- * function: func_021DD09C
+ * function: POKETRADE_PROC_UpdatePickedIcon
  * address: 0x021DD09C
  * packet: pkt_ov119_021DD09C
  * region: ov119
@@ -15,7 +15,7 @@
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void POKETRADE_2D_MovePickedIconActor(int p, int i);
-void func_021DD09C(char *p)
+void POKETRADE_PROC_UpdatePickedIcon(char *p)
 {
     if (func_020355C4()) {
         POKETRADE_2D_MovePickedIconActor((int)p, -1);

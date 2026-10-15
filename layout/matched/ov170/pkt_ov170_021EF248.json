@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF248",
+   "name": "BOX2_UI_GetPageButtonHit",
    "address": "0x021EF248",
    "kind": "game",
    "region": "ov170",

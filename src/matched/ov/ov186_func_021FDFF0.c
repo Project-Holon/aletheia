@@ -1,5 +1,5 @@
 /*
- * function: func_021FDFF0
+ * function: BR_UTIL_EffectNoop
  * address: 0x021FDFF0
  * packet: pkt_ov186_021FDFF0
  * region: ov186
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021FDFF0(void) {}
+void BR_UTIL_EffectNoop(void) {}

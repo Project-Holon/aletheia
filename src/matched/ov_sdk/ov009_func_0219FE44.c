@@ -1,5 +1,5 @@
 /*
- * function: func_0219FE44
+ * function: SetupListChallenge
  * address:  0x0219FE44
  * packet:   pkt_ov009_0219FE44
  * region:   ov009
@@ -23,7 +23,7 @@ struct SBL { char pad0[0x74]; char chal[LIST_CHALLENGE_LEN]; };
 
 extern int func_02094694(void);
 
-void func_0219FE44(struct SBL *slist)
+void SetupListChallenge(struct SBL *slist)
 {
 	int i;
 	int oddmode;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF30
+ * function: BOX2_MAIN_DeleteTaskMenu
  * address:  0x021DCF30
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@ struct U16Vec;
 typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021DCF30(char *p)
+void BOX2_MAIN_DeleteTaskMenu(char *p)
 {
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x19C)));
     STRBUF_Delete((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x190)));

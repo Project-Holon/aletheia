@@ -1,7 +1,7 @@
 /*
  * file:     snd_work.c
  * unit:     yes
- * function: func_0208A054, func_0208A07C, func_0208A0A4, func_0208A1AC, func_0208A1D0
+ * function: SND_GetPlayerStatus, SND_GetChannelStatus, SND_ReadTrackInfo, SNDi_GetFinishedCommandTag, SNDi_InitSharedWork
  * address:  0x0208A054
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,16 +21,7 @@
  */
 typedef unsigned int u32;
 
-struct Obj {
-    u32 f00;
-    u32 f04;
-};
-
-typedef struct SNDSharedWork_0208A07C {
-    unsigned long finishCommandTag;
-    unsigned long playerStatus;
-    unsigned short channelStatus;
-} SNDSharedWork_0208A07C;
+#include "snd_shared_types.h"
 
 typedef int BOOL;
 
@@ -89,48 +80,28 @@ typedef struct SNDTrackInfo {
     unsigned char channel[16];
 } SNDTrackInfo;
 
-typedef struct SNDSharedWork_0208A1AC {
-    unsigned long finishCommandTag;
-    unsigned long playerStatus;
-    unsigned short channelStatus;
-} SNDSharedWork_0208A1AC;
-
-typedef struct SNDSharedWork_0208A1D0 {
-    unsigned long finishCommandTag;
-    unsigned long playerStatus;
-    unsigned short channelStatus;
-    unsigned short captureStatus;
-    unsigned long padding[5];
-    struct {
-        short variable[16];
-        unsigned long tickCounter;
-    } player[16];
-    short globalVariable[16];
-} SNDSharedWork_0208A1D0;
-
-extern void func_020862B8(void *p, u32 n);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern void DC_FlushRange(const void *startAddr, unsigned long nBytes);
-u32 func_0208A054(void);
-unsigned long func_0208A07C(void);
-BOOL func_0208A0A4(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo);
-unsigned long func_0208A1AC(void);
-void func_0208A1D0(SNDSharedWork_0208A1D0 *work);
-extern struct Obj *g_02152FA0;
-extern SNDSharedWork_0208A07C *SNDi_SharedWork;
+u32 SND_GetPlayerStatus(void);
+unsigned long SND_GetChannelStatus(void);
+BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo);
+unsigned long SNDi_GetFinishedCommandTag(void);
+void SNDi_InitSharedWork(SNDSharedWork *work);
+extern SNDSharedWork *SNDi_SharedWork;
 
 
-u32 func_0208A054(void)
+/* sdk:      SND_GetPlayerStatus (snd_work.o) */
+u32 SND_GetPlayerStatus(void)
 {
-    func_020862B8(&g_02152FA0->f04, 4);
-    return g_02152FA0->f04;
+    DC_InvalidateRange(&SNDi_SharedWork->playerStatus, 4);
+    return SNDi_SharedWork->playerStatus;
 }
 
 
 /*
  * sdk:      SND_GetChannelStatus (snd_work.o)
  */
-unsigned long func_0208A07C(void)
+unsigned long SND_GetChannelStatus(void)
 {
     DC_InvalidateRange(&SNDi_SharedWork->channelStatus, 2);
     return SNDi_SharedWork->channelStatus;
@@ -149,7 +120,7 @@ static inline SNDExChannel *ConvAddr(const SNDExChannel *p, const SNDWork *base,
 /*
  * sdk:      SND_ReadTrackInfo (snd_work.o)
  */
-BOOL func_0208A0A4(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo)
+BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo)
 {
     SNDExChannel *chp;
     unsigned char trackID;
@@ -188,17 +159,17 @@ BOOL func_0208A0A4(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrac
 /*
  * sdk:      SNDi_GetFinishedCommandTag (snd_work.o)
  */
-unsigned long func_0208A1AC(void)
+unsigned long SNDi_GetFinishedCommandTag(void)
 {
-    DC_InvalidateRange(&SNDi_SharedWork->finishCommandTag, 4);
-    return SNDi_SharedWork->finishCommandTag;
+    DC_InvalidateRange(&SNDi_SharedWork->finishedTag, 4);
+    return SNDi_SharedWork->finishedTag;
 }
 
 
 /*
  * sdk:      SNDi_InitSharedWork (snd_work.o)
  */
-void func_0208A1D0(SNDSharedWork_0208A1D0 *work)
+void SNDi_InitSharedWork(SNDSharedWork *work)
 {
     int playerNo;
     int variableNo;
@@ -206,7 +177,7 @@ void func_0208A1D0(SNDSharedWork_0208A1D0 *work)
     work->playerStatus = 0;
     work->channelStatus = 0;
     work->captureStatus = 0;
-    work->finishCommandTag = 0;
+    work->finishedTag = 0;
 
     for (playerNo = 0; playerNo < 16; playerNo++) {
         work->player[playerNo].tickCounter = 0;
@@ -217,5 +188,5 @@ void func_0208A1D0(SNDSharedWork_0208A1D0 *work)
     for (variableNo = 0; variableNo < 16; variableNo++) {
         work->globalVariable[variableNo] = -1;
     }
-    DC_FlushRange(work, sizeof(SNDSharedWork_0208A1D0));
+    DC_FlushRange(work, sizeof(SNDSharedWork));
 }

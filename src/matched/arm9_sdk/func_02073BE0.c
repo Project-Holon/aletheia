@@ -8,7 +8,7 @@
  * symbols:
  *   NNSi_SndStrmUpdate  0x02073BF0  arm
  *
- * The timer callback NNS_SndStrmSetup hands to func_02089540 (the pool word at
+ * The timer callback NNS_SndStrmSetup hands to SND_SetupAlarm (the pool word at
  * 0x02073A58): steps the sequence object with argument 1.  An unlabelled leaf
  * (`ldr ip,[pc,#4]; mov r1,#1; bx ip` plus the pool word) that disasm.py
  * prints as a .word run after pool_02073BDC.

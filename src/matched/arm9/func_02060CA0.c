@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060CA0
+ * function: NNS_FndAllocFromExpHeapEx
  * address:  0x02060CA0
  * packet:   pkt_02060764
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060A08  0x02060A08  arm
- *   func_02060ABC  0x02060ABC  arm
+ *   NNSi_FndAllocFromExpHeapHead  0x02060A08  arm
+ *   NNSi_FndAllocFromExpHeapTail  0x02060ABC  arm
  *
  * The expanded-heap allocator's front door, and the function
  * src/matched/sub_02030098.c calls once it has picked the arena: round the
@@ -27,8 +27,8 @@
  * nothing follows them, since each is reached through its own `pop`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060CA0.c \
- *       --func func_02060CA0 --addr 0x02060CA0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndAllocFromExpHeapEx.c \
+ *       --func NNS_FndAllocFromExpHeapEx --addr 0x02060CA0 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -36,10 +36,10 @@ typedef signed int   s32;
 
 struct ExpHeap;
 
-extern void *func_02060A08(struct ExpHeap *heap, u32 size, s32 align);
-extern void *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align);
+extern void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align);
+extern void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align);
 
-void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align)
+void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align)
 {
     if (size == 0) {
         size = 1;
@@ -47,7 +47,7 @@ void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align)
     size = (size + 3) & ~3;
 
     if (align >= 0) {
-        return func_02060A08(heap, size, align);
+        return NNSi_FndAllocFromExpHeapHead(heap, size, align);
     }
-    return func_02060ABC(heap, size, -align);
+    return NNSi_FndAllocFromExpHeapTail(heap, size, -align);
 }

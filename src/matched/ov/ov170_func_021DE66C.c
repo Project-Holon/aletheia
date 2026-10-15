@@ -1,5 +1,5 @@
 /*
- * function: func_021DE66C
+ * function: BOX2_MAIN_SetMoverEntry
  * address:  0x021DE66C
  * packet:   pkt_ov170_021DE66C
  * region:   ov170
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ECBD8 0x021ECBD8 thumb
- *   func_021EC768 0x021EC768 thumb
+ *   BOX2_SEQ_SwapSlotActorsB 0x021ECBD8 thumb
+ *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23848.h"
@@ -29,10 +29,10 @@ typedef struct {
     short y;
 } Entry;
 
-extern void func_021ECBD8(unsigned char *p, int i);
-extern void func_021EC768(char *p, unsigned i, int flag);
+extern void BOX2_SEQ_SwapSlotActorsB(unsigned char *p, int i);
+extern void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag);
 
-void func_021DE66C(char *p, Entry *e)
+void BOX2_MAIN_SetMoverEntry(char *p, Entry *e)
 {
     unsigned char buf[7];
     unsigned short i;
@@ -55,7 +55,7 @@ void func_021DE66C(char *p, Entry *e)
         }
     }
     if (save != 0xFFFF)
-        func_021ECBD8((unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C), save);
+        BOX2_SEQ_SwapSlotActorsB((unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C), save);
     for (i = 0; i < 0x24; i++)
-        func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
+        BOX2_SEQ_SetSlotDrawPriority(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
 }

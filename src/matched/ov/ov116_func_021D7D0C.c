@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D0C
+ * function: WIFI_BSUBWAY_GRAPHIC_SetupBgAnim
  * address: 0x021D7D0C
  * packet: pkt_ov116_021D7D0C
  * region: ov116
@@ -28,7 +28,7 @@
  *   func_0203FA08 0x0203FA08 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_021D7F54 0x021D7F54 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_StepBgAnim 0x021D7F54 thumb ov116
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,9 +49,9 @@ extern void func_0207D63C(void *, int, int, int, int);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
-extern void func_021D7F54(void *unused, u8 *p);
+extern void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused, u8 *p);
 struct Arc { int f0; int f4; int f8; u8 *fC; };
-void func_021D7D0C(u8 *p, short heap) {
+void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap) {
     struct Arc *res;
     u8 *pa;
     u8 *pb;
@@ -104,7 +104,7 @@ void func_021D7D0C(u8 *p, short heap) {
     }
     DWCi_ScreenDC_FlushRange(p + 0x1f4, 0x780);
     *(u32 *)(p + 0x10) = 1;
-    *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
+    *(void **)(p + 0xc) = func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, p + 0xc, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     p[0x978] = 0;
     ARC_TOOL_DeleteHandle(arc);

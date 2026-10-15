@@ -1,5 +1,5 @@
 /*
- * function: func_021FE478
+ * function: BR_UTIL_StepLine
  * address: 0x021FE478
  * packet: pkt_ov186_021FE478
  * region: ov186
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef struct { int x, y; } Pair;
-int func_021FE478(int *p, Pair *out, int step)
+int BR_UTIL_StepLine(int *p, Pair *out, int step)
 {
     int done = 0;
     int progress = step - p[6];

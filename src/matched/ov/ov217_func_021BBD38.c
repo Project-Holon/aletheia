@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD38
+ * function: RESEARCH_LIST_SetCursorSlot
  * address:  0x021BBD38
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BBD38(void *p, u8 v)
+void RESEARCH_LIST_SetCursorSlot(void *p, u8 v)
 {
     ((struct Obj25854 *)p)->f32 = v;
 }

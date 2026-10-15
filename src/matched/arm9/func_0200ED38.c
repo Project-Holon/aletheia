@@ -1,5 +1,5 @@
 /*
- * function: func_0200ED38
+ * function: MISC_SAVEDATA_GetShortBlockSize
  * address:  0x0200ED38
  * packet:   pkt_0200ED38
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Save-table size callback: returns 0xFC, the size of the block that
- * func_0200ED3C clears.  Pointer word 0x0200ED39 at 0x0209DD5C.
+ * MISC_SAVEDATA_InitShortBlock clears.  Pointer word 0x0200ED39 at 0x0209DD5C.
  */
 
 typedef unsigned int u32;
 
-u32 func_0200ED38(void)
+u32 MISC_SAVEDATA_GetShortBlockSize(void)
 {
     return 0xFC;
 }

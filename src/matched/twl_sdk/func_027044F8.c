@@ -12,7 +12,7 @@
  * symbols:
  *   DAT_02734450  0x02734450  data twl
  *   OS_SpinWaitSysCycles  0x02087A04  arm twl
- *   func_02087B20  0x02087B20  arm twl
+ *   OSi_IsCodecTwlMode  0x02087B20  arm twl
  *   SendCommandEx  0x02704BE0  arm twl
  *   CheckState  0x02704C5C  arm twl
  *   SetSndexWork  0x02704D48  arm twl
@@ -52,7 +52,7 @@ typedef struct {
 
 extern State DAT_02734450;
 extern void OS_SpinWaitSysCycles(u32);
-extern u32 func_02087B20(void);
+extern u32 OSi_IsCodecTwlMode(void);
 u32 SendCommandEx(u32 a0, u32 a1);
 u32 CheckState(void);
 void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
@@ -71,7 +71,7 @@ u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3) {
         return 3;
     }
     DAT_02734450.busy = 1;
-    if (func_02087B20() == 0) {
+    if (OSi_IsCodecTwlMode() == 0) {
         DAT_02734450.busy = 0;
         return 4;
     }

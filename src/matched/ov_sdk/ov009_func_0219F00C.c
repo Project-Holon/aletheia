@@ -13,16 +13,16 @@
  *
  * symbols:
  *   func_0219EFF0  0x0219EFF0  arm  ov009
- *   func_0219F830  0x0219F830  arm  ov009
+ *   SBServerListClear  0x0219F830  arm  ov009
  */
 
 extern void func_0219EFF0(char *p);
 struct SBL;
-extern void func_0219F830(struct SBL *slist);
+extern void SBServerListClear(struct SBL *slist);
 
 void func_0219F00C(char *p)
 {
     func_0219EFF0(p);
-    func_0219F830((struct SBL *)(p + 0x60));
+    SBServerListClear((struct SBL *)(p + 0x60));
 }
 

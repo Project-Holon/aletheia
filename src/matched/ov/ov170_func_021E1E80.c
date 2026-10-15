@@ -1,5 +1,5 @@
 /*
- * function: func_021E1E80
+ * function: BOX2_SEQ_CreateBox2Main
  * address: 0x021E1E80
  * packet: pkt_ov170_021E1E80
  * region: ov170
@@ -33,27 +33,27 @@
  *   func_020490F4 0x020490F4 arm
  *   KEY_GetRepeatSpeed 0x02036370 arm
  *   KEY_SetRepeatSpeed 0x02036270 arm
- *   func_021DC9C4 0x021DC9C4 thumb ov170
- *   func_021DC9E0 0x021DC9E0 thumb ov170
- *   func_021DCDB8 0x021DCDB8 thumb ov170
- *   func_021DCB8C 0x021DCB8C thumb ov170
- *   func_021DCE14 0x021DCE14 thumb ov170
- *   func_021DD8D0 0x021DD8D0 thumb ov170
- *   func_021EAA80 0x021EAA80 thumb ov170
- *   func_021EBD94 0x021EBD94 thumb ov170
- *   func_021EC4E0 0x021EC4E0 thumb ov170
- *   func_021EC4FC 0x021EC4FC thumb ov170
- *   func_021DEDCC 0x021DEDCC thumb ov170
- *   func_021DEC98 0x021DEC98 thumb ov170
- *   func_021EF274 0x021EF274 thumb ov170
- *   func_021EACA8 0x021EACA8 thumb ov170
- *   func_021EACFC 0x021EACFC thumb ov170
- *   func_021EDB1C 0x021EDB1C thumb ov170
- *   func_021EE2C4 0x021EE2C4 thumb ov170
- *   func_021DCEC0 0x021DCEC0 thumb ov170
- *   func_021DCDF0 0x021DCDF0 thumb ov170
+ *   BOX2_MAIN_ResetGraphics 0x021DC9C4 thumb ov170
+ *   BOX2_MAIN_InitBgSys 0x021DC9E0 thumb ov170
+ *   BOX2_MAIN_CreatePalAnm 0x021DCDB8 thumb ov170
+ *   BOX2_MAIN_LoadBgData 0x021DCB8C thumb ov170
+ *   BOX2_MAIN_CreateTextSystem 0x021DCE14 thumb ov170
+ *   BOX2_MAIN_LoadFormTable 0x021DD8D0 thumb ov170
+ *   BOX2_SEQ_InitBmpWins 0x021EAA80 thumb ov170
+ *   BOX2_SEQ_CreateBox2UiScene 0x021EBD94 thumb ov170
+ *   BOX2_SEQ_ShowAllSlotIcons 0x021EC4E0 thumb ov170
+ *   BOX2_SEQ_ShowPartyIcons 0x021EC4FC thumb ov170
+ *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb ov170
+ *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb ov170
+ *   BOX2_UI_InitWindowFrames 0x021EF274 thumb ov170
+ *   BOX2_SEQ_PrintMsgWin 0x021EACA8 thumb ov170
+ *   BOX2_SEQ_InitBmpWin 0x021EACFC thumb ov170
+ *   BOX2_UI_DrawAllSlots 0x021EDB1C thumb ov170
+ *   BOX2_UI_CreateCursor 0x021EE2C4 thumb ov170
+ *   BOX2_MAIN_CreateTaskMenu 0x021DCEC0 thumb ov170
+ *   BOX2_MAIN_SetDisplayControl 0x021DCDF0 thumb ov170
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_021DC94C 0x021DC94C thumb ov170
+ *   BOX2_MAIN_CreateVBlankTask 0x021DC94C thumb ov170
  *   str_021F140C 0x021F140C data a1
  *   ov067_id 0x00000043 data a1
  */
@@ -70,31 +70,31 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(u32 id, u32 heap);
 extern void KEY_GetRepeatSpeed(u32 *outA, u32 *outB);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-extern void func_021DC9C4(void);
-extern void func_021DC9E0(u8 *);
-extern void func_021DCDB8(char *p);
-extern void func_021DCB8C(struct Ov170Ctx *ctx);
-extern void func_021DCE14(char *);
-extern void func_021DD8D0(char *p);
-extern void func_021EAA80(u8 *);
-extern void func_021EBD94(u8 *);
-extern void func_021EC4E0(char *p);
-extern void func_021EC4FC(u8 *);
-extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, void *a, int dir);
-extern void func_021EF274(char *);
-extern void func_021EACA8(u8 *);
-extern void func_021EACFC(u8 *);
-extern void func_021EDB1C(int p);
-extern void func_021EE2C4(char **);
-extern void func_021DCEC0(char *);
-extern void func_021DCDF0(int);
+extern void BOX2_MAIN_ResetGraphics(void);
+extern void BOX2_MAIN_InitBgSys(u8 *);
+extern void BOX2_MAIN_CreatePalAnm(char *p);
+extern void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx);
+extern void BOX2_MAIN_CreateTextSystem(char *);
+extern void BOX2_MAIN_LoadFormTable(char *p);
+extern void BOX2_SEQ_InitBmpWins(u8 *);
+extern void BOX2_SEQ_CreateBox2UiScene(u8 *);
+extern void BOX2_SEQ_ShowAllSlotIcons(char *p);
+extern void BOX2_SEQ_ShowPartyIcons(u8 *);
+extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
+extern void BOX2_UI_InitWindowFrames(char *);
+extern void BOX2_SEQ_PrintMsgWin(u8 *);
+extern void BOX2_SEQ_InitBmpWin(u8 *);
+extern void BOX2_UI_DrawAllSlots(int p);
+extern void BOX2_UI_CreateCursor(char **);
+extern void BOX2_MAIN_CreateTaskMenu(char *);
+extern void BOX2_MAIN_SetDisplayControl(int);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
-extern void func_021DC94C(char *p);
+extern void BOX2_MAIN_CreateVBlankTask(char *p);
 extern const char str_021F140C[];
 extern const char ov067_id[];
 #define W(p) (*(char **)((p)+0x2C))
-int func_021E1E80(u8 *p)
+int BOX2_SEQ_CreateBox2Main(u8 *p)
 {
     func_02034AC4((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
@@ -107,25 +107,25 @@ int func_021E1E80(u8 *p)
     *(void **)(W(p)+0x1B0)=func_020490F4(7,0x4C);
     KEY_GetRepeatSpeed((u32 *)(W(p)+0x4C),(u32 *)(W(p)+0x50));
     KEY_SetRepeatSpeed(6,6);
-    func_021DC9C4();
-    func_021DC9E0(p);
-    func_021DCDB8((char *)p);
-    func_021DCB8C((struct Ov170Ctx *)p);
-    func_021DCE14((char *)p);
-    func_021DD8D0((char *)p);
-    func_021EAA80(p);
-    func_021EBD94(p);
-    func_021EC4E0((char *)p);
-    func_021EC4FC(p);
-    func_021DEC98((char *)p,(void *)func_021DEDCC((char *)p,p[0x14]),2);
-    func_021EF274((char *)p);
-    func_021EACA8(p);
-    func_021EACFC(p);
-    func_021EDB1C((int)p);
-    func_021EE2C4((char **)p);
-    func_021DCEC0((char *)p);
-    func_021DCDF0(1);
+    BOX2_MAIN_ResetGraphics();
+    BOX2_MAIN_InitBgSys(p);
+    BOX2_MAIN_CreatePalAnm((char *)p);
+    BOX2_MAIN_LoadBgData((struct Ov170Ctx *)p);
+    BOX2_MAIN_CreateTextSystem((char *)p);
+    BOX2_MAIN_LoadFormTable((char *)p);
+    BOX2_SEQ_InitBmpWins(p);
+    BOX2_SEQ_CreateBox2UiScene(p);
+    BOX2_SEQ_ShowAllSlotIcons((char *)p);
+    BOX2_SEQ_ShowPartyIcons(p);
+    BOX2_MAIN_SetBoxScroll((char *)p,(void *)BOX2_MAIN_GetBoxFormId((char *)p,p[0x14]),2);
+    BOX2_UI_InitWindowFrames((char *)p);
+    BOX2_SEQ_PrintMsgWin(p);
+    BOX2_SEQ_InitBmpWin(p);
+    BOX2_UI_DrawAllSlots((int)p);
+    BOX2_UI_CreateCursor((char **)p);
+    BOX2_MAIN_CreateTaskMenu((char *)p);
+    BOX2_MAIN_SetDisplayControl(1);
     GFL_NET_RestartWithDefaultTimeout(1,0x4C);
-    func_021DC94C((char *)p);
+    BOX2_MAIN_CreateVBlankTask((char *)p);
     return *(int *)(p+0x28);
 }

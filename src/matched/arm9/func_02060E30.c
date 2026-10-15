@@ -1,5 +1,5 @@
 /*
- * function: func_02060E30
+ * function: NNS_FndFreeToExpHeap
  * address:  0x02060E30
  * packet:   pkt_02060CD0
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060764   0x02060764  arm
- *   func_02060790   0x02060790  arm
- *   func_02060B6C   0x02060B6C  arm
+ *   NNSi_FndGetMBlockRegion   0x02060764  arm
+ *   NNSi_FndRemoveMBlock   0x02060790  arm
+ *   NNSi_FndRecycleRegion   0x02060B6C  arm
  *
  * The expanded heap's free primitive: read the block's own extent with
- * func_02060764, unlink its header from the heap's used list (+0x2c) and hand
- * the extent to func_02060B6C, which splices it back into the free list at
+ * NNSi_FndGetMBlockRegion, unlink its header from the heap's used list (+0x2c) and hand
+ * the extent to NNSi_FndRecycleRegion, which splices it back into the free list at
  * +0x24 and merges it with any adjacent free block.
  *
  * The 2-word extent is two separate scalars, not an int[2] and not a struct,
@@ -30,13 +30,13 @@
  * The second site spells the base as `&end - 1`, since `end` is the *later*
  * declaration and mwcc lays locals out with the later declaration at the
  * lower address: `end` sits at sp+0 and `start` at sp+4, so `&end - 1` and the
- * block's own base (`&start`, as func_02060764 must be handed) are the same
+ * block's own base (`&start`, as NNSi_FndGetMBlockRegion must be handed) are the same
  * word.  The pair is not a struct or an array: with one object named at both
  * sites the compiler folds the two addresses into one value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060E30.c \
- *       --func func_02060E30 --addr 0x02060E30 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndFreeToExpHeap.c \
+ *       --func NNS_FndFreeToExpHeap --addr 0x02060E30 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -64,17 +64,17 @@ struct ExpHeap {
     u16               feature;
 };
 
-extern void func_02060764(int *out, int *blk);
-extern void *func_02060790(int *p, int *node);
-extern int            func_02060B6C(struct MBlockList *list, int *info);
+extern void NNSi_FndGetMBlockRegion(int *out, int *blk);
+extern void *NNSi_FndRemoveMBlock(int *p, int *node);
+extern int            NNSi_FndRecycleRegion(struct MBlockList *list, int *info);
 
-void func_02060E30(struct ExpHeap *heap, void *block)
+void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block)
 {
     struct MBlock *hdr = (struct MBlock *)((u8 *)block - 0x10);
     int            end;
     int            start;
 
-    func_02060764(&start, (int *)hdr);
-    func_02060790((int *)(&heap->usedList), (int *)hdr);
-    func_02060B6C(&heap->freeList, &end - 1);
+    NNSi_FndGetMBlockRegion(&start, (int *)hdr);
+    NNSi_FndRemoveMBlock((int *)(&heap->usedList), (int *)hdr);
+    NNSi_FndRecycleRegion(&heap->freeList, &end - 1);
 }

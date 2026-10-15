@@ -65,6 +65,7 @@
  *   MTX_Concat33     0x0207B388  arm
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
+ *   NNSi_GfdDefaultAllocTexVram  0x020614D4  arm
  */
 typedef unsigned int u32;
 
@@ -189,7 +190,7 @@ extern void func_02058180(void *a, void *b, int *c);
 extern void func_02058204(void *o, void *s, int *dst);
 extern void func_020582CC(void *o, void *s, int *dst);
 extern u32 func_020616CC(u32 size, u32 flag, u32 dir);
-extern int func_020614D4(int a, int b, int c);
+extern int NNSi_GfdDefaultAllocTexVram(int a, int b, int c);
 extern void *func_0207E1F8(void);
 extern void *func_0207E24C(void);
 extern void *func_0207E2A0(void);
@@ -618,12 +619,12 @@ int BUTTON_MAN_GetUserData(struct Obj3D *p)
 
 
 /*
- * Calls func_020614D4 with a constant 0 as its third argument and returns the
+ * Calls NNSi_GfdDefaultAllocTexVram with a constant 0 as its third argument and returns the
  * low halfword of the result scaled by eight (a2 and a3 are unused).
  */
 unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
 {
-    int t0 = func_020614D4(a0, a1, 0);
+    int t0 = NNSi_GfdDefaultAllocTexVram(a0, a1, 0);
 
     return (unsigned int)(t0 << 16) >> 13;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE46C
+ * function: RESEARCH_GRAPH_GetTransitionKind
  * address:  0x021BE46C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -29,7 +29,7 @@ typedef signed int     s32;
 
 extern u32 RESEARCH_COMMON_GetPreviousScreen(void *p);
 extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
-u32 func_021BE46C(u8 *a0)
+u32 RESEARCH_GRAPH_GetTransitionKind(u8 *a0)
 {
     u32 v = ((struct Obj25902 *)a0)->f0;
     u32 a = RESEARCH_COMMON_GetPreviousScreen((void *)v);

@@ -1,7 +1,7 @@
 /*
  * file:     snd_command.c
  * unit:     yes
- * function: func_020898A8, func_02089978, func_02089A78, func_02089B00, SND_FlushCommand, func_02089CD4, func_02089D40, func_02089D6C, func_02089DBC, func_02089DF8, func_02089E34, func_02089E50, func_02089E74, func_02089ED8, func_02089F00, func_02089F48
+ * function: SND_CommandInit, SND_RecvCommandReply, SND_AllocCommand, SND_PushCommand, SND_FlushCommand, SND_WaitForCommandProc, SND_GetCurrentCommandTag, SND_IsFinishedCommandTag, SND_CountFreeCommand, SND_CountReservedCommand, SND_CountWaitingCommand, PxiFifoCallback, InitPXI, RequestCommandProc, AllocCommand, IsCommandAvailable
  * address:  0x020898A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -60,9 +60,7 @@ typedef struct SNDCommand {
     u32 arg[4];
 } SNDCommand;
 
-typedef struct SNDSharedWork {
-    u32 opaque[160];
-} SNDSharedWork;
+#include "snd_shared_types.h"
 
 /* snd_command.o's .bss statics from sFreeList on, in their laid-out order */
 typedef struct {
@@ -103,21 +101,9 @@ extern void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void PxiFifoCallback(int tag, u32 data, BOOL err);
 extern BOOL OS_IsRunOnEmulator(void);
-void func_020898A8(void);
-const SNDCommand *func_02089978(u32 flags);
-SNDCommand *func_02089A78(u32 flags);
-void func_02089B00(SNDCommand *command);
-void func_02089CD4(u32 tag);
-u32 func_02089D40(void);
-BOOL func_02089D6C(u32 tag);
-int func_02089DBC(void);
-int func_02089DF8(void);
-int func_02089E34(void);
-void func_02089E50(int tag, u32 data, BOOL err);
-void func_02089E74(void);
-void func_02089ED8(void);
-SNDCommand *func_02089F00(void);
-BOOL func_02089F48(void);
+void SND_CommandInit(void);
+void SND_WaitForCommandProc(u32 tag);
+u32 SND_GetCurrentCommandTag(void);
 extern SNDCommandState sFreeList;
 extern SNDCommand sCommandArray[SND_COMMAND_NUM];
 extern SNDSharedWork sSharedWork;
@@ -135,7 +121,7 @@ extern SNDCommand *sWaitingCommandListQueue[SND_PXI_FIFO_MESSAGE_BUFSIZE + 1];
  *           +0x10 freeListEnd, +0x14 queueRead, +0x18 queueWrite, +0x1C waitingCount,
  *           +0x20 currentTag.
  */
-void func_020898A8(void)
+void SND_CommandInit(void)
 {
     SNDCommand *command;
     int i;
@@ -176,7 +162,7 @@ void func_020898A8(void)
 /*
  * sdk:      SND_RecvCommandReply (snd_command.o)
  */
-const SNDCommand *func_02089978(u32 flags)
+const SNDCommand *SND_RecvCommandReply(u32 flags)
 {
     OSIntrMode bak_psr;
     SNDCommand *commandList;
@@ -226,7 +212,7 @@ const SNDCommand *func_02089978(u32 flags)
 /*
  * sdk:      SND_AllocCommand (snd_command.o)
  */
-SNDCommand *func_02089A78(u32 flags)
+SNDCommand *SND_AllocCommand(u32 flags)
 {
     SNDCommand *command;
 
@@ -262,7 +248,7 @@ SNDCommand *func_02089A78(u32 flags)
 /*
  * sdk:      SND_PushCommand (snd_command.o)
  */
-void func_02089B00(SNDCommand *command)
+void SND_PushCommand(SNDCommand *command)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
 
@@ -354,7 +340,7 @@ BOOL SND_FlushCommand(u32 flags)
 /*
  * sdk:      SND_WaitForCommandProc (snd_command.o)
  */
-void func_02089CD4(u32 tag)
+void SND_WaitForCommandProc(u32 tag)
 {
     if (SND_IsFinishedCommandTag(tag)) {
         return;
@@ -377,7 +363,7 @@ void func_02089CD4(u32 tag)
 /*
  * sdk:      SND_GetCurrentCommandTag (snd_command.o)
  */
-u32 func_02089D40(void)
+u32 SND_GetCurrentCommandTag(void)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
     u32 tag;
@@ -395,7 +381,7 @@ u32 func_02089D40(void)
 /*
  * sdk:      SND_IsFinishedCommandTag (snd_command.o)
  */
-BOOL func_02089D6C(u32 tag)
+BOOL SND_IsFinishedCommandTag(u32 tag)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
     BOOL result;
@@ -421,7 +407,7 @@ BOOL func_02089D6C(u32 tag)
 /*
  * sdk:      SND_CountFreeCommand (snd_command.o)
  */
-int func_02089DBC(void)
+int SND_CountFreeCommand(void)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
     SNDCommand *command;
@@ -438,7 +424,7 @@ int func_02089DBC(void)
 /*
  * sdk:      SND_CountReservedCommand (snd_command.o)
  */
-int func_02089DF8(void)
+int SND_CountReservedCommand(void)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
     SNDCommand *command;
@@ -455,7 +441,7 @@ int func_02089DF8(void)
 /*
  * note:     snd_command.o SND_CountWaitingCommand.
  */
-int func_02089E34(void)
+int SND_CountWaitingCommand(void)
 {
     int freeCount = SND_CountFreeCommand();
     int reservedCount = SND_CountReservedCommand();
@@ -467,7 +453,7 @@ int func_02089E34(void)
 /*
  * sdk:      PxiFifoCallback (snd_command.o)
  */
-void func_02089E50(int tag, u32 data, BOOL err)
+void PxiFifoCallback(int tag, u32 data, BOOL err)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
@@ -479,7 +465,7 @@ void func_02089E50(int tag, u32 data, BOOL err)
 /*
  * sdk:      InitPXI (snd_command.o)
  */
-void func_02089E74(void)
+void InitPXI(void)
 {
     PXI_SetFifoRecvCallback(7, PxiFifoCallback);
 
@@ -496,7 +482,7 @@ void func_02089E74(void)
 /*
  * sdk:      RequestCommandProc (snd_command.o)
  */
-void func_02089ED8(void)
+void RequestCommandProc(void)
 {
     while (PXI_SendWordByFifo(7, 0, 0) < 0) {
     }
@@ -506,7 +492,7 @@ void func_02089ED8(void)
 /*
  * sdk:      AllocCommand (snd_command.o)
  */
-SNDCommand *func_02089F00(void)
+SNDCommand *AllocCommand(void)
 {
     OSIntrMode bak_psr = OS_DisableInterrupts();
     SNDCommand *command = sFreeList.freeList;
@@ -529,7 +515,7 @@ SNDCommand *func_02089F00(void)
 /*
  * sdk:      IsCommandAvailable (snd_command.o)
  */
-BOOL func_02089F48(void)
+BOOL IsCommandAvailable(void)
 {
     OSIntrMode prev_mode;
     u32 res;

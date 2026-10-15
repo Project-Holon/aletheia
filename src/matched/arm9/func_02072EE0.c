@@ -10,11 +10,11 @@
  * status:   EXACT
  * symbols:
  *   gSndActiveSeqList     0x0214E018  data
- *   func_02060614  0x02060614  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md).  The image
  * loads the list-head pool word TWICE: `ldr r0, [pc, #0x3c]` at 0x02072EEC feeds
- * the first func_02060614 call directly, and a second `ldr r4, [pc, #0x28]` at
+ * the first NNS_FndGetNextListObject call directly, and a second `ldr r4, [pc, #0x28]` at
  * 0x02072F00 materialises it again for the loop.  1.1p1 -O4,p CSEs the pair into
  * one hoisted `ldr r4, [pc, #0x44]` above the `mov r6, r0` and then spends a
  * `mov r0, r4` at each call: the same 84 bytes with the first eight words
@@ -35,7 +35,7 @@ struct Voice {
 
 extern char gSndActiveSeqList[];
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 
 s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 tag)
 {
@@ -43,12 +43,12 @@ s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 tag)
     s32 n;
 
     n = 0;
-    v = func_02060614((struct DList *)gSndActiveSeqList, 0);
+    v = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, 0);
     while (v != 0) {
         if (v->h34 == 1 && v->h38 == tag) {
             n++;
         }
-        v = func_02060614((struct DList *)gSndActiveSeqList, v);
+        v = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, v);
     }
     return n;
 }

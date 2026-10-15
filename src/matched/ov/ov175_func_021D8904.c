@@ -34,8 +34,8 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200ED48 0x0200ED48 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  */
 #include "../include/Obj00477.h"
@@ -72,10 +72,10 @@ extern u32 func_021DADAC(u8 *p);
 extern void func_021DA36C(char *),func_021DA384(char *);
 extern int func_021DA390(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *,unsigned int);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *,unsigned int);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
@@ -115,8 +115,8 @@ void func_021D8904(u32 sys,int *state,char *p)
     case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
-    case 5:list=func_0200ED48(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
-        func_0200ED54(list,func_02008530(((struct Obj02512 *)q)->f18));
+    case 5:list=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
+        MISC_SAVEDATA_InsertRecentValue(list,func_02008530(((struct Obj02512 *)q)->f18));
         func_021DA384(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
     case 6:if(func_021DA390(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;
         switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02086AF8
+ * function: OS_CreateHeap
  * address:  0x02086AF8
  * packet:   pkt_02086AF8
  * region:   arm9
@@ -66,7 +66,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
 #define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
 
-int func_02086AF8(OSArenaId id, void *start, void *end)
+int OS_CreateHeap(OSArenaId id, void *start, void *end)
 {
     OSIntrMode enabled;
     OSHeapInfo *heapInfo;

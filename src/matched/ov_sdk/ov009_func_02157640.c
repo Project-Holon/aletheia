@@ -15,7 +15,7 @@
  *   CPS_CalmDown  0x021575DC  arm  ov009
  *   OS_JoinThread  0x02085710  arm
  *   OS_DestroyThread  0x020855BC  arm
- *   func_020873F8  0x020873F8  arm
+ *   OS_CancelAlarm  0x020873F8  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
@@ -40,7 +40,7 @@ extern char g_021A826C[];
 extern int CPS_CalmDown(void);
 extern void OS_JoinThread(void *thread);
 extern void OS_DestroyThread(void *thread);
-extern void func_020873F8(void *alarm);
+extern void OS_CancelAlarm(void *alarm);
 extern unsigned long OS_DisableInterrupts(void);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_WakeupThreadDirect(void *thread);
@@ -54,7 +54,7 @@ void CPS_Cleanup(void)
     CPS_CalmDown();
     OS_JoinThread(((char *)&g_021A85E4));
     OS_DestroyThread(((char *)&g_021A86A4));
-    func_020873F8(g_021A82FC);
+    OS_CancelAlarm(g_021A82FC);
     enable = OS_DisableInterrupts();
     if (!OS_IsThreadTerminated(((char *)&g_021A8524)))
         OS_WakeupThreadDirect(((char *)&g_021A8524));

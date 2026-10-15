@@ -18,11 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0209A0EC"
+    "__kernel_sin"
+   ],
+   "addresses": [
+    "0x0209A0EC"
    ]
   },
   {
-   "name": "func_0209A368",
+   "name": "copysign",
    "address": "0x0209A368",
    "kind": "game",
    "region": "arm9",
@@ -49,7 +52,7 @@
    ]
   },
   {
-   "name": "func_0209A504",
+   "name": "fabs",
    "address": "0x0209A504",
    "kind": "game",
    "region": "arm9",
@@ -61,7 +64,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209A6E8",
+   "name": "frexp",
    "address": "0x0209A6E8",
    "kind": "game",
    "region": "arm9",
@@ -84,11 +87,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0209AA08"
+    "sin"
+   ],
+   "addresses": [
+    "0x0209AA08"
    ]
   },
   {
-   "name": "func_0209AB8C",
+   "name": "stricmp",
    "address": "0x0209AB8C",
    "kind": "game",
    "region": "arm9",

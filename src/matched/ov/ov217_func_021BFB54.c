@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB54
+ * function: RESEARCH_GRAPH_DeleteFont
  * address:  0x021BFB54
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-void func_021BFB54(u8 *a0)
+void RESEARCH_GRAPH_DeleteFont(u8 *a0)
 {
     GF_FONT_Delete((void *)((u32)(((struct Obj25951 *)a0)->f8)));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02086D90
+ * function: OSi_ReadProtectionRegion4
  * address: 0x02086D90
  * packet: pkt_arm9_02086D90
  * region: arm9
@@ -15,7 +15,7 @@
 typedef unsigned long u32;
 
 /* p15 c6,c4: data protection region 4, read */
-asm u32 func_02086D90(void)
+asm u32 OSi_ReadProtectionRegion4(void)
 {
     mrc p15, 0, r0, c6, c4, 0
     bx lr

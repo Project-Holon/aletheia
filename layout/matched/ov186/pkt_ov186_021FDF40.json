@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FDF40",
-    "func_021FDFF0"
+    "BR_UTIL_EffectFlyInSlow",
+    "BR_UTIL_EffectNoop"
+   ],
+   "addresses": [
+    "0x021FDF40",
+    "0x021FDFF0"
    ]
   }
  ]

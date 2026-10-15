@@ -10,13 +10,13 @@
  * status: EXACT
  * symbols:
  *   OS_IsTickAvailable 0x02087058 arm
- *   func_02086FE8 0x02086FE8 arm
+ *   OS_InitTick 0x02086FE8 arm
  *   gGdsSocket 0x021D9E40 data a4
  */
 
 #include "../include/G_Clear.h"
 
 extern int OS_IsTickAvailable(void);
-extern void func_02086FE8(void);
+extern void OS_InitTick(void);
 extern struct Clear gGdsSocket;
-int GDS_SOCKET_InitTick(void){if(!OS_IsTickAvailable())func_02086FE8();*(int*)(((char *)&gGdsSocket)+0x270)=16;return 1;}
+int GDS_SOCKET_InitTick(void){if(!OS_IsTickAvailable())OS_InitTick();*(int*)(((char *)&gGdsSocket)+0x270)=16;return 1;}

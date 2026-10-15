@@ -1,5 +1,5 @@
 /*
- * function: func_021E2054
+ * function: BOX2_SEQ_StateWaitCount
  * address: 0x021E2054
  * packet: pkt_ov170_021E2054
  * region: ov170
@@ -19,9 +19,9 @@ struct BoxCountWork {
     int count;
 };
 
-int func_021E2054(void *p);
+int BOX2_SEQ_StateWaitCount(void *p);
 
-int func_021E2054(void *p)
+int BOX2_SEQ_StateWaitCount(void *p)
 {
     struct BoxCountWork *w = (struct BoxCountWork *)((struct Obj12157 *)p)->f2C;
     int v = w->count;

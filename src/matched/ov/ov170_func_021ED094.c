@@ -1,5 +1,5 @@
 /*
- * function: func_021ED094
+ * function: BOX2_SEQ_SetSlotCharacter
  * address:  0x021ED094
  * packet:   pkt_ov170_021ED094
  * region:   ov170
@@ -37,7 +37,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3
 extern u16 CLACT_GetActorPaletteIndex(u8 *p);
 extern void CLACT_TransferPalette(void *dst, void *src, unsigned flag);
 
-void func_021ED094(char *w, unsigned item)
+void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
 {
     void *a;
     void *b;

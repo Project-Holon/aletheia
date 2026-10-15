@@ -13,7 +13,7 @@
  *   g_020A60DC  0x020A60DC  data
  *
  * Bounded case-insensitive string compare (the `strncmp` twin of
- * src/matched/func_0209AB8C.c, which is the unbounded `strcmp`): each byte is
+ * src/matched/stricmp.c, which is the unbounded `strcmp`): each byte is
  * mapped through the 256-byte table at 0x020A60DC when it is below 0x80, then
  * compared as unsigned, for at most n bytes.
  *

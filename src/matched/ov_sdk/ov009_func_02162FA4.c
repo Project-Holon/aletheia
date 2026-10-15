@@ -1,5 +1,5 @@
 /*
- * function: func_02162FA4
+ * function: CPSi_SslCleanup
  * address:  0x02162FA4
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,17 +12,17 @@
  * Clears the 0x170 bytes of the object at 0x021AA664.
  *
  * symbols:
- *   g_021AA664  0x021AA664  data
+ *   gCpsSslSessionCache  0x021AA664  data
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 #include "../include/G_CPSSslSession.h"
 
-extern struct CPSSslSession g_021AA664;
+extern struct CPSSslSession gCpsSslSessionCache;
 extern void MI_CpuFill8(void *p, int v, int n);
 
-void func_02162FA4(void)
+void CPSi_SslCleanup(void)
 {
-    MI_CpuFill8(((char *)&g_021AA664), 0, 0x170);
+    MI_CpuFill8(((char *)&gCpsSslSessionCache), 0, 0x170);
 }
 

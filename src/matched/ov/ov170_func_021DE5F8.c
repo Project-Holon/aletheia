@@ -1,5 +1,5 @@
 /*
- * function: func_021DE5F8
+ * function: BOX2_MAIN_StartMover
  * address: 0x021DE5F8
  * packet: pkt_ov170_021DE5F8
  * region: ov170
@@ -15,7 +15,7 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_021DDEFC 0x021DDEFC thumb ov170
+ *   BOX2_MAIN_AdvanceMover 0x021DDEFC thumb ov170
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23847.h"
@@ -24,8 +24,8 @@ typedef struct {
     int vx,vy;
     short dx,dy,x,y;
 } Obj;
-extern void func_021DDEFC(unsigned char *,Obj *);
-void func_021DE5F8(unsigned char *p,unsigned a)
+extern void BOX2_MAIN_AdvanceMover(unsigned char *,Obj *);
+void BOX2_MAIN_StartMover(unsigned char *p,unsigned a)
 {
     Obj *o;
     unsigned i;
@@ -42,9 +42,9 @@ void func_021DE5F8(unsigned char *p,unsigned a)
     for(i=slot+1;i<6;i++){
         o[i].slot=i+29;
         o[i].f6=1;
-        func_021DDEFC(p,&o[i]);
+        BOX2_MAIN_AdvanceMover(p,&o[i]);
     }
     o[slot].slot=35;
     o[slot].f6=1;
-    func_021DDEFC(p,&o[slot]);
+    BOX2_MAIN_AdvanceMover(p,&o[slot]);
 }

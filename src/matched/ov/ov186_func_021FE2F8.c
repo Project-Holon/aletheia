@@ -1,5 +1,5 @@
 /*
- * function: func_021FE2F8
+ * function: BR_UTIL_StepOrbit
  * address: 0x021FE2F8
  * packet: pkt_ov186_021FE2F8
  * region: ov186
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj01284.h"
 extern const short FX_SinCosTable_[];
-int func_021FE2F8(char *p, int *out, int step)
+int BR_UTIL_StepOrbit(char *p, int *out, int step)
 {
     unsigned short angle_delta;
     signed char direction;

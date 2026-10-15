@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020897DC 0x020897DC arm
+ *   SNDi_SetTrackParam 0x020897DC arm
  */
 
 typedef unsigned int u32;
-extern void func_020897DC(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size);
+extern void SNDi_SetTrackParam(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size);
 
 void SND_SetTrackPitch(int playerNo, u32 trackBitMask, int pitch)
 {
-    func_020897DC(playerNo, trackBitMask, 0xc, (u32)pitch, 2);
+    SNDi_SetTrackParam(playerNo, trackBitMask, 0xc, (u32)pitch, 2);
 }

@@ -25,11 +25,11 @@
  * symbols:
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   SSP_ExifDecode  0x021C0BB4  arm  ov172
- *   g_021C88F0     0x021C88F0  data
- *   g_021C8D1C     0x021C8D1C  data ov172
- *   g_021C8C1C     0x021C8C1C  data ov172
- *   g_021C8B1C     0x021C8B1C  data ov172
- *   g_021C959C     0x021C959C  data ov172
+ *   gJpegDecodeState     0x021C88F0  data
+ *   gJpegDecodeQuantTable     0x021C8D1C  data ov172
+ *   gJpegDecodeAcTable     0x021C8C1C  data ov172
+ *   gJpegDecodeDcTable     0x021C8B1C  data ov172
+ *   gJpegDecodeExifState     0x021C959C  data ov172
  *
  * Static: clears the decoder state, validates the SOI marker and walks the marker segments until
  * the APP1 (Exif) segment, which SSP_ExifDecode parses.
@@ -53,7 +53,7 @@
  * Declaration order is confirmed by DWARF (locals listed result, b, s, p = reverse source order).
  *
  * Lane U67 (2026-09-30): the three clears are a *chained assignment*
- *   `g_021C8C1C[0x40] = g_021C8D1C[0] = g_021C8B1C[0] = 0;`
+ *   `gJpegDecodeAcTable[0x40] = gJpegDecodeQuantTable[0] = gJpegDecodeDcTable[0] = 0;`
  * That single change fixed the parameter home-copies (+0x14..+0x1C now `mov r8,r0` / `mov r6,r2` /
  * `mov r7,r1` exactly as the image) and keeps the correct literal pool and store order; 31 -> 21
  * concrete bytes.  Measured over all 6 chain permutations (21/22/23/23/24 diffs; only the
@@ -76,9 +76,9 @@ typedef struct {
     unsigned int bits;
 } BitState;
 
-extern BitState g_021C88F0;
-extern short g_021C8B1C[];
-extern unsigned char g_021C959C[];
+extern BitState gJpegDecodeState;
+extern short gJpegDecodeDcTable[];
+extern unsigned char gJpegDecodeExifState[];
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int option);
 
@@ -89,11 +89,11 @@ int Mel_JPEGDecodeExif(unsigned char *a, unsigned long length, int option)
     unsigned char b;
     long result;
 
-    g_021C88F0.esc = 0;
-    g_021C88F0.bits = 0;
-    g_021C8B1C[0] = g_021C8B1C[0xC0] = g_021C8B1C[0x100] = 0;
-    MIi_CpuClearFast(0, g_021C959C, 0x1000);
-    g_021C88F0.length = length;
+    gJpegDecodeState.esc = 0;
+    gJpegDecodeState.bits = 0;
+    gJpegDecodeDcTable[0] = gJpegDecodeDcTable[0xC0] = gJpegDecodeDcTable[0x100] = 0;
+    MIi_CpuClearFast(0, gJpegDecodeExifState, 0x1000);
+    gJpegDecodeState.length = length;
     if (length <= 2) return 0;
     if (a[0] != 0xFF || a[1] != 0xD8) return 0;
     p = 2;
@@ -112,5 +112,5 @@ int Mel_JPEGDecodeExif(unsigned char *a, unsigned long length, int option)
             p += s;
         }
     }
-    return -(p <= g_021C88F0.length);
+    return -(p <= gJpegDecodeState.length);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB30
+ * function: RESEARCH_GRAPH_ClearFont
  * address:  0x021BFB30
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BFB30(void *p)
+void RESEARCH_GRAPH_ClearFont(void *p)
 {
     ((struct Obj25950 *)p)->f8 = 0;
 }

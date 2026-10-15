@@ -1,5 +1,5 @@
 /*
- * function: func_021EA39C
+ * function: BOX2_SEQ_SelectGridSlot
  * address:  0x021EA39C
  * packet:   pkt_ov170_021EA39C
  * region:   ov170
@@ -10,24 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DD25C 0x021DD25C thumb
- *   func_021EF508 0x021EF508 thumb
- *   func_021EBA5C 0x021EBA5C thumb
- *   func_021DD14C 0x021DD14C thumb
- *   func_021EC000 0x021EC000 thumb
- *   func_021ED164 0x021ED164 thumb
- *   func_021ED094 0x021ED094 thumb
- *   func_021ED1C8 0x021ED1C8 thumb
- *   func_021EE038 0x021EE038 thumb
- *   func_021EC01C 0x021EC01C thumb
- *   func_021ED6E4 0x021ED6E4 thumb
- *   func_021EC548 0x021EC548 thumb
- *   func_021EA728 0x021EA728 thumb
- *   func_021E8FE0 0x021E8FE0 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E0FD8 0x021E0FD8 thumb
+ *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
+ *   BOX2_UI_ResetSlotFrames 0x021EF508 thumb
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
+ *   BOX2_SEQ_MoveActorToSlot 0x021ED164 thumb
+ *   BOX2_SEQ_SetSlotCharacter 0x021ED094 thumb
+ *   BOX2_SEQ_CreateHandSlotActorsB 0x021ED1C8 thumb
+ *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
+ *   BOX2_SEQ_GetActorDrawEnable 0x021EC01C thumb
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
+ *   BOX2_SEQ_GetSlotPos 0x021EC548 thumb
+ *   BOX2_SEQ_CreateB 0x021EA728 thumb
+ *   BOX2_SEQ_SetState 0x021E8FE0 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_MAIN_StateMachineSlide 0x021E0FD8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
+ *   BOX2_MAIN_ChangeBoxFormPreserve  0x021DEFEC  thumb
+ *   BOX2_MAIN_Check0A40  0x021E0A40  thumb
+ *   BOX2_MAIN_StateMachineCoin  0x021E0ABC  thumb
+ *   BOX2_SEQ_SetActorAnim  0x021EA878  thumb
+ *   BOX2_UI_MoveCursorBetweenIcons  0x021EEF74  thumb
+ *   BOX2_UI_CloseListPack  0x021EF534  thumb
  */
 
 typedef struct {
@@ -55,59 +61,59 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021EBA5C(char *w, int v);
+extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
 typedef unsigned char  u8;
 struct Sound;
-extern void func_021DD14C(char *p);
-extern void func_021EC000(char *p, int i, int v);
-extern void func_021ED164(char *w, int i, int v);
-extern void func_021ED094(char *w, unsigned item);
-extern void func_021ED1C8(char *w);
-extern void func_021EE038(char *p, int a, int b, int c);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+extern void BOX2_SEQ_MoveActorToSlot(char *w, int i, int v);
+extern void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item);
+extern void BOX2_SEQ_CreateHandSlotActorsB(char *w);
+extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 typedef unsigned int   u32;
-extern u32 func_021EC01C(char *p, int i);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern int func_021E8FE0(char *p, int v);
-extern int func_021E8FC0(char *p, int a, int b);
-extern void func_021EF508(struct WinMgr *mgr);
-extern void func_021EF534(struct WinMgr *mgr);
-extern void func_021EA728(void *p);
-extern void func_021EA878(Obj *p, int v);
-extern void func_021DEFEC(char *p, int b);
+extern u32 BOX2_SEQ_GetActorDrawEnable(char *p, int i);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_GetSlotPos(unsigned i, short *x, short *y, int mode);
+extern int BOX2_SEQ_SetState(char *p, int v);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
+extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
+extern void BOX2_SEQ_CreateB(void *p);
+extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern u8 func_020260E0(struct Sound *obj);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EEF74(char *w, int k, int v);
-extern int func_021E0ABC(unsigned char *p);
-extern int func_021E0FD8(unsigned char *p);
+extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
+extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
+extern int BOX2_MAIN_StateMachineSlide(unsigned char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern int func_021E0A40(char *p);
+extern int BOX2_MAIN_Check0A40(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 #define CNT(p) (*(unsigned short *)((p)->work + 0xA16C))
 
-int func_021EA39C(Obj *p, unsigned i)
+int BOX2_SEQ_SelectGridSlot(Obj *p, unsigned i)
 {
     short t[2];
     p->b16 = i;
     p->b17 = i < 0x1E ? p->b14 : 0xFF;
-    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
+    CNT(p) = BOX2_MAIN_GetPartyValueAt((void ***)p, p->b16, p->b14, 6, 0);
     if (CNT(p) == 0) {
         func_020260E4(OBJ(p), p->b16);
         return 0x40;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);
-    func_021EC000(p->work, 10, 0);
-    func_021ED164(p->work, p->b16, 2);
-    func_021ED094(p->work, CNT(p));
-    func_021ED1C8(p->work);
-    func_021EE038((char *)p, 2, 1, 1);
-    func_021EC548(p->b16, &t[1], &t[0], 2);
+    BOX2_SEQ_SetActorDrawEnable(p->work, 10, 0);
+    BOX2_SEQ_MoveActorToSlot(p->work, p->b16, 2);
+    BOX2_SEQ_SetSlotCharacter(p->work, CNT(p));
+    BOX2_SEQ_CreateHandSlotActorsB(p->work);
+    BOX2_UI_DeleteSlotObjects((char *)p, 2, 1, 1);
+    BOX2_SEQ_GetSlotPos(p->b16, &t[1], &t[0], 2);
     *(int *)(p->work + 0xA180) = t[1] + 8;
     *(int *)(p->work + 0xA184) = t[0] + 8;
-    func_021EA728(p);
-    return func_021E8FC0((char *)p, (int)func_021E0FD8, 0x42);
+    BOX2_SEQ_CreateB(p);
+    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineSlide, 0x42);
 }

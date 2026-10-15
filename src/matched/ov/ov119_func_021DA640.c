@@ -1,5 +1,5 @@
 /*
- * function: func_021DA640
+ * function: POKETRADE_PROC_StepOpenPeerSummary
  * address: 0x021DA640
  * packet: pkt_ov119_021DA640
  * region: ov119
@@ -20,7 +20,7 @@
  *   func_020355C4 0x020355C4 arm
  *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DA318 0x021DA318 thumb ov119
+ *   POKETRADE_PROC_StepPeerSummaryMenu 0x021DA318 thumb ov119
  *   d_021E7594 0x021E7594 data a4
  */
 #include "../include/Obj02826.h"
@@ -43,8 +43,8 @@ extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
 extern u8 func_020355C4(void);
 extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *tm, u32 arg);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DA318(char *p);
-void func_021DA640(char *p) {
+extern void POKETRADE_PROC_StepPeerSummaryMenu(char *p);
+void POKETRADE_PROC_StepOpenPeerSummary(char *p) {
     Pair t;
     int n;
     int zero=0;
@@ -63,5 +63,5 @@ void func_021DA640(char *p) {
     POKETRADE_PROC_RequestBoxRedraw(p);
     if(func_020355C4()) APP_TASKMENU_SetCursorActive((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),zero);
     else APP_TASKMENU_SetCursorActive((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),1);
-    POKETRADE_PROC_SetStep(p,(int)func_021DA318);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepPeerSummaryMenu);
 }

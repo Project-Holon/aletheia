@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB04
+ * function: RESEARCH_GRAPH_Free
  * address:  0x021BFB04
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_021BFB04(void *a0)
+u32 RESEARCH_GRAPH_Free(void *a0)
 {
     return func_020307B0(a0);
 }

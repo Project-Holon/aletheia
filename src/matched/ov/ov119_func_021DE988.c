@@ -13,7 +13,7 @@
  *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepBeginDeclineConfirm 0x021DE950 thumb ov119
  *   POKETRADE_NEGO_StepBrowseOffersMain 0x021DEA24 thumb ov119
@@ -27,7 +27,7 @@ extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepBeginDeclineConfirm(char *p);
 extern void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
@@ -45,7 +45,7 @@ void POKETRADE_NEGO_StepDeclineMenuChoice(char *p)
         }
         POKETRADE_SAVE_CloseMessageWindowClear(p);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
     }
 }

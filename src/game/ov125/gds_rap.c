@@ -104,7 +104,7 @@
  *   func_02092344 0x02092344 arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0 0x0205A1B0 arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
@@ -938,7 +938,7 @@ extern int GDS_SOCKET_StartThread(void);
 extern void *func_02092344(void *dest, const void *src, unsigned n);
 extern char *func_0205A16C(int heap, int size);
 extern void func_0205A1B0(int heap, int ptr, int flags);
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client);
 void GDS_SOCKET_ResetConnection(void);
 void GDS_SOCKET_RunConnection(void);
@@ -1190,5 +1190,5 @@ void GDS_SOCKET_Free(int ptr){if(ptr)func_0205A1B0(0,ptr,0);}
 
 void GDS_SOCKET_Lock(void)
 {
-    func_02086028(gGdsSocketMutex);
+    OS_LockMutex(gGdsSocketMutex);
 }

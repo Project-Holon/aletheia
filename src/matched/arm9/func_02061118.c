@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02061118
+ * function: NNS_FndDestroyFrmHeap
  * address:  0x02061118
  * packet:   pkt_020610E0
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 
 extern void func_0206074C(void *heap);
-void func_02061118(void *heap){ func_0206074C(heap); }
+void NNS_FndDestroyFrmHeap(void *heap){ func_0206074C(heap); }

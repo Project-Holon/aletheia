@@ -1,5 +1,5 @@
 /*
- * function: func_021BE614
+ * function: RESEARCH_GRAPH_SelectDirect
  * address:  0x021BE614
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BE630  0x021BE630  thumb  ov217
- *   func_021BF594  0x021BF594  thumb  ov217
+ *   RESEARCH_GRAPH_ApplySelection  0x021BE630  thumb  ov217
+ *   RESEARCH_GRAPH_StartSlotPaletteAnime  0x021BF594  thumb  ov217
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,12 +27,12 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 GFL_USE_PlaySeDefaultVolume();
-extern void func_021BE630(u8 *, u32);
-extern void func_021BF594(char *p, int i);
-u32 func_021BE614(u32 a0, u32 a1)
+extern void RESEARCH_GRAPH_ApplySelection(u8 *, u32);
+extern void RESEARCH_GRAPH_StartSlotPaletteAnime(char *p, int i);
+u32 RESEARCH_GRAPH_SelectDirect(u32 a0, u32 a1)
 {
-    func_021BE630((u8 *)a0, a1);
-    func_021BF594((char *)a0, 1);
+    RESEARCH_GRAPH_ApplySelection((u8 *)a0, a1);
+    RESEARCH_GRAPH_StartSlotPaletteAnime((char *)a0, 1);
     return GFL_USE_PlaySeDefaultVolume(1352);
 }
 

@@ -48,7 +48,7 @@
  *   func_02008650  0x02008650  thumb
  *   func_02008A0C  0x02008A0C  thumb
  *   func_02008A28  0x02008A28  thumb
- *   func_0200E6FC  0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
@@ -189,7 +189,7 @@ extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u16 func_02008A0C(const struct Sub020089A8Obj *obj);
 extern u8 func_02008A28(const struct Sub020089A8Obj *obj);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_0200C1DC(struct Blk34 *p);
 extern u16 *func_0200BE48(void *sys);
 extern void *GPOWER_LoadPowerTable(u32 heap);
@@ -281,7 +281,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     }
     out->f48 = (u32)func_02008A0C(x24);
     out->b4 = (u32)func_02008A28(x24);
-    func_0200E6FC(x10, (u32)0, (struct Rec0200E6FC *)out->f6c);
+    MISC_SAVEDATA_CopyQuadRecord(x10, (u32)0, (struct Rec0200E6FC *)out->f6c);
 
     RTC_ConvertSecondToDateTime(&date, &time, clock->sec1);
     out->year1 = date.year;

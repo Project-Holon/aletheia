@@ -37,7 +37,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C40C  0x0200C40C  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
@@ -75,12 +75,12 @@
  *   KEY_GetTrg 0x020362DC arm
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   func_02020344 0x02020344 thumb
- *   func_0200C480 0x0200C480 thumb
+ *   RECENT_ID_LIST_SAVEDATA_InsertId 0x0200C480 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   func_02020314 0x02020314 thumb
- *   func_0200C468 0x0200C468 thumb
- *   func_0200C464 0x0200C464 thumb
+ *   RECENT_ID_LIST_SAVEDATA_CountIds 0x0200C468 thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetIdAt 0x0200C464 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
@@ -269,7 +269,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C40C(void *sys);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -304,12 +304,12 @@ extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern u32 func_02020344(struct Obj *obj, u32 n);
-extern u8 func_0200C480(u8 *a, int id, u8 pos);
+extern u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *a, int id, u8 pos);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u16 func_02020314(struct Obj *obj);
-extern u16 func_0200C468(const u8 *a);
-extern u8 func_0200C464(const u8 *a, u32 i);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
+extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern void *BMP_MENUWORK_Create(int n, u32 heap);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
@@ -398,7 +398,7 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     menu->ownedFont = GF_FONT_Create(0x17, 0, 0, 0, textHeapId);
     menu->ownedPrintSys = PRINTSYS_QUE_CreateEx(0x1000, heapId);
     SHORTCUT_MENU_InitList(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
-        menu->ownedPrintSys, func_0200C40C(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
+        menu->ownedPrintSys, RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
     func_02041B6C(1);
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {
@@ -680,9 +680,9 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
             selection = func_02020344(menu->list, (u16)(menu->savedScroll + menu->savedCursor));
             func_020202EC(menu->list, &moveCursor[0]);
             if (menu->cursorWrapped != 0) {
-                selection = func_0200C480(menu->menuData, selection, 0xFF);
+                selection = RECENT_ID_LIST_SAVEDATA_InsertId(menu->menuData, selection, 0xFF);
             } else {
-                selection = func_0200C480(menu->menuData, selection, moveCursor[0]);
+                selection = RECENT_ID_LIST_SAVEDATA_InsertId(menu->menuData, selection, moveCursor[0]);
             }
             SHORTCUT_MENU_DeleteList(menu, &listWindow[0], &listWindow[1]);
             if (moveCursor[0] - 1 == selection) {
@@ -832,10 +832,10 @@ void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 he
     u32 itemCount;
     u32 i;
 
-    itemCount = func_0200C468(menu->menuData);
+    itemCount = RECENT_ID_LIST_SAVEDATA_CountIds(menu->menuData);
     menu->listItems = BMP_MENUWORK_Create(itemCount, heapId);
     for (i = 0; i < itemCount; i++) {
-        u8 entryId = func_0200C464(menu->menuData, (u8)i);
+        u8 entryId = RECENT_ID_LIST_SAVEDATA_GetIdAt(menu->menuData, (u8)i);
         BMP_MENUWORK_AddMsgItem(menu->listItems, (u32)menu->msgBank, (int)entryId, (int)entryId, heapId);
     }
     while (cursor + scroll >= itemCount) {

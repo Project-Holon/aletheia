@@ -14,13 +14,13 @@
  *
  * symbols:
  *   OS_JoinThread  0x02085710  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   gDwcNdState     0x021D3B68  data ov114
  *   gDwcNdMutex     0x021D3B84  data ov114
  *   func_02168040  0x02168040  arm  ov009
  *   strlen         0x0209477C  arm
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_02059B40  0x02059B40  arm
  *   DWCi_NdStartup  0x021C6348  arm  ov114
  *   func_02059E18  0x02059E18  arm
@@ -29,7 +29,7 @@
  *   DWCi_NdSetError  0x021C659C  arm  ov114
  *   OS_UnlockMutex 0x02086078  arm
  *   func_02059F38  0x02059F38  arm
- *   func_02086004  0x02086004  arm
+ *   OS_InitMutex  0x02086004  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   strncpy        0x02094860  arm
  *   func_02167FA8  0x02167FA8  arm
@@ -54,10 +54,10 @@ struct DWCNdFileInfo;
 extern void *func_0205A17C(int name, unsigned long size, int align);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 void OS_JoinThread(void *thread);
-void func_02086028(void *mutex);
+void OS_LockMutex(void *mutex);
 void OS_UnlockMutex(void *mutex);
 extern int func_02168040(void);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_02059B40(char *src, u32 srclen, char *dst, u32 dstlen);
 extern int DWCi_NdStartup(void *(*alloc)(unsigned long, int), void (*free)(void *), char *url,
                          char *token, char *gameCode, char *password,
@@ -67,7 +67,7 @@ extern void func_02059F54(int error, int errorCode);
 extern void OS_Sleep(u32 msec);
 extern void DWCi_NdSetError(int error, int serverError);
 extern int func_02059F38(void);
-extern void func_02086004(void *mutex);
+extern void OS_InitMutex(void *mutex);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern int func_02167FA8(char *serviceName, DWCSvlResult *result);
@@ -119,7 +119,7 @@ void DWCi_NdCleanupCallback(void)
     OS_JoinThread(gDwcNdState.param->thread);
     DWCi_NdFree(gDwcNdState.param);
     gDwcNdState.param = 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     gDwcNdState.state = 3;
     gDwcNdState.reason = 4;
     OS_UnlockMutex(gDwcNdMutex);
@@ -144,7 +144,7 @@ static void DWCi_SVLTokenWaitThread(void *arg)
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            func_02084F80(url, sizeof(url), "https://%s/download", gDwcNdState.param->svl.svlHost);
+            OS_SNPrintf(url, sizeof(url), "https://%s/download", gDwcNdState.param->svl.svlHost);
             if (func_02059B40(gDwcNdState.param->svl.svlToken, strlen(gDwcNdState.param->svl.svlToken),
                               token, sizeof(token)) < 0) {
                 func_021C58C8(0, 8, -1);
@@ -178,7 +178,7 @@ void func_021C58C8(int reason, int error, int serverError)
 {
     if (error != 0)
         DWCi_NdSetError(error, serverError);
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     gDwcNdState.state = 3;
     gDwcNdState.reason = reason;
     gDwcNdState.error = error;
@@ -195,8 +195,8 @@ int DWC_NdInitAsync(NdCallback callback, char *gameCode, char *password)
 {
     if (func_02059F38())
         return 0;
-    func_02086004(gDwcNdMutex);
-    func_02086028(gDwcNdMutex);
+    OS_InitMutex(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state != 0) {
         DWCi_NdSetError(2, 0);
         OS_UnlockMutex(gDwcNdMutex);
@@ -238,7 +238,7 @@ void DWC_NdProcess(void)
     int needCleanUpCallback = 0;
     int reason;
 
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     reason = gDwcNdState.reason;
     if (reason == 0 && gDwcNdState.state == 4) {
         if (gDwcNdState.errorReported == 0) {
@@ -268,7 +268,7 @@ int DWC_NdCleanupAsync(void)
 {
     if (gDwcNdState.state == 0)
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state == 0) {
         OS_UnlockMutex(gDwcNdMutex);
         return 0;
@@ -299,7 +299,7 @@ int DWC_NdGetFileListAsync(void *fileList, unsigned int offset, unsigned int num
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state != 1) {
         DWCi_NdSetError(2, 0);
         OS_UnlockMutex(gDwcNdMutex);
@@ -310,7 +310,7 @@ int DWC_NdGetFileListAsync(void *fileList, unsigned int offset, unsigned int num
     MI_CpuFill8(fileList, 0, num * 0xB0);
     if (DWCi_NdGetFileListAsync(fileList, offset, num))
         return 1;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     gDwcNdState.state = 1;
     OS_UnlockMutex(gDwcNdMutex);
     return 0;
@@ -323,7 +323,7 @@ int DWC_NdGetFileAsync(void *fileInfo, char *buffer, unsigned int size)
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state != 1) {
         DWCi_NdSetError(2, 0);
         OS_UnlockMutex(gDwcNdMutex);
@@ -333,7 +333,7 @@ int DWC_NdGetFileAsync(void *fileInfo, char *buffer, unsigned int size)
     OS_UnlockMutex(gDwcNdMutex);
     if (DWCi_NdGetFileAsync(fileInfo, buffer, size, 0))
         return 1;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     gDwcNdState.state = 1;
     OS_UnlockMutex(gDwcNdMutex);
     return 0;
@@ -346,7 +346,7 @@ int DWC_NdCancelAsync(void)
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state != 2) {
         OS_UnlockMutex(gDwcNdMutex);
         return 0;
@@ -359,7 +359,7 @@ int DWC_NdGetProgress(unsigned long *received, unsigned long *contentLength)
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.state != 2) {
         OS_UnlockMutex(gDwcNdMutex);
         return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FB5B8
+ * function: BR_BTN_GetObjectBgPriority
  * address: 0x021FB5B8
  * packet: pkt_ov186_021FB5B8
  * region: ov186
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj24827.h"
 extern unsigned CLACT_GetActorBgPriority(unsigned char *);
-unsigned func_021FB5B8(char *p) { return CLACT_GetActorBgPriority(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }
+unsigned BR_BTN_GetObjectBgPriority(char *p) { return CLACT_GetActorBgPriority(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }

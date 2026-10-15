@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE38
+ * function: MYSTERY_NET_AbortNd
  * address: 0x021DEE38
  * packet: pkt_ov121_021DEE38
  * region: ov121
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int d_021DFC00[];extern int DWC_NdCleanupAsync(void);
-void func_021DEE38(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((struct Obj08104 *)p)->f708=b;((struct Obj08104 *)p)->f72C=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
+void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((struct Obj08104 *)p)->f708=b;((struct Obj08104 *)p)->f72C=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}

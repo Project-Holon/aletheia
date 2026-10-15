@@ -1,5 +1,5 @@
 /*
- * function: func_0219F738
+ * function: AddServerToDeadlist
  * address:  0x0219F738
  * packet:   pkt_ov009_0219F738
  * region:   ov009
@@ -23,7 +23,7 @@ struct SBServerList {
 
 extern void SBServerSetNext(int *p, int v);
 
-void func_0219F738(struct SBServerList *slist, struct SBServer *server)
+void AddServerToDeadlist(struct SBServerList *slist, struct SBServer *server)
 {
     if (slist->deadlist == 0)
         SBServerSetNext((int *)server, 0);

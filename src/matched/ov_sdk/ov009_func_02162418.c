@@ -12,15 +12,15 @@
  * sdk:      send_client_hello (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_0216003C  0x0216003C  arm  ov009
+ *   date2sec  0x0216003C  arm  ov009
  *   func_02162128  0x02162128  arm  ov009
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0215FE3C  0x0215FE3C  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
- *   func_02161C54  0x02161C54  arm  ov009
- *   g_021A8280     0x021A8280  data
- *   g_021A1D40     0x021A1D40  data
- *   g_021A82B0     0x021A82B0  data
+ *   update_digest  0x02161C54  arm  ov009
+ *   CPSiAlloc     0x021A8280  data
+ *   gCpsSslConfig     0x021A1D40  data
+ *   CPSiFree     0x021A82B0  data
  */
 
 #define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
@@ -44,11 +44,11 @@ typedef struct CPSSslConnection {
     unsigned char state;            /* +0x455 */
 } CPSSslConnection;
 
-extern unsigned char *(*g_021A8280)(unsigned long size);
-extern void (*g_021A82B0)(void *p);
-extern unsigned short g_021A1D40[2];
+extern unsigned char *(*CPSiAlloc)(unsigned long size);
+extern void (*CPSiFree)(void *p);
+extern unsigned short gCpsSslConfig[2];
 
-extern unsigned long func_0216003C(void);
+extern unsigned long date2sec(void);
 extern void func_02162128(unsigned char *d, int len);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port);
@@ -56,7 +56,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct _CPSSoc;
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
-extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
+extern void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
 
 static void func_02162418(CPSSoc *soc)
 {
@@ -66,14 +66,14 @@ static void func_02162418(CPSSoc *soc)
     unsigned char *d;
     int i;
 
-    buf = g_021A8280(0x98);
+    buf = CPSiAlloc(0x98);
     if (buf == 0) {
         con->state = 9;
         return;
     }
     buf[9] = 3;
     buf[10] = 0;
-    sec = func_0216003C();
+    sec = date2sec();
     con->client_random[0] = sec >> 24;
     con->client_random[1] = sec >> 16;
     con->client_random[2] = sec >> 8;
@@ -92,9 +92,9 @@ static void func_02162418(CPSSoc *soc)
     d[0] = 0;
     d[1] = 4;
     d += 2;
-    for (i = 0; i < NELEMS(g_021A1D40); i++) {
-        d[0] = g_021A1D40[i] >> 8;
-        d[1] = g_021A1D40[i];
+    for (i = 0; i < NELEMS(gCpsSslConfig); i++) {
+        d[0] = gCpsSslConfig[i] >> 8;
+        d[1] = gCpsSslConfig[i];
         d += 2;
     }
     d[0] = 1;
@@ -111,6 +111,6 @@ static void func_02162418(CPSSoc *soc)
     buf[7] = (i - 4) >> 8;
     buf[8] = i - 4;
     CPSi_TcpWrite2Raw(buf, i + 5, 0, 0, (struct _CPSSoc *)soc);
-    func_02161C54(con, buf + 5, i);
-    g_021A82B0(buf);
+    update_digest(con, buf + 5, i);
+    CPSiFree(buf);
 }

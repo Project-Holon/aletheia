@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200C528",
+   "name": "RECENT_ID_LIST_SAVEDATA_InitArea",
    "address": "0x0200C528",
    "kind": "game",
    "region": "arm9",

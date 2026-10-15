@@ -11,9 +11,9 @@
  * blocker:  02072794 (arm) reached only by this function's tail call
  *
  * symbols:
- *   func_02072794  0x02072794  arm
+ *   NNS_SndSetMasterPan  0x02072794  arm
  *
- * `func_02072794(a0 != 1)`: the boolean is materialised in place of the
+ * `NNS_SndSetMasterPan(a0 != 1)`: the boolean is materialised in place of the
  * parameter (r0), so the fall-through arm carries the literal 1 and the
  * `beq` jumps to the 0.  Writing it as a `v = 1; if (a0 == 1) v = 0;` local
  * makes the compiler allocate a second register and shifts all nine bytes.
@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02072794(u32 v);
+extern void NNS_SndSetMasterPan(u32 v);
 
 void GFL_USE_SetStereoOutput(u32 a0)
 {
-    func_02072794(a0 != 1);
+    NNS_SndSetMasterPan(a0 != 1);
 }

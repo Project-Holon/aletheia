@@ -1,5 +1,5 @@
 /*
- * function: func_021E24EC
+ * function: BOX2_SEQ_SetBox2Main
  * address:  0x021E24EC
  * packet:   pkt_ov170_021E24EC
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF1FC 0x021EF1FC thumb
+ *   BOX2_UI_GetBackButtonPoint 0x021EF1FC thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021DD1C4 0x021DD1C4 thumb
+ *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E19D4 0x021E19D4 thumb
- *   func_021E1A78 0x021E1A78 thumb
- *   func_021E1A28 0x021E1A28 thumb
- *   func_021E1ACC 0x021E1ACC thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_SEQ_OpenBoxUp 0x021E19D4 thumb
+ *   BOX2_SEQ_OpenBoxLeft 0x021E1A78 thumb
+ *   BOX2_SEQ_OpenBoxDown 0x021E1A28 thumb
+ *   BOX2_SEQ_OpenBoxRight 0x021E1ACC thumb
  *
  * Touch-drag paging of the box list: a drag of three or more pixels
  * starts a scroll of |d| / 8 steps in its direction; each later call
@@ -30,16 +30,16 @@ typedef struct {
     short dir;
 } Scroll;
 
-extern int func_021EF1FC(unsigned *a, unsigned *b);
+extern int BOX2_UI_GetBackButtonPoint(unsigned *a, unsigned *b);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_021DD1C4(char *p, int a);
+extern void BOX2_MAIN_SelectBox(char *p, int a);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E19D4(char *p);
-extern int func_021E1A78(char *p);
-extern int func_021E1A28(char *p);
-extern int func_021E1ACC(char *p);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_SEQ_OpenBoxUp(char *p);
+extern int BOX2_SEQ_OpenBoxLeft(char *p);
+extern int BOX2_SEQ_OpenBoxDown(char *p);
+extern int BOX2_SEQ_OpenBoxRight(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STATE(p) (*(int *)((p) + 0x28))
@@ -47,14 +47,14 @@ extern int func_021E1ACC(char *p);
 #define LASTY(p) (*(unsigned *)(WORK(p) + 0xA184))
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-int func_021E24EC(unsigned char *p)
+int BOX2_SEQ_SetBox2Main(unsigned char *p)
 {
     unsigned x, y;
     Scroll *s;
     unsigned old;
     int d;
 
-    if (func_021EF1FC(&x, &y) == 0) {
+    if (BOX2_UI_GetBackButtonPoint(&x, &y) == 0) {
         func_020307B0(SCROLL(p));
         return STATE(p);
     }
@@ -66,36 +66,36 @@ int func_021E24EC(unsigned char *p)
         s->left = ABS(d) / 8;
         if (y < old) {
             s->dir = 1;
-            func_021DD1C4((char *)p, 1);
+            BOX2_MAIN_SelectBox((char *)p, 1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
-            return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
+                return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxUp, 0xF);
+            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxLeft, 0xF);
         }
         if (y > old) {
             s->dir = -1;
-            func_021DD1C4((char *)p, -1);
+            BOX2_MAIN_SelectBox((char *)p, -1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
-            return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
+                return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxDown, 0xF);
+            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxRight, 0xF);
         }
     }
     if (s->left != 0) {
         s->left--;
         if (s->dir == 1) {
-            func_021DD1C4((char *)p, 1);
+            BOX2_MAIN_SelectBox((char *)p, 1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
-            return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
+                return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxUp, 0xF);
+            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxLeft, 0xF);
         }
         if (s->dir == -1) {
-            func_021DD1C4((char *)p, -1);
+            BOX2_MAIN_SelectBox((char *)p, -1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
-            return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
+                return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxDown, 0xF);
+            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_OpenBoxRight, 0xF);
         }
     }
     return 0xF;

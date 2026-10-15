@@ -1,5 +1,5 @@
 /*
- * function: func_021EF1D4
+ * function: BOX2_UI_GetExitButtonPoint
  * address:  0x021EF1D4
  * packet:   pkt_ov170_021EF1D4
  * region:   ov170
@@ -19,7 +19,7 @@ extern int TOUCHPANEL_HitCont(const void *p);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern const unsigned char d_021F0034[];
 
-int func_021EF1D4(unsigned *a, unsigned *b)
+int BOX2_UI_GetExitButtonPoint(unsigned *a, unsigned *b)
 {
     if (TOUCHPANEL_HitCont(d_021F0034) != -1) {
         TOUCHPANEL_GetPointCont(a, b);

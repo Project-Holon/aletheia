@@ -1,5 +1,5 @@
 /*
- * function: func_021BC4B4
+ * function: RESEARCH_LIST_ShowEntryPalette
  * address: 0x021BC4B4
  * packet: pkt_ov217_021BC4B4
  * region: ov217
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct PalAnmObj PalAnmObj;
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
-void func_021BC4B4(char *p)
+void RESEARCH_LIST_ShowEntryPalette(char *p)
 {
     PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 1, 0xBBFF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);
     PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 4, 0xCF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);

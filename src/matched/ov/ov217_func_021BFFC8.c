@@ -1,5 +1,5 @@
 /*
- * function: func_021BFFC8
+ * function: RESEARCH_GRAPH_InitOverlayBackgrounds
  * address: 0x021BFFC8
  * packet: pkt_ov217_021BFFC8
  * region: ov217
@@ -34,7 +34,7 @@ extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32 *, u32, u32, int, int);
 extern void BMP_WIN_Init(u16);
-void func_021BFFC8(char *p)
+void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
 {
     func_0203FC28(&d_021C366C);
     func_0204044C(2);

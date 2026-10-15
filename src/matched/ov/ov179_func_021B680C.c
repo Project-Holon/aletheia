@@ -1,5 +1,5 @@
 /*
- * function: func_021B680C
+ * function: CDEMO_SCENE_CmdSetBlend
  * address:  0x021B680C
  * packet:   pkt_ov179_021B680C
  * region:   ov179
@@ -17,7 +17,7 @@
  * [p+o,#4] (long offset).
  */
 #include "../include/Obj08294.h"
-int func_021B680C(char *p, int *q)
+int CDEMO_SCENE_CmdSetBlend(char *p, int *q)
 {
     if (q[1] == 0) {
         ((struct Obj08294 *)p)->f6024 = q[2];

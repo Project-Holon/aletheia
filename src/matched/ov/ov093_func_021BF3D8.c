@@ -13,7 +13,7 @@
  *   BTL_SERVER_FLOW_ResetSlotTable  0x021CC8A0  thumb  ov093
  *   BTL_SERVER_FLOW_SetSlotTableEntry  0x021CC8B0  thumb  ov093
  *   func_021BF46C  0x021BF46C  thumb  ov093
- *   func_021BF47C  0x021BF47C  thumb  ov093
+ *   RESEARCH_GRAPH_SetTriangleActorVisible  0x021BF47C  thumb  ov093
  *   func_021BF48C  0x021BF48C  thumb  ov093
  *   func_021BF49C  0x021BF49C  thumb  ov093
  *   BTL_SERVER_FLOW_CalcTypeEffectiveness  0x021C6E3C  thumb  ov093
@@ -29,7 +29,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern void BTL_SERVER_FLOW_ResetSlotTable(u32 *p);
 extern void BTL_SERVER_FLOW_SetSlotTableEntry(u32 *p, u32 i, u32 b);
 extern void func_021BF46C(int d);
-extern u8 *func_021BF47C(int d);
+extern u8 *RESEARCH_GRAPH_SetTriangleActorVisible(int d);
 extern void func_021BF48C(int d, u8 *x);
 extern u8 *func_021BF49C(int d);
 extern int BTL_SERVER_FLOW_CalcTypeEffectiveness(u8 *p, u8 *a, u8 *b, u8 *q, int flag);
@@ -46,7 +46,7 @@ void BTL_SERVER_FLOW_ProcAccuracyCheck(u8 *p, int b, u8 *a, int d, void *arr)
     int e;
     BTL_SERVER_FLOW_ResetSlotTable(arr);
     func_021BF46C(d);
-    x = func_021BF47C(d);
+    x = RESEARCH_GRAPH_SetTriangleActorVisible(d);
     while (x != 0) {
         r = BTL_SERVER_FLOW_CalcTypeEffectiveness(p, a, x, (u8 *)b, 1);
         BTL_SERVER_FLOW_SetSlotTableEntry(arr, BTL_POKEPARAM_GetPokeId(x), r);

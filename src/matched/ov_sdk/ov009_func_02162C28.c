@@ -1,5 +1,5 @@
 /*
- * function: func_02162C28
+ * function: CPSi_SslGetLength
  * address:  0x02162C28
  * packet:   pkt_ov009_02162C28
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      CPSi_SslGetLength (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02162AE4  0x02162AE4  arm  ov009
+ *   try_fill_record  0x02162AE4  arm  ov009
  */
 
 typedef struct CPSSslConnection {
@@ -32,15 +32,15 @@ typedef struct CPSSoc {
     CPSSslConnection *con;              /* +0xc */
 } CPSSoc;
 
-extern void func_02162AE4(CPSSoc *soc);
+extern void try_fill_record(CPSSoc *soc);
 
-long func_02162C28(CPSSoc *soc)
+long CPSi_SslGetLength(CPSSoc *soc)
 {
     CPSSslConnection *con;
 
     con = soc->con;
     if (con->buf == 0 || con->have_record == 0)
-        func_02162AE4(soc);
+        try_fill_record(soc);
     if (con->buf != 0 && con->have_record != 0)
         return con->end - con->pos;
     if (con->buf == 0) {

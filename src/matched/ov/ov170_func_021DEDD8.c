@@ -1,5 +1,5 @@
 /*
- * function: func_021DEDD8
+ * function: BOX2_MAIN_CreateSummary
  * address:  0x021DEDD8
  * packet:   pkt_ov170_021DEDD8
  * region:   ov170
@@ -53,7 +53,7 @@ extern u32 POKERUS_IsBoxInfected(void *mon);
 extern u32 POKERUS_IsBoxCured(void *mon);
 extern const char d_021F1400[];
 
-Summary *func_021DEDD8(void *mon)
+Summary *BOX2_MAIN_CreateSummary(void *mon)
 {
     Summary *s;
     unsigned i;

@@ -1,5 +1,5 @@
 /*
- * function: func_02086FE8
+ * function: OS_InitTick
  * address:  0x02086FE8
  * packet:   pkt_02086FE8
  * region:   arm9
@@ -39,7 +39,7 @@ extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
 extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_CountUpTick(void);
 
-void func_02086FE8(void)
+void OS_InitTick(void)
 {
     if (g_02151330.OSi_UseTick) {
         return;

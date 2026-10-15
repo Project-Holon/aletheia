@@ -1,5 +1,5 @@
 /*
- * function: func_0208A674
+ * function: SND_GetWaveDataAddress
  * address:  0x0208A674
  * packet:   pkt_0208A674
  * region:   arm9
@@ -36,7 +36,7 @@ extern void SNDi_LockMutex(void);
 extern void SNDi_UnlockMutex(void);
 extern void DC_StoreRange(const void *startAddr, unsigned long nBytes);
 
-const SNDWaveData *func_0208A674(const SNDWaveArc *waveArc, int index)
+const SNDWaveData *SND_GetWaveDataAddress(const SNDWaveArc *waveArc, int index)
 {
     unsigned long offset;
     const SNDWaveData *wave;

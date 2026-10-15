@@ -1,5 +1,5 @@
 /*
- * function: func_021E54CC
+ * function: PARTY_STATUS_Destroy
  * address: 0x021E54CC
  * packet: pkt_ov178_021E54CC
  * region: ov178
@@ -33,7 +33,7 @@ extern unsigned ov090_id[];
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned);
-int func_021E54CC(void *handle,int unused,char *q,char *p)
+int PARTY_STATUS_Destroy(void *handle,int unused,char *q,char *p)
 {
  unsigned char i;
  for(i=0;i<6;i++) {

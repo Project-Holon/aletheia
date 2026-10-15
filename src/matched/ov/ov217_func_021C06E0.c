@@ -1,5 +1,5 @@
 /*
- * function: func_021C06E0
+ * function: RESEARCH_GRAPH_DeleteOamSys
  * address:  0x021C06E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void BMP_OAM_DeleteSys(void *p);
 
-void func_021C06E0(u8 *a0)
+void RESEARCH_GRAPH_DeleteOamSys(u8 *a0)
 {
     BMP_OAM_DeleteSys((void *)((u32)(((struct Obj25966 *)a0)->f3A4)));
 }

@@ -27,7 +27,7 @@
  * seqBase, seqOffset, bankData), so this function forwards its own r1..r3
  * untouched; and SND_SetTrackAllocatableChannel takes THREE (playerNo,
  * trackBitMask, chBitMask), so the guard value in r2 is the channel mask
- * being passed on.  The callers func_02075698 / func_02075794 already pass
+ * being passed on.  The callers NNSi_SndArcPlayerStartSeq / NNSi_SndArcPlayerStartSeqArc already pass
  * four arguments.  The pin is ../2.0/sp2 (1.1p1: 9 bytes out).
  *
  * Verified with:

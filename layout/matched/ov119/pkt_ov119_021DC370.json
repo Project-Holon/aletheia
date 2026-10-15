@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC370",
+   "name": "POKETRADE_PROC_StepWaitKeyThenBrowse",
    "address": "0x021DC370",
    "kind": "game",
    "region": "ov119",

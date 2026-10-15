@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208748C",
+   "name": "OSi_ArrangeTimer",
    "address": "0x0208748C",
    "kind": "sdk",
    "region": "arm9",

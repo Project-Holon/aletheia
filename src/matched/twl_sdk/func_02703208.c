@@ -18,6 +18,7 @@
  *   NWMi_CheckState  0x027028E4  arm
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   MI_CpuCopy8  0x02082D44  arm  arm9
+ *   MI_CpuComp8  0x02082E74  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -58,7 +59,7 @@ extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
-extern u32 func_02082E74(void *, void *, u32);
+extern u32 MI_CpuComp8(void *, void *, u32);
 u32 NWM_StartScanEx(u32 a0, const ApInfo *a1);
 u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
 u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2);

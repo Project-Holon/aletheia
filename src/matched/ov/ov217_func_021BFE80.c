@@ -1,5 +1,5 @@
 /*
- * function: func_021BFE80
+ * function: RESEARCH_GRAPH_ClearArrow
  * address:  0x021BFE80
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BFE80(void *p)
+void RESEARCH_GRAPH_ClearArrow(void *p)
 {
     ((struct Obj25955 *)p)->f2D0 = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6380
+ * function: CDEMO_WIPE_RunScript
  * address: 0x021B6380
  * packet: pkt_ov179_021B6380
  * region: ov179
@@ -20,7 +20,7 @@ extern u32 KEY_GetTrg(void);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(unsigned v);
 extern int (*const d_021B6A04[])(char *);
-int func_021B6380(char *p)
+int CDEMO_WIPE_RunScript(char *p)
 {
     if (((unsigned char *)*(char * *)&((struct Obj08292 *)p)->f0)[2] != 0 && (KEY_GetTrg() & 0xB) != 0) {
         if (GFL_USE_IsBgmPlaying() == 1)

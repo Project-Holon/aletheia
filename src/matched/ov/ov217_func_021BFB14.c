@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB14
+ * function: RESEARCH_GRAPH_CreateCommandQueue
  * address:  0x021BFB14
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int RingQueue_Create(int a0, int a1);
-void func_021BFB14(u32 a0)
+void RESEARCH_GRAPH_CreateCommandQueue(u32 a0)
 {
     ((struct Obj14742 *)(((u8*)a0 + 0)))->f1C = RingQueue_Create(10, ((struct Obj14742 *)(((u8*)a0 + 0)))->f4);
 }

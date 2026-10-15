@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB38
+ * function: RESEARCH_GRAPH_CreateFont
  * address:  0x021BFB38
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BFB38  0x021BFB38  thumb  ov217
+ *   RESEARCH_GRAPH_CreateFont  0x021BFB38  thumb  ov217
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-void func_021BFB38(u32 a0)
+void RESEARCH_GRAPH_CreateFont(u32 a0)
 {
     u8 s[4];
     ((struct Obj14743 *)(((u8*)a0)))->f8 = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct Obj14743 *)(((u8*)a0)))->f4));

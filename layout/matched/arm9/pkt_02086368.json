@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02086374",
+   "name": "OSi_InitCommon",
    "address": "0x02086374",
    "kind": "sdk",
    "region": "arm9",

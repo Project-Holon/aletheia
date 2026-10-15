@@ -1,5 +1,5 @@
 /*
- * function: func_021E1324
+ * function: BOX2_SEQ_StateMenuSelect
  * address:  0x021E1324
  * packet:   pkt_ov170_021E1324
  * region:   ov170
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED544 0x021ED544 thumb
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC08C 0x021EC08C thumb
+ *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021ED108 0x021ED108 thumb
- *   func_021EBFA8 0x021EBFA8 thumb
- *   func_021EBFEC 0x021EBFEC thumb
- *   func_021EC000 0x021EC000 thumb
- *   func_021ED1C8 0x021ED1C8 thumb
- *   func_021ED2F4 0x021ED2F4 thumb
+ *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb
+ *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
+ *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
+ *   BOX2_SEQ_CreateHandSlotActorsB 0x021ED1C8 thumb
+ *   BOX2_SEQ_ShowHandSlots 0x021ED2F4 thumb
  */
 
 typedef struct {
@@ -28,39 +28,39 @@ typedef struct {
     unsigned short cnt;
 } Blk;
 
-extern void func_021ED544(char *p, int b);
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_021ED108(char *p, int on);
-extern void func_021EBFA8(char *p, int i, int v);
+extern void BOX2_SEQ_SetActorAffineMode(char *p, int on);
+extern void BOX2_SEQ_SetActorAnimSeq(char *p, int i, int v);
 typedef unsigned int   u32;
-extern u32 func_021EBFEC(char *p, int i);
-extern void func_021EC000(char *p, int i, int v);
-extern void func_021ED1C8(char *w);
-extern void func_021ED2F4(char *w);
+extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+extern void BOX2_SEQ_CreateHandSlotActorsB(char *w);
+extern void BOX2_SEQ_ShowHandSlots(char *w);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-int func_021E1324(char *p)
+int BOX2_SEQ_StateMenuSelect(char *p)
 {
     Blk *b = (Blk *)(WORK(p) + 0x58);
     short t[2];
     switch (b->state) {
     case 0:
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 1);
-        func_021EC000(WORK(p), 10, 1);
+        BOX2_SEQ_SetActorAffineMode(WORK(p), 1);
+        BOX2_SEQ_SetActorAnimSeq(WORK(p), 10, 1);
+        BOX2_SEQ_SetActorDrawEnable(WORK(p), 10, 1);
         b->state++;
         break;
     case 1:
-        if (func_021EBFEC(WORK(p), 10) != 0)
+        if (BOX2_SEQ_IsActorAnimActive(WORK(p), 10) != 0)
             break;
-        func_021ED108(WORK(p), 0);
+        BOX2_SEQ_SetActorAffineMode(WORK(p), 0);
         b->state++;
         break;
     case 2:
-        func_021ED544(p, 7);
+        BOX2_SEQ_SetCursorFrame(p, 7);
         b->state++;
     case 3:
         if (b->cnt == 4) {
@@ -68,26 +68,26 @@ int func_021E1324(char *p)
             b->state++;
             break;
         }
-        func_021EC0B0(WORK(p), 4, &t[1], &t[0], 0);
-        func_021EC08C(WORK(p), 4, (short)t[1], (short)(t[0] + 2), (short)0);
+        BOX2_SEQ_GetActorSurfacePos(WORK(p), 4, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos(WORK(p), 4, (short)t[1], (short)(t[0] + 2), (short)0);
         b->cnt++;
         break;
     case 4:
         GFL_USE_PlaySeDefaultVolume(0x666);
-        func_021ED544(p, 8);
+        BOX2_SEQ_SetCursorFrame(p, 8);
         b->state++;
     case 5:
         if (b->cnt == 4) {
-            func_021ED1C8(WORK(p));
-            func_021ED2F4(WORK(p));
+            BOX2_SEQ_CreateHandSlotActorsB(WORK(p));
+            BOX2_SEQ_ShowHandSlots(WORK(p));
             b->cnt = 0;
             b->state = 0;
             return 0;
         }
-        func_021EC0B0(WORK(p), 4, &t[1], &t[0], 0);
-        func_021EC08C(WORK(p), 4, (short)t[1], (short)(t[0] - 2), (short)0);
-        func_021EC0B0(WORK(p), 10, &t[1], &t[0], 0);
-        func_021EC08C(WORK(p), 10, (short)t[1], (short)(t[0] - 2), (short)0);
+        BOX2_SEQ_GetActorSurfacePos(WORK(p), 4, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos(WORK(p), 4, (short)t[1], (short)(t[0] - 2), (short)0);
+        BOX2_SEQ_GetActorSurfacePos(WORK(p), 10, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos(WORK(p), 10, (short)t[1], (short)(t[0] - 2), (short)0);
         b->cnt++;
         break;
     }

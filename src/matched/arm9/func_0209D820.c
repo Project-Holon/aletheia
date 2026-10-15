@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D820
+ * function: MSL_CONSOLE_IO_RunInitHandlers
  * address:  0x0209D820
  * packet:   pkt_0209D784
  * region:   arm9
@@ -20,7 +20,7 @@
 
 typedef void (*Handler)(void);
 
-void func_0209D820(void)
+void MSL_CONSOLE_IO_RunInitHandlers(void)
 {
     Handler *p = (Handler *)0x020A64F8;
     while (p != 0 && *p != 0)

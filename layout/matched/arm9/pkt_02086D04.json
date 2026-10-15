@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02086D04",
+   "name": "OS_DisableProtectionUnit",
    "address": "0x02086D04",
    "kind": "sdk",
    "region": "arm9",

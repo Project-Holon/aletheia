@@ -1,5 +1,5 @@
 /*
- * function: func_021BD05C
+ * function: RESEARCH_LIST_DeleteActors
  * address:  0x021BD05C
  * packet:   pkt_021BD05C
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021BD05C(int *p)
+void RESEARCH_LIST_DeleteActors(int *p)
 {
     int i;
     for (i = 0; i < 3; i++)

@@ -16,8 +16,8 @@
  * symbols:
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
- *   func_0208A640  0x0208A640  arm
- *   func_0208A674  0x0208A674  arm
+ *   SND_SetWaveDataAddress  0x0208A640  arm
+ *   SND_GetWaveDataAddress  0x0208A674  arm
  *
  * Two lookups, each abandoning the function when it comes back NULL, then
  * one call whose third argument is the result of another.
@@ -40,8 +40,8 @@ struct Sub020064B8Head {
 
 extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern u32 NNS_SndArcGetFileAddress(u32 idx);
-extern void func_0208A640(u32 *a, u32 b, u32 c);
-extern u32  func_0208A674(u32 a, u32 b);
+extern void SND_SetWaveDataAddress(u32 *a, u32 b, u32 c);
+extern u32  SND_GetWaveDataAddress(u32 a, u32 b);
 
 int GFL_USE_ReplaceWaveData(u32 a, u32 b, u32 c, u32 d)
 {
@@ -56,6 +56,6 @@ int GFL_USE_ReplaceWaveData(u32 a, u32 b, u32 c, u32 d)
     if (q == 0) {
         return 0;
     }
-    func_0208A640(q, b, func_0208A674(c, d));
+    SND_SetWaveDataAddress(q, b, SND_GetWaveDataAddress(c, d));
     return 1;
 }

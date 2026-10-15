@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF58
+ * function: BOX2_MAIN_OpenTaskMenu
  * address:  0x021DCF58
  * packet:   pkt_ov170_021DCF58
  * region:   ov170
@@ -43,7 +43,7 @@ extern void APP_TASKMENU_SetCursorPos(u8 *p, int sel);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021DCF58(unsigned char *p, int sel)
+void BOX2_MAIN_OpenTaskMenu(unsigned char *p, int sel)
 {
     MenuTmpl t;
     t.heapId = 0x4C;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5BC
+ * function: RESEARCH_GRAPH_StopSlotPaletteAnime
  * address:  0x021BF5BC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void PALETTE_ANIME_Stop(u32 a0);
 
-void func_021BF5BC(u8 *a0, u32 a1)
+void RESEARCH_GRAPH_StopSlotPaletteAnime(u8 *a0, u32 a1)
 {
     PALETTE_ANIME_Stop((u32)(*(u32*)(a0 + (a1)*4 + 804)));
 }

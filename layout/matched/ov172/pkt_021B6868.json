@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9DF8",
+   "name": "CTVT_TALK_CheckEnd",
    "address": "0x021B9DF8",
    "kind": "game",
    "region": "ov172",
@@ -151,7 +151,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B9E3C",
+   "name": "CTVT_TALK_BeginWaveform",
    "address": "0x021B9E3C",
    "kind": "game",
    "region": "ov172",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA01C",
+   "name": "CTVT_MIC_Delete",
    "address": "0x021BA01C",
    "kind": "game",
    "region": "ov172",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA1B4",
+   "name": "CTVT_MIC_InitChannel",
    "address": "0x021BA1B4",
    "kind": "game",
    "region": "ov172",

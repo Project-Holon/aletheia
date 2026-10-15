@@ -1,5 +1,5 @@
 /*
- * function: func_021EDA70
+ * function: BOX2_UI_FindSlotPos
  * address:  0x021EDA70
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0  0x021EC0B0  thumb  ov170
+ *   BOX2_SEQ_GetActorSurfacePos  0x021EC0B0  thumb  ov170
  *
  * Scan six 0x2d-spaced panel rows for the (a1+1)*0x22 key and clear
  *   both shorts when nothing matched.  The key must be written as an
@@ -21,14 +21,14 @@
  *   r6+1, r6 = r1, muls r6) and swaps a2/a3 between r6 and r7.
  */
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-void func_021EDA70(int a0, int a1, short *a2, short *a3)
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+void BOX2_UI_FindSlotPos(int a0, int a1, short *a2, short *a3)
 {
     unsigned i;
     a1 = (a1 + 1) * 0x22;
     for (i = 0; i < 6; i++) {
-        func_021EC0B0((char *)a0, i + 0x2d, a2, a3, 0);
+        BOX2_SEQ_GetActorSurfacePos((char *)a0, i + 0x2d, a2, a3, 0);
         if (a1 == a3[0])
             return;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E5B1C
+ * function: PARTY_STATUS_ExitSubWork
  * address:  0x021E5B1C
  * packet:   pkt_021E5B1C
  * region:   ov178
@@ -22,7 +22,7 @@ extern unsigned char ov176_id[];
 extern void func_0217E058(int);
 extern void func_02034A5C(int);
 
-void func_021E5B1C(int *p, void *c)
+void PARTY_STATUS_ExitSubWork(int *p, void *c)
 {
     func_0217E058(*p);
     func_02034A5C((int)ov176_id);

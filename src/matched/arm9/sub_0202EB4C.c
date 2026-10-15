@@ -12,7 +12,7 @@
  *
  * symbols:
  *   sub_0202EB0C   0x0202EB0C  thumb
- *   func_02087DE0  0x02087DE0  arm
+ *   OS_IsAgreeEULA  0x02087DE0  arm
  *
  * Neither call sets an argument register, so both callees are declared
  * with no parameters: the `blx` to the ARM helper follows a `cmp r0, #1`
@@ -30,12 +30,12 @@
 typedef unsigned int u32;
 
 extern u32 sub_0202EB0C(void);
-extern int func_02087DE0(void);
+extern int OS_IsAgreeEULA(void);
 
 u32 sub_0202EB4C(void)
 {
     if (sub_0202EB0C() == 1) {
-        return func_02087DE0();
+        return OS_IsAgreeEULA();
     }
     return 1;
 }

@@ -87,11 +87,11 @@
  *   func_0207E804 0x0207E804 arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
- *   func_02060468 0x02060468 arm
+ *   NNS_FndInitList 0x02060468 arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  *   func_02011290 0x02011290 thumb
  *   VM_Delete 0x02011264 thumb
- *   func_02060614 0x02060614 arm
+ *   NNS_FndGetNextListObject 0x02060614 arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_02030D28 0x02030D28 arm
  *   VM_Create 0x0201121C thumb
@@ -100,9 +100,9 @@
  *   d_021FDC2C 0x021FDC2C data ov132 a4
  *   VM_Control 0x02011298 thumb
  *   func_02030DA8 0x02030DA8 arm
- *   func_020604AC 0x020604AC arm
+ *   NNS_FndAppendListObject 0x020604AC arm
  *   func_02030EAC 0x02030EAC arm
- *   func_020605B4 0x020605B4 arm
+ *   NNS_FndRemoveListObject 0x020605B4 arm
  *   _fadd 0x0209C95C arm
  *   func_0207CEE4 0x0207CEE4 arm
  *   func_0207C9D0 0x0207C9D0 arm
@@ -122,7 +122,7 @@
  *   func_021F80A0 0x021F80A0 thumb ov112
  *   func_021F80C8 0x021F80C8 thumb ov112
  *   func_021F8140 0x021F8140 thumb ov112
- *   func_021F8154 0x021F8154 thumb ov112
+ *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   func_021F9D18 0x021F9D18 thumb ov132
  *   func_021F95CC 0x021F95CC thumb ov132
  *   func_021F9140 0x021F9140 thumb ov132
@@ -140,13 +140,13 @@
  *   func_0209CB8C 0x0209CB8C arm
  *   func_0209CE10 0x0209CE10 arm
  *   func_021F9DAC 0x021F9DAC thumb ov132
- *   func_021F6B18 0x021F6B18 thumb ov112
+ *   STA_ACT_OBJ_AddEntry 0x021F6B18 thumb ov112
  *   func_021F9DB8 0x021F9DB8 thumb ov132
  *   func_021F9DB0 0x021F9DB0 thumb ov132
- *   func_021F6B80 0x021F6B80 thumb ov112
+ *   STA_ACT_OBJ_FreeEntry 0x021F6B80 thumb ov112
  *   func_021F6BC0 0x021F6BC0 thumb ov112
- *   func_021F6B9C 0x021F6B9C thumb ov112
- *   func_021F6BB0 0x021F6BB0 thumb ov112
+ *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
+ *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
  *   func_021F9DC0 0x021F9DC0 thumb ov132
  *   func_021F9DCC 0x021F9DCC thumb ov132
  *   func_021F9DC4 0x021F9DC4 thumb ov132
@@ -395,10 +395,10 @@ extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02060468(int p0, int p1);
+extern void NNS_FndInitList(int p0, int p1);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern void VM_Delete(void *);
-extern void *func_02060614(struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 extern void func_02030DA4(void *);
 extern void func_02030D28(struct Ctx *c);
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
@@ -406,9 +406,9 @@ extern void VM_Init(struct ScriptVm *vm, void *user);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern int VM_Control(struct ScriptVm *vm);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
-extern void func_020604AC(void *, void *);
+extern void NNS_FndAppendListObject(void *, void *);
 extern void func_02030EAC(struct Node *n);
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 extern void func_0207CEE4(int, void *, void *, void *);
 extern void func_0207C9D0(const Vec *, const Vec *, Vec *);
 extern u32 VM_GetU32(struct Cursor *p);
@@ -426,7 +426,7 @@ extern void func_021F80B0(char *, char *);
 extern void func_021F80A0(int a, u8 *p);
 extern void func_021F80C8(int, void *, u8);
 extern void func_021F8140(int a, u8 *p, int b);
-extern int func_021F8154(int a0, int *a1, int a2);
+extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
 extern void func_021F9D18(char *p, unsigned i);
 extern void func_021F95CC(char *,unsigned char,int);
 extern void func_021F9140(unsigned char *,unsigned char,unsigned char);
@@ -442,13 +442,13 @@ extern u32 func_0209C494(u32 a);
 extern u32 func_0209CB8C(u32 a, u32 b);
 extern u32 func_0209CE10(u32 a, u32 b);
 extern void *func_021F9DAC(void *p);
-extern struct Entry *func_021F6B18(struct Object *,unsigned short);
+extern struct Entry *STA_ACT_OBJ_AddEntry(struct Object *,unsigned short);
 extern void func_021F9DB8(void *p, void *v, u32 i);
 extern unsigned int *func_021F9DB0(void *,unsigned char);
-extern void func_021F6B80(unsigned int *,unsigned int *);
+extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
-extern void func_021F6B9C(void *,u32 *,u32 *);
-extern void func_021F6BB0(void *,u32 *,u32 *);
+extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
+extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
 extern void *func_021F9DC0(void *p);
 extern void func_021F9DCC(void *p, void *v, u32 i);
 extern void *func_021F9DC4(void *,u8);

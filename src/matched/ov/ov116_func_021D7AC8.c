@@ -1,5 +1,5 @@
 /*
- * function: func_021D7AC8
+ * function: WIFI_BSUBWAY_GRAPHIC_EndBt
  * address: 0x021D7AC8
  * packet: pkt_ov116_021D7AC8
  * region: ov116
@@ -19,7 +19,7 @@ typedef short s16;
 typedef unsigned int u32;
 extern int func_021D70EC(u8 *, int *);
 extern void DPW_BT_End(void);
-int func_021D7AC8(u8 *p)
+int WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *p)
 {
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;

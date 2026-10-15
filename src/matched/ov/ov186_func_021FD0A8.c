@@ -1,5 +1,5 @@
 /*
- * function: func_021FD0A8
+ * function: BR_UTIL_HasMultipleRows
  * address: 0x021FD0A8
  * packet: pkt_ov186_021FD0A8
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj24840.h"
-int func_021FD0A8(char *p) {return ((struct Obj24840 *)p)->f4>1;}
+int BR_UTIL_HasMultipleRows(char *p) {return ((struct Obj24840 *)p)->f4>1;}

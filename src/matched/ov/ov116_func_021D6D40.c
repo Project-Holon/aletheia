@@ -39,7 +39,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   func_02025C88 0x02025C88 thumb
- *   func_0200E6FC 0x0200E6FC thumb
+ *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
  *   func_0200DCF8 0x0200DCF8 thumb
  *   func_0200DC74 0x0200DC74 thumb
  */
@@ -68,7 +68,7 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_02025C88(u32);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u16 func_0200DCF8(struct Blk1AC *p);
 extern void func_0200DC74(struct Blk1AC *p, u32 which, void *dest);
 void func_021D6D40(u8 *p, void *save, void *idx)
@@ -90,8 +90,8 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);
     p[0xd5] = func_02008554(idx);
     p[0xd5] = func_02025C88(p[0xd5]);
-    for (i = 0; i < 3; i++) func_0200E6FC(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
-    func_0200E6FC(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
+    for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
+    MISC_SAVEDATA_CopyQuadRecord(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
     *(u16 *)(p + 0xee) = func_0200DCF8(n);
     func_0200DC74(n, 1, p);
 }

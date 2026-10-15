@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_020923F0  0x020923F0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021AA664  0x021AA664  data
+ *   gCpsSslSessionCache  0x021AA664  data
  */
 
 #include "../include/G_CPSSslSession.h"
@@ -29,7 +29,7 @@ typedef struct CPSSslConnection {
     unsigned char session_id[0x20];     /* +0x74 */
 } CPSSslConnection;
 
-extern struct CPSSslSession g_021AA664[4];
+extern struct CPSSslSession gCpsSslSessionCache[4];
 
 extern unsigned long OS_DisableInterrupts(void);
 typedef unsigned char  u8;
@@ -44,7 +44,7 @@ static void func_0215FFD0(CPSSslConnection *con)
 
     enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid != 0) {
             if (func_020923F0((const u8 *)p, con->session_id, 0x20) == 0) {
                 p->valid = 0;

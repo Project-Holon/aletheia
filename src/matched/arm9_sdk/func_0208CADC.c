@@ -1,5 +1,5 @@
 /*
- * function: func_0208CADC
+ * function: STD_CopyString
  * address:  0x0208CADC
  * packet:   pkt_0208CADC
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      STD_CopyString (std_string.o)
  */
 
-char *func_0208CADC(char *destp, const char *srcp)
+char *STD_CopyString(char *destp, const char *srcp)
 {
     char *retval = destp;
 

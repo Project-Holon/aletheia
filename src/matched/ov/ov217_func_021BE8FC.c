@@ -1,5 +1,5 @@
 /*
- * function: func_021BE8FC
+ * function: RESEARCH_GRAPH_FadeIn
  * address:  0x021BE8FC
  * packet:   pkt_ov217_021BE8FC
  * region:   ov217
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * This address is also matched as func_021BE8FC in ov208; the ov217 copy is a
+ * This address is also matched as RESEARCH_GRAPH_FadeIn in ov208; the ov217 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -22,7 +22,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-void func_021BE8FC(void)
+void RESEARCH_GRAPH_FadeIn(void)
 {
     FADE_Start(3, 0x10, 0, 0);
 }

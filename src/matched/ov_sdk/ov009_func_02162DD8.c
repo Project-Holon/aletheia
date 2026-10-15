@@ -1,5 +1,5 @@
 /*
- * function: func_02162DD8
+ * function: CPSi_SslShutdown
  * address:  0x02162DD8
  * packet:   pkt_02156B70
  * region:   ov009
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021619CC  0x021619CC  arm  ov009
+ *   make_ciphertext  0x021619CC  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *
  * Flush a queued request when the object reached through +0xc is in state 8:
- * a 7-byte header is laid down on the stack, func_021619CC fills the rest of
+ * a 7-byte header is laid down on the stack, make_ciphertext fills the rest of
  * the buffer and returns its length, and that buffer (plus the length) is
  * handed to CPSi_TcpWrite2Raw along with the two zero flags and this object.  The
  * state byte is cleared either way.
@@ -22,7 +22,7 @@
 
 typedef unsigned char u8;
 
-void func_02162DD8(void *p)
+void CPSi_SslShutdown(void *p)
 {
     u8 *q;
     u8 buf[0x1c];
@@ -36,7 +36,7 @@ void func_02162DD8(void *p)
         buf[4] = 2;
         buf[5] = 1;
         buf[6] = 0;
-        CPSi_TcpWrite2Raw(buf, func_021619CC(q, buf), 0, 0, p);
+        CPSi_TcpWrite2Raw(buf, make_ciphertext(q, buf), 0, 0, p);
     }
     q[0x455] = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EB6D8
+ * function: BOX2_SEQ_DrawFrameColor
  * address:  0x021EB6D8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EB378  0x021EB378  thumb  ov170
+ *   BOX2_SEQ_DrawWindowFrame  0x021EB378  thumb  ov170
  *
  * Range call with a fixed span and the caller's fourth value.
  */
 
 
 
-extern void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon);
-void func_021EB6D8(int a, int b, int c, int d)
+extern void BOX2_SEQ_DrawWindowFrame(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon);
+void BOX2_SEQ_DrawFrameColor(int a, int b, int c, int d)
 {
-    func_021EB378((char *)a, b, c, 0, 0x3d80, d);
+    BOX2_SEQ_DrawWindowFrame((char *)a, b, c, 0, 0x3d80, d);
 }

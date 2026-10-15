@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021BE9D4 0x021BE9D4 data a4
+ *   gZukanListClactInit 0x021BE9D4 data a4
  *   ZUKAN_LIST_GetVramBankConfig 0x021BC380 thumb ov209
  *   CLACT_InitSystem 0x0204A48C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef struct Template {u32 w[7];} Template;struct Cfg;extern const Template d_021BE9D4;extern void *ZUKAN_LIST_GetVramBankConfig(void);extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
-void ZUKAN_LIST_InitActorSystem(char *p) {Template t;t=d_021BE9D4;CLACT_InitSystem((const struct Cfg *)&t,(u32)ZUKAN_LIST_GetVramBankConfig(),107);}
+typedef struct Template {u32 w[7];} Template;struct Cfg;extern const Template gZukanListClactInit;extern void *ZUKAN_LIST_GetVramBankConfig(void);extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
+void ZUKAN_LIST_InitActorSystem(char *p) {Template t;t=gZukanListClactInit;CLACT_InitSystem((const struct Cfg *)&t,(u32)ZUKAN_LIST_GetVramBankConfig(),107);}

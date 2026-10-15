@@ -12,15 +12,15 @@
  * sdk:      taskSound (libdwcutil.TWL.HYB.a sound.o, static)
  *
  * symbols:
- *   func_02072758  0x02072758  arm
+ *   NNS_SndBoot  0x02072758  arm
  *
  * Task callback DWCi_SNDlInit (DWCi_SNDlInit) registers: a tail call to
- * func_02072758.
+ * NNS_SndBoot.
  */
 
-extern void func_02072758(void);
+extern void NNS_SndBoot(void);
 
 void taskSound(void)
 {
-    func_02072758();
+    NNS_SndBoot();
 }

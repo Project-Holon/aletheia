@@ -31,7 +31,7 @@
  *   FLDMMDL_CheckStatusBitAttrGetOff  0x0216DCB4  thumb  ov010
  *   FLDMMDL_OnMoveBitMoveStart 0x0216DA70 thumb ov010
  *   FLDMMDL_ClearMoveBit 0x0216D570 thumb ov010
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  *   FLDMMDL_GetOldAttr  0x0216D7E4  thumb  ov010
  *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
@@ -225,7 +225,7 @@ extern int FLDMMDL_CheckStatusBitHeightGetOff(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrGetOff(Mmdl *mmdl);
 extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
 extern void *FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 v);
-extern void func_02082C60();
+extern void MI_CpuFill();
 extern u32 FLDMMDL_GetOldAttr(Mmdl *mmdl);
 extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
@@ -491,7 +491,7 @@ void FLDMMDL_MOVE_InitAttrInfo(Mmdl *mmdl, EventInfo *info)
     int oldAttr;
     u32 effectCtrl;
 
-    func_02082C60(info, 0, 0x1c);
+    MI_CpuFill(info, 0, 0x1c);
     info->nowAttr = FLDMMDL_GetOldAttr(mmdl);
     oldAttr = FLDMMDL_GetNowAttr(mmdl);
     info->oldAttr = oldAttr;

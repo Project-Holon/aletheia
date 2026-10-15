@@ -1,5 +1,5 @@
 /*
- * function: func_021E62FC
+ * function: BOX2_SEQ_DeleteBox2UiC
  * address: 0x021E62FC
  * packet: pkt_ov170_021E62FC
  * region: ov170
@@ -8,16 +8,38 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EBFEC 0x021EBFEC thumb ov170
- *   func_021EA878 0x021EA878 thumb ov170
- *   func_021ED108 0x021ED108 thumb ov170
- *   func_021EC000 0x021EC000 thumb ov170
- *   func_021EBCB4 0x021EBCB4 thumb ov170
- *   func_021ECB20 0x021ECB20 thumb ov170
- *   func_021ED888 0x021ED888 thumb ov170
- *   func_021E8F50 0x021E8F50 thumb ov170
+ *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb ov170
+ *   BOX2_SEQ_SetActorAnim 0x021EA878 thumb ov170
+ *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb ov170
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
+ *   BOX2_SEQ_PrintPromptB 0x021EBCB4 thumb ov170
+ *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb ov170
+ *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb ov170
+ *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   BOX2_MAIN_RefreshCursorBox  0x021DD14C  thumb
+ *   BOX2_MAIN_ChangeBoxFormPreserve  0x021DEFEC  thumb
+ *   BOX2_MAIN_ClearCursorBox  0x021DF0BC  thumb
+ *   BOX2_MAIN_IsWindowMoving  0x021E0190  thumb
+ *   BOX2_MAIN_IsWindowBusy  0x021E01B0  thumb
+ *   BOX2_SEQ_SetSeqThird  0x021E8FC0  thumb
+ *   BOX2_SEQ_ResetEntry  0x021EA83C  thumb
+ *   BOX2_SEQ_ShowWindowObject  0x021EBA5C  thumb
+ *   BOX2_SEQ_PrintPrompt  0x021EBC58  thumb
+ *   BOX2_SEQ_HidePartialSlots  0x021EC5A0  thumb
+ *   BOX2_SEQ_SetWindow9  0x021ED508  thumb
+ *   BOX2_SEQ_SetCursorDraw  0x021ED55C  thumb
+ *   BOX2_SEQ_SetSlotDim  0x021ED6E4  thumb
+ *   BOX2_UI_MoveCursor  0x021EE364  thumb
+ *   BOX2_UI_SetCursorPos  0x021EE3E4  thumb
+ *   BOX2_UI_PutBottomBarOpen  0x021EF34C  thumb
+ *   BOX2_UI_CloseBar  0x021EF36C  thumb
+ *   BOX2_UI_OpenBar  0x021EF3A0  thumb
+ *   BOX2_UI_IsTopBarClosed  0x021EF480  thumb
+ *   BOX2_UI_OpenListPack  0x021EF57C  thumb
+ *   BOX2_UI_ShowWindowA  0x021EF670  thumb
+ *   BOX2_UI_ShowWindowB  0x021EF68C  thumb
  */
 #include "../include/Obj00000.h"
 struct WinMgr;
@@ -30,55 +52,55 @@ extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
 extern unsigned POKEPARTY_GetCount(void *);
-extern void func_021DD14C(char *p);
-extern void func_021DF0BC(unsigned char *);
-extern void func_021DEFEC(char *p, int b);
-extern void func_021EBA5C(char *, int);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EE3E4(char **, unsigned);
-extern void func_021ED55C(char **, int);
-extern void func_021ED508(unsigned char *, int, int);
-extern void func_021ED888(char *, int);
-extern void func_021EF670(char *);
-extern void func_021EF68C(char *);
-extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021EF3A0(struct WinMgr *mgr);
-extern void func_021EF34C(struct WinMgr *mgr);
-extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021EC000(char *, int, int);
-extern u32 func_021EBFEC(char *p, int i);
-extern void func_021ED108(char *, int);
-extern void func_021EA878(unsigned char *, int);
-extern void func_021EBCB4(unsigned char *, int, int);
-extern void func_021ECB20(char *p, int f, int c);
-extern void func_021EC5A0(char **p, int flag);
-extern void func_021EE364(char **p, int idx, int v);
-extern int func_021EA83C(char *p, int a);
-extern int func_021E8F50(char *p, int v);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E0190(char *p);
-extern int func_021E01B0(unsigned char *);
-extern void func_021EBC58(unsigned char *, int, int, int);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_MAIN_ClearCursorBox(unsigned char *);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_SEQ_ShowWindowObject(char *, int);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_UI_SetCursorPos(char **, unsigned);
+extern void BOX2_SEQ_SetCursorDraw(char **, int);
+extern void BOX2_SEQ_SetWindow9(unsigned char *, int, int);
+extern void BOX2_UI_ToggleSlotPair(char *, int);
+extern void BOX2_UI_ShowWindowA(char *);
+extern void BOX2_UI_ShowWindowB(char *);
+extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
+extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
+extern void BOX2_UI_PutBottomBarOpen(struct WinMgr *mgr);
+extern void BOX2_UI_CloseBar(struct WinMgr *mgr);
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern void BOX2_SEQ_SetActorDrawEnable(char *, int, int);
+extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
+extern void BOX2_SEQ_SetActorAffineMode(char *, int);
+extern void BOX2_SEQ_SetActorAnim(unsigned char *, int);
+extern void BOX2_SEQ_PrintPromptB(unsigned char *, int, int);
+extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
+extern void BOX2_SEQ_HidePartialSlots(char **p, int flag);
+extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
+extern int BOX2_SEQ_ResetEntry(char *p, int a);
+extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_IsWindowMoving(char *p);
+extern int BOX2_MAIN_IsWindowBusy(unsigned char *);
+extern void BOX2_SEQ_PrintPrompt(unsigned char *, int, int, int);
 #define WORK(p) (*(char **)((p) + 0x2c))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xa194))
-int func_021E62FC(unsigned char *p)
+int BOX2_SEQ_DeleteBox2UiC(unsigned char *p)
 {
-    if (func_021EBFEC(WORK(p), 0xa) == 1)
+    if (BOX2_SEQ_IsActorAnimActive(WORK(p), 0xa) == 1)
         return 0x3b;
-    func_021EA878(p, 0);
-    func_021ED108(WORK(p), 0);
-    func_021EC000(WORK(p), 0xa, 0);
-    func_021EBCB4(p, 3, 0x18);
+    BOX2_SEQ_SetActorAnim(p, 0);
+    BOX2_SEQ_SetActorAffineMode(WORK(p), 0);
+    BOX2_SEQ_SetActorDrawEnable(WORK(p), 0xa, 0);
+    BOX2_SEQ_PrintPromptB(p, 3, 0x18);
     if (p[0x16] < 0x1e) {
-        func_021ECB20((char *)p, 0x81, 1);
-        func_021ED888(WORK(p), 1);
+        BOX2_SEQ_SetSlotActors((char *)p, 0x81, 1);
+        BOX2_UI_ToggleSlotPair(WORK(p), 1);
     } else {
-        func_021ECB20((char *)p, 0x82, 1);
+        BOX2_SEQ_SetSlotActors((char *)p, 0x82, 1);
     }
     *(unsigned short *)(WORK(p) + 0xa16c) = 0;
     ((struct Obj00000 *)p)->f28 = 0x3d;
-    return func_021E8F50((char *)p, 6);
+    return BOX2_SEQ_ReturnAfterClear((char *)p, 6);
 }

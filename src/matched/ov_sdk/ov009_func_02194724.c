@@ -1,5 +1,5 @@
 /*
- * function: func_02194724
+ * function: GetPlayerIndex
  * address:  0x02194724
  * packet:   pkt_ov009_02194724
  * region:   ov009
@@ -13,18 +13,18 @@
  *
  * symbols:
  *   func_02184208 0x02184208  arm
- *   g_021ADFE0   0x021ADFE0  data
+ *   gGstatsConn   0x021ADFE0  data
  */
 
 #include "../include/G_StatsConn.h"
 
 extern void *func_02184208(void *a, int n);
-extern struct StatsConn g_021ADFE0;
+extern struct StatsConn gGstatsConn;
 
-int func_02194724(int *game, int pnum)
+int GetPlayerIndex(int *game, int pnum)
 {
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = (int *)((int *)&gGstatsConn)[3];
     if (game == 0)
         return pnum;
     return *(int *)func_02184208((void *)game[7], pnum);

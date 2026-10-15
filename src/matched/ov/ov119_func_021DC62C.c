@@ -1,5 +1,5 @@
 /*
- * function: func_021DC62C
+ * function: POKETRADE_PROC_BuildTradeRecords
  * address: 0x021DC62C
  * packet: pkt_ov119_021DC62C
  * region: ov119
@@ -22,7 +22,7 @@ extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-void func_021DC62C(char *p,int n)
+void POKETRADE_PROC_BuildTradeRecords(char *p,int n)
 {
     Record *out=(Record *)(p+0x11fc);
     int i,mon,v;

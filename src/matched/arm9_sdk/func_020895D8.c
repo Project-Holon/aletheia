@@ -1,5 +1,5 @@
 /*
- * function: func_020895D8
+ * function: SND_LockChannel
  * address:  0x020895D8
  * packet:   pkt_020895D8
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_020895D8(u32 chBitMask, u32 flags)
+void SND_LockChannel(u32 chBitMask, u32 flags)
 {
     PushCommand_impl(0x1a, chBitMask, flags, 0, 0);
 }

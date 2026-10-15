@@ -1,5 +1,5 @@
 /*
- * function: func_021ECC1C
+ * function: BOX2_SEQ_RefreshHandSlot
  * address:  0x021ECC1C
  * packet:   pkt_ov170_021ECC1C
  * region:   ov170
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC08C 0x021EC08C thumb
- *   func_021ED310 0x021ED310 thumb
- *   func_021ED588 0x021ED588 thumb
- *   func_021ED7C4 0x021ED7C4 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
+ *   BOX2_SEQ_LayoutHandSlots 0x021ED310 thumb
+ *   BOX2_SEQ_RefreshCursorSlot 0x021ED588 thumb
+ *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
  */
 #include "../include/Obj00000.h"
 
@@ -23,21 +23,21 @@ typedef struct {
     int x24;
 } Top;
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021ED310(char *w);
-extern void func_021ED588(char *p);
-extern void func_021ED7C4(char *w, int i);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_LayoutHandSlots(char *w);
+extern void BOX2_SEQ_RefreshCursorSlot(char *p);
+extern void BOX2_SEQ_MoveCursorToSlot(char *w, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021ECC1C(unsigned char *p)
+void BOX2_SEQ_RefreshHandSlot(unsigned char *p)
 {
     short xy[2];
     int k;
     if (p[0x18] == 0)
         return;
-    func_021EC0B0(WORK(p), 4, &xy[1], &xy[0], 0);
+    BOX2_SEQ_GetActorSurfacePos(WORK(p), 4, &xy[1], &xy[0], 0);
     if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         k = 0xA;
         xy[0] += 8;
@@ -45,12 +45,12 @@ void func_021ECC1C(unsigned char *p)
         k = *(unsigned char *)(WORK(p) + 0x3DF6);
         xy[0] += 4;
     }
-    func_021EC08C(WORK(p), k, xy[1], xy[0], 0);
+    BOX2_SEQ_AddActorSurfacePos(WORK(p), k, xy[1], xy[0], 0);
     if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
-        func_021ED310(WORK(p));
+        BOX2_SEQ_LayoutHandSlots(WORK(p));
         return;
     }
     if (*(void **)(WORK(p) + 0x9FD4) == 0)
-        func_021ED588((char *)p);
-    func_021ED7C4(WORK(p), 0x24);
+        BOX2_SEQ_RefreshCursorSlot((char *)p);
+    BOX2_SEQ_MoveCursorToSlot(WORK(p), 0x24);
 }

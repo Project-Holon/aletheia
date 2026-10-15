@@ -14,7 +14,7 @@
  *   func_02034D60  0x02034D60  arm
  *   func_02034CBC  0x02034CBC  arm
  *   func_02034D08  0x02034D08  arm
- *   sub_02034714   0x02034714  arm
+ *   SAVEDATA_PanicFail   0x02034714  arm
  *   s_FileName     0x020A7970  data
  *   s_Expr0        0x020A7980  data
  *
@@ -53,7 +53,7 @@ extern int func_02034DC4(u32 id, u32 *start, u32 *end);
 extern int func_02034D60(u32 id);
 extern void *func_02034CBC(int i);
 extern u8 func_02034D08(int i);
-extern void                 sub_02034714(const char *file, u32 line, const char *expr);
+extern void                 SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 
 int GF_OVERLAY_CheckRangeFree(s32 handle)
 {
@@ -80,7 +80,7 @@ int GF_OVERLAY_CheckRangeFree(s32 handle)
                 if ((start >= other_start && start < other_end) ||
                     (end > other_start && end <= other_end) ||
                     (start <= other_start && end >= other_end)) {
-                    sub_02034714(s_FileName, 330, s_Expr0);
+                    SAVEDATA_PanicFail(s_FileName, 330, s_Expr0);
                     return 0;
                 }
             }

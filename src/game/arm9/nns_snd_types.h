@@ -81,4 +81,40 @@ typedef struct SndHandle {
     SndSeqPlayer *volatile player;
 } SndHandle;
 
+/* Callback that refills the stream buffers: (isTimerCall, channel count,
+ * buffer address table, length, format, user data). */
+typedef void (*NNSSndStrmCallback)(u32 isTimerCall, s32 numChannels, u32 *bufferTable, u32 length, u32 format, u32 userData);
+
+/* Hardware alarm slot of a stream: handler and its argument, then alarm state. */
+typedef struct SndStrmAlarm {
+    void (*handler)(void *arg);
+    void *arg;
+    u8 reserved08[8];
+} SndStrmAlarm;
+
+/* One stream (0x58 bytes).  Embedded at offset 0 of each SndTrack slot. */
+typedef struct SndStrm {
+    NNSFndLink link;
+    SndStrmAlarm alarm[2];
+    u32 format;
+    union {
+        u32 flags;
+        struct {
+            s32 isSetup : 1;
+            s32 isStarted : 1;
+            u32 reserved : 30;
+        };
+    };
+    u32 bufferSize;
+    s32 frames;
+    NNSSndStrmCallback callback;
+    u32 userData;
+    s32 frameIdx;
+    s32 volume;
+    s32 timerNo;
+    u32 channelMask;
+    s32 numChannels;
+    u8 channel[4];
+} SndStrm;
+
 #endif

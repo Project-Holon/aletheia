@@ -81,16 +81,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200C3F4",
-    "func_0200C3F8",
-    "func_0200C404",
-    "func_0200C40C",
-    "func_0200C418",
-    "func_0200C44C",
-    "func_0200C464",
-    "func_0200C468",
-    "func_0200C480",
-    "func_0200C4E8"
+    "RECENT_ID_LIST_SAVEDATA_GetBlockSize",
+    "RECENT_ID_LIST_SAVEDATA_InitBlock",
+    "RECENT_ID_LIST_SAVEDATA_GetBlockFromSys",
+    "RECENT_ID_LIST_SAVEDATA_GetBlock",
+    "RECENT_ID_LIST_SAVEDATA_SetId",
+    "RECENT_ID_LIST_SAVEDATA_ContainsId",
+    "RECENT_ID_LIST_SAVEDATA_GetIdAt",
+    "RECENT_ID_LIST_SAVEDATA_CountIds",
+    "RECENT_ID_LIST_SAVEDATA_InsertId",
+    "RECENT_ID_LIST_SAVEDATA_CompactIds"
+   ],
+   "addresses": [
+    "0x0200C3F4",
+    "0x0200C3F8",
+    "0x0200C404",
+    "0x0200C40C",
+    "0x0200C418",
+    "0x0200C44C",
+    "0x0200C464",
+    "0x0200C468",
+    "0x0200C480",
+    "0x0200C4E8"
    ]
   }
  ]

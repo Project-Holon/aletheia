@@ -1,5 +1,5 @@
 /*
- * function: func_021EC768
+ * function: BOX2_SEQ_SetSlotDrawPriority
  * address:  0x021EC768
  * packet:   pkt_ov170_021EC768
  * region:   ov170
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC030 0x021EC030 thumb
- *   func_021EC048 0x021EC048 thumb
+ *   BOX2_SEQ_SetActorBgPriority 0x021EC030 thumb
+ *   BOX2_SEQ_SetActorDrawPriority 0x021EC048 thumb
  */
 
-extern void func_021EC030(char *p, int i, int c);
-extern void func_021EC048(char *p, int i, int c);
+extern void BOX2_SEQ_SetActorBgPriority(char *p, int i, int c);
+extern void BOX2_SEQ_SetActorDrawPriority(char *p, int i, int c);
 
-void func_021EC768(char *p, unsigned i, int flag)
+void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag)
 {
     unsigned char c = *(unsigned char *)(p + i + 0x3DD2);
     if (flag == 0) {
-        func_021EC030(p, c, 0);
-        func_021EC048(p, c, 0x14);
+        BOX2_SEQ_SetActorBgPriority(p, c, 0);
+        BOX2_SEQ_SetActorDrawPriority(p, c, 0x14);
         return;
     }
     if (i < 0x1E || i == 0x24)
-        func_021EC030(p, c, 3);
+        BOX2_SEQ_SetActorBgPriority(p, c, 3);
     else
-        func_021EC030(p, c, 1);
-    func_021EC048(p, c, 0x75 - i * 2);
+        BOX2_SEQ_SetActorBgPriority(p, c, 1);
+    BOX2_SEQ_SetActorDrawPriority(p, c, 0x75 - i * 2);
 }

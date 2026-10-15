@@ -1,5 +1,5 @@
 /*
- * function: func_020612C4
+ * function: NNSi_FndFreeToFrmHeapAllocator
  * address:  0x020612C4
  * packet:   pkt_020612C4
  * region:   arm9
@@ -23,7 +23,7 @@ struct Allocator02061 {
     u32 param2;
 };
 
-void func_020612C4(struct Allocator02061 *allocator, void *block)
+void NNSi_FndFreeToFrmHeapAllocator(struct Allocator02061 *allocator, void *block)
 {
     (void)allocator;
     (void)block;

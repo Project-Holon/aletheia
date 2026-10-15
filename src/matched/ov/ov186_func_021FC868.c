@@ -1,5 +1,5 @@
 /*
- * function: func_021FC868
+ * function: BR_UTIL_SetTextLayout
  * address: 0x021FC868
  * packet: pkt_ov186_021FC868
  * region: ov186
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021FC868(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}
+void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}

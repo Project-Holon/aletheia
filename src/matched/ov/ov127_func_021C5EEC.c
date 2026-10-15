@@ -1,5 +1,5 @@
 /*
- * function: func_021C5EEC
+ * function: WF2DMAP_CMDQ_CreateStore
  * address: 0x021C5EEC
  * packet: pkt_ov127_021C5EEC
  * region: ov127
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021C6158 0x021C6158 data a1
+ *   sWf2dmapCmdqFileName 0x021C6158 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,13 +17,13 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { void *entries; u32 count; u16 used, capacity; } Container;
 extern void *func_02030734(u16,u32,int,const char *,u16);
-extern const char d_021C6158[];
-Container *func_021C5EEC(int n, int heap)
+extern const char sWf2dmapCmdqFileName[];
+Container *WF2DMAP_CMDQ_CreateStore(int n, int heap)
 {
     Container *p;
-    p=func_02030734(heap,12,1,d_021C6158,211);
+    p=func_02030734(heap,12,1,sWf2dmapCmdqFileName,211);
     p->count=n+1;
-    p->entries=func_02030734(heap,p->count*4,1,d_021C6158,216);
+    p->entries=func_02030734(heap,p->count*4,1,sWf2dmapCmdqFileName,216);
     p->used=0;
     p->capacity=0;
     return p;

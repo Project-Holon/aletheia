@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEF98",
+   "name": "BOX2_MAIN_ChangeBoxForm",
    "address": "0x021DEF98",
    "kind": "game",
    "region": "ov170",

@@ -1,6 +1,6 @@
 /*
  * file:     os_entropy.c
- * function: func_02088168
+ * function: OS_GetLowEntropyData
  * address:  0x02088168
  * packet:   pkt_02088168
  * region:   arm9
@@ -24,23 +24,7 @@ typedef unsigned char u8;
 typedef volatile u32 vu32;
 typedef volatile u16 vu16;
 
-typedef struct OSSystemWork {
-    u8 pad000[0x3C];
-    u32 vblankCount;            /* +0x03C */
-    u8 pad040[0xF4 - 0x40];
-    u8 macAddress[6];           /* +0x0F4 */
-    u8 pad0FA[0x1E8 - 0xFA];
-    u32 w1E8;                   /* +0x1E8 */
-    u32 w1EC;                   /* +0x1EC */
-    u8 pad1F0[0x390 - 0x1F0];
-    u32 w390;                   /* +0x390 */
-    u16 h394;                   /* +0x394 */
-    u16 pad396;
-    u16 h398;                   /* +0x398 */
-    u8 pad39A[0x3AA - 0x39A];
-    u16 h3AA;                   /* +0x3AA */
-    u16 h3AC;                   /* +0x3AC */
-} OSSystemWork;
+#include "os_system_work_types.h"
 
 #define reg_GX_VCOUNT   (*(vu16 *)0x04000006)
 #define reg_GX_GXSTAT   (*(vu32 *)0x04000600)
@@ -53,7 +37,7 @@ typedef struct OSSystemWork {
 extern u16 OS_GetTickLo(void);
 extern volatile u64 OSi_TickCounter;
 
-void func_02088168(u32 *buffer)
+void OS_GetLowEntropyData(u32 *buffer)
 {
     u8 *macAddress;
     OSSystemWork *w;    /* not a DWARF local; keeps 0x02FFFC00 live across the call */
@@ -66,9 +50,9 @@ void func_02088168(u32 *buffer)
     buffer[1] = (u32)OSi_TickCounter ^ ((u32)*(u16 *)(macAddress + 4) << 16);
     buffer[2] = w->vblankCount ^ ((u32)(OSi_TickCounter >> 32) ^ *(u32 *)macAddress);
     buffer[2] ^= reg_GX_GXSTAT;
-    buffer[3] = w->w1E8;
-    buffer[4] = w->w1EC;
-    buffer[5] = ((u32)w->h394 << 16) ^ w->w390;
-    buffer[6] = ((u32)w->h3AA << 16) | w->h3AC;
-    buffer[7] = ((u32)w->h398 << 16) | (reg_PAD_KEYINPUT | BUTTON_XY_BUF);
+    buffer[3] = w->systemCounterLow;
+    buffer[4] = w->systemCounterHigh;
+    buffer[5] = ((u32)w->clockCounterHigh << 16) ^ w->clockCounterLow;
+    buffer[6] = ((u32)w->entropyCounterHigh << 16) | w->entropyCounterLow;
+    buffer[7] = ((u32)w->inputCounterHigh << 16) | (reg_PAD_KEYINPUT | BUTTON_XY_BUF);
 }

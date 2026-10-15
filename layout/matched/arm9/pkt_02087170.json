@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02087170",
+   "name": "OS_GetTickLo",
    "address": "0x02087170",
    "kind": "sdk",
    "region": "arm9",

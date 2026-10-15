@@ -1,5 +1,5 @@
 /*
- * function: func_021E8F50
+ * function: BOX2_SEQ_ReturnAfterClear
  * address:  0x021E8F50
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -17,7 +17,7 @@
 #include "../include/Obj18468.h"
 
 
-int func_021E8F50(char *p, int v)
+int BOX2_SEQ_ReturnAfterClear(char *p, int v)
 {
     ((struct Obj18468 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA194 = 0;
     return v;

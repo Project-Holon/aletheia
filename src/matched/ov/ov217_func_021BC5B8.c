@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5B8
+ * function: RESEARCH_LIST_IsListPaletteAnimeRunning
  * address:  0x021BC5B8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 PALETTE_ANIME_IsRunning();
-u32 func_021BC5B8(u32 a0, u32 a1)
+u32 RESEARCH_LIST_IsListPaletteAnimeRunning(u32 a0, u32 a1)
 {
     if (PALETTE_ANIME_IsRunning(*(u32*)(((u8*)a0 + ((u32)a1 << 2) + 156))) == 0) {
     return 1;

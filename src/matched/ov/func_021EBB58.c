@@ -1,5 +1,5 @@
 /*
- * function: func_021EBB58
+ * function: BOX2_SEQ_PrintMessageD
  * address:  0x021EBB58
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBA84  0x021EBA84  thumb  ov170
+ *   BOX2_SEQ_PrintMessageMsg  0x021EBA84  thumb  ov170
  *
  * Forward with index 13.
  */
 
-extern void func_021EBA84(unsigned char *p, int msg, int i);
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 
-void func_021EBB58(char *p, int b)
+void BOX2_SEQ_PrintMessageD(char *p, int b)
 {
-    func_021EBA84((unsigned char *)p, 0xd, b);
+    BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0xd, b);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A02E0
+ * function: SBServerListDisconnect
  * address:  0x021A02E0
  * packet:   pkt_ov009_021A02E0
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
- *   func_021A027C  0x021A027C  arm  ov009
- *   func_021A0238  0x021A0238  arm  ov009
+ *   FreeKeyList  0x021A027C  arm  ov009
+ *   FreePopularValues  0x021A0238  arm  ov009
  */
 
 struct SBL {
@@ -30,9 +30,9 @@ struct SBL {
 };
 extern void func_0217EAE0(void *p);
 extern int func_0217EB2C(int sock);
-extern void func_021A027C(struct SBL *slist);
-extern void func_021A0238(char *slist);
-void func_021A02E0(struct SBL *slist)
+extern void FreeKeyList(struct SBL *slist);
+extern void FreePopularValues(char *slist);
+void SBServerListDisconnect(struct SBL *slist)
 {
 	if (slist->errstr != 0)
 		func_0217EAE0(slist->errstr);
@@ -42,7 +42,7 @@ void func_021A02E0(struct SBL *slist)
 		func_0217EB2C(slist->sock);
 	slist->sock = -1;
 	slist->state = 1;
-	func_021A027C(slist);
+	FreeKeyList(slist);
 	slist->f484 = -1;
-	func_021A0238((char *)slist);
+	FreePopularValues((char *)slist);
 }

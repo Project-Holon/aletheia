@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5F30  0x021C5F30  thumb  ov127
+ *   WF2DMAP_CMDQ_DeleteStore  0x021C5F30  thumb  ov127
  *   WIFICLUBACTOR_ExitLayer  0x021B9DB0  thumb  ov099
  *   WIFICLUBACTOR_ExitBlink  0x021BA648  thumb  ov099
  *   WIFICLUBACTOR_FreeAllActors  0x021B9B80  thumb  ov099
@@ -24,7 +24,7 @@
 #include "../include/Obj07938.h"
 
 typedef unsigned char  u8;
-extern void func_021C5F30(u8 *p);
+extern void WF2DMAP_CMDQ_DeleteStore(u8 *p);
 extern void WIFICLUBACTOR_ExitLayer(char *p);
 extern void WIFICLUBACTOR_ExitBlink(int unused, void *p);
 extern void WIFICLUBACTOR_FreeAllActors(char *p);
@@ -37,7 +37,7 @@ extern void MI_CpuFill8(void *p, int v, int n);
 
 void WIFICLUBACTOR_Exit(char *p)
 {
-    func_021C5F30((u8 *)(((struct Obj07938 *)p)->f59C));
+    WF2DMAP_CMDQ_DeleteStore((u8 *)(((struct Obj07938 *)p)->f59C));
     WIFICLUBACTOR_ExitLayer(p);
     WIFICLUBACTOR_ExitBlink((int)p, p + 0x574);
     WIFICLUBACTOR_FreeAllActors(p);

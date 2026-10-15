@@ -1,5 +1,5 @@
 /*
- * function: func_021A04C4
+ * function: AllKeysPresent
  * address:  0x021A04C4
  * packet:   pkt_ov009_021A04C4
  * region:   ov009
@@ -14,15 +14,15 @@
  * symbols:
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  */
 
 struct KeyEnt { int a; int type; };
 struct SBL { char pad0[8]; void *keys; };
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
-extern int func_0219F978(char *buf, int len);
-int func_021A04C4(struct SBL *slist, char *buf, int len)
+extern int NTSLengthSB(char *buf, int len);
+int AllKeysPresent(struct SBL *slist, char *buf, int len)
 {
 	int numkeys;
 	int i;
@@ -43,7 +43,7 @@ int func_021A04C4(struct SBL *slist, char *buf, int len)
 				return 0;
 			if (*(unsigned char *)buf++ == 0xff) {
 				len--;
-				strindex = func_0219F978(buf, len);
+				strindex = NTSLengthSB(buf, len);
 				if (strindex == -1)
 					return 0;
 				buf += strindex;

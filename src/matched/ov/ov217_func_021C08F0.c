@@ -1,5 +1,5 @@
 /*
- * function: func_021C08F0
+ * function: RESEARCH_GRAPH_UnregisterVBlank
  * address:  0x021C08F0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021C08F0(u8 *a0)
+void RESEARCH_GRAPH_UnregisterVBlank(u8 *a0)
 {
     func_02030EAC((struct Node *)((u32)(((struct Obj25975 *)a0)->f3C0)));
 }

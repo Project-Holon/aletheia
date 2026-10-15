@@ -1,5 +1,5 @@
 /*
- * function: func_0200E0BC
+ * function: SYMBOL_SAVE_FindBand
  * address:  0x0200E0BC
  * packet:   pkt_0200E0BC
  * region:   arm9
@@ -13,7 +13,7 @@
  *   sSymbolBandRanges  0x0209DE90  data
  *
  * Band lookup: the index of the first of four records whose .b bound is
- * above value, or 3. func_0200E124 indexes the same table with the result.
+ * above value, or 3. SYMBOL_SAVE_RemoveSlot indexes the same table with the result.
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 44/44, 9 out, the "pool load
  * in the preheader" wall of docs/notes/pkt_0200E0BC.c.txt): the counter AND
@@ -31,7 +31,7 @@ typedef enum { IDX_0 = 0, IDX_MAX = 4 } Idx;
 struct Rec { u16 a; u16 b; };
 extern const struct Rec sSymbolBandRanges[];
 
-u32 func_0200E0BC(u32 value)
+u32 SYMBOL_SAVE_FindBand(u32 value)
 {
     Idx i;
     Idx r = 3;

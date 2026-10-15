@@ -44,6 +44,9 @@
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   STD_CopyString  0x0208CADC  arm  arm9
+ *   STD_SearchString  0x0208CC14  arm  arm9
+ *   STD_CompareString  0x0208CD94  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -123,11 +126,11 @@ extern DspGlobals DAT_027344AC;
 /* The list head again, under its own name: the original code reaches it
    through two symbols (two literal pool entries). */
 extern DspProc *DSPi_ProcList;
-extern s32 func_0208CD94(const char *a, const char *b);
-extern s32 func_0208CC14(char *a, char *b);
+extern s32 STD_CompareString(const char *a, const char *b);
+extern s32 STD_SearchString(char *a, char *b);
 extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
 extern void MI_CpuFill8(void *p, s32 v, u32 n);
-extern void func_0208CADC(void *dst, void *src);
+extern void STD_CopyString(void *dst, void *src);
 extern s32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(s32);
 extern void DWCi_ScreenDC_FlushRange(void *, u32);
@@ -302,19 +305,19 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
         }
         name = buf;
     }
-    if (func_0208CD94(name, (char *)0x02732D54) == 0) {
+    if (STD_CompareString(name, (char *)0x02732D54) == 0) {
         c->flags |= 1;
     }
     if (e->flags & 8) {
         size = e->f8 * 2;
         f = (e->flags & 0x20) ? 1 : 0;
-        if (func_0208CC14(name, (char *)0x02732D64)) {
+        if (STD_SearchString(name, (char *)0x02732D64)) {
             selv[n] = 1;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (func_0208CC14(name, (char *)0x02732D68)) {
+        if (STD_SearchString(name, (char *)0x02732D68)) {
             selv[n] = 1;
             sizev[n] = size + 0x20000;
             flagv[n] = f;
@@ -324,13 +327,13 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
     if (e->flags & 0x10) {
         size = e->fC * 2;
         f = (e->flags & 0x40) ? 1 : 0;
-        if (func_0208CC14(name, (char *)0x02732D6C)) {
+        if (STD_SearchString(name, (char *)0x02732D6C)) {
             selv[n] = 2;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (func_0208CC14(name, (char *)0x02732D70)) {
+        if (STD_SearchString(name, (char *)0x02732D70)) {
             selv[n] = 2;
             sizev[n] = size + 0x20000;
             flagv[n] = f;
@@ -390,7 +393,7 @@ void DSP_InitProcessContext(DspProc *o, void *src)
     if (src == 0) {
         src = (void *)0x02732D74;
     }
-    func_0208CADC(&o->name, src);
+    STD_CopyString(&o->name, src);
     o->file = 0;
     o->busy[0] = 0;
     o->busy[1] = 0;
@@ -606,7 +609,7 @@ DspProc *DSP_FindProcess(const char *name)
     irq = OS_DisableInterrupts();
     p = DAT_027344AC.head;
     if (name != 0) {
-        while (p != 0 && func_0208CD94(p->name, name) != 0) {
+        while (p != 0 && STD_CompareString(p->name, name) != 0) {
             p = p->next;
         }
     }

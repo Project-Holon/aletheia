@@ -1,5 +1,5 @@
 /*
- * function: func_020612E8
+ * function: NNSi_FndFreeToUnitHeapAllocator
  * address: 0x020612E8
  * packet: pkt_arm9_020612E8
  * region: arm9
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/arm9/unit_02061224.c and filed here.
  *
  * symbols:
- *   func_0206127C 0x0206127C arm
+ *   NNSi_FndPushFreeBlock 0x0206127C arm
  */
 
 struct UnitHeap0206127C;
@@ -34,10 +34,10 @@ struct Allocator02061 {
     u32 param2;
 };
 
-void func_0206127C(struct UnitHeap0206127C *heap, void *block);
-void func_020612E8(struct Allocator02061 *allocator, void *block);
+void NNSi_FndPushFreeBlock(struct UnitHeap0206127C *heap, void *block);
+void NNSi_FndFreeToUnitHeapAllocator(struct Allocator02061 *allocator, void *block);
 
-void func_020612E8(struct Allocator02061 *allocator, void *block)
+void NNSi_FndFreeToUnitHeapAllocator(struct Allocator02061 *allocator, void *block)
 {
-    func_0206127C((struct UnitHeap0206127C *)allocator->heap, block);
+    NNSi_FndPushFreeBlock((struct UnitHeap0206127C *)allocator->heap, block);
 }

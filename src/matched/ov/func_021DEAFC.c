@@ -1,5 +1,5 @@
 /*
- * function: func_021DEAFC
+ * function: BOX2_MAIN_IsSwapScene
  * address:  0x021DEAFC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DEA6C  0x021DEA6C  thumb  ov170
+ *   BOX2_MAIN_CheckSceneMode  0x021DEA6C  thumb  ov170
  *
  * Set the flag on the object.
  */
 
-extern int func_021DEA6C(char *p, int a);
+extern int BOX2_MAIN_CheckSceneMode(char *p, int a);
 
-int func_021DEAFC(int a)
+int BOX2_MAIN_IsSwapScene(int a)
 {
-    return func_021DEA6C((char *)a, 1);
+    return BOX2_MAIN_CheckSceneMode((char *)a, 1);
 }
 

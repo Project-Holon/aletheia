@@ -17,15 +17,15 @@
  *   func_0217CF24                  0x0217CF24  arm ov009
  *   func_0217CE48                  0x0217CE48  arm ov009
  *   func_0217EAE0                  0x0217EAE0  arm ov009
- *   func_02181C2C                  0x02181C2C  arm ov009
- *   func_02181D10                  0x02181D10  arm ov009
+ *   gsXmlCreateStreamReader                  0x02181C2C  arm ov009
+ *   gsXmlParseBuffer                  0x02181D10  arm ov009
  *   ghttpRequestThink                  0x021C2284  arm
  *   ZUKAN_DETAIL_AREA_ResetBlendAlpha                  0x021C2304  arm
  *   ghttpPostSetAutoFree                  0x021C2310  arm
  *   ghttpPostAddXml                  0x021C2338  arm
  *   ghttpGetExA                  0x021C20A4  arm
  *   ghttpCancelRequest                  0x021C22A4  arm
- *   func_02181DA0  0x02181DA0  arm  ov009
+ *   gsXmlFreeReader  0x02181DA0  arm  ov009
  *   ghttpFreePostAndUpdateConnection  0x021C2324  arm  ov114
  */
 typedef void (*GSSoapCallback)(int, void *, void *, void *);
@@ -66,15 +66,15 @@ extern void *func_0217EAB0(unsigned long size);
 extern GSTask *func_0217CF24(void);
 extern void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs);
 extern void func_0217EAE0(void *ptr);
-extern void *func_02181C2C(void);
-extern int func_02181D10(void *stream, char *data, int len);
+extern void *gsXmlCreateStreamReader(void);
+extern int gsXmlParseBuffer(void *stream, char *data, int len);
 extern int ghttpRequestThink(int request);
 extern void *ZUKAN_DETAIL_AREA_ResetBlendAlpha();
 extern void ghttpPostSetAutoFree(void *post, int autoFree);
 extern void ghttpPostAddXml();
 extern int ghttpGetExA(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
 extern void ghttpCancelRequest(int request);
-void func_02181DA0(int x);
+void gsXmlFreeReader(int x);
 void ghttpFreePostAndUpdateConnection(int x, int y);
 void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void *theUserData);
 GSSoapTask *func_0217FDA0(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, unsigned int theTimeoutMs, void *theUserData);
@@ -189,11 +189,11 @@ int func_0217FF14(int request, int result, char *buffer, int bufferLen, void *pa
     aSoapTask->completed = 1;
     aSoapTask->buffer = buffer;
     if (result == 0) {
-        aSoapTask->stream = func_02181C2C();
+        aSoapTask->stream = gsXmlCreateStreamReader();
         if (aSoapTask->stream == 0) {
             aSoapTask->result = 1;
         } else {
-            parseResult = func_02181D10(aSoapTask->stream, buffer, bufferLen);
+            parseResult = gsXmlParseBuffer(aSoapTask->stream, buffer, bufferLen);
             if (parseResult == 0)
                 aSoapTask->result = 7;
         }
@@ -279,7 +279,7 @@ int func_02180080(void *theTask)
     GSSoapTask *p = (GSSoapTask *)theTask;
 
     if (p->stream)
-        func_02181DA0((int)p->stream);
+        gsXmlFreeReader((int)p->stream);
     if (p->buffer)
         func_0217EAE0(p->buffer);
     if (p->post)

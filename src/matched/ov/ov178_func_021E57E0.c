@@ -1,5 +1,5 @@
 /*
- * function: func_021E57E0
+ * function: PARTY_STATUS_InitRecord
  * address:  0x021E57E0
  * packet:   pkt_021E57E0
  * region:   ov178
@@ -34,7 +34,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern unsigned int POKEPARTY_GetCount(void *p);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 
-void func_021E57E0(int *r5, int *r6, char *r4)
+void PARTY_STATUS_InitRecord(int *r5, int *r6, char *r4)
 {
     int a;
     int b;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DEFEC
+ * function: BOX2_MAIN_ChangeBoxFormPreserve
  * address:  0x021DEFEC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DEF98  0x021DEF98  thumb  ov170
+ *   BOX2_MAIN_ChangeBoxForm  0x021DEF98  thumb  ov170
  *
  * Forward with the byte field at +0x14.
  */
 #include "../include/Obj18458.h"
 
-extern int func_021DEF98(char *p, int a, unsigned b);
+extern int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b);
 
-void func_021DEFEC(char *p, int b)
+void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b)
 {
-    func_021DEF98(p, ((struct Obj18458 *)p)->f14, b);
+    BOX2_MAIN_ChangeBoxForm(p, ((struct Obj18458 *)p)->f14, b);
 }
 

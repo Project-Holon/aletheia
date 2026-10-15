@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020910D0",
+   "name": "CTRDGi_LockByProcessor",
    "address": "0x020910D0",
    "kind": "sdk",
    "region": "arm9",

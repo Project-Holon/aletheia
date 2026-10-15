@@ -1,5 +1,5 @@
 /*
- * function: func_021DE7B4
+ * function: BOX2_MAIN_DeleteScroll
  * address:  0x021DE7B4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021DE7B4(char *p)
+void BOX2_MAIN_DeleteScroll(char *p)
 {
     func_020307B0(((struct Obj18453 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190);
 }

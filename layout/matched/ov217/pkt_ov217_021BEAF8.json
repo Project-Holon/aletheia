@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEAF8",
+   "name": "RESEARCH_GRAPH_SyncArrow",
    "address": "0x021BEAF8",
    "kind": "game",
    "region": "ov217",

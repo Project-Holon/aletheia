@@ -1,5 +1,5 @@
 /*
- * function: func_021EAB50
+ * function: BOX2_SEQ_UpdateTextWins
  * address: 0x021EAB50
  * packet: pkt_ov170_021EAB50
  * region: ov170
@@ -22,7 +22,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021EAB50(unsigned char *w) {
+void BOX2_SEQ_UpdateTextWins(unsigned char *w) {
  unsigned i; void *print;
  PRINTSYS_QUE_Main(((struct Obj08242 *)w)->f8C);
  for(i=0;i<28;i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_0208A46C
+ * function: SND_GetFirstInstDataPos
  * address:  0x0208A46C
  * packet:   pkt_0208A46C
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     unsigned int index;
 } SNDInstPos;
 
-SNDInstPos func_0208A46C(const void *bank)
+SNDInstPos SND_GetFirstInstDataPos(const void *bank)
 {
     SNDInstPos pos;
 

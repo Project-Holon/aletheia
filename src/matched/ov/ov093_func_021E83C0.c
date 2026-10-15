@@ -19,7 +19,7 @@ int *HAND_WAZA_GetPledgeHandlers(int *p);
 extern int gPledgeHandlers[];
 
 /*
- * Return r0 from func_021EC01C and func_021EA858 is read by this caller.
+ * Return r0 from BOX2_SEQ_GetActorDrawEnable and BOX2_SEQ_ResetEntryB is read by this caller.
  * Lever: low-nibble bitfield assignment emits bics #15; a byte mask
  * emits ands #240 and changes four concrete bytes at +0x120..+0x124.
  */

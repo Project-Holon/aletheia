@@ -1,5 +1,5 @@
 /*
- * function: func_021830D0
+ * function: gsXmlWriteLargeIntElement
  * address:  0x021830D0
  * packet:   pkt_ov009_021830D0
  * region:   ov009
@@ -12,11 +12,11 @@
  * sdk:      gsXmlWriteLargeIntElement (libdwcgscommon.TWL.HYB.a gsxml.o)
  *
  * symbols:
- *   func_021829AC  0x021829ac  arm   ov009
+ *   gsXmlWriteOpenTag  0x021829ac  arm   ov009
  *   sprintf        0x02094530  arm
- *   func_02183210  0x02183210  arm   ov009
- *   func_02182A2C  0x02182a2c  arm   ov009
- *   g_021A3F5C     0x021a3f5c  data
+ *   gsiXmlUtilWriteChar  0x02183210  arm   ov009
+ *   gsXmlWriteCloseTag  0x02182a2c  arm   ov009
+ *   gGsXmlHex2Format     0x021a3f5c  data
  */
 
 struct GSIXmlStreamWriter {
@@ -30,13 +30,13 @@ typedef struct gsLargeInt_s {
     unsigned int mData[64];
 } gsLargeInt;
 
-extern int func_021829AC(void *, char *, char *);
+extern int gsXmlWriteOpenTag(void *, char *, char *);
 extern int sprintf(char *, const char *, ...);
-extern int func_02183210(struct GSIXmlStreamWriter *, char);
-extern int func_02182A2C(void *, char *, char *);
-extern char g_021A3F5C[];
+extern int gsiXmlUtilWriteChar(struct GSIXmlStreamWriter *, char);
+extern int gsXmlWriteCloseTag(void *, char *, char *);
+extern char gGsXmlHex2Format[];
 
-int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint)
+int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt *lint)
 {
     struct GSIXmlStreamWriter *writer;
     unsigned int *readBuf;
@@ -47,7 +47,7 @@ int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint
 
     readPos = lint->mLength - 1;
     readBuf = lint->mData;
-    if (!func_021829AC(stream, namespaceName, tag))
+    if (!gsXmlWriteOpenTag(stream, namespaceName, tag))
         return 0;
     while (readPos >= 0 && readBuf[readPos] == 0)
         readPos--;
@@ -64,15 +64,15 @@ int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint
         }
         if (i < 4) {
             for (; i < 4; i++) {
-                sprintf(hex, g_021A3F5C, (lint->mData[readPos] >> ((3 - i) * 8)) & 0xff);
-                if (!func_02183210(writer, hex[0]))
+                sprintf(hex, gGsXmlHex2Format, (lint->mData[readPos] >> ((3 - i) * 8)) & 0xff);
+                if (!gsiXmlUtilWriteChar(writer, hex[0]))
                     return 0;
-                if (!func_02183210(writer, hex[1]))
+                if (!gsiXmlUtilWriteChar(writer, hex[1]))
                     return 0;
             }
         }
     }
-    if (!func_02182A2C(stream, namespaceName, tag))
+    if (!gsXmlWriteCloseTag(stream, namespaceName, tag))
         return 0;
     return 1;
 }

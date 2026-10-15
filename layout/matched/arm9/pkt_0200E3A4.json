@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200E44C",
+   "name": "MISC_SAVEDATA_GetStatusByte",
    "address": "0x0200E44C",
    "kind": "game",
    "region": "arm9",

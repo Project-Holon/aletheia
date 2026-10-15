@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02089160",
+   "name": "RTCi_ConvertSecondToTime",
    "address": "0x02089160",
    "kind": "sdk",
    "region": "arm9",

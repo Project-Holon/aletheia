@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FADB8",
+   "name": "BR_BTN_SetMode",
    "address": "0x021FADB8",
    "kind": "game",
    "region": "ov186",

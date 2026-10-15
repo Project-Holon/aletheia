@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AF8
+ * function: RESEARCH_TOP_DestroyListObject
  * address:  0x021B9AF8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BA4FC  0x021BA4FC  thumb  ov217
- *   func_021BA68C  0x021BA68C  thumb  ov217
+ *   RESEARCH_TOP_FreeListObject  0x021BA4FC  thumb  ov217
+ *   RESEARCH_TOP_DestroyCommandQueue  0x021BA68C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BA4FC(void *a0);
-extern void func_021BA68C(void *p);
-u32 func_021B9AF8(void *a0)
+extern u32 RESEARCH_TOP_FreeListObject(void *a0);
+extern void RESEARCH_TOP_DestroyCommandQueue(void *p);
+u32 RESEARCH_TOP_DestroyListObject(void *a0)
 {
-    func_021BA68C((void *)a0);
-    return func_021BA4FC(a0);
+    RESEARCH_TOP_DestroyCommandQueue((void *)a0);
+    return RESEARCH_TOP_FreeListObject(a0);
 }
 

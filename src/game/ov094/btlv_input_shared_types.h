@@ -5,8 +5,6 @@
 
 struct Cfg;
 
-typedef struct { char pad[0x68]; unsigned int f68; } W_02206710;
-
 typedef struct { s16 x, y, z; u8 pri, f7; } Cfg;
 
 /* State word at BtlvInput+0x68. */
@@ -37,12 +35,12 @@ typedef struct BtlvInputFlags2 {
 
 typedef union BtlvInputSlotInfo {
     int w[3];
-    struct { u8 unk0; u8 animSeq; u8 unk2[10]; } b;
+    struct { u8 kind; u8 animSeq; u8 data[10]; } b;
 } BtlvInputSlotInfo;
 
 typedef struct BtlvInputActor {
     void *actor;
-    int unk4;
+    int unused;
 } BtlvInputActor;
 
 /* Work of the battle bottom-screen input (command, move, target... screens). */

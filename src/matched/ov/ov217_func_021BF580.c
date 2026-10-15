@@ -1,5 +1,5 @@
 /*
- * function: func_021BF580
+ * function: RESEARCH_GRAPH_SetOamEnabled
  * address:  0x021BF580
  * packet:   pkt_021B9850
  * region:   ov217
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
-void func_021BF580(u8 *p, u32 i, u32 j)
+void RESEARCH_GRAPH_SetOamEnabled(u8 *p, u32 i, u32 j)
 {
     BMP_OAM_SetEnabled((u8 *)(*(u32 *)(p + i * 4 + 0x3a8)), j);
 }

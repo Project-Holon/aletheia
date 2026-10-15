@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02082390",
+   "name": "MIi_DmaFill32Async",
    "address": "0x02082390",
    "kind": "sdk",
    "region": "arm9",

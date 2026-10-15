@@ -21,7 +21,7 @@
  *   POKETRADE_NEGO_StepBeginMonCheckWipe 0x021DF1C8 thumb ov119
  *   POKETRADE_NEGO_StepSendReady 0x021DEDBC thumb ov119
  *   POKETRADE_PROC_StepBeginWipeOut 0x021D9434 thumb ov119
- *   func_021DAEF0 0x021DAEF0 thumb ov119
+ *   POKETRADE_PROC_StepShowWaitMessageA 0x021DAEF0 thumb ov119
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj22747.h"
@@ -44,7 +44,7 @@ extern void POKETRADE_PROC_SetStep(void *, int);
 extern void POKETRADE_NEGO_StepBeginMonCheckWipe(void *);
 extern void POKETRADE_NEGO_StepSendReady(void *);
 extern void POKETRADE_PROC_StepBeginWipeOut(void *);
-extern void func_021DAEF0(char *p);
+extern void POKETRADE_PROC_StepShowWaitMessageA(char *p);
 void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
 {
     unsigned a, b;
@@ -91,5 +91,5 @@ void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
     ((struct Obj00001 *)p)->f11E1 = 0;
     ((struct Obj00001 *)p)->f11E8 = 0;
     ((struct Obj00001 *)p)->f11E9 = 0;
-    POKETRADE_PROC_SetStep(p, (int)func_021DAEF0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepShowWaitMessageA);
 }

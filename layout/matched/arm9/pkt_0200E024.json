@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E024",
+   "name": "SYMBOL_SAVE_UpdateChecksum",
    "address": "0x0200E024",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E06C",
+   "name": "SYMBOL_SAVE_FinalizeChecksum",
    "address": "0x0200E06C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E098",
+   "name": "SYMBOL_SAVE_InitBlock",
    "address": "0x0200E098",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200E164",
+   "name": "SYMBOL_SAVE_RemoveSlotAndFind",
    "address": "0x0200E164",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200E18C",
+   "name": "SYMBOL_SAVE_RemoveSlotAndCommit",
    "address": "0x0200E18C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200E370",
+   "name": "SYMBOL_SAVE_InitBitBlock",
    "address": "0x0200E370",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E3A0",
+   "name": "SYMBOL_SAVE_GetQuestionnaireBits",
    "address": "0x0200E3A0",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E49C",
+   "name": "MISC_SAVEDATA_IsTallyFull",
    "address": "0x0200E49C",
    "kind": "game",
    "region": "arm9",

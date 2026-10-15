@@ -1,5 +1,5 @@
 /*
- * function: func_021FD964
+ * function: STA_SLOT_GetSub
  * address: 0x021FD964
  * packet: pkt_ov132_021FD964
  * region: ov132
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021FD964(char *p,u32 index,u32 subindex){p=p+index*0x30;return *(u8 *)(p+subindex+0x73);}
+u32 STA_SLOT_GetSub(char *p,u32 index,u32 subindex){p=p+index*0x30;return *(u8 *)(p+subindex+0x73);}

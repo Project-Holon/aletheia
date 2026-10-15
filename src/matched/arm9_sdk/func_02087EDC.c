@@ -1,5 +1,5 @@
 /*
- * function: func_02087EDC
+ * function: OSi_UnlockVram
  * address:  0x02087EDC
  * packet:   pkt_02087EDC
  * region:   arm9
@@ -37,7 +37,7 @@ extern u32 OsCountZeroBits(u32 bitmap);
 extern u32 OSi_vramExclusive;
 extern u16 OSi_vramLockId[9];
 
-void func_02087EDC(u16 bank, u16 lockId)
+void OSi_UnlockVram(u16 bank, u16 lockId)
 {
     u32 workMap;
     s32 zeroBits;

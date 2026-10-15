@@ -13,7 +13,7 @@
  * symbols:
  *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb
  *   FLDMMDL_UpdateSysProc  0x0216CD64  thumb  ov010
- *   func_02087A3C  0x02087A3C  arm
+ *   OS_WaitInterrupt  0x02087A3C  arm
  *   FLDMMDL_UpdateSysBlAct  0x0216CD78  thumb  ov010
  */
 
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int FLDMMDL_BLACT_IsReservePending();
 extern int FLDMMDL_UpdateSysProc(int a0);
-extern int func_02087A3C();
+extern int OS_WaitInterrupt();
 extern int FLDMMDL_UpdateSysBlAct(int a0);
 
 int FLDMMDL_SysWaitBlActResLoad(int a0)
@@ -44,7 +44,7 @@ a0 = t5 + 0;
 loc_0216CD9C:
 a0 = t4 + 0;
 a1 = t4 + 0;
-    a0 = func_02087A3C(a0, a1);
+    a0 = OS_WaitInterrupt(a0, a1);
 loc_0216CDA4:
 a0 = t5 + 0;
     a0 = FLDMMDL_UpdateSysBlAct(a0);

@@ -1,5 +1,5 @@
 /*
- * function: func_020878EC
+ * function: OSi_CompareVCount
  * address:  0x020878EC
  * packet:   pkt_020878EC
  * region:   arm9
@@ -54,7 +54,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
 
-int func_020878EC(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount)
+int OSi_CompareVCount(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount)
 {
     s32 delayVFrame = currentVFrame - (s32)alarm->frame;
     s32 delayVCount = currentVCount - alarm->fire;

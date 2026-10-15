@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084C78",
+   "name": "OSi_DoUnlockByWord",
    "address": "0x02084C78",
    "kind": "sdk",
    "region": "arm9",

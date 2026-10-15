@@ -1,5 +1,5 @@
 /*
- * function: func_021BC94C
+ * function: RESEARCH_LIST_ClearCommandQueue
  * address:  0x021BC94C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC94C(void *p)
+void RESEARCH_LIST_ClearCommandQueue(void *p)
 {
     ((struct Obj25878 *)p)->f18 = 0;
 }

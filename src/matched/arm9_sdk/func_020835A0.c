@@ -1,5 +1,5 @@
 /*
- * function: func_020835A0
+ * function: MIi_CardDmaCopy32
  * address:  0x020835A0
  * packet:   pkt_020835A0
  * region:   arm9
@@ -42,7 +42,7 @@ static inline void MIi_Wait(vu32 *dmaCntp)
     }
 }
 
-void func_020835A0(u32 dmaNo, const void *src, void *dest, u32 size)
+void MIi_CardDmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     vu32 *dmaCntp;
 

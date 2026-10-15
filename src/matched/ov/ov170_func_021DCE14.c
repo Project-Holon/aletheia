@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE14
+ * function: BOX2_MAIN_CreateTextSystem
  * address: 0x021DCE14
  * packet: pkt_ov170_021DCE14
  * region: ov170
@@ -25,7 +25,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 #define PTR(p,n) (*(void **)(*(char **)((p)+0x2c)+(n)))
-void func_021DCE14(char *p)
+void BOX2_MAIN_CreateTextSystem(char *p)
 {
     PTR(p,0x80) = func_02045B38(0,2,9,0x4c);
     PTR(p,0x78) = GF_FONT_Create(0x17,0,1,0,0x4c);

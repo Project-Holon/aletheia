@@ -1,5 +1,5 @@
 /*
- * function: func_02072794
+ * function: NNS_SndSetMasterPan
  * address:  0x02072794
  * packet:   pkt_020728E8
  * region:   arm9
@@ -8,18 +8,22 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   SND_SetMasterPan  0x02089754  arm
+ *   SND_ResetMasterPan  0x02089774  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_02089754(int pan);
-extern void func_02089774(void);
+extern void SND_SetMasterPan(int pan);
+extern void SND_ResetMasterPan(void);
 
-void func_02072794(u32 flag)
+void NNS_SndSetMasterPan(u32 flag)
 {
     if (flag != 0) {
-        func_02089754(0x40);
+        SND_SetMasterPan(0x40);
     } else {
-        func_02089774();
+        SND_ResetMasterPan();
     }
 }

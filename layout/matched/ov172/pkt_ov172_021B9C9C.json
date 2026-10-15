@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9C9C",
+   "name": "CTVT_TALK_OpenConfirmMenu",
    "address": "0x021B9C9C",
    "kind": "game",
    "region": "ov172",

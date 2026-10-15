@@ -1,7 +1,7 @@
 /*
  * file:     sb_serverlist.c
  * unit:     yes
- * function: func_0219F0E0, func_0219F288, func_0219F2F8, func_0219F40C, func_0219F48C, func_0219F50C, func_0219F638, func_0219F674, func_0219F6C8, func_0219F738, func_0219F768, func_0219F7B4, func_0219F7C4, func_0219F7D8, func_0219F830, func_0219F888, func_0219F8B0, func_0219F920, func_0219F978, func_0219F9A8, func_0219FAAC, StringHash, func_0219FBB8, func_0219FCF0, func_0219FD40, func_0219FD64, func_0219FDB8, func_0219FE10, func_0219FE44, func_0219FF30, func_0219FFD4, func_021A0238, func_021A027C, func_021A02E0, func_021A0340, func_021A0378, func_021A0414, func_021A0440, func_021A04C4, func_021A059C, func_021A060C, func_021A08E8, SBServerListSetLastError, func_021A0A24, func_021A0E30, func_021A0F0C, func_021A10D4, func_021A1254, func_021A12DC, func_021A13D0, func_021A153C, func_021A1620, func_021A174C, func_021A1804, func_021A1928
+ * function: prevKeyCompare, IntKeyCompare, FloatKeyCompare, StrCaseKeyCompare, StrNoCaseKeyCompare, SBServerListSort, SBServerListAppendServer, SBServerListFindServer, SBServerListFindServerByIP, AddServerToDeadlist, SBServerListRemoveAt, SBServerListCount, SBServerListNth, SBFreeDeadList, SBServerListClear, SBAllocateServerList, SBRefStr, SBReleaseStr, NTSLengthSB, SBServerListInit, ErrorDisconnect, StringHash, ServerListConnect, BufferAddNTS, BufferAddByte, BufferAddInt, BufferAddIntLE, BufferAddData, SetupListChallenge, SendWithRetry, SBServerListConnectAndQuery, FreePopularValues, FreeKeyList, SBServerListDisconnect, SBServerListCleanup, InitCryptKey, ServerSizeForFlags, FullRulesPresent, AllKeysPresent, ParseServerIPPort, ParseServer, IncomingListParseServer, SBServerListSetLastError, ProcessMainListData, ProcessPushKeyList, ProcessPlayerSearch, ProcessMaploop, ProcessDeleteServer, ProcessPushServer, ProcessAdHocData, ProcessIncomingData, SBSendMessageToServer, SBSendNatNegotiateCookieToServer, ProcessLanData, SBListThink
  * address:  0x0219F0E0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -28,13 +28,13 @@
  *   func_0219E1B8  0x0219E1B8  arm  ov009
  *   func_0219E0C0  0x0219E0C0  arm  ov009
  *   func_020948E0  0x020948E0  arm
- *   func_0209ABF8  0x0209ABF8  arm
+ *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
  *   _d2f  0x0209B64C  arm
  *   _fgr  0x0209BBB0  arm
  *   _fls  0x0209BC74  arm
- *   g_021AEB04  0x021AEB04  data
- *   g_021A8230  0x021A8230  data
+ *   gSBSortContext  0x021AEB04  data
+ *   gSBEmptyString  0x021A8230  data
  *   strlen  0x0209477C  arm
  *   strcmp  0x020948E0  arm
  *   func_021843C8  0x021843C8  arm  ov009
@@ -61,8 +61,8 @@
  *   gGsAvailabilityState  0x021ACEF8  data
  *   func_0209477C  0x0209477C  arm
  *   func_020949F4  0x020949F4  arm
- *   g_021A821C  0x021A821C  data
- *   g_021AEB00  0x021AEB00  data
+ *   gSBMasterHostname  0x021A821C  data
+ *   gSBNullServer  0x021AEB00  data
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
  *   func_0219FB64  0x0219FB64  arm  ov009
@@ -72,7 +72,7 @@
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
- *   g_021A8234     0x021A8234  data
+ *   gSBMasterHostFormat     0x021A8234  data
  *   func_02092344  0x02092344  arm
  *   unit_02092344  0x02092344  arm
  *   rand  0x02094694  arm  ov009
@@ -92,7 +92,7 @@
  *   memcmp  0x020923F0  arm
  *   func_0219E900  0x0219E900  arm  ov009
  *   func_0219E9D8  0x0219E9D8  arm  ov009
- *   g_021A8250  0x021A8250  data
+ *   gSBNatNegMagic  0x021A8250  data
  *   func_0219D478  0x0219D478  arm  ov009
  *   func_02092364  0x02092364  arm
  *   memmove        0x02092364  arm
@@ -128,8 +128,8 @@
 	)
 struct GOACryptState;
 struct SBServerList;
-struct G_021AEB04 {
-    int pad;
+struct SBSortContext {
+    char *masterHostname;
     SBServerList *slist;
 };
 
@@ -169,7 +169,7 @@ typedef enum {
 
 typedef signed char s8;
 
-struct KeyEnt { int a; int type; };
+struct KeyEnt { char *keyName; int keyType; };
 
 typedef struct { unsigned char b[4]; } B4;
 
@@ -186,7 +186,7 @@ extern int func_0219E120(SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 extern char *func_0219E0C0(SBServer *server, char *keyname, char *def);
 extern int func_020948E0(const char *a, const char *b);
-extern int func_0209ABF8(const char *a, const char *b);
+extern int strcmp_nocase(const char *a, const char *b);
 extern unsigned long strlen(const char *s);
 extern int strcmp(const char *a, const char *b);
 extern void func_021843C8(int *p, int b);
@@ -245,68 +245,68 @@ extern void *memmove(void *dst, const void *src, unsigned long n);
 extern int func_0217EF50(int sock);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-int func_0219F0E0(SBServer *server1, SBServer *server2);
-int func_0219F288(void *entry1, void *entry2);
-int func_0219F2F8(void *entry1, void *entry2);
-int func_0219F40C(void *entry1, void *entry2);
-int func_0219F48C(void *entry1, void *entry2);
-void func_0219F50C(SBServerList *slist, int ascending, SBSortInfo sortinfo);
-void func_0219F638(SBServerList *slist, SBServer *server);
-int func_0219F674(SBServerList *slist, void *findserver);
-int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port);
-void func_0219F738(SBServerList *slist, SBServer *server);
-void func_0219F768(SBServerList *slist, int index);
+int prevKeyCompare(SBServer *server1, SBServer *server2);
+int IntKeyCompare(void *entry1, void *entry2);
+int FloatKeyCompare(void *entry1, void *entry2);
+int StrCaseKeyCompare(void *entry1, void *entry2);
+int StrNoCaseKeyCompare(void *entry1, void *entry2);
+void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo);
+void SBServerListAppendServer(SBServerList *slist, SBServer *server);
+int SBServerListFindServer(SBServerList *slist, void *findserver);
+int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned short port);
+void AddServerToDeadlist(SBServerList *slist, SBServer *server);
+void SBServerListRemoveAt(SBServerList *slist, int index);
 void SBServerListCount(void *list);
-SBServer *func_0219F7C4(SBServerList *slist, int index);
-void func_0219F7D8(SBServerList *slist);
-void func_0219F830(SBServerList *slist);
-void func_0219F888(SBServerList *slist);
-char *func_0219F8B0(void *slist, char *str);
-void func_0219F920(void *slist, char *str);
-int func_0219F978(const char *buf, int len);
-void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int lanBrowse, SBListCB callback, void *instance);
-void func_0219FAAC(SBServerList *slist);
-int func_0219FBB8(SBServerList *slist);
-void func_0219FCF0(char **buffer, char *str, int *len);
-void func_0219FD40(char **p, unsigned char v, int *n);
-void func_0219FD64(char **buffer, int ival, int *len);
-void func_0219FDB8(char **buffer, int ival, int *len);
-void func_0219FE10(char **buffer, char *data, int dlen, int *len);
-void func_0219FE44(SBServerList *slist);
-int func_0219FF30(SBServerList *slist, char *data, int len);
-SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
-void func_021A0238(char *slist);
-void func_021A027C(SBServerList *slist);
-void func_021A02E0(SBServerList *slist);
-void func_021A0340(SBServerList *slist);
-void func_021A0378(SBServerList *slist, char *key, int keylen);
-int func_021A0414(int f);
-int func_021A0440(const char *p, int n);
-int func_021A04C4(SBServerList *slist, char *buf, int len);
-void func_021A059C(SBServerList *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port);
-int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist);
-int func_021A08E8(SBServerList *slist, char *buf, int len);
+SBServer *SBServerListNth(SBServerList *slist, int index);
+void SBFreeDeadList(SBServerList *slist);
+void SBServerListClear(SBServerList *slist);
+void SBAllocateServerList(SBServerList *slist);
+char *SBRefStr(void *slist, char *str);
+void SBReleaseStr(void *slist, char *str);
+int NTSLengthSB(const char *buf, int len);
+void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int lanBrowse, SBListCB callback, void *instance);
+void ErrorDisconnect(SBServerList *slist);
+int ServerListConnect(SBServerList *slist);
+void BufferAddNTS(char **buffer, char *str, int *len);
+void BufferAddByte(char **buffer, unsigned char value, int *len);
+void BufferAddInt(char **buffer, int ival, int *len);
+void BufferAddIntLE(char **buffer, int ival, int *len);
+void BufferAddData(char **buffer, char *data, int dlen, int *len);
+void SetupListChallenge(SBServerList *slist);
+int SendWithRetry(SBServerList *slist, char *data, int len);
+SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
+void FreePopularValues(char *list);
+void FreeKeyList(SBServerList *slist);
+void SBServerListDisconnect(SBServerList *slist);
+void SBServerListCleanup(SBServerList *slist);
+void InitCryptKey(SBServerList *slist, char *key, int keylen);
+int ServerSizeForFlags(int flags);
+int FullRulesPresent(const char *buf, int len);
+int AllKeysPresent(SBServerList *slist, char *buf, int len);
+void ParseServerIPPort(SBServerList *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port);
+int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist);
+int IncomingListParseServer(SBServerList *slist, char *buf, int len);
 void SBServerListSetLastError(SBServerList *slist, char *lastError);
-SBError func_021A0A24(SBServerList *slist);
-int func_021A0E30(SBServerList *slist, char *buf, int len);
-int func_021A0F0C(SBServerList *slist, char *buf, int len);
-int func_021A10D4(SBServerList *slist, char *buf, int len);
-SBError func_021A1254(SBServerList *slist, char *buf, int len);
-int func_021A12DC(SBServerList *slist, char *buf, int len);
-int func_021A13D0(SBServerList *slist);
-int func_021A153C(SBServerList *slist);
-int func_021A1620(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len);
-int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie);
-int func_021A1804(SBServerList *slist);
-int func_021A1928(int *p);
-extern struct G_021AEB04 g_021AEB04;
-extern char g_021A8230[];
+SBError ProcessMainListData(SBServerList *slist);
+int ProcessPushKeyList(SBServerList *slist, char *buf, int len);
+int ProcessPlayerSearch(SBServerList *slist, char *buf, int len);
+int ProcessMaploop(SBServerList *slist, char *buf, int len);
+SBError ProcessDeleteServer(SBServerList *slist, char *buf, int len);
+int ProcessPushServer(SBServerList *slist, char *buf, int len);
+int ProcessAdHocData(SBServerList *slist);
+int ProcessIncomingData(SBServerList *slist);
+int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len);
+int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
+int ProcessLanData(SBServerList *slist);
+int SBListThink(int *slist);
+extern struct SBSortContext gSBSortContext;
+extern char gSBEmptyString[];
 extern int gGsAvailabilityState;
-extern char *g_021A821C;
-extern SBServer *g_021AEB00;
+extern char *gSBMasterHostname;
+extern SBServer *gSBNullServer;
 extern unsigned char __lower_mapC[];
-extern char g_021A8234[];
-extern char g_021A8250[];
+extern char gSBMasterHostFormat[];
+extern char gSBNatNegMagic[];
 
 
 
@@ -321,20 +321,20 @@ extern char g_021A8250[];
  * _d2f (0x0209B64C) is a recorded MSL runtime row (layout/runtime_arm9.txt), matched in
  * src/matched/arm9/d2f.c, so its call sites are attested.
  */
-int func_0219F0E0(SBServer *server1, SBServer *server2)
+int prevKeyCompare(SBServer *server1, SBServer *server2)
 {
     char *prevsortkey;
     int diff;
     double f;
 
-    prevsortkey = g_021AEB04.slist->prevsortinfo.sortkey;
-    switch (g_021AEB04.slist->prevsortinfo.comparemode) {
+    prevsortkey = gSBSortContext.slist->prevsortinfo.sortkey;
+    switch (gSBSortContext.slist->prevsortinfo.comparemode) {
     case 0:
         diff = func_0219E120(server1, prevsortkey, 0) - func_0219E120(server2, prevsortkey, 0);
         break;
     case 1:
         f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
-        if (!g_021AEB04.slist->sortascending)
+        if (!gSBSortContext.slist->sortascending)
             f = 0 - f;
         if ((float)f > 0)
             return 1;
@@ -342,15 +342,15 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = func_020948E0(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)g_021A8230), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)g_021A8230));
+        diff = func_020948E0(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     case 3:
-        diff = func_0209ABF8(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)g_021A8230), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)g_021A8230));
+        diff = strcmp_nocase(func_0219E0C0((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), func_0219E0C0((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     default:
         return 0;
     }
-    if (!g_021AEB04.slist->sortascending)
+    if (!gSBSortContext.slist->sortascending)
         diff = -diff;
     return diff;
 }
@@ -364,7 +364,7 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
 /*
  * sdk:      IntKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F288(void *entry1, void *entry2)
+int IntKeyCompare(void *entry1, void *entry2)
 {
 	char *currsortkey;
 	int diff;
@@ -372,11 +372,11 @@ int func_0219F288(void *entry1, void *entry2)
 	void *server2;
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
-	currsortkey = g_021AEB04.slist->currsortinfo.sortkey;
+	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 	diff = func_0219E120(server1, currsortkey, 0) - func_0219E120(server2, currsortkey, 0);
 	if (diff == 0)
-		return func_0219F0E0(server1, server2);
-	if (g_021AEB04.slist->sortascending == 0)
+		return prevKeyCompare(server1, server2);
+	if (gSBSortContext.slist->sortascending == 0)
 		diff = -diff;
 	return diff;
 }
@@ -394,17 +394,17 @@ int func_0219F288(void *entry1, void *entry2)
  * _d2f (0x0209B64C) is a recorded MSL runtime row (layout/runtime_arm9.txt), matched in
  * src/matched/arm9/d2f.c, so its call sites are attested.
  */
-int func_0219F2F8(void *entry1, void *entry2)
+int FloatKeyCompare(void *entry1, void *entry2)
 {
     SBServer *server1 = *(SBServer **)entry1;
     SBServer *server2 = *(SBServer **)entry2;
     double f;
-    char *currsortkey = g_021AEB04.slist->currsortinfo.sortkey;
+    char *currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 
     f = func_0219E1B8(server1, currsortkey, 0) - func_0219E1B8(server2, currsortkey, 0);
     if (!((float)f > 0 || (float)f < 0))
-        return func_0219F0E0(server1, server2);
-    if (!g_021AEB04.slist->sortascending)
+        return prevKeyCompare(server1, server2);
+    if (!gSBSortContext.slist->sortascending)
         f = 0 - f;
     if ((float)f > 0)
         return 1;
@@ -422,7 +422,7 @@ int func_0219F2F8(void *entry1, void *entry2)
 /*
  * sdk:      StrCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F40C(void *entry1, void *entry2)
+int StrCaseKeyCompare(void *entry1, void *entry2)
 {
 	char *currsortkey;
 	int diff;
@@ -430,11 +430,11 @@ int func_0219F40C(void *entry1, void *entry2)
 	void *server2;
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
-	currsortkey = g_021AEB04.slist->currsortinfo.sortkey;
-	diff = func_020948E0(func_0219E0C0(server1, currsortkey, (char *)g_021A8230), func_0219E0C0(server2, currsortkey, (char *)g_021A8230));
+	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
+	diff = func_020948E0(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
-		return func_0219F0E0(server1, server2);
-	if (g_021AEB04.slist->sortascending == 0)
+		return prevKeyCompare(server1, server2);
+	if (gSBSortContext.slist->sortascending == 0)
 		diff = -diff;
 	return diff;
 }
@@ -448,7 +448,7 @@ int func_0219F40C(void *entry1, void *entry2)
 /*
  * sdk:      StrNoCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F48C(void *entry1, void *entry2)
+int StrNoCaseKeyCompare(void *entry1, void *entry2)
 {
 	char *currsortkey;
 	int diff;
@@ -456,11 +456,11 @@ int func_0219F48C(void *entry1, void *entry2)
 	void *server2;
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
-	currsortkey = g_021AEB04.slist->currsortinfo.sortkey;
-	diff = func_0209ABF8(func_0219E0C0(server1, currsortkey, (char *)g_021A8230), func_0219E0C0(server2, currsortkey, (char *)g_021A8230));
+	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
+	diff = strcmp_nocase(func_0219E0C0(server1, currsortkey, (char *)gSBEmptyString), func_0219E0C0(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
-		return func_0219F0E0(server1, server2);
-	if (g_021AEB04.slist->sortascending == 0)
+		return prevKeyCompare(server1, server2);
+	if (gSBSortContext.slist->sortascending == 0)
 		diff = -diff;
 	return diff;
 }
@@ -475,25 +475,25 @@ int func_0219F48C(void *entry1, void *entry2)
 /*
  * sdk:      SBServerListSort (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
-void func_0219F50C(SBServerList *slist, int ascending, SBSortInfo sortinfo)
+void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
 {
     int (*comparator)(void *, void *);
 
     switch (sortinfo.comparemode) {
     case 0:
-        comparator = func_0219F288;
+        comparator = IntKeyCompare;
         break;
     case 1:
-        comparator = func_0219F2F8;
+        comparator = FloatKeyCompare;
         break;
     case 2:
-        comparator = func_0219F40C;
+        comparator = StrCaseKeyCompare;
         break;
     case 3:
-        comparator = func_0219F48C;
+        comparator = StrNoCaseKeyCompare;
         break;
     default:
-        comparator = func_0219F48C;
+        comparator = StrNoCaseKeyCompare;
         break;
     }
     if (strlen(slist->prevsortinfo.sortkey) == 0) {
@@ -503,7 +503,7 @@ void func_0219F50C(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     }
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
-    g_021AEB04.slist = slist;
+    gSBSortContext.slist = slist;
     func_021843C8(slist->servers, (int)comparator);
 }
 
@@ -517,7 +517,7 @@ void func_0219F50C(SBServerList *slist, int ascending, SBSortInfo sortinfo)
 /*
  * sdk:      SBServerListAppendServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F638(SBServerList *slist, SBServer *server)
+void SBServerListAppendServer(SBServerList *slist, SBServer *server)
 {
     func_02184234(slist->servers, &server);
     slist->ListCallback(slist, 0, server, slist->instance);
@@ -532,7 +532,7 @@ void func_0219F638(SBServerList *slist, SBServer *server)
 /*
  * sdk:      SBServerListFindServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F674(SBServerList *slist, void *findserver)
+int SBServerListFindServer(SBServerList *slist, void *findserver)
 {
 	int numservers, i;
 	numservers = func_02184200(slist->servers);
@@ -551,7 +551,7 @@ int func_0219F674(SBServerList *slist, void *findserver)
 /*
  * sdk:      SBServerListFindServerByIP (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port)
+int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned short port)
 {
 	int numservers;
 	void *server;
@@ -575,7 +575,7 @@ int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port)
 /*
  * sdk:      AddServerToDeadlist (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F738(SBServerList *slist, SBServer *server)
+void AddServerToDeadlist(SBServerList *slist, SBServer *server)
 {
     if (slist->deadlist == 0)
         SBServerSetNext((int *)server, 0);
@@ -592,13 +592,13 @@ void func_0219F738(SBServerList *slist, SBServer *server)
 /*
  * sdk:      SBServerListRemoveAt (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F768(SBServerList *slist, int index)
+void SBServerListRemoveAt(SBServerList *slist, int index)
 {
 	SBServer *server;
 	server = *(SBServer **)func_02184208(slist->servers, index);
 	slist->ListCallback(slist, 2, server, slist->instance);
 	func_0218437C((int)slist->servers, index);
-	func_0219F738((SBServerList *)slist, (SBServer *)server);
+	AddServerToDeadlist((SBServerList *)slist, (SBServer *)server);
 }
 
 
@@ -620,7 +620,7 @@ void SBServerListCount(void *list)
 /*
  * Returns the server at the given index of the list.
  */
-SBServer *func_0219F7C4(SBServerList *slist, int index)
+SBServer *SBServerListNth(SBServerList *slist, int index)
 {
     return *(SBServer **)func_02184208(slist->servers, index);
 }
@@ -632,7 +632,7 @@ SBServer *func_0219F7C4(SBServerList *slist, int index)
 /*
  * sdk:      SBFreeDeadList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F7D8(SBServerList *slist)
+void SBFreeDeadList(SBServerList *slist)
 {
 	void *next;
 	void *server;
@@ -653,15 +653,15 @@ void func_0219F7D8(SBServerList *slist)
 /*
  * sdk:      SBServerListClear (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F830(SBServerList *slist)
+void SBServerListClear(SBServerList *slist)
 {
 	int i;
 	int nservers;
 	nservers = func_02184200(slist->servers);
 	for (i = 0; i < nservers; i++)
-		func_0219F738((SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
+		AddServerToDeadlist((SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
 	func_0218452C(slist->servers);
-	func_0219F7D8(slist);
+	SBFreeDeadList(slist);
 }
 
 
@@ -672,7 +672,7 @@ void func_0219F830(SBServerList *slist)
 /*
  * sdk:      SBAllocateServerList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F888(SBServerList *slist)
+void SBAllocateServerList(SBServerList *slist)
 {
     slist->servers = func_02184144(4, 100, 0);
     slist->deadlist = 0;
@@ -685,7 +685,7 @@ void func_0219F888(SBServerList *slist)
 /*
  * sdk:      SBRefStr (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-char *func_0219F8B0(void *slist, char *str)
+char *SBRefStr(void *slist, char *str)
 {
 	struct Ref ref;
 	struct Ref *val;
@@ -708,7 +708,7 @@ char *func_0219F8B0(void *slist, char *str)
 /*
  * sdk:      SBReleaseStr (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219F920(void *slist, char *str)
+void SBReleaseStr(void *slist, char *str)
 {
 	struct Ref ref;
 	struct Ref *val;
@@ -727,7 +727,7 @@ void func_0219F920(void *slist, char *str)
 /*
  * sdk:      NTSLengthSB (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219F978(const char *buf, int len)
+int NTSLengthSB(const char *buf, int len)
 {
     int i;
 
@@ -746,14 +746,14 @@ int func_0219F978(const char *buf, int len)
 /*
  * sdk:      SBServerListInit (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
-void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                    int queryFromVersion, int lanBrowse, SBListCB callback,
                    void *instance)
 {
     if (!lanBrowse && gGsAvailabilityState != 1)
         return;
     slist->state = 1;
-    func_0219F888(slist);
+    SBAllocateServerList(slist);
     func_0219DF64(slist);
     func_021803BC(slist->queryforgamename, queryForGamename, 36);
     func_021803BC(slist->queryfromgamename, queryFromGamename, 36);
@@ -770,9 +770,9 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
     slist->slsocket = -1;
     slist->expectedelements = -1;
     slist->fromgamever = queryFromVersion;
-    slist->currsortinfo.sortkey[0] = *(volatile unsigned char *)g_021A8230;
-    slist->prevsortinfo.sortkey[0] = *(volatile unsigned char *)g_021A8230;
-    SBServerListSetLastError(slist, g_021A8230);
+    slist->currsortinfo.sortkey[0] = *(volatile unsigned char *)gSBEmptyString;
+    slist->prevsortinfo.sortkey[0] = *(volatile unsigned char *)gSBEmptyString;
+    SBServerListSetLastError(slist, gSBEmptyString);
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
     func_020946C8(func_0217F264());
@@ -786,20 +786,20 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
 /*
  * sdk:      ErrorDisconnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FAAC(SBServerList *slist)
+void ErrorDisconnect(SBServerList *slist)
 {
 	int len = slist->inbufferlen;
 	char *q;
-	if (len > 0 && len > (unsigned int)func_0209477C((const u8 *)(q = g_021A821C))) {
-		char *e = g_021A821C;
+	if (len > 0 && len > (unsigned int)func_0209477C((const u8 *)(q = gSBMasterHostname))) {
+		char *e = gSBMasterHostname;
 		char *s = (char *)slist->inbuffer;
 		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
 			SBServerListSetLastError(slist, s + func_0209477C((const u8 *)q));
-			slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
+			slist->ListCallback(slist, 5, gSBNullServer, slist->instance);
 		}
 	}
-	slist->ListCallback(slist, 4, g_021AEB00, slist->instance);
-	func_021A02E0(slist);
+	slist->ListCallback(slist, 4, gSBNullServer, slist->instance);
+	SBServerListDisconnect(slist);
 }
 
 
@@ -829,7 +829,7 @@ static int StringHash(char *s, int numbuckets)
 /*
  * sdk:      ServerListConnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219FBB8(SBServerList *slist)
+int ServerListConnect(SBServerList *slist)
 {
     SOCSockAddrIn saddr;
     SOCHostEnt *hent;
@@ -837,10 +837,10 @@ int func_0219FBB8(SBServerList *slist)
     int masterIndex;
 
     masterIndex = func_0219FB64(slist->queryforgamename, 20);
-    if ((*(char * *)&g_021AEB04))
-        func_021803BC(masterHostname, (*(char * *)&g_021AEB04), 128);
+    if ((*(char * *)&gSBSortContext))
+        func_021803BC(masterHostname, (*(char * *)&gSBSortContext), 128);
     else
-        OS_SPrintf(masterHostname, g_021A8234, slist->queryforgamename, masterIndex);
+        OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->queryforgamename, masterIndex);
     saddr.family = 2;
     saddr.port = 0xEE70;
     saddr.addr = func_0217ED38(masterHostname);
@@ -871,11 +871,11 @@ int func_0219FBB8(SBServerList *slist)
 /*
  * sdk:      BufferAddNTS (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FCF0(char **buffer, char *str, int *len)
+void BufferAddNTS(char **buffer, char *str, int *len)
 {
 	int slen;
 	if (!str)
-		str = g_021A8230;
+		str = gSBEmptyString;
 	slen = func_0209477C((const u8 *)str) + 1;
 	func_02092344(*buffer, str, slen);
 	*len += slen;
@@ -891,11 +891,11 @@ void func_0219FCF0(char **buffer, char *str, int *len)
 /*
  * Stores a byte through the pointer in *p, then advances the pointer and the counter.
  */
-void func_0219FD40(char **p, unsigned char v, int *n)
+void BufferAddByte(char **buffer, unsigned char value, int *len)
 {
-    **p = v;
-    (*n)++;
-    (*p)++;
+    **buffer = value;
+    (*len)++;
+    (*buffer)++;
 }
 
 
@@ -907,7 +907,7 @@ void func_0219FD40(char **p, unsigned char v, int *n)
 /*
  * sdk:      BufferAddInt (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FD64(char **buffer, int ival, int *len)
+void BufferAddInt(char **buffer, int ival, int *len)
 {
 	char *d = *buffer;
 	unsigned char *src = (unsigned char *)&ival;
@@ -925,7 +925,7 @@ void func_0219FD64(char **buffer, int ival, int *len)
 /*
  * sdk:      BufferAddIntLE (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FDB8(char **buffer, int ival, int *len)
+void BufferAddIntLE(char **buffer, int ival, int *len)
 {
 	unsigned int ivalNBO;
 	unsigned int ivalBE = 0;
@@ -934,7 +934,7 @@ void func_0219FDB8(char **buffer, int ival, int *len)
 	ivalBE |= (ivalNBO & 0xff00) << 8;
 	ivalBE |= (ivalNBO & 0xff0000) >> 8;
 	ivalBE |= (ivalNBO & 0xff000000) >> 24;
-	func_0219FD64(buffer, ivalBE, len);
+	BufferAddInt(buffer, ivalBE, len);
 }
 
 
@@ -946,7 +946,7 @@ void func_0219FDB8(char **buffer, int ival, int *len)
 /*
  * sdk:      BufferAddData (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FE10(char **buffer, char *data, int dlen, int *len)
+void BufferAddData(char **buffer, char *data, int dlen, int *len)
 {
     unit_02092344(*buffer, data, dlen);
     *len += dlen;
@@ -962,7 +962,7 @@ void func_0219FE10(char **buffer, char *data, int dlen, int *len)
 /*
  * sdk:      SetupListChallenge (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_0219FE44(SBServerList *slist)
+void SetupListChallenge(SBServerList *slist)
 {
 	int i;
 	int oddmode;
@@ -985,7 +985,7 @@ void func_0219FE44(SBServerList *slist)
 /*
  * sdk:      SendWithRetry (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_0219FF30(SBServerList *slist, char *data, int len)
+int SendWithRetry(SBServerList *slist, char *data, int len)
 {
 	int err;
 	int ret;
@@ -996,10 +996,10 @@ int func_0219FF30(SBServerList *slist, char *data, int len)
 		ret = func_0217EC90(slist->slsocket, data, len, 0);
 		if (ret > 0 || retryCount < 0 || slist->inbufferlen > 0)
 			break;
-		func_021A02E0(slist);
-		err = func_0219FFD4((SBServerList *)slist, 0, 0, 2, 0);
+		SBServerListDisconnect(slist);
+		err = SBServerListConnectAndQuery((SBServerList *)slist, 0, 0, 2, 0);
 		if (err != 0) {
-			func_0219FAAC(slist);
+			ErrorDisconnect(slist);
 			return err;
 		}
 	} while (retryCount >= 0);
@@ -1018,7 +1018,7 @@ int func_0219FF30(SBServerList *slist, char *data, int len)
 
 
 
-SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
+SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
 {
     SBError err;
     int ret;
@@ -1028,39 +1028,39 @@ SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, 
     char outgoingRequest[1023];
 
     if (fieldList == 0)
-        fieldList = g_021A8230;
+        fieldList = gSBEmptyString;
     if (serverFilter == 0)
-        serverFilter = g_021A8230;
+        serverFilter = gSBEmptyString;
     if (strlen(fieldList) > 256)
         return sbe_paramerror;
     if (strlen(serverFilter) > 511)
         return sbe_paramerror;
-    err = func_0219FBB8(slist);
+    err = ServerListConnect(slist);
     if (err != sbe_noerror)
         return err;
     slist->queryoptions = options;
-    func_0219FE44(slist);
+    SetupListChallenge(slist);
     requestLen = 2;
     requestBuf = outgoingRequest + 2;
-    func_0219FD40(&requestBuf, 0, &requestLen);
-    func_0219FD40(&requestBuf, 1, &requestLen);
-    func_0219FD40(&requestBuf, 3, &requestLen);
-    func_0219FDB8(&requestBuf, slist->fromgamever, &requestLen);
-    func_0219FCF0(&requestBuf, slist->queryforgamename, &requestLen);
-    func_0219FCF0(&requestBuf, slist->queryfromgamename, &requestLen);
-    func_0219FE10(&requestBuf, slist->mychallenge, 8, &requestLen);
-    func_0219FCF0(&requestBuf, serverFilter, &requestLen);
-    func_0219FCF0(&requestBuf, fieldList, &requestLen);
-    func_0219FD64(&requestBuf, SWAP32((unsigned int)options), &requestLen);
+    BufferAddByte(&requestBuf, 0, &requestLen);
+    BufferAddByte(&requestBuf, 1, &requestLen);
+    BufferAddByte(&requestBuf, 3, &requestLen);
+    BufferAddIntLE(&requestBuf, slist->fromgamever, &requestLen);
+    BufferAddNTS(&requestBuf, slist->queryforgamename, &requestLen);
+    BufferAddNTS(&requestBuf, slist->queryfromgamename, &requestLen);
+    BufferAddData(&requestBuf, slist->mychallenge, 8, &requestLen);
+    BufferAddNTS(&requestBuf, serverFilter, &requestLen);
+    BufferAddNTS(&requestBuf, fieldList, &requestLen);
+    BufferAddInt(&requestBuf, SWAP32((unsigned int)options), &requestLen);
     if (slist->queryoptions & 8)
-        func_0219FD64(&requestBuf, slist->srcip, &requestLen);
+        BufferAddInt(&requestBuf, slist->srcip, &requestLen);
     if (slist->queryoptions & 0x80)
-        func_0219FDB8(&requestBuf, maxServers, &requestLen);
+        BufferAddIntLE(&requestBuf, maxServers, &requestLen);
     netLen = SWAP16((unsigned short)requestLen);
     memcpy(outgoingRequest, &netLen, 2);
     ret = func_0217EC90(slist->slsocket, outgoingRequest, requestLen, 0);
     if (ret <= 0) {
-        func_021A02E0(slist);
+        SBServerListDisconnect(slist);
         return sbe_connecterror;
     }
     slist->state = 3;
@@ -1084,12 +1084,12 @@ SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, 
 /*
  * sdk:      FreePopularValues (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A0238(char *slist)
+void FreePopularValues(char *list)
 {
 	int i;
-	for (i = 0; i < *(int *)(slist + 0x480); i++)
-		func_0219F920(slist, *(char **)(slist + 0x84 + i * 4));
-	*(int *)(slist + 0x480) = 0;
+	for (i = 0; i < *(int *)(list + 0x480); i++)
+		SBReleaseStr(list, *(char **)(list + 0x84 + i * 4));
+	*(int *)(list + 0x480) = 0;
 }
 
 
@@ -1101,13 +1101,13 @@ void func_021A0238(char *slist)
 /*
  * sdk:      FreeKeyList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A027C(SBServerList *slist)
+void FreeKeyList(SBServerList *slist)
 {
 	int i;
 	if (slist->keylist == 0)
 		return;
 	for (i = 0; i < func_02184200(slist->keylist); i++)
-		func_0219F920(slist, *(char **)func_02184208(slist->keylist, i));
+		SBReleaseStr(slist, *(char **)func_02184208(slist->keylist, i));
 	func_021841B0(slist->keylist);
 	slist->keylist = 0;
 }
@@ -1120,7 +1120,7 @@ void func_021A027C(SBServerList *slist)
 /*
  * sdk:      SBServerListDisconnect (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A02E0(SBServerList *slist)
+void SBServerListDisconnect(SBServerList *slist)
 {
 	if (slist->inbuffer != 0)
 		func_0217EAE0(slist->inbuffer);
@@ -1130,9 +1130,9 @@ void func_021A02E0(SBServerList *slist)
 		func_0217EB2C(slist->slsocket);
 	slist->slsocket = -1;
 	slist->state = 1;
-	func_021A027C(slist);
+	FreeKeyList(slist);
 	slist->expectedelements = -1;
-	func_021A0238((char *)slist);
+	FreePopularValues((char *)slist);
 }
 
 
@@ -1144,10 +1144,10 @@ void func_021A02E0(SBServerList *slist)
 /*
  * sdk:      SBServerListCleanup (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A0340(SBServerList *slist)
+void SBServerListCleanup(SBServerList *slist)
 {
-    func_021A02E0((SBServerList *)slist);
-    func_0219F830((SBServerList *)slist);
+    SBServerListDisconnect((SBServerList *)slist);
+    SBServerListClear((SBServerList *)slist);
     func_0219DFC0(slist);
     if (slist->servers != 0)
         func_021841B0(slist->servers);
@@ -1162,7 +1162,7 @@ void func_021A0340(SBServerList *slist)
 /*
  * sdk:      InitCryptKey (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A0378(SBServerList *slist, char *key, int keylen)
+void InitCryptKey(SBServerList *slist, char *key, int keylen)
 {
 	int i;
 	int seckeylen;
@@ -1182,14 +1182,14 @@ void func_021A0378(SBServerList *slist, char *key, int keylen)
 /*
  * Maps the flag bits 2, 8, 0x10 and 0x20 to a size code starting at 5.
  */
-int func_021A0414(int f)
+int ServerSizeForFlags(int flags)
 {
     int n = 5;
 
-    if (f & 2) n += 4;
-    if (f & 8) n += 4;
-    if (f & 0x10) n += 2;
-    if (f & 0x20) n += 2;
+    if (flags & 2) n += 4;
+    if (flags & 8) n += 4;
+    if (flags & 0x10) n += 2;
+    if (flags & 0x20) n += 2;
     return n;
 }
 
@@ -1200,32 +1200,32 @@ int func_021A0414(int f)
 
 
 /*
- * Walk a length-bounded string, two decode steps per turn: func_0219F978
+ * Walk a length-bounded string, two decode steps per turn: NTSLengthSB
  * reports how many bytes one unit occupies and a negative answer is a hard
  * failure (0).  Each successful step consumes that many bytes from the
  * pointer and the remaining count, in the order the image shows (the count
  * first on the first step, the pointer first on the second).  Leaving with
  * the count exhausted answers 0, leaving on a terminator answers 1.
  */
-int func_021A0440(const char *p, int n)
+int FullRulesPresent(const char *buf, int len)
 {
-    int k;
+    int consumed;
 
-    while (n > 0 && *p != 0) {
-        k = func_0219F978(p, n);
-        if (k < 0)
+    while (len > 0 && *buf != 0) {
+        consumed = NTSLengthSB(buf, len);
+        if (consumed < 0)
             return 0;
-        n -= k;
-        p += k;
-        k = func_0219F978(p, n);
-        if (k < 0)
+        len -= consumed;
+        buf += consumed;
+        consumed = NTSLengthSB(buf, len);
+        if (consumed < 0)
             return 0;
-        p += k;
-        n -= k;
+        buf += consumed;
+        len -= consumed;
     }
-    if (n == 0)
+    if (len == 0)
         return 0;
-    return *p == 0;
+    return *buf == 0;
 }
 
 
@@ -1237,14 +1237,14 @@ int func_021A0440(const char *p, int n)
 /*
  * sdk:      AllKeysPresent (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A04C4(SBServerList *slist, char *buf, int len)
+int AllKeysPresent(SBServerList *slist, char *buf, int len)
 {
 	int numkeys;
 	int i;
 	int strindex;
 	numkeys = func_02184200(slist->keylist);
 	for (i = 0; i < numkeys; i++) {
-		switch (((struct KeyEnt *)func_02184208(slist->keylist, i))->type) {
+		switch (((struct KeyEnt *)func_02184208(slist->keylist, i))->keyType) {
 		case 1:
 			buf += 1;
 			len -= 1;
@@ -1258,7 +1258,7 @@ int func_021A04C4(SBServerList *slist, char *buf, int len)
 				return 0;
 			if (*(unsigned char *)buf++ == 0xff) {
 				len--;
-				strindex = func_0219F978(buf, len);
+				strindex = NTSLengthSB(buf, len);
 				if (strindex == -1)
 					return 0;
 				buf += strindex;
@@ -1283,7 +1283,7 @@ int func_021A04C4(SBServerList *slist, char *buf, int len)
 /*
  * sdk:      ParseServerIPPort (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-void func_021A059C(SBServerList *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port)
+void ParseServerIPPort(SBServerList *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port)
 {
 	unsigned char flags;
 	if (len < 5)
@@ -1313,7 +1313,7 @@ void func_021A059C(SBServerList *slist, unsigned char *buf, int len, unsigned in
  * The object calls strlen once per string skip and applies the result to buf and
  * len; ADVANCE spells that with a block-scoped temporary.
  */
-int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist)
+int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist)
 {
     int numkeys;
     int i;
@@ -1410,7 +1410,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
 /*
  * sdk:      IncomingListParseServer (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
-int func_021A08E8(SBServerList *slist, char *buf, int len)
+int IncomingListParseServer(SBServerList *slist, char *buf, int len)
 {
     SBServer *server;
     unsigned short port;
@@ -1422,25 +1422,25 @@ int func_021A08E8(SBServerList *slist, char *buf, int len)
     if (len < 1)
         return 0;
     flags = buf[0];
-    i = func_021A0414(flags);
+    i = ServerSizeForFlags(flags);
     if (len < i)
         return 0;
     if (flags & 0x40) {
-        if (!func_021A04C4((SBServerList *)slist, buf + i, len - i))
+        if (!AllKeysPresent((SBServerList *)slist, buf + i, len - i))
             return 0;
     }
     if (flags & 0x80) {
-        if (!func_021A0440(buf + i, len - i))
+        if (!FullRulesPresent(buf + i, len - i))
             return 0;
     }
-    if (!memcmp(buf + 1, g_021A8250, 4))
+    if (!memcmp(buf + 1, gSBNatNegMagic, 4))
         return -1;
-    func_021A059C((SBServerList *)slist, (unsigned char *)buf, len, &ip, &port);
+    ParseServerIPPort((SBServerList *)slist, (unsigned char *)buf, len, &ip, &port);
     server = func_0219E900((int)slist, ip, port);
     if (func_0219E9D8((int)server))
         return -2;
-    ret = func_021A060C(slist, server, buf, len, 1);
-    func_0219F638(slist, server);
+    ret = ParseServer(slist, server, buf, len, 1);
+    SBServerListAppendServer(slist, server);
     return ret;
 }
 
@@ -1460,7 +1460,7 @@ void SBServerListSetLastError(SBServerList *slist, char *lastError)
  *
  * The object is stamped 4.0.0.1025; built with dsi/1.1p1.
  */
-SBError func_021A0A24(SBServerList *slist)
+SBError ProcessMainListData(SBServerList *slist)
 {
     int reqlen;
     int keyoffset;
@@ -1480,7 +1480,7 @@ SBError func_021A0A24(SBServerList *slist)
         reqlen = keyoffset + keylen;
         if (inlen < reqlen)
             break;
-        func_021A0378(slist, inbuf + keyoffset, keylen);
+        InitCryptKey(slist, inbuf + keyoffset, keylen);
         slist->pstate = 1;
         memcpy(&slist->backendgameflags, inbuf + 1, 2);
         slist->backendgameflags = NTOHS(slist->backendgameflags);
@@ -1491,14 +1491,14 @@ SBError func_021A0A24(SBServerList *slist)
         if (inlen < 6)
             break;
         memcpy(&slist->mypublicip, inbuf, 4);
-        slist->ListCallback(slist, 6, g_021AEB00, slist->instance);
+        slist->ListCallback(slist, 6, gSBNullServer, slist->instance);
         memcpy(&slist->defaultport, inbuf + 4, 2);
         if (slist->defaultport == 0xFFFF) {
-            int keylen = func_0219F978(inbuf + 6, inlen - 6);
+            int keylen = NTSLengthSB(inbuf + 6, inlen - 6);
             if (keylen == -1)
                 break;
             SBServerListSetLastError(slist, inbuf + 6);
-            slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
+            slist->ListCallback(slist, 5, gSBNullServer, slist->instance);
             if (slist->inbuffer == NULL)
                 break;
         }
@@ -1526,11 +1526,11 @@ SBError func_021A0A24(SBServerList *slist)
             int keylen;
             if (inlen < 2)
                 break;
-            keylen = func_0219F978(inbuf + 1, inlen - 1);
+            keylen = NTSLengthSB(inbuf + 1, inlen - 1);
             if (keylen == -1)
                 break;
             ki.keyType = (unsigned char)*inbuf;
-            ki.keyName = func_0219F8B0(slist, inbuf + 1);
+            ki.keyName = SBRefStr(slist, inbuf + 1);
             func_02184234(slist->keylist, &ki);
             inbuf += keylen + 1;
             inlen -= keylen + 1;
@@ -1549,10 +1549,10 @@ SBError func_021A0A24(SBServerList *slist)
             slist->numpopularvalues = 0;
         }
         while (slist->expectedelements > slist->numpopularvalues) {
-            int keylen = func_0219F978(inbuf, inlen);
+            int keylen = NTSLengthSB(inbuf, inlen);
             if (keylen == -1)
                 break;
-            slist->popularvalues[slist->numpopularvalues++] = func_0219F8B0(slist, inbuf);
+            slist->popularvalues[slist->numpopularvalues++] = SBRefStr(slist, inbuf);
             inbuf += keylen;
             inlen -= keylen;
         }
@@ -1563,7 +1563,7 @@ SBError func_021A0A24(SBServerList *slist)
         if (inlen < 5)
             break;
         do {
-            keylen = func_021A08E8(slist, inbuf, inlen);
+            keylen = IncomingListParseServer(slist, inbuf, inlen);
             if (keylen == -2)
                 return sbe_allocerror;
             if (keylen == -1) {
@@ -1571,7 +1571,7 @@ SBError func_021A0A24(SBServerList *slist)
                 slist->pstate = 5;
                 inlen -= 5;
                 inbuf += 5;
-                slist->ListCallback(slist, 3, g_021AEB00, slist->instance);
+                slist->ListCallback(slist, 3, gSBNullServer, slist->instance);
                 break;
             }
             inbuf += keylen;
@@ -1598,7 +1598,7 @@ SBError func_021A0A24(SBServerList *slist)
 /*
  * sdk:      ProcessPushKeyList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A0E30(SBServerList *slist, char *buf, int len)
+int ProcessPushKeyList(SBServerList *slist, char *buf, int len)
 {
 	int i;
 	int numkeys;
@@ -1607,18 +1607,18 @@ int func_021A0E30(SBServerList *slist, char *buf, int len)
 	numkeys = (unsigned char)*buf++;
 	len--;
 	if (slist->keylist != 0)
-		func_021A027C(slist);
+		FreeKeyList(slist);
 	slist->keylist = func_02184144(8, numkeys, 0);
 	if (slist->keylist == 0)
 		return 5;
 	for (i = 0; i < numkeys; i++) {
 		if (len < 2)
 			return 4;
-		keylen = func_0219F978(buf + 1, len - 1);
+		keylen = NTSLengthSB(buf + 1, len - 1);
 		if (keylen == -1)
 			return 4;
 		ki.keyType = (unsigned char)buf[0];
-		ki.keyName = func_0219F8B0(slist, buf + 1);
+		ki.keyName = SBRefStr(slist, buf + 1);
 		func_02184234(slist->keylist, &ki);
 		buf += keylen + 1;
 		len -= keylen + 1;
@@ -1634,7 +1634,7 @@ int func_021A0E30(SBServerList *slist, char *buf, int len)
 /*
  * sdk:      ProcessPlayerSearch (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A0F0C(SBServerList *slist, char *buf, int len)
+int ProcessPlayerSearch(SBServerList *slist, char *buf, int len)
 {
     unsigned char isFinal;
     unsigned char resultCount;
@@ -1653,7 +1653,7 @@ int func_021A0F0C(SBServerList *slist, char *buf, int len)
     len -= 2;
     for (i = 0; i < resultCount; i++) {
         nick = buf;
-        slen = func_0219F978(buf, len);
+        slen = NTSLengthSB(buf, len);
         if (slen == -1)
             return 4;
         buf += slen;
@@ -1666,7 +1666,7 @@ int func_021A0F0C(SBServerList *slist, char *buf, int len)
         lastSeen = SWAP32((unsigned int)lastSeen);
         buf += 10;
         len -= 10;
-        slen = func_0219F978(buf, len);
+        slen = NTSLengthSB(buf, len);
         if (slen == -1)
             return 4;
         slist->PlayerSearchCallback(slist, nick, ip, port, lastSeen, buf, slist->instance);
@@ -1686,7 +1686,7 @@ int func_021A0F0C(SBServerList *slist, char *buf, int len)
 /*
  * sdk:      ProcessMaploop (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A10D4(SBServerList *slist, char *buf, int len)
+int ProcessMaploop(SBServerList *slist, char *buf, int len)
 {
     long changeTime;
     u32 ip;
@@ -1701,10 +1701,10 @@ int func_021A10D4(SBServerList *slist, char *buf, int len)
         return 4;
     memcpy(&ip, buf, 4);
     memcpy(&port, &buf[4], 2);
-    i = func_0219F6C8(slist, ip, port);
+    i = SBServerListFindServerByIP(slist, ip, port);
     if (i == -1)
         return 0;
-    server = func_0219F7C4(slist, i);
+    server = SBServerListNth(slist, i);
     memcpy(&changeTime, &buf[6], 4);
     changeTime = (((u32)changeTime >> 24) & 0xFF) | (((u32)changeTime >> 8) & 0xFF00) | (((u32)changeTime << 8) & 0xFF0000) | (((u32)changeTime << 24) & 0xFF000000);
     mapCount = buf[10];
@@ -1713,7 +1713,7 @@ int func_021A10D4(SBServerList *slist, char *buf, int len)
     for (i = 0; i < mapCount && i < 16; i++) {
         if (len < 1)
             break;
-        maplen = func_0219F978(buf, len);
+        maplen = NTSLengthSB(buf, len);
         if (maplen == -1)
             return 4;
         mapList[i] = buf;
@@ -1740,7 +1740,7 @@ int func_021A10D4(SBServerList *slist, char *buf, int len)
  * first) and gives the object's registers.  Byte-pointer copies landed the
  * pointer and value temps in swapped registers.
  */
-SBError func_021A1254(SBServerList *slist, char *buf, int len)
+SBError ProcessDeleteServer(SBServerList *slist, char *buf, int len)
 {
     int i;
     unsigned short port;
@@ -1750,10 +1750,10 @@ SBError func_021A1254(SBServerList *slist, char *buf, int len)
         return sbe_dataerror;
     memcpy(&ip, buf, 4);
     memcpy(&port, buf + 4, 2);
-    i = func_0219F6C8(slist, ip, port);
+    i = SBServerListFindServerByIP(slist, ip, port);
     if (i == -1)
         return sbe_noerror;
-    func_0219F768(slist, i);
+    SBServerListRemoveAt(slist, i);
     return sbe_noerror;
 }
 
@@ -1766,7 +1766,7 @@ SBError func_021A1254(SBServerList *slist, char *buf, int len)
 /*
  * sdk:      ProcessPushServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A12DC(SBServerList *slist, char *buf, int len)
+int ProcessPushServer(SBServerList *slist, char *buf, int len)
 {
 	void *server;
 	unsigned int ip;
@@ -1775,19 +1775,19 @@ int func_021A12DC(SBServerList *slist, char *buf, int len)
 	int i;
 	if (len < 5)
 		return 4;
-	func_021A059C(slist, (unsigned char *)buf, len, &ip, &port);
-	foundexisting = func_0219F6C8(slist, ip, port);
+	ParseServerIPPort(slist, (unsigned char *)buf, len, &ip, &port);
+	foundexisting = SBServerListFindServerByIP(slist, ip, port);
 	if (foundexisting == -1) {
 		server = func_0219E900((int)slist, ip, port);
 		if (func_0219E9D8((int)server))
 			return 5;
 	} else {
-		server = func_0219F7C4(slist, foundexisting);
+		server = SBServerListNth(slist, foundexisting);
 	}
-	if (func_021A060C(slist, server, buf, len, 0) < 0)
+	if (ParseServer(slist, server, buf, len, 0) < 0)
 		return 4;
 	if (foundexisting == -1)
-		func_0219F638((SBServerList *)slist, server);
+		SBServerListAppendServer((SBServerList *)slist, server);
 	slist->ListCallback(slist, 1, server, slist->instance);
 	return 0;
 }
@@ -1802,7 +1802,7 @@ int func_021A12DC(SBServerList *slist, char *buf, int len)
 /*
  * sdk:      ProcessAdHocData (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int func_021A13D0(SBServerList *slist)
+int ProcessAdHocData(SBServerList *slist)
 {
     int ret = 0;
     int i;
@@ -1823,23 +1823,23 @@ int func_021A13D0(SBServerList *slist)
         case 0:
             break;
         case 1:
-            ret = func_021A0E30((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessPushKeyList((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 2:
-            ret = func_021A12DC((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessPushServer((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
             if (func_0217EC90(slist->slsocket, (char *)slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:
-            ret = func_021A1254((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessDeleteServer((SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 5:
-            ret = func_021A10D4(slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessMaploop(slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 6:
-            ret = func_021A0F0C(slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessPlayerSearch(slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         default:
             break;
@@ -1851,7 +1851,7 @@ int func_021A13D0(SBServerList *slist)
             break;
     }
     if (ret != 0)
-        func_0219FAAC((SBServerList *)slist);
+        ErrorDisconnect((SBServerList *)slist);
     return ret;
 }
 
@@ -1861,7 +1861,7 @@ int func_021A13D0(SBServerList *slist)
 
 
 
-int func_021A153C(SBServerList *slist)
+int ProcessIncomingData(SBServerList *slist)
 {
 	int err;
 	int len;
@@ -1872,18 +1872,18 @@ int func_021A153C(SBServerList *slist)
 	err = 0;
 	len = func_0217EC4C(slist->slsocket, (char *)(slist->inbuffer + oldlen), 0x1000 - oldlen, 0);
 	if (len == -1 || len == 0) {
-		func_0219FAAC(slist);
+		ErrorDisconnect(slist);
 		return 3;
 	}
 	slist->inbufferlen += len;
 	if (slist->state == 2 || slist->pstate > 0)
 		func_0219D478((struct GOACryptState *)slist->cryptkey, (unsigned char *)(slist->inbuffer + oldlen), slist->inbufferlen - oldlen);
 	if (slist->state == 3)
-		err = func_021A0A24((SBServerList *)slist);
+		err = ProcessMainListData((SBServerList *)slist);
 	if (err != 0)
 		return err;
 	if (slist->state == 2 && slist->inbufferlen > 0)
-		return func_021A13D0(slist);
+		return ProcessAdHocData(slist);
 	return 0;
 }
 
@@ -1896,7 +1896,7 @@ int func_021A153C(SBServerList *slist)
 /*
  * sdk:      SBSendMessageToServer (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
-int func_021A1620(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len)
+int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len)
 {
     int i;
     int ret;
@@ -1904,7 +1904,7 @@ int func_021A1620(SBServerList *slist, unsigned int ip, unsigned short port, cha
     char requestBuffer[16];
 
     if (slist->state == 1)
-        func_0219FFD4(slist, 0, 0, 2, 0);
+        SBServerListConnectAndQuery(slist, 0, 0, 2, 0);
     if (slist->state == 1)
         return 3;
     tmp = HTONS((unsigned short)(len + 9));
@@ -1912,7 +1912,7 @@ int func_021A1620(SBServerList *slist, unsigned int ip, unsigned short port, cha
     requestBuffer[2] = 2;
     memcpy(&requestBuffer[3], &ip, 4);
     memcpy(&requestBuffer[7], &port, 2);
-    i = func_0219FF30(slist, requestBuffer, 9);
+    i = SendWithRetry(slist, requestBuffer, 9);
     if (i != 0)
         return i;
     ret = 0;
@@ -1934,9 +1934,9 @@ int func_021A1620(SBServerList *slist, unsigned int ip, unsigned short port, cha
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_021A174C.c \
- *       --func func_021A174C --addr 0x021A174C --region ov009 --arm --cc 1.1p1 --lang c99 --diff
+ *       --func SBSendNatNegotiateCookieToServer --addr 0x021A174C --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
-int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie)
+int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie)
 {
 	unsigned char negotiateBuffer[NATNEG_MAGIC_LEN + 4];
 
@@ -1948,7 +1948,7 @@ int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie)
 	negotiateBuffer[5] = NN_MAGIC_5;
 	cookie = (int)SOC_HtoNl((unsigned int)cookie);
 	memcpy(negotiateBuffer + NATNEG_MAGIC_LEN, &cookie, 4);
-	return func_021A1620(slist, ip, port, (char *)negotiateBuffer, NATNEG_MAGIC_LEN + 4);
+	return SBSendMessageToServer(slist, ip, port, (char *)negotiateBuffer, NATNEG_MAGIC_LEN + 4);
 }
 
 
@@ -1958,7 +1958,7 @@ int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie)
 /*
  * sdk:      ProcessLanData (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  */
-int func_021A1804(SBServerList *slist)
+int ProcessLanData(SBServerList *slist)
 {
     char indata[1500];
     SOCSockAddrIn saddr;
@@ -1972,34 +1972,34 @@ int func_021A1804(SBServerList *slist)
         error = func_0217EC60(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
         if (error == -1)
             continue;
-        foundexisting = func_0219F6C8((SBServerList *)slist, saddr.addr, saddr.port);
+        foundexisting = SBServerListFindServerByIP((SBServerList *)slist, saddr.addr, saddr.port);
         if (foundexisting != -1)
             continue;
         server = func_0219E900((int)slist, saddr.addr, saddr.port);
         if (func_0219E9D8((int)server))
             return 5;
         SBServerSetFlags(server, 0x11);
-        func_0219F638(slist, server);
+        SBServerListAppendServer(slist, server);
     }
     if (func_0217F264() - slist->lanstarttime > 2000) {
         func_0217EB2C(slist->slsocket);
         slist->slsocket = -1;
         slist->state = 1;
-        slist->ListCallback(slist, 3, g_021AEB00, slist->instance);
+        slist->ListCallback(slist, 3, gSBNullServer, slist->instance);
     }
     return 0;
 }
 
 
-int func_021A1928(int *p)
+int SBListThink(int *slist)
 {
-    func_0219F7D8((SBServerList *)p);
-    switch (p[0]) {
+    SBFreeDeadList((SBServerList *)slist);
+    switch (slist[0]) {
     case 2:
     case 3:
-        return func_021A153C((SBServerList *)p);
+        return ProcessIncomingData((SBServerList *)slist);
     case 0:
-        return func_021A1804((SBServerList *)p);
+        return ProcessLanData((SBServerList *)slist);
     case 1:
     default:
         return 0;

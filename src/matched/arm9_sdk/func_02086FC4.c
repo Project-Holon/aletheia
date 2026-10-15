@@ -1,5 +1,5 @@
 /*
- * function: func_02086FC4
+ * function: OSi_SetTimerReserved
  * address:  0x02086FC4
  * packet:   pkt_02086FC4
  * region:   arm9
@@ -32,7 +32,7 @@ extern struct OsTickBss g_02151330;
 
 extern u16 OSi_TimerReserved;
 
-void func_02086FC4(int timerNum)
+void OSi_SetTimerReserved(int timerNum)
 {
     OSi_TimerReserved |= (u16)(1 << timerNum);
 }

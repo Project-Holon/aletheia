@@ -1,5 +1,5 @@
 /*
- * function: func_0208A424
+ * function: SND_DestroyWaveArc
  * address:  0x0208A424
  * packet:   pkt_0208A424
  * region:   arm9
@@ -37,7 +37,7 @@ extern void SNDi_LockMutex(void);
 extern void SNDi_UnlockMutex(void);
 extern void DC_StoreRange(const void *startAddr, unsigned long nBytes);
 
-void func_0208A424(SNDWaveArc *waveArc)
+void SND_DestroyWaveArc(SNDWaveArc *waveArc)
 {
     SNDWaveArcLink *link;
     SNDWaveArcLink *next;

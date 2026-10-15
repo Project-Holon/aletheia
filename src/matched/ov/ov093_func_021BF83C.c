@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BF894  0x021BF894  thumb  ov093
+ *   RESEARCH_GRAPH_GetEntryValueB  0x021BF894  thumb  ov093
  *   func_021BF8A4  0x021BF8A4  thumb  ov093
  *   func_021BF8B4  0x021BF8B4  thumb  ov093
  *   func_021BF8C4  0x021BF8C4  thumb  ov093
@@ -20,7 +20,7 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021BF894(int d);
+extern void RESEARCH_GRAPH_GetEntryValueB(int d);
 extern u8 *func_021BF8A4(int d);
 extern void func_021BF8B4(int d, u8 *x);
 extern u8 *func_021BF8C4(int d);
@@ -31,7 +31,7 @@ extern void BTL_SERVER_FLOW_PushMoveBlockedMessage(u8 *p, u8 *x, u32 v);
 void BTL_SERVER_FLOW_RemoveImmuneTargets(u8 *p, u16 *b, u8 *c, int d)
 {
     u8 *x;
-    func_021BF894(d);
+    RESEARCH_GRAPH_GetEntryValueB(d);
     x = func_021BF8A4(d);
     while (x != 0) {
         if (BTL_SERVER_FLOW_CheckNoGuardHit(p, c, x) == 0) {

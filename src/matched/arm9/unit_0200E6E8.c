@@ -10,16 +10,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200E6E8, sub_0200E6F0
+ * function: SAVEDATA_GetExtraBlockThunk, SAVEDATA_GetExtraBlock
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *
- * alias: a two-hop tail-call chain. sub_0200E6E8 is a pure forwarder to
- * sub_0200E6F0, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
+ * alias: a two-hop tail-call chain. SAVEDATA_GetExtraBlockThunk is a pure forwarder to
+ * SAVEDATA_GetExtraBlock, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
  * 0x3e; both pass their argument through unchanged. Neither carries a
  * register-saving prologue, so disasm.py's sweep does not label
- * sub_0200E6F0 and it prints as data between the two literal pools; see
+ * SAVEDATA_GetExtraBlock and it prints as data between the two literal pools; see
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md and
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
@@ -30,16 +30,16 @@
 
 typedef unsigned int u32;
 
-extern void *sub_0200E6F0(u32 a);
+extern void *SAVEDATA_GetExtraBlock(u32 a);
 struct Sub020071CCCtrl;
 extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *sub_0200E6E8(u32 a)
+void *SAVEDATA_GetExtraBlockThunk(u32 a)
 {
-    return sub_0200E6F0(a);
+    return SAVEDATA_GetExtraBlock(a);
 }
 
-void *sub_0200E6F0(u32 a)
+void *SAVEDATA_GetExtraBlock(u32 a)
 {
     return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)a, 0x3e);
 }

@@ -40,23 +40,23 @@
  *   func_021DD054 0x021DD054 thumb ov183
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
- *   func_021FD170 0x021FD170 thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   BR_NET_StartRequest 0x021FF54C thumb ov186
  *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
  *   BR_NET_GetVideoReply 0x021FF698 thumb ov186
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_SetData 0x0200B938 thumb
- *   func_021F9C50 0x021F9C50 thumb ov186
+ *   BR_PROC_SYS_SetupWindow 0x021F9C50 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
- *   func_021FD744 0x021FD744 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DBC68 0x021DBC68 thumb ov183
  */
 typedef unsigned int u32;
@@ -68,23 +68,23 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern void func_021FD170(char *p, char *q, void *text);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void MI_CpuFill8(void *,int,u32);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void BR_NET_StartRequest(char *p, int kind, const int *values);
 extern int BR_NET_IsIdle(char *p);
 extern int BR_NET_PollErrorMessage(char *p, int *out);
 extern int BR_NET_GetVideoReply(char *,int,int *);
-extern void func_021FD860(int,int,int *);
+extern void BR_UTIL_StartEffect(int,int,int *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
-extern void func_021F9C50(S *);
+extern void BR_PROC_SYS_SetupWindow(S *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern int func_021FD744(int *a);
-extern int *func_021FD73C(int *p, int v);
+extern int BR_UTIL_ClearTaskStep(int *a);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 void func_021DC228(int *a,int *state,char *p)
 {
@@ -102,7 +102,7 @@ void func_021DC228(int *a,int *state,char *p)
         else func_021DCE48(p,*(char **)(p+0xd0));
         func_021DD054(p,*(char **)(p+0xd0));
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
     case 3: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
     case 4: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
@@ -114,7 +114,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 6:
         ++*(int *)(p+0xbc);
         if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
-            func_021FD860(*(int *)(p+12),0,0);*state=7;
+            BR_UTIL_StartEffect(*(int *)(p+12),0,0);*state=7;
         }
         break;
     case 7:
@@ -123,27 +123,27 @@ void func_021DC228(int *a,int *state,char *p)
                 BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
-                func_021F9C50(*(S **)(*(char **)(p+0xd0)+0x14));*state=8;
+                BR_PROC_SYS_SetupWindow(*(S **)(*(char **)(p+0xd0)+0x14));*state=8;
             } else {
-                func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args[0]=x;args[1]=y;
-            func_021FD860(*(int *)(p+0x10),1,args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
+            BR_UTIL_StartEffect(*(int *)(p+0x10),1,args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
         }
         break;
     case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)(*(int *)(p+8)));}
         break;
     case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
+    case 14: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
     }
 }

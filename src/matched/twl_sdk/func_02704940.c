@@ -11,7 +11,7 @@
  *
  * symbols:
  *   DAT_02734450  0x02734450  data twl
- *   func_02087B20  0x02087B20  arm twl
+ *   OSi_IsCodecTwlMode  0x02087B20  arm twl
  *   SendCommand  0x02704B74  arm twl
  *   SetSndexWork  0x02704D48  arm twl
  */
@@ -48,13 +48,13 @@ typedef struct {
 } State;
 
 extern State DAT_02734450;
-extern u32 func_02087B20(void);
+extern u32 OSi_IsCodecTwlMode(void);
 u32 SendCommand(u32 a0, u8 a1);
 void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 
 u32 SNDEXi_PostProcessForShutterSound(Cb a0, void *a1) {
     u32 r;
-    if (func_02087B20() == 0 || DAT_02734450.state != 4) {
+    if (OSi_IsCodecTwlMode() == 0 || DAT_02734450.state != 4) {
         return 4;
     }
     r = 5;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BEAEC
+ * function: RESEARCH_GRAPH_ClearEntryIndex
  * address:  0x021BEAEC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BEAEC  0x021BEAEC  thumb  ov217
+ *   RESEARCH_GRAPH_ClearEntryIndex  0x021BEAEC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 
-void func_021BEAEC(u8 *a0)
+void RESEARCH_GRAPH_ClearEntryIndex(u8 *a0)
 {
     ((struct Obj25911 *)(((u8*)a0)))->f2B9 = 0;
 }

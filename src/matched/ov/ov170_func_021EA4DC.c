@@ -1,5 +1,5 @@
 /*
- * function: func_021EA4DC
+ * function: BOX2_SEQ_UpdateGridCursor
  * address:  0x021EA4DC
  * packet:   pkt_ov170_021EA4DC
  * region:   ov170
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_020260E0 0x020260E0 thumb
- *   func_021DEFEC 0x021DEFEC thumb
- *   func_021DF040 0x021DF040 thumb
- *   func_021EA728 0x021EA728 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E152C 0x021E152C thumb
+ *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
+ *   BOX2_SEQ_CreateB 0x021EA728 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_SEQ_StateMenuMain 0x021E152C thumb
  */
 
 typedef struct {
@@ -26,21 +26,21 @@ typedef struct {
 typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_021DEFEC(char *p, int b);
-extern void func_021DF040(char *p);
-extern void func_021EA728(void *p);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E152C(unsigned char *p);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_ResetBoxView(char *p);
+extern void BOX2_SEQ_CreateB(void *p);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_SEQ_StateMenuMain(unsigned char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 
-int func_021EA4DC(Obj *p)
+int BOX2_SEQ_UpdateGridCursor(Obj *p)
 {
     unsigned char v = func_020260E0(OBJ(p));
     if (v < 0x24)
-        func_021DEFEC((char *)p, v);
+        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
     else
-        func_021DF040((char *)p);
-    func_021EA728(p);
-    return func_021E8FC0((char *)p, (int)func_021E152C, 0x43);
+        BOX2_MAIN_ResetBoxView((char *)p);
+    BOX2_SEQ_CreateB(p);
+    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_StateMenuMain, 0x43);
 }

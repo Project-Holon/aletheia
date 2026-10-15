@@ -10,20 +10,20 @@
  * extent: compiled 46 bytes; trailing 0x0215AC1A..0x0215AC1C is zero alignment.
  * symbols:
  *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
- *   func_02087D28 0x02087D28 arm
+ *   OS_GetOwnerInfoEx 0x02087D28 arm
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Info { u8 language, color, month, day; u16 name[11], nameLength, comment[27], commentLength; u8 country, padding; } Info;
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct OSOwnerInfoEx;
-extern void func_02087D28(struct OSOwnerInfoEx *info);
+extern void OS_GetOwnerInfoEx(struct OSOwnerInfoEx *info);
 int SCRCMD_WORK_CmdGetBirthday(int a, int b) {
  u16 *p, *q;
  Info info;
  p = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
  q = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
- func_02087D28((struct OSOwnerInfoEx *)(&info));
+ OS_GetOwnerInfoEx((struct OSOwnerInfoEx *)(&info));
  *p = info.month;
  *q = info.day;
  return 0;

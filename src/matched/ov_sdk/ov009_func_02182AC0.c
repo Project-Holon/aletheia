@@ -1,5 +1,5 @@
 /*
- * function: func_02182AC0
+ * function: gsXmlWriteStringElement
  * address:  0x02182AC0
  * packet:   pkt_ov009_02182AC0
  * region:   ov009
@@ -30,7 +30,7 @@ extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsiXmlUtilWriteXmlSafeString(struct GSIXmlStreamWriter *stream, char *str);
 
-int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value)
+int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     int len = strlen(value);

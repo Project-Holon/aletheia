@@ -18,7 +18,7 @@
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200E684  0x0200E684  thumb
- *   func_0200E588  0x0200E588  thumb
+ *   BATTLE_EXAMINATION_GetBlockSize  0x0200E588  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
@@ -43,7 +43,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 extern void SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern void func_0200E684(void *obj);
-extern u32 func_0200E588(void);
+extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern void MI_CpuFill8(u32 p, int v, u32 n);
 extern void GAME_DATA_PartSaveStart(u8 *a, u32 b);
 extern int GAME_DATA_PartSaveMain(char *p, int a1);
@@ -68,7 +68,7 @@ int TRIAL_HOUSE_SaveTaskMain(u32 a, u32 *b, u32 *c)
         if (c[2] == 1) {
             func_0200E684((void *)x);
         } else {
-            MI_CpuFill8(x, 0, func_0200E588());
+            MI_CpuFill8(x, 0, BATTLE_EXAMINATION_GetBlockSize());
         }
         GAME_DATA_PartSaveStart((u8 *)s4, 5);
         b[0] = b[0] + 1;

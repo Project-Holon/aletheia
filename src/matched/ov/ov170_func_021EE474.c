@@ -1,5 +1,5 @@
 /*
- * function: func_021EE474
+ * function: BOX2_UI_UpdateCursorInputA
  * address:  0x021EE474
  * packet:   pkt_ov170_021EE474
  * region:   ov170
@@ -13,8 +13,8 @@
  *   func_020260E0 0x020260E0 thumb
  *   func_020260E4 0x020260E4 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_021EF5E8 0x021EF5E8 thumb
- *   func_021EE408 0x021EE408 thumb
+ *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
+ *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  */
@@ -27,22 +27,22 @@ struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern int func_02025DE8(struct Sound *obj);
-extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021EE408(char *p, int v);
+extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
+extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-unsigned func_021EE474(char *p)
+unsigned BOX2_UI_UpdateCursorInputA(char *p)
 {
     unsigned char sel = func_020260E0(*(void **)(WORK(p) + 0x70));
     unsigned r = func_02025DE8(*(void **)(WORK(p) + 0x70));
 
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
         if (r >= 8 && r <= 12) {
             func_020260E4(*(void **)(WORK(p) + 0x70), sel);
-            func_021EE408(p, sel);
+            BOX2_UI_UpdateCursor(p, sel);
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
@@ -59,7 +59,7 @@ unsigned func_021EE474(char *p)
         }
     } else if (r - 6 <= 1) {
         func_020260E4(*(void **)(WORK(p) + 0x70), sel);
-        func_021EE408(p, sel);
+        BOX2_UI_UpdateCursor(p, sel);
         return -1;
     }
     return r;

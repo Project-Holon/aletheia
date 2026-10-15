@@ -1,5 +1,5 @@
 /*
- * function: func_0202FAB4
+ * function: CRYPTO_RC4Init
  * address:  0x0202FAB4
  * packet:   pkt_0202FAB4
  * region:   arm9
@@ -26,7 +26,7 @@ typedef struct CRYPTORC4Context {
     u8 s[256];
 } CRYPTORC4Context;
 
-void func_0202FAB4(CRYPTORC4Context *context, void *key, u32 key_len)
+void CRYPTO_RC4Init(CRYPTORC4Context *context, void *key, u32 key_len)
 {
     u8 *d;
     u8 id1;

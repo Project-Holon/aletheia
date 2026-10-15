@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B00, func_021D7B64
+ * function: WIFI_BSUBWAY_GRAPHIC_CheckNetError, WIFI_BSUBWAY_GRAPHIC_IsPrintDone
  * address: 0x021D7B00
  * packet: pkt_ov116_021D7B00
  * region: ov116
@@ -15,9 +15,9 @@
  *   func_021D7158 0x021D7158 thumb ov116
  *   func_021D7200 0x021D7200 thumb ov116
  *   func_021D7184 0x021D7184 thumb ov116
- *   func_021D81B4 0x021D81B4 thumb ov116
- *   func_021D8010 0x021D8010 thumb ov116
- *   func_021D80CC 0x021D80CC thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon 0x021D81B4 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_PrintMessage 0x021D8010 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream 0x021D80CC thumb ov116
  */
 typedef unsigned char u8;
 extern int DWC_RAPCOMMON_HandleNetError(int,int);
@@ -27,10 +27,10 @@ extern u32 GFL_NET_STATE_GetError(void);
 extern int func_021D7158(u8 *p);
 extern int func_021D7200(int *p);
 extern int func_021D7184(int *p);
-extern void func_021D81B4(u8 *p);
-extern void func_021D8010(void *p, u32 a);
-extern int func_021D80CC(void *);
-int func_021D7B00(u8 *p) {
+extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
+extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p, u32 a);
+extern int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
+int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *p) {
     int yes=1;
     int no=0;
     if(DWC_RAPCOMMON_HandleNetError(1,0)!=0) return no;
@@ -42,10 +42,10 @@ int func_021D7B00(u8 *p) {
         int v;
         if(func_021D7200((int *)(p+0x182c))!=0) return no;
         v=func_021D7184((int *)(p+0x182c));
-        func_021D81B4(p+4);
-        func_021D8010(p+4,v);
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4);
+        WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,v);
         return yes;
     }
     return no;
 }
-int func_021D7B64(u8 *p) { return func_021D80CC(p+4); }
+int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(u8 *p) { return WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4); }

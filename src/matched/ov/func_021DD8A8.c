@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8A8
+ * function: BOX2_MAIN_RecalcPartyParam
  * address:  0x021DD8A8
  * packet:   pkt_021DD8A8
  * region:   ov170
@@ -24,7 +24,7 @@ extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 
-void func_021DD8A8(void **pp, u32 idx)
+void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx)
 {
     void *h;
     u32 v;

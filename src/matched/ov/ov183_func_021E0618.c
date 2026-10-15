@@ -14,11 +14,11 @@
  *   func_021E0754 0x021E0754 thumb ov183
  *   func_021E075C 0x021E075C thumb ov183
  *   func_021E0764 0x021E0764 thumb ov183
- *   func_021F9BA0 0x021F9BA0 thumb ov186
- *   func_021F9BF4 0x021F9BF4 thumb ov186
- *   func_021FD1BC 0x021FD1BC thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
+ *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb ov186
+ *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021FD854 0x021FD854 thumb ov186
+ *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
  */
 #include "../include/Obj04576.h"
 typedef unsigned long long u64;
@@ -29,11 +29,11 @@ struct PrintSys;
 extern void func_021E0754(char *p);
 extern int func_021E075C(char *p);
 extern unsigned long long func_021E0764(char *p);
-extern void func_021F9BA0(unsigned *ctx);
-extern void func_021F9BF4(unsigned *ctx, unsigned index);
-extern void func_021FD1BC(void *p);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
+extern void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
+extern void BR_UTIL_FlushWindow(void *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_021FD854(char *p);
+extern void BR_UTIL_RunHandles(char *p);
 int func_021E0618(int unused, int *state, int *q, int *p)
 {
     switch (*state) {
@@ -47,8 +47,8 @@ int func_021E0618(int unused, int *state, int *q, int *p)
     case 2:
         func_021E0754((char *)p[1]);
         switch (func_021E075C((char *)p[1])) {
-        case 1: func_021F9BA0((unsigned int *)q[3]); *state = 3; break;
-        case 2: ((struct Obj04576 *)q)->f10 = func_021E0764((char *)p[1]); func_021F9BF4((unsigned int *)q[3], 2); *state = 3; break;
+        case 1: BR_PROC_SYS_PopEntry((unsigned int *)q[3]); *state = 3; break;
+        case 2: ((struct Obj04576 *)q)->f10 = func_021E0764((char *)p[1]); BR_PROC_SYS_PushEntry((unsigned int *)q[3], 2); *state = 3; break;
         }
         break;
     case 3:
@@ -60,8 +60,8 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         break;
     case 5: return 1;
     }
-    if (p[2]) func_021FD1BC((void *)p[2]);
+    if (p[2]) BR_UTIL_FlushWindow((void *)p[2]);
     PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
-    func_021FD854((char *)p[5]);
+    BR_UTIL_RunHandles((char *)p[5]);
     return 0;
 }

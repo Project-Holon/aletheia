@@ -1,5 +1,5 @@
 /*
- * function: func_02084E98
+ * function: OSi_FreeCardBus
  * address:  0x02084E98
  * packet:   pkt_02084E98
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     os_spinLock.o OSi_FreeCardBus (EXMEMCNT bit11 -> ARM7).
  */
 
-void func_02084E98(void)
+void OSi_FreeCardBus(void)
 {
     *(volatile unsigned short *)0x04000204 |= 0x800;
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E79C8",
-    "func_021E7A04"
+    "BOX2_SEQ_SetBox2MainD",
+    "BOX2_SEQ_StateCloseItemC"
+   ],
+   "addresses": [
+    "0x021E79C8",
+    "0x021E7A04"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC494
+ * function: POKETRADE_PROC_LoadSceneResources
  * address: 0x021DC494
  * packet: pkt_ov119_021DC494
  * region: ov119
@@ -21,4 +21,4 @@
 #include "../include/Obj10356.h"
 typedef unsigned short u16;
 extern void POKETRADE_2D_RegisterIconCharResources(char *p);extern void func_02049B40(int,int,int,int,int,int);extern void POKETRADE_NEGO_ExitMarkers(void *);extern void POKETRADE_2D_RegisterIconSpriteResources(void *);extern void POKETRADE_2D_CreateBoxIconActors(void *);extern void POKETRADE_2D_LoadMainGfxAndMessageWindow(void *);extern void POKETRADE_2D_LoadBackgroundGfx(void *);extern void POKETRADE_2D_CreateBoxWindows(void *);extern void POKETRADE_2D_UpdateVisibleColumns(int,void *,int);
-void func_021DC494(char *p) {POKETRADE_2D_RegisterIconCharResources(p);func_02049B40(23,5,4,448,32,((struct Obj10356 *)p)->f5F4);POKETRADE_NEGO_ExitMarkers(p);if(((struct Obj10356 *)p)->f118C<4)POKETRADE_2D_RegisterIconSpriteResources(p);POKETRADE_2D_CreateBoxIconActors(p);POKETRADE_2D_LoadMainGfxAndMessageWindow(p);POKETRADE_2D_LoadBackgroundGfx(p);POKETRADE_2D_CreateBoxWindows(p);POKETRADE_2D_UpdateVisibleColumns(((struct Obj10356 *)p)->f828,p,0);}
+void POKETRADE_PROC_LoadSceneResources(char *p) {POKETRADE_2D_RegisterIconCharResources(p);func_02049B40(23,5,4,448,32,((struct Obj10356 *)p)->f5F4);POKETRADE_NEGO_ExitMarkers(p);if(((struct Obj10356 *)p)->f118C<4)POKETRADE_2D_RegisterIconSpriteResources(p);POKETRADE_2D_CreateBoxIconActors(p);POKETRADE_2D_LoadMainGfxAndMessageWindow(p);POKETRADE_2D_LoadBackgroundGfx(p);POKETRADE_2D_CreateBoxWindows(p);POKETRADE_2D_UpdateVisibleColumns(((struct Obj10356 *)p)->f828,p,0);}

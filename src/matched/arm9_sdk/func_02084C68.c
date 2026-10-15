@@ -1,5 +1,5 @@
 /*
- * function: func_02084C68
+ * function: OS_LockByWord
  * address:  0x02084C68
  * packet:   pkt_02084C68
  * region:   arm9
@@ -13,13 +13,14 @@
  *
  * symbols:
  *   FSi_HasEnoughSpaceInFreeArea  0x02084C1C  arm
+ *   OSi_DoLockByWord  0x02084C1C  arm
  */
 
 struct _FSFreeAreaSize;
 
-extern int func_02084C1C(struct _FSFreeAreaSize *freesize, char *path, unsigned long size, int bSysApp);
+extern int OSi_DoLockByWord(struct _FSFreeAreaSize *freesize, char *path, unsigned long size, int bSysApp);
 
-int func_02084C68(struct _FSFreeAreaSize *freesize, char *path, unsigned long size)
+int OS_LockByWord(struct _FSFreeAreaSize *freesize, char *path, unsigned long size)
 {
-    return func_02084C1C(freesize, path, size, 0);
+    return OSi_DoLockByWord(freesize, path, size, 0);
 }

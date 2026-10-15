@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02082900",
+   "name": "MIi_DMACallback",
    "address": "0x02082900",
    "kind": "sdk",
    "region": "arm9",

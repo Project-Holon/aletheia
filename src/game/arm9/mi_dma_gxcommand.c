@@ -1,7 +1,7 @@
 /*
  * file:     mi_dma_gxcommand.c
  * unit:     yes
- * function: MI_SendGXCommandAsync, func_0208284C, func_02082900, MI_SendGXCommandAsyncFast, func_02082A1C
+ * function: MI_SendGXCommandAsync, func_0208284C, MIi_DMACallback, MI_SendGXCommandAsyncFast, MIi_DMAFastCallback
  * address:  0x02082760
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -77,9 +77,7 @@ void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 void MIi_DMAFastCallback(void *arg);
 void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
 void func_0208284C(void);
-void func_02082900(void);
 void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
-void func_02082A1C(void);
 extern MIiGXDmaParams MIi_GXDmaParams;
 
 
@@ -224,7 +222,7 @@ void func_0208284C(void)
 /*
  * sdk:      MIi_DMACallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
  */
-void func_02082900(void)
+void MIi_DMACallback(void *arg)
 {
     (void)OS_DisableIrqMask(0x00200000);
 
@@ -271,7 +269,7 @@ void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MI
 /*
  * sdk:      MIi_DMAFastCallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
  */
-void func_02082A1C(void)
+void MIi_DMAFastCallback(void *arg)
 {
     MIi_GXDmaParams.isBusy = 0;
     MIi_CallCallback(MIi_GXDmaParams.callback, MIi_GXDmaParams.arg);

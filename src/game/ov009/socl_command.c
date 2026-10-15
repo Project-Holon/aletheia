@@ -16,12 +16,12 @@
  *   g_021A1CD8   0x021A1CD8  data
  *   g_021AA484   0x021AA484  data
  *   g_021AA480   0x021AA480  data
- *   func_02085D94  0x02085D94  arm
+ *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_ReceiveMessage           0x02085e50 arm
  *   SOCLiCommandPacketQueue    0x021aa484 data
  *   func_02085DBC  0x02085DBC  arm
  *   func_02085E50  0x02085E50  arm
- *   func_02085F8C  0x02085F8C  arm
+ *   OS_ReadMessage  0x02085F8C  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_DisableScheduler  0x02085B30  arm
  *   OS_EnableScheduler  0x02085B60  arm
@@ -67,10 +67,10 @@ struct Command {
 	signed char flag_block;
 };
 
-extern void func_02085D94(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, long flags);
 extern int func_02085DBC(struct OSMessageQueue *mq, void *msg, long flags);
-extern int func_02085F8C(struct OSMessageQueue *mq, void **msg, s32 flags);
+extern int OS_ReadMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_DisableScheduler(void);
 extern unsigned long OS_EnableScheduler(void);
@@ -111,7 +111,7 @@ int func_0215CD3C(int n)
     if (base == 0)
         return -1;
 
-    func_02085D94(&SOCLiCommandPacketQueue, (void **)base, n);
+    OS_InitMessageQueue(&SOCLiCommandPacketQueue, (void **)base, n);
 
     p = base + off;
     for (i = n; i > 0; i--) {
@@ -245,7 +245,7 @@ int func_0215CF14(void *pipe, Command *command)
 	MsgQueue response_queue;
 
 	if (command->flag_block == 1) {
-		func_02085D94((struct OSMessageQueue *)(&response_queue), &response, 1);
+		OS_InitMessageQueue((struct OSMessageQueue *)(&response_queue), &response, 1);
 		command->response_queue = &response_queue;
 		func_0215CEB0((int)pipe, (char *)command);
 		OS_ReceiveMessage((struct OSMessageQueue *)&response_queue, (void **)&result, 1);
@@ -303,7 +303,7 @@ void func_0215CFC0(void *arg)
 
 	cpipe = arg;
 	for (;;) {
-		func_02085F8C(cpipe, (void **)&command, 1);
+		OS_ReadMessage(cpipe, (void **)&command, 1);
 		if (command == 0) {
 			return;
 		}

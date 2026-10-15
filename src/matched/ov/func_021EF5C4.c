@@ -1,5 +1,5 @@
 /*
- * function: func_021EF5C4
+ * function: BOX2_UI_UpdateListPacks
  * address:  0x021EF5C4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 struct WinMgr;
 extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
-int func_021EF5C4(struct WinMgr *mgr)
+int BOX2_UI_UpdateListPacks(struct WinMgr *mgr)
 {
     unsigned i;
     int found = 0;

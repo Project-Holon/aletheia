@@ -17,7 +17,7 @@
  *   BR_FADE_Start   0x021FE784  thumb
  *   BR_FADE_GetResult   0x021FE7B0  thumb
  *   func_021FD744   0x021FD744  thumb
- *   func_021F9BA0   0x021F9BA0  thumb
+ *   BR_PROC_SYS_PopEntry   0x021F9BA0  thumb
  *
  * Three-state step over the object at *(p+0x30): submit on 0, poll on 1,
  *   release the two child handles on 2.
@@ -28,7 +28,7 @@
 extern int BR_FADE_Start(int, int, int, int);
 extern int BR_FADE_GetResult(int);
 extern void func_021FD744(int);
-extern void func_021F9BA0(int);
+extern void BR_PROC_SYS_PopEntry(int);
 
 void func_021F8624(int a, int *state, char *p)
 {
@@ -43,7 +43,7 @@ void func_021F8624(int a, int *state, char *p)
         break;
     case 2:
         func_021FD744(((struct Obj08318 *)p)->fC);
-        func_021F9BA0(*(int *)(((struct Obj08318 *)p)->f30 + 0x10));
+        BR_PROC_SYS_PopEntry(*(int *)(((struct Obj08318 *)p)->f30 + 0x10));
         break;
     }
 }

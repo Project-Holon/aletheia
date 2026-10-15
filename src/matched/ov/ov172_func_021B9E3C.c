@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E3C
+ * function: CTVT_TALK_BeginWaveform
  * address:  0x021B9E3C
  * packet:   pkt_021B6868
  * region:   ov172
@@ -29,7 +29,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void func_021B9E3C(void *p, char *q)
+void CTVT_TALK_BeginWaveform(void *p, char *q)
 {
     q[0x30] = 3;
     q[0x31] = 0x20;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F94E4
+ * function: BR_PROC_SYS_BuildBattleRecord
  * address: 0x021F94E4
  * packet: pkt_ov186_021F94E4
  * region: ov186
@@ -36,7 +36,7 @@ extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
-void func_021F94E4(int *out,int *source,const char *ctx,int type)
+void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type)
 {
     u32 result;
     void *sys;

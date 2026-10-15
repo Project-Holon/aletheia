@@ -1,5 +1,5 @@
 /*
- * function: func_021DE570
+ * function: MYSTERY_NET_HandleWifiError
  * address: 0x021DE570
  * packet: pkt_ov121_021DE570
  * region: ov121
@@ -27,7 +27,7 @@ extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
 extern void func_0200FA84(void);
-int func_021DE570(char *p)
+int MYSTERY_NET_HandleWifiError(char *p)
 {
     int result=0;
     if (func_0200FB24()) {

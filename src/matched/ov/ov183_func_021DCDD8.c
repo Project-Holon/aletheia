@@ -11,10 +11,10 @@
  * blocker: unlabelled ov186 0x021FD1C4 has no outside witness; large leaf parked by parent
  * extent: two bytes of zero alignment padding at 0x021DCE26
  * symbols:
- *   func_021FD1C4 0x021FD1C4 thumb ov186
+ *   BR_UTIL_CreateProfileScreen 0x021FD1C4 thumb ov186
  */
 typedef unsigned short u16;
-extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
+extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
 void func_021DCDD8(char *p, char *q)
 {
     int flag;
@@ -22,6 +22,6 @@ void func_021DCDD8(char *p, char *q)
         *(int *)(p+0xdc)=1;
         flag=1;
         if(*(int *)(*(char **)(p+0xd0)+8)==0) flag=0;
-        *(void **)(p+0x44)=func_021FD1C4((void *)(*(int *)(p+0xc0)),(char *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x18)),(void *)(*(int *)(p+4)),flag,*(unsigned short *)(p+0xb4));
+        *(void **)(p+0x44)=BR_UTIL_CreateProfileScreen((void *)(*(int *)(p+0xc0)),(char *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x18)),(void *)(*(int *)(p+4)),flag,*(unsigned short *)(p+0xb4));
     }
 }

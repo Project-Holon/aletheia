@@ -12,9 +12,9 @@
  * sdk:      sciWsSubmitReportCallback (libdwcgssc.TWL.HYB.a(sciwebservices.o))
  *
  * symbols:
- *   func_021834D0  0x021834D0  arm  ov009
- *   func_021834E8  0x021834E8  arm  ov009
- *   func_02183A24  0x02183A24  arm  ov009
+ *   gsXmlMoveToStart  0x021834D0  arm  ov009
+ *   gsXmlMoveToNext  0x021834E8  arm  ov009
+ *   gsXmlReadChildAsInt  0x02183A24  arm  ov009
  *   sSciTagSubmitReportResponse  0x021E43D4  data
  *   sSciTagSubmitReportResult  0x021E43EC  data
  *   sSciTagResult  0x021E42BC  data
@@ -32,9 +32,9 @@ struct SCIRequest {
     int active;
 };
 
-extern int func_021834D0(int *p);
-extern int func_021834E8(void *stream, char *matchtag);
-extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
+extern int gsXmlMoveToStart(int *p);
+extern int gsXmlMoveToNext(void *stream, char *matchtag);
+extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
 extern char sSciTagSubmitReportResponse[];
 extern char sSciTagSubmitReportResult[];
 extern char sSciTagResult[];
@@ -49,10 +49,10 @@ void sciWsSubmitReportCallback(int theHttpResult, int unused, void *theResponseD
     if (theHttpResult == 0) {
         aTranslatedResult = 0;
         submitResult = 0;
-        if (!func_021834D0(theResponseData)
-            || !func_021834E8(theResponseData, sSciTagSubmitReportResponse)
-            || !func_021834E8(theResponseData, sSciTagSubmitReportResult)
-            || !func_02183A24(theResponseData, sSciTagResult, &submitResult)) {
+        if (!gsXmlMoveToStart(theResponseData)
+            || !gsXmlMoveToNext(theResponseData, sSciTagSubmitReportResponse)
+            || !gsXmlMoveToNext(theResponseData, sSciTagSubmitReportResult)
+            || !gsXmlReadChildAsInt(theResponseData, sSciTagResult, &submitResult)) {
             aTranslatedResult = 9;
         } else if (submitResult != 0) {
             if (submitResult == 7)

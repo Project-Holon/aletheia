@@ -16,7 +16,7 @@
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   strlen  0x0209477C  arm
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   OS_SPrintf  0x02084F40  arm
  *   func_02092344  0x02092344  arm
  *   b64size  0x021C9858  arm  ov114
@@ -66,7 +66,7 @@ extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern u32 b64size(u32 len);
 extern unsigned long strlen(const char *s);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int DWCi_EncSessionEncrypt(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
@@ -94,7 +94,7 @@ int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, in
     }
     gDwcEncSession.request = func_0205A16C(8,
         strlen(gDwcEncServerUrl) + strlen(gDwcEncSession.gamename) + strlen(url)
-        + strlen(sDwcEncSessionPid) + func_02084F80(buf, 16, sDwcEncSessionPidFormat, pid)
+        + strlen(sDwcEncSessionPid) + OS_SNPrintf(buf, 16, sDwcEncSessionPidFormat, pid)
         + strlen(sDwcEncSessionHash) + 40 + 1 + strlen(sDwcEncSessionData) + b64size(size + 12));
     if (gDwcEncSession.request == 0)
         return 2;

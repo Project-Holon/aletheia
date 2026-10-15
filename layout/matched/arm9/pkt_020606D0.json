@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020606D0",
+   "name": "NNSi_FndInitHeapHead",
    "address": "0x020606D0",
    "kind": "game",
    "region": "arm9",

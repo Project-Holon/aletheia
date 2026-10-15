@@ -26,7 +26,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   WIPE_SYS_Start 0x0202208C thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021D9810 0x021D9810 thumb ov119
+ *   POKETRADE_PROC_StepReturnFromSummary 0x021D9810 thumb ov119
  */
 #include "../include/Obj01727.h"
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void TOUCHBAR_Update(struct S *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021D9810(char *);
+extern void POKETRADE_PROC_StepReturnFromSummary(char *);
 extern const char d_021E75F0[];
 static inline int poll(void) {int v=KEY_GetTrg();if(v)func_020355D8(0);return v;}
 void POKETRADE_PROC_StepMain(char *p)
@@ -72,6 +72,6 @@ void POKETRADE_PROC_StepMain(char *p)
   }
   TOUCHBAR_Update(((struct Obj01727 *)p)->f9C0);
   if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj01727 *)p)->f9C0)==1)done=1;
-  if(done) {WIPE_SYS_Start((void *)3,0,0,0,6,1,((struct Obj01727 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)func_021D9810);}
+  if(done) {WIPE_SYS_Start((void *)3,0,0,0,6,1,((struct Obj01727 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepReturnFromSummary);}
  }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE7BC
+ * function: MYSTERY_NET_DeleteBeacon
  * address: 0x021DE7BC
  * packet: pkt_ov121_021DE7BC
  * region: ov121
@@ -10,16 +10,16 @@
  * symbols:
  *   DELIVERY_BEACON_Delete 0x02157938 thumb ov010
  *   GFL_NET_IsIdle 0x0203D210 arm
- *   func_021DEEA4 0x021DEEA4 thumb ov121
- *   func_021DE618 0x021DE618 thumb ov121
+ *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
+ *   MYSTERY_NET_NoopHandler 0x021DE618 thumb ov121
  */
 #include "../include/Obj22916.h"
 extern int DELIVERY_BEACON_Delete(void *a0);
 extern unsigned GFL_NET_IsIdle(void);
 typedef unsigned int   u32;
-extern void func_021DEEA4(u32 *p, void *f);
-extern void func_021DE618(void);
-void func_021DE7BC(void *a, int *state, char *p)
+extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
+extern void MYSTERY_NET_NoopHandler(void);
+void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
@@ -30,7 +30,7 @@ void func_021DE7BC(void *a, int *state, char *p)
         if (GFL_NET_IsIdle()) *state = 2;
         break;
     case 2:
-        func_021DEEA4(a, func_021DE618);
+        MYSTERY_NET_SetHandler(a, MYSTERY_NET_NoopHandler);
         break;
     }
 }

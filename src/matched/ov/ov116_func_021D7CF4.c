@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CF4
+ * function: WIFI_BSUBWAY_GRAPHIC_UpdateText
  * address: 0x021D7CF4
  * packet: pkt_ov116_021D7CF4
  * region: ov116
@@ -18,7 +18,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-void func_021D7CF4(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *p)
 {
     if (((struct Obj13869 *)p)->f0 != 0) TCBL_Main(((struct Obj13869 *)p)->f9A8);
 }

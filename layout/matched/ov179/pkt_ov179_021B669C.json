@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B669C",
+   "name": "CDEMO_SCENE_LoadScreenBlock",
    "address": "0x021B669C",
    "kind": "game",
    "region": "ov179",

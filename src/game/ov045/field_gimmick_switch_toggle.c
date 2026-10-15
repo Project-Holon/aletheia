@@ -109,10 +109,8 @@ extern Vec3Fx sSwitchToggleSecondaryModelPos[];
  * them through two symbols. */
 extern u16 sSwitchToggleRequirementSwitchIndex[];
 extern u16 sSwitchToggleRequirementState[];
-extern int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, int switchIndex);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
-extern void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel);
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
 {

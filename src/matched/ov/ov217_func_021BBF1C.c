@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF1C
+ * function: RESEARCH_LIST_GetRowBase
  * address:  0x021BBF1C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BBF1C(u32 unused, u32 v)
+u32 RESEARCH_LIST_GetRowBase(u32 unused, u32 v)
 {
     return (u8)(v * 3);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4E0
+ * function: RESEARCH_GRAPH_IncSubState
  * address:  0x021BE4E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE4E0(void *p)
+void RESEARCH_GRAPH_IncSubState(void *p)
 {
     u32 *c = (u32 *)((char *)p + 0x24);
     *c += 1;

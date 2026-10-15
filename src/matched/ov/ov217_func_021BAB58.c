@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB58
+ * function: RESEARCH_TOP_RegisterVBlank
  * address:  0x021BAB58
  * packet:   pkt_021B9850
  * region:   ov217
@@ -17,7 +17,7 @@
  * entry, so the ABS32 site attests as `matched` in ov217.
  *
  * symbols:
- *   func_021BAB50  0x021BAB50  thumb  ov217
+ *   RESEARCH_TOP_UpdateVBlank  0x021BAB50  thumb  ov217
  *   func_02005654  0x02005654  thumb
  *
  * Addresses are Black-image addresses.
@@ -31,9 +31,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int func_02005654(int a, int b);
-extern void func_021BAB50();
-void func_021BAB58(void *a0)
+extern void RESEARCH_TOP_UpdateVBlank();
+void RESEARCH_TOP_RegisterVBlank(void *a0)
 {
-    func_02005654((int)func_021BAB50, 0);
+    func_02005654((int)RESEARCH_TOP_UpdateVBlank, 0);
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA76C",
+   "name": "POKETRADE_PROC_StepWaitCursorSync",
    "address": "0x021DA76C",
    "kind": "game",
    "region": "ov119",

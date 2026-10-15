@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC00
+ * function: RESEARCH_GRAPH_StartPaletteAnime
  * address:  0x021BEC00
  * packet:   pkt_ov217_021BEC00
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 typedef unsigned char  u8;
 extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
-void func_021BEC00(u32 *p)
+void RESEARCH_GRAPH_StartPaletteAnime(u32 *p)
 {
     RESEARCH_COMMON_StartPaletteAnime((u8 *)(*p), 0);
 }

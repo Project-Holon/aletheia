@@ -23,21 +23,9 @@ typedef int            BOOL;
 #define NNS_SND_ARC_GROUP_WAVEARC 2
 #define NNS_SND_ARC_GROUP_SEQARC  3
 
+#include "nns_fnd_types.h"
+
 struct FSFile;
-struct NNSiFndHeapHead;
-typedef struct NNSiFndHeapHead *NNSFndHeapHandle;
-
-typedef struct NNSFndLink {
-    void *prevObject;
-    void *nextObject;
-} NNSFndLink;
-
-typedef struct NNSFndList {
-    void *headObject;
-    void *tailObject;
-    u16   numObjects;
-    u16   offset;
-} NNSFndList;
 
 /* Callback run when a sound heap block is released. */
 typedef void (*NNSSndHeapDisposeCallback)(void *buffer, u32 size, u32 data1, u32 data2);

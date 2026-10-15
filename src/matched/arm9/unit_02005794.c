@@ -14,7 +14,7 @@
  * function: GFL_USE_MuteSound, GFL_USE_UnmuteSound, GFL_USE_SetSleepVolumeHooks
  *
  * symbols:
- *   func_02072788  0x02072788  arm
+ *   NNS_SndSetMasterVolume  0x02072788  arm
  *   func_0203508C    0x0203508C  arm
  *
  * Two twelve byte thunks that set the master volume to its two extremes, and
@@ -63,7 +63,7 @@
 typedef unsigned int u32;
 
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void func_02072788(u32 volume);
+extern void NNS_SndSetMasterVolume(u32 volume);
 
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void func_0203508C(u32 a, u32 b, u32 c);
@@ -73,12 +73,12 @@ void GFL_USE_UnmuteSound(void);
 
 void GFL_USE_MuteSound(void)
 {
-    func_02072788(0);
+    NNS_SndSetMasterVolume(0);
 }
 
 void GFL_USE_UnmuteSound(void)
 {
-    func_02072788(0x7F);
+    NNS_SndSetMasterVolume(0x7F);
 }
 
 void GFL_USE_SetSleepVolumeHooks(void)

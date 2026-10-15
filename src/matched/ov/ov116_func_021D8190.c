@@ -1,5 +1,5 @@
 /*
- * function: func_021D8190
+ * function: WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon
  * address: 0x021D8190
  * packet: pkt_ov116_021D8190
  * region: ov116
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-void func_021D8190(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }

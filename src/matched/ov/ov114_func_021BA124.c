@@ -11,13 +11,16 @@
  *
  *
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
+ *
+ * symbols:
+ *   STD_GetStringNLength  0x0208CCFC  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0208CCFC(void);
+extern void STD_GetStringNLength(void);
 
 void NHTTPi_strnlen(void)
 {
-    func_0208CCFC();
+    STD_GetStringNLength();
 }

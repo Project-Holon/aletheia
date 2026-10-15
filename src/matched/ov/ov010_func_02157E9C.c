@@ -33,14 +33,14 @@
  * - 288-shape grid (species u32/int/u16 x species arg plain/(u16) x callee
  *   a1 u16/int/u32 x form arg plain/(int) x slot u32/int x gender u32/int x
  *   if-chain/switch on pidType): flat at 10 or 11, never lower.
- * - pid as two u32 locals (the ov121 func_021DEFAC spelling, hi written
+ * - pid as two u32 locals (the ov121 MYSTERY_NET_BuildPokemonFromRecord spelling, hi written
  *   before the call in pidType 0 and after in 1 and 2): 431 at every one of
  *   the 46 declaration positions (level leaves its stack slot for r7).
  * - pid as u32[2]: 432. Half writes through ((u32 *)&pid)[k]: 52 (pid moves
  *   to sp+0x34).
  * - permuter seed 7201, budget 400, focus 0x17E: no gain.
  *
- * The same function exists in ov121 (src/pending/func_021DEFAC.c, DIFF); a
+ * The same function exists in ov121 (src/pending/MYSTERY_NET_BuildPokemonFromRecord.c, DIFF); a
  * lever found for one should be tried on the other.
  *
  * 2026-09-28, tree_ov010_3: not re-drafted (the lane's time went to the

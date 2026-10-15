@@ -1,5 +1,5 @@
 /*
- * function: func_021FD094
+ * function: BR_UTIL_NeedsScroll
  * address: 0x021FD094
  * packet: pkt_ov186_021FD094
  * region: ov186
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 #include "../include/Obj14466.h"
-int func_021FD094(char *p) {return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44;}
+int BR_UTIL_NeedsScroll(char *p) {return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44;}

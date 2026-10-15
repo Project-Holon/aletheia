@@ -1,5 +1,5 @@
 /*
- * function: func_0219FBB8
+ * function: ServerListConnect
  * address:  0x0219FBB8
  * packet:   pkt_ov009_0219FBB8
  * region:   ov009
@@ -20,8 +20,8 @@
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
- *   g_021AEB04     0x021AEB04  data
- *   g_021A8234     0x021A8234  data
+ *   gSBSortContext     0x021AEB04  data
+ *   gSBMasterHostFormat     0x021A8234  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -52,8 +52,8 @@ typedef struct {
     u8 **addrList;
 } SOCHostEnt;
 
-extern struct G_021AEB04 g_021AEB04;
-extern char g_021A8234[];
+extern struct G_021AEB04 gSBSortContext;
+extern char gSBMasterHostFormat[];
 
 extern int func_0219FB64(char *s, int numbuckets);
 extern u32 func_021803BC(char *dst, char *src, u32 size);
@@ -64,7 +64,7 @@ extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217EB2C(int sock);
 
-int func_0219FBB8(SBServerList *slist)
+int ServerListConnect(SBServerList *slist)
 {
     SOCSockAddrIn saddr;
     SOCHostEnt *hent;
@@ -72,10 +72,10 @@ int func_0219FBB8(SBServerList *slist)
     int masterIndex;
 
     masterIndex = func_0219FB64(slist->gamename, 20);
-    if ((*(char * *)&g_021AEB04))
-        func_021803BC(masterHostname, (*(char * *)&g_021AEB04), 128);
+    if ((*(char * *)&gSBSortContext))
+        func_021803BC(masterHostname, (*(char * *)&gSBSortContext), 128);
     else
-        OS_SPrintf(masterHostname, g_021A8234, slist->gamename, masterIndex);
+        OS_SPrintf(masterHostname, gSBMasterHostFormat, slist->gamename, masterIndex);
     saddr.family = 2;
     saddr.port = 0xEE70;
     saddr.addr = func_0217ED38(masterHostname);

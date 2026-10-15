@@ -17,7 +17,7 @@
  * symbols:
  *   SBQueryEngineUpdateServer  0x0219D928  arm  ov009
  *   SBQueryEngineRemoveServerFromFIFOs  0x0219DF04  arm  ov009
- *   func_021A02E0  0x021A02E0  arm  ov009
+ *   SBServerListDisconnect  0x021A02E0  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_0219D8D8  0x0219D8D8  arm  ov009
  */
@@ -75,7 +75,7 @@ struct ServerBrowser {
 extern void SBQueryEngineUpdateServer(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 struct SBL;
-extern void func_021A02E0(struct SBL *slist);
+extern void SBServerListDisconnect(struct SBL *slist);
 extern int func_02184200(const int *p);
 extern void func_0219D8D8(int *engine, int publicip);
 
@@ -116,7 +116,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         break;
     case 3:
         if (sb->disconnectFlag)
-            func_021A02E0((struct SBL *)serverlist);
+            SBServerListDisconnect((struct SBL *)serverlist);
         if (func_02184200(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
             sb->BrowserCallback(sb, 4, 0, sb->instance);
         break;

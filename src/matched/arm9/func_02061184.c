@@ -1,5 +1,5 @@
 /*
- * function: func_02061184
+ * function: NNS_FndRecordStateForFrmHeap
  * address:  0x02061184
  * packet:   pkt_02061184
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060FEC  0x02060FEC  arm
+ *   NNSi_FndAllocFromFrmHeapHead  0x02060FEC  arm
  */
 
 typedef unsigned char u8;
@@ -34,14 +34,14 @@ struct H {
     struct Heap h24;     /* +0x24 */
 };
 
-extern u32 func_02060FEC(struct Heap *h, u32 size, u32 align);
+extern u32 NNSi_FndAllocFromFrmHeapHead(struct Heap *h, u32 size, u32 align);
 
-int func_02061184(struct H *h, u32 a1)
+int NNS_FndRecordStateForFrmHeap(struct H *h, u32 a1)
 {
     struct Node *p;
     u32 saved = h->h24.cur;
 
-    p = (struct Node *)func_02060FEC(&h->h24, 0x10, 4);
+    p = (struct Node *)NNSi_FndAllocFromFrmHeapHead(&h->h24, 0x10, 4);
     if (p == 0) {
         return 0;
     }

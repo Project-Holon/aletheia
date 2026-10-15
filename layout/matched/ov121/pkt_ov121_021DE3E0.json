@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE3E0",
-    "func_021DE4D8"
+    "MYSTERY_NET_GetAction",
+    "MYSTERY_NET_GetResult"
+   ],
+   "addresses": [
+    "0x021DE3E0",
+    "0x021DE4D8"
    ]
   }
  ]

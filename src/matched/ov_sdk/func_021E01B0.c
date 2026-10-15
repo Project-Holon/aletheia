@@ -1,5 +1,5 @@
 /*
- * function: func_021E01B0
+ * function: BOX2_MAIN_IsWindowBusy
  * address:  0x021E01B0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EF400  0x021EF400  thumb  ov170
+ *   BOX2_UI_UpdateBarMove  0x021EF400  thumb  ov170
  *
  * Boolean of the state test.
  */
 
 
 
-extern int func_021EF400(unsigned char *p);
-int func_021E01B0(unsigned char *p)
+extern int BOX2_UI_UpdateBarMove(unsigned char *p);
+int BOX2_MAIN_IsWindowBusy(unsigned char *p)
 {
-    return func_021EF400(p) != 0;
+    return BOX2_UI_UpdateBarMove(p) != 0;
 }

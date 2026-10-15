@@ -18,9 +18,9 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
  *   POKETRADE_SAVE_ShowTimeIcon 0x021E1030 thumb ov119
- *   func_021D9AD8 0x021D9AD8 thumb ov119
+ *   POKETRADE_PROC_StepShowTradeSummary 0x021D9AD8 thumb ov119
  *   POKETRADE_PROC_StepStartSync20 0x021D9BC4 thumb ov119
- *   func_021DAEF0 0x021DAEF0 thumb ov119
+ *   POKETRADE_PROC_StepShowWaitMessageA 0x021DAEF0 thumb ov119
  */
 #include "../include/Obj03772.h"
 #include "../include/Obj22727.h"
@@ -42,9 +42,9 @@ struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *p);
 extern void POKETRADE_SAVE_ShowTimeIcon(char *p);
-extern void func_021D9AD8(char *p);
+extern void POKETRADE_PROC_StepShowTradeSummary(char *p);
 extern void POKETRADE_PROC_StepStartSync20(char *p);
-extern void func_021DAEF0(char *p);
+extern void POKETRADE_PROC_StepShowWaitMessageA(char *p);
 
 void POKETRADE_PROC_StepIntro(char *p)
 {
@@ -66,7 +66,7 @@ void POKETRADE_PROC_StepIntro(char *p)
     POKETRADE_NEGO_CloseCancelMenu(p, 1, 1);
     a = ((u8 *)p + me)[0x11e0];
     if (a == 1 && ((u8 *)p + other)[0x11e0] == 1) {
-        POKETRADE_PROC_SetStep(p, (int)func_021D9AD8);
+        POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepShowTradeSummary);
         return;
     }
     if (a == 4 && ((u8 *)p + other)[0x11e0] == 4) {
@@ -86,5 +86,5 @@ void POKETRADE_PROC_StepIntro(char *p)
     POKETRADE_SAVE_OpenMessageWindowTop(p);
     p[0x11e0] = 0;
     p[0x11e1] = 0;
-    POKETRADE_PROC_SetStep(p, (int)func_021DAEF0);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepShowWaitMessageA);
 }

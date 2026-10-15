@@ -1,5 +1,5 @@
 /*
- * function: func_021EA020
+ * function: BOX2_SEQ_GotoSlotHandlerB
  * address:  0x021EA020
  * packet:   pkt_ov170_021EA020
  * region:   ov170
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC768 0x021EC768 thumb
- *   func_021ED588 0x021ED588 thumb
- *   func_021EF534 0x021EF534 thumb
- *   func_021E8FE0 0x021E8FE0 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E070C 0x021E070C thumb
+ *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
+ *   BOX2_SEQ_RefreshCursorSlot 0x021ED588 thumb
+ *   BOX2_UI_CloseListPack 0x021EF534 thumb
+ *   BOX2_SEQ_SetState 0x021E8FE0 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_MAIN_SceneWaitScroll 0x021E070C thumb
  */
 
 struct WinMgr;
-extern void func_021EC768(char *p, unsigned i, int flag);
-extern void func_021ED588(char *p);
-extern void func_021EF534(struct WinMgr *mgr);
-extern int func_021E8FE0(char *p, int v);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E070C(char *p);
+extern void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag);
+extern void BOX2_SEQ_RefreshCursorSlot(char *p);
+extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
+extern int BOX2_SEQ_SetState(char *p, int v);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_SceneWaitScroll(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EA020(char *p, unsigned char i, int v)
+void BOX2_SEQ_GotoSlotHandlerB(char *p, unsigned char i, int v)
 {
     p[0x16] = i;
     *(unsigned char *)(WORK(p) + 0xA172) = 1;
-    func_021EC768(WORK(p), (unsigned char)p[0x16], 1);
-    func_021ED588(p);
-    func_021EF534(*(struct WinMgr **)(WORK(p) + 0x74));
-    func_021E8FC0(p, (int)func_021E070C, func_021E8FE0(p, v));
+    BOX2_SEQ_SetSlotDrawPriority(WORK(p), (unsigned char)p[0x16], 1);
+    BOX2_SEQ_RefreshCursorSlot(p);
+    BOX2_UI_CloseListPack(*(struct WinMgr **)(WORK(p) + 0x74));
+    BOX2_SEQ_SetSeqThird(p, (int)BOX2_MAIN_SceneWaitScroll, BOX2_SEQ_SetState(p, v));
 }

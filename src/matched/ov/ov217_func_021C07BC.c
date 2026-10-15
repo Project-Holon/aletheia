@@ -1,5 +1,5 @@
 /*
- * function: func_021C07BC
+ * function: RESEARCH_GRAPH_CreatePalAnm
  * address: 0x021C07BC
  * packet: pkt_ov217_021C07BC
  * region: ov217
@@ -20,7 +20,7 @@ struct PalAnmSlot;
 extern void *PALANM_Create(u32);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *, u32, u32, u32);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
-void func_021C07BC(u8 *p)
+void RESEARCH_GRAPH_CreatePalAnm(u8 *p)
 {
     ((struct Obj03953 *)p)->f3B8 = PALANM_Create(((struct Obj03953 *)p)->f4);
     PALANM_AllocSlotBuffers(((struct Obj03953 *)p)->f3B8, 0, 512, ((struct Obj03953 *)p)->f4);

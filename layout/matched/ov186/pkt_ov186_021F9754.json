@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F9754",
-    "func_021F9770"
+    "BR_PROC_SYS_CopyRecord2",
+    "BR_PROC_SYS_NoopF"
+   ],
+   "addresses": [
+    "0x021F9754",
+    "0x021F9770"
    ]
   }
  ]

@@ -66,15 +66,10 @@
  *   UNION_COMMAND_SendAppEntryRefused 0x02173D88 thumb ov012
  *   UNION_COMMAND_SendAppEntryAccepted 0x02173DBC thumb ov012
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+typedef struct { int x, y, z; } VecFx32;
 
-#include "../arm9/net_types.h"
-typedef struct { s32 x, y, z; } VecFx32;
 #include "union_comm_types.h"
+#include "../arm9/net_types.h"
 
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 

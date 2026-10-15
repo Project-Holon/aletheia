@@ -84,9 +84,9 @@
  *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  *   COMPATIBLE_IRC_SYS_GetValueDifference 0x021B6480 thumb ov101
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_020870D0 0x020870D0 arm
  *   func_0209C2B0 0x0209C2B0 arm
  *   IRC_APPBAR_IsPressed 0x021B7254 thumb ov101
@@ -380,9 +380,9 @@ extern int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void *func_0200ED48(void *saveControl);
+extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 extern u32 func_02008530(const u8 *myStatus);
-extern void func_0200ED54(void *saveData, u32 value);
+extern void MISC_SAVEDATA_InsertRecentValue(void *saveData, u32 value);
 extern unsigned long long func_020870D0(void);
 extern u32 func_0209C2B0(u32, u32);
 extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
@@ -877,8 +877,8 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
         if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
-                saveData = func_0200ED48(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem)));
-                func_0200ED54(saveData, func_02008530(work->args->profile->myStatus));
+                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(func_020120F4(work->args->gameSystem)));
+                MISC_SAVEDATA_InsertRecentValue(saveData, func_02008530(work->args->profile->myStatus));
             }
             *state = 6;
         }

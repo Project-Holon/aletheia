@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * witness:  callee 0x02060F98 is witnessed by its ARM9 entry
- *           (src/matched/arm9/func_02060F98.c, pkt_02060F98).
+ *           (src/matched/arm9/NNSi_FndGetMBlockAttribute.c, pkt_02060F98).
  *
  * symbols:
  *   _pRapHeap  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
- *   func_02060F98  0x02060F98  arm  arm9
+ *   NNSi_FndGetMBlockAttribute  0x02060F98  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02060E30  0x02060E30  arm
+ *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  */
 
@@ -44,11 +44,11 @@ extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
 typedef unsigned char  u8;
-extern u8 func_02060F98(char *p);
+extern u8 NNSi_FndGetMBlockAttribute(char *p);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 h);
 struct ExpHeap;
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
 void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
@@ -58,10 +58,10 @@ void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
     if (p == 0) {
         return;
     }
-    if (func_02060F98(p) == 0xEA) {
+    if (NNSi_FndGetMBlockAttribute(p) == 0xEA) {
         if (_pRapHeap->f8 != 0) {
             h = OS_DisableInterrupts();
-            func_02060E30((struct ExpHeap *)_pRapHeap->f8, p);
+            NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->f8, p);
             OS_RestoreInterrupts(h);
             _pRapHeap->f14--;
             return;
@@ -70,6 +70,6 @@ void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
         return;
     }
     h = OS_DisableInterrupts();
-    func_02060E30((struct ExpHeap *)_pRapHeap->f0, p);
+    NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->f0, p);
     OS_RestoreInterrupts(h);
 }

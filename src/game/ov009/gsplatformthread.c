@@ -16,11 +16,13 @@
  *   func_020879B4                  0x020879B4  arm
  *   func_020879C8                  0x020879C8  arm
  *   func_020964F4  0x020964F4  arm
+ *   OS_InitMutex  0x02086004  arm  arm9
+ *   OS_LockMutex  0x02086028  arm  arm9
  */
 extern unsigned long func_020879B4(void);
 extern unsigned long func_020879C8(unsigned long state);
-extern void func_02086004(void *criticalSection);
-extern void func_02086028(void *criticalSection);
+extern void OS_InitMutex(void *criticalSection);
+extern void OS_LockMutex(void *criticalSection);
 extern void func_02086078(void *criticalSection);
 extern long long func_020964F4(unsigned int string);
 unsigned int func_0217F0B4(unsigned int *value);
@@ -69,7 +71,7 @@ unsigned int func_0217F0D8(unsigned int *value)
 
 void gsiInitializeCriticalSection(void *criticalSection)
 {
-    func_02086004(criticalSection);
+    OS_InitMutex(criticalSection);
 }
 
 
@@ -81,7 +83,7 @@ void gsiInitializeCriticalSection(void *criticalSection)
  */
 void gsiEnterCriticalSection(void *criticalSection)
 {
-    func_02086028(criticalSection);
+    OS_LockMutex(criticalSection);
 }
 
 

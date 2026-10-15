@@ -1,5 +1,5 @@
 /*
- * function: func_02089F88
+ * function: SND_AlarmInit
  * address:  0x02089F88
  * packet:   pkt_02089F88
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct AlarmCallbackInfo {
 
 extern AlarmCallbackInfo sCallbackTable[8];
 
-void func_02089F88(void)
+void SND_AlarmInit(void)
 {
     AlarmCallbackInfo *info;
     int alarmNo;

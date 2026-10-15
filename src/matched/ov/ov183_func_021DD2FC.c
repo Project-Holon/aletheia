@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj24577.h"
-extern void func_021FD860(int obj, int one, int *args);
+extern void BR_UTIL_StartEffect(int obj, int one, int *args);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021DD2FC(char *p, int a, int b)
@@ -24,7 +24,7 @@ int func_021DD2FC(char *p, int a, int b)
         int args[2];
         args[0] = a;
         args[1] = b;
-        func_021FD860(((struct Obj24577 *)p)->f10, 1, args);
+        BR_UTIL_StartEffect(((struct Obj24577 *)p)->f10, 1, args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;

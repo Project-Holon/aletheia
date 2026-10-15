@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02087068",
+   "name": "OSi_CountUpTick",
    "address": "0x02087068",
    "kind": "sdk",
    "region": "arm9",
@@ -16,12 +16,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x02087068"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

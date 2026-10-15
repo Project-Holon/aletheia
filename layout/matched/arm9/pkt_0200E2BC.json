@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E2BC",
+   "name": "SYMBOL_SAVE_FindRecord",
    "address": "0x0200E2BC",
    "kind": "game",
    "region": "arm9",

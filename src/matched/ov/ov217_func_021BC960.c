@@ -1,5 +1,5 @@
 /*
- * function: func_021BC960
+ * function: RESEARCH_LIST_InitTables
  * address: 0x021BC960
  * packet: pkt_ov217_021BC960
  * region: ov217
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 extern const u8 d_021C30B2[];
 extern const u8 d_021C3190[];
 extern const u8 d_021C3070[];
-void func_021BC960(u8 *p)
+void RESEARCH_LIST_InitTables(u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

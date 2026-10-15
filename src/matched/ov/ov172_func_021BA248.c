@@ -1,5 +1,5 @@
 /*
- * function: func_021BA248
+ * function: CTVT_MIC_GetLength
  * address:  0x021BA248
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BA248(void *p)
+int CTVT_MIC_GetLength(void *p)
 {
     return ((struct Obj24098 *)p)->f18;
 }

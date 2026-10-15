@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02086004  0xfunc_02086004  arm
+ *   OS_InitMutex  0x02086004  arm  arm9
+ *   OS_InitMutex  0xfunc_02086004  arm
  */
 
-extern void func_02086004(void *mutex);
+extern void OS_InitMutex(void *mutex);
 
 void gsiInitializeCriticalSection(void *mutex)
 {
-    func_02086004(mutex);
+    OS_InitMutex(mutex);
 }

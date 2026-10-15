@@ -1,5 +1,5 @@
 /*
- * function: func_02086CBC
+ * function: OS_IsOnVram
  * address:  0x02086CBC
  * packet:   pkt_02086CBC
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     os_alloc.o OS_IsOnVram.
  */
 
-int func_02086CBC(void *ptr)
+int OS_IsOnVram(void *ptr)
 {
     unsigned int p = (unsigned int)ptr;
 

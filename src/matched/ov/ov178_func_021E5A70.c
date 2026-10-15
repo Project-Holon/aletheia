@@ -1,5 +1,5 @@
 /*
- * function: func_021E5A70
+ * function: PARTY_STATUS_CreateSubWork
  * address:  0x021E5A70
  * packet:   pkt_021E5A70
  * region:   ov178
@@ -22,7 +22,7 @@ extern int func_02034AC4(s32 handle);
 extern void *func_0217E00C(int unused, int heap);
 extern u8 ov176_id[];
 
-void func_021E5A70(u32 *out, u32 **pp, u32 v)
+void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
 {
     func_02034AC4((u32)ov176_id);
     *out = (u32)func_0217E00C(*(u32 *)*pp, v);

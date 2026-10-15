@@ -1,5 +1,5 @@
 /*
- * function: func_021BFED4
+ * function: RESEARCH_GRAPH_DestroyArrow
  * address:  0x021BFED4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 ARROW_Destroy(void *a0);
 
-void func_021BFED4(u8 *a0)
+void RESEARCH_GRAPH_DestroyArrow(u8 *a0)
 {
     ARROW_Destroy((void *)(((struct Obj25956 *)a0)->f2D0));
 }

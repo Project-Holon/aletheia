@@ -1,5 +1,5 @@
 /*
- * function: func_0200E5A0
+ * function: BATTLE_EXAMINATION_IsDeliveryValid
  * address:  0x0200E5A0
  * packet:   pkt_0200E5A0
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
-int func_0200E5A0(void *a0)
+int BATTLE_EXAMINATION_IsDeliveryValid(void *a0)
 {
     if (((struct Obj11237 *)a0)->f5C6 == func_0203F1FC(a0, 0x5c6) &&
         ((struct Obj11237 *)a0)->f5C2 == 0xd68)

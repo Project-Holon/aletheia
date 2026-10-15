@@ -1,5 +1,5 @@
 /*
- * function: func_021FCDA8
+ * function: BR_UTIL_GetListMenuField48
  * address: 0x021FCDA8
  * packet: pkt_ov186_021FCDA8
  * region: ov186
@@ -10,7 +10,7 @@
  * leaf: S27 parent clearance; ov183 callers DFFB0 and E024C sole blocker.
  */
 #include "../include/Obj24838.h"
-int func_021FCDA8(char *p)
+int BR_UTIL_GetListMenuField48(char *p)
 {
     return ((struct Obj24838 *)p)->f48;
 }

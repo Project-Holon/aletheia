@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA640",
+   "name": "POKETRADE_PROC_StepOpenPeerSummary",
    "address": "0x021DA640",
    "kind": "game",
    "region": "ov119",

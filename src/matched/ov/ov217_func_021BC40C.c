@@ -1,5 +1,5 @@
 /*
- * function: func_021BC40C
+ * function: RESEARCH_LIST_GetScrollRange
  * address:  0x021BC40C
  * packet:   pkt_021BC40C
  * region:   ov217
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC6DC  0x021BC6DC  thumb  ov217
+ *   RESEARCH_LIST_GetEntryCount  0x021BC6DC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_021BC6DC(void *p);
+extern unsigned int RESEARCH_LIST_GetEntryCount(void *p);
 
-int func_021BC40C(void *p)
+int RESEARCH_LIST_GetScrollRange(void *p)
 {
-    return (int)func_021BC6DC(p) * 0x18 - 0xa8;
+    return (int)RESEARCH_LIST_GetEntryCount(p) * 0x18 - 0xa8;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B96C8
+ * function: RESEARCH_TOP_ChangeScreen
  * address:  0x021B96C8
  * packet:   pkt_ov217_021B96C8
  * region:   ov217
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 2026-10-05 (wD5 lane01): EXACT. func_021B970C takes (a, p) (its listing reads r0 and r1);
+ * 2026-10-05 (wD5 lane01): EXACT. RESEARCH_TOP_CloseSubState takes (a, p) (its listing reads r0 and r1);
  *   the argless call was the cause of the p/c register swap. Older notes below.
  * Note 2026-10-04 (wD2 lane12): also tried p typed int with (int *) cast at the deref and int-typed callee param. Same 5 bytes (p r6, c r4; original p r4, c r6, a r5).
  *
@@ -22,8 +22,8 @@
  *           r1/r2 swap. Every other byte matches.
  *
  * symbols:
- *   func_021B970C  0x021B970C  thumb  ov217
- *   func_021B9774  0x021B9774  thumb  ov217
+ *   RESEARCH_TOP_CloseSubState  0x021B970C  thumb  ov217
+ *   RESEARCH_TOP_OpenSubState  0x021B9774  thumb  ov217
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *
  * Note 2026-10-04 (wD1 lane06): Retried: void-pointer, u32, u8, s16 and const types for p and c, local v = *p, if-chains, char* a. Still 5 bytes: p lands in r6 and c in r4 (original p r4, c r6).
@@ -32,14 +32,14 @@
  */
 
 typedef unsigned int   u32;
-extern void func_021B970C(u32 *p, u32 *state);
-extern void func_021B9774(u32 *p, u32 *state, u32 kind);
+extern void RESEARCH_TOP_CloseSubState(u32 *p, u32 *state);
+extern void RESEARCH_TOP_OpenSubState(u32 *p, u32 *state, u32 kind);
 extern void RESEARCH_COMMON_SetScreen(void *p, u32 v);
 
-void func_021B96C8(void *a, int *p, int c)
+void RESEARCH_TOP_ChangeScreen(void *a, int *p, int c)
 {
-    func_021B970C(a, (u32 *)p);
-    func_021B9774(a, (u32 *)p, c);
+    RESEARCH_TOP_CloseSubState(a, (u32 *)p);
+    RESEARCH_TOP_OpenSubState(a, (u32 *)p, c);
     switch (*p) {
     case 1:
         RESEARCH_COMMON_SetScreen((void *)(*(int *)((char *)a + 0xc)), 1);

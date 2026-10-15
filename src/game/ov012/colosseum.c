@@ -53,15 +53,10 @@
  *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+typedef struct { int x, y, z; } VecFx32;
 
-#include "../arm9/net_types.h"
-typedef struct { s32 x, y, z; } VecFx32;
 #include "union_comm_types.h"
+#include "../arm9/net_types.h"
 #include "../ov006/event_wificlub_types.h"
 
 extern u32 GFL_NET_IsParentAid(void);

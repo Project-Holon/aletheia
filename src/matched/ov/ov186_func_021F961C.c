@@ -1,5 +1,5 @@
 /*
- * function: func_021F961C
+ * function: BR_PROC_SYS_SetPendingFlag
  * address: 0x021F961C
  * packet: pkt_ov186_021F961C
  * region: ov186
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned int u32;
-void func_021F961C(u32 *a, u32 *b);
+void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b);
 
-void func_021F961C(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }
+void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }

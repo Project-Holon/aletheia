@@ -1,5 +1,5 @@
 /*
- * function: func_021E754C
+ * function: BOX2_SEQ_StateMoveItemD
  * address: 0x021E754C
  * packet: pkt_ov170_021E754C
  * region: ov170
@@ -9,53 +9,53 @@
  * status: EXACT
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021ECB60 0x021ECB60 thumb ov170
- *   func_021ED6E4 0x021ED6E4 thumb ov170
- *   func_021ED108 0x021ED108 thumb ov170
- *   func_021EBFA8 0x021EBFA8 thumb ov170
+ *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb ov170
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
+ *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb ov170
+ *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb ov170
  *   func_020260E4 0x020260E4 thumb
- *   func_021EA750 0x021EA750 thumb ov170
- *   func_021EBFEC 0x021EBFEC thumb ov170
- *   func_021DEFEC 0x021DEFEC thumb ov170
+ *   BOX2_SEQ_DeleteB 0x021EA750 thumb ov170
+ *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb ov170
+ *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
  *   func_020260F4 0x020260F4 thumb
- *   func_021EF68C 0x021EF68C thumb ov170
+ *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_021ECB60(char *w, int i, int f);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021ED108(char *w, int on);
-extern void func_021EBFA8(char *w, int i, int v);
+extern void BOX2_SEQ_SetSlotActorMode(char *w, int i, int f);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_SetActorAffineMode(char *w, int on);
+extern void BOX2_SEQ_SetActorAnimSeq(char *w, int i, int v);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EA750(char *p);
-extern u32 func_021EBFEC(char *p, int i);
-extern void func_021DEFEC(char *p, int b);
+extern void BOX2_SEQ_DeleteB(char *p);
+extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern void func_021EF68C(char *w);
+extern void BOX2_UI_ShowWindowB(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
-int func_021E754C(unsigned char *p)
+int BOX2_SEQ_StateMoveItemD(unsigned char *p)
 {
     switch (STEP(p)) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x667);
-        func_021ECB60(WORK(p), **(unsigned short **)(WORK(p) + 0x60), 0);
-        func_021ED6E4((char **)p, 0);
-        func_021ED108(WORK(p), 1);
-        func_021EBFA8(WORK(p), 10, 2);
+        BOX2_SEQ_SetSlotActorMode(WORK(p), **(unsigned short **)(WORK(p) + 0x60), 0);
+        BOX2_SEQ_SetSlotDim((char **)p, 0);
+        BOX2_SEQ_SetActorAffineMode(WORK(p), 1);
+        BOX2_SEQ_SetActorAnimSeq(WORK(p), 10, 2);
         func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16] - 0x1E);
-        func_021EA750((char *)p);
+        BOX2_SEQ_DeleteB((char *)p);
         STEP(p)++;
         break;
     case 1:
-        if (func_021EBFEC(WORK(p), 10) == 1)
+        if (BOX2_SEQ_IsActorAnimActive(WORK(p), 10) == 1)
             break;
-        func_021DEFEC((char *)p, p[0x16]);
+        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
         func_020260F4(*(void **)(WORK(p) + 0x70), 1);
-        func_021EF68C(WORK(p));
+        BOX2_UI_ShowWindowB(WORK(p));
         return 0x46;
     }
     return 0x4A;

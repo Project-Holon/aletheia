@@ -1,5 +1,5 @@
 /*
- * function: func_021EF630
+ * function: BOX2_UI_AddFadeFrame
  * address:  0x021EF630
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ struct WinMgr;
 extern u32 func_0204162C(int channel);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
-void func_021EF630(char *p)
+void BOX2_UI_AddFadeFrame(char *p)
 {
     int x = func_0204162C(0);
     BGWINFRM_AddFrame(*(struct WinMgr **)(*(int *)&((struct Obj01558 *)p)->f2C + 0x74), 6, 0, 0x20, 3);

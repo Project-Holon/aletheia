@@ -21,7 +21,7 @@
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   func_021C0868  0x021C0868  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
- *   func_021C0878  0x021C0878  thumb  ov093
+ *   RESEARCH_GRAPH_BindPaletteAnime  0x021C0878  thumb  ov093
  *   func_021C0888  0x021C0888  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
@@ -34,7 +34,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u32 func_021C0868(int e);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
-extern u8 *func_021C0878(int e, int i);
+extern u8 *RESEARCH_GRAPH_BindPaletteAnime(int e, int i);
 extern u8 *func_021C0888(int e, int i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVar(int key, u32 val);
@@ -50,7 +50,7 @@ int BTL_SERVER_FLOW_QueryMovePPCostEvent(u8 *p, u8 *a, u16 c, u16 d, int e)
     BTL_EVENT_PushVarFrame(0x16ef);
     i = 0;
     BTL_EVENT_SetVarReadOnly(5, func_021C0868(e));
-    r = func_021C0878(e, 0);
+    r = RESEARCH_GRAPH_BindPaletteAnime(e, 0);
     if (r != 0) {
         do {
             BTL_EVENT_SetVarReadOnly(i + 6, BTL_POKEPARAM_GetPokeId(r));

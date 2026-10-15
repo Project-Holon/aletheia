@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4C8
+ * function: RESEARCH_TOP_GetOwner
  * address:  0x021BA4C8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA4C8(void *p)
+u32 RESEARCH_TOP_GetOwner(void *p)
 {
     return ((struct Obj25824 *)p)->f0;
 }

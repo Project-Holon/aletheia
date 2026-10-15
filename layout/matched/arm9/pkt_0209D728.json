@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0209D728",
+   "name": "MSL_CONSOLE_IO_RegisterDestructor",
    "address": "0x0209D728",
    "kind": "game",
    "region": "arm9",
@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_0209D774",
+   "name": "MSL_CONSOLE_IO_WriteChar",
    "address": "0x0209D774",
    "kind": "game",
    "region": "arm9",
@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209D778",
+   "name": "MSL_CONSOLE_IO_WriteString",
    "address": "0x0209D778",
    "kind": "game",
    "region": "arm9",
@@ -49,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209D77C",
+   "name": "MSL_CONSOLE_IO_ReadChar",
    "address": "0x0209D77C",
    "kind": "game",
    "region": "arm9",

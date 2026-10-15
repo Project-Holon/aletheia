@@ -13,7 +13,7 @@
  *   func_021FB1F4 0x021FB1F4 thumb ov132
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_021F8154 0x021F8154 thumb ov112
+ *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  */
 #include "../include/Obj10551.h"
 #include "../include/Obj14108.h"
@@ -24,7 +24,7 @@ extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
-extern int func_021F8154(int a0, int *a1, int a2);
+extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
 int func_021FB698(int unused, char *p)
 {
     char *obj;
@@ -38,7 +38,7 @@ int func_021FB698(int unused, char *p)
     ctx = func_021F9DA0(((struct Obj14108 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F8154((int)ctx, func_021F9DA4(((struct Obj14108 *)obj)->f34, i), value != 0);
+            STA_ACT_LIGHT_SetElemValue((int)ctx, func_021F9DA4(((struct Obj14108 *)obj)->f34, i), value != 0);
         }
     }
     return 0;

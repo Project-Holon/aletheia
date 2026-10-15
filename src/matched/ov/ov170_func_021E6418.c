@@ -1,5 +1,5 @@
 /*
- * function: func_021E6418
+ * function: BOX2_SEQ_StateSelectItem
  * address: 0x021E6418
  * packet: pkt_ov170_021E6418
  * region: ov170
@@ -14,14 +14,14 @@
  *   }
  * symbols:
  *   func_020260E4 0x020260E4 thumb
- *   func_021EE3E4 0x021EE3E4 thumb ov170
- *   func_021ED55C 0x021ED55C thumb ov170
+ *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(char **,unsigned);
-extern void func_021ED55C(char **,int);
-int func_021E6418(u8 *p){int sel;sel=37;if(*(u16 *)(*(char **)(p+0x2c)+0xa16c)!=0)sel=36;func_020260E4(*(void **)(*(char **)(p+0x2c)+0x70),sel);func_021EE3E4((char **)p,sel);func_021ED55C((char **)p,1);return 57;}
+extern void BOX2_UI_SetCursorPos(char **,unsigned);
+extern void BOX2_SEQ_SetCursorDraw(char **,int);
+int BOX2_SEQ_StateSelectItem(u8 *p){int sel;sel=37;if(*(u16 *)(*(char **)(p+0x2c)+0xa16c)!=0)sel=36;func_020260E4(*(void **)(*(char **)(p+0x2c)+0x70),sel);BOX2_UI_SetCursorPos((char **)p,sel);BOX2_SEQ_SetCursorDraw((char **)p,1);return 57;}

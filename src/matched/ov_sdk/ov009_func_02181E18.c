@@ -1,5 +1,5 @@
 /*
- * function: func_02181E18
+ * function: gsXmlWriterGetData
  * address:  0x02181E18
  * packet:   pkt_ov009_02181E18
  * region:   ov009
@@ -22,7 +22,7 @@ typedef struct GSIXmlStreamWriter {
     int openElements;           /* +0x0c */
 } GSIXmlStreamWriter;
 
-char *func_02181E18(void *stream)
+char *gsXmlWriterGetData(void *stream)
 {
     return ((GSIXmlStreamWriter *)stream)->buffer;
 }

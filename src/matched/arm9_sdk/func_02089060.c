@@ -1,5 +1,5 @@
 /*
- * function: func_02089060
+ * function: RTC_ConvertDayToDate
  * address:  0x02089060
  * packet:   pkt_02089060
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
 
 extern s32 sDayOfYear[12];
 
-void func_02089060(RTCDate *date, s32 day)
+void RTC_ConvertDayToDate(RTCDate *date, s32 day)
 {
     u32 year;
     s32 month;

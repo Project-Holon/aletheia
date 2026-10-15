@@ -18,7 +18,7 @@
  *   _SndState   0x020AA260  data
  *   _SndArcPath   0x020A7010  data
  *   _SndArc   0x020AA2BC  data
- *   func_020726D0  0x020726D0  arm
+ *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndHeapCreate  0x020746E8  arm
  *   NNS_SndArcInit  0x02073FB8  arm
  *   GFL_USE_ResetSound  0x02005B74  thumb
@@ -29,7 +29,7 @@
  * (0x95AD0 bytes, a pool word and not a `movs`-able constant), publish the
  * handle at +0x10 of the connection-slot global and hand the pair to the
  * handler installer, then run the console-type-specific tail.  The function
- * takes no arguments: its first call, func_020726D0 (sound init), is
+ * takes no arguments: its first call, NNS_SndInit (sound init), is
  * `void (void)` and reads neither r0 nor r1, so the r0/r1 the caller
  * GFL_USE_InitGameSystems leaves behind are dead
  * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
@@ -46,7 +46,7 @@ extern char _SndState[];
 extern char _SndArcPath[];
 extern char _SndArc[];
 
-extern void func_020726D0(void);
+extern void NNS_SndInit(void);
 extern u32  NNS_SndHeapCreate(u32 off, u32 size);
 extern void NNS_SndArcInit(char *a, char *b, u32 c, u32 d);
 extern void GFL_USE_ResetSound(int a0);
@@ -57,7 +57,7 @@ void GFL_USE_InitSound(void)
 {
     u32 handle;
 
-    func_020726D0();
+    NNS_SndInit();
     handle = NNS_SndHeapCreate((u32)_SndHeapBuf, 0x95AD0);
     *(u32 *)(_SndState + 0x10) = handle;
     NNS_SndArcInit(_SndArc, _SndArcPath, handle, 0);

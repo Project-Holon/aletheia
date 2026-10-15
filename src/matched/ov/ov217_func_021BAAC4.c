@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAC4
+ * function: RESEARCH_TOP_ClearPaletteAnime
  * address:  0x021BAAC4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BAAC4(void *p)
+void RESEARCH_TOP_ClearPaletteAnime(void *p)
 {
     int i;
     for (i = 0; i < 5; i++)

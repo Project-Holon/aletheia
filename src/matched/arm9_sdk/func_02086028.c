@@ -1,5 +1,5 @@
 /*
- * function: func_02086028
+ * function: OS_LockMutex
  * address:  0x02086028
  * packet:   pkt_02086028
  * region:   arm9
@@ -167,7 +167,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 extern BOOL OS_TryLockMutex(OSMutex *mutex);
 extern void OS_SleepThread(OSThreadQueue *queue);
 
-void func_02086028(OSMutex *mutex)
+void OS_LockMutex(OSMutex *mutex)
 {
     OSIntrMode e = OS_DisableInterrupts();
     OSThread *currentThread = OSi_ThreadInfo.current;

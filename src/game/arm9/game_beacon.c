@@ -33,13 +33,13 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E394  0x0200E394  thumb
- *   func_0200E44C  0x0200E44C  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
+ *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
  *   func_02167394  0x02167394  thumb
- *   func_0200E3A4  0x0200E3A4  thumb
- *   func_0200E49C  0x0200E49C  thumb
- *   func_0200E460  0x0200E460  thumb
- *   func_0200E4CC  0x0200E4CC  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
+ *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
+ *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
+ *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C33C  0x0200C33C  thumb
  *   func_0200C364  0x0200C364  thumb
@@ -59,8 +59,8 @@
  *   func_0200C1C4    0x0200C1C4  thumb
  *   func_0200C1DC    0x0200C1DC  thumb
  *   func_02008650    0x02008650  thumb
- *   func_0200E3A0    0x0200E3A0  thumb
- *   func_0200E6FC    0x0200E6FC  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireBits    0x0200E3A0  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord    0x0200E6FC  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_020084F4    0x020084F4  thumb
  *   func_0200C1F4    0x0200C1F4  thumb
@@ -229,14 +229,14 @@ extern u16 func_0200864C(const struct PlayTime *playTime);
 extern u8 func_02008650(const struct PlayTime *playTime);
 extern void NET_WHPIPE_PublishBeacon(void);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct QuestionnaireSave *func_0200E394(struct SaveControl *save);
-extern int   func_0200E44C(struct QuestionnaireSave *questionnaire, int slot);
+extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *save);
+extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
 extern u32   func_02167394(u8 questionId);
-extern u32   func_0200E3A4(const u8 *answers, u8 questionId);
-extern u32 func_0200E49C(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
-extern void func_0200E460(struct QuestionnaireSave *questionnaire, int questionId, int counted);
-extern void func_0200E4CC(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer, int count);
-extern const u8 *func_0200E3A0(struct QuestionnaireSave *questionnaire);
+extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *answers, u8 questionId);
+extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
+extern void MISC_SAVEDATA_AddHalfwordClamped(struct QuestionnaireSave *questionnaire, int questionId, int counted);
+extern void MISC_SAVEDATA_AddTallyValue(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer, int count);
+extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct QuestionnaireSave *questionnaire);
 extern struct MiscSave *func_0200C0F0(struct SaveControl *save);
 extern int func_0200C33C(struct MiscSave *misc, u8 slot);
 extern void func_0200C364(struct MiscSave *misc, u8 slot, int value);
@@ -245,7 +245,7 @@ extern u32 func_0200C1C4(struct MiscSave *misc);
 extern u32 func_0200C1DC(struct MiscSave *misc);
 extern u16 *func_0200C1F4(struct MiscSave *misc);
 extern struct PmsSave *func_0200E6E8(struct SaveControl *save);
-extern void func_0200E6FC(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
 extern struct PlayerWork *func_020127A4(struct GameData *gameData);
 extern u16 func_02012AC8(const struct PlayerWork *player);
 extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
@@ -1230,7 +1230,7 @@ static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int question
         if (answer > func_02167394(questionId))
             answer = func_02167394(questionId);
     } else {
-        answer = func_0200E3A4(info->questionnaire, questionId);
+        answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, questionId);
     }
     return answer;
 }
@@ -1283,26 +1283,26 @@ void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info)
         if (work->oldestIndex >= 30)
             work->oldestIndex = 0;
     }
-    questionnaire = func_0200E394(GAME_DATA_GetSaveControl(work->gameData));
+    questionnaire = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(work->gameData));
     for (i = 0; i < 3; i++) {
-        questionId = func_0200E44C(questionnaire, i);
+        questionId = MISC_SAVEDATA_GetStatusByte(questionnaire, i);
         if (questionId != 0xff) {
             answer = GAME_BEACON_GetAnswer(info, questionId);
-            if (answer != 0 && func_0200E49C(questionnaire, questionId, answer) == 0) {
-                func_0200E460(questionnaire, questionId, 1);
-                func_0200E4CC(questionnaire, questionId, answer, 1);
+            if (answer != 0 && MISC_SAVEDATA_IsTallyFull(questionnaire, questionId, answer) == 0) {
+                MISC_SAVEDATA_AddHalfwordClamped(questionnaire, questionId, 1);
+                MISC_SAVEDATA_AddTallyValue(questionnaire, questionId, answer, 1);
                 work->questionnaireUpdated = 1;
             }
         }
     }
     save = GAME_DATA_GetSaveControl(work->gameData);
-    researchQuestionnaire = func_0200E394(save);
+    researchQuestionnaire = SYMBOL_SAVE_GetBitBlock(save);
     misc = func_0200C0F0(save);
     for (i = 0; i < 3; i++) {
         questionId = func_0200C33C(misc, i);
         if (questionId != 0xff) {
             for (j = 0; j < 3; j++) {
-                if (questionId == func_0200E44C(researchQuestionnaire, j)) {
+                if (questionId == MISC_SAVEDATA_GetStatusByte(researchQuestionnaire, j)) {
                     if (GAME_BEACON_GetAnswer(info, questionId) != 0)
                         func_0200C364(misc, i, 1);
                 }
@@ -1719,8 +1719,8 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     playTime = GAME_DATA_GetPlayTime(gameData);
     info->playHours = func_0200864C(playTime);
     info->playMinutes = func_02008650(playTime);
-    MI_CpuCopy8(func_0200E3A0(func_0200E394(save)), info->questionnaire, sizeof(info->questionnaire));
-    func_0200E6FC(pmsSave, 0, &pms);
+    MI_CpuCopy8(SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(save)), info->questionnaire, sizeof(info->questionnaire));
+    MISC_SAVEDATA_CopyQuadRecord(pmsSave, 0, &pms);
     GAME_BEACON_SetMyPms(&pms);
     eomCode = STRBUF_GetEosChar();
     codes = func_020084F4(myStatus);

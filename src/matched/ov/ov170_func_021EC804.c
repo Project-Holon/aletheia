@@ -1,5 +1,5 @@
 /*
- * function: func_021EC804
+ * function: BOX2_SEQ_ShiftSlotIcons
  * address:  0x021EC804
  * packet:   pkt_ov170_021EC804
  * region:   ov170
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC428 0x021EC428 thumb
- *   func_021EC000 0x021EC000 thumb
- *   func_021ECB74 0x021ECB74 thumb
- *   func_021EC08C 0x021EC08C thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_SetSlotIconPal 0x021EC428 thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
+ *   BOX2_SEQ_SetActorMode1 0x021ECB74 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
  */
 #include "../include/Obj24013.h"
 #include "../include/Obj24014.h"
 #include "../include/Obj24015.h"
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC428(char *p, int a, int i, int b);
-extern void func_021EC000(char *p, int i, int v);
-extern void func_021ECB74(char *a, int b);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_SetSlotIconPal(char *p, int a, int i, int b);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+extern void BOX2_SEQ_SetActorMode1(char *a, int b);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
 
-void func_021EC804(char **p, short dx)
+void BOX2_SEQ_ShiftSlotIcons(char **p, short dx)
 {
     short t[2];
     short reset;
@@ -42,15 +42,15 @@ void func_021EC804(char **p, short dx)
     }
     for (i = 0; i < 0x1E; i++) {
         k = *(unsigned char *)(p[11] + i + 0x3DD2);
-        func_021EC0B0(p[11], k, &t[1], &t[0], 0);
+        BOX2_SEQ_GetActorSurfacePos(p[11], k, &t[1], &t[0], 0);
         t[1] += dx;
         if (t[1] == lim) {
             t[1] = reset;
-            func_021EC428(p[11], (int)(p[11] + 0x1B4 + i * 0x200), k, *(unsigned char *)(p[11] + i + 0x3DB4));
-            func_021EC000(p[11], k, *(int *)(p[11] + i * 4 + 0x3DF8));
+            BOX2_SEQ_SetSlotIconPal(p[11], (int)(p[11] + 0x1B4 + i * 0x200), k, *(unsigned char *)(p[11] + i + 0x3DB4));
+            BOX2_SEQ_SetActorDrawEnable(p[11], k, *(int *)(p[11] + i * 4 + 0x3DF8));
             if (((struct Obj24013 *)(p[11]))->fA17A == 0 && (((struct Obj24014 *)(p[0]))->f24 == 3 || ((struct Obj24015 *)(p[0]))->f24 == 5))
-                func_021ECB74((char *)p, i);
+                BOX2_SEQ_SetActorMode1((char *)p, i);
         }
-        func_021EC08C(p[11], k, t[1], t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos(p[11], k, t[1], t[0], 0);
     }
 }

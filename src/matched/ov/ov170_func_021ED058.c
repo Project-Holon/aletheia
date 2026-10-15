@@ -1,5 +1,5 @@
 /*
- * function: func_021ED058
+ * function: BOX2_SEQ_LoadIconPalette
  * address: 0x021ED058
  * packet: pkt_ov170_021ED058
  * region: ov170
@@ -23,4 +23,4 @@ extern unsigned func_02020E60(unsigned,unsigned);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void ARC_TOOL_DeleteHandle(void*);
-void func_021ED058(u8*p){void*h;h=func_020490F4(25,76);*(void* *)&((struct Obj02214 *)p)->fA114=(void *)CLACT_RegisterPalette(h,func_02020E60(0,2),0,0x180,76);ARC_TOOL_DeleteHandle(h);}
+void BOX2_SEQ_LoadIconPalette(u8*p){void*h;h=func_020490F4(25,76);*(void* *)&((struct Obj02214 *)p)->fA114=(void *)CLACT_RegisterPalette(h,func_02020E60(0,2),0,0x180,76);ARC_TOOL_DeleteHandle(h);}

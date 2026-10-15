@@ -1,5 +1,5 @@
 /*
- * function: func_02160DB4
+ * function: select_method
  * address:  0x02160DB4
  * packet:   pkt_02160DB4
  * region:   ov009
@@ -25,7 +25,7 @@ extern u16 d_021A1D40[];
 
 int func_02160D68(unsigned char *s, int num, int size, unsigned short method);
 
-int func_02160DB4(int a0, int a1, int a2)
+int select_method(int a0, int a1, int a2)
 {
     u32 i;
 

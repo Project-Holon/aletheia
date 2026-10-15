@@ -1,5 +1,5 @@
 /*
- * function: func_0219F638
+ * function: SBServerListAppendServer
  * address:  0x0219F638
  * packet:   pkt_ov009_0219F638
  * region:   ov009
@@ -27,7 +27,7 @@ struct SBServerList {
 
 extern void func_02184234(void *array, void *newElem);
 
-void func_0219F638(struct SBServerList *slist, struct SBServer *server)
+void SBServerListAppendServer(struct SBServerList *slist, struct SBServer *server)
 {
     func_02184234(slist->servers, &server);
     slist->ListCallback(slist, 0, server, slist->instance);

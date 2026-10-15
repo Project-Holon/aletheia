@@ -14,6 +14,7 @@
  *   gDwciNdHttpMutex  0x021D3C20  data
  *   gDwciNdStatics  0x021D3B9C  data
  *   gDwcEncSession  0x021CF7AC  data
+ *   OS_InitMutex  0x02086004  arm  arm9
  *
  *
  * Flushes the 0x021D3C20 block and clears the +0x20 word of the 0x021D3B9C block.
@@ -25,11 +26,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 gDwciNdHttpMutex[];
 extern u8 gDwciNdStatics[];
-extern void func_02086004(void *);
+extern void OS_InitMutex(void *);
 
 int DWCi_Ndi_initHttpCallback(void)
 {
-    func_02086004(gDwciNdHttpMutex);
+    OS_InitMutex(gDwciNdHttpMutex);
     *(u32 *)(gDwciNdStatics + 0x20) = 0;
     return 1;
 }

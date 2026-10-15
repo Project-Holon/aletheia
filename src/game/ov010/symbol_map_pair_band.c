@@ -13,12 +13,12 @@
  * Cut from unit_02165FC0.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0200E184  0x0200E184  thumb
- *   func_0200E164  0x0200E164  thumb
- *   func_0200E06C  0x0200E06C  thumb
- *   func_0200E27C  0x0200E27C  thumb
- *   func_0200E024  0x0200E024  thumb
- *   func_0200E18C  0x0200E18C  thumb
+ *   SYMBOL_SAVE_FindBandThunk  0x0200E184  thumb
+ *   SYMBOL_SAVE_RemoveSlotAndFind  0x0200E164  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
+ *   SYMBOL_SAVE_SetRank  0x0200E27C  thumb
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
+ *   SYMBOL_SAVE_RemoveSlotAndCommit  0x0200E18C  thumb
  */
 #include "../arm9/game_beacon_types.h"
 
@@ -27,17 +27,17 @@ typedef struct {
     u32 word;
 } RecordWord;
 
-extern u32 func_0200E184(u32 recordIndex);
+extern u32 SYMBOL_SAVE_FindBandThunk(u32 recordIndex);
 
-extern u32 func_0200E164(u32 *save, u32 band);
+extern u32 SYMBOL_SAVE_RemoveSlotAndFind(u32 *save, u32 band);
 
-extern void func_0200E06C(char *save);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *save);
 
-extern void func_0200E27C(u8 *save, int recordIndex);
+extern void SYMBOL_SAVE_SetRank(u8 *save, int recordIndex);
 
-extern void func_0200E024(void *save);
+extern void SYMBOL_SAVE_UpdateChecksum(void *save);
 
-extern void func_0200E18C(u32 *save, u32 recordIndex);
+extern void SYMBOL_SAVE_RemoveSlotAndCommit(u32 *save, u32 recordIndex);
 
 int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex);
 
@@ -46,14 +46,14 @@ int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex);
  *
  * Moves a record of the symbol save to the paired band: maps the band of
  * the record (0..3, via the 0x0200E184 thunk) to the paired band (0 and 2,
- * 1 and 3), asks func_0200E164 for a free index in that band, and moves
- * the word at save[recordIndex] there; band 3 also runs func_0200E27C on
+ * 1 and 3), asks SYMBOL_SAVE_RemoveSlotAndFind for a free index in that band, and moves
+ * the word at save[recordIndex] there; band 3 also runs SYMBOL_SAVE_SetRank on
  * it. Returns 0 on failure.
  *
  * 2026-10-05 (P25L5): all 128 bytes match. The word move is a one-word
  * struct copy (RecordWord, lever "one-word structs for word copies"); the
  * plain u32 copy gave 8 bytes off (cmp r5,#3 after the str, dst*4 in r0).
- * Only blocker: func_0200E184 is a Thumb veneer (ldr r3,[pc]; bx r3) to
+ * Only blocker: SYMBOL_SAVE_FindBandThunk is a Thumb veneer (ldr r3,[pc]; bx r3) to
  * the real function at 0x0200E0BC (44 bytes, maps a value to 0..3 by a
  * 4-entry threshold table). It has no witness outside this function, so
  * the relocation stays unresolved. No C can express the veneer; the
@@ -68,7 +68,7 @@ int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex)
     u32 targetBand;
     u32 newIndex;
 
-    switch (func_0200E184(recordIndex)) {
+    switch (SYMBOL_SAVE_FindBandThunk(recordIndex)) {
     case 0:
         targetBand = 2;
         break;
@@ -84,14 +84,14 @@ int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex)
     default:
         return 0;
     }
-    newIndex = func_0200E164(save, targetBand);
+    newIndex = SYMBOL_SAVE_RemoveSlotAndFind(save, targetBand);
     if (newIndex == 0xFFFF)
         return 0;
-    func_0200E06C((char *)save);
+    SYMBOL_SAVE_FinalizeChecksum((char *)save);
     ((RecordWord *)save)[newIndex] = ((RecordWord *)save)[recordIndex];
     if (targetBand == 3)
-        func_0200E27C((u8 *)save, (u16)newIndex);
-    func_0200E024(save);
-    func_0200E18C(save, recordIndex);
+        SYMBOL_SAVE_SetRank((u8 *)save, (u16)newIndex);
+    SYMBOL_SAVE_UpdateChecksum(save);
+    SYMBOL_SAVE_RemoveSlotAndCommit(save, recordIndex);
     return 1;
 }

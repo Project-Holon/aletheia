@@ -1,5 +1,5 @@
 /*
- * function: func_021BA40C
+ * function: RESEARCH_TOP_StopEntryPaletteAnime
  * address:  0x021BA40C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void PALETTE_ANIME_Stop(u32 a0);
 
-void func_021BA40C(u8 *a0, u32 a1)
+void RESEARCH_TOP_StopEntryPaletteAnime(u8 *a0, u32 a1)
 {
     PALETTE_ANIME_Stop((u32)(*(u32*)(a0 + (a1)*4 + 56)));
 }

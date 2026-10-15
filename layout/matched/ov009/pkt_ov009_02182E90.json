@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02182E90",
+   "name": "gsXmlWriteHexBinaryElement",
    "address": "0x02182E90",
    "kind": "sdk",
    "region": "ov009",

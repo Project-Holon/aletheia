@@ -45,6 +45,7 @@ typedef unsigned int u32;
 
 extern IRCNetWork gIrcNetWork;
 extern u8 gIrcNetAssertText[];
+extern u8 gIrcNetHandlerTable[];
 
 extern GFLNetSession *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
@@ -222,9 +223,11 @@ void IRCNET_CbSetFilter(int a)
     IRCNET_SetFilter(a);
 }
 
+/* Returns the IRCNet handler table at 0x0217A9E0 (204 bytes, 51 function
+ * pointers; layout/data_objects.json lists it as a 51-entry numeric pool). */
 void *IRCNET_GetHandlerTable(void)
 {
-    return (void *)0x0217A9E0;
+    return gIrcNetHandlerTable;
 }
 
 void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
@@ -325,7 +328,7 @@ void IRCNET_ResendPending(void)
             IRCNET_SendPacket(w->pendingData, w->pendingSize, w->pendingType, w->resendSeq | (gIrcNetWork.recvSeq << 4));
             w->needResend = 0;
         } else {
-            IRCNET_SendPacket(0, 0, 0xEE, w->resendSeq | (gIrcNetWork.recvSeq << 4));
+            IRCNET_SendPacket(0, 0, IRC_CMD_KEEPALIVE, w->resendSeq | (gIrcNetWork.recvSeq << 4));
         }
         w->isSendReady = 0;
     }
@@ -403,7 +406,7 @@ void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type)
             gIrcNetWork.needResend = 1;
         }
     }
-    if (type == 0xEE)
+    if (type == IRC_CMD_KEEPALIVE)
         return;
     if (gIrcNetWork.recvSeq == lo)
         return;

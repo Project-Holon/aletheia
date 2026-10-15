@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5D0
+ * function: RESEARCH_GRAPH_IsSlotPaletteAnimeRunning
  * address:  0x021BF5D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void PALETTE_ANIME_IsRunning(u32, u32);
 
-void func_021BF5D0(u8 *a0, u32 a1)
+void RESEARCH_GRAPH_IsSlotPaletteAnimeRunning(u8 *a0, u32 a1)
 {
     PALETTE_ANIME_IsRunning((u32)(*(u32*)(a0 + (a1)*4 + 804)), (u32)(a0 + (a1)*4));
 }

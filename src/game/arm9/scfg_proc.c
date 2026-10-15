@@ -1,7 +1,7 @@
 /*
  * file:     scfg_proc.c
  * unit:     yes
- * function: func_0208C960, func_0208C988, func_0208C9C4
+ * function: SCFG_Init, SCFG_SetCpuSpeed, SCFGi_CommonCallback
  * address:  0x0208C960
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -49,9 +49,8 @@ void SCFGi_SwitchCpuSpeed(int cpuSpeed);
 void OS_Terminate(void);
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, int err));
 void SCFGi_CommonCallback(int tag, u32 data, int err);
-void func_0208C960(void);
-void func_0208C988(int cpuSpeed);
-void func_0208C9C4(int tag, u32 pxiData, BOOL err);
+void SCFG_Init(void);
+void SCFG_SetCpuSpeed(int cpuSpeed);
 extern SCFGFuseInfo SCFGi_FuseInfo;
 
 
@@ -61,7 +60,7 @@ extern SCFGFuseInfo SCFGi_FuseInfo;
 /*
  * sdk:      SCFG_Init (libscfg.TWL.HYB.a scfg_proc.o)
  */
-void func_0208C960(void)
+void SCFG_Init(void)
 {
     PXI_SetFifoRecvCallback(0x17, SCFGi_CommonCallback);
     SCFGi_FuseInfo.lock = 0;
@@ -70,7 +69,7 @@ void func_0208C960(void)
 /*
  * sdk:      SCFG_SetCpuSpeed (libscfg.TWL.HYB.a scfg_proc.o)
  */
-void func_0208C988(int cpuSpeed)
+void SCFG_SetCpuSpeed(int cpuSpeed)
 {
     OSIntrMode enable = OS_DisableInterrupts();
 
@@ -87,7 +86,7 @@ void func_0208C988(int cpuSpeed)
  * The PXI FIFO callback: data and err arrive in r1 and r2 behind the unused
  * tag (the DWARF lists only pxiData).
  */
-void func_0208C9C4(int tag, u32 pxiData, BOOL err)
+void SCFGi_CommonCallback(int tag, u32 pxiData, BOOL err)
 {
     u16 command = (u16)((pxiData & 0x03F00000) >> 20);
     u16 ordinal = (u16)((pxiData & 0x000F0000) >> 16);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC970",
+   "name": "BOX2_MAIN_VBlankHandler",
    "address": "0x021DC970",
    "kind": "game",
    "region": "ov170",

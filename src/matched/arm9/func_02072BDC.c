@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020894DC  0x020894DC  arm
+ *   SND_StopTimer  0x020894DC  arm
  *
- * Guards on the slot's +8 word, then calls func_020894DC(1 << s->unk00, 0, 0, 0)
+ * Guards on the slot's +8 word, then calls SND_StopTimer(1 << s->unk00, 0, 0, 0)
  * and clears the guard.
  *
  * Built by the 2.0 front end, on the "kept constants" tell: the image
@@ -42,13 +42,13 @@ typedef struct {
     u32 unk08;
 } Slot02072BDC;
 
-extern void func_020894DC(u32 chan, u32 a, u32 b, u32 c);
+extern void SND_StopTimer(u32 chan, u32 a, u32 b, u32 c);
 
 void NNS_SndWaveOutStop(Slot02072BDC *s)
 {
     if (s->unk08 == 0) {
         return;
     }
-    func_020894DC(1 << s->unk00, 0, 0, 0);
+    SND_StopTimer(1 << s->unk00, 0, 0, 0);
     s->unk08 = 0;
 }

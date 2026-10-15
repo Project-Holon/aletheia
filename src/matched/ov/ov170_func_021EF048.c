@@ -1,5 +1,5 @@
 /*
- * function: func_021EF048
+ * function: BOX2_UI_HitTableTrg
  * address: 0x021EF048
  * packet: pkt_ov170_021EF048
  * region: ov170
@@ -15,7 +15,7 @@ typedef struct { unsigned char a,b,c,d; } Bytes;
 typedef struct { Bytes first, second; } Object;
 extern const Bytes d_021F0020;
 extern int TOUCHPANEL_HitTrg(const void *);
-int func_021EF048(const char *p, unsigned n)
+int BOX2_UI_HitTableTrg(const char *p, unsigned n)
 {
     Object obj;
     unsigned i;

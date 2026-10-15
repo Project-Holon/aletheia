@@ -1,5 +1,5 @@
 /*
- * function: func_021EECB0
+ * function: BOX2_UI_MoveCursorToHeld
  * address:  0x021EECB0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE408  0x021EE408  thumb  ov170
+ *   BOX2_UI_UpdateCursor  0x021EE408  thumb  ov170
  *
  * Re-key the 0xA168 field unless the caller has a real selector.
  *   Two register facts pin it: the else-branch call must forward BOTH
- *   live argument registers (func_021EE408(p, a) -- the one-argument
+ *   live argument registers (BOX2_UI_UpdateCursor(p, a) -- the one-argument
  *   form makes the range-check temp land in r1 where the image has r2),
  *   and the stored value is the reloaded 0xA168 word, not the call's
  *   result (the field is re-read after the 0x70 call).
@@ -24,10 +24,10 @@
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE408(char *, int);
+extern void BOX2_UI_UpdateCursor(char *, int);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE408(char *, int);
-void func_021EECB0(char *p, int a)
+extern void BOX2_UI_UpdateCursor(char *, int);
+void BOX2_UI_MoveCursorToHeld(char *p, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
@@ -35,7 +35,7 @@ void func_021EECB0(char *p, int a)
                       *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) & 0xff);
         v = *(int *)(((struct Obj07241 *)p)->f2C + 0xA168);
     } else {
-        func_021EE408(p, a);
+        BOX2_UI_UpdateCursor(p, a);
         v = a;
     }
     *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) = v;

@@ -1,5 +1,5 @@
 /*
- * function: func_02087068
+ * function: OSi_CountUpTick
  * address:  0x02087068
  * packet:   pkt_02087068
  * region:   arm9
@@ -35,7 +35,7 @@ extern struct OsTickBss g_02151330;
 extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void), void *arg);
 extern void OSi_CountUpTick(void);
 
-void func_02087068(void)
+void OSi_CountUpTick(void)
 {
     g_02151330.OSi_TickCounter++;
 

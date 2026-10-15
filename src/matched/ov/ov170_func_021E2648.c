@@ -1,5 +1,5 @@
 /*
- * function: func_021E2648
+ * function: BOX2_SEQ_StateCloseBox
  * address:  0x021E2648
  * packet:   pkt_ov170_021E2648
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9284 0x021E9284 thumb
+ *   BOX2_SEQ_StatePlayCry 0x021E9284 thumb
  *
  * State handler (table entry at 0x021EFABC) that forwards to
- * func_021E9284.
+ * BOX2_SEQ_StatePlayCry.
  */
 
-extern int func_021E9284(char *p);
+extern int BOX2_SEQ_StatePlayCry(char *p);
 
-int func_021E2648(unsigned char *p)
+int BOX2_SEQ_StateCloseBox(unsigned char *p)
 {
-    return func_021E9284((char *)p);
+    return BOX2_SEQ_StatePlayCry((char *)p);
 }

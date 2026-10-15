@@ -1,5 +1,5 @@
 /*
- * function: func_021A10D4
+ * function: ProcessMaploop
  * address:  0x021A10D4
  * packet:   pkt_ov009_021A10D4
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      ProcessMaploop (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219F6C8  0x0219F6C8  arm  ov009
- *   func_0219F7C4  0x0219F7C4  arm  ov009
- *   func_0219F978  0x0219F978  arm  ov009
+ *   SBServerListFindServerByIP  0x0219F6C8  arm  ov009
+ *   SBServerListNth  0x0219F7C4  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -33,11 +33,11 @@ struct SBServerList {
     void *instance;
 };
 
-extern int func_0219F6C8(SBServerList *slist, u32 ip, u16 port);
-extern void *func_0219F7C4(SBServerList *slist, int i);
-extern int func_0219F978(char *buf, int len);
+extern int SBServerListFindServerByIP(SBServerList *slist, u32 ip, u16 port);
+extern void *SBServerListNth(SBServerList *slist, int i);
+extern int NTSLengthSB(char *buf, int len);
 
-int func_021A10D4(SBServerList *slist, char *buf, int len)
+int ProcessMaploop(SBServerList *slist, char *buf, int len)
 {
     long changeTime;
     u32 ip;
@@ -52,10 +52,10 @@ int func_021A10D4(SBServerList *slist, char *buf, int len)
         return 4;
     memcpy(&ip, buf, 4);
     memcpy(&port, &buf[4], 2);
-    i = func_0219F6C8(slist, ip, port);
+    i = SBServerListFindServerByIP(slist, ip, port);
     if (i == -1)
         return 0;
-    server = func_0219F7C4(slist, i);
+    server = SBServerListNth(slist, i);
     memcpy(&changeTime, &buf[6], 4);
     changeTime = (((u32)changeTime >> 24) & 0xFF) | (((u32)changeTime >> 8) & 0xFF00) | (((u32)changeTime << 8) & 0xFF0000) | (((u32)changeTime << 24) & 0xFF000000);
     mapCount = buf[10];
@@ -64,7 +64,7 @@ int func_021A10D4(SBServerList *slist, char *buf, int len)
     for (i = 0; i < mapCount && i < 16; i++) {
         if (len < 1)
             break;
-        maplen = func_0219F978(buf, len);
+        maplen = NTSLengthSB(buf, len);
         if (maplen == -1)
             return 4;
         mapList[i] = buf;

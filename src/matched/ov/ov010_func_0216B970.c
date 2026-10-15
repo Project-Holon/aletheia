@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200E458 0x0200E458 thumb
- *   func_0200E47C 0x0200E47C thumb
+ *   MISC_SAVEDATA_GetHalfword 0x0200E458 thumb
+ *   MISC_SAVEDATA_GetTallyWord 0x0200E47C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_0200E458(const u16 *, int);
-extern u32 func_0200E47C(u8 *p, int i);
+extern u16 MISC_SAVEDATA_GetHalfword(const u16 *, int);
+extern u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
 u32 SCRCMD_RESEARCH_GetTallyTotal(const u16 *p, int index)
 {
-    u32 x = func_0200E458(p, index);
-    x += func_0200E47C((u8 *)p, index);
+    u32 x = MISC_SAVEDATA_GetHalfword(p, index);
+    x += MISC_SAVEDATA_GetTallyWord((u8 *)p, index);
     if (x > 999999) x = 999999;
     return x;
 }

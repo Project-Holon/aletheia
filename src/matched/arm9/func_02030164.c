@@ -41,7 +41,7 @@
  *    fold onto the parameter.
  *  - `hdr->magic = 0x194D;` is emitted as `sub r2, r7, #1` off the r7 the
  *    guard already loaded 0x194E into, not as a second pool word, and the
- *    value it leaves in r2 is the dead third argument of func_02060E30
+ *    value it leaves in r2 is the dead third argument of NNS_FndFreeToExpHeap
  *    (which is really the two-argument (arena, block) release that
  *    src/matched/GFL_HEAP_Delete.c declares).
  *
@@ -53,7 +53,7 @@
  *   g_EnvModule           0x02146954  data
  *   GFL_HEAP_GetHeap          0x0202FBAC  arm
  *   GFL_HEAP_GetAllocCount          0x0202FC20  arm
- *   func_02060E30         0x02060E30  arm
+ *   NNS_FndFreeToExpHeap         0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *
@@ -88,7 +88,7 @@ extern struct EnvModule g_EnvModule;
 extern void *GFL_HEAP_GetHeap(u32 idx);
 struct ExpHeap;
 extern u16 GFL_HEAP_GetAllocCount(u32 idx);
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 
@@ -121,7 +121,7 @@ u32 GFL_HEAP_FreeMemory(void *p)
     intr = OS_DisableInterrupts();
     g_EnvModule.entries[((u8 *)g_EnvModule.ids)[heapId]].field0c--;
     hdr->magic = 0x194D;
-    func_02060E30(arena, hdr);
+    NNS_FndFreeToExpHeap(arena, hdr);
     OS_RestoreInterrupts(intr);
     g_EnvModule.error = 0;
     return 1;

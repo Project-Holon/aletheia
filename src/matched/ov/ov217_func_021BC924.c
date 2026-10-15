@@ -1,5 +1,5 @@
 /*
- * function: func_021BC924
+ * function: RESEARCH_LIST_DeleteMessages
  * address:  0x021BC924
  * packet:   pkt_021BC924
  * region:   ov217
@@ -19,7 +19,7 @@ struct Rec;
 typedef unsigned int   u32;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_021BC924(int *p)
+void RESEARCH_LIST_DeleteMessages(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)

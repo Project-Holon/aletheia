@@ -1,5 +1,5 @@
 /*
- * function: func_021EBFA8
+ * function: BOX2_SEQ_SetActorAnimSeq
  * address:  0x021EBFA8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021EBFA8(char *p, int i, int v)
+void BOX2_SEQ_SetActorAnimSeq(char *p, int i, int v)
 {
     CLACT_SetActorAnimFrame((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
     CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned short)v);

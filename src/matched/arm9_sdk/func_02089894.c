@@ -1,5 +1,5 @@
 /*
- * function: func_02089894
+ * function: SNDi_UnlockMutex
  * address:  0x02089894
  * packet:   pkt_02089880
  * region:   arm9
@@ -17,7 +17,7 @@
 extern void func_02086078(void *arg);
 extern void *s_data_02151454;
 
-void func_02089894(void)
+void SNDi_UnlockMutex(void)
 {
     func_02086078(&s_data_02151454);
 }

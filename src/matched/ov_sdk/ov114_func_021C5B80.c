@@ -12,7 +12,7 @@
  * sdk:      DWC_NdCleanupAsync (libdwcnd.TWL.HYB.a dwc_nd.o)
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
  *   DWCi_NdCleanupCallback  0x021C56CC  arm  ov114
  *   DWCi_NdCleanupAsync  0x021C651C  arm  ov114
@@ -29,7 +29,7 @@ typedef struct NdParam {
 
 typedef struct NdState NdState;
 
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern void DWCi_NdCleanupCallback(void);
 extern void DWCi_NdCleanupAsync(void (*callback)(void));
@@ -40,7 +40,7 @@ int DWC_NdCleanupAsync(void)
 {
     if (gDwcNdState.f14 == 0)
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.f14 == 0) {
         OS_UnlockMutex(gDwcNdMutex);
         return 0;

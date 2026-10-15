@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208812C",
+   "name": "OS_GetTitleIdFromDeliverArg",
    "address": "0x0208812C",
    "kind": "sdk",
    "region": "arm9",

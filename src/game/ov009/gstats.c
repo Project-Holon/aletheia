@@ -1,7 +1,7 @@
 /*
  * file:     gstats.c
  * unit:     yes
- * function: func_02193D00, func_02193D64, func_02193D80, func_02193EB8, func_02193F00, func_02193FD0, PersistCanReceiveOnSocket, func_02193FF4, func_0219405C, func_021940DC, func_02194184, func_02194220, func_02194308, func_021943A4, func_02194494, func_0219451C, func_02194614, func_021946F4, func_02194724, func_02194754, func_021947C0, func_02194834, func_02194890, func_021948F0, func_02194954, func_021949B4, func_02194A14, func_02194A78
+ * function: CloseStatsConnection, IsStatsConnected, PersistThink, xcode_buf, value_for_key, value_for_key_safe, PersistCanReceiveOnSocket, FindFinal, FindRequest, ProcessPlayerAuth, ProcessGetPid, ProcessGetData, ProcessSetData, ProcessStatement, ProcessInBuffer, CallReqCallback, ClosePendingCallbacks, GetTeamIndex, GetPlayerIndex, ServerOpInt, ServerOpFloat, ServerOpString, TeamOpInt, TeamOpFloat, TeamOpString, PlayerOpInt, PlayerOpFloat, PlayerOpString
  * address:  0x02193D00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -24,73 +24,82 @@
  * symbols:
  *   func_0217EB9C 0x0217EB9C  arm
  *   func_0217EB2C 0x0217EB2C  arm
- *   func_02194614 0x02194614  arm
+ *   ClosePendingCallbacks 0x02194614  arm
  *   func_0217EAE0 0x0217EAE0  arm
- *   g_021A57C8   0x021A57C8  data
- *   g_021ADFE0   0x021ADFE0  data
+ *   gGstatsSocket   0x021A57C8  data
+ *   gGstatsConn   0x021ADFE0  data
  *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
  *   func_0217EAC8  0x0217eac8  arm   ov009
  *   func_0217EC4C  0x0217ec4c  arm   ov009
- *   func_02194494  0x02194494  arm   ov009
+ *   ProcessInBuffer  0x02194494  arm   ov009
  *   func_02092364  0x02092364  arm
  *   func_020948B0 0x020948B0  arm
  *   func_02094B20 0x02094B20  arm
  *   func_0209477C 0x0209477C  arm
- *   g_021A5894   0x021A5894  data
- *   g_021AE21C   0x021AE21C  data
- *   g_021A5890  0x021A5890  data
+ *   gGstatsKeyBackslash   0x021A5894  data
+ *   gGstatsValueBuffers   0x021AE21C  data
+ *   gGstatsEmptyString  0x021A5890  data
  *   @13818       0x021A1A64  data
  *   func_0217EF50 0x0217EF50 arm
  *   func_02184200 0x02184200  arm
  *   func_02184208 0x02184208  arm
- *   func_02193FD0 0x02193FD0  arm
+ *   value_for_key_safe 0x02193FD0  arm
  *   func_020964E0 0x020964E0  arm
- *   g_021A5898   0x021A5898  data
- *   g_021A58A0   0x021A58A0  data
- *   g_021A58A4   0x021A58A4  data
- *   g_021A58AC   0x021A58AC  data
- *   g_021A58B4   0x021A58B4  data
- *   g_021A58BC   0x021A58BC  data
- *   g_021A58C0   0x021A58C0  data
- *   g_021A58C4   0x021A58C4  data
- *   g_021A58CC   0x021A58CC  data
- *   g_021A5890   0x021A5890  data
- *   g_021A58D4   0x021A58D4  data
+ *   gGstatsKeyPauthr   0x021A5898  data
+ *   gGstatsKeyLid   0x021A58A0  data
+ *   gGstatsKeyErrmsg   0x021A58A4  data
+ *   gGstatsKeyGetpidr   0x021A58AC  data
+ *   gGstatsKeyGetpdr   0x021A58B4  data
+ *   gGstatsKeyPid   0x021A58BC  data
+ *   gGstatsKeyMod   0x021A58C0  data
+ *   gGstatsKeyLength   0x021A58C4  data
+ *   gGstatsKeyData   0x021A58CC  data
+ *   gGstatsEmptyString   0x021A5890  data
+ *   gGstatsKeySetpdr   0x021A58D4  data
  *   func_020949F4 0x020949F4  arm
- *   g_021A58DC   0x021A58DC  data
- *   g_021A58E8   0x021A58E8  data
- *   g_021A58F4   0x021A58F4  data
- *   g_021A5900   0x021A5900  data
- *   func_02193EB8 0x02193EB8  arm
- *   g_021A57F0   0x021A57F0  data
+ *   gGstatsKeySecPauthr   0x021A58DC  data
+ *   gGstatsKeySecGetpidr   0x021A58E8  data
+ *   gGstatsKeySecGetpdr   0x021A58F4  data
+ *   gGstatsKeySecSetpdr   0x021A5900  data
+ *   xcode_buf 0x02193EB8  arm
+ *   gGstatsNullKey   0x021A57F0  data
  *   func_0218437C 0x0218437C  arm
  *   func_021841B0 0x021841B0  arm
  *   @14079       0x021A1A54  data
- *   g_021A5800   0x021A5800  data
+ *   gGstatsCryptKey   0x021A5800  data
  *   func_021937D0 0x021937D0  arm
  *   OS_SPrintf  0x02084F40  arm
- *   d_021A590C     0x021A590C  data  a4
- *   OS_SPrintf   0x02084F40  arm
- *   g_021A590C   0x021A590C  data
- *   d_021A5914     0x021A5914  data  a4
- *   g_021A5914   0x021A5914  data
+ *   gGstatsTeamOpFormat   0x021A590C  data
+ *   gGstatsPlayerOpFormat   0x021A5914  data
  */
-#include "../../matched/include/G_StatsSocket.h"
-
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-struct StatsConn {
-    int pad0[2];
-    int inLen;
-    int pad1[3];
-    int inSize;
-    int pad2;
-    int bufIndex;
-    int pad3;
-    char *inBuff;
-    int state;
-};
+/* The persistent-stats socket wrapper (vendor object gstats.o). */
+typedef struct StatsSocket {
+    char *key;  /* current xor key string */
+    int sock;   /* socket, -1 when closed */
+} StatsSocket;
+
+/*
+ * The persistent-stats connection state (vendor object gstats.o).
+ * Offsets 0x00, 0x04, 0x10, 0x1C and 0x24 are never read by any function in
+ * this object; they are kept as padding so the used fields keep their vendor
+ * offsets.
+ */
+typedef struct StatsConn {
+    int pad0[2];      /* 0x00, never read */
+    int inLen;        /* 0x08, bytes used in inBuff */
+    int *game;        /* 0x0C, stats game object passed to the value callbacks */
+    int pad10;        /* 0x10, never read */
+    void *requests;   /* 0x14, darray of pending serverreq_t */
+    int inSize;       /* 0x18, allocated size of inBuff */
+    int pad1C;        /* 0x1C, never read */
+    int bufIndex;     /* 0x20, alternates 0/1 between the two value buffers */
+    int pad24;        /* 0x24, never read */
+    char *inBuff;     /* 0x28, receive buffer */
+    int state;        /* 0x2C, 5 while the connection is open */
+} StatsConn;
 
 typedef struct {
     int type;
@@ -121,130 +130,128 @@ extern void func_021841B0(void *array);
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
 extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
 
-void func_02193D00(void);
-int func_02193D64(void);
-int func_02193D80(void);
-void func_02193EB8(char *buf, int len);
-char *func_02193F00(char *s, char *key);
-char *func_02193FD0(char *s, char *key);
+void CloseStatsConnection(void);
+int IsStatsConnected(void);
+int PersistThink(void);
+void xcode_buf(char *buf, int len);
+char *value_for_key(char *s, char *key);
+char *value_for_key_safe(char *s, char *key);
 int PersistCanReceiveOnSocket(int sock);
-char *func_02193FF4(char *buff, int len);
-int func_0219405C(int reqtype, int localid, int profileid);
-void func_021940DC(char *buf, int len);
-void func_02194184(char *buf, int len);
-void func_02194220(char *buf, int len);
-void func_02194308(char *buf, int len);
-void func_021943A4(char *buff, int len);
-int func_02194494(char *buff, int len);
-void func_0219451C(int reqindex, int success, long modified, char *data, int length);
-void func_02194614(void);
-int func_021946F4(int *game, int tnum);
-int func_02194724(int *game, int pnum);
-int func_02194754(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double func_021947C0(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void *func_02194834(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-void func_02194890(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double func_021948F0(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void func_02194954(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-void func_021949B4(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double func_02194A14(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void func_02194A78(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+char *FindFinal(char *buff, int len);
+int FindRequest(int reqtype, int localid, int profileid);
+void ProcessPlayerAuth(char *buf, int len);
+void ProcessGetPid(char *buf, int len);
+void ProcessGetData(char *buf, int len);
+void ProcessSetData(char *buf, int len);
+void ProcessStatement(char *buff, int len);
+int ProcessInBuffer(char *buff, int len);
+void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
+void ClosePendingCallbacks(void);
+int GetTeamIndex(int *game, int tnum);
+int GetPlayerIndex(int *game, int pnum);
+int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void PlayerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
 
-extern struct StatsSocket g_021A57C8;
-extern struct StatsConn g_021ADFE0;
-extern char g_021A57F0[];
-extern char g_021A5800[];
-extern char g_021A5890[];
-extern char g_021A5894[];
-extern char g_021A5898[];
-extern char g_021A58A0[];
-extern char g_021A58A4[];
-extern char g_021A58AC[];
-extern char g_021A58B4[];
-extern char g_021A58BC[];
-extern char g_021A58C0[];
-extern char g_021A58C4[];
-extern char g_021A58CC[];
-extern char g_021A58D4[];
-extern char g_021A58DC[];
-extern char g_021A58E8[];
-extern char g_021A58F4[];
-extern char g_021A5900[];
-extern char g_021AE21C[];
-extern char d_021A590C[];
-extern char g_021A590C[];
-extern char d_021A5914[];
-extern char g_021A5914[];
+extern struct StatsSocket gGstatsSocket;
+extern struct StatsConn gGstatsConn;
+extern char gGstatsNullKey[];
+extern char gGstatsCryptKey[];
+extern char gGstatsEmptyString[];
+extern char gGstatsKeyBackslash[];
+extern char gGstatsKeyPauthr[];
+extern char gGstatsKeyLid[];
+extern char gGstatsKeyErrmsg[];
+extern char gGstatsKeyGetpidr[];
+extern char gGstatsKeyGetpdr[];
+extern char gGstatsKeyPid[];
+extern char gGstatsKeyMod[];
+extern char gGstatsKeyLength[];
+extern char gGstatsKeyData[];
+extern char gGstatsKeySetpdr[];
+extern char gGstatsKeySecPauthr[];
+extern char gGstatsKeySecGetpidr[];
+extern char gGstatsKeySecGetpdr[];
+extern char gGstatsKeySecSetpdr[];
+extern char gGstatsValueBuffers[];
+extern char gGstatsTeamOpFormat[];
+extern char gGstatsPlayerOpFormat[];
 
 
 /*
  * sdk:      PlayerOpString (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void func_02194A78(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void PlayerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
-    OS_SPrintf(buf, d_021A5914, name, func_02194724(game, index));
-    func_02194834(game, buf, func, value, index);
+    OS_SPrintf(buf, gGstatsPlayerOpFormat, name, GetPlayerIndex(game, index));
+    ServerOpString(game, buf, func, value, index);
 }
 
-double func_02194A14(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     char fullname[64];
 
-    OS_SPrintf(fullname, g_021A5914, name, func_02194724(game, index));
-    return func_021947C0(game, fullname, func, value, index);
+    OS_SPrintf(fullname, gGstatsPlayerOpFormat, name, GetPlayerIndex(game, index));
+    return ServerOpFloat(game, fullname, func, value, index);
 }
 
 /*
  * sdk:      PlayerOpInt (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void func_021949B4(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
-    OS_SPrintf(buf, d_021A5914, name, func_02194724(game, index));
-    func_02194754(game, buf, func, value, index);
+    OS_SPrintf(buf, gGstatsPlayerOpFormat, name, GetPlayerIndex(game, index));
+    ServerOpInt(game, buf, func, value, index);
 }
 
 /*
  * sdk:      TeamOpString (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void func_02194954(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
-    OS_SPrintf(buf, d_021A590C, name, func_021946F4(game, index));
-    func_02194834(game, buf, func, value, index);
+    OS_SPrintf(buf, gGstatsTeamOpFormat, name, GetTeamIndex(game, index));
+    ServerOpString(game, buf, func, value, index);
 }
 
 /*
  * sdk:      TeamOpFloat (gstats.o)
  */
-double func_021948F0(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     char fullname[64];
 
-    OS_SPrintf(fullname, g_021A590C, name, func_021946F4(game, index));
-    return func_021947C0(game, fullname, func, value, index);
+    OS_SPrintf(fullname, gGstatsTeamOpFormat, name, GetTeamIndex(game, index));
+    return ServerOpFloat(game, fullname, func, value, index);
 }
 
 /*
  * sdk:      TeamOpInt (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void func_02194890(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
-    OS_SPrintf(buf, d_021A590C, name, func_021946F4(game, index));
-    func_02194754(game, buf, func, value, index);
+    OS_SPrintf(buf, gGstatsTeamOpFormat, name, GetTeamIndex(game, index));
+    ServerOpInt(game, buf, func, value, index);
 }
 
 /*
  * sdk:      ServerOpString (gstats.o)
  */
-void *func_02194834(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     void *ret;
 
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = gGstatsConn.game;
     if (game == 0)
         return value;
     ret = func((void *)game[3], name, value);
@@ -256,12 +263,12 @@ void *func_02194834(int *game, char *name, void *(*func)(void *, char *, void *)
 /*
  * sdk:      ServerOpFloat (gstats.o)
  */
-double func_021947C0(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     double *ret;
 
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = gGstatsConn.game;
     if (game == 0)
         ret = &value;
     else {
@@ -275,12 +282,12 @@ double func_021947C0(int *game, char *name, double *(*func)(void *, char *, void
 /*
  * sdk:      ServerOpInt (gstats.o)
  */
-int func_02194754(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     int *ret;
 
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = gGstatsConn.game;
     if (game == 0)
         ret = &value;
     else {
@@ -294,10 +301,10 @@ int func_02194754(int *game, char *name, int *(*func)(void *, char *, void *), i
 /*
  * sdk:      GetPlayerIndex (gstats.o)
  */
-int func_02194724(int *game, int pnum)
+int GetPlayerIndex(int *game, int pnum)
 {
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = gGstatsConn.game;
     if (game == 0)
         return pnum;
     return *(int *)func_02184208((void *)game[7], pnum);
@@ -306,10 +313,10 @@ int func_02194724(int *game, int pnum)
 /*
  * sdk:      GetTeamIndex (gstats.o)
  */
-int func_021946F4(int *game, int tnum)
+int GetTeamIndex(int *game, int tnum)
 {
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = gGstatsConn.game;
     if (game == 0)
         return tnum;
     return *(int *)func_02184208((void *)game[8], tnum);
@@ -320,32 +327,32 @@ int func_021946F4(int *game, int tnum)
  *
  * Byte-correct (224/224); the connerror\ninitializer copies from the vendor template @14079 at 0x021A1A54 in ov009 data,\nattested by the `template` class (unique in ov009).\nA struct copy from an extern spelling was tried: one copy instead of two, DIFF.
  */
-void func_02194614(void)
+void ClosePendingCallbacks(void)
 {
     int i;
 
-    if (((int *)&g_021ADFE0)[5] == 0)
+    if (gGstatsConn.requests == 0)
         return;
-    for (i = func_02184200((void *)((int *)&g_021ADFE0)[5]) - 1; i >= 0; i--) {
+    for (i = func_02184200(gGstatsConn.requests) - 1; i >= 0; i--) {
         char connerror[16] = {0x13, 0x1d, 0x01, 0x04, 0, 0, 0, 0x28, 0x1f, 0x06, 0x45, 0x34, 0x3f, 0x01, 0x1b, 0};
-        (*(char * *)&g_021A57C8) = g_021A5800;
-        func_02193EB8(connerror, 15);
-        func_0219451C(i, 0, 0, connerror, 0);
+        gGstatsSocket.key = gGstatsCryptKey;
+        xcode_buf(connerror, 15);
+        CallReqCallback(i, 0, 0, connerror, 0);
     }
-    func_021841B0((void *)((int *)&g_021ADFE0)[5]);
-    ((int *)&g_021ADFE0)[5] = 0;
+    func_021841B0(gGstatsConn.requests);
+    gGstatsConn.requests = 0;
 }
 
 /*
  * sdk:      CallReqCallback (gstats.o)
  */
-void func_0219451C(int reqindex, int success, long modified, char *data, int length)
+void CallReqCallback(int reqindex, int success, long modified, char *data, int length)
 {
     serverreq_t *req;
 
-    if (reqindex < 0 || reqindex >= func_02184200((void *)((int *)&g_021ADFE0)[5]))
+    if (reqindex < 0 || reqindex >= func_02184200(gGstatsConn.requests))
         return;
-    req = (serverreq_t *)func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex);
+    req = (serverreq_t *)func_02184208(gGstatsConn.requests, reqindex);
     if (req->callback != 0) {
         switch (req->type) {
         case 0:
@@ -362,28 +369,28 @@ void func_0219451C(int reqindex, int success, long modified, char *data, int len
             break;
         }
     }
-    func_0218437C((int)((void *)((int *)&g_021ADFE0)[5]), reqindex);
+    func_0218437C((int)(gGstatsConn.requests), reqindex);
 }
 
 /*
  * sdk:      ProcessInBuffer (gstats.o)
  */
-int func_02194494(char *buff, int len)
+int ProcessInBuffer(char *buff, int len)
 {
     char *pos;
     int oldlen;
 
     oldlen = len;
-    pos = func_02193FF4(buff, len);
+    pos = FindFinal(buff, len);
 
     while (len > 0 && pos != 0) {
-        (*(char * *)&g_021A57C8) = g_021A57F0;
-        func_02193EB8(buff, pos - buff);
-        func_021943A4(buff, pos - buff);
+        gGstatsSocket.key = gGstatsNullKey;
+        xcode_buf(buff, pos - buff);
+        ProcessStatement(buff, pos - buff);
         len -= (pos - buff) + 7;
         buff = pos + 7;
         if (len > 0)
-            pos = func_02193FF4(buff, len);
+            pos = FindFinal(buff, len);
     }
     return oldlen - len;
 }
@@ -391,25 +398,25 @@ int func_02194494(char *buff, int len)
 /*
  * sdk:      ProcessStatement (gstats.o)
  */
-void func_021943A4(char *buff, int len)
+void ProcessStatement(char *buff, int len)
 {
     buff[len] = 0;
-    if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58DC, 8) == 0)
-        func_021940DC(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58E8, 9) == 0)
-        func_02194184(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58E8, 9) == 0)
-        func_02194184(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58F4, 8) == 0)
-        func_02194220(buff, len);
-    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A5900, 8) == 0)
-        func_02194308(buff, len);
+    if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecPauthr, 8) == 0)
+        ProcessPlayerAuth(buff, len);
+    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+        ProcessGetPid(buff, len);
+    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+        ProcessGetPid(buff, len);
+    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecGetpdr, 8) == 0)
+        ProcessGetData(buff, len);
+    else if (func_020949F4((const u8 *)buff, (const u8 *)gGstatsKeySecSetpdr, 8) == 0)
+        ProcessSetData(buff, len);
 }
 
 /*
  * sdk:      ProcessSetData (gstats.o)
  */
-void func_02194308(char *buf, int len)
+void ProcessSetData(char *buf, int len)
 {
     int success;
     int pid;
@@ -417,20 +424,20 @@ void func_02194308(char *buf, int len)
     int modified;
     int reqindex;
 
-    success = func_020964E0((u32)func_02193FD0(buf, g_021A58D4));
-    pid = func_020964E0((u32)func_02193FD0(buf, g_021A58BC));
-    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
-    modified = func_020964E0((u32)func_02193FD0(buf, g_021A58C0));
-    reqindex = func_0219405C(2, lid, pid);
+    success = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
+    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPid));
+    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    modified = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    reqindex = FindRequest(2, lid, pid);
     if (reqindex == -1)
         return;
-    func_0219451C(reqindex, success, modified, 0, 0);
+    CallReqCallback(reqindex, success, modified, 0, 0);
 }
 
 /*
  * sdk:      ProcessGetData (gstats.o)
  */
-void func_02194220(char *buf, int len)
+void ProcessGetData(char *buf, int len)
 {
     int reqindex;
     int pid;
@@ -440,73 +447,73 @@ void func_02194220(char *buf, int len)
     long modified;
     char *data;
 
-    success = func_020964E0((u32)func_02193FD0(buf, g_021A58B4));
-    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
-    pid = func_020964E0((u32)func_02193FD0(buf, g_021A58BC));
-    modified = func_020964E0((u32)func_02193FD0(buf, g_021A58C0));
-    reqindex = func_0219405C(1, lid, pid);
+    success = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyGetpdr));
+    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPid));
+    modified = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    reqindex = FindRequest(1, lid, pid);
     if (reqindex == -1)
         return;
-    length = func_020964E0((u32)func_02193FD0(buf, g_021A58C4));
-    data = func_02094B20(buf, g_021A58CC);
+    length = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLength));
+    data = func_02094B20(buf, gGstatsKeyData);
     if (data == 0) {
-        data = g_021A5890;
+        data = gGstatsEmptyString;
         length = 0;
     } else
         data += 6;
-    func_0219451C(reqindex, success, modified, data, length);
+    CallReqCallback(reqindex, success, modified, data, length);
 }
 
 /*
  * sdk:      ProcessGetPid (gstats.o)
  */
-void func_02194184(char *buf, int len)
+void ProcessGetPid(char *buf, int len)
 {
     int lid;
     int pid;
     int reqindex;
 
-    pid = func_020964E0((u32)func_02193FD0(buf, g_021A58AC));
-    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
-    reqindex = func_0219405C(3, lid, 0);
+    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
+    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    reqindex = FindRequest(3, lid, 0);
     if (reqindex == -1)
         return;
-    func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex)[2] = pid;
-    func_0219451C(reqindex, pid > 0, 0, 0, 0);
+    func_02184208(gGstatsConn.requests, reqindex)[2] = pid;
+    CallReqCallback(reqindex, pid > 0, 0, 0, 0);
 }
 
 /*
  * sdk:      ProcessPlayerAuth (gstats.o)
  */
-void func_021940DC(char *buf, int len)
+void ProcessPlayerAuth(char *buf, int len)
 {
     int reqindex;
     char *errmsg;
     int pid;
     int lid;
 
-    pid = func_020964E0((u32)func_02193FD0(buf, g_021A5898));
-    lid = func_020964E0((u32)func_02193FD0(buf, g_021A58A0));
-    errmsg = func_02193FD0(buf, g_021A58A4);
-    reqindex = func_0219405C(0, lid, 0);
+    pid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyPauthr));
+    lid = func_020964E0((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    errmsg = value_for_key_safe(buf, gGstatsKeyErrmsg);
+    reqindex = FindRequest(0, lid, 0);
     if (reqindex == -1)
         return;
-    func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex)[2] = pid;
-    func_0219451C(reqindex, pid > 0, 0, errmsg, 0);
+    func_02184208(gGstatsConn.requests, reqindex)[2] = pid;
+    CallReqCallback(reqindex, pid > 0, 0, errmsg, 0);
 }
 
 /*
  * sdk:      FindRequest (gstats.o)
  */
-int func_0219405C(int reqtype, int localid, int profileid)
+int FindRequest(int reqtype, int localid, int profileid)
 {
     int *req;
     int i;
 
-    if (((int *)&g_021ADFE0)[5] == 0)
+    if (gGstatsConn.requests == 0)
         return -1;
-    for (i = 0; i < func_02184200((void *)((int *)&g_021ADFE0)[5]); i++) {
-        req = func_02184208((void *)((int *)&g_021ADFE0)[5], i);
+    for (i = 0; i < func_02184200(gGstatsConn.requests); i++) {
+        req = func_02184208(gGstatsConn.requests, i);
         if (req[0] == reqtype && req[1] == localid && req[2] == profileid)
             return i;
     }
@@ -516,7 +523,7 @@ int func_0219405C(int reqtype, int localid, int profileid)
 /*
  * sdk:      FindFinal (gstats.o)
  */
-char *func_02193FF4(char *buff, int len)
+char *FindFinal(char *buff, int len)
 {
     char *pos = buff;
 
@@ -542,11 +549,11 @@ int PersistCanReceiveOnSocket(int sock)
 /*
  * The module block when the test passes, else the fallback object.
  */
-char *func_02193FD0(char *s, char *key)
+char *value_for_key_safe(char *s, char *key)
 {
-    char *p = func_02193F00(s, key);
+    char *p = value_for_key(s, key);
 
-    return p ? p : g_021A5890;
+    return p ? p : gGstatsEmptyString;
 }
 
 /*
@@ -556,21 +563,21 @@ char *func_02193FD0(char *s, char *key)
  * (template class, overlay scope). strcat 0x020948B0 attests as matched through
  * unit_02094860, whose functions list names func_020948B0 since 2026-09-29 (w4_nm).
  */
-char *func_02193F00(char *s, char *key)
+char *value_for_key(char *s, char *key)
 {
     char keyspec[256] = "\\";
     char *pos;
     char *pos2;
     char *value;
 
-    g_021ADFE0.bufIndex ^= 1;
+    gGstatsConn.bufIndex ^= 1;
     func_020948B0((u8 *)keyspec, (const u8 *)key);
-    func_020948B0((u8 *)keyspec, (const u8 *)g_021A5894);
+    func_020948B0((u8 *)keyspec, (const u8 *)gGstatsKeyBackslash);
     pos = func_02094B20(s, keyspec);
     if (pos == 0)
         return 0;
     pos += func_0209477C((const u8 *)keyspec);
-    value = g_021AE21C + g_021ADFE0.bufIndex * 256;
+    value = gGstatsValueBuffers + gGstatsConn.bufIndex * 256;
     pos2 = value;
     while (*pos != 0 && *pos != 0x5c)
         *pos2++ = *pos++;
@@ -581,63 +588,63 @@ char *func_02193F00(char *s, char *key)
 /*
  * sdk:      xcode_buf (gstats.o)
  */
-void func_02193EB8(char *buf, int len)
+void xcode_buf(char *buf, int len)
 {
     int i;
     char *pos;
 
-    pos = (*(char * *)&g_021A57C8);
+    pos = gGstatsSocket.key;
     for (i = 0; i < len; i++) {
         buf[i] ^= *pos;
         pos++;
         if (*pos == 0)
-            pos = (*(char * *)&g_021A57C8);
+            pos = gGstatsSocket.key;
     }
 }
 
 /*
  * sdk:      PersistThink (libdwcgsgstats.TWL.HYB.a gstats.o)
  */
-int func_02193D80(void)
+int PersistThink(void)
 {
     int processed;
     int len;
 
-    if (g_021A57C8.sock == -1)
+    if (gGstatsSocket.sock == -1)
         return 0;
-    if (g_021ADFE0.state != 5)
+    if (gGstatsConn.state != 5)
         return 0;
-    while (PersistCanReceiveOnSocket(g_021A57C8.sock)) {
-        if (g_021ADFE0.inSize - g_021ADFE0.inLen < 0x80) {
-            len = g_021ADFE0.inSize;
+    while (PersistCanReceiveOnSocket(gGstatsSocket.sock)) {
+        if (gGstatsConn.inSize - gGstatsConn.inLen < 0x80) {
+            len = gGstatsConn.inSize;
             if (len < 0x100) {
                 len = 0x100;
-                g_021ADFE0.inSize = len;
+                gGstatsConn.inSize = len;
             } else {
                 len = len * 2;
-                g_021ADFE0.inSize = len;
+                gGstatsConn.inSize = len;
             }
-            g_021ADFE0.inBuff = (char *)func_0217EAC8(g_021ADFE0.inBuff, len + 1);
-            if (g_021ADFE0.inBuff == 0)
+            gGstatsConn.inBuff = (char *)func_0217EAC8(gGstatsConn.inBuff, len + 1);
+            if (gGstatsConn.inBuff == 0)
                 return 0;
         }
-        len = func_0217EC4C(g_021A57C8.sock, g_021ADFE0.inBuff + g_021ADFE0.inLen,
-                            g_021ADFE0.inSize - g_021ADFE0.inLen, 0);
+        len = func_0217EC4C(gGstatsSocket.sock, gGstatsConn.inBuff + gGstatsConn.inLen,
+                            gGstatsConn.inSize - gGstatsConn.inLen, 0);
         if (len <= 0) {
-            func_02193D00();
+            CloseStatsConnection();
             return 0;
         }
-        g_021ADFE0.inLen += len;
-        g_021ADFE0.inBuff[g_021ADFE0.inLen] = 0;
-        processed = func_02194494(g_021ADFE0.inBuff, g_021ADFE0.inLen);
-        if (processed == g_021ADFE0.inLen) {
-            g_021ADFE0.inLen = 0;
+        gGstatsConn.inLen += len;
+        gGstatsConn.inBuff[gGstatsConn.inLen] = 0;
+        processed = ProcessInBuffer(gGstatsConn.inBuff, gGstatsConn.inLen);
+        if (processed == gGstatsConn.inLen) {
+            gGstatsConn.inLen = 0;
         } else {
-            func_02092364(g_021ADFE0.inBuff, g_021ADFE0.inBuff + processed, g_021ADFE0.inLen - processed);
-            g_021ADFE0.inLen -= processed;
+            func_02092364(gGstatsConn.inBuff, gGstatsConn.inBuff + processed, gGstatsConn.inLen - processed);
+            gGstatsConn.inLen -= processed;
         }
     }
-    if (g_021A57C8.sock == -1)
+    if (gGstatsSocket.sock == -1)
         return 0;
     return 1;
 }
@@ -645,26 +652,26 @@ int func_02193D80(void)
 /*
  * Set while the word at +4 of the state object is not -1.
  */
-int func_02193D64(void)
+int IsStatsConnected(void)
 {
-    return *(int *)(((char *)&g_021A57C8) + 4) != -1;
+    return gGstatsSocket.sock != -1;
 }
 
 /*
  * sdk:      CloseStatsConnection (gstats.o)
  */
-void func_02193D00(void)
+void CloseStatsConnection(void)
 {
-    if (((int *)&g_021A57C8)[1] != -1) {
-        func_0217EB9C(((int *)&g_021A57C8)[1], 2);
-        func_0217EB2C(((int *)&g_021A57C8)[1]);
+    if (gGstatsSocket.sock != -1) {
+        func_0217EB9C(gGstatsSocket.sock, 2);
+        func_0217EB2C(gGstatsSocket.sock);
     }
-    ((int *)&g_021A57C8)[1] = -1;
-    func_02194614();
-    if (g_021ADFE0.inBuff != 0) {
-        func_0217EAE0((void *)g_021ADFE0.inBuff);
-        g_021ADFE0.inBuff = 0;
-        g_021ADFE0.inSize = 0;
-        g_021ADFE0.inLen = 0;
+    gGstatsSocket.sock = -1;
+    ClosePendingCallbacks();
+    if (gGstatsConn.inBuff != 0) {
+        func_0217EAE0((void *)gGstatsConn.inBuff);
+        gGstatsConn.inBuff = 0;
+        gGstatsConn.inSize = 0;
+        gGstatsConn.inLen = 0;
     }
 }

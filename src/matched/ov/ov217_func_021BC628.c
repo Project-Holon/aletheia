@@ -1,5 +1,5 @@
 /*
- * function: func_021BC628
+ * function: RESEARCH_LIST_GetAppResource
  * address:  0x021BC628
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 RESEARCH_COMMON_GetAppResource(void *p);
 
-u32 func_021BC628(u8 *a0)
+u32 RESEARCH_LIST_GetAppResource(u8 *a0)
 {
     return RESEARCH_COMMON_GetAppResource((void *)((u32)(((struct Obj25866 *)a0)->f0)));
 }

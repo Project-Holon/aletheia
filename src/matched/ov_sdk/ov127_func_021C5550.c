@@ -1,5 +1,5 @@
 /*
- * function: func_021C5550
+ * function: WF2DMAP_ACTOR_FIND_HasMatch
  * address:  0x021C5550
  * packet:   pkt_021C5550
  * region:   ov127
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 extern u8 *func_021C4BA4(u8 *p, void *list, int n);
 
-int func_021C5550(void *a0, void *a1, int a2)
+int WF2DMAP_ACTOR_FIND_HasMatch(void *a0, void *a1, int a2)
 {
     return func_021C4BA4(a0, a1, a2) != 0;
 }

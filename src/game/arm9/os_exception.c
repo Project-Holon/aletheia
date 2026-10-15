@@ -1,7 +1,7 @@
 /*
  * file:     os_exception.c
  * unit:     yes
- * function: func_02086DD8, func_02086E40, func_02086EB4, func_02086EC8, func_02086F48
+ * function: OS_InitException, OSi_ExceptionHandler, func_02086EB4, OSi_SetExContext, OSi_DisplayExContext
  * address:  0x02086DD8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -40,11 +40,10 @@ extern BOOL OS_IsRunOnTwl(void);
 extern void OSi_ExceptionHandler(void);
 extern void OS_EnableProtectionUnit(void);
 extern void OS_DisableProtectionUnit(void);
-void func_02086DD8(void);
-asm void func_02086E40(void);
+void OS_InitException(void);
 asm void OSi_GetAndDisplayContext(void);
-asm void func_02086EC8(void);
-void func_02086F48(void);
+asm void OSi_SetExContext(void);
+void OSi_DisplayExContext(void);
 extern OsExceptionBss g_02151290;
 extern unsigned long OSi_ExContext[28];
 extern u32 OSi_UserExceptionHandlerArg;
@@ -54,7 +53,7 @@ extern OSExceptionHandler OSi_UserExceptionHandler;
 /*
  * sdk:      OS_InitException (os_exception.o)
  */
-void func_02086DD8(void)
+void OS_InitException(void)
 {
     u32 ex = *(u32 *)0x02FFFD9C;
 
@@ -81,7 +80,7 @@ void func_02086DD8(void)
  *           stack outside the ABI and needs mrs on CPSR; the object agrees:
  *           .debug_line gives each instruction its own increasing line (285..332).
  */
-asm void func_02086E40(void)
+asm void OSi_ExceptionHandler(void)
 {
     ldr     r12, =g_02151290
     ldr     r12, [r12, #0]
@@ -120,8 +119,8 @@ _4:
 asm void OSi_GetAndDisplayContext(void)
 {
     stmfd sp!, {r0, lr}
-    bl func_02086EC8
-    bl func_02086F48
+    bl OSi_SetExContext
+    bl OSi_DisplayExContext
     ldmfd sp!, {r0, lr}
     bx lr
 }
@@ -133,7 +132,7 @@ asm void OSi_GetAndDisplayContext(void)
  *           r12 outside the ABI; the object agrees: .debug_line gives each
  *           instruction its own increasing line (376..449).
  */
-asm void func_02086EC8(void)
+asm void OSi_SetExContext(void)
 {
     ldr     r1, =OSi_ExContext
     str     r0, [r1, #0x6c]
@@ -176,7 +175,7 @@ asm void func_02086EC8(void)
  *           frame; .debug_line gives the block one increasing line per
  *           instruction (497..536) inside the C lines 462/541.
  */
-void func_02086F48(void)
+void OSi_DisplayExContext(void)
 {
     if (g_02151290.OSi_UserExceptionHandler) {
         asm {

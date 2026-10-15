@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D82AC",
-    "func_021D82F8"
+    "WIFI_BSUBWAY_GRAPHIC_Delete",
+    "WIFI_BSUBWAY_GRAPHIC_OnRedraw"
+   ],
+   "addresses": [
+    "0x021D82AC",
+    "0x021D82F8"
    ]
   }
  ]

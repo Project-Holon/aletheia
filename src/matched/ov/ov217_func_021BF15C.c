@@ -1,5 +1,5 @@
 /*
- * function: func_021BF15C
+ * function: RESEARCH_GRAPH_PrintSliceLabel
  * address:  0x021BF15C
  * packet:   pkt_ov217_021BF15C
  * region:   ov217
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF76C 0x021BF76C thumb ov217
- *   func_021BF810 0x021BF810 thumb ov217
- *   func_021BF7F4 0x021BF7F4 thumb ov217
- *   func_021BF854 0x021BF854 thumb ov217
+ *   RESEARCH_GRAPH_GetLeftCircle 0x021BF76C thumb ov217
+ *   RESEARCH_GRAPH_GetGroupValue 0x021BF810 thumb ov217
+ *   RESEARCH_GRAPH_GetEntryKey 0x021BF7F4 thumb ov217
+ *   RESEARCH_GRAPH_GetEntryValue 0x021BF854 thumb ov217
  *   BgTextLabel_SetVisible 0x021C0FF8 thumb ov217
  *   BgTextLabel_PrintText 0x021C0F78 thumb ov217
  *   CircleGraph_FindSliceIndex 0x021C11C8 thumb ov217
@@ -32,13 +32,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u8 *func_021BF76C(void *p);
-extern u32 func_021BF810(void *p);
-extern u32 func_021BF7F4(void *p);
+extern u8 *RESEARCH_GRAPH_GetLeftCircle(void *p);
+extern u32 RESEARCH_GRAPH_GetGroupValue(void *p);
+extern u32 RESEARCH_GRAPH_GetEntryKey(void *p);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern u32 func_021BF854(char *p);
+extern u32 RESEARCH_GRAPH_GetEntryValue(char *p);
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
 extern void BgTextLabel_PrintText(u8 *p, struct U16Vec *text);
 extern u8 CircleGraph_FindSliceIndex(u8 *p, u8 key);
@@ -49,10 +49,10 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_021BF15C(char *p)
+void RESEARCH_GRAPH_PrintSliceLabel(char *p)
 {
     u32 t = ((struct Obj00021 *)p)->f354;
-    u8 *o = func_021BF76C(p);
+    u8 *o = RESEARCH_GRAPH_GetLeftCircle(p);
     u32 k;
     u32 a, b, c;
     void *x, *y, *z;
@@ -60,14 +60,14 @@ void func_021BF15C(char *p)
         BgTextLabel_SetVisible((u8 *)t, 0);
         return;
     }
-    if (func_021BF810(p) == 0) {
+    if (RESEARCH_GRAPH_GetGroupValue(p) == 0) {
         BgTextLabel_SetVisible((u8 *)t, 0);
         return;
     }
-    k = func_021BF7F4(p);
+    k = RESEARCH_GRAPH_GetEntryKey(p);
     a = CircleGraph_FindSliceIndex(o, (u8)k);
 
-    b = func_021BF854(p);
+    b = RESEARCH_GRAPH_GetEntryValue(p);
     c = CircleGraph_GetPercentByKey(o, (u8)k);
     x = func_02045EC0(((struct Obj00021 *)p)->fC, 0xd);
     y = func_02045EC0(((struct Obj00021 *)p)->f14, k);

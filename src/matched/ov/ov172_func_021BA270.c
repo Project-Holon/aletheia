@@ -1,5 +1,5 @@
 /*
- * function: func_021BA270
+ * function: CTVT_MIC_IsCaptureDone
  * address:  0x021BA270
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BA270(void *p)
+int CTVT_MIC_IsCaptureDone(void *p)
 {
     if (((struct Obj24100 *)p)->f10 >= 0xb4) {
         return 1;

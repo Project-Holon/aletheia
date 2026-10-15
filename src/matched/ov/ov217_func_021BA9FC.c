@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9FC
+ * function: RESEARCH_TOP_CreateUnits
  * address:  0x021BA9FC
  * packet:   pkt_ov217_021BA9FC
  * region:   ov217
@@ -25,7 +25,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u16 d_021C2ED2[];
 extern u8 d_021C2ED0[];
 
-void func_021BA9FC(char *self)
+void RESEARCH_TOP_CreateUnits(char *self)
 {
     int i = 0;
     do {

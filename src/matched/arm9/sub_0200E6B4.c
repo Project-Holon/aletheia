@@ -1,5 +1,5 @@
 /*
- * function: sub_0200E6B4
+ * function: BATTLE_EXAMINATION_InitGreetings
  * address:  0x0200E6B4
  * packet:   pkt_0200E6B4
  * region:   arm9
@@ -13,7 +13,7 @@
  *   PMSI_PARAM_SetDefaultGreeting  0x02024344  thumb
  *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
  *
- * Promoted from src/pending/sub_0200E6B4.c: every concrete byte was
+ * Promoted from src/pending/BATTLE_EXAMINATION_InitGreetings.c: every concrete byte was
  * already reproduced, and both callees were unresolved relocations
  * because each is called from exactly this one place in the whole ROM,
  * the case the honesty rule's cut remedy cannot reach (docs/MATCHING.md,
@@ -27,8 +27,8 @@
  * slots starting at obj+8, tagging each with its index 0..3.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200E6B4.c \
- *       --func sub_0200E6B4 --addr 0x0200E6B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BATTLE_EXAMINATION_InitGreetings.c \
+ *       --func BATTLE_EXAMINATION_InitGreetings --addr 0x0200E6B4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 extern void PMSI_PARAM_SetDefaultGreeting(void *obj);
 extern void PMSI_PARAM_SetDefaultSentence(void *slot, u32 idx);
 
-void sub_0200E6B4(void *obj)
+void BATTLE_EXAMINATION_InitGreetings(void *obj)
 {
     PMSI_PARAM_SetDefaultGreeting(obj);
     PMSI_PARAM_SetDefaultSentence((u8 *)obj + 8, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_02183918
+ * function: gsXmlReadChildAsBase64Binary
  * address:  0x02183918
  * packet:   pkt_ov009_02183918
  * region:   ov009
@@ -44,7 +44,7 @@ extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
 extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern int func_0217FBC8(char *input, int encodingType);
 
-int func_02183918(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)
+int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)
 {
     struct GSIXmlStreamReader *reader = (struct GSIXmlStreamReader *)stream;
     struct GSIXmlElement *searchValueElem;

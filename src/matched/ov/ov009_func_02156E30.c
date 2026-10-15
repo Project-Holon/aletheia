@@ -8,23 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * 2026-10-05 (wave D7 lane 18): the blocker func_02060F18 is now EXACT in
- *   src/matched/arm9/func_02060F18.c (old bit read first, two stores through a u16 pointer local).
+ * 2026-10-05 (wave D7 lane 18): the blocker NNSi_FndSetAllocModeBit is now EXACT in
+ *   src/matched/arm9/NNSi_FndSetAllocModeBit.c (old bit read first, two stores through a u16 pointer local).
  *   This file stays MATCH only until the integrator regenerates the matched-label layout; then the
  *   0x02060F18 relocation resolves and this file can be filed EXACT unchanged.
- * 2026-10-05 (wave D6 lane 19): still MATCH, blocked only by arm9 func_02060F18 (DIFF). New finding on
+ * 2026-10-05 (wave D6 lane 19): still MATCH, blocked only by arm9 NNSi_FndSetAllocModeBit (DIFF). New finding on
  *   that leaf: a u16 (or u8) RETURN type with `u32 old = *(u16 *)(p + 0x36); ... return old & 1;` stops the
  *   and-sink (gives `and; ...; mov r0,rX` as in the image), but the colours move (old in ip, v&1 in r2;
  *   image old r3, v&1 in r1). Early `old = x & 1` with u32 return still sinks. Compound `&= ~1` / `|=`
  *   on a u16 lvalue gives a 0xFFFE pool mask and lsl/lsr. Not filed.
- * 2026-10-05 (wave D5 lane 02): re-verified MATCH; the only open site is func_02060F18 (arm9), still DIFF by 13 bytes (see src/pending/arm9/func_02060F18.c).
+ * 2026-10-05 (wave D5 lane 02): re-verified MATCH; the only open site is NNSi_FndSetAllocModeBit (arm9), still DIFF by 13 bytes (see src/pending/arm9/NNSi_FndSetAllocModeBit.c).
  * blocker:  relocation witness (label/sole-ref): callee 0x02060F18 has no outside witness
- * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/func_02060F40.c. 0x02060F18 (an
+ * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/NNSi_FndSetGroupId.c. 0x02060F18 (an
  * ARM setter, bit 0 of the halfword at +0x36) is parked DIFF in
- * src/pending/arm9/func_02060F18.c (13 bytes: and-sink scheduling). Bytes here are correct.
+ * src/pending/arm9/NNSi_FndSetAllocModeBit.c (13 bytes: and-sink scheduling). Bytes here are correct.
  *
- * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Only open reloc is THM_CALL func_02060F18 (arm9 setter, parked DIFF in
- * src/pending/arm9/func_02060F18.c); it needs that arm9 leaf filed EXACT.
+ * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Only open reloc is THM_CALL NNSi_FndSetAllocModeBit (arm9 setter, parked DIFF in
+ * src/pending/arm9/NNSi_FndSetAllocModeBit.c); it needs that arm9 leaf filed EXACT.
  *
  * symbols:
  *   _pRapHeap  0x021A8268  data  ov009  a4
@@ -32,9 +32,9 @@
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
- *   func_02060C5C  0x02060C5C  arm
- *   func_02060F18  0x02060F18  arm
- *   func_02060F40  0x02060F40  arm
+ *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
+ *   NNSi_FndSetAllocModeBit  0x02060F18  arm
+ *   NNSi_FndSetGroupId  0x02060F40  arm
  */
 
 #include "../include/G_Obj.h"
@@ -58,9 +58,9 @@ extern char d_021A1C7C[];
 typedef unsigned short u16;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
-extern u32 func_02060F18(char *p, u32 v);
-extern u16 func_02060F40(char *p, u16 v);
+extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u32 attr);
+extern u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
+extern u16 NNSi_FndSetGroupId(char *p, u16 v);
 
 void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d)
 {
@@ -74,9 +74,9 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d)
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
     _pRapHeap->fC = (u32)func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
-    _pRapHeap->f8 = (u32)func_02060C5C((void *)((_pRapHeap->fC + 0x1f) & ~0x1f), b - 0xc0, 0);
+    _pRapHeap->f8 = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->fC + 0x1f) & ~0x1f), b - 0xc0, 0);
     _pRapHeap->f10 = a;
-    func_02060F18((char *)_pRapHeap->f8, 1);
-    func_02060F40((char *)_pRapHeap->f8, 0xea);
+    NNSi_FndSetAllocModeBit((char *)_pRapHeap->f8, 1);
+    NNSi_FndSetGroupId((char *)_pRapHeap->f8, 0xea);
     _pRapHeap->f18 = c;
 }

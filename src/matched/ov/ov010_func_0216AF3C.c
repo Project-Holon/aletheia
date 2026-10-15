@@ -16,7 +16,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
@@ -32,7 +32,7 @@ struct Big;
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E0B0(void *p);
+extern void *SYMBOL_SAVE_GetBlock(void *p);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -56,7 +56,7 @@ a0 = t5 + 0;
 loc_0216AF4C:
     w = GAME_DATA_GetSaveControl(e);
 loc_0216AF52:
-    func_0200E0B0(w);
+    SYMBOL_SAVE_GetBlock(w);
 loc_0216AF56:
     a0 = GAMESYSTEM_GetGameComm(c);
 loc_0216AF5C:

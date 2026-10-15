@@ -178,7 +178,6 @@ extern int func_02189D78(void **connection, int result, int fatal);
 extern int func_021893C8(void **connection, GPIBuffer *buffer, char *src, int n);
 extern int func_0218934C(void **connection, GPIBuffer *buffer, int c);
 extern void func_02184234(void *array, void *elem);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int  gpiSendOrBufferString(void **connection, GPIPeer *peer,
                                   char *string);
 extern int func_02189750(void **connection, GPIPeer *peer, char *string);

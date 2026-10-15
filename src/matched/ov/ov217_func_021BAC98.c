@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC98
+ * function: RESEARCH_LIST_GetActive
  * address:  0x021BAC98
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BAC98(void *p)
+u32 RESEARCH_LIST_GetActive(void *p)
 {
     return ((struct Obj25842 *)p)->f168;
 }

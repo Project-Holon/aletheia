@@ -1,5 +1,5 @@
 /*
- * function: func_021D7AA8
+ * function: WIFI_BSUBWAY_GRAPHIC_CancelBt
  * address: 0x021D7AA8
  * packet: pkt_ov116_021D7AA8
  * region: ov116
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern int DPW_BT_IsAsyncEnd(void);
 extern void DPW_BT_CancelAsync(void);
 extern void func_021D70E4(u8 *);
-void func_021D7AA8(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *p)
 {
     if (DPW_BT_IsAsyncEnd() == 0) {
         DPW_BT_CancelAsync();

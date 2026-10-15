@@ -1,5 +1,5 @@
 /*
- * function: func_020726D0
+ * function: NNS_SndInit
  * address:  0x020726D0
  * packet:   pkt_02072548
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   g_0214BAC0     0x0214BAC0  data
- *   func_020728E8  0x020728E8  arm
- *   func_02072920  0x02072920  arm
+ *   NNS_SndPrependPostSleepCallback  0x020728E8  arm
+ *   NNS_SndAppendPostSleepCallback  0x02072920  arm
  *   SND_Init       0x02089848  arm
  *   PM_PrependPostSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback   0x0208C828  arm
@@ -70,8 +70,8 @@ struct Sys {
 
 extern struct Sys g_0214BAC0;
 
-extern void func_020728E8(void);
-extern void func_02072920(void *p);
+extern void NNS_SndPrependPostSleepCallback(void);
+extern void NNS_SndAppendPostSleepCallback(void *p);
 extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
@@ -79,16 +79,16 @@ extern void NNS_SndWaveOutInit(void);
 extern void NNSi_SndMainReset(void);
 extern void NNS_SndPlayerInit(void);
 
-void func_020726D0(void)
+void NNS_SndInit(void)
 {
     if (g_0214BAC0.f0c != 0) {
         return;
     }
     g_0214BAC0.f0c = 1;
     SND_Init();
-    g_0214BAC0.cb10.fn = (void (*)(void *))func_020728E8;
+    g_0214BAC0.cb10.fn = (void (*)(void *))NNS_SndPrependPostSleepCallback;
     g_0214BAC0.cb10.arg = 0;
-    g_0214BAC0.cb20.fn = func_02072920;
+    g_0214BAC0.cb20.fn = NNS_SndAppendPostSleepCallback;
     g_0214BAC0.cb20.arg = 0;
     PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);

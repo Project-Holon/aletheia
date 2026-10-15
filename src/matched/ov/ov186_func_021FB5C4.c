@@ -1,5 +1,5 @@
 /*
- * function: func_021FB5C4
+ * function: BR_BTN_SetObjectPalette
  * address: 0x021FB5C4
  * packet: pkt_ov186_021FB5C4
  * region: ov186
@@ -17,4 +17,4 @@ typedef unsigned char  u8;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void BMP_OAM_SetPalette(u8 *g, u32 a);
-void func_021FB5C4(char *p,int n) { CLACT_SetActorPaletteOffset(((struct Obj14459 *)p)->f0,(unsigned char)n,0);BMP_OAM_SetPalette(*(unsigned char * *)&((struct Obj14459 *)p)->f4,(unsigned char)(n+1)); }
+void BR_BTN_SetObjectPalette(char *p,int n) { CLACT_SetActorPaletteOffset(((struct Obj14459 *)p)->f0,(unsigned char)n,0);BMP_OAM_SetPalette(*(unsigned char * *)&((struct Obj14459 *)p)->f4,(unsigned char)(n+1)); }

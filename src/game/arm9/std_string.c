@@ -1,7 +1,7 @@
 /*
  * file:     std_string.c
  * unit:     yes
- * function: func_0208CADC, func_0208CB10, func_0208CC14, func_0208CC78, func_0208CCFC, func_0208CD94, func_0208CE4C, func_0208CF34, func_0208CF5C, func_0208CF84, func_0208CFD8
+ * function: STD_CopyString, STD_CopyLString, STD_SearchString, func_0208CC78, STD_GetStringNLength, STD_CompareString, STD_CompareNString, func_0208CF34, func_0208CF5C, func_0208CF84, func_0208CFD8
  * address:  0x0208CADC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,13 +28,13 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-char *func_0208CADC(char *destp, const char *srcp);
-int func_0208CB10(char *destp, const char *srcp, int siz);
-char *func_0208CC14(const char *srcp, const char *str);
+char *STD_CopyString(char *destp, const char *srcp);
+int STD_CopyLString(char *destp, const char *srcp, int siz);
+char *STD_SearchString(const char *srcp, const char *str);
 int STD_GetStringLength(const char *str);
-int func_0208CCFC(const char *str, int len);
-int func_0208CD94(const char *str1, const char *str2);
-int func_0208CE4C(const char *str1, const char *str2, int len);
+int STD_GetStringNLength(const char *str, int len);
+int STD_CompareString(const char *str1, const char *str2);
+int STD_CompareNString(const char *str1, const char *str2, int len);
 int STD_TSScanf(char *dst, const char *fmt, ...);
 int STDi_IsSpace(int c);
 void STDi_FillBitset(unsigned long *bitset, unsigned long a, unsigned long b);
@@ -43,7 +43,7 @@ int STD_TVSScanf(const char *src, const char *fmt, va_list vlist);
 /*
  * sdk:      STD_CopyString (std_string.o)
  */
-char *func_0208CADC(char *destp, const char *srcp)
+char *STD_CopyString(char *destp, const char *srcp)
 {
     char *retval = destp;
 
@@ -58,70 +58,70 @@ char *func_0208CADC(char *destp, const char *srcp)
 /*
  * sdk:      STD_CopyLString (std_string.o)
  */
-int func_0208CB10(char *destp, const char *srcp, int siz)
+int STD_CopyLString(char *destp, const char *srcp, int siz)
 {
-    const char *s;
-    unsigned long y;
+    const char *source;
+    unsigned long zeroMask;
     unsigned long val32;
-    int i;
+    int index;
     unsigned long dstalign;
 
-    s = srcp;
-    i = 0;
+    source = srcp;
+    index = 0;
     dstalign = (unsigned long)destp & 3;
 
     if ((dstalign ^ ((unsigned long)srcp & 3)) == 0) {
         if (dstalign != 0) {
-            for (; i + dstalign < 4 && i < siz - 1; s++, i++) {
-                destp[i] = *s;
-                if (*s == '\0') {
+            for (; index + dstalign < 4 && index < siz - 1; source++, index++) {
+                destp[index] = *source;
+                if (*source == '\0') {
                     goto end;
                 }
             }
         }
-        for (; i < siz - 4; i += 4) {
-            val32 = *(const unsigned long *)(srcp + i);
-            y = ~(((val32 & 0x7f7f7f7f) + 0x7f7f7f7f) | val32 | 0x7f7f7f7f);
-            if (y != 0) {
+        for (; index < siz - 4; index += 4) {
+            val32 = *(const unsigned long *)(srcp + index);
+            zeroMask = ~(((val32 & 0x7f7f7f7f) + 0x7f7f7f7f) | val32 | 0x7f7f7f7f);
+            if (zeroMask != 0) {
                 break;
             }
-            *(unsigned long *)(destp + i) = val32;
+            *(unsigned long *)(destp + index) = val32;
         }
-        s = srcp + i;
+        source = srcp + index;
     }
 
-    for (; i < siz - 1; i++, s++) {
-        destp[i] = *s;
-        if (*s == '\0') {
+    for (; index < siz - 1; index++, source++) {
+        destp[index] = *source;
+        if (*source == '\0') {
             goto end;
         }
     }
 
 end:
-    if (i >= siz - 1 && siz > 0) {
-        destp[i] = '\0';
+    if (index >= siz - 1 && siz > 0) {
+        destp[index] = '\0';
     }
-    if (*s != '\0') {
-        i += STD_GetStringLength(s);
+    if (*source != '\0') {
+        index += STD_GetStringLength(source);
     }
-    return i;
+    return index;
 }
 
 /*
  * sdk:      STD_SearchString (std_string.o)
  */
-char *func_0208CC14(const char *srcp, const char *str)
+char *STD_SearchString(const char *srcp, const char *str)
 {
-    int i;
-    int n;
+    int index;
+    int matchLength;
 
-    for (i = 0; srcp[i] != '\0'; i++) {
-        n = 0;
-        while (str[n] != '\0' && srcp[i + n] == str[n]) {
-            n++;
+    for (index = 0; srcp[index] != '\0'; index++) {
+        matchLength = 0;
+        while (str[matchLength] != '\0' && srcp[index + matchLength] == str[matchLength]) {
+            matchLength++;
         }
-        if (str[n] == '\0') {
-            return (char *)&srcp[i];
+        if (str[matchLength] == '\0') {
+            return (char *)&srcp[index];
         }
     }
     return 0;
@@ -130,150 +130,150 @@ char *func_0208CC14(const char *srcp, const char *str)
 
 int STD_GetStringLength(const char *str)
 {
-    int n = 0;
+    int length = 0;
 
-    while (((u32)(str + n) & 3) != 0) {
-        if (str[n] == '\0')
-            return n;
-        ++n;
+    while (((u32)(str + length) & 3) != 0) {
+        if (str[length] == '\0')
+            return length;
+        ++length;
     }
     {
-        const u32 *p32 = (const u32 *)(str + n);
+        const u32 *p32 = (const u32 *)(str + length);
 
         for (;;) {
-            u32 y = *p32;
+            u32 zeroMask = *p32;
 
-            y = ~(((y & 0x7F7F7F7F) + 0x7F7F7F7F) | y | 0x7F7F7F7F);
-            if (y != 0)
+            zeroMask = ~(((zeroMask & 0x7F7F7F7F) + 0x7F7F7F7F) | zeroMask | 0x7F7F7F7F);
+            if (zeroMask != 0)
                 break;
             ++p32;
-            n += 4;
+            length += 4;
         }
     }
-    while (str[n] != '\0')
-        ++n;
-    return n;
+    while (str[length] != '\0')
+        ++length;
+    return length;
 }
 
 /*
  * sdk:      STD_GetStringNLength (std_string.o)
  */
-int func_0208CCFC(const char *str, int len)
+int STD_GetStringNLength(const char *str, int len)
 {
-    int n;
+    int length;
     const unsigned long *p32;
-    unsigned long y;
+    unsigned long zeroMask;
 
-    for (n = 0; ((unsigned long)(str + n) & 3) != 0 && n < len; n++) {
-        if (str[n] == '\0') {
-            return n;
+    for (length = 0; ((unsigned long)(str + length) & 3) != 0 && length < len; length++) {
+        if (str[length] == '\0') {
+            return length;
         }
     }
 
-    p32 = (const unsigned long *)(str + n);
-    for (; n < len - 4; n += 4, p32++) {
-        y = *p32;
-        y = ~(((y & 0x7f7f7f7f) + 0x7f7f7f7f) | y | 0x7f7f7f7f);
-        if (y != 0) {
+    p32 = (const unsigned long *)(str + length);
+    for (; length < len - 4; length += 4, p32++) {
+        zeroMask = *p32;
+        zeroMask = ~(((zeroMask & 0x7f7f7f7f) + 0x7f7f7f7f) | zeroMask | 0x7f7f7f7f);
+        if (zeroMask != 0) {
             break;
         }
     }
 
-    while (str[n] != '\0' && n < len) {
-        n++;
+    while (str[length] != '\0' && length < len) {
+        length++;
     }
-    return n;
+    return length;
 }
 
 /*
  * sdk:      STD_CompareString (std_string.o)
  */
-int func_0208CD94(const char *str1, const char *str2)
+int STD_CompareString(const char *str1, const char *str2)
 {
     unsigned long dstalign;
     unsigned char chr1;
     unsigned char chr2;
-    unsigned long lng1;
-    unsigned long y;
-    int i;
+    unsigned long word1;
+    unsigned long zeroMask;
+    int index;
 
-    i = 0;
+    index = 0;
     dstalign = (unsigned long)str1 & 3;
 
     if ((dstalign ^ ((unsigned long)str2 & 3)) == 0) {
         if (dstalign != 0) {
-            for (; i + dstalign < 4; i++) {
-                chr1 = (unsigned char)str1[i];
-                chr2 = (unsigned char)str2[i];
+            for (; index + dstalign < 4; index++) {
+                chr1 = (unsigned char)str1[index];
+                chr2 = (unsigned char)str2[index];
                 if (chr1 != chr2 || chr1 == 0) {
                     return chr1 - chr2;
                 }
             }
         }
         for (;;) {
-            lng1 = *(const unsigned long *)(str1 + i);
-            if (lng1 != *(const unsigned long *)(str2 + i)) {
+            word1 = *(const unsigned long *)(str1 + index);
+            if (word1 != *(const unsigned long *)(str2 + index)) {
                 break;
             }
-            y = ~(((lng1 & 0x7f7f7f7f) + 0x7f7f7f7f) | lng1 | 0x7f7f7f7f);
-            if (y != 0) {
+            zeroMask = ~(((word1 & 0x7f7f7f7f) + 0x7f7f7f7f) | word1 | 0x7f7f7f7f);
+            if (zeroMask != 0) {
                 break;
             }
-            i += 4;
+            index += 4;
         }
     }
 
     for (;;) {
-        chr1 = (unsigned char)str1[i];
-        chr2 = (unsigned char)str2[i];
+        chr1 = (unsigned char)str1[index];
+        chr2 = (unsigned char)str2[index];
         if (chr1 != chr2 || chr1 == 0) {
             return chr1 - chr2;
         }
-        i++;
+        index++;
     }
 }
 
 /*
  * sdk:      STD_CompareNString (std_string.o)
  */
-int func_0208CE4C(const char *str1, const char *str2, int len)
+int STD_CompareNString(const char *str1, const char *str2, int len)
 {
     unsigned long dstalign;
     unsigned char chr1;
     unsigned char chr2;
-    unsigned long lng1;
-    unsigned long y;
-    int i;
+    unsigned long word1;
+    unsigned long zeroMask;
+    int index;
 
     if (len != 0) {
-        i = 0;
+        index = 0;
         dstalign = (unsigned long)str1 & 3;
 
         if ((dstalign ^ ((unsigned long)str2 & 3)) == 0) {
             if (dstalign != 0) {
-                for (; i + dstalign < 4 && i < len; i++) {
-                    chr1 = (unsigned char)str1[i];
-                    chr2 = (unsigned char)str2[i];
+                for (; index + dstalign < 4 && index < len; index++) {
+                    chr1 = (unsigned char)str1[index];
+                    chr2 = (unsigned char)str2[index];
                     if (chr1 != chr2 || chr1 == 0) {
                         return chr1 - chr2;
                     }
                 }
             }
-            for (; i <= len - 4; i += 4) {
-                lng1 = *(const unsigned long *)(str1 + i);
-                if (lng1 != *(const unsigned long *)(str2 + i)) {
+            for (; index <= len - 4; index += 4) {
+                word1 = *(const unsigned long *)(str1 + index);
+                if (word1 != *(const unsigned long *)(str2 + index)) {
                     break;
                 }
-                y = ~(((lng1 & 0x7f7f7f7f) + 0x7f7f7f7f) | lng1 | 0x7f7f7f7f);
-                if (y != 0) {
+                zeroMask = ~(((word1 & 0x7f7f7f7f) + 0x7f7f7f7f) | word1 | 0x7f7f7f7f);
+                if (zeroMask != 0) {
                     break;
                 }
             }
         }
 
-        for (; i < len; i++) {
-            chr1 = (unsigned char)str1[i];
-            chr2 = (unsigned char)str2[i];
+        for (; index < len; index++) {
+            chr1 = (unsigned char)str1[index];
+            chr2 = (unsigned char)str2[index];
             if (chr1 != chr2 || chr1 == 0) {
                 return chr1 - chr2;
             }
@@ -289,31 +289,31 @@ int func_0208CE4C(const char *str1, const char *str2, int len)
 
 int STD_TSScanf(char *dst, const char *fmt, ...)
 {
-    int r;
+    int result;
     va_list vlist;
     va_start(vlist, fmt);
-    r = STD_TVSScanf(dst, fmt, vlist);
+    result = STD_TVSScanf(dst, fmt, vlist);
     va_end(vlist);
-    return r;
+    return result;
 }
 
 int STDi_IsSpace(int c)
 {
-    int ret = 0;
-    unsigned int d = (unsigned int)(c - 9);
-    if (d <= 0x17 && (0x0080001F & (1 << d)))
-        ret = 1;
-    return ret;
+    int result = 0;
+    unsigned int offset = (unsigned int)(c - 9);
+    if (offset <= 0x17 && (0x0080001F & (1 << offset)))
+        result = 1;
+    return result;
 }
 
-void STDi_FillBitset(unsigned long *bitset, unsigned long a, unsigned long b)
+void STDi_FillBitset(unsigned long *bitset, unsigned long start, unsigned long end)
 {
-    while (a < b) {
-        unsigned long pos = a >> 5;
-        unsigned long mask = ~0UL << (a & 31);
-        a = (pos + 1) << 5;
-        if (b < a)
-            mask &= (1UL << (b & 31)) - 1;
+    while (start < end) {
+        unsigned long pos = start >> 5;
+        unsigned long mask = ~0UL << (start & 31);
+        start = (pos + 1) << 5;
+        if (end < start)
+            mask &= (1UL << (end & 31)) - 1;
         bitset[pos] |= mask;
     }
 }
@@ -342,7 +342,7 @@ int STD_TVSScanf(const char *src, const char *fmt, va_list vlist)
 {
     const char *src_base = src;
     int matched = 0;
-    u32 matchcond;
+    u32 matchCondition;
     int stored = 0;
     char c;
 
@@ -453,20 +453,20 @@ int STD_TVSScanf(const char *src, const char *fmt, va_list vlist)
                 {
                     int digit;
                     for (digit = 0; digit < width; ++digit) {
-                        u32 d = (u32)(c - '0');
-                        if (d >= 10) {
-                            if (d - ('a' - '0') < 6)
-                                d = d - ('a' - '0') + 10;
+                        u32 digitValue = (u32)(c - '0');
+                        if (digitValue >= 10) {
+                            if (digitValue - ('a' - '0') < 6)
+                                digitValue = digitValue - ('a' - '0') + 10;
                             else {
-                                d -= 'A' - '0';
-                                if (d < 6)
-                                    d += 10;
+                                digitValue -= 'A' - '0';
+                                if (digitValue < 6)
+                                    digitValue += 10;
                             }
                         }
-                        if (d >= radix)
+                        if (digitValue >= radix)
                             break;
                         c = *++src;
-                        val = val * radix + d;
+                        val = val * radix + digitValue;
                     }
                     if (digit == 0)
                         goto end;
@@ -541,11 +541,11 @@ int STD_TVSScanf(const char *src, const char *fmt, va_list vlist)
                     u32 from = 0;
                     int in_range = 0;
 
-                    matchcond = 1;
+                    matchCondition = 1;
                     MIi_CpuClear32(0, bitset, sizeof(bitset));
                     if (*++fmt == '^') {
                         ++fmt;
-                        matchcond = 0;
+                        matchCondition = 0;
                     }
                     if (*fmt == ']') {
                         SET_BIT(bitset, (u8)*fmt);
@@ -593,7 +593,7 @@ int STD_TVSScanf(const char *src, const char *fmt, va_list vlist)
                     {
                         char ch = *src;
                         while (ch && (width > 0)) {
-                            if (((bitset[(u32)(u8)ch >> 5] >> ((u32)(u8)ch & 31)) & 1) != matchcond)
+                            if (((bitset[(u32)(u8)ch >> 5] >> ((u32)(u8)ch & 31)) & 1) != matchCondition)
                                 break;
                             if (dst)
                                 *dst++ = ch;

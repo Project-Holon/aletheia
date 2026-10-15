@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5E0
+ * function: RESEARCH_LIST_UnregisterVBlank
  * address:  0x021BD5E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BD5E0  0x021BD5E0  thumb  ov217
+ *   RESEARCH_LIST_UnregisterVBlank  0x021BD5E0  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021BD5E0(u32 a0)
+void RESEARCH_LIST_UnregisterVBlank(u32 a0)
 {
     func_02030EAC((struct Node *)(((struct Obj14735 *)(((u8*)a0)))->f154));
     ((struct Obj14735 *)(((u8*)a0)))->f154 = 0;

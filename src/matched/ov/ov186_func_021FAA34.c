@@ -1,16 +1,16 @@
 /*
- * function: func_021FAA34
+ * function: BR_BTN_UpdateBack
  * address: 0x021FAA34
  * packet: pkt_ov186_021FAA34
  * region: ov186
  * status: EXACT
  * symbols:
- *   func_021FD73C 0x021FD73C thumb
- *   func_021FA284 0x021FA284 thumb
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb
+ *   BR_BTN_HandleInput 0x021FA284 thumb
  */
-extern int *func_021FD73C(int *p, int v);
-extern void func_021FA284(void *p, int *state, unsigned char *ctx);
-void func_021FAA34(void *p, int *state, int *ctx)
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
+extern void BR_BTN_HandleInput(void *p, int *state, unsigned char *ctx);
+void BR_BTN_UpdateBack(void *p, int *state, int *ctx)
 {
     if (*state == 0) {
         if (ctx[8]) {
@@ -20,6 +20,6 @@ void func_021FAA34(void *p, int *state, int *ctx)
             case 4: ctx[6] = 1; break;
             }
         }
-        func_021FD73C(p, (int)func_021FA284);
+        BR_UTIL_SetTaskStep(p, (int)BR_BTN_HandleInput);
     }
 }

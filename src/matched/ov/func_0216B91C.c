@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200E394  0x0200E394  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   func_0200C0E8  0x0200C0E8  thumb
  *   SCRCMD_RESEARCH_GetMissionKind  0x0216BB70  thumb  ov010
  *   SCRCMD_RESEARCH_AreMissionTargetsAtGoal  0x0216B994  thumb  ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0200E394(void *a0);
+extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
 extern void *func_0200C0E8(void *sys);
 extern int SCRCMD_RESEARCH_GetMissionKind(int index);
 extern int SCRCMD_RESEARCH_AreMissionTargetsAtGoal(int c, int vm);
@@ -37,7 +37,7 @@ int SCRCMD_RESEARCH_GetMissionStatus(int a0, int a1, u16 *a2)
 t7 = a0 + 0;
 t5 = a1 + 0;
 t4 = a2 + 0;
-    t6 = func_0200E394((void *)a0);
+    t6 = SYMBOL_SAVE_GetBitBlock((void *)a0);
 loc_0216B928:
 a0 = t7 + 0;
     func_0200C0E8((void *)a0);

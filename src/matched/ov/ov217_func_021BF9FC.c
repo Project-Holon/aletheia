@@ -1,5 +1,5 @@
 /*
- * function: func_021BF9FC
+ * function: RESEARCH_GRAPH_GetSharedHandle
  * address:  0x021BF9FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BF9FC(void *p, u32 i)
+u32 RESEARCH_GRAPH_GetSharedHandle(void *p, u32 i)
 {
     return *(u32 *)((char *)p + i * 4 + 0x384);
 }

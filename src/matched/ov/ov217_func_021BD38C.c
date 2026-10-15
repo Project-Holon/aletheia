@@ -1,5 +1,5 @@
 /*
- * function: func_021BD38C
+ * function: RESEARCH_LIST_CreateOamSys
  * address:  0x021BD38C
  * packet:   pkt_021BD38C
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 
-void func_021BD38C(char *p)
+void RESEARCH_LIST_CreateOamSys(char *p)
 {
     int i = 0x47;
     *(void **)(p + (i << 2) + 0x10) =

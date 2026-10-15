@@ -19,7 +19,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ extern void func_021E1850(char *);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_021FD860(int,int,int *);
+extern void BR_UTIL_StartEffect(int,int,int *);
 void func_021E19EC(u32 idx, int arg, char *p)
 {
     Record *rec = (Record *)p;
@@ -61,7 +61,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
-        func_021FD860(*(int *)(p + 0x348), 1, args);
+        BR_UTIL_StartEffect(*(int *)(p + 0x348), 1, args);
     } else if (idx == 0x17) {
         u32 x, y;
         int args[2];
@@ -71,7 +71,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
-        func_021FD860(*(int *)(p + 0x348), 1, args);
+        BR_UTIL_StartEffect(*(int *)(p + 0x348), 1, args);
     } else {
         *(u16 *)(p + 0x1B8) = (idx - 12) % 5;
         *(u16 *)(p + 0x1BA) = (idx - 12) / 5;
@@ -84,7 +84,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
-        func_021FD860(*(int *)(p + 0x348), 1, args);
+        BR_UTIL_StartEffect(*(int *)(p + 0x348), 1, args);
         i = *(int *)(p + 0x188);
         v = idx - 11;
         CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)func_021E0E40(rec[i].tag = v, rec[i].mode));

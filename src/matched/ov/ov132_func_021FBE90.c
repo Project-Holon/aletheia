@@ -12,8 +12,8 @@
  *   VM_GetU32 0x0201134C thumb
  *   func_021F9DAC 0x021F9DAC thumb ov132
  *   func_021F9DB0 0x021F9DB0 thumb ov132
- *   func_021F6B9C 0x021F6B9C thumb ov112
- *   func_021F6BB0 0x021F6BB0 thumb ov112
+ *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
+ *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
  *   func_02030734 0x02030734 arm
  *   func_0207CA00 0x0207CA00 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
@@ -30,8 +30,8 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_021F9DAC(void *);
 extern u32 *func_021F9DB0(void *,u8);
-extern void func_021F6B9C(void *,u32 *,u32 *);
-extern void func_021F6BB0(void *,u32 *,u32 *);
+extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
+extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_0207CA00(void *,void *,void *);
 extern void *func_021FADA0(char *,u32,u32,u32);
@@ -55,14 +55,14 @@ int func_021FBE90(int unused,char *p)
     target=func_021F9DB0(((struct Obj08167 *)owner)->f34,a);
     if (b==0) {
         pos[0]=c;pos[1]=d;pos[2]=e;
-        func_021F6B9C(ctx,target,pos);
+        STA_ACT_OBJ_SetEntryTarget(ctx,target,pos);
     } else {
         q=func_02030734(((struct Obj08167 *)owner)->f0,56,0,d_021FDD00,0x601);
         *(char * *)&((struct Obj02193 *)q)->f30=owner;
         *(u32 * *)&((struct Obj02193 *)q)->f0=target;
         ((struct Obj02193 *)q)->f4=((struct Obj08167 *)owner)->f34;
         ((struct Obj02193 *)q)->f2E=0;
-        func_021F6BB0(ctx,target,(u32 *)(q+8));
+        STA_ACT_OBJ_GetEntryTarget(ctx,target,(u32 *)(q+8));
         ((struct Obj02193 *)q)->f14=c;((struct Obj02193 *)q)->f18=d;((struct Obj02193 *)q)->f1C=e;
         ((struct Obj02193 *)q)->f2C=b;
         func_0207CA00(q+20,q+8,delta);

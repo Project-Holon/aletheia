@@ -1,5 +1,5 @@
 /*
- * function: func_021FD750
+ * function: BR_UTIL_IsTaskStep
  * address:  0x021FD750
  * packet:   pkt_021FD750
  * region:   ov186
@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021FD750(int *p, int v)
+int BR_UTIL_IsTaskStep(int *p, int v)
 {
     return *p == v;
 }

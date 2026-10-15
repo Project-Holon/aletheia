@@ -1,5 +1,5 @@
 /*
- * function: func_0208623C
+ * function: OSi_EnqueueTail
  * address:  0x0208623C
  * packet:   pkt_0208623C
  * region:   arm9
@@ -141,7 +141,7 @@ extern OsThreadBss gOsThreadBss;
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_0208623C(OSThread *thread, OSMutex *mutex)
+void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex)
 {
     OSMutex *prev = thread->mutexQueue.tail;
 

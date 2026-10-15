@@ -1,5 +1,5 @@
 /*
- * function: func_02085F8C
+ * function: OS_ReadMessage
  * address:  0x02085F8C
  * packet:   pkt_02085F8C
  * region:   arm9
@@ -41,7 +41,7 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 
-BOOL func_02085F8C(OSMessageQueue *mq, OSMessage *msg, s32 flags)
+BOOL OS_ReadMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2140
+ * function: BOX2_SEQ_StateCheckTaskMenu
  * address:  0x021E2140
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DCFC0  0x021DCFC0  thumb  ov170
+ *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
  *
  * 8 while busy, else the 0x28 field.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern int func_021DCFC0(char *p);
-int func_021E2140(int p)
+extern int BOX2_MAIN_IsTaskMenuFinished(char *p);
+int BOX2_SEQ_StateCheckTaskMenu(int p)
 {
-    if (func_021DCFC0((char *)p) == 0)
+    if (BOX2_MAIN_IsTaskMenuFinished((char *)p) == 0)
         return ((struct Obj00000 *)p)->f28;
     return 8;
 }

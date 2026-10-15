@@ -1,5 +1,5 @@
 /*
- * function: func_021DC860
+ * function: BOX2_MAIN_Init
  * address: 0x021DC860
  * packet: pkt_ov170_021DC860
  * region: ov170
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 extern int func_020078C4(void *save, u32 box);
 extern u8 func_020076B4(void *);
 extern void *PROCSYS_Create(int a0);
-int func_021DC860(void *manager, int unused, void **context)
+int BOX2_MAIN_Init(void *manager, int unused, void **context)
 {
     u8 *p;
     u16 max;

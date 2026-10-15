@@ -1,5 +1,5 @@
 /*
- * function: func_021BE790
+ * function: RESEARCH_GRAPH_MoveEntryForward
  * address:  0x021BE790
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BEA8C  0x021BEA8C  thumb  ov217
- *   func_021BEEA4  0x021BEEA4  thumb  ov217
- *   func_021BF15C  0x021BF15C  thumb  ov217
+ *   RESEARCH_GRAPH_StepEntry  0x021BEA8C  thumb  ov217
+ *   RESEARCH_GRAPH_LayoutArrow  0x021BEEA4  thumb  ov217
+ *   RESEARCH_GRAPH_PrintSliceLabel  0x021BF15C  thumb  ov217
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -28,14 +28,14 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 GFL_USE_PlaySeDefaultVolume();
-extern void func_021BEA8C(u8 *p, int step);
-extern void func_021BEEA4(char *p);
-extern void func_021BF15C(char *p);
-u32 func_021BE790(u32 a0)
+extern void RESEARCH_GRAPH_StepEntry(u8 *p, int step);
+extern void RESEARCH_GRAPH_LayoutArrow(char *p);
+extern void RESEARCH_GRAPH_PrintSliceLabel(char *p);
+u32 RESEARCH_GRAPH_MoveEntryForward(u32 a0)
 {
-    func_021BEA8C((u8 *)a0, 1);
-    func_021BF15C((char *)a0);
-    func_021BEEA4((char *)a0);
+    RESEARCH_GRAPH_StepEntry((u8 *)a0, 1);
+    RESEARCH_GRAPH_PrintSliceLabel((char *)a0);
+    RESEARCH_GRAPH_LayoutArrow((char *)a0);
     return GFL_USE_PlaySeDefaultVolume(1352);
 }
 

@@ -23,7 +23,7 @@
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
  *   CARD_WaitBackupAsync           0x02076B80  arm
  *   func_02075EAC           0x02075EAC  arm
- *   func_02084F10           0x02084F10  arm
+ *   OS_ReleaseLockID           0x02084F10  arm
  *
  * The result of CARDi_RequestStreamCommand lands in r6 only after the
  * intervening call to the void CARD_WaitBackupAsync: mwcc keeps r0 live across a
@@ -49,7 +49,7 @@ extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback
                                        int req_retry, int req_mode);
 extern int  CARD_WaitBackupAsync(void);
 extern void func_02075EAC(u16 a);
-extern void func_02084F10(u16 a);
+extern void OS_ReleaseLockID(u16 a);
 
 int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
 {
@@ -63,7 +63,7 @@ int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
     r = CARDi_RequestStreamCommand(a0, a1, a2, 0, 0, 1, 6, 1, 0);
     r = CARD_WaitBackupAsync();
     func_02075EAC((u16)id);
-    func_02084F10((u16)id);
+    OS_ReleaseLockID((u16)id);
     if (r == 0 && a3 != 0) {
         a3();
     }

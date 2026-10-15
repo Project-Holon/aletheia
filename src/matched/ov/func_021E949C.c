@@ -1,5 +1,5 @@
 /*
- * function: func_021E949C
+ * function: BOX2_SEQ_GotoBox2Main
  * address:  0x021E949C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DD090  0x021DD090  thumb  ov170
+ *   BOX2_MAIN_UpdateWindowFrame  0x021DD090  thumb  ov170
  *
  * Forward, then store the third argument at 0x28.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern void func_021DD090(char *, int);
-int func_021E949C(char *p, int a, int b)
+extern void BOX2_MAIN_UpdateWindowFrame(char *, int);
+int BOX2_SEQ_GotoBox2Main(char *p, int a, int b)
 {
-    func_021DD090(p, a);
+    BOX2_MAIN_UpdateWindowFrame(p, a);
     ((struct Obj00000 *)p)->f28 = b;
     return 8;
 }

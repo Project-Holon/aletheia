@@ -15,8 +15,8 @@
  * symbols:
  *   d_02171F5F  0x02171F5F  data  a1
  *   d_02171F3C 0x02171F3C data a1
- *   func_0200E06C  0x0200E06C  thumb
- *   func_0200E024  0x0200E024  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02030734 0x02030734 arm
@@ -144,8 +144,8 @@ typedef struct CommPlayerRowView {
     CommPlayerFlagView flags;
 } CommPlayerRowView;
 
-extern void func_0200E06C(char *p);
-extern void func_0200E024(void *p);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
+extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
@@ -240,15 +240,15 @@ u8 func_02167394(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
 
 /*
  * Reads the byte at +0x848 of the shared state under its lock
- * (func_0200E06C / func_0200E024).
+ * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
 u8 func_021673A8(u8 *p)
 {
     u8 v;
 
-    func_0200E06C((char *)p);
+    SYMBOL_SAVE_FinalizeChecksum((char *)p);
     v = p[0x848];
-    func_0200E024(p);
+    SYMBOL_SAVE_UpdateChecksum(p);
     return v;
 }
 
@@ -259,15 +259,15 @@ u8 func_021673A8(u8 *p)
 
 /*
  * Reads the byte at +0x849 of the shared state under its lock
- * (func_0200E06C / func_0200E024).
+ * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
 u8 func_021673C4(u8 *p)
 {
     u8 v;
 
-    func_0200E06C((char *)p);
+    SYMBOL_SAVE_FinalizeChecksum((char *)p);
     v = p[0x849];
-    func_0200E024(p);
+    SYMBOL_SAVE_UpdateChecksum(p);
     return v;
 }
 
@@ -287,9 +287,9 @@ u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 
     i = 0;
     MI_CpuFill8(out, 0, cap * 4);
-    func_0200E06C((char *)list);
+    SYMBOL_SAVE_FinalizeChecksum((char *)list);
     MI_CpuCopy8(&list[start], out, count * 4);
-    func_0200E024(list);
+    SYMBOL_SAVE_UpdateChecksum(list);
     for (i = 0; i < count; i++) {
         if (out[i].id == 0)
             break;

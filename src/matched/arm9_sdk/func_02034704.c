@@ -1,5 +1,5 @@
 /*
- * function: func_02034704
+ * function: SAVEDATA_SetFailHook
  * address:  0x02034704
  * packet:   pkt_02034704
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u32 d_0214699C[];
 
-void func_02034704(u32 v)
+void SAVEDATA_SetFailHook(u32 v)
 {
     d_0214699C[3] = v;
 }

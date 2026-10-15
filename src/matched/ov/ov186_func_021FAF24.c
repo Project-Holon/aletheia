@@ -1,5 +1,5 @@
 /*
- * function: func_021FAF24
+ * function: BR_BTN_GetRowField
  * address: 0x021FAF24
  * packet: pkt_ov186_021FAF24
  * region: ov186
@@ -17,7 +17,7 @@ extern int BR_BTN_DATA_GetRowField(void *p, int i);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_02200D18[];
-int func_021FAF24(char *ctx, int kind)
+int BR_BTN_GetRowField(char *ctx, int kind)
 {
     int result;
     switch (kind) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC264
+ * function: RESEARCH_LIST_IsMomentumActive
  * address:  0x021BC264
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BC264(void *p)
+int RESEARCH_LIST_IsMomentumActive(void *p)
 {
     if (((struct Obj25855 *)p)->f4C != 0) {
         return 1;

@@ -1,7 +1,7 @@
 /*
  * file:     br_proc_sys.c
  * unit:     yes
- * function: BR_PROC_SYS_Init, BR_PROC_SYS_Exit, BR_PROC_SYS_Main, func_021F9390, func_021F93D0, func_021F93D4, func_021F94D0, func_021F94E4, func_021F961C, func_021F962C, func_021F9668, func_021F966C, func_021F96A8, func_021F96AC, func_021F9728, func_021F972C, func_021F9750, func_021F9754, func_021F9770, func_021F9774, func_021F979C, func_021F97A0, func_021F97EC, func_021F9810, func_021F9868, func_021F98A8, func_021F98CC, func_021F98D0, func_021F98F4, func_021F98F8, BR_PROC_SYS_Create, BR_PROC_SYS_Delete, func_021F9A80, func_021F9B98, func_021F9B9C, func_021F9BA0, func_021F9BF4, func_021F9C50, func_021F9C6C, func_021F9C84, func_021F9CA4
+ * function: BR_PROC_SYS_Init, BR_PROC_SYS_Exit, BR_PROC_SYS_Main, BR_PROC_SYS_BuildBasicRecord, BR_PROC_SYS_NoopA, BR_PROC_SYS_BuildChoiceRecord, BR_PROC_SYS_PopMenuEntry, BR_PROC_SYS_BuildBattleRecord, BR_PROC_SYS_SetPendingFlag, BR_PROC_SYS_BuildProfileRecord, BR_PROC_SYS_NoopB, BR_PROC_SYS_BuildProfileRecord2, BR_PROC_SYS_NoopC, BR_PROC_SYS_BuildTypeRecord, BR_PROC_SYS_NoopD, BR_PROC_SYS_CopyRecord1, BR_PROC_SYS_NoopE, BR_PROC_SYS_CopyRecord2, BR_PROC_SYS_NoopF, BR_PROC_SYS_CopyRecord3, BR_PROC_SYS_NoopG, BR_PROC_SYS_BuildRecord, BR_PROC_SYS_UpdateRecord, BR_PROC_SYS_BuildRecord2, BR_PROC_SYS_LoadBattleRecord, BR_PROC_SYS_CopyWordsA, BR_PROC_SYS_NoopH, BR_PROC_SYS_CopyWordsB, BR_PROC_SYS_NoopI, BR_PROC_SYS_LoadRecords, BR_PROC_SYS_Create, BR_PROC_SYS_Delete, BR_PROC_SYS_RunSlot, BR_PROC_SYS_IsDone, BR_PROC_SYS_GetSlotId, BR_PROC_SYS_PopEntry, BR_PROC_SYS_PushEntry, BR_PROC_SYS_SetupWindow, BR_PROC_SYS_FlushWindows, BR_PROC_SYS_InitEntry, BR_PROC_SYS_ClearEntry
  * address:  0x021F90C0
  * region:   ov186
  * compiler: dsi/1.1p1
@@ -65,8 +65,8 @@
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   func_020071CC   0x020071CC  thumb
- *   func_0200E9F4   0x0200E9F4  thumb
- *   func_0200EA04   0x0200EA04  thumb
+ *   MISC_SAVEDATA_GetBlock3C   0x0200E9F4  thumb
+ *   MISC_SAVEDATA_GetStatsBase2   0x0200EA04  thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
@@ -84,54 +84,9 @@
  *   d_02200D14 0x02200D14 data a1
  *   MI_CpuCopy8  0x02082D44  arm
  */
-#include "../../matched/include/Obj00387.h"
-#include "../../matched/include/Obj24764.h"
-#include "../../matched/include/Obj24765.h"
-#include "../../matched/include/Obj24766.h"
-#include "../../matched/include/Obj24768.h"
-#include "../../matched/include/Obj24769.h"
-#include "../../matched/include/Obj24770.h"
-#include "../../matched/include/Obj24772.h"
-#include "../../matched/include/Obj24773.h"
-#include "../../matched/include/Obj24774.h"
-#include "../../matched/include/Obj24775.h"
-#include "../../matched/include/Obj24776.h"
-#include "../../matched/include/Obj24777.h"
-#include "../../matched/include/Obj24779.h"
-#include "../../matched/include/Obj24780.h"
-#include "../../matched/include/Obj24781.h"
-#include "../../matched/include/Obj24782.h"
-#include "../../matched/include/Obj24783.h"
-#include "../../matched/include/Obj24785.h"
-#include "../../matched/include/Obj24786.h"
-#include "../../matched/include/Obj24787.h"
-#include "../../matched/include/Obj24788.h"
-#include "../../matched/include/Obj05492.h"
-#include "../../matched/include/Obj05493.h"
-#include "../../matched/include/Obj05494.h"
-#include "../../matched/include/Obj05495.h"
-#include "../../matched/include/Obj06625.h"
-#include "../../matched/include/Obj06626.h"
-#include "../../matched/include/Obj24789.h"
-#include "../../matched/include/Obj24790.h"
-#include "../../matched/include/Obj05496.h"
-#include "../../matched/include/Obj05497.h"
-#include "../../matched/include/Obj24791.h"
-#include "../../matched/include/Obj24792.h"
-#include "../../matched/include/Obj14449.h"
-#include "../../matched/include/Obj24794.h"
-#include "../../matched/include/Obj24795.h"
-#include "../../matched/include/Obj24796.h"
-#include "../../matched/include/Obj10774.h"
-#include "../../matched/include/Obj01569.h"
-#include "../../matched/include/Obj24810.h"
-#include "../../matched/include/Obj05498.h"
-#include "../../matched/include/Obj24811.h"
-#include "../../matched/include/Obj08325.h"
-#include "../../matched/include/Obj24813.h"
-#include "br_proc_sys_shared_types.h"
+#include "br_types.h"
 
-struct Obj0203159C;
+struct BrProcWorkOwner;
 
 struct SoundSys;
 
@@ -141,7 +96,7 @@ struct Blk34;
 
 struct S020315D4;
 
-struct ObjC4;
+struct BrBattleRecWork;
 
 struct Sub020071CCCtrl;
 
@@ -149,11 +104,9 @@ struct Bits;
 
 struct S020314B8;
 
-typedef struct {int x[3];} S;
+typedef struct { struct { u16 id; u16 x; } e[6]; int n; } BrProcStack;
 
-typedef struct { struct { u16 id; u16 x; } e[6]; int n; } Stk_021F94D0;
-
-typedef struct { u8 pad[0x24]; Stk_021F94D0 *s; } Obj_021F94D0;
+typedef struct { u8 pad[0x24]; BrProcStack *s; } BrProcStackWork;
 
 typedef struct Inner {
     int f0;
@@ -182,56 +135,129 @@ typedef struct Top {
     int f2c;
 } Top;
 
-typedef struct { int w0, w4, w8, wc, w10, w14, w18; } A_021F98A8;
+typedef struct { int w0, w4, w8, wc, w10, w14, w18; } BrProcWords;
 
-typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int pad; int v; } *q; } *w18; } B_021F98A8;
+typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int pad; int v; } *q; } *w18; } BrProcWordsSrc;
 
-typedef struct { int w0, w4, w8, wc, w10, w14, w18; } A_021F98D0;
+typedef struct { int w0, w4, w8, wc, w10, w14, w18; } BrProcWords2;
 
-typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int pad; int v; } *q; } *w18; } B_021F98D0;
-
-typedef unsigned long long u64;
+typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int pad; int v; } *q; } *w18; } BrProcWords2Src;
 
 typedef struct Fields {u32 words[4];void *handles[4];u32 flags[4];u64 values[4];u32 state,ready;} Fields;
 
-typedef struct {
-    unsigned object;
-    void *base;
-    unsigned short count, pad;
-    unsigned arg;
-    unsigned short heap, pad2;
-    unsigned words[21];
-    unsigned *list;
-    unsigned loaded;
+typedef struct Context {
+    unsigned object;               /* 0x00 process-system object */
+    void *base;                    /* 0x04 record array base */
+    unsigned short count;          /* 0x08 record count */
+    unsigned short pad0;           /* 0x0A */
+    unsigned arg;                  /* 0x0C */
+    unsigned short heap;           /* 0x10 heap id */
+    unsigned short pad1;           /* 0x12 */
+    int done;                      /* 0x14 set when the running slot completes */
+    int state;                     /* 0x18 slot state machine */
+    u8 slotArea[0x30];             /* 0x1C old/current/next slots and entry scratch */
+    unsigned pending[6];           /* 0x4C pending record indices */
+    int pendingCount;              /* 0x64 */
+    unsigned *list;                /* 0x68 loaded index list */
+    int loaded;                    /* 0x6C */
 } Context;
 
-typedef unsigned u32_021F9A80;
+struct Ops {u32 id,size,fn;void (*init)(void *,u32,void *,int);void (*update)(void *,u32);};
 
-struct Ops {u32_021F9A80 id,size,fn;void (*init)(void *,u32_021F9A80,void *,int);void (*update)(void *,u32_021F9A80);};
+struct Slot {u32 active;void *work;const struct Ops *ops;int arg;};
 
-struct Slot {u32_021F9A80 active;void *work;const struct Ops *ops;int arg;};
+typedef struct BrProcEntry {
+    int kind;        /* 0x00 */
+    int unused;      /* 0x04 */
+    int entry;       /* 0x08 record address */
+    int index;       /* 0x0C */
+} BrProcEntry;
 
-typedef unsigned int u32_021F9B9C;
+/* The screen object built by BR_PROC_SYS_Init. */
+typedef struct BrProcSys {
+    void *graphic;                     /* 0x00 */
+    void *resources;                   /* 0x04 */
+    Context *proc;                     /* 0x08 */
+    void *fade;                        /* 0x0C */
+    void *sidebar;                     /* 0x10 */
+    void *net;                         /* 0x14 */
+    struct BrProcGameState *gameState; /* 0x18 */
+} BrProcSys;
 
-typedef struct { u32_021F9B9C words[4]; } Info_021F9BA0;
+/* Save-data handle shared by the process system and its records. */
+typedef struct BrProcShared {
+    int state;                         /* 0x00 */
+    int saveControl;                   /* 0x04 save-control address */
+    int netArg;                        /* 0x08 */
+    int unknownC;                      /* 0x0C */
+} BrProcShared;
 
-typedef struct { unsigned words[4]; } Info_021F9BF4;
+/* The shared game state reached from the screen object (p->gameState). */
+typedef struct BrProcGameState {
+    int pad0;                          /* 0x00 */
+    int flag;                          /* 0x04 */
+    unsigned int data;                 /* 0x08 base of the battle-record data block */
+    struct BrProcShared *shared;       /* 0x0C */
+} BrProcGameState;
 
-typedef struct {
-    char  pad_00[0x4c];
-    char  unk_4c[0x18];
-    int   unk_64;
-    void *unk_68;
-} S_021F9A80;
+/* Handle reached through a source record (record->handle). */
+typedef struct BrProcSrcHandle {
+    int pad0[2];                       /* 0x00 */
+    unsigned int data;                 /* 0x08 base of the battle-record data block */
+    struct BrProcShared *shared;       /* 0x0C */
+} BrProcSrcHandle;
 
-typedef struct {
-    char pad_00[0x64];
-    int  unk_64;
-} S_021F9C6C;
+/* A record filled from a source object. */
+typedef struct BrProcOutRecord {
+    int kind;                          /* 0x00 */
+    int actor;                         /* 0x04 */
+    int value1;                        /* 0x08 */
+    int value2;                        /* 0x0C */
+    int value3;                        /* 0x10 */
+    int owner;                         /* 0x14 */
+} BrProcOutRecord;
+
+/* A source record whose handle points at the shared state. */
+typedef struct BrProcSrcRecord {
+    int actor;                         /* 0x00 */
+    int value1;                        /* 0x04 */
+    int value2;                        /* 0x08 */
+    int kind;                          /* 0x0C */
+    int pad10;                         /* 0x10 */
+    int value3;                        /* 0x14 */
+    int handle;                        /* 0x18 handle address, offsets are byte-based */
+} BrProcSrcRecord;
+
+/* The parameter block read by the type-2 record builder. */
+typedef struct BrProcParam {
+    int pad0;                          /* 0x00 */
+    int kind;                          /* 0x04 */
+    char pad8[0x14];                   /* 0x08 */
+    int value1;                        /* 0x1C */
+    int value2;                        /* 0x20 */
+} BrProcParam;
+
+/* A slot-list buffer: six pending indices then the count. */
+typedef struct BrProcSlotList {
+    unsigned int index[6];             /* 0x00 */
+    int count;                         /* 0x18 */
+} BrProcSlotList;
+
+/* A process-system handle whose slot id is read by the leaf getter. */
+typedef struct BrProcQuery {
+    char pad0[0x10];                   /* 0x00 */
+    unsigned short id;                 /* 0x10 */
+} BrProcQuery;
+
+/* The object owning a record that is refreshed while it is active. */
+typedef struct BrProcOwner {
+    char pad0[0x1C];                   /* 0x00 */
+    int active;                        /* 0x1C */
+} BrProcOwner;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct BrProcWorkOwner *obj, u32 size, u32 heap);
 
 extern void *BR_GRAPHIC_Create(unsigned mode, int setting, unsigned heap);
 
@@ -299,7 +325,7 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern int FADE_IsActive(void);
 
-extern void BR_FADE_Update(S *);
+extern void BR_FADE_Update(struct BrFade *);
 
 extern void BR_SIDEBAR_Update(char *p);
 
@@ -311,7 +337,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern struct BrBattleRecWork *BATTLE_REC_GetWork(void);
 
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 
@@ -319,9 +345,9 @@ extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 
 extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 
-extern void *func_0200E9F4(void *p);
+extern void *MISC_SAVEDATA_GetBlock3C(void *p);
 
-extern int func_0200EA04(int);
+extern int MISC_SAVEDATA_GetStatsBase2(int);
 
 extern u8 *BATTLE_REC_GetHeader(void);
 
@@ -345,9 +371,9 @@ extern void func_0203133C(struct S020314B8 *);
 
 extern u32 func_020307B0(void *p);
 
-extern void PROCSYS_Push(u32_021F9A80,u32_021F9A80,u32_021F9A80,void *);
+extern void PROCSYS_Push(u32,u32,u32,void *);
 
-extern u32_021F9A80 PROCSYS_Main(void *);
+extern u32 PROCSYS_Main(void *);
 
 extern void MI_CpuCopy8(void *, void *, int);
 
@@ -357,81 +383,81 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p);
 
 int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p);
 
-void func_021F9390(int *out,int *source,int unused,int type);
+void BR_PROC_SYS_BuildBasicRecord(int *out,int *source,int unused,int type);
 
-void func_021F93D0(void);
+void BR_PROC_SYS_NoopA(void);
 
-void func_021F93D4(int *out,int *source,int *ctx,int type);
+void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type);
 
-void func_021F94D0(Obj_021F94D0 *o);
+void BR_PROC_SYS_PopMenuEntry(BrProcStackWork *o);
 
-void func_021F94E4(int *out,int *source,const char *ctx,int type);
+void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type);
 
-void func_021F961C(u32 *a, u32 *b);
+void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b);
 
-void func_021F962C(char *r5, int *r4);
+void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4);
 
-void func_021F9668(void);
+void BR_PROC_SYS_NoopB(void);
 
-void func_021F966C(char *r5, int *r4);
+void BR_PROC_SYS_BuildProfileRecord2(char *r5, int *r4);
 
-void func_021F96A8(void);
+void BR_PROC_SYS_NoopC(void);
 
-void func_021F96AC(int *out, int *source, const int *ctx, int type);
+void BR_PROC_SYS_BuildTypeRecord(int *out, int *source, const int *ctx, int type);
 
-void func_021F9728(void);
+void BR_PROC_SYS_NoopD(void);
 
-void func_021F972C(char *p,char *q);
+void BR_PROC_SYS_CopyRecord1(char *p,char *q);
 
-void func_021F9750(void);
+void BR_PROC_SYS_NoopE(void);
 
-void func_021F9754(int *out,int *source);
+void BR_PROC_SYS_CopyRecord2(int *out,int *source);
 
-void func_021F9770(void);
+void BR_PROC_SYS_NoopF(void);
 
-void func_021F9774(char *p,char *q);
+void BR_PROC_SYS_CopyRecord3(char *p,char *q);
 
-void func_021F979C(void);
+void BR_PROC_SYS_NoopG(void);
 
-void func_021F97A0(int *out,int *source,int *ctx,int type);
+void BR_PROC_SYS_BuildRecord(int *out,int *source,int *ctx,int type);
 
-void func_021F97EC(char *p,char *q);
+void BR_PROC_SYS_UpdateRecord(char *p,char *q);
 
-void func_021F9810(int *out,int *source,const char *ctx,int type);
+void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type);
 
-void func_021F9868(Top *p, Top *q);
+void BR_PROC_SYS_LoadBattleRecord(Top *p, Top *q);
 
-void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b);
+void BR_PROC_SYS_CopyWordsA(BrProcWords *a, BrProcWordsSrc *b);
 
-void func_021F98CC(void);
+void BR_PROC_SYS_NoopH(void);
 
-void func_021F98D0(A_021F98D0 *a, B_021F98D0 *b);
+void BR_PROC_SYS_CopyWordsB(BrProcWords2 *a, BrProcWords2Src *b);
 
-void func_021F98F4(void);
+void BR_PROC_SYS_NoopI(void);
 
-void func_021F98F8(char *p, int skip, void *sys, int heap);
+void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap);
 
 Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
 
 void BR_PROC_SYS_Delete(int *p);
 
-void func_021F9A80(char *p);
+void BR_PROC_SYS_RunSlot(char *p);
 
-int func_021F9B98(int *p);
+int BR_PROC_SYS_IsDone(int *p);
 
-unsigned func_021F9B9C(struct Obj24810 *p);
+unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p);
 
-void func_021F9BA0(unsigned *ctx);
+void BR_PROC_SYS_PopEntry(unsigned *ctx);
 
-void func_021F9BF4(unsigned *ctx, unsigned index);
+void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 
-void func_021F9C50(S_021F9A80 *p);
+void BR_PROC_SYS_SetupWindow(Context *p);
 
-void func_021F9C6C(S_021F9C6C *p);
+void BR_PROC_SYS_FlushWindows(Context *p);
 
-void func_021F9C84(char *p,int a,int b);
+void BR_PROC_SYS_InitEntry(char *p,int a,int b);
 
-void func_021F9CA4(void *p);
+void BR_PROC_SYS_ClearEntry(void *p);
 
 extern char ov125_id[];
 
@@ -458,33 +484,33 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     p=PROCSYS_AllocProcWork(obj,0x1c,0x5a);
     zero=0;
     MI_CpuFill8(p,0,0x1c);
-    *(char * *)&((struct Obj00387 *)p)->f18=q;
-    ((struct Obj24765 *)(*(char * *)&((struct Obj24764 *)q)->fC))->fC=zero;
-    if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;
+    *(char * *)&((struct BrProcSys *)p)->gameState=q;
+    ((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)q)->shared))->unknownC=zero;
+    if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared!=2) flag=zero;
     enabled=1;
-    ((struct Obj00387 *)p)->f0=BR_GRAPHIC_Create(flag,1,0x5a);
-    mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
-    if(**(int * *)&((struct Obj24770 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) enabled=0;
-    ((struct Obj00387 *)p)->f4=BR_RES_Create(mode,enabled,0x5a);
-    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj00387 *)p)->f4),0,0x5a);
-    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj00387 *)p)->f4),1,0x5a);
-    ((struct Obj00387 *)p)->f8=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct Obj24772 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1728),0x5a);
-    *(int * *)&((struct Obj00387 *)p)->fC=BR_FADE_Create(0x5a);
-    BR_FADE_CaptureHwPalettes(*(char * *)&((struct Obj00387 *)p)->fC);
-    BR_FADE_SetBlendColor(*(int * *)&((struct Obj00387 *)p)->fC,BR_RES_GetCurrentSetParam(*(char * *)&((struct Obj00387 *)p)->f4));
-    if(!((struct Obj24773 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4) BR_FADE_BlendFull(*(char * *)&((struct Obj00387 *)p)->fC,3);
-    *(char * *)&((struct Obj00387 *)p)->f10=BR_SIDEBAR_Create(BR_GRAPHIC_GetActorUnit((u8 *)(*(int *)&((struct Obj00387 *)p)->f0)),*(int *)&((struct Obj00387 *)p)->fC,*(char * *)&((struct Obj00387 *)p)->f4,0x5a);
-    func_021F98F8((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,(void *)(((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x5a);
-    if(**(int * *)&((struct Obj24777 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
-        ((struct Obj00387 *)p)->f14=BR_NET_Create(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
+    ((struct BrProcSys *)p)->graphic=BR_GRAPHIC_Create(flag,1,0x5a);
+    mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
+    if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) enabled=0;
+    ((struct BrProcSys *)p)->resources=BR_RES_Create(mode,enabled,0x5a);
+    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),0,0x5a);
+    BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),1,0x5a);
+    ((struct BrProcSys *)p)->proc=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1728),0x5a);
+    *(int * *)&((struct BrProcSys *)p)->fade=BR_FADE_Create(0x5a);
+    BR_FADE_CaptureHwPalettes(*(char * *)&((struct BrProcSys *)p)->fade);
+    BR_FADE_SetBlendColor(*(int * *)&((struct BrProcSys *)p)->fade,BR_RES_GetCurrentSetParam(*(char * *)&((struct BrProcSys *)p)->resources));
+    if(!((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag) BR_FADE_BlendFull(*(char * *)&((struct BrProcSys *)p)->fade,3);
+    *(char * *)&((struct BrProcSys *)p)->sidebar=BR_SIDEBAR_Create(BR_GRAPHIC_GetActorUnit((u8 *)(*(int *)&((struct BrProcSys *)p)->graphic)),*(int *)&((struct BrProcSys *)p)->fade,*(char * *)&((struct BrProcSys *)p)->resources,0x5a);
+    BR_PROC_SYS_LoadRecords((char *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1748),1,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),0x5a);
+    if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
+        ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
     } else func_02034AC4((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
-    if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
-        if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
+    if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
+        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) func_02028A58((void *)func_02012A30((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
-    if(((struct Obj24788 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4==1) {
-        BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct Obj00387 *)p)->f10));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct Obj00387 *)p)->f10));
-        BR_FADE_SetBlendLevel(*(int *)&((struct Obj00387 *)p)->fC,3,0);
+    if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag==1) {
+        BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));
+        BR_FADE_SetBlendLevel(*(int *)&((struct BrProcSys *)p)->fade,3,0);
     }
     return 1;
 }
@@ -522,12 +548,12 @@ int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p)
     case 1: FADE_Start(3,16,0,0); *state=2; break;
     case 2: if(!FADE_IsActive()) *state=3; break;
     case 3:
-        BR_FADE_Update((S *)p[3]);
+        BR_FADE_Update((struct BrFade *)p[3]);
         BR_SIDEBAR_Update((char *)p[4]);
-        func_021F9A80((char *)p[2]);
+        BR_PROC_SYS_RunSlot((char *)p[2]);
         BR_GRAPHIC_Draw((char *)p[0]);
         if(p[5]) BR_NET_Main((char *)p[5]);
-        if(func_021F9B98((int *)p[2])) *state=4;
+        if(BR_PROC_SYS_IsDone((int *)p[2])) *state=4;
         break;
     case 4: FADE_Start(3,0,16,0); *state=5; break;
     case 5: if(!FADE_IsActive()) *state=6; break;
@@ -539,7 +565,7 @@ int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p)
 /*
  * Extent includes empty follower021F93D0; zeros021F93CE and021F93D2 are alignment.
  */
-void func_021F9390(int *out,int *source,int unused,int type)
+void BR_PROC_SYS_BuildBasicRecord(int *out,int *source,int unused,int type)
 {
     out[3]=source[1];
     out[2]=source[3];
@@ -551,7 +577,7 @@ void func_021F9390(int *out,int *source,int unused,int type)
     else out[0]=2;
 }
 
-void func_021F93D0(void)
+void BR_PROC_SYS_NoopA(void)
 {
 }
 
@@ -559,7 +585,7 @@ void func_021F93D0(void)
  * note: 2026-10-05 wave P15 D3. Real extent 252 bytes (pool ends 0x021F94CC); the unlabelled
  *   follower at 0x021F94D0 is a separate function. Written from the listing, EXACT* at the first compile.
  */
-void func_021F93D4(int *out,int *source,int *ctx,int type)
+void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type)
 {
     out[3]=2;
     out[10]=*(int *)((char *)source[6]+0xc)+0xc;
@@ -602,7 +628,7 @@ void func_021F93D4(int *out,int *source,int *ctx,int type)
     out[8]=*(int *)((char *)source[6]+8)+0x1748;
 }
 
-void func_021F94D0(Obj_021F94D0 *o) { Stk_021F94D0 *s = o->s; int i = s->n - 1; if (s->e[(u16)i].id == 8) s->n = i; }
+void BR_PROC_SYS_PopMenuEntry(BrProcStackWork *o) { BrProcStack *s = o->s; int i = s->n - 1; if (s->e[(u16)i].id == 8) s->n = i; }
 
 /*
  * note: final push 2026-10-05 G1L5. Real extent 312 bytes (pool ends 0x021F961A); the unlabelled
@@ -612,7 +638,7 @@ void func_021F94D0(Obj_021F94D0 *o) { Stk_021F94D0 *s = o->s; int i = s->n - 1; 
  *   pragma left the loads reversed (2 bytes off). A u32 pair read through a pointer or a struct is 101 bytes off.
  *   The u64 read is a judgement call for the integrator: the two words are plausibly one 64-bit field.
  */
-void func_021F94E4(int *out,int *source,const char *ctx,int type)
+void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type)
 {
     u32 result;
     void *sys;
@@ -660,24 +686,24 @@ done:
     return;
 }
 
-void func_021F961C(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }
+void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }
 
 /*
  * Fill the output record from the source object and its nested handle.
  */
-void func_021F962C(char *r5, int *r4)
+void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4)
 {
     int x;
-    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4)));
-    ((struct Obj05492 *)r5)->f8 = r4[1];
-    ((struct Obj05492 *)r5)->f0 = r4[3];
-    ((struct Obj05492 *)r5)->fC = r4[2];
-    ((struct Obj05492 *)r5)->f4 = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
-    ((struct Obj05492 *)r5)->f10 = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
-    ((struct Obj05492 *)r5)->f14 = *(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4);
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    ((struct BrProcOutRecord *)r5)->value1 = r4[1];
+    ((struct BrProcOutRecord *)r5)->kind = r4[3];
+    ((struct BrProcOutRecord *)r5)->value2 = r4[2];
+    ((struct BrProcOutRecord *)r5)->actor = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
+    ((struct BrProcOutRecord *)r5)->value3 = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
+    ((struct BrProcOutRecord *)r5)->owner = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
 }
 
-void func_021F9668(void) {}
+void BR_PROC_SYS_NoopB(void) {}
 
 /*
  *   unlabelled Thumb leaves with no branch anywhere outside this range, so
@@ -685,19 +711,19 @@ void func_021F9668(void) {}
  *
  * Fill the output record from the source object and its nested handle.
  */
-void func_021F966C(char *r5, int *r4)
+void BR_PROC_SYS_BuildProfileRecord2(char *r5, int *r4)
 {
     int x;
-    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4)));
-    ((struct Obj05494 *)r5)->f8 = r4[1];
-    ((struct Obj05494 *)r5)->f4 = r4[3];
-    ((struct Obj05494 *)r5)->fC = r4[2];
-    ((struct Obj05494 *)r5)->f0 = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
-    ((struct Obj05494 *)r5)->f10 = *(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4);
-    ((struct Obj05494 *)r5)->f14 = func_0200EA04((int)func_0200E9F4((void *)x));
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    ((struct BrProcOutRecord *)r5)->value1 = r4[1];
+    ((struct BrProcOutRecord *)r5)->actor = r4[3];
+    ((struct BrProcOutRecord *)r5)->value2 = r4[2];
+    ((struct BrProcOutRecord *)r5)->kind = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
+    ((struct BrProcOutRecord *)r5)->value3 = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
+    ((struct BrProcOutRecord *)r5)->owner = MISC_SAVEDATA_GetStatsBase2((int)MISC_SAVEDATA_GetBlock3C((void *)x));
 }
 
-void func_021F96A8(void) {}
+void BR_PROC_SYS_NoopC(void) {}
 
 /*
  * extent: empty-return follower 0x021F9728; zero halfwords at 0x021F9726
@@ -706,7 +732,7 @@ void func_021F96A8(void) {}
  *   ahead of the out[0] store (021F96E4..021F96EA); a plain pointer left 13
  *   bytes, block locals for the two loads 74.
  */
-void func_021F96AC(int *out, int *source, const int *ctx, int type)
+void BR_PROC_SYS_BuildTypeRecord(int *out, int *source, const int *ctx, int type)
 {
     out[7] = *(int *)(source[6] + 8);
     out[10] = *(int *)(source[6] + 8) + 0x17C0;
@@ -731,18 +757,18 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     out[6] = source[5];
 }
 
-void func_021F9728(void)
+void BR_PROC_SYS_NoopD(void)
 {
 }
 
 /*
  * extent: empty-return follower 0x021F9750; trailing two-byte padding.
  */
-void func_021F972C(char *p,char *q) { ((struct Obj06625 *)p)->f8=((struct Obj06626 *)q)->f4;((struct Obj06625 *)p)->f0=((struct Obj06626 *)q)->fC;((struct Obj06625 *)p)->fC=((struct Obj06626 *)q)->f8;((struct Obj06625 *)p)->f4=BR_GRAPHIC_GetActorUnit((u8 *)(((struct Obj06626 *)q)->f0));((struct Obj06625 *)p)->f10=((struct Obj24790 *)(*(char * *)&((struct Obj24789 *)(*(char * *)&((struct Obj06626 *)q)->f18))->fC))->f4; }
+void BR_PROC_SYS_CopyRecord1(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((u8 *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
 
-void func_021F9750(void) {}
+void BR_PROC_SYS_NoopE(void) {}
 
-void func_021F9754(int *out,int *source)
+void BR_PROC_SYS_CopyRecord2(int *out,int *source)
 {
     out[2]=source[1];
     out[0]=source[3];
@@ -751,20 +777,20 @@ void func_021F9754(int *out,int *source)
 }
 
 /*
- * Extent includes empty follower func_021F9770; zeros at 021F976E and 021F9772 are alignment.
+ * Extent includes empty follower BR_PROC_SYS_NoopF; zeros at 021F976E and 021F9772 are alignment.
  */
-void func_021F9770(void)
+void BR_PROC_SYS_NoopF(void)
 {
 }
 
-void func_021F9774(char *p,char *q) { ((struct Obj05496 *)p)->f8=((struct Obj05497 *)q)->f4;((struct Obj05496 *)p)->f0=((struct Obj05497 *)q)->fC;((struct Obj05496 *)p)->fC=((struct Obj05497 *)q)->f8;((struct Obj05496 *)p)->f4=BR_GRAPHIC_GetActorUnit((u8 *)(((struct Obj05497 *)q)->f0));((struct Obj05496 *)p)->f10=((struct Obj05497 *)q)->f14;((struct Obj05496 *)p)->f14=((struct Obj24792 *)(*(char * *)&((struct Obj24791 *)(*(char * *)&((struct Obj05497 *)q)->f18))->fC))->f4; }
+void BR_PROC_SYS_CopyRecord3(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((u8 *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcSrcRecord *)q)->value3;((struct BrProcOutRecord *)p)->owner=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
 
 /*
  * extent: empty-return follower 0x021F979C; trailing two-byte padding.
  */
-void func_021F979C(void) {}
+void BR_PROC_SYS_NoopG(void) {}
 
-void func_021F97A0(int *out,int *source,int *ctx,int type)
+void BR_PROC_SYS_BuildRecord(int *out,int *source,int *ctx,int type)
 {
     if(type==1) {
         out[0]=ctx[2];
@@ -779,13 +805,13 @@ void func_021F97A0(int *out,int *source,int *ctx,int type)
     }
 }
 
-void func_021F97EC(char *p,char *q) { char *s;if(((struct Obj24794 *)p)->f1C){s=*(char * *)&((struct Obj24795 *)q)->f18;func_021F98F8((char *)(((struct Obj14449 *)s)->f8+0x1748),0,(void *)(((struct Obj24796 *)(*(char * *)&((struct Obj14449 *)s)->fC))->f4),90);} }
+void BR_PROC_SYS_UpdateRecord(char *p,char *q) { char *s;if(((struct BrProcOwner *)p)->active){s=*(char * *)&((struct BrProcSrcRecord *)q)->handle;BR_PROC_SYS_LoadRecords((char *)(((struct BrProcSrcHandle *)s)->data+0x1748),0,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)s)->shared))->saveControl),90);} }
 
 /*
  * Lever: compute ctx+0x20 before storing the getter result, then read ctx+0x1c.
  * Direct getter store leaves an 8-byte scheduling/register residue.
  */
-void func_021F9810(int *out,int *source,const char *ctx,int type)
+void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type)
 {
     unsigned a;
     int b,result;
@@ -795,33 +821,33 @@ void func_021F9810(int *out,int *source,const char *ctx,int type)
     out[3]=source[5];
     out[4]=source[2];
     result=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
-    a=((struct Obj10774 *)ctx)->f20;
+    a=((struct BrProcParam *)ctx)->value2;
     out[1]=result;
-    b=((struct Obj10774 *)ctx)->f1C;
+    b=((struct BrProcParam *)ctx)->value1;
     out[8]=a;
     out[7]=b;
     out[5]=(*(int **)((char *)source[6]+0xc))[1];
     out[6]=*(int *)((char *)source[6]+8)+0x1748;
-    out[9]=((struct Obj10774 *)ctx)->f4;
+    out[9]=((struct BrProcParam *)ctx)->kind;
 }
 
-void func_021F9868(Top *p, Top *q)
+void BR_PROC_SYS_LoadBattleRecord(Top *p, Top *q)
 {
     int buf[1];
 
     if (p->f28 == 0)
         return;
-    func_021F98F8((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
+    BR_PROC_SYS_LoadRecords((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
     BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
 }
 
-void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
+void BR_PROC_SYS_CopyWordsA(BrProcWords *a, BrProcWordsSrc *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
 
-void func_021F98CC(void) {}
+void BR_PROC_SYS_NoopH(void) {}
 
-void func_021F98D0(A_021F98D0 *a, B_021F98D0 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
+void BR_PROC_SYS_CopyWordsB(BrProcWords2 *a, BrProcWords2Src *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
 
-void func_021F98F4(void) {}
+void BR_PROC_SYS_NoopI(void) {}
 
 /*
  * note: 2026-10-05 recoup. The old draft had the save and tag spill slots swapped
@@ -831,7 +857,7 @@ void func_021F98F4(void) {}
  *   before save, declaration order of tag and save, tag in the loop body, heap
  *   reassigned, u32 heap parameter, all six per-function pragmas: all 4 bytes off.
  */
-void func_021F98F8(char *p, int skip, void *sys, int heap)
+void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
 {
     int enabled=1;
     int i;
@@ -880,17 +906,17 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
     ctx->base = base;
     ctx->list = list;
     ctx->object = (unsigned int)PROCSYS_Create(heap);
-    func_021F9CA4((char *)ctx + 0x2c);
-    func_021F9CA4((char *)ctx + 0x3c);
-    func_021F9CA4((char *)ctx + 0x1c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x2c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
+    BR_PROC_SYS_ClearEntry((char *)ctx + 0x1c);
     if (ctx->list[6]) {
         for (i = 0; i < ctx->list[6]; i++) {
-            func_021F9BF4((unsigned int *)ctx, (unsigned short)ctx->list[i]);
+            BR_PROC_SYS_PushEntry((unsigned int *)ctx, (unsigned short)ctx->list[i]);
         }
         MI_CpuFill8(ctx->list, 0, 0x1c);
         ctx->loaded = 1;
     } else {
-        func_021F9BF4((unsigned int *)ctx, fallback);
+        BR_PROC_SYS_PushEntry((unsigned int *)ctx, fallback);
     }
     return ctx;
 }
@@ -904,42 +930,42 @@ void BR_PROC_SYS_Delete(int *p)
 /*
  * tail: existing matched accessor followers 021F9B98 and 021F9B9C; lead only.
  */
-void func_021F9A80(char *p)
+void BR_PROC_SYS_RunSlot(char *p)
 {
  struct Slot *current,*old,*next;
  current=(struct Slot *)(p+0x2c);
  old=(struct Slot *)(p+0x1c);
  next=(struct Slot *)(p+0x3c);
- switch(((struct Obj01569 *)p)->f18){
- case 0:*old=*current;*current=*next;((struct Obj01569 *)p)->f18=1;break;
+ switch(((struct Context *)p)->state){
+ case 0:*old=*current;*current=*next;((struct Context *)p)->state=1;break;
  case 1:{
   int mode;
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(!current->ops->init)func_02034714(d_02200D14,0,d_02200D14);
-  current->work=func_02030734(((struct Obj01569 *)p)->f10,current->ops->size,0,d_02200D04,0xd2);
+  current->work=func_02030734(((struct Context *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
   MI_CpuFill8(current->work,0,current->ops->size);
-  mode=-2;if(!((struct Obj01569 *)p)->f6C)mode=old->arg;
-  current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
-  ((struct Obj01569 *)p)->f6C=0;
+  mode=-2;if(!((struct Context *)p)->loaded)mode=old->arg;
+  current->ops->init(current->work,((struct Context *)p)->arg,old->work,mode);
+  ((struct Context *)p)->loaded=0;
   if(old->work)func_020307B0(old->work);
-  PROCSYS_Push(*(u32_021F9A80 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
-  ((struct Obj01569 *)p)->f18=2;break;
+  PROCSYS_Push(*(u32 *)&((struct Context *)p)->object,current->ops->fn,current->ops->id,current->work);
+  ((struct Context *)p)->state=2;break;
  }
- case 2:if(!PROCSYS_Main(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
+ case 2:if(!PROCSYS_Main((void *)((struct Context *)p)->object))((struct Context *)p)->state=3;break;
  case 3:
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
-  if(current->ops->update)current->ops->update(current->work,((struct Obj01569 *)p)->fC);
-  if(((struct Obj01569 *)p)->f64)((struct Obj01569 *)p)->f18=0;
-  else{if(current->work)func_020307B0(current->work);((struct Obj01569 *)p)->f18=4;}
+  if(current->ops->update)current->ops->update(current->work,((struct Context *)p)->arg);
+  if(((struct Context *)p)->pendingCount)((struct Context *)p)->state=0;
+  else{if(current->work)func_020307B0(current->work);((struct Context *)p)->state=4;}
   break;
- case 4:((struct Obj01569 *)p)->f14=1;break;
+ case 4:((struct Context *)p)->done=1;break;
  }
 }
 
 /*
  * Follower021F9B9C has its existing matched source/shard; no unit.
  */
-int func_021F9B98(int *p)
+int BR_PROC_SYS_IsDone(int *p)
 {
     return p[5];
 }
@@ -947,60 +973,60 @@ int func_021F9B98(int *p)
 /*
  * leaf: sole blocker of ov183 021DB2E0; parent cleared ownership.
  */
-unsigned func_021F9B9C(struct Obj24810 *p)
+unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p)
 {
-    return p->f10;
+    return p->id;
 }
 
-void func_021F9BA0(unsigned *ctx)
+void BR_PROC_SYS_PopEntry(unsigned *ctx)
 {
-    Info_021F9BA0 info;
+    BrProcEntry info;
     if (ctx[25] != 0) {
         ctx[25]--;
         if (ctx[25] != 0) {
             unsigned idx = (unsigned short)((unsigned *)((char *)ctx + 0x48))[ctx[25]];
-            func_021F9C84((char *)(&info), idx, (int)((char *)ctx[1] + idx * 20));
-            *(Info_021F9BA0 *)((char *)ctx + 0x3c) = info;
+            BR_PROC_SYS_InitEntry((char *)(&info), idx, (int)((char *)ctx[1] + idx * 20));
+            *(BrProcEntry *)((char *)ctx + 0x3c) = info;
         } else {
-            func_021F9CA4((char *)ctx + 0x3c);
+            BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
         }
     } else {
-        func_021F9CA4((char *)ctx + 0x3c);
+        BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
     }
 }
 
-void func_021F9BF4(unsigned *ctx, unsigned index)
+void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
 {
-    Info_021F9BF4 info;
+    BrProcEntry info;
     char *base = (char *)ctx[1];
     char *entry = base + index * 20;
-    if (index >= ((struct Obj05498 *)ctx)->f8)
+    if (index >= ((struct Context *)ctx)->count)
         func_02034714(d_02200D14, 0, d_02200D14);
-    func_021F9C84((char *)(&info), index, (int)entry);
+    BR_PROC_SYS_InitEntry((char *)(&info), index, (int)entry);
     if (ctx[25] >= 6)
         func_02034714(d_02200D14, 0, d_02200D14);
     ((unsigned (*)[6])((char *)ctx + 0x4c))[0][ctx[25]] = index;
     ctx[25]++;
-    *(Info_021F9BF4 *)((char *)ctx + 0x3c) = info;
+    *(BrProcEntry *)((char *)ctx + 0x3c) = info;
 }
 
-void func_021F9C50(S_021F9A80 *p)
+void BR_PROC_SYS_SetupWindow(Context *p)
 {
-    MI_CpuCopy8(p->unk_4c, p->unk_68, 0x18);
-    ((struct Obj24811 *)((char *)p->unk_68))->f18 = p->unk_64;
-    func_021F9C6C((S_021F9C6C *)p);
+    MI_CpuCopy8(p->pending, p->list, 0x18);
+    ((struct BrProcSlotList *)((char *)p->list))->count = p->pendingCount;
+    BR_PROC_SYS_FlushWindows(p);
 }
 
-void func_021F9C6C(S_021F9C6C *p)
+void BR_PROC_SYS_FlushWindows(Context *p)
 {
-    while (p->unk_64 != 0)
-        func_021F9BA0((unsigned int *)p);
+    while (p->pendingCount != 0)
+        BR_PROC_SYS_PopEntry((unsigned int *)p);
 }
 
-void func_021F9C84(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
+void BR_PROC_SYS_InitEntry(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct BrProcEntry *)p)->kind=1;((struct BrProcEntry *)p)->unused=zero;((struct BrProcEntry *)p)->index=a;((struct BrProcEntry *)p)->entry=b; }
 
-void func_021F9CA4(void *p)
+void BR_PROC_SYS_ClearEntry(void *p)
 {
     MI_CpuFill8(p, 0, 0x10);
-    ((struct Obj24813 *)p)->fC = -1;
+    ((struct BrProcEntry *)p)->index = -1;
 }

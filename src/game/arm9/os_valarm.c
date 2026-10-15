@@ -1,7 +1,7 @@
 /*
  * file:     os_valarm.c
  * unit:     yes
- * function: func_02087578, func_020875B8, func_02087634, func_0208766C, func_020876A4, func_020876B8, func_02087744, func_02087784, func_020878EC, func_02087938
+ * function: OS_InitVAlarm, OSi_InsertVAlarm, OSi_AppendVAlarm, OSi_DetachVAlarm, OS_CreateVAlarm, OS_SetVAlarm, OSi_SetNextVAlarm, OSi_VAlarmHandler, OSi_CompareVCount, OSi_GetVFrame
  * address:  0x02087578
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -43,7 +43,7 @@ typedef int BOOL;
 
 typedef u32 OSIntrMode;
 
-typedef struct OSiVAlarm OSVAlarm_02087578;
+typedef struct OSiVAlarm OSVAlarm;
 
 typedef void (*OSVAlarmHandler)(void *arg);
 
@@ -54,16 +54,16 @@ struct OSiVAlarm {
     u32 frame;
     s16 fire;
     s16 delay;
-    OSVAlarm_02087578 *prev;
-    OSVAlarm_02087578 *next;
+    OSVAlarm *prev;
+    OSVAlarm *next;
     BOOL period;
     BOOL finish;
     BOOL canceled;
 };
 
 typedef struct OSVAlarmQueue {
-    OSVAlarm_02087578 *head;
-    OSVAlarm_02087578 *tail;
+    OSVAlarm *head;
+    OSVAlarm *tail;
 } OSVAlarmQueue;
 
 /* os_valarm.o .bss from 0x0215134C, addressed from one pool word. */
@@ -74,55 +74,24 @@ typedef struct OsVAlarmBss {
     OSVAlarmQueue OSi_VAlarmQueue;
 } OsVAlarmBss;
 
-typedef struct OSiVAlarm OSVAlarm_020875B8;
-
-typedef struct OSiVAlarm OSVAlarm_02087634;
-
-typedef struct OSiVAlarm OSVAlarm_0208766C;
-
-typedef struct {
-    void *handler;
-    int _1;
-    void *tag;
-    int _2[5];
-    int finish;
-} OSVAlarm_020876A4;
-
-typedef struct OSiVAlarm OSVAlarm_020876B8;
-
-typedef struct OSiVAlarm OSVAlarm_02087744;
-
-typedef struct OSiVAlarm OSVAlarm_02087784;
-
-typedef struct OSiVAlarm OSVAlarm_020878EC;
-
-typedef struct OSiVAlarm OSVAlarm_02087938;
-
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OSi_SetNextVAlarm(OSVAlarm_02087578 *alarm);
+extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 extern u32 OS_DisableIrqMask(u32 intr);
-extern void OSi_AppendVAlarm(OSVAlarm_020875B8 *alarm);
+extern void OSi_AppendVAlarm(OSVAlarm *alarm);
 extern void OS_Terminate(void);
 extern s32 OSi_GetVFrame(s32 vcount);
-extern void OSi_InsertVAlarm(OSVAlarm_020876B8 *alarm);
+extern void OSi_InsertVAlarm(OSVAlarm *alarm);
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
 extern void GX_SetVCountEqVal(s32 val);
 extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_VAlarmHandler(void);
 extern u32 OS_ResetRequestIrqMask(u32 intr);
-extern int OSi_CompareVCount(OSVAlarm_02087784 *alarm, s32 currentVFrame, s32 currentVCount);
-extern void OSi_DetachVAlarm(OSVAlarm_02087784 *alarm);
-void func_02087578(void);
-void func_020875B8(OSVAlarm_020875B8 *alarm);
-void func_02087634(OSVAlarm_02087634 *alarm);
-void func_0208766C(OSVAlarm_0208766C *alarm);
-void func_020876A4(OSVAlarm_020876A4 *alarm);
-void func_020876B8(OSVAlarm_020876B8 *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg);
-void func_02087744(OSVAlarm_02087744 *alarm);
-void func_02087784(void);
-int func_020878EC(OSVAlarm_020878EC *alarm, s32 currentVFrame, s32 currentVCount);
-s32 func_02087938(s32 vcount);
+extern int OSi_CompareVCount(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount);
+extern void OSi_DetachVAlarm(OSVAlarm *alarm);
+void OS_InitVAlarm(void);
+void OS_CreateVAlarm(OSVAlarm *alarm);
+void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg);
 extern OsVAlarmBss g_0215134C;
 extern char SDK_AUTOLOAD_DTCM_START[];
 
@@ -133,7 +102,7 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 /*
  * sdk:      OS_InitVAlarm (os_valarm.o)
  */
-void func_02087578(void)
+void OS_InitVAlarm(void)
 {
     if (!g_0215134C.OSi_UseVAlarm) {
         g_0215134C.OSi_UseVAlarm = 1;
@@ -155,10 +124,10 @@ void func_02087578(void)
 /*
  * sdk:      OSi_InsertVAlarm (os_valarm.o)
  */
-void func_020875B8(OSVAlarm_020875B8 *alarm)
+void OSi_InsertVAlarm(OSVAlarm *alarm)
 {
-    OSVAlarm_020875B8 *prev;
-    OSVAlarm_020875B8 *next;
+    OSVAlarm *prev;
+    OSVAlarm *next;
 
     for (next = g_0215134C.OSi_VAlarmQueue.head; next; next = next->next) {
         if (next->frame < alarm->frame) {
@@ -191,9 +160,9 @@ void func_020875B8(OSVAlarm_020875B8 *alarm)
 /*
  * sdk:      OSi_AppendVAlarm (os_valarm.o)
  */
-void func_02087634(OSVAlarm_02087634 *alarm)
+void OSi_AppendVAlarm(OSVAlarm *alarm)
 {
-    OSVAlarm_02087634 *prev = g_0215134C.OSi_VAlarmQueue.tail;
+    OSVAlarm *prev = g_0215134C.OSi_VAlarmQueue.tail;
 
     alarm->prev = prev;
     alarm->next = 0;
@@ -214,10 +183,10 @@ void func_02087634(OSVAlarm_02087634 *alarm)
 /*
  * sdk:      OSi_DetachVAlarm (os_valarm.o)
  */
-void func_0208766C(OSVAlarm_0208766C *alarm)
+void OSi_DetachVAlarm(OSVAlarm *alarm)
 {
-    OSVAlarm_0208766C *prev;
-    OSVAlarm_0208766C *next;
+    OSVAlarm *prev;
+    OSVAlarm *next;
 
     if (!alarm) {
         return;
@@ -243,7 +212,7 @@ void func_0208766C(OSVAlarm_0208766C *alarm)
 /*
  * note:     os_valarm.o OS_CreateVAlarm.
  */
-void func_020876A4(OSVAlarm_020876A4 *alarm)
+void OS_CreateVAlarm(OSVAlarm *alarm)
 {
     alarm->handler = 0;
     alarm->tag = 0;
@@ -257,7 +226,7 @@ void func_020876A4(OSVAlarm_020876A4 *alarm)
 /*
  * sdk:      OS_SetVAlarm (os_valarm.o)
  */
-void func_020876B8(OSVAlarm_020876B8 *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg)
+void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
     s32 currentVFrame;
@@ -289,7 +258,7 @@ void func_020876B8(OSVAlarm_020876B8 *alarm, s16 count, s16 delay, OSVAlarmHandl
 /*
  * sdk:      OSi_SetNextVAlarm (os_valarm.o)
  */
-void func_02087744(OSVAlarm_02087744 *alarm)
+void OSi_SetNextVAlarm(OSVAlarm *alarm)
 {
     OS_SetIrqFunction(4, OSi_VAlarmHandler);
     GX_SetVCountEqVal(alarm->fire);
@@ -309,9 +278,9 @@ void func_02087744(OSVAlarm_02087744 *alarm)
 /*
  * sdk:      OSi_VAlarmHandler (os_valarm.o)
  */
-void func_02087784(void)
+void OSi_VAlarmHandler(void)
 {
-    OSVAlarm_02087784 *alarm;
+    OSVAlarm *alarm;
     OSVAlarmHandler handler;
     int check;
     s32 currentVFrame;
@@ -372,7 +341,7 @@ void func_02087784(void)
 /*
  * sdk:      OSi_CompareVCount (os_valarm.o)
  */
-int func_020878EC(OSVAlarm_020878EC *alarm, s32 currentVFrame, s32 currentVCount)
+int OSi_CompareVCount(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount)
 {
     s32 delayVFrame = currentVFrame - (s32)alarm->frame;
     s32 delayVCount = currentVCount - alarm->fire;
@@ -394,7 +363,7 @@ int func_020878EC(OSVAlarm_020878EC *alarm, s32 currentVFrame, s32 currentVCount
 /*
  * sdk:      OSi_GetVFrame (os_valarm.o)
  */
-s32 func_02087938(s32 vcount)
+s32 OSi_GetVFrame(s32 vcount)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

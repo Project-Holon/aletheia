@@ -1,5 +1,5 @@
 /*
- * function: func_02082C60
+ * function: MI_CpuFill
  * address:  0x02082C60
  * packet:   pkt_02082C60
  * region:   arm9
@@ -15,7 +15,7 @@
  * void MI_CpuFill(void *dstp, u8 data, u32 size).
  */
 
-asm void func_02082C60(void)
+asm void MI_CpuFill(void)
 {
     cmp r2, #0
     bxeq lr

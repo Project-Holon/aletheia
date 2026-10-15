@@ -18,71 +18,73 @@
  *   gNNSSndCurrentArc  0x0214EA50  data
  *   func_02078B44  0x02078B44  arm
  *   FS_ReadFile  0x02078B70  arm
- *   func_020610E0  0x020610E0  arm
- *   func_02061118  0x02061118  arm
- *   func_0206062C  0x0206062C  arm
- *   func_020605B4  0x020605B4  arm
- *   func_02061158  0x02061158  arm
- *   func_02061184  0x02061184  arm
- *   func_020611D4  0x020611D4  arm
- *   func_02060468  0x02060468  arm
- *   func_02061124  0x02061124  arm
- *   func_020604AC  0x020604AC  arm
- *   func_02089D40  0x02089D40  arm
+ *   NNS_FndCreateFrmHeap  0x020610E0  arm
+ *   NNS_FndDestroyFrmHeap  0x02061118  arm
+ *   NNS_FndGetPrevListObject  0x0206062C  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
+ *   NNS_FndFreeToFrmHeap  0x02061158  arm
+ *   NNS_FndRecordStateForFrmHeap  0x02061184  arm
+ *   NNS_FndFreeByStateToFrmHeap  0x020611D4  arm
+ *   NNS_FndInitList  0x02060468  arm
+ *   NNS_FndAllocFromFrmHeapEx  0x02061124  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
- *   func_0208A2BC  0x0208A2BC  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
+ *   SND_AssignWaveArc  0x0208A2BC  arm
  *   DC_StoreRange  0x020862D4  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   gNNSSndArcWaveArcHeader     0x0214EA54  data  a4
  *   d_0214EA54_hdr 0x0214EA54  data  a4
- *   func_020896AC    0x020896AC  arm
- *   func_020896CC    0x020896CC  arm
- *   func_0208A38C    0x0208A38C  arm
+ *   SND_InvalidateSeqData    0x020896AC  arm
+ *   SND_InvalidateBankData    0x020896CC  arm
+ *   SND_DestroyBank    0x0208A38C  arm
  *   SNDi_GetBankWaveArcTable  0x0208A638  arm
- *   func_0208A640  0x0208A640  arm
- *   func_0208A674  0x0208A674  arm
- *   func_0208A46C  0x0208A46C  arm
+ *   SND_SetWaveDataAddress  0x0208A640  arm
+ *   SND_GetWaveDataAddress  0x0208A674  arm
+ *   SND_GetFirstInstDataPos  0x0208A46C  arm
  *   func_0208A48C  0x0208A48C  arm
  *   NNS_SndPlayerSetPlayableSeqCount  0x02072DB0  arm
  *   NNS_SndPlayerSetAllocatableChannel  0x02072DD0  arm
  *   NNS_SndPlayerCreateHeap  0x02072DE8  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
+ *   SND_InvalidateWaveData  0x020896EC  arm
+ *   SND_DestroyWaveArc  0x0208A424  arm
  */
 #include "nns_snd_arc_types.h"
 
 extern int  func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32  FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern NNSFndHeapHandle func_020610E0(void *start, u32 size, u32 optFlag);
-extern void func_02061118(NNSFndHeapHandle heap);
-extern void *func_0206062C(NNSFndList *list, void *object);
-extern void func_020605B4(volatile NNSFndList *list, void *object);
-extern void func_02061158(NNSFndHeapHandle heap, int mode);
-extern void *func_02061124(NNSFndHeapHandle heap, u32 size, int alignment);
-extern void func_020604AC(NNSFndList *list, void *object);
-extern int  func_02061184(NNSFndHeapHandle heap, u32 tagName);
-extern int  func_020611D4(NNSFndHeapHandle heap, u32 tagName);
-extern void func_02060468(NNSFndList *list, int offset);
-extern u32  func_02089D40(void);
+extern NNSFndHeapHandle NNS_FndCreateFrmHeap(void *start, u32 size, u32 optFlag);
+extern void NNS_FndDestroyFrmHeap(NNSFndHeapHandle heap);
+extern void *NNS_FndGetPrevListObject(NNSFndList *list, void *object);
+extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *object);
+extern void NNS_FndFreeToFrmHeap(NNSFndHeapHandle heap, int mode);
+extern void *NNS_FndAllocFromFrmHeapEx(NNSFndHeapHandle heap, u32 size, int alignment);
+extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
+extern int  NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName);
+extern int  NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
+extern void NNS_FndInitList(NNSFndList *list, int offset);
+extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 block);
-extern void func_02089CD4(u32 tag);
-extern void func_0208A2BC(u32 bank, u32 waveArcIndex, u32 waveArc);
+extern void SND_WaitForCommandProc(u32 tag);
+extern void SND_AssignWaveArc(u32 bank, u32 waveArcIndex, u32 waveArc);
 extern void DC_StoreRange(void *addr, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 irqState);
-extern void func_020896AC(const void *start, const void *end);
-extern void func_020896CC(const void *start, const void *end);
-extern void func_0208A38C(void *bank);
-extern void func_020896EC(const void *start, const void *end);
-extern void func_0208A424(SNDWaveArc *waveArc);
-extern u32  func_0208A674(u32 waveArc, u32 waveNo);
-extern void func_0208A640(u32 waveArc, u32 waveNo, u32 address);
+extern void SND_InvalidateSeqData(const void *start, const void *end);
+extern void SND_InvalidateBankData(const void *start, const void *end);
+extern void SND_DestroyBank(void *bank);
+extern void SND_InvalidateWaveData(const void *start, const void *end);
+extern void SND_DestroyWaveArc(SNDWaveArc *waveArc);
+extern u32  SND_GetWaveDataAddress(u32 waveArc, u32 waveNo);
+extern void SND_SetWaveDataAddress(u32 waveArc, u32 waveNo, u32 address);
 extern void *SNDi_GetBankWaveArcTable(char *waveArc);
-extern void func_0208A46C(SNDBankWaveIter *iter, u32 bank, u32 waveArcNo, u32 fileId);
+extern void SND_GetFirstInstDataPos(SNDBankWaveIter *iter, u32 bank, u32 waveArcNo, u32 fileId);
 extern u32  func_0208A48C(u32 bank, SNDBankWaveRecord *record, SNDBankWaveIter *iter);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndPlayerSetAllocatableChannel(u32 playerNo, u32 channelMask);
@@ -463,18 +465,18 @@ NNSSndHeap *NNS_SndHeapCreate(u32 start, u32 size)
     rest = end - alignedStart;
     if (rest < 0x10) return 0;
 
-    handle = func_020610E0((void *)(alignedStart + 0x10), rest - 0x10, 0);
+    handle = NNS_FndCreateFrmHeap((void *)(alignedStart + 0x10), rest - 0x10, 0);
     if (handle == 0) return 0;
     if (NNSi_SndHeapInit((NNSSndHeap *)alignedStart, handle) != 0) return (NNSSndHeap *)alignedStart;
 
-    func_02061118(handle);
+    NNS_FndDestroyFrmHeap(handle);
     return 0;
 }
 
 void NNS_SndHeapDestroy(NNSSndHeap *heap)
 {
     NNS_SndHeapClear(heap);
-    func_02061118(heap->handle);
+    NNS_FndDestroyFrmHeap(heap->handle);
 }
 
 void NNS_SndHeapClear(NNSSndHeap *heap)
@@ -484,21 +486,21 @@ void NNS_SndHeapClear(NNSSndHeap *heap)
     NNSiSndHeapBlock *block;
 
     anyCallback = 0;
-    level = func_0206062C(&heap->levelList, 0);
+    level = NNS_FndGetPrevListObject(&heap->levelList, 0);
     while (level != 0) {
-        block = func_0206062C(&level->blockList, 0);
+        block = NNS_FndGetPrevListObject(&level->blockList, 0);
         while (block != 0) {
             if (block->callback != 0) {
                 block->callback((u8 *)block + 0x20, block->size, block->data1, block->data2);
                 anyCallback = 1;
             }
-            block = func_0206062C(&level->blockList, block);
+            block = NNS_FndGetPrevListObject(&level->blockList, block);
         }
-        func_020605B4(&heap->levelList, level);
-        level = func_0206062C(&heap->levelList, 0);
+        NNS_FndRemoveListObject(&heap->levelList, level);
+        level = NNS_FndGetPrevListObject(&heap->levelList, 0);
     }
 
-    func_02061158(heap->handle, 3);
+    NNS_FndFreeToFrmHeap(heap->handle, 3);
     if (anyCallback != 0) NNSi_SndHeapFlushCommands();
     NNSi_SndHeapAllocLevel(heap);
 }
@@ -512,14 +514,14 @@ void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback cal
 {
     NNSiSndHeapBlock *block;
     NNSFndList *blockList;
-    block = func_02061124(heap->handle, ((size + 0x1f) & ~0x1fu) + 0x20, 0x20);
+    block = NNS_FndAllocFromFrmHeapEx(heap->handle, ((size + 0x1f) & ~0x1fu) + 0x20, 0x20);
     if (block == 0) return 0;
-    blockList = func_0206062C(&heap->levelList, 0);
+    blockList = NNS_FndGetPrevListObject(&heap->levelList, 0);
     block->size = size;
     block->callback = callback;
     block->data1 = data1;
     block->data2 = data2;
-    func_020604AC(blockList, block);
+    NNS_FndAppendListObject(blockList, block);
     return (u8 *)block + 0x20;
 }
 
@@ -533,13 +535,13 @@ void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback cal
  */
 s32 NNS_SndHeapSaveState(NNSSndHeap *heap)
 {
-    if (func_02061184(heap->handle, heap->levelList.numObjects) == 0) {
+    if (NNS_FndRecordStateForFrmHeap(heap->handle, heap->levelList.numObjects) == 0) {
         return -1;
     }
     if (NNSi_SndHeapAllocLevel(heap) != 0) {
         return heap->levelList.numObjects - 1;
     }
-    func_020611D4(heap->handle, 0);
+    NNS_FndFreeByStateToFrmHeap(heap->handle, 0);
     return -1;
 }
 
@@ -565,32 +567,32 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level)
     if (level == 0) { NNS_SndHeapClear(heap); return; }
 
     while (level < heap->levelList.numObjects) {
-        curLevel = func_0206062C(&heap->levelList, 0);
-        block = func_0206062C(&curLevel->blockList, block);
+        curLevel = NNS_FndGetPrevListObject(&heap->levelList, 0);
+        block = NNS_FndGetPrevListObject(&curLevel->blockList, block);
         while (block != 0) {
             if (block->callback != 0) {
                 block->callback((u8 *)block + 0x20, block->size, block->data1, block->data2);
                 anyCallback = 1;
             }
-            block = func_0206062C(&curLevel->blockList, block);
+            block = NNS_FndGetPrevListObject(&curLevel->blockList, block);
         }
-        func_020605B4(&heap->levelList, curLevel);
+        NNS_FndRemoveListObject(&heap->levelList, curLevel);
     }
 
-    func_020611D4(heap->handle, level);
+    NNS_FndFreeByStateToFrmHeap(heap->handle, level);
     if (anyCallback != 0) NNSi_SndHeapFlushCommands();
-    func_02061184(heap->handle, heap->levelList.numObjects);
+    NNS_FndRecordStateForFrmHeap(heap->handle, heap->levelList.numObjects);
     NNSi_SndHeapAllocLevel(heap);
 }
 
 void NNSi_SndHeapLevelInit(NNSiSndHeapLevel *level)
 {
-    func_02060468(&level->blockList, 0);
+    NNS_FndInitList(&level->blockList, 0);
 }
 
 int NNSi_SndHeapInit(NNSSndHeap *heap, NNSFndHeapHandle handle)
 {
-    func_02060468(&heap->levelList, 0xc);
+    NNS_FndInitList(&heap->levelList, 0xc);
     heap->handle = handle;
     if (NNSi_SndHeapAllocLevel(heap)) {
         return 1;
@@ -600,20 +602,20 @@ int NNSi_SndHeapInit(NNSSndHeap *heap, NNSFndHeapHandle handle)
 
 int NNSi_SndHeapAllocLevel(NNSSndHeap *heap)
 {
-    NNSiSndHeapLevel *level = func_02061124(heap->handle, 0x14, 4);
+    NNSiSndHeapLevel *level = NNS_FndAllocFromFrmHeapEx(heap->handle, 0x14, 4);
     if (!level) {
         return 0;
     }
     NNSi_SndHeapLevelInit(level);
-    func_020604AC(&heap->levelList, level);
+    NNS_FndAppendListObject(&heap->levelList, level);
     return 1;
 }
 
 void NNSi_SndHeapFlushCommands(void)
 {
-    u32 tag = func_02089D40();
+    u32 tag = SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4(tag);
+    SND_WaitForCommandProc(tag);
 }
 
 BOOL NNS_SndArcLoadGroup(u32 groupNo, NNSSndHeap *heap)
@@ -760,7 +762,7 @@ u32 NNSi_SndArcLoadSeqArc(u32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, u32 isSe
  * info's individual bit and NNS_SND_ARC_LOAD_WAVE are both set (error 9), and
  * finally assigns the wave archive to the bank slot.
  *
- * func_0208A2BC takes three arguments (bank, slot, waveArc); the image's
+ * SND_AssignWaveArc takes three arguments (bank, slot, waveArc); the image's
  * `ldrne r2, [sp, #4]` loads the wave archive straight into the third
  * argument register. The body is exact under dsi/1.1p1 and ../2.0/sp2.
  */
@@ -795,7 +797,7 @@ u32 NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, NNSSndHeap *heap, u32 isSetAdd
                 if (NNSi_SndArcLoadBankWaves((SNDWaveArc *)waveArc, bank, (u32)i, waveArcInfo->bits.fileId, heap) == 0) return 9;
             }
             if (bank != 0 && waveArc != 0) {
-                func_0208A2BC(bank, (u32)i, waveArc);
+                SND_AssignWaveArc(bank, (u32)i, waveArc);
             }
         }
     }
@@ -979,48 +981,48 @@ void NNSi_SndArcForgetFileAddress(u32 buffer, NNSSndArc *arc, u32 fileId) {
 void NNSi_SndArcDisposeSeq(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
     NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
-    func_020896AC(buffer, buffer + size);
+    SND_InvalidateSeqData(buffer, buffer + size);
 }
 
 /* Dispose callback of a bank file: the same plus the bank teardown. */
 void NNSi_SndArcDisposeBank(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
     NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
-    func_020896CC(buffer, buffer + size);
-    func_0208A38C(buffer);
+    SND_InvalidateBankData(buffer, buffer + size);
+    SND_DestroyBank(buffer);
 }
 
 /*
  * Dispose callback of a wave archive file. It stays a separate function from
- * NNSi_SndArcDisposeWaveArcTable: they are the only callers of func_0208A424, so each is the
+ * NNSi_SndArcDisposeWaveArcTable: they are the only callers of SND_DestroyWaveArc, so each is the
  * other's relocation witness.
  */
 void NNSi_SndArcDisposeWaveArc(int buffer, int size, NNSSndArc *arc, int fileId)
 {
     NNSi_SndArcForgetFileAddress(buffer, arc, fileId);
-    func_020896EC((const void *)buffer, (const void *)(buffer + size));
-    func_0208A424((SNDWaveArc *)buffer);
+    SND_InvalidateWaveData((const void *)buffer, (const void *)(buffer + size));
+    SND_DestroyWaveArc((SNDWaveArc *)buffer);
 }
 
 /* Dispose callback of an individually loaded wave archive. */
 void NNSi_SndArcDisposeWaveArcTable(int buffer, int size, NNSSndArc *arc, int fileId)
 {
     NNSi_SndArcForgetFileAddress(buffer, arc, fileId);
-    func_0208A424((SNDWaveArc *)buffer);
+    SND_DestroyWaveArc((SNDWaveArc *)buffer);
 }
 
 /* Dispose callback of one individually loaded wave. */
 void NNSi_SndArcDisposeWave(u32 buffer, u32 size, SNDWaveArc *waveArc, u32 waveNo) {
-    if (func_0208A674((u32)waveArc, waveNo) == buffer) func_0208A640((u32)waveArc, waveNo, 0);
-    func_020896EC((const void *)buffer, (const void *)(buffer + size));
+    if (SND_GetWaveDataAddress((u32)waveArc, waveNo) == buffer) SND_SetWaveDataAddress((u32)waveArc, waveNo, 0);
+    SND_InvalidateWaveData((const void *)buffer, (const void *)(buffer + size));
 }
 
 /*
  * Individual wave loader. Skips the work if the wave is already resident
- * (func_0208A674), otherwise takes the wave's byte range from the offset
+ * (SND_GetWaveDataAddress), otherwise takes the wave's byte range from the offset
  * table and reads it in: allocates range+0x20 on the sound heap with
  * NNSi_SndArcDisposeWave as dispose callback, reads it with NNS_SndArcReadFile, flushes
- * it with DC_StoreRange and publishes it with func_0208A640. Answers 1 for
+ * it with DC_StoreRange and publishes it with SND_SetWaveDataAddress. Answers 1 for
  * "resident on exit" (already resident and success both), 0 for failure.
  *
  * The offset table is a u32 array at +0x3c of the wave archive, indexed by
@@ -1048,7 +1050,7 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   u32 *entry;
   void *buffer;
   u32 startOffset;
-  if (func_0208A674((u32)waveArc, waveNo) != 0)
+  if (SND_GetWaveDataAddress((u32)waveArc, waveNo) != 0)
     return 1;
   lastWave = (u32)SNDi_GetBankWaveArcTable((char *)waveArc);
   lastWave = lastWave - 1;
@@ -1068,13 +1070,13 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   if (NNS_SndArcReadFile(fileId, buffer, length, offset) != length)
     return 0;
   DC_StoreRange(buffer, length);
-  func_0208A640((u32)waveArc, waveNo, (u32)buffer);
+  SND_SetWaveDataAddress((u32)waveArc, waveNo, (u32)buffer);
   return 1;
 }
 
 /*
  * Loads every wave of a bank that belongs to one wave archive slot: opens
- * an iterator over the bank (func_0208A46C), copies it to a working cursor,
+ * an iterator over the bank (SND_GetFirstInstDataPos), copies it to a working cursor,
  * then steps it (func_0208A48C) and, for every record of type 1 whose wave
  * archive number matches, loads the wave with NNSi_SndArcLoadWave. Any failed load
  * answers 0; a run to exhaustion answers 1. The null-bank guard is emitted
@@ -1093,7 +1095,7 @@ u32 NNSi_SndArcLoadBankWaves(SNDWaveArc *waveArc, u32 bank, u32 waveArcNo, u32 f
     SNDBankWaveIter iter;
     SNDBankWaveIter firstIter;
 
-    func_0208A46C(&firstIter, bank, waveArcNo, fileId);
+    SND_GetFirstInstDataPos(&firstIter, bank, waveArcNo, fileId);
     iter = firstIter;
     if (bank == 0) return 0;
     if (func_0208A48C(bank, &record, &iter) != 0) {

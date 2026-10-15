@@ -97,7 +97,6 @@ extern void BILLBOARD_DeleteAllImages(struct Actor *p);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char double3Ddisp_File[];
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 extern void func_02080B98(void);

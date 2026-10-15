@@ -22,6 +22,8 @@
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
+ *   OS_InitMessageQueue  0x02085D94  arm  arm9
+ *   OSi_IsCodecTwlMode  0x02087B20  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -67,9 +69,9 @@ extern void func_020885A0(u32, void (*)(u32, u32, u32));
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
 extern void func_0208C848(u32 *, u32);
 extern u32 OS_IsRunOnTwl(void);
-extern u32 func_02087B20(void);
+extern u32 OSi_IsCodecTwlMode(void);
 extern void OS_SpinWaitSysCycles(u32);
-extern void func_02085D94(void *, void *, u32);
+extern void OS_InitMessageQueue(void *, void *, u32);
 extern void func_02085E50(void *, void *, u32);
 extern void func_02085DBC(void *, u32, u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
@@ -159,7 +161,7 @@ u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3) {
         return 3;
     }
     DAT_02734450.busy = 1;
-    if (func_02087B20() == 0) {
+    if (OSi_IsCodecTwlMode() == 0) {
         DAT_02734450.busy = 0;
         return 4;
     }
@@ -219,7 +221,7 @@ u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
     if (DAT_02150fec[1] == 0) {
         return 4;
     }
-    func_02085D94(q, buf, 1);
+    OS_InitMessageQueue(q, buf, 1);
     result = SNDEXi_SetIirFilterAsync(a0, a1, SyncCallback, q);
     if (result == 0) {
         func_02085E50(q, &result, 1);
@@ -236,7 +238,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     u32 result;
     u32 buf[1];
     u32 q[8];
-    if (func_02087B20() == 0) {
+    if (OSi_IsCodecTwlMode() == 0) {
         return 4;
     }
     if (DAT_02150fec[1] == 0) {
@@ -250,7 +252,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     } else if (DAT_02734450.state == 5) {
         return 3;
     }
-    func_02085D94(q, buf, 1);
+    OS_InitMessageQueue(q, buf, 1);
     SetSndexWork(SyncCallback, q, 0, 0xfb);
     if (SendCommand(DAT_02734450.f58, 0) == 0) {
         return 5;
@@ -261,7 +263,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
 
 u32 SNDEXi_PostProcessForShutterSound(Cb a0, void *a1) {
     u32 r;
-    if (func_02087B20() == 0 || DAT_02734450.state != 4) {
+    if (OSi_IsCodecTwlMode() == 0 || DAT_02734450.state != 4) {
         return 4;
     }
     r = 5;

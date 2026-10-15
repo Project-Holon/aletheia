@@ -1,5 +1,5 @@
 /*
- * function: func_021C04CC
+ * function: RESEARCH_GRAPH_CreateBmps
  * address:  0x021C04CC
  * packet:   pkt_ov217_021C04CC
  * region:   ov217
@@ -32,7 +32,7 @@ extern const struct Ent d_021C37A4[];
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-void func_021C04CC(u8 *p)
+void RESEARCH_GRAPH_CreateBmps(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++)

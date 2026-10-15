@@ -22,10 +22,10 @@
  *   WcmInitOption        0x021658F8 arm ov009
  *   func_02166304        0x02166304 arm ov009
  *   OS_IsTickAvailable        0x02087058 arm
- *   func_02086FE8        0x02086FE8 arm
+ *   OS_InitTick        0x02086FE8 arm
  *   OS_IsAlarmAvailable        0x02087244 arm
- *   func_02087208        0x02087208 arm
- *   func_02087254        0x02087254 arm
+ *   OS_InitAlarm        0x02087208 arm
+ *   OS_CreateAlarm        0x02087254 arm
  *   WcmConfigure        0x021657D8 arm ov009
  *   WM_GetAllowedChannel        0x0208EE60 arm
  *   func_02166880        0x02166880 arm ov009
@@ -85,10 +85,10 @@ extern int OS_IsRunOnTwl(void);
 extern void WcmInitOption(void);
 extern void func_02166304(void);
 extern long OS_IsTickAvailable(void);
-extern void func_02086FE8(void);
+extern void OS_InitTick(void);
 extern long OS_IsAlarmAvailable(void);
-extern void func_02087208(void);
-extern void func_02087254(void *alarm);
+extern void OS_InitAlarm(void);
+extern void OS_CreateAlarm(void *alarm);
 extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
 extern long func_02166880(void);
@@ -123,12 +123,9 @@ long WCM_GetPhase(void);
 unsigned long WCM_UpdateOption(unsigned long option);
 unsigned short WCM_GetAllowedChannel(void);
 WCMWork *WCMi_GetSystemWork(void);
-void WcmConfigure(WCMConfig *config, void (*notify)(void *));
-void WcmInitOption(void);
 unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 void WCMi_Notify(short result, void *para0, void *para1, long para2);
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
-void WCMi_SetPhase(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
 extern void func_02165AF4(void);
 long WCM_InitEx(void *buf, long len, unsigned char deviceId);
@@ -242,12 +239,12 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     WcmInitOption();
     func_02166304();
     if (OS_IsTickAvailable() == 0) {
-        func_02086FE8();
+        OS_InitTick();
     }
     if (OS_IsAlarmAvailable() == 0) {
-        func_02087208();
+        OS_InitAlarm();
     }
-    func_02087254(wcmw->alarm);
+    OS_CreateAlarm(wcmw->alarm);
     OS_RestoreInterrupts(e);
     return 0;
 }

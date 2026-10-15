@@ -12,9 +12,9 @@
  * symbols:
  *   DAT_02150fec  0x02150fec  data twl
  *   DAT_02734450  0x02734450  data twl
- *   func_02085D94  0x02085D94  arm twl
+ *   OS_InitMessageQueue  0x02085D94  arm twl
  *   func_02085E50  0x02085E50  arm twl
- *   func_02087B20  0x02087B20  arm twl
+ *   OSi_IsCodecTwlMode  0x02087B20  arm twl
  *   SyncCallback  0x02704B58  arm twl
  *   SendCommand  0x02704B74  arm twl
  *   CheckState  0x02704C5C  arm twl
@@ -54,9 +54,9 @@ typedef struct {
 
 extern u32 DAT_02150fec[];
 extern State DAT_02734450;
-extern void func_02085D94(void *, void *, u32);
+extern void OS_InitMessageQueue(void *, void *, u32);
 extern void func_02085E50(void *, void *, u32);
-extern u32 func_02087B20(void);
+extern u32 OSi_IsCodecTwlMode(void);
 void SyncCallback(u32 a0, void *a1);
 u32 SendCommand(u32 a0, u8 a1);
 u32 CheckState(void);
@@ -66,7 +66,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     u32 result;
     u32 buf[1];
     u32 q[8];
-    if (func_02087B20() == 0) {
+    if (OSi_IsCodecTwlMode() == 0) {
         return 4;
     }
     if (DAT_02150fec[1] == 0) {
@@ -80,7 +80,7 @@ u32 SNDEXi_PreProcessForShutterSound(void) {
     } else if (DAT_02734450.state == 5) {
         return 3;
     }
-    func_02085D94(q, buf, 1);
+    OS_InitMessageQueue(q, buf, 1);
     SetSndexWork(SyncCallback, q, 0, 0xfb);
     if (SendCommand(DAT_02734450.f58, 0) == 0) {
         return 5;

@@ -23,7 +23,7 @@
  *   func_02030734  0x02030734  arm
  *   RingQueue_Reset  0x021C0E5C  thumb  ov217
  */
-#include "research_top_shared_types.h"
+#include "research_shared_types.h"
 
 #include "ring_queue.h"
 

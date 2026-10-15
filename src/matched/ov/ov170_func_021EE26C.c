@@ -1,5 +1,5 @@
 /*
- * function: func_021EE26C
+ * function: BOX2_UI_ShiftSlotOams
  * address:  0x021EE26C
  * packet:   pkt_ov170_021EE26C
  * region:   ov170
@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_OAM_GetPos 0x020258E8 thumb
  *   BMP_OAM_SetPos 0x0202590C thumb
- *   func_021EE224 0x021EE224 thumb
+ *   BOX2_UI_SetSlotOamEnabled 0x021EE224 thumb
  */
 #include "../include/Obj14282.h"
 
@@ -21,9 +21,9 @@ struct Grid;
 struct Obj02025774;
 extern void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
 extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
-extern void func_021EE224(char *p, int i, int v);
+extern void BOX2_UI_SetSlotOamEnabled(char *p, int i, int v);
 
-void func_021EE26C(char *p, int d)
+void BOX2_UI_ShiftSlotOams(char *p, int d)
 {
     unsigned i;
     short x;
@@ -33,6 +33,6 @@ void func_021EE26C(char *p, int d)
         BMP_OAM_GetPos(((struct Obj14282 *)e)->f4, &x, &y);
         BMP_OAM_SetPos(((struct Obj14282 *)e)->f4, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
-            func_021EE224(p, i, 0);
+            BOX2_UI_SetSlotOamEnabled(p, i, 0);
     }
 }

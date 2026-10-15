@@ -18,6 +18,9 @@
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
+ *   OS_LockByWord  0x02084C68  arm  arm9
+ *   OS_UnlockByWord  0x02084CEC  arm  arm9
+ *   OS_ReleaseLockID  0x02084F10  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -34,9 +37,9 @@ extern u32 (*const data_027301EC[])(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern u32 OS_GetLockID(void);
-extern void func_02084C68(u32, void *, void *);
-extern void func_02084CEC(u32, void *, void *);
-extern void func_02084F10(u32);
+extern void OS_LockByWord(u32, void *, void *);
+extern void OS_UnlockByWord(u32, void *, void *);
+extern void OS_ReleaseLockID(u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
 extern void SVC_WaitByLoop(u32);
 extern void func_020885A0(u32, void *);
@@ -672,13 +675,13 @@ void MIi_TakeApartData(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4)
 void MI_LockWramManager(u16 *p)
 {
     *p = OS_GetLockID();
-    func_02084C68(*p, (void *)0x02FFF680, 0);
+    OS_LockByWord(*p, (void *)0x02FFF680, 0);
 }
 
 void MI_UnlockWramManager(u32 id)
 {
-    func_02084CEC(id, (void *)0x02FFF680, 0);
-    func_02084F10(id);
+    OS_UnlockByWord(id, (void *)0x02FFF680, 0);
+    OS_ReleaseLockID(id);
 }
 
 u32 MIi_LockWramManagerDI(u16 *p)

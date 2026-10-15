@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8E4
+ * function: RESEARCH_LIST_CreateMessages
  * address: 0x021BC8E4
  * packet: pkt_ov217_021BC8E4
  * region: ov217
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-void func_021BC8E4(struct S *p)
+void RESEARCH_LIST_CreateMessages(struct S *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

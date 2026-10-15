@@ -1,5 +1,5 @@
 /*
- * function: func_0200E608
+ * function: BATTLE_EXAMINATION_LoadDelivery
  * address:  0x0200E608
  * packet:   pkt_0200E608
  * region:   arm9
@@ -44,7 +44,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern u32 func_020307B0(void *p);
 
-void func_0200E608(void *sys, void *dst, u32 heap)
+void BATTLE_EXAMINATION_LoadDelivery(void *sys, void *dst, u32 heap)
 {
     u32 sv = (u32)GAME_DATA_GetSaveControl(sys);
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);

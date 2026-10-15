@@ -1,5 +1,5 @@
 /*
- * function: func_021DAC60
+ * function: POKETRADE_PROC_StepRestartNetSession
  * address: 0x021DAC60
  * packet: pkt_ov119_021DAC60
  * region: ov119
@@ -18,7 +18,7 @@
  *   WIPE_ResetBrightness 0x02022230 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DAC20 0x021DAC20 thumb ov119
+ *   POKETRADE_PROC_StepAfterWipeLoadBox 0x021DAC20 thumb ov119
  */
 #include "../include/Obj06423.h"
 typedef unsigned short u16;
@@ -33,10 +33,10 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void WIPE_ResetBrightness(u32 which);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void POKETRADE_PROC_SetStep(void *,int),func_021DAC20(void *);
-void func_021DAC60(char *p) {
+extern void POKETRADE_PROC_SetStep(void *,int),POKETRADE_PROC_StepAfterWipeLoadBox(void *);
+void POKETRADE_PROC_StepRestartNetSession(char *p) {
  GFL_NET_RestartWithDefaultTimeout(1,((struct Obj06423 *)p)->f5F4);if(((struct Obj06423 *)p)->f118C==2)DWC_RAP_SetVchatTalkLock(1);
  MSGDATA_ReadString((struct MsgBank *)(((struct Obj06423 *)p)->f720),6,(void *)(((struct Obj06423 *)p)->f738));POKETRADE_SAVE_OpenMessageWindowAtPos(p,1,0);POKETRADE_SAVE_ShowTimeIcon(p);
  BG_SYS_SetMainVisiblePlanes(16);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(0);
- WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj06423 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)func_021DAC20);
+ WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj06423 *)p)->f5F4);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepAfterWipeLoadBox);
 }

@@ -25,10 +25,10 @@
  *   func_0201F094 0x0201F094 thumb
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   d_021E3780 0x021E3780 data a4
  *   d_021E372E 0x021E372E data a4
  */
@@ -64,10 +64,10 @@ extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_021FC8C8(Config *,u32);
+extern void *BR_UTIL_CreateListMenu(Config *,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern int BR_RES_GetSprite(int,int,Triple *);
-extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
+extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 int func_021E00D8(char *p,char *q)
 {
     int first,second,a,b;
@@ -94,10 +94,10 @@ int func_021E00D8(char *p,char *q)
     cfg=d_021E3780;
     cfg.words[0]=*(u32 *)&((struct Obj02231 *)p)->f14;cfg.words[1]=1;
     cfg.words[5]=*(u32 *)&((struct Obj03330 *)q)->f8;cfg.words[6]=((struct Obj03330 *)q)->f4;
-    ((struct Obj02231 *)p)->f18=func_021FC8C8(&cfg,((struct Obj02231 *)p)->f54);
+    ((struct Obj02231 *)p)->f18=BR_UTIL_CreateListMenu(&cfg,((struct Obj02231 *)p)->f54);
     MI_CpuFill8(&params,0,8);
     BR_RES_GetSprite(*(int *)&((struct Obj03330 *)q)->f8,6,&triple);
     params.a=d_021E372E[0].a;params.b=d_021E372E[0].b;params.c=d_021E372E[0].c;params.flag=1;
-    ((struct Obj02231 *)p)->fC=func_021FB378(&params,d_021E372E[0].file,96,1,*(int *)&((struct Obj03330 *)q)->f4,((struct Obj02231 *)p)->f44,first,second,&triple,((struct Obj02231 *)p)->f54);
+    ((struct Obj02231 *)p)->fC=BR_BTN_CreateFromMessage(&params,d_021E372E[0].file,96,1,*(int *)&((struct Obj03330 *)q)->f4,((struct Obj02231 *)p)->f44,first,second,&triple,((struct Obj02231 *)p)->f54);
     return 1;
 }

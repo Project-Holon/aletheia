@@ -9,9 +9,9 @@
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   NNSi_SndWaveOutAllocSlot  0x020729C0  arm
- *   func_02089660  0x02089660  arm
- *   func_02089540  0x02089540  arm
- *   func_020604AC  0x020604AC  arm
+ *   SND_SetupChannelPcm  0x02089660  arm
+ *   SND_SetupAlarm  0x02089540  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   NNSi_SndStrmUpdate  0x02073BF0  arm
@@ -23,7 +23,7 @@
  * buffer (func_0209C2B0 is the divide), claim a hardware channel through
  * NNSi_SndWaveOutAllocSlot (negative = none, answer 0), set up one PCM channel per slot
  * byte at +0x54 with its buffer address recorded in gSndStrmChannels, arm the timer
- * func_02089540 with the callback NNSi_SndStrmTimerCallback (a 16-byte tail-call leaf,
+ * SND_SetupAlarm with the callback NNSi_SndStrmTimerCallback (a 16-byte tail-call leaf,
  * filed EXACT alongside this so the pool word has a `matched` witness), link
  * the object into gSndStrmList, latch the parameters, and prime one step of
  * NNSi_SndStrmUpdate with the frame count forced to 1 inside a
@@ -63,10 +63,10 @@ extern u8 gSndStrmList[];
 extern void NNSi_SndStrmStopIfSetup(struct SndObj *o);
 extern u32  func_0209C2B0(u32 a, s32 b);
 extern s32  NNSi_SndWaveOutAllocSlot(void);
-extern void func_02089660(u32 chan, int fmt, u32 data, int loopmode,
+extern void SND_SetupChannelPcm(u32 chan, int fmt, u32 data, int loopmode,
                           int a, int b, int vol, int pan, u32 period, int e);
-extern void func_02089540(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
-extern void func_020604AC(void *list, void *node);
+extern void SND_SetupAlarm(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
+extern void NNS_FndAppendListObject(void *list, void *node);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 tok);
 extern void NNSi_SndStrmUpdate(struct SndObj *o, u32 arg);
@@ -92,11 +92,11 @@ int NNS_SndStrmSetup(struct SndObj *o, int fmt, u32 base, u32 len,
         u8 slot = o->f54[i];
         gSndStrmChannels[slot].a = o->f30 * i + base;
         gSndStrmChannels[slot].b = 0;
-        func_02089660(slot, fmt, gSndStrmChannels[slot].a, 1, 0, o->f30 >> 2,
+        SND_SetupChannelPcm(slot, fmt, gSndStrmChannels[slot].a, 1, 0, o->f30 >> 2,
                       0x7f, 0, rate << 5, 0x40);
     }
-    func_02089540(o->f48, period, period, NNSi_SndStrmTimerCallback, o);
-    func_020604AC(gSndStrmList, o);
+    SND_SetupAlarm(o->f48, period, period, NNSi_SndStrmTimerCallback, o);
+    NNS_FndAppendListObject(gSndStrmList, o);
     o->f28 = fmt;
     o->f34 = frames;
     o->f38 = cb;

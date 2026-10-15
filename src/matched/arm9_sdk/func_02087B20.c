@@ -1,5 +1,5 @@
 /*
- * function: func_02087B20
+ * function: OSi_IsCodecTwlMode
  * address:  0x02087B20
  * packet:   pkt_02087B20
  * region:   arm9
@@ -37,7 +37,7 @@ typedef struct OsSystemWorkBss {
 extern OsSystemWorkBss g_02151360;
 extern BOOL OS_IsRunOnTwl(void);
 
-BOOL func_02087B20(void)
+BOOL OSi_IsCodecTwlMode(void)
 {
     if (!g_02151360.initialized) {
         g_02151360.retval = (OS_IsRunOnTwl() == 1 && (*(u8 *)0x02FFE1BF & 1) == 1) ? 1 : 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200ED48
+ * function: MISC_SAVEDATA_GetBlock44
  * address:  0x0200ED48
  * packet:   pkt_0200ED48
  * region:   arm9
@@ -13,14 +13,14 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  */
 
 typedef unsigned int   u32;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *func_0200ED48(void *p)
+void *MISC_SAVEDATA_GetBlock44(void *p)
 {
     return func_020071CC(p, 0x44);
 }

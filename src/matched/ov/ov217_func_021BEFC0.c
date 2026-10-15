@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFC0
+ * function: RESEARCH_GRAPH_ShowPercent
  * address:  0x021BEFC0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void PERCENTAGE_SetVisible(u32, u32);
 
-void func_021BEFC0(u8 *a0, u32 a1)
+void RESEARCH_GRAPH_ShowPercent(u8 *a0, u32 a1)
 {
     PERCENTAGE_SetVisible((u32)(*(u32*)(a0 + (a1)*4 + 724)), 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02089804
+ * function: PushCommand_impl
  * address:  0x02089804
  * packet:   pkt_02089804
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct SNDCommand {
 extern SNDCommand *SND_AllocCommand(u32 flags);
 extern void SND_PushCommand(SNDCommand *command);
 
-void func_02089804(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3)
+void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3)
 {
     SNDCommand *command = SND_AllocCommand(1);
 

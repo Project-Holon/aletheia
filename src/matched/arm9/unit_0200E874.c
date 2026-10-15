@@ -10,12 +10,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200E874, sub_0200E878
+ * function: MISC_SAVEDATA_GetSmallEntrySize, MISC_SAVEDATA_ClearSmallEntry
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
  *
- * The twelve bytes after func_0200E7BC: two unlabelled leaves that save
+ * The twelve bytes after MISC_SAVEDATA_FillMonEntry: two unlabelled leaves that save
  * nothing at all, so their bytes print as part of the same `.word` run as
  * the pool word in front of them (docs/idioms/
  * unlabelled-leaf-functions-hide-in-word-runs.md).  The first is a size
@@ -28,12 +28,12 @@ typedef unsigned int u32;
 
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 
-int sub_0200E874(void)
+int MISC_SAVEDATA_GetSmallEntrySize(void)
 {
     return 0x10;
 }
 
-void sub_0200E878(void *dst)
+void MISC_SAVEDATA_ClearSmallEntry(void *dst)
 {
     MI_CpuFill8(dst, 0, 0x10);
 }

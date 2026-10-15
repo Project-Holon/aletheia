@@ -1,5 +1,5 @@
 /*
- * function: func_021BD474
+ * function: RESEARCH_LIST_ClearPalAnm
  * address:  0x021BD474
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BD474(void *p)
+void RESEARCH_LIST_ClearPalAnm(void *p)
 {
     ((struct Obj25889 *)p)->f98 = 0;
 }

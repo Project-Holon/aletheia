@@ -1,5 +1,5 @@
 /*
- * function: func_021E072C
+ * function: BOX2_MAIN_SceneMoveCursor
  * address:  0x021E072C
  * packet:   pkt_ov170_021E072C
  * region:   ov170
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED544 0x021ED544 thumb
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC08C 0x021EC08C thumb
- *   func_021EC768 0x021EC768 thumb
+ *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
+ *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  *
  * Moves the window at 0x3DF6 to four pixels below window 4 and hides
  * sprite 0x24.
  */
 
-extern void func_021ED544(char *p, int b);
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021EC768(char *p, unsigned i, int flag);
+extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021E072C(unsigned char *p)
+void BOX2_MAIN_SceneMoveCursor(unsigned char *p)
 {
     short xy[2];
-    func_021ED544((char *)p, 8);
-    func_021EC0B0(WORK(p), 4, &xy[1], &xy[0], 0);
-    func_021EC08C(WORK(p), *(unsigned char *)(WORK(p) + 0x3DF6), (short)xy[1], (short)(xy[0] + 4), (short)0);
-    func_021EC768(WORK(p), 0x24, 0);
+    BOX2_SEQ_SetCursorFrame((char *)p, 8);
+    BOX2_SEQ_GetActorSurfacePos(WORK(p), 4, &xy[1], &xy[0], 0);
+    BOX2_SEQ_AddActorSurfacePos(WORK(p), *(unsigned char *)(WORK(p) + 0x3DF6), (short)xy[1], (short)(xy[0] + 4), (short)0);
+    BOX2_SEQ_SetSlotDrawPriority(WORK(p), 0x24, 0);
 }

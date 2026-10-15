@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2FC
+ * function: RESEARCH_LIST_IsScrollAnimDone
  * address:  0x021BC2FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BC2FC(void *p)
+int RESEARCH_LIST_IsScrollAnimDone(void *p)
 {
     if (((struct Obj01084 *)p)->f44 > ((struct Obj01084 *)p)->f48) {
         return 0;

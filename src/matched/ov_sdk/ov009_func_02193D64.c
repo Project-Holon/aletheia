@@ -1,5 +1,5 @@
 /*
- * function: func_02193D64
+ * function: IsStatsConnected
  * address:  0x02193D64
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,15 +12,15 @@
  * Set while the word at +4 of the state object is not -1.
  *
  * symbols:
- *   g_021A57C8  0x021A57C8  data
+ *   gGstatsSocket  0x021A57C8  data
  */
 
 #include "../include/G_StatsSocket.h"
 
-extern struct StatsSocket g_021A57C8;
+extern struct StatsSocket gGstatsSocket;
 
-int func_02193D64(void)
+int IsStatsConnected(void)
 {
-    return *(int *)(((char *)&g_021A57C8) + 4) != -1;
+    return *(int *)(((char *)&gGstatsSocket) + 4) != -1;
 }
 

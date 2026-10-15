@@ -26,7 +26,7 @@
  *   BR_FADE_BlendFull 0x021FE7F8 thumb ov186
  *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BR_SIDEBAR_Create 0x021FED50 thumb ov186
- *   func_021F98F8 0x021F98F8 thumb ov186
+ *   BR_PROC_SYS_LoadRecords 0x021F98F8 thumb ov186
  *   BR_NET_Create 0x021FF408 thumb ov186
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -84,7 +84,7 @@ extern void BR_FADE_CaptureHwPalettes(char *),BR_FADE_SetBlendColor(int *,int),B
 extern int BR_RES_GetCurrentSetParam(char *);
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern char *BR_SIDEBAR_Create(int,int,char *,unsigned);
-extern void func_021F98F8(char *p, int skip, void *sys, int heap);
+extern void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap);
 extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
 extern int func_02034AC4(int),GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -121,7 +121,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     BR_FADE_SetBlendColor(*(int * *)&((struct Obj00387 *)p)->fC,BR_RES_GetCurrentSetParam(*(char * *)&((struct Obj00387 *)p)->f4));
     if(!((struct Obj24773 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4) BR_FADE_BlendFull(*(char * *)&((struct Obj00387 *)p)->fC,3);
     *(char * *)&((struct Obj00387 *)p)->f10=BR_SIDEBAR_Create(BR_GRAPHIC_GetActorUnit((u8 *)(*(int *)&((struct Obj00387 *)p)->f0)),*(int *)&((struct Obj00387 *)p)->fC,*(char * *)&((struct Obj00387 *)p)->f4,0x5a);
-    func_021F98F8((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,(void *)(((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x5a);
+    BR_PROC_SYS_LoadRecords((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,(void *)(((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x5a);
     if(**(int * *)&((struct Obj24777 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         ((struct Obj00387 *)p)->f14=BR_NET_Create(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
     } else func_02034AC4((int)ov125_id);

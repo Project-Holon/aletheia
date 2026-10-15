@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD6C
+ * function: RESEARCH_LIST_ClearLabels
  * address:  0x021BCD6C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BCD6C(void *p)
+void RESEARCH_LIST_ClearLabels(void *p)
 {
     int i;
     for (i = 0; i < 7; i++)

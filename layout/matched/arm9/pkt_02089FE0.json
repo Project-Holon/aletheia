@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02089FE0",
+   "name": "SNDi_SetAlarmHandler",
    "address": "0x02089FE0",
    "kind": "sdk",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020896CC",
+   "name": "SND_InvalidateBankData",
    "address": "0x020896CC",
    "kind": "sdk",
    "region": "arm9",

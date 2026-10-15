@@ -51,6 +51,7 @@
  *   _ll_udiv       0x0209C00C  arm
  */
 #include "irc_types.h"
+#include "ircnet_types.h"
 
 typedef struct {
     IRCStatusType status;
@@ -183,7 +184,7 @@ void IRC_Connect(void)
     }
     isTry = TRUE;
     {
-        u8 command = 0x56;
+        u8 command = IRC_CMD_CONNECT_REQUEST;
         IRCi_Write(&command, 1);
     }
     sStatus.status = IRC_ST_WAIT_RESPONSE;
@@ -293,7 +294,7 @@ void IRCi_Finish(int n)
     IRCShutdownCallback cb;
 
     if (sStatus.flg_connect != 0 && isSender == 0 && n == 0)
-        IRCi_Send(0, 0, 0xF4, myUnitNumber);
+        IRCi_Send(0, 0, IRC_CMD_FINISH, myUnitNumber);
     cb = sShutdownCallback;
     if (cb != 0)
         cb(n);
@@ -343,7 +344,7 @@ int IRCi_CheckLength(unsigned long n)
     if (n == 1) {
         if (sStatus.flg_connect)
             return 1;
-        return gIrcBuffer[0] != 0xFC;
+        return gIrcBuffer[0] != IRC_CMD_DISCONNECT;
     }
     switch (n) {
     case 2:
@@ -389,7 +390,7 @@ int IRCi_CheckPacket(unsigned long n)
     unsigned short calc;
 
     if (n == 1)
-        return pk[0] == 0xFC;
+        return pk[0] == IRC_CMD_DISCONNECT;
     if (n < 4)
         return 0;
     sum = pk[2] + (pk[3] << 8);
@@ -446,7 +447,7 @@ int IRC_Move(void)
             return 0;
     }
     switch (pk[0]) {
-    case 0xFC:
+    case IRC_CMD_DISCONNECT:
         switch (sStatus.status) {
         case 0:
         case 2:
@@ -455,7 +456,7 @@ int IRC_Move(void)
             break;
         case 1:
             sStatus.status = 2;
-            IRCi_Send(0, 0, 0xFA, myUnitNumber);
+            IRCi_Send(0, 0, IRC_CMD_CONNECT_ACK, myUnitNumber);
             break;
         }
         if (isTry == 0) {
@@ -463,27 +464,27 @@ int IRC_Move(void)
             sStatus.status = 2;
             isSender = 0;
             if (n <= 1 || sStatus.flg_connect != 0) {
-                IRCi_Send(0, 0, 0xFA, myUnitNumber);
+                IRCi_Send(0, 0, IRC_CMD_CONNECT_ACK, myUnitNumber);
                 if (sStatus.flg_connect != 0)
                     IRCi_Restore();
                 IRCi_Nop();
             }
         }
         break;
-    case 0xFA:
+    case IRC_CMD_CONNECT_ACK:
         if (sStatus.status == 1) {
             sStatus.status = 3;
             isSender = 1;
             unit_number = pk[1];
             if (pk[1] == myUnitNumber) {
-                IRCi_Send(0, 0, 0xF8, myUnitNumber);
+                IRCi_Send(0, 0, IRC_CMD_CONNECT_CONFIRM, myUnitNumber);
                 sStatus.flg_connect = 1;
                 flg_restore = 0;
                 isTry = 0;
             }
         }
         break;
-    case 0xF8:
+    case IRC_CMD_CONNECT_CONFIRM:
         if (sStatus.status == 2) {
             sStatus.status = 4;
             unit_number = pk[1];
@@ -494,7 +495,7 @@ int IRC_Move(void)
                 (sConnectCallback)(pk[1], 0);
         }
         break;
-    case 0xF6:
+    case IRC_CMD_RESTORE:
         IRCi_Restore();
         break;
     default:

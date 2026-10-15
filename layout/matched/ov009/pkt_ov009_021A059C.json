@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A059C",
+   "name": "ParseServerIPPort",
    "address": "0x021A059C",
    "kind": "sdk",
    "region": "ov009",

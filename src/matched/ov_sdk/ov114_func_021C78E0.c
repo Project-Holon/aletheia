@@ -10,14 +10,17 @@
  * status:   EXACT
  *
  *
- * Tail call of func_02086028 on the 0x021D3C38 block.
+ * Tail call of OS_LockMutex on the 0x021D3C38 block.
+ *
+ * symbols:
+ *   OS_LockMutex  0x02086028  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02086028(void *);
+extern void OS_LockMutex(void *);
 
 void DWCi_Ndi_lockGlobal(void)
 {
-    func_02086028((void *)0x021D3C38);
+    OS_LockMutex((void *)0x021D3C38);
 }

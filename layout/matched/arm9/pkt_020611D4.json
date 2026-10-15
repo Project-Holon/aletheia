@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020611D4",
+   "name": "NNS_FndFreeByStateToFrmHeap",
    "address": "0x020611D4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020613D8",
+   "name": "NNS_GfdInitVramManager",
    "address": "0x020613D8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061460",
+   "name": "NNSi_GfdUpdateVramManager",
    "address": "0x02061460",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020614D4",
+   "name": "NNSi_GfdDefaultAllocTexVram",
    "address": "0x020614D4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206164C",
+   "name": "NNS_GfdSaveVramManager",
    "address": "0x0206164C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206168C",
+   "name": "NNS_GfdLoadVramManager",
    "address": "0x0206168C",
    "kind": "game",
    "region": "arm9",

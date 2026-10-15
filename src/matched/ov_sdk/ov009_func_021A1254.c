@@ -1,5 +1,5 @@
 /*
- * function: func_021A1254
+ * function: ProcessDeleteServer
  * address:  0x021A1254
  * packet:   pkt_ov009_021A1254
  * region:   ov009
@@ -17,8 +17,8 @@
  * pointer and value temps in swapped registers.
  *
  * symbols:
- *   func_0219F6C8                  0x0219F6C8  arm ov009
- *   func_0219F768                  0x0219F768  arm ov009
+ *   SBServerListFindServerByIP                  0x0219F6C8  arm ov009
+ *   SBServerListRemoveAt                  0x0219F768  arm ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -33,10 +33,10 @@ typedef enum {
 
 struct _SBServerList;
 
-extern int func_0219F6C8(struct _SBServerList *slist, unsigned int ip, unsigned short port);
-extern void func_0219F768(struct _SBServerList *slist, int index);
+extern int SBServerListFindServerByIP(struct _SBServerList *slist, unsigned int ip, unsigned short port);
+extern void SBServerListRemoveAt(struct _SBServerList *slist, int index);
 
-SBError func_021A1254(struct _SBServerList *slist, char *buf, int len)
+SBError ProcessDeleteServer(struct _SBServerList *slist, char *buf, int len)
 {
     int i;
     unsigned short port;
@@ -46,9 +46,9 @@ SBError func_021A1254(struct _SBServerList *slist, char *buf, int len)
         return sbe_dataerror;
     memcpy(&ip, buf, 4);
     memcpy(&port, buf + 4, 2);
-    i = func_0219F6C8(slist, ip, port);
+    i = SBServerListFindServerByIP(slist, ip, port);
     if (i == -1)
         return sbe_noerror;
-    func_0219F768(slist, i);
+    SBServerListRemoveAt(slist, i);
     return sbe_noerror;
 }

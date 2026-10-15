@@ -1,5 +1,5 @@
 /*
- * function: func_02182A2C
+ * function: gsXmlWriteCloseTag
  * address:  0x02182A2C
  * packet:   pkt_ov009_02182A2C
  * region:   ov009
@@ -26,7 +26,7 @@ struct GSIXmlStreamWriter
 extern int gsiXmlUtilWriteChar(struct GSIXmlStreamWriter *stream, char ch);
 extern int gsiXmlUtilWriteString(struct GSIXmlStreamWriter *stream, char *str);
 
-int func_02182A2C(void *stream, char *namespaceName, char *tag)
+int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     if (!(gsiXmlUtilWriteChar(writer, '<')

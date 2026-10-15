@@ -1,7 +1,7 @@
 /*
  * file:     os_alloc.c
  * unit:     yes
- * function: func_020867F4, func_02086810, func_02086838, func_020868E0, func_020869E8, func_02086A50, func_02086AF8, func_02086B98, func_02086C54, func_02086C70, func_02086CBC
+ * function: DLAddFront, DLExtract, DLInsert, OS_AllocFromHeap, OS_FreeToHeap, OS_InitAlloc, OS_CreateHeap, OS_CreateExtraHeap, func_02086C54, OS_IsOnExtendedMainMemory, OS_IsOnVram
  * address:  0x020867F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -81,17 +81,17 @@ extern unsigned int OS_RestoreInterrupts(unsigned int state);
 extern BOOL OS_IsRunOnTwl(void);
 
 
-Cell *func_020867F4(Cell *r0, Cell *r1);
-Cell *func_02086810(Cell *list, Cell *node);
-Cell *func_02086838(Cell *list, Cell *cell);
-void *func_020868E0(int id, int heap, int size);
-void func_020869E8(int id, int heap, void *ptr);
-void *func_02086A50(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps);
-int func_02086AF8(OSArenaId id, void *start, void *end);
-int func_02086B98(OSArenaId id);
+Cell *DLAddFront(Cell *r0, Cell *r1);
+Cell *DLExtract(Cell *list, Cell *node);
+Cell *DLInsert(Cell *list, Cell *cell);
+void *OS_AllocFromHeap(int id, int heap, int size);
+void OS_FreeToHeap(int id, int heap, void *ptr);
+void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps);
+int OS_CreateHeap(OSArenaId id, void *start, void *end);
+int OS_CreateExtraHeap(OSArenaId id);
 long OS_ReferentSize(int id, void *ptr);
-BOOL func_02086C70(void *ptr);
-int func_02086CBC(void *ptr);
+BOOL OS_IsOnExtendedMainMemory(void *ptr);
+int OS_IsOnVram(void *ptr);
 extern OSHeapInfo *OSiHeapInfo[9];
 extern OsAllocData g_020A86AC;
 
@@ -101,7 +101,7 @@ extern OsAllocData g_020A86AC;
 
 
 
-Cell *func_020867F4(Cell *r0, Cell *r1)
+Cell *DLAddFront(Cell *r0, Cell *r1)
 {
     r1->next = r0;
     r1->prev = 0;
@@ -114,7 +114,7 @@ Cell *func_020867F4(Cell *r0, Cell *r1)
 
 
 
-Cell *func_02086810(Cell *list, Cell *node)
+Cell *DLExtract(Cell *list, Cell *node)
 {
     if (node->next != 0) {
         node->next->prev = node->prev;
@@ -130,7 +130,7 @@ Cell *func_02086810(Cell *list, Cell *node)
 
 
 
-Cell *func_02086838(Cell *list, Cell *cell)
+Cell *DLInsert(Cell *list, Cell *cell)
 {
     Cell *prev = 0;
     Cell *curr = list;
@@ -166,7 +166,7 @@ Cell *func_02086838(Cell *list, Cell *cell)
 
 
 
-void *func_020868E0(int id, int heap, int size)
+void *OS_AllocFromHeap(int id, int heap, int size)
 {
     
     OSHeapInfo *info;
@@ -205,7 +205,7 @@ void *func_020868E0(int id, int heap, int size)
 
     leftover = cell->size - size;
     if ((u32)leftover < 0x40) {
-        hd->free = func_02086810(hd->free, cell);
+        hd->free = DLExtract(hd->free, cell);
     } else {
         Cell *newCell;
         cell->size = size;
@@ -223,7 +223,7 @@ void *func_020868E0(int id, int heap, int size)
         }
     }
 
-    hd->allocated = func_020867F4(hd->allocated, cell);
+    hd->allocated = DLAddFront(hd->allocated, cell);
     (void)OS_RestoreInterrupts(enabled);
     return (void *)((u8 *)cell + 0x20);
 
@@ -232,7 +232,7 @@ void *func_020868E0(int id, int heap, int size)
 
 
 
-void func_020869E8(int id, int heap, void *ptr)
+void OS_FreeToHeap(int id, int heap, void *ptr)
 {
     OSHeapInfo *info;
     HeapDesc *hd;
@@ -249,8 +249,8 @@ void func_020869E8(int id, int heap, void *ptr)
     hd = &info->heapArray[heap];
     cell = (Cell *)((u8 *)ptr - 0x20);
 
-    hd->allocated = func_02086810(hd->allocated, cell);
-    hd->free = func_02086838(hd->free, cell);
+    hd->allocated = DLExtract(hd->allocated, cell);
+    hd->free = DLInsert(hd->free, cell);
 
     (void)OS_RestoreInterrupts(enabled);
 }
@@ -260,7 +260,7 @@ void func_020869E8(int id, int heap, void *ptr)
 /*
  * sdk:      OS_InitAlloc (os_alloc.o)
  */
-void *func_02086A50(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
+void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
 {
     OSHeapInfo *heapInfo;
     u32 arraySize;
@@ -298,7 +298,7 @@ void *func_02086A50(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps
 /*
  * sdk:      OS_CreateHeap (os_alloc.o)
  */
-int func_02086AF8(OSArenaId id, void *start, void *end)
+int OS_CreateHeap(OSArenaId id, void *start, void *end)
 {
     OSIntrMode enabled;
     OSHeapInfo *heapInfo;
@@ -339,7 +339,7 @@ int func_02086AF8(OSArenaId id, void *start, void *end)
 /*
  * sdk:      OS_CreateExtraHeap (os_alloc.o)
  */
-int func_02086B98(OSArenaId id)
+int OS_CreateExtraHeap(OSArenaId id)
 {
     OSHeapInfo *heapInfo;
     int heap;
@@ -389,7 +389,7 @@ long OS_ReferentSize(int id, void *ptr)
 /*
  * sdk:      OS_IsOnExtendedMainMemory (os_alloc.o)
  */
-BOOL func_02086C70(void *ptr)
+BOOL OS_IsOnExtendedMainMemory(void *ptr)
 {
     if (OS_IsRunOnTwl()) {
         if (0x0D000000 <= (u32)ptr && (u32)ptr < 0x0E000000) {
@@ -408,7 +408,7 @@ BOOL func_02086C70(void *ptr)
 /*
  * note:     os_alloc.o OS_IsOnVram.
  */
-int func_02086CBC(void *ptr)
+int OS_IsOnVram(void *ptr)
 {
     unsigned int p = (unsigned int)ptr;
 

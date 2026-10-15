@@ -129,7 +129,6 @@ extern u32 g_021A82DC[2];
 int func_0215CA8C(SOCLConfig *socl_config);
 int func_0215CAE4(void);
 void func_0215CCA0(void);
-void SOCLi_DhcpTimeout(void);
 int func_0215CD24(void);
 static void SOCLi_StartupCPS(void);
 

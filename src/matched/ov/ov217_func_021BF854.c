@@ -1,5 +1,5 @@
 /*
- * function: func_021BF854
+ * function: RESEARCH_GRAPH_GetEntryValue
  * address:  0x021BF854
  * packet:   pkt_ov217_021BF854
  * region:   ov217
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BF878 0x021BF878 thumb ov217
- *   func_021BF894 0x021BF894 thumb ov217
+ *   RESEARCH_GRAPH_GetEntryValueA 0x021BF878 thumb ov217
+ *   RESEARCH_GRAPH_GetEntryValueB 0x021BF894 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -20,15 +20,15 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_021BF878(void *p);
-extern u32 func_021BF894(void *p);
-u32 func_021BF854(char *p)
+extern u32 RESEARCH_GRAPH_GetEntryValueA(void *p);
+extern u32 RESEARCH_GRAPH_GetEntryValueB(void *p);
+u32 RESEARCH_GRAPH_GetEntryValue(char *p)
 {
     switch (((struct Obj25946 *)p)->f2CC) {
     case 0:
-        return func_021BF878(p);
+        return RESEARCH_GRAPH_GetEntryValueA(p);
     case 1:
-        return func_021BF894(p);
+        return RESEARCH_GRAPH_GetEntryValueB(p);
     }
     return 0;
 }

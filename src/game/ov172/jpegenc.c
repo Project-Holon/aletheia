@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021CADE4  0x021CADE4  data  ov172
+ *   gJpegBitWriterState  0x021CADE4  data  ov172
  *   gBitLen      0x021CADE4  data
  *   gBitCode     0x021CADE8  data
  *   gWriteLimit  0x021CADEC  data
- *   g_021C7150   0x021C7150  data
+ *   gJpegBitMask   0x021C7150  data
  *   MIi_CpuClearFast                0x02082AC0  arm
  *   MIi_CpuCopyFast                 0x02082B0C  arm
  *   MI_CpuCopy                      0x02082EA4  arm
@@ -105,7 +105,6 @@ extern unsigned long SSP_ExifEncode(u8 *l_dst, unsigned long width, unsigned lon
                                     u8 *thumb_src, unsigned long thumb_size);
 extern unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 void Yos_BitInit(void);
-int Yos_BitWrite(unsigned char *dst, unsigned long *ptr, unsigned long num, unsigned long size);
 int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32_021C1248 *a2);
 int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p);
 void Yos_JpegEncodeSample2to2Component(unsigned char *buffer, long *qTable, component_structure *component, unsigned long dx);
@@ -118,7 +117,7 @@ void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, vo
 void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, void *dst);
 int SSPi_JpegEncoderCheckWidthHeight(u32_021C2AD0 a0, u32_021C2AD0 a1, u32_021C2AD0 a2);
 unsigned long SSP_StartJpegEncoder(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
-extern unsigned long g_021C7150[];
+extern unsigned long gJpegBitMask[];
 extern u8 JpegZigZagInputOrderCodes[64];
 extern u8 luminance_quantization_table[64];
 extern u8 chrominance_quantization_table[64];
@@ -139,7 +138,7 @@ static unsigned long gBitLen = 0;
 static unsigned long gWriteLimit = 0;
 
 /*
- * Clear the word at +4 of g_021CADE4 and set the word at +0 to 8.
+ * Clear the word at +4 of gJpegBitWriterState and set the word at +0 to 8.
  *
  * Addresses are Black-image addresses.
  */
@@ -167,8 +166,8 @@ int Yos_BitWrite(unsigned char *dst, unsigned long *ptr, unsigned long num, unsi
     unsigned long i;
 
     for (i = size; i != 0; i--) {
-        if (num & g_021C7150[i])
-            gBitCode |= g_021C7150[gBitLen];
+        if (num & gJpegBitMask[i])
+            gBitCode |= gJpegBitMask[gBitLen];
         gBitLen--;
         if (gBitLen == 0) {
             dst[*ptr] = gBitCode;
@@ -281,27 +280,27 @@ static void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *
 
 
 extern u8 dc0_tbl[28] __attribute__((aligned(32)));
-
-
-
-
-
-
 extern u8 dc1_tbl[28] __attribute__((aligned(32)));
-
-
-
-
-
-
 extern u8 ac0_tbl[178] __attribute__((aligned(32)));
-
-
-
-
-
-
 extern u8 ac1_tbl[178] __attribute__((aligned(32)));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -375,7 +374,7 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
  * output buffer a1 (advancing the cursor *a2), accumulates their sum, then
  * appends `sum` more bytes from a0+0x424.  Both the pre-check and the post-check
  * compare the cursor (plus 0x10, then plus sum) against the limit at +8 of
- * g_021CADE4 and return 0 when the buffer would overrun; returns 1 otherwise.
+ * gJpegBitWriterState and return 0 when the buffer would overrun; returns 1 otherwise.
  * The limit is re-read from the global at each of the two sites (the global is
  * volatile in the original), which is what makes the pool word load twice.
  *
@@ -1014,18 +1013,12 @@ void SSP_YUV422ToYUV888(void *src, unsigned long width, unsigned long height, vo
 
 
 
-static void Yos_JpegEncodeSample1to1Component(u8 *buffer, long *qTable,
-                                              component_structure *component, unsigned long dx);
 
 
 
-static void Yos_JpegEncodeSample2to2Component(u8 *buffer, long *qTable,
-                                              component_structure *component, unsigned long dx);
 
 
 
-static void Yos_JpegEncodeSample2to1Component(u8 *buffer, long *qTable,
-                                              component_structure *component, unsigned long dx);
 
 
 
@@ -1040,11 +1033,9 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(
 
 
 
-static void Yos_BitInit(void);
 
 
 
-static int Yos_BitWrite(u8 *dst, unsigned long *ptr, unsigned long num, unsigned long size);
 
 
 

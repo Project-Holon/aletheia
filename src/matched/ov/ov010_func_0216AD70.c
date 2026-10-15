@@ -15,7 +15,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
@@ -42,7 +42,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E0B0(void *p);
+extern void *SYMBOL_SAVE_GetBlock(void *p);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
@@ -65,7 +65,7 @@ int SCRCMD_SYMBOL_GetState(int a0, int a1)
     out = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
     x = SCRCMD_WORK_GetGameSystem((void *)a1);
     y = SCRCMD_WORK_GetGameData((void *)a1);
-    func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)y));
+    SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct Big *)y));
     t = GAMESYSTEM_GetGameComm(x);
     switch (kind) {
     case 0:

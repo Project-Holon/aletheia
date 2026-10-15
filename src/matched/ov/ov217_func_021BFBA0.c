@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBA0
+ * function: RESEARCH_GRAPH_DeleteMessages
  * address:  0x021BFBA0
  * packet:   pkt_021BFBA0
  * region:   ov217
@@ -19,7 +19,7 @@ struct Rec;
 typedef unsigned int   u32;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_021BFBA0(int *p)
+void RESEARCH_GRAPH_DeleteMessages(int *p)
 {
     int i;
     for (i = 0; i < 3; i++)

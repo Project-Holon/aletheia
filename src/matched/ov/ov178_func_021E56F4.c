@@ -1,5 +1,5 @@
 /*
- * function: func_021E56F4
+ * function: PARTY_STATUS_SetupDisplay
  * address: 0x021E56F4
  * packet: pkt_ov178_021E56F4
  * region: ov178
@@ -68,7 +68,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_02034AC4(int);
 extern void PLIST_COMM_Start(u8 *);
 extern const char ov90_id[];
-void func_021E56F4(Args *p, Other *o, Output *out)
+void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
 {
     u8 *a;
     void *b;

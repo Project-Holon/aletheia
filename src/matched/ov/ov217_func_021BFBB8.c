@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBB8
+ * function: RESEARCH_GRAPH_ClearWordSet
  * address:  0x021BFBB8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BFBB8(void *p)
+void RESEARCH_GRAPH_ClearWordSet(void *p)
 {
     ((struct Obj25953 *)p)->f18 = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC638
+ * function: RESEARCH_LIST_SetOwner
  * address:  0x021BC638
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC638(void *p, u32 v)
+void RESEARCH_LIST_SetOwner(void *p, u32 v)
 {
     ((struct Obj25868 *)p)->f0 = v;
 }

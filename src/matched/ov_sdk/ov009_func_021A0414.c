@@ -1,5 +1,5 @@
 /*
- * function: func_021A0414
+ * function: ServerSizeForFlags
  * address:  0x021A0414
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_021A0414(int f)
+int ServerSizeForFlags(int f)
 {
     int n = 5;
 

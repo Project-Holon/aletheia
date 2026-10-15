@@ -16,7 +16,7 @@
  *   func_0202EB4C 0x0202EB4C thumb
  *   func_021D5D3C 0x021D5D3C thumb ov115
  *   func_021D5ED8 0x021D5ED8 thumb ov115
- *   func_021D426C 0x021D426C thumb ov115
+ *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
  *   func_021D5B50 0x021D5B50 thumb ov115
  *   func_02009860 0x02009860 thumb
  *   DWC_CheckHasProfile 0x020597C8 arm
@@ -36,7 +36,7 @@ struct DWCstAccUserData;
 extern u32 func_0202EB4C(void);
 extern void func_021D5D3C(u8 *p);
 extern void func_021D5ED8(u8 *,u32);
-extern void func_021D426C(u8 *,u32);
+extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32);
 extern void func_021D5B50(void *,int);
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
@@ -52,19 +52,19 @@ void func_021D497C(u8 *p)
         func_021D5D3C(P(0x38));
         func_021D5ED8(P(0x38),39);
         *(int *)(P(0x40)+0x1c)=1;
-        func_021D426C(p,(u32)func_021D42E0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D42E0);
         return;
     }
     if(func_0202EB4C()==0) {
         func_021D5D3C(P(0x38));
         func_021D5ED8(P(0x38),34);
         *(int *)(P(0x40)+0x1c)=1;
-        func_021D426C(p,(u32)func_021D42E0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D42E0);
         return;
     }
     if(*(int *)(P(0x40)+0x14)==2) {
         func_021D5B50(P(0x38),17);
-        func_021D426C(p,(u32)func_021D46CC);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D46CC);
         return;
     }
     if(DWC_CheckHasProfile((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
@@ -72,7 +72,7 @@ void func_021D497C(u8 *p)
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),18);
         else func_021D5ED8(P(0x38),43);
-        func_021D426C(p,(u32)func_021D45D0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D45D0);
         return;
     }
     if(DWC_CheckValidConsole((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
@@ -80,15 +80,15 @@ void func_021D497C(u8 *p)
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),20);
         else func_021D5ED8(P(0x38),45);
-        func_021D426C(p,(u32)func_021D493C);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D493C);
         return;
     }
     if(*(int *)(P(0x40)+0x14)==1) {
         func_021D5D3C(P(0x38));
         func_021D5ED8(P(0x38),37);
-        func_021D426C(p,(u32)func_021D460C);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D460C);
     } else {
         func_021D5B50(P(0x38),17);
-        func_021D426C(p,(u32)func_021D46CC);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D46CC);
     }
 }

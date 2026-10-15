@@ -1,5 +1,5 @@
 /*
- * function: func_021BFE40
+ * function: RESEARCH_GRAPH_InitTouchRects
  * address: 0x021BFE40
  * packet: pkt_ov217_021BFE40
  * region: ov217
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 struct Entry { u8 a, b, c, d; };
 extern const struct Entry d_021C3758[];
-void func_021BFE40(u8 *p)
+void RESEARCH_GRAPH_InitTouchRects(u8 *p)
 {
     int i;
     for (i = 0; i < 9; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD56C
+ * function: RESEARCH_LIST_RestorePaletteAnime
  * address:  0x021BD56C
  * packet:   pkt_ov217_021BD56C
  * region:   ov217
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * This address is also matched as func_021BD56C in ov208; the ov217 copy is a
+ * This address is also matched as RESEARCH_LIST_RestorePaletteAnime in ov208; the ov217 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -20,7 +20,7 @@
 
 extern int PALETTE_ANIME_Restore(char *p);
 
-void func_021BD56C(int *p)
+void RESEARCH_LIST_RestorePaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 6; i++)

@@ -11,7 +11,7 @@
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_021FD15C 0x021FD15C thumb ov186
+ *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  */
 #include "../include/Obj10762.h"
 #include "../include/Obj14445.h"
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
 extern void func_020409B4(u32 index);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-extern void func_021FD15C(void *,int);
+extern void BR_UTIL_DeleteTextWin(void *,int);
 void func_021E2F54(char *p,char *q)
 {
     int i;
@@ -33,7 +33,7 @@ void func_021E2F54(char *p,char *q)
     func_020409B4(4);
     BR_RES_ApplyBgSet(((struct Obj14445 *)q)->f8,0x1e);
     if (((struct Obj10762 *)p)->f8) {
-        func_021FD15C(((struct Obj10762 *)p)->f8,((struct Obj14445 *)q)->f8);
+        BR_UTIL_DeleteTextWin(((struct Obj10762 *)p)->f8,((struct Obj14445 *)q)->f8);
         *(int *)&((struct Obj10762 *)p)->f8=0;
     }
 }

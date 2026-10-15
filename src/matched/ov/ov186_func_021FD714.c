@@ -1,5 +1,5 @@
 /*
- * function: func_021FD714
+ * function: BR_UTIL_DeleteTask
  * address: 0x021FD714
  * packet: pkt_ov186_021FD714
  * region: ov186
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FD714(void *p)
+void BR_UTIL_DeleteTask(void *p)
 {
     func_020307B0(p);
 }

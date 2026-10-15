@@ -1,5 +1,5 @@
 /*
- * function: func_021BA098
+ * function: CTVT_MIC_OnVBlank
  * address: 0x021BA098
  * packet: pkt_ov172_021BA098
  * region: ov172
@@ -10,16 +10,16 @@
  * extent: 36 bytes; next instruction at 021BA0BC belongs to separate owned lead.
  * evidence: Singleton pointer re-read at 021BA0AA after stores to its object.
  * symbols:
- *   g_021C88EC 0x021C88EC data a4
+ *   gCtvtMic 0x021C88EC data a4
  */
 #include "../include/Obj08260.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *g_021C88EC;
-void func_021BA098(void)
+extern void *gCtvtMic;
+void CTVT_MIC_OnVBlank(void)
 {
-    u8 *p = g_021C88EC;
+    u8 *p = gCtvtMic;
     if (((struct Obj08260 *)p)->fC == 1) (((struct Obj08260 *)p)->f14)++;
-    p = g_021C88EC;
+    p = gCtvtMic;
     if (p[16] < 180) p[16]++;
 }

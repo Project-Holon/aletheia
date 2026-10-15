@@ -26,7 +26,7 @@
  *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
  *   func_02030734 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   d_021DAB78 0x021DAB78 data ov123 a1
+ *   gGsyncStateAllocSource 0x021DAB78 data ov123 a1
  */
 #include "../include/Obj00063.h"
 typedef unsigned char u8;
@@ -52,7 +52,7 @@ extern int GSYNC_STATE_UpdateCurrentEntry(char *);
 extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
 extern void GSYNC_STATE_StateSaveStart(int a);
 extern void GSYNC_STATE_StateErrorMessage(char *);
-extern const char d_021DAB78[];
+extern const char gGsyncStateAllocSource[];
 void GSYNC_STATE_StateReceiveList(char *p)
 {
     char *q, *data;
@@ -65,7 +65,7 @@ void GSYNC_STATE_StateReceiveList(char *p)
         q=NHTTP_RAP_GetRecvBuffer(((struct Obj00063 *)p)->f10);
         v=func_02009448(((struct Obj00063 *)p)->f28);
         data=q+0x80;
-        allocated=func_02030734(((struct Obj00063 *)p)->f0,0x11c,1,d_021DAB78,0x573);
+        allocated=func_02030734(((struct Obj00063 *)p)->f0,0x11c,1,gGsyncStateAllocSource,0x573);
         ((struct Obj00063 *)p)->f38=allocated;
         MI_CpuCopy8(data,allocated,0x11c);
         GSYNC_STATE_PrepareReceivedList((u8 *)p,v,(u8 *)data,(int *)q);

@@ -12,8 +12,8 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C404  0x0200C404  thumb
- *   func_0200C468  0x0200C468  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys  0x0200C404  thumb
+ *   RECENT_ID_LIST_SAVEDATA_CountIds  0x0200C468  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
@@ -38,9 +38,9 @@ struct Desc;
 
 extern void *func_020120F4(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C404(void *sys);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys);
 struct Work;
-extern u16 func_0200C468(const u8 *a);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
@@ -88,8 +88,8 @@ struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2)
     struct Desc *r5;
     struct Rec *p;
 
-    sp8 = func_0200C404(GAME_DATA_GetSaveControl((struct Big *)func_020120F4((const struct Ctx *)a0)));
-    if (func_0200C468(sp8) == 1) {
+    sp8 = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl((struct Big *)func_020120F4((const struct Ctx *)a0)));
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(sp8) == 1) {
         r5 = func_020122C0((void *)a0, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, 0x20);
     } else {
         r5 = func_020122C0((void *)a0, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, 0x20);
@@ -106,7 +106,7 @@ struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2)
     p->sub->owner = p->owner;
     p->sub->field = p->field;
     p->sub->desc = r5;
-    if (func_0200C468(sp8) != 1) {
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(sp8) != 1) {
         p->sub->fn14 = (void *)EVENT_SHORTCUT_MENU_ResumeLinkHook;
         p->sub->fn18 = (void *)EVENT_SHORTCUT_MENU_SuspendLinkHook;
         p->sub->rec = p;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219F888
+ * function: SBAllocateServerList
  * address:  0x0219F888
  * packet:   pkt_ov009_0219F888
  * region:   ov009
@@ -24,7 +24,7 @@ struct SBServerList {
 
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 
-void func_0219F888(struct SBServerList *slist)
+void SBAllocateServerList(struct SBServerList *slist)
 {
     slist->servers = func_02184144(4, 100, 0);
     slist->deadlist = 0;

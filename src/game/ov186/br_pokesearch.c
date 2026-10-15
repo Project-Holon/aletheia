@@ -25,7 +25,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02045CAC 0x02045CAC arm
@@ -35,26 +35,26 @@
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_MEMBER_COUNT_GetU16Count 0x02200228 thumb ov186
  *   gBrPokeSearchSourceFile 0x02200D9C data a1
- *   func_021FB4B4 0x021FB4B4 thumb ov186
- *   func_021FCD0C 0x021FCD0C thumb ov186
- *   func_021FCDA8 0x021FCDA8 thumb ov186
- *   func_021FD938 0x021FD938 thumb ov186
+ *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
+ *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
+ *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   gBrPokeSearchAssertString 0x02200DAC data
- *   func_021FC830 0x021FC830 thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
- *   func_021FB494 0x021FB494 thumb ov186
+ *   BR_UTIL_FlushText 0x021FC830 thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
+ *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
- *   func_021FC754 0x021FC754 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
- *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   gSpeciesNameBank 0x020A7370 data
  *   gBrPokeSearchListConfig 0x02200CA8 data
- *   func_021FCC80 0x021FCC80 thumb ov186
+ *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   gBrPokeSearchHitTable 0x02200CD0 data a1
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
@@ -102,33 +102,33 @@ extern u16 *BR_MEMBER_COUNT_GetU16Count(unsigned short heapId, unsigned *count);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 
-extern int func_021FB4B4(struct BrButton *button, int x, int y);
+extern int BR_BTN_HitTestWithSound(struct BrButton *button, int x, int y);
 
-extern void func_021FD860(struct BrTapFx *tapFx, u32 mode, const struct BrPoint *point);
+extern void BR_UTIL_StartEffect(struct BrTapFx *tapFx, u32 mode, const struct BrPoint *point);
 
-extern void func_021FCD0C(struct BrListMenu *menu);
+extern void BR_UTIL_MainListMenu(struct BrListMenu *menu);
 
-extern int func_021FCDA8(struct BrListMenu *menu);
+extern int BR_UTIL_GetListMenuField48(struct BrListMenu *menu);
 
-extern int func_021FD938(struct BrTapFx *tapFx);
+extern int BR_UTIL_IsEffectDone(struct BrTapFx *tapFx);
 
 extern void BR_FADE_Start(struct BrFade *fade, int stepIndex, int planeMask, int direction);
 
 extern int BR_FADE_GetResult(struct BrFade *fade);
 
-extern int func_021FC830(struct BrTextWin *win);
+extern int BR_UTIL_FlushText(struct BrTextWin *win);
 
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 
-extern struct BrButton *func_021FB378(const struct BrActorPos *pos, int file, int width, int param, int uiParamA, int uiParamB, int font, int msgData, struct BrResSprite *sprite, unsigned short heapId);
+extern struct BrButton *BR_BTN_CreateFromMessage(const struct BrActorPos *pos, int file, int width, int param, int uiParamA, int uiParamB, int font, int msgData, struct BrResSprite *sprite, unsigned short heapId);
 
-extern void func_021FB494(struct BrButton *button);
+extern void BR_BTN_DeleteObject(struct BrButton *button);
 
 extern struct BrTextWin *BR_UTIL_Create(unsigned short plane, unsigned x, unsigned short y, unsigned short width, unsigned char height, unsigned char palette, struct PrintSys *printQue, unsigned short heapId);
 
-extern void func_021FC868(struct BrTextWin *win, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextLayout(struct BrTextWin *win, u32 a, u32 b, u32 c);
 
-extern void func_021FC754(struct BrTextWin *win, int msgData, int msgId, int font, unsigned short color);
+extern void BR_UTIL_SetTextFromMessage(struct BrTextWin *win, int msgData, int msgId, int font, unsigned short color);
 
 extern void BR_UTIL_Delete(struct BrTextWin *win);
 
@@ -136,9 +136,9 @@ extern struct BrMenuItem *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
 extern void BMP_MENUWORK_AddStrItem(struct BrMenuItem *item, struct StrBuf *str, u32 value, u32 heapId);
 
-extern struct BrListMenu *func_021FC8C8(struct BrListMenuConfig *config, u32 heapId);
+extern struct BrListMenu *BR_UTIL_CreateListMenu(struct BrListMenuConfig *config, u32 heapId);
 
-extern void func_021FCC80(struct BrListMenu *menu);
+extern void BR_UTIL_DeleteListMenu(struct BrListMenu *menu);
 
 extern u32 BMP_MENUWORK_Delete(struct BrMenuItem *items);
 
@@ -243,9 +243,9 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             struct BrPoint point;
             ps->touchedGroup=BR_POKESEARCH_PollGroupTouch(ps);
             held=TOUCHPANEL_GetPointTrg(&x,&y);
-            if (func_021FB4B4(ps->backButton,x,y)&held) {
+            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
-                func_021FD860(ps->tapFx,1,&point);
+                BR_UTIL_StartEffect(ps->tapFx,1,&point);
                 ps->state=8; ps->result=1;
             } else if (ps->touchedGroup!=9) {
                 ps->state=4; ps->nextState=3;
@@ -255,12 +255,12 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
         case BR_POKESEARCH_PHASE_LIST: {
             int x,y,held;
             struct BrPoint point;
-            func_021FCD0C(ps->listMenu);
-            ps->listChoice=func_021FCDA8(ps->listMenu);
+            BR_UTIL_MainListMenu(ps->listMenu);
+            ps->listChoice=BR_UTIL_GetListMenuField48(ps->listMenu);
             held=TOUCHPANEL_GetPointTrg(&x,&y);
-            if (func_021FB4B4(ps->backButton,x,y)&held) {
+            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
-                func_021FD860(ps->tapFx,1,&point);
+                BR_UTIL_StartEffect(ps->tapFx,1,&point);
                 ps->state=4; ps->nextState=2;
             } else if (ps->listChoice!=-1) {
                 ps->state=8; ps->result=2;
@@ -268,7 +268,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             break;
         }
         case BR_POKESEARCH_PHASE_TAP_WAIT:
-            if (func_021FD938(ps->tapFx)) {
+            if (BR_UTIL_IsEffectDone(ps->tapFx)) {
                 BR_FADE_Start(ps->fade,2,2,1);
                 (ps->state)++;
             }
@@ -310,7 +310,7 @@ unsigned BR_POKESEARCH_UpdatePrint(struct BrPokeSearch *ps)
     int i;
     for(i=0;i<BR_POKESEARCH_GROUP_COUNT;i++){
         struct BrTextWin *win=ps->groupWin[i];
-        if(win)r &= func_021FC830(win);
+        if(win)r &= BR_UTIL_FlushText(win);
     }
     return r & PRINTSYS_QUE_Main(ps->printQue);
 }
@@ -356,12 +356,12 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite(ps->res, 6, &sprite))
         func_02034714(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
-    ps->backButton = func_021FB378(&pos, 4, 0x60, 1, ps->uiParamA, ps->uiParamB, font, msgData, &sprite, ps->heapId);
+    ps->backButton = BR_BTN_CreateFromMessage(&pos, 4, 0x60, 1, ps->uiParamA, ps->uiParamB, font, msgData, &sprite, ps->heapId);
 }
 
 void BR_POKESEARCH_DestroyBackButton(struct BrPokeSearch *ps)
 {
-    func_021FB494(ps->backButton);
+    BR_BTN_DeleteObject(ps->backButton);
 }
 
 void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
@@ -380,8 +380,8 @@ void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
         ps->groupWin[i] = BR_UTIL_Create(4, (unsigned char)x, (unsigned char)(y + 4), (unsigned)4, 2, 14, ps->printQue, ps->heapId);
         color = 0x3da0;
         if (!ps->groupHasSeen[i]) color = 0x2da0;
-        func_021FC868(ps->groupWin[i], 0, 0, 1);
-        func_021FC754(ps->groupWin[i], msgData, i + 0x3a, font, color);
+        BR_UTIL_SetTextLayout(ps->groupWin[i], 0, 0, 1);
+        BR_UTIL_SetTextFromMessage(ps->groupWin[i], msgData, i + 0x3a, font, color);
     }
 }
 
@@ -448,12 +448,12 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     cfg.uiParamA=ps->uiParamA;
     cfg.listParam=ps->listParam;
     cfg.tapFx=ps->tapFx;
-    ps->listMenu=func_021FC8C8(&cfg,ps->heapId);
+    ps->listMenu=BR_UTIL_CreateListMenu(&cfg,ps->heapId);
 }
 
 void BR_POKESEARCH_DestroySpeciesList(struct BrPokeSearch *ps)
 {
-    func_021FCC80(ps->listMenu);
+    BR_UTIL_DeleteListMenu(ps->listMenu);
     ps->listMenu=0;
     BMP_MENUWORK_Delete(ps->menuItems);
     ps->menuItems=0;
@@ -470,7 +470,7 @@ int BR_POKESEARCH_PollGroupTouch(struct BrPokeSearch *ps)
             TOUCHPANEL_GetPointTrg(&x, &y);
             point.x = x;
             point.y = y;
-            func_021FD860(ps->tapFx, 1, &point);
+            BR_UTIL_StartEffect(ps->tapFx, 1, &point);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return index;
         }

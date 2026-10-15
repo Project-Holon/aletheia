@@ -70,14 +70,10 @@ typedef struct GdsSvlToken {
     u8 text[301];                       /* service token string with terminator */
 } GdsSvlToken;
 
-/* Result of the service locator token request (DWC_SVLGetTokenAsync); same
- * layout as DWCSvlResult in ov114/dwc_nd_types.h, which cannot be included
- * from here (it includes its sibling header by a relative name). */
-typedef struct GdsSvlResult {
-    int reserved;
-    char svlHost[0x41];
-    char svlToken[0x12f];
-} GdsSvlResult;
+/* Result of the service locator token request (DWC_SVLGetTokenAsync).  Owned
+ * by ov114/dwc_svl_types.h and shared with the DWC nd front end; the former
+ * GdsSvlResult copy is folded into DWCSvlResult. */
+#include "../ov114/dwc_svl_types.h"
 
 /* Identity block at the front of the request packet and of the socket
  * object (0x138 bytes). */
@@ -250,7 +246,8 @@ typedef struct GdsRapCallbacks {
 typedef struct GdsRapInitParams {
     u32 profileId;
     u16 heapId;
-    u16 unknown6;
+    /* 2 bytes of compiler alignment before the 4 byte gameData pointer; no
+     * code reads or writes them (the original had no member there). */
     struct GameData *gameData;
     void *profileSource;
     GdsRapCallbacks callbacks;
@@ -333,7 +330,8 @@ typedef struct GdsSocket {
     s32 state;                          /* 0x13C */
     char hostName[256];                 /* 0x140 */
     u16 port;                           /* 0x240 */
-    u16 unknown242;
+    /* 2 bytes of compiler alignment before the 4 byte connectTimeout; the
+     * image addresses nothing here. */
     s32 connectTimeout;                 /* 0x244, seconds */
     s32 sendTimeout;                    /* 0x248 */
     s32 receiveTimeout;                 /* 0x24C */

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ECDF4",
+   "name": "BOX2_SEQ_LoadBoxScreen",
    "address": "0x021ECDF4",
    "kind": "game",
    "region": "ov170",

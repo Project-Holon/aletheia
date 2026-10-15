@@ -1,5 +1,5 @@
 /*
- * function: func_02075794
+ * function: NNSi_SndArcPlayerStartSeqArc
  * address:  0x02075794
  * packet:   pkt_02075404
  * region:   arm9
@@ -18,13 +18,13 @@
  *   NNS_SndHandlePause  0x02072F88  arm
  *   NNSi_SndHandleSetSeqArc  0x020730DC  arm
  *
- * The four-step open/bind path behind func_02075618 and func_02075698: take a
+ * The four-step open/bind path behind NNS_SndArcPlayerStartSeqArc and NNSi_SndArcPlayerStartSeq: take a
  * voice handle (NNSi_SndPlayerAllocSeqPlayer), read its slot (NNSi_SndPlayerAllocHeap), load the wave
  * data through NNSi_SndArcLoadBank and release the handle if that fails, then bind
  * the loaded data and push the three per-voice parameters.  Eight arguments,
  * four in registers and four on the stack.
  *
- * THE BODY IS docs/notes/func_02075794.c.txt's BODY, UNCHANGED.  That note
+ * THE BODY IS docs/notes/NNSi_SndArcPlayerStartSeqArc.c.txt's BODY, UNCHANGED.  That note
  * measured it at 200 bytes against the original's 196 and recorded seven
  * rejected spellings, diagnosing a callee-saved permutation:
  *
@@ -43,13 +43,13 @@
  * front end, not the source, exactly as docs/families/cluster_020737C0.h warns
  * for this address range.
  *
- * FILING THIS UNBLOCKS src/pending/func_02075618.c, whose header names the
+ * FILING THIS UNBLOCKS src/pending/NNS_SndArcPlayerStartSeqArc.c, whose header names the
  * PC24 at +0x0074 (this address, single caller image-wide) as the one site
  * keeping it at MATCH; with this entry EXACT the site resolves as `matched`.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02075794.c \
- *       --func func_02075794 --addr 0x02075794 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcPlayerStartSeqArc.c \
+ *       --func NNSi_SndArcPlayerStartSeqArc --addr 0x02075794 --arm --cc ../2.0/sp2
  */
 #include "../include/Obj08953.h"
 #include "../include/Obj16687.h"
@@ -69,7 +69,7 @@ extern void NNS_SndHandleSetInitialVolume(struct Obj *o, u8 v);
 extern void NNS_SndHandlePause(struct Obj *o, u32 v);
 extern void NNSi_SndHandleSetSeqArc(struct Obj *o, u32 a, u32 b);
 
-u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
+u32 NNSi_SndArcPlayerStartSeqArc(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
 {
     void *h;
     u32 v;

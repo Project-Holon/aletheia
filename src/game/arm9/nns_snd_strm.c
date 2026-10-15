@@ -21,66 +21,32 @@
  *   gSndStrmList     0x0214E8E8  data
  *   gSndStrmBufferTable     0x0214E8F4  data
  *   gSndStrmChannels     0x0214E934  data
- *   func_02073CEC  0x02073CEC  arm
- *   func_02060468  0x02060468  arm
+ *   NNSi_SndStrmStart  0x02073CEC  arm
+ *   NNS_FndInitList  0x02060468  arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   NNSi_SndWaveOutAllocSlot  0x020729C0  arm
- *   func_02089660  0x02089660  arm
- *   func_02089540  0x02089540  arm
- *   func_020604AC  0x020604AC  arm
+ *   SND_SetupChannelPcm  0x02089660  arm
+ *   SND_SetupAlarm  0x02089540  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_0208A24C  0x0208A24C  arm
- *   func_02089638  0x02089638  arm
- *   func_020894DC  0x020894DC  arm
- *   func_020894B4  0x020894B4  arm
+ *   SND_CalcChannelVolume  0x0208A24C  arm
+ *   SND_SetChannelVolume  0x02089638  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_StartTimer  0x020894B4  arm
  *   func_0208C808  0x0208C808  arm
  *   func_0208C828  0x0208C828  arm
  *   func_0208C86C  0x0208C86C  arm
  *   func_0208C884  0x0208C884  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  *   NNSi_SndWaveOutLockChannels  0x0207292C  arm
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  */
 #include "nns_snd_types.h"
-
-/* Callback that refills the stream buffers: (isTimerCall, channel count, buffer address table, length, format, user data). */
-typedef void (*NNSSndStrmCallback)(u32 isTimerCall, s32 numChannels, u32 *bufferTable, u32 length, u32 format, u32 userData);
-
-/* Hardware alarm slot of a stream: handler and its argument, then alarm state. */
-typedef struct SndStrmAlarm {
-    void (*handler)(void *arg);
-    void *arg;
-    u8 reserved08[8];
-} SndStrmAlarm;
-
-/* One stream (0x58 bytes). */
-typedef struct SndStrm {
-    NNSFndLink link;
-    SndStrmAlarm alarm[2];
-    u32 format;
-    union {
-        u32 flags;
-        struct {
-            s32 isSetup : 1;
-            s32 isStarted : 1;
-            u32 reserved : 30;
-        };
-    };
-    u32 bufferSize;
-    s32 frames;
-    NNSSndStrmCallback callback;
-    u32 userData;
-    s32 frameIdx;
-    s32 volume;
-    s32 timerNo;
-    u32 channelMask;
-    s32 numChannels;
-    u8 channel[4];
-} SndStrm;
 
 /* Per hardware channel of a stream: the buffer address and a volume offset. */
 typedef struct SndStrmChannel {
@@ -88,31 +54,31 @@ typedef struct SndStrmChannel {
     s32 volumeOffset;
 } SndStrmChannel;
 
-extern void func_02060468(NNSFndList *list, int offset);
-extern void func_02073CEC(void);
+extern void NNS_FndInitList(NNSFndList *list, int offset);
+extern void NNSi_SndStrmStart(void);
 extern int NNSi_SndWaveOutLockChannels(int mask);
 extern void SND_CHANNEL_UnlockChannels(u32 mask);
 extern u32  func_0209C2B0(u32 a, s32 b);
 extern s32  NNSi_SndWaveOutAllocSlot(void);
-extern void func_02089660(u32 chan, int fmt, u32 data, int loopmode,
+extern void SND_SetupChannelPcm(u32 chan, int fmt, u32 data, int loopmode,
                           int a, int b, int vol, int pan, u32 period, int e);
-extern void func_02089540(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
-extern void func_020604AC(NNSFndList *list, void *node);
+extern void SND_SetupAlarm(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
+extern void NNS_FndAppendListObject(NNSFndList *list, void *node);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 tok);
-extern void func_020894B4(u32, u32, u32, u32);
+extern void SND_StartTimer(u32, u32, u32, u32);
 extern void func_0208C808(void *);
 extern void func_0208C828(void *);
-extern unsigned short func_0208A24C(int dB);
-extern void func_02089638(u32 chBitMask, int volume, int shift);
-extern void func_020894DC(u32 a, u32 b, u32 c, u32 d);
+extern unsigned short SND_CalcChannelVolume(int dB);
+extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
+extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void func_0208C86C(void *p);
 extern void func_0208C884(void *p);
-extern u32  func_02089D40(void);
+extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a);
-extern void func_02089CD4(u32 a);
+extern void SND_WaitForCommandProc(u32 a);
 extern void NNS_SndWaveOutFreeChannel(u32 timerNo);
-extern void func_020605B4(volatile NNSFndList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *elem);
 void NNS_SndStrmInit(SndStrm *strm);
 int NNS_SndStrmAllocChannel(SndStrm *strm, int numChannels, const u8 *channelList);
 void NNS_SndStrmFreeChannel(SndStrm *strm);
@@ -137,7 +103,7 @@ extern SndStrmChannel gSndStrmChannels[];
 
 /*
  * Constructor: lazily initialise the stream list behind the one-shot latch
- * gSndStrmListReady, install the two alarm handlers (NNSi_SndStrmAlarmHandler and func_02073CEC)
+ * gSndStrmListReady, install the two alarm handlers (NNSi_SndStrmAlarmHandler and NNSi_SndStrmStart)
  * each with the stream itself as argument, clear the channel mask and count,
  * and clear the setup and started bits of the flags word.
  *
@@ -150,12 +116,12 @@ extern SndStrmChannel gSndStrmChannels[];
 void NNS_SndStrmInit(SndStrm *strm)
 {
     if (gSndStrmListReady == 0) {
-        func_02060468(&gSndStrmList, 0);
+        NNS_FndInitList(&gSndStrmList, 0);
         gSndStrmListReady = 1;
     }
     strm->alarm[0].handler = (void (*)(void *))NNSi_SndStrmAlarmHandler;
     strm->alarm[0].arg = strm;
-    strm->alarm[1].handler = (void (*)(void *))func_02073CEC;
+    strm->alarm[1].handler = (void (*)(void *))NNSi_SndStrmStart;
     strm->alarm[1].arg = strm;
     strm->channelMask = 0;
     strm->numChannels = 0;
@@ -198,7 +164,7 @@ void NNS_SndStrmFreeChannel(SndStrm *strm)
  * Sets the stream up: tear down a stream already set up, size the per-channel
  * buffer (func_0209C2B0 is the divide), claim a timer through NNSi_SndWaveOutAllocSlot
  * (negative = none, answer 0), set up one PCM channel per locked channel with
- * its buffer address recorded in gSndStrmChannels, arm the timer func_02089540 with
+ * its buffer address recorded in gSndStrmChannels, arm the timer SND_SetupAlarm with
  * NNSi_SndStrmTimerCallback as its callback, link the stream into gSndStrmList, latch the
  * parameters, and prime one step of NNSi_SndStrmUpdate with the frame count forced
  * to 1 inside a OS_DisableInterrupts/OS_RestoreInterrupts bracket.
@@ -226,11 +192,11 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
         u8 channelNo = strm->channel[i];
         gSndStrmChannels[channelNo].bufferAddr = strm->bufferSize * i + bufferAddr;
         gSndStrmChannels[channelNo].volumeOffset = 0;
-        func_02089660(channelNo, format, gSndStrmChannels[channelNo].bufferAddr, 1, 0, strm->bufferSize >> 2,
+        SND_SetupChannelPcm(channelNo, format, gSndStrmChannels[channelNo].bufferAddr, 1, 0, strm->bufferSize >> 2,
                       0x7f, 0, rate << 5, 0x40);
     }
-    func_02089540(strm->timerNo, period, period, (void (*)(void *))NNSi_SndStrmTimerCallback, strm);
-    func_020604AC(&gSndStrmList, strm);
+    SND_SetupAlarm(strm->timerNo, period, period, (void (*)(void *))NNSi_SndStrmTimerCallback, strm);
+    NNS_FndAppendListObject(&gSndStrmList, strm);
     strm->format = format;
     strm->frames = frames;
     strm->callback = callback;
@@ -251,7 +217,7 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
  * time, starts the two alarms and raises the started bit.
  */
 void NNS_SndStrmStart(SndStrm *strm) {
-    func_020894B4(strm->channelMask, 0, 1u << strm->timerNo, 0);
+    SND_StartTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
     if (strm->isStarted) return;
     func_0208C808(&strm->alarm[0]);
     func_0208C828(&strm->alarm[1]);
@@ -272,7 +238,7 @@ void NNSi_SndStrmStopIfSetup(SndStrm *strm)
 /*
  * Sets the stream volume and re-emits every active channel: each channel byte
  * indexes the 8-byte records of gSndStrmChannels, whose second word is added to the
- * base volume, converted by func_0208A24C, and handed to func_02089638 as
+ * base volume, converted by SND_CalcChannelVolume, and handed to SND_SetChannelVolume as
  * (1 << k, low byte, arithmetic high half).
  *
  * PINNED ../2.0/sp2 on the store/load schedule tell: the image stores the
@@ -292,15 +258,15 @@ void NNS_SndStrmSetVolume(SndStrm *strm, s32 volume)
     for (i = 0; i < strm->numChannels; i++) {
         s32 r;
         k = strm->channel[i];
-        r = func_0208A24C(strm->volume + gSndStrmChannels[k].volumeOffset);
-        func_02089638((u32)(1 << k), (u32)r & 0xff, r >> 8);
+        r = SND_CalcChannelVolume(strm->volume + gSndStrmChannels[k].volumeOffset);
+        SND_SetChannelVolume((u32)(1 << k), (u32)r & 0xff, r >> 8);
     }
 }
 
 /*
  * Stops the stream: when it was started, stops its timer channels, stops the
  * two alarms, clears the started bit and brackets func_02089B38(1) with the
- * save/restore pair func_02089D40 / func_02089CD4.  The unguarded tail call to
+ * save/restore pair SND_GetCurrentCommandTag / SND_WaitForCommandProc.  The unguarded tail call to
  * NNSi_SndStrmReleaseTimer runs either way.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell: the literal 1 is live
@@ -313,13 +279,13 @@ void NNS_SndStrmStop(SndStrm *strm)
 {
     if (strm->isStarted) {
         u32 saved;
-        func_020894DC(strm->channelMask, 0, 1u << strm->timerNo, 0);
+        SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
         func_0208C86C(&strm->alarm[0]);
         func_0208C884(&strm->alarm[1]);
         strm->isStarted = 0;
-        saved = func_02089D40();
+        saved = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(saved);
+        SND_WaitForCommandProc(saved);
     }
     NNSi_SndStrmReleaseTimer(strm);
 }
@@ -332,7 +298,7 @@ void NNS_SndStrmStop(SndStrm *strm)
 void NNSi_SndStrmReleaseTimer(SndStrm *strm)
 {
     NNS_SndWaveOutFreeChannel(strm->timerNo);
-    func_020605B4(&gSndStrmList, strm);
+    NNS_FndRemoveListObject(&gSndStrmList, strm);
     strm->flags &= ~1;
 }
 
@@ -370,7 +336,7 @@ void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall)
 
 /*
  * Alarm handler: when the stream was started, stops its timer channels and
- * brackets func_02089B38(1) with func_02089D40 / func_02089CD4.  It is
+ * brackets func_02089B38(1) with SND_GetCurrentCommandTag / SND_WaitForCommandProc.  It is
  * NNS_SndStrmStop's tail without the alarm teardowns.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, as NNS_SndStrmSetVolume and
@@ -380,8 +346,8 @@ void NNSi_SndStrmAlarmHandler(SndStrm *strm)
 {
     u32 saved;
     if (!strm->isStarted) return;
-    func_020894DC(strm->channelMask, 0, 1u << strm->timerNo, 0);
-    saved = func_02089D40();
+    SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
+    saved = SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4(saved);
+    SND_WaitForCommandProc(saved);
 }

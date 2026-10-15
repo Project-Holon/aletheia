@@ -1,7 +1,7 @@
 /*
  * file:     nns_fnd_expheap.c
  * unit:     yes
- * function: func_02060468, func_02060480, func_020604AC, func_02060500, func_02060550, func_020605B4, func_02060614, func_0206062C, func_02060640, func_020606A8, func_020606D0, func_0206074C, func_02060764, func_02060790, func_020607B8, func_020607E8, func_02060814, func_02060888, func_02060A08, func_02060ABC, func_02060B6C, func_02060C5C, func_02060C94, func_02060CA0, func_02060CD0, func_02060E30, func_02060E6C, func_02060E94, func_02060F18, func_02060F40, func_02060F50, func_02060F90, func_02060F98
+ * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, func_0206074C, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, func_02060C94, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
  * address:  0x02060468
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -24,6 +24,7 @@
  *   sub_02060B6C   0x02060B6C  arm
  *   func_02091588  0x02091588  arm
  */
+#include "nns_fnd_types.h"
 #include "../../matched/include/Obj06998.h"
 #include "../../matched/include/Obj00512.h"
 
@@ -66,19 +67,6 @@ struct Elem {
 typedef unsigned char u8;
 
 typedef int BOOL;
-
-typedef struct NNSFndLink_020606D0 { void *prevObject; void *nextObject; } NNSFndLink_020606D0;
-
-typedef struct NNSFndList_020606D0 { void *headObject; void *tailObject; u16 numObjects; u16 offset; } NNSFndList_020606D0;
-
-typedef struct NNSiFndHeapHead {
-    u32 signature;
-    NNSFndLink_020606D0 link;
-    NNSFndList_020606D0 childList;
-    void *heapStart;
-    void *heapEnd;
-    u32 attribute;
-} NNSiFndHeapHead;
 
 struct MBlockList_02060814 {
     struct MBlock *head;
@@ -207,42 +195,42 @@ extern void *sub_020607E8(int *p, int v);
 extern void *sub_020607B8(int *p, void *node, int *a);
 extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
 extern s32 func_02091588(s32 x);
-void func_02060468(int p0, int p1);
-void func_02060480(volatile struct DList *list, void *elem);
-void func_020604AC(NNSFndList_02060468 *list, void *object);
-void func_02060500(NNSFndList_02060468 *list, void *object);
-void func_02060550(volatile struct DList *list, void *before, void *elem);
-void func_020605B4(volatile struct DList *list, void *elem);
-void *func_02060614(struct DList *list, void *elem);
-void *func_0206062C(struct DList *list, void *elem);
-struct Elem *func_02060640(struct DList *list, u32 val);
-void *func_020606A8(u32 a);
-void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
+void NNS_FndInitList(int p0, int p1);
+void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
+void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object);
+void NNS_FndPrependListObject(NNSFndList_02060468 *list, void *object);
+void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem);
+void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
+void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+void *NNS_FndGetPrevListObject(struct DList *list, void *elem);
+struct Elem *NNSi_FndFindElem(struct DList *list, u32 val);
+void *NNSi_FndFindListContainHeap(u32 a);
+void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
 void FNDHEAP_Finalize(void *p);
-void func_02060764(int *out, int *blk);
-void *func_02060790(int *p, int *node);
-void *func_020607B8(int *p, void *node, int *a);
-void *func_020607E8(int *p, int v);
-void *func_02060814(struct ExpHeap_02060814 *heap, void *lo, u16 attr);
-void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
-void *func_02060A08(struct ExpHeap_02060888 *heap, u32 size, s32 align);
-void *func_02060ABC(struct ExpHeap_02060888 *heap, u32 size, s32 align);
-BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion);
-void *func_02060C5C(void *start, u32 size, u16 attr);
+void NNSi_FndGetMBlockRegion(int *out, int *blk);
+void *NNSi_FndRemoveMBlock(int *p, int *node);
+void *NNSi_FndInsertMBlock(int *p, void *node, int *a);
+void *NNSi_FndInitMBlock(int *p, int v);
+void *NNSi_FndCreateExpHeap(struct ExpHeap_02060814 *heap, void *lo, u16 attr);
+void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
+void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 align);
+void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap_02060888 *heap, u32 size, s32 align);
+BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion);
+void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 void func_02060C94(void *heap);
-void *func_02060CA0(struct ExpHeap_02060888 *heap, u32 size, s32 align);
-u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
-void func_02060E30(struct ExpHeap *heap, void *block);
-int func_02060E6C(int *p);
-s32 func_02060E94(struct Heap *heap, s32 x);
-u32 func_02060F18(char *p, u32 v);
-u16 func_02060F40(char *p, u16 v);
-void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx);
-int func_02060F90(char *p);
-u8 func_02060F98(char *p);
+void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 align);
+u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size);
+void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
+int NNSi_FndGetListTotalSize(int *p);
+s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x);
+u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
+u16 NNSi_FndSetGroupId(char *p, u16 v);
+void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx);
+int NNSi_FndGetMBlockSize(char *p);
+u8 NNSi_FndGetMBlockAttribute(char *p);
 extern u32 g_02146B64;
 extern BOOL sRootListInitialized;
-extern NNSFndList_020606D0 sRootList;
+extern NNSFndList sRootList;
 
 
 
@@ -250,7 +238,7 @@ extern NNSFndList_020606D0 sRootList;
 
 
 
-void func_02060468(int p0, int p1){ ((struct Obj06998 *)p0)->f0 = (int)0; ((struct Obj06998 *)p0)->f4 = (int)0; ((struct Obj06998 *)p0)->f8 = (unsigned short)0; ((struct Obj06998 *)p0)->fA = (unsigned short)p1; }
+void NNS_FndInitList(int p0, int p1){ ((struct Obj06998 *)p0)->f0 = (int)0; ((struct Obj06998 *)p0)->f4 = (int)0; ((struct Obj06998 *)p0)->f8 = (unsigned short)0; ((struct Obj06998 *)p0)->fA = (unsigned short)p1; }
 
 
 
@@ -264,7 +252,7 @@ void func_02060468(int p0, int p1){ ((struct Obj06998 *)p0)->f0 = (int)0; ((stru
  * +0x04, a u16 count at +0x08 and the u16 byte offset of the embedded link
  * pair at +0x0a -- and the node's own pair is prev at +0x00, next at +0x04.
  * Both links are cleared, head and tail both name the new element, and the
- * count goes up by one.  func_020604AC and func_02060500 both call here when
+ * count goes up by one.  NNS_FndAppendListObject and NNS_FndPrependListObject both call here when
  * the list they were handed is still empty.
  *
  * The `volatile` on the list pointer is load-bearing and is the only lever
@@ -277,10 +265,10 @@ void func_02060468(int p0, int p1){ ((struct Obj06998 *)p0)->f0 = (int)0; ((stru
  * residue is exactly one register substitution r1 -> r2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060480.c \
- *       --func func_02060480 --addr 0x02060480 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndSetFirstObject.c \
+ *       --func NNSi_FndSetFirstObject --addr 0x02060480 --cc 1.1p1 --arm
  */
-void func_02060480(volatile struct DList *list, void *elem)
+void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem)
 {
     struct DListNode *node = (struct DListNode *)((char *)elem + list->node_offset);
 
@@ -306,17 +294,17 @@ void func_02060480(volatile struct DList *list, void *elem)
  * the volatile; with the u32 add the middle is exact under both compilers and
  * the remaining count-load hoist is a 1.1p1 artefact: it closes under
  * ../2.0/sp2 (also sp1, sp2p2..sp2p4), DIFF 8 bytes under 1.1p1.
- * func_02060480 is the list's SetFirstObject step.
+ * NNSi_FndSetFirstObject is the list's SetFirstObject step.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020604AC.c \
- *       --func func_020604AC --addr 0x020604AC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_FndAppendListObject.c \
+ *       --func NNS_FndAppendListObject --addr 0x020604AC --arm --cc ../2.0/sp2
  */
-void func_020604AC(NNSFndList_02060468 *list, void *object)
+void NNS_FndAppendListObject(NNSFndList_02060468 *list, void *object)
 {
     if (list->headObject == 0)
     {
-        func_02060480((volatile struct DList *)list, object);
+        NNSi_FndSetFirstObject((volatile struct DList *)list, object);
     }
     else
     {
@@ -344,17 +332,17 @@ void func_020604AC(NNSFndList_02060468 *list, void *object)
  * the volatile; with the u32 add the middle is exact under both compilers and
  * the remaining count-load hoist is a 1.1p1 artefact: it closes under
  * ../2.0/sp2 (also sp1, sp2p2..sp2p4), DIFF 8 bytes under 1.1p1.
- * func_02060480 is the list's SetFirstObject step.
+ * NNSi_FndSetFirstObject is the list's SetFirstObject step.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02060500.c \
- *       --func func_02060500 --addr 0x02060500 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_FndPrependListObject.c \
+ *       --func NNS_FndPrependListObject --addr 0x02060500 --arm --cc ../2.0/sp2
  */
-void func_02060500(NNSFndList_02060468 *list, void *object)
+void NNS_FndPrependListObject(NNSFndList_02060468 *list, void *object)
 {
     if (list->headObject == 0)
     {
-        func_02060480((volatile struct DList *)list, object);
+        NNSi_FndSetFirstObject((volatile struct DList *)list, object);
     }
     else
     {
@@ -376,8 +364,8 @@ void func_02060500(NNSFndList_02060468 *list, void *object)
 /*
  * DList insert-before: splice `elem` into the list immediately ahead of
  * `before`.  A null `before` means "no successor", i.e. append at the tail
- * (func_020604AC); a `before` that is already the head is a prepend
- * (func_02060500).  Otherwise the four links are rewritten in place.
+ * (NNS_FndAppendListObject); a `before` that is already the head is a prepend
+ * (NNS_FndPrependListObject).  Otherwise the four links are rewritten in place.
  *
  * The node-offset load is hoisted into a local because the splice reads it
  * once and the final `before->prev` write re-reads it: the image has two
@@ -392,25 +380,25 @@ void func_02060500(NNSFndList_02060468 *list, void *object)
  * single mutation moves; the permuter found the same lever independently
  * (`temp(tmp=(struct DListNode *)((char *)elem + off))` lifted above the
  * `prev` read) from that five-byte baseline.  The `volatile` on the list
- * pointer is the cluster-wide shape documented on func_02060480: it keeps
+ * pointer is the cluster-wide shape documented on NNSi_FndSetFirstObject: it keeps
  * the count read after the link stores.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060550.c \
- *       --func func_02060550 --addr 0x02060550 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndInsertListObject.c \
+ *       --func NNS_FndInsertListObject --addr 0x02060550 --cc 1.1p1 --arm
  */
-void func_02060550(volatile struct DList *list, void *before, void *elem)
+void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem)
 {
     u16               off;
     struct DListNode *node;
     void             *prev;
 
     if (before == 0) {
-        func_020604AC((NNSFndList_02060468 *)list, elem);
+        NNS_FndAppendListObject((NNSFndList_02060468 *)list, elem);
         return;
     }
     if (before == list->head) {
-        func_02060500((NNSFndList_02060468 *)list, elem);
+        NNS_FndPrependListObject((NNSFndList_02060468 *)list, elem);
         return;
     }
     off = list->node_offset;
@@ -443,13 +431,13 @@ void func_02060550(volatile struct DList *list, void *before, void *elem)
  * `ldrh [r0, #0xa]`, the second inside the `ne` arm (`ldrhne r1, [r0, #0xa]`),
  * which is what pins that one access to the field rather than the local.
  * The `volatile` on the list pointer is the cluster-wide shape documented on
- * func_02060480: it keeps the count read after the link stores.
+ * NNSi_FndSetFirstObject: it keeps the count read after the link stores.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020605B4.c \
- *       --func func_020605B4 --addr 0x020605B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndRemoveListObject.c \
+ *       --func NNS_FndRemoveListObject --addr 0x020605B4 --cc 1.1p1 --arm
  */
-void func_020605B4(volatile struct DList *list, void *elem)
+void NNS_FndRemoveListObject(volatile struct DList *list, void *elem)
 {
     u16               off  = list->node_offset;
     struct DListNode *node = (struct DListNode *)((char *)elem + off);
@@ -483,7 +471,7 @@ void func_020605B4(volatile struct DList *list, void *elem)
  *   python tools/match.py tu --src src/matched/unit_02060614.c \
  *       --addr 0x02060614 --arm
  */
-void *func_02060614(struct DList *list, void *elem)
+void *NNS_FndGetNextListObject(struct DList *list, void *elem)
 {
     if (elem == 0) {
         return list->head;
@@ -495,7 +483,7 @@ void *func_02060614(struct DList *list, void *elem)
 
 
 
-void *func_0206062C(struct DList *list, void *elem)
+void *NNS_FndGetPrevListObject(struct DList *list, void *elem)
 {
     if (elem == 0) {
         return list->tail;
@@ -507,12 +495,12 @@ void *func_0206062C(struct DList *list, void *elem)
 
 
 
-struct Elem *func_02060640(struct DList *list, u32 val)
+struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 {
     struct Elem *elem;
-    for (elem = (struct Elem *)func_02060614(list, 0); elem != 0; elem = (struct Elem *)func_02060614(list, elem)) {
+    for (elem = (struct Elem *)NNS_FndGetNextListObject(list, 0); elem != 0; elem = (struct Elem *)NNS_FndGetNextListObject(list, elem)) {
         if (elem->min_val <= val && val < elem->max_val) {
-            struct Elem *res = func_02060640(&elem->sublist, val);
+            struct Elem *res = NNSi_FndFindElem(&elem->sublist, val);
             if (res == 0) {
                 res = elem;
             }
@@ -527,10 +515,10 @@ struct Elem *func_02060640(struct DList *list, u32 val)
 
 
 
-void *func_020606A8(u32 a)
+void *NNSi_FndFindListContainHeap(u32 a)
 {
     void *r = &g_02146B64;
-    u32 v = (u32)func_02060640((struct DList *)(&g_02146B64), a);
+    u32 v = (u32)NNSi_FndFindElem((struct DList *)(&g_02146B64), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);
@@ -554,16 +542,16 @@ static inline void SetOptForHeap(NNSiFndHeapHead *pHeapHd, u16 optFlag)
  * set the option byte of the attribute (SetOptForHeap as an inline over the
  * NNSi_FndSetBitValue macro), init the child list (link offset 4), create the
  * root heap list once, and append the heap to the list FindListContainHeap
- * (func_020606A8) picks.  The kept-constants tell (docs/FRONTEND-PINS.md): the
+ * (NNSi_FndFindListContainHeap) picks.  The kept-constants tell (docs/FRONTEND-PINS.md): the
  * image passes the offset 4 as a fresh `mov r1, #4` at both NNS_FndInitList
  * calls (+0x2C, +0x4C) and reloads the latch address from the pool at +0x38
- * and +0x54 under `push {r4, lr}`.  docs/notes/func_020606D0.c.txt measured
+ * and +0x54 under `push {r4, lr}`.  docs/notes/NNSi_FndInitHeapHead.c.txt measured
  * the pin on an arena-registry reading of this body and found it worse; in
  * the library's shape (attribute cleared then set through the macro, signed
  * BOOL latch, header struct from heapcommon.h) ../2.0/sp2 gives 124 bytes,
  * 0 mismatches, where 1.1p1 gives 73 out.
  */
-void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag)
+void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag)
 {
     pHeapHd->signature = signature;
     pHeapHd->heapStart = heapStart;
@@ -571,14 +559,14 @@ void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, voi
     pHeapHd->attribute = 0;
     SetOptForHeap(pHeapHd, optFlag);
 
-    func_02060468((int)(&pHeapHd->childList), 4);
+    NNS_FndInitList((int)(&pHeapHd->childList), 4);
 
     if (!sRootListInitialized) {
-        func_02060468((int)(&sRootList), 4);
+        NNS_FndInitList((int)(&sRootList), 4);
         sRootListInitialized = 1;
     }
 
-    func_020604AC(func_020606A8((u32)pHeapHd), pHeapHd);
+    NNS_FndAppendListObject(NNSi_FndFindListContainHeap((u32)pHeapHd), pHeapHd);
 }
 
 
@@ -588,7 +576,7 @@ void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, voi
 
 void FNDHEAP_Finalize(void *p)
 {
-    func_020605B4(func_020606A8((u32)p), p);
+    NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
 }
 
 
@@ -609,10 +597,10 @@ void FNDHEAP_Finalize(void *p)
  * folds into its operand.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060764.c \
- *       --func func_02060764 --addr 0x02060764 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndGetMBlockRegion.c \
+ *       --func NNSi_FndGetMBlockRegion --addr 0x02060764 --cc 1.1p1 --arm
  */
-void func_02060764(int *out, int *blk)
+void NNSi_FndGetMBlockRegion(int *out, int *blk)
 {
     int f = ((struct Obj00512 *)blk)->f2;
 
@@ -624,7 +612,7 @@ void func_02060764(int *out, int *blk)
 
 
 
-void *func_02060790(int *p, int *node)
+void *NNSi_FndRemoveMBlock(int *p, int *node)
 {
     int *a = (int *)node[2];
     int *b = (int *)node[3];
@@ -644,7 +632,7 @@ void *func_02060790(int *p, int *node)
 
 
 
-void *func_020607B8(int *p, void *node, int *a)
+void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 {
     int *b;
     ((struct Obj00512 *)node)->f8 = (int)a;
@@ -666,7 +654,7 @@ void *func_020607B8(int *p, void *node, int *a)
 
 
 
-void *func_020607E8(int *p, int v)
+void *NNSi_FndInitMBlock(int *p, int v)
 {
     int *q = (int *)p[0];
     ((struct Obj00512 *)q)->f0 = (unsigned short)v;
@@ -693,15 +681,15 @@ void *func_020607E8(int *p, int v)
  * rematerialises `mov r0, #0` and `mov r1, #0` exactly as the image does.
  * The C body is identical under both front ends; only the pin differs.
  *
- * The expanded heap's layout pass, reached from func_02060C5C once the arena
+ * The expanded heap's layout pass, reached from NNS_FndCreateExpHeapEx once the arena
  * has been word-aligned and size-checked.  The 0x38-byte handle is written at
- * the arena's own start: func_020606D0 fills the common header (signature,
+ * the arena's own start: NNSi_FndInitHeapHead fills the common header (signature,
  * bounds, attribute, child list) and the rest of this function lays out the
  * expanded heap's own record -- group id and feature halfwords at +0x34/+0x36,
  * a single free block spanning the whole remaining arena on the free list at
  * +0x24/+0x28, and an empty used list at +0x2c/+0x30.
  *
- * Argument order to func_020606D0 is read off the register moves, not guessed:
+ * Argument order to NNSi_FndInitHeapHead is read off the register moves, not guessed:
  * `mov r3, r1` puts this function's own second parameter in the FOURTH
  * argument slot and `ldr r1, [pc, #0x50]` puts the 'EXPH' signature word
  * (0x45585048, at the pool word 0x02060880) in the second, so the call is
@@ -714,15 +702,15 @@ void *func_020607E8(int *p, int v)
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md shape.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060814.c \
- *       --func func_02060814 --addr 0x02060814 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndCreateExpHeap.c \
+ *       --func NNSi_FndCreateExpHeap --addr 0x02060814 --cc ../2.0/sp2 --arm
  */
-void *func_02060814(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
+void *NNSi_FndCreateExpHeap(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
 {
     int  pair[2];
     u16  feature;
 
-    func_020606D0((struct NNSiFndHeapHead *)heap, 0x45585048, (void *)((u8 *)heap + 0x38), lo, attr);
+    NNSi_FndInitHeapHead((struct NNSiFndHeapHead *)heap, 0x45585048, (void *)((u8 *)heap + 0x38), lo, attr);
 
     heap->groupId = 0;
     heap->feature = 0;
@@ -730,7 +718,7 @@ void *func_02060814(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
 
     pair[0] = (int)heap->lo;
     pair[1] = (int)heap->hi;
-    heap->freeList.head = func_020607E8(pair, 0x4652);
+    heap->freeList.head = NNSi_FndInitMBlock(pair, 0x4652);
     heap->freeList.tail = heap->freeList.head;
     heap->usedList.head = 0;
     heap->usedList.tail = 0;
@@ -744,27 +732,27 @@ void *func_02060814(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
 
 /*
  * The expanded heap's carve: the allocator's back end, entered from
- * func_02060A08 (head of the free list) and func_02060ABC (tail of it) with
+ * NNSi_FndAllocFromExpHeapHead (head of the free list) and NNSi_FndAllocFromExpHeapTail (tail of it) with
  * the block they picked and the data address it will hand out.  The block is
- * unlinked from the free list, its extent read with func_02060764, and the
+ * unlinked from the free list, its extent read with NNSi_FndGetMBlockRegion, and the
  * new allocation is cut out of it: whatever is left in front of the new
  * block and whatever is left behind it become two free blocks (signature
  * 0x4652) around the new one (signature 0x5544), which goes back on the used
  * list at the end.  A remainder smaller than 0x14 cannot hold a header plus
  * one word, so the cut is snapped to the block's own edge instead and the
- * pair handed to func_020607E8 degenerates to a zero-length region.
+ * pair handed to NNSi_FndInitMBlock degenerates to a zero-length region.
  *
  * Argument 5 is the direction flag from the caller and lands in bit 15 of the
  * new block's attribute; its low byte is the heap's group id and bits 8..14
- * the distance to the preceding block, which is what func_02060764 reads
+ * the distance to the preceding block, which is what NNSi_FndGetMBlockRegion reads
  * back.  It arrives as a halfword, so the parameter is declared u16 even
  * though both callers pass an int.
  *
  * Three shapes are load-bearing:
  *  - The first 2-word region is two scalars, the other two are
  *    `struct MemRegion`.  Three structs cost a sixth callee-saved register
- *    (r9) and 24 bytes, because then both `func_02060764(&rgn, ...)` and
- *    `func_020607E8(&rgn, ...)` name one object and mwcc hoists `sp+0x10`
+ *    (r9) and 24 bytes, because then both `NNSi_FndGetMBlockRegion(&rgn, ...)` and
+ *    `NNSi_FndInitMBlock(&rgn, ...)` name one object and mwcc hoists `sp+0x10`
  *    into r4; the scalars keep the two `add r0, sp, #0x10` apart, the second
  *    site spelling the same word as `&end - 1`.
  *  - The region is passed to MIi_CpuClear32 through the `sz` local, which is
@@ -783,10 +771,10 @@ void *func_02060814(struct ExpHeap_02060814 *heap, void *lo, u16 attr)
  *    `and r0, r0, #0xff`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060888.c \
- *       --func func_02060888 --addr 0x02060888 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeap.c \
+ *       --func NNSi_FndAllocFromExpHeap --addr 0x02060888 --cc 1.1p1 --arm
  */
-void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
+void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
                     u32 size, u16 fromTail)
 {
     int              end;
@@ -797,22 +785,22 @@ void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
     struct MBlock   *node;
     u32              sz;
 
-    func_02060764(&start, (int *)block);
+    NNSi_FndGetMBlockRegion(&start, (int *)block);
     rest.end = end;
     end = (int)ptr - 0x10;
     rest.start = (int)(size + (u32)ptr);
 
-    prev = func_02060790((int *)(&heap->freeList), (int *)block);
+    prev = NNSi_FndRemoveMBlock((int *)(&heap->freeList), (int *)block);
     if ((u32)(end - start) < 0x14) {
         end = start;
     } else {
-        prev = func_020607B8((int *)(&heap->freeList), func_020607E8(&end - 1, 0x4652),
+        prev = NNSi_FndInsertMBlock((int *)(&heap->freeList), NNSi_FndInitMBlock(&end - 1, 0x4652),
                              (int *)prev);
     }
     if ((u32)(rest.end - rest.start) < 0x14) {
         rest.start = rest.end;
     } else {
-        func_020607B8((int *)(&heap->freeList), func_020607E8((int *)&rest, 0x4652), (int *)prev);
+        NNSi_FndInsertMBlock((int *)(&heap->freeList), NNSi_FndInitMBlock((int *)&rest, 0x4652), (int *)prev);
     }
 
     sz = (u32)(rest.start - end);
@@ -822,7 +810,7 @@ void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
 
     alloc.start = (int)ptr - 0x10;
     alloc.end = rest.start;
-    node = func_020607E8((int *)&alloc, 0x5544);
+    node = NNSi_FndInitMBlock((int *)&alloc, 0x5544);
     node->attr = node->attr & ~0x8000;
     node->attr = node->attr | (u16)(fromTail << 15);
     sz = (u16)((u32)node - (u32)end);
@@ -831,7 +819,7 @@ void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
     sz = heap->groupId & 0xff;
     node->attr = node->attr & ~0xff;
     node->attr = node->attr | sz;
-    func_020607B8((int *)(&heap->usedList), node, (int *)heap->usedList.tail);
+    NNSi_FndInsertMBlock((int *)(&heap->usedList), node, (int *)heap->usedList.tail);
     return ptr;
 }
 
@@ -845,13 +833,13 @@ void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
 
 /*
  * The head-end half of the expanded-heap allocator that sits under the game's
- * own heap layer: src/matched/sub_02030098.c calls func_02060CA0, which
- * dispatches here for a non-negative alignment and to func_02060ABC for a
+ * own heap layer: src/matched/sub_02030098.c calls NNS_FndAllocFromExpHeapEx, which
+ * dispatches here for a non-negative alignment and to NNSi_FndAllocFromExpHeapTail for a
  * negative one.
  *
  * Walk the free list from the head keeping the smallest block that can still
  * hold the request once its data start is rounded up to the alignment, then
- * hand the winner to func_02060888, which carves the region out of the block
+ * hand the winner to NNSi_FndAllocFromExpHeap, which carves the region out of the block
  * and moves it to the used list.  The search stops early on the first hit
  * when the heap's allocation mode is "first", and on an exact size fit in
  * either mode.
@@ -867,10 +855,10 @@ void *func_02060888(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
  * as a local before the loop is the same code.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060A08.c \
- *       --func func_02060A08 --addr 0x02060A08 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapHead.c \
+ *       --func NNSi_FndAllocFromExpHeapHead --addr 0x02060A08 --cc 1.1p1 --arm
  */
-void *func_02060A08(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap_02060888 *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -901,7 +889,7 @@ void *func_02060A08(struct ExpHeap_02060888 *heap, u32 size, s32 align)
     if (found == 0) {
         return 0;
     }
-    return func_02060888((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 0);
+    return NNSi_FndAllocFromExpHeap((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 0);
 }
 
 
@@ -912,7 +900,7 @@ void *func_02060A08(struct ExpHeap_02060888 *heap, u32 size, s32 align)
 
 /*
  * The tail-end half of the expanded-heap allocator, the mirror of
- * func_02060A08: func_02060CA0 dispatches here when the caller asked for a
+ * NNSi_FndAllocFromExpHeapHead: NNS_FndAllocFromExpHeapEx dispatches here when the caller asked for a
  * negative alignment, which is how src/matched/sub_02030098.c spells "take
  * this block from the high end of the heap".
  *
@@ -927,15 +915,15 @@ void *func_02060A08(struct ExpHeap_02060888 *heap, u32 size, s32 align)
  * `~(align - 1)` and the compiler rewrites `sub`/`mvn` in place on the
  * alignment argument.
  *
- * The last argument of func_02060888 is the direction flag, 0 from the head
+ * The last argument of NNSi_FndAllocFromExpHeap is the direction flag, 0 from the head
  * walk and 1 here, which is what tells the carve which side of the block the
  * remainder stays on.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060ABC.c \
- *       --func func_02060ABC --addr 0x02060ABC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapTail.c \
+ *       --func NNSi_FndAllocFromExpHeapTail --addr 0x02060ABC --cc 1.1p1 --arm
  */
-void *func_02060ABC(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap_02060888 *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -966,7 +954,7 @@ void *func_02060ABC(struct ExpHeap_02060888 *heap, u32 size, s32 align)
     if (found == 0) {
         return 0;
     }
-    return func_02060888((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 1);
+    return NNSi_FndAllocFromExpHeap((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 1);
 }
 
 
@@ -997,7 +985,7 @@ static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (
 
 
 
-static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return func_020607E8((int *)r, 0x4652); }
+static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
 
 
 
@@ -1007,8 +995,8 @@ static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return func_02
  * NitroSystem fnd expanded heap, RecycleRegion: return a region to the free
  * list, coalescing with the free block that starts at its end and the one
  * that ends at its start, and drop it if it is smaller than a block header
- * (0x10).  func_02060790 is RemoveMBlock, func_020607B8 InsertMBlock and
- * func_020607E8 InitMBlock (called with the 'FR' free-block signature 0x4652
+ * (0x10).  NNSi_FndRemoveMBlock is RemoveMBlock, NNSi_FndInsertMBlock InsertMBlock and
+ * NNSi_FndInitMBlock InitMBlock (called with the 'FR' free-block signature 0x4652
  * through an inline InitFreeMBlock).
  *
  * docs/notes/pkt_02060B6C.c.txt stood at 52 bytes with a volatile region
@@ -1022,10 +1010,10 @@ static inline MBlockHead_02060814 *InitFreeMBlock(MemRegion *r) { return func_02
  * is also byte-exact on this source.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02060B6C.c \
- *       --func func_02060B6C --addr 0x02060B6C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_FndRecycleRegion.c \
+ *       --func NNSi_FndRecycleRegion --addr 0x02060B6C --arm --cc 1.1p1
  */
-BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
+BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
 {
     MBlockHead_02060814 *pBlkPrFree = 0;
     MemRegion freeRgn = *pRegion;
@@ -1042,7 +1030,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
             if ((void *)pBlk == pRegion->end)
             {
                 freeRgn.end = GetMBlockEndAddr(pBlk);
-                (void)func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlk);
+                (void)NNSi_FndRemoveMBlock((int *)(&pEHHead->mbFreeList), (int *)pBlk);
             }
             break;
         }
@@ -1051,7 +1039,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
     if (pBlkPrFree && GetMBlockEndAddr(pBlkPrFree) == pRegion->start)
     {
         freeRgn.start = pBlkPrFree;
-        pBlkPrFree = func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
+        pBlkPrFree = NNSi_FndRemoveMBlock((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
     }
 
     if (GetOffsetFromPtr(freeRgn.start, freeRgn.end) < sizeof(MBlockHead_02060814))
@@ -1059,7 +1047,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
         return 0;
     }
 
-    (void)func_020607B8((int *)(&pEHHead->mbFreeList), InitFreeMBlock(&freeRgn), (int *)pBlkPrFree);
+    (void)NNSi_FndInsertMBlock((int *)(&pEHHead->mbFreeList), InitFreeMBlock(&freeRgn), (int *)pBlkPrFree);
     return 1;
 }
 
@@ -1074,7 +1062,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
  * handed over (start rounded up, end rounded down), reject it if the rounding
  * inverted the range or left less than 0x4c bytes -- the 0x38-byte heap
  * handle plus one 0x10-byte block header plus a word -- and otherwise hand
- * the aligned pair to func_02060814, which lays the handle out in place.
+ * the aligned pair to NNSi_FndCreateExpHeap, which lays the handle out in place.
  *
  * Two shapes are load-bearing.  The end address is `size + (u32)start`, not
  * `start + size`: the image's `add r1, r1, r0` accumulates into the size
@@ -1085,10 +1073,10 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
  * `movhi`/`pophi` pair instead and four instructions differ.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060C5C.c \
- *       --func func_02060C5C --addr 0x02060C5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndCreateExpHeapEx.c \
+ *       --func NNS_FndCreateExpHeapEx --addr 0x02060C5C --cc 1.1p1 --arm
  */
-void *func_02060C5C(void *start, u32 size, u16 attr)
+void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
 {
     void *end = (void *)((size + (u32)start) & ~3);
     void *lo  = (void *)(((u32)start + 3) & ~3);
@@ -1096,7 +1084,7 @@ void *func_02060C5C(void *start, u32 size, u16 attr)
     if (lo > end || (u32)((u8 *)end - (u8 *)lo) < 0x4c) {
         return 0;
     }
-    return func_02060814((struct ExpHeap_02060814 *)lo, end, attr);
+    return NNSi_FndCreateExpHeap((struct ExpHeap_02060814 *)lo, end, attr);
 }
 
 
@@ -1125,10 +1113,10 @@ void func_02060C94(void *heap){ func_0206074C(heap); }
  * nothing follows them, since each is reached through its own `pop`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060CA0.c \
- *       --func func_02060CA0 --addr 0x02060CA0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndAllocFromExpHeapEx.c \
+ *       --func NNS_FndAllocFromExpHeapEx --addr 0x02060CA0 --cc 1.1p1 --arm
  */
-void *func_02060CA0(struct ExpHeap_02060888 *heap, u32 size, s32 align)
+void *NNS_FndAllocFromExpHeapEx(struct ExpHeap_02060888 *heap, u32 size, s32 align)
 {
     if (size == 0) {
         size = 1;
@@ -1136,9 +1124,9 @@ void *func_02060CA0(struct ExpHeap_02060888 *heap, u32 size, s32 align)
     size = (size + 3) & ~3;
 
     if (align >= 0) {
-        return func_02060A08((struct ExpHeap_02060888 *)heap, size, align);
+        return NNSi_FndAllocFromExpHeapHead((struct ExpHeap_02060888 *)heap, size, align);
     }
-    return func_02060ABC((struct ExpHeap_02060888 *)heap, size, -align);
+    return NNSi_FndAllocFromExpHeapTail((struct ExpHeap_02060888 *)heap, size, -align);
 }
 
 
@@ -1162,11 +1150,11 @@ void *func_02060CA0(struct ExpHeap_02060888 *heap, u32 size, s32 align)
  * dsi/1.1p1 with that loop is 356 bytes; this cluster's first sp2 pin.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02060CD0.c \
- *       --func func_02060CD0 --addr 0x02060CD0 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_FndResizeForMBlockExpHeap.c \
+ *       --func NNS_FndResizeForMBlockExpHeap --addr 0x02060CD0 --arm --cc ../2.0/sp2
  *   EXACT, 352 bytes, 6 of 6 relocation sites resolved (sp2p2 EXACT too).
  */
-u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
+u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size)
 {
     struct ExpHeapHead *pEHHead;
     struct MBlockHead_02060CD0 *pMBlkFr;
@@ -1233,8 +1221,8 @@ u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
 
 /*
  * The expanded heap's free primitive: read the block's own extent with
- * func_02060764, unlink its header from the heap's used list (+0x2c) and hand
- * the extent to func_02060B6C, which splices it back into the free list at
+ * NNSi_FndGetMBlockRegion, unlink its header from the heap's used list (+0x2c) and hand
+ * the extent to NNSi_FndRecycleRegion, which splices it back into the free list at
  * +0x24 and merges it with any adjacent free block.
  *
  * The 2-word extent is two separate scalars, not an int[2] and not a struct,
@@ -1248,28 +1236,28 @@ u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
  * The second site spells the base as `&end - 1`, since `end` is the *later*
  * declaration and mwcc lays locals out with the later declaration at the
  * lower address: `end` sits at sp+0 and `start` at sp+4, so `&end - 1` and the
- * block's own base (`&start`, as func_02060764 must be handed) are the same
+ * block's own base (`&start`, as NNSi_FndGetMBlockRegion must be handed) are the same
  * word.  The pair is not a struct or an array: with one object named at both
  * sites the compiler folds the two addresses into one value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060E30.c \
- *       --func func_02060E30 --addr 0x02060E30 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndFreeToExpHeap.c \
+ *       --func NNS_FndFreeToExpHeap --addr 0x02060E30 --cc 1.1p1 --arm
  */
-void func_02060E30(struct ExpHeap *heap, void *block)
+void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block)
 {
     struct MBlock *hdr = (struct MBlock *)((u8 *)block - 0x10);
     int            end;
     int            start;
 
-    func_02060764(&start, (int *)hdr);
-    func_02060790((int *)(&heap->usedList), (int *)hdr);
-    func_02060B6C((ExpHeapHead *)(&heap->freeList), (const MemRegion *)(&end - 1));
+    NNSi_FndGetMBlockRegion(&start, (int *)hdr);
+    NNSi_FndRemoveMBlock((int *)(&heap->usedList), (int *)hdr);
+    NNSi_FndRecycleRegion((ExpHeapHead *)(&heap->freeList), (const MemRegion *)(&end - 1));
 }
 
 
 
-int func_02060E6C(int *p)
+int NNSi_FndGetListTotalSize(int *p)
 {
     int *q = (int *)p[9];
     int total = 0;
@@ -1325,10 +1313,10 @@ int func_02060E6C(int *p)
  * seeding into layout/function_starts.txt, which is the integrator's file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060E94.c \
- *       --func func_02060E94 --addr 0x02060E94 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndGetListAllocatableSize.c \
+ *       --func NNSi_FndGetListAllocatableSize --addr 0x02060E94 --cc 1.1p1 --arm
  */
-s32 func_02060E94(struct Heap *heap, s32 x)
+s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
 {
     s32 size = func_02091588(x);
     u32 best = 0;
@@ -1362,7 +1350,7 @@ s32 func_02060E94(struct Heap *heap, s32 x)
  * (`old = *h & 1`, which places the and before the orr) and doing the two
  * stores through a named u16 pointer local (plain `*h = *h & ~1; *h = *h | (v & 1)`).
  */
-u32 func_02060F18(char *p, u32 v)
+u32 NNSi_FndSetAllocModeBit(char *p, u32 v)
 {
     u32 old = *(u16 *)(p + 0x36) & 1;
     u16 *h = (u16 *)(p + 0x36);
@@ -1377,7 +1365,7 @@ u32 func_02060F18(char *p, u32 v)
 /*
  * Setter: stores a halfword at +0x34 and returns the old value.
  */
-u16 func_02060F40(char *p, u16 v)
+u16 NNSi_FndSetGroupId(char *p, u16 v)
 {
     u16 old = *(u16 *)(p + 0x34);
     *(u16 *)(p + 0x34) = v;
@@ -1386,7 +1374,7 @@ u16 func_02060F40(char *p, u16 v)
 
 
 
-void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx)
+void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx)
 {
     int *q = (int *)p[0xb];
     if (q == 0)
@@ -1400,19 +1388,19 @@ void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx)
 
 
 
-int func_02060F90(char *p){ return *(int *)(p - 0xc); }
+int NNSi_FndGetMBlockSize(char *p){ return *(int *)(p - 0xc); }
 
 
 
 
 /*
- * 12-byte ARM leaf right after func_02060F90 (its sibling getter on the
+ * 12-byte ARM leaf right after NNSi_FndGetMBlockSize (its sibling getter on the
  * same header, p - 0xc): "ldrh r0, [r0, #-0xe]; and r0, r0, #0xff; bx lr".
  * It saves nothing, so the prologue sweep prints it as .word data.  The
  * only call site in the image is the blx at ov009 0x02156FE4
  * (DWC_RAPCOMMON_Free), which needs this entry as its matched witness.
  */
-u8 func_02060F98(char *p)
+u8 NNSi_FndGetMBlockAttribute(char *p)
 {
     return *(u16 *)(p - 0xe);
 }

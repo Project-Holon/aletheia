@@ -1,5 +1,5 @@
 /*
- * function: func_0200E714
+ * function: MISC_SAVEDATA_StoreQuadRecord
  * address:  0x0200E714
  * packet:   pkt_0200E714
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled Thumb leaf that follows func_0200E6FC: copy one 8-byte record to dst[idx].
+ * Unlabelled Thumb leaf that follows MISC_SAVEDATA_CopyQuadRecord: copy one 8-byte record to dst[idx].
  *
  * symbols:
  *   (none - no relocations)
@@ -24,7 +24,7 @@ struct Rec0200E714 {
     u16 d;
 };
 
-void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src)
+void MISC_SAVEDATA_StoreQuadRecord(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src)
 {
     dst[idx] = *src;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021FA004
+ * function: BR_BTN_GetPlacement
  * address: 0x021FA004
  * packet: pkt_ov186_021FA004
  * region: ov186
@@ -10,4 +10,4 @@
  * blocker-leaf: ov183 021DB770; source/unit/shard ownership checked, parent cleared.
  */
 #include "../include/Obj10776.h"
-int func_021FA004(char *p,int *x,int *y){if(x)*x=((struct Obj10776 *)p)->f24;if(y)*y=((struct Obj10776 *)p)->f28;return ((struct Obj10776 *)p)->f18;}
+int BR_BTN_GetPlacement(char *p,int *x,int *y){if(x)*x=((struct Obj10776 *)p)->f24;if(y)*y=((struct Obj10776 *)p)->f28;return ((struct Obj10776 *)p)->f18;}

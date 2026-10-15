@@ -23,7 +23,7 @@
  *   MI_Copy64B   0x02082BA0  arm
  *   MI_Copy36B   0x02082B60  arm
  *   MIi_CpuCopy16   0x02082A60  arm
- *   func_02082B44   0x02082B44  arm
+ *   MI_Copy32B   0x02082B44  arm
  *   MI_NDmaFillAsync     0x0272FBD0  arm
  *   MI_NDmaFill          0x0272FB28  arm
  *   MIi_DmaFill32Async   0x02082390  arm
@@ -107,7 +107,7 @@ extern int G3X_GetMtxStackLevelPJ(s32 *level);
 extern void MI_Copy64B(const void *pSrc, void *pDest);
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
-extern void func_02082B44(const void *src, void *dst);
+extern void MI_Copy32B(const void *src, void *dst);
 extern void MI_NDmaFillAsync(u32 ndmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg);
 extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
 extern void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
@@ -353,7 +353,7 @@ void G3X_SetEdgeColorTable(const void *src)
 
 void G3X_SetFogTable(const void *src)
 {
-    func_02082B44(src, (void *)0x04000360);
+    MI_Copy32B(src, (void *)0x04000360);
 }
 
 

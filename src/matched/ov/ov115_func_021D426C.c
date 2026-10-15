@@ -1,5 +1,5 @@
 /*
- * function: func_021D426C
+ * function: WIFILOGIN_COMMON_SetStateHandler
  * address:  0x021D426C
  * packet:   pkt_ov115_021D426C
  * region:   ov115
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D426C(u8 *p, u32 v) { ((struct Obj22581 *)p)->f0 = v; }
+void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 v) { ((struct Obj22581 *)p)->f0 = v; }

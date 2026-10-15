@@ -40,7 +40,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C40C  0x0200C40C  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
  *   SHORTCUT_MENU_InitList  0x021C53A0  thumb  ov021
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -92,7 +92,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C40C(void *sys);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 extern void SHORTCUT_MENU_InitList(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int *g, u16 h);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
@@ -143,7 +143,7 @@ char *SHORTCUT_MENU_Create(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     ((struct Obj00960 *)p)->f68 = (u32)GF_FONT_Create(0x17, 0, 0, 0, a3);
     ((struct Obj00960 *)p)->f6C = (u32)PRINTSYS_QUE_CreateEx(0x1000, heap);
     SHORTCUT_MENU_InitList((int *)p, *(const u16 * *)&((struct Obj00960 *)p)->f7C, ((struct Obj00960 *)p)->f64, ((struct Obj00960 *)p)->f68,
-        ((struct Obj00960 *)p)->f6C, (u32)func_0200C40C(GAME_DATA_GetSaveControl(a0)), (int *)(p + 0x58), a3);
+        ((struct Obj00960 *)p)->f6C, (u32)RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(a0)), (int *)(p + 0x58), a3);
     func_02041B6C(1);
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {

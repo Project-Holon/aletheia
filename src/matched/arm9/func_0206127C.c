@@ -1,5 +1,5 @@
 /*
- * function: func_0206127C
+ * function: NNSi_FndPushFreeBlock
  * address:  0x0206127C
  * packet:   pkt_0206127C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unit-heap free: pushes the block onto the free list at +0x24 of the
- * heap head (the same list func_0206123C pops through func_02061224).
+ * heap head (the same list NNSi_FndAllocBlockFromHeap pops through NNSi_FndPopFreeBlock).
  * Its only reference is the ARM pool word at 0x020612F4, the tail call
  * of the allocator-table entry 0x020612E8 (word at 0x020A16FC).
  */
@@ -26,7 +26,7 @@ struct UnitHeap0206127C {
     struct UnitBlock0206127C *freeList;
 };
 
-void func_0206127C(struct UnitHeap0206127C *heap, void *block)
+void NNSi_FndPushFreeBlock(struct UnitHeap0206127C *heap, void *block)
 {
     struct UnitBlock0206127C *b = (struct UnitBlock0206127C *)block;
 

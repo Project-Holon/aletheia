@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD12C",
+   "name": "BR_UTIL_CreateTextWin",
    "address": "0x021FD12C",
    "kind": "game",
    "region": "ov186",

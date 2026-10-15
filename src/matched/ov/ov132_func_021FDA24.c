@@ -1,5 +1,5 @@
 /*
- * function: func_021FDA24
+ * function: STA_SLOT_PushRecord
  * address: 0x021FDA24
  * packet: pkt_ov132_021FDA24
  * region: ov132
@@ -11,7 +11,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 pad[0x188]; u32 flag; u32 slots[8]; } State;
-void func_021FDA24(State *p, u32 a, u32 b, u32 c)
+void STA_SLOT_PushRecord(State *p, u32 a, u32 b, u32 c)
 {
     u8 i;
     for (i = 0; i < 8; i++) {

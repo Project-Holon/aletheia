@@ -1,5 +1,5 @@
 /*
- * function: func_021B6268
+ * function: CDEMO_MAIN_StopTask
  * address:  0x021B6268
  * packet:   pkt_ov179_021B6268
  * region:   ov179
@@ -16,7 +16,7 @@
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021B6268(char *p)
+void CDEMO_MAIN_StopTask(char *p)
 {
     func_02030EAC(((struct Obj24465 *)p)->f6014);
 }

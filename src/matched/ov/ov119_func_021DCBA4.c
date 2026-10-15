@@ -1,5 +1,5 @@
 /*
- * function: func_021DCBA4
+ * function: POKETRADE_PROC_SetupMcssPokemon
  * address: 0x021DCBA4
  * packet: pkt_ov119_021DCBA4
  * region: ov119
@@ -27,7 +27,7 @@ extern int POKETRADE_PROC_IsHostSide(void *);
 extern void MCSS_SetVanishFlag(void *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-void func_021DCBA4(char *a, char *p)
+void POKETRADE_PROC_SetupMcssPokemon(char *a, char *p)
 {
     MI_CpuCopy8(((struct Obj01728 *)a)->f34,((struct Obj03256 *)p)->f5DC,POKE_TOOL_GetPartyParamSize());
     MI_CpuCopy8(((struct Obj01728 *)a)->f38,((struct Obj03256 *)p)->f5E0,POKE_TOOL_GetPartyParamSize());

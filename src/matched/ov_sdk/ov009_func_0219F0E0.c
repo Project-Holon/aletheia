@@ -1,5 +1,5 @@
 /*
- * function: func_0219F0E0
+ * function: prevKeyCompare
  * address:  0x0219F0E0
  * packet:   pkt_ov009_0219F0E0
  * region:   ov009
@@ -19,13 +19,13 @@
  *   func_0219E1B8  0x0219E1B8  arm  ov009
  *   func_0219E0C0  0x0219E0C0  arm  ov009
  *   func_020948E0  0x020948E0  arm
- *   func_0209ABF8  0x0209ABF8  arm
+ *   strcmp_nocase  0x0209ABF8  arm
  *   _dsub  0x0209AF34  arm
  *   _d2f  0x0209B64C  arm
  *   _fgr  0x0209BBB0  arm
  *   _fls  0x0209BC74  arm
- *   g_021AEB04  0x021AEB04  data
- *   g_021A8230  0x021A8230  data
+ *   gSBSortContext  0x021AEB04  data
+ *   gSBEmptyString  0x021A8230  data
  */
 
 #include "../include/G_021AEB04.h"
@@ -47,24 +47,24 @@ extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 struct _SBServer;
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
 extern int func_020948E0(const char *a, const char *b);
-extern int func_0209ABF8(const char *a, const char *b);
-extern struct G_021AEB04 g_021AEB04;
-extern char g_021A8230[];
+extern int strcmp_nocase(const char *a, const char *b);
+extern struct G_021AEB04 gSBSortContext;
+extern char gSBEmptyString[];
 
-int func_0219F0E0(SBServer *server1, SBServer *server2)
+int prevKeyCompare(SBServer *server1, SBServer *server2)
 {
     char *prevsortkey;
     int diff;
     double f;
 
-    prevsortkey = ((SBServerList *)g_021AEB04.slist)->prevsortinfo.sortkey;
-    switch (((SBServerList *)g_021AEB04.slist)->prevsortinfo.sorttype) {
+    prevsortkey = ((SBServerList *)gSBSortContext.slist)->prevsortinfo.sortkey;
+    switch (((SBServerList *)gSBSortContext.slist)->prevsortinfo.sorttype) {
     case 0:
         diff = func_0219E120(server1, prevsortkey, 0) - func_0219E120(server2, prevsortkey, 0);
         break;
     case 1:
         f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
-        if (!((SBServerList *)g_021AEB04.slist)->sortascending)
+        if (!((SBServerList *)gSBSortContext.slist)->sortascending)
             f = 0 - f;
         if ((float)f > 0)
             return 1;
@@ -72,15 +72,15 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = func_020948E0(func_0219E0C0((struct _SBServer *)server1, prevsortkey, g_021A8230), func_0219E0C0((struct _SBServer *)server2, prevsortkey, g_021A8230));
+        diff = func_020948E0(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
         break;
     case 3:
-        diff = func_0209ABF8(func_0219E0C0((struct _SBServer *)server1, prevsortkey, g_021A8230), func_0219E0C0((struct _SBServer *)server2, prevsortkey, g_021A8230));
+        diff = strcmp_nocase(func_0219E0C0((struct _SBServer *)server1, prevsortkey, gSBEmptyString), func_0219E0C0((struct _SBServer *)server2, prevsortkey, gSBEmptyString));
         break;
     default:
         return 0;
     }
-    if (!((SBServerList *)g_021AEB04.slist)->sortascending)
+    if (!((SBServerList *)gSBSortContext.slist)->sortascending)
         diff = -diff;
     return diff;
 }

@@ -31,7 +31,7 @@
  *   GFL_NET_IsNetTypeBeacon  0x0203D26C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
- *   func_02034704   0x02034704  arm
+ *   SAVEDATA_SetFailHook   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
  *   PM_VOICE_GetCryIndex   0x02006C00  thumb
  *   PM_VOICE_PrepareCry   0x02006C2C  thumb
@@ -66,7 +66,7 @@
  *   _PreExitCallbackInfo          0x020A9E84  data
  *   func_020351D0  0x020351D0  arm
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
- *   func_020911A0  0x020911A0  arm
+ *   CTRDG_DummyInit  0x020911A0  arm
  *   _GflUse      0x020AA194  data
  *   s_gfl_use_c     0x020A7004  data
  *   _ArenaTableTwl      0x0209D8A0  data
@@ -88,7 +88,7 @@
  *   _ull_mul          0x0209C054  arm
  *   func_02034F5C       0x02034F5C  arm
  *   KEY_GetCont       0x0203630C  arm
- *   func_02072788  0x02072788  arm
+ *   NNS_SndSetMasterVolume  0x02072788  arm
  *   func_0203508C    0x0203508C  arm
  *   func_02035108  0x02035108  arm
  *   _SndStack    0x020AA1AC  data
@@ -105,7 +105,7 @@
  *   _SndState   0x020AA260  data
  *   _SndArcPath   0x020A7010  data
  *   _SndArc   0x020AA2BC  data
- *   func_020726D0  0x020726D0  arm
+ *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndHeapCreate  0x020746E8  arm
  *   NNS_SndArcInit  0x02073FB8  arm
  *   SNDEXi_Init  0x02704364  arm  twl
@@ -138,6 +138,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  *   NNS_SndArcPlayerSetup  0x020754C4  arm
+ *   MI_WaitDma  0x02082594  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -236,7 +237,7 @@ extern void OS_WakeupThreadDirect(struct OSThread *thread);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
-extern void func_02082594(u32 mode);
+extern void MI_WaitDma(u32 mode);
 extern int func_02034AC4(int overlayId);
 extern void PRINTSYS_Init(void *arg);
 extern void GFL_NET_SetupHeaps(u32 netType, u32 flagB, u32 flagC, u32 heapId);
@@ -250,7 +251,7 @@ extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
 extern void func_02012FF0(struct SaveData *save);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
-extern void func_02034704(u32 handler);
+extern void SAVEDATA_SetFailHook(u32 handler);
 extern void func_0201F344(u16 heapId);
 extern void POKE_TOOL_InitSystem(u32 heapId);
 extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
@@ -290,7 +291,7 @@ extern int PM_GetAutoExit(void);
 extern int PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
 extern void NNS_GfdDoVramTransfer(void);
-extern void func_020911A0(void);
+extern void CTRDG_DummyInit(void);
 extern void PM_SetAutoExit(int v);
 extern u32   OS_IsRunOnTwl(void);
 extern void *OS_GetArenaHi(u32 id);
@@ -333,7 +334,7 @@ extern void  func_0203F034(u32 seed);
 extern void func_0203F258(struct GflRandom *out);
 extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void func_02072788(u32 volume);
+extern void NNS_SndSetMasterVolume(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void func_0203508C(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  func_02035108(void);
@@ -345,7 +346,7 @@ extern void  NNS_SndHeapLoadState(struct SndHeap *heap, u32 state);
 extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
 extern struct SndWaveSetHeader *NNS_SndHeapAlloc(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
 extern u32   NNS_SndArcLoadSeq(u32 waveArcNo, struct SndHeap *heap);
-extern void func_020726D0(void);
+extern void NNS_SndInit(void);
 extern struct SndHeap *NNS_SndHeapCreate(char *buf, u32 size);
 extern void NNS_SndArcInit(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
 extern void SNDEXi_Init(void);
@@ -526,7 +527,7 @@ void GFL_USE_VBlankHandler(void)
 {
     GFL_USE_CallVBlankHook();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
-    func_02082594(3);
+    MI_WaitDma(3);
 }
 
 
@@ -574,7 +575,7 @@ void GFL_USE_InitGameSystems(void)
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
-    func_02034704((u32)&func_0200FB6C);
+    SAVEDATA_SetFailHook((u32)&func_0200FB6C);
     func_0201F344(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
@@ -760,7 +761,7 @@ void GFL_USE_PollTwlService(void)
  */
 void GFL_USE_CtrdgDummyInit(void)
 {
-    func_020911A0();
+    CTRDG_DummyInit();
 }
 
 
@@ -1181,13 +1182,13 @@ void GFL_USE_WaitInputReady(void)
  */
 void GFL_USE_MuteSound(void)
 {
-    func_02072788(0);
+    NNS_SndSetMasterVolume(0);
 }
 
 
 void GFL_USE_UnmuteSound(void)
 {
-    func_02072788(0x7F);
+    NNS_SndSetMasterVolume(0x7F);
 }
 
 
@@ -1542,7 +1543,7 @@ void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header)
  * (0x95AD0 bytes, a pool word and not a `movs`-able constant), publish the
  * handle at +0x10 of the connection-slot global and hand the pair to the
  * handler installer, then run the console-type-specific tail.  The function
- * takes no arguments: its first call, func_020726D0 (sound init), is
+ * takes no arguments: its first call, NNS_SndInit (sound init), is
  * `void (void)` and reads neither r0 nor r1, so the r0/r1 the caller
  * GFL_USE_InitGameSystems leaves behind are dead
  * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
@@ -1555,7 +1556,7 @@ void GFL_USE_InitSound(void)
 {
     struct SndHeap *heap;
 
-    func_020726D0();
+    NNS_SndInit();
     heap = NNS_SndHeapCreate(_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
     NNS_SndArcInit(_SndArc, _SndArcPath, heap, 0);

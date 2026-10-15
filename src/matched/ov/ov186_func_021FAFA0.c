@@ -1,5 +1,5 @@
 /*
- * function: func_021FAFA0
+ * function: BR_BTN_SetDrawPriority
  * address:  0x021FAFA0
  * packet:   pkt_021FAFA0
  * region:   ov186
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FB578  0x021FB578  thumb  ov186
+ *   BR_BTN_SetObjectDrawPriority  0x021FB578  thumb  ov186
  */
 
 typedef struct {
@@ -18,9 +18,9 @@ typedef struct {
     void *f8;
 } T;
 
-extern int func_021FB578(void *, unsigned char);
+extern int BR_BTN_SetObjectDrawPriority(void *, unsigned char);
 
-int func_021FAFA0(T *p, int b)
+int BR_BTN_SetDrawPriority(T *p, int b)
 {
-    return func_021FB578(p->f8, (unsigned char)b);
+    return BR_BTN_SetObjectDrawPriority(p->f8, (unsigned char)b);
 }

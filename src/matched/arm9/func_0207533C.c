@@ -12,16 +12,16 @@
  *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNS_SndArcReadFile  0x020745A4  arm
  *   SNDi_GetBankWaveArcTable  0x0208A638  arm
- *   func_0208A640  0x0208A640  arm
- *   func_0208A674  0x0208A674  arm
+ *   SND_SetWaveDataAddress  0x0208A640  arm
+ *   SND_GetWaveDataAddress  0x0208A674  arm
  *   NNSi_SndArcDisposeWave  0x020752F4  arm
  *   DC_StoreRange  0x020862D4  arm
  *
  * Bank-entry loader.  Skip the work if the entry is already resident
- * (func_0208A674), otherwise take the entry's byte range from the object's
+ * (SND_GetWaveDataAddress), otherwise take the entry's byte range from the object's
  * offset table and stream it in: allocate range+0x20 through NNS_SndHeapAlloc
  * with NNSi_SndArcDisposeWave as the teardown callback, read it with NNS_SndArcReadFile,
- * flush it with DC_StoreRange and publish it with func_0208A640.  Returns 1
+ * flush it with DC_StoreRange and publish it with SND_SetWaveDataAddress.  Returns 1
  * for "resident on exit" (already-resident and success both), 0 for failure.
  *
  * THE OFFSET TABLE.  `ldr r1,[r8,#0x38]` / `add r1,r1,r7` /
@@ -68,9 +68,9 @@ typedef struct {
     u32 f3c[1];
 } Bank;
 
-extern u32   func_0208A674(Bank *o, u32 i);
+extern u32   SND_GetWaveDataAddress(Bank *o, u32 i);
 extern void *SNDi_GetBankWaveArcTable(char *p);
-extern void  func_0208A640(Bank *o, u32 i, void *p);
+extern void  SND_SetWaveDataAddress(Bank *o, u32 i, void *p);
 extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
@@ -85,7 +85,7 @@ u32 NNSi_SndArcLoadWave(Bank *o, u32 i, u32 h, u32 *heap)
   u32 *e;
   void *p;
   u32 tmp;
-  if (func_0208A674(o, i) != 0)
+  if (SND_GetWaveDataAddress(o, i) != 0)
     return 1;
   n = (u32)SNDi_GetBankWaveArcTable((char *)o);
   n = n - 1;
@@ -105,7 +105,7 @@ u32 NNSi_SndArcLoadWave(Bank *o, u32 i, u32 h, u32 *heap)
   if (NNS_SndArcReadFile(h, p, len, off) != len)
     return 0;
   DC_StoreRange(p, len);
-  func_0208A640(o, i, p);
+  SND_SetWaveDataAddress(o, i, p);
   return 1;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02087208
+ * function: OS_InitAlarm
  * address:  0x02087208
  * packet:   pkt_02087208
  * region:   arm9
@@ -57,7 +57,7 @@ extern void OSi_SetTimer(OSAlarm *alarm);
 extern void OSi_SetTimerReserved(int timerNum);
 extern u32 OS_DisableIrqMask(u32 intr);
 
-void func_02087208(void)
+void OS_InitAlarm(void)
 {
     if (!g_02151340.OSi_UseAlarm) {
         g_02151340.OSi_UseAlarm = 1;

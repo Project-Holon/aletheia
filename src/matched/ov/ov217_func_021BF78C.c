@@ -1,5 +1,5 @@
 /*
- * function: func_021BF78C
+ * function: RESEARCH_GRAPH_AreCirclesIdle
  * address:  0x021BF78C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int CircleGraph_IsAnimating(u8 *p);
-u32 func_021BF78C(u32 a0)
+u32 RESEARCH_GRAPH_AreCirclesIdle(u32 a0)
 {
     if (CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2BC) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C0) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C4) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C8) != 0) {
     return 0;

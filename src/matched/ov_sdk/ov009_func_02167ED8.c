@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_020889C0  0x020889C0  arm
- *   func_02089004  0x02089004  arm
- *   func_020891E0  0x020891E0  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
+ *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   g_021AA834     0x021AA834  data
  *   g_021AA838     0x021AA838  data
  *   g_021AA840     0x021AA840  data
@@ -25,8 +25,8 @@
 struct RTCDate;
 struct RTCTime;
 extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
-extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
+extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
 extern struct NasTimeDiff_ g_021AA834;
 extern long long g_021AA838;
 extern long long g_021AA840;
@@ -39,7 +39,7 @@ int func_02167ED8(void *date, void *time)
         return 0;
     if (func_020889C0(date, time) != 0)
         return 0;
-    localsec = func_02089004(date, time);
+    localsec = RTC_ConvertDateTimeToSecond(date, time);
     if (localsec == -1LL)
         return 0;
     if (localsec < g_021AA838)
@@ -47,6 +47,6 @@ int func_02167ED8(void *date, void *time)
     localsec -= g_021AA840;
     if (localsec < 0 || localsec > 3155759999LL)
         return 0;
-    func_020891E0(date, time, localsec);
+    RTC_ConvertSecondToDateTime(date, time, localsec);
     return 1;
 }

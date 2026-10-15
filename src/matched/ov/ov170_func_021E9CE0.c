@@ -1,5 +1,5 @@
 /*
- * function: func_021E9CE0
+ * function: BOX2_SEQ_GotoRightPanelB
  * address:  0x021E9CE0
  * packet:   pkt_ov170_021E9CE0
  * region:   ov170
@@ -10,37 +10,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DD16C 0x021DD16C thumb
- *   func_021EF5E8 0x021EF5E8 thumb
- *   func_021EF57C 0x021EF57C thumb
- *   func_021EBA5C 0x021EBA5C thumb
- *   func_021DD14C 0x021DD14C thumb
- *   func_021EF670 0x021EF670 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E0128 0x021E0128 thumb
+ *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
+ *   BOX2_UI_OpenListPack 0x021EF57C thumb
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
+ *   BOX2_UI_ShowWindowA 0x021EF670 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
  */
 
 struct WinMgr;
-extern void func_021DD16C(unsigned char *p, int dir);
-extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern void func_021EF670(char *w);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E0128(char *p);
+extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
+extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_UI_ShowWindowA(char *w);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_IsSeqStep(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-int func_021E9CE0(char *p, int a, int n)
+int BOX2_SEQ_GotoRightPanelB(char *p, int a, int n)
 {
-    func_021DD16C((unsigned char *)p, 1);
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 1) {
-        func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
-        func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C(p);
+    BOX2_MAIN_StopSeq((unsigned char *)p, 1);
+    if (BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p) + 0x74)) == 1) {
+        BOX2_UI_OpenListPack(*(struct WinMgr **)(WORK(p) + 0x74));
+        BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
+        BOX2_MAIN_RefreshCursorBox(p);
         if (a == 1)
-            func_021EF670(WORK(p));
+            BOX2_UI_ShowWindowA(WORK(p));
     }
-    return func_021E8FC0(p, (int)func_021E0128, n);
+    return BOX2_SEQ_SetSeqThird(p, (int)BOX2_MAIN_IsSeqStep, n);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219F7D8
+ * function: SBFreeDeadList
  * address:  0x0219F7D8
  * packet:   pkt_ov009_0219F7D8
  * region:   ov009
@@ -19,7 +19,7 @@
 struct SBL { char pad[0x7d8]; void *dead; };
 extern int SBServerGetNext(const int *p);
 extern void func_0219DFF8(void *elem);
-void func_0219F7D8(struct SBL *slist)
+void SBFreeDeadList(struct SBL *slist)
 {
 	void *next;
 	void *server;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF810
+ * function: RESEARCH_GRAPH_GetGroupValue
  * address:  0x021BF810
  * packet:   pkt_ov217_021BF810
  * region:   ov217
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF834 0x021BF834 thumb ov217
- *   func_021BF844 0x021BF844 thumb ov217
+ *   RESEARCH_GRAPH_GetGroupTotalA 0x021BF834 thumb ov217
+ *   RESEARCH_GRAPH_GetGroupTotalB 0x021BF844 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -20,17 +20,17 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_021BF834(void *p);
-extern u32 func_021BF844(void *p);
-u32 func_021BF810(void *p)
+extern u32 RESEARCH_GRAPH_GetGroupTotalA(void *p);
+extern u32 RESEARCH_GRAPH_GetGroupTotalB(void *p);
+u32 RESEARCH_GRAPH_GetGroupValue(void *p)
 {
     u32 r = 0;
     switch (((struct Obj25943 *)p)->f2CC) {
     case 0:
-        r = func_021BF834(p);
+        r = RESEARCH_GRAPH_GetGroupTotalA(p);
         break;
     case 1:
-        r = func_021BF844(p);
+        r = RESEARCH_GRAPH_GetGroupTotalB(p);
         break;
     }
     return r;

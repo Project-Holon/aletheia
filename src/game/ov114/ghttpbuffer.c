@@ -50,7 +50,6 @@ int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement);
 int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
 int ghiInitFixedBuffer(GHIConnection *connection, GHIBuffer *buffer, char *data, int size);
 void ghiFreeBuffer(GHIBuffer *buffer);
-int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen);
 int ghiAppendHeaderToBuffer(GHIBuffer *buffer, char *name, char *value);
 int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);

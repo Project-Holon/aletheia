@@ -1,5 +1,5 @@
 /*
- * function: func_021DB45C
+ * function: POKETRADE_PROC_StepBeginOpenSubScreen
  * address: 0x021DB45C
  * packet: pkt_ov119_021DB45C
  * region: ov119
@@ -14,7 +14,7 @@
  *   POKETRADE_2D_FadePaletteAll 0x021E71E0 thumb ov119
  *   POKETRADE_NEGO_HasOffer 0x021DD2F4 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DB41C 0x021DB41C thumb ov119
+ *   POKETRADE_PROC_StepOpenSubScreen 0x021DB41C thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
@@ -24,8 +24,8 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void POKETRADE_2D_FadePaletteAll(void *,int);
 extern int POKETRADE_NEGO_HasOffer(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DB41C(char *p);
-void func_021DB45C(char *p)
+extern void POKETRADE_PROC_StepOpenSubScreen(char *p);
+void POKETRADE_PROC_StepBeginOpenSubScreen(char *p)
 {
     TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,0);
     POKETRADE_NEGO_SetOfferMarkersState(p,0);
@@ -33,5 +33,5 @@ void func_021DB45C(char *p)
     POKETRADE_2D_FadePaletteAll(p,1);
     if(POKETRADE_NEGO_HasOffer(p))
         TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
-    POKETRADE_PROC_SetStep(p,(int)func_021DB41C);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepOpenSubScreen);
 }

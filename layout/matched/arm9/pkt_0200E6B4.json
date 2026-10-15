@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200E6B4",
+   "name": "BATTLE_EXAMINATION_InitGreetings",
    "address": "0x0200E6B4",
    "kind": "game",
    "region": "arm9",

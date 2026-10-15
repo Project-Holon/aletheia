@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7D8
+ * function: RESEARCH_GRAPH_MoveToFirstEntry
  * address:  0x021BE7D8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BEAEC  0x021BEAEC  thumb  ov217
- *   func_021BEEA4  0x021BEEA4  thumb  ov217
- *   func_021BF15C  0x021BF15C  thumb  ov217
+ *   RESEARCH_GRAPH_ClearEntryIndex  0x021BEAEC  thumb  ov217
+ *   RESEARCH_GRAPH_LayoutArrow  0x021BEEA4  thumb  ov217
+ *   RESEARCH_GRAPH_PrintSliceLabel  0x021BF15C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,13 +26,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021BEAEC(u8 *);
-extern u32 func_021BEEA4();
-extern void func_021BF15C(char *p);
-u32 func_021BE7D8(u32 a0)
+extern void RESEARCH_GRAPH_ClearEntryIndex(u8 *);
+extern u32 RESEARCH_GRAPH_LayoutArrow();
+extern void RESEARCH_GRAPH_PrintSliceLabel(char *p);
+u32 RESEARCH_GRAPH_MoveToFirstEntry(u32 a0)
 {
-    func_021BEAEC((u8 *)a0);
-    func_021BF15C((char *)a0);
-    return func_021BEEA4(a0);
+    RESEARCH_GRAPH_ClearEntryIndex((u8 *)a0);
+    RESEARCH_GRAPH_PrintSliceLabel((char *)a0);
+    return RESEARCH_GRAPH_LayoutArrow(a0);
 }
 

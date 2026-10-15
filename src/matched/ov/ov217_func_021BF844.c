@@ -1,5 +1,5 @@
 /*
- * function: func_021BF844
+ * function: RESEARCH_GRAPH_GetGroupTotalB
  * address:  0x021BF844
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BF844(void *p)
+u32 RESEARCH_GRAPH_GetGroupTotalB(void *p)
 {
     u32 i = ((struct Obj25945 *)p)->f2B8;
     return *(u32 *)((char *)p + i * 0xd4 + 0x40);

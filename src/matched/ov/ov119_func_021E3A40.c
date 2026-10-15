@@ -12,7 +12,7 @@
  * symbols:
  *   func_0207DA8C 0x0207DA8C arm
  *   func_0207D7C4 0x0207D7C4 arm
- *   func_021D8A18 0x021D8A18 thumb ov119
+ *   POKETRADE_PROC_GetStoredBoxIndex 0x021D8A18 thumb ov119
  *   POKETRADE_3D_DrawCubeFace 0x021E3910 thumb ov119
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_sdiv 0x0209C00C arm
@@ -31,7 +31,7 @@ typedef struct { fx32 x,y,z; } VecFx32;
 typedef struct { fx32 a[12]; } MtxFx43;
 extern void func_0207DA8C(void);
 extern void func_0207D7C4(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxFx43 *);
-extern u8 func_021D8A18(u8 *);
+extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 extern void POKETRADE_3D_DrawCubeFace(int,int,u16,int);
 extern const VecFx32 d_021E815C,d_021E79AC,d_021E8150;
 extern u32 d_021E8144[];
@@ -46,7 +46,7 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     func_0207D7C4(&d_021E815C,&d_021E79AC,&d_021E8150,1,0);
     *(volatile u32 *)0x040004c8=0x2d8b6127;
     *(volatile u32 *)0x040004cc=0x7fff;
-    stage=func_021D8A18((u8 *)p);
+    stage=POKETRADE_PROC_GetStoredBoxIndex((u8 *)p);
     count=stage+1;
     total=count*160;
     x=((struct Obj22794 *)p)->f107E;

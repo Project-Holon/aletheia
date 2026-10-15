@@ -16,7 +16,7 @@
  *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   d_021BE9F0 0x021BE9F0 data a4
+ *   gZukanListActorDescTable 0x021BE9F0 data a4
  */
 #include "../include/Obj04617.h"
 #include "../include/Obj25570.h"
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Template { u32 w0, w4, w8, wC, w10; u16 h14, h16; } Template;
-extern const Template d_021BE9F0[10];
+extern const Template gZukanListActorDescTable[10];
 struct Actor;
 struct Bank;
 struct Blk37;
@@ -48,7 +48,7 @@ void ZUKAN_LIST_CreateActors(char *p)
     for (i = 0; i < 60; i++)
         *(unsigned *)(p + i * 4 + 0xa74) = 0;
     for (i = 0; i <= 9; i++) {
-        t = d_021BE9F0[i];
+        t = gZukanListActorDescTable[i];
         t.w8 = *(u32 *)(p + t.w8 * 4 + 0xb64);
         t.wC = *(u32 *)(p + t.wC * 4 + 0xbf4);
         t.w10 = *(u32 *)(p + t.w10 * 4 + 0xc0c);

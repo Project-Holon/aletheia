@@ -1,5 +1,5 @@
 /*
- * function: func_021BB990
+ * function: RESEARCH_LIST_IncSubState
  * address:  0x021BB990
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BB990(void *p)
+void RESEARCH_LIST_IncSubState(void *p)
 {
     u32 *c = (u32 *)((char *)p + 0x20);
     *c += 1;

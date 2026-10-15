@@ -1,5 +1,5 @@
 /*
- * function: func_021EF310
+ * function: BOX2_UI_DeleteWindowFrames
  * address:  0x021EF310
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
-void func_021EF310(char *p)
+void BOX2_UI_DeleteWindowFrames(char *p)
 {
     BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj18533 *)p)->f74);
 }

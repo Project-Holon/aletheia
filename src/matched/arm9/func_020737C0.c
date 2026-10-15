@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Constructor for the 0x54-byte sound object: lazily create the heap through
- * func_02060468(gSndStrmList, 0) behind the one-shot latch gSndStrmListReady, install
- * the two callbacks (NNSi_SndStrmAlarmHandler at +0x08, func_02073CEC at +0x18) each with
+ * NNS_FndInitList(gSndStrmList, 0) behind the one-shot latch gSndStrmListReady, install
+ * the two callbacks (NNSi_SndStrmAlarmHandler at +0x08, NNSi_SndStrmStart at +0x18) each with
  * the object itself as the following context word, null the handle pair at
  * +0x4C/+0x50, and clear bits 0 and 1 of the flags word at +0x2C.
  *
@@ -34,8 +34,8 @@
  *   gSndStrmListReady     0x0214E8E4  data
  *   gSndStrmList     0x0214E8E8  data
  *   NNSi_SndStrmAlarmHandler  0x02073CA0  arm
- *   func_02073CEC  0x02073CEC  arm
- *   func_02060468  0x02060468  arm
+ *   NNSi_SndStrmStart  0x02073CEC  arm
+ *   NNS_FndInitList  0x02060468  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_SndStrmInit.c \
@@ -47,11 +47,11 @@ typedef unsigned int  u32;
 
 extern u32  gSndStrmListReady;
 extern u8   gSndStrmList[];
-extern void func_02060468(int p0, int p1);
+extern void NNS_FndInitList(int p0, int p1);
 struct A;
 struct Obj;
 extern void NNSi_SndStrmAlarmHandler(struct Obj *o);
-extern void func_02073CEC(struct A *a);
+extern void NNSi_SndStrmStart(struct A *a);
 
 typedef struct S {
     char pad_00[8];
@@ -70,13 +70,13 @@ typedef struct S {
 void NNS_SndStrmInit(S *p)
 {
     if (gSndStrmListReady == 0) {
-        func_02060468((int)gSndStrmList, 0);
+        NNS_FndInitList((int)gSndStrmList, 0);
         gSndStrmListReady = 1;
     }
 
     p->f08 = (void (*)(void))NNSi_SndStrmAlarmHandler;
     p->f0c = (u32)p;
-    p->f18 = (void (*)(void))func_02073CEC;
+    p->f18 = (void (*)(void))NNSi_SndStrmStart;
     p->f1c = (u32)p;
     p->f4c = 0;
     p->f50 = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B614C",
+   "name": "CDEMO_MAIN_Destroy",
    "address": "0x021B614C",
    "kind": "game",
    "region": "ov179",

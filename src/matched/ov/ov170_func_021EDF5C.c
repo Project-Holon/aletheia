@@ -1,5 +1,5 @@
 /*
- * function: func_021EDF5C
+ * function: BOX2_UI_DeleteSlotIcon
  * address:  0x021EDF5C
  * packet:   pkt_ov170_021EDF5C
  * region:   ov170
@@ -10,29 +10,29 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DEB14 0x021DEB14 thumb
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC08C 0x021EC08C thumb
- *   func_021EC000 0x021EC000 thumb
+ *   BOX2_MAIN_WrapOffset 0x021DEB14 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  */
 #include "../include/Obj00000.h"
 
-extern unsigned char func_021DEB14(unsigned char *p, int a);
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021EC000(char *p, int i, int v);
+extern unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 
-void func_021EDF5C(unsigned char *p)
+void BOX2_UI_DeleteSlotIcon(unsigned char *p)
 {
     unsigned i;
     short xy[2];
     for (i = 0; i < 6; i++) {
-        if (p[0x14] == func_021DEB14(p, (signed char)(i - 1))) {
-            func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 2, &xy[1], &xy[0], 0);
-            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, 2, (short)xy[1], (short)(i * 0x22), (short)0);
-            func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 2, 1);
+        if (p[0x14] == BOX2_MAIN_WrapOffset(p, (signed char)(i - 1))) {
+            BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, 2, &xy[1], &xy[0], 0);
+            BOX2_SEQ_AddActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, 2, (short)xy[1], (short)(i * 0x22), (short)0);
+            BOX2_SEQ_SetActorDrawEnable(*(char * *)&((struct Obj00000 *)p)->f2C, 2, 1);
             return;
         }
     }
-    func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 2, 0);
+    BOX2_SEQ_SetActorDrawEnable(*(char * *)&((struct Obj00000 *)p)->f2C, 2, 0);
 }

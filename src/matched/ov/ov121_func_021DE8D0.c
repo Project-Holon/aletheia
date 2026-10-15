@@ -1,5 +1,5 @@
 /*
- * function: func_021DE8D0
+ * function: MYSTERY_NET_DeleteIrc
  * address: 0x021DE8D0
  * packet: pkt_ov121_021DE8D0
  * region: ov121
@@ -10,16 +10,16 @@
  * symbols:
  *   DELIVERY_IRC_Delete 0x02157E8C thumb ov010
  *   GFL_NET_IsIdle 0x0203D210 arm
- *   func_021DEEA4 0x021DEEA4 thumb ov121
- *   func_021DE618 0x021DE618 thumb ov121
+ *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
+ *   MYSTERY_NET_NoopHandler 0x021DE618 thumb ov121
  */
 #include "../include/Obj22917.h"
 extern int DELIVERY_IRC_Delete(void *a0);
 extern unsigned GFL_NET_IsIdle(void);
 typedef unsigned int   u32;
-extern void func_021DEEA4(u32 *p, void *f);
-extern void func_021DE618(void);
-void func_021DE8D0(void *a, int *state, char *p)
+extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
+extern void MYSTERY_NET_NoopHandler(void);
+void MYSTERY_NET_DeleteIrc(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
@@ -30,7 +30,7 @@ void func_021DE8D0(void *a, int *state, char *p)
         if (GFL_NET_IsIdle()) *state = 2;
         break;
     case 2:
-        func_021DEEA4(a, func_021DE618);
+        MYSTERY_NET_SetHandler(a, MYSTERY_NET_NoopHandler);
         break;
     }
 }

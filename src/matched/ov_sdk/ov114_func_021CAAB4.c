@@ -12,18 +12,18 @@
  * sdk:      CRYPTOi_MyAlloc (libcrypto.TWL.HYB.a(util.o))
  *
  * symbols:
- *   func_020868E0  0x020868E0  arm
+ *   OS_AllocFromHeap  0x020868E0  arm
  *   gCryptoAllocators     0x021D422C  data
  */
 
 #include "../include/G_CryptoAllocators.h"
 
-extern void *func_020868E0(int id, int heap, unsigned long size);
+extern void *OS_AllocFromHeap(int id, int heap, unsigned long size);
 extern struct CryptoAllocators gCryptoAllocators;
 
 void *CRYPTOi_MyAlloc(unsigned long size)
 {
 	if (gCryptoAllocators.alloc_fn != 0)
 		return gCryptoAllocators.alloc_fn(size);
-	return func_020868E0(0, -1, size);
+	return OS_AllocFromHeap(0, -1, size);
 }

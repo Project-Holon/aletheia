@@ -19,9 +19,9 @@
  *   GFL_USE_IsSeqStartAllowed        0x02005CE0  thumb
  *   GFL_USE_GetSeSlot        0x02006148  thumb
  *   GFL_USE_SetSeSlotVolume        0x020062BC  thumb
- *   func_020755A8       0x020755A8  arm
+ *   NNS_SndArcPlayerStartSeqEx       0x020755A8  arm
  *   NNS_SndHandleStopSeq       0x02072E7C  arm
- *   func_02075560       0x02075560  arm
+ *   NNS_SndArcPlayerStartSeq       0x02075560  arm
  *
  * Registering and tearing down the five entries of the table at 0x020AA294,
  * and three forwarders over GFL_USE_PlaySe.  GFL_USE_PlaySeDefaultVolume and GFL_USE_PlaySeWithVolume
@@ -42,9 +42,9 @@ extern struct Sub0200616CEntry sub_0200616C_Table[];
 extern int  GFL_USE_IsSeqStartAllowed(void *arg);
 extern int  GFL_USE_GetSeSlot(u32 a);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 b);
-extern u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
+extern u32 NNS_SndArcPlayerStartSeqEx(u32 a, int b, int c, int d, u32 e);
 extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
-extern u32 func_02075560(u32 a, u32 b);
+extern u32 NNS_SndArcPlayerStartSeq(u32 a, u32 b);
 
 void GFL_USE_PlaySe(u32 a, u32 b);
 void GFL_USE_StopSeSlot(int i);
@@ -55,7 +55,7 @@ void GFL_USE_PlaySeInSlot(void *arg, int i)
         return;
     }
     sub_0200616C_Table[i].unk00 = 0;
-    if (func_020755A8((u32)(&sub_0200616C_Table[i].unk04), i + 1, -1, -1, (u32)arg) == 1) {
+    if (NNS_SndArcPlayerStartSeqEx((u32)(&sub_0200616C_Table[i].unk04), i + 1, -1, -1, (u32)arg) == 1) {
         sub_0200616C_Table[i].unk00 = arg;
     }
 }
@@ -69,7 +69,7 @@ void GFL_USE_PlaySe(u32 a, u32 b)
     }
     i = GFL_USE_GetSeSlot(a);
     sub_0200616C_Table[i].unk00 = 0;
-    if (func_02075560((u32)(&sub_0200616C_Table[i].unk04), a) != 1) {
+    if (NNS_SndArcPlayerStartSeq((u32)(&sub_0200616C_Table[i].unk04), a) != 1) {
         return;
     }
     sub_0200616C_Table[i].unk00 = (void *)a;

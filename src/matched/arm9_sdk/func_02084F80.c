@@ -1,5 +1,5 @@
 /*
- * function: func_02084F80
+ * function: OS_SNPrintf
  * address:  0x02084F80
  * packet:   pkt_02084F80
  * region:   arm9
@@ -20,7 +20,7 @@ typedef char *va_list;
 
 extern int OS_VSNPrintf(char *dst, unsigned int len, const char *fmt, va_list vlist);
 
-int func_02084F80(char *dst, unsigned int len, const char *fmt, ...)
+int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...)
 {
     int ret;
     va_list va;

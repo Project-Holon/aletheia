@@ -1,5 +1,5 @@
 /*
- * function: func_021B990C
+ * function: RESEARCH_TOP_ExitBackgrounds
  * address:  0x021B990C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021B990C  0x021B990C  thumb  ov217
+ *   RESEARCH_TOP_ExitBackgrounds  0x021B990C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed int     s32;
 
 extern u32 func_0203F9B4();
 extern void func_020403F4(u32 i);
-u32 func_021B990C(void)
+u32 RESEARCH_TOP_ExitBackgrounds(void)
 {
     func_020403F4(1);
     func_020403F4(4);

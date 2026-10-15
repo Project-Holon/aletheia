@@ -13,7 +13,7 @@
  *   g_021A1CD8   0x021A1CD8  data
  *   g_021AA484   0x021AA484  data
  *   g_021AA480   0x021AA480  data
- *   func_02085D94  0x02085D94  arm
+ *   OS_InitMessageQueue  0x02085D94  arm
  *   func_0215CE7C  0x0215CE7C  arm  ov009
  *
  * Allocate one block for `n` records: the first region is the word-aligned
@@ -30,7 +30,7 @@ extern char g_021AA484[];
 extern char g_021AA480[];
 typedef signed int     s32;
 struct OSMessageQueue;
-extern void func_02085D94(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void func_0215CE7C(void *ptr);
 
 int func_0215CD3C(int n)
@@ -48,7 +48,7 @@ int func_0215CD3C(int n)
     if (base == 0)
         return -1;
 
-    func_02085D94((struct OSMessageQueue *)g_021AA484, (void **)base, n);
+    OS_InitMessageQueue((struct OSMessageQueue *)g_021AA484, (void **)base, n);
 
     p = base + off;
     for (i = n; i > 0; i--) {

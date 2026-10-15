@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3D8
+ * function: RESEARCH_TOP_GetEntryLabelSource
  * address:  0x021BA3D8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA3D8(void *p, u32 i)
+u32 RESEARCH_TOP_GetEntryLabelSource(void *p, u32 i)
 {
     return *(u32 *)((char *)p + i * 4 + 0x74);
 }

@@ -16,7 +16,7 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_021673C4  0x021673C4  thumb  ov010
@@ -90,14 +90,14 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   PMSI_PARAM_Create  0x02024044  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
- *   func_0200E6FC  0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   PMSI_PARAM_SetSentence  0x02024108  thumb
  *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
  *   PMSI_PARAM_GetWords  0x02024128  thumb
  *   PMSI_PARAM_GetWord  0x02024124  thumb
  *   PMSI_PARAM_GetSentence  0x02024134  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_0200E714  0x0200E714  thumb
+ *   MISC_SAVEDATA_StoreQuadRecord  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
@@ -307,7 +307,7 @@ typedef struct ResearchReportWork {
 
 extern void *func_020120F4(const struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *func_0200E0B0(void *saveControl);
+extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
 extern u32 func_02012138(const struct GameSystem *gameSystem);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 extern u8 func_021673C4(u8 *saveData);
@@ -365,14 +365,14 @@ extern void *SCRCMD_WORK_GetGameData(void *work);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *PMSI_PARAM_Create(u32 mode, u32 a1, void *src, u32 flag, void *saveControl, u32 hh);
 extern void *func_0200E6F0(u32 saveControl);
-extern void func_0200E6FC(void *table, int index, void *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(void *table, int index, void *dst);
 extern void PMSI_PARAM_SetSentence(u16 *pmsParam, const u16 *sentence);
 extern int PMSI_PARAM_CheckCanceled(unsigned char *pmsParam);
 extern void  PMSI_PARAM_GetWords(void *pmsParam, PmsInputWords *out);
 extern unsigned int PMSI_PARAM_GetWord(unsigned short *pmsParam);
 extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
 extern void *GAME_EVENT_GetGameSystem(struct GameTask *task);
-extern void func_0200E714(void *table, int index, void *src);
+extern void MISC_SAVEDATA_StoreQuadRecord(void *table, int index, void *src);
 extern void  PMSI_PARAM_Delete(void *pmsParam);
 extern void *func_0201210C(const struct GameSystem *gameSystem);
 extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
@@ -598,7 +598,7 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
     SymbolMapLinkRecord *record;
 
     gameData = func_020120F4(gameSystem);
-    saveData = func_0200E0B0(GAME_DATA_GetSaveControl(gameData));
+    saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     comm = (void *)func_02012138(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         *outSymbolIndex = func_021673C4(saveData);
@@ -659,7 +659,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     u8 count;
 
     gameData = func_020120F4(gameSystem);
-    saveData = func_0200E0B0(GAME_DATA_GetSaveControl(gameData));
+    saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     comm = (void *)func_02012138(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
@@ -1277,7 +1277,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        func_0200E6FC(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(gameSystem))), inputWork->sentenceId, sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1336,7 +1336,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    MISC_SAVEDATA_StoreQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;

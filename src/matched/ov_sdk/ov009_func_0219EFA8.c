@@ -12,8 +12,8 @@
  * sdk:      ServerBrowserRemoveServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  *
  * symbols:
- *   func_0219F674  0x0219F674  arm  ov009
- *   func_0219F768  0x0219F768  arm  ov009
+ *   SBServerListFindServer  0x0219F674  arm  ov009
+ *   SBServerListRemoveAt  0x0219F768  arm  ov009
  */
 
 struct SBServer;
@@ -23,14 +23,14 @@ struct ServerBrowser {
 };
 
 struct SBL;
-extern int func_0219F674(struct SBL *slist, void *findserver);
-extern void func_0219F768(struct SBL *slist, int index);
+extern int SBServerListFindServer(struct SBL *slist, void *findserver);
+extern void SBServerListRemoveAt(struct SBL *slist, int index);
 
 void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server)
 {
     int i;
 
-    i = func_0219F674((struct SBL *)(&sb->list), server);
+    i = SBServerListFindServer((struct SBL *)(&sb->list), server);
     if (i != -1)
-        func_0219F768((struct SBL *)(&sb->list), i);
+        SBServerListRemoveAt((struct SBL *)(&sb->list), i);
 }

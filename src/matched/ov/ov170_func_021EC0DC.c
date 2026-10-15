@@ -1,5 +1,5 @@
 /*
- * function: func_021EC0DC
+ * function: BOX2_SEQ_RegisterBoxChars
  * address: 0x021EC0DC
  * packet: pkt_ov170_021EC0DC
  * region: ov170
@@ -24,7 +24,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 #define SLOT(p,o) (*(void **)((p)+(o)))
-void func_021EC0DC(char *p)
+void BOX2_SEQ_RegisterBoxChars(char *p)
 {
     void *h;
     unsigned i,j;

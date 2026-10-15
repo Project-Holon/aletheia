@@ -1,5 +1,5 @@
 /*
- * function: func_02084E54
+ * function: OSi_AllocateCardBus
  * address:  0x02084E54
  * packet:   pkt_02084E54
  * region:   arm9
@@ -29,7 +29,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
 extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 
-void func_02084E54(void)
+void OSi_AllocateCardBus(void)
 {
     if (((*(volatile u16 *)0x04004010 & 0xC) >> 2) == 2) {
         *(volatile u32 *)0x040001A4 |= 0x20000000;

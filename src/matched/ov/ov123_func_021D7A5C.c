@@ -14,9 +14,9 @@
  *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
  *   GSYNC_STATE_StateErrorMessage 0x021D6FF0 thumb ov123
  *   GSYNC_STATE_StateRequestFileList 0x021D7A18 thumb ov123
- *   d_021DAB88 0x021DAB88 data a1
- *   d_021DAB90 0x021DAB90 data a1
- *   d_021DAB9C 0x021DAB9C data a1
+ *   gGsyncExtraSaveName 0x021DAB88 data a1
+ *   gGsyncMusicalSaveName 0x021DAB90 data a1
+ *   gGsyncRecordSaveName 0x021DAB9C data a1
  */
 #include "../include/Obj01934.h"
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ extern int GSYNC_DOWNLOAD_SetAttr(char *p, void *arg, int value);
 extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
 extern void GSYNC_STATE_StateErrorMessage(char *p);
 extern void GSYNC_STATE_StateRequestFileList(int a);
-extern const char d_021DAB88[], d_021DAB90[], d_021DAB9C[];
+extern const char gGsyncExtraSaveName[], gGsyncMusicalSaveName[], gGsyncRecordSaveName[];
 void GSYNC_STATE_StateSetFileAttribute(u8 *p)
 {
     if (GSYNC_DOWNLOAD_ClearResult(((struct Obj01934 *)p)->f8)) {
@@ -38,7 +38,7 @@ void GSYNC_STATE_StateSetFileAttribute(u8 *p)
         }
         switch (p[0xa7]) {
         case 0:
-            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)d_021DAB88, p[0xa5])) {
+            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)gGsyncExtraSaveName, p[0xa5])) {
                 GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateRequestFileList, 0x42b);
                 return;
             }
@@ -46,7 +46,7 @@ void GSYNC_STATE_StateSetFileAttribute(u8 *p)
             GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateErrorMessage, 0x42f);
             return;
         case 1:
-            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)d_021DAB90, p[0xa4])) {
+            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)gGsyncMusicalSaveName, p[0xa4])) {
                 GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateRequestFileList, 0x434);
                 return;
             }
@@ -54,7 +54,7 @@ void GSYNC_STATE_StateSetFileAttribute(u8 *p)
             GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateErrorMessage, 0x438);
             return;
         case 2:
-            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)d_021DAB9C, p[0xa6])) {
+            if (GSYNC_DOWNLOAD_SetAttr(((struct Obj01934 *)p)->f8, (void *)gGsyncRecordSaveName, p[0xa6])) {
                 GSYNC_STATE_ChangeState(p, (int)GSYNC_STATE_StateRequestFileList, 0x43d);
                 return;
             }

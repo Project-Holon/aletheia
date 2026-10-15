@@ -25,7 +25,7 @@
  *   BACKUP_SYSTEM_SetBlockArea  0x0203331C  arm
  *   SAVEDATA_GetBlockOffset  0x02033B68  arm
  *   SAVEDATA_GetBlockSize  0x02033BAC  arm
- *   func_02081B8C  0x02081B8C  arm
+ *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   BACKUP_SYSTEM_GetBlockArea  0x020332FC  arm
  *   BACKUP_SYSTEM_SetSaveCount  0x02031F94  arm
  *
@@ -93,7 +93,7 @@ extern u32 func_02033BF0(struct Obj02033BF0 *p);
 extern void BACKUP_SYSTEM_SetBlockArea(struct Obj020332FC *p, u32 idx, u32 val);
 extern u32   SAVEDATA_GetBlockOffset(u8 *tbl, u32 idx);
 extern u32   SAVEDATA_GetBlockSize(u8 *tbl, u32 idx);
-extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
+extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 extern u32 BACKUP_SYSTEM_GetBlockArea(struct Obj020332FC *p, u32 idx);
 extern void BACKUP_SYSTEM_SetSaveCount(int *p, int v);
 
@@ -205,13 +205,13 @@ int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
                 && ((struct Obj08818 *)pb)->f2 != tbl[i])
                 break;
             if (((struct Obj08817 *)pa)->f2 == tbl[i]) {
-                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)svsys + 4), h + A, B))
+                if (((struct Obj08817 *)pa)->f2 != MATH_CalcCRC16CCITT((struct MATHCRC16Table *)((u8 *)svsys + 4), h + A, B))
                     BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 1);
             } else {
                 BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 1);
             }
             if (((struct Obj08818 *)pb)->f2 == tbl[i]) {
-                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)svsys + 4), buf + A, B)) {
+                if (((struct Obj08818 *)pb)->f2 != MATH_CalcCRC16CCITT((struct MATHCRC16Table *)((u8 *)svsys + 4), buf + A, B)) {
                     if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1)
                         break;
                     BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 2);

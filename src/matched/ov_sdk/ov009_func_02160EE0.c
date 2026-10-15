@@ -12,10 +12,10 @@
  * sdk:      client_hello (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02160E0C  0x02160E0C  arm  ov009
+ *   version_ok  0x02160E0C  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_0215FDA4  0x0215FDA4  arm  ov009
- *   func_02160DB4  0x02160DB4  arm  ov009
+ *   select_method  0x02160DB4  arm  ov009
  */
 
 typedef struct CPSSslConnection {
@@ -28,17 +28,17 @@ typedef struct CPSSslConnection {
     unsigned char state;                /* +0x455 */
 } CPSSslConnection;
 
-extern int func_02160E0C(unsigned char major, unsigned char minor);
+extern int version_ok(unsigned char major, unsigned char minor);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void func_0215FDA4(CPSSslConnection *con);
-extern int func_02160DB4(int a0, int a1, int a2);
+extern int select_method(int a0, int a1, int a2);
 
 static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
 {
     int sessionID_len;
     unsigned short method;
 
-    if (!func_02160E0C(s[0], s[1]))
+    if (!version_ok(s[0], s[1]))
         return;
     s += 2;
     MI_CpuCopy8(s, con->random, 0x20);
@@ -51,7 +51,7 @@ static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
         func_0215FDA4(con);
     }
     s += sessionID_len;
-    method = func_02160DB4((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
+    method = select_method((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
     con->method = method;
     if (method != 0)
         con->state = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFD4
+ * function: RESEARCH_GRAPH_ShowPercentages
  * address:  0x021BEFD4
  * packet:   pkt_ov217_021BEFD4
  * region:   ov217
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BEFC0 0x021BEFC0 thumb ov217
+ *   RESEARCH_GRAPH_ShowPercent 0x021BEFC0 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -18,13 +18,13 @@
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_021BEFC0(u8 *a0, u32 a1);
-void func_021BEFD4(char *p)
+extern void RESEARCH_GRAPH_ShowPercent(u8 *a0, u32 a1);
+void RESEARCH_GRAPH_ShowPercentages(char *p)
 {
     int i;
     int n;
     n = ((struct Obj25923 *)p)->f2FC;
     for (i = 0; i < n; i++) {
-        func_021BEFC0((u8 *)p, (u8)i);
+        RESEARCH_GRAPH_ShowPercent((u8 *)p, (u8)i);
     }
 }

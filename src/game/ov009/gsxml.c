@@ -1,7 +1,7 @@
 /*
  * file:     gsxml.c
  * unit:     yes
- * function: func_0218198C, func_021819B0, func_02181C2C, func_02181D10, func_02181D84, func_02181DA0, func_02181DC4, func_02181DE8, func_02181E10, func_02181E14, func_02181E18, func_02181E20, gsiXmlUtilSkipWhiteSpace, func_02181E80, func_02182414, func_02182554, func_0218263C, func_0218290C, func_021829AC, func_02182A2C, func_02182AC0, func_02182B68, func_02182C10, func_02182CF0, func_02182D78, func_02182DFC, func_02182E90, func_02182F40, func_02182FF8, func_021830D0, func_02183210, func_0218325C, func_021832DC, func_0218335C, func_02183490, func_021834D0, func_021834E8, func_02183560, func_021835D0, func_02183670, func_0218372C, func_021837A4, func_02183918, func_02183A24, func_02183AE4, func_02183BA4, func_02183CD4, gsiXmlUtilTagMatches, func_02183E50, func_02183EE0
+ * function: gsUnicodeStringLen, gsXmlCreateStreamWriter, gsXmlCreateStreamReader, gsXmlParseBuffer, gsXmlFreeWriter, gsXmlFreeReader, gsXmlResetReader, gsXmlCloseWriter, gsiXmlUtilElementFree, gsiXmlUtilAttributeFree, gsXmlWriterGetData, gsXmlWriterGetDataLength, gsiXmlUtilSkipWhiteSpace, func_02181E80, gsiXmlUtilParseName, gsiXmlUtilParseString, gsiXmlUtilDecodeString, gsiXmlUtilParseValue, gsXmlWriteOpenTag, gsXmlWriteCloseTag, gsXmlWriteStringElement, gsXmlWriteAsciiStringElement, gsXmlWriteUnicodeStringElement, gsXmlWriteIntElement, gsXmlWriteInt64Element, gsXmlWriteFloatElement, gsXmlWriteHexBinaryElement, gsXmlWriteBase64BinaryElement, gsXmlWriteDateTimeElement, gsXmlWriteLargeIntElement, gsiXmlUtilWriteChar, gsiXmlUtilWriteString, gsiXmlUtilWriteUnicodeString, gsiXmlUtilWriteXmlSafeString, gsiXmlUtilGrowBuffer, gsXmlMoveToStart, gsXmlMoveToNext, gsXmlMoveToParent, gsXmlMoveToChild, gsXmlReadChildAsString, gsXmlReadChildAsStringNT, gsXmlReadChildAsHexBinary, gsXmlReadChildAsBase64Binary, gsXmlReadChildAsInt, gsXmlReadChildAsInt64, gsXmlReadChildAsDateTimeElement, gsXmlReadChildAsFloat, gsiXmlUtilTagMatches, gsXmlReadChildAsLargeInt, gsXmlCountChildren
  * address:  0x0218198C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,29 +16,29 @@
  *   func_0217EAB0                    0x0217eab0 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
  *   func_0209477C                    0x0209477c arm
- *   func_0218325C                    0x0218325c arm  ov009
+ *   gsiXmlUtilWriteString                    0x0218325c arm  ov009
  *   func_0217EAE0                    0x0217eae0 arm  ov009
- *   func_02183210                    0x02183210 arm  ov009
- *   g_021A3DE4                       0x021a3de4 data
- *   g_021A3E20                       0x021a3e20 data
- *   g_021A3D0C                       0x021a3d0c data
- *   g_021A3E28                       0x021a3e28 data
- *   g_021A3E64                       0x021a3e64 data
+ *   gsiXmlUtilWriteChar                    0x02183210 arm  ov009
+ *   gGsXmlOomWriterFormat                       0x021a3de4 data
+ *   gGsXmlNamespacePrefix                       0x021a3e20 data
+ *   gGsXmlSoapDefaultNamespaces                       0x021a3d0c data
+ *   gGsXmlSoapEnvelopeStart                       0x021a3e28 data
+ *   gGsXmlSoapBodyStart                       0x021a3e64 data
  *   gsimalloc                0x0217EAB0 arm ov009
  *   gsDebugFormat            0x0217D254 arm ov009
  *   ArrayNew                 0x02184144 arm ov009
  *   gsifree                  0x0217EAE0 arm ov009
  *   ArrayFree                0x021841B0 arm ov009
  *   gsXmlMoveToStart         0x021834D0 arm ov009
- *   g_021A3E74               0x021A3E74 data
+ *   gGsXmlOomStreamFormat               0x021A3E74 data
  *   gsiXmlUtilElementFree    0x02181E10 arm ov009
- *   g_021A3EA8               0x021A3EA8 data
+ *   gGsXmlOomElementArrayFormat               0x021A3EA8 data
  *   gsiXmlUtilAttributeFree  0x02181E14 arm ov009
  *   gsiXmlUtilParseElement           0x02181e80 arm
  *   ArrayClear                       0x0218452c arm
- *   g_021A3EEC                       0x021a3eec data
+ *   gGsXmlSoapEnvelopeEnd                       0x021a3eec data
  *   strchr                           0x02094a28 arm
- *   g_021A3F14                       0x021a3f14 data
+ *   gGsXmlWhiteSpaceChars                       0x021a3f14 data
  *   gsiXmlUtilParseName              0x02182414 arm ov009
  *   ArrayLength                      0x02184200 arm ov009
  *   ArrayAppend                      0x02184234 arm ov009
@@ -56,14 +56,14 @@
  *   func_020964E0                    0x020964e0 arm
  *   func_02092364                    0x02092364 arm
  *   func_020923B0                    0x020923b0 arm
- *   g_021A3F1C                       0x021a3f1c data
- *   g_021A3F24                       0x021a3f24 data
- *   g_021A3F2C                       0x021a3f2c data
- *   g_021A3F34                       0x021a3f34 data
- *   g_021A3F3C                       0x021a3f3c data
- *   g_021A3F44                       0x021a3f44 data
- *   g_021A3F48                       0x021a3f48 data
- *   g_021A3F50                       0x021a3f50 data
+ *   gGsXmlEntityAmp                       0x021a3f1c data
+ *   gGsXmlEntityQuot                       0x021a3f24 data
+ *   gGsXmlEntityApos                       0x021a3f2c data
+ *   gGsXmlEntityLt                       0x021a3f34 data
+ *   gGsXmlEntityGt                       0x021a3f3c data
+ *   gGsXmlEntityHexPrefix                       0x021a3f44 data
+ *   gGsXmlHex8Format                       0x021a3f48 data
+ *   gGsXmlEntityDecPrefix                       0x021a3f50 data
  *   strlen                        0x0209477C arm
  *   gsXmlWriteOpenTag             0x021829AC arm ov009
  *   gsiXmlUtilWriteXmlSafeString  0x0218335C arm ov009
@@ -71,30 +71,30 @@
  *   gsUnicodeStringLen            0x0218198C arm ov009
  *   gsiXmlUtilWriteUnicodeString  0x021832DC arm ov009
  *   sprintf                0x02094530 arm
- *   g_021A3F54             0x021A3F54 data
+ *   gGsXmlIntFormat             0x021A3F54 data
  *   gsiInt64ToString       0x0217F130 arm ov009
  *   _f2d                   0x0209BD38 arm
- *   g_021A3F58             0x021A3F58 data
- *   g_021A3F5C           0x021A3F5C data
+ *   gGsXmlFloatFormat             0x021A3F58 data
+ *   gGsXmlHex2Format           0x021A3F5C data
  *   B64InitEncodeStream    0x0217FC68 arm ov009
  *   B64EncodeStream        0x0217FC70 arm ov009
  *   gsiSecondsToDate       0x0217F2C8 arm ov009
- *   g_021A3F64             0x021A3F64 data
+ *   gGsXmlDateTimeFormat             0x021A3F64 data
  *   strcpy                           0x02094798 arm
  *   _UCS2CharToUTF8String         0x021801C0 arm ov009
- *   g_021A3F84     0x021a3f84  data
- *   g_021A3F8C     0x021a3f8c  data
+ *   gGsXmlEntitySpace     0x021a3f84  data
+ *   gGsXmlEntityByteFormat     0x021a3f8c  data
  *   gsirealloc                       0x0217eac8 arm
  *   ArrayNth                         0x02184208 arm
  *   strncpy                          0x02094860 arm
  *   STD_TSScanf           0x0208cf34  arm
- *   g_021A3F98            0x021a3f98  data
+ *   gGsXmlHex1Format            0x021a3f98  data
  *   func_0217F8B4         0x0217F8B4 arm ov009
  *   func_0217FBC8         0x0217FBC8 arm ov009
  *   atoi                  0x020964E0 arm
  *   gsiStringToInt64      0x0217F124 arm ov009
  *   func_0217F478         0x0217F478 arm ov009
- *   g_021A3FA0            0x021A3FA0 data
+ *   gGsXmlDateTimeFormatNoZ            0x021A3FA0 data
  *   atof                  0x02095B2C arm
  *   _d2f                  0x0209B64C arm
  *   gsLargeIntReverseBytes  0x0217E934  arm
@@ -138,16 +138,16 @@ typedef struct GSIXmlAttribute {
     GSIXmlString name;
     GSIXmlString value;
     int elementIndex;
-    int unk14;
+    int owningElementIndex;
 } GSIXmlAttribute;
 
 typedef unsigned int   u32;
 
 
 typedef struct {
-    int f0;
-    int f4;
-    int f8;
+    char *data;
+    int len;
+    int mode;
 } B64StreamData;
 
 struct tm {
@@ -170,9 +170,9 @@ typedef struct gsLargeInt_s {
 extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0209477C(const u8 *s);
-extern int func_0218325C(void *stream, const char *str);
+static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
 extern void func_0217EAE0(void *ptr);
-extern int func_02183210(GSIXmlStreamWriter *stream, char ch);
+extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
 extern void *gsimalloc(unsigned long size);
 extern void gsifree(void *ptr);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
@@ -181,7 +181,7 @@ extern void ArrayFree(void *array);
 extern int gsXmlMoveToStart(void *stream);
 extern void gsiXmlUtilElementFree(void *elem);
 extern void gsiXmlUtilAttributeFree(void *elem);
-extern int gsiXmlUtilParseElement(void *stream, char *buffer, int len, int *pos, int parentIndex);
+static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len, int *pos, int parentIndex);
 extern void ArrayClear(void *array);
 extern char *strchr(const char *s, int c);
 extern int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
@@ -200,8 +200,8 @@ extern void *func_02092364(void *dst, const void *src, unsigned int n);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
 extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter *stream, char *str);
-extern int gsUnicodeStringLen(unsigned short *str);
+extern int gsiXmlUtilWriteXmlSafeString(void *stream, char *str);
+extern int gsUnicodeStringLen(const unsigned short *str);
 extern int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned short *str);
 extern int sprintf(char *buf, const char *fmt, ...);
 extern void gsiInt64ToString(char *theNumberStr, long long theNumber);
@@ -220,93 +220,80 @@ extern long long gsiStringToInt64(const char *s);
 extern long func_0217F478(struct tm *tb);
 extern double atof(const char *s);
 extern int gsLargeIntReverseBytes(char *p);
-int func_0218198C(const unsigned short *p);
-void *func_021819B0(const char **namespaces, int count);
-void *func_02181C2C(void);
+void *gsXmlCreateStreamWriter(const char **namespaces, int count);
+void *gsXmlCreateStreamReader(void);
 int gsXmlParseBuffer(void *stream, char *data, int len);
-void func_02181D84(void **p);
+void gsXmlFreeWriter(void **writerRef);
 void gsXmlFreeReader(void *stream);
 void gsXmlResetReader(void *stream);
 int gsXmlCloseWriter(void *stream);
-void func_02181E10(void);
-void func_02181E14(void);
-char *func_02181E18(void *stream);
-int func_02181E20(void *stream);
-int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
-int func_02182554(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
-int func_0218263C(char *buffer, int *len);
-int func_0218290C(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
-int func_021829AC(void *stream, char *namespaceName, char *tag);
-int func_02182A2C(void *stream, char *namespaceName, char *tag);
-int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-int func_02182B68(void *stream, char *namespaceName, char *tag, char *value);
-int func_02182C10(void *stream, char *namespaceName, char *tag, unsigned short *value);
-int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
-int func_02182D78(void *stream, char *namespaceName, char *tag, long long value);
-int func_02182DFC(void *stream, char *namespaceName, char *tag, float value);
-int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-int func_02182F40(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-int func_02182FF8(void *stream, char *namespaceName, char *tag, long value);
-int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint);
-int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
-int func_021832DC(GSIXmlStreamWriter *stream, unsigned short *str);
-int func_0218335C(void *stream, char *str);
-int func_021834D0(int *p);
+char *gsXmlWriterGetData(void *stream);
+int gsXmlWriterGetDataLength(void *stream);
+int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
+int gsXmlWriteAsciiStringElement(void *stream, char *namespaceName, char *tag, char *value);
+int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag, unsigned short *value);
+int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
+int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long long value);
+int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float value);
+int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
+int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
+int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value);
+int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt *lint);
 int gsXmlMoveToNext(void *stream, char *matchtag);
 int gsXmlMoveToParent(void *stream);
-int func_021835D0(void *stream, char *matchtag);
+int gsXmlMoveToChild(void *stream, char *matchtag);
 int gsXmlReadChildAsString(void *stream, char *matchtag, char **valueOut, int *lenOut);
 int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
-int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut);
-int func_02183918(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut);
-int func_02183A24(void *stream, char *matchtag, int *valueOut);
-int func_02183AE4(void *stream, char *matchtag, long long *valueOut);
-int func_02183BA4(void *stream, char *matchtag, long *valueOut);
-int func_02183CD4(void *stream, char *matchtag, float *valueOut);
-int func_02183E50(void *a, int b, int *c);
-int func_02183EE0(void *stream, char *matchtag);
-extern char g_021A3DE4[];
-extern char g_021A3E20[];
-extern const char *g_021A3D0C[4];   /* GS_XML_SOAP_DEFAULT_NAMESPACES */
-extern char g_021A3E28[];
-extern char g_021A3E64[];
-extern char g_021A3E74[];
-extern char g_021A3EA8[];
-extern char g_021A3EEC[];
-extern char g_021A3F14[];
+int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut);
+int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut);
+int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
+int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut);
+int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut);
+int gsXmlReadChildAsFloat(void *stream, char *matchtag, float *valueOut);
+int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData);
+int gsXmlCountChildren(void *stream, char *matchtag);
+extern char gGsXmlOomWriterFormat[];
+extern char gGsXmlNamespacePrefix[];
+extern const char *gGsXmlSoapDefaultNamespaces[4];   /* GS_XML_SOAP_DEFAULT_NAMESPACES */
+extern char gGsXmlSoapEnvelopeStart[];
+extern char gGsXmlSoapBodyStart[];
+extern char gGsXmlOomStreamFormat[];
+extern char gGsXmlOomElementArrayFormat[];
+extern char gGsXmlSoapEnvelopeEnd[];
+extern char gGsXmlWhiteSpaceChars[];
 extern const unsigned short __ctype_mapC[];
 extern const unsigned short g_020A61DC[];
-extern char g_021A3F54[];
-extern char g_021A3F58[];
-extern char g_021A3F5C[];
-extern char g_021A3F64[];
-extern char g_021A3F1C[];
-extern char g_021A3F24[];
-extern char g_021A3F2C[];
-extern char g_021A3F34[];
-extern char g_021A3F3C[];
-extern char g_021A3F84[];
-extern char g_021A3F8C[];
-extern char g_021A3F98[];
-extern char g_021A3FA0[];
-extern char g_021A3F44[];       /* "&#x" */
-extern char g_021A3F48[];       /* "%08x" */
-extern char g_021A3F50[];       /* "&#" */
+extern char gGsXmlIntFormat[];
+extern char gGsXmlFloatFormat[];
+extern char gGsXmlHex2Format[];
+extern char gGsXmlDateTimeFormat[];
+extern char gGsXmlEntityAmp[];
+extern char gGsXmlEntityQuot[];
+extern char gGsXmlEntityApos[];
+extern char gGsXmlEntityLt[];
+extern char gGsXmlEntityGt[];
+extern char gGsXmlEntitySpace[];
+extern char gGsXmlEntityByteFormat[];
+extern char gGsXmlHex1Format[];
+extern char gGsXmlDateTimeFormatNoZ[];
+extern char gGsXmlEntityHexPrefix[];       /* "&#x" */
+extern char gGsXmlHex8Format[];       /* "%08x" */
+extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
 
 
 /*
  * Number of halfwords before the terminating zero, less one.
  */
-int func_0218198C(const unsigned short *p)
+int gsUnicodeStringLen(const unsigned short *str)
 {
-    const unsigned short *q = p;
-    unsigned short v;
+    const unsigned short *cursor = str;
+    unsigned short ch;
 
     do {
-        v = *q++;
-    } while (v != 0);
-    return (int)((const char *)q - (const char *)p) / 2 - 1;
+        ch = *cursor++;
+    } while (ch != 0);
+    return (int)((const char *)cursor - (const char *)str) / 2 - 1;
 }
 
 
@@ -315,7 +302,7 @@ int func_0218198C(const unsigned short *p)
 /*
  * sdk:      gsXmlCreateStreamWriter (gsxml.o)
  */
-void *func_021819B0(const char **namespaces, int count)
+void *gsXmlCreateStreamWriter(const char **namespaces, int count)
 {
     GSIXmlStreamWriter *newStream;
     int initialCapacity = 1024;
@@ -324,16 +311,16 @@ void *func_021819B0(const char **namespaces, int count)
 
     newStream = func_0217EAB0(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, sizeof(GSIXmlStreamWriter));
+        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
-        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
-        namespaceLen += func_0209477C((const u8 *)g_021A3D0C[i]);
+        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
+        namespaceLen += func_0209477C((const u8 *)gGsXmlSoapDefaultNamespaces[i]);
     }
     for (i = 0; i < count; i++) {
-        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
+        namespaceLen += func_0209477C((const u8 *)gGsXmlNamespacePrefix) + 1;
         namespaceLen += func_0209477C((const u8 *)namespaces[i]);
     }
     while (initialCapacity < namespaceLen)
@@ -341,7 +328,7 @@ void *func_021819B0(const char **namespaces, int count)
 
     newStream->buffer = func_0217EAB0(initialCapacity);
     if (newStream->buffer == 0) {
-        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, initialCapacity);
+        func_0217D254(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;
@@ -349,31 +336,31 @@ void *func_021819B0(const char **namespaces, int count)
     newStream->buffer[0] = '\0';
     newStream->closed = 0;
 
-    if (!func_0218325C(newStream, g_021A3E28)) {
+    if (!gsiXmlUtilWriteString(newStream, gGsXmlSoapEnvelopeStart)) {
         func_0217EAE0(newStream->buffer);
         func_0217EAE0(newStream);
         return 0;
     }
     for (i = 0; i < 4; i++) {
-        if (!func_02183210(newStream, ' ') ||
-            !func_0218325C(newStream, g_021A3E20) ||
-            !func_0218325C(newStream, g_021A3D0C[i])) {
+        if (!gsiXmlUtilWriteChar(newStream, ' ') ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlSoapDefaultNamespaces[i])) {
             func_0217EAE0(newStream->buffer);
             func_0217EAE0(newStream);
             return 0;
         }
     }
     for (i = 0; i < count; i++) {
-        if (!func_02183210(newStream, ' ') ||
-            !func_0218325C(newStream, g_021A3E20) ||
-            !func_0218325C(newStream, namespaces[i])) {
+        if (!gsiXmlUtilWriteChar(newStream, ' ') ||
+            !gsiXmlUtilWriteString(newStream, gGsXmlNamespacePrefix) ||
+            !gsiXmlUtilWriteString(newStream, namespaces[i])) {
             func_0217EAE0(newStream->buffer);
             func_0217EAE0(newStream);
             return 0;
         }
     }
-    if (!func_02183210(newStream, '>') ||
-        !func_0218325C(newStream, g_021A3E64)) {
+    if (!gsiXmlUtilWriteChar(newStream, '>') ||
+        !gsiXmlUtilWriteString(newStream, gGsXmlSoapBodyStart)) {
         func_0217EAE0(newStream->buffer);
         func_0217EAE0(newStream);
         return 0;
@@ -390,35 +377,35 @@ void *func_021819B0(const char **namespaces, int count)
  * Allocates a GSIXmlStreamReader (0x14 bytes), gives it an element array
  * (24-byte elements, 32 of them) and an attribute array (24-byte elements, 16)
  * and points it at the start of the stream.  Both failure paths report through
- * the SAME diagnostic string g_021A3EA8 - that shared literal is what fixes the
- * literal-pool order (g_021A3E74, gsiXmlUtilElementFree, g_021A3EA8,
+ * the SAME diagnostic string gGsXmlOomElementArrayFormat - that shared literal is what fixes the
+ * literal-pool order (gGsXmlOomStreamFormat, gsiXmlUtilElementFree, gGsXmlOomElementArrayFormat,
  * gsiXmlUtilAttributeFree) and therefore every pool offset in the function.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02181C2C.c \
- *       --func func_02181C2C --addr 0x02181C2C --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *       --func gsXmlCreateStreamReader --addr 0x02181C2C --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
-void *func_02181C2C(void)
+void *gsXmlCreateStreamReader(void)
 {
     GSIXmlStreamReader *newStream;
 
     newStream = (GSIXmlStreamReader *)gsimalloc(sizeof(GSIXmlStreamReader));
     if (newStream == 0)
     {
-        gsDebugFormat(12, 2, 1, g_021A3E74, sizeof(GSIXmlStreamReader));
+        gsDebugFormat(12, 2, 1, gGsXmlOomStreamFormat, sizeof(GSIXmlStreamReader));
         return 0;
     }
     newStream->elements = ArrayNew(24, 32, gsiXmlUtilElementFree);
     if (newStream->elements == 0)
     {
-        gsDebugFormat(12, 2, 1, g_021A3EA8);
+        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
         gsifree(newStream);
         return 0;
     }
     newStream->attributes = ArrayNew(24, 16, gsiXmlUtilAttributeFree);
     if (newStream->attributes == 0)
     {
-        gsDebugFormat(12, 2, 1, g_021A3EA8);
+        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
         ArrayFree(newStream->elements);
         gsifree(newStream);
         return 0;
@@ -449,10 +436,10 @@ int gsXmlParseBuffer(void *stream, char *data, int len)
 /*
  * Calls the module helper on the pointed-to block and then on the pointer.
  */
-void func_02181D84(void **p)
+void gsXmlFreeWriter(void **writerRef)
 {
-    func_0217EAE0(*p);
-    func_0217EAE0(p);
+    func_0217EAE0(*writerRef);
+    func_0217EAE0(writerRef);
 }
 
 
@@ -487,7 +474,7 @@ int gsXmlCloseWriter(void *stream)
     GSIXmlStreamWriter * writer = (GSIXmlStreamWriter *)stream;
     int result;
 
-    if (gsiXmlUtilWriteString(writer, g_021A3EEC) == 0)
+    if (gsiXmlUtilWriteString(writer, gGsXmlSoapEnvelopeEnd) == 0)
         result = 0;
     else
     {
@@ -505,7 +492,7 @@ int gsXmlCloseWriter(void *stream)
  *           relocation at +0xD8 (ABS32 gsiXmlUtilElementFree) is the pool word at
  *           0x02181D04 that names it.  Seeded in layout/function_starts.txt.
  */
-void func_02181E10(void)
+void gsiXmlUtilElementFree(void *elem)
 {
 }
 
@@ -518,7 +505,7 @@ void func_02181E10(void)
  *           Byte-identical to 0x02181E10: the name comes from that relocation.
  *           Seeded in layout/function_starts.txt.
  */
-void func_02181E14(void)
+void gsiXmlUtilAttributeFree(void *elem)
 {
 }
 
@@ -530,7 +517,7 @@ void func_02181E14(void)
  * notes:    `ldr r0, [r0]; bx lr`; called by bl from ov114 ghttp code (see
  *           layout/function_starts.txt).  Seeded in layout/function_starts.txt.
  */
-char *func_02181E18(void *stream)
+char *gsXmlWriterGetData(void *stream)
 {
     return ((GSIXmlStreamWriter *)stream)->buffer;
 }
@@ -543,7 +530,7 @@ char *func_02181E18(void *stream)
  * notes:    `ldr r0, [r0, #4]; bx lr`; called by bl from ov114 ghttp code (see
  *           layout/function_starts.txt).  Seeded in layout/function_starts.txt.
  */
-int func_02181E20(void *stream)
+int gsXmlWriterGetDataLength(void *stream)
 {
     return ((GSIXmlStreamWriter *)stream)->length;
 }
@@ -558,7 +545,7 @@ static int gsiXmlUtilSkipWhiteSpace(void *unused, char *buffer, int len, int *po
 {
     while (*pos < len)
     {
-        if (strchr(g_021A3F14, buffer[*pos]) == 0)
+        if (strchr(gGsXmlWhiteSpaceChars, buffer[*pos]) == 0)
             return 1;
         (*pos)++;
     }
@@ -591,7 +578,7 @@ static int gsiXmlUtilSkipWhiteSpace(void *unused, char *buffer, int len, int *po
  *
  * sdk:      gsiXmlUtilParseElement (libdwcgscommon.TWL.HYB.a gsxml.o)
  */
-static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
+static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len,
                                   int *pos, int parentIndex)
 {
     GSIXmlElement newElem;
@@ -643,7 +630,7 @@ static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
             return 0;
         if (storeElement) {
             newAttr.elementIndex = ArrayLength(stream->attributes);
-            newAttr.unk14 = newElem.index;
+            newAttr.owningElementIndex = newElem.index;
             ArrayAppend(stream->attributes, &newAttr);
         }
     }
@@ -699,7 +686,7 @@ static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
         if (newElem.value.string != 0)
             return 0;
         *pos = startPos;
-        if (!func_02181E80(stream, buffer, len, pos, newElem.index))
+        if (!gsiXmlUtilParseElement(stream, buffer, len, pos, newElem.index))
             return 0;
         gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos);
     }
@@ -753,7 +740,7 @@ static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
  * before mData, the guard split into two ifs, and a `char *` cast on the base
  * (that one re-colours the entry block, 67 bytes).
  */
-int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
+int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
 {
     int haveNamespace = 0;
     char c;
@@ -768,7 +755,7 @@ int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *s
     strOut->string = buffer + *pos;
     strOut->length = 1;
     (*pos)++;
-    while (*pos < len && strchr(g_021A3F14, c = buffer[*pos]) == 0) {
+    while (*pos < len && strchr(gGsXmlWhiteSpaceChars, c = buffer[*pos]) == 0) {
         if (c == ':') {
             if (haveNamespace)
                 return 0;
@@ -815,9 +802,9 @@ int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *s
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02182554.c \
- *       --func func_02182554 --addr 0x02182554 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *       --func gsiXmlUtilParseString --addr 0x02182554 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
-int func_02182554(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
+int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
 {
     char *strStart;
     char startCh;
@@ -875,7 +862,7 @@ int func_02182554(void *stream, char *buffer, int len, int *pos, GSIXmlString *s
  *           which lengthened its live range and rotated r4/r5/r6.
  *           The `%08x` vs `%x` string spelling is irrelevant (ABS32).
  */
-int func_0218263C(char *buffer, int *len)
+int gsiXmlUtilDecodeString(char *buffer, int *len)
 {
 	int readPos = 0;
 
@@ -889,32 +876,32 @@ int func_0218263C(char *buffer, int *len)
 			continue;
 		}
 
-		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F1C, 5)==0)
+		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityAmp, 5)==0)
 		{
 			buffer[readPos++] = '&';
 			charsToRemove = 5-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F24, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityQuot, 6)==0)
 		{
 			buffer[readPos++] = '"';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F2C, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityApos, 6)==0)
 		{
 			buffer[readPos++] = '\'';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F34, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityLt, 4)==0)
 		{
 			buffer[readPos++] = '<';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F3C, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityGt, 4)==0)
 		{
 			buffer[readPos++] = '>';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F44, 3)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityHexPrefix, 3)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -928,7 +915,7 @@ int func_0218263C(char *buffer, int *len)
 			if (digitEnd - &buffer[readPos+3] > 8)
 				return 0;
 
-			func_0208CF34(&buffer[readPos+3], g_021A3F48, &digitValue);
+			func_0208CF34(&buffer[readPos+3], gGsXmlHex8Format, &digitValue);
 
 			for (i=0; i < 4; i++)
 			{
@@ -943,7 +930,7 @@ int func_0218263C(char *buffer, int *len)
 
 			charsToRemove = digitEnd - &buffer[readPos] + 1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F50, 2)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityDecPrefix, 2)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -989,7 +976,7 @@ int func_0218263C(char *buffer, int *len)
 /*
  * sdk:      gsiXmlUtilParseValue (gsxml)
  */
-int func_0218290C(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
+int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
 {
     char *strStart = 0;
 
@@ -1018,7 +1005,7 @@ int func_0218290C(void *stream, char *buffer, int len, int *pos, GSIXmlString *s
 /*
  * sdk:      gsXmlWriteOpenTag (gsxml)
  */
-int func_021829AC(void *stream, char *namespaceName, char *tag)
+int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     if (!(gsiXmlUtilWriteChar(writer, '<')
@@ -1038,7 +1025,7 @@ int func_021829AC(void *stream, char *namespaceName, char *tag)
 /*
  * sdk:      gsXmlWriteCloseTag (gsxml)
  */
-int func_02182A2C(void *stream, char *namespaceName, char *tag)
+int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     if (!(gsiXmlUtilWriteChar(writer, '<')
@@ -1059,7 +1046,7 @@ int func_02182A2C(void *stream, char *namespaceName, char *tag)
 /*
  * sdk:      gsXmlWriteAsciiStringElement (gsxml)
  */
-int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value)
+int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     int len = strlen(value);
@@ -1086,7 +1073,7 @@ int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value)
 /*
  * sdk:      gsXmlWriteStringElement (gsxml)
  */
-int func_02182B68(void *stream, char *namespaceName, char *tag, char *value)
+int gsXmlWriteAsciiStringElement(void *stream, char *namespaceName, char *tag, char *value)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     int len = strlen(value);
@@ -1113,7 +1100,7 @@ int func_02182B68(void *stream, char *namespaceName, char *tag, char *value)
 /*
  * sdk:      gsXmlWriteUnicodeStringElement (gsxml)
  */
-int func_02182C10(void *stream, char *namespaceName, char *tag, unsigned short *value)
+int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag, unsigned short *value)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     int len = gsUnicodeStringLen(value);
@@ -1147,12 +1134,12 @@ int func_02182C10(void *stream, char *namespaceName, char *tag, unsigned short *
 /*
  * sdk:      gsXmlWriteIntElement (gsxml)
  */
-int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value)
+int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value)
 {
     char buf[32];
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
 
-    sprintf(buf, g_021A3F54, value);
+    sprintf(buf, gGsXmlIntFormat, value);
     if (!(gsXmlWriteOpenTag(writer, namespaceName, tag)
         && gsiXmlUtilWriteString(writer, buf)
         && gsXmlWriteCloseTag(writer, namespaceName, tag)))
@@ -1169,7 +1156,7 @@ int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int val
 /*
  * sdk:      gsXmlWriteInt64Element (gsxml)
  */
-int func_02182D78(void *stream, char *namespaceName, char *tag, long long value)
+int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long long value)
 {
     char buf[33];
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
@@ -1191,12 +1178,12 @@ int func_02182D78(void *stream, char *namespaceName, char *tag, long long value)
 /*
  * sdk:      gsXmlWriteFloatElement (gsxml)
  */
-int func_02182DFC(void *stream, char *namespaceName, char *tag, float value)
+int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float value)
 {
     char buf[32];
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
 
-    sprintf(buf, g_021A3F58, (double)value);
+    sprintf(buf, gGsXmlFloatFormat, (double)value);
     if (!(gsXmlWriteOpenTag(writer, namespaceName, tag)
         && gsiXmlUtilWriteString(writer, buf)
         && gsXmlWriteCloseTag(writer, namespaceName, tag)))
@@ -1213,7 +1200,7 @@ int func_02182DFC(void *stream, char *namespaceName, char *tag, float value)
 /*
  * sdk:      gsXmlWriteHexBinaryElement (gsxml)
  */
-int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
+int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     int pos = 0;
@@ -1224,7 +1211,7 @@ int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *d
         return 0;
     for (pos = 0; pos < len; )
     {
-        sprintf(hex, g_021A3F5C, data[pos]);
+        sprintf(hex, gGsXmlHex2Format, data[pos]);
         pos++;
         if (!gsiXmlUtilWriteChar(writer, hex[0]))
             return 0;
@@ -1245,7 +1232,7 @@ int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *d
 /*
  * sdk:      gsXmlWriteBase64BinaryElement (gsxml)
  */
-int func_02182F40(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
+int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     B64StreamData streamData;
@@ -1274,14 +1261,14 @@ int func_02182F40(void *stream, char *namespaceName, char *tag, unsigned char *d
 /*
  * sdk:      gsXmlWriteDateTimeElement (gsxml)
  */
-int func_02182FF8(void *stream, char *namespaceName, char *tag, long value)
+int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value)
 {
     GSIXmlStreamWriter *writer = (GSIXmlStreamWriter *)stream;
     char timeString[21];
     struct tm *timePtr;
 
     timePtr = gsiSecondsToDate(&value);
-    sprintf(timeString, g_021A3F64, timePtr->tm_year + 1900, timePtr->tm_mon + 1, timePtr->tm_mday, timePtr->tm_hour, timePtr->tm_min, timePtr->tm_sec);
+    sprintf(timeString, gGsXmlDateTimeFormat, timePtr->tm_year + 1900, timePtr->tm_mon + 1, timePtr->tm_mday, timePtr->tm_hour, timePtr->tm_min, timePtr->tm_sec);
     if (!(gsXmlWriteOpenTag(writer, namespaceName, tag)
         && gsiXmlUtilWriteString(writer, timeString)
         && gsXmlWriteCloseTag(writer, namespaceName, tag)))
@@ -1298,7 +1285,7 @@ int func_02182FF8(void *stream, char *namespaceName, char *tag, long value)
 /*
  * sdk:      gsXmlWriteLargeIntElement (libdwcgscommon.TWL.HYB.a gsxml.o)
  */
-int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint)
+int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt *lint)
 {
     GSIXmlStreamWriter *writer;
     unsigned int *readBuf;
@@ -1309,7 +1296,7 @@ int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint
 
     readPos = lint->mLength - 1;
     readBuf = lint->mData;
-    if (!func_021829AC(stream, namespaceName, tag))
+    if (!gsXmlWriteOpenTag(stream, namespaceName, tag))
         return 0;
     while (readPos >= 0 && readBuf[readPos] == 0)
         readPos--;
@@ -1326,7 +1313,7 @@ int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint
         }
         if (i < 4) {
             for (; i < 4; i++) {
-                sprintf(hex, g_021A3F5C, (lint->mData[readPos] >> ((3 - i) * 8)) & 0xff);
+                sprintf(hex, gGsXmlHex2Format, (lint->mData[readPos] >> ((3 - i) * 8)) & 0xff);
                 if (!gsiXmlUtilWriteChar(writer, hex[0]))
                     return 0;
                 if (!gsiXmlUtilWriteChar(writer, hex[1]))
@@ -1334,7 +1321,7 @@ int func_021830D0(void *stream, char *namespaceName, char *tag, gsLargeInt *lint
             }
         }
     }
-    if (!func_02182A2C(stream, namespaceName, tag))
+    if (!gsXmlWriteCloseTag(stream, namespaceName, tag))
         return 0;
     return 1;
 }
@@ -1363,7 +1350,7 @@ int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch)
 
 
 
-static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, char *str)
+static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str)
 {
     int strLen;
 
@@ -1388,7 +1375,7 @@ static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, char *str)
 /*
  * sdk:      gsiXmlUtilWriteUnicodeString (gsxml)
  */
-int func_021832DC(GSIXmlStreamWriter *stream, unsigned short *str)
+int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned short *str)
 {
     int strLen;
     int pos;
@@ -1415,7 +1402,7 @@ int func_021832DC(GSIXmlStreamWriter *stream, unsigned short *str)
 /*
  * sdk:      gsiXmlUtilWriteXmlSafeString (libdwcgscommon.TWL.HYB.a gsxml.o)
  */
-int func_0218335C(void *stream, char *str)
+int gsiXmlUtilWriteXmlSafeString(void *stream, char *str)
 {
     int strLen;
     int pos;
@@ -1426,21 +1413,21 @@ int func_0218335C(void *stream, char *str)
     for (pos = 0; pos < strLen; pos++) {
         char c = str[pos];
         if (c == '&') {
-            result = func_0218325C(stream, g_021A3F1C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityAmp);
         } else if (c == '\'') {
-            result = func_0218325C(stream, g_021A3F2C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityApos);
         } else if (c == '"') {
-            result = func_0218325C(stream, g_021A3F24);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityQuot);
         } else if (c == '<') {
-            result = func_0218325C(stream, g_021A3F34);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityLt);
         } else if (c == '>') {
-            result = func_0218325C(stream, g_021A3F3C);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntityGt);
         } else if (c == ' ') {
-            result = func_0218325C(stream, g_021A3F84);
+            result = gsiXmlUtilWriteString(stream, gGsXmlEntitySpace);
         } else if (c < ' ' || (unsigned char)c > 0x7f) {
-            sprintf(numeric, g_021A3F8C, (unsigned char)c);
+            sprintf(numeric, gGsXmlEntityByteFormat, (unsigned char)c);
             numeric[6] = 0;
-            result = func_0218325C(stream, numeric);
+            result = gsiXmlUtilWriteString(stream, numeric);
         } else {
             result = gsiXmlUtilWriteChar(stream, c);
         }
@@ -1477,11 +1464,12 @@ static int gsiXmlUtilGrowBuffer(GSIXmlStreamWriter *stream)
 /*
  * Fills the three words at +8, +0xc and +0x10 with -1 and reports success.
  */
-int func_021834D0(int *p)
+int gsXmlMoveToStart(void *stream)
 {
-    p[2] = -1;
-    p[3] = -1;
-    p[4] = -1;
+    int *reader = (int *)stream;
+    reader[2] = -1;
+    reader[3] = -1;
+    reader[4] = -1;
     return 1;
 }
 
@@ -1548,7 +1536,7 @@ int gsXmlMoveToParent(void *stream)
 /*
  * sdk:      gsXmlMoveToChild (gsxml)
  */
-int func_021835D0(void *stream, char *matchtag)
+int gsXmlMoveToChild(void *stream, char *matchtag)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchElem;
@@ -1635,7 +1623,7 @@ int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int m
 /*
  * sdk:      gsXmlReadChildAsHexBinary (libdwcgscommon.TWL.HYB.a gsxml.o)
  */
-int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut)
+int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1667,14 +1655,14 @@ int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int max
                 return 1;
             }
             while (bytesleft > 1) {
-                STD_TSScanf(searchValueElem->value.string + readpos, g_021A3F5C, &temp);
+                STD_TSScanf(searchValueElem->value.string + readpos, gGsXmlHex2Format, &temp);
                 valueOut[writepos] = temp;
                 bytesleft -= 2;
                 readpos += 2;
                 writepos++;
             }
             if (bytesleft == 1) {
-                STD_TSScanf(searchValueElem->value.string + readpos, g_021A3F98, &temp);
+                STD_TSScanf(searchValueElem->value.string + readpos, gGsXmlHex1Format, &temp);
                 valueOut[writepos] = temp;
                 writepos++;
             }
@@ -1699,7 +1687,7 @@ int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int max
 /*
  * sdk:      gsXmlReadChildAsBase64Binary (libdwcgscommon.TWL.HYB.a(gsxml.o))
  */
-int func_02183918(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)
+int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1746,7 +1734,7 @@ int func_02183918(void *stream, char *matchtag, unsigned char *valueOut, int *le
 /*
  * sdk:      gsXmlReadChildAsInt (gsxml)
  */
-int func_02183A24(void *stream, char *matchtag, int *valueOut)
+int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1782,7 +1770,7 @@ int func_02183A24(void *stream, char *matchtag, int *valueOut)
 /*
  * sdk:      gsXmlReadChildAsInt64 (gsxml)
  */
-int func_02183AE4(void *stream, char *matchtag, long long *valueOut)
+int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1818,7 +1806,7 @@ int func_02183AE4(void *stream, char *matchtag, long long *valueOut)
 /*
  * sdk:      gsXmlReadChildAsDateTimeElement (libdwcgscommon.TWL.HYB.a(gsxml.o))
  */
-int func_02183BA4(void *stream, char *matchtag, long *valueOut)
+int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1836,7 +1824,7 @@ int func_02183BA4(void *stream, char *matchtag, long *valueOut)
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)
                 return 0;
-            func_0208CF34(searchValueElem->value.string, g_021A3FA0, &timePtr.tm_year, &timePtr.tm_mon,
+            func_0208CF34(searchValueElem->value.string, gGsXmlDateTimeFormatNoZ, &timePtr.tm_year, &timePtr.tm_mon,
                           &timePtr.tm_mday, &timePtr.tm_hour, &timePtr.tm_min, &timePtr.tm_sec);
             timePtr.tm_year -= 1900;
             timePtr.tm_mon -= 1;
@@ -1862,7 +1850,7 @@ int func_02183BA4(void *stream, char *matchtag, long *valueOut)
  *
  * note: _d2f (0x0209B64C) is a recorded MSL runtime row, matched in src/matched/arm9/d2f.c
  */
-int func_02183CD4(void *stream, char *matchtag, float *valueOut)
+int gsXmlReadChildAsFloat(void *stream, char *matchtag, float *valueOut)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchValueElem;
@@ -1931,25 +1919,25 @@ static int gsiXmlUtilTagMatches(char *matchtag, GSIXmlString *xmlstr)
 
 /*
  * Clear 0x104 bytes at `c`, then fill `c+4` with up to 0x200 bytes through
- * func_021837A4; the byte count it reports is rounded up to a word count and
+ * gsXmlReadChildAsHexBinary; the byte count it reports is rounded up to a word count and
  * stored at c[0].  Returns 1 when the object validates, 0 when the fill loop
  * reports nothing produced.
  */
-int func_02183E50(void *a, int b, int *c)
+int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData)
 {
     u32 n = 0;
     u32 k;
 
-    func_020923B0(c, 0, 0x104);
-    if (func_021837A4(a, (char *)b, (unsigned char *)(c + 1), 0x200, (int *)(&n)) == 0)
+    func_020923B0(lintData, 0, 0x104);
+    if (gsXmlReadChildAsHexBinary(stream, matchtag, (unsigned char *)(lintData + 1), 0x200, (int *)(&n)) == 0)
         return 0;
 
     k = n >> 2;
-    c[0] = k;
+    lintData[0] = k;
     if (n & 3)
-        c[0] = k + 1;
+        lintData[0] = k + 1;
 
-    if (gsLargeIntReverseBytes((char *)c) == 0)
+    if (gsLargeIntReverseBytes((char *)lintData) == 0)
         return 0;
     return 1;
 }
@@ -1957,7 +1945,7 @@ int func_02183E50(void *a, int b, int *c)
 
 
 
-int func_02183EE0(void *stream, char *matchtag)
+int gsXmlCountChildren(void *stream, char *matchtag)
 {
     GSIXmlStreamReader *reader = (GSIXmlStreamReader *)stream;
     GSIXmlElement *searchElem;

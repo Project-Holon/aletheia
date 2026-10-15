@@ -16,8 +16,8 @@
  *   _dfix        0x0209C508  arm
  *   _dflt        0x0209B750  arm
  *   _deq         0x0209BA3C  arm
- *   func_0209A504  0x0209A504  arm
- *   func_0209953C  0x0209953C  arm
+ *   fabs  0x0209A504  arm
+ *   __kernel_rem_pio2  0x0209953C  arm
  *   npio2_hw     0x020A6320  data
  *   two_over_pi  0x020A63A0  data
  *
@@ -30,7 +30,7 @@
  *
  * Front end dsi/1.2 (wave 17): the loop store tx[i] = (double)(int)z is two
  * str (1.1p1 merges them into stm), the same pin that fits __ieee754_pow at
- * 0x020979BC.  Fabs = func_0209A504, __kernel_rem_pio2 = func_0209953C;
+ * 0x020979BC.  Fabs = fabs, __kernel_rem_pio2 = __kernel_rem_pio2;
  * npio2_hw and two_over_pi resolve through the sole-ref/data class.
  */
 
@@ -41,8 +41,8 @@ typedef int i32;
 
 extern const i32 npio2_hw[];
 extern const i32 two_over_pi[];
-extern double func_0209A504(double x);
-extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
+extern double fabs(double x);
+extern int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
 
 static const double
 zero =  0.00000000000000000000e+00,
@@ -107,7 +107,7 @@ int func_02098B44(double x, double *y)
     }
     if (ix <= 0x413921fb)
     {
-        t = func_0209A504(x);
+        t = fabs(x);
         n = (int)(t * invpio2 + half);
         fn = (double)n;
         r = t - fn * pio2_1;
@@ -166,7 +166,7 @@ int func_02098B44(double x, double *y)
     nx = 3;
     while (tx[nx - 1] == zero)
         nx--;
-    n = func_0209953C(tx, y, e0, nx, 2, two_over_pi);
+    n = __kernel_rem_pio2(tx, y, e0, nx, 2, two_over_pi);
     if (hx < 0)
     {
         y[0] = -y[0];

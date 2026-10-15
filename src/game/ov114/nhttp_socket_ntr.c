@@ -38,6 +38,8 @@
  *   SOC_InetAtoN 0x0215FAD0 arm
  *   SOC_GetHostByName 0x0215F650 arm
  *   SOC_Shutdown  0x0215F638  arm  ov009
+ *   OS_GetLowEntropyData  0x02088168  arm  arm9
+ *   CPS_SslAddRandomSeed  0x02162248  arm  ov009
  */
 #include "nhttp_types.h"
 
@@ -58,8 +60,8 @@ typedef struct {
     unsigned long addr;
 } SOCInAddr;
 
-extern void func_02088168(u32 *buffer);
-extern void func_02162248(void *, int);
+extern void OS_GetLowEntropyData(u32 *buffer);
+extern void CPS_SslAddRandomSeed(void *, int);
 extern int func_0215F4DC(int, int *, int, int);
 extern void func_0215F428(int, int, int);
 extern int SOC_Close(int socket);
@@ -112,8 +114,8 @@ int NHTTPi_CpsAuthCallbackForDebug(void)
 
 void NHTTPi_SetSSLseed(void)
 {
-    func_02088168((u32 *)gNHTTPSslSeed);
-    func_02162248(gNHTTPSslSeed, 0x20);
+    OS_GetLowEntropyData((u32 *)gNHTTPSslSeed);
+    CPS_SslAddRandomSeed(gNHTTPSslSeed, 0x20);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF3B4
+ * function: RESEARCH_GRAPH_SetDetailLabelVisible
  * address:  0x021BF3B4
  * packet:   pkt_ov217_021BF3B4
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
-void func_021BF3B4(char *p)
+void RESEARCH_GRAPH_SetDetailLabelVisible(char *p)
 {
     if (((struct Obj00021 *)p)->f3D0 != 0) {
         BgTextLabel_SetVisible((u8 *)(((struct Obj00021 *)p)->f364), 1);

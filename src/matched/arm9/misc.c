@@ -21,7 +21,7 @@
  *
  * Note: 0x0209D724 (_runtime_null_stub in the same docs note) is NOT a row
  * in the current layout/runtime_arm9.txt and is already filed as ordinary
- * game C, src/matched/func_0209D724.c (`void func_0209D724(void) {}`,
+ * game C, src/matched/MSL_CONSOLE_IO_NoopFinalizer.c (`void MSL_CONSOLE_IO_NoopFinalizer(void) {}`,
  * EXACT) -- nothing to do here for that address.
  *
  * Verified with:

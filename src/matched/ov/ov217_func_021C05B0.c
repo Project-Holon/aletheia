@@ -1,5 +1,5 @@
 /*
- * function: func_021C05B0
+ * function: RESEARCH_GRAPH_DrawBadge
  * address:  0x021C05B0
  * packet:   pkt_ov217_021C05B0
  * region:   ov217
@@ -53,7 +53,7 @@ extern u32 func_020307B0(void *p);
 extern void BMP_Delete(struct Obj020437AC *);
 
 #define E ((const struct Entry *)gb)
-void func_021C05B0(u8 *p)
+void RESEARCH_GRAPH_DrawBadge(u8 *p)
 {
     struct Tab tab = d_021C3C54;
     int i;

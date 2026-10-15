@@ -1,5 +1,5 @@
 /*
- * function: func_021DD080
+ * function: POKETRADE_PROC_SetSyncRange
  * address: 0x021DD080
  * packet: pkt_ov119_021DD080
  * region: ov119
@@ -14,7 +14,7 @@
 extern int POKETRADE_PROC_IsNetSession(void *);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
-void func_021DD080(void *a, void *b, void *c)
+void POKETRADE_PROC_SetSyncRange(void *a, void *b, void *c)
 {
     if (POKETRADE_PROC_IsNetSession(c))
         GFL_NET_HANDLE_SetTimingSyncRange(a, (unsigned int)b, 8);

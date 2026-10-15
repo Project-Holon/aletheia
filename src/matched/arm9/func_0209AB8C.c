@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209AB8C
+ * function: stricmp
  * address:  0x0209AB8C
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 
 extern const u8 g_020A60DC[];
 
-int func_0209AB8C(const u8 *s1, const u8 *s2)
+int stricmp(const u8 *s1, const u8 *s2)
 {
     const u8 *tab = g_020A60DC;
     int c1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6BC
+ * function: RESEARCH_GRAPH_TransferPalettes
  * address:  0x021BF6BC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BF6BC  0x021BF6BC  thumb  ov217
+ *   RESEARCH_GRAPH_TransferPalettes  0x021BF6BC  thumb  ov217
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *
@@ -30,7 +30,7 @@ typedef signed int     s32;
 extern u32 PALANM_TransferPalettes();
 extern u32 func_020419E4();
 extern void CLACT_VBlankSystem(void);
-u32 func_021BF6BC(u32 a0, u32 a1)
+u32 RESEARCH_GRAPH_TransferPalettes(u32 a0, u32 a1)
 {
     func_020419E4();
     CLACT_VBlankSystem();

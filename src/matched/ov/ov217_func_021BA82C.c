@@ -1,5 +1,5 @@
 /*
- * function: func_021BA82C
+ * function: RESEARCH_TOP_DummyBg3
  * address:  0x021BA82C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA82C(void)
+void RESEARCH_TOP_DummyBg3(void)
 {
 }

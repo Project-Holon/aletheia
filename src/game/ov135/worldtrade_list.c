@@ -158,7 +158,6 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern u32 KEY_GetTrg(void);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern u8 unit_02045730(u32 a);
 
@@ -230,13 +229,9 @@ extern void WORLDTRADE_CloseTaskMenu(char *p);
 
 extern void func_0201F7A8(void *p, unsigned kind);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
@@ -248,7 +243,6 @@ extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 
 extern void func_02041B6C(u32 v);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
@@ -272,7 +266,6 @@ extern void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int id
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g);
 

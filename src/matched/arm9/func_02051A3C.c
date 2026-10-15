@@ -9,6 +9,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNSi_GfdDefaultAllocTexVram  0x020614D4  arm
  */
 
-unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3){ int t0 = func_020614D4((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }
+unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3){ int t0 = NNSi_GfdDefaultAllocTexVram((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }

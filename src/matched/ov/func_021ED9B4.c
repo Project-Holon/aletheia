@@ -1,5 +1,5 @@
 /*
- * function: func_021ED9B4
+ * function: BOX2_UI_SetCloseButtonPos
  * address:  0x021ED9B4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC08C  0x021EC08C  thumb  ov170
+ *   BOX2_SEQ_AddActorSurfacePos  0x021EC08C  thumb  ov170
  *
  * One range call with fixed arguments.
  */
 
 
 
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-void func_021ED9B4(int a)
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+void BOX2_UI_SetCloseButtonPos(int a)
 {
-    func_021EC08C((char *)a, 2, 0x4b * 4, 0x22, 0);
+    BOX2_SEQ_AddActorSurfacePos((char *)a, 2, 0x4b * 4, 0x22, 0);
 }

@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
- *   func_021FB494 0x021FB494 thumb ov186
+ *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  */
 #include "../include/Obj24620.h"
 typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
-extern void func_021FB494(char *p);
+extern void BR_BTN_DeleteObject(char *p);
 extern void func_020409B4(unsigned int);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 int func_021DFC88(char *p, char *q)
@@ -30,7 +30,7 @@ int func_021DFC88(char *p, char *q)
     }
     for (i = 0; i < 2; i++) {
         if (*(void **)(p + i * 4 + 12) != 0) {
-            func_021FB494(*(void **)(p + i * 4 + 12));
+            BR_BTN_DeleteObject(*(void **)(p + i * 4 + 12));
             *(void **)(p + i * 4 + 12) = 0;
         }
     }

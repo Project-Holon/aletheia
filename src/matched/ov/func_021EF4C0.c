@@ -1,5 +1,5 @@
 /*
- * function: func_021EF4C0
+ * function: BOX2_UI_PutSlotFrames
  * address:  0x021EF4C0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-void func_021EF4C0(struct WinMgr *mgr)
+void BOX2_UI_PutSlotFrames(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)

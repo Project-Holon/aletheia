@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  func_020755A8 (label) and GFL_USE_IsSeqStartAllowed/func_02005924 (matched-class
+ * blocker:  NNS_SndArcPlayerStartSeqEx (label) and GFL_USE_IsSeqStartAllowed/func_02005924 (matched-class
  *           candidates); the four early exits are all concrete.
  *
  * symbols:
@@ -18,6 +18,7 @@
  *   GFL_USE_GetCurrentSndHandle   0x0200590C  thumb
  *   func_020055A8  0x020755A8  arm
  *   GFL_USE_SetBgmAudibleTracks  0x02005EB4  thumb
+ *   NNS_SndArcPlayerStartSeqEx  0x020755A8  arm
  *
  * Open one connection slot of `size` bytes and register it: three guards,
  * each with its own `return 0` epilogue (so they are separate `if`s and not
@@ -40,7 +41,7 @@ extern int   GFL_USE_IsSeqStartAllowed(void *arg);
 extern void  GFL_USE_StopBgm(void);
 extern int   func_02005924(u32 a);
 extern u32 *GFL_USE_GetCurrentSndHandle(void);
-extern u32 func_020755A8(u32 slot, int a, int b, int c, u32 d);
+extern u32 NNS_SndArcPlayerStartSeqEx(u32 slot, int a, int b, int c, u32 d);
 extern void  GFL_USE_SetBgmAudibleTracks(u32 key);
 
 void *GFL_USE_PlayBgm(u32 a0, u32 a1)
@@ -56,7 +57,7 @@ void *GFL_USE_PlayBgm(u32 a0, u32 a1)
     if (func_02005924(a0) == 0) {
         return 0;
     }
-    r = (void *)func_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 0, -1, -1, a0);
+    r = (void *)NNS_SndArcPlayerStartSeqEx((u32)GFL_USE_GetCurrentSndHandle(), 0, -1, -1, a0);
     if (r == 0) {
         return (void *)zero;
     }

@@ -21,6 +21,8 @@
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   MI_StopAllDma  0x02082658  arm  arm9
+ *   OSi_SyncWithOtherProc  0x02084AB0  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -55,13 +57,13 @@ extern u32 d_020A8724[];
 extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern u32 data_02732FA8;
-extern void func_02084AB0(int a0, volatile u8 *p);
+extern void OSi_SyncWithOtherProc(int a0, volatile u8 *p);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 extern void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
 extern void GX_DispOff(void);
 extern void OS_SpinWaitSysCycles(u32 n);
-extern void func_02082658(void);
+extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
 extern void OSi_DisableInterruptsAndHalt(void);
 
@@ -130,8 +132,8 @@ void PMi_FinalizeDebugger(void)
 {
     volatile u8 *a = (volatile u8 *)0x02FFFFF0;
     *(volatile u8 *)0x02FFFFF4 = 0;
-    func_02084AB0(0, a);
-    func_02084AB0(1, a);
+    OSi_SyncWithOtherProc(0, a);
+    OSi_SyncWithOtherProc(1, a);
     OS_DisableInterrupts();
     *(volatile u8 *)0x02FFFFF4 = 1;
 }
@@ -206,7 +208,7 @@ void PMi_CallPostExitCallbackAndReset(int flag)
         OS_SpinWaitSysCycles(0x51D23);
     }
     OS_DisableInterrupts();
-    func_02082658();
+    MI_StopAllDma();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();
     OSi_DisableInterruptsAndHalt();

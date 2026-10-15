@@ -1,5 +1,5 @@
 /*
- * function: func_02160108
+ * function: CPS_SetRootCa
  * address:  0x02160108
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char g_02150FEC[];
 
-void func_02160108(int a, int b)
+void CPS_SetRootCa(int a, int b)
 {
     char *p = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
     char *q;

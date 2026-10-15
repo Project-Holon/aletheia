@@ -1,5 +1,5 @@
 /*
- * function: func_021F9CA4
+ * function: BR_PROC_SYS_ClearEntry
  * address:  0x021F9CA4
  * packet:   pkt_021F9CA4
  * region:   ov186
@@ -16,7 +16,7 @@
 
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021F9CA4(void *p)
+void BR_PROC_SYS_ClearEntry(void *p)
 {
     MI_CpuFill8(p, 0, 0x10);
     ((struct Obj24813 *)p)->fC = -1;

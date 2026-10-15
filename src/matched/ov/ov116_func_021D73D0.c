@@ -1,5 +1,5 @@
 /*
- * function: func_021D73D0
+ * function: WIFI_BSUBWAY_GRAPHIC_Noop
  * address: 0x021D73D0
  * packet: pkt_ov116_021D73D0
  * region: ov116
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021D73D0(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0) { }

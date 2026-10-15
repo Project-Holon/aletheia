@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021940DC",
+   "name": "ProcessPlayerAuth",
    "address": "0x021940DC",
    "kind": "sdk",
    "region": "ov009",

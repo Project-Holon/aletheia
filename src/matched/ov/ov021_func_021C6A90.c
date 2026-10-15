@@ -14,7 +14,7 @@
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  * Addresses are Black-image addresses.
  */
 
@@ -27,7 +27,7 @@ extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
 extern int G3D_SYSTEM_GetObjectRender(int *p);
 extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
-extern void func_02082C60(void *p, int v, int n);
+extern void MI_CpuFill(void *p, int v, int n);
 
 void FIELD_G3DOBJ_DestroyObject(u32 *p, u8 *q)
 {
@@ -43,5 +43,5 @@ void FIELD_G3DOBJ_DestroyObject(u32 *p, u8 *q)
         G3D_SYSTEM_DeleteObject((struct Rec *)p[0x11]);
         G3D_SYSTEM_DeleteRender((struct Rec *)t);
     }
-    func_02082C60(p, 0, 0x68);
+    MI_CpuFill(p, 0, 0x68);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC06C
+ * function: RESEARCH_LIST_PrintCurrentEntry
  * address:  0x021BC06C
  * packet:   pkt_021BC06C
  * region:   ov217
@@ -12,7 +12,7 @@
  * Tail call forwarding p and the byte field at +0x32.
  *
  * symbols:
- *   func_021BC07C  0x021BC07C  thumb  ov217
+ *   RESEARCH_LIST_PrintEntryLabels  0x021BC07C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -20,9 +20,9 @@
 
 typedef unsigned char u8;
 
-extern int func_021BC07C(u8 *p, u8 index);
+extern int RESEARCH_LIST_PrintEntryLabels(u8 *p, u8 index);
 
-int func_021BC06C(char *p)
+int RESEARCH_LIST_PrintCurrentEntry(char *p)
 {
-    return func_021BC07C((u8 *)p, ((struct Obj05558 *)p)->f32);
+    return RESEARCH_LIST_PrintEntryLabels((u8 *)p, ((struct Obj05558 *)p)->f32);
 }

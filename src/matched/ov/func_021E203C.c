@@ -1,5 +1,5 @@
 /*
- * function: func_021E203C
+ * function: BOX2_SEQ_StateWaitFade
  * address:  0x021E203C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 
-int func_021E203C(void *p)
+int BOX2_SEQ_StateWaitFade(void *p)
 {
     if (PALANM_GetFadeRequestBits((const char *)(*(int *)(((struct Obj12157 *)p)->f2C + 0x6c))) == 0)
         return ((struct Obj12157 *)p)->f28;

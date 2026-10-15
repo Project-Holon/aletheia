@@ -1,5 +1,5 @@
 /*
- * function: func_02089DF8
+ * function: SND_CountReservedCommand
  * address:  0x02089DF8
  * packet:   pkt_02089DF8
  * region:   arm9
@@ -43,7 +43,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommandState sFreeList;
 
-int func_02089DF8(void)
+int SND_CountReservedCommand(void)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
     SNDCommand *command;

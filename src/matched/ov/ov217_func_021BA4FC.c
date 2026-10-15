@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4FC
+ * function: RESEARCH_TOP_FreeListObject
  * address:  0x021BA4FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_021BA4FC(void *a0)
+u32 RESEARCH_TOP_FreeListObject(void *a0)
 {
     return func_020307B0(a0);
 }

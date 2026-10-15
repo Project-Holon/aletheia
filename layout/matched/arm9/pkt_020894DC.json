@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020894DC",
+   "name": "SND_StopTimer",
    "address": "0x020894DC",
    "kind": "sdk",
    "region": "arm9",

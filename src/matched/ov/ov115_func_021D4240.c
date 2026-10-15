@@ -1,5 +1,5 @@
 /*
- * function: func_021D4240
+ * function: WIFILOGIN_COMMON_IsCancelInput
  * address: 0x021D4240
  * packet: pkt_ov115_021D4240
  * region: ov115
@@ -18,4 +18,4 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-int func_021D4240(u8 *p) { if(KEY_GetTrg()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }
+int WIFILOGIN_COMMON_IsCancelInput(u8 *p) { if(KEY_GetTrg()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }

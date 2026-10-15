@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0217EAE0  0x0217EAE0  arm
- *   func_02181D84  0x02181D84  arm
+ *   gsXmlFreeWriter  0x02181D84  arm
  */
 
 typedef struct Obj {
@@ -24,7 +24,7 @@ typedef struct Obj {
 } Obj;
 
 extern void func_0217EAE0(void *);
-extern void func_02181D84(void *);
+extern void gsXmlFreeWriter(void *);
 
 void ghiPostDataFree(Obj *o)
 {
@@ -40,6 +40,6 @@ void ghiPostDataFree(Obj *o)
         func_0217EAE0(o->p10);
         func_0217EAE0(o->p14);
     } else if (o->type == 3) {
-        func_02181D84(o->p8);
+        gsXmlFreeWriter(o->p8);
     }
 }

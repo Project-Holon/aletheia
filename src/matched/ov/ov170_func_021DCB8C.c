@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB8C
+ * function: BOX2_MAIN_LoadBgData
  * address:  0x021DCB8C
  * packet:   pkt_ov170_021DCB8C
  * region:   ov170
@@ -57,7 +57,7 @@ extern u32 func_0204162C(int channel);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 
-void func_021DCB8C(struct Ov170Ctx *ctx)
+void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
 {
     void *arc;
     void *arc2;

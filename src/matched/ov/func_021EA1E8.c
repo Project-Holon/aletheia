@@ -1,5 +1,5 @@
 /*
- * function: func_021EA1E8
+ * function: BOX2_SEQ_Delete
  * address:  0x021EA1E8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021EA1E8(char *p)
+void BOX2_SEQ_Delete(char *p)
 {
     func_020307B0(((struct Obj18480 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60);
 }

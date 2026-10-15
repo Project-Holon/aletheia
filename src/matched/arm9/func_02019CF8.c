@@ -12,7 +12,7 @@
  *   func_02019BBC  0x02019BBC  thumb
  *
  * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
- * ov170 func_021DD718.
+ * ov170 BOX2_MAIN_CanPlaceInBox.
  */
 
 extern unsigned int func_02019BBC(unsigned int item);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3E8
+ * function: RESEARCH_TOP_StartEntryPaletteAnime
  * address:  0x021BA3E8
  * packet:   pkt_ov217_021BA3E8
  * region:   ov217
@@ -23,7 +23,7 @@ extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
 extern u8 d_021C3008[];
 extern u8 d_021C3004[];
 
-void func_021BA3E8(char *self, int i)
+void RESEARCH_TOP_StartEntryPaletteAnime(char *self, int i)
 {
     PALETTE_ANIME_Start(*(void **)(self + i * 4 + 0x38),
                   *(u32 *)(d_021C3004 + i * 0x14),

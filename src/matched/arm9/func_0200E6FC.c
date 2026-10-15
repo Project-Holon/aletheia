@@ -1,5 +1,5 @@
 /*
- * function: func_0200E6FC
+ * function: MISC_SAVEDATA_CopyQuadRecord
  * address:  0x0200E6FC
  * packet:   pkt_0200E6FC
  * region:   arm9
@@ -28,7 +28,7 @@ struct Rec0200E6FC {
     u16 d;
 };
 
-void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst)
+void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst)
 {
     *dst = src[idx];
 }

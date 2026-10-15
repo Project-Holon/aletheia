@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB4EC",
+   "name": "POKETRADE_PROC_IsSlotVisible",
    "address": "0x021DB4EC",
    "kind": "game",
    "region": "ov119",

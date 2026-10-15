@@ -1,5 +1,5 @@
 /*
- * function: func_02088168
+ * function: OS_GetLowEntropyData
  * address:  0x02088168
  * packet:   pkt_02088168
  * region:   arm9
@@ -52,7 +52,7 @@ typedef struct OSSystemWork {
 extern u16 OS_GetTickLo(void);
 extern volatile u64 OSi_TickCounter;
 
-void func_02088168(u32 *buffer)
+void OS_GetLowEntropyData(u32 *buffer)
 {
     u8 *macAddress;
     OSSystemWork *w;    /* not a DWARF local; keeps 0x02FFFC00 live across the call */

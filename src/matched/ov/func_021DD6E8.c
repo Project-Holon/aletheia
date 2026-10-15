@@ -1,5 +1,5 @@
 /*
- * function: func_021DD6E8
+ * function: BOX2_MAIN_ChangeFormAndRegister
  * address:  0x021DD6E8
  * packet:   pkt_021DD6E8
  * region:   ov170
@@ -26,7 +26,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
-void func_021DD6E8(void **pp, void *a, u32 b)
+void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b)
 {
     void *r;
 

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C471C, func_021C4740, func_021C4750, func_021C4760, func_021C4770, func_021C4780
+ * function: WF2DMAP_ANIM_ApplyActorAnim, WF2DMAP_ANIM_AddActorFrame8192, WF2DMAP_ANIM_AddActorFrame4096A, WF2DMAP_ANIM_AddActorFrame4096B, WF2DMAP_ANIM_AddActorFrame32768, WF2DMAP_ANIM_AddActorFrame24576
  * address: 0x021C471C
  * packet: pkt_ov127_021C471C
  * region: ov127
@@ -25,13 +25,13 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021C471C(u8 *p)
+void WF2DMAP_ANIM_ApplyActorAnim(u8 *p)
 {
     if (((struct Obj08122 *)p)->f14 == 0) CLACT_AddActorAnimFrame(((struct Obj08122 *)p)->f4, 1);
     else CLACT_SetActorAnimSeq(((struct Obj08122 *)p)->f4, ((struct Obj08122 *)p)->f10 + 5);
 }
-void func_021C4740(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23027 *)p)->f4, 8192); }
-void func_021C4750(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23028 *)p)->f4, 4096); }
-void func_021C4760(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23029 *)p)->f4, 4096); }
-void func_021C4770(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23030 *)p)->f4, 32768); }
-void func_021C4780(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23031 *)p)->f4, 24576); }
+void WF2DMAP_ANIM_AddActorFrame8192(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23027 *)p)->f4, 8192); }
+void WF2DMAP_ANIM_AddActorFrame4096A(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23028 *)p)->f4, 4096); }
+void WF2DMAP_ANIM_AddActorFrame4096B(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23029 *)p)->f4, 4096); }
+void WF2DMAP_ANIM_AddActorFrame32768(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23030 *)p)->f4, 32768); }
+void WF2DMAP_ANIM_AddActorFrame24576(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23031 *)p)->f4, 24576); }

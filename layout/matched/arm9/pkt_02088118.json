@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02088118",
+   "name": "OS_SetDeliverArgStateInvalid",
    "address": "0x02088118",
    "kind": "sdk",
    "region": "arm9",

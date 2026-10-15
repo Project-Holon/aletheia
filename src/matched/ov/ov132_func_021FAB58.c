@@ -11,7 +11,7 @@
  *   func_02011290 0x02011290 thumb
  *   VM_Delete 0x02011264 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02060614 0x02060614 arm
+ *   NNS_FndGetNextListObject 0x02060614 arm
  *   func_021FADF8 0x021FADF8 thumb ov132
  *   func_02030DA4 0x02030DA4 arm
  */
@@ -28,7 +28,7 @@ extern void VM_Delete(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 extern void func_021FADF8(char *p, char *q);
 extern void func_02030DA4(void *);
 void func_021FAB58(char *p)
@@ -47,9 +47,9 @@ void func_021FAB58(char *p)
             slot[3] = 0;
         }
     }
-    cur = func_02060614((struct DList *)(p + 0x38), 0);
+    cur = NNS_FndGetNextListObject((struct DList *)(p + 0x38), 0);
     while (cur != 0) {
-        next = func_02060614((struct DList *)(p + 0x38), cur);
+        next = NNS_FndGetNextListObject((struct DList *)(p + 0x38), cur);
         func_021FADF8(p, cur);
         cur = next;
     }

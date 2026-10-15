@@ -122,7 +122,7 @@
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
  *   func_021B7BA8 0x021B7BA8 thumb ov172
- *   func_021B8C3C 0x021B8C3C thumb ov172
+ *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
  *   func_020056A0 0x020056A0 thumb
  *   func_02012A30 0x02012A30 thumb
@@ -130,18 +130,18 @@
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02030EAC 0x02030EAC arm
  *   DRAW_SYSTEM_DeleteCanvas 0x021B6C34 thumb ov172
- *   func_021B8CB0 0x021B8CB0 thumb ov172
+ *   CTVT_TALK_Delete 0x021B8CB0 thumb ov172
  *   func_021B7DCC 0x021B7DCC thumb ov172
  *   CTVT_CAMVIEW_Delete 0x021B70A8 thumb ov172
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_021B7E34  0x021B7E34  thumb  ov172
- *   func_021B9044  0x021B9044  thumb  ov172
+ *   CTVT_TALK_Main  0x021B9044  thumb  ov172
  *   func_021B80CC  0x021B80CC  thumb
  *   DRAW_SYSTEM_Nop  0x021B6C48  thumb  ov172
  *   CTVT_CAMVIEW_Update  0x021B712C  thumb  ov172
  *   CTVT_CAMVIEW_UploadWindows  0x021B71B8  thumb  ov172
  *   DRAW_SYSTEM_FlushStrokes  0x021B6C4C  thumb  ov172
- *   func_021B9574  0x021B9574  thumb  ov172
+ *   CTVT_TALK_SetMicMode  0x021B9574  thumb  ov172
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
@@ -203,8 +203,8 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_021B8FB8 0x021B8FB8 thumb ov172
- *   func_021B8CC8 0x021B8CC8 thumb ov172
+ *   CTVT_TALK_Exit 0x021B8FB8 thumb ov172
+ *   CTVT_TALK_Init 0x021B8CC8 thumb ov172
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
  *   func_021B8B94 0x021B8B94 thumb ov172
  *   func_021B8B68 0x021B8B68 thumb ov172
@@ -583,7 +583,7 @@ extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 
 extern char *func_021B7BA8(void *p, u16 heap);
 
-extern char *func_021B8C3C(char *unused, u16 heap);
+extern char *CTVT_TALK_Create(char *unused, u16 heap);
 
 extern u32_021BD1AC DRAW_SYSTEM_CreateCanvas(Params *);
 
@@ -599,7 +599,7 @@ extern void func_02030EAC(struct Node *n);
 
 extern void DRAW_SYSTEM_DeleteCanvas(char *);
 
-extern void func_021B8CB0(void *, char *);
+extern void CTVT_TALK_Delete(void *, char *);
 
 extern void func_021B7DCC(void *p, char *q);
 
@@ -609,7 +609,7 @@ extern u32_021BD3B8 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void func_021B7E34(void *p, char *q);
 
-extern u32_021BD43C func_021B9044(void *p, struct S *s);
+extern u32_021BD43C CTVT_TALK_Main(void *p, struct S *s);
 
 extern u32_021BD43C func_021B80CC(int unused, char *p);
 
@@ -635,7 +635,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void DRAW_SYSTEM_FlushStrokes(char *p);
 
-extern void func_021B9574(int unused, char *p);
+extern void CTVT_TALK_SetMicMode(int unused, char *p);
 
 extern void BG_SYS_ResetSubDisplay(void);
 
@@ -735,9 +735,9 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern void func_021B8FB8(void *,char *);
+extern void CTVT_TALK_Exit(void *,char *);
 
-extern void func_021B8CC8(void *,char *);
+extern void CTVT_TALK_Init(void *,char *);
 
 extern u32 func_021B8BA4(int unused, char *base, int i);
 
@@ -1992,7 +1992,7 @@ void func_021BD1AC(char *self)
     W(0x1d4) = (u32_021BD1AC)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
     W(0x1e0) = (u32_021BD1AC)CTVT_CAMVIEW_Create(self, H(0));
     W(0x1e4) = (u32_021BD1AC)func_021B7BA8(self, H(0));
-    W(0x1e8) = (u32_021BD1AC)func_021B8C3C(self, H(0));
+    W(0x1e8) = (u32_021BD1AC)CTVT_TALK_Create(self, H(0));
     W(0x1ec) = (u32_021BD1AC)CTVT_DRAW_Create(self, H(0));
     W(0x1f0) = (u32_021BD1AC)func_021BBA6C((int)self, (void *)H(0));
     st.heap = H(0);
@@ -2056,7 +2056,7 @@ void func_021BD3B8(u8 *p)
     DRAW_SYSTEM_DeleteCanvas(*(char * *)&((struct Obj03855 *)p)->f1F4);
     func_021BBA88((int)p, ((struct Obj03855 *)p)->f1F0);
     CTVT_DRAW_Free((int)p, ((struct Obj03855 *)p)->f1EC);
-    func_021B8CB0(p, *(char * *)&((struct Obj03855 *)p)->f1E8);
+    CTVT_TALK_Delete(p, *(char * *)&((struct Obj03855 *)p)->f1E8);
     func_021B7DCC(p, (char *)(((struct Obj03855 *)p)->f1E4));
     CTVT_CAMVIEW_Delete((int)p, (char *)(((struct Obj03855 *)p)->f1E0));
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((struct Obj03855 *)p)->f1D4));
@@ -2086,7 +2086,7 @@ int func_021BD43C(char *ctx)
     func_021B7E34(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
-        F(0xc) = func_021B9044(ctx, (struct S *)F(0x1e8));
+        F(0xc) = CTVT_TALK_Main(ctx, (struct S *)F(0x1e8));
         break;
     case 2:
         F(0xc) = func_021BBF2C(ctx, (char *)F(0x1f0));
@@ -2139,7 +2139,7 @@ void func_021BD5AC(int unused, char *ctx)
     CTVT_CAMVIEW_UploadWindows(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
     CLACT_VBlankSystem();
     DRAW_SYSTEM_FlushStrokes((char *)(((struct Obj10666 *)ctx)->f1F4));
-    func_021B9574((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
+    CTVT_TALK_SetMicMode((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
 }
 
 static inline void inside0(int wnd, int effect)
@@ -2370,14 +2370,14 @@ void func_021BDC70(u32 *a0)
 void func_021BDCB8(u8 *p)
 {
     switch (*(u32 *)(p+8)) {
-    case 1: func_021B8FB8(p,*(char **)(p+0x1e8)); break;
+    case 1: CTVT_TALK_Exit(p,*(char **)(p+0x1e8)); break;
     case 2: func_021BBE5C(p,*(char **)(p+0x1f0)); break;
     case 3: CTVT_DRAW_Exit((u16 *)p,*(char **)(p+0x1ec)); break;
     }
     *(u32 *)(p+8)=*(u32 *)(p+12);
     switch (*(u32 *)(p+8)) {
     case 0: break;
-    case 1: func_021B8CC8(p,*(char **)(p+0x1e8)); break;
+    case 1: CTVT_TALK_Init(p,*(char **)(p+0x1e8)); break;
     case 2: func_021BBA94(p,(u8 *)(*(char **)(p+0x1f0))); break;
     case 3: CTVT_DRAW_Init(p,(u8 *)(*(char **)(p+0x1ec))); break;
     case 5:

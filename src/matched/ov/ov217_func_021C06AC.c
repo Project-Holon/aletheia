@@ -1,5 +1,5 @@
 /*
- * function: func_021C06AC
+ * function: RESEARCH_GRAPH_DeleteBmps
  * address:  0x021C06AC
  * packet:   pkt_021C06AC
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Obj020437AC;
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_021C06AC(int *p)
+void RESEARCH_GRAPH_DeleteBmps(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)

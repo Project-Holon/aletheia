@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled 14-byte ov217 leaf in a .word run; target of the veneer at
- * 0x021C29F8 and the bottom of the func_021BA31C blocker chain.  Store order
+ * 0x021C29F8 and the bottom of the RESEARCH_TOP_StartPaletteAnime blocker chain.  Store order
  * in the source is +0x14, +0x18, +0x1c, +0x12.
  *
  * Addresses are Black-image addresses.

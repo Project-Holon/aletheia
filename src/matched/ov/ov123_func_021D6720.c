@@ -15,16 +15,16 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
- *   d_021DA730 0x021DA730 data a2
- *   d_021DA750 0x021DA750 data a4
+ *   gGsyncParticlePosLeft 0x021DA730 data a2
+ *   gGsyncParticleScaleLeft 0x021DA750 data a4
  */
 #include "../include/Obj13979.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Pos { short x,y; };
 struct Pair { int a,b; };
-extern const struct Pos d_021DA730;
-extern const struct Pair d_021DA750;
+extern const struct Pos gGsyncParticlePosLeft;
+extern const struct Pair gGsyncParticleScaleLeft;
 extern void GSYNC_DISP_CopyIconPaletteMain(char *p, int i, void *h);
 struct Obj;
 struct Vec2;
@@ -44,7 +44,7 @@ void GSYNC_DISP_SpawnParticleLeft(u8 *p, int i)
     void *h;
     GSYNC_DISP_CopyIconPaletteMain((char *)p,i,((struct Obj13979 *)p)->fB4);
     h = ((struct Obj13979 *)p)->fB4;
-    pos = d_021DA730; pair = d_021DA750;
+    pos = gGsyncParticlePosLeft; pair = gGsyncParticleScaleLeft;
     CLACT_AddActorSurfacePos(h,(const struct Vec2 *)(&pos),0); CLACT_SetActorScale(h,&pair);
     CLACT_SetActorAutoAnim(h,0); CLACT_SetActorDrawEnable(h,0);
     CLACT_SetActorObjMode(h,1); CLACT_SetActorAffineMode(h,2);

@@ -9,7 +9,7 @@
  *   d_021ACEFC     0x021ACEFC  data  a4
  *   d_021E52B4     0x021E52B4  data  a1
  *   d_021E412C     0x021E412C  data  a4
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_020923B0  0x020923B0  arm
  */
@@ -20,7 +20,7 @@ extern int d_021ACEFC;
 extern signed char d_021E52B4;
 extern int d_021E412C;
 
-void func_02084F80(void *p, int a, void *b, void *c);
+void OS_SNPrintf(void *p, int a, void *b, void *c);
 void *func_0217EAB0(int size);
 void func_020923B0(void *dst, int c, int n);
 
@@ -30,7 +30,7 @@ int sciInterfaceCreate(void **out)
 
     if (d_021ACEF8 == 1) {
         if (d_021E52B4 == 0)
-            func_02084F80(&d_021E52B4, 0x80, &d_021E412C, &d_021ACEFC);
+            OS_SNPrintf(&d_021E52B4, 0x80, &d_021E412C, &d_021ACEFC);
     } else {
         return 1;
     }

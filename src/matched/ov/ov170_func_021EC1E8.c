@@ -1,5 +1,5 @@
 /*
- * function: func_021EC1E8
+ * function: BOX2_SEQ_RegisterBoxCharsB
  * address: 0x021EC1E8
  * packet: pkt_ov170_021EC1E8
  * region: ov170
@@ -34,7 +34,7 @@ extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021EC1E8(char *p)
+void BOX2_SEQ_RegisterBoxCharsB(char *p)
 {
     void *h = func_020490F4(func_020275E4(), 0x4C);
     ((struct Obj02214 *)p)->fA0F8 = (void *)CLACT_RegisterCharacter(h, func_02027618(), 0, 0, 0x4C);

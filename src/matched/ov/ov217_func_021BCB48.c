@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB48
+ * function: RESEARCH_LIST_UpdateBackground7
  * address:  0x021BCB48
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BCB48  0x021BCB48  thumb  ov217
+ *   RESEARCH_LIST_UpdateBackground7  0x021BCB48  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed int     s32;
 
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern u32 func_020414EC();
-u32 func_021BCB48(u32 a0)
+u32 RESEARCH_LIST_UpdateBackground7(u32 a0)
 {
     func_02040C14(7, 0, 1, 0);
     return func_020414EC(7);

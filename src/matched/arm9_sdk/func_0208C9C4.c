@@ -1,5 +1,5 @@
 /*
- * function: func_0208C9C4
+ * function: SCFGi_CommonCallback
  * address:  0x0208C9C4
  * packet:   pkt_0208C9C4
  * region:   arm9
@@ -39,7 +39,7 @@ extern SCFGFuseInfo SCFGi_FuseInfo;
 
 void OS_Terminate(void);
 
-void func_0208C9C4(int tag, u32 pxiData, BOOL err)
+void SCFGi_CommonCallback(int tag, u32 pxiData, BOOL err)
 {
     u16 command = (u16)((pxiData & 0x03F00000) >> 20);
     u16 ordinal = (u16)((pxiData & 0x000F0000) >> 16);

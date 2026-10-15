@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   sRingtoneTransitions   0x0209FED4  data  a1
- *   func_02072788  0x02072788  arm
+ *   NNS_SndSetMasterVolume  0x02072788  arm
  *   RINGTONE_SYS_SetBgmMuted  0x0202A02C  thumb
  *   RINGTONE_SYS_StopRing  0x0202A01C  thumb
  *   RINGTONE_SYS_StartRing  0x02029FF8  thumb
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern const u8 sRingtoneTransitions[][4];
-extern void func_02072788(int vol);
+extern void NNS_SndSetMasterVolume(int vol);
 extern int RINGTONE_SYS_SetBgmMuted(int a0, int a1);
 extern int RINGTONE_SYS_StopRing(int a0);
 typedef unsigned short u16;
@@ -40,21 +40,21 @@ void RINGTONE_SYS_PostEvent(u32 *p, int event)
 
     switch (v) {
     case 0:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted((int)p, 0);
         RINGTONE_SYS_StopRing((int)p);
         break;
     case 1:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted((int)p, 1);
         RINGTONE_SYS_StartRing((u16 *)p);
         break;
     case 2:
-        func_02072788(0);
+        NNS_SndSetMasterVolume(0);
         RINGTONE_SYS_StopRing((int)p);
         break;
     case 3:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted((int)p, 1);
         RINGTONE_SYS_StartRing((u16 *)p);
         break;

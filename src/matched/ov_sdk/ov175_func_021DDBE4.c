@@ -27,15 +27,15 @@
  *   sModifyTagBooleanValue  0x021E3B18  data
  *   sModifyTagDateAndTimeValue  0x021E3B28  data
  *   sModifyTagBinaryDataValue  0x021E3B3C  data
- *   func_021829AC  0x021829AC  arm  ov009
- *   func_02182AC0  0x02182AC0  arm  ov009
- *   func_02182CF0  0x02182CF0  arm  ov009
- *   func_02182D78  0x02182D78  arm  ov009
- *   func_02182DFC  0x02182DFC  arm  ov009
- *   func_02182C10  0x02182C10  arm  ov009
- *   func_02182FF8  0x02182FF8  arm  ov009
- *   func_02182F40  0x02182F40  arm  ov009
- *   func_02182A2C  0x02182A2C  arm  ov009
+ *   gsXmlWriteOpenTag  0x021829AC  arm  ov009
+ *   gsXmlWriteStringElement  0x02182AC0  arm  ov009
+ *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
+ *   gsXmlWriteInt64Element  0x02182D78  arm  ov009
+ *   gsXmlWriteFloatElement  0x02182DFC  arm  ov009
+ *   gsXmlWriteUnicodeStringElement  0x02182C10  arm  ov009
+ *   gsXmlWriteDateTimeElement  0x02182FF8  arm  ov009
+ *   gsXmlWriteBase64BinaryElement  0x02182F40  arm  ov009
+ *   gsXmlWriteCloseTag  0x02182A2C  arm  ov009
  */
 
 typedef struct SAKEBinaryData {
@@ -90,68 +90,68 @@ extern char sModifyTagBooleanValue[];
 extern char sModifyTagDateAndTimeValue[];
 extern char sModifyTagBinaryDataValue[];
 
-extern int func_021829AC(void *stream, char *namespaceName, char *tag);
-extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int func_02182D78(void *stream, char *namespaceName, char *tag, long long value);
-extern int func_02182DFC(void *stream, char *namespaceName, char *tag, float value);
-extern int func_02182C10(void *stream, char *namespaceName, char *tag, unsigned short *value);
-extern int func_02182FF8(void *stream, char *namespaceName, char *tag, long value);
-extern int func_02182F40(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
+extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
+extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
+extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
+extern int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long long value);
+extern int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float value);
+extern int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag, unsigned short *value);
+extern int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value);
+extern int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
+extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 
 void sakeiFillSoapRequestFieldValues(SAKERequestInternal *request, SAKEField *fields, int numFields)
 {
     int i;
 
-    func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValues);
+    gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValues);
     for (i = 0; i < numFields; i++) {
-        func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagRecordField);
-        func_02182AC0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagName, fields[i].mName);
-        func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue);
+        gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagRecordField);
+        gsXmlWriteStringElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagName, fields[i].mName);
+        gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue);
         if (fields[i].mType == 0) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagByteValue);
-            func_02182CF0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mByte);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagByteValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagByteValue);
+            gsXmlWriteIntElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mByte);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagByteValue);
         } else if (fields[i].mType == 1) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagShortValue);
-            func_02182CF0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mShort);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagShortValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagShortValue);
+            gsXmlWriteIntElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mShort);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagShortValue);
         } else if (fields[i].mType == 2) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagIntValue);
-            func_02182CF0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mInt);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagIntValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagIntValue);
+            gsXmlWriteIntElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mInt);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagIntValue);
         } else if (fields[i].mType == 9) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagInt64Value);
-            func_02182D78(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mInt64);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagInt64Value);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagInt64Value);
+            gsXmlWriteInt64Element(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mInt64);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagInt64Value);
         } else if (fields[i].mType == 3) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagFloatValue);
-            func_02182DFC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mFloat);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagFloatValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagFloatValue);
+            gsXmlWriteFloatElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mFloat);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagFloatValue);
         } else if (fields[i].mType == 4) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagAsciiStringValue);
-            func_02182AC0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mAsciiString);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagAsciiStringValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagAsciiStringValue);
+            gsXmlWriteStringElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mAsciiString);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagAsciiStringValue);
         } else if (fields[i].mType == 5) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagUnicodeStringValue);
-            func_02182C10(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mUnicodeString);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagUnicodeStringValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagUnicodeStringValue);
+            gsXmlWriteUnicodeStringElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mUnicodeString);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagUnicodeStringValue);
         } else if (fields[i].mType == 6) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBooleanValue);
-            func_02182CF0(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mBoolean ? 1 : 0);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBooleanValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBooleanValue);
+            gsXmlWriteIntElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mBoolean ? 1 : 0);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBooleanValue);
         } else if (fields[i].mType == 7) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagDateAndTimeValue);
-            func_02182FF8(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mDateAndTime);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagDateAndTimeValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagDateAndTimeValue);
+            gsXmlWriteDateTimeElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mDateAndTime);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagDateAndTimeValue);
         } else if (fields[i].mType == 8) {
-            func_021829AC(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBinaryDataValue);
-            func_02182F40(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mBinaryData.mValue, fields[i].mValue.mBinaryData.mLength);
-            func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBinaryDataValue);
+            gsXmlWriteOpenTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBinaryDataValue);
+            gsXmlWriteBase64BinaryElement(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue, fields[i].mValue.mBinaryData.mValue, fields[i].mValue.mBinaryData.mLength);
+            gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagBinaryDataValue);
         }
-        func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue);
-        func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagRecordField);
+        gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValue);
+        gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagRecordField);
     }
-    func_02182A2C(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValues);
+    gsXmlWriteCloseTag(request->mSoapRequest, sModifyXmlNamespacePrefix, sModifyTagValues);
 }

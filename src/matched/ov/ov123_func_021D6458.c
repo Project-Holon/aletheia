@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021DA738 0x021DA738 data a4
- *   d_021DA748 0x021DA748 data a4
+ *   gGsyncMonIconX 0x021DA738 data a4
+ *   gGsyncMonIconY 0x021DA748 data a4
  *   func_020490F4 0x020490F4 arm
  *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -27,7 +27,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Pair { int a,b; };
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
-extern const struct Pair d_021DA738, d_021DA748;
+extern const struct Pair gGsyncMonIconX, gGsyncMonIconY;
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
@@ -41,8 +41,8 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
 void GSYNC_DISP_CreateMonIconActor(struct Obj02181 *p, void *n, int i)
 {
-    struct Pair a = d_021DA738;
-    struct Pair b = d_021DA748;
+    struct Pair a = gGsyncMonIconX;
+    struct Pair b = gGsyncMonIconY;
     struct Point pt;
     void *h;
     h = func_020490F4(7, p->f43C4);

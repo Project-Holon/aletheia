@@ -1,5 +1,5 @@
 /*
- * function: func_0219F978
+ * function: NTSLengthSB
  * address:  0x0219F978
  * packet:   pkt_ov009_0219F978
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-int func_0219F978(char *buf, int len)
+int NTSLengthSB(char *buf, int len)
 {
     int i;
 

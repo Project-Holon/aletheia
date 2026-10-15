@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021BE7D4 0x021BE7D4 data a4
+ *   gZukanListVramBankConfig 0x021BE7D4 data a4
  */
-extern char d_021BE7D4[];
-void *ZUKAN_LIST_GetVramBankConfig(void){return d_021BE7D4;}
+extern char gZukanListVramBankConfig[];
+void *ZUKAN_LIST_GetVramBankConfig(void){return gZukanListVramBankConfig;}

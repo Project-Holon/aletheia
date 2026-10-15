@@ -1,5 +1,5 @@
 /*
- * function: func_021C03D0
+ * function: RESEARCH_GRAPH_DeleteUnits
  * address:  0x021C03D0
  * packet:   pkt_021C03D0
  * region:   ov217
@@ -19,7 +19,7 @@ struct Bank;
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021C03D0(int *p)
+void RESEARCH_GRAPH_DeleteUnits(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)

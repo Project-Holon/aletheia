@@ -11,9 +11,9 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FC830 0x021FC830 thumb ov186
- *   func_021FD1BC 0x021FD1BC thumb ov186
- *   func_021FD854 0x021FD854 thumb ov186
+ *   BR_UTIL_FlushText 0x021FC830 thumb ov186
+ *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
+ *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   d_021E37A8 0x021E37A8 data a4
  */
@@ -26,10 +26,10 @@ extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 typedef unsigned char  u8;
 struct PrintSys;
-extern int func_021FC830(u8 *p);
-extern void func_021FD1BC(void *);
+extern int BR_UTIL_FlushText(u8 *p);
+extern void BR_UTIL_FlushWindow(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_021FD854(char *);
+extern void BR_UTIL_RunHandles(char *);
 int func_021DFA10(void *unused,u32 *state,int *q,char *p)
 {
     int i;
@@ -52,10 +52,10 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     case 11: if(BR_FADE_GetResult((int *)q[0])) *state=12; break;
     case 12: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) return 1; break;
     }
-    for(i=0;i<3;i++) if(*(void **)(p+i*4)) func_021FC830(*(void **)(p+i*4));
-    for(i=0;i<6;i++) if(*(void **)(p+0x20+i*4)) func_021FC830(*(void **)(p+0x20+i*4));
-    if(((struct Obj05476 *)p)->f38) func_021FD1BC(((struct Obj05476 *)p)->f38);
+    for(i=0;i<3;i++) if(*(void **)(p+i*4)) BR_UTIL_FlushText(*(void **)(p+i*4));
+    for(i=0;i<6;i++) if(*(void **)(p+0x20+i*4)) BR_UTIL_FlushText(*(void **)(p+0x20+i*4));
+    if(((struct Obj05476 *)p)->f38) BR_UTIL_FlushWindow(((struct Obj05476 *)p)->f38);
     PRINTSYS_QUE_Main(((struct Obj05476 *)p)->f48);
-    for(i=0;i<2;i++) func_021FD854(*(char **)(p+0x3c+i*4));
+    for(i=0;i<2;i++) BR_UTIL_RunHandles(*(char **)(p+0x3c+i*4));
     return 0;
 }

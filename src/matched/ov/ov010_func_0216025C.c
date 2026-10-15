@@ -19,8 +19,8 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200C404  0x0200C404  thumb
- *   func_0200C464  0x0200C464  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys  0x0200C404  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
  *   EVENT_SHORTCUT_MENU_ResolveShortcut  0x0216040C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_GetAvailBit  0x02160564  thumb  ov010
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
@@ -71,8 +71,8 @@ struct Rec44;
 struct SaveBlock;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C404(void *p);
-extern u8 func_0200C464(const u8 *a, u32 i);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *p);
+extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern int EVENT_SHORTCUT_MENU_ResolveShortcut(Req *r, u32 code);
 extern int EVENT_SHORTCUT_MENU_GetAvailBit(u32 state, u32 *out, u32 *err);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
@@ -108,7 +108,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(void *evt, u32 *state, Ctx *c)
 
     switch (*state) {
     case 0:
-        code = func_0200C464(func_0200C404(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(c->f04))), 0);
+        code = RECENT_ID_LIST_SAVEDATA_GetIdAt(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(c->f04))), 0);
         failed = 0;
         r = EVENT_SHORTCUT_MENU_ResolveShortcut(c->req, code);
         busy = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC500
+ * function: POKETRADE_PROC_VBlank
  * address: 0x021DC500
  * packet: pkt_ov119_021DC500
  * region: ov119
@@ -15,7 +15,7 @@
 extern void CLACT_VBlankSystem(void);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021DC500(int a, char *p)
+void POKETRADE_PROC_VBlank(int a, char *p)
 {
     CLACT_VBlankSystem();
     if (((struct Obj08059 *)p)->f1084) {

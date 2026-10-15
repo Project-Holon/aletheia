@@ -1,5 +1,5 @@
 /*
- * function: func_0219F9A8
+ * function: SBServerListInit
  * address:  0x0219F9A8
  * packet:   pkt_ov009_0219F9A8
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      SBServerListInit (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  *
  * symbols:
- *   func_0219F888  0x0219F888  arm  ov009
+ *   SBAllocateServerList  0x0219F888  arm  ov009
  *   func_0219DF64  0x0219DF64  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
  *   SBServerListSetLastError  0x021A0A1C  arm  ov009
@@ -20,7 +20,7 @@
  *   func_020946C8  0x020946C8  arm
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
- *   g_021A8230  0x021A8230  data
+ *   gSBEmptyString  0x021A8230  data
  */
 
 typedef struct {
@@ -62,7 +62,7 @@ typedef struct SBServerList {
     void *deadlist;
 } SBServerList;
 
-extern void func_0219F888(SBServerList *slist);
+extern void SBAllocateServerList(SBServerList *slist);
 extern void *func_0219DF64(SBServerList *slist);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern void SBServerListSetLastError(int *p, int v);
@@ -70,17 +70,17 @@ extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
 extern void SocketStartUp(void);
 extern int gGsAvailabilityState;
-extern volatile unsigned char g_021A8230[];
+extern volatile unsigned char gSBEmptyString[];
 
 
-void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+void SBServerListInit(SBServerList *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                    int queryFromVersion, int lanBrowse, void (*callback)(SBServerList *, int, void *, void *),
                    void *instance)
 {
     if (!lanBrowse && gGsAvailabilityState != 1)
         return;
     slist->state = 1;
-    func_0219F888(slist);
+    SBAllocateServerList(slist);
     func_0219DF64(slist);
     func_021803BC(slist->queryforgamename, queryForGamename, 36);
     func_021803BC(slist->queryfromgamename, queryFromGamename, 36);
@@ -97,9 +97,9 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
     slist->slsocket = -1;
     slist->expectedelements = -1;
     slist->fromgamever = queryFromVersion;
-    slist->currsortinfo.sortkey[0] = g_021A8230[0];
-    slist->prevsortinfo.sortkey[0] = g_021A8230[0];
-    SBServerListSetLastError((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
+    slist->currsortinfo.sortkey[0] = gSBEmptyString[0];
+    slist->prevsortinfo.sortkey[0] = gSBEmptyString[0];
+    SBServerListSetLastError((int *)slist, (int)((char *)(unsigned char *)gSBEmptyString));
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
     func_020946C8(func_0217F264());

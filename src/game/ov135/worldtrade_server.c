@@ -115,8 +115,8 @@
  *   func_0200AD8C  0x0200AD8C  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0200AD94  0x0200AD94  thumb
- *   func_0200ED48 0x0200ED48 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   WORLDTRADE_DEMO_ReadMyStatus 0x021F72C4 thumb ov135
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009DE8 0x02009DE8 thumb
@@ -210,7 +210,6 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 
@@ -266,19 +265,14 @@ extern void WORLDTRADE_SetStateAndReturn(void *p, u32 a, u32 b);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 extern int func_0207D55C(vu16 *reg);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern int DPW_TR_IsAsyncEnd();
 
@@ -372,9 +366,9 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 
 extern void *WORLDTRADE_DEMO_ReadMyStatus(void *);
 
@@ -1493,7 +1487,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, WorldtradeAdapterOb
     Record rec;
     u16 species;
     func_02008DF0(((struct Obj23452 *)(*(u8 * *)(void **)&p->ctx))->f24, 0x10);
-    func_0200ED54(func_0200ED48(((struct Obj23453 *)(*(u8 * *)(void **)&p->ctx))->f3C), r->f10C);
+    MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44(((struct Obj23453 *)(*(u8 * *)(void **)&p->ctx))->f3C), r->f10C);
     copy = WORLDTRADE_DEMO_ReadMyStatus(r);
     func_02009DE8(func_02009EC8(((struct Obj23454 *)(*(u8 * *)(void **)&p->ctx))->f3C), copy);
     func_020307B0(copy);

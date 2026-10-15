@@ -56,7 +56,7 @@
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02087E60  0x02087E60  arm
+ *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
@@ -90,7 +90,7 @@
  *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
  *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
  *   STRBUF_SetStringN  0x02045994  arm
- *   func_0200E3A4  0x0200E3A4  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  *   OSi_GetOwnerInfoExBuffer  0x02087D1C  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_SetString  0x02045924  arm
@@ -252,7 +252,7 @@ extern void GAME_BEACON_GetMyInfo(GameBeaconInfo *info);
 extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern int OS_IsRunOnTwl(void);
-extern OwnerFlags *func_02087E60(void);
+extern OwnerFlags *OS_GetParentalControlInfoPtr(void);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
@@ -281,7 +281,7 @@ extern int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
-extern u32 func_0200E3A4(const u8 *bits, int id);
+extern u32 SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *bits, int id);
 extern const u16 *OSi_GetOwnerInfoExBuffer(void);
 extern void STRBUF_Clear(struct Strbuf *str);
 extern void STRBUF_SetString(struct Strbuf *str, const u16 *src);
@@ -681,7 +681,7 @@ void GAME_BEACON_SEARCH_BuildBeaconHeader(GameBeaconSearchBeacon *beacon, struct
     beacon->header.lidClosed = lidClosed;
     if (beacon->header.isTwl == 1) {
         wirelessOn = 1;
-        if (func_02087E60()->wirelessOn == 0 || func_02087E60()->parentalWirelessOn == 0)
+        if (OS_GetParentalControlInfoPtr()->wirelessOn == 0 || OS_GetParentalControlInfoPtr()->parentalWirelessOn == 0)
             wirelessOn = 0;
         beacon->header.twlWirelessOn = wirelessOn;
     }
@@ -1521,7 +1521,7 @@ u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info)
 /* Questionnaire answers: 0xFF when the question has no answer. */
 u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
 {
-    u32 answer = func_0200E3A4(info->questionnaire, 0x1a);
+    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x1a);
 
     if (answer == 0)
         return 0xff;
@@ -1530,7 +1530,7 @@ u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
 
 u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info)
 {
-    u32 answer = func_0200E3A4(info->questionnaire, 0x19);
+    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x19);
 
     if (answer == 0)
         return 0xff;

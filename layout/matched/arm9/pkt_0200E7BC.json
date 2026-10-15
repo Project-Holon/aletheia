@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E7BC",
+   "name": "MISC_SAVEDATA_FillMonEntry",
    "address": "0x0200E7BC",
    "kind": "game",
    "region": "arm9",
@@ -30,8 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E874",
-    "sub_0200E878"
+    "MISC_SAVEDATA_GetSmallEntrySize",
+    "MISC_SAVEDATA_ClearSmallEntry"
+   ],
+   "addresses": [
+    "0x0200E874",
+    "0x0200E878"
    ]
   }
  ]

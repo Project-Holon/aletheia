@@ -1,5 +1,5 @@
 /*
- * function: func_020896EC
+ * function: SND_InvalidateWaveData
  * address:  0x020896EC
  * packet:   pkt_020896EC
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_020896EC(const void *start, const void *end)
+void SND_InvalidateWaveData(const void *start, const void *end)
 {
     PushCommand_impl(0x20, (u32)start, (u32)end, 0, 0);
 }

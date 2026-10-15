@@ -1,5 +1,5 @@
 /*
- * function: func_02086D58
+ * function: OSi_WriteProtectionRegion5
  * address: 0x02086D58
  * packet: pkt_arm9_02086D58
  * region: arm9
@@ -15,7 +15,7 @@
 typedef unsigned long u32;
 
 /* p15 c6,c5: data protection region 5, write */
-asm void func_02086D58(u32 param)
+asm void OSi_WriteProtectionRegion5(u32 param)
 {
     mcr p15, 0, r0, c6, c5, 0
     bx lr

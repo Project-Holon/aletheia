@@ -19,6 +19,8 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   sNHTTPBase64Chars     0x021CE3BC  data
+ *   STD_GetStringNLength  0x0208CCFC  arm  arm9
+ *   STD_CompareString  0x0208CD94  arm  arm9
  *   @12945 0x021CDFA4 data
  */
 typedef unsigned int u32;
@@ -27,8 +29,8 @@ typedef unsigned char u8;
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern int func_0208CC78(const char *s);
-extern int func_0208CCFC(const char *s, int maxLen);
-extern int func_0208CD94(const char *s1, const char *s2);
+extern int STD_GetStringNLength(const char *s, int maxLen);
+extern int STD_CompareString(const char *s1, const char *s2);
 extern void MI_CpuFill8(void *dst_p, int data, u32 size);
 void NHTTPi_memcpy(void *dst, void *src, u32 size);
 int NHTTPi_strlen(const char *s);
@@ -68,14 +70,14 @@ int NHTTPi_strlen(const char *s)
 
 int NHTTPi_strnlen(const char *s, int maxLen)
 {
-    return func_0208CCFC(s, maxLen);
+    return STD_GetStringNLength(s, maxLen);
 }
 
 
 
 int NHTTPi_strcmp(const char *s1, const char *s2)
 {
-    return func_0208CD94(s1, s2);
+    return STD_CompareString(s1, s2);
 }
 
 

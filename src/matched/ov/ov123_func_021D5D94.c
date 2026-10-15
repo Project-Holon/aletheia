@@ -27,18 +27,18 @@
  *   GSYNC_DISP_CreatePokeIconActor 0x021D6CD8 thumb ov123
  *   GSYNC_DISP_CreateBackdropActors 0x021D6D5C thumb ov123
  *   GSYNC_DISP_VBlankTask 0x021D60F8 thumb ov123
- *   d_021DAB68 0x021DAB68 data a1
- *   d_021DAA9C 0x021DAA9C data a4
- *   d_020A1464 0x020A1464 data a4
- *   d_021DAA78 0x021DAA78 data a4
+ *   gGsyncDispAllocSource 0x021DAB68 data a1
+ *   gGsyncDispClactParam 0x021DAA9C data a4
+ *   gGsyncClactConfig 0x020A1464 data a4
+ *   gGsyncDispDisplayConfig 0x021DAA78 data a4
  */
 #include "../include/Obj04498.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern const char d_021DAB68[];
+extern const char gGsyncDispAllocSource[];
 extern char ov067_id[];
-extern const u32 d_021DAA9C[], d_020A1464[], d_021DAA78[];
+extern const u32 gGsyncDispClactParam[], gGsyncClactConfig[], gGsyncDispDisplayConfig[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02034AC4(int);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
@@ -63,16 +63,16 @@ extern void *func_020056A0(void *,void *,int);
 u8 *GSYNC_DISP_Init(u32 heap)
 {
     u8 *p;
-    p=func_02030734(heap,0x4568,1,d_021DAB68,0xfe);
+    p=func_02030734(heap,0x4568,1,gGsyncDispAllocSource,0xfe);
     ((struct Obj04498 *)p)->f43C4=heap;
     func_02034AC4((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     func_0203F8F4(((struct Obj04498 *)p)->f43C4);
-    CLACT_InitSystem((const struct Cfg *)d_020A1464,(u32)d_021DAA9C,((struct Obj04498 *)p)->f43C4);
+    CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)gGsyncDispClactParam,((struct Obj04498 *)p)->f43C4);
     ((struct Obj04498 *)p)->fC=CLACT_CreateUnit(40,0,((struct Obj04498 *)p)->f43C4);
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021DAA9C); func_0203FC28((struct DispConfig *)d_021DAA78);
+    BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); func_0203FC28((struct DispConfig *)gGsyncDispDisplayConfig);
     GSYNC_DISP_InitBgLayers(p); GSYNC_DISP_LoadResources(p); GSYNC_DISP_CreatePokeIconActor(p); GSYNC_DISP_CreateBackdropActors(p);
     ((struct Obj04498 *)p)->f10=func_020056A0(GSYNC_DISP_VBlankTask,p,0);
     ((struct Obj04498 *)p)->f455C=200;

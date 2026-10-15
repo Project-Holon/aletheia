@@ -59,7 +59,6 @@ int DWCi_CMNlFontFlag(void);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color,
                               unsigned long flag, unsigned short *txt);
 extern void DWCi_FNTlRenewBg(void *canvas);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 extern void DWCi_FNTlDraw(void *canvas, int x, int y, int color, unsigned long flag, unsigned short *txt);
 unsigned char *DWCi_Char(unsigned char *name);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020895B0",
+   "name": "SND_SetTrackMuteEx",
    "address": "0x020895B0",
    "kind": "sdk",
    "region": "arm9",

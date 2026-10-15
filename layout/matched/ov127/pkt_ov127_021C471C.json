@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C471C",
-    "func_021C4740",
-    "func_021C4750",
-    "func_021C4760",
-    "func_021C4770",
-    "func_021C4780"
+    "WF2DMAP_ANIM_ApplyActorAnim",
+    "WF2DMAP_ANIM_AddActorFrame8192",
+    "WF2DMAP_ANIM_AddActorFrame4096A",
+    "WF2DMAP_ANIM_AddActorFrame4096B",
+    "WF2DMAP_ANIM_AddActorFrame32768",
+    "WF2DMAP_ANIM_AddActorFrame24576"
+   ],
+   "addresses": [
+    "0x021C471C",
+    "0x021C4740",
+    "0x021C4750",
+    "0x021C4760",
+    "0x021C4770",
+    "0x021C4780"
    ]
   }
  ]

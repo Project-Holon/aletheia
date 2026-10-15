@@ -1,5 +1,5 @@
 /*
- * function: func_0208471C
+ * function: OSi_IrqNDma0
  * address:  0x0208471C
  * packet:   pkt_0208471C
  * region:   arm9
@@ -16,7 +16,7 @@
 
 void OSi_IrqCallback(int dmaNo);
 
-void func_0208471C(void)
+void OSi_IrqNDma0(void)
 {
     OSi_IrqCallback(4);
 }

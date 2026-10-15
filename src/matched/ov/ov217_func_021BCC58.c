@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC58
+ * function: RESEARCH_LIST_ShowBackground3
  * address:  0x021BCC58
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_02040DA8(u32, u32, u32);
 
-void func_021BCC58(u32 a0)
+void RESEARCH_LIST_ShowBackground3(u32 a0)
 {
     func_02040DA8(3, 1, 0);
 }

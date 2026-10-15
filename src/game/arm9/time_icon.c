@@ -41,9 +41,9 @@
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02087E60  0x02087E60  arm
+ *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  *   func_02087DC4  0x02087DC4  arm
- *   func_02087DE0  0x02087DE0  arm
+ *   OS_IsAgreeEULA  0x02087DE0  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200974C  0x0200974C  thumb
  *   func_0200856C  0x0200856C  thumb
@@ -229,7 +229,7 @@ struct HistoryEntry {
     u8 reserved27;                  /* 0x27 */
 };
 
-/* Hardware capability word (DSi/wireless flags) behind func_02087E60. */
+/* Hardware capability word (DSi/wireless flags) behind OS_GetParentalControlInfoPtr. */
 struct DeviceInfo {
     u32 bit0:1;
     u32 pad:4;
@@ -296,9 +296,9 @@ extern u16 func_02008534(const struct PlayerRecord *record);
 extern struct ResourceFile *func_02049F78(void *archive, u32 fileId, u32 outData, u32 heapId);
 extern s32 func_02061CA4(u32 targetMask, u32 firstColor, u32 colors, s32 size);
 extern u32 OS_IsRunOnTwl(void);
-extern struct DeviceInfo *func_02087E60(void);
+extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 extern void func_02087DC4(void);
-extern int func_02087DE0(void);
+extern int OS_IsAgreeEULA(void);
 extern void OS_GetOwnerInfo(struct OwnerInfo *info);
 extern u8 func_0200856C(const struct PlayerRecord *record);
 extern struct HistoryEntry *func_0200974C(struct HistoryOwner *owner);
@@ -867,7 +867,7 @@ u32 sub_0202EB0C(void)
 int func_0202EB14(void)
 {
     if (sub_0202EB0C()) {
-        if (func_02087E60()->bit0 && func_02087E60()->bit5) {
+        if (OS_GetParentalControlInfoPtr()->bit0 && OS_GetParentalControlInfoPtr()->bit5) {
             return 1;
         }
         return 0;
@@ -895,7 +895,7 @@ void func_0202EB44(void)
 u32 sub_0202EB4C(void)
 {
     if (sub_0202EB0C() == 1) {
-        return func_02087DE0();
+        return OS_IsAgreeEULA();
     }
     return 1;
 }

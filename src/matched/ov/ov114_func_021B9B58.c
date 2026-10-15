@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *
  * ARM linker veneer / far tail call: ldr ip,[pc,#0]; bx ip; .word
  * 0x02086028, printed as a .word run by disasm.py at 0x021B9B58 in ov114.
  * Blocker target of NHTTPi_lockReqList (pkt_021B9500).
  */
 
-extern void func_02086028(void);
+extern void OS_LockMutex(void);
 
 void NHTTPi_LockMutexThunk(void)
 {
-    func_02086028();
+    OS_LockMutex();
 }

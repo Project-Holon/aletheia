@@ -155,20 +155,7 @@ typedef unsigned int u32;
  * player name; kind 1 asks for a monster nickname, either from a species and
  * traits pair or from the monster itself (NAMEIN_SETUP_CreateMonArgs).
  */
-typedef struct NameInArgs {
-    int kind;           /* 0x00 */
-    u16 species;        /* 0x04 */
-    u16 traits;         /* 0x06: gender in the high byte, form in the low byte */
-    void *mon;          /* 0x08 */
-    Strbuf *boxName;    /* 0x0C */
-    void *boxManager;   /* 0x10 */
-    int boxIndex;       /* 0x14 */
-    int maxLen;         /* 0x18 */
-    int canceled;       /* 0x1C */
-    Strbuf *name;       /* 0x20 */
-    u32 reserved24;     /* 0x24 */
-    void *pokedex;      /* 0x28 */
-} NameInArgs;
+#include "namein_args.h"
 
 typedef int s32;
 typedef s32 fx32;

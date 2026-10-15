@@ -12,7 +12,7 @@
  * symbols:
  *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   func_0216749C  0x0216749C  thumb ov010
  *   func_021673C4  0x021673C4  thumb ov010
  *   func_021673A8  0x021673A8  thumb ov010
@@ -34,7 +34,7 @@ typedef struct Blk {
 struct Big;
 u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-void *func_0200E0B0(void *p);
+void *SYMBOL_SAVE_GetBlock(void *p);
 struct Entry32;
 unsigned short func_0216749C(struct Entry32 *list, struct Entry32 *out, u32 cap, int page, u8 *n);
 typedef unsigned short u16;
@@ -50,7 +50,7 @@ void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q)
     u8 buf[4];
 
     b = (Blk *)((u8 *)p + 0x880);
-    x = func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)GAME_COMM_GetGameData((void *)p[1])));
+    x = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct Big *)GAME_COMM_GetGameData((void *)p[1])));
     func_0216749C(x, (struct Entry32 *)b, 0x14, q[0], buf);
     b->a = buf[0];
     b->b = func_021673C4(x);

@@ -1,5 +1,5 @@
 /*
- * function: func_02082680
+ * function: MIi_CheckAnotherAutoDMA
  * address:  0x02082680
  * packet:   pkt_02082680
  * region:   arm9
@@ -32,7 +32,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 void OS_Terminate(void);
 
-void func_02082680(u32 dmaNo, u32 dmaType)
+void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType)
 {
     int n;
 

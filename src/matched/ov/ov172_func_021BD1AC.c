@@ -17,7 +17,7 @@
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
  *   func_021B7BA8 0x021B7BA8 thumb ov172
- *   func_021B8C3C 0x021B8C3C thumb ov172
+ *   CTVT_TALK_Create 0x021B8C3C thumb ov172
  *   CTVT_DRAW_Create 0x021BA280 thumb ov172
  *   func_021BBA6C 0x021BBA6C thumb ov172
  *   DRAW_SYSTEM_CreateCanvas 0x021B6BE0 thumb ov172
@@ -49,7 +49,7 @@ extern void func_021BDBC4(u8 *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern char *CTVT_CAMVIEW_Create(void *a, u16 b);
 extern char *func_021B7BA8(void *p, u16 heap);
-extern char *func_021B8C3C(char *unused, u16 heap);
+extern char *CTVT_TALK_Create(char *unused, u16 heap);
 extern u32 CTVT_DRAW_Create(char *, u16);
 extern void *func_021BBA6C(int unused, void *p);
 extern u32 DRAW_SYSTEM_CreateCanvas(Params *);
@@ -84,7 +84,7 @@ void func_021BD1AC(char *self)
     W(0x1d4) = (u32)APP_TASKMENU_RES_Create(4, 7, W(0x1c8), W(0x1d0), H(0));
     W(0x1e0) = (u32)CTVT_CAMVIEW_Create(self, H(0));
     W(0x1e4) = (u32)func_021B7BA8(self, H(0));
-    W(0x1e8) = (u32)func_021B8C3C(self, H(0));
+    W(0x1e8) = (u32)CTVT_TALK_Create(self, H(0));
     W(0x1ec) = CTVT_DRAW_Create(self, H(0));
     W(0x1f0) = (u32)func_021BBA6C((int)self, (void *)H(0));
     st.heap = H(0);

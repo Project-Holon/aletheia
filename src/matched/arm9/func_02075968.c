@@ -1,5 +1,5 @@
 /*
- * function: func_02075968
+ * function: NNSi_SndTrackDetachObject
  * address:  0x02075968
  * packet:   pkt_02075968
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct {
     u32 *unk154;
 } Obj02075968;
 
-void func_02075968(Obj02075968 *o)
+void NNSi_SndTrackDetachObject(Obj02075968 *o)
 {
     if (o->unk154 != 0) {
         *o->unk154 = 0;

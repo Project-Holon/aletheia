@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9A0
+ * function: BOX2_MAIN_InitSeq
  * address:  0x021DC9A0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -16,7 +16,7 @@
 #include "../include/Obj05868.h"
 
 
-void func_021DC9A0(char *p, int v)
+void BOX2_MAIN_InitSeq(char *p, int v)
 {
     ((struct Obj05868 *)p)->f64 = 0;
     ((struct Obj05868 *)p)->f66 = 0;

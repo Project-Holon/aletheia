@@ -36,7 +36,6 @@ extern void MI_CpuCopy(void *src, void *dst, u32 size);
 extern short GetAPP1(unsigned char *src, unsigned long src_size, unsigned long cur, long *soi_addr, int option);
 unsigned short GetWord(unsigned char *src, unsigned long cur, short Endian);
 unsigned long GetLong(unsigned char *src, unsigned long cur, short Endian);
-s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option);
 long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int option);
 
 static u16 SSPiSoftwareBufferSize = 0;

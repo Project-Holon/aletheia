@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3EC
+ * function: RESEARCH_LIST_DivideByEntryHeight
  * address:  0x021BC3EC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_0209C0A4(u32, u32);
 
-void func_021BC3EC(u32 a0)
+void RESEARCH_LIST_DivideByEntryHeight(u32 a0)
 {
     func_0209C0A4(a0, 24);
 }

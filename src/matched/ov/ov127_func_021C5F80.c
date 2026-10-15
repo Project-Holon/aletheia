@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F80
+ * function: WF2DMAP_CMDQ_Pop
  * address:  0x021C5F80
  * packet:   pkt_021C5F80
  * region:   ov127
@@ -31,7 +31,7 @@ typedef struct {
 
 extern u32 _u32_div_f(u32 a, u32 b);
 
-int func_021C5F80(S *a, Entry *out)
+int WF2DMAP_CMDQ_Pop(S *a, Entry *out)
 {
     if (a->w == a->r)
         return 0;

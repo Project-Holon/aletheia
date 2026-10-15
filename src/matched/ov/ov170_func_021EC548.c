@@ -1,5 +1,5 @@
 /*
- * function: func_021EC548
+ * function: BOX2_SEQ_GetSlotPos
  * address:  0x021EC548
  * packet:   pkt_ov170_021EC548
  * region:   ov170
@@ -17,7 +17,7 @@
 typedef struct { short x; short y; } Pos;
 extern const Pos d_021EFD4C[];
 
-void func_021EC548(unsigned i, short *x, short *y, int mode)
+void BOX2_SEQ_GetSlotPos(unsigned i, short *x, short *y, int mode)
 {
     if (i < 0x1E) {
         *x = (i % 6 + 1) * 0x18;

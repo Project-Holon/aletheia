@@ -1,5 +1,5 @@
 /*
- * function: func_02081E7C
+ * function: MATHi_SHA1Transform
  * address:  0x02081E7C
  * packet:   pkt_02081E7C
  * region:   arm9
@@ -17,7 +17,7 @@
  *   (none)
  */
 
-asm void func_02081E7C(void)
+asm void MATHi_SHA1Transform(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, r12, lr}
     mov r11, r0

@@ -1,5 +1,5 @@
 /*
- * function: func_021EC428
+ * function: BOX2_SEQ_SetSlotIconPal
  * address:  0x021EC428
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -31,7 +31,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021EC428(char *p, int a, int i, int b)
+void BOX2_SEQ_SetSlotIconPal(char *p, int a, int i, int b)
 {
     int v = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
     CLACT_TransferCharacterPart(v, (void *)a, 0x200, 0, 0);

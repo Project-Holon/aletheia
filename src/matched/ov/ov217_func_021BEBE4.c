@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBE4
+ * function: RESEARCH_GRAPH_SetNormalB
  * address:  0x021BEBE4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BF594  0x021BF594  thumb  ov217
+ *   RESEARCH_GRAPH_StartSlotPaletteAnime  0x021BF594  thumb  ov217
  *   BMP_OAM_SetPalette  0x02025A54  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,10 +27,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void BMP_OAM_SetPalette(u8 *g, u32 a);
-extern u32 func_021BF594();
-u32 func_021BEBE4(u32 a0)
+extern u32 RESEARCH_GRAPH_StartSlotPaletteAnime();
+u32 RESEARCH_GRAPH_SetNormalB(u32 a0)
 {
     BMP_OAM_SetPalette((u8 *)(((struct Obj25917 *)(((u8*)a0)))->f3AC), 1);
-    return func_021BF594(a0, 5);
+    return RESEARCH_GRAPH_StartSlotPaletteAnime(a0, 5);
 }
 

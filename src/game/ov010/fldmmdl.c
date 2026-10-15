@@ -28,7 +28,7 @@
  *   FLDMMDL_BLACT_Update  0x0219C5FC  thumb
  *   FLDMMDL_BLACT_RegisterLoadedRes  0x0219C624  thumb
  *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb
- *   func_02087A3C  0x02087A3C  arm
+ *   OS_WaitInterrupt  0x02087A3C  arm
  *   FLDMMDL_HasMovedPos  0x0216E51C  thumb  ov010
  *   FLDMMDL_MOVE_SetStatusPauseDraw 0x021642F8 thumb ov010
  *   FLDMMDL_MOVE_RequestRailMove 0x02164304 thumb ov010
@@ -86,7 +86,7 @@ extern void func_02030D28(void *tcbSys);
 extern void FLDMMDL_BLACT_Update(MmdlSys *sys);
 extern void FLDMMDL_BLACT_RegisterLoadedRes(MmdlSys *sys);
 extern int FLDMMDL_BLACT_IsReservePending(MmdlSys *sys);
-extern void func_02087A3C(int, int);
+extern void OS_WaitInterrupt(int, int);
 extern int FLDMMDL_HasMovedPos();
 extern void FLDMMDL_MOVE_SetStatusPauseDraw(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_RequestRailMove(Mmdl *mmdl, const MmdlHeader *header);
@@ -428,7 +428,7 @@ void FLDMMDL_SysWaitBlActResLoad(MmdlSys *sys)
 {
     while (FLDMMDL_BLACT_IsReservePending(sys) == 1) {
         FLDMMDL_UpdateSysProc(sys);
-        func_02087A3C(1, 1);
+        OS_WaitInterrupt(1, 1);
         FLDMMDL_UpdateSysBlAct(sys);
     }
 }

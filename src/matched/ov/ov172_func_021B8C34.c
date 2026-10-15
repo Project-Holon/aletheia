@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * Return the word at +0x3C8 of the record. Filed as the call witness for
- * ov172 func_021B97AC.
+ * ov172 CTVT_TALK_UpdateVoiceSend.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

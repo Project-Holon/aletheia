@@ -1,5 +1,5 @@
 /*
- * function: func_0208748C
+ * function: OSi_ArrangeTimer
  * address:  0x0208748C
  * packet:   pkt_0208748C
  * region:   arm9
@@ -66,7 +66,7 @@ extern u32 OS_DisableIrqMask(u32 intr);
 extern OSTick OS_GetTick(void);
 extern void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire);
 
-void func_0208748C(void)
+void OSi_ArrangeTimer(void)
 {
     OSTick tick;
     OSAlarm *alarm;

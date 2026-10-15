@@ -187,7 +187,6 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern u8 unit_02045730(u32 a);
 
@@ -268,13 +267,9 @@ extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
 
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void func_02020F84(void *dst, u32 entry, u32 heap);
 
@@ -296,7 +291,6 @@ extern u32 func_02017EAC(void *mon);
 
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 int WORLDTRADE_DETAIL_Init(Work *p);
 

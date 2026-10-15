@@ -12,7 +12,7 @@
  * sdk:      sakeGetFileUploadURL (sakemain.o)
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   sFileUploadUrlOverride  0x021E4C08  data
  *   sFileUploadUrlFormatOverride  0x021E36B0  data
  *   sFileUploadUrlFormatDefault  0x021E36C4  data
@@ -30,7 +30,7 @@ typedef struct SAKEInternal {
 extern char sFileUploadUrlOverride[128];
 extern char sFileUploadUrlFormatOverride[];
 extern char sFileUploadUrlFormatDefault[];
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
 int sakeGetFileUploadURL(SAKEInternal *sake, char *url)
 {
@@ -39,9 +39,9 @@ int sakeGetFileUploadURL(SAKEInternal *sake, char *url)
     if (!sake || !url || !sake->startedUp || !sake->profileSet)
         return 0;
     if (sFileUploadUrlOverride[0])
-        rcode = func_02084F80(url, 128, sFileUploadUrlFormatOverride, sFileUploadUrlOverride, sake->gameId, sake->profileId);
+        rcode = OS_SNPrintf(url, 128, sFileUploadUrlFormatOverride, sFileUploadUrlOverride, sake->gameId, sake->profileId);
     else
-        rcode = func_02084F80(url, 128, sFileUploadUrlFormatDefault, sake->gameName, sake->gameId, sake->profileId);
+        rcode = OS_SNPrintf(url, 128, sFileUploadUrlFormatDefault, sake->gameName, sake->gameId, sake->profileId);
     if (rcode < 0)
         return 0;
     return 1;

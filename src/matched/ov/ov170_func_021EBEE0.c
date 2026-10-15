@@ -1,5 +1,5 @@
 /*
- * function: func_021EBEE0
+ * function: BOX2_SEQ_CreateActorFromDesc
  * address:  0x021EBEE0
  * packet:   pkt_ov170_021EBEE0
  * region:   ov170
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
-void *func_021EBEE0(char *w, const Desc *s)
+void *BOX2_SEQ_CreateActorFromDesc(char *w, const Desc *s)
 {
     void *r = CLACT_CreateActor(((struct Obj23997 *)w)->f9E70, (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
                             (unsigned int)*(void **)(w + s->b * 4 + 0xA108), (unsigned int)*(void **)(w + s->c * 4 + 0xA134),

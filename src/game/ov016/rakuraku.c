@@ -49,7 +49,6 @@ extern int DWCi_RakurakuATERMi_ApConfigStart(int priority, int maxAps, void (*no
 void cbConfig(RakuStatus *status);
 extern RakuStatus *gRakuStatus;
 extern void DWCi_HEAPlFree2(void *mem);
-void DWCi_RAKUl_memFree(void *mem);
 
 
 /*

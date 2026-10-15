@@ -13,6 +13,7 @@
  *
  * symbols:
  *   NNSi_SndArcForgetFileAddress  0x020751F4  arm
+ *   SND_DestroyWaveArc  0x0208A424  arm
  */
 
 typedef unsigned char  u8;
@@ -21,10 +22,10 @@ typedef unsigned int   u32;
 
 extern void NNSi_SndArcForgetFileAddress(u32 a, u32 b, u32 c);
 struct SNDWaveArc;
-extern void func_0208A424(struct SNDWaveArc *waveArc);
+extern void SND_DestroyWaveArc(struct SNDWaveArc *waveArc);
 
 void NNSi_SndArcDisposeWaveArcTable(int a, int b, int c, int d)
 {
     NNSi_SndArcForgetFileAddress(a, c, d);
-    func_0208A424((struct SNDWaveArc *)a);
+    SND_DestroyWaveArc((struct SNDWaveArc *)a);
 }

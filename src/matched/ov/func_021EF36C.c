@@ -1,5 +1,5 @@
 /*
- * function: func_021EF36C
+ * function: BOX2_UI_CloseBar
  * address:  0x021EF36C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_021EF36C(struct WinMgr *mgr)
+void BOX2_UI_CloseBar(struct WinMgr *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos(mgr, 8, buf + 1, buf);

@@ -14,7 +14,7 @@
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNSi_SndArcLoadWaveArc  0x02074E10  arm
  *   NNSi_SndArcLoadBankWaves  0x02075404  arm
- *   func_0208A2BC  0x0208A2BC  arm
+ *   SND_AssignWaveArc  0x0208A2BC  arm
  *
  * The third kind dispatcher: look up the group (error 4), load or look up its
  * bank (flag bit 2; error 8), then for each of the group's four halfword slots
@@ -23,7 +23,7 @@
  * banks through NNSi_SndArcLoadBankWaves when header bit 24 and flag bit 4 are both set
  * (error 9), and finally assign the loaded wave archive to the bank slot.
  *
- * THE LAST LEVER (wave 12, from 2 bytes out): func_0208A2BC takes THREE
+ * THE LAST LEVER (wave 12, from 2 bytes out): SND_AssignWaveArc takes THREE
  * arguments, not two.  Its own prologue saves r0, r1 AND r2 (`mov r4, r2` at
  * 0x0208A2C8), which is the SDK's SND_AssignWaveArc(bank, index, waveArc)
  * shape.  The image's `ldrne r2, [sp, #4]` at 0x02074DD0 was never a
@@ -54,7 +54,7 @@ extern u32   NNSi_SndArcLoadBankFile(u32 a, u32 b, u32 c);
 extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern u32   NNSi_SndArcLoadWaveArc(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32   NNSi_SndArcLoadBankWaves(u32 a, u32 b, u32 c, u32 d, u32 *heap);
-extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);
+extern void  SND_AssignWaveArc(u32 bank, u32 i, u32 waveArc);
 
 u32 NNSi_SndArcLoadBank(u32 a, u32 flags, u32 c, u32 d, u32 *out)
 {
@@ -87,7 +87,7 @@ u32 NNSi_SndArcLoadBank(u32 a, u32 flags, u32 c, u32 d, u32 *out)
                 if (NNSi_SndArcLoadBankWaves(sub, bank, (u32)i, o->b.v, (u32 *)c) == 0) return 9;
             }
             if (bank != 0 && sub != 0) {
-                func_0208A2BC(bank, (u32)i, sub);
+                SND_AssignWaveArc(bank, (u32)i, sub);
             }
         }
     }

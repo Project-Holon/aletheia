@@ -1,5 +1,5 @@
 /*
- * function: func_021B6854
+ * function: CDEMO_SCENE_CmdResetBlend
  * address:  0x021B6854
  * packet:   pkt_ov179_021B6854
  * region:   ov179
@@ -14,7 +14,7 @@
  * volatile: 0x04000050 is a hardware register (REG_BLDCNT).
  */
 #include "../include/Obj08296.h"
-int func_021B6854(char *p)
+int CDEMO_SCENE_CmdResetBlend(char *p)
 {
     *(volatile unsigned short *)0x04000050 = 0;
     ((struct Obj08296 *)p)->f6024 = 0;

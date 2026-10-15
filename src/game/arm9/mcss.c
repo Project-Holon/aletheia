@@ -72,7 +72,7 @@
  *   func_02063E54  0x02063E54  arm
  *   sub_02030EAC   0x02030EAC  arm
  *   _s32_to_double  0x0209B750  arm
- *   func_0209AB80   0x0209AB80  arm
+ *   pow   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKEGRA_GetCbrArcIndex  0x0202D09C  thumb
@@ -496,7 +496,6 @@ extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
 extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void NNS_G2dRestartMCAnimation(McssAnimCtrl *ctrl);
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
@@ -516,7 +515,7 @@ extern void func_02063E54(McssPlttData *pltt, u32 dst, int mode, McssPlttProxy *
 extern int NNS_G2dGetMCWorkAreaSize(void *multiCellBank, int kind);
 extern void NNS_G2dInitMCAnimation(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank, void *cellBank, void *multiCellBank, int kind);
 extern double _s32_to_double(s32 v);
-extern double func_0209AB80(double base, double exponent);
+extern double pow(double base, double exponent);
 extern s32 _d2s(double d);
 extern int POKEGRA_GetArcID(void);
 extern s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
@@ -543,14 +542,12 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId);
 void MCSS_Exit(McssSys *sys);
 void MCSS_Main(McssSys *sys);
 void MCSS_OpenHandle(McssSys *sys, u32 arcId);
-void MCSS_CloseHandle(McssSys *sys);
 void MCSS_SetTaskSystem(McssSys *sys, void *taskSys);
 void MCSS_SetLoadHook(McssSys *sys, McssLoadHook hook, u32 hookWork);
 void MCSS_ReloadResource(McssSys *sys, McssWork *work, const McssAddWork *addWork);
 void MCSS_Draw(McssSys *sys);
 void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, McssPose *pose, u16 *frameIndex, McssPlttProxy *shadowPltt, int cellId, int ortho, u32 *depth, u8 flip);
 McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork);
-void MCSS_Del(McssSys *sys, McssWork *work);
 void MCSS_SetOrthoMode(McssSys *sys);
 void MCSS_ResetOrthoMode(McssSys *sys);
 void MCSS_SetOrthoBillboardFlag(McssWork *work);
@@ -610,7 +607,6 @@ void MCSS_SetAnimeSpeed(McssWork *work, int speed);
 u16 MCSS_GetAnimSeqNumEx(McssWork *work);
 void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor);
 void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work);
-void MCSS_RestartAnime(McssWork *work);
 void MCSS_RequestAnimeStopAtStart(McssWork *work);
 void MCSS_SetWorkFlag(McssWork *work, int flag);
 void MCSS_SetSysParam(McssSys *sys, int depthStep);
@@ -622,8 +618,6 @@ void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task);
 void MCSS_InitAnimCtrl(McssWork *work, int kind);
 void MCSS_InitEdgeColor(void);
 void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work);
-void MCSS_FreeResource(McssWork *work);
-void MCSS_DeleteTextureTask(void *taskHandle);
 void MCSS_DeletePaletteTask(void *taskHandle);
 void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task);
 void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx, VecFx32 *dst, s32 *w);
@@ -3067,7 +3061,7 @@ void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task)
   {
     return;
   }
-  rowBytes = _d2s(func_0209AB80(2.0, _s32_to_double(work->texImage.sizeS + 2)));
+  rowBytes = _d2s(pow(2.0, _s32_to_double(work->texImage.sizeS + 2)));
   pixels = task->texData->rawData;
   cellIdx = 0;
   while (((u32) cellIdx) < work->cellHeader->cellCount)

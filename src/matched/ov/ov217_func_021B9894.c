@@ -1,5 +1,5 @@
 /*
- * function: func_021B9894
+ * function: RESEARCH_TOP_CreateListView
  * address:  0x021B9894
  * packet:   pkt_021B9850
  * region:   ov217
@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 extern u32 ListViewState_Create(u32 a0);
 extern void ListViewState_Reset(void *p);
-void func_021B9894(u32 a0)
+void RESEARCH_TOP_CreateListView(u32 a0)
 {
     u32 r = ListViewState_Create(((struct Obj01438 *)((u8*)a0))->f0);
     ((struct Obj01438 *)(((u8*)a0 + 0)))->f1C = r;

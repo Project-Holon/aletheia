@@ -1,5 +1,5 @@
 /*
- * function: func_021EA878
+ * function: BOX2_SEQ_SetActorAnim
  * address:  0x021EA878
  * packet:   pkt_ov170_021EA878
  * region:   ov170
@@ -12,7 +12,7 @@
  * symbols:
  *   func_0202614C 0x0202614C thumb
  *   func_02026124 0x02026124 thumb
- *   func_021EB988 0x021EB988 thumb
+ *   BOX2_SEQ_DrawFrameList 0x021EB988 thumb
  *   d_021EF8FC 0x021EF8FC data a1
  *   d_021EF8F4 0x021EF8F4 data a1
  */
@@ -28,25 +28,25 @@ typedef unsigned int   u32;
 struct Sound;
 extern void func_0202614C(struct Sound *obj, u32 idx);
 extern void func_02026124(struct Sound *obj, u32 idx);
-extern void func_021EB988(Obj *p, const void *e, unsigned n);
+extern void BOX2_SEQ_DrawFrameList(Obj *p, const void *e, unsigned n);
 extern const unsigned char d_021EF8FC[];
 extern const unsigned char d_021EF8F4[];
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 
-void func_021EA878(Obj *p, int v)
+void BOX2_SEQ_SetActorAnim(Obj *p, int v)
 {
     if (v != 0) {
         if (p->b16 < 0x1E)
             func_0202614C(OBJ(p), 0x24);
         else
             func_0202614C(OBJ(p), 9);
-        func_021EB988(p, d_021EF8FC, 3);
+        BOX2_SEQ_DrawFrameList(p, d_021EF8FC, 3);
     } else {
         if (p->b16 < 0x1E)
             func_02026124(OBJ(p), 0x24);
         else
             func_02026124(OBJ(p), 9);
-        func_021EB988(p, d_021EF8F4, 2);
+        BOX2_SEQ_DrawFrameList(p, d_021EF8F4, 2);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02082A1C
+ * function: MIi_DMAFastCallback
  * address:  0x02082A1C
  * packet:   pkt_02082A1C
  * region:   arm9
@@ -50,7 +50,7 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-void func_02082A1C(void)
+void MIi_DMAFastCallback(void)
 {
     MIi_GXDmaParams.isBusy = 0;
     MIi_CallCallback(MIi_GXDmaParams.callback, MIi_GXDmaParams.arg);

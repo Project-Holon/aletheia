@@ -1,5 +1,5 @@
 /*
- * function: func_02075B94
+ * function: NNSi_SndFaderReset
  * address:  0x02075B94
  * packet:   pkt_02075794
  * region:   arm9
@@ -17,7 +17,7 @@ struct LerpObj {
     int duration;
 };
 
-void func_02075B94(struct LerpObj *obj)
+void NNSi_SndFaderReset(struct LerpObj *obj)
 {
     obj->target = 0;
     obj->start = 0;

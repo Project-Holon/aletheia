@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * Clear the halfword at +4 and the byte at +6 of the ov172 state block. Filed
- * as the call witness for ov172 func_021B97AC.
+ * as the call witness for ov172 CTVT_TALK_UpdateVoiceSend.
  *
  * symbols:
  *   gCtvtAdpcmState 0x021C88E4 data a4 ov172

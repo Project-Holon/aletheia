@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020726D0",
+   "name": "NNS_SndInit",
    "address": "0x020726D0",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE934
+ * function: RESEARCH_GRAPH_DrawIndexCursor
  * address:  0x021BE934
  * packet:   pkt_ov217_021BE934
  * region:   ov217
@@ -13,9 +13,9 @@
  *   d_021C3AC8     0x021C3AC8  data  a1
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_021BEB6C  0x021BEB6C  thumb  ov217
+ *   RESEARCH_GRAPH_SetHighlightA  0x021BEB6C  thumb  ov217
  *
- * Case 4 passes the context pointer through to func_021BEB6C (r0 is still
+ * Case 4 passes the context pointer through to RESEARCH_GRAPH_SetHighlightA (r0 is still
  * live), which keeps the switch value in r1.
  *
  * Addresses are Black-image addresses.
@@ -31,9 +31,9 @@ extern struct E d_021C3AC8[];
 typedef unsigned int   u32;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_020409B4(int);
-extern u32 func_021BEB6C(u32 a0);
+extern u32 RESEARCH_GRAPH_SetHighlightA(u32 a0);
 
-int func_021BE934(char *p)
+int RESEARCH_GRAPH_DrawIndexCursor(char *p)
 {
     switch (((struct Obj25908 *)p)->f34) {
     case 0:
@@ -49,7 +49,7 @@ int func_021BE934(char *p)
         func_020413B0(2, 0x10, 8, 0x10, 3, 0xa);
         break;
     case 4:
-        func_021BEB6C((u32)p);
+        RESEARCH_GRAPH_SetHighlightA((u32)p);
         break;
     }
     return func_020409B4(2);

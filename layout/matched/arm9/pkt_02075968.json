@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02075968",
+   "name": "NNSi_SndTrackDetachObject",
    "address": "0x02075968",
    "kind": "game",
    "region": "arm9",

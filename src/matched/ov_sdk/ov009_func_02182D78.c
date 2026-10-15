@@ -1,5 +1,5 @@
 /*
- * function: func_02182D78
+ * function: gsXmlWriteInt64Element
  * address:  0x02182D78
  * packet:   pkt_ov009_02182D78
  * region:   ov009
@@ -31,7 +31,7 @@ extern int gsiXmlUtilWriteString(struct GSIXmlStreamWriter *stream, char *str);
 
 extern void gsiInt64ToString(char *theNumberStr, long long theNumber);
 
-int func_02182D78(void *stream, char *namespaceName, char *tag, long long value)
+int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long long value)
 {
     char buf[33];
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;

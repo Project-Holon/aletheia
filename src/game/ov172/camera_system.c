@@ -64,7 +64,7 @@
  *   MI_FreeWram  0x02730B04  arm  twl
  *   MI_CancelWram  0x02730FBC  arm  twl
  */
-#include "camera_system_shared_types.h"
+#include "ctvt_types.h"
 
 typedef struct Camera {
     u16 heapId;

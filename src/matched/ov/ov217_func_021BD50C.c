@@ -1,5 +1,5 @@
 /*
- * function: func_021BD50C
+ * function: RESEARCH_LIST_ClearPaletteAnime
  * address:  0x021BD50C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BD50C(void *p)
+void RESEARCH_LIST_ClearPaletteAnime(void *p)
 {
     int i;
     for (i = 0; i < 6; i++)

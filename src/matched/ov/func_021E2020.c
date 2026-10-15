@@ -1,5 +1,5 @@
 /*
- * function: func_021E2020
+ * function: BOX2_SEQ_StateWaitWipe
  * address:  0x021E2020
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
-int func_021E2020(char *p)
+int BOX2_SEQ_StateWaitWipe(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return *(int *)(((struct Obj18463 *)p)->f2C + 0xA188);

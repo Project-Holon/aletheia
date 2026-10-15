@@ -12,14 +12,15 @@
  *
  * symbols:
  *   NNS_SndHeapClear  0x02074770  arm
+ *   NNS_FndDestroyFrmHeap  0x02061118  arm
  */
 
 struct Obj;
 extern void NNS_SndHeapClear(struct Obj *o);
-extern void func_02061118(void *heap);
+extern void NNS_FndDestroyFrmHeap(void *heap);
 
 void NNS_SndHeapDestroy(void **a0)
 {
     NNS_SndHeapClear((struct Obj *)a0);
-    func_02061118(*a0);
+    NNS_FndDestroyFrmHeap(*a0);
 }

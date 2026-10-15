@@ -1,5 +1,5 @@
 /*
- * function: func_021BA910
+ * function: RESEARCH_TOP_RegisterEntryResources
  * address: 0x021BA910
  * packet: pkt_ov217_021BA910
  * region: ov217
@@ -26,7 +26,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BA910(struct Context *p)
+void RESEARCH_TOP_RegisterEntryResources(struct Context *p)
 {
     u16 heap=p->heap;
     void *arc=func_020490F4(192,heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_0200EA08
+ * function: MISC_SAVEDATA_GetRecordBase
  * address:  0x0200EA08
  * packet:   pkt_0200EA08
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0200EA08  0x0200EA08  thumb
+ *   MISC_SAVEDATA_GetRecordBase  0x0200EA08  thumb
  */
 
-int func_0200EA08(int p)
+int MISC_SAVEDATA_GetRecordBase(int p)
 {
     return p;
 }

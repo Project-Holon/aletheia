@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7D0
+ * function: RESEARCH_TOP_ShowBackground7
  * address:  0x021BA7D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_02040DA8(u32, u32, u32);
 
-void func_021BA7D0(u32 a0, u32 a1, u32 a2)
+void RESEARCH_TOP_ShowBackground7(u32 a0, u32 a1, u32 a2)
 {
     func_02040DA8(7, 1, 0);
 }

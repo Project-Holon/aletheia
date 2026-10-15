@@ -46,6 +46,7 @@
  *   CRYPTO_SetMemAllocator  0x021CAB1C  arm
  *   NHTTP_RAP_EvilCheckCryptoAlloc 0x021B9AA8 thumb ov114
  *   NHTTP_RAP_EvilCheckCryptoFree 0x021B9AF8 thumb ov114
+ *   STD_CopyString  0x0208CADC  arm  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
@@ -96,7 +97,7 @@ extern u32 NHTTP_GetError(void);
 
 extern int NHTTP_AddPostDataRaw(NHTTPConnection *connection_p, void *value_p, unsigned long length);
 
-extern char *func_0208CADC(char *, const char *);
+extern char *STD_CopyString(char *, const char *);
 
 extern void GFL_NET_FreeAligned(void *);
 
@@ -346,7 +347,7 @@ int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session_p)
         return 0;
     }
     MI_CpuFill8(session_p->url, 0, 4);
-    func_0208CADC(session_p->url, sNHTTPRapRequestTable[7].urlFormat);
+    STD_CopyString(session_p->url, sNHTTPRapRequestTable[7].urlFormat);
     connection_p = NHTTP_CreateConnection((char *)sNHTTPRapRequestTable[7].urlFormat, sNHTTPRapRequestTable[7].method, session_p->recvBuf, 0x400, NHTTP_RAP_ConnectionCallback, 0);
     if (connection_p == 0) {
         NHTTP_GetError();

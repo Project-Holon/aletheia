@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219FDB8",
+   "name": "BufferAddIntLE",
    "address": "0x0219FDB8",
    "kind": "sdk",
    "region": "ov009",

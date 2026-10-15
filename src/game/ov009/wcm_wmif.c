@@ -207,7 +207,6 @@ extern void func_02166804(unsigned char rssi);
 extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
 extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
 extern unsigned long WCM_UpdateOption(unsigned long option);
-extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern unsigned short func_0208EFC4(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void WCMi_ResetKeepAliveAlarm(void);

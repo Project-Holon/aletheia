@@ -1,5 +1,5 @@
 /*
- * function: func_02075AB8
+ * function: NNSi_SndTrackListUnlinkByValue
  * address:  0x02075AB8
  * packet:   pkt_02075AB8
  * region:   arm9
@@ -12,9 +12,9 @@
  * symbols:
  *   OS_DisableInterrupts 0x02087988  arm
  *   OS_RestoreInterrupts 0x0208799C  arm
- *   func_02060614 0x02060614  arm
- *   func_020605B4 0x020605B4  arm
- *   func_02075B28 0x02075B28  arm
+ *   NNS_FndGetNextListObject 0x02060614  arm
+ *   NNS_FndRemoveListObject 0x020605B4  arm
+ *   NNSi_SndTrackListUnlinkElem 0x02075B28  arm
  *
  * The unlink walk holds the interrupt state in the lowest callee-saved
  * register and the next link in r6, so the state survives the two calls in
@@ -28,21 +28,21 @@ typedef unsigned int u32;
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_020605B4(volatile struct DList *list, void *elem);
-extern int func_02075B28(void *a0);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
+extern int NNSi_SndTrackListUnlinkElem(void *a0);
 
-void func_02075AB8(void *a, u32 v)
+void NNSi_SndTrackListUnlinkByValue(void *a, u32 v)
 {
     u32 state = OS_DisableInterrupts();
-    void *p = func_02060614(a, 0);
+    void *p = NNS_FndGetNextListObject(a, 0);
 
     while (p != 0) {
-        void *n = func_02060614(a, p);
+        void *n = NNS_FndGetNextListObject(a, p);
 
         if (((struct Obj16688 *)p)->f8 == v) {
-            func_020605B4(a, p);
-            func_02075B28(p);
+            NNS_FndRemoveListObject(a, p);
+            NNSi_SndTrackListUnlinkElem(p);
         }
         p = n;
     }

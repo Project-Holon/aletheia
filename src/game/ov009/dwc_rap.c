@@ -102,17 +102,17 @@
  *   _pRapHeap  0x021A8268  data  ov009  a4
  *   _sAssertEmptyCommon  0x021A1C78  data  ov009  a1
  *   _sDwcRapCommonFile  0x021A1C7C  data  ov009  a1
- *   func_02060C5C  0x02060C5C  arm
- *   func_02060F18  0x02060F18  arm
- *   func_02060F40  0x02060F40  arm
+ *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
+ *   NNSi_FndSetAllocModeBit  0x02060F18  arm
+ *   NNSi_FndSetGroupId  0x02060F40  arm
  *   func_02060C94  0x02060C94  arm
  *   func_020306F0  0x020306F0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02060CA0  0x02060CA0  arm
+ *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
  *   func_0200FB6C  0x0200FB6C  thumb
- *   func_02060F98  0x02060F98  arm  arm9
- *   func_02060E30  0x02060E30  arm
+ *   NNSi_FndGetMBlockAttribute  0x02060F98  arm  arm9
+ *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   _sDwcGameName  0x021A1C8C  data  ov009  a1
  *   func_02059F6C  0x02059F6C  arm
  *   MIi_CpuClearFast    0x02082AC0  arm
@@ -217,17 +217,17 @@ extern void func_021770EC(u8, u32, u32);
 extern int func_02034AC4(signed int id);
 extern void func_02034A5C(int id);
 extern void ERROR_SCREEN_ShowAndWait(void);
-extern void *func_02060C5C(void *start, u32 size, u16 attr);
-extern u32 func_02060F18(char *p, u32 v);
-extern u16 func_02060F40(char *p, u16 v);
+extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
+extern u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
+extern u16 NNSi_FndSetGroupId(char *p, u16 v);
 extern void func_02060C94(void *heap);
 extern void func_020306F0(u32 heap);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 h);
-extern void *func_02060CA0(struct ExpHeap *heap, u32 size, int align);
+extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, int align);
 extern void func_0200FB6C(void);
-extern u8 func_02060F98(char *p);
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern u8 NNSi_FndGetMBlockAttribute(char *p);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern int func_02059F6C(void *a, u32 b, void *c, void *d);
 extern void MIi_CpuClearFast(unsigned int data, void *destp, unsigned int size);
 extern int DWC_CheckUserData(struct DWCstAccUserData *userdata);
@@ -3595,10 +3595,10 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
         func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     _pRapHeap->subMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
-    _pRapHeap->subHeap = (u32)func_02060C5C((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->subOwnerId = ownerId;
-    func_02060F18((char *)_pRapHeap->subHeap, 1);
-    func_02060F40((char *)_pRapHeap->subHeap, 0xea);
+    NNSi_FndSetAllocModeBit((char *)_pRapHeap->subHeap, 1);
+    NNSi_FndSetGroupId((char *)_pRapHeap->subHeap, 0xea);
     _pRapHeap->subMinRequest = minRequestSize;
 }
 
@@ -3665,12 +3665,12 @@ u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
 
     if (_pRapHeap->subHeap != 0 && ownerId == _pRapHeap->subOwnerId && size > _pRapHeap->subMinRequest) {
         irqState = OS_DisableInterrupts();
-        block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->subHeap, size, align);
+        block = (u32)NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->subHeap, size, align);
         OS_RestoreInterrupts(irqState);
         _pRapHeap->subLiveBlocks++;
     } else {
         irqState = OS_DisableInterrupts();
-        block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
+        block = (u32)NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
         OS_RestoreInterrupts(irqState);
     }
     if (block == 0) {
@@ -3686,7 +3686,7 @@ u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
 
 /*
  * witness:  callee 0x02060F98 is witnessed by its ARM9 entry
- *           (src/matched/arm9/func_02060F98.c, pkt_02060F98).
+ *           (src/matched/arm9/NNSi_FndGetMBlockAttribute.c, pkt_02060F98).
  */
 void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
 {
@@ -3695,10 +3695,10 @@ void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
     if (block == 0) {
         return;
     }
-    if (func_02060F98(block) == 0xEA) {
+    if (NNSi_FndGetMBlockAttribute(block) == 0xEA) {
         if (_pRapHeap->subHeap != 0) {
             irqState = OS_DisableInterrupts();
-            func_02060E30((struct ExpHeap *)_pRapHeap->subHeap, block);
+            NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->subHeap, block);
             OS_RestoreInterrupts(irqState);
             _pRapHeap->subLiveBlocks--;
             return;
@@ -3707,7 +3707,7 @@ void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
         return;
     }
     irqState = OS_DisableInterrupts();
-    func_02060E30((struct ExpHeap *)_pRapHeap->mainHeap, block);
+    NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->mainHeap, block);
     OS_RestoreInterrupts(irqState);
 }
 
@@ -3721,7 +3721,7 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
     }
     _pRapHeap = (DwcRapHeap *)func_02030734(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
     _pRapHeap->mainMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
-    _pRapHeap->mainHeap = (u32)func_02060C5C((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->mainHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->tag = 0;
 }
 

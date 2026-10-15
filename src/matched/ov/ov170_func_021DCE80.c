@@ -1,5 +1,5 @@
 /*
- * function: func_021DCE80
+ * function: BOX2_MAIN_DeleteTextSystem
  * address: 0x021DCE80
  * packet: pkt_ov170_021DCE80
  * region: ov170
@@ -27,7 +27,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define PTR(p,n) (*(void **)(WORK(p)+(n)))
-void func_021DCE80(char *p)
+void BOX2_MAIN_DeleteTextSystem(char *p)
 {
     STRBUF_Delete(PTR(p,0x88));
     PRINTSYS_QUE_Delete(PTR(p,0x8c));

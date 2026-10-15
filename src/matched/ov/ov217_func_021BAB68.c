@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB68
+ * function: RESEARCH_TOP_UnregisterVBlank
  * address:  0x021BAB68
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern void func_0200566C(void);
 
-void func_021BAB68(void)
+void RESEARCH_TOP_UnregisterVBlank(void)
 {
     func_0200566C();
 }

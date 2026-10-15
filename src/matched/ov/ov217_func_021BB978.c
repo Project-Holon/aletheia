@@ -1,5 +1,5 @@
 /*
- * function: func_021BB978
+ * function: RESEARCH_LIST_SetState
  * address:  0x021BB978
  * packet:   pkt_ov217_021BB978
  * region:   ov217
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * Blocker: byte-correct but capped at MATCH.  The tail-call site to
- * func_021BB998 (0x021BB998) has no witness outside this range: no func_
+ * RESEARCH_LIST_ClearSubState (0x021BB998) has no witness outside this range: no func_
  * label at the address anywhere, and no branch to it from elsewhere.
  *
- * This address is also matched as func_021BB978 in ov021; the ov217 copy is a
+ * This address is also matched as RESEARCH_LIST_SetState in ov021; the ov217 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_021BB998  0x021BB998  thumb  ov217
+ *   RESEARCH_LIST_ClearSubState  0x021BB998  thumb  ov217
  *
  * Addresses are Black-image addresses.
  
  *
- * UNBLOCKED: func_021BB998 is now an EXACT entry in layout/matched/ov217;
+ * UNBLOCKED: RESEARCH_LIST_ClearSubState is now an EXACT entry in layout/matched/ov217;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 #include "../include/Obj14731.h"
 
-extern void *func_021BB998(void *p);
+extern void *RESEARCH_LIST_ClearSubState(void *p);
 
-int func_021BB978(char *p, int a1)
+int RESEARCH_LIST_SetState(char *p, int a1)
 {
     int off = 0x56;
     ((struct Obj14731 *)p)->f1C = a1;
     ((struct Obj14731 *)p)->f24 = 0;
     *(int *)(p + (off << 2)) = 0;
-    return (int)func_021BB998(p);
+    return (int)RESEARCH_LIST_ClearSubState(p);
 }

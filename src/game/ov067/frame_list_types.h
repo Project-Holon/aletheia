@@ -25,11 +25,9 @@ struct FrameListWindow {
     u8 pad[3];
 };
 
-struct FrameListOps {
-    void (*drawRow)(void *userData, int item, struct FrameListWindow *window, short y, int topSet);
-    void (*onCursor)(void *userData, int item, int play);
-    void (*onScroll)(void *userData, int speed);
-};
+/* FrameListOps, FrameListHitEntry and FrameListParams live in the typedef-free
+ * frame_list_params.h so standalone unit files can include them. */
+#include "frame_list_params.h"
 
 struct FrameListItem {
     u32 mapIndex;
@@ -68,48 +66,12 @@ enum FrameListEvent {
     FRAME_LIST_EVENT_NONE = 14
 };
 
-/* Touch region of the list; the table ends with left == 0xFF. */
-struct FrameListHitEntry {
-    u8 left;
-    u8 top;
-    u8 right;
-    u8 bottom;
-    u32 kind;
-};
-
 struct FrameListHitRect {
     u8 left;
     u8 top;
     u8 right;
     u8 bottom;
 };
-
-/* Layout of the list as the caller gives it. */
-typedef struct FrameListParams {
-    u8 bgLayer;
-    u8 bgLayerB;
-    u8 tileX;
-    s8 firstRow;
-    u8 tileWidth;
-    u8 rowHeight;
-    u8 winX;
-    u8 winY;
-    u8 winW;
-    u8 winH;
-    u8 winPltt;
-    u8 stepTable[6];
-    u8 cursorPltt;
-    u8 scrollBarPad;
-    u8 pad13;
-    u16 itemCount;
-    u16 mapCount;
-    u8 initialCursor;
-    u8 visibleRows;
-    u16 initialScroll;
-    const struct FrameListHitEntry *hitEntries;
-    const struct FrameListOps *ops;
-    void *userData;
-} FrameListParams;
 
 typedef struct FrameList {
     FrameListParams params;

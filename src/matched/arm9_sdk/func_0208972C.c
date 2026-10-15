@@ -1,5 +1,5 @@
 /*
- * function: func_0208972C
+ * function: SND_SetOutputSelector
  * address:  0x0208972C
  * packet:   pkt_0208972C
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_0208972C(int left, int right, int channel1, int channel3)
+void SND_SetOutputSelector(int left, int right, int channel1, int channel3)
 {
     PushCommand_impl(0x19, (u32)left, (u32)right, (u32)channel1, (u32)channel3);
 }

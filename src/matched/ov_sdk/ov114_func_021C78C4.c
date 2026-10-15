@@ -11,14 +11,17 @@
  *
  *
  * Hands the 0x021D3C38 block to the DSP/buffer flusher, then reports success.
+ *
+ * symbols:
+ *   OS_InitMutex  0x02086004  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02086004(void *);
+extern void OS_InitMutex(void *);
 
 int func_021C78C4(void)
 {
-    func_02086004((void *)0x021D3C38);
+    OS_InitMutex((void *)0x021D3C38);
     return 1;
 }

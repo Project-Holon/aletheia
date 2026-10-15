@@ -106,7 +106,6 @@ extern int DWC_GetLastErrorEx(int *code, int *type);
 extern void *func_02092344(void *dst, const void *src, unsigned int n);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
-extern void DWCi_EncSessionShutdown(void);
 extern void DWCi_EncSessionCancel(void);
 extern void OS_GetMacAddress(void *);
 extern int DWC_UpdateConnection(void);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD718
+ * function: BOX2_MAIN_CanPlaceInBox
  * address:  0x021DD718
  * packet:   pkt_ov170_021DD718
  * region:   ov170
@@ -16,7 +16,7 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_02019CF8 0x02019CF8 thumb
  *   func_02019D00 0x02019D00 thumb
- *   func_021DD6E8 0x021DD6E8 thumb
+ *   BOX2_MAIN_ChangeFormAndRegister 0x021DD6E8 thumb
  *
  * Re-derives the form of a species whose form follows its held item
  * (0x1ED by plate, 0x289 by drive, 0x1E7 by the item 0x70) and applies it;
@@ -34,9 +34,9 @@ typedef unsigned int u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u16 func_02019CF8(u32 item);
 extern u32 func_02019D00(u32 item);
-extern void func_021DD6E8(void **pp, void *a, u32 b);
+extern void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b);
 
-int func_021DD718(void **pp, void *mon)
+int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
 {
     u16 species = func_02017E88(mon, 5, 0);
     if (species == 0x1ED) {
@@ -44,7 +44,7 @@ int func_021DD718(void **pp, void *mon)
         u16 form = func_02017E88(mon, 0x6F, 0);
         u16 want = func_02019CF8(item);
         if (form != want)
-            func_021DD6E8(pp, mon, want);
+            BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x289) {
@@ -52,7 +52,7 @@ int func_021DD718(void **pp, void *mon)
         u16 form = func_02017E88(mon, 0x6F, 0);
         u16 want = func_02019D00(item);
         if (form != want)
-            func_021DD6E8(pp, mon, want);
+            BOX2_MAIN_ChangeFormAndRegister(pp, mon, want);
         if (form != want)
             return 1;
     } else if (species == 0x1E7) {
@@ -61,11 +61,11 @@ int func_021DD718(void **pp, void *mon)
         u16 form = old;
         if (old == 0) {
             if (item == 0x70) {
-                func_021DD6E8(pp, mon, 1);
+                BOX2_MAIN_ChangeFormAndRegister(pp, mon, 1);
                 form = 1;
             }
         } else if (item != 0x70) {
-            func_021DD6E8(pp, mon, 0);
+            BOX2_MAIN_ChangeFormAndRegister(pp, mon, 0);
             form = 0;
         }
         if (old != form)

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A80
+ * function: STA_ACT_OBJ_UpdateEntry
  * address: 0x021F6A80
  * packet: pkt_ov112_021F6A80
  * region: ov112
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: Padding then separately verified follower func_021F6AF0.
+ * extent: Padding then separately verified follower STA_ACT_OBJ_SetCount.
  * symbols:
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -22,7 +22,7 @@ typedef struct { int x,y,z; } Vec;
 typedef unsigned char  u8;
 struct Trip;
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
-void func_021F6A80(char *o,u32 *p)
+void STA_ACT_OBJ_UpdateEntry(char *o,u32 *p)
 {
     Vec v;
     float f;

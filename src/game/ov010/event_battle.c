@@ -50,16 +50,16 @@
  *   func_020307B0  0x020307B0  arm
  *   d_02172B54     0x02172B54  data
  *   GAME_DATA_GetSaveBlock43  0x02012FD8  thumb
- *   sub_0200E740   0x0200E740  thumb
+ *   MISC_SAVEDATA_GetMonEntryFlag   0x0200E740  thumb
  *   GAME_EVENT_GetWork   0x020124E8  thumb
- *   sub_0200E788   0x0200E788  thumb
- *   sub_0200E74C   0x0200E74C  thumb
- *   sub_0200E7B4   0x0200E7B4  thumb
- *   sub_0200E7A4   0x0200E7A4  thumb
+ *   MISC_SAVEDATA_GetMonEntryCost   0x0200E788  thumb
+ *   MISC_SAVEDATA_GetMonEntryLevel   0x0200E74C  thumb
+ *   MISC_SAVEDATA_GetMonEntryExperience   0x0200E7B4  thumb
+ *   MISC_SAVEDATA_GetMonEntryPid   0x0200E7A4  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
- *   sub_0200E76C   0x0200E76C  thumb
- *   sub_0200E780   0x0200E780  thumb
- *   sub_0200E7AC   0x0200E7AC  thumb
+ *   MISC_SAVEDATA_IsMonEntrySet   0x0200E76C  thumb
+ *   MISC_SAVEDATA_GetMonEntryTag   0x0200E780  thumb
+ *   MISC_SAVEDATA_GetMonEntryName   0x0200E7AC  thumb
  *   POKE_TOOL_ChangeSpecies  0x020178D8  thumb
  *   POKE_TOOL_SetDefaultMoves  0x02017FA8  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
@@ -227,16 +227,16 @@ extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *a1, void
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, BattleLocation *loc, u32 heap);
 extern u32 func_020307B0(void *p);
 extern void *GAME_DATA_GetSaveBlock43(void **p);
-extern u32   sub_0200E740(const void *obj, u32 idx);
+extern u32   MISC_SAVEDATA_GetMonEntryFlag(const void *obj, u32 idx);
 extern void *GAME_EVENT_GetWork(struct GameEvent *p);
-extern u32   sub_0200E788(const void *obj, u32 a, u32 b);
-extern u32   sub_0200E74C(const void *obj, u32 idx);
-extern u32   sub_0200E7B4(const void *obj, u32 idx);
-extern u32   sub_0200E7A4(const void *obj, u32 idx);
+extern u32   MISC_SAVEDATA_GetMonEntryCost(const void *obj, u32 a, u32 b);
+extern u32   MISC_SAVEDATA_GetMonEntryLevel(const void *obj, u32 idx);
+extern u32   MISC_SAVEDATA_GetMonEntryExperience(const void *obj, u32 idx);
+extern u32   MISC_SAVEDATA_GetMonEntryPid(const void *obj, u32 idx);
 extern void  POKE_TOOL_SetupPartyParamEx(void *p, u16 species, u32 level, u64 id, u32 pow, u64 rnd);
-extern u32   sub_0200E76C(const void *obj, u32 idx);
-extern u8    sub_0200E780(const void *obj, u32 idx);
-extern void *sub_0200E7AC(void *obj, u32 idx);
+extern u32   MISC_SAVEDATA_IsMonEntrySet(const void *obj, u32 idx);
+extern u8    MISC_SAVEDATA_GetMonEntryTag(const void *obj, u32 idx);
+extern void *MISC_SAVEDATA_GetMonEntryName(void *obj, u32 idx);
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
 extern u32   POKE_TOOL_SetDefaultMoves(void *p);
 extern void GAME_EVENT_CallProc(struct GameEvent *obj, u32 a1, u32 a2, u32 a3);
@@ -563,18 +563,18 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
 
     giftData = GAME_DATA_GetSaveBlock43(GAMESYSTEM_GetGameData(gameSystem));
     task = (void *)EVENT_BATTLE_CreateEncounterTask((int)gameSystem, battleSrc, battleMode, battleFlags, battleKind, fieldEffect, options);
-    if (sub_0200E740(giftData, entryIndex) != 0) {
+    if (MISC_SAVEDATA_GetMonEntryFlag(giftData, entryIndex) != 0) {
         mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         oldSpecies = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        species = sub_0200E788(giftData, entryIndex, 0x15);
-        level = sub_0200E74C(giftData, entryIndex);
-        id = sub_0200E7B4(giftData, entryIndex);
-        rnd = sub_0200E7A4(giftData, entryIndex);
+        species = MISC_SAVEDATA_GetMonEntryCost(giftData, entryIndex, 0x15);
+        level = MISC_SAVEDATA_GetMonEntryLevel(giftData, entryIndex);
+        id = MISC_SAVEDATA_GetMonEntryExperience(giftData, entryIndex);
+        rnd = MISC_SAVEDATA_GetMonEntryPid(giftData, entryIndex);
         POKE_TOOL_SetupPartyParamEx(mon, species, level, id, -1, rnd);
-        if (sub_0200E76C(giftData, entryIndex) != 0) {
-            POKE_TOOL_SetPartyValue(mon, 10, sub_0200E780(giftData, entryIndex));
+        if (MISC_SAVEDATA_IsMonEntrySet(giftData, entryIndex) != 0) {
+            POKE_TOOL_SetPartyValue(mon, 10, MISC_SAVEDATA_GetMonEntryTag(giftData, entryIndex));
         }
-        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)sub_0200E7AC(giftData, entryIndex));
+        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)MISC_SAVEDATA_GetMonEntryName(giftData, entryIndex));
         POKE_TOOL_ChangeSpecies(mon, (u16)oldSpecies);
         POKE_TOOL_SetDefaultMoves(mon);
     }

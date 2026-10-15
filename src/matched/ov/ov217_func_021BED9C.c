@@ -1,5 +1,5 @@
 /*
- * function: func_021BED9C
+ * function: RESEARCH_GRAPH_UpdateCircles
  * address:  0x021BED9C
  * packet:   pkt_ov217_021BED9C
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void CircleGraph_Update(u8 *p);
-void func_021BED9C(char *p)
+void RESEARCH_GRAPH_UpdateCircles(char *p)
 {
     int i;
     for (i = 0; i < 2; i++) {

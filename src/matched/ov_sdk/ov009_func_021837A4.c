@@ -1,5 +1,5 @@
 /*
- * function: func_021837A4
+ * function: gsXmlReadChildAsHexBinary
  * address:  0x021837A4
  * packet:   pkt_ov009_021837A4
  * region:   ov009
@@ -16,8 +16,8 @@
  *   ArrayNth              0x02184208  arm   ov009
  *   gsiXmlUtilTagMatches  0x02183d98  arm   ov009
  *   STD_TSScanf           0x0208cf34  arm
- *   g_021A3F5C            0x021a3f5c  data
- *   g_021A3F98            0x021a3f98  data
+ *   gGsXmlHex2Format            0x021a3f5c  data
+ *   gGsXmlHex1Format            0x021a3f98  data
  */
 
 struct GSIXmlStreamReader {
@@ -41,10 +41,10 @@ extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
 extern int STD_TSScanf(char *src, char *fmt, ...);
-extern char g_021A3F5C[];
-extern char g_021A3F98[];
+extern char gGsXmlHex2Format[];
+extern char gGsXmlHex1Format[];
 
-int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut)
+int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut)
 {
     struct GSIXmlStreamReader *reader = (struct GSIXmlStreamReader *)stream;
     struct GSIXmlElement *searchValueElem;
@@ -76,14 +76,14 @@ int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int max
                 return 1;
             }
             while (bytesleft > 1) {
-                STD_TSScanf(searchValueElem->value + readpos, g_021A3F5C, &temp);
+                STD_TSScanf(searchValueElem->value + readpos, gGsXmlHex2Format, &temp);
                 valueOut[writepos] = temp;
                 bytesleft -= 2;
                 readpos += 2;
                 writepos++;
             }
             if (bytesleft == 1) {
-                STD_TSScanf(searchValueElem->value + readpos, g_021A3F98, &temp);
+                STD_TSScanf(searchValueElem->value + readpos, gGsXmlHex1Format, &temp);
                 valueOut[writepos] = temp;
                 writepos++;
             }

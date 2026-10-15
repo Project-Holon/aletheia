@@ -8,15 +8,15 @@
  * symbols:
  *   gNNSSndSystem     0x0214E9FC  data
  *   gNNSSndMessageQueue     0x0214E9BC  data
- *   func_020894DC  0x020894DC  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  *   func_02085E50  0x02085E50  arm
  *   SND_CHANNEL_ClearClaimedMask  0x020729A4  arm
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
- *   func_0208972C  0x0208972C  arm
+ *   SND_SetOutputSelector  0x0208972C  arm
  *
  * Shutdown of the global sequence object gNNSSndSystem: release its channel
  * pair, and when it owns a channel save/mute/restore the driver and spin
@@ -43,15 +43,15 @@ typedef struct St St;
 
 extern struct St gNNSSndSystem;
 extern u8   gNNSSndMessageQueue[];
-extern void func_020894DC(u32 a, u32 b, u32 c, s32 d);
-extern s32  func_02089D40(void);
+extern void SND_StopTimer(u32 a, u32 b, u32 c, s32 d);
+extern s32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(s32 a);
-extern void func_02089CD4(s32 a);
+extern void SND_WaitForCommandProc(s32 a);
 extern s32  func_02085E50(void *p, s32 b, s32 c);
 extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 extern void NNS_SndWaveOutFreeChannel(u32 bit);
-extern void func_0208972C(s32 a, s32 b, s32 c, s32 d);
+extern void SND_SetOutputSelector(s32 a, s32 b, s32 c, s32 d);
 
 void NNSi_SndShutdown(void)
 {
@@ -66,12 +66,12 @@ void NNSi_SndShutdown(void)
     }
 
     on = (s->f2c >= 0);
-    func_020894DC(s->f24, s->f28, on ? (u32)(1 << s->f2c) : 0, 0);
+    SND_StopTimer(s->f24, s->f28, on ? (u32)(1 << s->f2c) : 0, 0);
 
     if (on) {
-        h = func_02089D40();
+        h = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(h);
+        SND_WaitForCommandProc(h);
         z = 0;
         while (func_02085E50(gNNSSndMessageQueue, z, z) != 0)
             ;
@@ -87,7 +87,7 @@ void NNSi_SndShutdown(void)
         NNS_SndWaveOutFreeChannel(s->f2c);
     }
     if (s->f04 == 1) {
-        func_0208972C(0, 0, 0, 0);
+        SND_SetOutputSelector(0, 0, 0, 0);
     }
     s->f00 = 0;
 }

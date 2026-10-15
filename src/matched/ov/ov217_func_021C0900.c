@@ -1,5 +1,5 @@
 /*
- * function: func_021C0900
+ * function: RESEARCH_GRAPH_ClampByte
  * address:  0x021C0900
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C0900(s32 v)
+u32 RESEARCH_GRAPH_ClampByte(s32 v)
 {
     if (v < 0)
         return 0;

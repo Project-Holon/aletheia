@@ -11,7 +11,7 @@
  * symbols:
  *   d_0209E42C 0x0209E42C data a2
  *
- * Witness leaf for ov119 func_021DD0CC: membership test in a 12 entry u16 table.
+ * Witness leaf for ov119 POKETRADE_PROC_CanTradeMon: membership test in a 12 entry u16 table.
  */
 
 extern const unsigned short d_0209E42C[];

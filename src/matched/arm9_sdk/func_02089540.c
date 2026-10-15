@@ -1,5 +1,5 @@
 /*
- * function: func_02089540
+ * function: SND_SetupAlarm
  * address:  0x02089540
  * packet:   pkt_02089540
  * region:   arm9
@@ -22,7 +22,7 @@ typedef void (*SNDAlarmHandler)(void *arg);
 extern unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg);
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089540(int alarmNo, u32 tick, u32 period, SNDAlarmHandler handler, void *arg)
+void SND_SetupAlarm(int alarmNo, u32 tick, u32 period, SNDAlarmHandler handler, void *arg)
 {
     unsigned char id = SNDi_SetAlarmHandler(alarmNo, handler, arg);
 

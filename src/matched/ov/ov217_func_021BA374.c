@@ -1,5 +1,5 @@
 /*
- * function: func_021BA374
+ * function: RESEARCH_TOP_IncStateTimer
  * address:  0x021BA374
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA374(void *p)
+void RESEARCH_TOP_IncStateTimer(void *p)
 {
     u32 *c = (u32 *)((char *)p + 0x20);
     *c += 1;

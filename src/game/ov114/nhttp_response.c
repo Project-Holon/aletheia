@@ -35,7 +35,6 @@ extern NHTTPConnection *NHTTPi_Response2Connection(NHTTPMutexInfo *, NHTTPRes *)
 extern int NHTTPi_findNextLineHdrRecvBuf(const NHTTPRes *res, int pos, int limit, int *colon, int *rcsize);
 extern int NHTTPi_compareTokenN_HdrRecvBuf(const NHTTPRes *res, int pos, int limit, char *str, char extdeli);
 extern int NHTTPi_skipSpaceHdrRecvBuf(const NHTTPRes *res, int pos, int limit);
-extern void NHTTPi_free(void *ptr_p);
 extern void *NHTTPi_alloc(unsigned long size, int align);
 extern int NHTTPi_loadFromHdrRecvBuf(NHTTPRes *res_p, char *buf, int pos, int size);
 extern int NHTTPi_strcmp(char *a, char *b);

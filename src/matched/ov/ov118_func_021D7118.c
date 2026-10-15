@@ -12,7 +12,7 @@
  * symbols:
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_3D_AddUnitAndInit  0x021E3208  thumb  ov119
- *   func_021D7130  0x021D7130  thumb  ov118
+ *   POKETRADE_DEMO_MIDDLE_UpdateScene  0x021D7130  thumb  ov118
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef int s32;
 
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void POKETRADE_3D_AddUnitAndInit(void *p, int a);
-extern void func_021D7130(u8 *p);
+extern void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p);
 
 void func_021D7118(u8 *p)
 {
     POKETRADE_3D_AddUnitAndInit(p, 3);
-    POKETRADE_PROC_SetStep(p, (int)func_021D7130);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_MIDDLE_UpdateScene);
 }

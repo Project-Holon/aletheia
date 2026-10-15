@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEF6C",
+   "name": "MYSTERY_NET_ImportRecords",
    "address": "0x021DEF6C",
    "kind": "game",
    "region": "ov121",

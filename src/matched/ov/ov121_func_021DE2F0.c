@@ -1,5 +1,5 @@
 /*
- * function: func_021DE2F0
+ * function: MYSTERY_NET_Delete
  * address:  0x021DE2F0
  * packet:   pkt_021DE2F0
  * region:   ov121
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DEE84  0x021DEE84  thumb
+ *   MYSTERY_NET_ClearTask  0x021DEE84  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021DEE84(void *);
+extern void MYSTERY_NET_ClearTask(void *);
 extern u32 func_020307B0(void *p);
 
-void func_021DE2F0(u8 *p)
+void MYSTERY_NET_Delete(u8 *p)
 {
-    func_021DEE84(p);
+    MYSTERY_NET_ClearTask(p);
     func_020307B0(p);
 }

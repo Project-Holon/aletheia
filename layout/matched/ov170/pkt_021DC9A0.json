@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC900",
+   "name": "BOX2_MAIN_Main",
    "address": "0x021DC900",
    "kind": "game",
    "region": "ov170",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DC924",
+   "name": "BOX2_MAIN_Exit",
    "address": "0x021DC924",
    "kind": "game",
    "region": "ov170",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DC94C",
+   "name": "BOX2_MAIN_CreateVBlankTask",
    "address": "0x021DC94C",
    "kind": "game",
    "region": "ov170",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC964",
+   "name": "BOX2_MAIN_DeleteVBlankTask",
    "address": "0x021DC964",
    "kind": "game",
    "region": "ov170",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC9A0",
+   "name": "BOX2_MAIN_InitSeq",
    "address": "0x021DC9A0",
    "kind": "game",
    "region": "ov170",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC9B4",
+   "name": "BOX2_MAIN_SetSeqParam",
    "address": "0x021DC9B4",
    "kind": "game",
    "region": "ov170",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC9B8",
+   "name": "BOX2_MAIN_RestartSeq",
    "address": "0x021DC9B8",
    "kind": "game",
    "region": "ov170",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC9C4",
+   "name": "BOX2_MAIN_ResetGraphics",
    "address": "0x021DC9C4",
    "kind": "game",
    "region": "ov170",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DC9D8",
+   "name": "BOX2_MAIN_GetDispVram",
    "address": "0x021DC9D8",
    "kind": "game",
    "region": "ov170",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DCDB8",
+   "name": "BOX2_MAIN_CreatePalAnm",
    "address": "0x021DCDB8",
    "kind": "game",
    "region": "ov170",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DCF30",
+   "name": "BOX2_MAIN_DeleteTaskMenu",
    "address": "0x021DCF30",
    "kind": "game",
    "region": "ov170",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD14C",
+   "name": "BOX2_MAIN_RefreshCursorBox",
    "address": "0x021DD14C",
    "kind": "game",
    "region": "ov170",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD1C4",
+   "name": "BOX2_MAIN_SelectBox",
    "address": "0x021DD1C4",
    "kind": "game",
    "region": "ov170",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD1E8",
+   "name": "BOX2_MAIN_RefreshBoxUi",
    "address": "0x021DD1E8",
    "kind": "game",
    "region": "ov170",
@@ -175,7 +175,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DD210",
+   "name": "BOX2_MAIN_IsWrappedDistance",
    "address": "0x021DD210",
    "kind": "game",
    "region": "ov170",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD238",
+   "name": "BOX2_MAIN_PlayCursorSound",
    "address": "0x021DD238",
    "kind": "game",
    "region": "ov170",
@@ -199,7 +199,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DD2B4",
+   "name": "BOX2_MAIN_SetBoxValueAt",
    "address": "0x021DD2B4",
    "kind": "game",
    "region": "ov170",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD314",
+   "name": "BOX2_MAIN_ClearSlot",
    "address": "0x021DD314",
    "kind": "game",
    "region": "ov170",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD3DC",
+   "name": "BOX2_MAIN_GetBoxMon",
    "address": "0x021DD3DC",
    "kind": "game",
    "region": "ov170",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD414",
+   "name": "BOX2_MAIN_SwapPartyMembers",
    "address": "0x021DD414",
    "kind": "game",
    "region": "ov170",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD42C",
+   "name": "BOX2_MAIN_ShiftMemberToEnd",
    "address": "0x021DD42C",
    "kind": "game",
    "region": "ov170",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD684",
+   "name": "BOX2_MAIN_WrapSlot",
    "address": "0x021DD684",
    "kind": "game",
    "region": "ov170",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DD8F8",
+   "name": "BOX2_MAIN_DeleteFormTable",
    "address": "0x021DD8F8",
    "kind": "game",
    "region": "ov170",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DE120",
+   "name": "BOX2_MAIN_StepMover",
    "address": "0x021DE120",
    "kind": "game",
    "region": "ov170",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DE720",
+   "name": "BOX2_MAIN_GetMinusOne",
    "address": "0x021DE720",
    "kind": "game",
    "region": "ov170",
@@ -307,7 +307,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DE7B4",
+   "name": "BOX2_MAIN_DeleteScroll",
    "address": "0x021DE7B4",
    "kind": "game",
    "region": "ov170",
@@ -319,7 +319,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEA3C",
+   "name": "BOX2_MAIN_PlaceMonSceneFromBox",
    "address": "0x021DEA3C",
    "kind": "game",
    "region": "ov170",
@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEA4C",
+   "name": "BOX2_MAIN_PlaceTargetMonScene",
    "address": "0x021DEA4C",
    "kind": "game",
    "region": "ov170",
@@ -343,7 +343,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEAFC",
+   "name": "BOX2_MAIN_IsSwapScene",
    "address": "0x021DEAFC",
    "kind": "game",
    "region": "ov170",
@@ -355,7 +355,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEB14",
+   "name": "BOX2_MAIN_WrapOffset",
    "address": "0x021DEB14",
    "kind": "game",
    "region": "ov170",
@@ -367,7 +367,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DEB70",
+   "name": "BOX2_MAIN_LoadBgPaletteTile",
    "address": "0x021DEB70",
    "kind": "game",
    "region": "ov170",
@@ -379,7 +379,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DEC64",
+   "name": "BOX2_MAIN_LoadBgTiles",
    "address": "0x021DEC64",
    "kind": "game",
    "region": "ov170",
@@ -391,7 +391,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DEDCC",
+   "name": "BOX2_MAIN_GetBoxFormId",
    "address": "0x021DEDCC",
    "kind": "game",
    "region": "ov170",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEF58",
+   "name": "BOX2_MAIN_DeleteHandle",
    "address": "0x021DEF58",
    "kind": "game",
    "region": "ov170",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEF60",
+   "name": "BOX2_MAIN_SetupSummary",
    "address": "0x021DEF60",
    "kind": "game",
    "region": "ov170",
@@ -427,7 +427,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DEFEC",
+   "name": "BOX2_MAIN_ChangeBoxFormPreserve",
    "address": "0x021DEFEC",
    "kind": "game",
    "region": "ov170",
@@ -439,7 +439,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF0BC",
+   "name": "BOX2_MAIN_ClearCursorBox",
    "address": "0x021DF0BC",
    "kind": "game",
    "region": "ov170",
@@ -451,7 +451,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DF110",
+   "name": "BOX2_MAIN_SetHandSlots",
    "address": "0x021DF110",
    "kind": "game",
    "region": "ov170",
@@ -463,7 +463,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF11C",
+   "name": "BOX2_MAIN_SetBodySlots",
    "address": "0x021DF11C",
    "kind": "game",
    "region": "ov170",
@@ -475,7 +475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF128",
+   "name": "BOX2_MAIN_HideSlots",
    "address": "0x021DF128",
    "kind": "game",
    "region": "ov170",
@@ -487,7 +487,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF1BC",
+   "name": "BOX2_MAIN_HitRect",
    "address": "0x021DF1BC",
    "kind": "game",
    "region": "ov170",
@@ -499,7 +499,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF228",
+   "name": "BOX2_MAIN_HitPartySlots",
    "address": "0x021DF228",
    "kind": "game",
    "region": "ov170",
@@ -511,7 +511,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DF254",
+   "name": "BOX2_MAIN_HitPartyGrid",
    "address": "0x021DF254",
    "kind": "game",
    "region": "ov170",
@@ -523,7 +523,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DF324",
+   "name": "BOX2_MAIN_PushPartySceneB",
    "address": "0x021DF324",
    "kind": "game",
    "region": "ov170",
@@ -535,7 +535,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021DF378",
+   "name": "BOX2_MAIN_PopSubArgs",
    "address": "0x021DF378",
    "kind": "game",
    "region": "ov170",
@@ -547,7 +547,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E0190",
+   "name": "BOX2_MAIN_IsWindowMoving",
    "address": "0x021E0190",
    "kind": "game",
    "region": "ov170",
@@ -559,7 +559,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E01B0",
+   "name": "BOX2_MAIN_IsWindowBusy",
    "address": "0x021E01B0",
    "kind": "sdk",
    "region": "ov170",
@@ -571,7 +571,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E01C4",
+   "name": "BOX2_MAIN_ShiftWindowRight",
    "address": "0x021E01C4",
    "kind": "game",
    "region": "ov170",
@@ -583,7 +583,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E01E0",
+   "name": "BOX2_MAIN_ShiftWindowLeft",
    "address": "0x021E01E0",
    "kind": "game",
    "region": "ov170",
@@ -595,7 +595,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E070C",
+   "name": "BOX2_MAIN_SceneWaitScroll",
    "address": "0x021E070C",
    "kind": "game",
    "region": "ov170",
@@ -607,7 +607,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E2020",
+   "name": "BOX2_SEQ_StateWaitWipe",
    "address": "0x021E2020",
    "kind": "game",
    "region": "ov170",
@@ -619,7 +619,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E203C",
+   "name": "BOX2_SEQ_StateWaitFade",
    "address": "0x021E203C",
    "kind": "game",
    "region": "ov170",
@@ -631,7 +631,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E2070",
+   "name": "BOX2_SEQ_StateRunStep",
    "address": "0x021E2070",
    "kind": "game",
    "region": "ov170",
@@ -643,7 +643,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E2140",
+   "name": "BOX2_SEQ_StateCheckTaskMenu",
    "address": "0x021E2140",
    "kind": "game",
    "region": "ov170",
@@ -655,7 +655,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E2154",
+   "name": "BOX2_SEQ_StateDispatchFont",
    "address": "0x021E2154",
    "kind": "game",
    "region": "ov170",
@@ -672,7 +672,7 @@
    }
   },
   {
-   "name": "func_021E22B8",
+   "name": "BOX2_SEQ_StateWaitPrint",
    "address": "0x021E22B8",
    "kind": "game",
    "region": "ov170",
@@ -684,7 +684,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E2B48",
+   "name": "BOX2_SEQ_SetBox2Ui",
    "address": "0x021E2B48",
    "kind": "game",
    "region": "ov170",
@@ -696,7 +696,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E3BF8",
+   "name": "BOX2_SEQ_SetBox2UiB",
    "address": "0x021E3BF8",
    "kind": "game",
    "region": "ov170",
@@ -708,7 +708,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E498C",
+   "name": "BOX2_SEQ_SetBox2UiC",
    "address": "0x021E498C",
    "kind": "game",
    "region": "ov170",
@@ -720,7 +720,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E4E6C",
+   "name": "BOX2_SEQ_SetBox2UiD",
    "address": "0x021E4E6C",
    "kind": "game",
    "region": "ov170",
@@ -732,7 +732,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E5914",
+   "name": "BOX2_SEQ_StateCursorMove",
    "address": "0x021E5914",
    "kind": "game",
    "region": "ov170",
@@ -744,7 +744,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E62BC",
+   "name": "BOX2_SEQ_SetBox2UiE",
    "address": "0x021E62BC",
    "kind": "game",
    "region": "ov170",
@@ -756,7 +756,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E7258",
+   "name": "BOX2_SEQ_SetBox2UiF",
    "address": "0x021E7258",
    "kind": "game",
    "region": "ov170",
@@ -768,7 +768,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E78F4",
+   "name": "BOX2_SEQ_StatePushSlot",
    "address": "0x021E78F4",
    "kind": "game",
    "region": "ov170",
@@ -780,7 +780,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E7D3C",
+   "name": "BOX2_SEQ_StateExitToField",
    "address": "0x021E7D3C",
    "kind": "game",
    "region": "ov170",
@@ -792,7 +792,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E8014",
+   "name": "BOX2_SEQ_StateDeleteHandle",
    "address": "0x021E8014",
    "kind": "game",
    "region": "ov170",
@@ -804,7 +804,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E8A58",
+   "name": "BOX2_SEQ_StateSetMiniIcon",
    "address": "0x021E8A58",
    "kind": "game",
    "region": "ov170",
@@ -816,7 +816,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8F50",
+   "name": "BOX2_SEQ_ReturnAfterClear",
    "address": "0x021E8F50",
    "kind": "game",
    "region": "ov170",
@@ -828,7 +828,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8F60",
+   "name": "BOX2_SEQ_StartWipeWhite",
    "address": "0x021E8F60",
    "kind": "game",
    "region": "ov170",
@@ -840,7 +840,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8F90",
+   "name": "BOX2_SEQ_StartWipeBlack",
    "address": "0x021E8F90",
    "kind": "game",
    "region": "ov170",
@@ -852,7 +852,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8FC0",
+   "name": "BOX2_SEQ_SetSeqThird",
    "address": "0x021E8FC0",
    "kind": "game",
    "region": "ov170",
@@ -864,7 +864,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8FD0",
+   "name": "BOX2_SEQ_SetSeqSecond",
    "address": "0x021E8FD0",
    "kind": "game",
    "region": "ov170",
@@ -876,7 +876,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8FE0",
+   "name": "BOX2_SEQ_SetState",
    "address": "0x021E8FE0",
    "kind": "game",
    "region": "ov170",
@@ -888,7 +888,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E9284",
+   "name": "BOX2_SEQ_StatePlayCry",
    "address": "0x021E9284",
    "kind": "game",
    "region": "ov170",
@@ -900,7 +900,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E93F4",
+   "name": "BOX2_SEQ_SaveMenuPosAndExit",
    "address": "0x021E93F4",
    "kind": "game",
    "region": "ov170",
@@ -912,7 +912,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E949C",
+   "name": "BOX2_SEQ_GotoBox2Main",
    "address": "0x021E949C",
    "kind": "game",
    "region": "ov170",
@@ -924,7 +924,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA114",
+   "name": "BOX2_SEQ_SelectBoxSlot",
    "address": "0x021EA114",
    "kind": "game",
    "region": "ov170",
@@ -936,7 +936,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA1C0",
+   "name": "BOX2_SEQ_Create",
    "address": "0x021EA1C0",
    "kind": "game",
    "region": "ov170",
@@ -948,7 +948,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA1E8",
+   "name": "BOX2_SEQ_Delete",
    "address": "0x021EA1E8",
    "kind": "game",
    "region": "ov170",
@@ -960,7 +960,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA728",
+   "name": "BOX2_SEQ_CreateB",
    "address": "0x021EA728",
    "kind": "game",
    "region": "ov170",
@@ -972,7 +972,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA750",
+   "name": "BOX2_SEQ_DeleteB",
    "address": "0x021EA750",
    "kind": "game",
    "region": "ov170",
@@ -984,7 +984,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA75C",
+   "name": "BOX2_SEQ_StopLeftBar",
    "address": "0x021EA75C",
    "kind": "game",
    "region": "ov170",
@@ -996,7 +996,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA770",
+   "name": "BOX2_SEQ_StopRightBar",
    "address": "0x021EA770",
    "kind": "game",
    "region": "ov170",
@@ -1008,7 +1008,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA784",
+   "name": "BOX2_SEQ_RestartLeftBar",
    "address": "0x021EA784",
    "kind": "game",
    "region": "ov170",
@@ -1020,7 +1020,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EA83C",
+   "name": "BOX2_SEQ_ResetEntry",
    "address": "0x021EA83C",
    "kind": "game",
    "region": "ov170",
@@ -1032,7 +1032,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA858",
+   "name": "BOX2_SEQ_ResetEntryB",
    "address": "0x021EA858",
    "kind": "game",
    "region": "ov170",
@@ -1044,7 +1044,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA8CC",
+   "name": "BOX2_SEQ_CheckTradableMon",
    "address": "0x021EA8CC",
    "kind": "game",
    "region": "ov170",
@@ -1056,7 +1056,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA908",
+   "name": "BOX2_SEQ_ToggleHandSlot",
    "address": "0x021EA908",
    "kind": "game",
    "region": "ov170",
@@ -1068,7 +1068,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAAC4",
+   "name": "BOX2_SEQ_DeleteBmpWins",
    "address": "0x021EAAC4",
    "kind": "game",
    "region": "ov170",
@@ -1080,7 +1080,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAAE4",
+   "name": "BOX2_SEQ_SetDirtyBit",
    "address": "0x021EAAE4",
    "kind": "game",
    "region": "ov170",
@@ -1092,7 +1092,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EABA0",
+   "name": "BOX2_SEQ_MakeScreen",
    "address": "0x021EABA0",
    "kind": "game",
    "region": "ov170",
@@ -1104,7 +1104,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EABB8",
+   "name": "BOX2_SEQ_ClearScreen",
    "address": "0x021EABB8",
    "kind": "game",
    "region": "ov170",
@@ -1116,7 +1116,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EAC98",
+   "name": "BOX2_SEQ_CreateMsgBank",
    "address": "0x021EAC98",
    "kind": "game",
    "region": "ov170",
@@ -1128,7 +1128,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EB6D8",
+   "name": "BOX2_SEQ_DrawFrameColor",
    "address": "0x021EB6D8",
    "kind": "game",
    "region": "ov170",
@@ -1140,7 +1140,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EB6F0",
+   "name": "BOX2_SEQ_DrawFrameDefault",
    "address": "0x021EB6F0",
    "kind": "game",
    "region": "ov170",
@@ -1152,7 +1152,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EB7C8",
+   "name": "BOX2_SEQ_AddNameFrame",
    "address": "0x021EB7C8",
    "kind": "game",
    "region": "ov170",
@@ -1164,7 +1164,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EB85C",
+   "name": "BOX2_SEQ_DrawOffsetName",
    "address": "0x021EB85C",
    "kind": "game",
    "region": "ov170",
@@ -1176,7 +1176,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBA5C",
+   "name": "BOX2_SEQ_ShowWindowObject",
    "address": "0x021EBA5C",
    "kind": "game",
    "region": "ov170",
@@ -1188,7 +1188,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBA70",
+   "name": "BOX2_SEQ_HideWindowObject",
    "address": "0x021EBA70",
    "kind": "game",
    "region": "ov170",
@@ -1200,7 +1200,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBADC",
+   "name": "BOX2_SEQ_PrintMessageB",
    "address": "0x021EBADC",
    "kind": "game",
    "region": "ov170",
@@ -1212,7 +1212,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBB28",
+   "name": "BOX2_SEQ_PrintMessageC",
    "address": "0x021EBB28",
    "kind": "game",
    "region": "ov170",
@@ -1224,7 +1224,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBB34",
+   "name": "BOX2_SEQ_PrintWordsetB",
    "address": "0x021EBB34",
    "kind": "game",
    "region": "ov170",
@@ -1236,7 +1236,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EBB58",
+   "name": "BOX2_SEQ_PrintMessageD",
    "address": "0x021EBB58",
    "kind": "game",
    "region": "ov170",
@@ -1248,7 +1248,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBBBC",
+   "name": "BOX2_SEQ_PrintMessageE",
    "address": "0x021EBBBC",
    "kind": "game",
    "region": "ov170",
@@ -1260,7 +1260,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBD78",
+   "name": "BOX2_SEQ_PrintYesNo",
    "address": "0x021EBD78",
    "kind": "game",
    "region": "ov170",
@@ -1272,7 +1272,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EBDD8",
+   "name": "BOX2_SEQ_DeleteBox2UiScene",
    "address": "0x021EBDD8",
    "kind": "game",
    "region": "ov170",
@@ -1284,7 +1284,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EBF34",
+   "name": "BOX2_SEQ_DeleteActorSlot",
    "address": "0x021EBF34",
    "kind": "game",
    "region": "ov170",
@@ -1296,7 +1296,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBF50",
+   "name": "BOX2_SEQ_DeleteAllActors",
    "address": "0x021EBF50",
    "kind": "game",
    "region": "ov170",
@@ -1308,7 +1308,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBF74",
+   "name": "BOX2_SEQ_DrawActors",
    "address": "0x021EBF74",
    "kind": "game",
    "region": "ov170",
@@ -1320,7 +1320,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBFA8",
+   "name": "BOX2_SEQ_SetActorAnimSeq",
    "address": "0x021EBFA8",
    "kind": "game",
    "region": "ov170",
@@ -1332,7 +1332,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBFCC",
+   "name": "BOX2_SEQ_SetActorAutoAnim",
    "address": "0x021EBFCC",
    "kind": "game",
    "region": "ov170",
@@ -1344,7 +1344,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EBFEC",
+   "name": "BOX2_SEQ_IsActorAnimActive",
    "address": "0x021EBFEC",
    "kind": "game",
    "region": "ov170",
@@ -1356,7 +1356,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC000",
+   "name": "BOX2_SEQ_SetActorDrawEnable",
    "address": "0x021EC000",
    "kind": "game",
    "region": "ov170",
@@ -1368,7 +1368,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC01C",
+   "name": "BOX2_SEQ_GetActorDrawEnable",
    "address": "0x021EC01C",
    "kind": "game",
    "region": "ov170",
@@ -1380,7 +1380,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC030",
+   "name": "BOX2_SEQ_SetActorBgPriority",
    "address": "0x021EC030",
    "kind": "game",
    "region": "ov170",
@@ -1392,7 +1392,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC048",
+   "name": "BOX2_SEQ_SetActorDrawPriority",
    "address": "0x021EC048",
    "kind": "game",
    "region": "ov170",
@@ -1404,7 +1404,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC08C",
+   "name": "BOX2_SEQ_AddActorSurfacePos",
    "address": "0x021EC08C",
    "kind": "game",
    "region": "ov170",
@@ -1416,7 +1416,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC338",
+   "name": "BOX2_SEQ_LoadGraphicResource",
    "address": "0x021EC338",
    "kind": "game",
    "region": "ov170",
@@ -1428,7 +1428,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EC428",
+   "name": "BOX2_SEQ_SetSlotIconPal",
    "address": "0x021EC428",
    "kind": "game",
    "region": "ov170",
@@ -1440,7 +1440,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EC4E0",
+   "name": "BOX2_SEQ_ShowAllSlotIcons",
    "address": "0x021EC4E0",
    "kind": "game",
    "region": "ov170",
@@ -1452,7 +1452,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ECA24",
+   "name": "BOX2_SEQ_HideActor",
    "address": "0x021ECA24",
    "kind": "game",
    "region": "ov170",
@@ -1464,7 +1464,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ECA38",
+   "name": "BOX2_SEQ_ResetActorTransform",
    "address": "0x021ECA38",
    "kind": "game",
    "region": "ov170",
@@ -1476,7 +1476,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ECB20",
+   "name": "BOX2_SEQ_SetSlotActors",
    "address": "0x021ECB20",
    "kind": "game",
    "region": "ov170",
@@ -1488,7 +1488,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ECB60",
+   "name": "BOX2_SEQ_SetSlotActorMode",
    "address": "0x021ECB60",
    "kind": "game",
    "region": "ov170",
@@ -1500,7 +1500,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ECB74",
+   "name": "BOX2_SEQ_SetActorMode1",
    "address": "0x021ECB74",
    "kind": "game",
    "region": "ov170",
@@ -1512,7 +1512,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ECCA4",
+   "name": "BOX2_SEQ_InitIconSlots",
    "address": "0x021ECCA4",
    "kind": "game",
    "region": "ov170",
@@ -1524,7 +1524,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED14C",
+   "name": "BOX2_SEQ_MoveActor",
    "address": "0x021ED14C",
    "kind": "game",
    "region": "ov170",
@@ -1536,7 +1536,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED164",
+   "name": "BOX2_SEQ_MoveActorToSlot",
    "address": "0x021ED164",
    "kind": "game",
    "region": "ov170",
@@ -1548,7 +1548,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED198",
+   "name": "BOX2_SEQ_MoveActorToSlotB",
    "address": "0x021ED198",
    "kind": "game",
    "region": "ov170",
@@ -1560,7 +1560,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ED2F4",
+   "name": "BOX2_SEQ_ShowHandSlots",
    "address": "0x021ED2F4",
    "kind": "game",
    "region": "ov170",
@@ -1572,7 +1572,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED544",
+   "name": "BOX2_SEQ_SetCursorFrame",
    "address": "0x021ED544",
    "kind": "game",
    "region": "ov170",
@@ -1584,7 +1584,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED588",
+   "name": "BOX2_SEQ_RefreshCursorSlot",
    "address": "0x021ED588",
    "kind": "game",
    "region": "ov170",
@@ -1596,7 +1596,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED888",
+   "name": "BOX2_UI_ToggleSlotPair",
    "address": "0x021ED888",
    "kind": "game",
    "region": "ov170",
@@ -1608,7 +1608,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ED904",
+   "name": "BOX2_UI_RefreshBoxName",
    "address": "0x021ED904",
    "kind": "game",
    "region": "ov170",
@@ -1620,7 +1620,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ED9B4",
+   "name": "BOX2_UI_SetCloseButtonPos",
    "address": "0x021ED9B4",
    "kind": "game",
    "region": "ov170",
@@ -1632,7 +1632,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EDA70",
+   "name": "BOX2_UI_FindSlotPos",
    "address": "0x021EDA70",
    "kind": "game",
    "region": "ov170",
@@ -1644,7 +1644,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EDB1C",
+   "name": "BOX2_UI_DrawAllSlots",
    "address": "0x021EDB1C",
    "kind": "game",
    "region": "ov170",
@@ -1656,7 +1656,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EDB34",
+   "name": "BOX2_UI_DrawSlotByName",
    "address": "0x021EDB34",
    "kind": "game",
    "region": "ov170",
@@ -1668,7 +1668,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EDB64",
+   "name": "BOX2_UI_UploadSlotChar",
    "address": "0x021EDB64",
    "kind": "game",
    "region": "ov170",
@@ -1680,7 +1680,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EDBE8",
+   "name": "BOX2_UI_ReplaceColorIndex",
    "address": "0x021EDBE8",
    "kind": "game",
    "region": "ov170",
@@ -1697,7 +1697,7 @@
    }
   },
   {
-   "name": "func_021EE008",
+   "name": "BOX2_UI_SetMiniIconVisible",
    "address": "0x021EE008",
    "kind": "game",
    "region": "ov170",
@@ -1709,7 +1709,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EE0FC",
+   "name": "BOX2_UI_HideSlots678",
    "address": "0x021EE0FC",
    "kind": "game",
    "region": "ov170",
@@ -1721,7 +1721,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE200",
+   "name": "BOX2_UI_DeleteBmpOam",
    "address": "0x021EE200",
    "kind": "game",
    "region": "ov170",
@@ -1733,7 +1733,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE224",
+   "name": "BOX2_UI_SetSlotOamEnabled",
    "address": "0x021EE224",
    "kind": "game",
    "region": "ov170",
@@ -1745,7 +1745,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE408",
+   "name": "BOX2_UI_UpdateCursor",
    "address": "0x021EE408",
    "kind": "game",
    "region": "ov170",
@@ -1757,7 +1757,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE418",
+   "name": "BOX2_UI_ShowCursor",
    "address": "0x021EE418",
    "kind": "game",
    "region": "ov170",
@@ -1769,7 +1769,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE43C",
+   "name": "BOX2_UI_SetCursorSeq",
    "address": "0x021EE43C",
    "kind": "game",
    "region": "ov170",
@@ -1781,7 +1781,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE454",
+   "name": "BOX2_UI_PlayAndUpdateCursor",
    "address": "0x021EE454",
    "kind": "game",
    "region": "ov170",
@@ -1793,7 +1793,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE510",
+   "name": "BOX2_UI_CursorTagA",
    "address": "0x021EE510",
    "kind": "game",
    "region": "ov170",
@@ -1805,7 +1805,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE520",
+   "name": "BOX2_UI_PlaceCursorAtIcon",
    "address": "0x021EE520",
    "kind": "game",
    "region": "ov170",
@@ -1817,7 +1817,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE64C",
+   "name": "BOX2_UI_CursorTagB",
    "address": "0x021EE64C",
    "kind": "game",
    "region": "ov170",
@@ -1829,7 +1829,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE72C",
+   "name": "BOX2_UI_SetCursorSeqB",
    "address": "0x021EE72C",
    "kind": "game",
    "region": "ov170",
@@ -1841,7 +1841,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE744",
+   "name": "BOX2_UI_CursorTagC",
    "address": "0x021EE744",
    "kind": "game",
    "region": "ov170",
@@ -1853,7 +1853,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE7C4",
+   "name": "BOX2_UI_PickSlot",
    "address": "0x021EE7C4",
    "kind": "game",
    "region": "ov170",
@@ -1865,7 +1865,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE944",
+   "name": "BOX2_UI_SetCursorSeqC",
    "address": "0x021EE944",
    "kind": "game",
    "region": "ov170",
@@ -1877,7 +1877,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE95C",
+   "name": "BOX2_UI_CursorTagD",
    "address": "0x021EE95C",
    "kind": "game",
    "region": "ov170",
@@ -1889,7 +1889,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE9C4",
+   "name": "BOX2_UI_PickSlotB",
    "address": "0x021EE9C4",
    "kind": "game",
    "region": "ov170",
@@ -1901,7 +1901,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEB18",
+   "name": "BOX2_UI_SetCursorSeqD",
    "address": "0x021EEB18",
    "kind": "game",
    "region": "ov170",
@@ -1913,7 +1913,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEB30",
+   "name": "BOX2_UI_CursorTagE",
    "address": "0x021EEB30",
    "kind": "game",
    "region": "ov170",
@@ -1925,7 +1925,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEBDC",
+   "name": "BOX2_UI_SetCursorSeqE",
    "address": "0x021EEBDC",
    "kind": "game",
    "region": "ov170",
@@ -1937,7 +1937,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEBF4",
+   "name": "BOX2_UI_CursorTagF",
    "address": "0x021EEBF4",
    "kind": "game",
    "region": "ov170",
@@ -1949,7 +1949,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEC04",
+   "name": "BOX2_UI_SetCursorSeqF",
    "address": "0x021EEC04",
    "kind": "game",
    "region": "ov170",
@@ -1961,7 +1961,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEC1C",
+   "name": "BOX2_UI_PlayAndUpdateCursorB",
    "address": "0x021EEC1C",
    "kind": "game",
    "region": "ov170",
@@ -1973,7 +1973,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEC38",
+   "name": "BOX2_UI_SetCursorSeqG",
    "address": "0x021EEC38",
    "kind": "game",
    "region": "ov170",
@@ -1985,7 +1985,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEC50",
+   "name": "BOX2_UI_PlayAndUpdateCursorC",
    "address": "0x021EEC50",
    "kind": "game",
    "region": "ov170",
@@ -1997,7 +1997,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EECB0",
+   "name": "BOX2_UI_MoveCursorToHeld",
    "address": "0x021EECB0",
    "kind": "game",
    "region": "ov170",
@@ -2009,7 +2009,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEDB8",
+   "name": "BOX2_UI_SetCursorSeqH",
    "address": "0x021EEDB8",
    "kind": "game",
    "region": "ov170",
@@ -2021,7 +2021,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEDD0",
+   "name": "BOX2_UI_CursorTagG",
    "address": "0x021EEDD0",
    "kind": "game",
    "region": "ov170",
@@ -2033,7 +2033,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEE7C",
+   "name": "BOX2_UI_SetCursorSeqI",
    "address": "0x021EEE7C",
    "kind": "game",
    "region": "ov170",
@@ -2045,7 +2045,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEE94",
+   "name": "BOX2_UI_CursorTagH",
    "address": "0x021EEE94",
    "kind": "game",
    "region": "ov170",
@@ -2057,7 +2057,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEF50",
+   "name": "BOX2_UI_SetCursorSeqJ",
    "address": "0x021EEF50",
    "kind": "game",
    "region": "ov170",
@@ -2069,7 +2069,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEF68",
+   "name": "BOX2_UI_CursorTagI",
    "address": "0x021EEF68",
    "kind": "game",
    "region": "ov170",
@@ -2081,7 +2081,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEF74",
+   "name": "BOX2_UI_MoveCursorBetweenIcons",
    "address": "0x021EEF74",
    "kind": "game",
    "region": "ov170",
@@ -2093,7 +2093,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF170",
+   "name": "BOX2_UI_GetPartySlotHit",
    "address": "0x021EF170",
    "kind": "game",
    "region": "ov170",
@@ -2105,7 +2105,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF180",
+   "name": "BOX2_UI_GetPartySlotPoint",
    "address": "0x021EF180",
    "kind": "game",
    "region": "ov170",
@@ -2117,7 +2117,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF194",
+   "name": "BOX2_UI_GetHandSlotHit",
    "address": "0x021EF194",
    "kind": "game",
    "region": "ov170",
@@ -2129,7 +2129,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF1A4",
+   "name": "BOX2_UI_GetBodySlotHit",
    "address": "0x021EF1A4",
    "kind": "game",
    "region": "ov170",
@@ -2141,7 +2141,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF224",
+   "name": "BOX2_UI_GetGridSlotPoint",
    "address": "0x021EF224",
    "kind": "game",
    "region": "ov170",
@@ -2153,7 +2153,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF310",
+   "name": "BOX2_UI_DeleteWindowFrames",
    "address": "0x021EF310",
    "kind": "game",
    "region": "ov170",
@@ -2165,7 +2165,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF31C",
+   "name": "BOX2_UI_SetFrameData",
    "address": "0x021EF31C",
    "kind": "game",
    "region": "ov170",
@@ -2177,7 +2177,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF32C",
+   "name": "BOX2_UI_PutTopBarOpen",
    "address": "0x021EF32C",
    "kind": "game",
    "region": "ov170",
@@ -2189,7 +2189,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF33C",
+   "name": "BOX2_UI_PutTopBarClosed",
    "address": "0x021EF33C",
    "kind": "game",
    "region": "ov170",
@@ -2201,7 +2201,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF34C",
+   "name": "BOX2_UI_PutBottomBarOpen",
    "address": "0x021EF34C",
    "kind": "game",
    "region": "ov170",
@@ -2213,7 +2213,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF35C",
+   "name": "BOX2_UI_PutBottomBarClosed",
    "address": "0x021EF35C",
    "kind": "game",
    "region": "ov170",
@@ -2225,7 +2225,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF36C",
+   "name": "BOX2_UI_CloseBar",
    "address": "0x021EF36C",
    "kind": "game",
    "region": "ov170",
@@ -2237,7 +2237,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF3A0",
+   "name": "BOX2_UI_OpenBar",
    "address": "0x021EF3A0",
    "kind": "game",
    "region": "ov170",
@@ -2249,7 +2249,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF3D8",
+   "name": "BOX2_UI_SlideBarIn",
    "address": "0x021EF3D8",
    "kind": "game",
    "region": "ov170",
@@ -2261,7 +2261,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF3EC",
+   "name": "BOX2_UI_SlideBarOut",
    "address": "0x021EF3EC",
    "kind": "game",
    "region": "ov170",
@@ -2273,7 +2273,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF45C",
+   "name": "BOX2_UI_IsTopBarOpen",
    "address": "0x021EF45C",
    "kind": "game",
    "region": "ov170",
@@ -2285,7 +2285,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF480",
+   "name": "BOX2_UI_IsTopBarClosed",
    "address": "0x021EF480",
    "kind": "game",
    "region": "ov170",
@@ -2297,7 +2297,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF4A4",
+   "name": "BOX2_UI_IsTopBarMid",
    "address": "0x021EF4A4",
    "kind": "game",
    "region": "ov170",
@@ -2309,7 +2309,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF4C0",
+   "name": "BOX2_UI_PutSlotFrames",
    "address": "0x021EF4C0",
    "kind": "game",
    "region": "ov170",
@@ -2321,7 +2321,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF4E4",
+   "name": "BOX2_UI_PutListFrames",
    "address": "0x021EF4E4",
    "kind": "game",
    "region": "ov170",
@@ -2333,7 +2333,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF5C4",
+   "name": "BOX2_UI_UpdateListPacks",
    "address": "0x021EF5C4",
    "kind": "game",
    "region": "ov170",
@@ -2345,7 +2345,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF5E8",
+   "name": "BOX2_UI_IsListOpen",
    "address": "0x021EF5E8",
    "kind": "game",
    "region": "ov170",
@@ -2357,7 +2357,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF60C",
+   "name": "BOX2_UI_IsListClosed",
    "address": "0x021EF60C",
    "kind": "game",
    "region": "ov170",
@@ -2369,7 +2369,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF630",
+   "name": "BOX2_UI_AddFadeFrame",
    "address": "0x021EF630",
    "kind": "game",
    "region": "ov170",
@@ -2381,7 +2381,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF660",
+   "name": "BOX2_UI_PutFadeFrame",
    "address": "0x021EF660",
    "kind": "game",
    "region": "ov170",
@@ -2393,7 +2393,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF670",
+   "name": "BOX2_UI_ShowWindowA",
    "address": "0x021EF670",
    "kind": "game",
    "region": "ov170",
@@ -2405,7 +2405,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF680",
+   "name": "BOX2_UI_HideWindowA",
    "address": "0x021EF680",
    "kind": "game",
    "region": "ov170",
@@ -2417,7 +2417,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF68C",
+   "name": "BOX2_UI_ShowWindowB",
    "address": "0x021EF68C",
    "kind": "game",
    "region": "ov170",
@@ -2429,7 +2429,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF69C",
+   "name": "BOX2_UI_HideWindowB",
    "address": "0x021EF69C",
    "kind": "game",
    "region": "ov170",
@@ -2441,7 +2441,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF6A8",
+   "name": "BOX2_UI_PutTopBarThenClose",
    "address": "0x021EF6A8",
    "kind": "game",
    "region": "ov170",
@@ -2453,7 +2453,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF6CC",
+   "name": "BOX2_UI_RepenTopBar",
    "address": "0x021EF6CC",
    "kind": "game",
    "region": "ov170",
@@ -2465,7 +2465,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021EF738",
+   "name": "BOX2_UI_PutInfoBar",
    "address": "0x021EF738",
    "kind": "game",
    "region": "ov170",
@@ -2477,7 +2477,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EF75C",
+   "name": "BOX2_UI_CloseInfoBar",
    "address": "0x021EF75C",
    "kind": "game",
    "region": "ov170",

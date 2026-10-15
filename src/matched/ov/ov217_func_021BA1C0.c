@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1C0
+ * function: RESEARCH_TOP_SetEntryHandled
  * address:  0x021BA1C0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
 
-void func_021BA1C0(u8 *a0, u32 a1)
+void RESEARCH_TOP_SetEntryHandled(u8 *a0, u32 a1)
 {
     RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct Obj25813 *)a0)->f0, a1);
 }

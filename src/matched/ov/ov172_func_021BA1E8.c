@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1E8
+ * function: CTVT_MIC_PlayVoice
  * address:  0x021BA1E8
  * packet:   pkt_ov172_021BA1E8
  * region:   ov172
@@ -20,7 +20,7 @@
 extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
                          int start, int end, int rate, int vol, int freq, int e);
 
-int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq)
+int CTVT_MIC_PlayVoice(int *self, char *buf, unsigned n, int vol, int freq)
 {
     if (n > 0x20) {
         int r = NNS_SndWaveOutStart((void *)self[8], 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);

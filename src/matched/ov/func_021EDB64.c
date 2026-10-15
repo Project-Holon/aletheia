@@ -1,5 +1,5 @@
 /*
- * function: func_021EDB64
+ * function: BOX2_UI_UploadSlotChar
  * address:  0x021EDB64
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
-void func_021EDB64(char *p, int a, int i)
+void BOX2_UI_UploadSlotChar(char *p, int a, int i)
 {
     int q = ((struct Obj18524 *)p)->f2C;
     int x = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(q + i * 4 + 0x9E74)));

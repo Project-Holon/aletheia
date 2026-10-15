@@ -1,5 +1,5 @@
 /*
- * function: func_021BF728
+ * function: RESEARCH_GRAPH_ResetTimer
  * address:  0x021BF728
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF728(void *p)
+void RESEARCH_GRAPH_ResetTimer(void *p)
 {
     ((struct Obj00021 *)p)->f30 = 0;
     ((struct Obj00021 *)p)->f3D4 = 0;

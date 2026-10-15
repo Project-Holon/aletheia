@@ -1,5 +1,5 @@
 /*
- * function: func_021E6CD4
+ * function: BOX2_SEQ_StateCloseItemB
  * address: 0x021E6CD4
  * packet: pkt_ov170_021E6CD4
  * region: ov170
@@ -11,17 +11,17 @@
  * blocker: ARM9 0x020260F0 has no outside code-start witness. Scratch one EXACT.
  *   unsigned func_020260F0(unsigned char *p) { return *(unsigned *)(p+4); }
  * symbols:
- *   func_021EBA70 0x021EBA70 thumb ov170
- *   func_021DD14C 0x021DD14C thumb ov170
+ *   BOX2_SEQ_HideWindowObject 0x021EBA70 thumb ov170
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
  *   func_020260F0 0x020260F0 thumb
- *   func_021EC000 0x021EC000 thumb ov170
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EBA70(char *,int);
-extern void func_021DD14C(char *);
+extern void BOX2_SEQ_HideWindowObject(char *,int);
+extern void BOX2_MAIN_RefreshCursorBox(char *);
 struct Sound;
 extern u32 func_020260F0(struct Sound *obj);
-extern void func_021EC000(char *,int,int);
-int func_021E6CD4(u8 *p){func_021EBA70(*(char **)(p+0x2c),24);func_021DD14C((char *)p);if(func_020260F0(*(void **)(*(char **)(p+0x2c)+0x70))==1)func_021EC000(*(char **)(p+0x2c),4,1);return 64;}
+extern void BOX2_SEQ_SetActorDrawEnable(char *,int,int);
+int BOX2_SEQ_StateCloseItemB(u8 *p){BOX2_SEQ_HideWindowObject(*(char **)(p+0x2c),24);BOX2_MAIN_RefreshCursorBox((char *)p);if(func_020260F0(*(void **)(*(char **)(p+0x2c)+0x70))==1)BOX2_SEQ_SetActorDrawEnable(*(char **)(p+0x2c),4,1);return 64;}

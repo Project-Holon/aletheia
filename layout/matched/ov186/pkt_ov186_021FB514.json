@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FB514",
+   "name": "BR_BTN_SetObjectPos",
    "address": "0x021FB514",
    "kind": "game",
    "region": "ov186",

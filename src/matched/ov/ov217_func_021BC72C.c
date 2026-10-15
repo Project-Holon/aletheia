@@ -1,5 +1,5 @@
 /*
- * function: func_021BC72C
+ * function: RESEARCH_LIST_SetOamEnabled
  * address:  0x021BC72C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 
-void func_021BC72C(u8 *a0, u32 a1, u8 *a2)
+void RESEARCH_LIST_SetOamEnabled(u8 *a0, u32 a1, u8 *a2)
 {
     BMP_OAM_SetEnabled((u8 *)((u32)(*(u32*)(a0 + (a1)*4 + 304))), (u32)(a2 + 0));
 }

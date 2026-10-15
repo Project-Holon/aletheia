@@ -1,5 +1,5 @@
 /*
- * function: func_021DDEFC
+ * function: BOX2_MAIN_AdvanceMover
  * address:  0x021DDEFC
  * packet:   pkt_ov170_021DDEFC
  * region:   ov170
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC548 0x021EC548 thumb
- *   func_021EDA70 0x021EDA70 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_GetSlotPos 0x021EC548 thumb
+ *   BOX2_UI_FindSlotPos 0x021EDA70 thumb
  */
 #include "../include/Obj00000.h"
 
@@ -29,23 +29,23 @@ typedef struct {
     short y;
 } Obj;
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern void func_021EDA70(int a0, int a1, short *a2, short *a3);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_GetSlotPos(unsigned i, short *x, short *y, int mode);
+extern void BOX2_UI_FindSlotPos(int a0, int a1, short *a2, short *a3);
 
-void func_021DDEFC(unsigned char *p, Obj *o)
+void BOX2_MAIN_AdvanceMover(unsigned char *p, Obj *o)
 {
     short t[2];
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
+    BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
     if (o->f6 != 2) {
         if (o->slot < 0x24)
-            func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
+            BOX2_SEQ_GetSlotPos(o->slot, &t[1], &t[0], p[0x1A]);
         else
-            func_021EDA70((int)(*(char * *)&((struct Obj00000 *)p)->f2C), o->slot - 0x24, &t[1], &t[0]);
+            BOX2_UI_FindSlotPos((int)(*(char * *)&((struct Obj00000 *)p)->f2C), o->slot - 0x24, &t[1], &t[0]);
     } else if (p[0x14] > p[0x17]) {
-        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 0, &t[1], &t[0], 0);
+        BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, 0, &t[1], &t[0], 0);
     } else {
-        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 1, &t[1], &t[0], 0);
+        BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, 1, &t[1], &t[0], 0);
     }
     if (o->x <= t[1]) {
         o->dx = 1;

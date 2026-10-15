@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC68
+ * function: RESEARCH_LIST_CreateLabels
  * address: 0x021BCC68
  * packet: pkt_ov217_021BCC68
  * region: ov217
@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * symbols:
- *   func_021BC6DC 0x021BC6DC thumb ov217
+ *   RESEARCH_LIST_GetEntryCount 0x021BC6DC thumb ov217
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C33C8 0x021C33C8 data a4
@@ -54,13 +54,13 @@ struct Loc {
 struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x28]; };
 extern const struct Ent d_021C33C8[];
 extern const struct Ent d_021C3520[];
-extern u32 func_021BC6DC(void *p);
+extern u32 RESEARCH_LIST_GetEntryCount(void *p);
 struct Config;
 struct Record;
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 extern u32 BgTextLabel_PrintMessage(u32 a0, u32 a1);
 
-void func_021BCC68(struct S *p)
+void RESEARCH_LIST_CreateLabels(struct S *p)
 {
     int i;
     for (i = 0; i < 7; i++) {
@@ -81,7 +81,7 @@ void func_021BCC68(struct S *p)
         p->arr[0xdc / 4 - 4 + i] = (u32)BgTextLabel_Create((const struct Config *)(&l1), p->f0c, p->arr[e->idx], p->h8);
         BgTextLabel_PrintMessage(p->arr[0xdc / 4 - 4 + i], e->arg);
     }
-    for (i = 0; i < (int)func_021BC6DC(p); i++) {
+    for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(p); i++) {
         const struct Ent *e = &d_021C3520[i];
         struct Loc l2;
         l2.b0 = e->b0;

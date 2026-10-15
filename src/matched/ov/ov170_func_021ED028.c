@@ -1,5 +1,5 @@
 /*
- * function: func_021ED028
+ * function: BOX2_SEQ_ShowHandSlotB
  * address: 0x021ED028
  * packet: pkt_ov170_021ED028
  * region: ov170
@@ -10,9 +10,9 @@
  * lever: Byte bitfield access reproduces the original ldrb/lsl24/lsr31
  * at 0x021ED042..0x021ED046; a mask test emitted movs/tst instead.
  * symbols:
- *   func_021EC000 0x021EC000 thumb ov170
- *   func_021ECFDC 0x021ECFDC thumb ov170
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
+ *   BOX2_SEQ_ShowHandSlot 0x021ECFDC thumb ov170
  */
-extern void func_021EC000(char *,int,int);extern void func_021ECFDC(char *,int,int);
+extern void BOX2_SEQ_SetActorDrawEnable(char *,int,int);extern void BOX2_SEQ_ShowHandSlot(char *,int,int);
 typedef struct {unsigned char low:7;unsigned char high:1;} Flag;
-void func_021ED028(char *p,unsigned char *q){unsigned i;for(i=28;i<45;i++)func_021EC000(p,i,0);if(!((Flag *)(q+18))->high)func_021ECFDC(p,q[12],q[13]);}
+void BOX2_SEQ_ShowHandSlotB(char *p,unsigned char *q){unsigned i;for(i=28;i<45;i++)BOX2_SEQ_SetActorDrawEnable(p,i,0);if(!((Flag *)(q+18))->high)BOX2_SEQ_ShowHandSlot(p,q[12],q[13]);}

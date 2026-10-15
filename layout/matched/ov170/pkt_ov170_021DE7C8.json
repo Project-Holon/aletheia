@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DE7C8",
+   "name": "BOX2_MAIN_StepScroll",
    "address": "0x021DE7C8",
    "kind": "game",
    "region": "ov170",

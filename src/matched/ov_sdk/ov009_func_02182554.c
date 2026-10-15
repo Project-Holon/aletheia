@@ -1,5 +1,5 @@
 /*
- * function: func_02182554
+ * function: gsiXmlUtilParseString
  * address:  0x02182554
  * packet:   pkt_ov009_02182554
  * region:   ov009
@@ -34,7 +34,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02182554.c \
- *       --func func_02182554 --addr 0x02182554 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *       --func gsiXmlUtilParseString --addr 0x02182554 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
 struct GSIXmlString
@@ -46,7 +46,7 @@ struct GSIXmlString
 extern int gsiXmlUtilSkipWhiteSpace(void *stream, char *buffer, int len, int *pos);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
 
-int func_02182554(void *stream, char *buffer, int len, int *pos, struct GSIXmlString *strOut)
+int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, struct GSIXmlString *strOut)
 {
     char *strStart;
     char startCh;

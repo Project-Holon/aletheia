@@ -11,6 +11,7 @@
  * status:   EXACT
  * symbols:
  *   _dsub  0x0209AF34  arm
+ *   __kernel_sin  0x0209A0EC  arm
  *
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
  * disasm label func_0209A390: the disassembler never saw the real entry
@@ -30,7 +31,7 @@
  *
  * Callees by address:
  *   func_02099224  __kernel_cos(double, double)
- *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   __kernel_sin  __kernel_sin(double, double, int)
  *   func_02098B44  __ieee754_rem_pio2(double, double *)
  */
 
@@ -39,7 +40,7 @@ typedef int i32;
 #define HI(x) (((i32 *)&(x))[1])
 
 extern double func_02099224(double x, double y);
-extern double func_0209A0EC(double x, double y, int iy);
+extern double __kernel_sin(double x, double y, int iy);
 extern int func_02098B44(double x, double *y);
 
 double func_0209A390(double x)
@@ -62,11 +63,11 @@ double func_0209A390(double x)
         case 0:
             return func_02099224(y[0], y[1]);
         case 1:
-            return -func_0209A0EC(y[0], y[1], 1);
+            return -__kernel_sin(y[0], y[1], 1);
         case 2:
             return -func_02099224(y[0], y[1]);
         default:
-            return func_0209A0EC(y[0], y[1], 1);
+            return __kernel_sin(y[0], y[1], 1);
         }
     }
 }

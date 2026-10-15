@@ -1,5 +1,5 @@
 /*
- * function: func_02089774
+ * function: SND_ResetMasterPan
  * address:  0x02089774
  * packet:   pkt_02089774
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089774(void)
+void SND_ResetMasterPan(void)
 {
     PushCommand_impl(0x18, (u32)-1, 0, 0, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EC048
+ * function: BOX2_SEQ_SetActorDrawPriority
  * address:  0x021EC048
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 struct Node;
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-void func_021EC048(char *p, int i, int c)
+void BOX2_SEQ_SetActorDrawPriority(char *p, int i, int c)
 {
     CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
 }

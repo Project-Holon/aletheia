@@ -1,5 +1,5 @@
 /*
- * function: func_02086374
+ * function: OSi_InitCommon
  * address:  0x02086374
  * packet:   pkt_02086368
  * region:   arm9
@@ -11,70 +11,70 @@
  *
  * symbols:
  *   PXI_Init  0x02088498  arm
- *   func_020863E0  0x020863E0  arm
- *   func_02084B90  0x02084B90  arm
- *   func_020864FC  0x020864FC  arm
+ *   OS_InitArena  0x020863E0  arm
+ *   OS_InitLock  0x02084B90  arm
+ *   OS_InitArenaEx  0x020864FC  arm
  *   func_0208475C  0x0208475C  arm
  *   func_020849F4  0x020849F4  arm
- *   func_02086DD8  0x02086DD8  arm
- *   func_0208361C  0x0208361C  arm
- *   func_02087578  0x02087578  arm
- *   func_02087EA8  0x02087EA8  arm
+ *   OS_InitException  0x02086DD8  arm
+ *   MI_Init  0x0208361C  arm
+ *   OS_InitVAlarm  0x02087578  arm
+ *   OSi_InitVramExclusive  0x02087EA8  arm
  *   OS_InitThread  0x02085264  arm
- *   func_02087B78  0x02087B78  arm
+ *   OS_InitReset  0x02087B78  arm
  *   GFL_USE_CtrdgDummyInit  0x02005438  thumb
  *   func_02075CAC  0x02075CAC  arm
  *   func_02082198  0x02082198  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_0208C960  0x0208C960  arm
+ *   SCFG_Init  0x0208C960  arm
  *   func_0208B8B0  0x0208B8B0  arm
- *   func_02086348  0x02086348  arm
- *   func_020883D4  0x020883D4  arm
+ *   OSi_WaitVCount0  0x02086348  arm
+ *   OSi_InitPrevTitleId  0x020883D4  arm
  */
 
 extern void PXI_Init(void);
-extern void func_020863E0(void);
-extern void func_02084B90(void);
-extern void func_020864FC(void);
+extern void OS_InitArena(void);
+extern void OS_InitLock(void);
+extern void OS_InitArenaEx(void);
 extern void func_0208475C(void);
 extern void func_020849F4(void);
-extern void func_02086DD8(void);
-extern void func_0208361C(void);
-extern void func_02087578(void);
-extern void func_02087EA8(void);
+extern void OS_InitException(void);
+extern void MI_Init(void);
+extern void OS_InitVAlarm(void);
+extern void OSi_InitVramExclusive(void);
 extern void OS_InitThread(void);
-extern void func_02087B78(void);
+extern void OS_InitReset(void);
 extern void GFL_USE_CtrdgDummyInit(void);
 extern void func_02075CAC(void);
 extern void func_02082198(void);
 extern int  OS_IsRunOnTwl(void);
-extern void func_0208C960(void);
+extern void SCFG_Init(void);
 extern void func_0208B8B0(void);
-extern void func_02086348(void);
-extern void func_020883D4(void);
+extern void OSi_WaitVCount0(void);
+extern void OSi_InitPrevTitleId(void);
 
-void func_02086374(void)
+void OSi_InitCommon(void)
 {
     PXI_Init();
-    func_020863E0();
-    func_02084B90();
-    func_020864FC();
+    OS_InitArena();
+    OS_InitLock();
+    OS_InitArenaEx();
     func_0208475C();
     func_020849F4();
-    func_02086DD8();
-    func_0208361C();
-    func_02087578();
-    func_02087EA8();
+    OS_InitException();
+    MI_Init();
+    OS_InitVAlarm();
+    OSi_InitVramExclusive();
     OS_InitThread();
-    func_02087B78();
+    OS_InitReset();
     GFL_USE_CtrdgDummyInit();
     func_02075CAC();
     func_02082198();
     if (OS_IsRunOnTwl() == 1)
-        func_0208C960();
+        SCFG_Init();
     func_0208B8B0();
-    func_02086348();
+    OSi_WaitVCount0();
     if (OS_IsRunOnTwl() != 1)
         return;
-    func_020883D4();
+    OSi_InitPrevTitleId();
 }

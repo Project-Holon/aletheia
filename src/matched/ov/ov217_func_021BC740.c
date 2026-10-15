@@ -1,5 +1,5 @@
 /*
- * function: func_021BC740
+ * function: RESEARCH_LIST_GetOamObject
  * address:  0x021BC740
  * packet:   pkt_021BC740
  * region:   ov217
@@ -20,7 +20,7 @@
 
 extern int d_021C3068[];
 
-int func_021BC740(char *p, int i)
+int RESEARCH_LIST_GetOamObject(char *p, int i)
 {
     return *(int *)(p + (d_021C3068[i] << 2) + 0x130);
 }

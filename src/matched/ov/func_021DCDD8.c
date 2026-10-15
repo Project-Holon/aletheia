@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDD8
+ * function: BOX2_MAIN_DeletePalAnm
  * address:  0x021DCDD8
  * packet:   pkt_021DCDD8
  * region:   ov170
@@ -27,7 +27,7 @@ struct PalAnmSlot;
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 
-void func_021DCDD8(int *p)
+void BOX2_MAIN_DeletePalAnm(int *p)
 {
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)), 0);
     PALANM_Delete((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)));

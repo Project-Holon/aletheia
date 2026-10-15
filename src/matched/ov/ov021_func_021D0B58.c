@@ -17,7 +17,7 @@
  *   func_02030734  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
- *   func_0200E5F8  0x0200E5F8  thumb
+ *   BATTLE_EXAMINATION_GetTrainerSlot  0x0200E5F8  thumb
  *   func_0200734C  0x0200734C  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_021DE674     0x021DE674  data  a4
@@ -37,7 +37,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int a, int b, int c, void *d, int e);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern Big *func_0200E5F8(int a, int b);
+extern Big *BATTLE_EXAMINATION_GetTrainerSlot(int a, int b);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern u32 func_020307B0(void *p);
@@ -52,7 +52,7 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(int a, Big *dst, int idx)
     buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x14C);
     v = 0x8004 >> 3;
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(h, 5, 0x8004, buf, v) == 1) {
-        *dst = *func_0200E5F8((int)func_020073D8((struct Sub020073D8Ctrl *)h, 5, 0), idx);
+        *dst = *BATTLE_EXAMINATION_GetTrainerSlot((int)func_020073D8((struct Sub020073D8Ctrl *)h, 5, 0), idx);
     }
     func_0200734C((struct Sub02007324Ctrl *)h, 5);
     func_020307B0(buf);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B64E0
+ * function: CDEMO_SCENE_Step
  * address:  0x021B64E0
  * packet:   pkt_021B64E0
  * region:   ov179
@@ -16,7 +16,7 @@
  * symbols:
  *   func_020870D0  0x020870D0  arm
  *   func_0204047C  0x0204047C  arm
- *   func_021B669C  0x021B669C  thumb  ov179
+ *   CDEMO_SCENE_LoadScreenBlock  0x021B669C  thumb  ov179
  *   data_021B6A1C  0x021B6A1C  data  ov179
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
@@ -37,9 +37,9 @@ typedef struct {
 extern const Entry data_021B6A1C[];
 extern u64 func_020870D0(void);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_021B669C(int, int, int, int, int);
+extern void CDEMO_SCENE_LoadScreenBlock(int, int, int, int, int);
 
-int func_021B64E0(char *p)
+int CDEMO_SCENE_Step(char *p)
 {
     const Entry *e = &data_021B6A1C[**(u16 * *)&((struct Obj00546 *)p)->f0];
 
@@ -56,9 +56,9 @@ int func_021B64E0(char *p)
 
     switch (((struct Obj00546 *)p)->f603F) {
     case 0:
-        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 0);
+        CDEMO_SCENE_LoadScreenBlock(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 0);
         (((struct Obj00546 *)p)->f603C)++;
-        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 1);
+        CDEMO_SCENE_LoadScreenBlock(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 1);
         (((struct Obj00546 *)p)->f603C)++;
         func_0204047C((u8)2, (u8)0);
         func_0204047C((u8)3, (u8)1);
@@ -67,7 +67,7 @@ int func_021B64E0(char *p)
     case 1:
         func_0204047C((u8)((((struct Obj00546 *)p)->f603E ^ 1) + 2), (u8)0);
         func_0204047C((u8)(((struct Obj00546 *)p)->f603E + 2), (u8)1);
-        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, ((struct Obj00546 *)p)->f603E);
+        CDEMO_SCENE_LoadScreenBlock(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, ((struct Obj00546 *)p)->f603E);
         (((struct Obj00546 *)p)->f603C)++;
         if (((struct Obj00546 *)p)->f603C >= e->count) {
             ((struct Obj00546 *)p)->f603F = 2;

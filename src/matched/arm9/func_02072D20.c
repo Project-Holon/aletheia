@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208A07C   0x0208A07C  arm
- *   func_02089D40   0x02089D40  arm
+ *   SND_GetChannelStatus   0x0208A07C  arm
+ *   SND_GetCurrentCommandTag   0x02089D40  arm
  *   func_02089B38   0x02089B38  arm
- *   func_02089CD4   0x02089CD4  arm
+ *   SND_WaitForCommandProc   0x02089CD4  arm
  *
  * THE `../2.0/sp2` PIN, and why it is not the default front end.
  *
@@ -64,27 +64,27 @@ typedef struct {
     u32 f10;
 } Obj;
 
-extern unsigned long func_0208A07C(void);
-extern u32 func_02089D40(void);
+extern unsigned long SND_GetChannelStatus(void);
+extern u32 SND_GetCurrentCommandTag(void);
 extern void func_02089B38(int v);
-extern void func_02089CD4(u32 tag);
+extern void SND_WaitForCommandProc(u32 tag);
 
 void NNS_SndWaveOutWaitIdle(Obj *obj)
 {
     u32 h;
 
     if (obj->f8 == 0) {
-        if ((func_0208A07C() & (1 << obj->f0)) == 0)
+        if ((SND_GetChannelStatus() & (1 << obj->f0)) == 0)
             return;
-        h = func_02089D40();
+        h = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(h);
+        SND_WaitForCommandProc(h);
     } else {
         if (obj->fC == 0) {
-            func_02089CD4(obj->f10);
+            SND_WaitForCommandProc(obj->f10);
             obj->fC = 1;
         }
-        while (func_0208A07C() & (1 << obj->f0))
+        while (SND_GetChannelStatus() & (1 << obj->f0))
             ;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF734
+ * function: RESEARCH_GRAPH_GetContext
  * address:  0x021BF734
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 RESEARCH_COMMON_GetContext(u32 *p);
 
-u32 func_021BF734(u8 *a0)
+u32 RESEARCH_GRAPH_GetContext(u8 *a0)
 {
     return RESEARCH_COMMON_GetContext((u32 *)(((struct Obj25933 *)a0)->f0));
 }

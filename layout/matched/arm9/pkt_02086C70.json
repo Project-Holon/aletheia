@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02086C70",
+   "name": "OS_IsOnExtendedMainMemory",
    "address": "0x02086C70",
    "kind": "sdk",
    "region": "arm9",

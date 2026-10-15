@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3AC
+ * function: RESEARCH_LIST_GetScrollY
  * address:  0x021BC3AC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern u32 func_02040804(u32 layer);
 
-int func_021BC3AC(void)
+int RESEARCH_LIST_GetScrollY(void)
 {
     return func_02040804(2);
 }

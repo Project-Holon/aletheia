@@ -1,5 +1,5 @@
 /*
- * function: func_021EF3EC
+ * function: BOX2_UI_SlideBarOut
  * address:  0x021EF3EC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -21,7 +21,7 @@ typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 
-void func_021EF3EC(struct WinMgr *mgr)
+void BOX2_UI_SlideBarOut(struct WinMgr *mgr)
 {
     BGWINFRM_StartMove(mgr, 8, -1, 0, 0x13);
 }

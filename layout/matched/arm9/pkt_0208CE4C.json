@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208CE4C",
+   "name": "STD_CompareNString",
    "address": "0x0208CE4C",
    "kind": "sdk",
    "region": "arm9",

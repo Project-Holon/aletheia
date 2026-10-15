@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200ED54",
+   "name": "MISC_SAVEDATA_InsertRecentValue",
    "address": "0x0200ED54",
    "kind": "game",
    "region": "arm9",
@@ -30,9 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200EDC4",
-    "sub_0200EDEC",
-    "sub_0200EE14"
+    "MISC_SAVEDATA_ContainsRecentValue",
+    "MISC_SAVEDATA_TestBitmapBit",
+    "MISC_SAVEDATA_SetBitmapBit"
+   ],
+   "addresses": [
+    "0x0200EDC4",
+    "0x0200EDEC",
+    "0x0200EE14"
    ]
   }
  ]

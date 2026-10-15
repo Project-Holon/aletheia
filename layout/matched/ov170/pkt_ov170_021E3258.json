@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E3258",
+   "name": "BOX2_SEQ_StateSummaryClose",
    "address": "0x021E3258",
    "kind": "game",
    "region": "ov170",

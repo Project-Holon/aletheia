@@ -1,5 +1,5 @@
 /*
- * function: func_021BB200
+ * function: RESEARCH_LIST_UpdateDrag
  * address: 0x021BB200
  * packet: pkt_ov217_021BB200
  * region: ov217
@@ -10,82 +10,82 @@
  * status: EXACT*
  *
  * symbols:
- *   func_021BB98C 0x021BB98C thumb ov217
- *   func_021BC280 0x021BC280 thumb ov217
- *   func_021BC2B8 0x021BC2B8 thumb ov217
- *   func_021BB990 0x021BB990 thumb ov217
- *   func_021BC200 0x021BC200 thumb ov217
- *   func_021BC30C 0x021BC30C thumb ov217
- *   func_021BC380 0x021BC380 thumb ov217
- *   func_021BC43C 0x021BC43C thumb ov217
- *   func_021BC168 0x021BC168 thumb ov217
- *   func_021BC014 0x021BC014 thumb ov217
- *   func_021BC274 0x021BC274 thumb ov217
- *   func_021BC250 0x021BC250 thumb ov217
- *   func_021BC264 0x021BC264 thumb ov217
- *   func_021BC06C 0x021BC06C thumb ov217
- *   func_021BB91C 0x021BB91C thumb ov217
- *   func_021BBA30 0x021BBA30 thumb ov217
+ *   RESEARCH_LIST_GetSubState 0x021BB98C thumb ov217
+ *   RESEARCH_LIST_DampMomentum 0x021BC280 thumb ov217
+ *   RESEARCH_LIST_SetMomentumDirection 0x021BC2B8 thumb ov217
+ *   RESEARCH_LIST_IncSubState 0x021BB990 thumb ov217
+ *   RESEARCH_LIST_GetScrollYFromPosition 0x021BC200 thumb ov217
+ *   RESEARCH_LIST_SetScrollTarget 0x021BC30C thumb ov217
+ *   RESEARCH_LIST_SetListScroll 0x021BC380 thumb ov217
+ *   RESEARCH_LIST_UpdateTouchRects 0x021BC43C thumb ov217
+ *   RESEARCH_LIST_UpdateScrollbarActor 0x021BC168 thumb ov217
+ *   RESEARCH_LIST_UpdateEntryActor 0x021BC014 thumb ov217
+ *   RESEARCH_LIST_ComputeMomentum 0x021BC274 thumb ov217
+ *   RESEARCH_LIST_UpdateMomentum 0x021BC250 thumb ov217
+ *   RESEARCH_LIST_IsMomentumActive 0x021BC264 thumb ov217
+ *   RESEARCH_LIST_PrintCurrentEntry 0x021BC06C thumb ov217
+ *   RESEARCH_LIST_SetCommandReady 0x021BB91C thumb ov217
+ *   RESEARCH_LIST_ScrollSelectionIntoView 0x021BBA30 thumb ov217
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  */
 struct S { char pad0[0x34]; int f34; char pad38[0x14]; int f4c; };
 extern unsigned int TOUCHPANEL_GetPointCont(unsigned int *outA, unsigned int *outB);
 typedef unsigned int   u32;
-extern u32 func_021BB98C(void *p);
-extern void func_021BC280(struct S *p);
-extern void func_021BC2B8(void *p);
-extern void func_021BB990(void *p);
-extern int func_021BC200(void *p, int position);
-extern void func_021BC30C(struct S *p, int v);
-extern void func_021BC380(struct S *p);
+extern u32 RESEARCH_LIST_GetSubState(void *p);
+extern void RESEARCH_LIST_DampMomentum(struct S *p);
+extern void RESEARCH_LIST_SetMomentumDirection(void *p);
+extern void RESEARCH_LIST_IncSubState(void *p);
+extern int RESEARCH_LIST_GetScrollYFromPosition(void *p, int position);
+extern void RESEARCH_LIST_SetScrollTarget(struct S *p, int v);
+extern void RESEARCH_LIST_SetListScroll(struct S *p);
 typedef unsigned char  u8;
-extern void func_021BC43C(u8 *p);
-extern void func_021BC168(unsigned int p);
-extern void func_021BC014(u8 *p);
-extern void func_021BC274(void *p);
-extern void func_021BC250(void *p);
-extern int func_021BC264(void *p);
-extern int func_021BC06C(char *p);
-extern void func_021BB91C(void *p);
-extern void func_021BBA30(u8 *p);
+extern void RESEARCH_LIST_UpdateTouchRects(u8 *p);
+extern void RESEARCH_LIST_UpdateScrollbarActor(unsigned int p);
+extern void RESEARCH_LIST_UpdateEntryActor(u8 *p);
+extern void RESEARCH_LIST_ComputeMomentum(void *p);
+extern void RESEARCH_LIST_UpdateMomentum(void *p);
+extern int RESEARCH_LIST_IsMomentumActive(void *p);
+extern int RESEARCH_LIST_PrintCurrentEntry(char *p);
+extern void RESEARCH_LIST_SetCommandReady(void *p);
+extern void RESEARCH_LIST_ScrollSelectionIntoView(u8 *p);
 
-void func_021BB200(struct S *p)
+void RESEARCH_LIST_UpdateDrag(struct S *p)
 {
     int a;
     int b;
     int r = TOUCHPANEL_GetPointCont((unsigned int *)(&a), (unsigned int *)(&b));
-    int m = func_021BB98C(p);
+    int m = RESEARCH_LIST_GetSubState(p);
     switch (m) {
     case 0:
     {
         if (r == 0) {
-            func_021BC280(p);
-            func_021BC2B8(p);
-            func_021BB990(p);
+            RESEARCH_LIST_DampMomentum(p);
+            RESEARCH_LIST_SetMomentumDirection(p);
+            RESEARCH_LIST_IncSubState(p);
         } else {
-            func_021BC30C(p, func_021BC200(p, b));
-            func_021BC380(p);
-            func_021BC43C((u8 *)p);
-            func_021BC168((unsigned int)p);
-            func_021BC014((u8 *)p);
-            func_021BC274(p);
+            RESEARCH_LIST_SetScrollTarget(p, RESEARCH_LIST_GetScrollYFromPosition(p, b));
+            RESEARCH_LIST_SetListScroll(p);
+            RESEARCH_LIST_UpdateTouchRects((u8 *)p);
+            RESEARCH_LIST_UpdateScrollbarActor((unsigned int)p);
+            RESEARCH_LIST_UpdateEntryActor((u8 *)p);
+            RESEARCH_LIST_ComputeMomentum(p);
         }
         break;
     }
     case 1:
     {
-        func_021BC30C(p, p->f34 + p->f4c);
-        func_021BC380(p);
-        func_021BC43C((u8 *)p);
-        func_021BC168((unsigned int)p);
-        func_021BC014((u8 *)p);
-        func_021BC250(p);
-        if (func_021BC264(p) == 0) {
-            func_021BC06C((char *)p);
-            func_021BB91C(p);
+        RESEARCH_LIST_SetScrollTarget(p, p->f34 + p->f4c);
+        RESEARCH_LIST_SetListScroll(p);
+        RESEARCH_LIST_UpdateTouchRects((u8 *)p);
+        RESEARCH_LIST_UpdateScrollbarActor((unsigned int)p);
+        RESEARCH_LIST_UpdateEntryActor((u8 *)p);
+        RESEARCH_LIST_UpdateMomentum(p);
+        if (RESEARCH_LIST_IsMomentumActive(p) == 0) {
+            RESEARCH_LIST_PrintCurrentEntry((char *)p);
+            RESEARCH_LIST_SetCommandReady(p);
         }
         break;
     }
     }
-    func_021BBA30((u8 *)p);
+    RESEARCH_LIST_ScrollSelectionIntoView((u8 *)p);
 }

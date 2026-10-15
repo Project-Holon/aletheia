@@ -23,7 +23,7 @@
  *   garprequest  0x0215B5C4  arm  ov009
  *   send_arprequest  0x02157E54  arm  ov009
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   func_02162EC4  0x02162EC4  arm  ov009
+ *   CPSi_SslPeriodical  0x02162EC4  arm  ov009
  *   dhcp_release_server  0x0215C44C  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   g_021A83E4     0x021A83E4  data
@@ -139,7 +139,7 @@ extern void func_02157290(int reason);
 extern int garprequest(void);
 extern void send_arprequest(unsigned long ip);
 extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void func_02162EC4(unsigned long now);
+extern void CPSi_SslPeriodical(unsigned long now);
 extern void dhcp_release_server(void);
 extern void CPS_SocUnRegister(void);
 
@@ -342,7 +342,7 @@ void scavenger(void)
             }
         }
 
-        func_02162EC4(now);
+        CPSi_SslPeriodical(now);
         if (g_021A826C.periodic)
             g_021A826C.periodic();
     }

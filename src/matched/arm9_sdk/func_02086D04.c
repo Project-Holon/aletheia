@@ -1,5 +1,5 @@
 /*
- * function: func_02086D04
+ * function: OS_DisableProtectionUnit
  * address:  0x02086D04
  * packet:   pkt_02086D04
  * region:   arm9
@@ -14,7 +14,7 @@
  *           DW_TAG_variable and one strictly increasing line per instruction.
  */
 
-asm void func_02086D04(void)
+asm void OS_DisableProtectionUnit(void)
 {
     mrc     p15, 0, r0, c1, c0, 0
     bic     r0, r0, #1

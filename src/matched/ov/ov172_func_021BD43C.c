@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_021B7E34  0x021B7E34  thumb  ov172
- *   func_021B9044  0x021B9044  thumb  ov172
+ *   CTVT_TALK_Main  0x021B9044  thumb  ov172
  *   func_021BBF2C  0x021BBF2C  thumb  ov172
  *   CTVT_DRAW_Main  0x021BA9EC  thumb  ov172
  *   func_021B80CC  0x021B80CC  thumb
@@ -47,7 +47,7 @@ struct PrintSys;
 struct Tcbl;
 extern void func_021B7E34(void *p, char *q);
 struct S;
-extern u32 func_021B9044(void *p, struct S *s);
+extern u32 CTVT_TALK_Main(void *p, struct S *s);
 extern int func_021BBF2C(void *a0, char *p);
 extern int CTVT_DRAW_Main(void *a0, char *p);
 extern u32 func_021B80CC(int unused, char *p);
@@ -77,7 +77,7 @@ int func_021BD43C(char *ctx)
     func_021B7E34(ctx, (char *)F(0x1e4));
     switch (F(8)) {
     case 1:
-        F(0xc) = func_021B9044(ctx, (struct S *)F(0x1e8));
+        F(0xc) = CTVT_TALK_Main(ctx, (struct S *)F(0x1e8));
         break;
     case 2:
         F(0xc) = func_021BBF2C(ctx, (char *)F(0x1f0));

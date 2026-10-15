@@ -17,14 +17,14 @@
  * symbols:
  *   SBQueryEngineUpdateServer  0x0219D928  arm  ov009
  *   SBQueryEngineRemoveServerFromFIFOs  0x0219DF04  arm  ov009
- *   func_021A02E0  0x021A02E0  arm  ov009
+ *   SBServerListDisconnect  0x021A02E0  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_0219D8D8  0x0219D8D8  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0219F9A8  0x0219F9A8  arm  ov009
+ *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
- *   func_021A0340  0x021A0340  arm  ov009
+ *   SBServerListCleanup  0x021A0340  arm  ov009
  *   SBEngineCleanup  0x0219D8FC  arm  ov009
  *   func_0219922C  0x0219922C  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
@@ -32,25 +32,25 @@
  *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
  *   SBQueryEngineAddQueryKey  0x0219DEE8  arm  ov009
- *   func_0219FFD4  0x0219FFD4  arm  ov009
+ *   SBServerListConnectAndQuery  0x0219FFD4  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
  *   g_021A81DC  0x021A81DC  data
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8218  0x021A8218  data
  *   func_0217ED38  0x0217ED38  arm  ov009
- *   func_021A1620  0x021A1620  arm  ov009
- *   func_021A174C  0x021A174C  arm  ov009
- *   func_0219F674  0x0219F674  arm  ov009
- *   func_0219F768  0x0219F768  arm  ov009
+ *   SBSendMessageToServer  0x021A1620  arm  ov009
+ *   SBSendNatNegotiateCookieToServer  0x021A174C  arm  ov009
+ *   SBServerListFindServer  0x0219F674  arm  ov009
+ *   SBServerListRemoveAt  0x0219F768  arm  ov009
  *   func_0219A4A4  0x0219A4A4  arm  ov009
  *   SBQueryEngineThink  0x0219DE88  arm  ov009
- *   func_021A1928  0x021A1928  arm  ov009
+ *   SBListThink  0x021A1928  arm  ov009
  *   SBEngineHaltUpdates  0x0219D8E0  arm  ov009
- *   func_0219F830  0x0219F830  arm  ov009
- *   func_0219F7C4  0x0219F7C4  arm
- *   func_0219F7B4  0x0219F7B4  arm
+ *   SBServerListClear  0x0219F830  arm  ov009
+ *   SBServerListNth  0x0219F7C4  arm
+ *   SBServerListCount  0x0219F7B4  arm
  *   func_02094798  0x02094798  arm
- *   func_0219F50C  0x0219F50C  arm  ov009
+ *   SBServerListSort  0x0219F50C  arm  ov009
  */
 #include "sb_server_types.h"
 
@@ -63,15 +63,15 @@ struct SortInfo {
 
 extern void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
-extern void func_021A02E0(SBServerList *slist);
+extern void SBServerListDisconnect(SBServerList *slist);
 extern int func_02184200(const int *p);
 extern void func_0219D8D8(int *engine, int publicip);
 extern void *func_0217EAB0(unsigned long size);
-extern void func_0219F9A8(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
-extern void func_021A0340(SBServerList *slist);
+extern void SBServerListCleanup(SBServerList *slist);
 extern void SBEngineCleanup(void *engine);
 extern void func_0219922C(void);
 extern void func_0217EAE0(void *ptr);
@@ -79,22 +79,22 @@ extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...)
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void SBQueryEngineAddQueryKey(char *p, int v);
-extern int func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
+extern int SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void msleep(unsigned int msec);
 extern int func_0217ED38(int a);
-extern int func_021A1620(void *slist, unsigned int ip, unsigned short port, char *data, int len);
-extern int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie);
-extern int func_0219F674(SBServerList *slist, void *findserver);
-extern void func_0219F768(SBServerList *slist, int index);
+extern int SBSendMessageToServer(void *slist, unsigned int ip, unsigned short port, char *data, int len);
+extern int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
+extern int SBServerListFindServer(SBServerList *slist, void *findserver);
+extern void SBServerListRemoveAt(SBServerList *slist, int index);
 extern void func_0219A4A4(void *p);
 extern void SBQueryEngineThink(void *p);
-extern int func_021A1928(int *p);
+extern int SBListThink(int *p);
 extern void SBEngineHaltUpdates(char *p);
-extern void func_0219F830(SBServerList *slist);
-extern SBServer *func_0219F7C4(SBServerList *slist, int index);
-extern void func_0219F7B4(char *p);
+extern void SBServerListClear(SBServerList *slist);
+extern SBServer *SBServerListNth(SBServerList *slist, int index);
+extern void SBServerListCount(char *p);
 extern char *func_02094798(char *dst, const char *src);
-extern void func_0219F50C(void *slist, int ascending, struct SortInfo sortinfo);
+extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
 void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance);
 void func_0219EBC4(int unused, unsigned int reason, SBServer *server, void *inst);
 ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, BrowserCB callback, void *instance);
@@ -163,7 +163,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         break;
     case 3:
         if (sb->disconnectFlag)
-            func_021A02E0((SBServerList *)serverlist);
+            SBServerListDisconnect((SBServerList *)serverlist);
         if (func_02184200(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
             sb->BrowserCallback(sb, 4, 0, sb->instance);
         break;
@@ -232,7 +232,7 @@ ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, ch
     sb->ConnectCallback = 0;
     sb->instance = instance;
     sb->dontUpdateList = 0;
-    func_0219F9A8(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
+    SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, func_0219E9F4, sb);
     SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
     return sb;
@@ -247,7 +247,7 @@ ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, ch
  */
 void func_0219ED4C(ServerBrowser *sb)
 {
-    func_021A0340(&sb->list);
+    SBServerListCleanup(&sb->list);
     SBEngineCleanup(&sb->engine);
     if (sb->ConnectCallback != 0)
         func_0219922C();
@@ -285,7 +285,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
         listLen += OS_SPrintf(keyList + listLen, g_021A8218, key);
         SBQueryEngineAddQueryKey((char *)sb, basicFields[i]);
     }
-    err = func_0219FFD4(&sb->list, keyList, serverFilter, updateOptions, maxServers);
+    err = SBServerListConnectAndQuery(&sb->list, keyList, serverFilter, updateOptions, maxServers);
     if (err != 0 || async)
         return err;
     while (sb->list.state == 3 || (sb->engine.querylist.count > 0 && err == 0)) {
@@ -316,7 +316,7 @@ int func_0219EED4(ServerBrowser *sb, int async, int disconnectOnComplete,
  */
 int func_0219EF08(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
 {
-    return func_021A1620(&sb->list, func_0217ED38((int)ip),
+    return SBSendMessageToServer(&sb->list, func_0217ED38((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), data, len);
 }
 
@@ -328,7 +328,7 @@ int func_0219EF08(ServerBrowser *sb, char *ip, unsigned short port, char *data, 
  */
 int func_0219EF60(ServerBrowser *sb, char *ip, unsigned short port, int cookie)
 {
-    return func_021A174C(&sb->list, func_0217ED38((int)ip),
+    return SBSendNatNegotiateCookieToServer(&sb->list, func_0217ED38((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), cookie);
 }
 
@@ -342,9 +342,9 @@ void func_0219EFA8(ServerBrowser *sb, SBServer *server)
 {
     int i;
 
-    i = func_0219F674((SBServerList *)(&sb->list), server);
+    i = SBServerListFindServer((SBServerList *)(&sb->list), server);
     if (i != -1)
-        func_0219F768((SBServerList *)(&sb->list), i);
+        SBServerListRemoveAt((SBServerList *)(&sb->list), i);
 }
 
 
@@ -357,7 +357,7 @@ int func_0219EFD0(char *p)
 {
     func_0219A4A4(p);
     SBQueryEngineThink(p);
-    return func_021A1928((int *)(p + 0x60));
+    return SBListThink((int *)(p + 0x60));
 }
 
 
@@ -368,7 +368,7 @@ int func_0219EFD0(char *p)
  */
 void func_0219EFF0(char *p)
 {
-    func_021A02E0((SBServerList *)(p + 0x60));
+    SBServerListDisconnect((SBServerList *)(p + 0x60));
     SBEngineHaltUpdates(p);
 }
 
@@ -381,7 +381,7 @@ void func_0219EFF0(char *p)
 void func_0219F00C(char *p)
 {
     func_0219EFF0(p);
-    func_0219F830((SBServerList *)(p + 0x60));
+    SBServerListClear((SBServerList *)(p + 0x60));
 }
 
 
@@ -405,7 +405,7 @@ int func_0219F024(char *p)
 
 SBServer *func_0219F058(ServerBrowser *sb, int index)
 {
-    return func_0219F7C4(&sb->list, index);
+    return SBServerListNth(&sb->list, index);
 }
 
 
@@ -420,7 +420,7 @@ SBServer *func_0219F058(ServerBrowser *sb, int index)
  */
 void func_0219F068(char *p)
 {
-    func_0219F7B4(p + 0x60);
+    SBServerListCount(p + 0x60);
 }
 
 
@@ -435,7 +435,7 @@ void func_0219F078(ServerBrowser *sb, int ascending, char *sortkey, int comparem
 
     info.comparemode = comparemode;
     func_02094798(info.sortkey, sortkey);
-    func_0219F50C(&sb->list, ascending, info);
+    SBServerListSort(&sb->list, ascending, info);
 }
 
 

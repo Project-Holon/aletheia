@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060550
+ * function: NNS_FndInsertListObject
  * address:  0x02060550
  * packet:   pkt_02060550
  * region:   arm9
@@ -11,13 +11,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020604AC  0x020604AC  arm
- *   func_02060500  0x02060500  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
+ *   NNS_FndPrependListObject  0x02060500  arm
  *
  * DList insert-before: splice `elem` into the list immediately ahead of
  * `before`.  A null `before` means "no successor", i.e. append at the tail
- * (func_020604AC); a `before` that is already the head is a prepend
- * (func_02060500).  Otherwise the four links are rewritten in place.
+ * (NNS_FndAppendListObject); a `before` that is already the head is a prepend
+ * (NNS_FndPrependListObject).  Otherwise the four links are rewritten in place.
  *
  * The node-offset load is hoisted into a local because the splice reads it
  * once and the final `before->prev` write re-reads it: the image has two
@@ -32,12 +32,12 @@
  * single mutation moves; the permuter found the same lever independently
  * (`temp(tmp=(struct DListNode *)((char *)elem + off))` lifted above the
  * `prev` read) from that five-byte baseline.  The `volatile` on the list
- * pointer is the cluster-wide shape documented on func_02060480: it keeps
+ * pointer is the cluster-wide shape documented on NNSi_FndSetFirstObject: it keeps
  * the count read after the link stores.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060550.c \
- *       --func func_02060550 --addr 0x02060550 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndInsertListObject.c \
+ *       --func NNS_FndInsertListObject --addr 0x02060550 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -54,21 +54,21 @@ struct DListNode {
     void *next;
 };
 
-extern void func_020604AC(volatile struct DList *list, void *elem);
-extern void func_02060500(volatile struct DList *list, void *elem);
+extern void NNS_FndAppendListObject(volatile struct DList *list, void *elem);
+extern void NNS_FndPrependListObject(volatile struct DList *list, void *elem);
 
-void func_02060550(volatile struct DList *list, void *before, void *elem)
+void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem)
 {
     u16               off;
     struct DListNode *node;
     void             *prev;
 
     if (before == 0) {
-        func_020604AC(list, elem);
+        NNS_FndAppendListObject(list, elem);
         return;
     }
     if (before == list->head) {
-        func_02060500(list, elem);
+        NNS_FndPrependListObject(list, elem);
         return;
     }
     off = list->node_offset;

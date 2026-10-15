@@ -1,5 +1,5 @@
 /*
- * function: func_021EE65C
+ * function: BOX2_UI_UpdateCursorInputC
  * address:  0x021EE65C
  * packet:   pkt_ov170_021EE65C
  * region:   ov170
@@ -12,13 +12,13 @@
  * symbols:
  *   func_020260E0 0x020260E0 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_021EF5E8 0x021EF5E8 thumb
+ *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
  *   func_020260E4 0x020260E4 thumb
- *   func_021EE408 0x021EE408 thumb
+ *   BOX2_UI_UpdateCursor 0x021EE408 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   func_021DD238 0x021DD238 thumb
+ *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
  */
 
 typedef unsigned int u32;
@@ -29,25 +29,25 @@ typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
 extern int func_02025DE8(struct Sound *obj);
-extern int func_021EF5E8(struct WinMgr *mgr);
+extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE408(char *p, int v);
+extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern unsigned int KEY_GetRepeat(void);
-extern void func_021DD238(char *p);
+extern void BOX2_MAIN_PlayCursorSound(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 
-unsigned func_021EE65C(char *p)
+unsigned BOX2_UI_UpdateCursorInputC(char *p)
 {
     unsigned char sel = func_020260E0(OBJ(p));
     unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
+    if (BOX2_UI_IsListOpen(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
         if (r >= 0x24 && r <= 0x29) {
             func_020260E4(OBJ(p), sel);
-            func_021EE408(p, sel);
+            BOX2_UI_UpdateCursor(p, sel);
             return -1;
         }
         if (KEY_GetTrg() & 0x400) {
@@ -64,16 +64,16 @@ unsigned func_021EE65C(char *p)
         }
     } else if (r - 0x21 <= 2) {
         func_020260E4(OBJ(p), sel);
-        func_021EE408(p, sel);
+        BOX2_UI_UpdateCursor(p, sel);
         return -1;
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            func_021DD238(p);
+            BOX2_MAIN_PlayCursorSound(p);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            func_021DD238(p);
+            BOX2_MAIN_PlayCursorSound(p);
             return 0x20;
         }
     }

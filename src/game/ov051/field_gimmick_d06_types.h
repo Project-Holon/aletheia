@@ -118,7 +118,7 @@ extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *effects, int *effe
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern void func_02082C60(void *dst, int data, int size);
+extern void MI_CpuFill(void *dst, int data, int size);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 /* Map objects (ov010). */

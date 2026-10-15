@@ -1,5 +1,5 @@
 /*
- * function: func_0200C528
+ * function: RECENT_ID_LIST_SAVEDATA_InitArea
  * address: 0x0200C528
  * packet: pkt_arm9_0200C528
  * region: arm9
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/arm9/unit_0200C3EC.c and filed here.
  */
 
-void func_0200C528(void);
+void RECENT_ID_LIST_SAVEDATA_InitArea(void);
 
-void func_0200C528(void)
+void RECENT_ID_LIST_SAVEDATA_InitArea(void)
 {
 }

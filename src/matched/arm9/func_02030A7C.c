@@ -22,7 +22,7 @@
  *   g_0214697C      0x0214697C  data
  *   str_system_name 0x020A7824  data
  *   GFL_HEAP_GetBlockName   0x020304C0  arm
- *   func_02060F90   0x02060F90  arm
+ *   NNSi_FndGetMBlockSize   0x02060F90  arm
  *   func_020308B8   0x020308B8  arm
  *   func_0203F004   0x0203F004  arm
  *   MI_CpuCopy8     0x02082D44  arm
@@ -86,7 +86,7 @@ extern char g_0214697C[0x13];
 extern const char str_system_name[];
 
 extern void *GFL_HEAP_GetBlockName(void *p);
-extern int func_02060F90(char *p);
+extern int NNSi_FndGetMBlockSize(char *p);
 extern int func_020308B8(u8 *dst, const char *src);
 extern u32 func_0203F004(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
@@ -101,7 +101,7 @@ void func_02030A7C(void *heap)
     s32 k;
     s32 i;
 
-    g_02146970.unk_08 = (void *)func_02060F90(heap);
+    g_02146970.unk_08 = (void *)NNSi_FndGetMBlockSize(heap);
     g_02146970.unk_04 = p;
     if (func_020308B8(buf, h) != 0) {
         v = ((struct Obj15863 *)h)->f12;

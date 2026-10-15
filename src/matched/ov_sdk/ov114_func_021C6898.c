@@ -11,13 +11,16 @@
  *
  *
  * Queues a 0x21/5 record against the 0x021CF464 block.
+ *
+ * symbols:
+ *   OS_SNPrintf  0x02084F80  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 
 void DWCi_Ndi_getUserAgent(int a)
 {
-    func_02084F80((char *)a, 0x21, (void *)0x021CF464, 5, 3);
+    OS_SNPrintf((char *)a, 0x21, (void *)0x021CF464, 5, 3);
 }

@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   d_021BE7D4 0x021BE7D4 data a4
+ *   gZukanListVramBankConfig 0x021BE7D4 data a4
  */
-struct DispVram;extern void BG_SYS_SetVramBanks(const struct DispVram *);extern const struct DispVram d_021BE7D4;
-void ZUKAN_LIST_SetVramBanks(void){BG_SYS_SetVramBanks(&d_021BE7D4);}
+struct DispVram;extern void BG_SYS_SetVramBanks(const struct DispVram *);extern const struct DispVram gZukanListVramBankConfig;
+void ZUKAN_LIST_SetVramBanks(void){BG_SYS_SetVramBanks(&gZukanListVramBankConfig);}

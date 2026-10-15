@@ -1,5 +1,5 @@
 /*
- * function: func_021BE490
+ * function: RESEARCH_GRAPH_IncTimer
  * address:  0x021BE490
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE490(void *p)
+void RESEARCH_GRAPH_IncTimer(void *p)
 {
     u32 *c = (u32 *)((char *)p + 0x28);
     *c += 1;

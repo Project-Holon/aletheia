@@ -35,7 +35,7 @@
  *   OS_InitEvent  0x020882DC  arm
  *   OS_CreateVAlarm  0x020876A4  arm
  *   OS_WaitEventEx  0x020882F0  arm
- *   func_02084E10   0x02084E10  arm
+ *   OS_UnlockCard   0x02084E10  arm
  *   func_02075F4C   0x02075F4C  arm
  *   func_02075ED4 0x02075ED4 arm
  *   CARD_TryWaitBackupAsync  0x02076B8C  arm
@@ -154,7 +154,7 @@ extern void OS_InitEvent(OSEvent *event);
 extern void OS_CreateVAlarm(OSiVAlarm *alarm);
 extern void CARDi_PeekEventListener(void *arg);
 extern u32 OS_WaitEventEx(OSEvent *event, u32 pattern, int mode, u32 clearBit);
-extern int func_02084E10(unsigned int id);
+extern int OS_UnlockCard(unsigned int id);
 extern void func_02075F4C(s32_4 owner, int target);
 extern void func_02075ED4(s32_5 owner, int target);
 extern BOOL CARD_TryWaitBackupAsync(void);
@@ -332,7 +332,7 @@ void CARD_LockRom(u16 lock_id)
 
 void CARD_UnlockRom(unsigned int id)
 {
-    func_02084E10(id);
+    OS_UnlockCard(id);
     func_02075F4C(id, 1);
 }
 

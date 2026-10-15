@@ -15,7 +15,7 @@
  *   func_02168040  0x02168040  arm  ov009
  *   strlen         0x0209477C  arm
  *   func_021C58C8  0x021C58C8  arm  ov114
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_02059B40  0x02059B40  arm
  *   DWCi_NdStartup  0x021C6348  arm  ov114
  *   func_02059E18  0x02059E18  arm
@@ -51,7 +51,7 @@ extern struct NdState gDwcNdState;
 
 extern int func_02168040(void);
 extern void func_021C58C8(int reason, int error, int servererror);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_02059B40(char *src, u32 srclen, char *dst, u32 dstlen);
 extern int DWCi_NdStartup(void *(*alloc)(u32, int), void (*free)(void *), char *url,
                          char *token, char *gamecd, char *passwd,
@@ -75,7 +75,7 @@ static void DWCi_SVLTokenWaitThread(void)
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            func_02084F80(url, sizeof(url), "https://%s/download", ((SvlResult *)gDwcNdState.svl)->svlhost);
+            OS_SNPrintf(url, sizeof(url), "https://%s/download", ((SvlResult *)gDwcNdState.svl)->svlhost);
             if (func_02059B40(((SvlResult *)gDwcNdState.svl)->svltoken, strlen(((SvlResult *)gDwcNdState.svl)->svltoken),
                               token, sizeof(token)) < 0) {
                 func_021C58C8(0, 8, -1);

@@ -17,7 +17,7 @@
  *   func_020173EC  0x020173EC  thumb
  *   func_0203F1FC  0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E2BC  0x0200E2BC  thumb
+ *   SYMBOL_SAVE_FindRecord  0x0200E2BC  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb
  *   SCRCMD_SYMBOL_ViewEventMain  0x0216B004  thumb  ov010
  */
@@ -40,7 +40,7 @@ extern void MI_CpuFill8();
 extern u32 func_020173EC(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
+extern u32 SYMBOL_SAVE_FindRecord(void *a0, u32 *a1, void *heap, u32 mode);
 extern void FIELD_ENCOUNT_SetFieldSituation();
 extern int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, struct Work *w);
 
@@ -60,7 +60,7 @@ struct Desc *SCRCMD_SYMBOL_CreateViewEvent(int a0, int a1, int a2, int a3, u16 *
     ((struct Obj03543 *)p)->fC = a2;
     *(int *)&((struct Obj03543 *)p)->f20 = a3;
     ((struct Obj03543 *)p)->f2C = func_0203F1FC((const u8 *)a2, func_020173EC());
-    if (func_0200E2BC(GAME_DATA_GetSaveControl(h), (u32 *)(&a3), (void *)a5, 0) == 0)
+    if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(h), (u32 *)(&a3), (void *)a5, 0) == 0)
         ((struct Obj03543 *)p)->f20 = (((struct Obj03543 *)p)->f20 & 0xFFFFF800) | 0x28B;
     FIELD_ENCOUNT_SetFieldSituation(p + 0x10, h, a1);
     return r;

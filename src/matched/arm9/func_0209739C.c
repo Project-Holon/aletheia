@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0209A368  0x0209A368  arm
+ *   copysign  0x0209A368  arm
  *   func_020968F4  0x020968F4  arm
  *   func_02096DF0  0x02096DF0  arm
  *   func_02096D10  0x02096D10  arm
  *   func_02096ED0  0x02096ED0  arm
  *   func_02097170  0x02097170  arm
- *   func_0209AB80  0x0209AB80  arm
- *   func_0209A7A8  0x0209A7A8  arm
+ *   pow  0x0209AB80  arm
+ *   ldexp  0x0209A7A8  arm
  *   func_020921F4  0x020921F4  arm
  *   __float_huge   0x020A8814  data
  *   _f2d           0x0209BD38  arm
@@ -66,7 +66,7 @@ extern float __float_huge;
 extern const double pow_10[8];
 extern const char s_020A8B90[];     /* "179769313486231580793728714053034151" */
 
-extern double func_0209A368(double x, double y);                        /* copysign */
+extern double copysign(double x, double y);                        /* copysign */
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct P020968F4;
@@ -75,20 +75,20 @@ extern int func_02096DF0(const decimal *x, const decimal *y);           /* __les
 extern int func_02096D10(const decimal *x, const decimal *y);           /* __equals_dec */
 extern void func_02096ED0(decimal *z, const decimal *x, const decimal *y); /* __minus_dec */
 extern void func_02097170(decimal *d, double x);                        /* __num2dec_internal */
-extern double func_0209AB80(double x, double y);                        /* pow */
-extern double func_0209A7A8(double x, int n);                           /* ldexp */
+extern double pow(double x, double y);                        /* pow */
+extern double ldexp(double x, int n);                           /* ldexp */
 extern int func_020921F4(double x);                                     /* __fpclassifyd */
 
 double func_0209739C(const decimal *d)
 {
     if (d->sig.length <= 0)
-        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+        return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
 
     switch (d->sig.text[0]) {
     case '0':
-        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+        return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
     case 'I':
-        return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+        return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
     case 'N':
         {
             double result;
@@ -119,7 +119,7 @@ double func_0209739C(const decimal *d)
 
             func_020968F4((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
             if (func_02096DF0(&max, &dec))
-                return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+                return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }
 
         i = dec.sig.text;
@@ -144,11 +144,11 @@ double func_0209739C(const decimal *d)
         }
 
         if (exponent < 0)
-            first_guess /= func_0209AB80(5.0, -exponent);
+            first_guess /= pow(5.0, -exponent);
         else
-            first_guess *= func_0209AB80(5.0, exponent);
+            first_guess *= pow(5.0, exponent);
 
-        first_guess = func_0209A7A8(first_guess, exponent);
+        first_guess = ldexp(first_guess, exponent);
         if (isinf(first_guess))
             *(unsigned long long *)&first_guess = 0x7FEFFFFFFFFFFFFFULL;
 

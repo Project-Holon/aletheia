@@ -1,5 +1,5 @@
 /*
- * function: func_021DF128
+ * function: BOX2_MAIN_HideSlots
  * address:  0x021DF128
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC000  0x021EC000  thumb  ov170
+ *   BOX2_SEQ_SetActorDrawEnable  0x021EC000  thumb  ov170
  *
  * Seat the six 0x13 entries.
  */
 
 
 
-extern void func_021EC000(char *p, int i, int v);
-void func_021DF128(int p)
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+void BOX2_MAIN_HideSlots(int p)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_021EC000((char *)p, i + 0x13, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)p, i + 0x13, 0);
 }

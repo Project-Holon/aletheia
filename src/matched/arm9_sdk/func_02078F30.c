@@ -15,6 +15,7 @@
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
+ *   MATH_CalcHMACSHA1  0x020816FC  arm
  *
  * DRAFT: compiles the whole 252-byte range; verdict pending.
  */
@@ -35,7 +36,7 @@ extern void MI_CpuCopy8(u32, void *, u32);
 extern u32  OS_IsRunOnTwl(void);
 extern void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32  func_0208139C(u32);
-extern void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
+extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 
 int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
 {
@@ -57,7 +58,7 @@ int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
             handle = func_0208139C(1);
         }
         v = g_02150D20.f1c;
-        func_020816FC(buf, (const void *)a1, a2, tmp, v);
+        MATH_CalcHMACSHA1(buf, (const void *)a1, a2, tmp, v);
         if (a3 != 0) {
             func_0208139C(handle);
         }

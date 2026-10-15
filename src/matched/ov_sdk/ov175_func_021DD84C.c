@@ -13,9 +13,9 @@
  *
  * symbols:
  *   sakeiCheckHttpResult  0x021DD610  arm  ov175
- *   func_021834D0  0x021834D0  arm  ov009
- *   func_021834E8  0x021834E8  arm  ov009
- *   func_0218372C  0x0218372C  arm  ov009
+ *   gsXmlMoveToStart  0x021834D0  arm  ov009
+ *   gsXmlMoveToNext  0x021834E8  arm  ov009
+ *   gsXmlReadChildAsStringNT  0x0218372C  arm  ov009
  *   sakeiCheckSakeResult  0x021DD64C  arm  ov175
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
@@ -48,9 +48,9 @@ typedef struct SAKERequestInternal {
 
 extern int sakeiCheckHttpResult(int httpResult);
 typedef signed int     s32;
-extern int func_021834D0(int *p);
-extern int func_021834E8(void *stream, char *matchtag);
-extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
+extern int gsXmlMoveToStart(int *p);
+extern int gsXmlMoveToNext(void *stream, char *matchtag);
+extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern s32 sakeiCheckSakeResult(const char *p);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_0217EAE0(void *ptr);
@@ -69,8 +69,8 @@ void sakeiSoapCallback(int httpResult, int unused, void *responseData, void *use
         return;
     result = sakeiCheckHttpResult(httpResult);
     if (result == 0) {
-        if (!func_021834D0(responseData) || !func_021834E8(responseData, request->mInfo->mSoapResponseTag) ||
-            !func_0218372C(responseData, request->mInfo->mResultTag, resultString, 32)) {
+        if (!gsXmlMoveToStart(responseData) || !gsXmlMoveToNext(responseData, request->mInfo->mSoapResponseTag) ||
+            !gsXmlReadChildAsStringNT(responseData, request->mInfo->mResultTag, resultString, 32)) {
             result = 5;
         } else {
             result = sakeiCheckSakeResult(resultString);

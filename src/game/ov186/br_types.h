@@ -308,4 +308,57 @@ struct BrPokeSearch {
     u32 seenCount;
 };
 
+
+/* Opaque objects referenced by the button and process-system code. */
+struct Big;
+struct RecGet;
+struct U16Vec;
+struct Bmp;
+struct Obj020437AC;
+struct Node;
+struct Cfg;
+struct Grid;
+struct Vec2;
+struct Param;
+struct Sys;
+
+/* Small coordinate pairs used by the button and text helpers. */
+typedef struct { int x, y; } Pair;
+typedef struct { int x, y, z; } Triple;
+
+/* One button result entry (button kind and message id) of a button set. */
+struct BrBtnResult { u16 a, b; };
+
+/* A set of button results read from a script, up to six entries. */
+struct BrBtnResultSet { struct BrBtnResult rec[6]; u32 count; };
+
+/* One battle-recorder button: resources, button data and label records, 0x60 bytes. */
+struct BrBtn {
+    u16 heap;
+    u16 pad0;
+    int f4;
+    int f8;
+    int *fC;
+    int f10;
+    int f14;
+    int pad18;
+    int f1C;
+    int pad20[6];
+    u8 f38;
+    u8 f39;
+    u8 f3a;
+    u8 f3b;
+    char *f3c;
+    char *f40;
+    void *f44;
+    void *f48;
+    u32 f4c;
+    int pad50[2];
+    int f58;
+    struct BrBtnResultSet *f5c;
+};
+
+/* A button on screen: its actor, OAM grid and bitmap plus label state. */
+struct BrButton { void *actor, *grid, *bmp; u32 fC, b, a; };
+
 #endif

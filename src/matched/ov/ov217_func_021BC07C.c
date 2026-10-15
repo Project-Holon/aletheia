@@ -1,5 +1,5 @@
 /*
- * function: func_021BC07C
+ * function: RESEARCH_LIST_PrintEntryLabels
  * address: 0x021BC07C
  * packet: pkt_ov217_021BC07C
  * region: ov217
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 BgTextLabel_PrintMessage(u32 object,u32 value);
 extern const u8 d_021C309E[],d_021C3094[],d_021C30D0[],d_021C30A8[],d_021C3080[],d_021C308A[];
-int func_021BC07C(u8 *p, u8 index)
+int RESEARCH_LIST_PrintEntryLabels(u8 *p, u8 index)
 {
     BgTextLabel_PrintMessage(((struct Obj05558 *)p)->fE4,d_021C309E[index]);
     BgTextLabel_PrintMessage(((struct Obj05558 *)p)->fE8,d_021C3094[index]);

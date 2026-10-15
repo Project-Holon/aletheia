@@ -1,5 +1,5 @@
 /*
- * function: func_021FDA6C
+ * function: STA_SLOT_GetRecordTable
  * address: 0x021FDA6C
  * packet: pkt_ov132_021FDA6C
  * region: ov132
@@ -11,4 +11,4 @@
  *   d_021FDDEC 0x021FDDEC data a4
  */
 extern unsigned char d_021FDDEC[];
-unsigned char *func_021FDA6C(void *h) {return d_021FDDEC;}
+unsigned char *STA_SLOT_GetRecordTable(void *h) {return d_021FDDEC;}

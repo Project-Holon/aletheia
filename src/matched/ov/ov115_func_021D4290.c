@@ -1,5 +1,5 @@
 /*
- * function: func_021D4290
+ * function: WIFILOGIN_COMMON_GetSessionId
  * address: 0x021D4290
  * packet: pkt_ov115_021D4290
  * region: ov115
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov115/unit_021D4240.c and filed here.
  *
  * symbols:
- *   d_021D6640 0x021D6640 data a4
+ *   gWifiloginDialogId 0x021D6640 data a4
  */
 
 typedef unsigned char u8;
-extern u8 d_021D6640[];
+extern u8 gWifiloginDialogId[];
 
-u8 *func_021D4290(void)
+u8 *WIFILOGIN_COMMON_GetSessionId(void)
 {
-    return d_021D6640;
+    return gWifiloginDialogId;
 }

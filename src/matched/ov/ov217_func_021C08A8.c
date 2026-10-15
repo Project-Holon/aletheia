@@ -1,5 +1,5 @@
 /*
- * function: func_021C08A8
+ * function: RESEARCH_GRAPH_RestorePaletteAnime
  * address:  0x021C08A8
  * packet:   pkt_021C08A8
  * region:   ov217
@@ -17,7 +17,7 @@
 
 extern int PALETTE_ANIME_Restore(char *p);
 
-void func_021C08A8(int *p)
+void RESEARCH_GRAPH_RestorePaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 8; i++)

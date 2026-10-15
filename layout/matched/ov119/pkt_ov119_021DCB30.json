@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DCB30",
+   "name": "POKETRADE_PROC_StartRequest3",
    "address": "0x021DCB30",
    "kind": "game",
    "region": "ov119",

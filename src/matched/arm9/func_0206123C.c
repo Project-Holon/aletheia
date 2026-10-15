@@ -1,5 +1,5 @@
 /*
- * function: func_0206123C
+ * function: NNSi_FndAllocBlockFromHeap
  * address:  0x0206123C
  * packet:   pkt_0206123C
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02061224   0x02061224  arm
+ *   NNSi_FndPopFreeBlock   0x02061224  arm
  *   MIi_CpuClear32  0x02082A7C  arm
  *
  * A 64-byte allocate-or-fetch helper: it hands the address of the object's
- * field at +0x24 to func_02061224, and if that returns non-null clears the
+ * field at +0x24 to NNSi_FndPopFreeBlock, and if that returns non-null clears the
  * block it belongs to with MIi_CpuClear32(0, p, o->unk28).
  *
  * Two source shapes are load-bearing and both were measured against the bytes:
@@ -39,8 +39,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206123C.c \
- *       --func func_0206123C --addr 0x0206123C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocBlockFromHeap.c \
+ *       --func NNSi_FndAllocBlockFromHeap --addr 0x0206123C --arm --cc 1.1p1
  *   EXACT, 64 bytes, 2 relocation sites, all 2 resolved.
  */
 
@@ -55,13 +55,13 @@ struct Big0206123C {
     u32 unk28;
 };
 
-extern void *func_02061224(int **p);
+extern void *NNSi_FndPopFreeBlock(int **p);
 extern void MIi_CpuClear32(u32 val, void *dst, u32 size);
 
-void *func_0206123C(struct Big0206123C *o)
+void *NNSi_FndAllocBlockFromHeap(struct Big0206123C *o)
 {
     u32 size;
-    void *p = func_02061224((int **)(&o->unk24));
+    void *p = NNSi_FndPopFreeBlock((int **)(&o->unk24));
 
     if (p != 0) {
         size = o->unk28;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE8B4
+ * function: BOX2_MAIN_PlaceMonScene
  * address: 0x021DE8B4
  * packet: pkt_ov170_021DE8B4
  * region: ov170
@@ -10,8 +10,8 @@
  * status: EXACT*
  * extent: Two-byte zero alignment padding follows the 202-byte function.
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb ov170
- *   func_021EC548 0x021EC548 thumb ov170
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb ov170
+ *   BOX2_SEQ_GetSlotPos 0x021EC548 thumb ov170
  */
 #include "../include/Obj10648.h"
 #include "../include/Obj10649.h"
@@ -22,16 +22,16 @@ typedef struct {
     unsigned left:1;
     unsigned up:1;
 } Mover;
-extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
-extern void func_021EC548(unsigned, short *, short *, int);
-void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag)
+extern void BOX2_SEQ_GetActorSurfacePos(char *, int, short *, short *, unsigned short);
+extern void BOX2_SEQ_GetSlotPos(unsigned, short *, short *, int);
+void BOX2_MAIN_PlaceMonScene(unsigned char *p, int slot, unsigned idx, int mode, int flag)
 {
     Mover *o = *(Mover * *)&((struct Obj23852 *)(*(char * *)&((struct Obj10648 *)p)->f2C))->f60;
     short pos[2];
     short to[2];
     int d;
-    func_021EC0B0(*(char * *)&((struct Obj10648 *)p)->f2C,10,&pos[1],&pos[0],0);
-    func_021EC548(idx,&to[1],&to[0],mode);
+    BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj10648 *)p)->f2C,10,&pos[1],&pos[0],0);
+    BOX2_SEQ_GetSlotPos(idx,&to[1],&to[0],mode);
     if(flag==1){to[1]+=8;to[0]+=8;}else{to[0]+=4;}
     o->idx=idx;
     o->slot=slot;

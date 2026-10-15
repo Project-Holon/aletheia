@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DC720  0x021DC720  thumb
+ *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_021DC720(void *p);
+extern void POKETRADE_PROC_DeleteAllResources(void *p);
 extern void CLACT_ExitSystem(void);
 extern void POKETRADE_2D_InitClactSystemMain(void *p);
 struct Bank;
@@ -61,7 +61,7 @@ extern const char d_021D7FD4[];
 
 void func_021D4B14(u8 *p)
 {
-    func_021DC720(p);
+    POKETRADE_PROC_DeleteAllResources(p);
     CLACT_ExitSystem();
     POKETRADE_2D_InitClactSystemMain(p);
     ((struct Obj22662 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);

@@ -1,5 +1,5 @@
 /*
- * function: func_021EBC58
+ * function: BOX2_SEQ_PrintPrompt
  * address:  0x021EBC58
  * packet:   pkt_ov170_021EBC58
  * region:   ov170
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DD2D0 0x021DD2D0 thumb
+ *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb
  *   func_0201EF14 0x0201EF14 thumb
- *   func_021EBA84 0x021EBA84 thumb
+ *   BOX2_SEQ_PrintMessageMsg 0x021EBA84 thumb
  *
  * Picks the prompt for a menu kind (kind 1 first names the Pokemon in the
  * current slot) and prints it into window i.  An out-of-range kind prints
@@ -21,14 +21,14 @@
 
 typedef unsigned int u32;
 
-extern int func_021DD2D0(void ***p, int a, unsigned b);
+extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 struct WordSet;
 extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
-extern void func_021EBA84(unsigned char *p, int msg, int i);
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EBC58(unsigned char *p, int sel, int kind, int i)
+void BOX2_SEQ_PrintPrompt(unsigned char *p, int sel, int kind, int i)
 {
     int msg;
     switch (kind) {
@@ -37,7 +37,7 @@ void func_021EBC58(unsigned char *p, int sel, int kind, int i)
         break;
     case 1:
         msg = 0;
-        func_0201EF14(*(void **)(WORK(p) + 0x84), 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(*(void **)(WORK(p) + 0x84), 0, (void *)BOX2_MAIN_GetMonAt((void ***)p, p[0x14], p[0x16]));
         break;
     case 2:
         msg = 5;
@@ -52,5 +52,5 @@ void func_021EBC58(unsigned char *p, int sel, int kind, int i)
         msg = 0x1B;
         break;
     }
-    func_021EBA84(p, msg, i);
+    BOX2_SEQ_PrintMessageMsg(p, msg, i);
 }

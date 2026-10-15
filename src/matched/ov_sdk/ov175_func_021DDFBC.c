@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02182AC0   0x02182AC0  arm  ov009
+ *   gsXmlWriteStringElement   0x02182AC0  arm  ov009
  *   sakeiFillSoapRequestFieldValues   0x021DDBE4  arm  ov175
  *   sModifyXmlNamespacePrefix      0x021E3A8C  data
  *   sModifyTagTableid      0x021E3B4C  data
@@ -30,7 +30,7 @@ typedef struct {
 
 struct SAKEField;
 struct SAKERequestInternal;
-extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
+extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
 extern void sakeiFillSoapRequestFieldValues(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
 extern u32 sModifyXmlNamespacePrefix[];
 extern u32 sModifyTagTableid[];
@@ -39,7 +39,7 @@ u32 sakeiCreateRecordFillSoapRequest(char *obj)
 {
     Blk *b = *(Blk **)(obj + 8);
 
-    func_02182AC0((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)sModifyXmlNamespacePrefix), (char *)((u32)sModifyTagTableid), (char *)b->f0);
+    gsXmlWriteStringElement((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)sModifyXmlNamespacePrefix), (char *)((u32)sModifyTagTableid), (char *)b->f0);
     sakeiFillSoapRequestFieldValues((struct SAKERequestInternal *)((u32)obj), (struct SAKEField *)b->f4, b->f8);
     return 0;
 }

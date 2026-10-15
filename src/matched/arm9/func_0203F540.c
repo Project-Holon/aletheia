@@ -11,7 +11,7 @@
  *
  * symbols:
  *   tbl_020A08B6   0x020A08B6  data  a2
- *   func_02088F58  0x02088F58  arm
+ *   RTC_ConvertDateToDay  0x02088F58  arm
  *
  * Blocking class: NONE AVAILABLE.  Every concrete byte of the body and of
  * the pool reproduces (MATCH*, 0 concrete bytes out).  The one unresolved
@@ -41,7 +41,7 @@
  * WHAT IT IS.  Day-of-year from an RtcDate: the cumulative days before the
  * month out of the halfword table, plus the day, plus one if the month is
  * March or later and the year is a leap year.  It then copies the date to a
- * stack temp with month and day forced to 1 and runs func_02088F58 over
+ * stack temp with month and day forced to 1 and runs RTC_ConvertDateToDay over
  * that temp and over the caller's date (the normalise/weekday pass), and
  * returns the day-of-year.
  *
@@ -78,7 +78,7 @@ struct RtcDate {
 extern u16 tbl_020A08B6[];
 
 struct RTCDate;
-extern s32 func_02088F58(struct RTCDate *date);
+extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 
 s32 func_0203F540(struct RtcDate *d)
 {
@@ -95,7 +95,7 @@ s32 func_0203F540(struct RtcDate *d)
     t = *d;
     t.month = 1;
     t.day = 1;
-    func_02088F58((struct RTCDate *)(&t));
-    func_02088F58((struct RTCDate *)d);
+    RTC_ConvertDateToDay((struct RTCDate *)(&t));
+    RTC_ConvertDateToDay((struct RTCDate *)d);
     return n;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200C520
+ * function: RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize
  * address: 0x0200C520
  * packet: pkt_arm9_0200C520
  * region: arm9
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/arm9/unit_0200C3EC.c and filed here.
  */
 
-int func_0200C520(void);
+int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void);
 
-int func_0200C520(void)
+int RECENT_ID_LIST_SAVEDATA_GetSaveAreaSize(void)
 {
     return 0x1FC00;
 }

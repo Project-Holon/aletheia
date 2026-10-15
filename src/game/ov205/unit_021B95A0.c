@@ -83,7 +83,7 @@
  *   func_02088864 0x02088864 arm
  *   func_02012934 0x02012934 thumb
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
- *   func_0200EA3C 0x0200EA3C thumb
+ *   MISC_SAVEDATA_SnapshotParty 0x0200EA3C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_0200864C 0x0200864C thumb
@@ -95,7 +95,7 @@
  *   FIELD_CLOCK_SaveTimestamp 0x02169120 thumb ov010
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
- *   func_0200EBD0 0x0200EBD0 thumb
+ *   MISC_SAVEDATA_AppendPartyRecord 0x0200EBD0 thumb
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
  *   func_020072A4 0x020072A4 thumb
@@ -229,7 +229,7 @@ extern void func_0201F73C(void *,int,int,int);
 extern void func_02088864(void *);
 extern void *func_02012934(const struct BigObj *);
 extern void *GAME_DATA_GetSaveBlock42(void **);
-extern void func_0200EA3C(struct Rec *,void *,struct Date *,u32);
+extern void MISC_SAVEDATA_SnapshotParty(struct Rec *,void *,struct Date *,u32);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
@@ -241,7 +241,7 @@ extern u32 func_02008DFC(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap);
+extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
 extern int GAME_DATA_PartSaveMain(char *,int);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
@@ -425,7 +425,7 @@ void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
     func_0201F73C(((struct Obj01777 *)p)->f1C,2,1,12);
 }
 
-void func_021B9A68(char *p) { u32 date[4];void *party,*rec;func_02088864(date);party=func_02012934(*(struct BigObj * *)&((struct Obj14630 *)p)->f4);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&((struct Obj14630 *)p)->f4);func_0200EA3C(rec,party,(struct Date *)date,4); }
+void func_021B9A68(char *p) { u32 date[4];void *party,*rec;func_02088864(date);party=func_02012934(*(struct BigObj * *)&((struct Obj14630 *)p)->f4);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&((struct Obj14630 *)p)->f4);MISC_SAVEDATA_SnapshotParty(rec,party,(struct Date *)date,4); }
 
 void func_021B9A94(char *p)
 {
@@ -453,7 +453,7 @@ void func_021B9B20(char *p)
     SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
-        func_0200EBD0(record,object,date,4);
+        MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
         GAME_DATA_PartSaveStart(((struct Obj08386 *)p)->f4,8);
         ((struct Obj08386 *)p)->f38=1;
     }

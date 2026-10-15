@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC90
+ * function: RESEARCH_LIST_GetVisible
  * address:  0x021BAC90
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BAC90(void *p)
+u32 RESEARCH_LIST_GetVisible(void *p)
 {
     return ((struct Obj25841 *)p)->f164;
 }

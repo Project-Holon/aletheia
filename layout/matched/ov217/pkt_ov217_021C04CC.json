@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C04CC",
+   "name": "RESEARCH_GRAPH_CreateBmps",
    "address": "0x021C04CC",
    "kind": "game",
    "region": "ov217",

@@ -1,6 +1,6 @@
 /*
  * file:     os_irqhandler.c
- * function: func_0208459C, func_02084610
+ * function: OS_WaitIrq, OS_IrqDummy
  * address:  0x0208459C
  * packet:   pkt_0208459C
  * region:   arm9
@@ -40,7 +40,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern OSThreadQueue OSi_IrqThreadQueue;
 
-void func_0208459C(BOOL clear, u32 irqFlags)
+void OS_WaitIrq(BOOL clear, u32 irqFlags)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
@@ -55,6 +55,6 @@ void func_0208459C(BOOL clear, u32 irqFlags)
 }
 
 /* SDK name: OS_IrqDummy (os_irqhandler.o), the default empty IRQ handler. */
-void func_02084610(void)
+void OS_IrqDummy(void)
 {
 }

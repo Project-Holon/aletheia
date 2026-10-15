@@ -1,5 +1,5 @@
 /*
- * function: func_02085D94
+ * function: OS_InitMessageQueue
  * address:  0x02085D94
  * packet:   pkt_02085D94
  * region:   arm9
@@ -36,7 +36,7 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 
-void func_02085D94(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount)
+void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount)
 {
     mq->queueSend.head = mq->queueSend.tail = 0;
     mq->queueReceive.head = mq->queueReceive.tail = 0;

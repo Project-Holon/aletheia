@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02087FBC",
+   "name": "OS_EncodeDeliverArg",
    "address": "0x02087FBC",
    "kind": "sdk",
    "region": "arm9",

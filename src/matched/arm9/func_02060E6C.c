@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060E6C
+ * function: NNSi_FndGetListTotalSize
  * address:  0x02060E6C
  * packet:   pkt_02060CD0
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-int func_02060E6C(int *p)
+int NNSi_FndGetListTotalSize(int *p)
 {
     int *q = (int *)p[9];
     int total = 0;

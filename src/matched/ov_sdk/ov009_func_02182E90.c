@@ -1,5 +1,5 @@
 /*
- * function: func_02182E90
+ * function: gsXmlWriteHexBinaryElement
  * address:  0x02182E90
  * packet:   pkt_ov009_02182E90
  * region:   ov009
@@ -16,7 +16,7 @@
  *   sprintf              0x02094530 arm
  *   gsiXmlUtilWriteChar  0x02183210 arm ov009
  *   gsXmlWriteCloseTag   0x02182A2C arm ov009
- *   g_021A3F5C           0x021A3F5C data
+ *   gGsXmlHex2Format           0x021A3F5C data
  */
 
 struct GSIXmlStreamWriter
@@ -31,9 +31,9 @@ extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 
 extern int sprintf(char *buf, const char *fmt, ...);
 extern int gsiXmlUtilWriteChar(struct GSIXmlStreamWriter *stream, char ch);
-extern char g_021A3F5C[];
+extern char gGsXmlHex2Format[];
 
-int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
+int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     int pos = 0;
@@ -44,7 +44,7 @@ int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *d
         return 0;
     for (pos = 0; pos < len; )
     {
-        sprintf(hex, g_021A3F5C, data[pos]);
+        sprintf(hex, gGsXmlHex2Format, data[pos]);
         pos++;
         if (!gsiXmlUtilWriteChar(writer, hex[0]))
             return 0;

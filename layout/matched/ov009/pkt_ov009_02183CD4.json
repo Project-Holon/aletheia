@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02183CD4",
+   "name": "gsXmlReadChildAsFloat",
    "address": "0x02183CD4",
    "kind": "sdk",
    "region": "ov009",

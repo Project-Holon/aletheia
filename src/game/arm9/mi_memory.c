@@ -1,7 +1,7 @@
 /*
  * file:     mi_memory.c
  * unit:     yes
- * function: MIi_CpuClear16, MIi_CpuCopy16, func_02082A7C, MIi_CpuCopy32, MIi_CpuSend32, MIi_CpuClearFast, MIi_CpuCopyFast, func_02082B44, func_02082B60, func_02082B7C, func_02082BA0, MI_CpuFill8, func_02082C60, MI_CpuCopy8, func_02082E74, MI_CpuCopy, MI_CpuMove, MI_Zero36B
+ * function: MIi_CpuClear16, MIi_CpuCopy16, func_02082A7C, MIi_CpuCopy32, MIi_CpuSend32, MIi_CpuClearFast, MIi_CpuCopyFast, MI_Copy32B, func_02082B60, func_02082B7C, MI_Copy64B, MI_CpuFill8, MI_CpuFill, MI_CpuCopy8, MI_CpuComp8, MI_CpuCopy, MI_CpuMove, MI_Zero36B
  * address:  0x02082A48
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,14 +30,14 @@ asm void MIi_CpuCopy32(void);
 asm void MIi_CpuSend32(void);
 asm void MIi_CpuClearFast(void);
 asm void MIi_CpuCopyFast(void);
-asm void func_02082B44(void);
+asm void MI_Copy32B(void);
 asm void MI_Copy36B(void);
 asm void MI_Copy48B(void);
-asm void func_02082BA0(void *pSrc, void *pDest);
+asm void MI_Copy64B(void *pSrc, void *pDest);
 asm void MI_CpuFill8(void);
-asm void func_02082C60(void);
+asm void MI_CpuFill(void);
 asm void MI_CpuCopy8(void);
-int func_02082E74(const void *mem1, const void *mem2, u32 size);
+int MI_CpuComp8(const void *mem1, const void *mem2, u32 size);
 asm void MI_CpuCopy(void);
 asm void MI_CpuMove(void);
 asm void MI_Zero36B(void *dst);
@@ -176,7 +176,7 @@ asm void MIi_CpuCopyFast(void)
  *
  * void MI_Copy32B(void *pSrc, void *pDest).
  */
-asm void func_02082B44(void)
+asm void MI_Copy32B(void)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1!, {r2, r3, r12}
@@ -221,7 +221,7 @@ asm void MI_Copy48B(void)
  * sdk:      MI_Copy64B (libmi.TWL.HYB.a mi_memory.o)
  * asm:      fixed-register ldm/stm block copy (r2, r3, r12, then r0 reused as a fourth data register); the DWARF subprogram has no DW_TAG_variable children.
  */
-asm void func_02082BA0(void *pSrc, void *pDest)
+asm void MI_Copy64B(void *pSrc, void *pDest)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1!, {r2, r3, r12}
@@ -292,7 +292,7 @@ asm void MI_CpuFill8(void)
  *
  * void MI_CpuFill(void *dstp, u8 data, u32 size).
  */
-asm void func_02082C60(void)
+asm void MI_CpuFill(void)
 {
     cmp r2, #0
     bxeq lr
@@ -456,7 +456,7 @@ asm void MI_CpuCopy8(void)
 /*
  * sdk:      MI_CpuComp8 (libmi.TWL.HYB.a mi_memory.o)
  */
-int func_02082E74(const void *mem1, const void *mem2, u32 size)
+int MI_CpuComp8(const void *mem1, const void *mem2, u32 size)
 {
     const u8 *p1 = (const u8 *)mem1;
     const u8 *p2 = (const u8 *)mem2;

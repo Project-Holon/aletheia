@@ -1,7 +1,7 @@
 /*
  * file:     os_reset.c
  * unit:     yes
- * function: func_02087B78, OS_ResetSystem
+ * function: OS_InitReset, OS_ResetSystem
  * address:  0x02087B78
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -57,7 +57,7 @@ extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
 extern void OSi_SendToPxi(u16 data);
 extern void OSi_DoResetSystem(void);
-void func_02087B78(void);
+void OS_InitReset(void);
 void OS_ResetSystem(u32 parameter);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern u16 OSi_IsInitReset;
@@ -66,7 +66,7 @@ extern u16 OSi_IsInitReset;
 /*
  * sdk:      OS_InitReset (os_reset.o)
  */
-void func_02087B78(void)
+void OS_InitReset(void)
 {
     if (OSi_IsInitReset) {
         return;

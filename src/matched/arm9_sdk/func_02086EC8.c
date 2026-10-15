@@ -1,5 +1,5 @@
 /*
- * function: func_02086EC8
+ * function: OSi_SetExContext
  * address:  0x02086EC8
  * packet:   pkt_02086EC8
  * region:   arm9
@@ -20,7 +20,7 @@
 
 extern unsigned long OSi_ExContext[28];
 
-asm void func_02086EC8(void)
+asm void OSi_SetExContext(void)
 {
     ldr     r1, =OSi_ExContext
     str     r0, [r1, #0x6c]

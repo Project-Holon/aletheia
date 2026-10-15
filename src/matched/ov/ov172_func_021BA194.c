@@ -1,5 +1,5 @@
 /*
- * function: func_021BA194
+ * function: CTVT_MIC_DecodeAdpcm
  * address:  0x021BA194
  * packet:   pkt_ov172_021BA194
  * region:   ov172
@@ -21,7 +21,7 @@
 extern void func_02082A7C(int v, void *p, unsigned n);
 extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
-int func_021BA194(int unused, int a, void *buf, unsigned n)
+int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
 {
     func_02082A7C(0, buf, n << 2);
     return CTVT_ADPCM_Decode(a, (int)n, (int)buf);

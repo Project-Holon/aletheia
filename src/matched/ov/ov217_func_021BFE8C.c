@@ -1,5 +1,5 @@
 /*
- * function: func_021BFE8C
+ * function: RESEARCH_GRAPH_CreateArrow
  * address: 0x021BFE8C
  * packet: pkt_ov217_021BFE8C
  * region: ov217
@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF9F0 0x021BF9F0 thumb ov217
+ *   RESEARCH_GRAPH_GetClactUnit 0x021BF9F0 thumb ov217
  *   ARROW_Create 0x021C2070 thumb ov217
  */
 #include "../include/Obj14747.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Params { u32 handles[3]; u16 a, b, c, d, e; };
-extern u32 func_021BF9F0(void *, u32);
+extern u32 RESEARCH_GRAPH_GetClactUnit(void *, u32);
 extern u32 ARROW_Create(u32, u32);
-void func_021BFE8C(char *p)
+void RESEARCH_GRAPH_CreateArrow(char *p)
 {
     struct Params args;
-    args.handles[0] = func_021BF9F0(p, 0);
-    args.handles[1] = func_021BF9F0(p, 1);
-    args.handles[2] = func_021BF9F0(p, 2);
+    args.handles[0] = RESEARCH_GRAPH_GetClactUnit(p, 0);
+    args.handles[1] = RESEARCH_GRAPH_GetClactUnit(p, 1);
+    args.handles[2] = RESEARCH_GRAPH_GetClactUnit(p, 2);
     args.a = 0;
     args.b = 0;
     args.c = 1;

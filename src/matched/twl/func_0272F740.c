@@ -11,7 +11,7 @@
  *
  * symbols:
  *   data_02150FEC 0x02150FEC data
- *   func_02087B04 0x02087B04 arm
+ *   OS_GetBootType 0x02087B04 arm
  *   CARDi_ReadRomHashImageCaching 0x0272F570 arm twl
  *   CARDi_ReadRomHashImageDirect 0x0272F368 arm twl
  */
@@ -54,7 +54,7 @@ struct IdSrc {
     u32 id;
 };
 extern struct IdSrc data_02150FEC;
-extern int func_02087B04(void);
+extern int OS_GetBootType(void);
 extern void CARDi_ReadRomHashImageCaching(struct Obj *obj, u8 *buf, u32 off, u32 len);
 extern void CARDi_ReadRomHashImageDirect(struct Obj *obj, u8 *buf, u32 off, u32 len);
 
@@ -66,7 +66,7 @@ void CARD_ReadRomHashImage(struct Obj *obj, u8 *buf, u32 off, u32 len)
 
     obj->id = data_02150FEC.id;
     obj->cur = 0;
-    if (len >= obj->f20 << 4 && func_02087B04() != 1) {
+    if (len >= obj->f20 << 4 && OS_GetBootType() != 1) {
         mask = obj->f20 - 1;
         head = mask & (obj->f20 - off);
         bulk = ~mask & (len - head);

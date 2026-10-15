@@ -1,5 +1,5 @@
 /*
- * function: func_0219F8B0
+ * function: SBRefStr
  * address:  0x0219F8B0
  * packet:   pkt_ov009_0219F8B0
  * region:   ov009
@@ -23,7 +23,7 @@ extern void *func_0219DF64(void *l);
 extern struct Ref *func_0218482C(void *t, void *k);
 extern char *func_0217F1E0(char *s);
 extern void func_0218474C(void *t, void *e);
-char *func_0219F8B0(void *slist, char *str)
+char *SBRefStr(void *slist, char *str)
 {
 	struct Ref ref;
 	struct Ref *val;

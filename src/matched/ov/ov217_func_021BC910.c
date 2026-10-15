@@ -1,5 +1,5 @@
 /*
- * function: func_021BC910
+ * function: RESEARCH_LIST_ClearMessages
  * address:  0x021BC910
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC910(void *p)
+void RESEARCH_LIST_ClearMessages(void *p)
 {
     int i;
     for (i = 0; i < 2; i++)

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D774
+ * function: MSL_CONSOLE_IO_WriteChar
  * address:  0x0209D774
  * packet:   pkt_0209D728
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0209D774(void *p){ }
+void MSL_CONSOLE_IO_WriteChar(void *p){ }

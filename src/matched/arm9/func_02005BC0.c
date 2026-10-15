@@ -26,7 +26,7 @@
  * the store.
  *
  * PARKED AT MATCH*.  Four of the seven sites have no witness outside this
- * range: func_02072758 and func_020727B4 (called only from here image-wide),
+ * range: NNS_SndBoot and NNS_SndReadDriverInfo (called only from here image-wide),
  * NNS_SndHandleReadTrackInfo (likewise) and the record block g020AA414, whose only pool
  * word in the image is this function's own.  The third call and both other
  * relocations resolve (`label` x1/x5, `literal` x18).  The trailing `*` is the
@@ -38,8 +38,8 @@
  *   g020AA414      0x020AA414  data
  *   GFL_USE_UpdateBgmChange  0x02005FF4  thumb
  *   GFL_USE_GetBgmHandle  0x02005C3C  thumb
- *   func_02072758  0x02072758  arm
- *   func_020727B4  0x020727B4  arm
+ *   NNS_SndBoot  0x02072758  arm
+ *   NNS_SndReadDriverInfo  0x020727B4  arm
  *   NNS_SndHandleReadTrackInfo  0x02073108  arm
  */
 
@@ -52,8 +52,8 @@ extern u8 g020AA414[];
 
 extern void  GFL_USE_UpdateBgmChange(void);
 extern u32 *GFL_USE_GetBgmHandle(void);
-extern void  func_02072758(void);
-extern u32 func_020727B4(void);
+extern void  NNS_SndBoot(void);
+extern u32 NNS_SndReadDriverInfo(void);
 struct Obj;
 struct SNDTrackInfo;
 extern int   NNS_SndHandleReadTrackInfo(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo);
@@ -65,8 +65,8 @@ void GFL_USE_UpdateSound(void)
     u32 v;
 
     GFL_USE_UpdateBgmChange();
-    func_02072758();
-    func_020727B4();
+    NNS_SndBoot();
+    NNS_SndReadDriverInfo();
     p = (u8 *)GFL_USE_GetBgmHandle();
     *(u16 *)g020AA260 = 0;
     for (i = 0; i < 0x10; i++) {

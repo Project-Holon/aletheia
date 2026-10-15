@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F54
+ * function: WIFI_BSUBWAY_GRAPHIC_StepBgAnim
  * address: 0x021D7F54
  * packet: pkt_ov116_021D7F54
  * region: ov116
@@ -19,7 +19,7 @@ extern void GX_LoadBGPltt(void *,int,int);
 extern void func_0207E468(void *,int,int);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021D7F54(void *unused,u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,u8 *p) {
     if(((struct Obj03252 *)p)->f4!=0) {
         p[0x96b]^=1;
         if((p[0x96b]&1)==0) {

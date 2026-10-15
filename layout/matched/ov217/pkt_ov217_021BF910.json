@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF910",
+   "name": "RESEARCH_GRAPH_GetEntryIdBySave",
    "address": "0x021BF910",
    "kind": "game",
    "region": "ov217",

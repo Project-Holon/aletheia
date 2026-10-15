@@ -1,5 +1,5 @@
 /*
- * function: func_021B614C
+ * function: CDEMO_MAIN_Destroy
  * address:  0x021B614C
  * packet:   pkt_021B614C
  * region:   ov179
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_021B614C(void *p)
+int CDEMO_MAIN_Destroy(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x7f);

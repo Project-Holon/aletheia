@@ -1,5 +1,5 @@
 /*
- * function: func_021FCDE8
+ * function: BR_UTIL_GetListItemBitmap
  * address: 0x021FCDE8
  * packet: pkt_ov186_021FCDE8
  * region: ov186
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02034714(const char *,u32,const char *);
 extern const char d_02200D68[];
-u32 func_021FCDE8(u8 *p, u16 i)
+u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
     if(i>=((struct Obj24839 *)p)->f4)func_02034714(d_02200D68,0,d_02200D68);
     return *(u32 *)((u32)p+i*4+0x8c);

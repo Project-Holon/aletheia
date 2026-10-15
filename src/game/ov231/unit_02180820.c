@@ -17,7 +17,7 @@
  *   _ll_udiv  0x0209C00C  arm
  *   func_020870D0  0x020870D0  arm
  *   func_02075E9C  0x02075E9C  arm
- *   func_02084DF4  0x02084DF4  arm
+ *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
  *   d_02180A20  0x02180A20  data  a4
@@ -50,7 +50,7 @@ typedef signed int s32;
 
 extern u64 func_020870D0(void);
 extern void func_02075E9C(u16 a);
-extern int func_02084DF4(unsigned short lockID);
+extern int OS_LockCard(unsigned short lockID);
 extern void OS_UnLockCard(u16 a);
 extern void func_02075EAC(u16 a);
 extern u64 _ull_mul(u64 a, u64 b);
@@ -92,7 +92,7 @@ int func_02180820(void)
     d_02180A20.f8 = &result;
     d_02180A30 = 8;
     func_02075E9C(d_02180A00);
-    func_02084DF4(d_02180A00);
+    OS_LockCard(d_02180A00);
     start = func_020870D0();
     do {
         d = func_020870D0() - start;

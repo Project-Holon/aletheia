@@ -1,5 +1,5 @@
 /*
- * function: func_020611D4
+ * function: NNS_FndFreeByStateToFrmHeap
  * address:  0x020611D4
  * packet:   pkt_020611D4
  * region:   arm9
@@ -18,7 +18,7 @@
  * (match) break;`.  That shape under 1.1p1 is 84 bytes; under ../2.0/sp2 it is
  * 80 bytes, 0 mismatches (the predicated `ldrne/cmpne/bne` loop at
  * 0x020611E4..0x020611F4 is the 2.0 rotation).  Closes the "loop
- * if-conversion wall" of docs/notes/func_020611D4.c.txt and
+ * if-conversion wall" of docs/notes/NNS_FndFreeByStateToFrmHeap.c.txt and
  * docs/notes/pkt_020611D4.c.txt.
  */
 
@@ -54,7 +54,7 @@ static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead 
     return (NNSiFndFrmHeapHead *)((u32)pHHead + sizeof(NNSiFndHeapHead));
 }
 
-BOOL func_020611D4(NNSFndHeapHandle heap, u32 tagName)
+BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName)
 {
     NNSiFndFrmHeapHead *pFrmHeapHd = GetFrmHeapHeadPtrFromHeapHead(heap);
     NNSiFndFrmHeapState *pState = pFrmHeapHd->pState;

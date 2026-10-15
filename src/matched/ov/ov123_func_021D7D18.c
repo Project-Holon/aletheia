@@ -18,8 +18,8 @@
  *   func_02019D58 0x02019D58 thumb
  *   func_020056EC 0x020056EC thumb
  *   func_0202A19C 0x0202A19C thumb
- *   func_0200E0B0 0x0200E0B0 thumb
- *   func_0200E1A8 0x0200E1A8 thumb
+ *   SYMBOL_SAVE_GetBlock 0x0200E0B0 thumb
+ *   SYMBOL_SAVE_WriteRecord 0x0200E1A8 thumb
  *   func_0202A170 0x0202A170 thumb
  */
 #include "../include/Obj10446.h"
@@ -32,8 +32,8 @@ extern int func_02019C90(u16, int, int);
 extern int func_02019D58(u16, int);
 extern u32 func_020056EC(u32 range);
 extern int func_0202A19C(u32, void *, u16, u16, int);
-extern void *func_0200E0B0(void *);
-extern void func_0200E1A8(void *, u16, u16, u8, int, u8, u32);
+extern void *SYMBOL_SAVE_GetBlock(void *);
+extern void SYMBOL_SAVE_WriteRecord(void *, u16, u16, u8, int, u8, u32);
 extern void func_0202A170(void *);
 void GSYNC_STATE_BuildMonEntry(u8 *p, int unused, int species, int gender, int form, int n, int value)
 {
@@ -57,6 +57,6 @@ void GSYNC_STATE_BuildMonEntry(u8 *p, int unused, int species, int gender, int f
     }
     if (func_0202A19C(((struct Obj10446 *)p)->f2C, h, species, gender, mapped)) kind = 2;
     if (v > 8) v = 0;
-    func_0200E1A8(func_0200E0B0(((struct Obj10446 *)p)->f28), species, n, gender, mapped, v, kind);
+    SYMBOL_SAVE_WriteRecord(SYMBOL_SAVE_GetBlock(((struct Obj10446 *)p)->f28), species, n, gender, mapped, v, kind);
     func_0202A170(h);
 }

@@ -13,10 +13,10 @@
  *   POKE_TOOL_PushBoxMove  0x020180FC  thumb
  *
  * An eight-byte Thumb tail thunk: `ldr r3, =POKE_TOOL_PushBoxMove; bx r3` with the
- * pool word immediately after.  It is the only callee of ov121 func_021DEFAC
+ * pool word immediately after.  It is the only callee of ov121 MYSTERY_NET_BuildPokemonFromRecord
  * with no `func_` label of its own (disasm.py sees the two-halfword stub as
  * data between POKE_TOOL_PushBoxMove's neighbour and POKE_TOOL_PushBoxMove).  Matching it
- * separately is what lets func_021DEFAC's `bl 0x020180F4` resolve as
+ * separately is what lets MYSTERY_NET_BuildPokemonFromRecord's `bl 0x020180F4` resolve as
  * `matched` rather than wildcarded; the veneer class is ARM-only, so the Thumb
  * stub has no other witness.
  *

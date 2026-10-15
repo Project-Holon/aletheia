@@ -70,7 +70,6 @@ extern void OS_DisableInterrupts(void);
 extern void OS_Halt(void);
 void OS_Terminate(void);
 void OSi_DisableInterruptsAndHalt(void);
-asm void OS_Halt(void);
 extern OsTerminateBss gOsTerminateBss;
 
 

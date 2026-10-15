@@ -1743,7 +1743,6 @@ extern char current_dir_path[260];    /* current_dir_path */
 extern const char g_020A84A0[]; /* "/" */
 
 extern int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL *stickyFailure);
-extern FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int FSi_DecrementSjisPositionToSlash(const char *str, int pos);
 extern int FSi_TrimSjisTrailingSlash(char *str);
 

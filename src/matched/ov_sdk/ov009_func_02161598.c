@@ -1,5 +1,5 @@
 /*
- * function: func_02161598
+ * function: finished_sha1
  * address:  0x02161598
  * packet:   pkt_ov009_02161598
  * region:   ov009
@@ -16,8 +16,8 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02163DA8  0x02163DA8  arm  ov009
  *   func_02163C9C  0x02163C9C  arm  ov009
- *   g_021A1D98     0x021A1D98  data
- *   g_021A1DA0     0x021A1DA0  data
+ *   gCpsSslServerId     0x021A1D98  data
+ *   gCpsSslClientId     0x021A1DA0  data
  */
 
 struct _CPSSslConnection {
@@ -32,18 +32,18 @@ extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
 extern void func_02163C9C(void *ctx);
-extern int g_021A1D98;
-extern int g_021A1DA0;
+extern int gCpsSslServerId;
+extern int gCpsSslClientId;
 
-void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag)
+void finished_sha1(struct _CPSSslConnection *con, unsigned char *d, int flag)
 {
     unsigned char tmp[40];
     unsigned char *p = con->sha1_hash;
 
     if ((con->server ^ flag) != 0)
-        func_02163CF0(p, &g_021A1D98, 4);
+        func_02163CF0(p, &gCpsSslServerId, 4);
     else
-        func_02163CF0(p, &g_021A1DA0, 4);
+        func_02163CF0(p, &gCpsSslClientId, 4);
     func_02163CF0(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x36, 40);
     func_02163CF0(p, tmp, 40);

@@ -1,5 +1,5 @@
 /*
- * function: func_0200E488
+ * function: MISC_SAVEDATA_GetAnswerMessageOffset
  * address:  0x0200E488
  * packet:   pkt_0200E488
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 
 extern u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id);
 
-u32 func_0200E488(u32 a0, u32 a1)
+u32 MISC_SAVEDATA_GetAnswerMessageOffset(u32 a0, u32 a1)
 {
     u32 n = a1 - 1;
     u32 v = QUESTIONNAIRE_GetFirstAnswerMessageOffset((u8)a0);

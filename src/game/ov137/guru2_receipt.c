@@ -245,7 +245,6 @@ extern void UNION_APP_SetCallbacks(u8 *,Cb,Cb,void *);
 typedef struct { void *current; void *previous; } Entry;
 typedef struct { char pad[0x38]; void *font; void *formatter; void *bank; void *names[5]; char pad58[0xe0]; Entry entries[5]; } Context;
 
-void GURU2_RECEIPT_InitStrings();
 
 void GURU2_RECEIPT_InitActors();
 
@@ -691,7 +690,6 @@ extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern void PRINTSYS_PrintStreamStop(void *);
 
@@ -733,13 +731,9 @@ extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
-void GURU2_RECEIPT_InitBg(void);
 
-void GURU2_RECEIPT_InitActors(const u8 *p);
 
-void GURU2_RECEIPT_CreatePlayerActors(u8 *p);
 
-void GURU2_RECEIPT_CreateWindows(struct Guru2MainCtx *p);
 
 void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font);
 

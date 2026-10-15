@@ -1,12 +1,23 @@
 #ifndef POKEMONTRADE_TYPES_H
 #define POKEMONTRADE_TYPES_H
 
+/* Fixed-point position used by the icon flight path. */
+typedef struct { int x, y, z; } VecFx32;
+
+/* 20.12 fixed-point cubic Bezier curve used to fly an icon to the box. */
+typedef struct BezierCurve {
+    VecFx32 out;
+    VecFx32 p[4];
+    int idx;
+    int count;
+} BezierCurve;
+
 /* Work area of the Pokemon trade scene (overlay 119). One object, fields by byte offset. */
 typedef struct TradeWork {
     void * f0;
     unsigned char pad_4[4];
     char * f8;
-    void * fC;
+    struct ParticleManager * particleManager;
     unsigned char pad_10[1452];
     int  f5BC;
     int  f5C0;
@@ -204,9 +215,8 @@ typedef struct TradeWork {
     void * f1184;
     unsigned char pad_1188[4];
     int  f118C;
-    int  f1190;
-    int  f1194;
-    unsigned char pad_1198[68];
+    BezierCurve bezierCurve;
+    unsigned char pad_11D4[8];
     short  f11DC;
     short  f11DE;
     unsigned char  f11E0;
@@ -265,6 +275,9 @@ typedef struct McssSlide {
 /* shared with pokemontrade_proc */
 struct Sub02008F80Obj;
 
+/* Particle and ICA animation manager, allocated separately and owned by TradeWork. */
+struct ParticleManager;
+
 struct Actor;
 
 struct PtS;
@@ -311,11 +324,8 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef unsigned u32_021DB7AC;
 
-typedef signed int     s32_021D8EC8;
 
-typedef unsigned u32_021DCD38;
 
 /* shared with pokemontrade_nego */
 struct BigObj;
@@ -328,28 +338,17 @@ struct Rec;
 
 struct U16Vec;
 
-typedef unsigned int u32_021DEA24;
 
-typedef unsigned u32_021DEBD4;
 
-typedef unsigned int   u32_021DEC4C;
 
-typedef unsigned int   u32_021DECA0;
 
-typedef unsigned int   u32_021DEDBC;
 
-typedef unsigned int u32_021DEF1C;
 
-typedef unsigned int   u32_021DF168;
 
-typedef unsigned int   u32_021DF918;
 
 /* shared with pokemontrade_mcss */
-typedef unsigned int u32_021DFB84;
 
-typedef signed short s16_021DFBF0;
 
-typedef unsigned int u32_021DFC28;
 
 /* shared with pokemontrade_save */
 struct CharBuf;
@@ -360,7 +359,6 @@ struct IcaAnime;
 
 typedef struct Descriptor {int a,b,c,d,e,f,g;u8 h,i,j,k;} Descriptor;
 
-typedef signed short s16_021E0EF4;
 
 typedef struct {
     u16 a;

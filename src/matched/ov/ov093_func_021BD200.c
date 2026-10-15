@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BD264  0x021BD264  thumb  ov093
- *   func_021BD274  0x021BD274  thumb  ov093
+ *   RESEARCH_LIST_DrawBadgeB  0x021BD274  thumb  ov093
  *   func_021BD284  0x021BD284  thumb  ov093
  *   func_021BD294  0x021BD294  thumb  ov093
  *   PLACE_NAME_LETTER_DeleteBmpOam  0x021BD2A4  thumb  ov093
@@ -32,7 +32,7 @@ struct Unk021BD200 {
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021BD264(int t);
-extern u8 func_021BD274(u8 *p, u8 x);
+extern u8 RESEARCH_LIST_DrawBadgeB(u8 *p, u8 x);
 extern int func_021BD284(int t);
 extern u8 *func_021BD294(int t, int k);
 extern u8 PLACE_NAME_LETTER_DeleteBmpOam(u8 *p, u8 x);
@@ -40,7 +40,7 @@ extern u8 PLACE_NAME_LETTER_DeleteBmpOam(u8 *p, u8 x);
 void BTL_SERVER_FLOW_SetupTurnState(struct Unk021BD200 *p, u8 *q, u8 *a, int t)
 {
     int r = func_021BD264(t);
-    p->f2 = func_021BD274(q + 0x1ab8, BTL_POKEPARAM_GetPokeId(a));
+    p->f2 = RESEARCH_LIST_DrawBadgeB(q + 0x1ab8, BTL_POKEPARAM_GetPokeId(a));
     p->f3 = 6;
     p->b0 = 0;
     p->b1 = 0;

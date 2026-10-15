@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02060FA4",
+   "name": "NNSi_FndInitFrmHeap",
    "address": "0x02060FA4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060FEC",
+   "name": "NNSi_FndAllocFromFrmHeapHead",
    "address": "0x02060FEC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061048",
+   "name": "NNSi_FndAllocFromFrmHeapTail",
    "address": "0x02061048",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020610A0",
+   "name": "NNSi_FndResetFrmHeapHead",
    "address": "0x020610A0",
    "kind": "game",
    "region": "arm9",

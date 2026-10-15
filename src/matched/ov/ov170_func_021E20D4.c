@@ -1,5 +1,5 @@
 /*
- * function: func_021E20D4
+ * function: BOX2_SEQ_StateTaskMenu
  * address: 0x021E20D4
  * packet: pkt_ov170_021E20D4
  * region: ov170
@@ -26,7 +26,7 @@ extern int KEY_SetRepeatSpeed(int a0, int a1);
 typedef struct { int (*a)(char *); int (*b)(char *); } Pair;
 extern const Pair d_021EFA4C[];
 #define W(p) (*(char **)((p) + 0x2C))
-int func_021E20D4(char *p)
+int BOX2_SEQ_StateTaskMenu(char *p)
 {
     APP_TASKMENU_UpdateMenu(*(void **)(W(p) + 0x1A0));
     if (APP_TASKMENU_IsFinish(*(void **)(W(p) + 0x1A0)) == 1) {

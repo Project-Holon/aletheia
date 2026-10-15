@@ -1,7 +1,7 @@
 /*
  * file:     misc_savedata.c
  * unit:     yes
- * function: func_0200E44C, func_0200E458, func_0200E460, func_0200E47C, func_0200E488, func_0200E49C, func_0200E4B0, func_0200E4CC, func_0200E4F8, func_0200E518, func_0200E588, func_0200E590, func_0200E5A0, func_0200E5CC, func_0200E5E4, func_0200E5F8, func_0200E608, func_0200E684, func_0200E6B4, func_0200E6E8, func_0200E6FC, func_0200E714, sub_0200E730, sub_0200E734, sub_0200E740, sub_0200E74C,, func_0200E7BC, func_0200E874, func_0200E878, func_0200E884, func_0200E89C, func_0200E8B0, func_0200E8B8, func_0200E8CC, func_0200E8D0, func_0200E8D8, func_0200E8E0, func_0200E8F8, func_0200E904, func_0200E918, func_0200E938, func_0200E958, func_0200E978, sub_0200E994, sub_0200E9DC, func_0200E9E0, func_0200E9F4, func_0200EA00, func_0200EA04, func_0200EA08, func_0200EA0C, func_0200EA14, func_0200EA1C, func_0200EA2C, func_0200EA3C, func_0200EBD0, func_0200EC14, func_0200EC2C, func_0200EC98, func_0200ECB4, func_0200ECD0, func_0200ECF0, func_0200ED14, func_0200ED38, func_0200ED3C, func_0200ED48, func_0200ED54, func_0200EDC4, func_0200EDEC
+ * function: MISC_SAVEDATA_GetStatusByte, MISC_SAVEDATA_GetHalfword, MISC_SAVEDATA_AddHalfwordClamped, MISC_SAVEDATA_GetTallyWord, MISC_SAVEDATA_GetAnswerMessageOffset, MISC_SAVEDATA_IsTallyFull, MISC_SAVEDATA_GetTallyValue, MISC_SAVEDATA_AddTallyValue, MISC_SAVEDATA_GetScoreValue, MISC_SAVEDATA_FoldTally, BATTLE_EXAMINATION_GetBlockSize, BATTLE_EXAMINATION_ClearBlock, BATTLE_EXAMINATION_IsDeliveryValid, BATTLE_EXAMINATION_IsDeliveryUnused, BATTLE_EXAMINATION_GetDeliveryId, BATTLE_EXAMINATION_GetTrainerSlot, BATTLE_EXAMINATION_LoadDelivery, func_0200E684, func_0200E6B4, func_0200E6E8, MISC_SAVEDATA_CopyQuadRecord, MISC_SAVEDATA_StoreQuadRecord, MISC_SAVEDATA_GetMonEntrySize, MISC_SAVEDATA_ClearMonEntry, MISC_SAVEDATA_GetMonEntryFlag, MISC_SAVEDATA_GetMonEntryLevel,, MISC_SAVEDATA_FillMonEntry, func_0200E874, func_0200E878, func_0200E884, func_0200E89C, func_0200E8B0, func_0200E8B8, func_0200E8CC, func_0200E8D0, func_0200E8D8, func_0200E8E0, func_0200E8F8, func_0200E904, func_0200E918, func_0200E938, func_0200E958, func_0200E978, MISC_SAVEDATA_FindKey, MISC_SAVEDATA_GetMacStructSize, MISC_SAVEDATA_InitMacAndStats, MISC_SAVEDATA_GetBlock3C, MISC_SAVEDATA_GetStatsBase, MISC_SAVEDATA_GetStatsBase2, MISC_SAVEDATA_GetRecordBase, MISC_SAVEDATA_GetRingBlockSize, MISC_SAVEDATA_GetRecordSize, MISC_SAVEDATA_ClearRingBlock, MISC_SAVEDATA_InitRecord, MISC_SAVEDATA_SnapshotParty, MISC_SAVEDATA_AppendPartyRecord, MISC_SAVEDATA_FindFreeRecordSlot, MISC_SAVEDATA_ExportRecord, func_0200EC98, func_0200ECB4, func_0200ECD0, MISC_SAVEDATA_ExportRingRecord, MISC_SAVEDATA_GetRingRecordDate, MISC_SAVEDATA_GetShortBlockSize, MISC_SAVEDATA_InitShortBlock, MISC_SAVEDATA_GetBlock44, MISC_SAVEDATA_InsertRecentValue, func_0200EDC4, func_0200EDEC
  * address:  0x0200E44C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -52,15 +52,11 @@
  *   sub_0200EC14   0x0200EC14  thumb
  *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
  */
-#include "../../matched/include/Obj11237.h"
-#include "../../matched/include/Obj15607.h"
-#include "../../matched/include/Obj15608.h"
-#include "../../matched/include/Obj17086.h"
-#include "../../matched/include/Obj08961.h"
-#include "../../matched/include/Obj17088.h"
-#include "../../matched/include/Obj17089.h"
-#include "../../matched/include/Obj17090.h"
-#include "../../matched/include/Obj15609.h"
+/* Struct views of the save objects this file works on, defined here instead of
+ * in a match/include/ObjNNNNN.h stand-in. */
+struct TrialHouseDelivery;
+struct PartyRingSave;
+struct Rec;
 
 struct Big;
 struct Sub02007324Ctrl;
@@ -71,9 +67,9 @@ struct U16Vec;
 struct Rec;
 struct Date;
 struct Strbuf;
-struct Src0200EC2C;
-struct Dst0200EC2C;
-struct Out0200EC98;
+struct Entry;
+struct RecordTarget;
+struct RecordDate;
 typedef unsigned short u16;
 
 typedef unsigned char u8;
@@ -88,43 +84,39 @@ typedef struct Tally {
     u16 total16[150];   /* 0x154 */
 } Tally;
 
-struct RFC {
-    u16 a;
-    u16 b;
-    u16 c;
-    u16 d;
+/* One 8-byte record of the four-halfword table the copy helpers move. */
+struct QuadRecord {
+    u16 data[4];
 };
 
-typedef struct {
-    u8 flag : 1;
-    u8 level : 7;
-} Flags;
-
-struct Bits0200E7BC {
+/* The byte at +0x1a of a BoxMonSlot: bit 0 is a set flag, bits 1..7 a level. */
+struct LevelFlagBits {
     u8 flag : 1;
     u8 level : 7;
 };
 
-struct Rec0200E7BC {
-    u32 f00;
-    u16 name[11];
-    struct Bits0200E7BC bits;
-    u8  f1b;
-    u32 f1c;
+/* One 0x20-byte slot of the Pokemon list MISC_SAVEDATA_FillMonEntry fills. */
+struct BoxMonSlot {
+    u32 pid;                    /* +0x00 */
+    u16 name[11];               /* +0x04 */
+    struct LevelFlagBits bits;  /* +0x1a */
+    u8  tag;                    /* +0x1b, 0xFF means unset */
+    u32 experience;             /* +0x1c */
 };
 
 typedef signed int     s32;
 
+/* One 0x3c-byte party member snapshot of struct Rec. */
 struct Entry {
     u16 species;
     u8  level;
-    u8  f03a : 6;
-    u8  f03b : 2;
-    u32 f04;
-    u32 f08;
+    u8  form : 6;
+    u8  gender : 2;
+    u32 pid;
+    u32 experience;
     u16 name[11];
     u16 ot[8];
-    u16 f32[4];
+    u16 traits[4];
 };
 
 struct Rec {
@@ -140,53 +132,52 @@ struct Date {
     u32 day;
 };
 
-struct Obj {
-    u8  pad[0x1554];
-    u32 unk1554;
-    u32 unk1558;
+/* Save block 5, 0x5C8 bytes: the wireless-delivered trainer data read by the
+ * battle examination code (ov021 TrialHouseDelivery). */
+struct TrialHouseDelivery {
+    u8  pad[0x5C2];
+    u16 magic;      /* +0x5C2, 0xD68 while the slot holds valid data */
+    u16 idAndUsed;  /* +0x5C4, delivery id in bits 0..6, bit 15 marks a used slot */
+    u16 checksum;   /* +0x5C6 */
 };
 
-struct Bits {
-    u8 a : 6;
-    u8 b : 2;
+/* Save block with a ring of 15 dated party snapshots (0x155C bytes). */
+struct PartyRingSave {
+    struct Rec entries[15];   /* +0x000 */
+    u32 writeIndex;           /* +0x1554 slot the next snapshot goes to */
+    u32 recordCount;          /* +0x1558 saturating total, stops at 9999 */
 };
 
-struct Src0200EC2C {
-    u16 f00;
-    u8  f02;
-    u8  f03a : 6;
-    u8  f03b : 2;
-    u32 f04;
-    u32 f08;
-    u8  f0C[0x16];
-    u8  f22[0x10];
-    u16 f32[4];
+
+/* An exported party record: two string buffers and the copied fields. */
+struct RecordTarget {
+    void *nicknameStr;  /* +0x00 */
+    void *otNameStr;    /* +0x04 */
+    u32   pid;          /* +0x08 */
+    u32   experience;   /* +0x0c */
+    u16   species;      /* +0x10 */
+    u8    level;        /* +0x12 */
+    u8    form : 6;     /* +0x13 */
+    u8    gender : 2;
+    u16   traits[4];    /* +0x14 */
 };
 
-struct Dst0200EC2C {
-    void *p00;
-    void *p04;
-    u32   f08;
-    u32   f0C;
-    u16   f10;
-    u8    f12;
-    u8    f13a : 6;
-    u8    f13b : 2;
-    u16   f14[4];
+/* The date unpacked from a struct Rec at +0x168. */
+struct RecordDate {
+    u32 year;
+    u32 month;
+    u32 day;
+    u32 reserved;
 };
 
-struct Out0200EC98 {
-    u32 a;
-    u32 b;
-    u32 c;
-    u32 d;
-};
-
-struct L0200ED54 {
-    u32 arr[32];
-    u32 count;
-    u8 pad_84[0x617C];
-    unsigned int f6200;
+/* The 0x6204-byte save block with a 32-entry recent-value list and a 256-bit
+ * page bitmap at +0x84. */
+struct RecentValueSave {
+    u32 values[32];         /* +0x00 */
+    u32 count;              /* +0x80 */
+    u8  bitmap[0x20];       /* +0x84 */
+    u8  reserved[0x615C];   /* +0x0a4 .. +0x61ff */
+    unsigned int flags6200; /* +0x6200 */
 };
 
 extern u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id);
@@ -196,7 +187,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
-extern int GAME_DATA_PartSaveMain(char *p, int a1);
+extern int GAME_DATA_PartSaveMain(char *p, int partId);
 extern void OS_WaitIrq(int clear, u32 mask);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern u32 func_020307B0(void *p);
@@ -225,88 +216,88 @@ extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern int sub_0200EC14(char *o);
-int func_0200E44C(int p0, int p1);
-u16 func_0200E458(const u16 *p, int i);
-void func_0200E460(char *p, int idx, int v);
-u32 func_0200E47C(u8 *p, int i);
-u32 func_0200E488(u32 a0, u32 a1);
-u32 func_0200E49C(u8 *p, u32 a, u32 count);
-u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
-void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3);
-int func_0200E4F8(int a0, int a1, int a2);
-void func_0200E518(Tally *t);
-u32 func_0200E588(void);
-void func_0200E590(void *p);
-int func_0200E5A0(void *a0);
-int func_0200E5CC(void *p);
-u16 func_0200E5E4(void *p);
-char *func_0200E5F8(char *p, u32 idx);
-void func_0200E608(void *sys, void *dst, u32 heap);
-void sub_0200E684(void *obj);
-u32 sub_0200E6B0(void);
-void sub_0200E6B4(void *obj);
-void *sub_0200E6E8(u32 a);
-void *sub_0200E6F0(u32 a);
-void func_0200E6FC(struct RFC *src, int idx, struct RFC *dst);
-void func_0200E714(struct RFC *dst, int idx, struct RFC *src);
-u32 sub_0200E730(void);
-void sub_0200E734(void *dest);
-u32 sub_0200E740(const void *obj, u32 idx);
-u32 sub_0200E74C(const void *obj, u32 idx);
-u32 sub_0200E76C(const void *obj, u32 idx);
-u8 sub_0200E780(const void *obj, u32 idx);
-u32 sub_0200E788(const void *unused, u32 a, u32 b);
-u32 sub_0200E7A4(const void *obj, u32 idx);
-void *sub_0200E7AC(void *obj, u32 idx);
-u32 sub_0200E7B4(const void *obj, u32 idx);
-void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon);
-int sub_0200E874(void);
-void sub_0200E878(void *dst);
-void sub_0200E884(void *sys, void *src);
-void sub_0200E89C(void *sys, void *dest);
-u32 sub_0200E8B0(void);
-void sub_0200E8B8(void *dest);
-void sub_0200E8CC(void);
-void *sub_0200E8D0(void *obj);
-u32 sub_0200E8D8(const void *obj);
-void sub_0200E8E0(void *obj, u32 value);
-u32 sub_0200E8E8(void);
-void sub_0200E8EC(void *dest);
-void *sub_0200E8F8(void *sys);
-void sub_0200E904(void *obj);
-u8 sub_0200E918(const u8 *base, u32 idx);
-void sub_0200E920(u8 *base, u32 idx, int delta);
-void sub_0200E938(u8 *obj, u32 id, void *dest);
-void sub_0200E958(u8 *obj, u32 id, const void *src);
-void sub_0200E978(u8 *obj, u32 id, u32 extra, u8 value);
-u32 sub_0200E994(void *base, void *key);
-unsigned int sub_0200E9DC(void);
-void func_0200E9E0(void *a0);
-void *func_0200E9F4(void *p);
-int func_0200EA00(int p);
-int func_0200EA04(int p);
-int func_0200EA08(int p);
-u32 func_0200EA0C(void);
-u32 func_0200EA14(void);
-void func_0200EA1C(void *p);
-void func_0200EA2C(void *block);
-void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap);
-void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap);
-int func_0200EC14(char *p);
-void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
-void sub_0200EC98(const u8 *o, struct Out0200EC98 *out);
-u32 sub_0200ECB4(char *o);
-u32 sub_0200ECC4(char *o, u32 n);
-int sub_0200ECD0(char *o, int idx);
-void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);
-void func_0200ED14(u8 *o, int idx, void *out);
-u32 func_0200ED38(void);
-void func_0200ED3C(void *block);
-void *func_0200ED48(void *p);
-void func_0200ED54(struct L0200ED54 *l, u32 val);
-int sub_0200EDC4(struct L0200ED54 *l, u32 val);
-int sub_0200EDEC(char *obj, int i);
-void sub_0200EE14(char *obj, int i);
+int MISC_SAVEDATA_GetStatusByte(int tally, int index);
+u16 MISC_SAVEDATA_GetHalfword(const u16 *p, int i);
+void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
+u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
+u32 MISC_SAVEDATA_GetAnswerMessageOffset(u32 fieldId, u32 index);
+u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
+u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
+void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, int delta);
+int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
+void MISC_SAVEDATA_FoldTally(Tally *t);
+u32 BATTLE_EXAMINATION_GetBlockSize(void);
+void BATTLE_EXAMINATION_ClearBlock(void *p);
+int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery);
+int BATTLE_EXAMINATION_IsDeliveryUnused(void *p);
+u16 BATTLE_EXAMINATION_GetDeliveryId(void *p);
+char *BATTLE_EXAMINATION_GetTrainerSlot(char *p, u32 idx);
+void BATTLE_EXAMINATION_LoadDelivery(void *sys, void *dst, u32 heap);
+void BATTLE_EXAMINATION_RefreshMarker(void *obj);
+u32 BATTLE_EXAMINATION_GetGreetingSize(void);
+void BATTLE_EXAMINATION_InitGreetings(void *obj);
+void *SAVEDATA_GetExtraBlockThunk(u32 a);
+void *SAVEDATA_GetExtraBlock(u32 a);
+void MISC_SAVEDATA_CopyQuadRecord(struct QuadRecord *src, int idx, struct QuadRecord *dst);
+void MISC_SAVEDATA_StoreQuadRecord(struct QuadRecord *dst, int idx, struct QuadRecord *src);
+u32 MISC_SAVEDATA_GetMonEntrySize(void);
+void MISC_SAVEDATA_ClearMonEntry(void *dest);
+u32 MISC_SAVEDATA_GetMonEntryFlag(const void *obj, u32 idx);
+u32 MISC_SAVEDATA_GetMonEntryLevel(const void *obj, u32 idx);
+u32 MISC_SAVEDATA_IsMonEntrySet(const void *obj, u32 idx);
+u8 MISC_SAVEDATA_GetMonEntryTag(const void *obj, u32 idx);
+u32 MISC_SAVEDATA_GetMonEntryCost(const void *unused, u32 a, u32 b);
+u32 MISC_SAVEDATA_GetMonEntryPid(const void *obj, u32 idx);
+void *MISC_SAVEDATA_GetMonEntryName(void *obj, u32 idx);
+u32 MISC_SAVEDATA_GetMonEntryExperience(const void *obj, u32 idx);
+void MISC_SAVEDATA_FillMonEntry(struct BoxMonSlot *o, int idx, void *mon);
+int MISC_SAVEDATA_GetSmallEntrySize(void);
+void MISC_SAVEDATA_ClearSmallEntry(void *dst);
+void MISC_SAVEDATA_SaveScratch16(void *sys, void *src);
+void MISC_SAVEDATA_LoadScratch16(void *sys, void *dest);
+u32 MISC_SAVEDATA_GetBigBlockSize(void);
+void MISC_SAVEDATA_ClearBigBlock(void *dest);
+void MISC_SAVEDATA_EmptyHook(void);
+void *MISC_SAVEDATA_GetScratchBase(void *obj);
+u32 MISC_SAVEDATA_GetFlags6200(const void *obj);
+void MISC_SAVEDATA_SetFlags6200(void *obj, u32 value);
+u32 MISC_SAVEDATA_GetMacSize(void);
+void MISC_SAVEDATA_ClearMacArea(void *dest);
+void *MISC_SAVEDATA_GetBlock41(void *sys);
+void MISC_SAVEDATA_InitMac(void *obj);
+u8 MISC_SAVEDATA_GetKeyByte(const u8 *base, u32 idx);
+void MISC_SAVEDATA_AddKeyByte(u8 *base, u32 idx, int delta);
+void MISC_SAVEDATA_GetKey(u8 *obj, u32 id, void *dest);
+void MISC_SAVEDATA_SetKey(u8 *obj, u32 id, const void *src);
+void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value);
+u32 MISC_SAVEDATA_FindKey(void *base, void *key);
+unsigned int MISC_SAVEDATA_GetMacStructSize(void);
+void MISC_SAVEDATA_InitMacAndStats(void *record);
+void *MISC_SAVEDATA_GetBlock3C(void *p);
+int MISC_SAVEDATA_GetStatsBase(int p);
+int MISC_SAVEDATA_GetStatsBase2(int p);
+int MISC_SAVEDATA_GetRecordBase(int p);
+u32 MISC_SAVEDATA_GetRingBlockSize(void);
+u32 MISC_SAVEDATA_GetRecordSize(void);
+void MISC_SAVEDATA_ClearRingBlock(void *p);
+void MISC_SAVEDATA_InitRecord(void *block);
+void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date, u32 heap);
+void MISC_SAVEDATA_AppendPartyRecord(struct PartyRingSave *obj, void *party, void *date, u32 heap);
+int MISC_SAVEDATA_FindFreeRecordSlot(char *p);
+void MISC_SAVEDATA_ExportRecord(const struct Entry *base, int idx, struct RecordTarget *dst);
+void MISC_SAVEDATA_GetRecordDate(const u8 *o, struct RecordDate *out);
+u32 MISC_SAVEDATA_GetRingIndex(char *o);
+u32 MISC_SAVEDATA_GetRingRemaining(char *o, u32 n);
+int MISC_SAVEDATA_GetRingRecordIndex(char *o, int idx);
+void MISC_SAVEDATA_ExportRingRecord(void *ring, u32 index, void *recordIndex, void *target);
+void MISC_SAVEDATA_GetRingRecordDate(u8 *o, int idx, void *out);
+u32 MISC_SAVEDATA_GetShortBlockSize(void);
+void MISC_SAVEDATA_InitShortBlock(void *block);
+void *MISC_SAVEDATA_GetBlock44(void *p);
+void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *l, u32 val);
+int MISC_SAVEDATA_ContainsRecentValue(struct RecentValueSave *l, u32 val);
+int MISC_SAVEDATA_TestBitmapBit(char *obj, int i);
+void MISC_SAVEDATA_SetBitmapBit(char *obj, int i);
 extern const char data_020A721C[];
 extern void *gSpeciesNameBank;
 
@@ -319,7 +310,7 @@ extern void *gSpeciesNameBank;
 
 
 
-int func_0200E44C(int p0, int p1){ return *(unsigned char *)(((p0 + p1) + ((0xa << 6) << 0))); }
+int MISC_SAVEDATA_GetStatusByte(int tally, int index){ return *(unsigned char *)(((tally + index) + ((0xa << 6) << 0))); }
 
 
 
@@ -336,9 +327,9 @@ int func_0200E44C(int p0, int p1){ return *(unsigned char *)(((p0 + p1) + ((0xa 
  *
  * Addresses are Black-image addresses.
  */
-u16 func_0200E458(const u16 *p, int i)
+u16 MISC_SAVEDATA_GetHalfword(const u16 *array, int index)
 {
-    return p[i];
+    return array[index];
 }
 
 
@@ -350,12 +341,12 @@ u16 func_0200E458(const u16 *p, int i)
 
 
 
-void func_0200E460(char *p, int idx, int v)
+void MISC_SAVEDATA_AddHalfwordClamped(char *tally, int index, int delta)
 {
-    unsigned short *q = (unsigned short *)(p + idx * 2);
-    *q = *q + (unsigned short)v;
-    if (*q > 0x270f)
-        *q = 0x270f;
+    unsigned short *cell = (unsigned short *)(tally + index * 2);
+    *cell = *cell + (unsigned short)delta;
+    if (*cell > 0x270f)
+        *cell = 0x270f;
 }
 
 
@@ -370,13 +361,13 @@ void func_0200E460(char *p, int idx, int v)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module: word array at +0xDC, index i.
- * Filed by wave D4 lane 12 (blocked ov217 func_021BFC60).
+ * Filed by wave D4 lane 12 (blocked ov217 RESEARCH_GRAPH_BuildGraphTable).
  *
  * Addresses are Black-image addresses.
  */
-u32 func_0200E47C(u8 *p, int i)
+u32 MISC_SAVEDATA_GetTallyWord(u8 *tally, int index)
 {
-    return *(u32 *)(p + i * 4 + 0xdc);
+    return *(u32 *)(tally + index * 4 + 0xdc);
 }
 
 
@@ -397,12 +388,12 @@ u32 func_0200E47C(u8 *p, int i)
  *           writing `f(a0) + (a1 - 1)` gives `adds r0, r1, r0` instead of
  *           `adds r0, r0, r1`.
  */
-u32 func_0200E488(u32 a0, u32 a1)
+u32 MISC_SAVEDATA_GetAnswerMessageOffset(u32 fieldId, u32 index)
 {
-    u32 n = a1 - 1;
-    u32 v = QUESTIONNAIRE_GetFirstAnswerMessageOffset((u8)a0);
+    u32 offset = index - 1;
+    u32 base = QUESTIONNAIRE_GetFirstAnswerMessageOffset((u8)fieldId);
 
-    return v + n;
+    return base + offset;
 }
 
 
@@ -416,15 +407,15 @@ u32 func_0200E488(u32 a0, u32 a1)
 
 
 /*
- * Returns 1 when func_0200E4B0's result is 0x63 or more, else 0.
+ * Returns 1 when MISC_SAVEDATA_GetTallyValue's result is 0x63 or more, else 0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E49C.c \
- *       --func func_0200E49C --addr 0x0200E49C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_IsTallyFull.c \
+ *       --func MISC_SAVEDATA_IsTallyFull --addr 0x0200E49C --thumb --cc 1.1p1
  */
-u32 func_0200E49C(u8 *p, u32 a, u32 count)
+u32 MISC_SAVEDATA_IsTallyFull(u8 *tally, u32 fieldId, u32 index)
 {
-    return func_0200E4B0(p, a, count) >= 0x63 ? 1 : 0;
+    return MISC_SAVEDATA_GetTallyValue(tally, fieldId, index) >= 0x63 ? 1 : 0;
 }
 
 
@@ -437,11 +428,11 @@ u32 func_0200E49C(u8 *p, u32 a, u32 count)
 
 
 
-u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2)
+u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index)
 {
-    if (a2 == 0)
+    if (index == 0)
         return 0;
-    return *(a0 + func_0200E488(a1, a2) + 0x3c);
+    return *(tally + MISC_SAVEDATA_GetAnswerMessageOffset(fieldId, index) + 0x3c);
 }
 
 
@@ -464,22 +455,22 @@ u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2)
  * r4` where the original has `adds r1, r4, r2`.  The fourth parameter is
  * signed (the guard is `ble`, not `bls`).
  */
-void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3)
+void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, int delta)
 {
-    u8 *p;
-    u32 off;
-    u8 v;
+    u8 *base;
+    u32 offset;
+    u8 value;
 
-    if (a2 == 0)
+    if (index == 0)
         return;
-    off = func_0200E488(a1, a2);
-    p = a0 + 0x3c;
-    v = p[off];
-    if (a3 + v > 0x63) {
-        p[off] = 0x63;
+    offset = MISC_SAVEDATA_GetAnswerMessageOffset(fieldId, index);
+    base = tally + 0x3c;
+    value = base[offset];
+    if (delta + value > 0x63) {
+        base[offset] = 0x63;
         return;
     }
-    p[off] = v + (u8)a3;
+    base[offset] = value + (u8)delta;
 }
 
 
@@ -491,7 +482,7 @@ void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3)
 
 
 
-int func_0200E4F8(int a0, int a1, int a2){ int t0; if ((unsigned int)(a2) == (unsigned int)(0)) {  return 0; } else { t0 = func_0200E488((int)(a1 + 0), (int)(a2 + 0)); return *(unsigned short *)(((char *)(((a0 + 0) + (t0 << 1))) + ((int)((0x55 << 2)) << 0))); } }
+int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index){ int offset; if ((unsigned int)(index) == (unsigned int)(0)) {  return 0; } else { offset = MISC_SAVEDATA_GetAnswerMessageOffset((int)(fieldId + 0), (int)(index + 0)); return *(unsigned short *)(((char *)(((tally + 0) + (offset << 1))) + ((int)((0x55 << 2)) << 0))); } }
 
 
 
@@ -509,23 +500,23 @@ int func_0200E4F8(int a0, int a1, int a2){ int t0; if ((unsigned int)(a2) == (un
  * u8 into u16 totals capped at 9999.  Seeded in layout/function_starts.txt
  * from its only caller, the bl at ov010 0x02169056 (w6_fix18).
  */
-void func_0200E518(Tally *t)
+void MISC_SAVEDATA_FoldTally(Tally *tally)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
-        t->total32[i] += t->add16[i];
-        if (t->total32[i] > 999999) {
-            t->total32[i] = 999999;
+        tally->total32[i] += tally->add16[i];
+        if (tally->total32[i] > 999999) {
+            tally->total32[i] = 999999;
         }
-        t->add16[i] = 0;
+        tally->add16[i] = 0;
     }
     for (i = 0; i < 150; i++) {
-        t->total16[i] += t->add8[i];
-        if (t->total16[i] > 9999) {
-            t->total16[i] = 9999;
+        tally->total16[i] += tally->add8[i];
+        if (tally->total16[i] > 9999) {
+            tally->total16[i] = 9999;
         }
-        t->add8[i] = 0;
+        tally->add8[i] = 0;
     }
 }
 
@@ -544,7 +535,7 @@ void func_0200E518(Tally *t)
  * as the relocation witness for ov021 callers 021D096C, 021D0BE4, 021D10A8
  * (wave A1).
  */
-u32 func_0200E588(void)
+u32 BATTLE_EXAMINATION_GetBlockSize(void)
 {
     return 0x5C8;
 }
@@ -560,10 +551,10 @@ u32 func_0200E588(void)
 
 
 /*
- * Clears the 0x5C8-byte save block (func_0200E588 returns its size):
+ * Clears the 0x5C8-byte save block (BATTLE_EXAMINATION_GetBlockSize returns its size):
  * a tail call to MI_CpuFill8(p, 0, 0x5C8).
  */
-void func_0200E590(void *p)
+void BATTLE_EXAMINATION_ClearBlock(void *p)
 {
     MI_CpuFill8(p, 0, 0x5C8);
 }
@@ -585,10 +576,10 @@ void func_0200E590(void *p)
  * bytes wrong.  EXACT*: the listing extent runs to the next label at
  * 0x0200E688, over three unlabelled followers.
  */
-int func_0200E5A0(void *a0)
+int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery)
 {
-    if (((struct Obj11237 *)a0)->f5C6 == func_0203F1FC(a0, 0x5c6) &&
-        ((struct Obj11237 *)a0)->f5C2 == 0xd68)
+    if (((struct TrialHouseDelivery *)delivery)->checksum == func_0203F1FC(delivery, 0x5c6) &&
+        ((struct TrialHouseDelivery *)delivery)->magic == 0xd68)
         return 1;
     return 0;
 }
@@ -607,9 +598,9 @@ int func_0200E5A0(void *a0)
  * Unlabelled arm9 leaf: true when bit 15 of the halfword at +0x5C4 is clear.
  * Filed as the relocation witness for ov021 TRIAL_HOUSE_LoadDeliveryState (wave A1).
  */
-int func_0200E5CC(void *p)
+int BATTLE_EXAMINATION_IsDeliveryUnused(void *delivery)
 {
-    if (((struct Obj15607 *)p)->f5C4 & 0x8000) {
+    if (((struct TrialHouseDelivery *)delivery)->idAndUsed & 0x8000) {
         return 0;
     }
     return 1;
@@ -629,9 +620,9 @@ int func_0200E5CC(void *p)
  * Unlabelled arm9 leaf: the low seven bits of the halfword at +0x5C4. Filed
  * as the relocation witness for ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  */
-u16 func_0200E5E4(void *p)
+u16 BATTLE_EXAMINATION_GetDeliveryId(void *delivery)
 {
-    return ((struct Obj15608 *)p)->f5C4 & 0x7F;
+    return ((struct TrialHouseDelivery *)delivery)->idAndUsed & 0x7F;
 }
 
 
@@ -649,12 +640,12 @@ u16 func_0200E5E4(void *p)
  * records, the base itself when idx is out of range. Filed as the relocation
  * witness for ov021 TRIAL_HOUSE_LoadDeliveredTrainer (wave A1).
  */
-char *func_0200E5F8(char *p, u32 idx)
+char *BATTLE_EXAMINATION_GetTrainerSlot(char *base, u32 index)
 {
-    if (idx < 5) {
-        p += idx * 0x120;
+    if (index < 5) {
+        base += index * 0x120;
     }
-    return p;
+    return base;
 }
 
 
@@ -673,16 +664,16 @@ char *func_0200E5F8(char *p, u32 idx)
  * on OS_WaitIrq until it reports done. Filed as the relocation witness for
  * ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  */
-void func_0200E608(void *sys, void *dst, u32 heap)
+void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
 {
-    u32 sv = (u32)GAME_DATA_GetSaveControl(sys);
+    u32 sv = (u32)GAME_DATA_GetSaveControl(gameData);
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
 
     SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
     MI_CpuCopy8(dst, buf, 0x5C8);
-    GAME_DATA_PartSaveStart(sys, 5);
+    GAME_DATA_PartSaveStart(gameData, 5);
     for (;;) {
-        if (GAME_DATA_PartSaveMain(sys, 5) == 2) {
+        if (GAME_DATA_PartSaveMain(gameData, 5) == 2) {
             break;
         }
         OS_WaitIrq(1, 1);
@@ -704,13 +695,13 @@ void func_0200E608(void *sys, void *dst, u32 heap)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * alias: sub_0200E684 toggles one flag half of a caller object's field pair
+ * alias: BATTLE_EXAMINATION_RefreshMarker toggles one flag half of a caller object's field pair
  * addressed by the constant id 0x5c6: it looks the field up through
  * func_0203F1FC, and if the stored halfword at +0x5c6 already equals the
  * looked-up value, rewrites the paired halfword at +0x5c2 with the constant
- * 0x7da and refreshes +0x5c6 with a second lookup.  sub_0200E6B0 is an
+ * 0x7da and refreshes +0x5c6 with a second lookup.  BATTLE_EXAMINATION_GetGreetingSize is an
  * unlabelled getter returning the constant 0x28, sitting in what disasm.py
- * printed as trailing data after sub_0200E684 because it carries no
+ * printed as trailing data after BATTLE_EXAMINATION_RefreshMarker because it carries no
  * register-saving prologue; see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
@@ -718,12 +709,12 @@ void func_0200E608(void *sys, void *dst, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0200E684.c \
  *       --addr 0x0200E684 --thumb
  */
-void sub_0200E684(void *obj)
+void BATTLE_EXAMINATION_RefreshMarker(void *delivery)
 {
-    u32 id = 0x5c6;
-    if (*(u16 *)((u8 *)obj + id) == func_0203F1FC(obj, id)) {
-        *(u16 *)((u8 *)obj + (id - 4)) = 0x7da;
-        *(u16 *)((u8 *)obj + id) = func_0203F1FC(obj, id);
+    u32 fieldId = 0x5c6;
+    if (*(u16 *)((u8 *)delivery + fieldId) == func_0203F1FC(delivery, fieldId)) {
+        *(u16 *)((u8 *)delivery + (fieldId - 4)) = 0x7da;
+        *(u16 *)((u8 *)delivery + fieldId) = func_0203F1FC(delivery, fieldId);
     }
 }
 
@@ -737,7 +728,7 @@ void sub_0200E684(void *obj)
 
 
 
-u32 sub_0200E6B0(void)
+u32 BATTLE_EXAMINATION_GetGreetingSize(void)
 {
     return 0x28;
 }
@@ -752,7 +743,7 @@ u32 sub_0200E6B0(void)
 
 
 /*
- * Promoted from src/pending/sub_0200E6B4.c: every concrete byte was
+ * Promoted from src/pending/BATTLE_EXAMINATION_InitGreetings.c: every concrete byte was
  * already reproduced, and both callees were unresolved relocations
  * because each is called from exactly this one place in the whole ROM,
  * the case the honesty rule's cut remedy cannot reach (docs/MATCHING.md,
@@ -766,17 +757,17 @@ u32 sub_0200E6B0(void)
  * slots starting at obj+8, tagging each with its index 0..3.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200E6B4.c \
- *       --func sub_0200E6B4 --addr 0x0200E6B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BATTLE_EXAMINATION_InitGreetings.c \
+ *       --func BATTLE_EXAMINATION_InitGreetings --addr 0x0200E6B4 --cc 1.1p1 --thumb
  */
-void sub_0200E6B4(void *obj)
+void BATTLE_EXAMINATION_InitGreetings(void *greetings)
 {
-    PMSI_PARAM_SetDefaultGreeting(obj);
-    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 8, 0);
-    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 0x10, 1);
-    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 0x18, 2);
-    obj = (u8 *)obj + 0x20;
-    PMSI_PARAM_SetDefaultSentence(obj, 3);
+    PMSI_PARAM_SetDefaultGreeting(greetings);
+    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 8, 0);
+    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x10, 1);
+    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x18, 2);
+    greetings = (u8 *)greetings + 0x20;
+    PMSI_PARAM_SetDefaultSentence(greetings, 3);
 }
 
 
@@ -791,11 +782,11 @@ void sub_0200E6B4(void *obj)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * alias: a two-hop tail-call chain. sub_0200E6E8 is a pure forwarder to
- * sub_0200E6F0, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
+ * alias: a two-hop tail-call chain. SAVEDATA_GetExtraBlockThunk is a pure forwarder to
+ * SAVEDATA_GetExtraBlock, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
  * 0x3e; both pass their argument through unchanged. Neither carries a
  * register-saving prologue, so disasm.py's sweep does not label
- * sub_0200E6F0 and it prints as data between the two literal pools; see
+ * SAVEDATA_GetExtraBlock and it prints as data between the two literal pools; see
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md and
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
@@ -803,9 +794,9 @@ void sub_0200E6B4(void *obj)
  *   python tools/match.py tu --src src/matched/unit_0200E6E8.c \
  *       --addr 0x0200E6E8 --thumb
  */
-void *sub_0200E6E8(u32 a)
+void *SAVEDATA_GetExtraBlockThunk(u32 saveData)
 {
-    return sub_0200E6F0(a);
+    return SAVEDATA_GetExtraBlock(saveData);
 }
 
 
@@ -817,9 +808,9 @@ void *sub_0200E6E8(u32 a)
 
 
 
-void *sub_0200E6F0(u32 a)
+void *SAVEDATA_GetExtraBlock(u32 saveData)
 {
-    return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)a, 0x3e);
+    return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)saveData, 0x3e);
 }
 
 
@@ -839,7 +830,7 @@ void *sub_0200E6F0(u32 a)
  * r3) and lands six bytes wrong.  EXACT*: the listing extent runs 192 bytes
  * because the follower at 0x0200E714 saves nothing and carries no label.
  */
-void func_0200E6FC(struct RFC *src, int idx, struct RFC *dst)
+void MISC_SAVEDATA_CopyQuadRecord(struct QuadRecord *src, int idx, struct QuadRecord *dst)
 {
     *dst = src[idx];
 }
@@ -852,9 +843,9 @@ void func_0200E6FC(struct RFC *src, int idx, struct RFC *dst)
 
 
 /*
- * Unlabelled Thumb leaf that follows func_0200E6FC: copy one 8-byte record to dst[idx].
+ * Unlabelled Thumb leaf that follows MISC_SAVEDATA_CopyQuadRecord: copy one 8-byte record to dst[idx].
  */
-void func_0200E714(struct RFC *dst, int idx, struct RFC *src)
+void MISC_SAVEDATA_StoreQuadRecord(struct QuadRecord *dst, int idx, struct QuadRecord *src)
 {
     dst[idx] = *src;
 }
@@ -868,28 +859,28 @@ void func_0200E714(struct RFC *dst, int idx, struct RFC *src)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_0200E76C, sub_0200E780, sub_0200E788, sub_0200E7A4,
- *           sub_0200E7AC, sub_0200E7B4
+ *           MISC_SAVEDATA_IsMonEntrySet, MISC_SAVEDATA_GetMonEntryTag, MISC_SAVEDATA_GetMonEntryCost, MISC_SAVEDATA_GetMonEntryPid,
+ *           MISC_SAVEDATA_GetMonEntryName, MISC_SAVEDATA_GetMonEntryExperience
  *
  * alias: ten accessors on an array of 0x20-byte records, indexed by idx into
- * base + idx*0x20. sub_0200E730/sub_0200E734 are the constant-getter and
- * fill-user pair seen elsewhere in this packet: sub_0200E730 returns 0x40,
- * and sub_0200E734 zero-fills that many bytes at the given pointer.
+ * base + idx*0x20. MISC_SAVEDATA_GetMonEntrySize/MISC_SAVEDATA_ClearMonEntry are the constant-getter and
+ * fill-user pair seen elsewhere in this packet: MISC_SAVEDATA_GetMonEntrySize returns 0x40,
+ * and MISC_SAVEDATA_ClearMonEntry zero-fills that many bytes at the given pointer.
  *
  * The byte at record offset +0x1a packs two fields, read by the next pair:
- * bit 0 is a plain flag (sub_0200E740), and bits [7:1] are a level clamped
- * into [0x41, 0x64] (sub_0200E74C, which adds 5 to the raw value once it is
+ * bit 0 is a plain flag (MISC_SAVEDATA_GetMonEntryFlag), and bits [7:1] are a level clamped
+ * into [0x41, 0x64] (MISC_SAVEDATA_GetMonEntryLevel, which adds 5 to the raw value once it is
  * at least 0x41 and clamps the low end up to 0x41 otherwise). The two
  * fields are declared as one bitfield struct so the compiler's lsls
  * #0x18 / lsrs #0x19 extraction for the 7-bit field is generated directly
  * instead of re-derived as a mask; see
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.
  *
- * sub_0200E76C/sub_0200E780 are a validity check and raw getter on the byte
- * at +0x1b (0xff means "unset"). sub_0200E788 ignores its first argument
+ * MISC_SAVEDATA_IsMonEntrySet/MISC_SAVEDATA_GetMonEntryTag are a validity check and raw getter on the byte
+ * at +0x1b (0xff means "unset"). MISC_SAVEDATA_GetMonEntryCost ignores its first argument
  * (r0) and looks at the second and third (r1, r2): it returns 0x23c when
  * r1 == 1, 0x222 when r2 == 0x15, and 0x224 otherwise, apparently a cost
- * table keyed by two flags. sub_0200E7A4/sub_0200E7AC/sub_0200E7B4 are a
+ * table keyed by two flags. MISC_SAVEDATA_GetMonEntryPid/MISC_SAVEDATA_GetMonEntryName/MISC_SAVEDATA_GetMonEntryExperience are a
  * plain word getter at +0, a pointer-to-field getter at +4, and a plain
  * word getter at +0x1c.
  *
@@ -897,7 +888,7 @@ void func_0200E714(struct RFC *dst, int idx, struct RFC *src)
  *   python tools/match.py tu --src src/matched/unit_0200E730.c \
  *       --addr 0x0200E730 --thumb
  */
-u32 sub_0200E730(void)
+u32 MISC_SAVEDATA_GetMonEntrySize(void)
 {
     return 0x40;
 }
@@ -908,7 +899,7 @@ u32 sub_0200E730(void)
 
 
 
-void sub_0200E734(void *dest)
+void MISC_SAVEDATA_ClearMonEntry(void *dest)
 {
     MI_CpuFill8(dest, 0, 0x40);
 }
@@ -919,9 +910,9 @@ void sub_0200E734(void *dest)
 
 
 
-u32 sub_0200E740(const void *obj, u32 idx)
+u32 MISC_SAVEDATA_GetMonEntryFlag(const void *slots, u32 index)
 {
-    return ((const Flags *)((const u8 *)obj + idx * 0x20 + 0x1a))->flag;
+    return ((const struct LevelFlagBits *)((const u8 *)slots + index * 0x20 + 0x1a))->flag;
 }
 
 
@@ -930,9 +921,9 @@ u32 sub_0200E740(const void *obj, u32 idx)
 
 
 
-u32 sub_0200E74C(const void *obj, u32 idx)
+u32 MISC_SAVEDATA_GetMonEntryLevel(const void *slots, u32 index)
 {
-    u32 level = ((const Flags *)((const u8 *)obj + idx * 0x20 + 0x1a))->level;
+    u32 level = ((const struct LevelFlagBits *)((const u8 *)slots + index * 0x20 + 0x1a))->level;
     if (level < 0x41) {
         level = 0x41;
     } else {
@@ -950,9 +941,9 @@ u32 sub_0200E74C(const void *obj, u32 idx)
 
 
 
-u32 sub_0200E76C(const void *obj, u32 idx)
+u32 MISC_SAVEDATA_IsMonEntrySet(const void *slots, u32 index)
 {
-    return *((const u8 *)obj + idx * 0x20 + 0x1b) != 0xff;
+    return *((const u8 *)slots + index * 0x20 + 0x1b) != 0xff;
 }
 
 
@@ -961,9 +952,9 @@ u32 sub_0200E76C(const void *obj, u32 idx)
 
 
 
-u8 sub_0200E780(const void *obj, u32 idx)
+u8 MISC_SAVEDATA_GetMonEntryTag(const void *slots, u32 index)
 {
-    return *((const u8 *)obj + idx * 0x20 + 0x1b);
+    return *((const u8 *)slots + index * 0x20 + 0x1b);
 }
 
 
@@ -972,7 +963,7 @@ u8 sub_0200E780(const void *obj, u32 idx)
 
 
 
-u32 sub_0200E788(const void *unused, u32 a, u32 b)
+u32 MISC_SAVEDATA_GetMonEntryCost(const void *unused, u32 a, u32 b)
 {
     if (a == 1) {
         return 0x23c;
@@ -989,9 +980,9 @@ u32 sub_0200E788(const void *unused, u32 a, u32 b)
 
 
 
-u32 sub_0200E7A4(const void *obj, u32 idx)
+u32 MISC_SAVEDATA_GetMonEntryPid(const void *slots, u32 index)
 {
-    return *(const u32 *)((const u8 *)obj + idx * 0x20);
+    return *(const u32 *)((const u8 *)slots + index * 0x20);
 }
 
 
@@ -1000,9 +991,9 @@ u32 sub_0200E7A4(const void *obj, u32 idx)
 
 
 
-void *sub_0200E7AC(void *obj, u32 idx)
+void *MISC_SAVEDATA_GetMonEntryName(void *slots, u32 index)
 {
-    return (u8 *)obj + idx * 0x20 + 4;
+    return (u8 *)slots + index * 0x20 + 4;
 }
 
 
@@ -1011,9 +1002,9 @@ void *sub_0200E7AC(void *obj, u32 idx)
 
 
 
-u32 sub_0200E7B4(const void *obj, u32 idx)
+u32 MISC_SAVEDATA_GetMonEntryExperience(const void *slots, u32 index)
 {
-    return *(const u32 *)((const u8 *)obj + idx * 0x20 + 0x1c);
+    return *(const u32 *)((const u8 *)slots + index * 0x20 + 0x1c);
 }
 
 
@@ -1044,24 +1035,24 @@ u32 sub_0200E7B4(const void *obj, u32 idx)
  * EXACT* because the listing extent runs over the unlabelled followers at
  * 0x0200E874/0x0200E878 (unit_0200E874.c); compiled bytes match exactly.
  */
-void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
+void MISC_SAVEDATA_FillMonEntry(struct BoxMonSlot *slots, int index, void *mon)
 {
-    o[idx].bits.level = func_02017E1C(mon, 0x9e, 0);
+    slots[index].bits.level = func_02017E1C(mon, 0x9e, 0);
     if (func_02017E1C(mon, 0x71, 0) != 0)
-        o[idx].f1b = func_02017E1C(mon, 0xa, 0);
+        slots[index].tag = func_02017E1C(mon, 0xa, 0);
     else
-        o[idx].f1b = 0xff;
-    o[idx].f00 = func_02017E1C(mon, 0, 0);
-    o[idx].f1c = func_02017E1C(mon, 7, 0);
+        slots[index].tag = 0xff;
+    slots[index].pid = func_02017E1C(mon, 0, 0);
+    slots[index].experience = func_02017E1C(mon, 7, 0);
     if (func_02017E1C(mon, 0x75, 0) != 0) {
-        func_02017E1C(mon, 0x74, (u32)o[idx].name);
+        func_02017E1C(mon, 0x74, (u32)slots[index].name);
     } else {
         u16 buf[12];
 
         MSGDATA_ReadUnits(gSpeciesNameBank, func_02017E1C(mon, 5, 0), buf, 0xb);
-        func_0201F41C(buf, o[idx].name, 0xb);
+        func_0201F41C(buf, slots[index].name, 0xb);
     }
-    o[idx].bits.flag = 1;
+    slots[index].bits.flag = 1;
 }
 
 
@@ -1073,7 +1064,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The twelve bytes after func_0200E7BC: two unlabelled leaves that save
+ * The twelve bytes after MISC_SAVEDATA_FillMonEntry: two unlabelled leaves that save
  * nothing at all, so their bytes print as part of the same `.word` run as
  * the pool word in front of them (docs/idioms/
  * unlabelled-leaf-functions-hide-in-word-runs.md).  The first is a size
@@ -1081,7 +1072,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
  * MI_CpuFill8 (arm: the pool word is even, so `bx r3` switches to ARM) that
  * clears 0x10 bytes from whatever pointer it is handed.
  */
-int sub_0200E874(void)
+int MISC_SAVEDATA_GetSmallEntrySize(void)
 {
     return 0x10;
 }
@@ -1092,7 +1083,7 @@ int sub_0200E874(void)
 
 
 
-void sub_0200E878(void *dst)
+void MISC_SAVEDATA_ClearSmallEntry(void *dst)
 {
     MI_CpuFill8(dst, 0, 0x10);
 }
@@ -1107,21 +1098,21 @@ void sub_0200E878(void *dst)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
+ *           MISC_SAVEDATA_EmptyHook, MISC_SAVEDATA_GetScratchBase, MISC_SAVEDATA_GetFlags6200, MISC_SAVEDATA_SetFlags6200,
+ *           MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, MISC_SAVEDATA_GetBlock41, MISC_SAVEDATA_InitMac
  *
  * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
+ * working the same field at +0x6200/+0x6204.  MISC_SAVEDATA_SaveScratch16 and MISC_SAVEDATA_LoadScratch16
  * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from SAVE_CONTROL_GetBlock(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
+ * from SAVE_CONTROL_GetBlock(id 0x40); MISC_SAVEDATA_GetBigBlockSize hands back the constant 0x6204,
+ * which MISC_SAVEDATA_ClearBigBlock uses as the zero-fill size for the whole object;
+ * MISC_SAVEDATA_EmptyHook is an empty hook; MISC_SAVEDATA_GetScratchBase hands out the address 0x6000
+ * bytes into the object; MISC_SAVEDATA_GetFlags6200/MISC_SAVEDATA_SetFlags6200 are a plain word
+ * getter/setter on the field at +0x6200; MISC_SAVEDATA_GetMacSize returns the constant
+ * 0x5c, which MISC_SAVEDATA_ClearMacArea's tail call to MI_CpuFill8 also uses directly
  * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * SAVE_CONTROL_GetBlock(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
+ * MISC_SAVEDATA_GetMacSize, but the tail call inlines it); MISC_SAVEDATA_GetBlock41 tail calls
+ * SAVE_CONTROL_GetBlock(sys, 0x41); MISC_SAVEDATA_InitMac zero-fills a separate 0x5a-byte
  * scratch object and hands it to OS_GetMacAddress.
  *
  * Four of the twelve carry no label in the generated listing: they are
@@ -1131,7 +1122,7 @@ void sub_0200E878(void *dst)
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
  * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
+ * (MISC_SAVEDATA_SaveScratch16.c, MISC_SAVEDATA_LoadScratch16.c, MISC_SAVEDATA_GetBigBlockSize.c, MISC_SAVEDATA_InitMac.c) and
  * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
  * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
  * range still reproduces EXACT as a single translation unit.
@@ -1140,10 +1131,10 @@ void sub_0200E878(void *dst)
  *   python tools/match.py tu --src src/matched/unit_0200E884.c \
  *       --addr 0x0200E884 --thumb
  */
-void sub_0200E884(void *sys, void *src)
+void MISC_SAVEDATA_SaveScratch16(void *src, void *saveData)
 {
-    void *obj = SAVE_CONTROL_GetBlock(src, 0x40);
-    MIi_CpuCopy32(sys, obj, 0x10);
+    void *obj = SAVE_CONTROL_GetBlock(saveData, 0x40);
+    MIi_CpuCopy32(src, obj, 0x10);
 }
 
 
@@ -1153,9 +1144,9 @@ void sub_0200E884(void *sys, void *src)
 
 
 
-void sub_0200E89C(void *sys, void *dest)
+void MISC_SAVEDATA_LoadScratch16(void *src, void *dest)
 {
-    void *obj = SAVE_CONTROL_GetBlock(sys, 0x40);
+    void *obj = SAVE_CONTROL_GetBlock(src, 0x40);
     MIi_CpuCopy32(obj, dest, 0x10);
 }
 
@@ -1166,7 +1157,7 @@ void sub_0200E89C(void *sys, void *dest)
 
 
 
-u32 sub_0200E8B0(void)
+u32 MISC_SAVEDATA_GetBigBlockSize(void)
 {
     return 0x6204;
 }
@@ -1178,9 +1169,9 @@ u32 sub_0200E8B0(void)
 
 
 
-void sub_0200E8B8(void *dest)
+void MISC_SAVEDATA_ClearBigBlock(void *dest)
 {
-    MI_CpuFill8(dest, 0, sub_0200E8B0());
+    MI_CpuFill8(dest, 0, MISC_SAVEDATA_GetBigBlockSize());
 }
 
 
@@ -1190,7 +1181,7 @@ void sub_0200E8B8(void *dest)
 
 
 
-void sub_0200E8CC(void)
+void MISC_SAVEDATA_EmptyHook(void)
 {
 }
 
@@ -1201,9 +1192,9 @@ void sub_0200E8CC(void)
 
 
 
-void *sub_0200E8D0(void *obj)
+void *MISC_SAVEDATA_GetScratchBase(void *saveData)
 {
-    return (u8 *)obj + 0x6000;
+    return (u8 *)saveData + 0x6000;
 }
 
 
@@ -1213,9 +1204,9 @@ void *sub_0200E8D0(void *obj)
 
 
 
-u32 sub_0200E8D8(const void *obj)
+u32 MISC_SAVEDATA_GetFlags6200(const void *saveData)
 {
-    return *(const u32 *)&((struct L0200ED54 *)obj)->f6200;
+    return *(const u32 *)&((struct RecentValueSave *)saveData)->flags6200;
 }
 
 
@@ -1225,9 +1216,9 @@ u32 sub_0200E8D8(const void *obj)
 
 
 
-void sub_0200E8E0(void *obj, u32 value)
+void MISC_SAVEDATA_SetFlags6200(void *saveData, u32 value)
 {
-    ((struct Obj17086 *)obj)->f6200 = value;
+    ((struct RecentValueSave *)saveData)->flags6200 = value;
 }
 
 
@@ -1237,7 +1228,7 @@ void sub_0200E8E0(void *obj, u32 value)
 
 
 
-u32 sub_0200E8E8(void)
+u32 MISC_SAVEDATA_GetMacSize(void)
 {
     return 0x5c;
 }
@@ -1249,7 +1240,7 @@ u32 sub_0200E8E8(void)
 
 
 
-void sub_0200E8EC(void *dest)
+void MISC_SAVEDATA_ClearMacArea(void *dest)
 {
     MI_CpuFill8(dest, 0, 0x5c);
 }
@@ -1261,9 +1252,9 @@ void sub_0200E8EC(void *dest)
 
 
 
-void *sub_0200E8F8(void *sys)
+void *MISC_SAVEDATA_GetBlock41(void *saveData)
 {
-    return SAVE_CONTROL_GetBlock(sys, 0x41);
+    return SAVE_CONTROL_GetBlock(saveData, 0x41);
 }
 
 
@@ -1273,10 +1264,10 @@ void *sub_0200E8F8(void *sys)
 
 
 
-void sub_0200E904(void *obj)
+void MISC_SAVEDATA_InitMac(void *buffer)
 {
-    MI_CpuFill8(obj, 0, 0x5a);
-    OS_GetMacAddress(obj);
+    MI_CpuFill8(buffer, 0, 0x5a);
+    OS_GetMacAddress(buffer);
 }
 
 
@@ -1290,9 +1281,9 @@ void sub_0200E904(void *obj)
  * A whole translation unit, matched as one byte range.
  *
  * alias: a byte array at offset 6 of some base object, indexed by the second
- * parameter.  sub_0200E918 is the plain getter; sub_0200E920 adds a signed
+ * parameter.  MISC_SAVEDATA_GetKeyByte is the plain getter; MISC_SAVEDATA_AddKeyByte adds a signed
  * delta to one element and clamps the result to 0..255 before storing it
- * back.  sub_0200E918 has no register-saving prologue (two instructions, no
+ * back.  MISC_SAVEDATA_GetKeyByte has no register-saving prologue (two instructions, no
  * push), so disasm.py's sweep never labelled it; it sits in the listing as a
  * .word between two functions.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
@@ -1301,9 +1292,9 @@ void sub_0200E904(void *obj)
  *   python tools/match.py tu --src src/matched/unit_0200E918.c \
  *       --addr 0x0200E918 --thumb
  */
-u8 sub_0200E918(const u8 *base, u32 idx)
+u8 MISC_SAVEDATA_GetKeyByte(const u8 *keys, u32 index)
 {
-    return (base + idx)[6];
+    return (keys + index)[6];
 }
 
 
@@ -1313,17 +1304,17 @@ u8 sub_0200E918(const u8 *base, u32 idx)
 
 
 
-void sub_0200E920(u8 *base, u32 idx, int delta)
+void MISC_SAVEDATA_AddKeyByte(u8 *keys, u32 index, int delta)
 {
-    u8 *p = base + 6;
-    int v = p[idx] + delta;
+    u8 *array = keys + 6;
+    int value = array[index] + delta;
 
-    if (v > 0xff) {
-        v = 0xff;
-    } else if (v < 0) {
-        v = 0;
+    if (value > 0xff) {
+        value = 0xff;
+    } else if (value < 0) {
+        value = 0;
     }
-    p[idx] = (u8)v;
+    array[index] = (u8)value;
 }
 
 
@@ -1337,8 +1328,8 @@ void sub_0200E920(u8 *base, u32 idx, int delta)
  * A whole translation unit, matched as one byte range.
  *
  * alias: three accessors on an array of 6-byte records that starts 0xa bytes
- * into the object, indexed by "id mod 10".  sub_0200E938 reads a record out,
- * sub_0200E958 stores one in, and sub_0200E978 writes a single byte field at
+ * into the object, indexed by "id mod 10".  MISC_SAVEDATA_GetKey reads a record out,
+ * MISC_SAVEDATA_SetKey stores one in, and MISC_SAVEDATA_SetKeyField writes a single byte field at
  * +0x10 past an extra caller-given offset from the same slot.  Each divides
  * by 10 for the remainder only; the
  * quotient the helper also returns is never used, per
@@ -1349,7 +1340,7 @@ void sub_0200E920(u8 *base, u32 idx, int delta)
  *   python tools/match.py tu --src src/matched/unit_0200E938.c \
  *       --addr 0x0200E938 --thumb
  */
-void sub_0200E938(u8 *obj, u32 id, void *dest)
+void MISC_SAVEDATA_GetKey(u8 *obj, u32 id, void *dest)
 {
     u32 idx = id % 10;
 
@@ -1363,7 +1354,7 @@ void sub_0200E938(u8 *obj, u32 id, void *dest)
 
 
 
-void sub_0200E958(u8 *obj, u32 id, const void *src)
+void MISC_SAVEDATA_SetKey(u8 *obj, u32 id, const void *src)
 {
     u32 idx = id % 10;
 
@@ -1377,7 +1368,7 @@ void sub_0200E958(u8 *obj, u32 id, const void *src)
 
 
 
-void sub_0200E978(u8 *obj, u32 id, u32 extra, u8 value)
+void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 {
     u32 idx = id % 10;
     u8 *p = obj + idx * 8;
@@ -1400,19 +1391,19 @@ void sub_0200E978(u8 *obj, u32 id, u32 extra, u8 value)
  * if none of the stored keys match.
  *
  * EXACT* because the 70 compiled bytes fall six short of the disasm.py
- * extent: sub_0200E9DC, a four-byte constant getter with no
+ * extent: MISC_SAVEDATA_GetMacStructSize, a four-byte constant getter with no
  * register-saving prologue, hides in the two trailing pad bytes plus this
  * function's own alignment filler (see "the two missing labels" in
  * docs/MATCHING.md); it is matched separately.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200E994.c \
- *       --func sub_0200E994 --addr 0x0200E994 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_FindKey.c \
+ *       --func MISC_SAVEDATA_FindKey --addr 0x0200E994 --cc 1.1p1
  */
-u32 sub_0200E994(void *base, void *key)
+u32 MISC_SAVEDATA_FindKey(void *keys, void *key)
 {
     int i;
-    int count = func_0200E918(base, 0);
+    int count = func_0200E918(keys, 0);
     u8 buf[6];
 
     if (count > 10) {
@@ -1420,7 +1411,7 @@ u32 sub_0200E994(void *base, void *key)
     }
 
     for (i = 0; i < count; i++) {
-        func_0200E938(base, i, buf);
+        func_0200E938(keys, i, buf);
         if (func_0203EFC8(key, buf, 6) == 0) {
             return 1;
         }
@@ -1433,15 +1424,15 @@ u32 sub_0200E994(void *base, void *key)
 
 /*
  * A four-byte constant getter with no register-saving prologue; it was
- * hiding as the unlabelled follower behind sub_0200E994's EXACT* extent
+ * hiding as the unlabelled follower behind MISC_SAVEDATA_FindKey's EXACT* extent
  * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). Its own
  * follower, sub_0200E9E0, already carries a label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200E9DC.c \
- *       --func sub_0200E9DC --addr 0x0200E9DC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_GetMacStructSize.c \
+ *       --func MISC_SAVEDATA_GetMacStructSize --addr 0x0200E9DC --cc 1.1p1
  */
-unsigned int sub_0200E9DC(void)
+unsigned int MISC_SAVEDATA_GetMacStructSize(void)
 {
     return 0x9c;
 }
@@ -1451,10 +1442,10 @@ unsigned int sub_0200E9DC(void)
 
 
 
-void func_0200E9E0(void *a0)
+void MISC_SAVEDATA_InitMacAndStats(void *record)
 {
-    func_0200E904(a0);
-    BSUBWAY_SAVEDATA_InitStats((u8 *)a0 + 0x5a);
+    func_0200E904(record);
+    BSUBWAY_SAVEDATA_InitStats((u8 *)record + 0x5a);
 }
 
 
@@ -1466,9 +1457,9 @@ void func_0200E9E0(void *a0)
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
  */
-void *func_0200E9F4(void *p)
+void *MISC_SAVEDATA_GetBlock3C(void *saveData)
 {
-    return func_020071CC(p, 0x3c);
+    return func_020071CC(saveData, 0x3c);
 }
 
 
@@ -1479,32 +1470,32 @@ void *func_0200E9F4(void *p)
  * Unlabelled leaf accessor matched to give overlay call sites a matched
  * witness.  Addresses are Black-image addresses.
  */
-int func_0200EA00(int p)
+int MISC_SAVEDATA_GetStatsBase(int stats)
 {
-    return p + 0x5a;
+    return stats + 0x5a;
 }
 
 
 
 
 
-int func_0200EA04(int p)
+int MISC_SAVEDATA_GetStatsBase2(int stats)
 {
-    return p + 0x5a;
+    return stats + 0x5a;
 }
 
 
 
 
 
-int func_0200EA08(int p)
+int MISC_SAVEDATA_GetRecordBase(int stats)
 {
-    return p;
+    return stats;
 }
 
 
 
-u32 func_0200EA0C(void)
+u32 MISC_SAVEDATA_GetRingBlockSize(void)
 {
     return 0x155C;
 }
@@ -1513,18 +1504,18 @@ u32 func_0200EA0C(void)
 
 /*
  * Save-table size callback: returns 0x16C, the size of the block that
- * func_0200EA2C clears.  Pointer word 0x0200EA15 at 0x0209DD44.
+ * MISC_SAVEDATA_InitRecord clears.  Pointer word 0x0200EA15 at 0x0209DD44.
  */
-u32 func_0200EA14(void)
+u32 MISC_SAVEDATA_GetRecordSize(void)
 {
     return 0x16C;
 }
 
 
 
-void func_0200EA1C(void *p)
+void MISC_SAVEDATA_ClearRingBlock(void *block)
 {
-    MI_CpuFill8(p, 0, 0x155C);
+    MI_CpuFill8(block, 0, 0x155C);
 }
 
 
@@ -1535,7 +1526,7 @@ void func_0200EA1C(void *p)
  * MI_CpuFill8 through the pool word at 0x0200EA38).  Pointer word
  * 0x0200EA2D at 0x0209DD48.
  */
-void func_0200EA2C(void *block)
+void MISC_SAVEDATA_InitRecord(void *block)
 {
     MI_CpuFill8(block, 0, 0x16C);
 }
@@ -1544,14 +1535,14 @@ void func_0200EA2C(void *block)
 
 
 /*
- * Snapshot of a party into a 0x16c-byte ring record (func_0200EBD0's slot):
+ * Snapshot of a party into a 0x16c-byte ring record (MISC_SAVEDATA_AppendPartyRecord's slot):
  * zero the six 0x3c-byte entries, then for every non-egg member (field 0x4c
  * of func_02017E1C is 0) store species (5), level (0x9e), the 6/2-bit pair
  * 0x6f/0x6e, fields 0 and 7, fields 0x36..0x39, and the nickname (0x73, 11
  * u16) and OT name (0x8d, 8 u16) through an 11-char string buffer, or the
  * terminator from STRBUF_GetEosChar in both name slots when the buffer could not
  * be allocated.  The date record (first three words) goes to +0x168.
- * The layout of struct Entry is the one func_0200EC2C (EXACT*) reads back.
+ * The layout of struct Entry is the one MISC_SAVEDATA_ExportRecord (EXACT*) reads back.
  *
  * Levers: the loop counter i is initialised AFTER the memset and before
  * n (both zeroes are then scheduled across the call with i first, which is
@@ -1561,7 +1552,7 @@ void func_0200EA2C(void *block)
  * EXACT* only because the 402 compiled bytes stop two short of the listing
  * extent at a "movs r0, r0" alignment filler; no byte differs.
  */
-void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
+void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date, u32 heap)
 {
     int count = POKEPARTY_GetCount(party);
     void *buf = STRBUF_Create(11, heap);
@@ -1578,14 +1569,14 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
             struct Entry *e = &rec->e[n];
             rec->e[n].species = func_02017E1C(mon, 5, 0);
             e->level = func_02017E1C(mon, 0x9e, 0);
-            e->f03a = func_02017E1C(mon, 0x6f, 0);
-            e->f03b = func_02017E1C(mon, 0x6e, 0);
-            e->f04 = func_02017E1C(mon, 0, 0);
-            e->f08 = func_02017E1C(mon, 7, 0);
-            e->f32[0] = func_02017E1C(mon, 0x36, 0);
-            e->f32[1] = func_02017E1C(mon, 0x37, 0);
-            e->f32[2] = func_02017E1C(mon, 0x38, 0);
-            e->f32[3] = func_02017E1C(mon, 0x39, 0);
+            e->form = func_02017E1C(mon, 0x6f, 0);
+            e->gender = func_02017E1C(mon, 0x6e, 0);
+            e->pid = func_02017E1C(mon, 0, 0);
+            e->experience = func_02017E1C(mon, 7, 0);
+            e->traits[0] = func_02017E1C(mon, 0x36, 0);
+            e->traits[1] = func_02017E1C(mon, 0x37, 0);
+            e->traits[2] = func_02017E1C(mon, 0x38, 0);
+            e->traits[3] = func_02017E1C(mon, 0x39, 0);
             if (buf != 0) {
                 func_02017E1C(mon, 0x73, (u32)buf);
                 STRBUF_ToChars(buf, e->name, 11);
@@ -1612,11 +1603,11 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
 
 /*
  * Ring-buffer record dispatcher: while the saturating counter at +0x1558 is
- * below 9999, hand the 0x16c-byte record at slot +0x1554 to func_0200EA3C,
+ * below 9999, hand the 0x16c-byte record at slot +0x1554 to MISC_SAVEDATA_SnapshotParty,
  * then advance the slot (wrapping at 15) and the counter.
  *
  * The residue that stood for four passes (r6 vs r1, push one register
- * narrower) was the parameter list: func_0200EA3C takes FOUR arguments
+ * narrower) was the parameter list: MISC_SAVEDATA_SnapshotParty takes FOUR arguments
  * (its prologue homes r0..r3), and this function forwards its own r1..r3 to
  * it untouched.  With a1..a3 live in r1..r3 across the prologue the index
  * temporary cannot take r1 and lands in r6.  The only caller
@@ -1626,17 +1617,17 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
  *
  * Current listing extent is 68 bytes; compiled bytes match exactly.
  */
-void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap)
+void MISC_SAVEDATA_AppendPartyRecord(struct PartyRingSave *obj, void *party, void *date, u32 heap)
 {
-    if (obj->unk1558 < 9999) {
-        u32 idx;
-        func_0200EA3C((struct Rec *)((u8 *)obj + obj->unk1554 * 0x16c), a1, date, heap);
-        idx = obj->unk1554 + 1;
-        obj->unk1554 = idx;
-        if (idx >= 15) {
-            obj->unk1554 = 0;
+    if (obj->recordCount < 9999) {
+        u32 slot;
+        MISC_SAVEDATA_SnapshotParty((struct Rec *)((u8 *)obj + obj->writeIndex * 0x16c), party, date, heap);
+        slot = obj->writeIndex + 1;
+        obj->writeIndex = slot;
+        if (slot >= 15) {
+            obj->writeIndex = 0;
         }
-        obj->unk1558 += 1;
+        obj->recordCount += 1;
     }
 }
 
@@ -1649,19 +1640,19 @@ void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap)
  * the image branches to it either, so no `function_starts.txt` seed exists.
  * First zero halfword of six 0x3c-byte records.
  *
- * It is not an anonymous hole, though: sub_0200ECD0 (src/matched/
+ * It is not an anonymous hole, though: MISC_SAVEDATA_GetRingRecordIndex (src/matched/
  * unit_0200EC98.c) tail-calls it through a pool word, which is why that file
  * could not resolve its one relocation until this entry existed -- the
  * `matched` class is the only witness 0x0200EC14 can ever have, since no
  * branch anywhere in the image names it and its address appears in exactly
  * one pool.
  */
-int func_0200EC14(char *p)
+int MISC_SAVEDATA_FindFreeRecordSlot(char *records)
 {
     int i;
 
     for (i = 0; i < 6; i++) {
-        if (*(u16 *)(p + i * 0x3c) == 0)
+        if (*(u16 *)(records + i * 0x3c) == 0)
             break;
     }
     return i;
@@ -1694,26 +1685,26 @@ int func_0200EC14(char *p)
  * unlabelled follower and wants seeding into layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200EC2C.c \
- *       --func func_0200EC2C --addr 0x0200EC2C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_ExportRecord.c \
+ *       --func MISC_SAVEDATA_ExportRecord --addr 0x0200EC2C --cc 1.1p1 --thumb
  */
-void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
+void MISC_SAVEDATA_ExportRecord(const struct Entry *records, int index, struct RecordTarget *dst)
 {
-    const struct Src0200EC2C *s = base + idx;
+    const struct Entry *s = records + index;
     int i;
 
-    dst->f10 = s->f00;
-    dst->f12 = s->f02;
-    dst->f08 = s->f04;
-    dst->f0C = s->f08;
-    dst->f13a = s->f03a;
-    dst->f13b = s->f03b;
+    dst->species = s->species;
+    dst->level = s->level;
+    dst->pid = s->pid;
+    dst->experience = s->experience;
+    dst->form = s->form;
+    dst->gender = s->gender;
 
-    STRBUF_SetStringN(dst->p00, (const u16 *)s->f0C, 0xb);
-    STRBUF_SetStringN(dst->p04, (const u16 *)s->f22, 8);
+    STRBUF_SetStringN(dst->nicknameStr, (const u16 *)s->name, 0xb);
+    STRBUF_SetStringN(dst->otNameStr, (const u16 *)s->ot, 8);
 
     for (i = 0; i < 4; i++)
-        dst->f14[i] = s->f32[i];
+        dst->traits[i] = s->traits[i];
 }
 
 
@@ -1725,15 +1716,15 @@ void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *
  * four-word output record and zeroes the fourth word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200EC98.c \
- *       --func sub_0200EC98 --addr 0x0200EC98 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_GetRecordDate.c \
+ *       --func MISC_SAVEDATA_GetRecordDate --addr 0x0200EC98 --cc 1.1p1 --thumb
  */
-void sub_0200EC98(const u8 *o, struct Out0200EC98 *out)
+void MISC_SAVEDATA_GetRecordDate(const u8 *record, struct RecordDate *out)
 {
-    out->a = *(const u16 *)&((struct Obj08961 *)o)->f168;
-    out->b = o[0x16a];
-    out->c = o[0x16b];
-    out->d = 0;
+    out->year = ((const struct Rec *)record)->year;
+    out->month = ((const struct Rec *)record)->month;
+    out->day = ((const struct Rec *)record)->day;
+    out->reserved = 0;
 }
 
 
@@ -1742,39 +1733,39 @@ void sub_0200EC98(const u8 *o, struct Out0200EC98 *out)
  * A whole translation unit, matched as one byte range.
  *
  * The tail of this packet: three unlabelled accessors of the object
- * func_0200EBD0 and func_0200EC2C work on (their bytes print as `.word`
+ * MISC_SAVEDATA_AppendPartyRecord and MISC_SAVEDATA_ExportRecord work on (their bytes print as `.word`
  * runs because none of them saves lr, see docs/idioms/
  * unlabelled-leaf-functions-hide-in-word-runs.md).  The byte range here is
  * 0x0200ECB4..0x0200ECF0, its two leading pad bytes belong to
- * sub_0200EC98 (which is not part of this file), and the three pool words
+ * MISC_SAVEDATA_GetRecordDate (which is not part of this file), and the three pool words
  * between the functions are each function's own.
  *
- * sub_0200ECD0 is a tail call through a pool word to
- * src/matched/func_0200EC14.c, and the pool word is the only reference to
+ * MISC_SAVEDATA_GetRingRecordIndex is a tail call through a pool word to
+ * src/matched/MISC_SAVEDATA_FindFreeRecordSlot.c, and the pool word is the only reference to
  * 0x0200EC14 anywhere in the image, so that entry is what makes this file
  * verifiable at all (the `matched` class).
  */
-u32 sub_0200ECB4(char *o)
+u32 MISC_SAVEDATA_GetRingIndex(char *ring)
 {
-    u32 v = ((struct Obj17088 *)o)->f1558;
+    u32 count = ((struct PartyRingSave *)ring)->recordCount;
 
-    if (v >= 0xf)
-        v = 0xf;
-    return v;
+    if (count >= 0xf)
+        count = 0xf;
+    return count;
 }
 
 
 
-u32 sub_0200ECC4(char *o, u32 n)
+u32 MISC_SAVEDATA_GetRingRemaining(char *ring, u32 count)
 {
-    return ((struct Obj17089 *)o)->f1558 - n;
+    return ((struct PartyRingSave *)ring)->recordCount - count;
 }
 
 
 
-int sub_0200ECD0(char *o, int idx)
+int MISC_SAVEDATA_GetRingRecordIndex(char *o, int idx)
 {
-    int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
+    int n = ((struct PartyRingSave *)o)->writeIndex - 1 - idx;
 
     if (n < 0)
         n += 0xf;
@@ -1783,39 +1774,39 @@ int sub_0200ECD0(char *o, int idx)
 
 
 
-void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3)
+void MISC_SAVEDATA_ExportRingRecord(void *ring, u32 index, void *recordIndex, void *target)
 {
-    int v = ((struct Obj15609 *)a0)->f1554 - 1 - (int)a1;
+    int slot = ((struct PartyRingSave *)ring)->writeIndex - 1 - (int)index;
 
-    if (v < 0)
-        v += 0xf;
-    func_0200EC2C((const struct Src0200EC2C *)((u8 *)a0 + v * 0x16c), (int)a2, a3);
+    if (slot < 0)
+        slot += 0xf;
+    MISC_SAVEDATA_ExportRecord((const struct Entry *)((u8 *)ring + slot * 0x16c), (int)recordIndex, target);
 }
 
 
 
 /*
  * An unlabelled accessor (its bytes print as a `.word` run after the pool
- * of func_0200ECF0): the header of ring entry `count - 1 - idx`, a tail call
- * to sub_0200EC98 through a pool word. Same shape as sub_0200ECD0 in
+ * of MISC_SAVEDATA_ExportRingRecord): the header of ring entry `count - 1 - idx`, a tail call
+ * to MISC_SAVEDATA_GetRecordDate through a pool word. Same shape as MISC_SAVEDATA_GetRingRecordIndex in
  * unit_0200ECB4.c. Its only caller is ov171 DENDOU_VIEW_LoadHallOfFame.
  */
-void func_0200ED14(u8 *o, int idx, void *out)
+void MISC_SAVEDATA_GetRingRecordDate(u8 *ring, int index, void *out)
 {
-    int n = *(int *)(o + 0x1554) - 1 - idx;
+    int slot = *(int *)(ring + 0x1554) - 1 - index;
 
-    if (n < 0)
-        n += 0xf;
-    sub_0200EC98(o + n * 0x16c, out);
+    if (slot < 0)
+        slot += 0xf;
+    MISC_SAVEDATA_GetRecordDate(ring + slot * 0x16c, out);
 }
 
 
 
 /*
  * Save-table size callback: returns 0xFC, the size of the block that
- * func_0200ED3C clears.  Pointer word 0x0200ED39 at 0x0209DD5C.
+ * MISC_SAVEDATA_InitShortBlock clears.  Pointer word 0x0200ED39 at 0x0209DD5C.
  */
-u32 func_0200ED38(void)
+u32 MISC_SAVEDATA_GetShortBlockSize(void)
 {
     return 0xFC;
 }
@@ -1827,16 +1818,16 @@ u32 func_0200ED38(void)
  * MI_CpuFill8 through the pool word at 0x0200ED44).  Pointer word
  * 0x0200ED3D at 0x0209DD60.
  */
-void func_0200ED3C(void *block)
+void MISC_SAVEDATA_InitShortBlock(void *block)
 {
     MI_CpuFill8(block, 0, 0xFC);
 }
 
 
 
-void *func_0200ED48(void *p)
+void *MISC_SAVEDATA_GetBlock44(void *saveData)
 {
-    return func_020071CC(p, 0x44);
+    return func_020071CC(saveData, 0x44);
 }
 
 
@@ -1858,9 +1849,9 @@ void *func_0200ED48(void *p)
  *  - the copy is MI_CpuCopy8(src, dst, size) -- the SDK's argument order,
  *    which is why the source passes the higher index first: the shift is
  *    downward, arr[i+1] is copied onto arr[i];
- *  - the trailing store is NOT `l->arr[l->count - 1]` (which subtracts one
+ *  - the trailing store is NOT `l->values[l->count - 1]` (which subtracts one
  *    from the count and then scales) but `p[-1]` on a pointer computed as
- *    `l->arr + l->count`: the original scales the count by four first and
+ *    `l->values + l->count`: the original scales the count by four first and
  *    subtracts the element size afterwards, four instructions against
  *    three and the whole tail shifts;
  *  - the walk is unsigned (`bls`/`blo`) while the element count `n` that
@@ -1873,34 +1864,34 @@ void *func_0200ED48(void *p)
  * src/matched/unit_0200EDC4.c for that follower, which this project can
  * reproduce but has not been able to seed in layout/function_starts.txt.
  */
-void func_0200ED54(struct L0200ED54 *l, u32 val)
+void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *list, u32 value)
 {
-    u32 i;
-    int n;
+    u32 index;
+    int shiftCount;
 
-    for (i = 0; i < l->count; i++) {
-        if (l->arr[i] != val)
+    for (index = 0; index < list->count; index++) {
+        if (list->values[index] != value)
             continue;
-        n = (int)l->count - 1 - (int)i;
-        if (n <= 0)
+        shiftCount = (int)list->count - 1 - (int)index;
+        if (shiftCount <= 0)
             return;
-        MI_CpuCopy8(&l->arr[i + 1], &l->arr[i], (u32)n * 4);
+        MI_CpuCopy8(&list->values[index + 1], &list->values[index], (u32)shiftCount * 4);
         {
-            u32 *p = l->arr + l->count;
-            p[-1] = val;
+            u32 *end = list->values + list->count;
+            end[-1] = value;
         }
         return;
     }
 
-    if (l->count < 32) {
-        l->arr[l->count] = val;
-        l->count++;
+    if (list->count < 32) {
+        list->values[list->count] = value;
+        list->count++;
         return;
     }
 
-    MI_CpuCopy8(&l->arr[1], &l->arr[0], 0x7c);
-    l->arr[31] = val;
-    l->count = 32;
+    MI_CpuCopy8(&list->values[1], &list->values[0], 0x7c);
+    list->values[31] = value;
+    list->count = 32;
 }
 
 
@@ -1908,8 +1899,8 @@ void func_0200ED54(struct L0200ED54 *l, u32 val)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The three functions that follow func_0200ED54 (src/matched/
- * func_0200ED54.c) inside this packet, none of which carries a label in
+ * The three functions that follow MISC_SAVEDATA_InsertRecentValue (src/matched/
+ * MISC_SAVEDATA_InsertRecentValue.c) inside this packet, none of which carries a label in
  * the generated listing: 0x0200EDC4 saves registers but not lr, and the
  * other two save nothing, so disasm.py's lr-saving prologue sweep never
  * fired on any of them and they print as runs of `.word` (docs/idioms/
@@ -1918,34 +1909,34 @@ void func_0200ED54(struct L0200ED54 *l, u32 val)
  * just past the end of the range.
  *
  * 0x0200EDC4, 40 bytes, is `contains` on the same 32-entry list
- * func_0200ED54 inserts into, and 0x0200EDEC / 0x0200EE14 are the
+ * MISC_SAVEDATA_InsertRecentValue inserts into, and 0x0200EDEC / 0x0200EE14 are the
  * get-bit and set-bit pair of a 256-bit bitmap at +0x84 of the same
  * object, both written with a signed index (`/ 32` and `% 32`, which is
  * what the `asrs`/`rors` pair is).
  */
-int sub_0200EDC4(struct L0200ED54 *l, u32 val)
+int MISC_SAVEDATA_ContainsRecentValue(struct RecentValueSave *list, u32 value)
 {
-    u32 i;
+    u32 index;
 
-    for (i = 0; i < l->count; i++) {
-        if (l->arr[i] == val)
+    for (index = 0; index < list->count; index++) {
+        if (list->values[index] == value)
             return 1;
     }
     return 0;
 }
 
 
-int sub_0200EDEC(char *obj, int i)
+int MISC_SAVEDATA_TestBitmapBit(char *list, int bitIndex)
 {
-    u32 *bits = (u32 *)(obj + 0x84);
+    u32 *bitmap = (u32 *)(list + 0x84);
 
-    return (bits[i / 32] >> (i % 32)) & 1;
+    return (bitmap[bitIndex / 32] >> (bitIndex % 32)) & 1;
 }
 
 
-void sub_0200EE14(char *obj, int i)
+void MISC_SAVEDATA_SetBitmapBit(char *list, int bitIndex)
 {
-    if (i >= 256)
+    if (bitIndex >= 256)
         return;
-    ((u32 *)(obj + 0x84))[i / 32] |= (u32)(1 << (i % 32));
+    ((u32 *)(list + 0x84))[bitIndex / 32] |= (u32)(1 << (bitIndex % 32));
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01866.h"
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Tagged;
 extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
-extern void func_02082C60(void *p, int v, int n);
+extern void MI_CpuFill(void *p, int v, int n);
 
 void FIELD_G3DOBJ_FreeResource(u8 *p)
 {
@@ -46,6 +46,6 @@ void FIELD_G3DOBJ_FreeResource(u8 *p)
         for (i = 0; i < p[0x28]; i++)
             G3D_SYSTEM_DeleteResource((struct Tagged *)(*(u32 *)(p + 8 + i * 4)));
     }
-    func_02082C60(p, 0, 0x2c);
+    MI_CpuFill(p, 0, 0x2c);
     p[0x29] = 1;
 }

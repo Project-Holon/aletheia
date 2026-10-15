@@ -1,5 +1,5 @@
 /*
- * function: func_021DD25C
+ * function: BOX2_MAIN_GetPartyValueAt
  * address:  0x021DD25C
  * packet:   pkt_ov170_021DD25C
  * region:   ov170
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
-unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v)
+unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v)
 {
     if (a >= 0x1E) {
         if (a >= 0x1E)

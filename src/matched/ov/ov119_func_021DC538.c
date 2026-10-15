@@ -1,5 +1,5 @@
 /*
- * function: func_021DC538
+ * function: POKETRADE_PROC_SetupGameData
  * address: 0x021DC538
  * packet: pkt_ov119_021DC538
  * region: ov119
@@ -20,4 +20,4 @@
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;extern unsigned POKE_TOOL_GetPartyParamSize(void);extern void *func_02030734(unsigned,unsigned,int,const char *,u16);extern char d_021E80B0[];extern int GAME_DATA_GetBoxManager(void *);extern int GAME_DATA_GetMyStatus(void *);extern void *GAME_DATA_GetMyParty(void *p);extern int POKETRADE_PROC_IsNetSession(void *);extern int GFL_NET_SYSTEM_GetCurrentAid(void);extern int GAME_DATA_GetPlayerStatus(void *,int);
-void func_021DC538(char *p,void *q) {unsigned i;for(i=0;i<3;i++)*(int *)(p+0x1064+i*4)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0xfde);if(q){((struct Obj00001 *)p)->f82C=q;*(int *)&((struct Obj00001 *)p)->f828=GAME_DATA_GetBoxManager(q);*(int *)&((struct Obj00001 *)p)->f830=GAME_DATA_GetMyStatus(q);((struct Obj00001 *)p)->f838=GAME_DATA_GetMyParty(q);if(*(int *)&((struct Obj00001 *)p)->f834==0){if(POKETRADE_PROC_IsNetSession(p)){*(int *)&((struct Obj00001 *)p)->f834=GAME_DATA_GetPlayerStatus(q,1-GFL_NET_SYSTEM_GetCurrentAid());return;}*(int *)&((struct Obj00001 *)p)->f834=GAME_DATA_GetPlayerStatus(q,1);}}}
+void POKETRADE_PROC_SetupGameData(char *p,void *q) {unsigned i;for(i=0;i<3;i++)*(int *)(p+0x1064+i*4)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0xfde);if(q){((struct Obj00001 *)p)->f82C=q;*(int *)&((struct Obj00001 *)p)->f828=GAME_DATA_GetBoxManager(q);*(int *)&((struct Obj00001 *)p)->f830=GAME_DATA_GetMyStatus(q);((struct Obj00001 *)p)->f838=GAME_DATA_GetMyParty(q);if(*(int *)&((struct Obj00001 *)p)->f834==0){if(POKETRADE_PROC_IsNetSession(p)){*(int *)&((struct Obj00001 *)p)->f834=GAME_DATA_GetPlayerStatus(q,1-GFL_NET_SYSTEM_GetCurrentAid());return;}*(int *)&((struct Obj00001 *)p)->f834=GAME_DATA_GetPlayerStatus(q,1);}}}

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA094
+ * function: RESEARCH_TOP_StepExitFade
  * address:  0x021BA094
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA150  0x021BA150  thumb  ov217
- *   func_021BA190  0x021BA190  thumb  ov217
- *   func_021BA194  0x021BA194  thumb  ov217
- *   func_021BA364  0x021BA364  thumb  ov217
+ *   RESEARCH_TOP_SetCommandReady  0x021BA150  thumb  ov217
+ *   RESEARCH_TOP_GetCommandTimer  0x021BA190  thumb  ov217
+ *   RESEARCH_TOP_IncCommandTimer  0x021BA194  thumb  ov217
+ *   RESEARCH_TOP_FadeOut  0x021BA364  thumb  ov217
  *   FADE_IsActive  0x0204E804  arm  arm9
  *
- * Two-case entry picked by func_021BA190(): mode 0 runs the
- * func_021BA364()/func_021BA194() pair, mode 1 runs func_021BA150() when the
+ * Two-case entry picked by RESEARCH_TOP_GetCommandTimer(): mode 0 runs the
+ * RESEARCH_TOP_FadeOut()/RESEARCH_TOP_IncCommandTimer() pair, mode 1 runs RESEARCH_TOP_SetCommandReady() when the
  * ARM9 query FADE_IsActive() is clear.
  *
  * Addresses are Black-image addresses.
@@ -31,20 +31,20 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int FADE_IsActive(void);
-extern void func_021BA150(void *p);
-extern u32 func_021BA190(void *p);
-extern void func_021BA194(void *p);
-extern void func_021BA364(void);
-void func_021BA094(u32 a0)
+extern void RESEARCH_TOP_SetCommandReady(void *p);
+extern u32 RESEARCH_TOP_GetCommandTimer(void *p);
+extern void RESEARCH_TOP_IncCommandTimer(void *p);
+extern void RESEARCH_TOP_FadeOut(void);
+void RESEARCH_TOP_StepExitFade(u32 a0)
 {
-    switch (func_021BA190((void *)a0)) {
+    switch (RESEARCH_TOP_GetCommandTimer((void *)a0)) {
     case 0:
-    func_021BA364();
-    func_021BA194((void *)a0);
+    RESEARCH_TOP_FadeOut();
+    RESEARCH_TOP_IncCommandTimer((void *)a0);
     break;
     case 1:
     if (FADE_IsActive() == 0) {
-    func_021BA150((void *)a0);
+    RESEARCH_TOP_SetCommandReady((void *)a0);
     }
     break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219451C
+ * function: CallReqCallback
  * address:  0x0219451C
  * packet:   pkt_ov009_0219451C
  * region:   ov009
@@ -15,7 +15,7 @@
  *   func_02184200 0x02184200  arm
  *   func_02184208 0x02184208  arm
  *   func_0218437C 0x0218437C  arm
- *   g_021ADFE0   0x021ADFE0  data
+ *   gGstatsConn   0x021ADFE0  data
  */
 
 #include "../include/G_StatsConn.h"
@@ -33,15 +33,15 @@ typedef struct {
 extern int func_02184200(const int *p);
 extern serverreq_t *func_02184208(void *array, int n);
 extern void func_0218437C(int a, int b);
-extern struct StatsConn g_021ADFE0;
+extern struct StatsConn gGstatsConn;
 
-void func_0219451C(int reqindex, int success, long modified, char *data, int length)
+void CallReqCallback(int reqindex, int success, long modified, char *data, int length)
 {
     serverreq_t *req;
 
-    if (reqindex < 0 || reqindex >= func_02184200((void *)((int *)&g_021ADFE0)[5]))
+    if (reqindex < 0 || reqindex >= func_02184200((void *)((int *)&gGstatsConn)[5]))
         return;
-    req = func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex);
+    req = func_02184208((void *)((int *)&gGstatsConn)[5], reqindex);
     if (req->callback != 0) {
         switch (req->type) {
         case 0:
@@ -58,5 +58,5 @@ void func_0219451C(int reqindex, int success, long modified, char *data, int len
             break;
         }
     }
-    func_0218437C((int)((void *)((int *)&g_021ADFE0)[5]), reqindex);
+    func_0218437C((int)((void *)((int *)&gGstatsConn)[5]), reqindex);
 }

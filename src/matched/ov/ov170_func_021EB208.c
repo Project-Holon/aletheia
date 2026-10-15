@@ -1,5 +1,5 @@
 /*
- * function: func_021EB208
+ * function: BOX2_SEQ_DrawMsgEntry
  * address: 0x021EB208
  * packet: pkt_ov170_021EB208
  * region: ov170
@@ -17,10 +17,10 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021EAC28 0x021EAC28 thumb ov170
- *   func_021EABD0 0x021EABD0 thumb ov170
- *   func_021EABA0 0x021EABA0 thumb ov170
- *   func_021EAAE4 0x021EAAE4 thumb ov170
+ *   BOX2_SEQ_PrintTextWinEx 0x021EAC28 thumb ov170
+ *   BOX2_SEQ_PrintTextWin 0x021EABD0 thumb ov170
+ *   BOX2_SEQ_MakeScreen 0x021EABA0 thumb ov170
+ *   BOX2_SEQ_SetDirtyBit 0x021EAAE4 thumb ov170
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  */
@@ -33,14 +33,14 @@ struct MsgBank;
 struct Rec;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
-extern void func_021EABD0(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
-extern void func_021EABA0(void **);
-extern void func_021EAAE4(unsigned char *p, unsigned i);
+extern void BOX2_SEQ_PrintTextWinEx(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
+extern void BOX2_SEQ_PrintTextWin(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
+extern void BOX2_SEQ_MakeScreen(void **);
+extern void BOX2_SEQ_SetDirtyBit(unsigned char *p, unsigned i);
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021EB208(char *p, Entry *e, int i)
+void BOX2_SEQ_DrawMsgEntry(char *p, Entry *e, int i)
 {
     void **windows;
     unsigned j;
@@ -51,11 +51,11 @@ void func_021EB208(char *p, Entry *e, int i)
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {
         for (; j < 4; j++) {
-            func_021EABD0((unsigned char *)p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((struct Obj08244 *)p)->f78, 0x440);
+            BOX2_SEQ_PrintTextWin((unsigned char *)p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((struct Obj08244 *)p)->f78, 0x440);
         }
     } else {
-        func_021EABD0((unsigned char *)p, i, ((struct Obj08244 *)p)->f80, 106, 0, 0, ((struct Obj08244 *)p)->f78, 0x440);
+        BOX2_SEQ_PrintTextWin((unsigned char *)p, i, ((struct Obj08244 *)p)->f80, 106, 0, 0, ((struct Obj08244 *)p)->f78, 0x440);
     }
     MSGDATA_Delete(bank);
-    func_021EABA0(windows + i * 2);
+    BOX2_SEQ_MakeScreen(windows + i * 2);
 }

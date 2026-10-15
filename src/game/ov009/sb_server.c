@@ -25,7 +25,7 @@
  * True when the argument equals the word at +0x8 of the module state object.
  *
  * symbols:
- *   func_0209ABF8                0x0209ABF8  arm
+ *   strcmp_nocase                0x0209ABF8  arm
  *   gsifree                      0x0217EAE0  arm
  *   TableNew2         0x02184638  arm
  *   g_021AEAF8        0x021AEAF8  data
@@ -53,13 +53,13 @@
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   g_021A8160  0x021A8160  data
  *   g_021A8164  0x021A8164  data
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
  *   func_0209477C  0x0209477C  arm
  *   g_021A816C  0x021A816C  data
  *   g_021A8178  0x021A8178  data
  *   g_021A81AC  0x021A81AC  data
- *   func_0209ABEC  0x0209ABEC  arm
+ *   strnicmp  0x0209ABEC  arm
  *   func_0217D254  0x0217D254  arm  ov009
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
@@ -89,7 +89,7 @@ typedef struct {
 
 typedef unsigned char  u8;
 
-extern int func_0209ABF8(char *s1, char *s2);
+extern int strcmp_nocase(char *s1, char *s2);
 extern void gsifree(void *ptr);
 extern struct HashImplementation *TableNew2(int elemSize, int nBuckets,
     int nChains, int (*hashFn)(void *, int), int (*compFn)(void *, void *),
@@ -111,9 +111,9 @@ extern int strcmp(char *a, char *b);
 extern char *func_0219E2D4(char *instr, char delim);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 extern unsigned int func_0209477C(const char *s);
-extern int func_0209ABEC(const char *s1, const char *s2, unsigned int n);
+extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern void SBReleaseStr(SBServerList *slist, char *str);
@@ -185,7 +185,7 @@ int RefStringHash(void *elem, int numbuckets)
 
 int RefStringCompare(void *entry1, void *entry2)
 {
-    return func_0209ABF8(*(char **)entry1, *(char **)entry2);
+    return strcmp_nocase(*(char **)entry1, *(char **)entry2);
 }
 
 
@@ -473,13 +473,13 @@ void func_0219E3CC(SBServer *server, char *data, int len)
     char tempkey[128];
 
     while (*data) {
-        dlen = func_0219F978(data, len);
+        dlen = NTSLengthSB(data, len);
         if (dlen < 0)
             return;
         k = data;
         data += dlen;
         len -= dlen;
-        dlen = func_0219F978(data, len);
+        dlen = NTSLengthSB(data, len);
         if (dlen < 0)
             return;
         v = data;
@@ -500,7 +500,7 @@ void func_0219E3CC(SBServer *server, char *data, int len)
         keys = data;
         nkeys = 0;
         while (*data) {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 return;
             if (dlen > 100)
@@ -514,7 +514,7 @@ void func_0219E3CC(SBServer *server, char *data, int len)
         for (i = 0; i < (int)nunits; i++) {
             k = keys;
             for (j = 0; j < nkeys; j++) {
-                dlen = func_0219F978(data, len);
+                dlen = NTSLengthSB(data, len);
                 if (dlen < 0)
                     return;
                 OS_SPrintf(tempkey, g_021A8164, k, i);
@@ -546,13 +546,13 @@ void func_0219E5B8(SBServer *server, char *data, int len)
 
     if (*data == '\0')
         return;
-    dlen = func_0219F978(data, len);
+    dlen = NTSLengthSB(data, len);
     if (dlen < 0)
         return;
     k = data;
     data += dlen;
     len -= dlen;
-    if (func_0209ABEC(g_021A816C, k, func_0209477C(g_021A816C)) != 0)
+    if (strnicmp(g_021A816C, k, func_0209477C(g_021A816C)) != 0)
         return;
 
     if (len < 1)
@@ -584,14 +584,14 @@ void func_0219E5B8(SBServer *server, char *data, int len)
             return;
         }
         while (*data != '\0') {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 return;
             k = data;
             data += dlen;
             len -= dlen;
             if (keyType == 0) {
-                dlen = func_0219F978(data, len);
+                dlen = NTSLengthSB(data, len);
                 if (dlen < 0)
                     return;
                 v = data;
@@ -606,7 +606,7 @@ void func_0219E5B8(SBServer *server, char *data, int len)
                 data++;
                 len--;
                 while (*data != '\0') {
-                    dlen = func_0219F978(data, len);
+                    dlen = NTSLengthSB(data, len);
                     if (dlen < 0)
                         return;
                     v = data;

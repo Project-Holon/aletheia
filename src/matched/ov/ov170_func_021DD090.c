@@ -1,5 +1,5 @@
 /*
- * function: func_021DD090
+ * function: BOX2_MAIN_UpdateWindowFrame
  * address:  0x021DD090
  * packet:   pkt_ov170_021DD090
  * region:   ov170
@@ -46,7 +46,7 @@ extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 
-void func_021DD090(Sys *p, unsigned idx)
+void BOX2_MAIN_UpdateWindowFrame(Sys *p, unsigned idx)
 {
     unsigned short w;
     unsigned short h;

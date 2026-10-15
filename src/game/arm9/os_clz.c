@@ -1,6 +1,6 @@
 /*
  * file:     os_clz.c
- * function: func_02087EA0
+ * function: OSi_CountLeadingZeros
  * address:  0x02087EA0
  * packet:   pkt_02087EA0
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 
 /* hand-written in the original: clz is never emitted by mwccarm from C */
-asm int func_02087EA0(unsigned int value)
+asm int OSi_CountLeadingZeros(unsigned int value)
 {
     clz r0, r0
     bx lr

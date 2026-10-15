@@ -1,5 +1,5 @@
 /*
- * function: func_02086F48
+ * function: OSi_DisplayExContext
  * address:  0x02086F48
  * packet:   pkt_02086F48
  * region:   arm9
@@ -45,7 +45,7 @@ extern u32 OSi_UserExceptionHandlerArg;
 extern OSExceptionHandler OSi_UserExceptionHandler;
 extern u32 OSi_ExContext[28];
 
-void func_02086F48(void)
+void OSi_DisplayExContext(void)
 {
     if (g_02151290.OSi_UserExceptionHandler) {
         asm {

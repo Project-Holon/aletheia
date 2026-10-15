@@ -1,7 +1,7 @@
 /*
  * file:     os_message.c
  * unit:     yes
- * function: func_02085D94, OS_SendMessage, OS_ReceiveMessage, func_02085EF0, func_02085F8C
+ * function: OS_InitMessageQueue, OS_SendMessage, OS_ReceiveMessage, func_02085EF0, OS_ReadMessage
  * address:  0x02085D94
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -47,16 +47,16 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern void OS_WakeupThread(OSThreadQueue *queue);
-void func_02085D94(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
+void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 BOOL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
 BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 BOOL OS_JamMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
-BOOL func_02085F8C(OSMessageQueue *mq, OSMessage *msg, s32 flags);
+BOOL OS_ReadMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 
 /*
  * sdk:      OS_InitMessageQueue (os_message.o)
  */
-void func_02085D94(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount)
+void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount)
 {
     mq->queueSend.head = mq->queueSend.tail = 0;
     mq->queueReceive.head = mq->queueReceive.tail = 0;
@@ -130,7 +130,7 @@ BOOL OS_JamMessage(OSMessageQueue *mq, OSMessage msg, s32 flags)
 /*
  * sdk:      OS_ReadMessage (os_message.o)
  */
-BOOL func_02085F8C(OSMessageQueue *mq, OSMessage *msg, s32 flags)
+BOOL OS_ReadMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

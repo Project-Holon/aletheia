@@ -24,7 +24,7 @@
  *
  * symbols:
  *   strlen                           0x0209477C arm
- *   func_02181E20                    0x02181E20 arm  ov009
+ *   gsXmlWriterGetDataLength                    0x02181E20 arm  ov009
  *   func_021803BC                    0x021803BC arm  ov009
  *   OS_SPrintf                       0x02084F40 arm
  *   ghiEncryptDataToBuffer                    0x021BFDEC arm  ov114
@@ -126,7 +126,7 @@ typedef struct GHIConnection {
     GHIEncryptor encryptor;        /* 0x194 */
 } GHIConnection;
 
-extern int func_02181E20(void *stream);
+extern int gsXmlWriterGetDataLength(void *stream);
 extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern GHTTPBool ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
@@ -192,7 +192,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                     header.mOptionsLength = 0;
                     header.mIdLength = htons((short)strlen(sGhttpCidId));
                     header.mTypeLength = htons((short)strlen(sGhttpHttpSchemasXmlsoapOrgSoap));
-                    header.mDataLength = htonl(func_02181E20(state->data->data.xml.xml));
+                    header.mDataLength = htonl(gsXmlWriterGetDataLength(state->data->data.xml.xml));
                     memcpy(&buffer[writePos], &header, sizeof(GSIDimeHeader));
                     writePos += sizeof(GSIDimeHeader);
 

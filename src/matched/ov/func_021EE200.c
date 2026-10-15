@@ -1,5 +1,5 @@
 /*
- * function: func_021EE200
+ * function: BOX2_UI_DeleteBmpOam
  * address:  0x021EE200
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -25,7 +25,7 @@ struct Obj020437AC;
 extern void BMP_OAM_Delete(struct Grid *g);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void BMP_OAM_DeleteSys(void *p);
-void func_021EE200(char *p)
+void BOX2_UI_DeleteBmpOam(char *p)
 {
     unsigned i;
     for (i = 0; i < 9; i++) {

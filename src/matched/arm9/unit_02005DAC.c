@@ -25,7 +25,7 @@
  *   GFL_USE_IsSeqStartAllowed   0x02005CE0  thumb
  *   GFL_USE_StopBgm   0x02005D14  thumb
  *   GFL_USE_CancelBgmChange   0x02005F90  thumb
- *   func_020755A8  0x020755A8  arm
+ *   NNS_SndArcPlayerStartSeqEx  0x020755A8  arm
  *
  * Two guarded steps of a wireless session teardown, each abandoning the
  * function when its predicate comes back zero, and a five argument call
@@ -73,7 +73,7 @@ extern int   GFL_USE_IsSeqStartAllowed(void *arg);
 extern void  GFL_USE_StopBgm(void);
 extern void  GFL_USE_CancelBgmChange(void);
 
-extern u32 func_020755A8(u32 obj, int a, int b, int c, u32 arg);
+extern u32 NNS_SndArcPlayerStartSeqEx(u32 obj, int a, int b, int c, u32 arg);
 
 void GFL_USE_PlayFanfare(void *arg)
 {
@@ -85,5 +85,5 @@ void GFL_USE_PlayFanfare(void *arg)
     if (GFL_USE_LoadBgmData((unsigned int)arg) == 0) {
         return;
     }
-    func_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 6, -1, -1, (u32)arg);
+    NNS_SndArcPlayerStartSeqEx((u32)GFL_USE_GetCurrentSndHandle(), 6, -1, -1, (u32)arg);
 }

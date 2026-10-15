@@ -54,8 +54,8 @@
  *   sGhttpSslBadSignatureDoNot                       0x021ce9e4 data
  *   sGhttpSslUnknownSignatureAlgorithm                       0x021cea14 data
  *   sGhttpSslUnknownPublicKeyAlrorithm                       0x021cea44 data
- *   func_02088168  0x02088168  arm
- *   func_02162248  0x02162248  arm   ov009
+ *   OS_GetLowEntropyData  0x02088168  arm
+ *   CPS_SslAddRandomSeed  0x02162248  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
  *   func_020923B0  0x020923b0  arm
  *   gGhttpSslRandomSeed     0x021d3b44  data  ov114
@@ -128,8 +128,8 @@ extern void func_021842D0(void *array, void *element, GHTTPArrayCompareFunc comp
 extern void func_0218437C(int a, int b);
 extern int func_02184200(const int *p);
 extern void func_021841B0(void *);
-extern void func_02088168(unsigned long *);
-extern void func_02162248(void *, unsigned long);
+extern void OS_GetLowEntropyData(unsigned long *);
+extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
 extern void *func_020923B0(void *, int, unsigned long);
 extern int func_0215FC80(int s, void *con);
@@ -423,8 +423,8 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
     rootCaList = ghiEncryptorGetRootCAList(url);
     if (rootCaList != 0) {
         if (rootCaList->certs != 0 && rootCaList->count > 0) {
-            func_02088168(gGhttpSslRandomSeed);
-            func_02162248(gGhttpSslRandomSeed, 0x20);
+            OS_GetLowEntropyData(gGhttpSslRandomSeed);
+            CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
             sslCon = func_0217EAB0(0x830);
             if (sslCon != 0) {
                 func_020923B0(sslCon, 0, 0x830);

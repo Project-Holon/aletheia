@@ -1,5 +1,5 @@
 /*
- * function: func_021EE470
+ * function: BOX2_UI_Dummy
  * address: 0x021EE470
  * packet: pkt_ov170_021EE470
  * region: ov170
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov170/box2_ui.c and filed here.
  */
 
-void func_021EE470(void);
+void BOX2_UI_Dummy(void);
 
-void func_021EE470(void) {}
+void BOX2_UI_Dummy(void) {}

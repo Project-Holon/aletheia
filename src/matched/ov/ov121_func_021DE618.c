@@ -1,5 +1,5 @@
 /*
- * function: func_021DE618
+ * function: MYSTERY_NET_NoopHandler
  * address: 0x021DE618
  * packet: pkt_ov121_021DE618
  * region: ov121
@@ -9,4 +9,4 @@
  * status: EXACT*
  * extent: empty callback followed by zero alignment padding then labelled 021DE61C.
  */
-void func_021DE618(void) {}
+void MYSTERY_NET_NoopHandler(void) {}

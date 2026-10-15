@@ -1,5 +1,5 @@
 /*
- * function: func_020879F8
+ * function: OS_SpinWaitCpuCycles
  * address:  0x020879F8
  * packet:   pkt_020879F8
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020879F8    0x020879F8  arm
+ *   OS_SpinWaitCpuCycles    0x020879F8  arm
 */
 
-extern void func_020879F8(void);
+extern void OS_SpinWaitCpuCycles(void);
 
-asm void func_020879F8(void)
+asm void OS_SpinWaitCpuCycles(void)
 {
     subs	r0, r0, #4
-    bhs	func_020879F8
+    bhs	OS_SpinWaitCpuCycles
     bx	lr
 }

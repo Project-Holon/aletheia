@@ -1,5 +1,5 @@
 /*
- * function: func_021C0084
+ * function: RESEARCH_GRAPH_ExitOverlayBackgrounds
  * address:  0x021C0084
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021C0084  0x021C0084  thumb  ov217
+ *   RESEARCH_GRAPH_ExitOverlayBackgrounds  0x021C0084  thumb  ov217
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 extern u32 func_020403F4();
 extern void BMP_WIN_Exit(void);
-u32 func_021C0084(void)
+u32 RESEARCH_GRAPH_ExitOverlayBackgrounds(void)
 {
     BMP_WIN_Exit();
     func_020403F4(0);

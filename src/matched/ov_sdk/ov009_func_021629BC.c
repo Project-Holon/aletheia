@@ -1,5 +1,5 @@
 /*
- * function: func_021629BC
+ * function: CPSi_SslRead
  * address:  0x021629BC
  * packet:   pkt_ov009_021629BC
  * region:   ov009
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_02161BE8  0x02161BE8  arm  ov009
- *   func_02161C80  0x02161C80  arm  ov009
- *   func_02161F98  0x02161F98  arm  ov009
- *   g_021A82B0  0x021A82B0  data
+ *   parse_record_in_buf  0x02161C80  arm  ov009
+ *   parse_record  0x02161F98  arm  ov009
+ *   CPSiFree  0x021A82B0  data
  */
 
 typedef struct CPSSslConnection {
@@ -32,30 +32,30 @@ typedef struct CPSSoc {
     CPSSslConnection *con;              /* +0xc */
 } CPSSoc;
 
-extern void (*g_021A82B0)(void *p);
+extern void (*CPSiFree)(void *p);
 
 extern int func_02161BE8(unsigned char *d, int len, CPSSoc *soc);
-extern void func_02161C80(CPSSslConnection *con, unsigned char *buf);
-extern int func_02161F98(CPSSoc *soc);
+extern void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
+extern int parse_record(CPSSoc *soc);
 
-unsigned char *func_021629BC(unsigned long *len, CPSSoc *soc)
+unsigned char *CPSi_SslRead(unsigned long *len, CPSSoc *soc)
 {
     CPSSslConnection *con;
 
     con = soc->con;
     if (con->buf != 0 && con->have_record == 0) {
         if (func_02161BE8(con->buf + con->pos, con->end - con->pos, soc) != 0) {
-            g_021A82B0(con->buf);
+            CPSiFree(con->buf);
             con->buf = 0;
             *len = 0;
             return 0;
         }
-        func_02161C80(con, con->buf);
+        parse_record_in_buf(con, con->buf);
         if (con->have_record == 0)
             con->buf = 0;
     }
     while (con->buf == 0) {
-        if (func_02161F98(soc) == 9) {
+        if (parse_record(soc) == 9) {
             *len = 0;
             return 0;
         }

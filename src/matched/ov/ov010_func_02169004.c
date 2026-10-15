@@ -22,8 +22,8 @@
  *   func_02009470  0x02009470  thumb
  *   func_0200952C  0x0200952C  thumb
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
- *   func_0200E394  0x0200E394  thumb
- *   func_0200E518  0x0200E518  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
+ *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   func_0200AB04  0x0200AB04  thumb
  *
@@ -31,7 +31,7 @@
  * no lr, right after the "pop {r4, pc}" at 0x0200E516) that the prologue
  * sweep misses.  The bl at +0x52 is its only reference in the image; its
  * start is seeded in layout/function_starts.txt, and the callee itself is
- * matched EXACT* (src/matched/arm9/func_0200E518.c), so +0x52 attests as
+ * matched EXACT* (src/matched/arm9/MISC_SAVEDATA_FoldTally.c), so +0x52 attests as
  * `matched`.
  */
 
@@ -54,8 +54,8 @@ extern void func_02008E30(void *a0);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void func_0200952C(struct Sub02009470Obj *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(int, int, int);
-extern void *func_0200E394(void *a0);
-extern void func_0200E518(struct Tally *t);
+extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
+extern void MISC_SAVEDATA_FoldTally(struct Tally *t);
 extern void *func_0200A8A0(void *sys);
 extern void func_0200AB04(struct Rec0200AB04 *o);
 
@@ -70,6 +70,6 @@ void FIELD_CLOCK_UpdateDays(int a, int b)
     func_02008E30(GAME_DATA_GetTrainerRecord((int *)a));
     func_0200952C(func_02009470((void *)x));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(a, b, 4);
-    func_0200E518(func_0200E394((void *)x));
+    MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock((void *)x));
     func_0200AB04(func_0200A8A0((void *)x));
 }

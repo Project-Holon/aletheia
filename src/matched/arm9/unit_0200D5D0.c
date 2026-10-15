@@ -53,6 +53,7 @@
  *   func_0203F1FC    0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  */
 
 typedef unsigned char  u8;
@@ -76,7 +77,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 struct Rec0200E6FC;
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -151,7 +152,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     for (i = 0; i < 0x28; i++) {
         p->unk20[i] = STRBUF_GetEosChar();
     }
-    func_0200E6FC(env, 0, (struct Rec0200E6FC *)p->unk20);
+    MISC_SAVEDATA_CopyQuadRecord(env, 0, (struct Rec0200E6FC *)p->unk20);
     p->unk15 = info.unk02;
     p->unk16 = func_02008554(rec);
     p->unk19 = 0x15;

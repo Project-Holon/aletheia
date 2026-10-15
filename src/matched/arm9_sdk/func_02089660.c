@@ -1,5 +1,5 @@
 /*
- * function: func_02089660
+ * function: SND_SetupChannelPcm
  * address:  0x02089660
  * packet:   pkt_02089660
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089660(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan)
+void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan)
 {
     PushCommand_impl(0xe, (u32)(chNo | (timer << 16)), (u32)dataaddr, (u32)((volume << 24) | (shift << 22) | loopLen), (u32)((loop << 26) | (format << 24) | (pan << 16) | loopStart));
 }

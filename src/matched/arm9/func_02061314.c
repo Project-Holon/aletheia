@@ -1,5 +1,5 @@
 /*
- * function: func_02061314
+ * function: NNSi_FndFreeToVramAllocator
  * address: 0x02061314
  * packet: pkt_arm9_02061314
  * region: arm9
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/arm9/unit_02061224.c and filed here.
  *
  * symbols:
- *   func_020869E8 0x020869E8 arm
+ *   OS_FreeToHeap 0x020869E8 arm
  */
 
 typedef unsigned int u32;
@@ -24,10 +24,10 @@ struct Allocator02061 {
     u32 param2;
 };
 
-extern void func_020869E8(int id, int heap, void *ptr);
-void func_02061314(struct Allocator02061 *allocator, void *ptr);
+extern void OS_FreeToHeap(int id, int heap, void *ptr);
+void NNSi_FndFreeToVramAllocator(struct Allocator02061 *allocator, void *ptr);
 
-void func_02061314(struct Allocator02061 *allocator, void *ptr)
+void NNSi_FndFreeToVramAllocator(struct Allocator02061 *allocator, void *ptr)
 {
-    func_020869E8((int)allocator->param1, (int)allocator->heap, ptr);
+    OS_FreeToHeap((int)allocator->param1, (int)allocator->heap, ptr);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     os_event.c
  * unit:     yes
- * function: func_020882DC, func_020882F0, func_02088398
+ * function: func_020882DC, OS_WaitEventEx, OS_SignalEvent
  * address:  0x020882DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,8 +42,8 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 asm void OS_InitEvent(void);
-u32 func_020882F0(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit);
-void func_02088398(OSEvent *event, u32 setPattern);
+u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit);
+void OS_SignalEvent(OSEvent *event, u32 setPattern);
 
 asm void OS_InitEvent(void)
 {
@@ -58,7 +58,7 @@ asm void OS_InitEvent(void)
 /*
  * sdk:      OS_WaitEventEx (os_event.o)
  */
-u32 func_020882F0(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
+u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
 {
     u32 retval = 0;
     OSIntrMode enable = OS_DisableInterrupts();
@@ -90,7 +90,7 @@ u32 func_020882F0(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit)
 /*
  * sdk:      OS_SignalEvent (os_event.o)
  */
-void func_02088398(OSEvent *event, u32 setPattern)
+void OS_SignalEvent(OSEvent *event, u32 setPattern)
 {
     OSIntrMode enable = OS_DisableInterrupts();
 

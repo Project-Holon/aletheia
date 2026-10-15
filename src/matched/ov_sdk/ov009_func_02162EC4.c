@@ -1,5 +1,5 @@
 /*
- * function: func_02162EC4
+ * function: CPSi_SslPeriodical
  * address:  0x02162EC4
  * packet:   pkt_ov009_02162EC4
  * region:   ov009
@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   g_021AA664     0x021AA664  data
+ *   gCpsSslSessionCache     0x021AA664  data
  *   g_02150FEC     0x02150FEC  data
  */
 
@@ -55,10 +55,10 @@ struct OSiThreadInfo {
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_WakeupThreadDirect(struct _OSThread *thread);
-extern struct CPSSslSession g_021AA664[4];
+extern struct CPSSslSession gCpsSslSessionCache[4];
 extern struct OSiThreadInfo g_02150FEC;
 
-void func_02162EC4(unsigned long now)
+void CPSi_SslPeriodical(unsigned long now)
 {
     int i;
     struct _CPSSoc *soc;
@@ -67,7 +67,7 @@ void func_02162EC4(unsigned long now)
 
     enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
-        struct CPSSslSession *p = &g_021AA664[i];
+        struct CPSSslSession *p = &gCpsSslSessionCache[i];
         if (p->valid && (long)(now - p->when) > 957)
             p->valid = 0;
     }

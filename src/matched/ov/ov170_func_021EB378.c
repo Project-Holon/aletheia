@@ -1,5 +1,5 @@
 /*
- * function: func_021EB378
+ * function: BOX2_SEQ_DrawWindowFrame
  * address:  0x021EB378
  * packet:   pkt_ov170_021EB378
  * region:   ov170
@@ -67,7 +67,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define HEAP 0x804C
 
-void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon)
+void BOX2_SEQ_DrawWindowFrame(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon)
 {
     void *win = *(void **)(WORK(p) + 0x94 + idx * 8);
     void *bmp = BMP_WIN_GetBmp(win);

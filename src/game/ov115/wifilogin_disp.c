@@ -1,7 +1,7 @@
 /*
  * file:     wifilogin_disp.c
  * unit:     yes
- * function: func_021D42A8, func_021D42B8, func_021D42C8, func_021D42E0, func_021D4310, func_021D4360, func_021D43CC, func_021D43F4, func_021D4430, func_021D4474, func_021D4510, func_021D456C, func_021D45D0, func_021D460C, func_021D4644, func_021D46CC, func_021D4708, func_021D4798, func_021D47C4, func_021D4878, func_021D48A4, func_021D4910, func_021D493C, func_021D497C, func_021D4A98, func_021D4AB0, func_021D4B3C, func_021D4B80, func_021D4BB4, func_021D4BC4, func_021D4BFC, func_021D4CE4, func_021D4D10, func_021D4D38, func_021D4DF4, func_021D4E04, func_021D4E58, func_021D4FA4, func_021D50BC, func_021D5214, func_021D532C, func_021D5528, func_021D5598, func_021D57D0, func_021D580C, func_021D584C, func_021D58B4, func_021D5900, func_021D592C, func_021D5938, func_021D5984, func_021D5A88, func_021D5A9C, func_021D5B50, func_021D5B5C, func_021D5C24, func_021D5C30, func_021D5C70, func_021D5C94, func_021D5CCC, func_021D5D3C, func_021D5D5C, func_021D5E34, func_021D5E48, func_021D5E6C, func_021D5EA8, func_021D5ED8, func_021D5F7C, func_021D5FA0, func_021D5FC4, func_021D5FE8, func_021D603C, func_021D60D4, func_021D6104, func_021D6130, func_021D6134, func_021D613C, func_021D6150, func_021D6198, func_021D61B8, func_021D61D8, func_021D61FC, func_021D625C, func_021D6274, func_021D6294, func_021D62B4, func_021D630C
+ * function: func_021D42A8, func_021D42B8, func_021D42C8, func_021D42E0, func_021D4310, func_021D4360, func_021D43CC, func_021D43F4, func_021D4430, func_021D4474, func_021D4510, func_021D456C, func_021D45D0, func_021D460C, func_021D4644, func_021D46CC, func_021D4708, func_021D4798, func_021D47C4, func_021D4878, func_021D48A4, func_021D4910, func_021D493C, func_021D497C, func_021D4A98, func_021D4AB0, func_021D4B3C, func_021D4B80, func_021D4BB4, func_021D4BC4, func_021D4BFC, func_021D4CE4, func_021D4D10, func_021D4D38, func_021D4DF4, func_021D4E04, func_021D4E58, func_021D4FA4, func_021D50BC, func_021D5214, func_021D532C, func_021D5528, func_021D5598, func_021D57D0, func_021D580C, func_021D584C, func_021D58B4, func_021D5900, func_021D592C, func_021D5938, func_021D5984, func_021D5A88, func_021D5A9C, func_021D5B50, func_021D5B5C, func_021D5C24, func_021D5C30, func_021D5C70, func_021D5C94, func_021D5CCC, func_021D5D3C, func_021D5D5C, func_021D5E34, func_021D5E48, func_021D5E6C, func_021D5EA8, func_021D5ED8, func_021D5F7C, func_021D5FA0, func_021D5FC4, func_021D5FE8, func_021D603C, func_021D60D4, func_021D6104, func_021D6130, func_021D6134, func_021D613C, func_021D6150, func_021D6198, func_021D61B8, func_021D61D8, func_021D61FC, func_021D625C, func_021D6274, func_021D6294, func_021D62B4, func_021D630C, func_021D6328
  * address:  0x021D42A8
  * region:   ov115
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   func_020099C8 0x020099C8 thumb
  *   func_02009C24 0x02009C24 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_021D426C 0x021D426C thumb ov115
- *   func_021D4240 0x021D4240 thumb ov115
+ *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
+ *   WIFILOGIN_COMMON_IsCancelInput 0x021D4240 thumb ov115
  *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
  *   func_0202EB0C 0x0202EB0C thumb
  *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
@@ -35,7 +35,7 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021D6560 0x021D6560 data a4
  *   d_021D65C0 0x021D65C0 data a4
- *   d_021D6640 0x021D6640 data a4
+ *   gWifiloginDialogId 0x021D6640 data a4
  *   func_0200FB24 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
@@ -376,8 +376,8 @@ extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021D426C(u8 *,u32);
-extern int func_021D4240(u8 *);
+extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32);
+extern int WIFILOGIN_COMMON_IsCancelInput(u8 *);
 extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern u32 func_0202EB0C(void);
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
@@ -525,7 +525,6 @@ extern int func_02028484(Blk *,void *);
 extern void func_0201F7A8(void *,u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32, int, int);
 extern void APP_TASKMENU_SetCursorPos(u8 *, int);
@@ -632,7 +631,7 @@ void func_021D62B4(u8 *p);
 void func_021D630C(u8 *a0);
 extern u8 d_021D6560[];
 extern u8 d_021D65C0[];
-extern u8 d_021D6640[];
+extern u8 gWifiloginDialogId[];
 extern char d_021D65D0[];
 extern u8 d_021D6614[];
 extern u32 d_021D65E4[];
@@ -703,7 +702,7 @@ void func_021D42C8(int a,int b,u8 *p) { func_02009C24((void *)func_0201283C(((st
 
 
 
-void func_021D42E0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(((struct Obj22585 *)p)->f38)) && func_021D4240(p)) func_021D426C(p,(u32)func_021D4AB0); }
+void func_021D42E0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(((struct Obj22585 *)p)->f38)) && WIFILOGIN_COMMON_IsCancelInput(p)) WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); }
 
 
 
@@ -719,14 +718,14 @@ void func_021D42E0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(((str
 
 void func_021D4310(u8 *p)
 {
-    if (func_021D4240(p)) {
+    if (WIFILOGIN_COMMON_IsCancelInput(p)) {
         func_021D5F7C((u8 *)(((struct Obj08038 *)p)->f38));
         if (((struct Obj22586 *)(*(u8 * *)&((struct Obj08038 *)p)->f40))->f4 == 0)
             func_021D5CCC((u8 *)(((struct Obj08038 *)p)->f38), 0x23);
         if (((struct Obj22587 *)(*(u8 * *)&((struct Obj08038 *)p)->f40))->f10 != 0)
-            func_021D426C(p, (u32)func_021D4BB4);
+            WIFILOGIN_COMMON_SetStateHandler(p, (u32)func_021D4BB4);
         else
-            func_021D426C(p, (u32)func_021D4AB0);
+            WIFILOGIN_COMMON_SetStateHandler(p, (u32)func_021D4AB0);
     } else {
         func_021D4644(p);
     }
@@ -745,7 +744,7 @@ void func_021D4310(u8 *p)
 
 
 void func_021D4360(u8 *p) {
- if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
+ if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4BB4); } else { WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); } } else func_021D4644(p);
 }
 
 
@@ -772,7 +771,7 @@ void func_021D43CC(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA
 
 
 
-void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *)p)->f38))) { a=func_02012944(((struct Obj06413 *)p)->f44); func_02008540(a,func_02009CC0(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; func_021D426C(p,(u32)func_021D43CC); } }
+void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *)p)->f38))) { a=func_02012944(((struct Obj06413 *)p)->f44); func_02008540(a,func_02009CC0(((struct Obj06413 *)p)->f3C)); GAME_DATA_SaveStart(*(u8 * *)&((struct Obj06413 *)p)->f44); ((struct Obj06413 *)p)->f24=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43CC); } }
 
 
 
@@ -785,7 +784,7 @@ void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *
 
 
 void func_021D4430(u8 *p) {
- if(func_021D5C70((u8 *)((int)((u8 *)W(0x38))))) { if(DWC_RAP_IsUserDataChanged() && !W(0x24) && *(int *)(P(0x40)+0x14)!=2) { func_021D5C24((void *)W(0x38),30); func_021D426C(p,(u32)func_021D43F4); } else { func_021D4360(p); } }
+ if(func_021D5C70((u8 *)((int)((u8 *)W(0x38))))) { if(DWC_RAP_IsUserDataChanged() && !W(0x24) && *(int *)(P(0x40)+0x14)!=2) { func_021D5C24((void *)W(0x38),30); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D43F4); } else { func_021D4360(p); } }
 }
 
 
@@ -799,7 +798,7 @@ void func_021D4430(u8 *p) {
 
 
 void func_021D4474(u8 *p) {
- int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(*(int *)(P(0x40)+0xc)==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(*(int *)(P(0x40)+0xc)==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(*(int *)(P(0x40)+0xc)!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=*(int *)(P(0x40)+0xc); *(u32 *)d_021D6640=*(int *)(P(0x40)+0xc); GFL_NET_StartSession((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!*(int *)(P(0x40)+8)) GFL_NET_RestartWithDefaultTimeout(z,((struct Obj13849 *)p)->fC); else GFL_NET_RestartWithDefaultTimeout(1,((struct Obj13849 *)p)->fC); func_021D5C24((void *)W(0x38),23); func_021D592C(P(0x34)); func_021D426C(p,(u32)func_021D4430);
+ int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(*(int *)(P(0x40)+0xc)==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(*(int *)(P(0x40)+0xc)==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(*(int *)(P(0x40)+0xc)!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=*(int *)(P(0x40)+0xc); *(u32 *)gWifiloginDialogId=*(int *)(P(0x40)+0xc); GFL_NET_StartSession((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!*(int *)(P(0x40)+8)) GFL_NET_RestartWithDefaultTimeout(z,((struct Obj13849 *)p)->fC); else GFL_NET_RestartWithDefaultTimeout(1,((struct Obj13849 *)p)->fC); func_021D5C24((void *)W(0x38),23); func_021D592C(P(0x34)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4430);
 }
 
 
@@ -812,7 +811,7 @@ void func_021D4474(u8 *p) {
 
 
 void func_021D4510(u8 *p) {
- if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; func_021D426C(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D4AB0); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
+ if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
 }
 
 
@@ -825,7 +824,7 @@ void func_021D4510(u8 *p) {
 
 
 void func_021D456C(u8 *p) {
- if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; func_021D426C(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D4AB0); } func_021D5F7C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); }
+ if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); } func_021D5F7C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); }
 }
 
 
@@ -835,7 +834,7 @@ void func_021D456C(u8 *p) {
 
 
 
-void func_021D45D0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int *)&((struct Obj08039 *)p)->f38))) { ((struct Obj08039 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08039 *)p)->f38,1,!((struct Obj22589 *)(*(u8 * *)&((struct Obj08039 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D4510); } }
+void func_021D45D0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int *)&((struct Obj08039 *)p)->f38))) { ((struct Obj08039 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08039 *)p)->f38,1,!((struct Obj22589 *)(*(u8 * *)&((struct Obj08039 *)p)->f40))->f4,0); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4510); } }
 
 
 
@@ -850,7 +849,7 @@ void func_021D45D0(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int
 
 
 
-void func_021D460C(u8 *p) { if(WIPE_SYS_EndCheck()) { func_021D5D3C((u8 *)(*(int *)&((struct Obj08040 *)p)->f38)); ((struct Obj08040 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08040 *)p)->f38,1,!((struct Obj22590 *)(*(u8 * *)&((struct Obj08040 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D456C); } }
+void func_021D460C(u8 *p) { if(WIPE_SYS_EndCheck()) { func_021D5D3C((u8 *)(*(int *)&((struct Obj08040 *)p)->f38)); ((struct Obj08040 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08040 *)p)->f38,1,!((struct Obj22590 *)(*(u8 * *)&((struct Obj08040 *)p)->f40))->f4,0); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D456C); } }
 
 
 
@@ -866,7 +865,7 @@ void func_021D460C(u8 *p) { if(WIPE_SYS_EndCheck()) { func_021D5D3C((u8 *)(*(int
 
 
 int func_021D4644(u8 *p) {
- if(func_0200FB24()) { switch(*(u32 *)(GFL_NET_STATE_GetError()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C((u8 *)W(0x38)); func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5C94((u8 *)W(0x38)); GFL_NET_ERR_ShowSimpleScreen(); func_021D5938((u8 *)W(0x34)); if(GFL_NET_GetRunState()) func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode(); func_021D5ED8((u8 *)W(0x38),37); func_021D426C(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
+ if(func_0200FB24()) { switch(*(u32 *)(GFL_NET_STATE_GetError()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C((u8 *)W(0x38)); func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5C94((u8 *)W(0x38)); GFL_NET_ERR_ShowSimpleScreen(); func_021D5938((u8 *)W(0x34)); if(GFL_NET_GetRunState()) func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode(); func_021D5ED8((u8 *)W(0x38),37); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
 }
 
 
@@ -882,7 +881,7 @@ int func_021D4644(u8 *p) {
 
 
 
-void func_021D46CC(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int *)&((struct Obj08041 *)p)->f38))) { ((struct Obj08041 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08041 *)p)->f38,0,!((struct Obj22591 *)(*(u8 * *)&((struct Obj08041 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D456C); } }
+void func_021D46CC(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int *)&((struct Obj08041 *)p)->f38))) { ((struct Obj08041 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08041 *)p)->f38,0,!((struct Obj22591 *)(*(u8 * *)&((struct Obj08041 *)p)->f40))->f4,0); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D456C); } }
 
 
 
@@ -898,7 +897,7 @@ void func_021D46CC(u8 *p) { if(WIPE_SYS_EndCheck() && func_021D5C70((u8 *)(*(int
 
 
 void func_021D4708(u8 *p) {
- void *v; if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl((void *)W(0x44))),1); func_0200B110(v,10,5); *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); func_021D426C(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D497C); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
+ void *v; if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl((void *)W(0x44))),1); func_0200B110(v,10,5); *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
 }
 
 
@@ -914,7 +913,7 @@ void func_021D4708(u8 *p) {
 
 
 
-void func_021D4798(u8 *p) { ((struct Obj10330 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10330 *)p)->f38,1,!((struct Obj22592 *)(*(u8 * *)&((struct Obj10330 *)p)->f40))->f4,1); func_021D426C(p,(u32)func_021D4708);  }
+void func_021D4798(u8 *p) { ((struct Obj10330 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10330 *)p)->f38,1,!((struct Obj22592 *)(*(u8 * *)&((struct Obj10330 *)p)->f40))->f4,1); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4708);  }
 
 
 
@@ -929,7 +928,7 @@ void func_021D4798(u8 *p) { ((struct Obj10330 *)p)->f30=func_021D5D5C(*(u8 * *)&
 
 
 void func_021D47C4(u8 *p) {
- int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); x=func_0200B078(v,2); y=func_0200B078(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),38); func_021D426C(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); func_021D426C(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D497C); } }
+ int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); x=func_0200B078(v,2); y=func_0200B078(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),38); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C); } }
 }
 
 
@@ -944,7 +943,7 @@ void func_021D47C4(u8 *p) {
 
 
 
-void func_021D4878(u8 *p) { ((struct Obj10331 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10331 *)p)->f38,1,!((struct Obj22593 *)(*(u8 * *)&((struct Obj10331 *)p)->f40))->f4,1); func_021D426C(p,(u32)func_021D47C4);  }
+void func_021D4878(u8 *p) { ((struct Obj10331 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10331 *)p)->f38,1,!((struct Obj22593 *)(*(u8 * *)&((struct Obj10331 *)p)->f40))->f4,1); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D47C4);  }
 
 
 
@@ -959,7 +958,7 @@ void func_021D4878(u8 *p) { ((struct Obj10331 *)p)->f30=func_021D5D5C(*(u8 * *)&
 
 
 void func_021D48A4(u8 *p) {
- if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),22); func_021D426C(p,(u32)func_021D4878); } else { *(int *)(P(0x40)+0x1c)=1; func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D426C(p,(u32)func_021D4AB0); } func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
+ if(func_021D5E6C((u8 *)W(0x30))) { if(!func_021D5EA8((u8 *)W(0x30))) { *(int *)(P(0x40)+0x1c)=0; func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5ED8((u8 *)W(0x38),22); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4878); } else { *(int *)(P(0x40)+0x1c)=1; func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); } func_021D5E34((u8 *)W(0x30)); W(0x30)=0; }
 }
 
 
@@ -972,7 +971,7 @@ void func_021D48A4(u8 *p) {
 
 
 
-void func_021D4910(u8 *p) { ((struct Obj10332 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10332 *)p)->f38,1,!((struct Obj22594 *)(*(u8 * *)&((struct Obj10332 *)p)->f40))->f4,1); func_021D426C(p,(u32)func_021D48A4);  }
+void func_021D4910(u8 *p) { ((struct Obj10332 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10332 *)p)->f38,1,!((struct Obj22594 *)(*(u8 * *)&((struct Obj10332 *)p)->f40))->f4,1); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D48A4);  }
 
 
 
@@ -984,7 +983,7 @@ void func_021D4910(u8 *p) { ((struct Obj10332 *)p)->f30=func_021D5D5C(*(u8 * *)&
 
 
 void func_021D493C(u8 *p) {
- if (WIPE_SYS_EndCheck() && func_021D4240(p)) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); if (func_0202EB0C()) func_021D5ED8((u8 *)W(0x38), 0x2e); else func_021D5ED8((u8 *)W(0x38), 0x15); func_021D426C(p, (u32)func_021D4910); }
+ if (WIPE_SYS_EndCheck() && WIFILOGIN_COMMON_IsCancelInput(p)) { func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); if (func_0202EB0C()) func_021D5ED8((u8 *)W(0x38), 0x2e); else func_021D5ED8((u8 *)W(0x38), 0x15); WIFILOGIN_COMMON_SetStateHandler(p, (u32)func_021D4910); }
 }
 
 
@@ -1008,19 +1007,19 @@ void func_021D497C(u8 *p)
         func_021D5D3C((u8 *)((int)(P(0x38))));
         func_021D5ED8(P(0x38),39);
         *(int *)(P(0x40)+0x1c)=1;
-        func_021D426C(p,(u32)func_021D42E0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D42E0);
         return;
     }
     if(func_0202EB4C()==0) {
         func_021D5D3C((u8 *)((int)(P(0x38))));
         func_021D5ED8(P(0x38),34);
         *(int *)(P(0x40)+0x1c)=1;
-        func_021D426C(p,(u32)func_021D42E0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D42E0);
         return;
     }
     if(*(int *)(P(0x40)+0x14)==2) {
         func_021D5B50(P(0x38),17);
-        func_021D426C(p,(u32)func_021D46CC);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D46CC);
         return;
     }
     if(DWC_CheckHasProfile((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
@@ -1028,7 +1027,7 @@ void func_021D497C(u8 *p)
         func_021D5D3C((u8 *)((int)(P(0x38))));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),18);
         else func_021D5ED8(P(0x38),43);
-        func_021D426C(p,(u32)func_021D45D0);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D45D0);
         return;
     }
     if(DWC_CheckValidConsole((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
@@ -1036,16 +1035,16 @@ void func_021D497C(u8 *p)
         func_021D5D3C((u8 *)((int)(P(0x38))));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),20);
         else func_021D5ED8(P(0x38),45);
-        func_021D426C(p,(u32)func_021D493C);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D493C);
         return;
     }
     if(*(int *)(P(0x40)+0x14)==1) {
         func_021D5D3C((u8 *)((int)(P(0x38))));
         func_021D5ED8(P(0x38),37);
-        func_021D426C(p,(u32)func_021D460C);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D460C);
     } else {
         func_021D5B50(P(0x38),17);
-        func_021D426C(p,(u32)func_021D46CC);
+        WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D46CC);
     }
 }
 
@@ -1058,7 +1057,7 @@ void func_021D497C(u8 *p)
 
 
 
-void func_021D4A98(u8 *p) { if(WIPE_SYS_EndCheck()) func_021D426C(p,0); }
+void func_021D4A98(u8 *p) { if(WIPE_SYS_EndCheck()) WIFILOGIN_COMMON_SetStateHandler(p,0); }
 
 
 
@@ -1083,7 +1082,7 @@ void func_021D4AB0(unsigned char *a)
         switch (r) {
         case 0:
             *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 0;
-            func_021D426C(a, (int)func_021D4B3C);
+            WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D4B3C);
             break;
         case 1:
             *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 1;
@@ -1096,11 +1095,11 @@ void func_021D4AB0(unsigned char *a)
             func_0200FBA0();
             GFL_NET_STATE_ClearErrorMode();
             func_021D5ED8((unsigned char *)(((struct Obj02825 *)a)->f38), 0x25);
-            func_021D426C(a, (int)func_021D460C);
+            WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D460C);
             break;
         }
     } else {
-        func_021D426C(a, (int)func_021D4B3C);
+        WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D4B3C);
     }
 }
 
@@ -1113,7 +1112,7 @@ void func_021D4AB0(unsigned char *a)
 
 
 void func_021D4B3C(u8 *p) {
- WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj22595 *)p)->fC); if(!*(int *)(P(0x40)+4) && !*(int *)(P(0x40)+0x18)) GFL_USE_FadeOutBgm(8); func_021D426C(p,(u32)func_021D4A98);
+ WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj22595 *)p)->fC); if(!*(int *)(P(0x40)+4) && !*(int *)(P(0x40)+0x18)) GFL_USE_FadeOutBgm(8); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4A98);
 }
 
 
@@ -1125,7 +1124,7 @@ void func_021D4B3C(u8 *p) {
 
 
 void func_021D4B80(u8 *p) {
- if(!func_021D4644(p)) { if(func_02167FA8(d_021D65D0,(void *)(*(int *)(P(0x40)+0x10)))) func_021D426C(p,(u32)func_021D4BC4); else func_021D4644(p); }
+ if(!func_021D4644(p)) { if(func_02167FA8(d_021D65D0,(void *)(*(int *)(P(0x40)+0x10)))) WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4BC4); else func_021D4644(p); }
 }
 
 
@@ -1136,7 +1135,7 @@ void func_021D4B80(u8 *p) {
 
 
 
-void func_021D4BB4(u8 *p) { func_021D426C(p,(u32)func_021D4B80); }
+void func_021D4BB4(u8 *p) { WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4B80); }
 
 
 
@@ -1146,7 +1145,7 @@ void func_021D4BB4(u8 *p) { func_021D426C(p,(u32)func_021D4B80); }
 
 
 
-void func_021D4BC4(u8 *p) { int x; if(!func_021D4644(p)) { x=func_02168040(); if(x==3) func_021D426C(p,(u32)func_021D4AB0); else if(x==4 || x==0 || x==5) func_021D4644(p); } }
+void func_021D4BC4(u8 *p) { int x; if(!func_021D4644(p)) { x=func_02168040(); if(x==3) WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); else if(x==4 || x==0 || x==5) func_021D4644(p); } }
 
 
 
@@ -1182,7 +1181,7 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
         func_0200FBB0();
         func_0200FBA0();
     }
-    func_021D426C(p,(u32)func_021D497C);
+    WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C);
     if(((struct Obj22596 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f4==0) {
         func_021D5CCC(*(u8 * *)&((struct Obj01719 *)p)->f38,35);
         if(((struct Obj22597 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
@@ -2241,3 +2240,8 @@ void func_021D630C(u8 *a0)
     if (WIPE_SYS_EndCheck())
         func_021D6134(a0, 0, 0x221);
 }
+
+
+
+#include "../../matched/include/Obj22611.h"
+void func_021D6328(u8 *p) { ((struct Obj22611 *)p)->f18=1; }

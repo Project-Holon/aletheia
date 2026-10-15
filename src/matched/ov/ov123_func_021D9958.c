@@ -27,7 +27,7 @@
  *   PDWACC_DISP_VBlankTask 0x021D9D34 thumb ov123
  *   d_021DABFC 0x021DABFC data a1
  *   d_021DABCC 0x021DABCC data a4
- *   d_020A1464 0x020A1464 data a4
+ *   gGsyncClactConfig 0x020A1464 data a4
  *   d_021DABBC 0x021DABBC data a4
  */
 #include "../include/Obj05370.h"
@@ -36,7 +36,7 @@ typedef unsigned short u16;
 extern const char d_021DABFC[];
 extern char ov067_id[];
 extern const u32 d_021DABCC[];
-extern const u32 d_020A1464[];
+extern const u32 gGsyncClactConfig[];
 extern const u32 d_021DABBC[];
 typedef unsigned char  u8;
 struct Bank;
@@ -70,7 +70,7 @@ char *PDWACC_DISP_Init(int heap)
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     func_0203F8F4(((struct Obj05370 *)p)->f9E4);
-    CLACT_InitSystem((const struct Cfg *)d_020A1464,(u32)d_021DABCC,((struct Obj05370 *)p)->f9E4);
+    CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)d_021DABCC,((struct Obj05370 *)p)->f9E4);
     ((struct Obj05370 *)p)->f97C=CLACT_CreateUnit(40,0,((struct Obj05370 *)p)->f9E4);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DABCC);
     func_0203FC28((struct DispConfig *)d_021DABBC);

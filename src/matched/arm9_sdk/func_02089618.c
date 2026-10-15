@@ -1,5 +1,5 @@
 /*
- * function: func_02089618
+ * function: SND_SetChannelTimer
  * address:  0x02089618
  * packet:   pkt_02089618
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089618(u32 chBitMask, int timer)
+void SND_SetChannelTimer(u32 chBitMask, int timer)
 {
     PushCommand_impl(0x13, chBitMask, (u32)timer, 0, 0);
 }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02085CBC 0x02085CBC arm
+ *   OS_GetConsoleType 0x02085CBC arm
  */
 typedef unsigned int   u32;
-extern u32 func_02085CBC(void);
+extern u32 OS_GetConsoleType(void);
 
 int OS_IsRunOnEmulator(void)
 {
-    return (func_02085CBC() & 0x10000000) ? 1 : 0;
+    return (OS_GetConsoleType() & 0x10000000) ? 1 : 0;
 }

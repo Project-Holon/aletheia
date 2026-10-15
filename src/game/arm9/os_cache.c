@@ -1,7 +1,7 @@
 /*
  * file:     os_cache.c
  * unit:     yes
- * function: func_02086284, func_020862B8, func_020862D4, DWCi_ScreenDC_FlushRange, func_02086314, func_02086320, func_0208632C
+ * function: DC_FlushAll, func_020862B8, func_020862D4, DWCi_ScreenDC_FlushRange, func_02086314, func_02086320, func_0208632C
  * address:  0x02086284
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -12,7 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-asm void func_02086284(void);
+asm void DC_FlushAll(void);
 asm void DC_InvalidateRange(void);
 asm void DC_StoreRange(void);
 asm void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
@@ -24,7 +24,7 @@ asm void IC_InvalidateRange(void);
  * sdk:      DC_FlushAll (libos.TWL.HYB.a os_cache.o)
  * asm:      mcr p15 c7,c10,4 (drain write buffer) and c7,c14,2 (clean and invalidate by set/way) have no C spelling; the DWARF subprogram has no DW_TAG_variable children.
  */
-asm void func_02086284(void)
+asm void DC_FlushAll(void)
 {
     mov r12, #0
     mov r1, #0

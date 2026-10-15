@@ -11,11 +11,11 @@
  *
  * Pushes the base value v to +0x44 and re-emits every one of the +0x50 active
  * slots: each slot byte at +0x54+i indexes the 8-byte records of gSndStrmChannels,
- * whose second word is added to the base, converted by func_0208A24C, and
- * handed to func_02089638 as (1 << k, low byte, arithmetic high half).
+ * whose second word is added to the base, converted by SND_CalcChannelVolume, and
+ * handed to SND_SetChannelVolume as (1 << k, low byte, arithmetic high half).
  *
  * PINNED ../2.0/sp2 on the store/load schedule tell, the same pin its only
- * caller func_02075858 (pkt_02075698) already carries and for the same
+ * caller NNSi_SndArcPlayerUpdate (pkt_02075698) already carries and for the same
  * front-end reason. Under dsi/1.1p1 -O4,p this body is 108 bytes with every
  * instruction and every register correct but 11 bytes out, entirely in the
  * three-instruction window at +0008: the image stores `str r1,[r7,#0x44]`
@@ -32,14 +32,14 @@
  * (declaration-order-decides-which-register-a-local-gets).
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. The PC24
- * at +003C to func_0208A24C is unattested: 0x0208A24C has exactly one branch
+ * at +003C to SND_CalcChannelVolume is unattested: 0x0208A24C has exactly one branch
  * reference anywhere in the image and it is this call, so no cut frees it and
  * only a `matched` entry at 0x0208A24C would close this row.
  *
  * symbols:
  *   gSndStrmChannels     0x0214E934  data
- *   func_0208A24C  0x0208A24C  arm
- *   func_02089638  0x02089638  arm
+ *   SND_CalcChannelVolume  0x0208A24C  arm
+ *   SND_SetChannelVolume  0x02089638  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/NNS_SndStrmSetVolume.c \
@@ -55,8 +55,8 @@ typedef signed   int   s32;
 
 extern struct SlotDesc gSndStrmChannels[];
 
-extern unsigned short func_0208A24C(int dB);
-extern void func_02089638(u32 chBitMask, int volume, int shift);
+extern unsigned short SND_CalcChannelVolume(int dB);
+extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 
 struct Slot {
     u8  pad_00[0x44];
@@ -75,7 +75,7 @@ void NNS_SndStrmSetVolume(struct Slot *s, s32 v)
     for (i = 0; i < s->f50; i++) {
         s32 r;
         k = s->f54[i];
-        r = func_0208A24C(s->f44 + (s32)gSndStrmChannels[k].b);
-        func_02089638((u32)(1 << k), (u32)r & 0xff, r >> 8);
+        r = SND_CalcChannelVolume(s->f44 + (s32)gSndStrmChannels[k].b);
+        SND_SetChannelVolume((u32)(1 << k), (u32)r & 0xff, r >> 8);
     }
 }

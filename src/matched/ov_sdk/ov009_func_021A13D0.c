@@ -1,5 +1,5 @@
 /*
- * function: func_021A13D0
+ * function: ProcessAdHocData
  * address:  0x021A13D0
  * packet:   pkt_ov009_021A13D0
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      ProcessAdHocData (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_021A0E30  0x021A0E30  arm  ov009
- *   func_021A12DC  0x021A12DC  arm  ov009
+ *   ProcessPushKeyList  0x021A0E30  arm  ov009
+ *   ProcessPushServer  0x021A12DC  arm  ov009
  *   func_0217EC90  0x0217EC90  arm  ov009
- *   func_021A1254  0x021A1254  arm  ov009
- *   func_021A10D4  0x021A10D4  arm  ov009
- *   func_021A0F0C  0x021A0F0C  arm  ov009
+ *   ProcessDeleteServer  0x021A1254  arm  ov009
+ *   ProcessMaploop  0x021A10D4  arm  ov009
+ *   ProcessPlayerSearch  0x021A0F0C  arm  ov009
  *   memmove        0x02092364  arm
- *   func_0219FAAC  0x0219FAAC  arm  ov009
+ *   ErrorDisconnect  0x0219FAAC  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -35,16 +35,16 @@ typedef struct {
 
 struct SBL;
 struct _SBServerList;
-extern int func_021A0E30(struct SBL *slist, char *buf, int len);
-extern int func_021A12DC(struct SBL *slist, char *buf, int len);
+extern int ProcessPushKeyList(struct SBL *slist, char *buf, int len);
+extern int ProcessPushServer(struct SBL *slist, char *buf, int len);
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
-extern int func_021A1254(struct _SBServerList *slist, char *buf, int len);
-extern int func_021A10D4(SBServerList *slist, u8 *buf, int len);
-extern int func_021A0F0C(SBServerList *slist, u8 *buf, int len);
+extern int ProcessDeleteServer(struct _SBServerList *slist, char *buf, int len);
+extern int ProcessMaploop(SBServerList *slist, u8 *buf, int len);
+extern int ProcessPlayerSearch(SBServerList *slist, u8 *buf, int len);
 extern void *memmove(void *dst, const void *src, unsigned long n);
-extern void func_0219FAAC(struct SBL *slist);
+extern void ErrorDisconnect(struct SBL *slist);
 
-int func_021A13D0(SBServerList *slist)
+int ProcessAdHocData(SBServerList *slist)
 {
     int ret = 0;
     int i;
@@ -65,23 +65,23 @@ int func_021A13D0(SBServerList *slist)
         case 0:
             break;
         case 1:
-            ret = func_021A0E30((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessPushKeyList((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 2:
-            ret = func_021A12DC((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessPushServer((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
             if (func_0217EC90(slist->sock, (char *)slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:
-            ret = func_021A1254((struct _SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
+            ret = ProcessDeleteServer((struct _SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 5:
-            ret = func_021A10D4(slist, slist->inbuffer + 3, msglen - 3);
+            ret = ProcessMaploop(slist, slist->inbuffer + 3, msglen - 3);
             break;
         case 6:
-            ret = func_021A0F0C(slist, slist->inbuffer + 3, msglen - 3);
+            ret = ProcessPlayerSearch(slist, slist->inbuffer + 3, msglen - 3);
             break;
         default:
             break;
@@ -93,6 +93,6 @@ int func_021A13D0(SBServerList *slist)
             break;
     }
     if (ret != 0)
-        func_0219FAAC((struct SBL *)slist);
+        ErrorDisconnect((struct SBL *)slist);
     return ret;
 }

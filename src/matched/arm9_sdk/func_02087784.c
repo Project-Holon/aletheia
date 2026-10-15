@@ -1,5 +1,5 @@
 /*
- * function: func_02087784
+ * function: OSi_VAlarmHandler
  * address:  0x02087784
  * packet:   pkt_02087784
  * region:   arm9
@@ -76,7 +76,7 @@ extern void OSi_InsertVAlarm(OSVAlarm *alarm);
 #define reg_GX_DISPSTAT (*(volatile u16 *)0x04000004)
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
-void func_02087784(void)
+void OSi_VAlarmHandler(void)
 {
     OSVAlarm *alarm;
     OSVAlarmHandler handler;

@@ -1,5 +1,5 @@
 /*
- * function: func_0208948C
+ * function: SND_SetTrackAllocatableChannel
  * address:  0x0208948C
  * packet:   pkt_0208948C
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_0208948C(int playerNo, u32 trackBitMask, u32 chBitMask)
+void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask)
 {
     PushCommand_impl(9, (u32)playerNo, trackBitMask, chBitMask, 0);
 }

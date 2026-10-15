@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
  *   DWCi_NdGetProgress  0x021C757C  arm  ov114
  *   gDwcNdMutex     0x021D3B84  data
@@ -25,7 +25,7 @@
 typedef struct NdState NdState;
 
 extern int func_02059F38(void);
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern int DWCi_NdGetProgress(unsigned long *received, unsigned long *contentlen);
 extern char gDwcNdMutex[];
@@ -35,7 +35,7 @@ int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen)
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.f14 != 2) {
         OS_UnlockMutex(gDwcNdMutex);
         return 0;

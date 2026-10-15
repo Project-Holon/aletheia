@@ -1,5 +1,5 @@
 /*
- * function: func_021D8010
+ * function: WIFI_BSUBWAY_GRAPHIC_PrintMessage
  * address: 0x021D8010
  * packet: pkt_ov116_021D8010
  * region: ov116
@@ -39,7 +39,7 @@ extern void *PRINTSYS_PrintStream(u32,int,int,u32,u32,u32,u32,int,u16,int);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 #define I(k) (*(u32 *)((char *)p+(k)))
-void func_021D8010(void *p,u32 a) {
+void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32 a) {
  if(I(0x9a4)!=0) {PRINTSYS_PrintStreamDelete((void *)I(0x9a4)); I(0x9a4)=0;}
  MSGDATA_ReadString((struct MsgBank *)I(0x990),a,(void *)I(0x99c));
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));

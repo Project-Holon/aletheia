@@ -1,7 +1,7 @@
 /*
  * file:     dgt_md5.c
  * unit:     yes
- * function: func_02080D68, func_02081120, func_02081164, func_0208122C
+ * function: func_02080D68, MATH_MD5Init, MATH_MD5Update, MATH_MD5GetHash
  * address:  0x02080D68
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -46,11 +46,10 @@ typedef struct MATHMD5Context {
 } MATHMD5Context;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-void func_02081120(MATHMD5Context *context);
-void func_02081164(MATHMD5Context *context, const void *input, u32 length);
-void func_0208122C(MATHMD5Context *context, void *digest);
+void MATH_MD5Init(MATHMD5Context *context);
+void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length);
+void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
 extern const u32 _ZZ12ProcessBlockP14MATHMD5ContextE1t[64];
 extern const u32 _ZZ12ProcessBlockP14MATHMD5ContextE1k_0[48];
 /* MATH_MD5GetHash's function-local static "padding" */
@@ -145,7 +144,7 @@ static void ProcessBlock(MATHMD5Context *context)
 /*
  * sdk:      MATH_MD5Init (dgt_md5.o)
  */
-void func_02081120(MATHMD5Context *context)
+void MATH_MD5Init(MATHMD5Context *context)
 {
     context->a = 0x67452301;
     context->b = 0xefcdab89;
@@ -159,7 +158,7 @@ void func_02081120(MATHMD5Context *context)
 /*
  * sdk:      MATH_MD5Update (dgt_md5.o)
  */
-void func_02081164(MATHMD5Context *context, const void *input, u32 length)
+void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length)
 {
     const u8 *p = (const u8 *)input;
     long i;
@@ -199,7 +198,7 @@ void func_02081164(MATHMD5Context *context, const void *input, u32 length)
 /*
  * sdk:      MATH_MD5GetHash (dgt_md5.o)
  */
-void func_0208122C(MATHMD5Context *context, void *digest)
+void MATH_MD5GetHash(MATHMD5Context *context, void *digest)
 {
     unsigned long long total_length;
     u32 buffer_index;

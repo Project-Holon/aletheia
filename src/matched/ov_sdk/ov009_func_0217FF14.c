@@ -12,8 +12,8 @@
  * sdk:      gsiSoapTaskHttpCompletedCallback (gssoap.o)
  *
  * symbols:
- *   func_02181C2C                  0x02181C2C  arm ov009
- *   func_02181D10                  0x02181D10  arm ov009
+ *   gsXmlCreateStreamReader                  0x02181C2C  arm ov009
+ *   gsXmlParseBuffer                  0x02181D10  arm ov009
  */
 
 typedef struct GSSoapTask {
@@ -26,8 +26,8 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 
-extern void *func_02181C2C(void);
-extern int func_02181D10(void *stream, char *data, int len);
+extern void *gsXmlCreateStreamReader(void);
+extern int gsXmlParseBuffer(void *stream, char *data, int len);
 
 int func_0217FF14(int request, int result, char *buffer, int bufferLen, void *param)
 {
@@ -38,11 +38,11 @@ int func_0217FF14(int request, int result, char *buffer, int bufferLen, void *pa
     aSoapTask->completed = 1;
     aSoapTask->buffer = buffer;
     if (result == 0) {
-        aSoapTask->stream = func_02181C2C();
+        aSoapTask->stream = gsXmlCreateStreamReader();
         if (aSoapTask->stream == 0) {
             aSoapTask->result = 1;
         } else {
-            parseResult = func_02181D10(aSoapTask->stream, buffer, bufferLen);
+            parseResult = gsXmlParseBuffer(aSoapTask->stream, buffer, bufferLen);
             if (parseResult == 0)
                 aSoapTask->result = 7;
         }

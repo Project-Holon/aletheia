@@ -1,5 +1,5 @@
 /*
- * function: func_021EAC98
+ * function: BOX2_SEQ_CreateMsgBank
  * address:  0x021EAC98
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-void *func_021EAC98(void)
+void *BOX2_SEQ_CreateMsgBank(void)
 {
     return func_02045B38(0, 2, 0xa, 0x4c);
 }

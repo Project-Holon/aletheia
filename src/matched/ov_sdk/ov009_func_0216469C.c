@@ -18,8 +18,8 @@
  *   func_02164358  0x02164358  arm  ov009
  *   func_021644D0  0x021644D0  arm  ov009
  *   func_02164230  0x02164230  arm  ov009
- *   g_021A8280     0x021A8280  data
- *   g_021A82B0     0x021A82B0  data
+ *   CPSiAlloc     0x021A8280  data
+ *   CPSiFree     0x021A82B0  data
  */
 
 typedef unsigned char  u8;
@@ -32,8 +32,8 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern void func_02164358(u16 *c, u16 *a, int digits);
 extern void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work);
 extern void func_02164230(u16 *c, u16 *a, u16 *b, int digits);
-extern void *(*g_021A8280)(u32 size);
-extern void (*g_021A82B0)(void *ptr);
+extern void *(*CPSiAlloc)(u32 size);
+extern void (*CPSiFree)(void *ptr);
 
 void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
 {
@@ -41,7 +41,7 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     u16 *divwork;
     int i;
 
-    tmp = g_021A8280(digits * sizeof(u16) * 4);
+    tmp = CPSiAlloc(digits * sizeof(u16) * 4);
     if (tmp == 0)
         return;
     divwork = tmp + digits;
@@ -66,5 +66,5 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
                 func_021644D0(0, c, n, c, digits, divwork);
         }
     }
-    g_021A82B0(tmp);
+    CPSiFree(tmp);
 }

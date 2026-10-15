@@ -1,5 +1,5 @@
 /*
- * function: func_021B616C
+ * function: CDEMO_MAIN_SetupScreen
  * address: 0x021B616C
  * packet: pkt_ov179_021B616C
  * region: ov179
@@ -32,7 +32,7 @@ extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern unsigned char d_021B6B00[];
-void func_021B616C(char *unused)
+void CDEMO_MAIN_SetupScreen(char *unused)
 {
  Mtx m;
  void *p;

@@ -1,5 +1,5 @@
 /*
- * function: func_021EB708
+ * function: BOX2_SEQ_AddBmpWinFrame
  * address: 0x021EB708
  * packet: pkt_ov170_021EB708
  * region: ov170
@@ -17,4 +17,4 @@
 typedef unsigned char  u8;
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p); extern unsigned char BMP_WIN_GetWidth(void *); extern unsigned char BMP_WIN_GetHeight(void *); extern void BGWINFRM_AddFrame(void *,unsigned,unsigned,unsigned,unsigned); extern void BGWINFRM_PutBmpWin(void *,unsigned,void *);
-void func_021EB708(void *m,unsigned i,void *d){unsigned bg=BMP_WIN_GetBgLayer(d);unsigned w=BMP_WIN_GetWidth(d);unsigned h=BMP_WIN_GetHeight(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
+void BOX2_SEQ_AddBmpWinFrame(void *m,unsigned i,void *d){unsigned bg=BMP_WIN_GetBgLayer(d);unsigned w=BMP_WIN_GetWidth(d);unsigned h=BMP_WIN_GetHeight(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}

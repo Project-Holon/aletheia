@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DB7AC 0x021DB7AC thumb ov119
+ *   POKETRADE_PROC_RedrawAndSyncGrid 0x021DB7AC thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void func_021DB7AC(char *,int,int);
+extern void POKETRADE_PROC_RedrawAndSyncGrid(char *,int,int);
 void POKETRADE_PROC_RequestBoxRedraw(char *p)
 {
     ((struct Obj00001 *)p)->f1080 += 1;
     ((struct Obj00001 *)p)->f1084 = 1;
-    func_021DB7AC(p, 0, 0);
+    POKETRADE_PROC_RedrawAndSyncGrid(p, 0, 0);
 }

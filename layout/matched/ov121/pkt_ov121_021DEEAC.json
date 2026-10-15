@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DEEAC",
-    "func_021DEEBC",
-    "func_021DEEC0",
-    "func_021DEEC4",
-    "func_021DEED0",
-    "func_021DEED8",
-    "func_021DEEEC"
+    "MYSTERY_NET_IsHandler",
+    "MYSTERY_NET_GetBuffer",
+    "MYSTERY_NET_GetBufferSize",
+    "MYSTERY_NET_IsEqual",
+    "MYSTERY_NET_FlagExit",
+    "MYSTERY_NET_OnNdAsyncDone",
+    "MYSTERY_NET_MarkNdDone"
+   ],
+   "addresses": [
+    "0x021DEEAC",
+    "0x021DEEBC",
+    "0x021DEEC0",
+    "0x021DEEC4",
+    "0x021DEED0",
+    "0x021DEED8",
+    "0x021DEEEC"
    ],
    "evidence": {
     "sole-ref": [

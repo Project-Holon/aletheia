@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ extern int BR_RES_GetMsgData(char *);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern int BR_RES_GetSprite(char *, unsigned, void *);
-extern int func_021FB378(Config *, u16, int, int, void *, int, int, int, void *, u16);
+extern int BR_BTN_CreateFromMessage(Config *, u16, int, int, void *, int, int, int, void *, u16);
 void func_021F891C(char *p, const char *q)
 {
   Config cfg;
@@ -78,6 +78,6 @@ void func_021F891C(char *p, const char *q)
       cfg.index = 4;
     }
     tmp = *((int *) (p + 28));
-    *((int *) ((p + (i * 4)) + 4)) = func_021FB378(&cfg, kind, 96, 1, v, tmp, v0, v1, resources, *((u16 *) (p + 36)));
+    *((int *) ((p + (i * 4)) + 4)) = BR_BTN_CreateFromMessage(&cfg, kind, 96, 1, v, tmp, v0, v1, resources, *((u16 *) (p + 36)));
   }
 }

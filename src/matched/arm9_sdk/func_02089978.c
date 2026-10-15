@@ -1,5 +1,5 @@
 /*
- * function: func_02089978
+ * function: SND_RecvCommandReply
  * address:  0x02089978
  * packet:   pkt_02089978
  * region:   arm9
@@ -52,7 +52,7 @@ extern void OS_SpinWaitSysCycles(u32 cycle);
 extern SNDCommandState sFreeList;
 extern SNDCommand *sWaitingCommandListQueue[SND_PXI_FIFO_MESSAGE_BUFSIZE + 1];
 
-const SNDCommand *func_02089978(u32 flags)
+const SNDCommand *SND_RecvCommandReply(u32 flags)
 {
     unsigned long bak_psr;
     SNDCommand *commandList;

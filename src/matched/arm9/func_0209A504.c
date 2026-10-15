@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209A504
+ * function: fabs
  * address:  0x0209A504
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-double func_0209A504(double x)
+double fabs(double x)
 {
     ((u32 *)&x)[1] &= 0x7fffffff;
     return x;

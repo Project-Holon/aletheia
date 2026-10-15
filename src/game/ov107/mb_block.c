@@ -52,7 +52,6 @@ typedef struct {
 } ChildBlockHeader;
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern int func_021F6AA4(int a);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 void MBi_SetChildMPMaxSize(u16 childMaxSize);

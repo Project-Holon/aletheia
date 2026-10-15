@@ -1,5 +1,5 @@
 /*
- * function: func_021A0440
+ * function: FullRulesPresent
  * address:  0x021A0440
  * packet:   pkt_02156B70
  * region:   ov009
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *
- * Walk a length-bounded string, two decode steps per turn: func_0219F978
+ * Walk a length-bounded string, two decode steps per turn: NTSLengthSB
  * reports how many bytes one unit occupies and a negative answer is a hard
  * failure (0).  Each successful step consumes that many bytes from the
  * pointer and the remaining count, in the order the image shows (the count
@@ -22,17 +22,17 @@
 
 typedef signed char s8;
 
-int func_021A0440(const char *p, int n)
+int FullRulesPresent(const char *p, int n)
 {
     int k;
 
     while (n > 0 && *p != 0) {
-        k = func_0219F978(p, n);
+        k = NTSLengthSB(p, n);
         if (k < 0)
             return 0;
         n -= k;
         p += k;
-        k = func_0219F978(p, n);
+        k = NTSLengthSB(p, n);
         if (k < 0)
             return 0;
         p += k;

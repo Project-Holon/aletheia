@@ -1,5 +1,5 @@
 /*
- * function: func_021EF534
+ * function: BOX2_UI_CloseListPack
  * address:  0x021EF534
  * packet:   pkt_ov170_021EF534
  * region:   ov170
@@ -21,7 +21,7 @@ struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 
-void func_021EF534(struct WinMgr *mgr)
+void BOX2_UI_CloseListPack(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200ED3C
+ * function: MISC_SAVEDATA_InitShortBlock
  * address:  0x0200ED3C
  * packet:   pkt_0200ED3C
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-void func_0200ED3C(void *block)
+void MISC_SAVEDATA_InitShortBlock(void *block)
 {
     MI_CpuFill8(block, 0, 0xFC);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9A0
+ * function: RESEARCH_LIST_SelectPrevious
  * address:  0x021BB9A0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,10 +12,10 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BBCFC  0x021BBCFC  thumb  ov217
- *   func_021BBD18  0x021BBD18  thumb  ov217
- *   func_021BBD28  0x021BBD28  thumb  ov217
- *   func_021BC580  0x021BC580  thumb  ov217
+ *   RESEARCH_LIST_FlipSelectionMode  0x021BBCFC  thumb  ov217
+ *   RESEARCH_LIST_SetEntryPaletteIdle  0x021BBD18  thumb  ov217
+ *   RESEARCH_LIST_SetEntryPaletteActive  0x021BBD28  thumb  ov217
+ *   RESEARCH_LIST_StartListPaletteAnime  0x021BC580  thumb  ov217
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -30,16 +30,16 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021BBCFC(void *p, s32 v);
-extern void func_021BBD18(int a, int b);
-extern void func_021BBD28(int a, int b);
-extern u32 func_021BC580();
-u32 func_021BB9A0(u32 a0)
+extern void RESEARCH_LIST_FlipSelectionMode(void *p, s32 v);
+extern void RESEARCH_LIST_SetEntryPaletteIdle(int a, int b);
+extern void RESEARCH_LIST_SetEntryPaletteActive(int a, int b);
+extern u32 RESEARCH_LIST_StartListPaletteAnime();
+u32 RESEARCH_LIST_SelectPrevious(u32 a0)
 {
-    func_021BBD28(a0, ((struct Obj02928 *)(((u8*)a0)))->f2C);
-    func_021BBCFC((void *)a0, -1);
-    func_021BBD18(a0, ((struct Obj02928 *)(((u8*)a0)))->f2C);
+    RESEARCH_LIST_SetEntryPaletteActive(a0, ((struct Obj02928 *)(((u8*)a0)))->f2C);
+    RESEARCH_LIST_FlipSelectionMode((void *)a0, -1);
+    RESEARCH_LIST_SetEntryPaletteIdle(a0, ((struct Obj02928 *)(((u8*)a0)))->f2C);
     GFL_USE_PlaySeDefaultVolume(1352);
-    return func_021BC580(a0, 4);
+    return RESEARCH_LIST_StartListPaletteAnime(a0, 4);
 }
 

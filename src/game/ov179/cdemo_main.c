@@ -1,7 +1,7 @@
 /*
  * file:     cdemo_main.c
  * unit:     yes
- * function: func_021B6100, func_021B6138, func_021B614C, func_021B615C, func_021B616C, func_021B6220, func_021B622C, func_021B6248, func_021B624C, func_021B6268
+ * function: CDEMO_MAIN_Create, CDEMO_MAIN_Update, CDEMO_MAIN_Destroy, CDEMO_MAIN_SetupVram, CDEMO_MAIN_SetupScreen, CDEMO_MAIN_HidePlane, CDEMO_MAIN_SetScript, CDEMO_MAIN_Noop, CDEMO_MAIN_StartTask, CDEMO_MAIN_StopTask
  * address:  0x021B6100
  * region:   ov179
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021B6380  0x021B6380  thumb  ov179
+ *   CDEMO_WIPE_RunScript  0x021B6380  thumb  ov179
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -33,11 +33,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   func_02030EAC  0x02030EAC  arm
  */
-#include "../../matched/include/Obj14383.h"
-#include "../../matched/include/Obj10716.h"
-#include "../../matched/include/Obj24463.h"
-#include "../../matched/include/Obj24464.h"
-#include "../../matched/include/Obj24465.h"
+#include "cdemo_types.h"
 
 struct Obj0203159C;
 struct S020315D4;
@@ -53,7 +49,7 @@ typedef unsigned char  u8;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern int func_021B6380(char *p);
+extern int CDEMO_WIPE_RunScript(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -67,42 +63,42 @@ extern unsigned int func_020307B0(void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern int func_020056A0(void *, int *, int);
 extern void func_02030EAC(struct Node *n);
-int func_021B6100(struct Obj0203159C *p, u32 b, u32 c);
-int func_021B6138(int a, int b, int c, int d);
-int func_021B614C(void *p);
-void func_021B615C(void);
-void func_021B616C(char *unused);
-void func_021B6220(void);
-void func_021B622C(char *p);
-void func_021B6248(char *p);
-void func_021B624C(int *p);
-void func_021B6268(char *p);
+int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c);
+int CDEMO_MAIN_Update(int a, int b, int c, int d);
+int CDEMO_MAIN_Destroy(void *p);
+void CDEMO_MAIN_SetupVram(void);
+void CDEMO_MAIN_SetupScreen(char *unused);
+void CDEMO_MAIN_HidePlane(void);
+void CDEMO_MAIN_SetScript(char *p);
+void CDEMO_MAIN_Noop(char *p);
+void CDEMO_MAIN_StartTask(int *p);
+void CDEMO_MAIN_StopTask(char *p);
 extern unsigned char d_021B6B00[];
 extern int d_021B68E4[];
 
 
-int func_021B6100(struct Obj0203159C *p, u32 b, u32 c)
+int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c)
 {
-    char *r;
+    struct CdemoState *r;
 
     GFL_HEAP_CreateChildHeap(1, 0x7f, 0x80000);
     r = PROCSYS_AllocProcWork(p, (u32)((void *)0x605c), 0x7f);
     MI_CpuFill8(r, 0, 0x605c);
-    ((struct Obj14383 *)r)->f0 = c;
-    *(u32 *)(r + 0x605c - 4) = 0;
+    r->script = (struct CdemoScript *)c;
+    r->finish = 0;
     return 1;
 }
 
 
-int func_021B6138(int a, int b, int c, int d)
+int CDEMO_MAIN_Update(int a, int b, int c, int d)
 {
-    if (func_021B6380((char *)d))
+    if (CDEMO_WIPE_RunScript((char *)d))
         return 0;
     return 1;
 }
 
 
-int func_021B614C(void *p)
+int CDEMO_MAIN_Destroy(void *p)
 {
     func_020315D4(p);
     func_020306F0(0x7f);
@@ -110,12 +106,12 @@ int func_021B614C(void *p)
 }
 
 
-void func_021B615C(void)
+void CDEMO_MAIN_SetupVram(void)
 {
     BG_SYS_SetVramBanks((void *)0x021B68F0);
 }
 
-void func_021B616C(char *unused)
+void CDEMO_MAIN_SetupScreen(char *unused)
 {
  Mtx m;
  void *p;
@@ -131,33 +127,33 @@ void func_021B616C(char *unused)
 }
 
 
-void func_021B6220(void)
+void CDEMO_MAIN_HidePlane(void)
 {
     BG_SYS_SetMainPlaneVisible(12, 0);
 }
 
 
-void func_021B622C(char *p)
+void CDEMO_MAIN_SetScript(char *p)
 {
-    unsigned short idx = ((struct Obj24463 *)(((struct Obj10716 *)p)->f0))->f0;
+    unsigned short idx = ((struct CdemoState *)p)->script->index;
     int v = d_021B68E4[idx];
 
-    ((struct Obj10716 *)p)->f6018 = v;
-    ((struct Obj10716 *)p)->f601C = v;
+    ((struct CdemoState *)p)->scriptStart = v;
+    ((struct CdemoState *)p)->scriptCursor = v;
 }
 
-void func_021B6248(char *p)
+void CDEMO_MAIN_Noop(char *p)
 {
 }
 
 
-void func_021B624C(int *p)
+void CDEMO_MAIN_StartTask(int *p)
 {
-    ((struct Obj24464 *)p)->f6014 = func_020056A0((void *)0x021B6279, p, 0);
+    ((struct CdemoState *)p)->task = (void *)func_020056A0((void *)0x021B6279, p, 0);
 }
 
 
-void func_021B6268(char *p)
+void CDEMO_MAIN_StopTask(char *p)
 {
-    func_02030EAC(((struct Obj24465 *)p)->f6014);
+    func_02030EAC(((struct CdemoState *)p)->task);
 }

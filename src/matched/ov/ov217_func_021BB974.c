@@ -1,5 +1,5 @@
 /*
- * function: func_021BB974
+ * function: RESEARCH_LIST_GetState
  * address:  0x021BB974
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BB974(void *p)
+u32 RESEARCH_LIST_GetState(void *p)
 {
     return ((struct Obj25849 *)p)->f1C;
 }

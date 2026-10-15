@@ -28,7 +28,7 @@
  *   func_021FCE00 0x021FCE00 thumb ov132
  *   func_021F6F64 0x021F6F64 thumb ov112
  *   func_021F7160 0x021F7160 thumb ov112
- *   func_021F6A58 0x021F6A58 thumb ov112
+ *   STA_ACT_OBJ_Update 0x021F6A58 thumb ov112
  *   func_021F51E8 0x021F51E8 thumb ov112
  *   func_021F6CB0 0x021F6CB0 thumb ov112
  *   func_021F6E74 0x021F6E74 thumb ov112
@@ -79,7 +79,7 @@ extern void func_021F9E4C(u8 *);
 extern void func_021F90E0(u8 *);
 extern void func_021F6F64(u8 *);
 extern void func_021F7160(u8 *);
-extern void func_021F6A58(char *p);
+extern void STA_ACT_OBJ_Update(char *p);
 extern void func_021F51E8(u8 *);
 extern void func_021F6CB0(char *p);
 extern void func_021F6E74(u8 *);
@@ -145,7 +145,7 @@ int func_021F879C(u8 *p)
     if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB0));
     func_021F6F64(*(u8 * *)&((struct Obj00191 *)p)->f3C);
     func_021F7160(*(u8 * *)&((struct Obj00191 *)p)->f40);
-    func_021F6A58((char *)(*(u8 * *)&((struct Obj00191 *)p)->f54));
+    STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct Obj00191 *)p)->f54));
     func_021F9ECC(*(u8 * *)&((struct Obj00191 *)p)->f6C);
     func_021F9374(p);
     func_021F51E8(*(u8 * *)&((struct Obj00191 *)p)->f34);

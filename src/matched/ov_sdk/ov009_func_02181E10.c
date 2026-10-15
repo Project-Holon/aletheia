@@ -1,5 +1,5 @@
 /*
- * function: func_02181E10
+ * function: gsiXmlUtilElementFree
  * address:  0x02181E10
  * packet:   pkt_ov009_02181E10
  * region:   ov009
@@ -16,6 +16,6 @@
  *           0x02181D04 that names it.  Seeded in layout/function_starts.txt.
  */
 
-void func_02181E10(void)
+void gsiXmlUtilElementFree(void)
 {
 }

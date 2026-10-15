@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E47C",
+   "name": "MISC_SAVEDATA_GetTallyWord",
    "address": "0x0200E47C",
    "kind": "game",
    "region": "arm9",

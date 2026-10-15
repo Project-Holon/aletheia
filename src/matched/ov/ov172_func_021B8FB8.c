@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FB8
+ * function: CTVT_TALK_Exit
  * address:  0x021B8FB8
  * packet:   pkt_021C12F4
  * region:   ov172
@@ -40,7 +40,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_020414EC(u32 i);
 
-void func_021B8FB8(void *a0, char *a1)
+void CTVT_TALK_Exit(void *a0, char *a1)
 {
     void *p;
 

@@ -18,10 +18,10 @@
  *   PXI_Init  0x02088498  arm twl
  *   PXI_IsCallbackReady  0x020885EC  arm twl
  *   func_020862B8  0x020862B8  arm twl
- *   func_020821C0  0x020821C0  arm twl
+ *   MIi_DmaFill32  0x020821C0  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_ClearFifoRecvFlag  0x027026EC  arm twl
- *   func_02085D94  0x02085D94  arm twl
+ *   OS_InitMessageQueue  0x02085D94  arm twl
  *   func_02085DBC  0x02085DBC  arm twl
  *   func_020885A0  0x020885A0  arm twl
  *   NWMi_ReceiveFifo9  0x02702740  arm twl
@@ -51,10 +51,10 @@ extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
 extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020862B8(void *, u32);
-extern void func_020821C0(u32, void *, u32, u32, u32);
+extern void MIi_DmaFill32(u32, void *, u32, u32, u32);
 extern void func_020862D4(void *, u32);
 extern void NWMi_ClearFifoRecvFlag(void);
-extern void func_02085D94(void *, void *, u32);
+extern void OS_InitMessageQueue(void *, void *, u32);
 extern void func_02085DBC(void *, void *, u32);
 extern void func_020885A0(u32, void (*)(void));
 extern void NWMi_ReceiveFifo9(void);
@@ -91,7 +91,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         return 4;
     }
     func_020862B8(buf, size);
-    func_020821C0(mode, buf, 0, size, 1);
+    MIi_DmaFill32(mode, buf, 0, size, 1);
     data_027341A4 = buf;
     func_020862D4(&data_027341A4, 4);
     data_027341A4->p274 = (u8 *)data_027341A4 + 0x22e0;
@@ -99,7 +99,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
     data_027341A4->p27c = (u8 *)data_027341A4->ring + 0xc0;
     NWMi_ClearFifoRecvFlag();
     data_027341A4->f280 = mode;
-    func_02085D94(data_027341A4->ctlA, data_027341A4->ctlB, 0x20);
+    OS_InitMessageQueue(data_027341A4->ctlA, data_027341A4->ctlB, 0x20);
     for (i = 0; i < 0x20; i++) {
         data_027341A4->lines[i][0] = 0x8000;
         func_020862D4(data_027341A4->lines[i], 2);

@@ -1,5 +1,5 @@
 /*
- * function: func_0200E06C
+ * function: SYMBOL_SAVE_FinalizeChecksum
  * address:  0x0200E06C
  * packet:   pkt_0200E024
  * region:   arm9
@@ -12,7 +12,7 @@
 #include "../include/Obj00318.h"
 
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
-void func_0200E06C(char *p)
+void SYMBOL_SAVE_FinalizeChecksum(char *p)
 {
     func_0203F37C(p, 0x84c,
         ((struct Obj00318 *)p)->f84C + (((struct Obj00318 *)p)->f84E << 16));

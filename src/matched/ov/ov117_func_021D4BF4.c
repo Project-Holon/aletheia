@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DC720  0x021DC720  thumb  ov119
+ *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb  ov119
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb  ov119
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -25,7 +25,7 @@
  *   POKETRADE_3D_CreateIcaStreamsEnding  0x021E2EFC  thumb  ov119
  *   func_021D4484  0x021D4484  thumb  ov117
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
- *   func_021D4CE8  0x021D4CE8  thumb  ov117
+ *   POKETRADE_IRCDEMO_UpdateScene  0x021D4CE8  thumb  ov117
  *   d_021D55CC     0x021D55CC  data
  *
  * Addresses are Black-image addresses.
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_021DC720(char *p);
+extern void POKETRADE_PROC_DeleteAllResources(char *p);
 extern void CLACT_ExitSystem(void);
 extern void POKETRADE_2D_InitClactSystemMain(char *p);
 struct Bank;
@@ -55,7 +55,7 @@ extern void POKETRADE_3D_InitTradeParticleSet(void *w);
 extern void POKETRADE_3D_CreateIcaStreamsEnding(char *p);
 extern void func_021D4484(u8 *p, u32 v);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void func_021D4CE8(u8 *p);
+extern void POKETRADE_IRCDEMO_UpdateScene(u8 *p);
 extern const char d_021D55CC[];
 
 #define HEAP (*(u16 *)(p + 0x5F4))
@@ -64,7 +64,7 @@ extern const char d_021D55CC[];
 
 void func_021D4BF4(u8 *p)
 {
-    func_021DC720((char *)p);
+    POKETRADE_PROC_DeleteAllResources((char *)p);
     CLACT_ExitSystem();
     POKETRADE_2D_InitClactSystemMain((char *)p);
     ((struct Obj02829 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
@@ -84,5 +84,5 @@ void func_021D4BF4(u8 *p)
     POKETRADE_3D_InitTradeParticleSet(WORK);
     POKETRADE_3D_CreateIcaStreamsEnding((char *)WORK);
     func_021D4484(p, 0);
-    POKETRADE_PROC_SetStep(p, (int)func_021D4CE8);
+    POKETRADE_PROC_SetStep(p, (int)POKETRADE_IRCDEMO_UpdateScene);
 }

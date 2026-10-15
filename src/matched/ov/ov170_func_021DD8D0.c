@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8D0
+ * function: BOX2_MAIN_LoadFormTable
  * address: 0x021DD8D0
  * packet: pkt_ov170_021DD8D0
  * region: ov170
@@ -23,4 +23,4 @@ struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct 
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *);
-void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f17C=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(**(void ** *)&((struct Obj10646 *)p)->f0)); }
+void BOX2_MAIN_LoadFormTable(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f17C=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(**(void ** *)&((struct Obj10646 *)p)->f0)); }

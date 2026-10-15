@@ -9,13 +9,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  +0020 PC24 func_020896CC           -> unresolved: 020896CC (arm, from header) has no witness outside 02075274..020752A4; +0028 PC24 func_0208A38C           -> unresolved: 0208A38C (arm, from header) has no witness outside 02075274..020752A4
+ * blocker:  +0020 PC24 SND_InvalidateBankData           -> unresolved: 020896CC (arm, from header) has no witness outside 02075274..020752A4; +0028 PC24 SND_DestroyBank           -> unresolved: 0208A38C (arm, from header) has no witness outside 02075274..020752A4
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   NNSi_SndArcForgetFileAddress    0x020751F4  arm
- *   func_020896CC    0x020896CC  arm
- *   func_0208A38C    0x0208A38C  arm
+ *   SND_InvalidateBankData    0x020896CC  arm
+ *   SND_DestroyBank    0x0208A38C  arm
  *
  * The bank flavour: same range invalidate plus the bank teardown.
  *
@@ -28,13 +28,13 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 extern void NNSi_SndArcForgetFileAddress(u32 a, u32 b, u32 c);
-extern void func_020896CC(const void *start, const void *end);
+extern void SND_InvalidateBankData(const void *start, const void *end);
 struct SNDBankData;
-extern void func_0208A38C(struct SNDBankData *bank);
+extern void SND_DestroyBank(struct SNDBankData *bank);
 
 void NNSi_SndArcDisposeBank(u8 *p, u32 len, u32 b, u32 c)
 {
     NNSi_SndArcForgetFileAddress((u32)p, b, c);
-    func_020896CC(p, p + len);
-    func_0208A38C((struct SNDBankData *)p);
+    SND_InvalidateBankData(p, p + len);
+    SND_DestroyBank((struct SNDBankData *)p);
 }

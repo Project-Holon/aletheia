@@ -1,5 +1,5 @@
 /*
- * function: func_021EF264
+ * function: BOX2_UI_GetPageButtonHit2
  * address:  0x021EF264
  * packet:   pkt_ov170_021EF264
  * region:   ov170
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF0A8 0x021EF0A8 thumb
+ *   BOX2_UI_HitTableCont 0x021EF0A8 thumb
  *   d_021F0F58 0x021F0F58 data
  */
 
-extern int func_021EF0A8(const char *p, unsigned n);
+extern int BOX2_UI_HitTableCont(const char *p, unsigned n);
 extern const unsigned char d_021F0F58[];
 
-int func_021EF264(void)
+int BOX2_UI_GetPageButtonHit2(void)
 {
-    return func_021EF0A8((const char *)d_021F0F58, 1);
+    return BOX2_UI_HitTableCont((const char *)d_021F0F58, 1);
 }

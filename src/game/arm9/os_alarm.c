@@ -1,7 +1,7 @@
 /*
  * file:     os_alarm.c
  * unit:     yes
- * function: OSi_SetTimer, func_02087208, OS_IsAlarmAvailable, func_02087254, func_02087264, func_0208738C, func_020873F8, func_0208747C, func_0208748C
+ * function: OSi_SetTimer, OS_InitAlarm, OS_IsAlarmAvailable, OS_CreateAlarm, func_02087264, func_0208738C, OS_CancelAlarm, OSi_AlarmHandler, OSi_ArrangeTimer
  * address:  0x02087180
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -80,14 +80,13 @@ extern void OSi_SetTimerReserved(int timerNum);
 extern u32 OS_DisableIrqMask(u32 intr);
 extern void OS_Terminate(void);
 void OSi_SetTimer(OSAlarm *alarm);
-void func_02087208(void);
+void OS_InitAlarm(void);
 BOOL OS_IsAlarmAvailable(void);
-void func_02087254(OSAlarm *alarm);
+void OS_CreateAlarm(OSAlarm *alarm);
 void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire);
 void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
-void func_020873F8(OSAlarm *alarm);
-asm void func_0208747C(void);
-void func_0208748C(void);
+void OS_CancelAlarm(OSAlarm *alarm);
+void OSi_ArrangeTimer(void);
 extern OsAlarmBss g_02151340;
 extern char SDK_AUTOLOAD_DTCM_START[];
 
@@ -133,7 +132,7 @@ void OSi_SetTimer(OSAlarm *alarm)
 /*
  * sdk:      OS_InitAlarm (os_alarm.o)
  */
-void func_02087208(void)
+void OS_InitAlarm(void)
 {
     if (!g_02151340.OSi_UseAlarm) {
         g_02151340.OSi_UseAlarm = 1;
@@ -162,7 +161,7 @@ BOOL OS_IsAlarmAvailable(void)
 
 
 
-void func_02087254(OSAlarm *alarm)
+void OS_CreateAlarm(OSAlarm *alarm)
 {
     alarm->handler = 0;
     alarm->tag = 0;
@@ -248,7 +247,7 @@ void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg)
 /*
  * sdk:      OS_CancelAlarm (os_alarm.o)
  */
-void func_020873F8(OSAlarm *alarm)
+void OS_CancelAlarm(OSAlarm *alarm)
 {
     OSAlarm *next;
     OSIntrMode enabled = OS_DisableInterrupts();
@@ -284,10 +283,10 @@ void func_020873F8(OSAlarm *alarm)
 
 
 /* hand-written in the original: OSi_AlarmHandler (os_alarm.o). C was tried: mwccarm always makes the call a tail call (ldr ip,=f; bx ip) at -O2/-O4, and with -O0 or a non-tail call it pads the stack with r3 (push {r3,lr}) and returns with pop {r3,pc}. It never pads with r0 or returns with ldmia + bx lr. The only other code with the {r0,lr} pad is SDK asm (OS_SaveContext, OS_LoadContext, OSi_GetAndDisplayContext). */
-asm void func_0208747C(void)
+asm void OSi_AlarmHandler(void *arg)
 {
     stmdb	sp!, {r0, lr}
-    bl	func_0208748C
+    bl	OSi_ArrangeTimer
     ldmia	sp!, {r0, lr}
     bx	lr
 }
@@ -298,7 +297,7 @@ asm void func_0208747C(void)
 /*
  * sdk:      OSi_ArrangeTimer (os_alarm.o)
  */
-void func_0208748C(void)
+void OSi_ArrangeTimer(void)
 {
     OSTick tick;
     OSAlarm *alarm;

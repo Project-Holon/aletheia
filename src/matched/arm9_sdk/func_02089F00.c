@@ -1,5 +1,5 @@
 /*
- * function: func_02089F00
+ * function: AllocCommand
  * address:  0x02089F00
  * packet:   pkt_02089F00
  * region:   arm9
@@ -43,7 +43,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommandState sFreeList;
 
-SNDCommand *func_02089F00(void)
+SNDCommand *AllocCommand(void)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
     SNDCommand *command = sFreeList.freeList;

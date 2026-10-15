@@ -21,7 +21,7 @@
  *   func_02075E9C  0x02075E9C  arm
  *   func_02076B2C  0x02076B2C  arm
  *   func_02075EAC  0x02075EAC  arm
- *   func_02084F10  0x02084F10  arm
+ *   OS_ReleaseLockID  0x02084F10  arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ extern int  OS_GetLockID(u32 a);
 extern void func_02075E9C(u16 a);
 extern int func_02076B2C(int type);
 extern void func_02075EAC(u16 a);
-extern void func_02084F10(u16 a);
+extern void OS_ReleaseLockID(u16 a);
 
 int FLASH_ACCESS_Identify(u32 a)
 {
@@ -51,6 +51,6 @@ int FLASH_ACCESS_Identify(u32 a)
         h = 0;
     }
     func_02075EAC((u16)id);
-    func_02084F10((u16)id);
+    OS_ReleaseLockID((u16)id);
     return h != 0;
 }

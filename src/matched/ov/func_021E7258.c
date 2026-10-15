@@ -1,5 +1,5 @@
 /*
- * function: func_021E7258
+ * function: BOX2_SEQ_SetBox2UiF
  * address:  0x021E7258
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF57C  0x021EF57C  thumb  ov170
- *   func_021ED6E4  0x021ED6E4  thumb  ov170
- *   func_021EBA5C  0x021EBA5C  thumb  ov170
- *   func_021DD14C  0x021DD14C  thumb  ov170
- *   func_021EF670  0x021EF670  thumb  ov170
- *   func_021EF68C  0x021EF68C  thumb  ov170
- *   func_021E8FE0  0x021E8FE0  thumb  ov170
- *   func_021E8FC0  0x021E8FC0  thumb  ov170
+ *   BOX2_UI_OpenListPack  0x021EF57C  thumb  ov170
+ *   BOX2_SEQ_SetSlotDim  0x021ED6E4  thumb  ov170
+ *   BOX2_SEQ_ShowWindowObject  0x021EBA5C  thumb  ov170
+ *   BOX2_MAIN_RefreshCursorBox  0x021DD14C  thumb  ov170
+ *   BOX2_UI_ShowWindowA  0x021EF670  thumb  ov170
+ *   BOX2_UI_ShowWindowB  0x021EF68C  thumb  ov170
+ *   BOX2_SEQ_SetState  0x021E8FE0  thumb  ov170
+ *   BOX2_SEQ_SetSeqThird  0x021E8FC0  thumb  ov170
  *
- * Wrapper family member: func_021EF68C, state 0x46 and
+ * Wrapper family member: BOX2_UI_ShowWindowB, state 0x46 and
  *   0x021E0E51 as the selector.
  */
 #include "../include/Obj00000.h"
 
 
 struct WinMgr;
-extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EBA5C(char *p, int i);
-extern void func_021DD14C(char *);
-extern void func_021EF670(char *p);
-extern void func_021EF68C(char *p);
-extern int func_021E8FE0(char *, int);
-extern int func_021E8FC0(char *p, int a, int b);
-int func_021E7258(char *p)
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_ShowWindowObject(char *p, int i);
+extern void BOX2_MAIN_RefreshCursorBox(char *);
+extern void BOX2_UI_ShowWindowA(char *p);
+extern void BOX2_UI_ShowWindowB(char *p);
+extern int BOX2_SEQ_SetState(char *, int);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+int BOX2_SEQ_SetBox2UiF(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
-    func_021ED6E4((char **)p, 0);
-    func_021EBA5C((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x18);
-    func_021DD14C(p);
-    func_021EF68C((char *)(*(int *)&((struct Obj00000 *)p)->f2C));
-    return func_021E8FC0(p, 0x21E0E51, func_021E8FE0(p, 0x46));
+    BOX2_UI_OpenListPack(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
+    BOX2_SEQ_SetSlotDim((char **)p, 0);
+    BOX2_SEQ_ShowWindowObject((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x18);
+    BOX2_MAIN_RefreshCursorBox(p);
+    BOX2_UI_ShowWindowB((char *)(*(int *)&((struct Obj00000 *)p)->f2C));
+    return BOX2_SEQ_SetSeqThird(p, 0x21E0E51, BOX2_SEQ_SetState(p, 0x46));
 }

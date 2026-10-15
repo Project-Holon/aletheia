@@ -1,5 +1,5 @@
 /*
- * function: func_021BA380
+ * function: RESEARCH_TOP_SetStateTimer
  * address:  0x021BA380
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA380(void *p, u32 v)
+void RESEARCH_TOP_SetStateTimer(void *p, u32 v)
 {
     ((struct Obj25819 *)p)->f24 = v;
 }

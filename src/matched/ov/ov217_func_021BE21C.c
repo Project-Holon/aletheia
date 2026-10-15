@@ -1,5 +1,5 @@
 /*
- * function: func_021BE21C
+ * function: RESEARCH_GRAPH_EnterDrawMediumAlt
  * address:  0x021BE21C
  * packet:   pkt_ov217_021BE21C
  * region:   ov217
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE9B8 0x021BE9B8 thumb ov217
- *   func_021BE934 0x021BE934 thumb ov217
- *   func_021BE4DC 0x021BE4DC thumb ov217
- *   func_021BED10 0x021BED10 thumb ov217
+ *   RESEARCH_GRAPH_DrawIndexCursorDim 0x021BE9B8 thumb ov217
+ *   RESEARCH_GRAPH_DrawIndexCursor 0x021BE934 thumb ov217
+ *   RESEARCH_GRAPH_GetSubState 0x021BE4DC thumb ov217
+ *   RESEARCH_GRAPH_SetSlicesFromGraphB 0x021BED10 thumb ov217
  *   CircleGraph_SetEnabled 0x021C1184 thumb ov217
  *   CircleGraph_QueueDrawMedium 0x021C1178 thumb ov217
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021BF704 0x021BF704 thumb ov217
- *   func_021BF728 0x021BF728 thumb ov217
- *   func_021BFC60 0x021BFC60 thumb ov217
- *   func_021BF08C 0x021BF08C thumb ov217
- *   func_021BF15C 0x021BF15C thumb ov217
- *   func_021BF3B4 0x021BF3B4 thumb ov217
- *   func_021BF38C 0x021BF38C thumb ov217
- *   func_021BEEA4 0x021BEEA4 thumb ov217
- *   func_021BF3D8 0x021BF3D8 thumb ov217
- *   func_021BEF98 0x021BEF98 thumb ov217
- *   func_021BEC64 0x021BEC64 thumb ov217
- *   func_021BE4E0 0x021BE4E0 thumb ov217
- *   func_021BEC0C 0x021BEC0C thumb ov217
- *   func_021BF264 0x021BF264 thumb ov217
- *   func_021BF2FC 0x021BF2FC thumb ov217
- *   func_021BF4AC 0x021BF4AC thumb ov217
- *   func_021BF47C 0x021BF47C thumb ov217
- *   func_021BE448 0x021BE448 thumb ov217
- *   func_021BF77C 0x021BF77C thumb ov217
+ *   RESEARCH_GRAPH_ClearUpdatedFlag 0x021BF704 thumb ov217
+ *   RESEARCH_GRAPH_ResetTimer 0x021BF728 thumb ov217
+ *   RESEARCH_GRAPH_BuildGraphTable 0x021BFC60 thumb ov217
+ *   RESEARCH_GRAPH_LoadBackground 0x021BF08C thumb ov217
+ *   RESEARCH_GRAPH_PrintSliceLabel 0x021BF15C thumb ov217
+ *   RESEARCH_GRAPH_SetDetailLabelVisible 0x021BF3B4 thumb ov217
+ *   RESEARCH_GRAPH_SetTeamLabelVisible 0x021BF38C thumb ov217
+ *   RESEARCH_GRAPH_LayoutArrow 0x021BEEA4 thumb ov217
+ *   RESEARCH_GRAPH_LayoutActors 0x021BF3D8 thumb ov217
+ *   RESEARCH_GRAPH_HideAllPercentages 0x021BEF98 thumb ov217
+ *   RESEARCH_GRAPH_SetCenterDepth 0x021BEC64 thumb ov217
+ *   RESEARCH_GRAPH_IncSubState 0x021BE4E0 thumb ov217
+ *   RESEARCH_GRAPH_SwapCenterPairs 0x021BEC0C thumb ov217
+ *   RESEARCH_GRAPH_PrintTimeLabel 0x021BF264 thumb ov217
+ *   RESEARCH_GRAPH_PrintTeamLabel 0x021BF2FC thumb ov217
+ *   RESEARCH_GRAPH_LayoutMarkerActor 0x021BF4AC thumb ov217
+ *   RESEARCH_GRAPH_SetTriangleActorVisible 0x021BF47C thumb ov217
+ *   RESEARCH_GRAPH_SetStateChanged 0x021BE448 thumb ov217
+ *   RESEARCH_GRAPH_GetRightCircle 0x021BF77C thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -45,61 +45,61 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_021BE4DC(void *p);
-extern u8 *func_021BF77C(void *p);
-extern void func_021BED10(u8 *p, u32 mode);
+extern u32 RESEARCH_GRAPH_GetSubState(void *p);
+extern u8 *RESEARCH_GRAPH_GetRightCircle(void *p);
+extern void RESEARCH_GRAPH_SetSlicesFromGraphB(u8 *p, u32 mode);
 extern void CircleGraph_SetEnabled(u8 *h, u32 v);
 extern void CircleGraph_QueueDrawMedium(u8 *h);
 
 extern int GFL_USE_IsAnySeBusy(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021BF704(void *p);
-extern void func_021BE9B8(u8 *p);
-extern int func_021BE934(char *p);
-extern void func_021BF728(void *p);
-extern void func_021BFC60(char *p);
-extern void func_021BF08C(char *p);
-extern void func_021BF15C(char *p);
-extern void func_021BF3B4(char *p);
-extern void func_021BF38C(char *p);
-extern void func_021BEEA4(char *p);
-extern void func_021BF3D8(char *p);
-extern void func_021BEF98(char *p);
-extern void func_021BEC64(void *p);
-extern void func_021BE4E0(void *p);
-extern void func_021BEC0C(void *p);
-extern void func_021BF264(char *p);
-extern void func_021BF2FC(char *p);
-extern void func_021BF4AC(char *p);
-extern void func_021BF47C(char *p);
-extern void func_021BE448(void *p);
-void func_021BE21C(char *p)
+extern void RESEARCH_GRAPH_ClearUpdatedFlag(void *p);
+extern void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p);
+extern int RESEARCH_GRAPH_DrawIndexCursor(char *p);
+extern void RESEARCH_GRAPH_ResetTimer(void *p);
+extern void RESEARCH_GRAPH_BuildGraphTable(char *p);
+extern void RESEARCH_GRAPH_LoadBackground(char *p);
+extern void RESEARCH_GRAPH_PrintSliceLabel(char *p);
+extern void RESEARCH_GRAPH_SetDetailLabelVisible(char *p);
+extern void RESEARCH_GRAPH_SetTeamLabelVisible(char *p);
+extern void RESEARCH_GRAPH_LayoutArrow(char *p);
+extern void RESEARCH_GRAPH_LayoutActors(char *p);
+extern void RESEARCH_GRAPH_HideAllPercentages(char *p);
+extern void RESEARCH_GRAPH_SetCenterDepth(void *p);
+extern void RESEARCH_GRAPH_IncSubState(void *p);
+extern void RESEARCH_GRAPH_SwapCenterPairs(void *p);
+extern void RESEARCH_GRAPH_PrintTimeLabel(char *p);
+extern void RESEARCH_GRAPH_PrintTeamLabel(char *p);
+extern void RESEARCH_GRAPH_LayoutMarkerActor(char *p);
+extern void RESEARCH_GRAPH_SetTriangleActorVisible(char *p);
+extern void RESEARCH_GRAPH_SetStateChanged(void *p);
+void RESEARCH_GRAPH_EnterDrawMediumAlt(char *p)
 {
-    switch (func_021BE4DC(p)) {
+    switch (RESEARCH_GRAPH_GetSubState(p)) {
     case 0:
         ((struct Obj00021 *)p)->f3D0 = 1;
-        func_021BF704(p);
-        func_021BF728(p);
-        func_021BFC60(p);
-        func_021BE9B8((u8 *)p);
-        func_021BF08C(p);
-        func_021BF15C(p);
-        func_021BF3B4(p);
-        func_021BF38C(p);
-        func_021BEEA4(p);
-        func_021BF3D8(p);
-        func_021BEF98(p);
-        func_021BED10((u8 *)p, 0);
-        func_021BED10((u8 *)p, 1);
-        func_021BEC64(p);
-        CircleGraph_SetEnabled(func_021BF77C(p), 1);
-        CircleGraph_QueueDrawMedium(func_021BF77C(p));
-        func_021BE4E0(p);
+        RESEARCH_GRAPH_ClearUpdatedFlag(p);
+        RESEARCH_GRAPH_ResetTimer(p);
+        RESEARCH_GRAPH_BuildGraphTable(p);
+        RESEARCH_GRAPH_DrawIndexCursorDim((u8 *)p);
+        RESEARCH_GRAPH_LoadBackground(p);
+        RESEARCH_GRAPH_PrintSliceLabel(p);
+        RESEARCH_GRAPH_SetDetailLabelVisible(p);
+        RESEARCH_GRAPH_SetTeamLabelVisible(p);
+        RESEARCH_GRAPH_LayoutArrow(p);
+        RESEARCH_GRAPH_LayoutActors(p);
+        RESEARCH_GRAPH_HideAllPercentages(p);
+        RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)p, 0);
+        RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)p, 1);
+        RESEARCH_GRAPH_SetCenterDepth(p);
+        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(p), 1);
+        CircleGraph_QueueDrawMedium(RESEARCH_GRAPH_GetRightCircle(p));
+        RESEARCH_GRAPH_IncSubState(p);
         break;
     case 1:
         if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct Obj00021 *)p)->f28 >= 0x3c) {
-                func_021BE4E0(p);
+                RESEARCH_GRAPH_IncSubState(p);
                 return;
             }
             GFL_USE_PlaySeDefaultVolume(0x76b);
@@ -107,20 +107,20 @@ void func_021BE21C(char *p)
         break;
     case 2:
         ((struct Obj00021 *)p)->f3D0 = 0;
-        func_021BEC0C(p);
-        CircleGraph_SetEnabled(func_021BF77C(p), 0);
-        func_021BF08C(p);
-        func_021BE934(p);
-        func_021BF3B4(p);
-        func_021BF15C(p);
-        func_021BF264(p);
-        func_021BF2FC(p);
-        func_021BEEA4(p);
-        func_021BF3D8(p);
-        func_021BF4AC(p);
-        func_021BF47C(p);
+        RESEARCH_GRAPH_SwapCenterPairs(p);
+        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(p), 0);
+        RESEARCH_GRAPH_LoadBackground(p);
+        RESEARCH_GRAPH_DrawIndexCursor(p);
+        RESEARCH_GRAPH_SetDetailLabelVisible(p);
+        RESEARCH_GRAPH_PrintSliceLabel(p);
+        RESEARCH_GRAPH_PrintTimeLabel(p);
+        RESEARCH_GRAPH_PrintTeamLabel(p);
+        RESEARCH_GRAPH_LayoutArrow(p);
+        RESEARCH_GRAPH_LayoutActors(p);
+        RESEARCH_GRAPH_LayoutMarkerActor(p);
+        RESEARCH_GRAPH_SetTriangleActorVisible(p);
         GFL_USE_PlaySeDefaultVolume(0x76c);
-        func_021BE448(p);
+        RESEARCH_GRAPH_SetStateChanged(p);
         break;
     }
 }

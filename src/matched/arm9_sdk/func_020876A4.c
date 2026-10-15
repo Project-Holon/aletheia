@@ -1,5 +1,5 @@
 /*
- * function: func_020876A4
+ * function: OS_CreateVAlarm
  * address:  0x020876A4
  * packet:   pkt_020876A4
  * region:   arm9
@@ -19,7 +19,7 @@ typedef struct {
     int finish;
 } OSVAlarm;
 
-void func_020876A4(OSVAlarm *alarm)
+void OS_CreateVAlarm(OSVAlarm *alarm)
 {
     alarm->handler = 0;
     alarm->tag = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F98CC
+ * function: BR_PROC_SYS_NoopH
  * address: 0x021F98CC
  * packet: pkt_ov186_021F98CC
  * region: ov186
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov186/br_proc_sys.c and filed here.
  */
 
-void func_021F98CC(void);
+void BR_PROC_SYS_NoopH(void);
 
-void func_021F98CC(void) {}
+void BR_PROC_SYS_NoopH(void) {}

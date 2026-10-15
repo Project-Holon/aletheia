@@ -73,16 +73,16 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
- *   func_0200EC14 0x0200EC14 thumb
+ *   MISC_SAVEDATA_FindFreeRecordSlot 0x0200EC14 thumb
  *   func_0200EC98 0x0200EC98 thumb
- *   func_0200EC2C 0x0200EC2C thumb
+ *   MISC_SAVEDATA_ExportRecord 0x0200EC2C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200ECD0 0x0200ECD0 thumb
  *   func_0200ECC4 0x0200ECC4 thumb
- *   func_0200ED14 0x0200ED14 thumb
- *   func_0200ECF0 0x0200ECF0 thumb
+ *   MISC_SAVEDATA_GetRingRecordDate 0x0200ED14 thumb
+ *   MISC_SAVEDATA_ExportRingRecord 0x0200ECF0 thumb
  *   func_020072A4 0x020072A4 thumb
  *   sStateHandlers 0x021DEB5C data a4
  *   func_02034AC4  0x02034AC4  arm
@@ -249,16 +249,16 @@ extern unsigned int func_0201ED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void *GAME_DATA_GetSaveBlock42(void *gameData);
-extern int func_0200EC14(const void *saveBlock);
+extern int MISC_SAVEDATA_FindFreeRecordSlot(const void *saveBlock);
 extern void func_0200EC98(const void *saveBlock, u32 *date);
-extern void func_0200EC2C(const void *saveBlock, int index, DendouViewMember *dst);
+extern void MISC_SAVEDATA_ExportRecord(const void *saveBlock, int index, DendouViewMember *dst);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
 extern void *func_020073D8(void *saveControl, u32 id, u32 v);
 extern int func_0200ECD0(void *extraData, int row);
 extern u32 func_0200ECC4(void *extraData, u32 row);
-extern void func_0200ED14(void *extraData, int row, u32 *date);
-extern void func_0200ECF0(void *extraData, u32 row, u32 member, DendouViewMember *dst);
+extern void MISC_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
+extern void MISC_SAVEDATA_ExportRingRecord(void *extraData, u32 row, u32 member, DendouViewMember *dst);
 extern void func_020072A4(void *saveControl, u32 id);
 extern int func_02034AC4(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
@@ -633,10 +633,10 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
     params = work->params;
     if (params->source == 0) {
         void *saveBlock = GAME_DATA_GetSaveBlock42(params->gameData);
-        work->rows[0].memberCount = func_0200EC14(saveBlock);
+        work->rows[0].memberCount = MISC_SAVEDATA_FindFreeRecordSlot(saveBlock);
         func_0200EC98(saveBlock, &work->rows[0].year);
         for (member = 0; member < work->rows[0].memberCount; member++)
-            func_0200EC2C(saveBlock, member, &work->rows[0].members[member]);
+            MISC_SAVEDATA_ExportRecord(saveBlock, member, &work->rows[0].members[member]);
         work->rowCount = 1;
     } else {
         u32 extraSaveId;
@@ -648,10 +648,10 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
                 for (loadRow = 0; loadRow < DENDOU_VIEW_ROW_MAX; loadRow++) {
                     work->rows[loadRow].memberCount = func_0200ECD0(extraData, loadRow);
                     work->rows[loadRow].hallNumber = func_0200ECC4(extraData, loadRow);
-                    func_0200ED14(extraData, loadRow, &work->rows[loadRow].year);
+                    MISC_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
                     if (work->rows[loadRow].memberCount != 0) {
                         for (member = 0; member < work->rows[loadRow].memberCount; member++)
-                            func_0200ECF0(extraData, loadRow, member, &work->rows[loadRow].members[member]);
+                            MISC_SAVEDATA_ExportRingRecord(extraData, loadRow, member, &work->rows[loadRow].members[member]);
                         work->rowCount++;
                     }
                 }

@@ -1,7 +1,7 @@
 /*
  * file:     crc.c
  * unit:     yes
- * function: func_02081940, func_02081980, func_020819B8, func_020819FC, func_02081A40, func_02081A80, func_02081AC0, func_02081B00, func_02081B3C, func_02081B64, func_02081B8C, func_02081BB8
+ * function: MATHi_CRC8InitTable, MATHi_CRC8Update, MATHi_CRC16InitTable, MATHi_CRC16InitTableRev, MATHi_CRC16Update, MATHi_CRC16UpdateRev, MATHi_CRC32InitTableRev, MATHi_CRC32UpdateRev, MATH_CalcCRC8, MATH_CalcCRC16, MATH_CalcCRC16CCITT, MATH_CalcCRC32
  * address:  0x02081940
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -39,22 +39,18 @@ typedef struct MATHCRC32Table
     u32 table[256];
 } MATHCRC32Table;
 
-extern void MATHi_CRC8Update(MATHCRC8Table *table, u8 *context, void *input, u32 length);
-extern void MATHi_CRC16UpdateRev(MATHCRC16Table *table, u16 *context, void *input, u32 length);
-extern void MATHi_CRC16Update(MATHCRC16Table *table, u16 *context, void *input, u32 length);
-extern void MATHi_CRC32UpdateRev(MATHCRC32Table *table, u32 *context, void *input, u32 length);
-void func_02081940(MATHCRC8Table *table, u8 poly);
-void func_02081980(MATHCRC8Table *table, u8 *context, void *input, u32 length);
-void func_020819B8(MATHCRC16Table *table, u16 poly);
-void func_020819FC(MATHCRC16Table *table, u16 poly);
-void func_02081A40(MATHCRC16Table *table, u16 *context, void *input, u32 length);
-void func_02081A80(MATHCRC16Table *table, u16 *context, void *input, u32 length);
-void func_02081AC0(MATHCRC32Table *table, u32 poly);
-void func_02081B00(MATHCRC32Table *table, u32 *context, void *input, u32 length);
-u8 func_02081B3C(MATHCRC8Table *table, void *data, u32 dataLength);
-u16 func_02081B64(MATHCRC16Table *table, void *data, u32 dataLength);
-u16 func_02081B8C(MATHCRC16Table *table, void *data, u32 dataLength);
-u32 func_02081BB8(MATHCRC32Table *table, void *data, u32 dataLength);
+void MATHi_CRC8InitTable(MATHCRC8Table *table, u8 poly);
+void MATHi_CRC8Update(MATHCRC8Table *table, u8 *context, void *input, u32 length);
+void MATHi_CRC16InitTable(MATHCRC16Table *table, u16 poly);
+void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly);
+void MATHi_CRC16Update(MATHCRC16Table *table, u16 *context, void *input, u32 length);
+void MATHi_CRC16UpdateRev(MATHCRC16Table *table, u16 *context, void *input, u32 length);
+void MATHi_CRC32InitTableRev(MATHCRC32Table *table, u32 poly);
+void MATHi_CRC32UpdateRev(MATHCRC32Table *table, u32 *context, void *input, u32 length);
+u8 MATH_CalcCRC8(MATHCRC8Table *table, void *data, u32 dataLength);
+u16 MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
+u16 MATH_CalcCRC16CCITT(MATHCRC16Table *table, void *data, u32 dataLength);
+u32 MATH_CalcCRC32(MATHCRC32Table *table, void *data, u32 dataLength);
 
 
 /*
@@ -62,25 +58,25 @@ u32 func_02081BB8(MATHCRC32Table *table, void *data, u32 dataLength);
  *
  *    (none)
  */
-void func_02081940(MATHCRC8Table *table, u8 poly)
+void MATHi_CRC8InitTable(MATHCRC8Table *table, u8 poly)
 {
-    u32 r, i, j;
+    u32 crc, index, bit;
 
-    for (i = 0; i < 256; i++)
+    for (index = 0; index < 256; index++)
     {
-        r = i;
-        for (j = 0; j < 8; j++)
+        crc = index;
+        for (bit = 0; bit < 8; bit++)
         {
-            if (r & 0x80)
+            if (crc & 0x80)
             {
-                r = (r << 1) ^ poly;
+                crc = (crc << 1) ^ poly;
             }
             else
             {
-                r <<= 1;
+                crc <<= 1;
             }
         }
-        table->table[i] = (u8)r;
+        table->table[index] = (u8)crc;
     }
 }
 
@@ -90,19 +86,19 @@ void func_02081940(MATHCRC8Table *table, u8 poly)
  *
  *    (none)
  */
-void func_02081980(MATHCRC8Table *table, u8 *context, void *input, u32 length)
+void MATHi_CRC8Update(MATHCRC8Table *table, u8 *context, void *input, u32 length)
 {
-    u32 r, i;
-    u8 *data;
+    u32 crc, index;
+    u8 *inputBytes;
 
-    r = *context;
-    data = (u8 *)input;
-    for (i = 0; i < length; i++)
+    crc = *context;
+    inputBytes = (u8 *)input;
+    for (index = 0; index < length; index++)
     {
-        r = table->table[(r ^ *data) & 0xFF];
-        data++;
+        crc = table->table[(crc ^ *inputBytes) & 0xFF];
+        inputBytes++;
     }
-    *context = (u8)r;
+    *context = (u8)crc;
 }
 
 
@@ -111,25 +107,25 @@ void func_02081980(MATHCRC8Table *table, u8 *context, void *input, u32 length)
  *
  *    (none)
  */
-void func_020819B8(MATHCRC16Table *table, u16 poly)
+void MATHi_CRC16InitTable(MATHCRC16Table *table, u16 poly)
 {
-    u32 r, i, j;
+    u32 crc, index, bit;
 
-    for (i = 0; i < 256; i++)
+    for (index = 0; index < 256; index++)
     {
-        r = i << 8;
-        for (j = 0; j < 8; j++)
+        crc = index << 8;
+        for (bit = 0; bit < 8; bit++)
         {
-            if (r & 0x8000)
+            if (crc & 0x8000)
             {
-                r = (r << 1) ^ poly;
+                crc = (crc << 1) ^ poly;
             }
             else
             {
-                r <<= 1;
+                crc <<= 1;
             }
         }
-        table->table[i] = (u16)r;
+        table->table[index] = (u16)crc;
     }
 }
 
@@ -139,25 +135,25 @@ void func_020819B8(MATHCRC16Table *table, u16 poly)
  *
  *    (none)
  */
-void func_020819FC(MATHCRC16Table *table, u16 poly)
+void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly)
 {
-    u32 r, i, j;
+    u32 crc, index, bit;
 
-    for (i = 0; i < 256; i++)
+    for (index = 0; index < 256; index++)
     {
-        r = i;
-        for (j = 0; j < 8; j++)
+        crc = index;
+        for (bit = 0; bit < 8; bit++)
         {
-            if (r & 1)
+            if (crc & 1)
             {
-                r = (r >> 1) ^ poly;
+                crc = (crc >> 1) ^ poly;
             }
             else
             {
-                r >>= 1;
+                crc >>= 1;
             }
         }
-        table->table[i] = (u16)r;
+        table->table[index] = (u16)crc;
     }
 }
 
@@ -167,19 +163,19 @@ void func_020819FC(MATHCRC16Table *table, u16 poly)
  *
  *    (none)
  */
-void func_02081A40(MATHCRC16Table *table, u16 *context, void *input, u32 length)
+void MATHi_CRC16Update(MATHCRC16Table *table, u16 *context, void *input, u32 length)
 {
-    u32 r, i;
-    u8 *data;
+    u32 crc, index;
+    u8 *inputBytes;
 
-    r = *context;
-    data = (u8 *)input;
-    for (i = 0; i < length; i++)
+    crc = *context;
+    inputBytes = (u8 *)input;
+    for (index = 0; index < length; index++)
     {
-        r = (r << 8) ^ table->table[((r >> 8) ^ *data) & 0xFF];
-        data++;
+        crc = (crc << 8) ^ table->table[((crc >> 8) ^ *inputBytes) & 0xFF];
+        inputBytes++;
     }
-    *context = (u16)r;
+    *context = (u16)crc;
 }
 
 
@@ -188,19 +184,19 @@ void func_02081A40(MATHCRC16Table *table, u16 *context, void *input, u32 length)
  *
  *    (none)
  */
-void func_02081A80(MATHCRC16Table *table, u16 *context, void *input, u32 length)
+void MATHi_CRC16UpdateRev(MATHCRC16Table *table, u16 *context, void *input, u32 length)
 {
-    u32 r, i;
-    u8 *data;
+    u32 crc, index;
+    u8 *inputBytes;
 
-    r = *context;
-    data = (u8 *)input;
-    for (i = 0; i < length; i++)
+    crc = *context;
+    inputBytes = (u8 *)input;
+    for (index = 0; index < length; index++)
     {
-        r = (r >> 8) ^ table->table[(r ^ *data) & 0xFF];
-        data++;
+        crc = (crc >> 8) ^ table->table[(crc ^ *inputBytes) & 0xFF];
+        inputBytes++;
     }
-    *context = (u16)r;
+    *context = (u16)crc;
 }
 
 
@@ -209,25 +205,25 @@ void func_02081A80(MATHCRC16Table *table, u16 *context, void *input, u32 length)
  *
  *    (none)
  */
-void func_02081AC0(MATHCRC32Table *table, u32 poly)
+void MATHi_CRC32InitTableRev(MATHCRC32Table *table, u32 poly)
 {
-    u32 r, i, j;
+    u32 crc, index, bit;
 
-    for (i = 0; i < 256; i++)
+    for (index = 0; index < 256; index++)
     {
-        r = i;
-        for (j = 0; j < 8; j++)
+        crc = index;
+        for (bit = 0; bit < 8; bit++)
         {
-            if (r & 1)
+            if (crc & 1)
             {
-                r = (r >> 1) ^ poly;
+                crc = (crc >> 1) ^ poly;
             }
             else
             {
-                r >>= 1;
+                crc >>= 1;
             }
         }
-        table->table[i] = (u32)r;
+        table->table[index] = (u32)crc;
     }
 }
 
@@ -237,26 +233,26 @@ void func_02081AC0(MATHCRC32Table *table, u32 poly)
  *
  *    (none)
  */
-void func_02081B00(MATHCRC32Table *table, u32 *context, void *input, u32 length)
+void MATHi_CRC32UpdateRev(MATHCRC32Table *table, u32 *context, void *input, u32 length)
 {
-    u32 r, i;
-    u8 *data;
+    u32 crc, index;
+    u8 *inputBytes;
 
-    r = *context;
-    data = (u8 *)input;
-    for (i = 0; i < length; i++)
+    crc = *context;
+    inputBytes = (u8 *)input;
+    for (index = 0; index < length; index++)
     {
-        r = (r >> 8) ^ table->table[(r ^ *data) & 0xFF];
-        data++;
+        crc = (crc >> 8) ^ table->table[(crc ^ *inputBytes) & 0xFF];
+        inputBytes++;
     }
-    *context = (u32)r;
+    *context = (u32)crc;
 }
 
 
 /*
  * sdk:      MATH_CalcCRC8 (libmath.TWL.HYB.a crc.o)
  */
-u8 func_02081B3C(MATHCRC8Table *table, void *data, u32 dataLength)
+u8 MATH_CalcCRC8(MATHCRC8Table *table, void *data, u32 dataLength)
 {
     u8 context = 0;
 
@@ -268,7 +264,7 @@ u8 func_02081B3C(MATHCRC8Table *table, void *data, u32 dataLength)
 /*
  * sdk:      MATH_CalcCRC16 (libmath.TWL.HYB.a crc.o)
  */
-u16 func_02081B64(MATHCRC16Table *table, void *data, u32 dataLength)
+u16 MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength)
 {
     u16 context = 0;
 
@@ -280,7 +276,7 @@ u16 func_02081B64(MATHCRC16Table *table, void *data, u32 dataLength)
 /*
  * sdk:      MATH_CalcCRC16CCITT (libmath.TWL.HYB.a crc.o)
  */
-u16 func_02081B8C(MATHCRC16Table *table, void *data, u32 dataLength)
+u16 MATH_CalcCRC16CCITT(MATHCRC16Table *table, void *data, u32 dataLength)
 {
     u16 context = 0xFFFF;
 
@@ -292,7 +288,7 @@ u16 func_02081B8C(MATHCRC16Table *table, void *data, u32 dataLength)
 /*
  * sdk:      MATH_CalcCRC32 (libmath.TWL.HYB.a crc.o)
  */
-u32 func_02081BB8(MATHCRC32Table *table, void *data, u32 dataLength)
+u32 MATH_CalcCRC32(MATHCRC32Table *table, void *data, u32 dataLength)
 {
     u32 context = ~0;
 

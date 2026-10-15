@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B66DC",
-    "func_021B6710"
+    "CDEMO_SCENE_DispatchCommand",
+    "CDEMO_SCENE_CmdCount"
+   ],
+   "addresses": [
+    "0x021B66DC",
+    "0x021B6710"
    ],
    "evidence": {
     "sole-ref": [

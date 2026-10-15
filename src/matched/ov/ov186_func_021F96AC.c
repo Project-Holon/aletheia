@@ -1,5 +1,5 @@
 /*
- * function: func_021F96AC,func_021F9728
+ * function: BR_PROC_SYS_BuildTypeRecord,BR_PROC_SYS_NoopD
  * unit: yes
  * extent: empty-return follower 0x021F9728; zero halfwords at 0x021F9726
  *   and 0x021F972A are alignment padding.
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-void func_021F96AC(int *out, int *source, const int *ctx, int type)
+void BR_PROC_SYS_BuildTypeRecord(int *out, int *source, const int *ctx, int type)
 {
     out[7] = *(int *)(source[6] + 8);
     out[10] = *(int *)(source[6] + 8) + 0x17C0;
@@ -46,6 +46,6 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     out[3] = BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
     out[6] = source[5];
 }
-void func_021F9728(void)
+void BR_PROC_SYS_NoopD(void)
 {
 }

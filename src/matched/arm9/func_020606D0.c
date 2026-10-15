@@ -1,5 +1,5 @@
 /*
- * function: func_020606D0
+ * function: NNSi_FndInitHeapHead
  * address:  0x020606D0
  * packet:   pkt_020606D0
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02060468         0x02060468  arm
- *   func_020606A8         0x020606A8  arm
- *   func_020604AC         0x020604AC  arm
+ *   NNS_FndInitList         0x02060468  arm
+ *   NNSi_FndFindListContainHeap         0x020606A8  arm
+ *   NNS_FndAppendListObject         0x020604AC  arm
  *   sRootListInitialized  0x02146B60  data
  *   sRootList             0x02146B64  data
  *
@@ -19,10 +19,10 @@
  * set the option byte of the attribute (SetOptForHeap as an inline over the
  * NNSi_FndSetBitValue macro), init the child list (link offset 4), create the
  * root heap list once, and append the heap to the list FindListContainHeap
- * (func_020606A8) picks.  The kept-constants tell (docs/FRONTEND-PINS.md): the
+ * (NNSi_FndFindListContainHeap) picks.  The kept-constants tell (docs/FRONTEND-PINS.md): the
  * image passes the offset 4 as a fresh `mov r1, #4` at both NNS_FndInitList
  * calls (+0x2C, +0x4C) and reloads the latch address from the pool at +0x38
- * and +0x54 under `push {r4, lr}`.  docs/notes/func_020606D0.c.txt measured
+ * and +0x54 under `push {r4, lr}`.  docs/notes/NNSi_FndInitHeapHead.c.txt measured
  * the pin on an arena-registry reading of this body and found it worse; in
  * the library's shape (attribute cleared then set through the macro, signed
  * BOOL latch, header struct from heapcommon.h) ../2.0/sp2 gives 124 bytes,
@@ -45,9 +45,9 @@ typedef struct NNSiFndHeapHead {
     u32 attribute;
 } NNSiFndHeapHead;
 
-extern void func_02060468(int p0, int p1);           /* NNS_FndInitList */
-extern void *func_020606A8(u32 a);        /* FindListContainHeap */
-extern void func_020604AC(NNSFndList *list, void *object);        /* NNS_FndAppendListObject */
+extern void NNS_FndInitList(int p0, int p1);           /* NNS_FndInitList */
+extern void *NNSi_FndFindListContainHeap(u32 a);        /* FindListContainHeap */
+extern void NNS_FndAppendListObject(NNSFndList *list, void *object);        /* NNS_FndAppendListObject */
 
 extern BOOL sRootListInitialized;
 extern NNSFndList sRootList;
@@ -60,7 +60,7 @@ static inline void SetOptForHeap(NNSiFndHeapHead *pHeapHd, u16 optFlag)
     NNSi_FndSetBitValue(pHeapHd->attribute, 0, 8, optFlag);
 }
 
-void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag)
+void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag)
 {
     pHeapHd->signature = signature;
     pHeapHd->heapStart = heapStart;
@@ -68,12 +68,12 @@ void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, voi
     pHeapHd->attribute = 0;
     SetOptForHeap(pHeapHd, optFlag);
 
-    func_02060468((int)(&pHeapHd->childList), 4);
+    NNS_FndInitList((int)(&pHeapHd->childList), 4);
 
     if (!sRootListInitialized) {
-        func_02060468((int)(&sRootList), 4);
+        NNS_FndInitList((int)(&sRootList), 4);
         sRootListInitialized = 1;
     }
 
-    func_020604AC(func_020606A8((u32)pHeapHd), pHeapHd);
+    NNS_FndAppendListObject(NNSi_FndFindListContainHeap((u32)pHeapHd), pHeapHd);
 }

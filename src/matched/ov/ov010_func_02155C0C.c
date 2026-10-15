@@ -42,8 +42,8 @@
  *   func_021FCE28  0x021FCE28  thumb  ov132
  *   func_021FD83C  0x021FD83C  thumb  ov132
  *   func_0200A81C  0x0200A81C  thumb
- *   func_0200ED48  0x0200ED48  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -128,8 +128,8 @@ extern u8 func_021FD8EC(char *p, int index);
 extern int func_021FCE28(char *p, u32 index);
 extern u32 func_021FD83C(char *p);
 extern u16 func_0200A81C(struct Big *p);
-extern void *func_0200ED48(void *p);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
@@ -155,12 +155,12 @@ int MUSICAL_EVENT_Main(void *evt, void *unused, Seq *s)
             }
             func_021FD918(s->link->sess, lo, hi);
             s->state = 12;
-            list = func_0200ED48(s->f1c);
+            list = MISC_SAVEDATA_GetBlock44(s->f1c);
             for (i = 0; i < 4; i++) {
                 if (func_021FD8D4(s->link->sess) != func_021FD8EC(s->link->sess, i)) {
                     void *p = (void *)func_021FCE28(s->link->sess, i);
                     if (p != 0)
-                        func_0200ED54(list, func_02008530(p));
+                        MISC_SAVEDATA_InsertRecentValue(list, func_02008530(p));
                 }
             }
         } else if (s->f50 == 1) {

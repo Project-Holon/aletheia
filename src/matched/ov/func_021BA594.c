@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5F44  0x021C5F44  thumb  ov127
+ *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
  *
  * Packs the three value arguments into a four-byte stack record (halfword,
  * byte, byte) and hands it, with the pointer at +0x59C, to the ov127 routine
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021C5F44(void *a, void *b);
+extern void WF2DMAP_CMDQ_Push(void *a, void *b);
 
 void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c)
 {
@@ -35,5 +35,5 @@ void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c)
     s.a = a;
     s.b = b;
     s.c = c;
-    func_021C5F44(((struct Obj13682 *)p)->f59C, &s);
+    WF2DMAP_CMDQ_Push(((struct Obj13682 *)p)->f59C, &s);
 }

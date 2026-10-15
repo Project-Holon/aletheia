@@ -18,11 +18,11 @@
  *   GFL_HEAP_GetAllocCountById   0x0203046C  arm
  *   GFL_HEAP_GetHeapHandle   0x02030428  arm
  *   func_0209128C   0x0209128C  arm
- *   func_02060F50   0x02060F50  arm
+ *   NNSi_FndWalkHeapBlocks   0x02060F50  arm
  *
  * Tears the object down and then runs func_02030A7C over every block in the
  * allocator list: the five per-object teardown calls, the global
- * "shutting down" flag set through func_0209128C(1), then func_02060F50 with
+ * "shutting down" flag set through func_0209128C(1), then NNSi_FndWalkHeapBlocks with
  * the callback and the context the teardown returned, and the flag cleared
  * again with func_0209128C(0).  The callback is passed a zero context, which
  * is why the constant is materialised once in r4 and copied to r2 rather
@@ -70,7 +70,7 @@ extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 extern void func_0209128C(int x);
-extern void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx);
+extern void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx);
 extern void func_02030A7C(void *heap);
 
 void func_02030B50(void *p)
@@ -80,6 +80,6 @@ void func_02030B50(void *p)
     GFL_HEAP_GetAllocatableSize((u32)p);
     GFL_HEAP_GetAllocCountById((u32)p);
     func_0209128C(1);
-    func_02060F50(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
+    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
     func_0209128C(0);
 }

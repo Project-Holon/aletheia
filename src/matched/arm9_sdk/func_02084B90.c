@@ -1,5 +1,5 @@
 /*
- * function: func_02084B90
+ * function: OS_InitLock
  * address:  0x02084B90
  * packet:   pkt_02084B90
  * region:   arm9
@@ -43,7 +43,7 @@ extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern void OSi_SyncWithOtherProc(int type, void *syncBuf);
 
-void func_02084B90(void)
+void OS_InitLock(void)
 {
     static BOOL isInitialized;
     OSLockWord *lockp = (OSLockWord *)0x02FFFFB0;

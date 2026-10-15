@@ -1,5 +1,5 @@
 /*
- * function: func_021DE07C
+ * function: BOX2_MAIN_UpdateMoverY
  * address:  0x021DE07C
  * packet:   pkt_ov170_021DE07C
  * region:   ov170
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC548 0x021EC548 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_GetSlotPos 0x021EC548 thumb
  */
 #include "../include/Obj00000.h"
 
@@ -28,14 +28,14 @@ typedef struct {
     short y;
 } Obj;
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC548(unsigned i, short *x, short *y, int mode);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_GetSlotPos(unsigned i, short *x, short *y, int mode);
 
-void func_021DE07C(unsigned char *p, Obj *o)
+void BOX2_MAIN_UpdateMoverY(unsigned char *p, Obj *o)
 {
     short t[2];
-    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
-    func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
+    BOX2_SEQ_GetActorSurfacePos(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
+    BOX2_SEQ_GetSlotPos(o->slot, &t[1], &t[0], p[0x1A]);
     t[0] += 0xC0;
     if (o->x <= t[1]) {
         o->dx = 1;

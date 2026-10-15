@@ -1,5 +1,5 @@
 /*
- * function: func_021F93D0
+ * function: BR_PROC_SYS_NoopA
  * address: 0x021F93D0
  * packet: pkt_ov186_021F93D0
  * region: ov186
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021F93D0(void) {}
+void BR_PROC_SYS_NoopA(void) {}

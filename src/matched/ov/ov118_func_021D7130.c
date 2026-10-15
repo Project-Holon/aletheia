@@ -1,5 +1,5 @@
 /*
- * function: func_021D7130
+ * function: POKETRADE_DEMO_MIDDLE_UpdateScene
  * address:  0x021D7130
  * packet:   pkt_ov118_021D7130
  * region:   ov118
@@ -119,7 +119,7 @@ extern const Tbl d_021D7CEC;
 #define SLOT1 (*(u32 *)(p + 0x860))
 #define REC(i) (((Vec *)((u8 *)WORK + 0x60))[i])
 
-void func_021D7130(u8 *p)
+void POKETRADE_DEMO_MIDDLE_UpdateScene(u8 *p)
 {
     Vec v1, v2, v3, v4, v5, v6, v7;
     Tbl t;

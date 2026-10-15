@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAE2C",
+   "name": "POKETRADE_PROC_StepClearOffersNewRound",
    "address": "0x021DAE2C",
    "kind": "game",
    "region": "ov119",

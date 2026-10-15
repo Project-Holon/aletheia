@@ -1,5 +1,5 @@
 /*
- * function: func_02087D28
+ * function: OS_GetOwnerInfoEx
  * address:  0x02087D28
  * packet:   pkt_02087D28
  * region:   arm9
@@ -84,7 +84,7 @@ typedef struct OSiNvramSystemWork {
 
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 
-void func_02087D28(OSOwnerInfoEx *info)
+void OS_GetOwnerInfoEx(OSOwnerInfoEx *info)
 {
     OSiNvramSystemWork *src = (OSiNvramSystemWork *)0x02FFFC80;
 

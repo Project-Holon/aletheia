@@ -1,5 +1,5 @@
 /*
- * function: func_021DE830
+ * function: MYSTERY_NET_StartIrc
  * address: 0x021DE830
  * packet: pkt_ov121_021DE830
  * region: ov121
@@ -13,8 +13,8 @@
  *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_021DEEA4 0x021DEEA4 thumb ov121
- *   func_021DE910 0x021DE910 thumb ov121
+ *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
+ *   MYSTERY_NET_RunIrc 0x021DE910 thumb ov121
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  */
 #include "../include/Obj06455.h"
@@ -36,10 +36,10 @@ extern int DELIVERY_IRC_Start(void *);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 typedef unsigned int   u32;
-extern void func_021DEEA4(u32 *p, void *f);
-extern void func_021DE910(void *, int *, char *);
+extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
+extern void MYSTERY_NET_RunIrc(void *, int *, char *);
 extern u8 GAME_LANGUAGE_Code;
-void func_021DE830(void *a, int *state, char *p)
+void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
 {
     Descriptor d;
     switch (*state) {
@@ -65,7 +65,7 @@ void func_021DE830(void *a, int *state, char *p)
         }
         break;
     case 2:
-        func_021DEEA4(a, func_021DE910);
+        MYSTERY_NET_SetHandler(a, MYSTERY_NET_RunIrc);
         break;
     }
 }

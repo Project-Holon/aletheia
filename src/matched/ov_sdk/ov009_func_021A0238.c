@@ -1,5 +1,5 @@
 /*
- * function: func_021A0238
+ * function: FreePopularValues
  * address:  0x021A0238
  * packet:   pkt_ov009_021A0238
  * region:   ov009
@@ -12,14 +12,14 @@
  * sdk:      FreePopularValues (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219F920  0x0219F920  arm  ov009
+ *   SBReleaseStr  0x0219F920  arm  ov009
  */
 
-extern void func_0219F920(void *s, char *str);
-void func_021A0238(char *slist)
+extern void SBReleaseStr(void *s, char *str);
+void FreePopularValues(char *slist)
 {
 	int i;
 	for (i = 0; i < *(int *)(slist + 0x480); i++)
-		func_0219F920(slist, *(char **)(slist + 0x84 + i * 4));
+		SBReleaseStr(slist, *(char **)(slist + 0x84 + i * 4));
 	*(int *)(slist + 0x480) = 0;
 }

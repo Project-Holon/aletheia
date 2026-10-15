@@ -1,5 +1,5 @@
 /*
- * function: func_021ED108
+ * function: BOX2_SEQ_SetActorAffineMode
  * address:  0x021ED108
  * packet:   pkt_ov170_021ED108
  * region:   ov170
@@ -22,7 +22,7 @@ extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
 #define HND(p) (*(int *)((p) + 0x9E9C))
 
-void func_021ED108(char *p, int on)
+void BOX2_SEQ_SetActorAffineMode(char *p, int on)
 {
     unsigned short s[2];
     if (on == 1) {

@@ -21,7 +21,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
  */
@@ -92,7 +92,7 @@ void MI_CpuCopy8(const void *src, void *dst, int n);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 void *GAME_DATA_GetSaveControl(struct Big *p);
-void *func_0200ED48(void *p);
+void *MISC_SAVEDATA_GetBlock44(void *p);
 int UNION_CHARA_IsWifiFriendBeacon(void *p, char *q);
 int func_0200EDC4(struct L0200EDC4 *l, u32 val);
 
@@ -142,7 +142,7 @@ void UNION_CHAT_LOG_Add(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->flag = src->flag;
         t = (int)GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->c);
         s = GAME_DATA_GetWifiList((const struct BigObj *)t);
-        t = (int)func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)t));
+        t = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)t));
         if (UNION_CHARA_IsWifiFriendBeacon((void *)s, (char *)src) == 1) {
             r = 1;
         } else if (func_0200EDC4((struct L0200EDC4 *)t, src->x5c) == 1) {

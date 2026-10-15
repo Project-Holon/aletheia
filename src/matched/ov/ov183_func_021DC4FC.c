@@ -33,11 +33,11 @@
  * symbols:
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
- *   func_021FD170 0x021FD170 thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   GDS_RAP_SaveVideoSecured 0x021D7630 thumb ov125
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DBC68 0x021DBC68 thumb ov183
  *   d_021E3960 0x021E3960 data a1
  *   func_02034714 0x02034714 arm
@@ -48,11 +48,11 @@ typedef unsigned short u16;
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021FD170(char *p, char *q, void *text);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern int GDS_RAP_SaveVideoSecured(void *a, int x, u16 *state, u16 *b, u16 c);
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
 extern char d_021E3960[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -63,7 +63,7 @@ void func_021DC4FC(int *a,int *state,char *p)
     switch(*state) {
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
         BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
     case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
@@ -79,6 +79,6 @@ void func_021DC4FC(int *a,int *state,char *p)
         break;
     case 5: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
     case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
-    case 7: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
+    case 7: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
     }
 }

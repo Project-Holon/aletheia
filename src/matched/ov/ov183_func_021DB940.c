@@ -30,10 +30,10 @@
  *   }
  * }
  * symbols:
- *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_021FD6D8 0x021FD6D8 thumb ov186
- *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_PROC_SYS_GetSlotId 0x021F9B9C thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
+ *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DBFB0 0x021DBFB0 thumb ov183
  *   func_021DC4FC 0x021DC4FC thumb ov183
  *   func_021DBC68 0x021DBC68 thumb ov183
@@ -47,7 +47,7 @@
  */
 typedef unsigned int u32;
 struct Obj24810;
-extern unsigned func_021F9B9C(struct Obj24810 *p);
+extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
@@ -55,9 +55,9 @@ typedef unsigned char  u8;
 struct ObjC4;
 extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern char *func_021FD760(unsigned,char *,int,int);
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
+extern char *BR_UTIL_CreateHandles(unsigned,char *,int,int);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DBFB0(int *a, int *state, char *p);
 extern void func_021DC4FC(int *a, int *state, char *p);
 extern void func_021DBC68(int a, int b, char *p);
@@ -68,15 +68,15 @@ int func_021DB940(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
-    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14))));
+    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14))));
     MI_CpuFill8(p,0,0xe8);
-    *(unsigned short *)(p+0xb4)=func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14)));
+    *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14)));
     *(int *)(p+0xb0)=0;
     *(char **)(p+0xd0)=q;
     *(void **)p=BMP_OAM_CreateSys(*(unsigned short *)(p+0xb4),*(void **)(q+0x18));
     *(void **)(p+4)=(void *)PRINTSYS_QUE_Create((void *)(*(unsigned short *)(p+0xb4)));
-    *(void **)(p+8)=func_021FD6D8((int)p,0,*(unsigned short *)(p+0xb4));
-    for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=func_021FD760(*(unsigned *)(q+0x18),*(char **)(q+0x10),i,*(unsigned short *)(p+0xb4));
+    *(void **)(p+8)=BR_UTIL_CreateTask((int)p,0,*(unsigned short *)(p+0xb4));
+    for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=BR_UTIL_CreateHandles(*(unsigned *)(q+0x18),*(char **)(q+0x10),i,*(unsigned short *)(p+0xb4));
     switch(*(int *)(*(char **)(p+0xd0)+8)) {
     case 4:
         s=*(char **)(*(char **)(p+0xd0)+0x30);
@@ -110,10 +110,10 @@ int func_021DB940(int *task,int *state,char *q)
         break;
     }
     if(*(int *)(*(char **)(p+0xd0)+8)==5) {
-        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)func_021FD73C(*(int **)(p+8),(int)func_021DBFB0);
-        else func_021FD73C(*(int **)(p+8),(int)func_021DBC68);
+        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBFB0);
+        else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
     }else if((u32)(*(int *)(*(char **)(p+0xd0)+8)-1)<=2 && *(int *)(*(char **)(p+0xd0)+0x34) && **(int **)(*(char **)(p+0xd0)+0x3c) && *(int *)(p+0xc8)==0) {
-        func_021FD73C(*(int **)(p+8),(int)func_021DC4FC);
-    }else func_021FD73C(*(int **)(p+8),(int)func_021DBC68);
+        BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DC4FC);
+    }else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
     return 1;
 }

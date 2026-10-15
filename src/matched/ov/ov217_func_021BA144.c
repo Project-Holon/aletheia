@@ -1,5 +1,5 @@
 /*
- * function: func_021BA144
+ * function: RESEARCH_TOP_PushCommand
  * address:  0x021BA144
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RingQueue_Push(u32, u32);
 
-void func_021BA144(u8 *a0, u32 a1)
+void RESEARCH_TOP_PushCommand(u8 *a0, u32 a1)
 {
     RingQueue_Push((u32)(((struct Obj25808 *)a0)->f14), a1);
 }

@@ -14,7 +14,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0200E588  0x0200E588  thumb
+ *   BATTLE_EXAMINATION_GetBlockSize  0x0200E588  thumb
  *   TRIAL_HOUSE_DeliveryTaskMain  0x021D0C58  thumb  ov021
  *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
  */
@@ -46,7 +46,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int si
 typedef unsigned int   u32;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern u32 func_0200E588(void);
+extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 extern void TRIAL_HOUSE_DeliveryTaskMain(void);
 extern u8 GAME_LANGUAGE_Code;
 
@@ -62,7 +62,7 @@ void *TRIAL_HOUSE_CreateDeliveryTask(void *a, u8 *b, u16 *c)
     w->f84 = b;
     w->f8C = 0;
     w->f00 = 0x2E;
-    w->f08 = func_0200E588();
+    w->f08 = BATTLE_EXAMINATION_GetBlockSize();
     w->f0C = ((struct Obj20294 *)b)->f14C;
     w->f10 = GAME_LANGUAGE_Code;
     w->f14 = 0x200000;

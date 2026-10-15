@@ -1,5 +1,5 @@
 /*
- * function: func_021FD12C
+ * function: BR_UTIL_CreateTextWin
  * address: 0x021FD12C
  * packet: pkt_ov186_021FD12C
  * region: ov186
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern void *BR_UTIL_Create(u16,u32,u16,u16,u8,u8,void *,u16);
-void *func_021FD12C(int a,void *owner,u16 heap)
+void *BR_UTIL_CreateTextWin(int a,void *owner,u16 heap)
 {
     u8 *p;
     BR_RES_LoadBgGraphics((void *)a,2,heap);

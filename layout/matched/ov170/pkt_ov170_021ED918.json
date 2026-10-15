@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ED918",
+   "name": "BOX2_UI_MoveSlotIcon",
    "address": "0x021ED918",
    "kind": "game",
    "region": "ov170",

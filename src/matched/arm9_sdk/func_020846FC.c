@@ -1,5 +1,5 @@
 /*
- * function: func_020846FC
+ * function: OSi_IrqTimer2
  * address:  0x020846FC
  * packet:   pkt_020846FC
  * region:   arm9
@@ -16,7 +16,7 @@
 
 void OSi_IrqCallback(int dmaNo);
 
-void func_020846FC(void)
+void OSi_IrqTimer2(void)
 {
     OSi_IrqCallback(10);
 }

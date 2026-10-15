@@ -1,5 +1,5 @@
 /*
- * function: func_021EF60C
+ * function: BOX2_UI_IsListClosed
  * address:  0x021EF60C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-int func_021EF60C(struct WinMgr *mgr)
+int BOX2_UI_IsListClosed(struct WinMgr *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos(mgr, 0, buf + 1, buf);

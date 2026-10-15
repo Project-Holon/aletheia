@@ -15,7 +15,7 @@
  *   outside this range, and there is no layout/data_objects.txt row.
  *
  * symbols:
- *   func_02085D94  0x02085D94  arm twl
+ *   OS_InitMessageQueue  0x02085D94  arm twl
  *   MICEXi_StartLimitedSamplingAsync  0x02703CDC  arm twl
  *   func_02085E50  0x02085E50  arm twl
  *   data_02150FEC  0x02150FEC  data a1
@@ -24,7 +24,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02085D94(u32 *, u32 *, u32);
+extern void OS_InitMessageQueue(u32 *, u32 *, u32);
 extern u32 MICEXi_StartLimitedSamplingAsync(u32, u32, u32 *);
 extern u32 func_02085E50(u32 *, u32 *, u32);
 extern u32 data_02150FEC[];
@@ -38,7 +38,7 @@ u32 MICEXi_StartLimitedSampling(u32 a0) {
     if (data_02150FEC[1] == 0) {
         return 5;
     }
-    func_02085D94(queue, &buf, 1);
+    OS_InitMessageQueue(queue, &buf, 1);
     res = MICEXi_StartLimitedSamplingAsync(a0, (u32)MicexSyncCallback, queue);
     if (res == 0) {
         func_02085E50(queue, &res, 1);

@@ -12,14 +12,14 @@
  * sdk:      set_random (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02162248  0x02162248  arm  ov009
+ *   CPS_SslAddRandomSeed  0x02162248  arm  ov009
  *   func_02163C9C  0x02163C9C  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_02163CF0  0x02163CF0  arm  ov009
  *   func_02163E10  0x02163E10  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA648  0x021AA648  data
- *   g_021A82E4  0x021A82E4  data
+ *   gCpsSslRandCtx  0x021A82E4  data
  *   g_021AA650  0x021AA650  data
  */
 
@@ -37,7 +37,7 @@ typedef struct {
     u64 c;
 } Rand32Ctx;
 
-extern void func_02162248(void *random_seed, unsigned long len);
+extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void func_02163C9C(CPSSha1Ctx *ctx);
 extern unsigned long OS_DisableInterrupts(void);
 extern void func_02163CF0(CPSSha1Ctx *ctx, void *data0, int datalen);
@@ -45,7 +45,7 @@ extern void func_02163E10(void *ctx, unsigned char *digest);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 extern unsigned char g_021AA648;
-extern Rand32Ctx g_021A82E4;
+extern Rand32Ctx gCpsSslRandCtx;
 extern unsigned char g_021AA650[20];
 
 static void func_02162128(unsigned char *d, int len)
@@ -60,9 +60,9 @@ static void func_02162128(unsigned char *d, int len)
     unsigned long tmp;
 
     if (g_021AA648 == 0) {
-        g_021A82E4.x = g_021A82E4.a * g_021A82E4.x + g_021A82E4.c;
-        tmp = (unsigned long)(g_021A82E4.x >> 32);
-        func_02162248(&tmp, 4);
+        gCpsSslRandCtx.x = gCpsSslRandCtx.a * gCpsSslRandCtx.x + gCpsSslRandCtx.c;
+        tmp = (unsigned long)(gCpsSslRandCtx.x >> 32);
+        CPS_SslAddRandomSeed(&tmp, 4);
     }
     r = 20;
     for (i = 0; i < len;) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE4DC
+ * function: MYSTERY_NET_GetReceivedData
  * address: 0x021DE4DC
  * packet: pkt_ov121_021DE4DC
  * region: ov121
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MI_CpuCopy8(void *dst, void *src, int n);
-int func_021DE4DC(u8 *p, void *a, u32 b)
+int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b)
 {
     int s = *(int *)(p + 0x17A4);
     if (s == 1) {

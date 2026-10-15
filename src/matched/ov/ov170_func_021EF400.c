@@ -1,5 +1,5 @@
 /*
- * function: func_021EF400
+ * function: BOX2_UI_UpdateBarMove
  * address:  0x021EF400
  * packet:   pkt_ov170_021EF400
  * region:   ov170
@@ -12,7 +12,7 @@
  * symbols:
  *   BGWINFRM_GetPos 0x0202CF98 thumb
  *   BGWINFRM_UpdateMove 0x0202CDD4 thumb
- *   func_021EC8E4 0x021EC8E4 thumb
+ *   BOX2_SEQ_MoveActorToWindow 0x021EC8E4 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj24043.h"
@@ -24,9 +24,9 @@ typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
-extern void func_021EC8E4(char *p);
+extern void BOX2_SEQ_MoveActorToWindow(char *p);
 
-int func_021EF400(unsigned char *p)
+int BOX2_UI_UpdateBarMove(unsigned char *p)
 {
     signed char a[2];
     signed char b[2];
@@ -35,7 +35,7 @@ int func_021EF400(unsigned char *p)
     r = BGWINFRM_UpdateMove(*(struct WinMgr * *)&((struct Obj24044 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74, 8);
     BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24045 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74, 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
-        func_021EC8E4((char *)p);
+        BOX2_SEQ_MoveActorToWindow((char *)p);
     {
         int ret = 0;
         if (r != 0)

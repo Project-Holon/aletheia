@@ -28,7 +28,7 @@
    }
   },
   {
-   "name": "func_0209953C",
+   "name": "__kernel_rem_pio2",
    "address": "0x0209953C",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +58,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0209A7A8",
+   "name": "ldexp",
    "address": "0x0209A7A8",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02087B04
+ * function: OS_GetBootType
  * address:  0x02087B04
  * packet:   pkt_02087B04
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 
 extern void *OS_GetBootInfo(void);
 
-u16 func_02087B04(void)
+u16 OS_GetBootType(void)
 {
     return *(u16 *)OS_GetBootInfo();
 }

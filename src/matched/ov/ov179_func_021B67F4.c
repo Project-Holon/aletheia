@@ -1,5 +1,5 @@
 /*
- * function: func_021B67F4
+ * function: CDEMO_SCENE_CmdSetBg
  * address:  0x021B67F4
  * packet:   pkt_021B67F4
  * region:   ov179
@@ -16,7 +16,7 @@
 
 extern void func_0204047C(int idx, unsigned short val);
 
-int func_021B67F4(int a, int *q)
+int CDEMO_SCENE_CmdSetBg(int a, int *q)
 {
     func_0204047C((unsigned char)((struct Obj14396 *)q)->f4,
                   (unsigned char)((struct Obj14396 *)q)->f8);

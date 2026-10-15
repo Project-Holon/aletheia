@@ -20,7 +20,8 @@
  *   sNHTTPRapCryptoHeapId 0x021CE31C data a2
  *   sNHTTPRapEvilCheckEmptyString 0x021CE3B8 data a4
  *   sNHTTPRapEvilCheckFileName 0x021CE3A0 data a4
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
+ *   OS_InitMutex  0x02086004  arm  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
@@ -114,9 +115,9 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
 
 #pragma thumb off
 
-extern void func_02086004(int *mutex_p);
+extern void OS_InitMutex(int *mutex_p);
 
-extern void func_02086028(int *mutex_p);
+extern void OS_LockMutex(int *mutex_p);
 
 void NHTTPi_InitMutex(int *mutex_p);
 
@@ -124,7 +125,7 @@ void NHTTPi_LockMutexThunk(int *mutex_p);
 
 void NHTTPi_InitMutex(int *mutex_p)
 {
-    func_02086004(mutex_p);
+    OS_InitMutex(mutex_p);
 }
 
 /*
@@ -134,5 +135,5 @@ void NHTTPi_InitMutex(int *mutex_p)
  */
 void NHTTPi_LockMutexThunk(int *mutex_p)
 {
-    func_02086028(mutex_p);
+    OS_LockMutex(mutex_p);
 }

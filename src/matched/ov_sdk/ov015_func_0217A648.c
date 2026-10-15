@@ -12,17 +12,17 @@
  * sdk:      IRCi_End (libirc.a irc_internal.o)
  *
  * symbols:
- *   func_02084F10  0x02084F10  arm
+ *   OS_ReleaseLockID  0x02084F10  arm
  *   gIrcLockId     0x0217AAB4  data
  */
 
-extern void func_02084F10(unsigned short lockID);
+extern void OS_ReleaseLockID(unsigned short lockID);
 extern unsigned short gIrcLockId;
 
 void IRCi_End(void)
 {
     if (gIrcLockId == -3)
         return;
-    func_02084F10(gIrcLockId);
+    OS_ReleaseLockID(gIrcLockId);
     gIrcLockId = -3;
 }

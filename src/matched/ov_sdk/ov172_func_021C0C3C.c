@@ -21,21 +21,21 @@
  *   gBitLen      0x021CADE4  data
  *   gBitCode     0x021CADE8  data
  *   gWriteLimit  0x021CADEC  data
- *   g_021C7150   0x021C7150  data
+ *   gJpegBitMask   0x021C7150  data
  */
 
 static unsigned long gBitCode = 0;
 static unsigned long gBitLen = 0;
 static unsigned long gWriteLimit = 0;
-extern unsigned long g_021C7150[];
+extern unsigned long gJpegBitMask[];
 
 int Yos_BitWrite(unsigned char *dst, unsigned long *ptr, unsigned long num, unsigned long size)
 {
     unsigned long i;
 
     for (i = size; i != 0; i--) {
-        if (num & g_021C7150[i])
-            gBitCode |= g_021C7150[gBitLen];
+        if (num & gJpegBitMask[i])
+            gBitCode |= gJpegBitMask[gBitLen];
         gBitLen--;
         if (gBitLen == 0) {
             dst[*ptr] = gBitCode;

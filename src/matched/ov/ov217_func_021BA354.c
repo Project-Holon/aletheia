@@ -1,5 +1,5 @@
 /*
- * function: func_021BA354
+ * function: RESEARCH_TOP_FadeIn
  * address:  0x021BA354
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Wraps ARM FADE_Start(3, 0x10, 0, 0).
  *
  * symbols:
- *   func_021BA354  0x021BA354  thumb  ov217
+ *   RESEARCH_TOP_FadeIn  0x021BA354  thumb  ov217
  *   FADE_Start  0x0204E720  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-void func_021BA354(void)
+void RESEARCH_TOP_FadeIn(void)
 {
     FADE_Start(3, 0x10, 0, 0);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02060F98",
+   "name": "NNSi_FndGetMBlockAttribute",
    "address": "0x02060F98",
    "kind": "game",
    "region": "arm9",

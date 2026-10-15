@@ -166,29 +166,18 @@ int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQueued, u32 handleId, u32 destMask, u32 isChunk);
 
-u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-int GFL_NET_SYSTEM_GetChildBitmap(void);
 
-int GFL_NET_SYSTEM_IsError(void);
 
-void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-void GFL_NET_SYSTEM_SetError(void);
 
-void GFL_NET_SYSTEM_ResetError(void);
 
-void GFL_NET_SYSTEM_SetNoSend(void);
 
-int GFL_NET_SYSTEM_IsSendEnable(void);
 
-int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 
-GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 
@@ -232,7 +221,6 @@ u32 GFL_NET_COMMAND_SendNextSlot(void);
 
 void GFL_NET_COMMAND_Main(void);
 
-void GFL_NET_STATE_Idle(void);
 
 GFLNetSession *GFL_NET_GetInitParam(void);
 

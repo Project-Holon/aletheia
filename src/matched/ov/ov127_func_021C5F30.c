@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F30
+ * function: WF2DMAP_CMDQ_DeleteStore
  * address:  0x021C5F30
  * packet:   pkt_021C5F30
  * region:   ov127
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C5F30(u8 *p)
+void WF2DMAP_CMDQ_DeleteStore(u8 *p)
 {
     func_020307B0(((struct Obj23061 *)p)->f0);
     func_020307B0(p);

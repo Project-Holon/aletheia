@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020819B8",
+   "name": "MATHi_CRC16InitTable",
    "address": "0x020819B8",
    "kind": "sdk",
    "region": "arm9",

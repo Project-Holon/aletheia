@@ -12,8 +12,8 @@
  *   BR_SIDEBAR_StartSlide 0x021FEE74 thumb ov186
  *   BR_FADE_StartTimed 0x021FE794 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021F9BA0 0x021F9BA0 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DB690 0x021DB690 thumb ov183
  */
 #include "../include/Obj05470.h"
@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 extern void BR_SIDEBAR_StartSlide(char *p);
 extern void BR_FADE_StartTimed(char *p, u32 index, u32 a, u32 b, u32 c);
 extern int BR_FADE_GetResult(int *);
-extern void func_021F9BA0(unsigned *ctx);
-extern int *func_021FD73C(int *p, int v);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DB690(int *);
 void func_021DB594(int *task, int *state, char *p)
 {
@@ -50,8 +50,8 @@ void func_021DB594(int *task, int *state, char *p)
         break;
     }
     case 4:
-        func_021F9BA0(((struct Obj24534 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f10);
-        func_021FD73C(task,(int)func_021DB690);
+        BR_PROC_SYS_PopEntry(((struct Obj24534 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f10);
+        BR_UTIL_SetTaskStep(task,(int)func_021DB690);
         break;
     }
 }

@@ -17,7 +17,7 @@
  *   func_0217A0D4  0x0217A0D4  arm  ov009
  *   func_02094B20  0x02094B20  arm
  *   func_0209477C  0x0209477C  arm
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   g_021A25C0     0x021A25C0  data
  *   g_021A25CC     0x021A25CC  data
  *   g_021A25D4     0x021A25D4  data
@@ -41,8 +41,8 @@
  *   g_021A2604     0x021A2604  data
  *   func_0217988C  0x0217988C  arm  ov009
  *   CPS_SocUse  0x0215AB10  arm  ov009
- *   func_02160108  0x02160108  arm  ov009
- *   func_02162E94  0x02162E94  arm  ov009
+ *   CPS_SetRootCa  0x02160108  arm  ov009
+ *   CPS_SetSsl  0x02162E94  arm  ov009
  *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   CPS_TcpConnect  0x0215AC60  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
@@ -54,7 +54,7 @@
  *   CPS_SocGetLength  0x0215B504  arm  ov009
  *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   CPS_SocConsume  0x0215B064  arm  ov009
  *   _ll_udiv       0x0209C00C  arm
@@ -241,7 +241,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp_0217956C *http, DWCHttpBuffer *buf, unsigned long size);
 extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
 extern int func_0209477C(const u8 *s);
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
@@ -256,8 +256,8 @@ extern unsigned long CPS_Resolve(char *name);
 extern int func_020964E0(u32 a0);
 extern void func_0217988C(DWCHttp_021798E4 *http);
 extern void CPS_SocUse(void);
-extern void func_02160108(int a, int b);
-extern void func_02162E94(int mode);
+extern void CPS_SetRootCa(int a, int b);
+extern void CPS_SetSsl(int mode);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 extern void CPS_SocRelease(void);
@@ -269,7 +269,6 @@ extern unsigned long long func_020870D0(void);
 extern long CPS_SocGetLength(void);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void func_02086028(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern void CPS_SocConsume(unsigned long len);
 extern void CPS_TcpShutdown(void);
@@ -394,7 +393,7 @@ int func_0217967C(char *http)
     }
     contentlen = func_0209477C(func_02094B20((const u8 *)(*(char **)(http + 0x1a34)), (const u8 *)g_021A25D4) + 4);
     if (contentlen != 0) {
-        func_02084F80(str_contentlen, 7, g_021A25DC, contentlen);
+        OS_SNPrintf(str_contentlen, 7, g_021A25DC, contentlen);
         if (func_02179E60(http, g_021A25E0, str_contentlen)) {
             return 1;
         }
@@ -580,8 +579,8 @@ void func_021799E8(void *arg)
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;
-        func_02160108((int)g_021A2590, 12);
-        func_02162E94(1);
+        CPS_SetRootCa((int)g_021A2590, 12);
+        CPS_SetSsl(1);
     }
 
     CPS_SocBind(0, http->port, ip);
@@ -628,7 +627,7 @@ void func_021799E8(void *arg)
             rep->write_index += copy_length;
             *rep->write_index = 0;
             if (header_received == 1) {
-                func_02086028(&http->content_len_mutex);
+                OS_LockMutex(&http->content_len_mutex);
                 http->receivedbody_len += copy_length;
                 func_02086078(&http->content_len_mutex);
             } else {
@@ -722,7 +721,7 @@ int func_02179DA0(char *http)
     if (func_0217A0D4((DWCHttp_0217956C *)http, (DWCHttpBuffer *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
         return 1;
     }
-    result_len = func_02084F80(req->cur, req->cap, format, *(char **)(http + 0x1128), *(char **)(http + 0x1124));
+    result_len = OS_SNPrintf(req->cur, req->cap, format, *(char **)(http + 0x1128), *(char **)(http + 0x1124));
     req->cur += result_len;
     return 0;
 }
@@ -755,7 +754,7 @@ int func_02179E60(char *http, char *label, char *data)
     temp_index = (char *)func_02094B20((const u8 *)temp_buffer->base, (const u8 *)g_021A25D4) + 2;
     temp = *temp_index;
     func_02092364(temp_index + result_len, temp_index, func_0209477C((const u8 *)temp_index) + 1);
-    temp_index[func_02084F80(temp_index, result_len + 1, g_021A267C, label, data)] = temp;
+    temp_index[OS_SNPrintf(temp_index, result_len + 1, g_021A267C, label, data)] = temp;
     temp_buffer->cur += result_len;
     return 0;
 }
@@ -791,7 +790,7 @@ int func_02179F3C(DWCHttp_0217956C *http, char *label, char *data, unsigned long
         buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     }
 
-    result_len = func_02084F80(temp_buffer->write_index, buf_remain, format, label);
+    result_len = OS_SNPrintf(temp_buffer->write_index, buf_remain, format, label);
     temp_buffer->write_index += result_len;
 
     result_len = func_02059B40(data, data_len, temp_buffer->write_index,
@@ -828,7 +827,7 @@ int func_0217A044(char *http, char *data)
         }
         buf_remain = temp_buffer->end - temp_buffer->cur;
     }
-    temp = func_02084F80(temp_buffer->cur, buf_remain, g_021A2694, data);
+    temp = OS_SNPrintf(temp_buffer->cur, buf_remain, g_021A2694, data);
     if (temp != result_len) {
         return 1;
     }

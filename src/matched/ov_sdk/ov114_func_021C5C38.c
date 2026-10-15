@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   DWCi_NdSetError  0x021C659C  arm  ov114
  *   OS_UnlockMutex 0x02086078  arm
  *   MI_CpuFill8    0x02082BCC  arm
@@ -27,7 +27,7 @@
 typedef struct NdState NdState;
 
 extern int func_02059F38(void);
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void DWCi_NdSetError(int err, int servererror);
 extern void OS_UnlockMutex(void *mutex);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -39,7 +39,7 @@ int DWC_NdGetFileListAsync(void *filelist, unsigned int offset, unsigned int num
 {
     if (func_02059F38())
         return 0;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.f14 != 1) {
         DWCi_NdSetError(2, 0);
         OS_UnlockMutex(gDwcNdMutex);
@@ -50,7 +50,7 @@ int DWC_NdGetFileListAsync(void *filelist, unsigned int offset, unsigned int num
     MI_CpuFill8(filelist, 0, num * 0xB0);
     if (DWCi_NdGetFileListAsync(filelist, offset, num))
         return 1;
-    func_02086028(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     gDwcNdState.f14 = 1;
     OS_UnlockMutex(gDwcNdMutex);
     return 0;

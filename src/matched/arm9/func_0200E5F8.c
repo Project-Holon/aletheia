@@ -1,5 +1,5 @@
 /*
- * function: func_0200E5F8
+ * function: BATTLE_EXAMINATION_GetTrainerSlot
  * address:  0x0200E5F8
  * packet:   pkt_0200E5F8
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-char *func_0200E5F8(char *p, u32 idx)
+char *BATTLE_EXAMINATION_GetTrainerSlot(char *p, u32 idx)
 {
     if (idx < 5) {
         p += idx * 0x120;

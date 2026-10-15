@@ -20,16 +20,16 @@
  *   BR_BTN_DATA_GetRow 0x021FB704 thumb ov186
  *   BR_BTN_DATA_CreateLabel 0x021FB7D0 thumb ov186
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
- *   func_021FAC20 0x021FAC20 thumb ov186
- *   func_021FA020 0x021FA020 thumb ov186
- *   func_021FAEC0 0x021FAEC0 thumb ov186
- *   func_021FAF08 0x021FAF08 thumb ov186
+ *   BR_BTN_InitRecord 0x021FAC20 thumb ov186
+ *   BR_BTN_PushRecord 0x021FA020 thumb ov186
+ *   BR_BTN_PlaceIndexed 0x021FAEC0 thumb ov186
+ *   BR_BTN_SetPosY 0x021FAF08 thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
- *   func_021FD6D8 0x021FD6D8 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
- *   func_021FA274 0x021FA274 thumb ov186
- *   func_021FA920 0x021FA920 thumb ov186
- *   func_021FAAD0 0x021FAAD0 thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
+ *   BR_BTN_SetupInput 0x021FA274 thumb ov186
+ *   BR_BTN_UpdateCollapse 0x021FA920 thumb ov186
+ *   BR_BTN_UpdateSlide 0x021FAAD0 thumb ov186
  *   d_02200D18 0x02200D18 data a1
  *   d_02200D1C 0x02200D1C data a1
  */
@@ -78,16 +78,16 @@ extern void *BR_BTN_DATA_GetRow(char *ctx, int section, unsigned item);
 struct MsgBank;
 extern void *BR_BTN_DATA_CreateLabel(unsigned * const *p, void *record, struct MsgBank *archive, unsigned short heap);
 extern void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
-extern void func_021FAC20(void *ctx, void *object, int a, void *b, int owner, void *arg, int index, u32 heap);
-extern void func_021FA020(u8 *ctx, int a1, int a2);
-extern void func_021FAEC0(char *p, unsigned index);
-extern void func_021FAF08(char *p, int a1);
+extern void BR_BTN_InitRecord(void *ctx, void *object, int a, void *b, int owner, void *arg, int index, u32 heap);
+extern void BR_BTN_PushRecord(u8 *ctx, int a1, int a2);
+extern void BR_BTN_PlaceIndexed(char *p, unsigned index);
+extern void BR_BTN_SetPosY(char *p, int a1);
 extern int BR_RES_GetMsgData(char *p);
-extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern int *func_021FD73C(int *p, int v);
-extern void func_021FA274(void *p);
-extern void func_021FA920(int *task, int *state, u8 *ctx);
-extern void func_021FAAD0(void *p, int *state, unsigned char *ctx);
+extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
+extern void BR_BTN_SetupInput(void *p);
+extern void BR_BTN_UpdateCollapse(int *task, int *state, u8 *ctx);
+extern void BR_BTN_UpdateSlide(void *p, int *state, unsigned char *ctx);
 struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap)
 {
     struct Obj *p;
@@ -121,20 +121,20 @@ struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f3a = 6;
     p->f3c = func_02030734(heap, 0x198, 0, d_02200D1C, 0x171);
     MI_CpuFill8(p->f3c, 0, 0x198);
-    p->fC = func_021FD6D8((int)p, (int)func_021FA274, heap);
+    p->fC = BR_UTIL_CreateTask((int)p, (int)BR_BTN_SetupInput, heap);
     if (p->f5c->count != 0) {
         arch = BR_RES_GetMsgData((char *)c);
         for (i = 0; i < p->f5c->count; i++) {
             void *q = BR_BTN_DATA_GetRow(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
             void *rec = BR_BTN_DATA_CreateLabel(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             MI_CpuFill8(buf, 0, 0x44);
-            func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
-            func_021FA020((u8 *)p, (int)buf, 0);
+            BR_BTN_InitRecord(buf, q, b, p->f48, c, rec, p->f10, heap);
+            BR_BTN_PushRecord((u8 *)p, (int)buf, 0);
             STRBUF_Delete(rec);
         }
         for (i = 0; i < p->f3b; i++)
-            func_021FAEC0(p->f3c + (p->f3b - i - 1) * 0x44, (unsigned short)i);
-        func_021FD73C(p->fC, (int)func_021FA920);
+            BR_BTN_PlaceIndexed(p->f3c + (p->f3b - i - 1) * 0x44, (unsigned short)i);
+        BR_UTIL_SetTaskStep(p->fC, (int)BR_BTN_UpdateCollapse);
         p->f1C = 2;
     } else {
         arch = BR_RES_GetMsgData((char *)c);
@@ -142,12 +142,12 @@ struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap)
         for (i = 0; i < p->f39; i++) {
             void *q = BR_BTN_DATA_GetRow(p->f44, a, (unsigned short)i);
             void *rec = BR_BTN_DATA_CreateLabel(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
-            func_021FAC20(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
+            BR_BTN_InitRecord(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
             STRBUF_Delete(rec);
         }
         for (i = 0; i < p->f39; i++)
-            func_021FAF08(p->f40 + i * 0x44, 0xe0);
-        func_021FD73C(p->fC, (int)func_021FAAD0);
+            BR_BTN_SetPosY(p->f40 + i * 0x44, 0xe0);
+        BR_UTIL_SetTaskStep(p->fC, (int)BR_BTN_UpdateSlide);
     }
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021609E8
+ * function: chars_till_end
  * address:  0x021609E8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Length of the text up to the first period or terminator.
  */
 
-int func_021609E8(const char *p)
+int chars_till_end(const char *p)
 {
     const char *start = p;
 

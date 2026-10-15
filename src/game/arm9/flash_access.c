@@ -21,7 +21,7 @@
  *   func_02075E9C  0x02075E9C  arm
  *   func_02076B2C  0x02076B2C  arm
  *   func_02075EAC  0x02075EAC  arm
- *   func_02084F10  0x02084F10  arm
+ *   OS_ReleaseLockID  0x02084F10  arm
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
  *   CARD_WaitBackupAsync           0x02076B80  arm
  *   _WriteDone  0x020A789C  data
@@ -41,7 +41,7 @@ extern int  OS_GetLockID(u32 lock_arg);
 extern void func_02075E9C(u16 lock_id);
 extern int  func_02076B2C(int type);
 extern void func_02075EAC(u16 lock_id);
-extern void func_02084F10(u16 lock_id);
+extern void OS_ReleaseLockID(u16 lock_id);
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
@@ -87,7 +87,7 @@ int FLASH_ACCESS_Identify(u32 unused_arg)
         type = 0;
     }
     func_02075EAC((u16)lock_id);
-    func_02084F10((u16)lock_id);
+    OS_ReleaseLockID((u16)lock_id);
     return type != 0;
 }
 
@@ -133,7 +133,7 @@ int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(vo
     result = CARDi_RequestStreamCommand(flash_addr, ram_dst, size, 0, 0, 1, 6, 1, 0);
     result = CARD_WaitBackupAsync();
     func_02075EAC((u16)lock_id);
-    func_02084F10((u16)lock_id);
+    OS_ReleaseLockID((u16)lock_id);
     if (result == 0 && on_error != 0) {
         on_error();
     }
@@ -192,7 +192,7 @@ int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
 {
     if (_WriteDone == 1) {
         func_02075EAC(lock_id);
-        func_02084F10(lock_id);
+        OS_ReleaseLockID(lock_id);
         _AccessBusy = 0;
 
         switch (func_02075DD8()) {
@@ -235,7 +235,7 @@ void FLASH_ACCESS_CancelWrite(u16 lock_id)
         return;
     }
     func_02075EAC(lock_id);
-    func_02084F10(lock_id);
+    OS_ReleaseLockID(lock_id);
     _AccessBusy = 0;
 }
 
@@ -248,7 +248,7 @@ void FLASH_ACCESS_CancelWrite(u16 lock_id)
 void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_error)
 {
     func_02075EAC(lock_id);
-    func_02084F10(lock_id);
+    OS_ReleaseLockID(lock_id);
     _AccessBusy = 0;
     if (on_error != 0) {
         on_error(no_response);

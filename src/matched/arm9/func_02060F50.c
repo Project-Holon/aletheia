@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060F50
+ * function: NNSi_FndWalkHeapBlocks
  * address:  0x02060F50
  * packet:   pkt_02060E94
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx)
+void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx)
 {
     int *q = (int *)p[0xb];
     if (q == 0)

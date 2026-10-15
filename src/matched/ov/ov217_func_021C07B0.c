@@ -1,5 +1,5 @@
 /*
- * function: func_021C07B0
+ * function: RESEARCH_GRAPH_ClearPalAnm
  * address:  0x021C07B0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C07B0(void *p)
+void RESEARCH_GRAPH_ClearPalAnm(void *p)
 {
     ((struct Obj25969 *)p)->f3B8 = 0;
 }

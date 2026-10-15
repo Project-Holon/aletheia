@@ -1,5 +1,8 @@
 #ifndef OV107_MB_COMM_SYS_H
 #define OV107_MB_COMM_SYS_H
+
+/* Message/menu work block defined in mb_util_msg.c (see MbMsgWork there). */
+struct MbMsgWork;
 /*
  * Download Play parent system (ov107, mb_comm_sys): the screen flow that
  * recruits children over wireless, offers the file, and receives their data.
@@ -203,7 +206,7 @@ typedef struct MbCommSysWork {
     MbPayloadHeader header;             /* 0x58 */
     void *payload;                      /* 0x60 */
     unsigned int payloadSize;           /* 0x64 */
-    void *msg;                          /* 0x68 */
+    struct MbMsgWork *msg;              /* 0x68: MB_UTIL_MSG work block */
     void *clactUnit;                    /* 0x6C */
     unsigned int paletteId;             /* 0x70 */
     unsigned int charId;                /* 0x74 */

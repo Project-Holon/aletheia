@@ -1,5 +1,5 @@
 /*
- * function: func_021DC970
+ * function: BOX2_MAIN_VBlankHandler
  * address:  0x021DC970
  * packet:   pkt_021DC970
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAB04  0x021EAB04  thumb  ov170
+ *   BOX2_SEQ_FlushDirtyBmpWins  0x021EAB04  thumb  ov170
  *   func_020419E4  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   PALANM_TransferPalettes  0x02021D50  thumb
@@ -21,15 +21,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct S02021D50;
-extern void func_021EAB04(unsigned char *w);
+extern void BOX2_SEQ_FlushDirtyBmpWins(unsigned char *w);
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
 
-void func_021DC970(u32 a, char *p)
+void BOX2_MAIN_VBlankHandler(u32 a, char *p)
 {
-    func_021EAB04((unsigned char *)(((struct Obj12145 *)p)->f2C));
+    BOX2_SEQ_FlushDirtyBmpWins((unsigned char *)(((struct Obj12145 *)p)->f2C));
     func_020419E4();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(u32 *)(((struct Obj12145 *)p)->f2C + 0x6c)));

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAD8
+ * function: RESEARCH_TOP_CreatePaletteAnime
  * address:  0x021BAAD8
  * packet:   pkt_021BAAD8
  * region:   ov217
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 PALETTE_ANIME_Create(u32 a0);
 
-void func_021BAAD8(char *p)
+void RESEARCH_TOP_CreatePaletteAnime(char *p)
 {
     int i;
     for (i = 0; i < 5; i++)

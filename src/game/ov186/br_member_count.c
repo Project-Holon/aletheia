@@ -17,13 +17,16 @@
  *   ARC_UTIL_LoadMemberWithSize   0x0204A298  arm
  */
 typedef unsigned int   u32;
-extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
+typedef unsigned short u16;
 
-int BR_MEMBER_COUNT_GetU16Count(void *a, unsigned *out)
+extern void *ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int memberId, u32 *out);
+
+/* Load the group table member (id 0x62, index 5) and report its u16 count. */
+u16 *BR_MEMBER_COUNT_GetU16Count(void *member, unsigned *countOut)
 {
-    int local;
-    int r;
-    r = ARC_UTIL_LoadMemberWithSize(0x62, 5, 0, (int)a, (u32 *)(&local));
-    *out = (unsigned)local >> 1;
-    return r;
+    u32 byteSize;
+    u16 *base;
+    base = ARC_UTIL_LoadMemberWithSize(0x62, 5, 0, (int)member, &byteSize);
+    *countOut = byteSize >> 1;
+    return base;
 }

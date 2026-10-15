@@ -1,5 +1,5 @@
 /*
- * function: func_021834D0
+ * function: gsXmlMoveToStart
  * address:  0x021834D0
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Fills the three words at +8, +0xc and +0x10 with -1 and reports success.
  */
 
-int func_021834D0(int *p)
+int gsXmlMoveToStart(int *p)
 {
     p[2] = -1;
     p[3] = -1;

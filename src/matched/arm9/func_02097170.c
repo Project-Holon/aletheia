@@ -13,10 +13,10 @@
  *   func_020921F4  0x020921F4  arm
  *   _deq           0x0209BA3C  arm
  *   func_0209AF34  0x0209AF34  arm
- *   func_0209A6E8  0x0209A6E8  arm
+ *   frexp  0x0209A6E8  arm
  *   func_02092144  0x02092144  arm
  *   func_02096990  0x02096990  arm
- *   func_0209A7A8  0x0209A7A8  arm
+ *   ldexp  0x0209A7A8  arm
  *   func_0209C554  0x0209C554  arm
  *   func_020966B0  0x020966B0  arm
  *   func_02096774  0x02096774  arm
@@ -87,11 +87,11 @@ typedef struct {
 extern int func_020921D8(double v);
 extern int func_020921F4(double v);
 extern double func_0209AF34(double a, double b);
-extern double func_0209A6E8(double x, int *eptr);
+extern double frexp(double x, int *eptr);
 extern u32 func_02092144(u64 x);
 struct decimal;
 extern void func_02096990(struct decimal *result, long exp);
-extern double func_0209A7A8(double x, int n);
+extern double ldexp(double x, int n);
 extern u64 func_0209C554(double x);
 extern void func_020966B0(struct decimal *result, unsigned long long val);
 extern void func_02096774(struct decimal *result, const struct decimal *x, const struct decimal *y);
@@ -124,12 +124,12 @@ void func_02097170(DB *r, double x)
     }
     if (neg)
         x = func_0209AF34(0.0, x);
-    f = func_0209A6E8(x, &e);
+    f = frexp(x, &e);
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;
     k = 0x35 - func_02092144((v & -v) - 1);
     func_02096990((struct decimal *)(&b), e - k);
-    func_020966B0((struct decimal *)(&a), func_0209C554(func_0209A7A8(f, k)));
+    func_020966B0((struct decimal *)(&a), func_0209C554(ldexp(f, k)));
     func_02096774((struct decimal *)r, (const struct decimal *)(&a), (const struct decimal *)(&b));
     r->f0 = neg;
 }

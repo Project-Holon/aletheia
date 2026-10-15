@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   g_021ACEF8     0x021ACEF8  data
  *   g_021ACEFC     0x021ACEFC  data
  *   sWsAuthUrlFormat     0x021E49D0  data
  *   gWsAuthServiceUrl     0x021E53BC  data
  *
  * Session gate: only in state 1, and only while the 0x021E53BC flag byte is
- * clear, hand the 0x021E49D0 table to func_02084F80 with the 0x021ACEFC base.
+ * clear, hand the 0x021E49D0 table to OS_SNPrintf with the 0x021ACEFC base.
  */
 
 typedef unsigned int u32;
@@ -28,13 +28,13 @@ extern u32 g_021ACEF8;
 extern u32 g_021ACEFC[];
 extern u32 sWsAuthUrlFormat[];
 extern s8 gWsAuthServiceUrl[];
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 
 s32 wsiServiceAvailable(void)
 {
     if (g_021ACEF8 == 1) {
         if (gWsAuthServiceUrl[0] == 0)
-            func_02084F80((char *)gWsAuthServiceUrl, 0x80, (const char *)sWsAuthUrlFormat, g_021ACEFC);
+            OS_SNPrintf((char *)gWsAuthServiceUrl, 0x80, (const char *)sWsAuthUrlFormat, g_021ACEFC);
         return 1;
     }
     return 0;

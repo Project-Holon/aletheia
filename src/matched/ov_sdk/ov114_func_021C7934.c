@@ -12,13 +12,13 @@
  * sdk:      DWCi_Ndi_prepareHttpCallback (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   gDwciNdHttpMutex  0x021D3C20  data
  *   gDwciNdStatics  0x021D3B9C  data
  */
 
-extern void func_02086028(void *m);
+extern void OS_LockMutex(void *m);
 extern void func_02086078(void *m);
 extern char gDwciNdHttpMutex[];
 extern int gDwciNdStatics[];
@@ -26,7 +26,7 @@ extern int gDwciNdStatics[];
 int DWCi_Ndi_prepareHttpCallback(void)
 {
 	int rc;
-	func_02086028(gDwciNdHttpMutex);
+	OS_LockMutex(gDwciNdHttpMutex);
 	rc = (gDwciNdStatics[8] == 0);
 	if (rc)
 		gDwciNdStatics[8] = 1;

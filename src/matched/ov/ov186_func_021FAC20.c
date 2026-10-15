@@ -1,5 +1,5 @@
 /*
- * function: func_021FAC20
+ * function: BR_BTN_InitRecord
  * address: 0x021FAC20
  * packet: pkt_ov186_021FAC20
  * region: ov186
@@ -17,7 +17,7 @@
  *   BR_BTN_DATA_GetRowField 0x021FB7B0 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
- *   func_021FB3BC 0x021FB3BC thumb ov186
+ *   BR_BTN_CreateObject 0x021FB3BC thumb ov186
  *   d_02200D18 0x02200D18 data a1
  */
 typedef struct { unsigned short x,y,z; unsigned char flag,pad; } Config;
@@ -36,9 +36,9 @@ extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern int BR_BTN_DATA_GetRowField(void *p, int i);
 extern void BR_RES_GetSprite(void *, unsigned, void *);
 extern unsigned BR_RES_GetFont(char *p);
-extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
+extern void *BR_BTN_CreateObject(void *, void *, int, int, int, int, int, void *, unsigned short);
 extern char d_02200D18[];
-void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *owner, const void *arg, unsigned index, unsigned short heap)
+void BR_BTN_InitRecord(Fields *ctx, unsigned object, unsigned a, unsigned b, void *owner, const void *arg, unsigned index, unsigned short heap)
 {
     unsigned info[3];
     Config config;
@@ -63,5 +63,5 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     config.z = BR_BTN_DATA_GetRowField((void *)ctx->object, 4);
     config.flag = 1;
     BR_RES_GetSprite(owner, ctx->index + 1, info);
-    ctx->result = (unsigned)func_021FB3BC(&config, (void *)ctx->work, 0xa0, ctx->enabled, a, b, BR_RES_GetFont(owner), info, (unsigned short)((heap & 0x7fff) | 0x8000));
+    ctx->result = (unsigned)BR_BTN_CreateObject(&config, (void *)ctx->work, 0xa0, ctx->enabled, a, b, BR_RES_GetFont(owner), info, (unsigned short)((heap & 0x7fff) | 0x8000));
 }

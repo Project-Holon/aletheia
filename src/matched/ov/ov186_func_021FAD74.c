@@ -1,5 +1,5 @@
 /*
- * function: func_021FAD74
+ * function: BR_BTN_StepAnim
  * address: 0x021FAD74
  * packet: pkt_ov186_021FAD74
  * region: ov186
@@ -9,11 +9,11 @@
  * status: EXACT*
  * tail: 021FADB6..021FADB8 is two zero alignment bytes.
  * symbols:
- *   func_021FB548 0x021FB548 thumb ov186
+ *   BR_BTN_GetObjectPos 0x021FB548 thumb ov186
  */
 #include "../include/Obj08331.h"
-extern void func_021FB548(char *p, short *x, short *y);
-int func_021FAD74(char *ctx)
+extern void BR_BTN_GetObjectPos(char *p, short *x, short *y);
+int BR_BTN_StepAnim(char *ctx)
 {
     short x, y;
     int result;
@@ -21,7 +21,7 @@ int func_021FAD74(char *ctx)
         result = (*(int (**)(char *))(ctx + 0x10))(ctx);
         if (result != 0) *(int (**)(char *))(ctx + 0x10) = 0;
         if (*(int * *)&((struct Obj08331 *)ctx)->f2C != 0) {
-            func_021FB548(((struct Obj08331 *)ctx)->f8, &x, &y);
+            BR_BTN_GetObjectPos(((struct Obj08331 *)ctx)->f8, &x, &y);
             (*(int **)(ctx + 0x2c))[0] = x + 80;
             (*(int **)(ctx + 0x2c))[1] = y;
         }

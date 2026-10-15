@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5FC
+ * function: RESEARCH_LIST_GetKeyRepeatTimer
  * address:  0x021BC5FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BC5FC(void *p)
+u32 RESEARCH_LIST_GetKeyRepeatTimer(void *p)
 {
     return ((struct Obj25862 *)p)->f54;
 }

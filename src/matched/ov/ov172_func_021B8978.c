@@ -13,7 +13,7 @@
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   CTVT_ADPCM_ResetDecoder 0x021B69F0 thumb ov172
  *   func_02082A7C 0x02082A7C arm
- *   func_021BA194 0x021BA194 thumb ov172
+ *   CTVT_MIC_DecodeAdpcm 0x021BA194 thumb ov172
  *   d_021C6EC0 0x021C6EC0 data a2
  */
 #include "../include/Obj03854.h"
@@ -30,7 +30,7 @@ struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void CTVT_ADPCM_ResetDecoder(void);
 extern void func_02082A7C(int, void *, int);
-extern int func_021BA194(int unused, int a, void *buf, unsigned n);
+extern int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
 void func_021B8978(int a, int b, int c, char *q)
 {
     void *p;
@@ -44,7 +44,7 @@ void func_021B8978(int a, int b, int c, char *q)
         CTVT_ADPCM_ResetDecoder();
         func_02082A7C(0, ((struct Obj03854 *)q)->f1A8, 0xc800);
     }
-    func_021BA194((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
+    CTVT_MIC_DecodeAdpcm((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
     if (((struct Obj05444 *)data)->f4 == 1) {
         table = d_021C6EC0;
         ((struct Obj03854 *)q)->f1A0 = table.a[((struct Obj05444 *)data)->f6];

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA624
+ * function: RESEARCH_TOP_DeleteMessages
  * address:  0x021BA624
  * packet:   pkt_021BA624
  * region:   ov217
@@ -19,7 +19,7 @@ struct Rec;
 typedef unsigned int   u32;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_021BA624(int *p)
+void RESEARCH_TOP_DeleteMessages(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)

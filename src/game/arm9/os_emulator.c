@@ -1,7 +1,7 @@
 /*
  * file:     os_emulator.c
  * unit:     yes
- * function: func_02085CBC, func_02085D0C, func_02085D24, OS_IsRunOnTwl, OSi_IsRunOnTwl
+ * function: OS_GetConsoleType, func_02085D0C, func_02085D24, OS_IsRunOnTwl, OSi_IsRunOnTwl
  * address:  0x02085CBC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,27 +14,25 @@
  *
  * symbols:
  *   g_020A86A4            0x020A86A4  data
- *   func_02087B04 0x02087B04 arm
+ *   OS_GetBootType 0x02087B04 arm
  *   g_020A5CD4 0x020A5CD4 data
  *   g_02151244  0x02151244  data
  */
-typedef unsigned long u32_02085CBC;
+typedef unsigned long u32;
 
 typedef unsigned short u16;
 
 typedef int BOOL;
 
-typedef u32_02085CBC OSIntrMode;
+typedef u32 OSIntrMode;
 
 /* os_emulator.o .data from 0x020A86A4, addressed from one pool word: the
    file-scope OSi_RunningConsoleTypeCache, then OS_GetConsoleType's static
    OSi_ConsoleTypeCache (both start at 0xFFFFFFFF). */
 typedef struct OsEmulatorData {
-    u32_02085CBC OSi_RunningConsoleTypeCache;
-    u32_02085CBC OSi_ConsoleTypeCache;
+    u32 OSi_RunningConsoleTypeCache;
+    u32 OSi_ConsoleTypeCache;
 } OsEmulatorData;
-
-typedef unsigned int   u32_2;
 
 typedef struct OsSystemBss {
     int nitroModeOnTwl;
@@ -43,24 +41,24 @@ typedef struct OsSystemBss {
     int isChecked;
 } OsSystemBss;
 
-extern int func_02087B04(void);
-u32_02085CBC func_02085CBC(void);
+extern u16 OS_GetBootType(void);
+u32 OS_GetConsoleType(void);
 int OS_IsRunOnEmulator(void);
 int OS_IsRunOnTwl(void);
 int OSi_IsRunOnTwl(void);
-extern u32_02085CBC g_020A5CD4[];
+extern u32 g_020A5CD4[];
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OsEmulatorData g_020A86A4;
 extern OsSystemBss g_02151244;
 
-static u32_02085CBC OSi_DetectDeviceType(void);
+static u32 OSi_DetectDeviceType(void);
 
 
 
 /*
  * sdk:      OS_GetConsoleType (os_emulator.o)
  */
-u32_02085CBC func_02085CBC(void)
+u32 OS_GetConsoleType(void)
 {
     if (g_020A86A4.OSi_ConsoleTypeCache == 0xFFFFFFFF) {
         if (OS_IsRunOnTwl()) {
@@ -74,16 +72,16 @@ u32_02085CBC func_02085CBC(void)
 }
 
 
-static u32_02085CBC OSi_DetectDeviceType(void)
+static u32 OSi_DetectDeviceType(void)
 {
-    return g_020A5CD4[func_02087B04()];
+    return g_020A5CD4[OS_GetBootType()];
 }
 
 
 
 int OS_IsRunOnEmulator(void)
 {
-    return (func_02085CBC() & 0x10000000) ? 1 : 0;
+    return (OS_GetConsoleType() & 0x10000000) ? 1 : 0;
 }
 
 

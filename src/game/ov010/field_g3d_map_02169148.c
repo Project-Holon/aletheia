@@ -519,9 +519,9 @@ FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map)
 void FIELD_G3D_MAP_ResetLoadState(FieldG3dMap *map)
 {
     map->bufferOffset = 0;
-    map->loadStageA = 0;
-    map->loadStageC = 0;
-    map->loadStageD = 0;
+    map->resetFlag = 0;
+    map->readFinished = 0;
+    map->buildStarted = 0;
     map->dataReady = 0;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0208A1D0
+ * function: SNDi_InitSharedWork
  * address:  0x0208A1D0
  * packet:   pkt_0208A1D0
  * region:   arm9
@@ -30,7 +30,7 @@ typedef struct SNDSharedWork {
 
 extern void DC_FlushRange(const void *startAddr, unsigned long nBytes);
 
-void func_0208A1D0(SNDSharedWork *work)
+void SNDi_InitSharedWork(SNDSharedWork *work)
 {
     int playerNo;
     int variableNo;

@@ -30,7 +30,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E2BC  0x0200E2BC  thumb
+ *   SYMBOL_SAVE_FindRecord  0x0200E2BC  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02007E50  0x02007E50  thumb
@@ -99,7 +99,7 @@ extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
+extern u32 SYMBOL_SAVE_FindRecord(void *a0, u32 *a1, void *heap, u32 mode);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
@@ -142,7 +142,7 @@ int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 
         key.species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         key.form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
-        if (func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0)
             w->f20.form = 12;
         ENCEFF_Start((struct Ctx *)FIELDMAP_GetEncEff(w->f00), (u32)evt, 0);
         (*state)++;
@@ -177,8 +177,8 @@ int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 
         key.species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         key.form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
-        if (func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0
-            || func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0
+            || SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
             ok = 0;
         if (ok == 1)
             *w->f28 = 1;

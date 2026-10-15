@@ -1,5 +1,5 @@
 /*
- * function: func_021DC5F0
+ * function: POKETRADE_PROC_SetupBoxCounts
  * address: 0x021DC5F0
  * packet: pkt_ov119_021DC5F0
  * region: ov119
@@ -13,7 +13,7 @@
 #include "../include/Obj06424.h"
 typedef unsigned char  u8;
 extern u8 func_020076A4(void *save);
-void func_021DC5F0(char *p)
+void POKETRADE_PROC_SetupBoxCounts(char *p)
 {
     int v = func_020076A4((void *)(((struct Obj06424 *)p)->f828));
     ((struct Obj06424 *)p)->f634 = v * 6 + 2;

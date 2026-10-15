@@ -1,5 +1,5 @@
 /*
- * function: func_021B6780
+ * function: CDEMO_SCENE_CmdSetDone
  * address:  0x021B6780
  * packet:   pkt_021B6780
  * region:   ov179
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj14393.h"
 
-int func_021B6780(char *p)
+int CDEMO_SCENE_CmdSetDone(char *p)
 {
     ((struct Obj14393 *)p)->f6050 = 2;
     ((struct Obj14393 *)p)->f6054 = 5;

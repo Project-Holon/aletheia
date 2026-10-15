@@ -22,7 +22,7 @@
  *   gVctSendBuffer     0x021B42C0  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   gVctReceiveSources     0x021B3CBC  data  ov013  a4
- *   func_02087170  0x02087170  arm
+ *   OS_GetTickLo  0x02087170  arm
  *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm  ov013
  *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm  ov013
  *   VCT_AUDIO_InitReceiveSource  0x021B19BC  arm  ov013
@@ -80,7 +80,7 @@ extern struct Ctx42C0 gVctSendBuffer;
 extern void *gVctMembers[3];
 extern Slot gVctReceiveSources[3];
 
-extern u16 func_02087170(void);
+extern u16 OS_GetTickLo(void);
 extern void VCT_DSP_InitVoiceGateDefaults(void);
 extern void VCT_AUDIO_ClearReadyQueue(u32 i);
 extern void VCT_AUDIO_InitReceiveSource(char *p, int i, int a2);
@@ -100,7 +100,7 @@ int VCT_SESSION_Init(void)
     u32 i;
     u32 k;
 
-    gVctSendState.f0 = func_02087170();
+    gVctSendState.f0 = OS_GetTickLo();
     gVctSendEnabled = 1;
     gVctSendState.f20 = 0;
     gVctSendState.f4 = 0;

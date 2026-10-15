@@ -1,5 +1,5 @@
 /*
- * function: func_021DD2D0
+ * function: BOX2_MAIN_GetMonAt
  * address:  0x021DD2D0
  * packet:   pkt_ov170_021DD2D0
  * region:   ov170
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
-int func_021DD2D0(void ***p, int a, unsigned b)
+int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b)
 {
     if (a == 0xFF || b >= 0x1E) {
         if (b >= 0x1E)

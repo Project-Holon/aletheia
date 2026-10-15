@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFC0
+ * function: BOX2_MAIN_IsTaskMenuFinished
  * address:  0x021DCFC0
  * packet:   pkt_ov170_021DCFC0
  * region:   ov170
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBFCC 0x021EBFCC thumb
- *   func_021EBFEC 0x021EBFEC thumb
+ *   BOX2_SEQ_SetActorAutoAnim 0x021EBFCC thumb
+ *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -30,20 +30,20 @@ typedef struct {
     unsigned char h;
 } Fade;
 
-extern void func_021EBFCC(char *p, int i, int v);
+extern void BOX2_SEQ_SetActorAutoAnim(char *p, int i, int v);
 typedef unsigned int   u32;
-extern u32 func_021EBFEC(char *p, int i);
+extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
 typedef unsigned char  u8;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned bit);
 
-int func_021DCFC0(char *p)
+int BOX2_MAIN_IsTaskMenuFinished(char *p)
 {
     Fade *f = (Fade *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x1A6);
     switch (f->state) {
     case 0:
         if (f->flag == 0) {
-            func_021EBFCC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id, f->lo);
+            BOX2_SEQ_SetActorAutoAnim(*(char * *)&((struct Obj00000 *)p)->f2C, f->id, f->lo);
         } else {
             func_020413B0(f->id, f->x, f->y, f->w, f->h, f->lo);
             func_02041B6C(f->id);
@@ -52,7 +52,7 @@ int func_021DCFC0(char *p)
         break;
     case 1:
         if (f->flag == 0) {
-            if (func_021EBFEC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id) == 0)
+            if (BOX2_SEQ_IsActorAnimActive(*(char * *)&((struct Obj00000 *)p)->f2C, f->id) == 0)
                 return 0;
         } else {
             f->count++;

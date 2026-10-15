@@ -1,5 +1,5 @@
 /*
- * function: func_021FCF54
+ * function: BR_UTIL_BlitRows
  * address: 0x021FCF54
  * packet: pkt_ov186_021FCF54
  * region: ov186
@@ -16,7 +16,7 @@
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(void *,const void *,unsigned);
-void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
+void BR_UTIL_BlitRows(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
 {
     char *d,*s;
     int doff,soff;

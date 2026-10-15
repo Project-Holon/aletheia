@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E24EC",
+   "name": "BOX2_SEQ_SetBox2Main",
    "address": "0x021E24EC",
    "kind": "game",
    "region": "ov170",

@@ -305,11 +305,8 @@ u32 GFL_NET_SYSTEM_GetConnectNum(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-int GFL_NET_SYSTEM_GetChildBitmap(void);
 
-int GFL_NET_SYSTEM_IsError(void);
 
 u32 GFL_NET_SYSTEM_CheckError(void);
 
@@ -317,23 +314,15 @@ int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 destNetId);
 
 int GFL_NET_SYSTEM_IsSendQueueEmpty(void);
 
-void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
 void GFL_NET_SYSTEM_SetWaitMode(u32 mode);
 
-void GFL_NET_SYSTEM_SetError(void);
 
-void GFL_NET_SYSTEM_ResetError(void);
 
-void GFL_NET_SYSTEM_SetNoSend(void);
 
-int GFL_NET_SYSTEM_IsSendEnable(void);
 
-int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 u32 GFL_NET_COMMAND_GetHeaderSize(u32 commandOption);
 
@@ -347,7 +336,6 @@ u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 senderID, u32 totalSize);
 
 void GFL_NET_COMMAND_Main(void);
 
-void GFL_NET_STATE_Idle(void);
 
 void GFL_NET_STATE_WifiMatchStart(void);
 

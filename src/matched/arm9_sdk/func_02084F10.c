@@ -1,5 +1,5 @@
 /*
- * function: func_02084F10
+ * function: OS_ReleaseLockID
  * address:  0x02084F10
  * packet:   pkt_02084F10
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-asm void func_02084F10(u16 lockID)
+asm void OS_ReleaseLockID(u16 lockID)
 {
     ldr     r3, =0x02FFFFB0
     cmp     r0, #0x60

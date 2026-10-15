@@ -17,12 +17,12 @@
  *   sub_02060C5C  0x02060C5C  arm
  *   sub_02086788  0x02086788  arm
  *   sub_02060CA0  0x02060CA0  arm
- *   func_02060C5C  0x02060C5C  arm
+ *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   func_02060C94  0x02060C94  arm
- *   func_02060E30  0x02060E30  arm
+ *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02061358         0x02061358  arm
+ *   NNS_G2dInitCellBank         0x02061358  arm
  *   sub_02060CD0    0x02060CD0  arm
  *   sub_02060F90    0x02060F90  arm
  *   sub_02060E6C    0x02060E6C  arm
@@ -121,13 +121,13 @@ extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 int sub_0202FDC4(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
-extern void *func_02060C5C(void *start, u32 size, u16 attr);
+extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size);
 extern void  func_02060C94(void *block);
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
-extern void func_02061358(struct HeapAllocator *s, u32 a, u32 b);
+extern void NNS_G2dInitCellBank(struct HeapAllocator *s, u32 a, u32 b);
 extern u32 sub_02060CD0(struct ExpHeap *heap, void *memBlock, u32 size);
 extern int sub_02060F90(char *p);
 extern int sub_02060E6C(int *p);
@@ -424,7 +424,7 @@ fail:
 
 /*
  * Scans the 0x02146954 table for the first free 16-byte slot: a slot whose
- * first word is NULL is claimed with func_02060C5C(a2, a3, 0); a failed
+ * first word is NULL is claimed with NNS_FndCreateExpHeapEx(a2, a3, 0); a failed
  * claim sets the status halfword at +0xe to 5 and moves on, a success fills
  * the slot, records the slot index in the byte map at +4 and returns 1.
  * Falling off the end sets the status to 4 and returns 0.
@@ -442,7 +442,7 @@ int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size)
         if (gHeapManager.records[recordIndex].heap != 0) {
             continue;
         }
-        gHeapManager.records[recordIndex].heap = func_02060C5C((void *)block, size, 0);
+        gHeapManager.records[recordIndex].heap = NNS_FndCreateExpHeapEx((void *)block, size, 0);
         if (gHeapManager.records[recordIndex].heap == 0) {
             gHeapManager.lastError = 5;
             continue;
@@ -521,7 +521,7 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
                 return 0;
             }
         } else {
-            func_02060E30(parentHeap, memBlock);
+            NNS_FndFreeToExpHeap(parentHeap, memBlock);
         }
 
         gHeapManager.records[recordIndex].heap = 0;
@@ -678,7 +678,7 @@ fail:
  *    fold onto the parameter.
  *  - `hdr->magic = 0x194D;` is emitted as `sub r2, r7, #1` off the r7 the
  *    guard already loaded 0x194E into, not as a second pool word, and the
- *    value it leaves in r2 is the dead third argument of func_02060E30
+ *    value it leaves in r2 is the dead third argument of NNS_FndFreeToExpHeap
  *    (which is really the two-argument (arena, block) release that
  *    src/matched/GFL_HEAP_Delete.c declares).
  *
@@ -719,7 +719,7 @@ u32 GFL_HEAP_FreeMemory(void *mem)
     irqState = OS_DisableInterrupts();
     gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].allocCount--;
     header->magic = 0x194D;
-    func_02060E30(heap, header);
+    NNS_FndFreeToExpHeap(heap, header);
     OS_RestoreInterrupts(irqState);
     gHeapManager.lastError = 0;
     return 1;
@@ -736,7 +736,7 @@ fail:
 
 /*
  * BLOCKED on one relocation site: all 100 concrete code bytes (108 with the
- * trailing pool) are correct, but the call to func_02061358 at +0048 has no
+ * trailing pool) are correct, but the call to NNS_G2dInitCellBank at +0048 has no
  * witness. 0x02061358 is the 20-byte record-initialiser in the NNS-shaped
  * library block around 0x02060000; it has exactly one branch reference in
  * the whole image and it is this call, so class `label` cannot carry it
@@ -765,7 +765,7 @@ fail:
  *
  * The arena is passed straight from GFL_HEAP_GetHeap's return into r1 with no
  * local bound in between, so the call is the nested form
- * func_02061358(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
+ * NNS_G2dInitCellBank(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/GFL_HEAP_InitAllocator.c \
@@ -786,7 +786,7 @@ u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignmen
         gHeapManager.lastError = 1;
         goto fail;
     }
-    func_02061358(allocator, (u32)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
+    NNS_G2dInitCellBank(allocator, (u32)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
     gHeapManager.lastError = 0;
     return 1;
 

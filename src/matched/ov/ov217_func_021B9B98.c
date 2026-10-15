@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B98
+ * function: RESEARCH_TOP_InitListObject
  * address: 0x021B9B98
  * packet: pkt_ov217_021B9B98
  * region: ov217
@@ -9,79 +9,79 @@
  * status: EXACT*
  * trailing: 021B9C52..021B9C54 zero alignment padding.
  * symbols:
- *   func_021BA67C 0x021BA67C thumb ov217
- *   func_021BA5BC 0x021BA5BC thumb ov217
- *   func_021BA5F8 0x021BA5F8 thumb ov217
- *   func_021BA63C 0x021BA63C thumb ov217
- *   func_021BA560 0x021BA560 thumb ov217
- *   func_021BA698 0x021BA698 thumb ov217
- *   func_021BA768 0x021BA768 thumb ov217
- *   func_021BA7B8 0x021BA7B8 thumb ov217
- *   func_021BA7E0 0x021BA7E0 thumb ov217
- *   func_021BA830 0x021BA830 thumb ov217
- *   func_021BA86C 0x021BA86C thumb ov217
- *   func_021BA910 0x021BA910 thumb ov217
- *   func_021BA978 0x021BA978 thumb ov217
- *   func_021BA9FC 0x021BA9FC thumb ov217
- *   func_021BAA48 0x021BAA48 thumb ov217
- *   func_021BAAD8 0x021BAAD8 thumb ov217
- *   func_021BAB0C 0x021BAB0C thumb ov217
- *   func_021BAB70 0x021BAB70 thumb ov217
- *   func_021BAB58 0x021BAB58 thumb ov217
- *   func_021BA3B4 0x021BA3B4 thumb ov217
- *   func_021BA2FC 0x021BA2FC thumb ov217
- *   func_021BA19C 0x021BA19C thumb ov217
- *   func_021BA144 0x021BA144 thumb ov217
- *   func_021BA284 0x021BA284 thumb ov217
- *   func_021BA3E8 0x021BA3E8 thumb ov217
- *   func_021BA354 0x021BA354 thumb ov217
- *   func_021BA150 0x021BA150 thumb ov217
+ *   RESEARCH_TOP_CreateCommandQueue 0x021BA67C thumb ov217
+ *   RESEARCH_TOP_CreateFont 0x021BA5BC thumb ov217
+ *   RESEARCH_TOP_CreateMessages 0x021BA5F8 thumb ov217
+ *   RESEARCH_TOP_InitPaletteRows 0x021BA63C thumb ov217
+ *   RESEARCH_TOP_InitSelection 0x021BA560 thumb ov217
+ *   RESEARCH_TOP_InitOverlayBackgrounds 0x021BA698 thumb ov217
+ *   RESEARCH_TOP_LoadBackground6 0x021BA768 thumb ov217
+ *   RESEARCH_TOP_UpdateBackground7 0x021BA7B8 thumb ov217
+ *   RESEARCH_TOP_LoadBackground2 0x021BA7E0 thumb ov217
+ *   RESEARCH_TOP_UpdateBackground3 0x021BA830 thumb ov217
+ *   RESEARCH_TOP_CreateLabels 0x021BA86C thumb ov217
+ *   RESEARCH_TOP_RegisterEntryResources 0x021BA910 thumb ov217
+ *   RESEARCH_TOP_RegisterCursorResources 0x021BA978 thumb ov217
+ *   RESEARCH_TOP_CreateUnits 0x021BA9FC thumb ov217
+ *   RESEARCH_TOP_CreateActor 0x021BAA48 thumb ov217
+ *   RESEARCH_TOP_CreatePaletteAnime 0x021BAAD8 thumb ov217
+ *   RESEARCH_TOP_BindPaletteAnime 0x021BAB0C thumb ov217
+ *   RESEARCH_TOP_RestartNetwork 0x021BAB70 thumb ov217
+ *   RESEARCH_TOP_RegisterVBlank 0x021BAB58 thumb ov217
+ *   RESEARCH_TOP_IsSelectionValid 0x021BA3B4 thumb ov217
+ *   RESEARCH_TOP_SetupTextLabel 0x021BA2FC thumb ov217
+ *   RESEARCH_TOP_GetTransitionKind 0x021BA19C thumb ov217
+ *   RESEARCH_TOP_PushCommand 0x021BA144 thumb ov217
+ *   RESEARCH_TOP_DrawSelector 0x021BA284 thumb ov217
+ *   RESEARCH_TOP_StartEntryPaletteAnime 0x021BA3E8 thumb ov217
+ *   RESEARCH_TOP_FadeIn 0x021BA354 thumb ov217
+ *   RESEARCH_TOP_SetCommandReady 0x021BA150 thumb ov217
  * Original reloads p before 7B8/830/BAB58 despite their unused entry r0.
  * BA144 visibly receives classification in r1; retain that argument.
  */
 #include "../include/Obj01785.h"
-extern void func_021BA67C(unsigned);
-extern void func_021BA5BC(unsigned);
-extern void func_021BA5F8(char *self);
+extern void RESEARCH_TOP_CreateCommandQueue(unsigned);
+extern void RESEARCH_TOP_CreateFont(unsigned);
+extern void RESEARCH_TOP_CreateMessages(char *self);
 typedef unsigned char  u8;
-extern void func_021BA63C(u8 *self);
-extern void func_021BA560(char *);
-extern void func_021BA698(char *);
-extern void func_021BA768(char *);
-extern unsigned func_021BA7B8(void *);
-extern void func_021BA7E0(char *);
-extern unsigned func_021BA830(void *);
-extern void func_021BA86C(char *);
+extern void RESEARCH_TOP_InitPaletteRows(u8 *self);
+extern void RESEARCH_TOP_InitSelection(char *);
+extern void RESEARCH_TOP_InitOverlayBackgrounds(char *);
+extern void RESEARCH_TOP_LoadBackground6(char *);
+extern unsigned RESEARCH_TOP_UpdateBackground7(void *);
+extern void RESEARCH_TOP_LoadBackground2(char *);
+extern unsigned RESEARCH_TOP_UpdateBackground3(void *);
+extern void RESEARCH_TOP_CreateLabels(char *);
 struct Context;
-extern void func_021BA910(struct Context *);
-extern void func_021BA978(struct Context *);
-extern void func_021BA9FC(char *self);
-extern void func_021BAA48(char *);
-extern void func_021BAAD8(char *);
-extern void func_021BAB0C(char *self);
-extern void func_021BAB70(unsigned);
-extern void func_021BAB58(void *);
-extern unsigned func_021BA3B4(unsigned,unsigned);
-extern unsigned func_021BA2FC(unsigned);
-extern unsigned func_021BA19C(unsigned char *);
-extern void func_021BA144(unsigned char *,unsigned);
-extern void func_021BA284(int sel);
-extern void func_021BA3E8(char *self, int i);
-extern void func_021BA354(void);
-extern void func_021BA150(void *);
-void func_021B9B98(char *p)
+extern void RESEARCH_TOP_RegisterEntryResources(struct Context *);
+extern void RESEARCH_TOP_RegisterCursorResources(struct Context *);
+extern void RESEARCH_TOP_CreateUnits(char *self);
+extern void RESEARCH_TOP_CreateActor(char *);
+extern void RESEARCH_TOP_CreatePaletteAnime(char *);
+extern void RESEARCH_TOP_BindPaletteAnime(char *self);
+extern void RESEARCH_TOP_RestartNetwork(unsigned);
+extern void RESEARCH_TOP_RegisterVBlank(void *);
+extern unsigned RESEARCH_TOP_IsSelectionValid(unsigned,unsigned);
+extern unsigned RESEARCH_TOP_SetupTextLabel(unsigned);
+extern unsigned RESEARCH_TOP_GetTransitionKind(unsigned char *);
+extern void RESEARCH_TOP_PushCommand(unsigned char *,unsigned);
+extern void RESEARCH_TOP_DrawSelector(int sel);
+extern void RESEARCH_TOP_StartEntryPaletteAnime(char *self, int i);
+extern void RESEARCH_TOP_FadeIn(void);
+extern void RESEARCH_TOP_SetCommandReady(void *);
+void RESEARCH_TOP_InitListObject(char *p)
 {
     unsigned kind;
-    func_021BA67C((unsigned)p);func_021BA5BC((unsigned)p);
-    func_021BA5F8(p);func_021BA63C((u8 *)p);func_021BA560(p);
-    func_021BA698(p);func_021BA768(p);func_021BA7B8(p);
-    func_021BA7E0(p);func_021BA830(p);func_021BA86C(p);
-    func_021BA910((struct Context *)p);func_021BA978((struct Context *)p);
-    func_021BA9FC(p);func_021BAA48(p);func_021BAAD8(p);
-    func_021BAB0C(p);func_021BAB70((unsigned)p);func_021BAB58(p);
-    if (func_021BA3B4((unsigned)p,0)==0)func_021BA2FC((unsigned)p);
-    kind=func_021BA19C((unsigned char *)p);
-    func_021BA144((unsigned char *)p,func_021BA19C((unsigned char *)p));
-    if (kind==2) {func_021BA284(((struct Obj01785 *)p)->f28);func_021BA3E8((char *)((unsigned)p),0);}
-    func_021BA354();func_021BA150(p);
+    RESEARCH_TOP_CreateCommandQueue((unsigned)p);RESEARCH_TOP_CreateFont((unsigned)p);
+    RESEARCH_TOP_CreateMessages(p);RESEARCH_TOP_InitPaletteRows((u8 *)p);RESEARCH_TOP_InitSelection(p);
+    RESEARCH_TOP_InitOverlayBackgrounds(p);RESEARCH_TOP_LoadBackground6(p);RESEARCH_TOP_UpdateBackground7(p);
+    RESEARCH_TOP_LoadBackground2(p);RESEARCH_TOP_UpdateBackground3(p);RESEARCH_TOP_CreateLabels(p);
+    RESEARCH_TOP_RegisterEntryResources((struct Context *)p);RESEARCH_TOP_RegisterCursorResources((struct Context *)p);
+    RESEARCH_TOP_CreateUnits(p);RESEARCH_TOP_CreateActor(p);RESEARCH_TOP_CreatePaletteAnime(p);
+    RESEARCH_TOP_BindPaletteAnime(p);RESEARCH_TOP_RestartNetwork((unsigned)p);RESEARCH_TOP_RegisterVBlank(p);
+    if (RESEARCH_TOP_IsSelectionValid((unsigned)p,0)==0)RESEARCH_TOP_SetupTextLabel((unsigned)p);
+    kind=RESEARCH_TOP_GetTransitionKind((unsigned char *)p);
+    RESEARCH_TOP_PushCommand((unsigned char *)p,RESEARCH_TOP_GetTransitionKind((unsigned char *)p));
+    if (kind==2) {RESEARCH_TOP_DrawSelector(((struct Obj01785 *)p)->f28);RESEARCH_TOP_StartEntryPaletteAnime((char *)((unsigned)p),0);}
+    RESEARCH_TOP_FadeIn();RESEARCH_TOP_SetCommandReady(p);
 }

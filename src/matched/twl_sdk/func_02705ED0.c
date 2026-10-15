@@ -34,6 +34,7 @@
  *   OS_DisableIrqMask  0x02084998  arm  arm9
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   STD_CompareString  0x0208CD94  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -86,7 +87,7 @@ extern void DSP_PowerOffCore(void);
 extern u16 DSP_RecvDataCore(u32 ch);
 extern void DSP_HookPostStartProcess(void);
 extern void MI_FreeWram(u32 a, u32 b);
-extern int func_0208CD94(const char *a, const char *b);
+extern int STD_CompareString(const char *a, const char *b);
 
 DSPProc *DSP_FindProcess(const char *name)
 {
@@ -95,7 +96,7 @@ DSPProc *DSP_FindProcess(const char *name)
     irq = OS_DisableInterrupts();
     p = DAT_027344AC.head;
     if (name != 0) {
-        while (p != 0 && func_0208CD94(p->name, name) != 0) {
+        while (p != 0 && STD_CompareString(p->name, name) != 0) {
             p = p->next;
         }
     }

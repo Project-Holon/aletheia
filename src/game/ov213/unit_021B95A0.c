@@ -417,7 +417,6 @@ unsigned func_021BA200(unsigned kind,unsigned index);
 void func_021BA268(Context_021BA14C *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c);
 void func_021BA2E0(char *a);
 void func_021BA2F0(u8 *p);
-void func_021BA30C();
 void func_021BA330(void *p, int a);
 void func_021BA38C(Context_021B95A0 *p);
 void func_021BA408(char *p);

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217ED38  0x0217ED38  arm  ov009
- *   func_021A1620  0x021A1620  arm  ov009
+ *   SBSendMessageToServer  0x021A1620  arm  ov009
  */
 
 struct ServerBrowser {
@@ -22,10 +22,10 @@ struct ServerBrowser {
 };
 
 extern int func_0217ED38(int a);
-extern int func_021A1620(void *slist, unsigned int ip, unsigned short port, char *data, int len);
+extern int SBSendMessageToServer(void *slist, unsigned int ip, unsigned short port, char *data, int len);
 
 int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
 {
-    return func_021A1620(&sb->list, func_0217ED38((int)ip),
+    return SBSendMessageToServer(&sb->list, func_0217ED38((int)ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), data, len);
 }

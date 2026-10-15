@@ -13,8 +13,8 @@
  *   gSndActiveSeqList  0x0214E018  data
  *   gSndSeqPlayers  0x0214E024  data
  *   gSndPlayers  0x0214E464  data
- *   func_02060468  0x02060468  arm
- *   func_020604AC  0x020604AC  arm
+ *   NNS_FndInitList  0x02060468  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *
  * Pinned ../2.0/sp2 on the documented "kept constants" tell.  The image
  * materialises the allocator's element size TWICE, `mov r1, #0x14`
@@ -52,8 +52,8 @@ extern char gSndActiveSeqList[];
 extern struct Chan gSndSeqPlayers[];
 extern struct Slot gSndPlayers[];
 
-extern void func_02060468(int p0, int p1);
-extern void func_020604AC(void *list, void *node);
+extern void NNS_FndInitList(int p0, int p1);
+extern void NNS_FndAppendListObject(void *list, void *node);
 
 void NNS_SndPlayerInit(void)
 {
@@ -61,18 +61,18 @@ void NNS_SndPlayerInit(void)
     struct Chan *c;
     struct Slot *s;
 
-    func_02060468((int)gSndActiveSeqList, 0x14);
-    func_02060468((int)gSndFreeSeqList, 0x14);
+    NNS_FndInitList((int)gSndActiveSeqList, 0x14);
+    NNS_FndInitList((int)gSndFreeSeqList, 0x14);
 
     for (i = 0, c = gSndSeqPlayers; i < 0x10; i++, c++) {
         c->b2c = 0;
         c->b3c = (u8)i;
-        func_020604AC(gSndFreeSeqList, c);
+        NNS_FndAppendListObject(gSndFreeSeqList, c);
     }
 
     for (i = 0, s = gSndPlayers; i < 0x20; i++, s++) {
-        func_02060468((int)s, 0xc);
-        func_02060468((int)(&s->p0c), 0);
+        NNS_FndInitList((int)s, 0xc);
+        NNS_FndInitList((int)(&s->p0c), 0);
         s->b20 = 0x7f;
         s->f18 = 1;
         s->f1c = 0;

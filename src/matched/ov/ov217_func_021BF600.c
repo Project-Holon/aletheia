@@ -1,5 +1,5 @@
 /*
- * function: func_021BF600
+ * function: RESEARCH_GRAPH_UpdatePaletteAnime
  * address:  0x021BF600
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RESEARCH_COMMON_UpdatePaletteAnime(u32);
 
-void func_021BF600(u8 *a0)
+void RESEARCH_GRAPH_UpdatePaletteAnime(u8 *a0)
 {
     RESEARCH_COMMON_UpdatePaletteAnime((u32)(((struct Obj25928 *)a0)->f0));
 }

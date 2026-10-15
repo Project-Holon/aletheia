@@ -1,5 +1,5 @@
 /*
- * function: func_021DD0CC
+ * function: POKETRADE_PROC_CanTradeMon
  * address: 0x021DD0CC
  * packet: pkt_ov119_021DD0CC
  * region: ov119
@@ -22,7 +22,7 @@ extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern int POKE_REGULATION_IsInSpeciesTable(unsigned short);
 extern const int d_021E7718[];
-int func_021DD0CC(char *p, int a)
+int POKETRADE_PROC_CanTradeMon(char *p, int a)
 {
     int v, lock, r;
     unsigned i;

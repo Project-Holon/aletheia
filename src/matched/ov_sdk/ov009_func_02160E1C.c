@@ -12,8 +12,8 @@
  * sdk:      client_hello_v2 (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02160E0C  0x02160E0C  arm  ov009
- *   func_02160DB4  0x02160DB4  arm  ov009
+ *   version_ok  0x02160E0C  arm  ov009
+ *   select_method  0x02160DB4  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *
@@ -38,8 +38,8 @@ typedef struct CPSSslConnection {
     unsigned char state;                /* +0x455 */
 } CPSSslConnection;
 
-extern int func_02160E0C(unsigned char major, unsigned char minor);
-extern int func_02160DB4(int a0, int a1, int a2);
+extern int version_ok(unsigned char major, unsigned char minor);
+extern int select_method(int a0, int a1, int a2);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
@@ -51,10 +51,10 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     int random_len;
     unsigned short method;
 
-    if (!func_02160E0C(s[0], s[1]))
+    if (!version_ok(s[0], s[1]))
         return;
     pairlist_len = (s[2] << 8) + s[3];
-    method = func_02160DB4((int)(s + 8), pairlist_len / 3, 3);
+    method = select_method((int)(s + 8), pairlist_len / 3, 3);
     if (method == 0)
         return;
     con->method = method;

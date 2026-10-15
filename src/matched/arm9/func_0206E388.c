@@ -9,9 +9,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_G2dCallVtableSlot1  0x02061344  arm
  */
 
 typedef unsigned int   u32;
 struct Obj02061330;
-extern void func_02061344(struct Obj02061330 *o, u32 x);
-void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field); }
+extern void NNS_G2dCallVtableSlot1(struct Obj02061330 *o, u32 x);
+void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field){ NNS_G2dCallVtableSlot1(ctx, field); }

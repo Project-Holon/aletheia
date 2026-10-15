@@ -11,8 +11,8 @@
  * symbols:
  *   gSndActiveSeqList     0x0214E018  data
  *   gSndFreeSeqList     0x0214E00C  data
- *   func_020605B4  0x020605B4  arm
- *   func_020604AC  0x020604AC  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *
  * Voice teardown, the counterpart of NNSi_SndAllocFreeSeqPlayer: clear the back-pointer in
  * the owner, unlink from the f04 sub-list, unlink from the f08 sub-list if it
@@ -20,14 +20,14 @@
  * free list at 0x0214E00C and clear the state byte.
  *
  * The lever, and the whole reason docs/notes/pkt_02073624.c.txt left this one
- * open at 84 bytes: the inner func_020604AC call's second argument is
+ * open at 84 bytes: the inner NNS_FndAppendListObject call's second argument is
  * `v->f08`, NOT `v`.  The image's guard load `ldr r1, [r4, #8]` at 0x020736C0
  * IS the argument register -- the `cmp r1, #0` / `beq` pair tests the value in
  * place and the call site then only has to compute r0.  Passing `v` costs a
  * fresh `mov r1, r4` and 4 bytes, and forces the guard load into r0.  Every
  * other call in the body does pass `v`, which is what makes the odd one out
  * easy to miss.  The sub-list base is `(char *)v->f04 + 0xc`, read into r5
- * before the FIRST func_020605B4 call and reused, not re-read.
+ * before the FIRST NNS_FndRemoveListObject call and reused, not re-read.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md), the same
  * one as this packet's NNSi_SndAllocFreeSeqPlayer.c.  The image materialises each zero
@@ -58,8 +58,8 @@ extern char gSndActiveSeqList[];
 extern char gSndFreeSeqList[];
 
 struct DList;
-extern void func_020605B4(volatile struct DList *list, void *elem);
-extern void func_020604AC(void *list, void *node);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
+extern void NNS_FndAppendListObject(void *list, void *node);
 
 void NNSi_SndSeqPlayerRelease(struct Voice *v)
 {
@@ -70,14 +70,14 @@ void NNSi_SndSeqPlayerRelease(struct Voice *v)
         v->f00 = 0;
     }
     s = v->f04;
-    func_020605B4((volatile struct DList *)s, v);
+    NNS_FndRemoveListObject((volatile struct DList *)s, v);
     v->f04 = 0;
     if (v->f08 != 0) {
-        func_020604AC((char *)s + 0xc, v->f08);
+        NNS_FndAppendListObject((char *)s + 0xc, v->f08);
         v->f08->f0c = 0;
         v->f08 = 0;
     }
-    func_020605B4((volatile struct DList *)gSndActiveSeqList, v);
-    func_020604AC(gSndFreeSeqList, v);
+    NNS_FndRemoveListObject((volatile struct DList *)gSndActiveSeqList, v);
+    NNS_FndAppendListObject(gSndFreeSeqList, v);
     v->b2c = 0;
 }

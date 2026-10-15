@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6D4
+ * function: RESEARCH_GRAPH_CheckQuestionnaireUpdated
  * address:  0x021BF6D4
  * packet:   pkt_ov217_021BF6D4
  * region:   ov217
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_BEACON_PopQuestionnaireUpdated 0x020270E0 thumb
- *   func_021BF834 0x021BF834 thumb ov217
- *   func_021BF9CC 0x021BF9CC thumb ov217
+ *   RESEARCH_GRAPH_GetGroupTotalA 0x021BF834 thumb ov217
+ *   RESEARCH_GRAPH_GetSaveBits 0x021BF9CC thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,13 +22,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
-extern u32 func_021BF834(void *p);
-extern u16 func_021BF9CC(u32 a0);
-void func_021BF6D4(char *p)
+extern u32 RESEARCH_GRAPH_GetGroupTotalA(void *p);
+extern u16 RESEARCH_GRAPH_GetSaveBits(u32 a0);
+void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *p)
 {
     if (GAME_BEACON_PopQuestionnaireUpdated() == 1) {
-        u16 a = func_021BF834(p);
-        if (a != (u16)(u32)func_021BF9CC((u32)p)) {
+        u16 a = RESEARCH_GRAPH_GetGroupTotalA(p);
+        if (a != (u16)(u32)RESEARCH_GRAPH_GetSaveBits((u32)p)) {
             ((struct Obj25931 *)p)->f3D8 = 1;
         }
     }

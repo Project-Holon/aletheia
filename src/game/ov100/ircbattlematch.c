@@ -57,9 +57,9 @@
  *   func_02012950 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_0200F5EC 0x0200F5EC thumb
  *   GFL_NET_IsParentAid 0x0203D378 arm
@@ -396,9 +396,9 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *p);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int func_0200F5EC(void *a0, void *a1, void *a2, void *a3);
 extern unsigned GFL_NET_IsParentAid(void);
@@ -751,8 +751,8 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatch
  if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
   record=(int)func_02012950((struct Sub24 *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
-  saveData=(int)func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
- func_0200ED54((struct L0200ED54 *)saveData,func_02008530((const struct Sub0200852CObj *)record));
+  saveData=(int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
+ MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)saveData,func_02008530((const struct Sub0200852CObj *)record));
  }
 }
 

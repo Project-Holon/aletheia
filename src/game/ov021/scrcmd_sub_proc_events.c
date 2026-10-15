@@ -90,6 +90,14 @@ typedef struct SubProcEventWork {
     u16 *result;                          /* 0x10 */
 } SubProcEventWork;
 
+/* Selectors of POKE_TOOL_GetPartyValue (0x02017E1C). Values and names mirror
+ * the id enum in arm9/poke_tool.c; only the three this file passes are listed. */
+enum {
+    POKE_TOOL_PARAM_SPECIES = 0x05,
+    POKE_TOOL_PARAM_GENDER  = 0x6E,
+    POKE_TOOL_PARAM_FORM    = 0x6F
+};
+
 extern void *GAME_DATA_GetSaveControl(struct SaveControl *gameData);
 struct GameEvent *func_020122C0(void *owner, void *parent, void *handler, u32 workSize);
 void *func_020124E8(struct GameEvent *event);
@@ -169,7 +177,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     void *gameData;
     void *nameSave;
     int species;
-    int form;
+    int traits;
 
     if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
@@ -183,9 +191,9 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
     nameSave = func_0200C0F0(GAME_DATA_GetSaveControl(gameData));
-    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-    form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0) | (POKE_TOOL_GetPartyValue(mon, 0x6e, 0) << 8);
-    work->nameIn = (NameInParam *)NAMEIN_SETUP_CreateArgs(4, 1, species, form, 0xa, 0, nameSave);
+    species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
+    traits = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0) | (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0) << 8);
+    work->nameIn = (NameInParam *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, 0xa, 0, nameSave);
     work->mon = mon;
     return event;
 }

@@ -36,7 +36,7 @@
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
@@ -306,7 +306,7 @@ struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, 
     else
         event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
     slide = func_020124E8(event);
-    func_02082C60(slide, 0, 0x10);
+    MI_CpuFill(slide, 0, 0x10);
     slide->direction = direction;
     slide->work = work;
     slide->slotIndex = i;

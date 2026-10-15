@@ -23,7 +23,7 @@
  *   GXS_LoadOAM  0x0207E708  arm
  *   GXi_DmaId     0x020A84C0  data  a4
  *   func_020862B8  0x020862B8  arm
- *   func_020821C0  0x020821C0  arm
+ *   MIi_DmaFill32  0x020821C0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   DC_FlushRange   0x020862F0  arm
  *   GX_BeginLoadTex 0x0207F7A0  arm
@@ -180,7 +180,7 @@ extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);        
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
 extern void func_020862B8(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
-extern void func_020821C0(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
+extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
 extern void func_02082A7C(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
 extern void DC_FlushRange(void *p, u32 n);
 extern void GX_BeginLoadTex(void);
@@ -757,7 +757,7 @@ static inline u32 GX_GetDefaultDMA(void)
 
 static inline void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
 {
-    func_020821C0(dmaNo, dest, data, size, 1);
+    MIi_DmaFill32(dmaNo, dest, data, size, 1);
 }
 
 
@@ -820,7 +820,7 @@ static inline void ResetOam_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
  * NitroSystem g2d_OAM.c NNS_G2dResetOamManagerBuffer(pMan).  Fast-transfer
  * managers: DC_InvalidateRange (func_020862B8) over the managed OAM span,
  * then NNSi_G2dDmaFill32(NNS_G2D_DMA_NO, span, 0xC0, size) -- MIi_DmaFill32
- * (func_020821C0, five arguments, the fifth on the stack) on the default
+ * (MIi_DmaFill32, five arguments, the fifth on the stack) on the default
  * DMA channel, MIi_CpuClear32 (func_02082A7C) when GX_GetDefaultDMA()
  * reports GX_DMA_NOT_USE; otherwise ResetOam_ writes 0xC0 into attr0 of
  * each entry.  Both cursors are then rewound to fromIdx.

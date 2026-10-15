@@ -11,17 +11,17 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FA018 0x021FA018 thumb ov186
- *   func_021F9FE8 0x021F9FE8 thumb ov186
- *   func_021FA004 0x021FA004 thumb ov186
- *   func_021F9BF4 0x021F9BF4 thumb ov186
- *   func_021F9BA0 0x021F9BA0 thumb ov186
- *   func_021FA01C 0x021FA01C thumb ov186
+ *   BR_BTN_GetField14 0x021FA018 thumb ov186
+ *   BR_BTN_UpdatePrint 0x021F9FE8 thumb ov186
+ *   BR_BTN_GetPlacement 0x021FA004 thumb ov186
+ *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
+ *   BR_BTN_GetField54 0x021FA01C thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_SetPalSet 0x021FC230 thumb ov186
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
  *   BR_FADE_SetBlendColor 0x021FE7F4 thumb ov186
- *   func_021FD854 0x021FD854 thumb ov186
+ *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
  *   func_021DB924 0x021DB924 thumb ov183
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -35,14 +35,14 @@
 typedef unsigned int u32;
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
-extern int func_021FA018(char *),func_021FA01C(char *);
-extern void func_021F9FE8(char *);
-extern int func_021FA004(char *,int *,int *);
-extern void func_021F9BF4(unsigned *,unsigned);
-extern void func_021F9BA0(unsigned *ctx);
+extern int BR_BTN_GetField14(char *),BR_BTN_GetField54(char *);
+extern void BR_BTN_UpdatePrint(char *);
+extern int BR_BTN_GetPlacement(char *,int *,int *);
+extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
 extern void BR_RES_SetPalSet(char *,int),BR_FADE_SetBlendColor(int *,int);
-extern void func_021FD854(char *);
+extern void BR_UTIL_RunHandles(char *);
 extern void func_021DB924(int a0, char *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 struct Node;
@@ -57,11 +57,11 @@ int func_021DB770(int *task,int *state,char *p,char *q)
     case 0: BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,((struct Obj01004 *)p)->fC,3,0);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     case 2:
-        if(((struct Obj01004 *)p)->f0<=4 && !func_021FA018(*(char * *)&((struct Obj02891 *)q)->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+        if(((struct Obj01004 *)p)->f0<=4 && !BR_BTN_GetField14(*(char * *)&((struct Obj02891 *)q)->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
-        func_021F9FE8(*(char * *)&((struct Obj02891 *)q)->f0);
-        if(func_021FA004(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) *state=3;
+        BR_BTN_UpdatePrint(*(char * *)&((struct Obj02891 *)q)->f0);
+        if(BR_BTN_GetPlacement(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) *state=3;
         break;
     case 3:
         if(((struct Obj01004 *)p)->f4==12)BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,4,3,1);
@@ -69,9 +69,9 @@ int func_021DB770(int *task,int *state,char *p,char *q)
         *state=4;break;
     case 4: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=5;break;
     case 5:
-        switch(func_021FA004(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) {
-        case 1: func_021F9BF4(*(unsigned * *)&((struct Obj01004 *)p)->f1C,(unsigned short)((struct Obj01004 *)p)->f4);return 1;
-        case 2: func_021F9BA0(((struct Obj01004 *)p)->f1C);**(int * *)&((struct Obj01004 *)p)->f28=func_021FA01C(*(char * *)&((struct Obj02891 *)q)->f0);return 1;
+        switch(BR_BTN_GetPlacement(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) {
+        case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct Obj01004 *)p)->f1C,(unsigned short)((struct Obj01004 *)p)->f4);return 1;
+        case 2: BR_PROC_SYS_PopEntry(((struct Obj01004 *)p)->f1C);**(int * *)&((struct Obj01004 *)p)->f28=BR_BTN_GetField54(*(char * *)&((struct Obj02891 *)q)->f0);return 1;
         }
         break;
     case 6: {
@@ -87,5 +87,5 @@ int func_021DB770(int *task,int *state,char *p,char *q)
     case 10: BR_FADE_Start(*(int *)&((struct Obj01004 *)p)->f10,3,3,0);*state=11;break;
     case 11: if(BR_FADE_GetResult(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     }
-    func_021FD854(*(char * *)&((struct Obj02891 *)q)->f4);return 0;
+    BR_UTIL_RunHandles(*(char * *)&((struct Obj02891 *)q)->f4);return 0;
 }

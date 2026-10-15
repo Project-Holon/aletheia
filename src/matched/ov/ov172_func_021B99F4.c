@@ -1,5 +1,5 @@
 /*
- * function: func_021B99F4
+ * function: CTVT_TALK_HandleLevelSlider
  * address: 0x021B99F4
  * packet: pkt_ov172_021B99F4
  * region: ov172
@@ -27,7 +27,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void GFL_USE_PlaySeInSlot(void *, int);
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern const u8 d_021C6F8F[];
-void func_021B99F4(void *unused, u8 *q)
+void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q)
 {
     u32 a = TOUCHPANEL_HitTrg(d_021C6F8F);
     u32 b = TOUCHPANEL_HitCont(d_021C6F8F);

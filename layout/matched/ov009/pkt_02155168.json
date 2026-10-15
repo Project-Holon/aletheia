@@ -702,7 +702,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02160108",
+   "name": "CPS_SetRootCa",
    "address": "0x02160108",
    "kind": "sdk",
    "region": "ov009",
@@ -714,7 +714,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021609E8",
+   "name": "chars_till_end",
    "address": "0x021609E8",
    "kind": "sdk",
    "region": "ov009",
@@ -726,7 +726,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02160E0C",
+   "name": "version_ok",
    "address": "0x02160E0C",
    "kind": "sdk",
    "region": "ov009",
@@ -738,7 +738,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216176C",
+   "name": "decrypt",
    "address": "0x0216176C",
    "kind": "sdk",
    "region": "ov009",
@@ -750,7 +750,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02162FA4",
+   "name": "CPSi_SslCleanup",
    "address": "0x02162FA4",
    "kind": "sdk",
    "region": "ov009",
@@ -2435,7 +2435,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218198C",
+   "name": "gsUnicodeStringLen",
    "address": "0x0218198C",
    "kind": "sdk",
    "region": "ov009",
@@ -2447,7 +2447,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02181D84",
+   "name": "gsXmlFreeWriter",
    "address": "0x02181D84",
    "kind": "sdk",
    "region": "ov009",
@@ -2459,7 +2459,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021834D0",
+   "name": "gsXmlMoveToStart",
    "address": "0x021834D0",
    "kind": "sdk",
    "region": "ov009",
@@ -2723,7 +2723,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193D64",
+   "name": "IsStatsConnected",
    "address": "0x02193D64",
    "kind": "sdk",
    "region": "ov009",
@@ -2740,7 +2740,7 @@
    }
   },
   {
-   "name": "func_02193FD0",
+   "name": "value_for_key_safe",
    "address": "0x02193FD0",
    "kind": "sdk",
    "region": "ov009",
@@ -3560,7 +3560,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219F7C4",
+   "name": "SBServerListNth",
    "address": "0x0219F7C4",
    "kind": "sdk",
    "region": "ov009",
@@ -3572,7 +3572,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219FD40",
+   "name": "BufferAddByte",
    "address": "0x0219FD40",
    "kind": "sdk",
    "region": "ov009",
@@ -3584,7 +3584,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A0414",
+   "name": "ServerSizeForFlags",
    "address": "0x021A0414",
    "kind": "sdk",
    "region": "ov009",

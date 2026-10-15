@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE934",
+   "name": "RESEARCH_GRAPH_DrawIndexCursor",
    "address": "0x021BE934",
    "kind": "game",
    "region": "ov217",

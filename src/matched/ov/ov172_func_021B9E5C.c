@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E5C
+ * function: CTVT_TALK_DrawWaveform
  * address:  0x021B9E5C
  * packet:   pkt_ov172_021B9E5C
  * region:   ov172
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Renders idx*0x7b/v steps of a waveform bar by bar with func_021B9AB8, advancing the counters at +0x30/+0x31.
+ * Renders idx*0x7b/v steps of a waveform bar by bar with CTVT_TALK_DrawLine, advancing the counters at +0x30/+0x31.
  *
  * symbols:
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_021B9AB8  0x021B9AB8  thumb  ov172
+ *   CTVT_TALK_DrawLine  0x021B9AB8  thumb  ov172
  *   d_021C6F6E     0x021C6F6E  data
  *
  * Addresses are Black-image addresses.
@@ -34,10 +34,10 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void func_021B9AB8(int a0, char *obj, void *dev, int a3, u8 s0, u8 s1, u8 s2, u8 s3);
+extern void CTVT_TALK_DrawLine(int a0, char *obj, void *dev, int a3, u8 s0, u8 s1, u8 s2, u8 s3);
 extern u8 d_021C6F6E[];
 
-void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
+void CTVT_TALK_DrawWaveform(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
 {
     u32 n;
     void *dev;
@@ -69,7 +69,7 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
                 if (h < t)
                     h = t;
             }
-            func_021B9AB8(a0, obj, dev, c, ((struct Obj04553 *)obj)->f31, (u8)c1, (u8)h, a3);
+            CTVT_TALK_DrawLine(a0, obj, dev, c, ((struct Obj04553 *)obj)->f31, (u8)c1, (u8)h, a3);
             ((struct Obj04553 *)obj)->f30 += 1;
             ((struct Obj04553 *)obj)->f31 = (u8)h;
             c = ((struct Obj04553 *)obj)->f30;

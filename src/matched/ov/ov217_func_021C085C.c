@@ -1,5 +1,5 @@
 /*
- * function: func_021C085C
+ * function: RESEARCH_GRAPH_DestroyPaletteAnime
  * address:  0x021C085C
  * packet:   pkt_021C085C
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 PALETTE_ANIME_Destroy(void *a0);
 
-void func_021C085C(int *p)
+void RESEARCH_GRAPH_DestroyPaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 8; i++)

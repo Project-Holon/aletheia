@@ -14,6 +14,9 @@
  * blocker:  0x020893E8/0x02089580/0x020895B0/0x02089400/0x0208941C/0x02089438/0x02089454/0x02089470/0x020893B8 each have no witness outside this range: every one of them has exactly one caller and it is the member here that calls it (label-class refusal, and `--suggest-split` cannot help because the call is inside the only function that needs it)
  * symbols:
  *   g_020A5D08       0x20A5D08  data
+ *   NNS_SndReadTrackInfo  0x02072894  arm
+ *   SND_SetTrackMute  0x02089580  arm
+ *   SND_SetTrackMuteEx  0x020895B0  arm
  *
  * Nine members of one dispatch family: a null guard on o->p, then a call that
  *  * passes the object's byte at +0x3c plus the member's own leftover argument
@@ -46,8 +49,8 @@ struct Obj { struct Sub * volatile p; };
 
 extern short g_020A5D08[];
 extern void func_020893E8(u8, u32);
-extern void func_02089580(int playerNo, u32 trackBitMask, int flag);
-extern void func_020895B0(int playerNo, u32 trackBitMask, int mute);
+extern void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag);
+extern void SND_SetTrackMuteEx(int playerNo, u32 trackBitMask, int mute);
 extern void func_02089400(u8, u32, int);
 extern void func_0208941C(u8, u32, u32);
 extern void func_02089438(u8, u32, u32);
@@ -55,7 +58,7 @@ extern void func_02089454(u8, u32, u32);
 extern void func_02089470(u8, u32, u32);
 extern void func_020893B8(u8, u32);
 struct SNDTrackInfo;
-extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
 void NNS_SndHandlePause(struct Obj *o, u32 v)
 {
@@ -66,13 +69,13 @@ void NNS_SndHandlePause(struct Obj *o, u32 v)
 void NNS_SndHandleSetTrackPause(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
-    func_02089580(o->p->b3c, v, w);
+    SND_SetTrackMute(o->p->b3c, v, w);
 }
 
 void NNS_SndHandleSetTrackMute(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
-    func_020895B0(o->p->b3c, v, w);
+    SND_SetTrackMuteEx(o->p->b3c, v, w);
 }
 
 void NNS_SndHandleSetTrackVolume(struct Obj *o, u32 v, int a)

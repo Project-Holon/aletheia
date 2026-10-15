@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AB8
+ * function: CTVT_TALK_DrawLine
  * address: 0x021B9AB8
  * packet: pkt_ov172_021B9AB8
  * region: ov172
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: Draws a line from (x0, y0) to (x1, y1) into a 4bpp tile buffer with func_021B9B88, in
+ * note: Draws a line from (x0, y0) to (x1, y1) into a 4bpp tile buffer with CTVT_TALK_PlotPixel, in
  *   n = max(|dx|, |dy|) + 1 fixed-point steps (step = round(d << 12) / n).
  * lever (2026-10-05, wD9r lane157): value is a narrow parameter (u8 colour index) passed straight
  *   to a u8 callee parameter. With int value the stack-argument copy came first at entry; the narrow
@@ -17,7 +17,7 @@
  *   into locals after the dx abs, the y0 read `*(u8 *)&y0` before the loop in an explicit
  *   `if (n > 0)` do/while, stepy declared before stepx.
  * symbols:
- *   func_021B9B88 0x021B9B88 thumb ov172
+ *   CTVT_TALK_PlotPixel 0x021B9B88 thumb ov172
  *   func_0209BDBC 0x0209BDBC arm
  *   func_0209C95C 0x0209C95C arm
  *   func_0209CB8C 0x0209CB8C arm
@@ -32,14 +32,14 @@ extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
 extern int func_0209C0A4(int a, int b);
-extern void func_021B9B88(u8 *p, u8 x, u8 y, u8 value);
+extern void CTVT_TALK_PlotPixel(u8 *p, u8 x, u8 y, u8 value);
 
 static inline int Abs(int a)
 {
     return a < 0 ? -a : a;
 }
 
-void func_021B9AB8(int a0, int a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value)
+void CTVT_TALK_DrawLine(int a0, int a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value)
 {
     int stepx, stepy;
     int dx = Abs(x0 - x1);
@@ -70,7 +70,7 @@ void func_021B9AB8(int a0, int a1, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, u8 value)
     if (n > 0) {
         yb = *(u8 *)&y0;
         do {
-            func_021B9B88(p, x0 + (accx >> 12), yb + (accy >> 12), value);
+            CTVT_TALK_PlotPixel(p, x0 + (accx >> 12), yb + (accy >> 12), value);
             accx += stepx;
             accy += stepy;
             i++;

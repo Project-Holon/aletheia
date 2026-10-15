@@ -13,7 +13,7 @@
  * symbols:
  *   g_02146A0C     0x02146A0C  data
  *   g_02146A1C     0x02146A1C  data
- *   func_02089004  0x02089004  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *
  * TU: gf_standard.c.
  *
@@ -36,9 +36,9 @@ extern struct RtcTime g_02146A1C;
 
 struct RTCDate;
 struct RTCTime;
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 
 void func_0203F524(void)
 {
-    func_02089004((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
+    RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }

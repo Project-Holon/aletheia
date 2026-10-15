@@ -1,5 +1,5 @@
 /*
- * function: func_021E5914
+ * function: BOX2_SEQ_StateCursorMove
  * address:  0x021E5914
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE3E4  0x021EE3E4  thumb  ov170
- *   func_021ED55C  0x021ED55C  thumb  ov170
- *   func_021EBA5C  0x021EBA5C  thumb  ov170
- *   func_021DD14C  0x021DD14C  thumb  ov170
+ *   BOX2_UI_SetCursorPos  0x021EE3E4  thumb  ov170
+ *   BOX2_SEQ_SetCursorDraw  0x021ED55C  thumb  ov170
+ *   BOX2_SEQ_ShowWindowObject  0x021EBA5C  thumb  ov170
+ *   BOX2_MAIN_RefreshCursorBox  0x021DD14C  thumb  ov170
  *
  * Refresh the tag-derived index, re-key, arm, retag 0x18, forward,
  *   and report 0x31.
@@ -24,17 +24,17 @@
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(char **p, unsigned idx);
-extern void func_021ED55C(char **p, int flag);
-extern void func_021EBA5C(char *p, int i);
-extern void func_021DD14C(char *);
-int func_021E5914(char *p)
+extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
+extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
+extern void BOX2_SEQ_ShowWindowObject(char *p, int i);
+extern void BOX2_MAIN_RefreshCursorBox(char *);
+int BOX2_SEQ_StateCursorMove(char *p)
 {
     func_020260E4((struct Sound *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)),
                   (unsigned char)(((struct Obj00000 *)p)->f16 - 0x1e));
-    func_021EE3E4((char **)p, ((struct Obj00000 *)p)->f16 - 0x1e);
-    func_021ED55C((char **)p, 1);
-    func_021EBA5C((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x18);
-    func_021DD14C(p);
+    BOX2_UI_SetCursorPos((char **)p, ((struct Obj00000 *)p)->f16 - 0x1e);
+    BOX2_SEQ_SetCursorDraw((char **)p, 1);
+    BOX2_SEQ_ShowWindowObject((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x18);
+    BOX2_MAIN_RefreshCursorBox(p);
     return 0x31;
 }

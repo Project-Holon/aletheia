@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A174C",
+   "name": "SBSendNatNegotiateCookieToServer",
    "address": "0x021A174C",
    "kind": "sdk",
    "region": "ov009",

@@ -1,5 +1,5 @@
 /*
- * function: func_02082900
+ * function: MIi_DMACallback
  * address:  0x02082900
  * packet:   pkt_02082900
  * region:   arm9
@@ -62,7 +62,7 @@ static inline void G3X_SetFifoIntrCond(GXFifoIntrCond cond)
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xC0000000) | ((u32)cond << 30);
 }
 
-void func_02082900(void)
+void MIi_DMACallback(void)
 {
     (void)OS_DisableIrqMask(0x00200000);
 

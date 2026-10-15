@@ -1,5 +1,5 @@
 /*
- * function: func_021DF404
+ * function: BOX2_MAIN_PopNameScene
  * address: 0x021DF404
  * packet: pkt_ov170_021DF404
  * region: ov170
@@ -27,4 +27,4 @@ extern void func_02007898(void *save, u32 box, const void *src);
 extern int NAMEIN_SETUP_FreeArgs(int);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 func_020307B0(void *p);
-int func_021DF404(u8 *p){char **q;q=*(char ** *)&((struct Obj06546 *)p)->fC;if(((struct Obj23861 *)(*q))->f1C==0)func_02007898(((struct Obj23862 *)(*(char * *)&((struct Obj06546 *)p)->f0))->f4,p[0x14],((struct Obj23863 *)(*q))->f20);((struct Obj06546 *)p)->f10=((struct Obj23864 *)(*q))->f1C;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);func_020307B0(((struct Obj06546 *)p)->fC);return 0;}
+int BOX2_MAIN_PopNameScene(u8 *p){char **q;q=*(char ** *)&((struct Obj06546 *)p)->fC;if(((struct Obj23861 *)(*q))->f1C==0)func_02007898(((struct Obj23862 *)(*(char * *)&((struct Obj06546 *)p)->f0))->f4,p[0x14],((struct Obj23863 *)(*q))->f20);((struct Obj06546 *)p)->f10=((struct Obj23864 *)(*q))->f1C;NAMEIN_SETUP_FreeArgs((int)*q);STRBUF_Delete((struct U16Vec *)q[1]);func_020307B0(((struct Obj06546 *)p)->fC);return 0;}

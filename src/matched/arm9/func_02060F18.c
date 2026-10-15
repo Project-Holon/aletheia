@@ -1,5 +1,5 @@
 /*
- * function: func_02060F18
+ * function: NNSi_FndSetAllocModeBit
  * address:  0x02060F18
  * packet:   pkt_02060F18
  * region:   arm9
@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 func_02060F18(char *p, u32 v)
+u32 NNSi_FndSetAllocModeBit(char *p, u32 v)
 {
     u32 old = *(u16 *)(p + 0x36) & 1;
     u16 *h = (u16 *)(p + 0x36);

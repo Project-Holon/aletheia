@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_02086004  0x02086004  arm
- *   func_02086028  0x02086028  arm
+ *   OS_InitMutex  0x02086004  arm
+ *   OS_LockMutex  0x02086028  arm
  *   DWCi_NdSetError  0x021C659C  arm  ov114
  *   OS_UnlockMutex 0x02086078  arm
  *   DWCi_NdAlloc  0x021C569C  arm  ov114
@@ -44,8 +44,8 @@ typedef struct NdParam {
 typedef struct NdState NdState;
 
 extern int func_02059F38(void);
-extern void func_02086004(void *mutex);
-extern void func_02086028(void *mutex);
+extern void OS_InitMutex(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void DWCi_NdSetError(int err, int servererror);
 extern void OS_UnlockMutex(void *mutex);
 extern void *DWCi_NdAlloc(int a, int b);
@@ -66,8 +66,8 @@ int DWC_NdInitAsync(void (*callback)(int, int, int), char *gamecd, char *passwd)
 {
     if (func_02059F38())
         return 0;
-    func_02086004(gDwcNdMutex);
-    func_02086028(gDwcNdMutex);
+    OS_InitMutex(gDwcNdMutex);
+    OS_LockMutex(gDwcNdMutex);
     if (gDwcNdState.f14 != 0) {
         DWCi_NdSetError(2, 0);
         OS_UnlockMutex(gDwcNdMutex);

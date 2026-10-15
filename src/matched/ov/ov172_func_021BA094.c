@@ -1,5 +1,5 @@
 /*
- * function: func_021BA094
+ * function: CTVT_MIC_SetMode
  * address:  0x021BA094
  * packet:   pkt_ov172_021BA094
  * region:   ov172
@@ -14,6 +14,6 @@
  * Addresses are Black-image addresses.
  */
 
-void func_021BA094(int v)
+void CTVT_MIC_SetMode(int v)
 {
 }

@@ -12,7 +12,7 @@
  * sdk:      sciGetServiceUrl (libdwcgssc.TWL.HYB.a(sciinterface.o))
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_0217D254  0x0217D254  arm  ov009
  *   g_021ACEF8  0x021ACEF8  data
  *   g_021ACEFC  0x021ACEFC  data
@@ -21,7 +21,7 @@
  *   sSciNoAvailabilityMessage  0x021E4184  data
  */
 
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int g_021ACEF8;
 extern char g_021ACEFC[];
@@ -33,7 +33,7 @@ char *sciGetServiceUrl(void)
 {
     if (g_021ACEF8 == 1) {
         if (gScStatsServiceUrl[0] == 0)
-            func_02084F80(gScStatsServiceUrl, 128, sSciServiceUrlFormat, g_021ACEFC);
+            OS_SNPrintf(gScStatsServiceUrl, 128, sSciServiceUrlFormat, g_021ACEFC);
         return gScStatsServiceUrl;
     }
     func_0217D254(0, (char *)3, 1, sSciNoAvailabilityMessage);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082B44   0x02082B44  arm
+ *   MI_Copy32B   0x02082B44  arm
  *
  * Original (20 bytes):
  *   ldr r1, [pc, #4]   ; 0x04000360
@@ -20,9 +20,9 @@
  * Tail call: MI_Copy32B(src, REG).
  */
 
-extern void func_02082B44(const void *src, void *dst);
+extern void MI_Copy32B(const void *src, void *dst);
 
 void G3X_SetFogTable(const void *src)
 {
-    func_02082B44(src, (void *)0x04000360);
+    MI_Copy32B(src, (void *)0x04000360);
 }

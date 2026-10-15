@@ -13,9 +13,9 @@
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217C2EC 0x0217C2EC thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_0217E1B8 0x0217E1B8 thumb ov176
  *   func_0217E1C0 0x0217E1C0 thumb ov176
  *   func_0200E918 0x0200E918 thumb
@@ -44,9 +44,9 @@ extern int func_0217E078(u8 *p);
 extern void func_021E8AA0(int *,int);
 extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern int func_0217E1B8(int *);
 extern int func_0217E1C0(int *);
 extern u8 func_0200E918(const u8 *base, u32 idx);
@@ -71,8 +71,8 @@ void func_0217CAE0(int *sys,u32 *state,u8 *p)
     }
     switch(*state){
     case 0:{
-        void *v=func_0200ED48(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
-        func_0200ED54(v,func_02008530(((struct Obj01271 *)p)->f1C0));
+        void *v=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
+        MISC_SAVEDATA_InsertRecentValue(v,func_02008530(((struct Obj01271 *)p)->f1C0));
         *state=1;break;
     }
     case 1:if(func_0217E1B8(*(int * *)&((struct Obj01271 *)p)->fC)) *state=2;break;

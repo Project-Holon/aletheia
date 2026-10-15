@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   func_0219F9A8  0x0219F9A8  arm  ov009
+ *   SBServerListInit  0x0219F9A8  arm  ov009
  *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   func_0219E9F4  0x0219E9F4  arm  ov009
  *   func_0219EBC4  0x0219EBC4  arm  ov009
@@ -36,7 +36,7 @@ struct ServerBrowser {
 };
 
 extern void *func_0217EAB0(unsigned long size);
-extern void func_0219F9A8(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
+extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
@@ -60,7 +60,7 @@ struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamen
     sb->ConnectCallback = 0;
     sb->instance = instance;
     sb->dontUpdate = 0;
-    func_0219F9A8(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
+    SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, func_0219E9F4, sb);
     SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
     return sb;

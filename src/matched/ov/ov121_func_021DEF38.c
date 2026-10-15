@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF38
+ * function: MYSTERY_NET_IsZeroBlock
  * address: 0x021DEF38
  * packet: pkt_ov121_021DEF38
  * region: ov121
@@ -9,7 +9,7 @@
  * status: EXACT
  * extent: Next follower 021DEF54 has its own file.
  */
-int func_021DEF38(const unsigned *p, unsigned size)
+int MYSTERY_NET_IsZeroBlock(const unsigned *p, unsigned size)
 {
     unsigned i;
     for (i = 0; i < size / 4; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02087634
+ * function: OSi_AppendVAlarm
  * address:  0x02087634
  * packet:   pkt_02087634
  * region:   arm9
@@ -58,7 +58,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
 
-void func_02087634(OSVAlarm *alarm)
+void OSi_AppendVAlarm(OSVAlarm *alarm)
 {
     OSVAlarm *prev = g_0215134C.OSi_VAlarmQueue_tail;
 

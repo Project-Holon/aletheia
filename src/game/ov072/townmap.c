@@ -441,9 +441,6 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *pos);
-extern int TOWNMAP_TownGetField(TownMapTown *town, int field);
-extern int TOWNMAP_TownIsRevealed(TownMapTown *town);
 
 
 int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)

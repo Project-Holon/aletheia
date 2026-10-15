@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_02012964  0x02012964  thumb
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
@@ -44,7 +44,7 @@ typedef struct Entry {
 struct Big;
 struct BigObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *p);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02012964(const struct BigObj *p);
 extern u32 FIELDMAP_GetUnionEff(u8 *p);
@@ -69,7 +69,7 @@ void UNION_CHARA_Main(u8 *w, void *sys, void *q)
     u8 buf[6] = {0, 0, 0, 0, 0, 0};
 
     flag = 0;
-    a = (u32)func_0200ED48(GAME_DATA_GetSaveControl(sys));
+    a = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(sys));
     b = func_0201283C(sys);
     c = FIELDMAP_GetUnionEff(q);
     func_02012964(sys);

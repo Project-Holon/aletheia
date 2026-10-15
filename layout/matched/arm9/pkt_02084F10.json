@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084F10",
+   "name": "OS_ReleaseLockID",
    "address": "0x02084F10",
    "kind": "sdk",
    "region": "arm9",

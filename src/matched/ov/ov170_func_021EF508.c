@@ -1,5 +1,5 @@
 /*
- * function: func_021EF508
+ * function: BOX2_UI_ResetSlotFrames
  * address:  0x021EF508
  * packet:   pkt_ov170_021EF508
  * region:   ov170
@@ -20,7 +20,7 @@ struct WinMgr;
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
-void func_021EF508(struct WinMgr *mgr)
+void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {

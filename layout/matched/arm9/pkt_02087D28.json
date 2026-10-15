@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02087D28",
+   "name": "OS_GetOwnerInfoEx",
    "address": "0x02087D28",
    "kind": "sdk",
    "region": "arm9",

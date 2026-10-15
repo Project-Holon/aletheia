@@ -1,5 +1,5 @@
 /*
- * function: func_021BC9FC
+ * function: RESEARCH_LIST_InitBackgrounds
  * address: 0x021BC9FC
  * packet: pkt_ov217_021BC9FC
  * region: ov217
@@ -34,7 +34,7 @@ extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void BMP_WIN_Init(u16);
-void func_021BC9FC(char *p)
+void RESEARCH_LIST_InitBackgrounds(char *p)
 {
     func_0203FC28(&d_021C30C0);
     func_0203FCA0(6, &d_021C3110, 0);

@@ -62,7 +62,7 @@
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   func_021D449C  0x021D449C  thumb  ov118
  *   d_021D7C90     0x021D7C90  data
- *   func_021DC720  0x021DC720  thumb
+ *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -262,7 +262,7 @@ extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern void func_021D4490(u8 *p);
 extern void MCSS_SetAnimeIndex(void *a, u32 flag);
 extern void func_021D449C(u8 *p);
-extern void func_021DC720(void *p);
+extern void POKETRADE_PROC_DeleteAllResources(void *p);
 extern void CLACT_ExitSystem(void);
 extern void POKETRADE_2D_InitClactSystemMain(void *p);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -593,7 +593,7 @@ void func_021D4AB4(u8 *p)
 
 void func_021D4B14(u8 *p)
 {
-    func_021DC720(p);
+    POKETRADE_PROC_DeleteAllResources(p);
     CLACT_ExitSystem();
     POKETRADE_2D_InitClactSystemMain(p);
     ((TradeUp *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
@@ -1204,7 +1204,7 @@ void func_021D59B0(u8 *p)
 
 void func_021D5A60(u8 *p)
 {
-    func_021DC720(p);
+    POKETRADE_PROC_DeleteAllResources(p);
     CLACT_ExitSystem();
     POKETRADE_2D_InitClactSystemMain(p);
     ((TradeUp *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);

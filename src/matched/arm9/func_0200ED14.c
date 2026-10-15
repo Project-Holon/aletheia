@@ -1,5 +1,5 @@
 /*
- * function: func_0200ED14
+ * function: MISC_SAVEDATA_GetRingRecordDate
  * address:  0x0200ED14
  * packet:   pkt_0200ED14
  * region:   arm9
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0200EC98   0x0200EC98  thumb
+ *   MISC_SAVEDATA_GetRecordDate   0x0200EC98  thumb
  *
  * An unlabelled accessor (its bytes print as a `.word` run after the pool
- * of func_0200ECF0): the header of ring entry `count - 1 - idx`, a tail call
- * to sub_0200EC98 through a pool word. Same shape as sub_0200ECD0 in
+ * of MISC_SAVEDATA_ExportRingRecord): the header of ring entry `count - 1 - idx`, a tail call
+ * to MISC_SAVEDATA_GetRecordDate through a pool word. Same shape as MISC_SAVEDATA_GetRingRecordIndex in
  * unit_0200ECB4.c. Its only caller is ov171 DENDOU_VIEW_LoadHallOfFame.
  */
 typedef unsigned char u8;
 
 struct Out0200EC98;
-extern void sub_0200EC98(const u8 *o, struct Out0200EC98 *out);
+extern void MISC_SAVEDATA_GetRecordDate(const u8 *o, struct Out0200EC98 *out);
 
-void func_0200ED14(u8 *o, int idx, void *out)
+void MISC_SAVEDATA_GetRingRecordDate(u8 *o, int idx, void *out)
 {
     int n = *(int *)(o + 0x1554) - 1 - idx;
 
     if (n < 0)
         n += 0xf;
-    sub_0200EC98(o + n * 0x16c, out);
+    MISC_SAVEDATA_GetRecordDate(o + n * 0x16c, out);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE468
+ * function: RESEARCH_GRAPH_GetCount
  * address:  0x021BE468
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE468(void *p)
+u32 RESEARCH_GRAPH_GetCount(void *p)
 {
     return ((struct Obj25901 *)p)->f2C;
 }

@@ -16,7 +16,7 @@
  *   func_02034714 0x02034714 arm
  *   memcmp  0x0203EFC8  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
@@ -102,7 +102,7 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
  *   UNION_COMM_StartConnectSync  0x02172EDC  thumb  ov012
@@ -840,7 +840,7 @@ extern void *TRCARD_SYS_CreateEditWork(struct GameData *gameData, void *trainerC
 
 extern u32 GFL_NET_IsParentAid(void);
 
-extern void *func_0200ED48(void *saveData);
+extern void *MISC_SAVEDATA_GetBlock44(void *saveData);
 
 extern u32 GFL_NET_GetHandleNetID(void *link);
 
@@ -848,7 +848,7 @@ extern void *GAME_DATA_GetPlayerStatus(void *gameData, u32 playerIndex);
 
 extern u32 func_02008530(const void *obj);
 
-extern void func_0200ED54(void *commState, u32 value);
+extern void MISC_SAVEDATA_InsertRecentValue(void *commState, u32 value);
 
 extern void *POKEPARTY_Create(u32 heap);
 
@@ -2076,8 +2076,8 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
     case 2:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-            commState = func_0200ED48(GAME_DATA_GetSaveControl(gameData));
-            func_0200ED54(commState, func_02008530(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
+            commState = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
+            MISC_SAVEDATA_InsertRecentValue(commState, func_02008530(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
             (*seq)++;
         }
         break;
@@ -2634,11 +2634,11 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
             (*seq)++;
         break;
     case 10:
-        commState = func_0200ED48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(unisys->parent->gameSystem)));
+        commState = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(unisys->parent->gameSystem)));
         playerCount = GFL_NET_GetNegotiationNum();
         for (playerIndex = 0; playerIndex < playerCount; playerIndex++) {
             if (colosseum->player[playerIndex].isEntered == 1 && playerIndex != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()))
-                func_0200ED54(commState, func_02008530(&colosseum->player[playerIndex]));
+                MISC_SAVEDATA_InsertRecentValue(commState, func_02008530(&colosseum->player[playerIndex]));
         }
         COLOSSEUM_SetStartFlag(colosseum, 1);
         UNION_ONESELF_SetNextPlayCategory(unisys, 0x2a);

@@ -1,5 +1,5 @@
 /*
- * function: func_0208C960
+ * function: SCFG_Init
  * address:  0x0208C960
  * packet:   pkt_0208C960
  * region:   arm9
@@ -28,7 +28,7 @@ extern SCFGFuseInfo SCFGi_FuseInfo;
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, int err));
 void SCFGi_CommonCallback(int tag, u32 data, int err);
 
-void func_0208C960(void)
+void SCFG_Init(void)
 {
     PXI_SetFifoRecvCallback(0x17, SCFGi_CommonCallback);
     SCFGi_FuseInfo.ready = 0;

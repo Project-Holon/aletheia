@@ -334,15 +334,6 @@ typedef s32 fx32;
 
 typedef s64 fx64;
 
-typedef struct { fx32 x, y, z; } VecFx32;
-
-struct BezierCurve {
-    VecFx32 out;
-    VecFx32 p[4];
-    s32 idx;
-    s32 count;
-};
-
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -2299,7 +2290,7 @@ void POKETRADE_2D_StartIconFlight(char *p)
     x=first.x-end.x; y=first.y/2;
     speed=func_0207C7B4((int)((u32)mul(x,x)+(u32)mul(y,y)))/15;
     third.x=(int)((u32)x+(u32)mul(dx,speed)); third.y=(int)((u32)y+(u32)mul(dy,speed)); third.z=0;
-    POKETRADE_2D_InitBezierCurve((struct BezierCurve *)(p+0x1190),&first,&second,&third,&end,19);
+    POKETRADE_2D_InitBezierCurve(&((TradeWork *)p)->bezierCurve,&first,&second,&third,&end,19);
     ((TradeWork *)p)->f11DC=21;
 }
 
@@ -2315,9 +2306,9 @@ int POKETRADE_2D_UpdateIconFlight(char *p) {
         if (pos.y<0) ((TradeWork *)p)->f11DC=1;
         if (((TradeWork *)p)->f11DC==1) POKETRADE_2D_DeleteFloatingIconActor(p);
         else {
-            POKETRADE_2D_StepBezierCurve((struct BezierCurve *)(p+0x1190));
-            pos.x=((TradeWork *)p)->f1190/4096;
-            pos.y=((TradeWork *)p)->f1194/4096;
+            POKETRADE_2D_StepBezierCurve(&((TradeWork *)p)->bezierCurve);
+            pos.x=((TradeWork *)p)->bezierCurve.out.x/4096;
+            pos.y=((TradeWork *)p)->bezierCurve.out.y/4096;
             CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF20),(const struct Vec2 *)(&pos),1);
         }
     }

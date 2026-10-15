@@ -1,5 +1,5 @@
 /*
- * function: func_02081120
+ * function: MATH_MD5Init
  * address:  0x02081120
  * packet:   pkt_02081120
  * region:   arm9
@@ -32,7 +32,7 @@ typedef struct MATHMD5Context {
     };
 } MATHMD5Context;
 
-void func_02081120(MATHMD5Context *context)
+void MATH_MD5Init(MATHMD5Context *context)
 {
     context->a = 0x67452301;
     context->b = 0xefcdab89;

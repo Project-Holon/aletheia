@@ -15,9 +15,9 @@
  *   INITi_InitRegion           0x02004A98  arm
  *   INITi_Fill32               0x02004F20  arm
  *   INITi_DoAutoload           0x02004BB4  arm
- *   func_0209D724              0x0209D724  arm
+ *   MSL_CONSOLE_IO_NoopFinalizer              0x0209D724  arm
  *   TwlStartUp                 0x02004EAC  arm
- *   func_0209D820              0x0209D820  arm
+ *   MSL_CONSOLE_IO_RunInitHandlers              0x0209D820  arm
  *   INITi_CallStaticInitializers  0x02004DA0  arm
  */
 
@@ -27,9 +27,9 @@ extern void INITi_IsRunOnTwl(void);
 extern void INITi_InitRegion(void);
 extern void INITi_Fill32(void *, unsigned int, unsigned int);
 extern void INITi_DoAutoload(void);
-extern void func_0209D724(void);
+extern void MSL_CONSOLE_IO_NoopFinalizer(void);
 extern void TwlStartUp(void);
-extern void func_0209D820(void);
+extern void MSL_CONSOLE_IO_RunInitHandlers(void);
 extern void INITi_CallStaticInitializers(void);
 
 asm void _start(void)
@@ -151,9 +151,9 @@ _020:
     ldr r0, =0x01FF80F0
     str r0, [r1]
 
-    bl func_0209D724
+    bl MSL_CONSOLE_IO_NoopFinalizer
     bl TwlStartUp
-    bl func_0209D820
+    bl MSL_CONSOLE_IO_RunInitHandlers
     bl INITi_CallStaticInitializers
 
     ldr r1, =0x04000006

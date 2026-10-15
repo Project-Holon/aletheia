@@ -1,5 +1,5 @@
 /*
- * function: func_02089ED8
+ * function: RequestCommandProc
  * address:  0x02089ED8
  * packet:   pkt_02089ED8
  * region:   arm9
@@ -20,7 +20,7 @@ typedef int BOOL;
 
 extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 
-void func_02089ED8(void)
+void RequestCommandProc(void)
 {
     while (PXI_SendWordByFifo(7, 0, 0) < 0) {
     }

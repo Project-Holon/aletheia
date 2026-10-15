@@ -1,5 +1,5 @@
 /*
- * function: func_021E0200
+ * function: BOX2_MAIN_StateMachineMove
  * address:  0x021E0200
  * packet:   pkt_ov170_021E0200
  * region:   ov170
@@ -15,31 +15,31 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_021DD16C 0x021DD16C thumb
- *   func_021DD930 0x021DD930 thumb
- *   func_021DDAE8 0x021DDAE8 thumb
- *   func_021DE428 0x021DE428 thumb
- *   func_021DE5C8 0x021DE5C8 thumb
- *   func_021DE66C 0x021DE66C thumb
- *   func_021DF040 0x021DF040 thumb
- *   func_021DF1DC 0x021DF1DC thumb
- *   func_021DF43C 0x021DF43C thumb
- *   func_021E00C4 0x021E00C4 thumb
- *   func_021E0128 0x021E0128 thumb
- *   func_021ECB20 0x021ECB20 thumb
- *   func_021ED6E4 0x021ED6E4 thumb
- *   func_021ED7C4 0x021ED7C4 thumb
- *   func_021ED888 0x021ED888 thumb
- *   func_021EF1B4 0x021EF1B4 thumb
- *   func_021EF248 0x021EF248 thumb
- *   func_021EF36C 0x021EF36C thumb
- *   func_021EF3A0 0x021EF3A0 thumb
- *   func_021EF400 0x021EF400 thumb
- *   func_021EF480 0x021EF480 thumb
- *   func_021EF534 0x021EF534 thumb
- *   func_021EF57C 0x021EF57C thumb
- *   func_021EF5C4 0x021EF5C4 thumb
- *   func_021EF60C 0x021EF60C thumb
+ *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_MAIN_WaitCursorMove 0x021DD930 thumb
+ *   BOX2_MAIN_WaitBoxScroll 0x021DDAE8 thumb
+ *   BOX2_MAIN_SwapWithNeighbour 0x021DE428 thumb
+ *   BOX2_MAIN_FindMoverSlot 0x021DE5C8 thumb
+ *   BOX2_MAIN_SetMoverEntry 0x021DE66C thumb
+ *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
+ *   BOX2_MAIN_HitBoxGrid 0x021DF1DC thumb
+ *   BOX2_MAIN_MoveCursorActor 0x021DF43C thumb
+ *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
+ *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
+ *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
+ *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
+ *   BOX2_UI_GetCloseButtonHit 0x021EF1B4 thumb
+ *   BOX2_UI_GetPageButtonHit 0x021EF248 thumb
+ *   BOX2_UI_CloseBar 0x021EF36C thumb
+ *   BOX2_UI_OpenBar 0x021EF3A0 thumb
+ *   BOX2_UI_UpdateBarMove 0x021EF400 thumb
+ *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
+ *   BOX2_UI_CloseListPack 0x021EF534 thumb
+ *   BOX2_UI_OpenListPack 0x021EF57C thumb
+ *   BOX2_UI_UpdateListPacks 0x021EF5C4 thumb
+ *   BOX2_UI_IsListClosed 0x021EF60C thumb
  */
 
 typedef struct {
@@ -50,69 +50,69 @@ typedef struct {
 } Blk;
 
 struct WinMgr;
-extern int func_021EF5C4(struct WinMgr *mgr);
-extern int func_021EF400(unsigned char *p);
+extern int BOX2_UI_UpdateListPacks(struct WinMgr *mgr);
+extern int BOX2_UI_UpdateBarMove(unsigned char *p);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021ED888(char *p, int v);
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
+extern void BOX2_UI_ToggleSlotPair(char *p, int v);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
-extern int func_021DF1DC(short x, int y);
-extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
-extern int func_021EF60C(struct WinMgr *mgr);
-extern void func_021ED6E4(char **p, int v);
-extern int func_021DE5C8(char *p, unsigned id);
+extern int BOX2_MAIN_HitBoxGrid(short x, int y);
+extern void BOX2_MAIN_SwapWithNeighbour(unsigned char *p, unsigned a, unsigned b);
+extern int BOX2_UI_IsListClosed(struct WinMgr *mgr);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern int BOX2_MAIN_FindMoverSlot(char *p, unsigned id);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EF534(struct WinMgr *mgr);
-extern int func_021EF248(void);
-extern void func_021EF3A0(struct WinMgr *mgr);
-extern int func_021EF1B4(void);
-extern void func_021DD16C(unsigned char *p, int dir);
-extern void func_021DF43C(char *p, int x, int y);
-extern int func_021E00C4(char *p);
-extern int func_021E0128(char *p);
-extern int func_021DD930(unsigned char *p);
-extern void func_021DE66C(unsigned char *p, void *e);
-extern void func_021ED7C4(char *p, int i);
-extern int func_021DDAE8(unsigned char *p);
-extern void func_021DF040(char *p);
-extern void func_021ECB20(char *p, int f, int c);
+extern void BOX2_UI_CloseBar(struct WinMgr *mgr);
+extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
+extern int BOX2_UI_GetPageButtonHit(void);
+extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
+extern int BOX2_UI_GetCloseButtonHit(void);
+extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
+extern void BOX2_MAIN_MoveCursorActor(char *p, int x, int y);
+extern int BOX2_MAIN_IsSeqIdle(char *p);
+extern int BOX2_MAIN_IsSeqStep(char *p);
+extern int BOX2_MAIN_WaitCursorMove(unsigned char *p);
+extern void BOX2_MAIN_SetMoverEntry(unsigned char *p, void *e);
+extern void BOX2_SEQ_MoveCursorToSlot(char *p, int i);
+extern int BOX2_MAIN_WaitBoxScroll(unsigned char *p);
+extern void BOX2_MAIN_ResetBoxView(char *p);
+extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
-int func_021E0200(unsigned char *p)
+int BOX2_MAIN_StateMachineMove(unsigned char *p)
 {
     Blk *b = (Blk *)(WORK(p) + 0x58);
-    unsigned r = func_021EF5C4(MGR(p));
-    int busy = func_021EF400(p);
+    unsigned r = BOX2_UI_UpdateListPacks(MGR(p));
+    int busy = BOX2_UI_UpdateBarMove(p);
     unsigned x;
     unsigned y;
     switch (b->state) {
     case 0:
         if (TOUCHPANEL_GetCont() == 1)
-            func_021EF57C(MGR(p));
+            BOX2_UI_OpenListPack(MGR(p));
         b->state = 1;
         break;
     case 1:
-        if (func_021EF480(MGR(p)) == 0)
-            func_021ED888(WORK(p), 1);
+        if (BOX2_UI_IsTopBarClosed(MGR(p)) == 0)
+            BOX2_UI_ToggleSlotPair(WORK(p), 1);
         if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             r = 0xFF;
-            if (func_021EF480(MGR(p)) == 0 && busy == 0)
-                r = func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
-            func_021DE428(p, p[0x16], r);
-            if (func_021EF60C(MGR(p)) == 0)
-                func_021ED6E4((char **)p, 0);
-            p[0x16] = func_021DE5C8((char *)p, 0x24);
+            if (BOX2_UI_IsTopBarClosed(MGR(p)) == 0 && busy == 0)
+                r = BOX2_MAIN_HitBoxGrid(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
+            BOX2_MAIN_SwapWithNeighbour(p, p[0x16], r);
+            if (BOX2_UI_IsListClosed(MGR(p)) == 0)
+                BOX2_SEQ_SetSlotDim((char **)p, 0);
+            p[0x16] = BOX2_MAIN_FindMoverSlot((char *)p, 0x24);
             if (p[0x16] < 0x1E) {
                 b->state = 6;
             } else {
-                if (func_021EF480(MGR(p)) == 0)
+                if (BOX2_UI_IsTopBarClosed(MGR(p)) == 0)
                     GFL_USE_PlaySeDefaultVolume(0x669);
-                func_021EF36C(MGR(p));
-                func_021EF534(MGR(p));
+                BOX2_UI_CloseBar(MGR(p));
+                BOX2_UI_CloseListPack(MGR(p));
                 b->state = 4;
             }
             b->timer = 0;
@@ -121,65 +121,65 @@ int func_021E0200(unsigned char *p)
         if (b->timer != 0)
             b->timer--;
         if (r == 0 && busy == 0) {
-            if (func_021EF480(MGR(p)) == 1) {
-                if (func_021EF248() == 0) {
+            if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1) {
+                if (BOX2_UI_GetPageButtonHit() == 0) {
                     p[0x17] = 0xFF;
                     p[0x1A] = 0;
-                    func_021EF3A0(MGR(p));
+                    BOX2_UI_OpenBar(MGR(p));
                     GFL_USE_PlaySeDefaultVolume(0x669);
                 }
             } else if (b->timer == 0) {
-                int dir = func_021EF1B4();
+                int dir = BOX2_UI_GetCloseButtonHit();
                 if (dir == 0) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    func_021DD16C(p, 0);
+                    BOX2_MAIN_StopSeq(p, 0);
                     b->state = 2;
                 } else if (dir == 1) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    func_021DD16C(p, 1);
+                    BOX2_MAIN_StopSeq(p, 1);
                     b->state = 3;
                 }
             }
         }
-        func_021DF43C((char *)p, x, y);
+        BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 2:
-        if (func_021E00C4((char *)p) == 0) {
+        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021DF43C((char *)p, x, y);
+            BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 3:
-        if (func_021E0128((char *)p) == 0) {
+        if (BOX2_MAIN_IsSeqStep((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
-            func_021DF43C((char *)p, x, y);
+            BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 4:
-        if (func_021DD930(p) == 0) {
+        if (BOX2_MAIN_WaitCursorMove(p) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }
         break;
     case 5:
         if (busy == 0 && r == 0) {
-            func_021DE66C(p, b->moves);
-            func_021ED7C4(WORK(p), p[0x16]);
-            func_021ED6E4((char **)p, 1);
+            BOX2_MAIN_SetMoverEntry(p, b->moves);
+            BOX2_SEQ_MoveCursorToSlot(WORK(p), p[0x16]);
+            BOX2_SEQ_SetSlotDim((char **)p, 1);
             b->state = 8;
         }
         break;
     case 6:
-        if (func_021DDAE8(p) == 0) {
-            func_021DE66C(p, b->moves);
-            func_021DF040((char *)p);
+        if (BOX2_MAIN_WaitBoxScroll(p) == 0) {
+            BOX2_MAIN_SetMoverEntry(p, b->moves);
+            BOX2_MAIN_ResetBoxView((char *)p);
             GFL_USE_PlaySeDefaultVolume(0x667);
             GFL_USE_PlaySeDefaultVolume(0x669);
-            func_021EF36C(MGR(p));
+            BOX2_UI_CloseBar(MGR(p));
             p[0x16] = 0xFF;
             b->state = 7;
         }
@@ -189,9 +189,9 @@ int func_021E0200(unsigned char *p)
             b->state = 8;
         break;
     case 8:
-        func_021ED888(WORK(p), 0);
-        func_021ECB20((char *)p, 1, 1);
-        func_021ECB20((char *)p, 2, 0);
+        BOX2_UI_ToggleSlotPair(WORK(p), 0);
+        BOX2_SEQ_SetSlotActors((char *)p, 1, 1);
+        BOX2_SEQ_SetSlotActors((char *)p, 2, 0);
         b->state = 0;
         return 0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200EA3C
+ * function: MISC_SAVEDATA_SnapshotParty
  * address:  0x0200EA3C
  * packet:   pkt_0200EA3C
  * region:   arm9
@@ -20,14 +20,14 @@
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   STRBUF_Delete  0x02045808  arm
  *
- * Snapshot of a party into a 0x16c-byte ring record (func_0200EBD0's slot):
+ * Snapshot of a party into a 0x16c-byte ring record (MISC_SAVEDATA_AppendPartyRecord's slot):
  * zero the six 0x3c-byte entries, then for every non-egg member (field 0x4c
  * of func_02017E1C is 0) store species (5), level (0x9e), the 6/2-bit pair
  * 0x6f/0x6e, fields 0 and 7, fields 0x36..0x39, and the nickname (0x73, 11
  * u16) and OT name (0x8d, 8 u16) through an 11-char string buffer, or the
  * terminator from STRBUF_GetEosChar in both name slots when the buffer could not
  * be allocated.  The date record (first three words) goes to +0x168.
- * The layout of struct Entry is the one func_0200EC2C (EXACT*) reads back.
+ * The layout of struct Entry is the one MISC_SAVEDATA_ExportRecord (EXACT*) reads back.
  *
  * Levers: the loop counter i is initialised AFTER the memset and before
  * n (both zeroes are then scheduled across the call with i first, which is
@@ -80,7 +80,7 @@ extern u16   STRBUF_GetEosChar(void);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
+void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date, u32 heap)
 {
     int count = POKEPARTY_GetCount(party);
     void *buf = STRBUF_Create(11, heap);

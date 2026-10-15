@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020878EC",
+   "name": "OSi_CompareVCount",
    "address": "0x020878EC",
    "kind": "sdk",
    "region": "arm9",

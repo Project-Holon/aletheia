@@ -1,5 +1,5 @@
 /*
- * function: func_02086004
+ * function: OS_InitMutex
  * address:  0x02086004
  * packet:   pkt_02086004
  * region:   arm9
@@ -159,7 +159,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 #define OSi_IncreaseMutexCount(m) OSi_SetMutexCount(m, (u32)(m)->count + 1)
 #define OSi_DecreaseMutexCount(m) OSi_SetMutexCount(m, (u32)(m)->count - 1)
 
-void func_02086004(OSMutex *mutex)
+void OS_InitMutex(OSMutex *mutex)
 {
     mutex->queue.head = mutex->queue.tail = 0;
     mutex->thread = 0;

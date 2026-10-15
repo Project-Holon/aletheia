@@ -1,7 +1,7 @@
 /*
  * file:     pm_voice.c
  * unit:     yes
- * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, func_020061A4, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, PM_VOICE_GetVolume, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, PM_VOICE_GetPerapVoiceSave, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, SND_MIC_StartRecording, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
+ * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, func_020061A4, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, PM_VOICE_GetVolume, PM_VOICE_StopSlot, PM_VOICE_IsSlotActive, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, PM_VOICE_GetPerapVoiceSave, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, SND_MIC_StartRecording, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
  * address:  0x02005BC0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,11 +14,11 @@
  * Split from bgm_info.c at 0x02006E40 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02072758  0x02072758  arm
- *   func_020727B4  0x020727B4  arm
+ *   NNS_SndBoot  0x02072758  arm
+ *   NNS_SndReadDriverInfo  0x020727B4  arm
  *   NNS_SndHandleReadTrackInfo  0x02073108  arm
  *   NNS_SndHeapDestroy       0x02074758  arm
- *   func_02072794  0x02072794  arm
+ *   NNS_SndSetMasterPan  0x02072794  arm
  *   GFL_USE_GetCurrentBgmId  0x020058D0  thumb
  *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
  *   OS_IsThreadTerminated       0x0208574C  arm
@@ -26,7 +26,7 @@
  *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
  *   NNS_SndHandleStopSeq       0x02072E7C  arm
  *   GFL_USE_LoadBgmData   0x02005924  thumb
- *   func_020755A8  0x020755A8  arm
+ *   NNS_SndArcPlayerStartSeqEx  0x020755A8  arm
  *   NNS_SndHandleMoveVolume       0x02072F5C  arm
  *   NNS_SndHandleSetTrackPause  0x02072FA8  arm
  *   NNS_SndHandleSetTrackMute  0x02072FC8  arm
@@ -43,7 +43,7 @@
  *   NNS_SndHandleInit       0x02072E9C  arm
  *   OS_Sleep       0x02085A38  arm
  *   NNS_SndArcGetSeqParam  0x0207430C  arm
- *   func_02075560       0x02075560  arm
+ *   NNS_SndArcPlayerStartSeq       0x02075560  arm
  *   NNS_SndPlayerGetActiveSeqCount  0x02072EC8  arm
  *   OS_CreateThread        0x020853C0  arm
  *   NNS_SndArcLoadSeqEx        0x02074AC4  arm
@@ -55,8 +55,8 @@
  *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
- *   func_0208A640  0x0208A640  arm
- *   func_0208A674  0x0208A674  arm
+ *   SND_SetWaveDataAddress  0x0208A640  arm
+ *   SND_GetWaveDataAddress  0x0208A674  arm
  *   func_02030734       0x02030734  arm
  *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
  *   func_020307B0       0x020307B0  arm
@@ -277,11 +277,11 @@ struct SndMic {
 };
 
 /* Calls into the sound library and the sound archive reader (ARM code). */
-extern void  func_02072758(void);
-extern u32   func_020727B4(void);
+extern void  NNS_SndBoot(void);
+extern u32   NNS_SndReadDriverInfo(void);
 extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
 extern void  NNS_SndHeapDestroy(struct SndHeap *heap);
-extern void  func_02072794(u32 monoFlag);
+extern void  NNS_SndSetMasterPan(u32 monoFlag);
 extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
 extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
@@ -304,14 +304,14 @@ extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
 extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
 extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 extern u8   *NNS_SndArcGetSeqParam(int seqNo);
-extern u32   func_02075560(struct SndHandle *handle, u32 seqNo);
-extern u32   func_020755A8(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
+extern u32   NNS_SndArcPlayerStartSeq(struct SndHandle *handle, u32 seqNo);
+extern u32   NNS_SndArcPlayerStartSeqEx(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
 extern u32   NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
 extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct SndHeap *heap);
 extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
 extern u32   NNS_SndArcGetFileAddress(u32 fileId);
-extern void  func_0208A640(u32 *waveArc, u32 waveIndex, u32 address);
-extern u32   func_0208A674(u32 waveArc, u32 waveIndex);
+extern void  SND_SetWaveDataAddress(u32 *waveArc, u32 waveIndex, u32 address);
+extern u32   SND_GetWaveDataAddress(u32 waveArc, u32 waveIndex);
 extern void  OS_CreateThread(u32 *thread, void (*entry)(void *), void *arg,
                            u32 *stack, u32 size, u32 prio);
 extern void  OS_WakeupThreadDirect(u32 *thread);
@@ -456,7 +456,7 @@ u8 *PM_VOICE_GetData(u32 slot);
 u32 PM_VOICE_GetDataSize(u32 slot);
 u32 PM_VOICE_GetSampleRate(u32 slot);
 void PM_VOICE_StopSlot(u32 slot);
-u32 sub_02006BD0(u32 slot);
+u32 PM_VOICE_IsSlotActive(u32 slot);
 void PM_VOICE_ReverseBytes(u8 *bytes, u32 count);
 void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex);
 u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
@@ -504,8 +504,8 @@ void GFL_USE_UpdateSound(void)
     u32 remaining;
 
     GFL_USE_UpdateBgmChange();
-    func_02072758();
-    func_020727B4();
+    NNS_SndBoot();
+    NNS_SndReadDriverInfo();
     handle = GFL_USE_GetBgmHandle();
     _SndState.activeMask = 0;
     for (trackNo = 0; trackNo < 0x10; trackNo++) {
@@ -536,7 +536,7 @@ void GFL_USE_ClearSndHeap(void)
  */
 void GFL_USE_SetStereoOutput(u32 mode)
 {
-    func_02072794(mode != 1);
+    NNS_SndSetMasterPan(mode != 1);
 }
 
 /* Two eight byte forwarders (ldr r3, [pc]; bx r3). */
@@ -661,7 +661,7 @@ u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
     if (GFL_USE_LoadBgmData(bgmNo) == 0) {
         return 0;
     }
-    started = func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
+    started = NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
     if (started == 0) {
         return zero;
     }
@@ -701,7 +701,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
     if (GFL_USE_LoadBgmData(seqNo) == 0) {
         return;
     }
-    func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
+    NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
 void GFL_USE_SetBgmPlayerParam(u32 value)
@@ -951,7 +951,7 @@ void GFL_USE_UpdateBgmChange(void)
         if (GFL_USE_IsLoaderDone() == 1) {
             NNS_SndArcSetReadChunkSize(0);
             GFL_USE_FinishBgmLoad(_SndState.changeBgm);
-            func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
             NNS_SndHandleSetVolume(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
@@ -1010,7 +1010,7 @@ void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
         return;
     }
     _SeSlots[slot].seqNo = 0;
-    if (func_020755A8(&_SeSlots[slot].handle, slot + 1, -1, -1, seqNo) == 1) {
+    if (NNS_SndArcPlayerStartSeqEx(&_SeSlots[slot].handle, slot + 1, -1, -1, seqNo) == 1) {
         _SeSlots[slot].seqNo = seqNo;
     }
 }
@@ -1025,7 +1025,7 @@ void GFL_USE_PlaySe(u32 seqNo, u32 volume)
     }
     slot = GFL_USE_GetSeSlot(seqNo);
     _SeSlots[slot].seqNo = 0;
-    if (func_02075560(&_SeSlots[slot].handle, seqNo) != 1) {
+    if (NNS_SndArcPlayerStartSeq(&_SeSlots[slot].handle, seqNo) != 1) {
         return;
     }
     _SeSlots[slot].seqNo = seqNo;
@@ -1219,7 +1219,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
 
                 NNS_SndArcSetReadChunkSize(0);
                 GFL_USE_FinishBgmLoad(bgmNo);
-                func_020755A8(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
+                NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
                 (*step)++;
                 return 1;
             }
@@ -1290,14 +1290,14 @@ int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 sr
     if (waveArcData == 0) {
         return 0;
     }
-    func_0208A640(waveArcData, waveIndex, func_0208A674(srcWaveArc, srcWaveIndex));
+    SND_SetWaveDataAddress(waveArcData, waveIndex, SND_GetWaveDataAddress(srcWaveArc, srcWaveIndex));
     return 1;
 }
 
 /* Start a sequence on the current handle. */
 void GFL_USE_StartSeq(u32 seqNo)
 {
-    func_02075560(GFL_USE_GetCurrentSndHandle(), seqNo);
+    NNS_SndArcPlayerStartSeq(GFL_USE_GetCurrentSndHandle(), seqNo);
 }
 
 /* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */
@@ -1829,7 +1829,7 @@ void PM_VOICE_StopSlot(u32 slot)
     }
 }
 
-u32 sub_02006BD0(u32 slot)
+u32 PM_VOICE_IsSlotActive(u32 slot)
 {
     return _VoiceSystem.voices[slot].active;
 }

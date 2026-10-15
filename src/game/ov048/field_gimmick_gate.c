@@ -58,13 +58,13 @@
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
- *   func_0200ECF0  0x0200ECF0  thumb
+ *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
  *   func_020072A4  0x020072A4  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
- *   func_0200EC14  0x0200EC14  thumb
- *   func_0200EC2C  0x0200EC2C  thumb
+ *   MISC_SAVEDATA_FindFreeRecordSlot  0x0200EC14  thumb
+ *   MISC_SAVEDATA_ExportRecord  0x0200EC2C  thumb
  *   GIMMICK_OBJ_ELBOARD_ReadGateEntry  0x021F4DE4  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CheckEntryZone  0x021F4DF4  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CheckEntryGPower  0x021F4E3C  thumb  ov048
@@ -101,9 +101,9 @@ extern struct ExtraSaveRecord *func_020073D8(struct SaveControl *saveControl, u3
 extern void func_020072A4(struct SaveControl *saveControl, u32 id);
 extern u32 func_0200ECB4(struct ExtraSaveRecord *record);
 extern int func_0200ECD0(struct ExtraSaveRecord *record, int index);
-extern void func_0200ECF0(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
-extern int func_0200EC14(void *saveBlock);
-extern void func_0200EC2C(void *saveBlock, int index, GateListEntry *entry);
+extern void MISC_SAVEDATA_ExportRingRecord(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
+extern int MISC_SAVEDATA_FindFreeRecordSlot(void *saveBlock);
+extern void MISC_SAVEDATA_ExportRecord(void *saveBlock, int index, GateListEntry *entry);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -467,7 +467,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
             for (; i < *count; i++) {
                 entry.nameStr = STRBUF_Create(0x40, work->heapId);
                 entry.placeStr = STRBUF_Create(0x40, work->heapId);
-                func_0200ECF0(record, 0, i, &entry);
+                MISC_SAVEDATA_ExportRingRecord(record, 0, i, &entry);
                 values[i] = entry.entryId;
                 STRBUF_Delete(entry.nameStr);
                 STRBUF_Delete(entry.placeStr);
@@ -485,11 +485,11 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *values, int *co
     GateListEntry entry;
 
     saveBlock = GAME_DATA_GetSaveBlock42(work->gameData);
-    *count = func_0200EC14(saveBlock);
+    *count = MISC_SAVEDATA_FindFreeRecordSlot(saveBlock);
     for (i = 0; i < *count; i++) {
         entry.nameStr = STRBUF_Create(0x40, work->heapId);
         entry.placeStr = STRBUF_Create(0x40, work->heapId);
-        func_0200EC2C(saveBlock, i, &entry);
+        MISC_SAVEDATA_ExportRecord(saveBlock, i, &entry);
         values[i] = entry.entryId;
         STRBUF_Delete(entry.nameStr);
         STRBUF_Delete(entry.placeStr);

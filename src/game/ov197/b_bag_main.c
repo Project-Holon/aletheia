@@ -561,7 +561,6 @@ extern void func_0203FC6C(const struct BgVramReq *,u32);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_020403F4(u32 i);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);

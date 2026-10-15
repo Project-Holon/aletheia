@@ -1,5 +1,5 @@
 /*
- * function: func_020910D0
+ * function: CTRDGi_LockByProcessor
  * address:  0x020910D0
  * packet:   pkt_020910D0
  * region:   arm9
@@ -34,7 +34,7 @@ extern u32 func_02084DA4(u32 a);
 extern void OS_RestoreInterrupts(u32 h);
 extern void SVC_WaitByLoop(u32 v);
 
-void func_020910D0(u32 a0, u32 *a1)
+void CTRDGi_LockByProcessor(u32 a0, u32 *a1)
 {
     u32 t;
 

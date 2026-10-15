@@ -1,5 +1,5 @@
 /*
- * function: func_021BF55C
+ * function: RESEARCH_GRAPH_EnableOams
  * address:  0x021BF55C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) a0, 1, 1 to func_021BF580.
+ * Tail-call veneer: forwards arg(s) a0, 1, 1 to RESEARCH_GRAPH_SetOamEnabled.
  *
  * symbols:
- *   func_021BF580  0x021BF580  thumb  ov217
+ *   RESEARCH_GRAPH_SetOamEnabled  0x021BF580  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021BF580(u8 *p, u32 i, u32 j);
+extern void RESEARCH_GRAPH_SetOamEnabled(u8 *p, u32 i, u32 j);
 
-void func_021BF55C(void *a0)
+void RESEARCH_GRAPH_EnableOams(void *a0)
 {
-    func_021BF580((u8 *)a0, 1, 1);
+    RESEARCH_GRAPH_SetOamEnabled((u8 *)a0, 1, 1);
 }
 

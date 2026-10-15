@@ -1,5 +1,5 @@
 /*
- * function: func_021F69E4
+ * function: STA_ACT_OBJ_Create
  * address: 0x021F69E4
  * packet: pkt_ov112_021F69E4
  * region: ov112
@@ -18,7 +18,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern const char d_021F83F8[];
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
 typedef struct { u16 heap,n; void *p; Entry entries[5]; } Object;
-Object *func_021F69E4(u16 heap, void *p)
+Object *STA_ACT_OBJ_Create(u16 heap, void *p)
 {
     Object *o;
     u8 i;

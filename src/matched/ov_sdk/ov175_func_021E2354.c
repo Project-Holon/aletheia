@@ -15,13 +15,13 @@
  * prototype lists three. The mIsValid store before the clear is in the object.
  *
  * symbols:
- *   func_021834D0  0x021834D0  arm  ov009
- *   func_021834E8  0x021834E8  arm  ov009
- *   func_02183A24  0x02183A24  arm  ov009
- *   func_021835D0  0x021835D0  arm  ov009
+ *   gsXmlMoveToStart  0x021834D0  arm  ov009
+ *   gsXmlMoveToNext  0x021834E8  arm  ov009
+ *   gsXmlReadChildAsInt  0x02183A24  arm  ov009
+ *   gsXmlMoveToChild  0x021835D0  arm  ov009
  *   func_021E2A5C  0x021E2A5C  arm  ov175
- *   func_02183560  0x02183560  arm  ov009
- *   func_02183E50  0x02183E50  arm  ov009
+ *   gsXmlMoveToParent  0x02183560  arm  ov009
+ *   gsXmlReadChildAsLargeInt  0x02183E50  arm  ov009
  *   memcpy  0x02092344  arm
  *   func_02184938  0x02184938  arm  ov009
  *   gsLargeIntAddToMD5  0x0217E978  arm  ov009
@@ -81,13 +81,13 @@ typedef struct {
     void *mUserData;
 } WSIRequestData;
 
-extern int func_021834D0(void *stream);
-extern int func_021834E8(void *stream, char *matchtag);
-extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
-extern int func_021835D0(void *stream, char *matchtag);
+extern int gsXmlMoveToStart(void *stream);
+extern int gsXmlMoveToNext(void *stream, char *matchtag);
+extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
+extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int func_021E2A5C(GSLoginCertificate *cert, void *reader);
-extern int func_02183560(void *stream);
-extern int func_02183E50(void *stream, char *matchtag, gsLargeInt_t *valueOut);
+extern int gsXmlMoveToParent(void *stream);
+extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, gsLargeInt_t *valueOut);
 extern void func_02184938(GSMD5_CTX *context);
 extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
 extern void func_02184A34(unsigned char *digest, GSMD5_CTX *context);
@@ -109,16 +109,16 @@ void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResp
     cert->mIsValid = 0;
     memset(&response, 0, sizeof(response));
     if (theResult == 0) {
-        if (!func_021834D0(theResponseXml) || !func_021834E8(theResponseXml, sWsTagLoginRemoteAuthResult))
+        if (!gsXmlMoveToStart(theResponseXml) || !gsXmlMoveToNext(theResponseXml, sWsTagLoginRemoteAuthResult))
             response.mLoginResult = 0x65;
-        else if (!func_02183A24(theResponseXml, sWsTagResponseCode, &response.mResponseCode))
+        else if (!gsXmlReadChildAsInt(theResponseXml, sWsTagResponseCode, &response.mResponseCode))
             response.mLoginResult = 0x65;
         else if (response.mResponseCode != 0)
             response.mLoginResult = 7;
-        else if (!func_021835D0(theResponseXml, sWsTagCertificate)
+        else if (!gsXmlMoveToChild(theResponseXml, sWsTagCertificate)
             || !func_021E2A5C(cert, theResponseXml)
-            || !func_02183560(theResponseXml)
-            || !func_02183E50(theResponseXml, sWsTagPeerKeyPrivate, &response.mPrivateData.mPeerPrivateKey.exponent))
+            || !gsXmlMoveToParent(theResponseXml)
+            || !gsXmlReadChildAsLargeInt(theResponseXml, sWsTagPeerKeyPrivate, &response.mPrivateData.mPeerPrivateKey.exponent))
             response.mLoginResult = 0x65;
         else {
             memcpy(&response.mPrivateData.mPeerPrivateKey.modulus, &cert->mPeerPublicKey.modulus, sizeof(gsLargeInt_t));

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1E4
+ * function: CTVT_MIC_PostUpdate
  * address:  0x021BA1E4
  * packet:   pkt_021B6100
  * region:   ov172
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA1E4(void *a0)
+void CTVT_MIC_PostUpdate(void *a0)
 {
 }

@@ -1,7 +1,7 @@
 /*
  * file:     ssl.c
  * unit:     yes
- * function: func_0215FDA4, func_0215FE3C, cache_session, func_0215FFD0, func_0216003C, func_0216007C, func_0216008C, func_0216009C, func_021600E4, func_02160108, func_02160130, func_0216017C, func_021601CC, func_02160238, func_021602B8, func_02160764, func_0216090C, func_021609E8, func_02160A10, func_02160A7C, func_02160C9C, func_02160D68, func_02160DB4, func_02160E0C, func_02160E1C, func_02160EE0, func_02160F80, func_021611C0, func_02161264, func_021612C8, func_02161480, func_021614BC, func_02161598, func_02161678, func_02161748, func_0216176C, func_02161784, func_021619CC, func_02161BE8, func_02161C54, func_02161C80, func_02161F98, func_02162128, func_02162248, func_021622C0, func_02162418, func_021625B8, func_0216286C, func_0216289C, func_02162968, func_021629BC, func_02162A94, func_02162AE4, func_02162C28, func_02162CA0, func_02162DD8, func_02162E5C, func_02162E94, func_02162EC4, func_02162FA4
+ * function: find_session_from_id, find_session_from_IP, cache_session, purge_session, date2sec, CPS_GetSslHandshakePriority, CPS_SetSslHandshakePriority, enter_computebound, exit_computebound, CPS_SetRootCa, get_rootCA, func_0216017C, make_dn, parse_time, cert_item, validate_signature, auth_cert, chars_till_end, compare_fqdn, rcv_certificate, rcv_server_hello, has_method, select_method, version_ok, client_hello_v2, client_hello, decrypt_premaster_secret, create_ms_sub, create_master_secret, create_key_block, rcv_client_key_exchange, finished_md5, finished_sha1, rcv_finished, add1_be8, decrypt, make_plaintext, make_ciphertext, tcp_read_raw_nbytes, update_digest, parse_record_in_buf, parse_record, set_random, CPS_SslAddRandomSeed, send_change_cipher_spec_and_finished, send_client_hello, send_client_key_exchange, mustget_change_cipher_spec_and_finished, ssl_connect_try, CPSi_SslConnect, CPSi_SslRead, CPSi_SslConsume, try_fill_record, CPSi_SslGetLength, CPSi_SslWrite2, CPSi_SslShutdown, CPSi_SslClose, CPS_SetSsl, CPSi_SslPeriodical, CPSi_SslCleanup
  * address:  0x0215FDA4
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   func_020923F0  0x020923F0  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021AA664  0x021AA664  data
+ *   gCpsSslSessionCache  0x021AA664  data
  *   func_020870D0  0x020870D0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_GetTick            0x020870D0  arm
@@ -25,10 +25,10 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02088864  0x02088864  arm
  *   func_0208890C  0x0208890C  arm
- *   func_02089004  0x02089004  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   OS_GetThreadPriority  0x02085A30  arm
  *   OS_SetThreadPriority  0x02085988  arm
- *   g_021A1D40  0x021A1D40  data
+ *   gCpsSslConfig  0x021A1D40  data
  *   OS_SetThreadPriority  0x02085988  arm
  *   OSi_ThreadInfo        0x02150FEC  data
  *   func_020948E0  0x020948E0  arm
@@ -40,10 +40,10 @@
  *   object         0x021A1D48  data
  *   func_02164CC4  0x02164CC4  arm  ov009
  *   func_0216469C  0x0216469C  arm  ov009
- *   func_021600E4  0x021600E4  arm  ov009
+ *   exit_computebound  0x021600E4  arm  ov009
  *   func_02164D20  0x02164D20  arm  ov009
- *   g_021A8280     0x021A8280  data
- *   g_021A82B0     0x021A82B0  data
+ *   CPSiAlloc     0x021A8280  data
+ *   CPSiFree     0x021A82B0  data
  *   func_021633F0  0x021633F0  arm  ov009
  *   func_02163438  0x02163438  arm  ov009
  *   func_021634F0  0x021634F0  arm  ov009
@@ -72,12 +72,12 @@
  *   CPSi_md5_init     0x021633F0  arm
  *   CPSi_md5_calc     0x02163438  arm
  *   CPSi_md5_result   0x021634F0  arm
- *   d_021A1D8C     0x021A1D8C  data
- *   d_021A1D90     0x021A1D90  data
- *   d_021A1D94     0x021A1D94  data
+ *   gCpsSslSaltA     0x021A1D8C  data
+ *   gCpsSslSaltB     0x021A1D90  data
+ *   gCpsSslSaltC     0x021A1D94  data
  *   CPSi_rc4_init     0x02163E40  arm
- *   g_021A1D98     0x021A1D98  data
- *   g_021A1DA0     0x021A1DA0  data
+ *   gCpsSslServerId     0x021A1D98  data
+ *   gCpsSslClientId     0x021A1DA0  data
  *   func_02163EB8  0x02163EB8  arm  ov009
  *   MI_CpuFill8                     0x02082BCC  arm
  *   CPSi_rc4_crypt   0x02163EB8  arm  ov009
@@ -91,27 +91,27 @@
  *   CPSi_SocConsumeRaw    0x0215AF14  arm
  *   tcp_read_raw_nbytes   0x02161BE8  arm
  *   client_hello_v2       0x02160E1C  arm
- *   func_02162248  0x02162248  arm  ov009
+ *   CPS_SslAddRandomSeed  0x02162248  arm  ov009
  *   func_02163E10  0x02163E10  arm  ov009
  *   pool_initialized  0x021AA648  data
- *   g_021A82E4  0x021A82E4  data
+ *   gCpsSslRandCtx  0x021A82E4  data
  *   pool  0x021AA650  data
- *   func_02161C54  0x02161C54  arm  ov009
- *   func_021619CC  0x021619CC  arm  ov009
+ *   update_digest  0x02161C54  arm  ov009
+ *   make_ciphertext  0x021619CC  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *   CPSi_TcpWrite2Raw   0x0215B198 arm ov009
  *   set_random          0x02162128 arm ov009
  *   enter_computebound  0x0216009C arm ov009
  *   CPSi_big_power      0x0216469C arm ov009
  *   alert_nocert        0x021A1980 data
- *   func_02161F98  0x02161F98  arm  ov009
- *   func_021612C8  0x021612C8  arm  ov009
- *   func_0216286C  0x0216286C  arm  ov009
- *   func_021625B8  0x021625B8  arm  ov009
- *   func_02161264  0x02161264  arm  ov009
+ *   parse_record  0x02161F98  arm  ov009
+ *   create_key_block  0x021612C8  arm  ov009
+ *   mustget_change_cipher_spec_and_finished  0x0216286C  arm  ov009
+ *   send_client_key_exchange  0x021625B8  arm  ov009
+ *   create_master_secret  0x02161264  arm  ov009
  *   func_0215FEE0  0x0215FEE0  arm  ov009
  *   CPSi_TcpConnectRaw  0x0215ABB0  arm  ov009
- *   func_02161C80  0x02161C80  arm  ov009
+ *   parse_record_in_buf  0x02161C80  arm  ov009
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   id_string        0x020050F0  data
  *   OS_WakeupThreadDirect  0x02085868  arm
@@ -129,17 +129,17 @@ extern unsigned long long func_020870D0(void);
 extern unsigned long long OS_GetTick(void);
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
 extern void *OS_GetThreadPriority(OSThread *p);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern int func_020948E0(const char *s1, const char *s2);
-extern int cert_item_len(unsigned char **ps);
-extern void make_dn(char *d, char *s, int len);
-extern unsigned long parse_time(unsigned char *s, int type);
+static int cert_item_len(unsigned char **ps);
+static void make_dn(char *d, char *s, int len);
+static unsigned long parse_time(unsigned char *s, int type);
 extern void func_02164CC4(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void func_0216469C(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
-extern void func_021600E4(unsigned long old_priority);
+extern void exit_computebound(unsigned long old_priority);
 extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
 extern void func_021633F0(void *ctx);
 extern void func_02163438(void *ctx, void *data0, int datalen);
@@ -148,9 +148,9 @@ extern void func_02163C9C(void *ctx);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
 extern int RTC_GetDate(RTCDate *date);
-extern int auth_cert(CPSSslConnection *con);
-extern int compare_fqdn(char *name, char *pat);
-extern int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
+static int auth_cert(CPSSslConnection *con);
+static int compare_fqdn(char *name, char *pat);
+static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
@@ -171,65 +171,62 @@ extern void CPSi_rc4_init(CPSCipherCtx *ctx, unsigned char *key, int len);
 extern void CPSi_rc4_crypt(CPSCipherCtx *ctx, unsigned char *data, int len);
 extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc);
 extern void CPSi_SocConsumeRaw(unsigned long len, CPSSoc *soc);
-extern void client_hello(CPSSslConnection *con, unsigned char *s);
-extern void rcv_server_hello(CPSSslConnection *con, unsigned char *s);
-extern void rcv_certificate(CPSSslConnection *con, unsigned char *s);
-extern void rcv_finished(CPSSslConnection *con, unsigned char *s);
-extern int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc);
-extern void client_hello_v2(void *con, unsigned char *s);
-extern void func_02162248(void *random_seed, unsigned long len);
+static void client_hello(CPSSslConnection *con, unsigned char *s);
+static void rcv_server_hello(CPSSslConnection *con, unsigned char *s);
+static void rcv_certificate(CPSSslConnection *con, unsigned char *s);
+static void rcv_finished(CPSSslConnection *con, unsigned char *s);
+static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc);
+static void client_hello_v2(CPSSslConnection *con, unsigned char *s);
+extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void func_02163E10(void *ctx, unsigned char *digest);
-extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
-extern int func_021619CC(CPSSslConnection *con, unsigned char *s);
+extern void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
+extern int make_ciphertext(CPSSslConnection *con, unsigned char *s);
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, CPSSoc *soc);
-extern void set_random(unsigned char *d, int len);
+static void set_random(unsigned char *d, int len);
 extern unsigned long enter_computebound(void);
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits, unsigned short *n);
-extern int func_02161F98(CPSSoc *soc);
-extern void func_021612C8(CPSSslConnection *con);
-extern int func_0216286C(CPSSoc *soc);
-extern void func_021625B8(CPSSoc *soc);
-extern void func_02161264(CPSSslConnection *con);
+extern int parse_record(CPSSoc *soc);
+extern void create_key_block(CPSSslConnection *con);
+extern int mustget_change_cipher_spec_and_finished(CPSSoc *soc);
+extern void send_client_key_exchange(CPSSoc *soc);
+extern void create_master_secret(CPSSslConnection *con);
 extern void func_0215FEE0(CPSSslConnection *con, unsigned long ip, unsigned short port);
 extern unsigned long CPSi_TcpConnectRaw(CPSSoc *soc);
-extern void func_02161C80(CPSSslConnection *con, unsigned char *buf);
+extern void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
 extern void OSi_ReferSymbol(const char *symbol);
 extern void OS_WakeupThreadDirect(OSThread *thread);
-unsigned long func_0216003C(void);
+unsigned long date2sec(void);
 unsigned long CPS_GetSslHandshakePriority(void);
 void CPS_SetSslHandshakePriority(int len);
-unsigned long func_0216009C(void);
-void func_02160108(int a, int b);
-SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn);
-int func_021609E8(const char *p);
-int func_02160DB4(int a0, int a1, int a2);
-int func_02160E0C(int major, int minor);
-void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag);
-void func_02161598(CPSSslConnection *con, unsigned char *d, int flag);
-int func_0216176C(CPSSslConnection *con, u8 *s, int len);
-int make_ciphertext(CPSSslConnection *con, unsigned char *s);
-void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
-void func_021622C0(CPSSoc *soc);
-unsigned long func_02162968(CPSSoc *soc);
-unsigned char *func_021629BC(unsigned long *len, CPSSoc *soc);
+void CPS_SetRootCa(int rootCa, int num);
+SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
+int chars_till_end(const char *str);
+int select_method(int methods, int num, int size);
+int version_ok(int major, int minor);
+void finished_md5(CPSSslConnection *con, unsigned char *d, int flag);
+void finished_sha1(CPSSslConnection *con, unsigned char *d, int flag);
+int decrypt(CPSSslConnection *con, u8 *s, int len);
+void send_change_cipher_spec_and_finished(CPSSoc *soc);
+unsigned long CPSi_SslConnect(CPSSoc *soc);
+unsigned char *CPSi_SslRead(unsigned long *len, CPSSoc *soc);
 void CPSi_SslConsume(unsigned long len, CPSSoc *soc);
-void func_02162AE4(CPSSoc *soc);
-long func_02162C28(CPSSoc *soc);
-unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc);
-void func_02162DD8(CPSSoc *p);
+void try_fill_record(CPSSoc *soc);
+long CPSi_SslGetLength(CPSSoc *soc);
+unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc);
+void CPSi_SslShutdown(CPSSoc *p);
 void CPSi_SslClose(CPSSoc *soc);
 void CPS_SetSsl(int mode);
-void func_02162EC4(unsigned long now);
-void func_02162FA4(void);
-extern struct CPSSslSession g_021AA664[4];
+void CPSi_SslPeriodical(unsigned long now);
+void CPSi_SslCleanup(void);
+extern struct CPSSslSession gCpsSslSessionCache[4];
 extern OSThreadInfo OSi_ThreadInfo;
 extern unsigned char *object[];
-extern char d_021A1D8C[];
-extern char d_021A1D90[];
-extern char d_021A1D94[];
-extern int g_021A1D98;
-extern int g_021A1DA0;
-extern Rand32Ctx g_021A82E4;
+extern char gCpsSslSaltA[];
+extern char gCpsSslSaltB[];
+extern char gCpsSslSaltC[];
+extern int gCpsSslServerId;
+extern int gCpsSslClientId;
+extern Rand32Ctx gCpsSslRandCtx;
 extern unsigned char pool[20];
 extern unsigned char pool_initialized;
 extern unsigned char alert_nocert[7];
@@ -239,7 +236,7 @@ extern char id_string[];
 /*
  * sdk:      find_session_from_id (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_0215FDA4(CPSSslConnection *con)
+static void find_session_from_id(CPSSslConnection *con)
 {
     int i;
     CPSSslSession *p;
@@ -248,7 +245,7 @@ static void func_0215FDA4(CPSSslConnection *con)
     enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid != 0 && p->ip == 0 && p->port == 0 &&
             func_020923F0((const u8 *)p, con->common1.session_id, 0x20) == 0) {
             MI_CpuCopy8(p->master, con, 0x30);
@@ -263,7 +260,7 @@ static void func_0215FDA4(CPSSslConnection *con)
 /*
  * sdk:      find_session_from_IP (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port)
+static void find_session_from_IP(CPSSslConnection *con, unsigned long ip, unsigned short port)
 {
     int i;
     CPSSslSession *p;
@@ -272,7 +269,7 @@ static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned shor
     enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid != 0 && p->ip == ip && p->port == port) {
             MI_CpuCopy8(p, con->common1.session_id, 0x20);
             MI_CpuCopy8(p->master, con, 0x30);
@@ -298,9 +295,9 @@ static void cache_session(CPSSslConnection *con, unsigned long ip,
     enabled = OS_DisableInterrupts();
     now = (unsigned long)(OS_GetTick() >> 16);
     biggest = 0;
-    candidate = g_021AA664;
+    candidate = gCpsSslSessionCache;
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid && ip != 0 && ip == p->ip && port != 0 &&
             port == p->port) {
             candidate = p;
@@ -329,13 +326,13 @@ static void cache_session(CPSSslConnection *con, unsigned long ip,
 }
 
 
-/* * sdk: purge_session (libssl.TWL.HYB.a(ssl.o)) */ static void func_0215FFD0(CPSSslConnection *con);
+/* * sdk: purge_session (libssl.TWL.HYB.a(ssl.o)) */ static void purge_session(CPSSslConnection *con);
 
 
 /*
  * sdk:      purge_session (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_0215FFD0(CPSSslConnection *con)
+static void purge_session(CPSSslConnection *con)
 {
     int i;
     CPSSslSession *p;
@@ -343,7 +340,7 @@ static void func_0215FFD0(CPSSslConnection *con)
 
     enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid != 0) {
             if (func_020923F0((const u8 *)p, con->common1.session_id, 0x20) == 0) {
                 p->valid = 0;
@@ -358,7 +355,7 @@ static void func_0215FFD0(CPSSslConnection *con)
 /*
  * sdk:      date2sec (libssl.TWL.HYB.a(ssl.o))
  */
-unsigned long func_0216003C(void)
+unsigned long date2sec(void)
 {
 	unsigned long sec;
 	RTCDate date;
@@ -366,37 +363,37 @@ unsigned long func_0216003C(void)
 
 	func_02088864((struct RTCDate *)(&date));
 	func_0208890C((struct RTCTime *)(&time));
-	sec = func_02089004((struct RTCDate *)(&date), (struct RTCTime *)(&time));
+	sec = RTC_ConvertDateTimeToSecond((struct RTCDate *)(&date), (struct RTCTime *)(&time));
 	return sec + 946684800;
 }
 
 
 unsigned long CPS_GetSslHandshakePriority(void)
 {
-	return g_021A1D40.priority;
+	return gCpsSslConfig.priority;
 }
 
 
 void CPS_SetSslHandshakePriority(int len)
 {
-	g_021A1D40.priority = len;
+	gCpsSslConfig.priority = len;
 }
 
 
 /*
  * sdk:      enter_computebound (libssl.TWL.HYB.a(ssl.o))
  */
-unsigned long func_0216009C(void)
+unsigned long enter_computebound(void)
 {
 	unsigned long old_priority;
 	OSThread *thread;
 
-	if (g_021A1D40.priority >= 32) {
+	if (gCpsSslConfig.priority >= 32) {
 		return -1;
 	}
 	thread = OSi_ThreadInfo.current;
 	old_priority = (long unsigned int)OS_GetThreadPriority(thread);
-	OS_SetThreadPriority(thread, g_021A1D40.priority);
+	OS_SetThreadPriority(thread, gCpsSslConfig.priority);
 	return old_priority;
 }
 
@@ -409,27 +406,24 @@ static void exit_computebound(unsigned long old_priority)
 }
 
 
-/* * sdk: cert_item_len (libssl.TWL.HYB.a(ssl.o)) */ static int func_0216017C(unsigned char **ps);
 
 
-/* * sdk: make_dn (libssl.TWL.HYB.a(ssl.o)) */ static void func_021601CC(char *d, char *s, int len);
 
 
-/* * sdk: parse_time (libssl.TWL.HYB.a(ssl.o)) */ static unsigned long func_02160238(unsigned char *s, int type);
 
 
 /*
  * Hands a and b to the +0xc child of the object at +0xa4 as its +0x814 and
  * +0x818 words.
  */
-void func_02160108(int a, int b)
+void CPS_SetRootCa(int rootCa, int num)
 {
-    CPSSoc *p = (CPSSoc *)OSi_ThreadInfo.current->specific[0];
-    CPSSslConnection *q;
+    CPSSoc *soc = (CPSSoc *)OSi_ThreadInfo.current->specific[0];
+    CPSSslConnection *con;
 
-    if (p != 0 && (q = p->con) != 0) {
-        q->rootCa = (SOCLCaInfo **)a;
-        q->rootCaNum = b;
+    if (soc != 0 && (con = soc->con) != 0) {
+        con->rootCa = (SOCLCaInfo **)rootCa;
+        con->rootCaNum = num;
     }
 }
 
@@ -439,7 +433,7 @@ void func_02160108(int a, int b)
  *
  * sdk:      get_rootCA (libssl.TWL.HYB.a(ssl.o))
  */
-SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn)
+SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn)
 {
 	int i = 0;
 	SOCLCaInfo **list;
@@ -461,7 +455,7 @@ SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn)
 /*
  * sdk:      cert_item_len (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_0216017C(unsigned char **ps)
+static int cert_item_len(unsigned char **ps)
 {
     unsigned char *s;
     int len;
@@ -486,7 +480,7 @@ static int func_0216017C(unsigned char **ps)
 /*
  * sdk:      make_dn (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_021601CC(char *d, char *s, int len)
+static void make_dn(char *d, char *s, int len)
 {
     char *d0;
 
@@ -509,7 +503,7 @@ static void func_021601CC(char *d, char *s, int len)
 /*
  * sdk:      parse_time (libssl.TWL.HYB.a(ssl.o))
  */
-static unsigned long func_02160238(unsigned char *s, int type)
+static unsigned long parse_time(unsigned char *s, int type)
 {
     unsigned long year;
 
@@ -704,7 +698,7 @@ done:
  * The DWARF declares CPSi_char_from_big(d, s, numbytes); the call site also
  * loads digits into r3, so the file passes it as a fourth argument.
  */
-static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
+static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
 {
     unsigned short *tmp_var;
     unsigned short *b;
@@ -729,9 +723,9 @@ static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
     func_02164CC4(b, con->sig, con->sig_len, digits);
     func_02164CC4(c, ca->exponent, ca->exponent_len, digits);
     func_02164CC4(n, ca->modulo, ca->modulo_len, digits);
-    old_priority = func_0216009C();
+    old_priority = enter_computebound();
     func_0216469C(tmp_var, b, c, digits, n);
-    func_021600E4(old_priority);
+    exit_computebound(old_priority);
     s = (unsigned char *)b;
     func_02164D20(s, tmp_var, ca->modulo_len, digits);
     result = 0;
@@ -754,7 +748,7 @@ static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
 /*
  * sdk:      auth_cert (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_0216090C(CPSSslConnection *con)
+static int auth_cert(CPSSslConnection *con)
 {
     int result;
     SOCLCaInfo *p;
@@ -780,30 +774,30 @@ static int func_0216090C(CPSSslConnection *con)
     default:
         return result | 3;
     }
-    p = func_02160130(con, con->dn);
+    p = get_rootCA(con, con->dn);
     if (p == 0)
         return result | 1;
-    return result | func_02160764(con, p);
+    return result | validate_signature(con, p);
 }
 
 
 /*
  * Length of the text up to the first period or terminator.
  */
-int func_021609E8(const char *p)
+int chars_till_end(const char *str)
 {
-    const char *start = p;
+    const char *start = str;
 
-    while (*p != '.' && *p != 0)
-        p++;
-    return (int)(p - start);
+    while (*str != '.' && *str != 0)
+        str++;
+    return (int)(str - start);
 }
 
 
 /*
  * sdk:      compare_fqdn (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_02160A10(char *name, char *pat)
+static int compare_fqdn(char *name, char *pat)
 {
     int pat_len;
     int pat_cnt;
@@ -818,8 +812,8 @@ static int func_02160A10(char *name, char *pat)
         if (c2 != '*')
             return 1;
         name--;
-        pat_cnt = func_021609E8(name);
-        pat_len = func_021609E8(pat);
+        pat_cnt = chars_till_end(name);
+        pat_len = chars_till_end(pat);
         if (pat_len > pat_cnt)
             return 1;
         name += pat_cnt - pat_len;
@@ -827,7 +821,7 @@ static int func_02160A10(char *name, char *pat)
 }
 
 
-static void func_02160A7C(CPSSslConnection *con, unsigned char *s)
+static void rcv_certificate(CPSSslConnection *con, unsigned char *s)
 {
     RTCDate date;
     int result0;
@@ -896,16 +890,15 @@ static void func_02160A7C(CPSSslConnection *con, unsigned char *s)
 }
 
 
-/* * sdk: rcv_server_hello (libssl.TWL.HYB.a(ssl.o)) */ static void func_02160C9C(CPSSslConnection *con, unsigned char *s);
 
 
-/* * sdk: has_method (libssl.TWL.HYB.a(ssl.o)) */ static int func_02160D68(unsigned char *s, int num, int size, unsigned short method);
+/* * sdk: has_method (libssl.TWL.HYB.a(ssl.o)) */ static int has_method(unsigned char *s, int num, int size, unsigned short method);
 
 
 /*
  * sdk:      rcv_server_hello (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
+static void rcv_server_hello(CPSSslConnection *con, unsigned char *s)
 {
     int session_id_len;
     unsigned char cached;
@@ -919,7 +912,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
         con->resumed = 1;
     } else {
         if (cached != 0)
-            func_0215FFD0(con);
+            purge_session(con);
         if (session_id_len != 0) {
             MI_CpuCopy8(s, con->common1.session_id, 0x20);
             con->cache = 1;
@@ -940,7 +933,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
 /*
  * sdk:      has_method (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_02160D68(unsigned char *s, int num, int size, unsigned short method)
+static int has_method(unsigned char *s, int num, int size, unsigned short method)
 {
     unsigned long n;
     int i;
@@ -961,13 +954,13 @@ static int func_02160D68(unsigned char *s, int num, int size, unsigned short met
  * Scans the two halfword entries of a table, returning the first entry the
  * helper accepts, else zero.
  */
-int func_02160DB4(int a0, int a1, int a2)
+int select_method(int methods, int num, int size)
 {
     u32 i;
 
     for (i = 0; i < 2; i++) {
-        if (func_02160D68((unsigned char *)a0, a1, a2, g_021A1D40.methods[i]))
-            return g_021A1D40.methods[i];
+        if (has_method((unsigned char *)methods, num, size, gCpsSslConfig.methods[i]))
+            return gCpsSslConfig.methods[i];
     }
     return 0;
 }
@@ -976,16 +969,14 @@ int func_02160DB4(int a0, int a1, int a2)
 /*
  * True when the major version is 3; the minor version is not tested.
  */
-int func_02160E0C(int major, int minor)
+int version_ok(int major, int minor)
 {
     return major == 3;
 }
 
 
-/* * sdk: client_hello_v2 (libssl.TWL.HYB.a(ssl.o)) * * The offset `pairlist_len + 8 + sessionID_len` needs a local of its own * (`offset`); accumulating it back into pairlist_len colours r4/r5/r6/r7 as * pairlist_len/s/con/random_len where the vendor has pairlist_len/random_len/ * s/con, which also pushes the s[4] temp out of r5 and into ip. With the * separate name the coalescer merges pairlist_len and offset back into one * register and all four land as the vendor has them. * * Declaration order is inert here: all 24 permutations of the four locals * compile to the same 26-byte DIFF. */ static void func_02160E1C(CPSSslConnection *con, unsigned char *s);
 
 
-/* * sdk: client_hello (libssl.TWL.HYB.a(ssl.o)) */ static void func_02160EE0(CPSSslConnection *con, unsigned char *s);
 
 
 /*
@@ -1001,7 +992,7 @@ int func_02160E0C(int major, int minor)
  * Declaration order is inert here: all 24 permutations of the four locals
  * compile to the same 26-byte DIFF.
  */
-static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
+static void client_hello_v2(CPSSslConnection *con, unsigned char *s)
 {
     int pairlist_len;
     int offset;
@@ -1009,10 +1000,10 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     int random_len;
     unsigned short method;
 
-    if (!func_02160E0C(s[0], s[1]))
+    if (!version_ok(s[0], s[1]))
         return;
     pairlist_len = (s[2] << 8) + s[3];
-    method = func_02160DB4((int)(s + 8), pairlist_len / 3, 3);
+    method = select_method((int)(s + 8), pairlist_len / 3, 3);
     if (method == 0)
         return;
     con->method = method;
@@ -1033,12 +1024,12 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
 /*
  * sdk:      client_hello (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
+static void client_hello(CPSSslConnection *con, unsigned char *s)
 {
     int sessionID_len;
     unsigned short method;
 
-    if (!func_02160E0C(s[0], s[1]))
+    if (!version_ok(s[0], s[1]))
         return;
     s += 2;
     MI_CpuCopy8(s, con->client_random, 0x20);
@@ -1048,10 +1039,10 @@ static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
         con->cache = 0;
     } else {
         MI_CpuCopy8(s, con->common1.session_id, 0x20);
-        func_0215FDA4(con);
+        find_session_from_id(con);
     }
     s += sessionID_len;
-    method = func_02160DB4((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
+    method = select_method((int)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
     con->method = method;
     if (method != 0)
         con->state = 1;
@@ -1090,12 +1081,12 @@ static void decrypt_premaster_secret(unsigned char *d, unsigned char *s, CPSPriv
     CPSi_big_from_char(tmp_var, s, k->size, digits);
     CPSi_big_from_char(b, k->p3, k->l3, digits);
     CPSi_big_from_char(n, k->p1, k->l1, digits);
-    old_priority = func_0216009C();
+    old_priority = enter_computebound();
     CPSi_big_montpower(k1, tmp_var, b, digits, n);
     CPSi_big_from_char(b, k->p4, k->l4, digits);
     CPSi_big_from_char(n, k->p2, k->l2, digits);
     CPSi_big_montpower(k2, tmp_var, b, digits, n);
-    func_021600E4(old_priority);
+    exit_computebound(old_priority);
     CPSi_big_sub(tmp_var, k1, k2, digits);
     CPSi_big_from_char(b, k->p5, k->l5, digits);
     CPSi_big_mult(c, tmp_var, b, digits);
@@ -1136,9 +1127,9 @@ static void create_master_secret(CPSSslConnection *con)
 {
     unsigned char tmp[48];
 
-    create_ms_sub(tmp, d_021A1D8C, con);
-    create_ms_sub(tmp + 0x10, d_021A1D90, con);
-    create_ms_sub(tmp + 0x20, d_021A1D94, con);
+    create_ms_sub(tmp, gCpsSslSaltA, con);
+    create_ms_sub(tmp + 0x10, gCpsSslSaltB, con);
+    create_ms_sub(tmp + 0x20, gCpsSslSaltC, con);
     MI_CpuCopy8(tmp, con->master_secret, 0x30);
 }
 
@@ -1210,15 +1201,15 @@ static void rcv_client_key_exchange(CPSSslConnection *con, unsigned char *s)
 /*
  * sdk:      finished_md5 (ssl.o)
  */
-void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag)
+void finished_md5(CPSSslConnection *con, unsigned char *d, int flag)
 {
     unsigned char tmp[48];
     CPSMd5Ctx *p = &con->md5_hash;
 
     if ((con->server ^ flag) != 0)
-        func_02163438(p, &g_021A1D98, 4);
+        func_02163438(p, &gCpsSslServerId, 4);
     else
-        func_02163438(p, &g_021A1DA0, 4);
+        func_02163438(p, &gCpsSslClientId, 4);
     func_02163438(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x36, 48);
     func_02163438(p, tmp, 48);
@@ -1235,15 +1226,15 @@ void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag)
 /*
  * sdk:      finished_sha1 (ssl.o)
  */
-void func_02161598(CPSSslConnection *con, unsigned char *d, int flag)
+void finished_sha1(CPSSslConnection *con, unsigned char *d, int flag)
 {
     unsigned char tmp[40];
     CPSSha1Ctx *p = &con->sha1_hash;
 
     if ((con->server ^ flag) != 0)
-        func_02163CF0(p, &g_021A1D98, 4);
+        func_02163CF0(p, &gCpsSslServerId, 4);
     else
-        func_02163CF0(p, &g_021A1DA0, 4);
+        func_02163CF0(p, &gCpsSslClientId, 4);
     func_02163CF0(p, con->master_secret, 48);
     MI_CpuFill8(tmp, 0x36, 40);
     func_02163CF0(p, tmp, 40);
@@ -1260,19 +1251,19 @@ void func_02161598(CPSSslConnection *con, unsigned char *d, int flag)
 /*
  * sdk:      rcv_finished (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_02161678(CPSSslConnection *con, unsigned char *s)
+static void rcv_finished(CPSSslConnection *con, unsigned char *s)
 {
     unsigned char tmp[20];
 
     MI_CpuCopy8(&con->md5_hash, &con->md5_hash_tmp, 0x58);
-    func_021614BC(con, tmp, 1);
+    finished_md5(con, tmp, 1);
     MI_CpuCopy8(&con->md5_hash_tmp, &con->md5_hash, 0x58);
     if (func_020923F0(s, tmp, 0x10) != 0) {
         con->state = 9;
         return;
     }
     MI_CpuCopy8(&con->sha1_hash, &con->sha1_hash_tmp, 0x5c);
-    func_02161598(con, tmp, 1);
+    finished_sha1(con, tmp, 1);
     MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5c);
     if (func_020923F0(s + 0x10, tmp, 0x14) != 0)
         con->state = 9;
@@ -1298,7 +1289,7 @@ static void add1_be8(u8 *d)
 /*
  * Forwards (p + 0x1e0) to func_02163EB8 and returns the third argument.
  */
-int func_0216176C(CPSSslConnection *con, u8 *s, int len)
+int decrypt(CPSSslConnection *con, u8 *s, int len)
 {
     CPSi_rc4_crypt(&con->rcv_cipher, s, len);
     return len;
@@ -1312,7 +1303,7 @@ static int make_plaintext(CPSSslConnection *con, u8 *s)
     u8 tmp[20];
     u8 pad[48];
 
-    len = func_0216176C(con, s + 5, (s[3] << 8) + s[4]);
+    len = decrypt(con, s + 5, (s[3] << 8) + s[4]);
     switch (con->method) {
     case 4:
         len -= 0x10;
@@ -1424,7 +1415,7 @@ int make_ciphertext(CPSSslConnection *con, unsigned char *s)
 /*
  * sdk:      tcp_read_raw_nbytes (libssl.TWL.HYB.a(ssl.o))
  */
-static int func_02161BE8(unsigned char *d, int len, CPSSoc *soc)
+static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc)
 {
     unsigned long thislen;
     unsigned char *s;
@@ -1637,7 +1628,7 @@ static int parse_record(CPSSoc *soc)
 /*
  * sdk:      set_random (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_02162128(unsigned char *d, int len)
+static void set_random(unsigned char *d, int len)
 {
     unsigned long enabled;
     CPSSha1Ctx ctx;
@@ -1649,9 +1640,9 @@ static void func_02162128(unsigned char *d, int len)
     unsigned long tmp;
 
     if (pool_initialized == 0) {
-        g_021A82E4.x = g_021A82E4.a * g_021A82E4.x + g_021A82E4.c;
-        tmp = (unsigned long)(g_021A82E4.x >> 32);
-        func_02162248(&tmp, 4);
+        gCpsSslRandCtx.x = gCpsSslRandCtx.a * gCpsSslRandCtx.x + gCpsSslRandCtx.c;
+        tmp = (unsigned long)(gCpsSslRandCtx.x >> 32);
+        CPS_SslAddRandomSeed(&tmp, 4);
     }
     r = 20;
     for (i = 0; i < len;) {
@@ -1698,7 +1689,7 @@ void CPS_SslAddRandomSeed(void *random_seed, unsigned long len)
  *
  * Static SSL handshake tail: builds the ChangeCipherSpec and Finished records, hashes and encrypts them, sends them.
  */
-void func_021622C0(CPSSoc *soc)
+void send_change_cipher_spec_and_finished(CPSSoc *soc)
 {
     unsigned char *buf;
     CPSSslConnection *con = soc->con;
@@ -1725,13 +1716,13 @@ void func_021622C0(CPSSoc *soc)
     buf[13] = 0;
     buf[14] = 36;
     MI_CpuCopy8(&con->md5_hash, &con->md5_hash_tmp, 0x58);
-    func_021614BC(con, buf + 15, 0);
+    finished_md5(con, buf + 15, 0);
     MI_CpuCopy8(&con->md5_hash_tmp, &con->md5_hash, 0x58);
     MI_CpuCopy8(&con->sha1_hash, &con->sha1_hash_tmp, 0x5C);
-    func_02161598(con, buf + 31, 0);
+    finished_sha1(con, buf + 31, 0);
     MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5C);
-    func_02161C54(con, buf + 11, 40);
-    CPSi_TcpWrite2Raw(buf, func_021619CC(con, buf + 6) + 6, 0, 0, soc);
+    update_digest(con, buf + 11, 40);
+    CPSi_TcpWrite2Raw(buf, make_ciphertext(con, buf + 6) + 6, 0, 0, soc);
     CPSiFree(buf);
 }
 
@@ -1739,7 +1730,7 @@ void func_021622C0(CPSSoc *soc)
 /*
  * sdk:      send_client_hello (libssl.TWL.HYB.a(ssl.o))
  */
-static void func_02162418(CPSSoc *soc)
+static void send_client_hello(CPSSoc *soc)
 {
     CPSSslConnection *con = soc->con;
     unsigned long sec;
@@ -1754,14 +1745,14 @@ static void func_02162418(CPSSoc *soc)
     }
     buf[9] = 3;
     buf[10] = 0;
-    sec = func_0216003C();
+    sec = date2sec();
     con->client_random[0] = sec >> 24;
     con->client_random[1] = sec >> 16;
     con->client_random[2] = sec >> 8;
     con->client_random[3] = sec;
-    func_02162128(con->client_random + 4, 28);
+    set_random(con->client_random + 4, 28);
     MI_CpuCopy8(con->client_random, buf + 11, 32);
-    func_0215FE3C(con, soc->remote_ip, soc->remote_port);
+    find_session_from_IP(con, soc->remote_ip, soc->remote_port);
     if (con->cache == 0) {
         buf[43] = 0;
         d = buf + 44;
@@ -1773,9 +1764,9 @@ static void func_02162418(CPSSoc *soc)
     d[0] = 0;
     d[1] = 4;
     d += 2;
-    for (i = 0; i < NELEMS(g_021A1D40.methods); i++) {
-        d[0] = g_021A1D40.methods[i] >> 8;
-        d[1] = g_021A1D40.methods[i];
+    for (i = 0; i < NELEMS(gCpsSslConfig.methods); i++) {
+        d[0] = gCpsSslConfig.methods[i] >> 8;
+        d[1] = gCpsSslConfig.methods[i];
         d += 2;
     }
     d[0] = 1;
@@ -1792,7 +1783,7 @@ static void func_02162418(CPSSoc *soc)
     buf[7] = (i - 4) >> 8;
     buf[8] = i - 4;
     CPSi_TcpWrite2Raw(buf, i + 5, 0, 0, soc);
-    func_02161C54(con, buf + 5, i);
+    update_digest(con, buf + 5, i);
     CPSiFree(buf);
 }
 
@@ -1892,15 +1883,15 @@ static int mustget_change_cipher_spec_and_finished(CPSSoc *soc)
 }
 
 
-static int func_0216289C(CPSSoc *soc)
+static int ssl_connect_try(CPSSoc *soc)
 {
     CPSSslConnection *con;
     int state;
 
     con = soc->con;
-    func_02162418(soc);
+    send_client_hello(soc);
     for (;;) {
-        state = func_02161F98(soc);
+        state = parse_record(soc);
         if (state == 9)
             return 1;
         if (state == 4)
@@ -1909,18 +1900,18 @@ static int func_0216289C(CPSSoc *soc)
             break;
     }
     if (con->resumed != 0) {
-        func_021612C8(con);
-        if (func_0216286C(soc) != 0)
+        create_key_block(con);
+        if (mustget_change_cipher_spec_and_finished(soc) != 0)
             return 1;
-        func_021622C0(soc);
+        send_change_cipher_spec_and_finished(soc);
     } else {
-        func_021625B8(soc);
-        func_02161264(con);
+        send_client_key_exchange(soc);
+        create_master_secret(con);
         if (con->cache != 0)
             func_0215FEE0(con, soc->remote_ip, soc->remote_port);
-        func_021612C8(con);
-        func_021622C0(soc);
-        if (func_0216286C(soc) != 0)
+        create_key_block(con);
+        send_change_cipher_spec_and_finished(soc);
+        if (mustget_change_cipher_spec_and_finished(soc) != 0)
             return 1;
     }
     con->state = 8;
@@ -1931,7 +1922,7 @@ static int func_0216289C(CPSSoc *soc)
 /*
  * sdk:      CPSi_SslConnect (libssl.TWL.HYB.a(ssl.o))
  */
-unsigned long func_02162968(CPSSoc *soc)
+unsigned long CPSi_SslConnect(CPSSoc *soc)
 {
     int result;
     CPSSslConnection *con;
@@ -1946,31 +1937,31 @@ unsigned long func_02162968(CPSSoc *soc)
     con->server = 0;
     func_02163C9C(&con->sha1_hash);
     func_021633F0(&con->md5_hash);
-    return func_0216289C(soc);
+    return ssl_connect_try(soc);
 }
 
 
 /*
  * sdk:      CPSi_SslRead (libssl.TWL.HYB.a(ssl.o))
  */
-unsigned char *func_021629BC(unsigned long *len, CPSSoc *soc)
+unsigned char *CPSi_SslRead(unsigned long *len, CPSSoc *soc)
 {
     CPSSslConnection *con;
 
     con = soc->con;
     if (con->buf != 0 && con->have_record == 0) {
-        if (func_02161BE8(con->buf + con->pos, con->end - con->pos, soc) != 0) {
+        if (tcp_read_raw_nbytes(con->buf + con->pos, con->end - con->pos, soc) != 0) {
             CPSiFree(con->buf);
             con->buf = 0;
             *len = 0;
             return 0;
         }
-        func_02161C80(con, con->buf);
+        parse_record_in_buf(con, con->buf);
         if (con->have_record == 0)
             con->buf = 0;
     }
     while (con->buf == 0) {
-        if (func_02161F98(soc) == 9) {
+        if (parse_record(soc) == 9) {
             *len = 0;
             return 0;
         }
@@ -1999,7 +1990,7 @@ void CPSi_SslConsume(unsigned long len, CPSSoc *soc)
  *
  * Static SSL record reassembly: reads the socket receive buffer into an allocated record buffer, parses it when complete.
  */
-void func_02162AE4(CPSSoc *soc)
+void try_fill_record(CPSSoc *soc)
 {
     int got_all;
     unsigned long len;
@@ -2035,7 +2026,7 @@ void func_02162AE4(CPSSoc *soc)
     MI_CpuCopy8(s, con->buf + con->pos, len);
     CPSi_SocConsumeRaw(len, soc);
     if (got_all) {
-        func_02161C80(con, con->buf);
+        parse_record_in_buf(con, con->buf);
         if (con->have_record == 0) con->buf = 0;
     } else {
         con->pos += len;
@@ -2046,13 +2037,13 @@ void func_02162AE4(CPSSoc *soc)
 /*
  * sdk:      CPSi_SslGetLength (libssl.TWL.HYB.a(ssl.o))
  */
-long func_02162C28(CPSSoc *soc)
+long CPSi_SslGetLength(CPSSoc *soc)
 {
     CPSSslConnection *con;
 
     con = soc->con;
     if (con->buf == 0 || con->have_record == 0)
-        func_02162AE4(soc);
+        try_fill_record(soc);
     if (con->buf != 0 && con->have_record != 0)
         return con->end - con->pos;
     if (con->buf == 0) {
@@ -2068,7 +2059,7 @@ long func_02162C28(CPSSoc *soc)
  *
  * Writes a two-part buffer as SSL application-data records of at most 2895 bytes; returns the bytes sent.
  */
-unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc)
+unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc)
 {
     CPSSslConnection *con = soc->con;
     unsigned char *tmp;
@@ -2096,7 +2087,7 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
         tmp[3] = this_len >> 8;
         buf2 += part2_len;
         tmp[4] = this_len;
-        this_sent_len = func_021619CC(con, tmp);
+        this_sent_len = make_ciphertext(con, tmp);
         if (CPSi_TcpWrite2Raw(tmp, this_sent_len, 0, 0, soc) < (unsigned long)this_sent_len) this_len = 0;
         CPSiFree(tmp);
         total_sent_len += this_len;
@@ -2109,12 +2100,12 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
 
 /*
  * Flush a queued request when the object reached through +0xc is in state 8:
- * a 7-byte header is laid down on the stack, func_021619CC fills the rest of
+ * a 7-byte header is laid down on the stack, make_ciphertext fills the rest of
  * the buffer and returns its length, and that buffer (plus the length) is
  * handed to CPSi_TcpWrite2Raw along with the two zero flags and this object.  The
  * state byte is cleared either way.
  */
-void func_02162DD8(CPSSoc *p)
+void CPSi_SslShutdown(CPSSoc *p)
 {
     CPSSslConnection *q;
     u8 buf[0x1c];
@@ -2128,7 +2119,7 @@ void func_02162DD8(CPSSoc *p)
         buf[4] = 2;
         buf[5] = 1;
         buf[6] = 0;
-        CPSi_TcpWrite2Raw(buf, func_021619CC(q, buf), 0, 0, p);
+        CPSi_TcpWrite2Raw(buf, make_ciphertext(q, buf), 0, 0, p);
     }
     q->state = 0;
 }
@@ -2161,7 +2152,7 @@ void CPS_SetSsl(int mode)
 /*
  * sdk:      CPSi_SslPeriodical (ssl.o)
  */
-void func_02162EC4(unsigned long now)
+void CPSi_SslPeriodical(unsigned long now)
 {
     int i;
     CPSSoc *soc;
@@ -2170,7 +2161,7 @@ void func_02162EC4(unsigned long now)
 
     enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
-        struct CPSSslSession *p = &g_021AA664[i];
+        struct CPSSslSession *p = &gCpsSslSessionCache[i];
         if (p->valid && (long)(now - p->last_used) > 957)
             p->valid = 0;
     }
@@ -2189,7 +2180,7 @@ void func_02162EC4(unsigned long now)
 }
 
 
-void func_02162FA4(void)
+void CPSi_SslCleanup(void)
 {
-    MI_CpuFill8(g_021AA664, 0, 0x170);
+    MI_CpuFill8(gCpsSslSessionCache, 0, 0x170);
 }

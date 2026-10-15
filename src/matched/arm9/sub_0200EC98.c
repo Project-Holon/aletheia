@@ -1,5 +1,5 @@
 /*
- * function: sub_0200EC98
+ * function: MISC_SAVEDATA_GetRecordDate
  * address:  0x0200EC98
  * packet:   pkt_0200EC98
  * region:   arm9
@@ -15,8 +15,8 @@
  * four-word output record and zeroes the fourth word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200EC98.c \
- *       --func sub_0200EC98 --addr 0x0200EC98 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MISC_SAVEDATA_GetRecordDate.c \
+ *       --func MISC_SAVEDATA_GetRecordDate --addr 0x0200EC98 --cc 1.1p1 --thumb
  */
 #include "../include/Obj08961.h"
 
@@ -31,7 +31,7 @@ struct Out0200EC98 {
     u32 d;
 };
 
-void sub_0200EC98(const u8 *o, struct Out0200EC98 *out)
+void MISC_SAVEDATA_GetRecordDate(const u8 *o, struct Out0200EC98 *out)
 {
     out->a = *(const u16 *)&((struct Obj08961 *)o)->f168;
     out->b = o[0x16a];

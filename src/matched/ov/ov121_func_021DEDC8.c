@@ -1,5 +1,5 @@
 /*
- * function: func_021DEDC8
+ * function: MYSTERY_NET_EndDownload
  * address: 0x021DEDC8
  * packet: pkt_ov121_021DEDC8
  * region: ov121
@@ -11,16 +11,16 @@
  * symbols:
  *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021DEEA4 0x021DEEA4 thumb ov121
- *   func_021DE618 0x021DE618 thumb ov121
+ *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
+ *   MYSTERY_NET_NoopHandler 0x021DE618 thumb ov121
  */
 #include "../include/Obj22918.h"
 extern int GFL_NET_Exit(int);
 extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
-extern void func_021DEEA4(u32 *p, void *f);
-extern void func_021DE618(void);
-void func_021DEDC8(void *a, int *state, char *p)
+extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
+extern void MYSTERY_NET_NoopHandler(void);
+void MYSTERY_NET_EndDownload(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
@@ -34,7 +34,7 @@ void func_021DEDC8(void *a, int *state, char *p)
         }
         break;
     case 2:
-        func_021DEEA4(a, func_021DE618);
+        MYSTERY_NET_SetHandler(a, MYSTERY_NET_NoopHandler);
         break;
     }
 }

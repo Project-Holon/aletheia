@@ -1,7 +1,7 @@
 /*
  * file:     os_argument.c
  * unit:     yes
- * function: func_02087F60, func_02087FBC, func_0208806C, func_02088118, func_0208812C, func_02088150
+ * function: OS_InitDeliverArgInfo, OS_EncodeDeliverArg, OS_DecodeDeliverArg, OS_SetDeliverArgStateInvalid, OS_GetTitleIdFromDeliverArg, func_02088150
  * address:  0x02087F60
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -22,11 +22,11 @@
  *   func_02088150  0x02088150  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   SVC_GetCRC16  0x02004632  thumb
- *   func_02088118  0x02088118  arm
+ *   OS_SetDeliverArgStateInvalid  0x02088118  arm
  */
 typedef unsigned long long u64;
 
-typedef unsigned long u32_02087F60;
+typedef unsigned long u32;
 
 typedef unsigned short u16;
 
@@ -54,51 +54,31 @@ typedef struct OSDeliverArgInfo {
    (a cursor into the argument buffer), the buffer state and the buffer. */
 typedef struct OsArgumentBss {
     u8 *sPtr;
-    u32_02087F60 sBufferState;
+    u32 sBufferState;
     OSDeliverArgInfo *sBufferPtr;
 } OsArgumentBss;
 
-typedef unsigned int u32_02087FBC;
+extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+extern u16 SVC_GetCRC16(u32 start, const void *data, u32 size);
 
-typedef struct {
-    u64 titleId;        /* 0x00 */
-    u8  f08;
-    u8  f09;
-    u16 makerCode;      /* 0x0a */
-    u8  pad0c[4];
-    u16 crc;            /* 0x10 */
-} ArgHeader;
-
-typedef struct {
-    u32_02087FBC        f00;
-    u32_02087FBC        flag;    /* 0x04 */
-    ArgHeader *info;    /* 0x08 */
-} ArgState;
-
-typedef unsigned int   u32_0208806C;
-
-extern void MI_CpuFill8(void *dest, u8 data, u32_02087F60 size);
-extern u16 SVC_GetCRC16(u32_02087FBC start, const void *data, u32_02087FBC size);
-
-extern void MI_CpuCopy8(const void *src, void *dest, u32_02087FBC size);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 
 
-void func_02088118(void);
-u64 func_0208812C(void);
+void OS_SetDeliverArgStateInvalid(void);
+u64 OS_GetTitleIdFromDeliverArg(void);
 asm int OS_IsValidDeliverArg(void);
-void func_02087F60(OSDeliverArgInfo *info, int binSize);
-int func_02087FBC(void);
-int func_0208806C(void);
+void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize);
+int OS_EncodeDeliverArg(void);
+int OS_DecodeDeliverArg(void);
 extern OsArgumentBss g_02151384;
-extern ArgState s_02151384;
 extern u64      s_02151390;
 
 
 /*
  * sdk:      OS_InitDeliverArgInfo (os_argument.o)
  */
-void func_02087F60(OSDeliverArgInfo *info, int binSize)
+void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize)
 {
     g_02151384.sBufferPtr = info;
     MI_CpuFill8(info, 0, sizeof(OSDeliverArgInfo));
@@ -132,24 +112,24 @@ void func_02087F60(OSDeliverArgInfo *info, int binSize)
  * 0x02151390 resolves as sole-ref (its only pool word is this function's).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02087FBC.c \
- *       --func func_02087FBC --addr 0x02087FBC --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/OS_EncodeDeliverArg.c \
+ *       --func OS_EncodeDeliverArg --addr 0x02087FBC --arm --cc 1.1p1
  */
-int func_02087FBC(void)
+int OS_EncodeDeliverArg(void)
 {
-    if ((s_02151384.flag & 1) == 0) return -1;
-    s_02151384.info->makerCode = *(u16 *)0x02FFE010;
+    if ((g_02151384.sBufferState & 1) == 0) return -1;
+    g_02151384.sBufferPtr->header.makerCode = *(u16 *)0x02FFE010;
     {
-        ArgHeader *p = s_02151384.info;
+        OSDeliverArgHeader *p = (OSDeliverArgHeader *)g_02151384.sBufferPtr;
         p->titleId = *(u64 *)0x02FFE230;
-        p->f09 = 3;
+        p->flag = 3;
     }
-    s_02151390 = s_02151384.info->titleId;
-    s_02151384.info->crc = 0;
-    s_02151384.info->crc = SVC_GetCRC16(0xFFFF, s_02151384.info, 0x300);
-    MI_CpuCopy8(s_02151384.info, (void *)0x02000000, 0x300);
-    MI_CpuFill8(s_02151384.info, 0, 0x300);
-    s_02151384.flag = 0;
+    s_02151390 = g_02151384.sBufferPtr->header.titleId;
+    g_02151384.sBufferPtr->header.crc = 0;
+    g_02151384.sBufferPtr->header.crc = SVC_GetCRC16(0xFFFF, g_02151384.sBufferPtr, 0x300);
+    MI_CpuCopy8(g_02151384.sBufferPtr, (void *)0x02000000, 0x300);
+    MI_CpuFill8(g_02151384.sBufferPtr, 0, 0x300);
+    g_02151384.sBufferState = 0;
     return 0;
 }
 
@@ -176,39 +156,39 @@ int func_02087FBC(void)
  * concrete one-byte DIFF (0xFB vs 0xEB in byte 3 of the branch) rather than
  * an unresolved wildcard.
  */
-int func_0208806C(void)
+int OS_DecodeDeliverArg(void)
 {
-    u32_0208806C *base;
-    u32_0208806C  old;
+    u32 *state;
+    u32 oldCrc;
 
     if (OS_IsValidDeliverArg() == 0)
         return -1;
 
-    base = (u32_0208806C *)0x02151384;
-    if (base[2] == 0)
+    state = (u32 *)0x02151384;
+    if (state[2] == 0)
         return -1;
 
-    ((void (*)(u32_0208806C bus, u32_0208806C p, u32_0208806C n))MI_CpuCopy8)(0x02000000, base[2], 0x300);
+    ((void (*)(u32 src, u32 dest, u32 size))MI_CpuCopy8)(0x02000000, state[2], 0x300);
 
-    old = *(u16 *)(base[2] + 0x10);
-    *(u16 *)(base[2] + 0x10) = 0;
-    *(u16 *)(base[2] + 0x10) = ((u32_0208806C (*)(u32_0208806C a, u32_0208806C p, u32_0208806C n))SVC_GetCRC16)(0xffff, base[2], 0x300);
+    oldCrc = *(u16 *)(state[2] + 0x10);
+    *(u16 *)(state[2] + 0x10) = 0;
+    *(u16 *)(state[2] + 0x10) = ((u32 (*)(u32 start, u32 data, u32 size))SVC_GetCRC16)(0xffff, state[2], 0x300);
 
-    if (old != *(u16 *)(base[2] + 0x10)) {
-        MI_CpuFill8((void *)base[2], 0, 0x300);
-        func_02088118();
+    if (oldCrc != *(u16 *)(state[2] + 0x10)) {
+        MI_CpuFill8((void *)state[2], 0, 0x300);
+        OS_SetDeliverArgStateInvalid();
         return 0;
     }
 
-    *(u8 *)(base[2] + 9) &= 0xfe;
-    base[1] = 1;
+    *(u8 *)(state[2] + 9) &= 0xfe;
+    state[1] = 1;
     return 0;
 }
 
 /*
  * note:     ctrdg_proc.o CTRDGi_CallbackForSetPhi.
  */
-void func_02088118(void)
+void OS_SetDeliverArgStateInvalid(void)
 {
     g_02151384.sBufferState = 0;
 }
@@ -216,7 +196,7 @@ void func_02088118(void)
 /*
  * sdk:      OS_GetTitleIdFromDeliverArg (os_argument.o)
  */
-u64 func_0208812C(void)
+u64 OS_GetTitleIdFromDeliverArg(void)
 {
     if (!(g_02151384.sBufferState & 1)) {
         return 0;

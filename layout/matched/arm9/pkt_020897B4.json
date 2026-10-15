@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020897B4",
+   "name": "SNDi_SetPlayerParam",
    "address": "0x020897B4",
    "kind": "sdk",
    "region": "arm9",

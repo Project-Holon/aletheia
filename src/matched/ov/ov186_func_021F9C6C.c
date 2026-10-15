@@ -1,5 +1,5 @@
 /*
- * function: func_021F9C6C
+ * function: BR_PROC_SYS_FlushWindows
  * address:  0x021F9C6C
  * packet:   pkt_021F9C6C
  * region:   ov186
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F9BA0  0x021F9BA0  thumb  ov186
+ *   BR_PROC_SYS_PopEntry  0x021F9BA0  thumb  ov186
  */
 
 typedef struct {
@@ -18,10 +18,10 @@ typedef struct {
     int  unk_64;
 } S;
 
-extern void func_021F9BA0(unsigned *ctx);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 
-void func_021F9C6C(S *p)
+void BR_PROC_SYS_FlushWindows(S *p)
 {
     while (p->unk_64 != 0)
-        func_021F9BA0((unsigned int *)p);
+        BR_PROC_SYS_PopEntry((unsigned int *)p);
 }

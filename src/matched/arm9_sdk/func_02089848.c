@@ -1,5 +1,5 @@
 /*
- * function: func_02089848
+ * function: SND_Init
  * address:  0x02089848
  * packet:   pkt_02089848
  * region:   arm9
@@ -30,7 +30,7 @@ extern void SND_AlarmInit(void);
 extern BOOL _ZZ8SND_InitvE11initialized;
 extern OSMutex sSndMutex;
 
-void func_02089848(void)
+void SND_Init(void)
 {
     if (_ZZ8SND_InitvE11initialized) {
         return;

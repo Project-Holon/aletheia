@@ -1,7 +1,7 @@
 /*
  * file:     sta_act_light.c
  * unit:     yes
- * function: func_021F6BC0, func_021F6BD8, func_021F6C7C, func_021F6CB0, func_021F6CE0, func_021F6D68, func_021F6E74, func_021F6E78, func_021F6EE4, func_021F6EF4, func_021F6F04, func_021F6F14, func_021F6F1C, func_021F6F24, func_021F6F4C, func_021F6F64, func_021F6F8C, func_021F6FB0, func_021F7048, func_021F7098, func_021F709C, func_021F7120, func_021F7160, func_021F718C, func_021F7204, func_021F732C, func_021F75A0, func_021F75D8, func_021F75DC, func_021F760C, func_021F77A0, func_021F77EC, func_021F79A8, func_021F7A98, func_021F7AEC, func_021F7BA8, func_021F7C90, func_021F7D30, func_021F7E2C, func_021F7ECC, func_021F7FA8, func_021F7FAC, func_021F8044, func_021F8054, func_021F8068, func_021F8084, func_021F80A0, func_021F80B0, func_021F80D4, func_021F8120, func_021F812C, func_021F8140
+ * function: func_021F6BC0, func_021F6BD8, func_021F6C7C, func_021F6CB0, func_021F6CE0, func_021F6D68, func_021F6E74, func_021F6E78, func_021F6EE4, func_021F6EF4, func_021F6F04, func_021F6F14, func_021F6F1C, func_021F6F24, func_021F6F4C, func_021F6F64, func_021F6F8C, func_021F6FB0, func_021F7048, func_021F7098, func_021F709C, func_021F7120, func_021F7160, func_021F718C, func_021F7204, func_021F732C, func_021F75A0, func_021F75D8, func_021F75DC, func_021F760C, func_021F77A0, func_021F77EC, func_021F79A8, func_021F7A98, func_021F7AEC, func_021F7BA8, func_021F7C90, func_021F7D30, func_021F7E2C, func_021F7ECC, func_021F7FA8, func_021F7FAC, func_021F8044, func_021F8054, func_021F8068, func_021F8084, func_021F80A0, func_021F80B0, func_021F80D4, func_021F8120, func_021F812C, func_021F8140, STA_ACT_LIGHT_SetElemValue
  * address:  0x021F6BC0
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -1445,3 +1445,14 @@ int func_021F812C(int unused, int *p, int flag)
 
 
 void func_021F8140(int a,u8 *p,int b) { ((struct Obj10327 *)p)->f8=b; func_021F5414((int)(((struct Obj10327 *)p)->f58),b); ((struct Obj10327 *)p)->f4=1; }
+
+
+
+
+/* Sets the light element's value word and marks the element updated. */
+int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2)
+{
+    a1[3] = a2;
+    a1[1] = 1;
+    return 1;
+}

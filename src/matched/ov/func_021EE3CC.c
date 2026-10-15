@@ -1,5 +1,5 @@
 /*
- * function: func_021EE3CC
+ * function: BOX2_UI_DeleteSound
  * address:  0x021EE3CC
  * packet:   pkt_021EE3CC
  * region:   ov170
@@ -23,7 +23,7 @@
 
 extern void func_02025D14(void);
 
-void func_021EE3CC(int *p)
+void BOX2_UI_DeleteSound(int *p)
 {
     if (*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)) {
         func_02025D14();

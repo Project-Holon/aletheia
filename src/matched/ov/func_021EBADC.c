@@ -1,5 +1,5 @@
 /*
- * function: func_021EBADC
+ * function: BOX2_SEQ_PrintMessageB
  * address:  0x021EBADC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBA84  0x021EBA84  thumb  ov170
+ *   BOX2_SEQ_PrintMessageMsg  0x021EBA84  thumb  ov170
  *
- * Sibling of func_021EBB28: index 0x34 when state is 5, else 0xb.
+ * Sibling of BOX2_SEQ_PrintMessageC: index 0x34 when state is 5, else 0xb.
  */
 #include "../include/Obj18517.h"
 
 
-extern void func_021EBA84(unsigned char *p, int msg, int i);
-void func_021EBADC(char *p, int b)
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
+void BOX2_SEQ_PrintMessageB(char *p, int b)
 {
     if (*(int *)(((struct Obj18517 *)p)->f0 + 0x24) == 5)
-        func_021EBA84((unsigned char *)p, 0x34, b);
+        BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0x34, b);
     else
-        func_021EBA84((unsigned char *)p, 0xb, b);
+        BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0xb, b);
 }

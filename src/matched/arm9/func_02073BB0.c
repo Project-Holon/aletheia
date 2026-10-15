@@ -11,6 +11,7 @@
  * symbols:
  *   gSndStrmList       0x214E8E8  data
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  *
  * EXACT* only because the follower at 0x02073BE0 carries no func_ label in the
  *  * generated listing (it saves no lr), so the inferred extent runs 64 bytes
@@ -31,11 +32,11 @@ struct X { u8 pad00[0x2c]; u32 f2c; u8 pad2[0x48 - 0x30]; u32 f48; };
 extern char gSndStrmList[];
 extern void NNS_SndWaveOutFreeChannel(u32);
 struct DList;
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 
 void NNSi_SndStrmReleaseTimer(struct X *x)
 {
     NNS_SndWaveOutFreeChannel(x->f48);
-    func_020605B4((volatile struct DList *)gSndStrmList, x);
+    NNS_FndRemoveListObject((volatile struct DList *)gSndStrmList, x);
     x->f2c &= ~1;
 }

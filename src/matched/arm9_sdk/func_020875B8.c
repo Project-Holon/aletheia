@@ -1,5 +1,5 @@
 /*
- * function: func_020875B8
+ * function: OSi_InsertVAlarm
  * address:  0x020875B8
  * packet:   pkt_020875B8
  * region:   arm9
@@ -61,7 +61,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 extern void OSi_AppendVAlarm(OSVAlarm *alarm);
 
-void func_020875B8(OSVAlarm *alarm)
+void OSi_InsertVAlarm(OSVAlarm *alarm)
 {
     OSVAlarm *prev;
     OSVAlarm *next;

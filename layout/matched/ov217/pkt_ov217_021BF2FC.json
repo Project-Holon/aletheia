@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF2FC",
+   "name": "RESEARCH_GRAPH_PrintTeamLabel",
    "address": "0x021BF2FC",
    "kind": "game",
    "region": "ov217",

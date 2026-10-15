@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02089D6C 0x02089D6C  arm
- *   func_0208A07C 0x0208A07C  arm
+ *   SND_IsFinishedCommandTag 0x02089D6C  arm
+ *   SND_GetChannelStatus 0x0208A07C  arm
  */
 
 typedef unsigned int u32;
@@ -24,8 +24,8 @@ struct O {
     u32 f10;
 };
 
-extern int func_02089D6C(u32 tag);
-extern u32 func_0208A07C(void);
+extern int SND_IsFinishedCommandTag(u32 tag);
+extern u32 SND_GetChannelStatus(void);
 
 int NNS_SndWaveOutIsPlaying(struct O *o)
 {
@@ -33,10 +33,10 @@ int NNS_SndWaveOutIsPlaying(struct O *o)
 
     if (o->f8 == 0) return 0;
     if (o->fc == 0) {
-        if (func_02089D6C(o->f10) == 0) return 1;
+        if (SND_IsFinishedCommandTag(o->f10) == 0) return 1;
         o->fc = 1;
     }
-    r = func_0208A07C();
+    r = SND_GetChannelStatus();
     if (r & (1u << o->f0)) return 1;
     o->f8 = 0;
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC954
+ * function: RESEARCH_LIST_DestroyCommandQueue
  * address:  0x021BC954
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RingQueue_Destroy(void *p);
 
-void func_021BC954(u8 *a0)
+void RESEARCH_LIST_DestroyCommandQueue(u8 *a0)
 {
     RingQueue_Destroy((void *)((u32)(((struct Obj25879 *)a0)->f18)));
 }

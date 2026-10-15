@@ -12,7 +12,7 @@
  * sdk:      DWCi_Auth_StartThread (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_02086004  0x02086004  arm
+ *   OS_InitMutex  0x02086004  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
@@ -41,7 +41,7 @@ struct DWCAuthCtx {
 extern struct DWCAuthGlobal g_021AB184;
 extern struct DWCAuthCtx *g_021AB188;
 
-extern void func_02086004(void *mutex);
+extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
@@ -49,7 +49,7 @@ extern void func_021783BC(void);
 
 void func_02177FFC(void)
 {
-	func_02086004(&g_021AB184.ctx->mutex);
+	OS_InitMutex(&g_021AB184.ctx->mutex);
 	g_021AB184.ctx->abort_flag = 0;
 	if (g_021AB184.ctx->started != 0) {
 		if (OS_IsThreadTerminated(g_021AB184.ctx->thread) == 0)

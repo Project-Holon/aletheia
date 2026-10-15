@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EA14C",
+   "name": "BOX2_SEQ_ScrollListToSlot",
    "address": "0x021EA14C",
    "kind": "game",
    "region": "ov170",

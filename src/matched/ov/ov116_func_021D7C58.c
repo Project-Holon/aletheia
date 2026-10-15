@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C58
+ * function: WIFI_BSUBWAY_GRAPHIC_DeleteWindow
  * address: 0x021D7C58
  * packet: pkt_ov116_021D7C58
  * region: ov116
@@ -18,9 +18,9 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D7FC4 0x021D7FC4 thumb ov116
- *   func_021D81B4 0x021D81B4 thumb ov116
- *   func_021D82AC 0x021D82AC thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim 0x021D7FC4 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon 0x021D81B4 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_Delete 0x021D82AC thumb ov116
  */
 #include "../include/Obj01721.h"
 typedef unsigned char u8;
@@ -37,14 +37,14 @@ extern unsigned int func_0201ED04(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021D7FC4(u8 *p);
-extern void func_021D81B4(u8 *p);
+extern void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p);
+extern void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021D82AC(void *);
+extern void WIFI_BSUBWAY_GRAPHIC_Delete(void *);
 extern void func_0201DD68(void);
 extern void MI_CpuFill8(void *,int,int);
-void func_021D7C58(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
     if(((struct Obj01721 *)p)->f0!=0) {
         if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
@@ -53,14 +53,14 @@ void func_021D7C58(u8 *p) {
         GF_FONT_Delete(((struct Obj01721 *)p)->f998);
         STRBUF_Delete(((struct Obj01721 *)p)->f99C);
         STRBUF_Delete(((struct Obj01721 *)p)->f9A0);
-        func_021D7FC4(p);
-        func_021D81B4(p);
+        WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(p);
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p);
         if(((struct Obj01721 *)p)->f980) {
             BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
         BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
-        func_021D82AC(((struct Obj01721 *)p)->f8);
+        WIFI_BSUBWAY_GRAPHIC_Delete(((struct Obj01721 *)p)->f8);
         func_0201DD68();
         MI_CpuFill8(p,0,0x9ac);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF3D8
+ * function: RESEARCH_GRAPH_LayoutActors
  * address: 0x021BF3D8
  * packet: pkt_ov217_021BF3D8
  * region: ov217
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021C3AC8 0x021C3AC8 data a4
- *   func_021BFA08 0x021BFA08 thumb ov217
+ *   RESEARCH_GRAPH_GetMarkerActor 0x021BFA08 thumb ov217
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -20,18 +20,18 @@ struct Row { u8 x,y,w,h; int fields[8]; };
 struct Vec2 { short x,y; };
 struct Obj;
 extern const struct Row d_021C3AC8[];
-extern unsigned func_021BFA08(void *,unsigned);
+extern unsigned RESEARCH_GRAPH_GetMarkerActor(void *,unsigned);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
-void func_021BF3D8(char *p)
+void RESEARCH_GRAPH_LayoutActors(char *p)
 {
     const struct Row *row;
     struct Obj *a,*b;
     struct Vec2 pos;
     row=&d_021C3AC8[((struct Obj00021 *)p)->f34];
-    a=(struct Obj *)func_021BFA08(p,0);
-    b=(struct Obj *)func_021BFA08(p,1);
+    a=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(p,0);
+    b=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(p,1);
     if (((struct Obj00021 *)p)->f3D0==1 || ((struct Obj00021 *)p)->f34==2 || ((struct Obj00021 *)p)->f34==4) {
         CLACT_SetActorDrawEnable(a,0);
         CLACT_SetActorDrawEnable(b,0);

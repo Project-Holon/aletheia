@@ -1,5 +1,5 @@
 /*
- * function: func_02089880
+ * function: SNDi_LockMutex
  * address:  0x02089880
  * packet:   pkt_02089880
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02086028    0x02086028  arm
+ *   OS_LockMutex    0x02086028  arm
  *   s_data_02151454  0x02151454  data
  */
 
-extern void func_02086028(void *arg);
+extern void OS_LockMutex(void *arg);
 extern void *s_data_02151454;
 
-void func_02089880(void)
+void SNDi_LockMutex(void)
 {
-    func_02086028(&s_data_02151454);
+    OS_LockMutex(&s_data_02151454);
 }

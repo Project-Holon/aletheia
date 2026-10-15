@@ -18,8 +18,8 @@
  *   sPlayerDirectionAngles  0x0209DFA8  data  a2
  *   CONFIG_GetBattleFlag  0x02008448  thumb
  *   CONFIG_SetBattleFlag  0x02008450  thumb
- *   func_0200C40C  0x0200C40C  thumb
- *   func_0200C418  0x0200C418  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
+ *   RECENT_ID_LIST_SAVEDATA_SetId  0x0200C418  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020071E4  0x020071E4  thumb
  *   func_02008808  0x02008808  thumb
@@ -99,6 +99,8 @@
  *   STRBUF_Delete  0x02045808  arm
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   MI_CpuFill8  0x02082BCC  arm
+ *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys  0x0200C404  thumb
+ *   RECENT_ID_LIST_SAVEDATA_ContainsId  0x0200C44C  thumb
  */
 typedef unsigned char  u8;
 
@@ -127,10 +129,10 @@ extern u16 *func_02008850(struct Situation *situation);
 extern struct PlayerWork *func_020127A4(struct GameData *gd);
 extern unsigned int CONFIG_GetBattleFlag(struct Config *config);
 extern void CONFIG_SetBattleFlag(struct Config *config, int on);
-extern void *func_0200C40C(struct SaveControl *save);
-extern void func_0200C418(void *flags, u32 id, u32 on);
-extern void *func_0200C404(struct SaveControl *save);
-extern void func_0200C44C(void *flags, u32 id);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(struct SaveControl *save);
+extern void RECENT_ID_LIST_SAVEDATA_SetId(void *flags, u32 id, u32 on);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
+extern void RECENT_ID_LIST_SAVEDATA_ContainsId(void *flags, u32 id);
 extern u8 func_020071E4(struct SaveControl *save);
 extern void func_02008808(struct SaveControl *save, struct PlayerWork *dest);
 extern void func_020088B8(struct SaveControl *save, struct PlayerWork *dest);
@@ -936,12 +938,12 @@ void GAME_DATA_SetConfigFlag(struct GameData *gd, int on)
  *
  *     void GAME_DATA_CheckSaveFlag(void *p, u32 a)
  *     {
- *         func_0200C44C(func_0200C404(GAME_DATA_GetSaveControlWork(p)), a);
+ *         RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(p)), a);
  *     }
  *
- * with `func_0200C404 0x0200C404 thumb`, `func_0200C44C 0x0200C44C thumb` and
+ * with `RECENT_ID_LIST_SAVEDATA_GetBlockFromSys 0x0200C404 thumb`, `RECENT_ID_LIST_SAVEDATA_ContainsId 0x0200C44C thumb` and
  * `GAME_DATA_GetSaveControlWork 0x02012EC0 thumb`.  It caps at MATCH because the `bl` at
- * 0x02012C06 is the only branch to func_0200C44C anywhere in the image, so the
+ * 0x02012C06 is the only branch to RECENT_ID_LIST_SAVEDATA_ContainsId anywhere in the image, so the
  * `label` class has no witness outside the range and, this being the only
  * caller, no cut can create one.  Evidence class: label, 0 witnesses outside.
  * The other five call targets here all have witnesses elsewhere.
@@ -954,14 +956,14 @@ void GAME_DATA_SetConfigFlag(struct GameData *gd, int on)
  */
 void GAME_DATA_SetSaveFlag(struct GameData *gd, u32 id, u32 on)
 {
-    func_0200C418(func_0200C40C(GAME_DATA_GetSaveControl(gd)), id, on);
+    RECENT_ID_LIST_SAVEDATA_SetId(RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gd)), id, on);
 }
 
 
 
 void GAME_DATA_CheckSaveFlag(struct GameData *gd, u32 id)
 {
-    func_0200C44C(func_0200C404(GAME_DATA_GetSaveControlWork(gd)), id);
+    RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(gd)), id);
 }
 
 

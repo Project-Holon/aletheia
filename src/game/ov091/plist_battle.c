@@ -69,7 +69,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_02006BD0 0x02006BD0 thumb
+ *   PM_VOICE_IsSlotActive 0x02006BD0 thumb
  *   POKELIST_ShowMessage  0x021B9788  thumb
  *   POKELIST_PrintTextMain  0x021B9C1C  thumb
  *   POKELIST_PrintExpandedTextSub  0x021B9D58  thumb
@@ -158,7 +158,7 @@ extern void POKELIST_ShutdownLight(PokelistWork *work);
 extern void POKELIST_SetupBgPlanes(PokelistWork *work);
 extern int PARTICLE_GetEffectCount(int **p);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern u32 func_02006BD0(u32 i);
+extern u32 PM_VOICE_IsSlotActive(u32 i);
 extern int PARTICLE_UpdateAllSystems(void);
 extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
@@ -545,7 +545,7 @@ void PLIST_BATTLE_UpdateEffect(PokelistWork *work)
             work->cryHandle = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, 0);
             work->cryStarted = 1;
         } else {
-            if (func_02006BD0(work->cryHandle) == 0) work->phase = 0x10;
+            if (PM_VOICE_IsSlotActive(work->cryHandle) == 0) work->phase = 0x10;
         }
     }
     PARTICLE_UpdateAllSystems();

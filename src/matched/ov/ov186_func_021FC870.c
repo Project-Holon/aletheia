@@ -1,5 +1,5 @@
 /*
- * function: func_021FC870
+ * function: BR_UTIL_AlignText
  * address: 0x021FC870
  * packet: pkt_ov186_021FC870
  * region: ov186
@@ -23,7 +23,7 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
-void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
+void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
 {
     unsigned x,y;
     switch(mode) {

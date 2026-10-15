@@ -1,5 +1,5 @@
 /*
- * function: func_02061460
+ * function: NNSi_GfdUpdateVramManager
  * address:  0x02061460
  * packet:   pkt_020611D4
  * region:   arm9
@@ -30,8 +30,8 @@
  * Front end: NOT pinned; EXACT under both dsi/1.1p1 and ../2.0/sp2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02061460.c \
- *       --func func_02061460 --addr 0x02061460 --arm
+ *   python tools/match.py one --src src/matched/NNSi_GfdUpdateVramManager.c \
+ *       --func NNSi_GfdUpdateVramManager --addr 0x02061460 --arm
  */
 
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ struct Rec020A816C {
 extern u16 g_02146B70;
 extern struct Rec020A816C g_020A816C[];
 
-void func_02061460(void)
+void NNSi_GfdUpdateVramManager(void)
 {
     int i;
     u32 lo = 0;

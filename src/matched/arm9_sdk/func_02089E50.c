@@ -1,5 +1,5 @@
 /*
- * function: func_02089E50
+ * function: PxiFifoCallback
  * address:  0x02089E50
  * packet:   pkt_02089E50
  * region:   arm9
@@ -24,7 +24,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void SNDi_CallAlarmHandler(int msg);
 
-void func_02089E50(int tag, u32 data, BOOL err)
+void PxiFifoCallback(int tag, u32 data, BOOL err)
 {
     unsigned long enabled = OS_DisableInterrupts();
 

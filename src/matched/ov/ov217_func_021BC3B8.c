@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3B8
+ * function: RESEARCH_LIST_SetScrollY
  * address:  0x021BC3B8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BC3B8  0x021BC3B8  thumb  ov217
+ *   RESEARCH_LIST_SetScrollY  0x021BC3B8  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021BC3B8(u32 a0)
+void RESEARCH_LIST_SetScrollY(u32 a0)
 {
     func_02040618(2, 3, a0);
     func_02040618(3, 3, a0);

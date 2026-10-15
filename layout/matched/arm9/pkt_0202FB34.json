@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202FB34",
+   "name": "CRYPTO_RC4Encrypt",
    "address": "0x0202FB34",
    "kind": "sdk",
    "region": "arm9",

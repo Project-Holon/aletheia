@@ -5,7 +5,7 @@
 #ifndef ZUKAN_DETAIL_VOICE_TYPES_H
 #define ZUKAN_DETAIL_VOICE_TYPES_H
 
-#include "zukan_detail_common_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 struct Obj;
 struct Bmp;

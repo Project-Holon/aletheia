@@ -55,12 +55,6 @@ typedef struct GsyncActorAnimCallback {
     void (*callback)(struct GsyncMenuWork *work);
 } GsyncActorAnimCallback;
 
-/* Palette data record of the graphics archive loader (only rawData is read). */
-typedef struct GsyncPaletteData {
-    u8 unknown_00[12];
-    void *rawData;          /* 0x0C */
-} GsyncPaletteData;
-
 /* 0x2B4 bytes, one instance per proc. */
 typedef struct GsyncMenuWork {
     GsyncMenuStateFunc stateFunc;                       /* 0x000 */

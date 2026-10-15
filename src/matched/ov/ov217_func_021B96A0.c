@@ -1,5 +1,5 @@
 /*
- * function: func_021B96A0
+ * function: RESEARCH_TOP_UpdateNetwork
  * address:  0x021B96A0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -38,7 +38,7 @@ struct IcaAnime;
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_021B96A0(u32 a0)
+void RESEARCH_TOP_UpdateNetwork(u32 a0)
 {
     WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct Obj10953 *)(((u8*)a0)))->f4)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct Obj10953 *)(((u8*)a0)))->f4)) != 0) {

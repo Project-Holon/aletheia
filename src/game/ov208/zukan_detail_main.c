@@ -62,15 +62,9 @@
  *   ZUKAN_DETAIL_COMMON_CreateContext 0x021BC35C thumb ov208
  *   ZUKAN_DETAIL_COMMON_DeleteContext 0x021BC39C thumb ov208
  */
-#include "../../matched/include/Obj02253.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 struct Obj0203159C;
-
-struct Ov208Mode;
-
-struct Ov208Slot;
 
 struct Ov208Mgr;
 
@@ -78,29 +72,39 @@ struct S020315D4;
 
 struct Ov208Fade;
 
-struct Ov208Args { void *src; int f4; int f8; u16 fc; u16 fe; int f10; };
-
-struct Ov208Main_021BCA68 {
-    u16 heap; u16 pad;
-    void *disp; void *font; void *gfx; int task;
-    void *f14; void *f18; void *fsm;
-    int f20; int f24; int f28;
+/*
+ * Arguments of one zukan detail session, owned by the caller that opens the
+ * screen. src is the save-data blob, mode selects the screen (1 info, 2 area,
+ * 3 voice, 4 form). extra/formNo/shiny are handed to the context constructor
+ * and speciesStep is written back when the left/right buttons are pressed.
+ */
+struct Ov208Args {
+    void *src;
+    int mode;
+    int extra;
+    u16 formNo;
+    u16 shiny;
+    int speciesStep;
 };
 
-struct Ov208Main_021BCBB4 {
-    u16 heap; u16 pad;
-    void *disp; void *font; void *gfx; int task;
-    void *f14; void *f18; void *fsm;
-    void *obj; int f24; int f28;
-};
-
-struct Ov208Mode { int f0; int mode; };
-
-struct Ov208Slot {
-    u16 heap; u16 pad;
-    int f4; int f8; int fc; int f10; int f14; int f18; int f1c;
-    void *obj;
+/*
+ * Work object of the whole zukan detail screen, allocated with size 0x2c by
+ * ZUKAN_DETAIL_MAIN_Init. node is the procsys state node of the active screen
+ * and context the shared context built by ZUKAN_DETAIL_COMMON_CreateContext.
+ */
+struct Ov208Main {
+    u16 heap;
+    u16 pad;
+    void *display;
+    void *font;
+    void *printer;
+    void *task;
+    void *touchbar;
+    void *headbar;
+    void *context;
+    void *node;
     void *mem;
+    int pendingMode;
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -175,7 +179,7 @@ extern void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
 
 extern void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value);
 
-struct Ov208Obj *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap);
+struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap);
 
 void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p);
 
@@ -193,11 +197,11 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args);
 
 int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p);
 
-int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main_021BCBB4 *m);
+int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m);
 
 void ZUKAN_DETAIL_MAIN_NoOp(void);
 
-void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Mode *m, struct Ov208Slot *s);
+void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s);
 
 extern const char d_021C8DB0[];
 
@@ -215,26 +219,26 @@ extern void *d_021C881C[];
  */
 int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
 {
-    struct Ov208Main_021BCA68 *p;
+    struct Ov208Main *p;
     GFL_HEAP_CreateChildHeap(1, 0x95, 0x90000);
     p = PROCSYS_AllocProcWork(owner, 0x2c, 0x95);
     MI_CpuFill8(p, 0, 0x2c);
     p->heap = 0x95;
-    args->f10 = 0;
-    p->disp = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 1);
-    ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(p->disp);
-    p->disp = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
+    args->speciesStep = 0;
+    p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 1);
+    ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(p->display);
+    p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
-    p->gfx = (void *)PRINTSYS_QUE_Create((void *)p->heap);
-    p->task = func_020056A0(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
+    p->printer = (void *)PRINTSYS_QUE_Create((void *)p->heap);
+    p->task = (void *)func_020056A0(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
 
-    p->f14 = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
-    p->f18 = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (unsigned int)p->font);
-    p->fsm = ZUKAN_DETAIL_COMMON_CreateContext(p->heap, args->src, p->disp, p->font, p->gfx, p->f14, p->f18, args->f8, args->fc, &args->fe);
-    p->f20 = 0;
-    p->f24 = 0;
-    ZUKAN_DETAIL_MAIN_SwitchScreen((struct Ov208Mode *)args, (struct Ov208Slot *)p);
-    p->f28 = 0;
+    p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
+    p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (unsigned int)p->font);
+    p->context = ZUKAN_DETAIL_COMMON_CreateContext(p->heap, args->src, p->display, p->font, p->printer, p->touchbar, p->headbar, args->extra, args->formNo, &args->shiny);
+    p->node = 0;
+    p->mem = 0;
+    ZUKAN_DETAIL_MAIN_SwitchScreen(args, p);
+    p->pendingMode = 0;
     FADE_Start(3, 0, 0, 0);
     GFL_NET_RestartWithDefaultTimeout(1, p->heap);
     return 1;
@@ -246,59 +250,59 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
 int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
 {
     FADE_Start(3,16,16,0);
-    if(((struct Obj02253 *)p)->f20)ZUKAN_DETAIL_PROCSYS_FreeNode(((struct Obj02253 *)p)->f20);
-    if(((struct Obj02253 *)p)->f24)func_020307B0((void *)(((struct Obj02253 *)p)->f24));
-    ZUKAN_DETAIL_COMMON_DeleteContext(((struct Obj02253 *)p)->f1C);
-    ZUKAN_DETAIL_HEADBAR_Delete(((struct Obj02253 *)p)->f18);
-    ZUKAN_DETAIL_TOUCHBAR_Delete(((struct Obj02253 *)p)->f14);
-    func_02030EAC(((struct Obj02253 *)p)->f10);
-    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((struct Obj02253 *)p)->fC));
-    PRINTSYS_QUE_Delete(((struct Obj02253 *)p)->fC);
-    GF_FONT_Delete(((struct Obj02253 *)p)->f8);
-    ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Obj02253 *)p)->f4);
+    if(((struct Ov208Main *)p)->node)ZUKAN_DETAIL_PROCSYS_FreeNode(((struct Ov208Main *)p)->node);
+    if(((struct Ov208Main *)p)->mem)func_020307B0((void *)(((struct Ov208Main *)p)->mem));
+    ZUKAN_DETAIL_COMMON_DeleteContext(((struct Ov208Main *)p)->context);
+    ZUKAN_DETAIL_HEADBAR_Delete(((struct Ov208Main *)p)->headbar);
+    ZUKAN_DETAIL_TOUCHBAR_Delete(((struct Ov208Main *)p)->touchbar);
+    func_02030EAC(((struct Ov208Main *)p)->task);
+    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((struct Ov208Main *)p)->printer));
+    PRINTSYS_QUE_Delete(((struct Ov208Main *)p)->printer);
+    GF_FONT_Delete(((struct Ov208Main *)p)->font);
+    ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);
     func_020315D4(a);
     func_020306F0(149);
     return 1;
 }
 
-int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main_021BCBB4 *m)
+int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m)
 {
     int done = 0;
     u32 v;
     if (*cnt <= 8)
         *cnt = *cnt + 1;
-    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(m->obj, (int)m->fsm) != 0) {
-        if (m->f28 != 0) {
-            a->f4 = m->f28;
-            ZUKAN_DETAIL_MAIN_SwitchScreen((struct Ov208Mode *)a, (struct Ov208Slot *)m);
-            m->f28 = 0;
+    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(m->node, (int)m->context) != 0) {
+        if (m->pendingMode != 0) {
+            a->mode = m->pendingMode;
+            ZUKAN_DETAIL_MAIN_SwitchScreen(a, m);
+            m->pendingMode = 0;
             done = 1;
         } else {
             return 1;
         }
     }
     if (done == 0) {
-        v = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(m->f14);
+        v = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(m->touchbar);
         if (v == 0)
-            v = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(m->f14);
-        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(m->obj, (int)m->fsm, v);
+            v = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(m->touchbar);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(m->node, (int)m->context, v);
         switch (v) {
-        case 1: a->f10 = 0; break;
-        case 2: a->f10 = 1; break;
-        case 6: m->f28 = 1; break;
-        case 7: m->f28 = 2; break;
-        case 8: m->f28 = 3; break;
-        case 9: m->f28 = 4; break;
+        case 1: a->speciesStep = 0; break;
+        case 2: a->speciesStep = 1; break;
+        case 6: m->pendingMode = 1; break;
+        case 7: m->pendingMode = 2; break;
+        case 8: m->pendingMode = 3; break;
+        case 9: m->pendingMode = 4; break;
         }
     }
-    ZUKAN_DETAIL_TOUCHBAR_Update(m->f14);
-    ZUKAN_DETAIL_HEADBAR_Update(m->f18);
-    PRINTSYS_QUE_Main(m->gfx);
-    ZUKAN_DETAIL_GRAPHIC_DrawFrame(m->disp);
-    ZUKAN_DETAIL_GRAPHIC_ApplyCamera(m->disp);
+    ZUKAN_DETAIL_TOUCHBAR_Update(m->touchbar);
+    ZUKAN_DETAIL_HEADBAR_Update(m->headbar);
+    PRINTSYS_QUE_Main(m->printer);
+    ZUKAN_DETAIL_GRAPHIC_DrawFrame(m->display);
+    ZUKAN_DETAIL_GRAPHIC_ApplyCamera(m->display);
     if (done == 0)
-        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(m->obj, (int)m->fsm);
-    ZUKAN_DETAIL_GRAPHIC_EndDraw3d(m->disp);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(m->node, (int)m->context);
+    ZUKAN_DETAIL_GRAPHIC_EndDraw3d(m->display);
     return 0;
 }
 
@@ -311,12 +315,12 @@ void ZUKAN_DETAIL_MAIN_NoOp(void)
  * shard witnesses it yet; the integrator manifest run should make this EXACT. Symbols line now carries the ov208 hint.
  * 2026-10-02: only ZUKAN_DETAIL_AREA_SetHeapId (init for mode 2, another lane) has no witness yet; bytes match.
  */
-void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Mode *m, struct Ov208Slot *s)
+void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s)
 {
     void **tbl;
     void *mem;
-    if (s->obj != 0)
-        ZUKAN_DETAIL_PROCSYS_FreeNode(s->obj);
+    if (s->node != 0)
+        ZUKAN_DETAIL_PROCSYS_FreeNode(s->node);
     if (s->mem != 0)
         func_020307B0(s->mem);
     switch (m->mode) {
@@ -345,5 +349,5 @@ void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Mode *m, struct Ov208Slot *s)
         tbl = d_021C881C;
         break;
     }
-    s->obj = ZUKAN_DETAIL_PROCSYS_AllocNode(tbl, (int)s->mem, s->heap);
+    s->node = ZUKAN_DETAIL_PROCSYS_AllocNode(tbl, (int)s->mem, s->heap);
 }

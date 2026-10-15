@@ -1,5 +1,5 @@
 /*
- * function: func_02075B54
+ * function: NNSi_SndArcGetSeqEntry
  * address:  0x02075B54
  * packet:   pkt_02075B54
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Entry { u32 f0; u32 f4; u32 f8; };   /* 0xC bytes each */
 struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
 
-struct Entry *func_02075B54(struct Table *t, int idx)
+struct Entry *NNSi_SndArcGetSeqEntry(struct Table *t, int idx)
 {
     struct Entry *e;
 

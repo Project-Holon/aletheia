@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F9B9C 0x021F9B9C thumb ov186
+ *   BR_PROC_SYS_GetSlotId 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021FD6D8 0x021FD6D8 thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
  *   func_021E1DA8 0x021E1DA8 thumb ov183
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021FD12C 0x021FD12C thumb ov186
- *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
+ *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   d_021E38E0 0x021E38E0 data a4
  */
 #include "../include/Obj02232.h"
@@ -27,32 +27,32 @@ typedef struct {int a,b;} Pair;
 extern const Pair d_021E38E0;
 typedef unsigned int   u32;
 struct Obj24810;
-extern unsigned func_021F9B9C(struct Obj24810 *p);
+extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
-extern int *func_021FD6D8(int payload, int callback, u32 heap);
+extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void func_021E1DA8(int,int *,char *);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void *func_021FD12C(int a, void *owner, u16 heap);
-extern void func_021FD170(char *p, char *q, void *text);
-extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void func_021FD860(int,int,Pair *);
+extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
+extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
+extern void BR_UTIL_StartEffect(int,int,Pair *);
 int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
 {
     char *p;
     int i;
     Pair pair;
-    p=PROCSYS_AllocProcWork(obj,32,func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
+    p=PROCSYS_AllocProcWork(obj,32,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
     MI_CpuFill8(p,0,32);
     *(char * *)&((struct Obj02232 *)p)->f18=arg;
-    ((struct Obj02232 *)p)->f8=func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));
-    ((struct Obj02232 *)p)->f4=(int)func_021FD6D8((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
+    ((struct Obj02232 *)p)->f8=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));
+    ((struct Obj02232 *)p)->f4=(int)BR_UTIL_CreateTask((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
     ((struct Obj02232 *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct Obj02232 *)p)->f8));
-    ((struct Obj02232 *)p)->fC=(int)func_021FD12C(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);
-    func_021FD170((char *)(((struct Obj02232 *)p)->fC),(char *)(((struct Obj05482 *)arg)->f8),(void *)111);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x10)=(int)func_021FD760(((struct Obj05482 *)arg)->f4,(char *)(((struct Obj05482 *)arg)->f8),i,((struct Obj02232 *)p)->f8);
+    ((struct Obj02232 *)p)->fC=(int)BR_UTIL_CreateTextWin(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);
+    BR_UTIL_SetWindowText((char *)(((struct Obj02232 *)p)->fC),(char *)(((struct Obj05482 *)arg)->f8),(void *)111);
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x10)=(int)BR_UTIL_CreateHandles(((struct Obj05482 *)arg)->f4,(char *)(((struct Obj05482 *)arg)->f8),i,((struct Obj02232 *)p)->f8);
     pair=d_021E38E0;
-    func_021FD860(((struct Obj02232 *)p)->f10,4,&pair);
+    BR_UTIL_StartEffect(((struct Obj02232 *)p)->f10,4,&pair);
     return 1;
 }

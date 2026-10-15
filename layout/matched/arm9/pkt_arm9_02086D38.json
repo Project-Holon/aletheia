@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02086D38",
+   "name": "OSi_WriteProtectionRegion1",
    "address": "0x02086D38",
    "kind": "game",
    "region": "arm9",

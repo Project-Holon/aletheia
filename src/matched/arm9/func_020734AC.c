@@ -11,8 +11,8 @@
  *
  * symbols:
  *   gSndPlayers     0x0214E464  data
- *   func_02060614  0x02060614  arm
- *   func_020605B4  0x020605B4  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  *   NNS_SndHeapClear  0x02074770  arm
  *
  * Takes the head node off the free list embedded at +0x0c of slot `idx` of the
@@ -38,7 +38,7 @@
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md, and
  * docs/families/cluster_020726D0.h).  Under dsi/1.1p1 -O4,p the slot base and
- * the owner are both live across the func_02060614 call, so 1.1p1 hoists them
+ * the owner are both live across the NNS_FndGetNextListObject call, so 1.1p1 hoists them
  * into a SIXTH and SEVENTH callee-saved register: the frame becomes
  * `push {r3, r4, r5, r6, r7, lr}` against the image's `push {r4, r5, r6, lr}`,
  * `add r0, r5, #0xc` becomes `add r0, r6, #0xc` and the owner moves from r6 to
@@ -60,17 +60,17 @@ struct Slot { u8 pad00[0x0c]; u8 list[0x24 - 0x0c]; };
 
 extern struct Slot gSndPlayers[];
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 struct Obj;
 extern void NNS_SndHeapClear(struct Obj *o);
 
 void *NNSi_SndPlayerAllocHeap(s32 idx, void *owner)
 {
     struct Slot *s = &gSndPlayers[idx];
-    struct Node *n = func_02060614((struct DList *)s->list, 0);
+    struct Node *n = NNS_FndGetNextListObject((struct DList *)s->list, 0);
     if (n == 0) return 0;
-    func_020605B4((volatile struct DList *)s->list, n);
+    NNS_FndRemoveListObject((volatile struct DList *)s->list, n);
     n->f0c = owner;
     ((struct Node *)owner)->f08 = n;
     NNS_SndHeapClear(n->f08);

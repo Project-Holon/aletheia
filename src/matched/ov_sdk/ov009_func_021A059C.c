@@ -1,5 +1,5 @@
 /*
- * function: func_021A059C
+ * function: ParseServerIPPort
  * address:  0x021A059C
  * packet:   pkt_ov009_021A059C
  * region:   ov009
@@ -18,7 +18,7 @@
 struct SBL { char pad0[0x6ac]; unsigned short defport; };
 typedef struct { unsigned char b[4]; } B4;
 typedef struct { unsigned char b[2]; } B2;
-void func_021A059C(struct SBL *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port)
+void ParseServerIPPort(struct SBL *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port)
 {
 	unsigned char flags;
 	if (len < 5)

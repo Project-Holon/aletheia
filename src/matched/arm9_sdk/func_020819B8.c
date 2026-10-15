@@ -1,5 +1,5 @@
 /*
- * function: func_020819B8
+ * function: MATHi_CRC16InitTable
  * address:  0x020819B8
  * packet:   pkt_020819B8
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct MATHCRC32Table
     u32 table[256];
 } MATHCRC32Table;
 
-void func_020819B8(MATHCRC16Table *table, u16 poly)
+void MATHi_CRC16InitTable(MATHCRC16Table *table, u16 poly)
 {
     u32 r, i, j;
 

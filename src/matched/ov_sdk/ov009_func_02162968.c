@@ -1,5 +1,5 @@
 /*
- * function: func_02162968
+ * function: CPSi_SslConnect
  * address:  0x02162968
  * packet:   pkt_ov009_02162968
  * region:   ov009
@@ -42,7 +42,7 @@ extern void func_02163C9C(void *ctx);
 extern void func_021633F0(void *ctx);
 extern int func_0216289C(CPSSoc *soc);
 
-unsigned long func_02162968(CPSSoc *soc)
+unsigned long CPSi_SslConnect(CPSSoc *soc)
 {
     int result;
     CPSSslConnection *con;

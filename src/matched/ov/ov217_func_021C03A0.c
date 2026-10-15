@@ -1,5 +1,5 @@
 /*
- * function: func_021C03A0
+ * function: RESEARCH_GRAPH_CreateUnits
  * address:  0x021C03A0
  * packet:   pkt_ov217_021C03A0
  * region:   ov217
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-void func_021C03A0(u8 *p)
+void RESEARCH_GRAPH_CreateUnits(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)

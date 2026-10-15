@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C1C
+ * function: CTVT_TALK_ShowMessage
  * address: 0x021B9C1C
  * packet: pkt_ov172_021B9C1C
  * region: ov172
@@ -44,7 +44,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-void func_021B9C1C(void *p, char *q, int id)
+void CTVT_TALK_ShowMessage(void *p, char *q, int id)
 {
     u32 font = COMM_TVT_SYS_GetFont(p);
     u32 msgs = COMM_TVT_SYS_GetMsgData(p);

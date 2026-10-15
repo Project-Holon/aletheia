@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A0F0C",
+   "name": "ProcessPlayerSearch",
    "address": "0x021A0F0C",
    "kind": "sdk",
    "region": "ov009",

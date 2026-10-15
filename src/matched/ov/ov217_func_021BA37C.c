@@ -1,5 +1,5 @@
 /*
- * function: func_021BA37C
+ * function: RESEARCH_TOP_GetStateTimer
  * address:  0x021BA37C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA37C(void *p)
+u32 RESEARCH_TOP_GetStateTimer(void *p)
 {
     return ((struct Obj25818 *)p)->f20;
 }

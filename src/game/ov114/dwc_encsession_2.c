@@ -39,7 +39,7 @@
  *   DWC_Free       0x0205A1B0  arm
  *   DWCi_GsFree    0x0205A29C  arm
  *   DWC_ShutdownGHTTP  0x021BF57C  arm  ov114
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   OS_SPrintf  0x02084F40  arm
  *   sDwcEncSessionData  0x021CF8D0  data
  *   sDwcEncSessionPidFormat  0x021CF8D8  data
@@ -92,7 +92,7 @@ extern int DWC_GetGHTTPDataEx(char *url, int bufferLen, int bufferClear, DWCGHTT
 extern int DWC_ProcessGHTTP(void);
 extern void DWC_CancelGHTTPRequest(int request);
 extern int DWC_ShutdownGHTTP(void);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 
 unsigned long b64size(unsigned long len);
@@ -105,7 +105,6 @@ void DWCi_EncSessionProgressCallback(int state, const char *buffer, int bufferLe
 void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, void *param);
 int DWCi_EncSessionEncrypt(u8 *outBuffer, u8 *header, u32 headerLen, u8 *source, u32 sourceLen);
 void DWCi_EncSessionInitialize(int server, char *initData);
-void DWCi_EncSetError(void);
 int DWCi_EncSessionProcess(void);
 void DWCi_EncSessionCancel(void);
 void DWCi_EncSessionShutdown(void);
@@ -392,7 +391,7 @@ int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, DW
     }
     gDwcEncSession.request = DWC_Alloc(8,
         strlen(gDwcEncServerUrl) + strlen(gDwcEncSession.gameName) + strlen(url)
-        + strlen(sDwcEncSessionPid) + func_02084F80(pidText, 16, sDwcEncSessionPidFormat, pid)
+        + strlen(sDwcEncSessionPid) + OS_SNPrintf(pidText, 16, sDwcEncSessionPidFormat, pid)
         + strlen(sDwcEncSessionHash) + 40 + 1 + strlen(sDwcEncSessionData) + b64size(size + 12));
     if (gDwcEncSession.request == 0)
         return 2;

@@ -12,10 +12,10 @@
  * sdk:      compare_fqdn (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_021609E8  0x021609E8  arm  ov009
+ *   chars_till_end  0x021609E8  arm  ov009
  */
 
-extern int func_021609E8(const char *p);
+extern int chars_till_end(const char *p);
 
 static int func_02160A10(char *name, char *pat)
 {
@@ -32,8 +32,8 @@ static int func_02160A10(char *name, char *pat)
         if (c2 != '*')
             return 1;
         name--;
-        pat_cnt = func_021609E8(name);
-        pat_len = func_021609E8(pat);
+        pat_cnt = chars_till_end(name);
+        pat_len = chars_till_end(pat);
         if (pat_len > pat_cnt)
             return 1;
         name += pat_cnt - pat_len;

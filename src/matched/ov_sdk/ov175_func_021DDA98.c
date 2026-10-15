@@ -12,7 +12,7 @@
  * sdk:      sakeiExecuteRequest (sakerequest.o)
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_0217FD7C  0x0217FD7C  arm  ov009
  *   sakeiSoapCallback  0x021DD84C  arm  ov175
  *   gDwcGdbStorageServerUrl  0x021E4C88  data
@@ -46,7 +46,7 @@ typedef struct SAKERequestInternal {
 
 extern char gDwcGdbStorageServerUrl[128];
 extern char sServerUrlFormat[];
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern GSSoapTask *func_0217FD7C(char *url, char *service, void *soap, void (*callback)(int, void *, void *), void *userData);
 extern void sakeiSoapCallback(int httpResult, int unused, void *responseData, void *userData);
 
@@ -55,7 +55,7 @@ void sakeiExecuteRequest(SAKERequestInternal *request)
     GSSoapTask *soapTask;
 
     if (!gDwcGdbStorageServerUrl[0])
-        func_02084F80(gDwcGdbStorageServerUrl, 128, sServerUrlFormat, request->sake->gameName);
+        OS_SNPrintf(gDwcGdbStorageServerUrl, 128, sServerUrlFormat, request->sake->gameName);
     soapTask = func_0217FD7C(gDwcGdbStorageServerUrl, request->service->serviceName, request->soapRequest, (void (*)(int,  void *, void *))sakeiSoapCallback, request);
     if (soapTask)
         request->service->f24 = soapTask->f24;

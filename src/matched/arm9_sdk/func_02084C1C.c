@@ -1,5 +1,5 @@
 /*
- * function: func_02084C1C
+ * function: OSi_DoLockByWord
  * address:  0x02084C1C
  * packet:   pkt_02084C1C
  * region:   arm9
@@ -10,15 +10,16 @@
  * status:   EXACT
  * symbols:
  *   SVC_WaitByLoop    0x02004490  thumb
+ *   OSi_DoTryLockByWord  0x02084CFC  arm
  */
 
-extern int func_02084CFC(int a, int b, int c, int d);
+extern int OSi_DoTryLockByWord(int a, int b, int c, int d);
 extern void SVC_WaitByLoop(int v);
-void func_02084C1C(int a, int b, int c, int d)
+void OSi_DoLockByWord(int a, int b, int c, int d)
 {
-    if (func_02084CFC(a, b, c, d) <= 0)
+    if (OSi_DoTryLockByWord(a, b, c, d) <= 0)
         return;
     do {
         SVC_WaitByLoop(0x400);
-    } while (func_02084CFC(a, b, c, d) > 0);
+    } while (OSi_DoTryLockByWord(a, b, c, d) > 0);
 }

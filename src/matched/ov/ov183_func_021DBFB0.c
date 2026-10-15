@@ -16,19 +16,19 @@
  *   func_021DC8EC 0x021DC8EC thumb ov183
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
- *   func_021FD170 0x021FD170 thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_NET_StartRequest 0x021FF54C thumb ov186
  *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
  *   BR_NET_GetVideoReply 0x021FF698 thumb ov186
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FD744 0x021FD744 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
- *   func_021F9BA0 0x021F9BA0 thumb ov186
+ *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
  *   func_021DBD7C 0x021DBD7C thumb ov183
  */
 typedef unsigned int u32;
@@ -38,19 +38,19 @@ extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
 extern void func_021DCEE4(char *,char *),func_021DC8EC(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern void func_021FD170(char *p, char *q, void *text);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void MI_CpuFill8(void *,int,u32);
 extern void BR_NET_StartRequest(char *p, int kind, const int *values);
 extern int BR_NET_IsIdle(char *p);
 extern int BR_NET_PollErrorMessage(char *p, int *out);
 extern int BR_NET_GetVideoReply(char *,int,int *);
-extern void func_021FD860(int,int,int *);
-extern void func_021F9BA0(unsigned *ctx);
+extern void BR_UTIL_StartEffect(int,int,int *);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int func_021FD744(int *a);
-extern int *func_021FD73C(int *p, int v);
+extern int BR_UTIL_ClearTaskStep(int *a);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DBD7C(int *,int *,char *);
 void func_021DBFB0(int *a,int *state,char *p)
 {
@@ -63,7 +63,7 @@ void func_021DBFB0(int *a,int *state,char *p)
     switch(*state) {
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);*state=1;break;
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);*state=1;break;
     case 1: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=2;break;
     case 2: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=3;break;
     case 3:
@@ -74,7 +74,7 @@ void func_021DBFB0(int *a,int *state,char *p)
     case 4:
         ++*(int *)(p+0xbc);
         if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
-            func_021FD860(*(int *)(p+12),0,0);*state=5;
+            BR_UTIL_StartEffect(*(int *)(p+12),0,0);*state=5;
         }
         break;
     case 5:
@@ -83,17 +83,17 @@ void func_021DBFB0(int *a,int *state,char *p)
                 *(char **)(p+0xc0)=source;
                 *(char **)(p+0xc4)=source+0x80;*state=6;
             } else {
-                func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args[0]=x;args[1]=y;
-            func_021FD860(*(int *)(p+0x10),1,args);GFL_USE_PlaySeDefaultVolume(0x703);
-            func_021F9BA0((unsigned int *)(*(S **)(*(char **)(p+0xd0)+0x14)));*state=12;
+            BR_UTIL_StartEffect(*(int *)(p+0x10),1,args);GFL_USE_PlaySeDefaultVolume(0x703);
+            BR_PROC_SYS_PopEntry((unsigned int *)(*(S **)(*(char **)(p+0xd0)+0x14)));*state=12;
         }
         break;
     case 6: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=7;break;
@@ -106,9 +106,9 @@ void func_021DBFB0(int *a,int *state,char *p)
         break;
     case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=9;break;
     case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
-    case 10: func_021FD73C(a,(int)func_021DBD7C);break;
+    case 10: BR_UTIL_SetTaskStep(a,(int)func_021DBD7C);break;
     case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)a);break;
+    case 14: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)a);break;
     }
 }

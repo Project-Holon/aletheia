@@ -1,7 +1,7 @@
 /*
  * file:     gtsnego_message.c
  * unit:     yes
- * function: func_021D6A9C, func_021D6AC0, func_021D6AF0, func_021D6B5C, func_021D6B84, func_021D6BB0, func_021D6C64, func_021D6C7C, func_021D6CCC, func_021D6D10, func_021D6D48, func_021D6D94, func_021D6E1C, func_021D6E50, func_021D6E70, func_021D6E84, func_021D6ED8, func_021D6EF4, func_021D6FB4, func_021D6FD8, func_021D6FF8, func_021D7020, func_021D702C, func_021D70C8, func_021D70F0, func_021D7128, func_021D7190, func_021D71B8, func_021D71E8, func_021D7220, func_021D7260, func_021D72A0, func_021D72C8, func_021D72E8, func_021D733C, func_021D7374, func_021D73B0, func_021D73D8, func_021D7484, func_021D74B0, func_021D7550, func_021D75F4, func_021D761C, func_021D7710, func_021D7724, func_021D7858, func_021D7898, func_021D79F4, func_021D7A74, func_021D7AF4, func_021D7B38, func_021D7B60, func_021D7C10, func_021D7C1C, func_021D7C48, func_021D7CD4, func_021D7CE8, func_021D7D30, func_021D7D3C, func_021D7D6C, func_021D7DC8, func_021D7E88, func_021D7E9C, func_021D7EB0, func_021D7EC4, func_021D7ECC, func_021D7F5C, func_021D7FD0, func_021D80D4, func_021D8118, func_021D81E0, func_021D822C, func_021D824C, func_021D82A8, func_021D82D8, func_021D82F8, func_021D8358, func_021D8418, func_021D8430, func_021D846C, func_021D8484, func_021D8520, func_021D8590, func_021D8638, func_021D8648, func_021D8664, func_021D8684, func_021D8784, func_021D880C
+ * function: func_021D6A9C, func_021D6AC0, func_021D6AF0, func_021D6B5C, func_021D6B84, func_021D6BB0, func_021D6C64, func_021D6C7C, func_021D6CCC, func_021D6D10, func_021D6D48, func_021D6D94, func_021D6E1C, func_021D6E50, func_021D6E70, func_021D6E84, func_021D6ED8, func_021D6EF4, func_021D6FB4, func_021D6FD8, func_021D6FF8, func_021D7020, func_021D702C, func_021D70C8, func_021D70F0, func_021D7128, func_021D7190, func_021D71B8, func_021D71E8, func_021D7220, func_021D7260, func_021D72A0, func_021D72C8, func_021D72E8, func_021D733C, func_021D7374, func_021D73B0, func_021D73D8, func_021D7484, func_021D74B0, func_021D7550, func_021D75F4, func_021D761C, func_021D7710, func_021D7724, func_021D7858, func_021D7898, func_021D79F4, func_021D7A74, func_021D7AF4, func_021D7B38, func_021D7B60, func_021D7C10, func_021D7C1C, func_021D7C48, func_021D7CD4, func_021D7CE8, func_021D7D30, func_021D7D3C, func_021D7D6C, func_021D7DC8, func_021D7E88, func_021D7E9C, func_021D7EB0, func_021D7EC4, func_021D7ECC, func_021D7F5C, func_021D7FD0, func_021D80D4, func_021D8118, func_021D81E0, func_021D822C, func_021D824C, func_021D82A8, func_021D82D8, func_021D82F8, func_021D8358, func_021D8418, func_021D8430, func_021D846C, func_021D8484, func_021D8520, func_021D8590, func_021D8638, func_021D8648, func_021D8664, func_021D8684, func_021D8784, func_021D880C, func_021D883C
  * address:  0x021D6A9C
  * region:   ov120
  * compiler: dsi/1.1p1
@@ -1493,4 +1493,40 @@ void func_021D880C(char *p,void *q,u32 n)
     func_021D7F5C(p,41);
     func_021D7FD0(p,q);
     func_021D7A74((u8 *)p,17);
+}
+
+
+#include "../../matched/include/Obj03260.h"
+#include "../../matched/include/Obj08087.h"
+
+
+
+void func_021D883C(char *p)
+{
+    int i;
+
+    if (((struct Obj03260 *)p)->f68 != 0) {
+        func_0201F7A8(((struct Obj03260 *)p)->f68, 2);
+        BMP_WIN_ClearScreen(((struct Obj03260 *)p)->f68);
+        func_02041B6C(1);
+        BMP_WIN_Delete(((struct Obj03260 *)p)->f68);
+        ((struct Obj03260 *)p)->f68 = 0;
+    }
+    if (((struct Obj03260 *)p)->fC4 != 0) {
+        APP_TASKMENU_WIN_Delete(((struct Obj03260 *)p)->fC4);
+        ((struct Obj03260 *)p)->fC4 = 0;
+    }
+    for (i = 0; i < 6; i++) {
+        char *q = p + i * 4;
+
+        if (((struct Obj08087 *)q)->f6C != 0) {
+            BMP_WIN_ClearScreen(((struct Obj08087 *)q)->f6C);
+            BMP_WIN_Delete(((struct Obj08087 *)q)->f6C);
+            ((struct Obj08087 *)q)->f6C = 0;
+        }
+    }
+    func_021D7D3C(p);
+    func_021D7C1C(p);
+    func_02049B40(0x17, 5, 4, 0x160, 0x20, ((struct Obj03260 *)p)->fC8);
+    func_02041B6C(5);
 }

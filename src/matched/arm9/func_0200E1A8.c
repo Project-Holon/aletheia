@@ -1,5 +1,5 @@
 /*
- * function: func_0200E1A8
+ * function: SYMBOL_SAVE_WriteRecord
  * address:  0x0200E1A8
  * packet:   pkt_0200E1A8
  * region:   arm9
@@ -11,16 +11,16 @@
  *
  * symbols:
  *   sSymbolBandRanges     0x0209DE90  data
- *   func_0200E06C  0x0200E06C  thumb
- *   func_0200E0E8  0x0200E0E8  thumb
- *   func_0200E124  0x0200E124  thumb
- *   func_0200E024  0x0200E024  thumb
- *   func_0200E27C  0x0200E27C  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
+ *   SYMBOL_SAVE_FindFreeSlot  0x0200E0E8  thumb
+ *   SYMBOL_SAVE_RemoveSlot  0x0200E124  thumb
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
+ *   SYMBOL_SAVE_SetRank  0x0200E27C  thumb
  *   g_0200E278_Off 0x00000848  data
  *
- * The record writer of the same two-field table object func_0200E124 walks:
+ * The record writer of the same two-field table object SYMBOL_SAVE_RemoveSlot walks:
  * it appends (or overwrites) one 32-bit packed record in the ring at
- * obj[slot] and then runs the checksum refresh at func_0200E024.
+ * obj[slot] and then runs the checksum refresh at SYMBOL_SAVE_UpdateChecksum.
  *
  * The record is six unsigned bitfields in one u32, laid out 11 / 10 / 2 /
  * 6 / 3 from bit 0; the pool masks 0xFFFFF800, 0xFFE007FF, 0xFF9FFFFF,
@@ -31,7 +31,7 @@
  * their own.
  *
  * sSymbolBandRanges is the { u16 a; u16 b; } record table of
- * src/matched/func_0200E124.c; this function reads BOTH fields of the same
+ * src/matched/SYMBOL_SAVE_RemoveSlot.c; this function reads BOTH fields of the same
  * row (a into the stack slot at sp+0xC, b into r7), so the two pool words
  * 0x0209DE90 and 0x0209DE92 are one symbol at two field offsets, not two
  * symbols.  See docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
@@ -45,8 +45,8 @@
  * wrong in the first ten.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E1A8.c \
- *       --func func_0200E1A8 --addr 0x0200E1A8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_WriteRecord.c \
+ *       --func SYMBOL_SAVE_WriteRecord --addr 0x0200E1A8 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_Rec.h"
@@ -66,25 +66,25 @@ struct Entry {
 extern struct Rec sSymbolBandRanges[];
 
 struct Slot;
-extern void func_0200E06C(char *p);
-extern u32 func_0200E0E8(const struct Slot *obj, int idx);
-extern void func_0200E124(u32 *obj, u32 idx);
-extern void func_0200E024(void *p);
-extern void func_0200E27C(u8 *obj, int idx);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
+extern u32 SYMBOL_SAVE_FindFreeSlot(const struct Slot *obj, int idx);
+extern void SYMBOL_SAVE_RemoveSlot(u32 *obj, u32 idx);
+extern void SYMBOL_SAVE_UpdateChecksum(void *p);
+extern void SYMBOL_SAVE_SetRank(u8 *obj, int idx);
 
-void func_0200E1A8(void *p, u16 a1, u16 a2, u8 a3, u8 a4, u8 a5, u32 kind)
+void SYMBOL_SAVE_WriteRecord(void *p, u16 a1, u16 a2, u8 a3, u8 a4, u8 a5, u32 kind)
 {
     struct Entry *e;
     u32 lim, cap, slot;
     u32 k;
 
-    func_0200E06C(p);
+    SYMBOL_SAVE_FinalizeChecksum(p);
     k = kind;
     cap = sSymbolBandRanges[k].a;
     lim = sSymbolBandRanges[k].b;
-    slot = func_0200E0E8(p, k);
+    slot = SYMBOL_SAVE_FindFreeSlot(p, k);
     if (slot == 0xFFFF) {
-        func_0200E124(p, cap);
+        SYMBOL_SAVE_RemoveSlot(p, cap);
         e = (struct Entry *)((u32 *)p + (lim - 1));
     } else {
         e = (struct Entry *)((u32 *)p + slot);
@@ -100,7 +100,7 @@ void func_0200E1A8(void *p, u16 a1, u16 a2, u8 a3, u8 a4, u8 a5, u32 kind)
         if (((u8 *)p)[0x848] < 1)
             ((u8 *)p)[0x848]++;
     } else if (k == 3) {
-        func_0200E27C(p, (u16)slot);
+        SYMBOL_SAVE_SetRank(p, (u16)slot);
     }
-    func_0200E024(p);
+    SYMBOL_SAVE_UpdateChecksum(p);
 }

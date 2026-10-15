@@ -67,8 +67,6 @@ extern void func_0207E888(u32 a, u32 b, u32 c);
 extern void func_0207EA00(u32 a, u32 b, u32 c);
 extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
 extern void func_0207ECF0(u32 a, u32 b, u32 c);
-extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
-extern void func_0207ECF0(u32 a, u32 b, u32 c);
 extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void GX_LoadBGPltt(u32 a, u32 b, u32 c);
 void func_0206192C(u32 a, u32 b, u32 c);

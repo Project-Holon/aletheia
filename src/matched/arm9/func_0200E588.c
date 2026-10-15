@@ -1,5 +1,5 @@
 /*
- * function: func_0200E588
+ * function: BATTLE_EXAMINATION_GetBlockSize
  * address:  0x0200E588
  * packet:   pkt_0200E588
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0200E588(void)
+u32 BATTLE_EXAMINATION_GetBlockSize(void)
 {
     return 0x5C8;
 }

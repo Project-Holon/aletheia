@@ -1,5 +1,5 @@
 /*
- * function: func_02086C70
+ * function: OS_IsOnExtendedMainMemory
  * address:  0x02086C70
  * packet:   pkt_02086C70
  * region:   arm9
@@ -66,7 +66,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern BOOL OS_IsRunOnTwl(void);
 
-BOOL func_02086C70(void *ptr)
+BOOL OS_IsOnExtendedMainMemory(void *ptr)
 {
     if (OS_IsRunOnTwl()) {
         if (0x0D000000 <= (u32)ptr && (u32)ptr < 0x0E000000) {

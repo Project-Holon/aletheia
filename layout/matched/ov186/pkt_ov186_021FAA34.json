@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FAA34",
+   "name": "BR_BTN_UpdateBack",
    "address": "0x021FAA34",
    "kind": "game",
    "region": "ov186",

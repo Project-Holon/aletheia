@@ -10,7 +10,7 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DBD7C 0x021DBD7C thumb ov183
  */
 #include "../include/Obj14421.h"
@@ -18,7 +18,7 @@
 #include "../include/Obj24546.h"
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021DBD7C(int *task, int *state, char *p);
 void func_021DBCA8(int *task, int *state, char *p)
 {
@@ -31,7 +31,7 @@ void func_021DBCA8(int *task, int *state, char *p)
         if(BR_FADE_GetResult(*(int * *)&((struct Obj24546 *)(*(char * *)&((struct Obj14421 *)p)->fD0))->fC)) *state=2;
         break;
     case 2:
-        func_021FD73C(task,(int)func_021DBD7C);
+        BR_UTIL_SetTaskStep(task,(int)func_021DBD7C);
         break;
     }
 }

@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  *
- * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: func_0200EA00 and func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA00.c and func_0200EA08.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
+ * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: MISC_SAVEDATA_GetStatsBase and MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetStatsBase.c and MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
  * blockers: ARM9 0200EA00 and 0200EA08 have no outside witness; the integrator owns filing.
  * blocker: 0x0200EA00 Thumb EXACT (scratch one, fixed flags)
- *   unsigned char *func_0200EA00(unsigned char *p) { return p + 0x5a; }
+ *   unsigned char *MISC_SAVEDATA_GetStatsBase(unsigned char *p) { return p + 0x5a; }
  * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags)
- *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
+ *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
  * Lever: explicit unsigned left/right shifts pack the low bytes in 568 bytes;
  * byte casts followed by placement shifts compile to 584 bytes.
  * AE14's empty body leaves its incoming pointer in r0; caller saves it.
@@ -24,18 +24,18 @@
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B204 0x0200B204 thumb
  *   func_0200AE14 0x0200AE14 thumb
- *   func_0200E9F4 0x0200E9F4 thumb
+ *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
  *   func_02012944 0x02012944 thumb
  *   func_021E5548 0x021E5548 thumb ov177
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200B074 0x0200B074 thumb
  *   MI_CpuCopy8 0x02082D44 arm
- *   func_0200EA00 0x0200EA00 thumb
+ *   MISC_SAVEDATA_GetStatsBase 0x0200EA00 thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
  *   func_0200B078 0x0200B078 thumb
  *   func_021E5D68 0x021E5D68 thumb ov177
- *   func_0200EA08 0x0200EA08 thumb
+ *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   func_0200E918 0x0200E918 thumb
  *   func_0200AE54 0x0200AE54 thumb
  *   func_021E6118 0x021E6118 thumb ov177
@@ -58,19 +58,19 @@ extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *, u32);
 extern struct Rec1E *func_0200B204(struct RecBig *, u32);
 extern struct Reg *func_0200AE14(struct Reg2 *);
-extern void *func_0200E9F4(void *);
+extern void *MISC_SAVEDATA_GetBlock3C(void *);
 extern u8 *func_02012944(void *);
 extern int func_021E5548(int *);
 extern void MI_CpuFill8(void *, int, u32);
 extern u8 *func_0200B074(struct Reg2 *);
 extern void MI_CpuCopy8(const void *, void *, u32);
 struct Sub0200852CObj;
-extern int func_0200EA00(int p);
+extern int MISC_SAVEDATA_GetStatsBase(int p);
 extern u16 BSUBWAY_SAVEDATA_GetStat(Row *, int, int);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int func_0200B078(struct Reg2 *, u32);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
-extern int func_0200EA08(int p);
+extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *, u32);
 extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
@@ -90,7 +90,7 @@ void func_0217DC28(int *p)
         obj = (struct Reg2 *)func_0200B1D4(base, p[5]);
         sub = func_0200B204((struct RecBig *)base, p[5]);
         reg = func_0200AE14(obj);
-        stats = func_0200E9F4(save);
+        stats = MISC_SAVEDATA_GetBlock3C(save);
         win = func_02012944((void *)p[12]);
         flag = func_021E5548((int *)p[11]);
         if (p[5] == 0) {
@@ -99,7 +99,7 @@ void func_0217DC28(int *p)
             int total, a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
-            table = (u16 (*)[3])func_0200EA00((int)stats);
+            table = (u16 (*)[3])MISC_SAVEDATA_GetStatsBase((int)stats);
             rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
             total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
             rec.v.total = total + BSUBWAY_SAVEDATA_GetStat(table, 10, 2);
@@ -116,7 +116,7 @@ void func_0217DC28(int *p)
             int a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
-            table = (const u8 *)func_0200EA08((int)stats);
+            table = (const u8 *)MISC_SAVEDATA_GetRecordBase((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);
             rec.v.h.a4 = func_0200E918(table, 0);
             rec.v.h.a6 = func_0200AE54(reg, 22);

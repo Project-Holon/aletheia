@@ -1,5 +1,5 @@
 /*
- * function: sub_02034714
+ * function: SAVEDATA_PanicFail
  * address:  0x02034714
  * packet:   pkt_02034714
  * region:   arm9
@@ -15,7 +15,7 @@
  * The assert/panic hook trampoline this territory's `bl 0x2034714` sites
  * all reach (see e.g. sub_02033A3C, which loads an expression string,
  * mov r1,#0x85, a file string, then calls here): if a handler is
- * registered at g_Sink+0xc (the field sub_020346EC in the neighbouring
+ * registered at g_Sink+0xc (the field SAVEDATA_SetPanicHandlers in the neighbouring
  * packet never writes), call it. This is the forwarding-call idiom from
  * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md
  * read in reverse: the call is `h()`, zero C-visible arguments, and it is
@@ -28,7 +28,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_02034714.c \
- *       --func sub_02034714 --addr 0x02034714 --cc 1.1p1 --arm
+ *       --func SAVEDATA_PanicFail --addr 0x02034714 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ struct Sink {
 
 extern struct Sink g_Sink;
 
-void sub_02034714(const char *expr, u32 line, const char *file)
+void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file)
 {
     AssertHandler h = g_Sink.handler;
 

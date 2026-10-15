@@ -149,15 +149,10 @@
  *   UNION_COMM_StartConnectSync 0x02172EDC thumb ov012
  *   UNION_COMM_SetSituationParam 0x021734A8 thumb ov012
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef signed int s32;
+typedef struct { int x, y, z; } VecFx32;
 
-#include "../arm9/net_types.h"
-typedef struct { s32 x, y, z; } VecFx32;
 #include "union_comm_types.h"
+#include "../arm9/net_types.h"
 #include "../ov006/event_wificlub_types.h"
 
 

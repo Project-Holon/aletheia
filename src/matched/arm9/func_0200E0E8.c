@@ -1,5 +1,5 @@
 /*
- * function: func_0200E0E8
+ * function: SYMBOL_SAVE_FindFreeSlot
  * address:  0x0200E0E8
  * packet:   pkt_0200E0BC
  * region:   arm9
@@ -14,7 +14,7 @@
  *
  * Wave 17 lane untried_small. Three levers together: the range table read as
  * `struct Rec { u16 a; u16 b; }` (two pool words, tbl and tbl + 2, as in
- * func_0200E124); the slot word read as an 11-bit bitfield (the image masks
+ * SYMBOL_SAVE_RemoveSlot); the slot word read as an 11-bit bitfield (the image masks
  * with `lsls #21; lsrs #21`, which `& 0x7ff` never produces); and an element
  * pointer walked beside the index in a `while` loop.
  */
@@ -34,7 +34,7 @@ typedef struct Slot {
 
 extern const Rec sSymbolBandRanges[];
 
-u32 func_0200E0E8(const Slot *obj, int idx)
+u32 SYMBOL_SAVE_FindFreeSlot(const Slot *obj, int idx)
 {
     u32 r = 0xffff;
     u32 i = sSymbolBandRanges[idx].a;

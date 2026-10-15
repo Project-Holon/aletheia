@@ -1,5 +1,5 @@
 /*
- * function: func_021E8FE0
+ * function: BOX2_SEQ_SetState
  * address:  0x021E8FE0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -16,7 +16,7 @@
 #include "../include/Obj18471.h"
 
 
-int func_021E8FE0(char *p, int v)
+int BOX2_SEQ_SetState(char *p, int v)
 {
     ((struct Obj18471 *)p)->f28 = v;
     return 0xd;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B630C",
+   "name": "CDEMO_WIPE_StartFadeInWhite",
    "address": "0x021B630C",
    "kind": "game",
    "region": "ov179",

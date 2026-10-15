@@ -15,8 +15,8 @@
  * size; the (len,ptr) loads prove the pairing.
  *
  * symbols:
- *   func_0216009C       0x0216009C arm ov009
- *   func_021600E4       0x021600E4 arm ov009
+ *   enter_computebound       0x0216009C arm ov009
+ *   exit_computebound       0x021600E4 arm ov009
  *   CPSi_big_from_char  0x02164CC4 arm ov009
  *   CPSi_big_montpower  0x02164AA8 arm ov009
  *   CPSi_big_sub        0x021640B8 arm ov009
@@ -45,8 +45,8 @@ typedef struct CPSPrivateKey {
     unsigned char *p5;
 } CPSPrivateKey;
 
-extern unsigned long func_0216009C(void);
-extern void func_021600E4(unsigned long old_priority);
+extern unsigned long enter_computebound(void);
+extern void exit_computebound(unsigned long old_priority);
 extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
 extern void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
@@ -91,12 +91,12 @@ static void decrypt_premaster_secret(unsigned char *d, unsigned char *s, CPSPriv
     CPSi_big_from_char(tmp_var, s, k->size, digits);
     CPSi_big_from_char(b, k->p3, k->l3, digits);
     CPSi_big_from_char(n, k->p1, k->l1, digits);
-    old_priority = func_0216009C();
+    old_priority = enter_computebound();
     CPSi_big_montpower(k1, tmp_var, b, digits, n);
     CPSi_big_from_char(b, k->p4, k->l4, digits);
     CPSi_big_from_char(n, k->p2, k->l2, digits);
     CPSi_big_montpower(k2, tmp_var, b, digits, n);
-    func_021600E4(old_priority);
+    exit_computebound(old_priority);
     CPSi_big_sub(tmp_var, k1, k2, digits);
     CPSi_big_from_char(b, k->p5, k->l5, digits);
     CPSi_big_mult(c, tmp_var, b, digits);

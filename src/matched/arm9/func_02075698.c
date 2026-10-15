@@ -1,5 +1,5 @@
 /*
- * function: func_02075698
+ * function: NNSi_SndArcPlayerStartSeq
  * address:  0x02075698
  * packet:   pkt_02075404
  * region:   arm9
@@ -8,17 +8,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Sibling of src/matched/func_02075794.c (same open / bind / release shape):
+ * Sibling of src/matched/NNSi_SndArcPlayerStartSeqArc.c (same open / bind / release shape):
  * open a handle with NNSi_SndPlayerAllocSeqPlayer, bind a slot through NNSi_SndArcLoadBank (kind
  * 6) and a block through NNSi_SndArcLoadSeq (kind 1, keyed by the sixth argument),
  * releasing the handle on either failure; then attach the block's +0x18
  * payload to the handle and apply the descriptor's bytes 6 and 7.  Called by
- * func_02075560 and func_020755A8 with the record pointer as s0 and the
+ * NNS_SndArcPlayerStartSeq and NNS_SndArcPlayerStartSeqEx with the record pointer as s0 and the
  * record id as s1.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02075698.c \
- *       --func func_02075698 --addr 0x02075698 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcPlayerStartSeq.c \
+ *       --func NNSi_SndArcPlayerStartSeq --addr 0x02075698 --arm --cc ../2.0/sp2
  *   EXACT, 252 bytes, 10 of 10 relocation sites resolved (sp2p2 EXACT too,
  *   dsi/1.1p1 260 bytes DIFF).
  *
@@ -50,7 +50,7 @@ extern void NNS_SndHandleSetInitialVolume(struct Obj *o, u8 v);
 extern void NNS_SndHandlePause(struct Obj *o, u32 v);
 extern void  NNSi_SndHandleSetSeqNo(u32 a, u32 b);
 
-u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
+u32 NNSi_SndArcPlayerStartSeq(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
 {
     void *h;
     u32 v;

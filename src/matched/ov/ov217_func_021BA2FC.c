@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2FC
+ * function: RESEARCH_TOP_SetupTextLabel
  * address:  0x021BA2FC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BA3E8  0x021BA3E8  thumb  ov217
+ *   RESEARCH_TOP_StartEntryPaletteAnime  0x021BA3E8  thumb  ov217
  *   BgTextLabel_SetPalette  0x021C1038  thumb  ov217
  *
  * Addresses are Black-image addresses.
@@ -26,12 +26,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BA3E8();
+extern u32 RESEARCH_TOP_StartEntryPaletteAnime();
 extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
-u32 func_021BA2FC(u32 a0)
+u32 RESEARCH_TOP_SetupTextLabel(u32 a0)
 {
     BgTextLabel_SetPalette((u8 *)(((struct Obj25815 *)(((u8*)a0)))->f54), 15);
-    func_021BA3E8(a0, 3);
-    return func_021BA3E8(a0, 4);
+    RESEARCH_TOP_StartEntryPaletteAnime(a0, 3);
+    return RESEARCH_TOP_StartEntryPaletteAnime(a0, 4);
 }
 

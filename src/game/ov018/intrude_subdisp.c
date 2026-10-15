@@ -262,6 +262,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 #include "../ov011/intrude_comm_types.h"
+#include "event_comm_common_types.h"
 #include "intrude_subdisp_types.h"
 #include "intrude_field_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -520,7 +521,7 @@ extern int INTRUDE_COMM_HasUnlockFlags(void *);
 
 void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *a1, void *a2, void *a3, u16 id, u8 kind, u8 flag, u16 idx, int place);
 int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
-int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state);
+int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0);
 int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
@@ -708,15 +709,15 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r)
 }
 
 
-int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state)
+int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state)
 {
     switch (*state) {
     case 0:
-        EVENT_COMM_COMMON_PrintMsg(w + 0x10, 0);
+        EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0);
         (*state)++;
         break;
     case 1:
-        if (INTRUDE_COMM_SendRequest(sys, sys->requestTarget, (w + 0x44), w[0x41]) == 1)
+        if (INTRUDE_COMM_SendRequest(sys, sys->requestTarget, &work->member, work->talkType) == 1)
             (*state)++;
         break;
     case 2:
@@ -729,7 +730,7 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state)
             *state = 3;
             break;
         default:
-            if (EVENT_COMM_COMMON_IsPrintFinished(w + 0x10) == 1) {
+            if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 1) {
                 if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
                     INTRUDE_COMM_NextRequestToken(sys);
                     *state = 9;
@@ -739,13 +740,13 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state)
         }
         break;
     case 3:
-        if (EVENT_COMM_COMMON_IsPrintFinished(w + 0x10) == 1) {
-            EVENT_COMM_COMMON_PrintMsg(w + 0x10, 2);
+        if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 1) {
+            EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 2);
             (*state)++;
         }
         break;
     case 4:
-        if (EVENT_COMM_COMMON_IsPrintFinished(w + 0x10) == 1)
+        if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 1)
             (*state)++;
         break;
     case 5:
@@ -757,7 +758,7 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, u8 *w, u8 *state)
             *state = 7;
         break;
     case 7:
-        if (EVENT_COMM_COMMON_IsPrintFinished(w + 0x10) == 1)
+        if (EVENT_COMM_COMMON_IsPrintFinished(&work->msgBox) == 1)
             return 1;
         break;
     case 8:

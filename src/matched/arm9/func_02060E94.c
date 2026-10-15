@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060E94
+ * function: NNSi_FndGetListAllocatableSize
  * address:  0x02060E94
  * packet:   pkt_02060E94
  * region:   arm9
@@ -52,8 +52,8 @@
  * seeding into layout/function_starts.txt, which is the integrator's file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060E94.c \
- *       --func func_02060E94 --addr 0x02060E94 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndGetListAllocatableSize.c \
+ *       --func NNSi_FndGetListAllocatableSize --addr 0x02060E94 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -74,7 +74,7 @@ struct Heap {
 
 extern s32 func_02091588(s32 x);
 
-s32 func_02060E94(struct Heap *heap, s32 x)
+s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
 {
     s32 size = func_02091588(x);
     u32 best = 0;

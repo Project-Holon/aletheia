@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_SetCalInfoToHttp (libdwcauth.TWL.HYB.a dwc_cal.o)
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_0209477C  0x0209477C  arm
  *   func_02179F3C  0x02179F3C  arm  ov009
  *   func_02096578  0x02096578  arm
@@ -55,7 +55,7 @@ typedef struct DWCCalInfo {
     unsigned short devname[11];
 } DWCCalInfo;
 
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
@@ -86,7 +86,7 @@ int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
 {
     char buf[33];
 
-    func_02084F80(buf, sizeof(buf), g_021A24E0, 5, 3);
+    OS_SNPrintf(buf, sizeof(buf), g_021A24E0, 5, 3);
     if (func_02179F3C(http, (char *)g_021A24EC, buf, func_0209477C((const u8 *)buf)) != 0)
         return 0;
     if (func_02179F3C(http, (char *)g_021A24F4, calinfo->userid, func_0209477C((const u8 *)calinfo->userid)) != 0)
@@ -118,7 +118,7 @@ int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
             return 0;
     }
 
-    func_02084F80(buf, sizeof(buf), g_021A255C, 5, 3);
+    OS_SNPrintf(buf, sizeof(buf), g_021A255C, 5, 3);
     if (func_02179E60((char *)http, (char *)g_021A2574, buf) != 0)
         return 0;
     if (func_02179E60((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)

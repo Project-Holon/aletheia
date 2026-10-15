@@ -37,7 +37,7 @@
  *   func_02012114 0x02012114  thumb
  *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   func_0201283C  0x0201283C  thumb
  *   gUnionCharaActionStart  0x02180044  data  a4
  *   gUnionCharaActionMain  0x02180048  data  a4
@@ -114,7 +114,7 @@ extern void UNION_EFF_AddAnimEffect(int markSys, int mmdl);
 
 extern void *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 
-extern void *func_0200ED48(void *saveControl);
+extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
 
 extern u32 func_0201283C(const struct GameData *gameData);
 
@@ -416,7 +416,7 @@ void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fiel
     u8 zeroMac[6] = {0, 0, 0, 0, 0, 0};
 
     focusPending = 0;
-    metTrainers = (u32)func_0200ED48(GAME_DATA_GetSaveControl(gameData));
+    metTrainers = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
     wifiFriends = func_0201283C(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     func_02012964(gameData);
@@ -518,7 +518,7 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
     int mmdl;
     int i;
 
-    metTrainers = (int)func_0200ED48(GAME_DATA_GetSaveControl(gameData));
+    metTrainers = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
     wifiFriends = func_0201283C(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     beaconPc = work->beaconPc;

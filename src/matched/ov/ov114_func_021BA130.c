@@ -11,13 +11,16 @@
  *
  *
  * ov114 tail-call thunk (ldr ip,pool; bx ip).
+ *
+ * symbols:
+ *   STD_CompareString  0x0208CD94  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0208CD94(void);
+extern void STD_CompareString(void);
 
 void NHTTPi_strcmp(void)
 {
-    func_0208CD94();
+    STD_CompareString();
 }

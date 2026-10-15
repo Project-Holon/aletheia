@@ -1,5 +1,5 @@
 /*
- * function: func_021C02C8
+ * function: RESEARCH_GRAPH_RegisterCursorResources
  * address: 0x021C02C8
  * packet: pkt_ov217_021C02C8
  * region: ov217
@@ -24,7 +24,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C02C8(char *p)
+void RESEARCH_GRAPH_RegisterCursorResources(char *p)
 {
     u16 heap = ((struct Obj06713 *)p)->f4;
     void *h = func_020490F4(192, heap);

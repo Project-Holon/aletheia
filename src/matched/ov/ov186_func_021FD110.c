@@ -1,5 +1,5 @@
 /*
- * function: func_021FD110
+ * function: BR_UTIL_UpdateRowSelection
  * address: 0x021FD110
  * packet: pkt_ov186_021FD110
  * region: ov186
@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * follower: accessor after func_021FD0B8; two alignment bytes after return.
+ * follower: accessor after BR_UTIL_HandleRowTouch; two alignment bytes after return.
  */
 #include "../include/Obj08333.h"
-void func_021FD110(char *p)
+void BR_UTIL_UpdateRowSelection(char *p)
 {
     ((struct Obj08333 *)p)->f48=((int *)(((struct Obj08333 *)p)->f0+(((struct Obj08333 *)p)->f40+((struct Obj08333 *)p)->f42)*8))[1];
 }

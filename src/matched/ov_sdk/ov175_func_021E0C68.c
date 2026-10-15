@@ -12,10 +12,10 @@
  * sdk:      sciWsSetReportIntentionCallback (libdwcgssc.TWL.HYB.a sciwebservices.o)
  *
  * symbols:
- *   func_021834D0  0x021834D0  arm  ov009
- *   func_021834E8  0x021834E8  arm  ov009
- *   func_02183A24  0x02183A24  arm  ov009
- *   func_0218372C  0x0218372C  arm  ov009
+ *   gsXmlMoveToStart  0x021834D0  arm  ov009
+ *   gsXmlMoveToNext  0x021834E8  arm  ov009
+ *   gsXmlReadChildAsInt  0x02183A24  arm  ov009
+ *   gsXmlReadChildAsStringNT  0x0218372C  arm  ov009
  *   sciInterfaceSetConnectionId  0x021DF948  arm  ov175
  *   sSciTagSetReportIntentionResponse  0x021E4338  data
  *   sSciTagSetReportIntentionResult  0x021E4354  data
@@ -46,10 +46,10 @@ typedef struct {
     int mInit;
 } SCWebServices;
 
-extern int func_021834D0(int *p);
-extern int func_021834E8(void *stream, char *matchtag);
-extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
-extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
+extern int gsXmlMoveToStart(int *p);
+extern int gsXmlMoveToNext(void *stream, char *matchtag);
+extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
+extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern void sciInterfaceSetConnectionId(char *obj, int v);
 extern char sSciTagSetReportIntentionResponse[];
 extern char sSciTagSetReportIntentionResult[];
@@ -68,10 +68,10 @@ void sciWsSetReportIntentionCallback(int theHttpResult, int unused, void *theRes
     if (theHttpResult == 0) {
         aTranslatedResult = 0;
         intentionResult = 0;
-        if (!func_021834D0(theResponseData) || !func_021834E8(theResponseData, sSciTagSetReportIntentionResponse) ||
-            !func_021834E8(theResponseData, sSciTagSetReportIntentionResult) ||
-            !func_02183A24(theResponseData, sSciTagResult, &intentionResult) ||
-            !func_0218372C(theResponseData, sSciTagCcid, ccid, 255)) {
+        if (!gsXmlMoveToStart(theResponseData) || !gsXmlMoveToNext(theResponseData, sSciTagSetReportIntentionResponse) ||
+            !gsXmlMoveToNext(theResponseData, sSciTagSetReportIntentionResult) ||
+            !gsXmlReadChildAsInt(theResponseData, sSciTagResult, &intentionResult) ||
+            !gsXmlReadChildAsStringNT(theResponseData, sSciTagCcid, ccid, 255)) {
             aTranslatedResult = 9;
         } else if (intentionResult != 0) {
             aTranslatedResult = 8;

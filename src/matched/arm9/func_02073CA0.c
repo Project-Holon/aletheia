@@ -11,7 +11,7 @@
  *
  * Sound-object teardown guarded on bit 1 of the flags word at +0x2C: releases
  * the channel mask built from +0x48 with the handle at +0x4C, then brackets
- * func_02089B38(1) with the save/restore pair func_02089D40 / func_02089CD4.
+ * func_02089B38(1) with the save/restore pair SND_GetCurrentCommandTag / SND_WaitForCommandProc.
  * It is NNS_SndStrmStop's tail with the two sub-object teardowns removed.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, exactly as its
@@ -30,10 +30,10 @@
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
  *
  * symbols:
- *   func_020894DC  0x020894DC  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNSi_SndStrmAlarmHandler.c \
@@ -54,18 +54,18 @@ struct Obj {
     u32 f4c;          /* 0x4c */
 };
 
-extern void func_020894DC(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_02089D40(void);
+extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
+extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a);
-extern void func_02089CD4(u32 a);
+extern void SND_WaitForCommandProc(u32 a);
 
 void NNSi_SndStrmAlarmHandler(struct Obj *o)
 {
     u32 saved;
 
     if (!o->b1) return;
-    func_020894DC(o->f4c, 0, 1u << o->f48, 0);
-    saved = func_02089D40();
+    SND_StopTimer(o->f4c, 0, 1u << o->f48, 0);
+    saved = SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4(saved);
+    SND_WaitForCommandProc(saved);
 }

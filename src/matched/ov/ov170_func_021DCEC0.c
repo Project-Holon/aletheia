@@ -1,5 +1,5 @@
 /*
- * function: func_021DCEC0
+ * function: BOX2_MAIN_CreateTaskMenu
  * address: 0x021DCEC0
  * packet: pkt_ov170_021DCEC0
  * region: ov170
@@ -20,7 +20,7 @@ extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 hea
 #define WORK(p) (*(char **)((p)+0x2c))
 #define PTR(p,n) (*(void **)(WORK(p)+(n)))
 #define HALF(p,n) (*(unsigned short *)(WORK(p)+(n)))
-void func_021DCEC0(char *p)
+void BOX2_MAIN_CreateTaskMenu(char *p)
 {
     PTR(p,0x184)=func_02045EC0(PTR(p,0x80),0x6e);
     HALF(p,0x188)=0x39e3;

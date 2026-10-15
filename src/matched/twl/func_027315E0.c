@@ -18,7 +18,7 @@
  *   OS_SpinWaitSysCycles 0x02087A04 arm
  *   func_0208BC8C 0x0208BC8C arm
  *   OS_DisableInterrupts 0x02087988 arm
- *   func_02082658 0x02082658 arm
+ *   MI_StopAllDma 0x02082658 arm
  *   MI_StopAllNDma 0x0272FD18 arm
  *   PMi_FinalizeDebugger 0x02731500 arm
  *   OSi_DisableInterruptsAndHalt 0x020882C0 arm
@@ -35,7 +35,7 @@ void GX_DispOff(void);
 void OS_SpinWaitSysCycles(u32 n);
 int func_0208BC8C(u32 cmd, u32 a, u16 *buf);
 void OS_DisableInterrupts(void);
-void func_02082658(void);
+void MI_StopAllDma(void);
 void MI_StopAllNDma(void);
 void PMi_FinalizeDebugger(void);
 void OSi_DisableInterruptsAndHalt(void);
@@ -73,7 +73,7 @@ void PMi_CallPostExitCallbackAndReset(int flag)
         OS_SpinWaitSysCycles(0x51D23);
     }
     OS_DisableInterrupts();
-    func_02082658();
+    MI_StopAllDma();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();
     OSi_DisableInterruptsAndHalt();

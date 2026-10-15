@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B70
+ * function: WIFI_BSUBWAY_GRAPHIC_CreateWindow
  * address: 0x021D7B70
  * packet: pkt_ov116_021D7B70
  * region: ov116
@@ -11,8 +11,8 @@
  * evidence: 0203101C's second parameter is wide here: original 021D7C26
  * copies full r6 to r1 with no truncation; its definition stores the low halfword.
  * symbols:
- *   func_021D821C 0x021D821C thumb ov116
- *   func_021D7D0C 0x021D7D0C thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_Create 0x021D821C thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_SetupBgAnim 0x021D7D0C thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -33,8 +33,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021D821C(int, u32);
-extern void func_021D7D0C(u8 *, u32);
+extern void *WIFI_BSUBWAY_GRAPHIC_Create(int, u32);
+extern void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Cfg;
@@ -58,11 +58,11 @@ extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 #define P(k) (*(void **)(p + (k)))
-void func_021D7B70(u8 *p, u32 heap)
+void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, u32 heap)
 {
-    P(8) = func_021D821C(1, heap);
+    P(8) = WIFI_BSUBWAY_GRAPHIC_Create(1, heap);
     ((struct Obj10342 *)p)->f4 = heap;
-    func_021D7D0C(p, heap);
+    WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
     func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
     BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);

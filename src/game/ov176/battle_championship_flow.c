@@ -73,8 +73,8 @@
  *   func_0217E00C 0x0217E00C thumb ov176
  *   func_021E7D20 0x021E7D20 thumb ov177
  *   func_021E7E0C 0x021E7E0C thumb ov177
- *   func_0200E9F4 0x0200E9F4 thumb
- *   func_0200EA08 0x0200EA08 thumb
+ *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
+ *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   func_0203516C 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
@@ -154,9 +154,9 @@
  *   func_02040588 0x02040588 arm
  *   func_0217D1C8 0x0217D1C8 thumb ov176
  *   func_0217D238 0x0217D238 thumb ov176
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_0200E958 0x0200E958 thumb
  *   func_0200E978 0x0200E978 thumb
  *   func_0200E920 0x0200E920 thumb
@@ -333,8 +333,8 @@ extern void *func_0201EC74(u32_0217B984,u32_0217B984,u32_0217B984);
 extern void *func_0217E00C(int,int);
 extern void **func_021E7D20(void *,void *,u32_0217B984);
 extern void func_021E7E0C(void **,int);
-extern void *func_0200E9F4(void *);
-extern int func_0200EA08(int p);
+extern void *MISC_SAVEDATA_GetBlock3C(void *);
+extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern struct Party *POKEPARTY_Create(u32_0217B984 heap);
 extern void func_0203516C(int);
 extern int func_020351A0(u32_0217BA9C v);
@@ -412,9 +412,9 @@ extern int func_0217E1C0(int *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0217D1C8(char *,int);
 extern int func_0217D238(u8 *);
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern u32_0217CAE0 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32_0217CAE0 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32_0217CAE0 val);
 extern void func_0200E958(u8 *,u32_0217CAE0,const void *);
 extern void func_0200E978(u8 *,u32_0217CAE0,u32_0217CAE0,u8);
 extern void func_0200E920(u8 *,u32_0217CAE0,int);
@@ -1093,8 +1093,8 @@ void func_0217B970(int *p,int a) {p[4]=a;func_021E8AA0((int *)p[0],(int)func_021
 
 
 /*
- * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA08.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
- *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
+ * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
+ *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
  */
 u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
 {
@@ -1116,7 +1116,7 @@ u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
     *(void ***)(p+0x1c)=func_021E7D20((void *)func_021E5548(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
     func_021E7E0C(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
-    *(void **)(p+0x34)=(void *)func_0200EA08((int)func_0200E9F4(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
+    *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)func_0203516C(8);
     return p;
@@ -1456,8 +1456,8 @@ void func_0217CAE0(int *sys,u32_0217CAE0 *state,u8 *p)
     }
     switch(*state){
     case 0:{
-        void *v=func_0200ED48(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
-        func_0200ED54(v,func_02008530(((struct Obj01271 *)p)->f1C0));
+        void *v=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
+        MISC_SAVEDATA_InsertRecentValue(v,func_02008530(((struct Obj01271 *)p)->f1C0));
         *state=1;break;
     }
     case 1:if(func_0217E1B8(*(int * *)&((struct Obj01271 *)p)->fC)) *state=2;break;

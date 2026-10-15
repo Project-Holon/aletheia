@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D04
+ * function: CTVT_TALK_UpdateConfirmMenu
  * address:  0x021B9D04
  * packet:   pkt_ov172_021B9D04
  * region:   ov172
@@ -24,8 +24,8 @@
  *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
  *   func_021B80E4  0x021B80E4  thumb  ov172
- *   func_021B9C1C  0x021B9C1C  thumb  ov172
- *   func_021B9DF8  0x021B9DF8  thumb  ov172
+ *   CTVT_TALK_ShowMessage  0x021B9C1C  thumb  ov172
+ *   CTVT_TALK_CheckEnd  0x021B9DF8  thumb  ov172
  *   COMM_TVT_SYS_GetCamView  0x021BDFDC  thumb  ov172
  *   COMM_TVT_SYS_GetComm  0x021BDFE4  thumb  ov172
  *   COMM_TVT_SYS_GetMemberCount  0x021BE054  thumb  ov172
@@ -55,20 +55,20 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
 extern u32 func_021B80E4(int unused, char *p);
-extern void func_021B9C1C(void *p, char *q, int id);
-extern int func_021B9DF8(void *p, int *out);
+extern void CTVT_TALK_ShowMessage(void *p, char *q, int id);
+extern int CTVT_TALK_CheckEnd(void *p, int *out);
 extern u32 COMM_TVT_SYS_GetCamView(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
 extern void COMM_TVT_SYS_SetMessageActive(void *p, u32 v);
 
-void func_021B9D04(int self, int *q)
+void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
 {
     int r6;
     u32 r7;
 
-    if (func_021B9DF8((void *)self, q) == 1) {
+    if (CTVT_TALK_CheckEnd((void *)self, q) == 1) {
         APP_TASKMENU_CloseMenu((void *)q[0x20]);
         q[0x20] = 0;
         return;
@@ -80,7 +80,7 @@ void func_021B9D04(int self, int *q)
         if (func_021B80E4(self, (char *)COMM_TVT_SYS_GetComm((void *)self)) == 5) {
             q[0] = 0xF;
             q[0x21] = 1;
-            func_021B9C1C((void *)self, (char *)q, 0x2A);
+            CTVT_TALK_ShowMessage((void *)self, (char *)q, 0x2A);
         } else if (COMM_TVT_SYS_GetSelfSlot((void *)self) == 0 && COMM_TVT_SYS_GetMemberCount((void *)self) > 1) {
             q[0] = 0xB;
         } else {

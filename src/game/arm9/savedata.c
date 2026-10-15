@@ -1,7 +1,7 @@
 /*
  * file:     savedata.c
  * unit:     yes
- * function: SAVEDATA_CreateTable, SAVEDATA_DeleteTable, SAVEDATA_InitBuffer, SAVEDATA_QueryBlockSize, SAVEDATA_BuildLayout, SAVEDATA_GetBlockOffset, SAVEDATA_GetBlockSize, SAVEDATA_GetTableMax, SAVEDATA_GetTotalSize, AREAMAN_Create, AREAMAN_Delete, AREAMAN_Alloc, AREAMAN_AllocUp, AREAMAN_AllocShortUp, AREAMAN_AllocLongUp, AREAMAN_AllocDown, AREAMAN_AllocShortDown, AREAMAN_AllocLongDown, AREAMAN_AllocAt, AREAMAN_Free, AREAMAN_FindClearRunUp, AREAMAN_FindClearRunDown, AREAMAN_ClearByteRun, AREAMAN_MarkUsed, AREAMAN_TraceByte, AREAMAN_TraceBitmap, AREAMAN_TraceAlloc, VMAN_GetBankSetSize, VMAN_Create, VMAN_Delete, VMAN_GetUnitSize, VMAN_InvalidateHandle, VMAN_IsHandleInvalid, VMAN_Alloc, VMAN_Free, VMAN_GetOffset, sub_020346EC, func_02034704, sub_02034714, sub_02034734
+ * function: SAVEDATA_CreateTable, SAVEDATA_DeleteTable, SAVEDATA_InitBuffer, SAVEDATA_QueryBlockSize, SAVEDATA_BuildLayout, SAVEDATA_GetBlockOffset, SAVEDATA_GetBlockSize, SAVEDATA_GetTableMax, SAVEDATA_GetTotalSize, AREAMAN_Create, AREAMAN_Delete, AREAMAN_Alloc, AREAMAN_AllocUp, AREAMAN_AllocShortUp, AREAMAN_AllocLongUp, AREAMAN_AllocDown, AREAMAN_AllocShortDown, AREAMAN_AllocLongDown, AREAMAN_AllocAt, AREAMAN_Free, AREAMAN_FindClearRunUp, AREAMAN_FindClearRunDown, AREAMAN_ClearByteRun, AREAMAN_MarkUsed, AREAMAN_TraceByte, AREAMAN_TraceBitmap, AREAMAN_TraceAlloc, VMAN_GetBankSetSize, VMAN_Create, VMAN_Delete, VMAN_GetUnitSize, VMAN_InvalidateHandle, VMAN_IsHandleInvalid, VMAN_Alloc, VMAN_Free, VMAN_GetOffset, SAVEDATA_SetPanicHandlers, SAVEDATA_SetFailHook, SAVEDATA_PanicFail, SAVEDATA_PanicFailPrintf
  * address:  0x02033908
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -157,10 +157,10 @@ int VMAN_IsHandleInvalid(struct VmanHandle *handle);
 int VMAN_Alloc(struct VmanBank *bank, u32 size, struct VmanHandle *out);
 void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
 u32 VMAN_GetOffset(struct VmanBank *bank, u32 *units_ptr);
-void sub_020346EC(u32 init_func, u32 print_func, u32 die_func);
-void func_02034704(u32 hook);
-void sub_02034714(const char *file, u32 line, const char *expr);
-void sub_02034734(const char *file, u32 line, const char *fmt, ...);
+void SAVEDATA_SetPanicHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
+void SAVEDATA_SetFailHook(u32 failHook);
+void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...);
 
 extern const char savedata_File[];
 extern const u8 savedata_AssertIdInRange[];
@@ -243,7 +243,7 @@ u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
     struct SaveBlockDef *table = svdt->table;
 
     if (id >= svdt->table_max) {
-        sub_02034714(savedata_File, 0x85, (const char *)savedata_AssertIdInRange);
+        SAVEDATA_PanicFail(savedata_File, 0x85, (const char *)savedata_AssertIdInRange);
     }
     size_func = table[id].size_func;
     return (size_func() + 3) & ~3;
@@ -254,7 +254,7 @@ u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
  * SAVEDATA_BuildLayout: lay out the save blocks (id check, per-block size
  * from SAVEDATA_QueryBlockSize, each block start rounded up to 0x100) and
  * assert the total fits the size limit.  Closed by two declaration facts:
- * sub_02034734 takes FIVE arguments (the total in r3 and the limit on the
+ * SAVEDATA_PanicFailPrintf takes FIVE arguments (the total in r3 and the limit on the
  * stack, which is what the image's `sub sp, sp, #8` and `str r4, [sp]` are),
  * and the locals are declared table, i, table_max, layout, total (i before
  * table_max puts i in r5 and table_max in r6).  The `mov r1, r5` before the
@@ -278,7 +278,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
 
     for (i = 0; i < table_max; i++) {
         if (i != table[i].gmdataID) {
-            sub_02034714(savedata_File, 0x9e, (const char *)savedata_AssertTableId);
+            SAVEDATA_PanicFail(savedata_File, 0x9e, (const char *)savedata_AssertTableId);
         }
         layout[i].gmdataID = table[i].gmdataID;
         size = SAVEDATA_QueryBlockSize(svdt, i);
@@ -294,7 +294,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
     }
     svdt->total_size = svdt->header_size + (total + svdt->footer_size);
     if (svdt->total_size > svdt->size_limit) {
-        sub_02034734(savedata_File, 0xb3, (const char *)savedata_AssertTotalSize,
+        SAVEDATA_PanicFailPrintf(savedata_File, 0xb3, (const char *)savedata_AssertTotalSize,
                       svdt->total_size, svdt->size_limit);
     }
 }
@@ -306,7 +306,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
 u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
-        sub_02034714(savedata_File, 0xc7, (const char *)savedata_AssertGmdataidInRange);
+        SAVEDATA_PanicFail(savedata_File, 0xc7, (const char *)savedata_AssertGmdataidInRange);
     }
     return svdt->layout[gmdataid].offset;
 }
@@ -318,7 +318,7 @@ u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
 u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
-        sub_02034714(savedata_File, 0xd6, (const char *)savedata_AssertGmdataidInRange);
+        SAVEDATA_PanicFail(savedata_File, 0xd6, (const char *)savedata_AssertGmdataidInRange);
     }
     return svdt->layout[gmdataid].size;
 }
@@ -1071,20 +1071,20 @@ u32 VMAN_GetOffset(struct VmanBank *bank, u32 *units_ptr)
  * Registers the three panic handlers in _PanicHandlers.  Only offsets 0, 4
  * and 8 are written; the fail hook at +0xc is set by the next function.
  */
-void sub_020346EC(u32 init_func, u32 print_func, u32 die_func)
+void SAVEDATA_SetPanicHandlers(u32 initFunc, u32 printFunc, u32 dieFunc)
 {
-    _PanicHandlers.init_func = init_func;
-    _PanicHandlers.print_func = print_func;
-    _PanicHandlers.die_func = die_func;
+    _PanicHandlers.init_func = initFunc;
+    _PanicHandlers.print_func = printFunc;
+    _PanicHandlers.die_func = dieFunc;
 }
 
 
 /*
  * Sets the fail hook that the assert functions below call.
  */
-void func_02034704(u32 hook)
+void SAVEDATA_SetFailHook(u32 failHook)
 {
-    _PanicHandlers.fail_hook = (PanicHookFunc)hook;
+    _PanicHandlers.fail_hook = (PanicHookFunc)failHook;
 }
 
 
@@ -1099,12 +1099,12 @@ void func_02034704(u32 hook)
  * parameters are declared to keep the prototype honest for callers and are
  * otherwise dead in the body.
  */
-void sub_02034714(const char *file, u32 line, const char *expr)
+void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr)
 {
-    PanicHookFunc hook = _PanicHandlers.fail_hook;
+    PanicHookFunc failHook = _PanicHandlers.fail_hook;
 
-    if (hook) {
-        hook();
+    if (failHook) {
+        failHook();
     }
 }
 
@@ -1121,11 +1121,11 @@ void sub_02034714(const char *file, u32 line, const char *expr)
  * the registered hook does.  As above, calling the hook with arguments would
  * add `mov`s the original does not have.
  */
-void sub_02034734(const char *file, u32 line, const char *fmt, ...)
+void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...)
 {
-    PanicHookFunc hook = _PanicHandlers.fail_hook;
+    PanicHookFunc failHook = _PanicHandlers.fail_hook;
 
-    if (hook) {
-        hook();
+    if (failHook) {
+        failHook();
     }
 }

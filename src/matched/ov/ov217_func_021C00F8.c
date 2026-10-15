@@ -1,5 +1,5 @@
 /*
- * function: func_021C00F8
+ * function: RESEARCH_GRAPH_DummyBg7
  * address:  0x021C00F8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C00F8(void)
+void RESEARCH_GRAPH_DummyBg7(void)
 {
 }

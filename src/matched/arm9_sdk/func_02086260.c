@@ -1,5 +1,5 @@
 /*
- * function: func_02086260
+ * function: OSi_DequeueItem
  * address:  0x02086260
  * packet:   pkt_02086260
  * region:   arm9
@@ -141,7 +141,7 @@ extern OsThreadBss gOsThreadBss;
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_02086260(OSThread *thread, OSMutex *mutex)
+void OSi_DequeueItem(OSThread *thread, OSMutex *mutex)
 {
     OSMutex *next = mutex->link.next;
     OSMutex *prev = mutex->link.prev;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD018
+ * function: POKETRADE_PROC_ClampScrollColumn
  * address: 0x021DD018
  * packet: pkt_ov119_021DD018
  * region: ov119
@@ -14,7 +14,7 @@
 #include "../include/Obj03257.h"
 extern int POKETRADE_2D_GetScrollColumn(char *);
 extern const int d_021E7FE0[];
-void func_021DD018(char *p, int flag)
+void POKETRADE_PROC_ClampScrollColumn(char *p, int flag)
 {
     int n;
     if (flag) {

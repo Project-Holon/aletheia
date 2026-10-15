@@ -1,5 +1,5 @@
 /*
- * function: func_0208812C
+ * function: OS_GetTitleIdFromDeliverArg
  * address:  0x0208812C
  * packet:   pkt_0208812C
  * region:   arm9
@@ -45,7 +45,7 @@ typedef struct OsArgumentBss OsArgumentBss;
 
 extern struct OsArgumentBss g_02151384;
 
-u64 func_0208812C(void)
+u64 OS_GetTitleIdFromDeliverArg(void)
 {
     if (!(g_02151384.sBufferState & 1)) {
         return 0;

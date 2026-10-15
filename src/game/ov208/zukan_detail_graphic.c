@@ -69,14 +69,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "../../matched/include/Obj04613.h"
-#include "../../matched/include/Obj18203.h"
-#include "../../matched/include/Obj18204.h"
-#include "../../matched/include/Obj14644.h"
-#include "../../matched/include/Obj18205.h"
-#include "zukan_detail_graphic_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 #define REG60 (*(volatile u16 *)0x04000060)
 
@@ -197,7 +190,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 
-extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -261,9 +254,9 @@ extern const unsigned d_021C8184[];
 
 extern const u32 d_021C8138[];
 
-extern const BgEntry d_021C81B4[];
+extern const struct BgEntry d_021C81B4[];
 
-extern const Vec3 d_021C8114[];
+extern const struct Vec3 d_021C8114[];
 
 extern const char g_020A1EB8[];
 
@@ -285,11 +278,11 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
-    ((struct Obj04613 *)p)->f10=0;
+    ((struct Ov208BgGfx *)p)->has3d=0;
     ZUKAN_DETAIL_GRAPHIC_CreateWindows(p,heap);
     ZUKAN_DETAIL_GRAPHIC_InitActorSystem((unsigned char *)p+4,(int)d_021C8184,heap);
     if(threeD)ZUKAN_DETAIL_GRAPHIC_Init3dSystem(p,heap);
-    ((struct Obj04613 *)p)->fC=func_020056A0((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer,(unsigned)p,0);
+    ((struct Ov208BgGfx *)p)->task=func_020056A0((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer,(unsigned)p,0);
     return p;
 }
 
@@ -298,7 +291,7 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
  */
 void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
 {
-    func_02030EAC(((struct Obj04613 *)p)->fC);
+    func_02030EAC(((struct Ov208BgGfx *)p)->task);
     ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(p);
     ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(p+4);
     ZUKAN_DETAIL_GRAPHIC_DeleteWindows(p);
@@ -322,7 +315,7 @@ void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p)
  */
 void ZUKAN_DETAIL_GRAPHIC_ApplyCamera(char *p)
 {
-    if (((struct Obj18203 *)p)->f10 != 0)
+    if (((struct Ov208BgGfx *)p)->has3d != 0)
         ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt((int *)(p + 8));
 }
 
@@ -331,7 +324,7 @@ void ZUKAN_DETAIL_GRAPHIC_ApplyCamera(char *p)
  */
 void ZUKAN_DETAIL_GRAPHIC_EndDraw3d(char *p)
 {
-    if (((struct Obj18204 *)p)->f10 != 0)
+    if (((struct Ov208BgGfx *)p)->has3d != 0)
         ZUKAN_DETAIL_GRAPHIC_EndDraw(p + 8);
 }
 
@@ -347,17 +340,17 @@ int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p)
  */
 void ZUKAN_DETAIL_GRAPHIC_Init3dSystem(char *p, unsigned short x)
 {
-    if (((struct Obj04613 *)p)->f10 == 0) {
-        ((struct Obj04613 *)p)->f10 = 1;
+    if (((struct Ov208BgGfx *)p)->has3d == 0) {
+        ((struct Ov208BgGfx *)p)->has3d = 1;
         ZUKAN_DETAIL_GRAPHIC_CreateSystemAndCamera((u32 **)(p + 8), x);
     }
 }
 
 void ZUKAN_DETAIL_GRAPHIC_Delete3dSystem(char *p)
 {
-    if (((struct Obj04613 *)p)->f10 != 0) {
+    if (((struct Ov208BgGfx *)p)->has3d != 0) {
         ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem((int *)(p + 8));
-        ((struct Obj04613 *)p)->f10 = 0;
+        ((struct Ov208BgGfx *)p)->has3d = 0;
     }
 }
 
@@ -370,7 +363,7 @@ void ZUKAN_DETAIL_GRAPHIC_VBlankTransfer(int unused, char *p)
 void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap)
 {
     u32 i=0;
-    const BgEntry *row;
+    const struct BgEntry *row;
     u32 bg;
     MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
@@ -379,7 +372,7 @@ void ZUKAN_DETAIL_GRAPHIC_CreateWindows(void *p,u32 heap)
     for(;i<8;i++) {
         row=&d_021C81B4[i];
         bg=row->bg;
-        func_0203FCA0((u8)bg,(const struct BgTemplate *)row->tmpl,(u8)row->type);
+        func_0203FCA0((u8)bg,(const struct BgTemplate *)&row->tmpl,(u8)row->type);
         func_020414AC(bg);
         func_02040588(bg,row->on);
     }
@@ -414,15 +407,15 @@ void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021C8148, a, b);
-    ((struct Obj14644 *)p)->f0 = CLACT_CreateUnit(0x50, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14644 *)p)->f0);
+    ((struct Ov208ActorSystem *)p)->unit = CLACT_CreateUnit(0x50, 0, b);
+    CLACT_SetUnitDefaultRenderer(((struct Ov208ActorSystem *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj18205 *)p)->f0));
+    CLACT_DeleteUnit((struct Bank *)(((struct Ov208ActorSystem *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

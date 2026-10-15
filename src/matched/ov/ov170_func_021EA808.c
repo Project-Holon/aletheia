@@ -1,5 +1,5 @@
 /*
- * function: func_021EA808
+ * function: BOX2_SEQ_CreateC
  * address:  0x021EA808
  * packet:   pkt_ov170_021EA808
  * region:   ov170
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F140C[];
 
-void func_021EA808(char *p)
+void BOX2_SEQ_CreateC(char *p)
 {
     unsigned short *q = func_02030734(0x804C, 4, 0, d_021F140C, 0x2305);
     q[0] = 0;

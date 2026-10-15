@@ -1,5 +1,5 @@
 /*
- * function: func_021FD744
+ * function: BR_UTIL_ClearTaskStep
  * address:  0x021FD744
  * packet:   pkt_021FD744
  * region:   ov186
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FD744   0x021FD744  thumb ov186
- *   func_021FD73C   0x021FD73C  thumb ov186
+ *   BR_UTIL_ClearTaskStep   0x021FD744  thumb ov186
+ *   BR_UTIL_SetTaskStep   0x021FD73C  thumb ov186
  *
- * Unlabelled ov186 thunk hidden in a word run: tail-calls func_021FD73C with
+ * Unlabelled ov186 thunk hidden in a word run: tail-calls BR_UTIL_SetTaskStep with
  * the second argument zeroed.  Matched to supply the `matched` witness for the
  * pending caller func_021F8624.
  */
 
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 
-int func_021FD744(int *a)
+int BR_UTIL_ClearTaskStep(int *a)
 {
-    return (int)func_021FD73C(a, 0);
+    return (int)BR_UTIL_SetTaskStep(a, 0);
 }

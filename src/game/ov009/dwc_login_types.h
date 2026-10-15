@@ -78,7 +78,7 @@ extern void DWCi_Auth_AbortAuthentication(void);
 extern void DWCi_Auth_ShutdownAuthentication(void);
 extern void *DWCi_Np_GetConsoleIdPrefix(void);
 extern long long func_02167E88(void);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
 extern u64 func_02178F00(void);
 extern void DWCi_Acc_U64ToString32(u64 num, int bitnum, char *result);

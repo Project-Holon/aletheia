@@ -1,5 +1,5 @@
 /*
- * function: func_021D94D4
+ * function: POKETRADE_PROC_IsSelfMonReady
  * address: 0x021D94D4
  * packet: pkt_ov119_021D94D4
  * region: ov119
@@ -21,4 +21,4 @@ extern int POKETRADE_PROC_GetSideValue(void *,int);
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_GetAliveNonEggCount(void *p);
-int func_021D94D4(char *p) { int w; void *v; int z; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0);w=POKETRADE_PROC_GetSideValue(p,0);} else {v=POKETRADE_PROC_GetSideMon(p,1);w=POKETRADE_PROC_GetSideValue(p,1);} z=0;if(POKE_TOOL_GetPartyValue(v,160,0)==0)return z;if(POKE_TOOL_GetPartyValue(v,76,0))return z;if(POKEPARTY_GetAliveNonEggCount((void *)(((struct Obj22724 *)p)->f838))==1 && w!=0)return 1;return 0; }
+int POKETRADE_PROC_IsSelfMonReady(char *p) { int w; void *v; int z; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0);w=POKETRADE_PROC_GetSideValue(p,0);} else {v=POKETRADE_PROC_GetSideMon(p,1);w=POKETRADE_PROC_GetSideValue(p,1);} z=0;if(POKE_TOOL_GetPartyValue(v,160,0)==0)return z;if(POKE_TOOL_GetPartyValue(v,76,0))return z;if(POKEPARTY_GetAliveNonEggCount((void *)(((struct Obj22724 *)p)->f838))==1 && w!=0)return 1;return 0; }

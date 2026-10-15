@@ -1,5 +1,5 @@
 /*
- * function: func_02084610
+ * function: OS_IrqDummy
  * address:  0x02084610
  * packet:   pkt_02084610
  * region:   arm9
@@ -12,6 +12,6 @@
  * symbols:
  */
 /* SDK name: OS_IrqDummy (os_irqhandler.o), the default empty IRQ handler. */
-void func_02084610(void)
+void OS_IrqDummy(void)
 {
 }

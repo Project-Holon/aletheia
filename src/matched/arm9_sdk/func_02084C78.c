@@ -1,5 +1,5 @@
 /*
- * function: func_02084C78
+ * function: OSi_DoUnlockByWord
  * address:  0x02084C78
  * packet:   pkt_02084C78
  * region:   arm9
@@ -35,7 +35,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
 extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 
-s32 func_02084C78(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
     OSIntrMode enabled;
 

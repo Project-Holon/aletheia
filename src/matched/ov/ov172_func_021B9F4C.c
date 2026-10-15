@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F4C
+ * function: CTVT_TALK_HitCenter
  * address: 0x021B9F4C
  * packet: pkt_ov172_021B9F4C
  * region: ov172
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-int func_021B9F4C(int a, int b, int mode)
+int CTVT_TALK_HitCenter(int a, int b, int mode)
 {
     u32 x, y;
     int dx, dy, d;

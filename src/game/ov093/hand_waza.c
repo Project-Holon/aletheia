@@ -6770,7 +6770,7 @@ u8 HAND_WAZA_CollectStatusedPokeIds(struct BtlParty *party, u8 startIndex, u8 li
 /*
  * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
  * The image computes r + 0x1E
- * separately for func_021DEFEC and for the call after it; the (int) cast on
+ * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
 BtlEventHandler *HAND_WAZA_AddMemento(int *handlerCount)

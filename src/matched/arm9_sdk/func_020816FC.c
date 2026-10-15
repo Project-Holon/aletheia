@@ -1,5 +1,5 @@
 /*
- * function: func_020816FC
+ * function: MATH_CalcHMACSHA1
  * address:  0x020816FC
  * packet:   pkt_020816FC
  * region:   arm9
@@ -45,7 +45,7 @@ extern void MATH_SHA1Init(MATHSHA1Context *context);
 extern void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length);
 extern void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest);
 
-void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len)
+void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len)
 {
     MATHSHA1Context context;
     u8 hash_buf[20];

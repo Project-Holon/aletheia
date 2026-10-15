@@ -165,18 +165,8 @@ typedef struct NewGameIntroParam {
     u32 retryNameEntry;         /* written by the intro: nonzero asks for the name entry again */
 } NewGameIntroParam;
 
-/*
- * Partial view of the name input argument block (full layout: NameInArgs in
- * ov010 namein_setup.c; offset 0x04 is its species field, offset 0x24 its
- * reserved field).
- */
-typedef struct NameInArgs {
-    u8 unusedHead[4];
-    u16 playerGender;
-    u8 unusedMid[0x1A];
-    struct Strbuf *name;        /* 0x20: the entered name */
-    struct SaveControlIntr *saveIntr;   /* 0x24 */
-} NameInArgs;
+/* Name input argument block, owned by ../ov010/namein_args.h. */
+#include "../ov010/namein_args.h"
 
 /* Work of the new game intro proc, 0x5C bytes. */
 typedef struct NewGameIntroWork {

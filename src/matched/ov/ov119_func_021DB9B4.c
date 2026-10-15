@@ -1,5 +1,5 @@
 /*
- * function: func_021DB9B4
+ * function: POKETRADE_PROC_StepClearPeerSelection
  * address: 0x021DB9B4
  * packet: pkt_ov119_021DB9B4
  * region: ov119
@@ -16,7 +16,7 @@
  *   POKETRADE_PROC_ClearSideMon 0x021D94A0 thumb ov119
  *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DB998 0x021DB998 thumb ov119
+ *   POKETRADE_PROC_StepWaitBrowseRelease 0x021DB998 thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -31,8 +31,8 @@ extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigne
 extern void POKETRADE_PROC_ClearSideMon(void *,int);
 extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DB998(char *p);
-void func_021DB9B4(char *p)
+extern void POKETRADE_PROC_StepWaitBrowseRelease(char *p);
+void POKETRADE_PROC_StepClearPeerSelection(char *p)
 {
     POKETRADE_NEGO_FindOfferIndex(p,((struct Obj00001 *)p)->fF98,((struct Obj00001 *)p)->fF94);
     if(POKETRADE_PROC_IsNetSession(p)) {
@@ -47,5 +47,5 @@ void func_021DB9B4(char *p)
     ((struct Obj00001 *)p)->fF98=-1;
     POKETRADE_PROC_ClearSideMon(p,0);
     POKETRADE_PROC_RequestBoxRedraw(p);
-    POKETRADE_PROC_SetStep(p,(int)func_021DB998);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepWaitBrowseRelease);
 }

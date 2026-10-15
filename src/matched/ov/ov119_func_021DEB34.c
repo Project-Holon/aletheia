@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD140 0x021DD140 thumb ov119
+ *   POKETRADE_PROC_TickWifiTimer 0x021DD140 thumb ov119
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -23,7 +23,7 @@
 
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern int func_021DD140(char *p);
+extern int POKETRADE_PROC_TickWifiTimer(char *p);
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
@@ -37,7 +37,7 @@ extern void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
 void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
 {
     int v;
-    if(func_021DD140(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
+    if(POKETRADE_PROC_TickWifiTimer(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
         v=KEY_GetTrg();
         if(v) func_020355D8(0);
         if(v==0) {

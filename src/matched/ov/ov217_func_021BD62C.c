@@ -1,5 +1,5 @@
 /*
- * function: func_021BD62C
+ * function: RESEARCH_GRAPH_Update
  * address:  0x021BD62C
  * packet:   pkt_ov217_021BD62C
  * region:   ov217
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD718  0x021BD718  thumb  ov217
- *   func_021BD868  0x021BD868  thumb  ov217
- *   func_021BD89C  0x021BD89C  thumb  ov217
- *   func_021BDC18  0x021BDC18  thumb  ov217
- *   func_021BDF58  0x021BDF58  thumb  ov217
- *   func_021BE040  0x021BE040  thumb  ov217
- *   func_021BE094  0x021BE094  thumb  ov217
- *   func_021BE0D0  0x021BE0D0  thumb  ov217
- *   func_021BE108  0x021BE108  thumb  ov217
- *   func_021BE21C  0x021BE21C  thumb  ov217
- *   func_021BE33C  0x021BE33C  thumb  ov217
- *   func_021BE36C  0x021BE36C  thumb  ov217
- *   func_021BE384  0x021BE384  thumb  ov217
- *   func_021BF6D4  0x021BF6D4  thumb  ov217
- *   func_021BF710  0x021BF710  thumb  ov217
- *   func_021BED9C  0x021BED9C  thumb  ov217
+ *   RESEARCH_GRAPH_Init  0x021BD718  thumb  ov217
+ *   RESEARCH_GRAPH_UpdateIntro  0x021BD868  thumb  ov217
+ *   RESEARCH_GRAPH_HandleInput  0x021BD89C  thumb  ov217
+ *   RESEARCH_GRAPH_HandleInputAlt  0x021BDC18  thumb  ov217
+ *   RESEARCH_GRAPH_EnterDrawSlow  0x021BDF58  thumb  ov217
+ *   RESEARCH_GRAPH_StepAnimation  0x021BE040  thumb  ov217
+ *   RESEARCH_GRAPH_EnterFadeIn  0x021BE094  thumb  ov217
+ *   RESEARCH_GRAPH_EnterFadeOut  0x021BE0D0  thumb  ov217
+ *   RESEARCH_GRAPH_EnterDrawMedium  0x021BE108  thumb  ov217
+ *   RESEARCH_GRAPH_EnterDrawMediumAlt  0x021BE21C  thumb  ov217
+ *   RESEARCH_GRAPH_ExitFade  0x021BE33C  thumb  ov217
+ *   RESEARCH_GRAPH_AdvanceWhileActive  0x021BE36C  thumb  ov217
+ *   RESEARCH_GRAPH_Cleanup  0x021BE384  thumb  ov217
+ *   RESEARCH_GRAPH_CheckQuestionnaireUpdated  0x021BF6D4  thumb  ov217
+ *   RESEARCH_GRAPH_TickTimer  0x021BF710  thumb  ov217
+ *   RESEARCH_GRAPH_UpdateCircles  0x021BED9C  thumb  ov217
  *   ARROW_Update  0x021C20C4  thumb  ov217
- *   func_021BF600  0x021BF600  thumb  ov217
- *   func_021BF5E4  0x021BF5E4  thumb  ov217
- *   func_021BEDC4  0x021BEDC4  thumb  ov217
- *   func_021BEDEC  0x021BEDEC  thumb  ov217
- *   func_021BE490  0x021BE490  thumb  ov217
- *   func_021BE4A4  0x021BE4A4  thumb  ov217
+ *   RESEARCH_GRAPH_UpdatePaletteAnime  0x021BF600  thumb  ov217
+ *   RESEARCH_GRAPH_UpdateSlotPalettes  0x021BF5E4  thumb  ov217
+ *   RESEARCH_GRAPH_DrawCircles  0x021BEDC4  thumb  ov217
+ *   RESEARCH_GRAPH_DrawSliceColor  0x021BEDEC  thumb  ov217
+ *   RESEARCH_GRAPH_IncTimer  0x021BE490  thumb  ov217
+ *   RESEARCH_GRAPH_ProcessCommand  0x021BE4A4  thumb  ov217
  *   CLACT_DrawSystem  0x0204A600  arm
  *
  * Addresses are Black-image addresses.
@@ -40,62 +40,62 @@
 #include "../include/Obj00021.h"
 
 typedef unsigned char  u8;
-extern void func_021BD718(unsigned char *p);
+extern void RESEARCH_GRAPH_Init(unsigned char *p);
 typedef unsigned int   u32;
-extern void func_021BD868(u32 a0);
-extern void func_021BD89C(u8 *p);
-extern void func_021BDC18(u8 *p);
-extern void func_021BDF58(u8 *p);
-extern void func_021BE040(u8 *p);
-extern void func_021BE094(u32 a0);
-extern void func_021BE0D0(u32 a0);
-extern void func_021BE108(char *p);
-extern void func_021BE21C(char *p);
-extern void func_021BE33C(u32 a0);
-extern void func_021BE36C(u32 a0);
-extern void func_021BE384(u8 *a0);
-extern void func_021BF6D4(char *p);
-extern void func_021BF710(void *p);
+extern void RESEARCH_GRAPH_UpdateIntro(u32 a0);
+extern void RESEARCH_GRAPH_HandleInput(u8 *p);
+extern void RESEARCH_GRAPH_HandleInputAlt(u8 *p);
+extern void RESEARCH_GRAPH_EnterDrawSlow(u8 *p);
+extern void RESEARCH_GRAPH_StepAnimation(u8 *p);
+extern void RESEARCH_GRAPH_EnterFadeIn(u32 a0);
+extern void RESEARCH_GRAPH_EnterFadeOut(u32 a0);
+extern void RESEARCH_GRAPH_EnterDrawMedium(char *p);
+extern void RESEARCH_GRAPH_EnterDrawMediumAlt(char *p);
+extern void RESEARCH_GRAPH_ExitFade(u32 a0);
+extern void RESEARCH_GRAPH_AdvanceWhileActive(u32 a0);
+extern void RESEARCH_GRAPH_Cleanup(u8 *a0);
+extern void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *p);
+extern void RESEARCH_GRAPH_TickTimer(void *p);
 extern void CLACT_DrawSystem(void *h);
-extern void func_021BED9C(char *p);
+extern void RESEARCH_GRAPH_UpdateCircles(char *p);
 extern void ARROW_Update(void *h);
-extern void func_021BF600(u8 *a0);
-extern void func_021BF5E4(int *p);
-extern void func_021BEDC4(char *p);
-extern void func_021BEDEC(char *p);
-extern void func_021BE490(void *p);
-extern void func_021BE4A4(u32 a0);
+extern void RESEARCH_GRAPH_UpdatePaletteAnime(u8 *a0);
+extern void RESEARCH_GRAPH_UpdateSlotPalettes(int *p);
+extern void RESEARCH_GRAPH_DrawCircles(char *p);
+extern void RESEARCH_GRAPH_DrawSliceColor(char *p);
+extern void RESEARCH_GRAPH_IncTimer(void *p);
+extern void RESEARCH_GRAPH_ProcessCommand(u32 a0);
 
-void func_021BD62C(unsigned char *p)
+void RESEARCH_GRAPH_Update(unsigned char *p)
 {
     switch (((struct Obj00021 *)p)->f20) {
-    case 0: func_021BD718(p); break;
-    case 1: func_021BD868((u32)p); break;
-    case 2: func_021BD89C(p); break;
-    case 3: func_021BDC18(p); break;
-    case 4: func_021BDF58(p); break;
-    case 5: func_021BE040(p); break;
-    case 6: func_021BE094((u32)p); break;
-    case 7: func_021BE0D0((u32)p); break;
-    case 8: func_021BE108((char *)p); break;
-    case 9: func_021BE21C((char *)p); break;
-    case 10: func_021BE33C((u32)p); break;
-    case 11: func_021BE36C((u32)p); break;
-    case 12: func_021BE384((u8 *)p); break;
+    case 0: RESEARCH_GRAPH_Init(p); break;
+    case 1: RESEARCH_GRAPH_UpdateIntro((u32)p); break;
+    case 2: RESEARCH_GRAPH_HandleInput(p); break;
+    case 3: RESEARCH_GRAPH_HandleInputAlt(p); break;
+    case 4: RESEARCH_GRAPH_EnterDrawSlow(p); break;
+    case 5: RESEARCH_GRAPH_StepAnimation(p); break;
+    case 6: RESEARCH_GRAPH_EnterFadeIn((u32)p); break;
+    case 7: RESEARCH_GRAPH_EnterFadeOut((u32)p); break;
+    case 8: RESEARCH_GRAPH_EnterDrawMedium((char *)p); break;
+    case 9: RESEARCH_GRAPH_EnterDrawMediumAlt((char *)p); break;
+    case 10: RESEARCH_GRAPH_ExitFade((u32)p); break;
+    case 11: RESEARCH_GRAPH_AdvanceWhileActive((u32)p); break;
+    case 12: RESEARCH_GRAPH_Cleanup((u8 *)p); break;
     case 13: return;
     }
-    func_021BF6D4((char *)p);
-    func_021BF710(p);
+    RESEARCH_GRAPH_CheckQuestionnaireUpdated((char *)p);
+    RESEARCH_GRAPH_TickTimer(p);
     if (((struct Obj00021 *)p)->f3C4 != 0) {
         CLACT_DrawSystem(((struct Obj00021 *)p)->f3C4);
-        func_021BED9C((char *)p);
+        RESEARCH_GRAPH_UpdateCircles((char *)p);
         ARROW_Update(((struct Obj00021 *)p)->f2D0);
-        func_021BF600(p);
-        func_021BF5E4((int *)p);
-        func_021BEDC4((char *)p);
-        func_021BEDEC((char *)p);
+        RESEARCH_GRAPH_UpdatePaletteAnime(p);
+        RESEARCH_GRAPH_UpdateSlotPalettes((int *)p);
+        RESEARCH_GRAPH_DrawCircles((char *)p);
+        RESEARCH_GRAPH_DrawSliceColor((char *)p);
         *(volatile unsigned int *)0x04000540 = 0;
     }
-    func_021BE490(p);
-    func_021BE4A4((u32)p);
+    RESEARCH_GRAPH_IncTimer(p);
+    RESEARCH_GRAPH_ProcessCommand((u32)p);
 }

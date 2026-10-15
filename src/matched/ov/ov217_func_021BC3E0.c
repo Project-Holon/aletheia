@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3E0
+ * function: RESEARCH_LIST_GetScrollMax
  * address:  0x021BC3E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021BC3AC  0x021BC3AC  thumb  ov217
+ *   RESEARCH_LIST_GetScrollY  0x021BC3AC  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +24,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_021BC3AC(void);
-u32 func_021BC3E0(void)
+extern int RESEARCH_LIST_GetScrollY(void);
+u32 RESEARCH_LIST_GetScrollMax(void)
 {
-    return func_021BC3AC() + 168;
+    return RESEARCH_LIST_GetScrollY() + 168;
 }
 

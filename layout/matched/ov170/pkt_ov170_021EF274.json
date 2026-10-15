@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF274",
+   "name": "BOX2_UI_InitWindowFrames",
    "address": "0x021EF274",
    "kind": "game",
    "region": "ov170",

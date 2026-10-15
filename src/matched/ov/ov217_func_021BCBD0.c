@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBD0
+ * function: RESEARCH_LIST_LoadListBackground
  * address: 0x021BCBD0
  * packet: pkt_ov217_021BCBD0
  * region: ov217
@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * symbols:
- *   func_021BC6DC 0x021BC6DC thumb ov217
+ *   RESEARCH_LIST_GetEntryCount 0x021BC6DC thumb ov217
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_02062B30 0x02062B30 arm
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { char pad0[8]; u16 h8; };
 struct ArcFile;
-extern u32 func_021BC6DC(void *p);
+extern u32 RESEARCH_LIST_GetEntryCount(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *file, void **out);
@@ -33,10 +33,10 @@ extern void func_02041B6C(u32 bg);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_021BCBD0(struct S *p)
+void RESEARCH_LIST_LoadListBackground(struct S *p)
 {
     void *heap = func_020490F4(0xc0, (u16)((p->h8 & 0x7fff) | 0x8000));
-    int v = func_021BC6DC(p) * 3;
+    int v = RESEARCH_LIST_GetEntryCount(p) * 3;
     void *res = ARC_TOOL_LoadHandleMember(heap, 5, p->h8);
     char *q;
     func_02062B30(res, (void **)(&q));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DE61C",
+   "name": "MYSTERY_NET_StartSession",
    "address": "0x021DE61C",
    "kind": "game",
    "region": "ov121",

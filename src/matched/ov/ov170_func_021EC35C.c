@@ -1,5 +1,5 @@
 /*
- * function: func_021EC35C
+ * function: BOX2_SEQ_LoadMonIcon
  * address:  0x021EC35C
  * packet:   pkt_ov170_021EC35C
  * region:   ov170
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020079BC 0x020079BC thumb
- *   func_021DD2D0 0x021DD2D0 thumb
- *   func_021EC338 0x021EC338 thumb
+ *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb
+ *   BOX2_SEQ_LoadGraphicResource 0x021EC338 thumb
  *   MIi_CpuCopy32 0x02082A90 arm
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
@@ -22,13 +22,13 @@
 
 typedef unsigned int   u32;
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
-extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern void *func_021EC338(char *p, void *b, void *c);
+extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
+extern void *BOX2_SEQ_LoadGraphicResource(char *p, void *b, void *c);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
 extern u32 func_020307B0(void *p);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 
-void func_021EC35C(char **p, int box)
+void BOX2_SEQ_LoadMonIcon(char **p, int box)
 {
     unsigned i;
     void *m;
@@ -41,8 +41,8 @@ void func_021EC35C(char **p, int box)
                    && ((unsigned char *)p)[0x16] == i) {
             *(int *)(p[11] + i * 4 + 0x3DF8) = 0;
         } else {
-            m = (void *)func_021DD2D0((void ***)p, box, i);
-            r = func_021EC338(p[11], m, &buf);
+            m = (void *)BOX2_MAIN_GetMonAt((void ***)p, box, i);
+            r = BOX2_SEQ_LoadGraphicResource(p[11], m, &buf);
             MIi_CpuCopy32(((struct Obj24002 *)buf)->f14, p[11] + 0x1B4 + i * 0x200, 0x200);
             func_020307B0(r);
             *(unsigned char *)(p[11] + i + 0x3DB4) = POKE_TOOL_GetIconPalette(m);

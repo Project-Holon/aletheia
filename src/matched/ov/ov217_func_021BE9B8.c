@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9B8
+ * function: RESEARCH_GRAPH_DrawIndexCursorDim
  * address: 0x021BE9B8
  * packet: pkt_ov217_021BE9B8
  * region: ov217
@@ -11,7 +11,7 @@
  *   d_021C3AC8 0x021C3AC8 data a1
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
- *   func_021BEB88 0x021BEB88 thumb ov217
+ *   RESEARCH_GRAPH_SetHighlightB 0x021BEB88 thumb ov217
  */
 #include "../include/Obj25909.h"
 #include "../include/G_E.h"
@@ -21,8 +21,8 @@ typedef struct { u8 x,y,w,h; u8 rest[32]; } E;
 extern struct E d_021C3AC8[];
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
-extern u32 func_021BEB88(u32);
-void func_021BE9B8(u8 *p)
+extern u32 RESEARCH_GRAPH_SetHighlightB(u32);
+void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
 {
     switch (((struct Obj25909 *)p)->f34) {
     case 0:
@@ -38,7 +38,7 @@ void func_021BE9B8(u8 *p)
         func_020413B0(2,16,8,16,3,6);
         break;
     case 4:
-        func_021BEB88((u32)p);
+        RESEARCH_GRAPH_SetHighlightB((u32)p);
         break;
     }
     func_020409B4(2);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF348
+ * function: BOX2_MAIN_PushBagScene
  * address:  0x021DF348
  * packet:   pkt_021DF348
  * region:   ov170
@@ -23,7 +23,7 @@ extern void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3);
 extern void PROCSYS_Push(void *a, u32 id, void *b, void *c);
 extern u8 ov070_id[];
 
-int func_021DF348(void **p)
+int BOX2_MAIN_PushBagScene(void **p)
 {
     void *r = BAG_PARAM_Create((const struct BigObj *)(*(u32 *)p[0]), 0, 2, 0x4b);
 

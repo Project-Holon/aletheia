@@ -1,5 +1,5 @@
 /*
- * function: func_021F962C
+ * function: BR_PROC_SYS_BuildProfileRecord
  * address:  0x021F962C
  * packet:   pkt_021F962C
  * region:   ov186
@@ -28,7 +28,7 @@ extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 
-void func_021F962C(char *r5, int *r4)
+void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4)
 {
     int x;
     x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4)));

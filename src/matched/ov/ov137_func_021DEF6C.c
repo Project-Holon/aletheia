@@ -10,8 +10,9 @@
  * trailing: two zero alignment bytes at 0x021DEFB2.
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "../include/Obj10621.h"
 #include "../include/Obj23750.h"
@@ -24,18 +25,18 @@ struct Big;
 struct L0200ED54;
 struct Sub0200852CObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 void GURU2_MAIN_RegisterPlayerRecords(Obj *obj)
 {
     u8 *p = (u8 *)obj;
     void *q;
     int i;
-    q = func_0200ED48(GAME_DATA_GetSaveControl(((struct Obj23751 *)(*(u8 * *)&((struct Obj23750 *)(*(u8 * *)&((struct Obj10621 *)p)->fD8))->f14))->f4));
+    q = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct Obj23751 *)(*(u8 * *)&((struct Obj23750 *)(*(u8 * *)&((struct Obj10621 *)p)->fD8))->f14))->f4));
     for (i = 0; i < 5; i++) {
         if (obj->slots[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
-            func_0200ED54(q, func_02008530(obj->slots[i]));
+            MISC_SAVEDATA_InsertRecentValue(q, func_02008530(obj->slots[i]));
     }
 }

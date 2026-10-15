@@ -1,5 +1,5 @@
 /*
- * function: func_021BA63C
+ * function: RESEARCH_TOP_InitPaletteRows
  * address:  0x021BA63C
  * packet:   pkt_ov217_021BA63C
  * region:   ov217
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 d_021C2EE0[];
 
-void func_021BA63C(u8 *self)
+void RESEARCH_TOP_InitPaletteRows(u8 *self)
 {
     int i = 0;
     do {

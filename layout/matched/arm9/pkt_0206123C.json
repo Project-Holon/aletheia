@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206123C",
+   "name": "NNSi_FndAllocBlockFromHeap",
    "address": "0x0206123C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020612C8",
+   "name": "NNSi_FndAllocFoundMBlock",
    "address": "0x020612C8",
    "kind": "game",
    "region": "arm9",
@@ -42,7 +42,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02061330"
+    "NNS_G2dCallVtableSlot0"
+   ],
+   "addresses": [
+    "0x02061330"
    ]
   },
   {
@@ -57,15 +60,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02061358",
-    "func_02061370",
-    "func_02061378",
-    "func_02061380",
-    "func_02061388"
+    "NNS_G2dInitCellBank",
+    "NNS_G2dStubReturnZeroA",
+    "NNS_G2dStubReturnMinusOneA",
+    "NNS_G2dStubReturnZeroB",
+    "NNS_G2dStubReturnMinusOneB"
+   ],
+   "addresses": [
+    "0x02061358",
+    "0x02061370",
+    "0x02061378",
+    "0x02061380",
+    "0x02061388"
    ]
   },
   {
-   "name": "func_02061390",
+   "name": "NNS_G2dSetupCellBank",
    "address": "0x02061390",
    "kind": "game",
    "region": "arm9",

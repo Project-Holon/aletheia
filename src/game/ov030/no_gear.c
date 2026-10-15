@@ -118,7 +118,6 @@ extern char str_021F01C0[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct NoGearWork;
-extern void NO_GEAR_ReleaseGraphics(struct NoGearWork *work);
 extern u32 func_020307B0(void *block);
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 

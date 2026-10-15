@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EDECC",
+   "name": "BOX2_UI_HideSlotIcon",
    "address": "0x021EDECC",
    "kind": "game",
    "region": "ov170",

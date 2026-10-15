@@ -1,5 +1,5 @@
 /*
- * function: func_021A0F0C
+ * function: ProcessPlayerSearch
  * address:  0x021A0F0C
  * packet:   pkt_ov009_021A0F0C
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      ProcessPlayerSearch (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -26,9 +26,9 @@ struct SBServerList {
     void *instance;
 };
 
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 
-int func_021A0F0C(SBServerList *slist, char *buf, int len)
+int ProcessPlayerSearch(SBServerList *slist, char *buf, int len)
 {
     unsigned char isFinal;
     unsigned char resultCount;
@@ -47,7 +47,7 @@ int func_021A0F0C(SBServerList *slist, char *buf, int len)
     len -= 2;
     for (i = 0; i < resultCount; i++) {
         nick = buf;
-        slen = func_0219F978(buf, len);
+        slen = NTSLengthSB(buf, len);
         if (slen == -1)
             return 4;
         buf += slen;
@@ -60,7 +60,7 @@ int func_021A0F0C(SBServerList *slist, char *buf, int len)
         lastSeen = SWAP32((unsigned int)lastSeen);
         buf += 10;
         len -= 10;
-        slen = func_0219F978(buf, len);
+        slen = NTSLengthSB(buf, len);
         if (slen == -1)
             return 4;
         slist->PlayerSearchCallback(slist, nick, ip, port, lastSeen, buf, slist->instance);

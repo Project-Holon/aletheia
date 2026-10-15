@@ -1,5 +1,5 @@
 /*
- * function: func_021FD860
+ * function: BR_UTIL_StartEffect
  * address: 0x021FD860
  * packet: pkt_ov186_021FD860
  * region: ov186
@@ -10,52 +10,52 @@
  * status: EXACT*
  * follower: 021FD938 already filed separately; lead excludes that existing accessor.
  * symbols:
- *   func_021FD750 0x021FD750 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_IsTaskStep 0x021FD750 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021FDE88 0x021FDE88 thumb ov186
- *   func_021FD964 0x021FD964 thumb ov186
- *   func_021FD9A0 0x021FD9A0 thumb ov186
- *   func_021FDA7C 0x021FDA7C thumb ov186
- *   func_021FDBF4 0x021FDBF4 thumb ov186
- *   func_021FDF40 0x021FDF40 thumb ov186
- *   func_021FDFF0 0x021FDFF0 thumb ov186
- *   func_021FDFF4 0x021FDFF4 thumb ov186
- *   func_021FE1C4 0x021FE1C4 thumb ov186
+ *   BR_UTIL_EffectFlyIn 0x021FDE88 thumb ov186
+ *   BR_UTIL_EffectIdle 0x021FD964 thumb ov186
+ *   BR_UTIL_EffectSpiral 0x021FD9A0 thumb ov186
+ *   BR_UTIL_EffectFollow12 0x021FDA7C thumb ov186
+ *   BR_UTIL_EffectFollow6 0x021FDBF4 thumb ov186
+ *   BR_UTIL_EffectFlyInSlow 0x021FDF40 thumb ov186
+ *   BR_UTIL_EffectNoop 0x021FDFF0 thumb ov186
+ *   BR_UTIL_EffectToTarget 0x021FDFF4 thumb ov186
+ *   BR_UTIL_EffectToPoint 0x021FE1C4 thumb ov186
  */
 #include "../include/Obj02236.h"
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
-extern int func_021FD750(int *,int);
-extern int *func_021FD73C(int *p, int v);
+extern int BR_UTIL_IsTaskStep(int *,int);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 typedef unsigned char  u8;
-extern void func_021FDE88(void);
-extern void func_021FD964(void *unused, int *state, u8 *p);
-extern void func_021FD9A0(void);
-extern void func_021FDA7C(void);
-extern void func_021FDBF4(void);
-extern void func_021FDF40(void);
-extern void func_021FDFF0(void);
-extern void func_021FDFF4(void);
-extern void func_021FE1C4(int *task, int *state, char *p);
-void func_021FD860(char *p,u32 mode,const Pair *pair)
+extern void BR_UTIL_EffectFlyIn(void);
+extern void BR_UTIL_EffectIdle(void *unused, int *state, u8 *p);
+extern void BR_UTIL_EffectSpiral(void);
+extern void BR_UTIL_EffectFollow12(void);
+extern void BR_UTIL_EffectFollow6(void);
+extern void BR_UTIL_EffectFlyInSlow(void);
+extern void BR_UTIL_EffectNoop(void);
+extern void BR_UTIL_EffectToTarget(void);
+extern void BR_UTIL_EffectToPoint(int *task, int *state, char *p);
+void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair)
 {
     if(pair) {
         *(Pair *)p=*pair;
         *(const Pair * *)&((struct Obj02236 *)p)->f8=pair;
     }
     ((struct Obj02236 *)p)->f22C=0;
-    if(mode==0 && func_021FD750(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88)) GFL_USE_PlaySeDefaultVolume(0x701);
+    if(mode==0 && BR_UTIL_IsTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
     switch(mode) {
-    case 0: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD964);break;
-    case 1: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD9A0);break;
-    case 2: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDA7C);break;
-    case 3: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDBF4);break;
-    case 4: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88);break;
-    case 5: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDF40);break;
-    case 6: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF0);break;
-    case 7: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF4);break;
-    case 8: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FE1C4);break;
+    case 0: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectIdle);break;
+    case 1: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectSpiral);break;
+    case 2: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow12);break;
+    case 3: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFollow6);break;
+    case 4: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyIn);break;
+    case 5: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectFlyInSlow);break;
+    case 6: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectNoop);break;
+    case 7: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToTarget);break;
+    case 8: BR_UTIL_SetTaskStep(*(int * *)&((struct Obj02236 *)p)->f10,(int)BR_UTIL_EffectToPoint);break;
     }
 }

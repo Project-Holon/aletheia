@@ -17,9 +17,9 @@
  *   sReadXmlNamespacePrefix     0x021E3DF8  data
  *   sReadTagOwnerids     0x021E3E1C  data
  *   sReadTagInt     0x021E3E18  data
- *   func_021829AC  0x021829AC  arm
- *   func_02182CF0  0x02182CF0  arm
- *   func_02182A2C  0x02182A2C  arm
+ *   gsXmlWriteOpenTag  0x021829AC  arm
+ *   gsXmlWriteIntElement  0x02182CF0  arm
+ *   gsXmlWriteCloseTag  0x02182A2C  arm
  */
 
 typedef unsigned int u32;
@@ -27,17 +27,17 @@ typedef unsigned int u32;
 extern char sReadXmlNamespacePrefix[];
 extern char sReadTagOwnerids[];
 extern char sReadTagInt[];
-extern void func_021829AC(void *, void *, void *);
-extern void func_02182CF0(void *, void *, void *, void *);
-extern void func_02182A2C(void *, void *, void *);
+extern void gsXmlWriteOpenTag(void *, void *, void *);
+extern void gsXmlWriteIntElement(void *, void *, void *, void *);
+extern void gsXmlWriteCloseTag(void *, void *, void *);
 
 void sakeiFillSoapRequestOwnerIds(u32 ctx, u32 *arr, int n)
 {
     int i;
 
-    func_021829AC(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagOwnerids);
+    gsXmlWriteOpenTag(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagOwnerids);
     for (i = 0; i < n; i++)
-        func_02182CF0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagInt,
+        gsXmlWriteIntElement(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagInt,
                       (void *)arr[i]);
-    func_02182A2C(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagOwnerids);
+    gsXmlWriteCloseTag(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagOwnerids);
 }

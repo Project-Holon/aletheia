@@ -45,7 +45,8 @@ struct TouchSelect;
 /* Request and result of the mail screens (0x1C). */
 struct MailArgs {
     /* 0x00 */ u16 mode;               /* 1 = write a mail, 0 = view one */
-    /* 0x02 */ u8 pad_02[2];
+    /* 0x02: two bytes of compiler alignment before the sent word; nothing
+     * reads or writes them. */
     /* 0x04 */ u32 sent;               /* result: 1 when the player sent the mail, 0 otherwise */
     /* 0x08 */ u32 callerParam;        /* argument b of MAILTOOL_CreateWriteArgs, stored and never read here */
     /* 0x0C */ u16 reserved0C;         /* always 0 */
@@ -62,15 +63,15 @@ struct MailDraft {
     /* 0x02 */ u8 selectedSlot;        /* sentence slot chosen on the edit screen (3 = closing word) */
     /* 0x03 */ u8 selectedSub;         /* cursor sub-position stored with the selection */
     /* 0x04 */ u32 writerId;
-    /* 0x08 */ u8 pad_08;
+    /* 0x08 */ u8 gender;              /* Mail.gender; not filled by MAILSYS_CreateMessage */
     /* 0x09 */ u8 language;
     /* 0x0A */ u8 version;
     /* 0x0B */ u8 design;              /* paper design 0..11 */
     /* 0x0C */ struct Strbuf *writerName;
-    /* 0x10 */ u8 pad_10[6];
+    /* 0x10 */ u16 icon[3];            /* Mail.icon; not filled by MAILSYS_CreateMessage */
     /* 0x16 */ struct PmsData message[3];
     /* 0x2E */ u8 slotEnabled[3];      /* 1 when the design has a sentence slot there */
-    /* 0x31 */ u8 pad_31;
+    /* 0x31: one byte of compiler alignment before the messageId halfword. */
     /* 0x32 */ u16 messageId;          /* closing easy-chat word */
 };
 
@@ -120,7 +121,7 @@ struct MailEditProc {
     /* 0x00A */ u8 inputMode;          /* 0 = touch, 1 = keys */
     /* 0x00B */ u8 mode;               /* screen mode: index of the handler table (0 edit, 1 write, 2 send dialog, 3 cancel dialog) */
     /* 0x00C */ u8 prevMode;
-    /* 0x00D */ u8 pad_0D[3];
+    /* 0x00D: three bytes of compiler alignment before dialogActive. */
     /* 0x010 */ int dialogActive;
     /* 0x014 */ u8 pad_14;
     /* 0x015 */ s8 textSpeed;
@@ -219,7 +220,7 @@ struct MailBoxView {
     /* 0x1D8 */ struct Strbuf *msgBuf;
     /* 0x1DC */ u8 pad_1DC;
     /* 0x1DD */ u8 waitForInput;           /* message finishes on a key or touch (1) or at once (0) */
-    /* 0x1DE */ u8 pad_1DE[2];
+    /* 0x1DE: two bytes of compiler alignment before menuKind. */
     /* 0x1E0 */ int menuKind;              /* index of the menu handler table */
     /* 0x1E4 */ u8 pad_1E4[8];
     /* 0x1EC */ struct ClactUnit *clactUnit;

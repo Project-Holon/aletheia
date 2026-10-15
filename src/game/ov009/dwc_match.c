@@ -170,7 +170,7 @@
  *   d_021A20AC     0x021A20AC  data
  *   d_021A20D4     0x021A20D4  data
  *   d_021A20E0     0x021A20E0  data
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   g_021A20E0     0x021A20E0  data
  *   g_021A20F0     0x021A20F0  data
  *   g_021A209C     0x021A209C  data
@@ -471,7 +471,6 @@ extern void func_02176B34(void);
 extern u32 func_021685CC(u32 max);
 extern void func_0219F00C(void *p);
 extern int func_0219EED4(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 extern u32 ServerBrowserGetMyPublicIPAddr(void * sb);
 extern long SOC_GetHostID(void);
 extern int IsPrivateAddr(u32 addr);
@@ -2436,10 +2435,10 @@ int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEnt
     char tempFilter[511];
 
     if (hostState == 3)
-        func_02084F80(tempFilter, 511, g_021A20F0, g_021A20E0, 0, g_021A20E0, 2);
+        OS_SNPrintf(tempFilter, 511, g_021A20F0, g_021A20E0, 0, g_021A20E0, 2);
     else
-        func_02084F80(tempFilter, 511, g_021A209C, g_021A20E0, hostState);
-    func_02084F80(filter, 511, g_021A2108, g_021A2164, 90, g_021A20A4, profileID, numEntry, numEntry,
+        OS_SNPrintf(tempFilter, 511, g_021A209C, g_021A20E0, hostState);
+    OS_SNPrintf(filter, 511, g_021A2108, g_021A2164, 90, g_021A20A4, profileID, numEntry, numEntry,
                   g_021A2170, matchType, g_021A217C, 0, tempFilter);
     return func_0209477C((const u8 *)filter);
 }

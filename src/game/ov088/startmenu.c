@@ -28,7 +28,7 @@
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   FADE_IsActive  0x0204E804  arm
  *   GFL_USE_PlayFanfare  0x02005DAC  thumb
- *   func_02006BD0  0x02006BD0  thumb
+ *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   GFL_USE_IsBgmFading  0x02005E50  thumb
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  *   func_020315D4  0x020315D4  arm
@@ -510,7 +510,7 @@ extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int  FADE_IsActive(void);
 extern void GFL_USE_PlayFanfare(void *arg);
-extern u32  func_02006BD0(u32 a);
+extern u32  PM_VOICE_IsSlotActive(u32 a);
 extern int  GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_020315D4(struct S020315D4 *a);
@@ -1115,7 +1115,7 @@ int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, Titl
         STARTMENU_TitleDemoUpdateTimer(work);
         break;
     case 4:
-        if (func_02006BD0((unsigned int)work->fanfareHandle) == 0) {
+        if (PM_VOICE_IsSlotActive((unsigned int)work->fanfareHandle) == 0) {
             work->state = 5;
         }
         STARTMENU_TitleDemoUpdateParts(work);
@@ -3430,7 +3430,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
             *seq = 2;
         break;
     case 2:
-        work->nameInArgs->playerGender = func_02008550(work->startArg.myStatus);
+        work->nameInArgs->species = func_02008550(work->startArg.myStatus);
         work->nameInArgs->saveIntr = work->saveIntr;
         PROCSYS_Push(work->procSys, (u32)ov194_id, &gNameInProcData, work->nameInArgs);
         *seq = 3;

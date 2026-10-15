@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D728
+ * function: MSL_CONSOLE_IO_RegisterDestructor
  * address:  0x0209D728
  * packet:   pkt_0209D728
  * region:   arm9
@@ -14,8 +14,8 @@
  *           pool words at 0x0209D76C and 0x0209D770, inside this function's own compared
  *           range, so the data class has no outside witness. MATCH, byte-exact.
  * symbols:
- *   g_02153FB4  0x02153FB4  data
- *   g_02153FB8  0x02153FB8  data
+ *   gDestructorCount  0x02153FB4  data
+ *   gDestructorChains  0x02153FB8  data
  *   __register_global_object  0x0209D850  arm
  */
 
@@ -26,19 +26,19 @@ typedef struct
     u8 b[12];
 } Ent;
 
-extern int   g_02153FB4;
-extern Ent   g_02153FB8[];
+extern int   gDestructorCount;
+extern Ent   gDestructorChains[];
 typedef unsigned int   u32;
 struct Node;
 extern void __register_global_object(u32 a, u32 b, struct Node *node);
 
-int func_0209D728(int a)
+int MSL_CONSOLE_IO_RegisterDestructor(int a)
 {
     int r = 0;
 
-    if (g_02153FB4 == 0x40)
+    if (gDestructorCount == 0x40)
         return -1;
 
-    __register_global_object(r, a, (struct Node *)(&g_02153FB8[g_02153FB4++]));
+    __register_global_object(r, a, (struct Node *)(&gDestructorChains[gDestructorCount++]));
     return r;
 }

@@ -160,7 +160,6 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern u32 func_0202136C(u16 v);
 
@@ -274,9 +273,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
 extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
@@ -286,7 +283,6 @@ extern void func_02041B6C(u32 v);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 

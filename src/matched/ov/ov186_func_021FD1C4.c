@@ -1,5 +1,5 @@
 /*
- * function: func_021FD1C4
+ * function: BR_UTIL_CreateProfileScreen
  * address:  0x021FD1C4
  * packet:   pkt_ov186_021FD1C4
  * region:   ov186
@@ -11,7 +11,7 @@
  *
  * 2026-10-05 (wave P2, lane Q6, pengy share): first full draft, 1148 B,
  * same size as the original, 12 bytes differ. Constructor of the GDS
- * profile screen (pair of func_021FD640, the matched destructor): 0x44 B
+ * profile screen (pair of BR_UTIL_DeleteProfileScreen, the matched destructor): 0x44 B
  * object, 7 text windows from the 8-byte table d_02200B34 (switch on the
  * row: 0 name, 1 and 3 and 4 number rows, 6 optional record with a
  * fallback draw, 2 and 5 plain message), then an arc load that builds the
@@ -151,8 +151,8 @@
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   PMS_DRAW_Create 0x0202DB0C thumb
  *   PMS_DRAW_SetDecoPriority 0x0202DCFC thumb
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
@@ -225,8 +225,8 @@ extern int BR_RES_GetMsgData(char *p);
 extern int BR_RES_GetWordSet(char *p);
 extern void BR_RES_LoadBgGraphics(void *,u32,u16);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,u8,u8,void *,u16);
-extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021FC7C4(char *p, void *text, void *font, unsigned short value);
+extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextFromBuffer(char *p, void *text, void *font, unsigned short value);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetDecoPriority(struct Obj0202DCC4 *p, u32 i, u32 val);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
@@ -264,7 +264,7 @@ extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void *CLACT_SetActorPaletteOffset(void *,u32,u32);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
+char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
 {
     char *p;
     void *font;
@@ -288,7 +288,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     Pair b=d_02200B6C;
     for(i=0;i<7;i++) {
         *(void **)(p+i*4)=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,a3,heap);
-        func_021FC868(*(void **)(p+i*4),0,1,0);
+        BR_UTIL_SetTextLayout(*(void **)(p+i*4),0,1,0);
         ready=1;
         switch(i) {
         case 0:
@@ -326,7 +326,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             func_0201F048(words,0,v);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
-            func_021FC868(*(void **)(p+i*4),8,1,0);
+            BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
             }
         case 4:
@@ -340,7 +340,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             func_0201F094(words,0,v,w);
             func_0201F250(words,text,msg);
             STRBUF_Delete(msg);
-            func_021FC868(*(void **)(p+i*4),8,1,0);
+            BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             break;
             }
         case 6:
@@ -351,7 +351,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             if(msg) {
                 text=STRBUF_Clone(msg,heap);
                 STRBUF_Delete(msg);
-                func_021FC868(*(void **)(p+i*4),8,1,0);
+                BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
             } else {
                 Pair c=d_02200B6C;
                 PMS_DRAW_SetNullColorPalette(*(void **)(p+0x20),0);
@@ -366,7 +366,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             break;
         }
         if(ready) {
-            func_021FC7C4(*(void **)(p+i*4),text,font,0x3da0);
+            BR_UTIL_SetTextFromBuffer(*(void **)(p+i*4),text,font,0x3da0);
             STRBUF_Delete(text);
         }
     }

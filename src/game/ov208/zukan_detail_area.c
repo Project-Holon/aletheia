@@ -213,9 +213,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
  */
 #include "zukan_detail_types.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_headbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 #include "../../matched/include/Obj00510.h"
 #include "../../matched/include/Obj03933.h"
 #include "../../matched/include/Obj08396.h"
@@ -240,11 +238,6 @@
 #include "../../matched/include/Obj18288.h"
 #include "../../matched/include/Obj14657.h"
 #include "../../matched/include/Obj10905.h"
-#include "zukan_detail_graphic_shared_types.h"
-#include "zknd_tbar_shared_types.h"
-#include "zukan_detail_touchbar_shared_types.h"
-#include "zukan_detail_info_shared_types.h"
-#include "zukan_detail_area_shared_types.h"
 
 extern u32 func_020307B0(void *p);
 
@@ -302,13 +295,13 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void func_02041B6C(u32 layer);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon_021BE82C *p, int kind);
+void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
 
-int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon_021BE840 *p);
+int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon_021BE844 *p);
+void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon_021BE854 *p);
+void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
@@ -482,7 +475,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 extern int func_02034AC4(s32_021BD574 handle);
 
-extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Buf *p, u32 size, u32 heap);
+extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap);
 
 extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
@@ -696,7 +689,6 @@ extern void func_021C0C8C(u16 *, u8 *, int, int);
 
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void func_0207D63C(volatile void *, int, int, int, int);
 
@@ -728,7 +720,7 @@ u32 ZUKAN_DETAIL_AREA_Exit(void *a0, u32 a1, void *a2, char *p, void *a4);
 
 int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key);
 
-void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *st, int *obj, int key);
+void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, int *obj, int key);
 
 void ZUKAN_DETAIL_AREA_ApplyPendingEffect(void *unused, char *p);
 
@@ -1126,7 +1118,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
 
 #define OBJ(i) (*(u32 *)(p + (i) * 4 + 0xbc))
 
-void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
+void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct Ov208AreaState *st, int *obj, int key)
 {
     int sc;
     u32 flag;
@@ -1140,13 +1132,13 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *
     case 16: case 19:
         break;
     case 10: case 11: case 12: case 13: case 14: case 15: case 17: case 18: case 20:
-        st->f428 = flag;
+        st->keyFlag = flag;
         break;
     }
     switch (key) {
     case 1: case 2: case 3: case 4: case 5: case 6: case 8: case 9: case 19:
         flag = 1;
-        st->f428 = flag;
+        st->keyFlag = flag;
         break;
     }
     switch (key) {
@@ -1156,13 +1148,13 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *
         if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
             ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
             ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
-            st->f42c = 1;
-            st->f430 = 0;
-            st->f434 = 0;
+            st->overlayPending = 1;
+            st->overlayReady = 0;
+            st->overlayCommitted = 0;
         } else {
-            st->f42c = 1;
-            st->f430 = 1;
-            st->f434 = 0;
+            st->overlayPending = 1;
+            st->overlayReady = 1;
+            st->overlayCommitted = 0;
         }
         break;
     }
@@ -1172,13 +1164,13 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *
         if (old != ZUKAN_DETAIL_COMMON_GetCurrentEntry(obj)) {
             ZUKAN_DETAIL_AREA_LoadAreaEntries(heap, (u8 *)st, (int)obj);
             ZUKAN_DETAIL_AREA_UpdateFadeAndOverlay((int)heap, (int)st, (int)obj);
-            st->f42c = 1;
-            st->f430 = 0;
-            st->f434 = 0;
+            st->overlayPending = 1;
+            st->overlayReady = 0;
+            st->overlayCommitted = 0;
         } else {
-            st->f42c = 1;
-            st->f430 = 1;
-            st->f434 = 0;
+            st->overlayPending = 1;
+            st->overlayReady = 1;
+            st->overlayCommitted = 0;
         }
         break;
     }
@@ -1187,26 +1179,26 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *
     case 0:
         break;
     case 1: case 2:
-        st->f424 = 2;
+        st->mode = 2;
         return;
     case 6: case 8: case 9:
-        st->f424 = 1;
+        st->mode = 1;
         return;
     case 3:
-        if (st->f42c != 0) {
-            st->f434 = 1;
-            if (st->f430 != 0) {
-                st->f42c = 0;
+        if (st->overlayPending != 0) {
+            st->overlayCommitted = 1;
+            if (st->overlayReady != 0) {
+                st->overlayPending = 0;
                 func_021BDBA0((void *)sc);
                 return;
             }
         }
         break;
     case 4:
-        if (st->f42c != 0) {
-            st->f434 = 1;
-            if (st->f430 != 0) {
-                st->f42c = 0;
+        if (st->overlayPending != 0) {
+            st->overlayCommitted = 1;
+            if (st->overlayReady != 0) {
+                st->overlayPending = 0;
                 func_021BDBA0((void *)sc);
                 return;
             }
@@ -1424,12 +1416,12 @@ void ZUKAN_DETAIL_AREA_CreateTownMarkerActors(u16 *heap, u8 *p, int key)
  */
 void ZUKAN_DETAIL_AREA_DeleteTownMarkerActors(void *a0, char *p, void *a2)
 {
-    S *s = (S *)p;
+    Ov208MarkerTable *s = (Ov208MarkerTable *)p;
     unsigned char i;
 
     for (i = 0; i < 0x3d; i++) {
-        if (s->arr[i * 2] == 2)
-            CLACT_DeleteActor((struct Obj *)s->arr[i * 2 + 1]);
+        if (s->markers[i].state == 2)
+            CLACT_DeleteActor((struct Obj *)s->markers[i].obj);
     }
 }
 

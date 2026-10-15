@@ -1,5 +1,5 @@
 /*
- * function: func_021B6830
+ * function: CDEMO_SCENE_CmdSetBlend2
  * address:  0x021B6830
  * packet:   pkt_ov179_021B6830
  * region:   ov179
@@ -13,7 +13,7 @@
  * data.  Entry of the ov179 command table (pool word 0x021B6831 at 0x021B6A68).
  */
 #include "../include/Obj08295.h"
-int func_021B6830(char *p, int *q)
+int CDEMO_SCENE_CmdSetBlend2(char *p, int *q)
 {
     ((struct Obj08295 *)p)->f6034 = q[1];
     ((struct Obj08295 *)p)->f6038 = q[2];

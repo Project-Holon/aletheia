@@ -1,5 +1,5 @@
 /*
- * function: func_021FCEDC
+ * function: BR_UTIL_PollScrollDrag
  * address: 0x021FCEDC
  * packet: pkt_ov186_021FCEDC
  * region: ov186
@@ -17,7 +17,7 @@ extern int TOUCHPANEL_HitCont(const void *);
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern const char d_02200AF0[];
-int func_021FCEDC(char *p)
+int BR_UTIL_PollScrollDrag(char *p)
 {
     int x,y;
     int direction=0;

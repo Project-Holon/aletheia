@@ -1,5 +1,5 @@
 /*
- * function: func_0218198C
+ * function: gsUnicodeStringLen
  * address:  0x0218198C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Number of halfwords before the terminating zero, less one.
  */
 
-int func_0218198C(const unsigned short *p)
+int gsUnicodeStringLen(const unsigned short *p)
 {
     const unsigned short *q = p;
     unsigned short v;

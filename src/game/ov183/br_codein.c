@@ -13,42 +13,42 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021F9B9C 0x021F9B9C thumb ov186
+ *   BR_PROC_SYS_GetSlotId 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021FD760 0x021FD760 thumb ov186
- *   func_021FD940 0x021FD940 thumb ov186
- *   func_021FD6D8 0x021FD6D8 thumb ov186
- *   func_021FD820 0x021FD820 thumb ov186
- *   func_021FD714 0x021FD714 thumb ov186
+ *   BR_UTIL_CreateHandles 0x021FD760 thumb ov186
+ *   BR_UTIL_SetHandlesAnimSeq 0x021FD940 thumb ov186
+ *   BR_UTIL_CreateTask 0x021FD6D8 thumb ov186
+ *   BR_UTIL_DeleteHandles 0x021FD820 thumb ov186
+ *   BR_UTIL_DeleteTask 0x021FD714 thumb ov186
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
- *   func_021FD71C 0x021FD71C thumb ov186
- *   func_021FD854 0x021FD854 thumb ov186
- *   func_021FD72C 0x021FD72C thumb ov186
+ *   BR_UTIL_RunTask 0x021FD71C thumb ov186
+ *   BR_UTIL_RunHandles 0x021FD854 thumb ov186
+ *   BR_UTIL_IsTaskIdle 0x021FD72C thumb ov186
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FD938 0x021FD938 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
+ *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
- *   func_021FC754 0x021FC754 thumb ov186
+ *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_FADE_StartTimed 0x021FE794 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_SIDEBAR_StartBounce 0x021FEE24 thumb ov186
- *   func_021F9BF4 0x021F9BF4 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
- *   func_021FC830 0x021FC830 thumb ov186
+ *   BR_PROC_SYS_PushEntry 0x021F9BF4 thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
+ *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020409B4 0x020409B4 arm
  *   BR_SIDEBAR_StartSlide 0x021FEE74 thumb ov186
- *   func_021F9BA0 0x021F9BA0 thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
  *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
  *   BR_SIDEBAR_StartWobble 0x021FEE4C thumb ov186
- *   func_021FD744 0x021FD744 thumb ov186
+ *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  *   BR_RES_ReleaseUiPalette 0x021FC1F8 thumb ov186
  *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
@@ -57,10 +57,10 @@
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_BTN_Delete 0x021F9F48 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
- *   func_021FA018 0x021FA018 thumb ov186
- *   func_021F9FE8 0x021F9FE8 thumb ov186
- *   func_021FA004 0x021FA004 thumb ov186
- *   func_021FA01C 0x021FA01C thumb ov186
+ *   BR_BTN_GetField14 0x021FA018 thumb ov186
+ *   BR_BTN_UpdatePrint 0x021F9FE8 thumb ov186
+ *   BR_BTN_GetPlacement 0x021FA004 thumb ov186
+ *   BR_BTN_GetField54 0x021FA01C thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_SetPalSet 0x021FC230 thumb ov186
  *   BR_RES_GetCurrentSetParam 0x021FC224 thumb ov186
@@ -75,16 +75,16 @@
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
- *   func_021FD15C 0x021FD15C thumb ov186
+ *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   GAME_DATA_IsSaving 0x02012E40 thumb
  *   BR_NET_HandleNetError 0x021FF88C thumb ov186
- *   func_021F9C6C 0x021F9C6C thumb ov186
- *   func_021FD6B0 0x021FD6B0 thumb ov186
- *   func_021FD1BC 0x021FD1BC thumb ov186
- *   func_021FB4B4 0x021FB4B4 thumb ov186
- *   func_021F9C50 0x021F9C50 thumb ov186
- *   func_021FD170 0x021FD170 thumb ov186
+ *   BR_PROC_SYS_FlushWindows 0x021F9C6C thumb ov186
+ *   BR_UTIL_MainProfileScreen 0x021FD6B0 thumb ov186
+ *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
+ *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
+ *   BR_PROC_SYS_SetupWindow 0x021F9C50 thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_NET_StartRequest 0x021FF54C thumb ov186
  *   BR_NET_IsIdle 0x021FF648 thumb ov186
  *   BR_NET_PollErrorMessage 0x021FF72C thumb ov186
@@ -99,8 +99,8 @@
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -127,8 +127,8 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E32F0 0x021E32F0 data a2
- *   func_021FD1C4 0x021FD1C4 thumb ov186
- *   func_021FD640 0x021FD640 thumb ov186
+ *   BR_UTIL_CreateProfileScreen 0x021FD1C4 thumb ov186
+ *   BR_UTIL_DeleteProfileScreen 0x021FD640 thumb ov186
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -136,10 +136,10 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
- *   func_021FB494 0x021FB494 thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
+ *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
- *   func_021FD12C 0x021FD12C thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   d_021E32A8 0x021E32A8 data a4
  *   func_0200DABC 0x0200DABC thumb
  *   d_021E3350 0x021E3350 data a4
@@ -173,23 +173,23 @@
  *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
  *   func_0201EC64 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
- *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_SetString 0x02045924 arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_021FCDAC 0x021FCDAC thumb ov186
- *   func_021FCE50 0x021FCE50 thumb ov186
+ *   BR_UTIL_SetListItemBitmap 0x021FCDAC thumb ov186
+ *   BR_UTIL_RefreshList 0x021FCE50 thumb ov186
  *   d_021E3700 0x021E3700 data a4
- *   func_021FCE0C 0x021FCE0C thumb ov186
- *   func_021FCDE8 0x021FCDE8 thumb ov186
+ *   BR_UTIL_GetListMenuField 0x021FCE0C thumb ov186
+ *   BR_UTIL_GetListItemBitmap 0x021FCDE8 thumb ov186
  *   BMP_Delete 0x020437AC arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021FCC80 0x021FCC80 thumb ov186
+ *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_021FCD0C 0x021FCD0C thumb ov186
- *   func_021FCDA8 0x021FCDA8 thumb ov186
+ *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
+ *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   CLACT_GetActorPaletteOffset 0x0204B714 arm
@@ -203,7 +203,7 @@
  *   d_021E3740 0x021E3740 data a4
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
- *   func_021FB4CC 0x021FB4CC thumb ov186
+ *   BR_BTN_TestHitBox 0x021FB4CC thumb ov186
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   d_021E3758 0x021E3758 data a4
  *   d_021E3728 0x021E3728 data a4
@@ -255,7 +255,7 @@
  *   d_021E38E0 0x021E38E0 data a4
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BR_NET_GetUploadedDataNumber 0x021FF67C thumb ov186
- *   func_021FD19C 0x021FD19C thumb ov186
+ *   BR_UTIL_SetWindowTextBuf 0x021FD19C thumb ov186
  *   d_021E39B4 0x021E39B4 data a4
  *   GDS_RAP_StartVideoSave 0x021D76A8 thumb ov125
  *   GDS_RAP_StepVideoSave 0x021D76D8 thumb ov125
@@ -465,51 +465,51 @@ typedef union Config_021E111C {u64 wide;Point pair;} Config_021E111C;
 
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
-extern unsigned func_021F9B9C(struct Obj24810 *p);
+extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void * MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void func_021FD940(u8 *p, u32 value);
-extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern void func_021FD820(char *);
-extern void func_021FD714(void *p);
+extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
+extern void BR_UTIL_SetHandlesAnimSeq(u8 *p, u32 value);
+extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
+extern void BR_UTIL_DeleteHandles(char *);
+extern void BR_UTIL_DeleteTask(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_021FD71C(u8 *p);
-extern void func_021FD854(char *);
-extern int func_021FD72C(int *);
+extern void BR_UTIL_RunTask(u8 *p);
+extern void BR_UTIL_RunHandles(char *);
+extern int BR_UTIL_IsTaskIdle(int *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
-extern void func_021FD860(void *, unsigned, const Point *);
-extern int func_021FD938(char *);
+extern void BR_UTIL_StartEffect(void *, unsigned, const Point *);
+extern int BR_UTIL_IsEffectDone(char *);
 extern void *BR_UTIL_Create(unsigned short,unsigned,unsigned short,unsigned short,unsigned char,unsigned char,void *,unsigned short);
 extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
-extern void func_021FC754(char *,void *,void *,void *,unsigned short);
+extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,unsigned short);
 extern void BR_FADE_StartTimed(char *p, u32 index, u32 a, u32 b, u32 c);
 extern int BR_FADE_GetResult(int *);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_SIDEBAR_StartBounce(char *p);
-extern int func_021FC830(u8 *p);
-extern void func_021F9BF4(unsigned *,unsigned);
-extern int *func_021FD73C(int *p, int v);
+extern int BR_UTIL_FlushText(u8 *p);
+extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020409B4(u32 index);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BR_SIDEBAR_StartSlide(char *p);
-extern void func_021F9BA0(unsigned *ctx);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 extern void BR_SIDEBAR_ResetPositions(char *p);
 extern void BR_SIDEBAR_StartWobble(char *p);
-extern int func_021FD744(int *a);
+extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_RES_ReleaseUiPalette(int *,int);
 extern void BR_RES_LoadUiPalette(char *p, unsigned i, unsigned heap);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern struct Obj *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u32 heap);
 extern void BR_FADE_SetBlendLevel(int,int,int);
 extern void BR_FADE_Start(int,int,int,int);
-extern int func_021FA018(char *),func_021FA01C(char *);
-extern void func_021F9FE8(char *);
-extern int func_021FA004(char *,int *,int *);
+extern int BR_BTN_GetField14(char *),BR_BTN_GetField54(char *);
+extern void BR_BTN_UpdatePrint(char *);
+extern int BR_BTN_GetPlacement(char *,int *,int *);
 extern int BR_RES_GetPalSet(char *),BR_RES_GetCurrentSetParam(char *);
 extern void BR_RES_SetPalSet(char *,int),BR_FADE_SetBlendColor(int *,int);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
@@ -520,16 +520,16 @@ extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern char * BATTLE_REC_GetHeader(void);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-extern void func_021FD15C(void *,int);
+extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern int BR_NET_HandleNetError(char *p);
-extern void func_021F9C6C(void *);
-extern int func_021FD6B0(u8 *p);
-extern void func_021FD1BC(void *);
-extern int func_021FB4B4(unsigned int *obj, int x, int y);
-extern void func_021F9C50(S_021DB2E0 *);
-extern void func_021FD170(char *p, char *q, void *text);
+extern void BR_PROC_SYS_FlushWindows(void *);
+extern int BR_UTIL_MainProfileScreen(u8 *p);
+extern void BR_UTIL_FlushWindow(void *);
+extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
+extern void BR_PROC_SYS_SetupWindow(S_021DB2E0 *);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_NET_StartRequest(char *p, int kind, const int *values);
 extern int BR_NET_IsIdle(char *p);
 extern int BR_NET_PollErrorMessage(char *p, int *out);
@@ -542,8 +542,8 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void BATTLE_REC_DecodeWork(void);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern int BR_RES_GetWordSet(char *);
-extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021FC7C4(char *,void *,void *,u16);
+extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -563,8 +563,8 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
-extern void func_021FD640(int *);
+extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
+extern void BR_UTIL_DeleteProfileScreen(int *);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -573,10 +573,10 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_RES_LoadSprite(char *,u32,u32);
 extern int BR_RES_GetSprite(void *,int,Triple *);
-extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
-extern void func_021FB494(char *p);
+extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
+extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
-extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
@@ -595,22 +595,22 @@ extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, in
 extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern Slot_021DB2E0 *BMP_MENUWORK_Create(u32,u32);
-extern void *func_021FC8C8(const Config_021DF1DC *,u16);
+extern void *BR_UTIL_CreateListMenu(const Config_021DF1DC *,u16);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_021FCDAC(u8 *p, u16 i, u32 v);
-extern void func_021FCE50(char *p);
-extern int func_021FCE0C(char *p, unsigned field);
-extern u32 func_021FCDE8(u8 *p, u16 i);
+extern void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
+extern void BR_UTIL_RefreshList(char *p);
+extern int BR_UTIL_GetListMenuField(char *p, unsigned field);
+extern u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_021FCC80(char *p);
+extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_021FCD0C(char *p);
-extern int func_021FCDA8(char *);
+extern void BR_UTIL_MainListMenu(char *p);
+extern int BR_UTIL_GetListMenuField48(char *);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
@@ -623,7 +623,7 @@ extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 func_020307B0(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern int func_021FB4CC(u32 *p, int a1, int a2);
+extern int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
 extern void BMP_MENUWORK_AddMsgItem(Slot_021DB2E0 *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern char *BR_POKESEARCH_Create(void *, void *, int, int, int, int, int, u16);
@@ -657,7 +657,7 @@ extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 extern u32 BR_NET_GetUploadedDataNumber(u8 *p, unsigned long long *out);
-extern void func_021FD19C(char *p, void *q, void *text);
+extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void GDS_RAP_StartVideoSave(int,int,int);
 extern int GDS_RAP_StepVideoSave(char *p, int id);
 extern void func_021E2F98(SOCLResource *resource);
@@ -908,19 +908,19 @@ int func_021DB2E0(int *task, int unused, char *p)
 {
     struct CodeinStateA *s;
     void *callback;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0x20,func_021F9B9C(((struct CodeinWorkA *)p)->f10));
+    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0x20,BR_PROC_SYS_GetSlotId(((struct CodeinWorkA *)p)->f10));
     MI_CpuFill8(s,0,0x20);
     s->f1C=p;
-    s->f4=func_021F9B9C(((struct CodeinWorkA *)p)->f10);
+    s->f4=BR_PROC_SYS_GetSlotId(((struct CodeinWorkA *)p)->f10);
     s->fC=(void *)PRINTSYS_QUE_Create((void *)(s->f4));
-    s->f14=func_021FD760((*(int *)&((struct CodeinWorkA *)p)->f4),(char *)((*(int *)&((struct CodeinWorkA *)p)->fC)),0,s->f4);
-    s->f18=func_021FD760((*(int *)&((struct CodeinWorkA *)p)->f4),(char *)((*(int *)&((struct CodeinWorkA *)p)->fC)),1,s->f4);
-    func_021FD940(s->f14,1);
-    func_021FD940(s->f18,1);
+    s->f14=BR_UTIL_CreateHandles((*(int *)&((struct CodeinWorkA *)p)->f4),(char *)((*(int *)&((struct CodeinWorkA *)p)->fC)),0,s->f4);
+    s->f18=BR_UTIL_CreateHandles((*(int *)&((struct CodeinWorkA *)p)->f4),(char *)((*(int *)&((struct CodeinWorkA *)p)->fC)),1,s->f4);
+    BR_UTIL_SetHandlesAnimSeq(s->f14,1);
+    BR_UTIL_SetHandlesAnimSeq(s->f18,1);
     if((*(int *)&((struct CodeinWorkA *)p)->f0)==0) callback=func_021DB3C4;
     else if((*(int *)&((struct CodeinWorkA *)p)->f0)==1) callback=func_021DB594;
     else callback=func_021DB61C;
-    s->f0=func_021FD6D8((int)s,(int)callback,s->f4);
+    s->f0=BR_UTIL_CreateTask((int)s,(int)callback,s->f4);
     return 1;
 }
 
@@ -938,7 +938,7 @@ int func_021DB2E0(int *task, int unused, char *p)
 
 
 
-int func_021DB36C(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p) { func_021FD820(*(char * *)&p->f14); func_021FD820(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); func_021FD714((void *)(p->f0)); func_020315D4(task); return 1; }
+int func_021DB36C(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p) { BR_UTIL_DeleteHandles(*(char * *)&p->f14); BR_UTIL_DeleteHandles(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); BR_UTIL_DeleteTask((void *)(p->f0)); func_020315D4(task); return 1; }
 
 
 
@@ -954,7 +954,7 @@ int func_021DB36C(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p) { fu
 
 
 
-int func_021DB394(int a,int b,int c,struct CodeinWorkB *p) { func_021FD71C((u8 *)(p->f0)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&p->fC); func_021FD854(*(char * *)&p->f14); func_021FD854(*(char * *)&p->f18); if(func_021FD72C(*(int * *)&p->f0)) return 1; return 0; }
+int func_021DB394(int a,int b,int c,struct CodeinWorkB *p) { BR_UTIL_RunTask((u8 *)(p->f0)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&p->fC); BR_UTIL_RunHandles(*(char * *)&p->f14); BR_UTIL_RunHandles(*(char * *)&p->f18); if(BR_UTIL_IsTaskIdle(*(int * *)&p->f0)) return 1; return 0; }
 
 
 
@@ -978,27 +978,27 @@ void func_021DB3C4(int *task,int *state,struct CodeinWorkE *p)
 {
     int a,b;
     switch(*state) {
-    case 0: {Point args;args.x=128;args.y=96;func_021FD860((void *)(p->f14), 2, &args);GFL_USE_PlaySeDefaultVolume(0x700);*state=1;break;}
-    case 1: if(func_021FD938(*(char * *)&p->f14))*state=2;break;
-    case 2: {Point args;args.x=128;args.y=-8;func_021FD860((void *)(p->f18), 3, &args);*state=3;break;}
-    case 3: if(func_021FD938(*(char * *)&p->f18))*state=4;break;
+    case 0: {Point args;args.x=128;args.y=96;BR_UTIL_StartEffect((void *)(p->f14), 2, &args);GFL_USE_PlaySeDefaultVolume(0x700);*state=1;break;}
+    case 1: if(BR_UTIL_IsEffectDone(*(char * *)&p->f14))*state=2;break;
+    case 2: {Point args;args.x=128;args.y=-8;BR_UTIL_StartEffect((void *)(p->f18), 3, &args);*state=3;break;}
+    case 3: if(BR_UTIL_IsEffectDone(*(char * *)&p->f18))*state=4;break;
     case 4:
         p->f8=BR_UTIL_Create(4,8,16,16,2,14,p->fC,p->f4);
         a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
         b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(p->f1C))->fC);
-        func_021FC754(*(char * *)&p->f8,(void *)b,(void *)228,(void *)a,0x440);
+        BR_UTIL_SetTextFromMessage(*(char * *)&p->f8,(void *)b,(void *)228,(void *)a,0x440);
         BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,1,4);*state=5;break;
     case 5: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=6;break;
     case 6: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,0,4);*state=7;break;
     case 7: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=8;break;
     case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(p->f8);*(int *)&p->f8=0;func_020409B4(4);*state=9;}break;
     case 9: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct CodeinSubA *)(p->f1C))->f14));*state=10;break;
-    case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(p->f1C))->f8))&mask) {func_021FD860((void *)(p->f18), 8, 0);*state=11;}break;}
+    case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(p->f1C))->f8))&mask) {BR_UTIL_StartEffect((void *)(p->f18), 8, 0);*state=11;}break;}
     case 11: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);*state=12;break;
     case 12: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=13;break;
-    case 13: if(func_021FD938(*(char * *)&p->f18)) {func_021F9BF4(*(unsigned * *)&((struct CodeinSubA *)(p->f1C))->f10,1);func_021FD73C(task,(int)func_021DB690);}break;
+    case 13: if(BR_UTIL_IsEffectDone(*(char * *)&p->f18)) {BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(p->f1C))->f10,1);BR_UTIL_SetTaskStep(task,(int)func_021DB690);}break;
     }
-    if(p->f8)func_021FC830(p->f8);
+    if(p->f8)BR_UTIL_FlushText(p->f8);
 }
 
 
@@ -1040,8 +1040,8 @@ void func_021DB594(int *task, int *state, struct CodeinWorkA *p)
         break;
     }
     case 4:
-        func_021F9BA0((*(void * *)&((struct CodeinSubA *)(p->f1C))->f10));
-        func_021FD73C(task,(int)func_021DB690);
+        BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(p->f1C))->f10));
+        BR_UTIL_SetTaskStep(task,(int)func_021DB690);
         break;
     }
 }
@@ -1073,8 +1073,8 @@ void func_021DB61C(int *task, int *state, struct CodeinWorkA *p)
     case 2:
         BR_SIDEBAR_ResetPositions((char *)(((struct CodeinSubA *)(p->f1C))->f14));
         BR_SIDEBAR_StartWobble((char *)(((struct CodeinSubA *)(p->f1C))->f14));
-        func_021F9BF4((unsigned int *)(((struct CodeinSubA *)(p->f1C))->f10),1);
-        func_021FD73C(task,(int)func_021DB690);
+        BR_PROC_SYS_PushEntry((unsigned int *)(((struct CodeinSubA *)(p->f1C))->f10),1);
+        BR_UTIL_SetTaskStep(task,(int)func_021DB690);
         break;
     }
 }
@@ -1095,7 +1095,7 @@ void func_021DB61C(int *task, int *state, struct CodeinWorkA *p)
 
 void func_021DB690(int *task)
 {
-    func_021FD744((int *)task);
+    BR_UTIL_ClearTaskStep((int *)task);
 }
 
 
@@ -1118,17 +1118,17 @@ void func_021DB690(int *task)
 int func_021DB698(int *task,int b,char *p)
 {
     struct CodeinStateB *s;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C)));
+    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C)));
     MI_CpuFill8(s,0,24);
     s->fC=p;
-    s->f14=func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C));
+    s->f14=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C));
     BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,0);
     BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,1);
     BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),0,s->f14);
     BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
     if(((struct CodeinWorkB *)p)->f0<5) BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)p)->f18,3,s->f14);
     else BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)p)->f18,4,s->f14);
-    s->f4=(int)func_021FD760((*(int *)&((struct CodeinWorkB *)p)->f14),(char *)(*(int *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
+    s->f4=(int)BR_UTIL_CreateHandles((*(int *)&((struct CodeinWorkB *)p)->f14),(char *)(*(int *)&((struct CodeinWorkB *)p)->f18),1,s->f14);
     s->f0=(int)BR_BTN_Create(((struct CodeinWorkB *)p)->f0,(*(int *)&((struct CodeinWorkB *)p)->f14),*(int *)&((struct CodeinWorkB *)p)->f18,((struct CodeinWorkB *)p)->f20,(*(int *)&((struct CodeinWorkB *)p)->f24),s->f4,s->f14);
     if(((struct CodeinWorkB *)p)->fC==4) BR_FADE_SetBlendLevel(((struct CodeinWorkB *)p)->f10,2,0);
     else BR_FADE_SetBlendLevel(((struct CodeinWorkB *)p)->f10,3,0);
@@ -1152,7 +1152,7 @@ int func_021DB698(int *task,int b,char *p)
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
-int func_021DB740(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); func_021FD820(*(char * *)&p->f4); func_020315D4(task); return 1; }
+int func_021DB740(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); BR_UTIL_DeleteHandles(*(char * *)&p->f4); func_020315D4(task); return 1; }
 
 
 
@@ -1178,11 +1178,11 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
     case 0: BR_FADE_Start(p->f10,p->fC,3,0);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     case 2:
-        if(p->f0<=4 && !func_021FA018(*(char * *)&q->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+        if(p->f0<=4 && !BR_BTN_GetField14(*(char * *)&q->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
-        func_021F9FE8(*(char * *)&q->f0);
-        if(func_021FA004(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) *state=3;
+        BR_BTN_UpdatePrint(*(char * *)&q->f0);
+        if(BR_BTN_GetPlacement(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) *state=3;
         break;
     case 3:
         if(p->f4==12)BR_FADE_Start(p->f10,4,3,1);
@@ -1190,9 +1190,9 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
         *state=4;break;
     case 4: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=5;break;
     case 5:
-        switch(func_021FA004(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) {
-        case 1: func_021F9BF4(*(unsigned * *)&p->f1C,(unsigned short)p->f4);return 1;
-        case 2: func_021F9BA0((*(void * *)&p->f1C));**(int * *)&p->f28=func_021FA01C(*(char * *)&q->f0);return 1;
+        switch(BR_BTN_GetPlacement(*(char * *)&q->f0,(int *)((char *)p+4),(int *)((char *)p+8))) {
+        case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&p->f1C,(unsigned short)p->f4);return 1;
+        case 2: BR_PROC_SYS_PopEntry((*(void * *)&p->f1C));**(int * *)&p->f28=BR_BTN_GetField54(*(char * *)&q->f0);return 1;
         }
         break;
     case 6: {
@@ -1208,7 +1208,7 @@ int func_021DB770(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *
     case 10: BR_FADE_Start(p->f10,3,3,0);*state=11;break;
     case 11: if(BR_FADE_GetResult(*(int * *)&p->f10))*state=2;break;
     }
-    func_021FD854(*(char * *)&q->f4);return 0;
+    BR_UTIL_RunHandles(*(char * *)&q->f4);return 0;
 }
 
 
@@ -1279,15 +1279,15 @@ int func_021DB940(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
-    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14))));
+    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14))));
     MI_CpuFill8(p,0,0xe8);
-    *(unsigned short *)(p+0xb4)=func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14)));
+    *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14)));
     *(int *)(p+0xb0)=0;
     *(char **)(p+0xd0)=q;
     *(void **)p=BMP_OAM_CreateSys(*(unsigned short *)(p+0xb4),*(void **)(q+0x18));
     *(void **)(p+4)=(void *)PRINTSYS_QUE_Create((void *)(*(unsigned short *)(p+0xb4)));
-    *(void **)(p+8)=func_021FD6D8((int)p,0,*(unsigned short *)(p+0xb4));
-    for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=func_021FD760(*(unsigned *)(q+0x18),*(char **)(q+0x10),i,*(unsigned short *)(p+0xb4));
+    *(void **)(p+8)=BR_UTIL_CreateTask((int)p,0,*(unsigned short *)(p+0xb4));
+    for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=BR_UTIL_CreateHandles(*(unsigned *)(q+0x18),*(char **)(q+0x10),i,*(unsigned short *)(p+0xb4));
     switch(*(int *)(*(char **)(p+0xd0)+8)) {
     case 4:
         s=*(char **)(*(char **)(p+0xd0)+0x30);
@@ -1321,11 +1321,11 @@ int func_021DB940(int *task,int *state,char *q)
         break;
     }
     if(*(int *)(*(char **)(p+0xd0)+8)==5) {
-        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)func_021FD73C(*(int **)(p+8),(int)func_021DBFB0);
-        else func_021FD73C(*(int **)(p+8),(int)func_021DBC68);
+        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBFB0);
+        else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
     }else if((u32)(*(int *)(*(char **)(p+0xd0)+8)-1)<=2 && *(int *)(*(char **)(p+0xd0)+0x34) && **(int **)(*(char **)(p+0xd0)+0x3c) && *(int *)(p+0xc8)==0) {
-        func_021FD73C(*(int **)(p+8),(int)func_021DC4FC);
-    }else func_021FD73C(*(int **)(p+8),(int)func_021DBC68);
+        BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DC4FC);
+    }else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)func_021DBC68);
     return 1;
 }
 
@@ -1355,11 +1355,11 @@ int func_021DBB3C(int task,int b,char *q,char *p)
     func_020409B4(4);
     func_020409B4(1);
     if(((struct CodeinWorkB *)p)->f18) {
-        func_021FD15C(((struct CodeinWorkB *)p)->f18,((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
+        BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)p)->f18,((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
         ((struct CodeinWorkB *)p)->f18=0;
     }
-    for(i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0xc));
-    func_021FD714((void *)((*(int *)&((struct CodeinWorkB *)p)->f8)));
+    for(i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)(p+i*4+0xc));
+    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkB *)p)->f8)));
     PRINTSYS_QUE_Delete((*(void * *)&((struct CodeinWorkB *)p)->f4));
     BMP_OAM_DeleteSys((void *)(((struct CodeinWorkB *)p)->f0));
     func_020315D4((struct S020315D4 *)task);
@@ -1387,17 +1387,17 @@ int func_021DBBC4(int a,int b,int c,struct CodeinWorkB *p)
 {
     int i;
     if(GAME_DATA_IsSaving(((struct CodeinSubA *)(p->fD0))->f28)==0 && BR_NET_HandleNetError(((struct CodeinSubA *)(p->fD0))->f24)==2) {
-        func_021F9C6C((*(void * *)&((struct CodeinSubA *)(p->fD0))->f14));
+        BR_PROC_SYS_FlushWindows((*(void * *)&((struct CodeinSubA *)(p->fD0))->f14));
         return 1;
     }
-    func_021FD71C(p->f8);
-    if(func_021FD72C(p->f8)) return 1;
-    for(i=0;i<2;i++) func_021FD854(*(void **)((char *)p+i*4+0xc));
+    BR_UTIL_RunTask(p->f8);
+    if(BR_UTIL_IsTaskIdle(p->f8)) return 1;
+    for(i=0;i<2;i++) BR_UTIL_RunHandles(*(void **)((char *)p+i*4+0xc));
     PRINTSYS_QUE_Main((*(void * *)&p->f4));
-    for(i=0;i<2;i++) if(*(void **)((char *)p+i*4+0x28)) func_021FC830(*(void **)((char *)p+i*4+0x28));
-    for(i=0;i<5;i++) if(*(void **)((char *)p+i*4+0x30)) func_021FC830(*(void **)((char *)p+i*4+0x30));
-    if((*(void * *)&p->f44)) func_021FD6B0((*(void * *)&p->f44));
-    if(p->f18) func_021FD1BC(p->f18);
+    for(i=0;i<2;i++) if(*(void **)((char *)p+i*4+0x28)) BR_UTIL_FlushText(*(void **)((char *)p+i*4+0x28));
+    for(i=0;i<5;i++) if(*(void **)((char *)p+i*4+0x30)) BR_UTIL_FlushText(*(void **)((char *)p+i*4+0x30));
+    if((*(void * *)&p->f44)) BR_UTIL_MainProfileScreen((*(void * *)&p->f44));
+    if(p->f18) BR_UTIL_FlushWindow(p->f18);
     return 0;
 }
 
@@ -1424,7 +1424,7 @@ void func_021DBC68(int a, int b, char *p)
         func_021DCDD8(p, (char *)((*(int *)&((struct CodeinWorkA *)p)->fD0)));
     else
         func_021DC8EC(p, (char *)((*(int *)&((struct CodeinWorkA *)p)->fD0)));
-    func_021FD73C((int *)a, (int)func_021DBCA8);
+    BR_UTIL_SetTaskStep((int *)a, (int)func_021DBCA8);
 }
 
 
@@ -1450,7 +1450,7 @@ void func_021DBCA8(int *task, int *state, struct CodeinWorkA *p)
         if(BR_FADE_GetResult(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
         break;
     case 2:
-        func_021FD73C(task,(int)func_021DBD7C);
+        BR_UTIL_SetTaskStep(task,(int)func_021DBD7C);
         break;
     }
 }
@@ -1478,7 +1478,7 @@ void func_021DBCF4(int *task, int *state, struct CodeinWorkA *p)
         if(BR_FADE_GetResult(((struct CodeinSubA *)(p->fD0))->fC)) *state=2;
         break;
     case 2:
-        func_021FD73C(task,(int)func_021DBD40);
+        BR_UTIL_SetTaskStep(task,(int)func_021DBD40);
         break;
     }
 }
@@ -1494,7 +1494,7 @@ void func_021DBCF4(int *task, int *state, struct CodeinWorkA *p)
 
 
 
-void func_021DBD40(int *task,int b,char *p) { if(((struct CodeinWorkB *)p)->fB0) func_021DCE28(p,((struct CodeinWorkB *)p)->fD0); else func_021DCE48(p,((struct CodeinWorkB *)p)->fD0); func_021DD054(p,((struct CodeinWorkB *)p)->fD0); func_021FD744(task); }
+void func_021DBD40(int *task,int b,char *p) { if(((struct CodeinWorkB *)p)->fB0) func_021DCE28(p,((struct CodeinWorkB *)p)->fD0); else func_021DCE48(p,((struct CodeinWorkB *)p)->fD0); func_021DD054(p,((struct CodeinWorkB *)p)->fD0); BR_UTIL_ClearTaskStep(task); }
 
 
 
@@ -1536,31 +1536,31 @@ void func_021DBD7C(int *task,int *state,char *p)
     if(TOUCHPANEL_GetPointTrg(&x,&y)) {
         if(func_021DD27C(p,x,y)) {
             *(int *)(p+0xb0)^=1;
-            func_021FD73C(task,(int)func_021DBEB0);
+            BR_UTIL_SetTaskStep(task,(int)func_021DBEB0);
         }
-        if(func_021FB4B4((unsigned int *)(*(int *)(p+0x1c)),x,y)) {
+        if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(p+0x1c)),x,y)) {
             Point args;
             args.x=x;args.y=y;
-            func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x10)), 1, &args);
             **(int **)(p+0xd0)=0;
-            func_021F9BA0(*(void **)(*(char **)(p+0xd0)+0x14));
-            func_021FD73C(task,(int)func_021DBCF4);
+            BR_PROC_SYS_PopEntry(*(void **)(*(char **)(p+0xd0)+0x14));
+            BR_UTIL_SetTaskStep(task,(int)func_021DBCF4);
         }
-        if(*(int *)(p+0x20) && func_021FB4B4((unsigned int *)(*(int *)(p+0x20)),x,y)) {
+        if(*(int *)(p+0x20) && BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(p+0x20)),x,y)) {
             Point args;
             args.x=x;args.y=y;
-            func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);
-            func_021F9BF4(*(unsigned **)(*(char **)(p+0xd0)+0x14),10);
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x10)), 1, &args);
+            BR_PROC_SYS_PushEntry(*(unsigned **)(*(char **)(p+0xd0)+0x14),10);
             *(u64 *)(*(char **)(p+0xd0)+0x1c)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
-            func_021FD73C(task,(int)func_021DBCF4);
+            BR_UTIL_SetTaskStep(task,(int)func_021DBCF4);
         }
         if(func_021DD2BC(p,x,y)) {
-            if((u32)(*(u32 *)(*(char **)(p+0xd0)+8)-4)<=1)func_021FD73C(task,(int)func_021DC228);
-            else if(*(int *)(p+0xc8)==0)func_021FD73C(task,(int)func_021DC638);
+            if((u32)(*(u32 *)(*(char **)(p+0xd0)+8)-4)<=1)BR_UTIL_SetTaskStep(task,(int)func_021DC228);
+            else if(*(int *)(p+0xc8)==0)BR_UTIL_SetTaskStep(task,(int)func_021DC638);
             else {
                 **(int **)(p+0xd0)=1;
-                func_021F9C50((S_021DB2E0 *)(*(S_021DB2E0 **)(*(char **)(p+0xd0)+0x14)));
-                func_021FD73C(task,(int)func_021DBCF4);
+                BR_PROC_SYS_SetupWindow((S_021DB2E0 *)(*(S_021DB2E0 **)(*(char **)(p+0xd0)+0x14)));
+                BR_UTIL_SetTaskStep(task,(int)func_021DBCF4);
             }
         }
     }
@@ -1592,17 +1592,17 @@ void func_021DBEB0(int *task,int *state,char *p)
         b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
         if(((struct CodeinWorkB *)p)->fB0) {
             func_021DCE48(p,((struct CodeinWorkB *)p)->fD0);
-            func_021FC754(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
+            BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
             func_021DCDD8(p,((struct CodeinWorkB *)p)->fD0);
         }else{
             func_021DCE28(p,((struct CodeinWorkB *)p)->fD0);
-            func_021FC754(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
+            BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkB *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
             func_021DC8EC(p,(char *)(*(int *)&((struct CodeinWorkB *)p)->fD0));
         }
         BR_FADE_Start((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,1,0);
         (*state)++;break;
     case 3:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))func_021FD73C(task,(int)func_021DBD7C);
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC))BR_UTIL_SetTaskStep(task,(int)func_021DBD7C);
         break;
     }
 }
@@ -1631,7 +1631,7 @@ void func_021DBFB0(int *a,int *state,char *p)
     switch(*state) {
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);*state=1;break;
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);*state=1;break;
     case 1: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=2;break;
     case 2: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=3;break;
     case 3:
@@ -1642,7 +1642,7 @@ void func_021DBFB0(int *a,int *state,char *p)
     case 4:
         ++*(int *)(p+0xbc);
         if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
-            func_021FD860((void *)(*(int *)(p+12)), 0, 0);*state=5;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+12)), 0, 0);*state=5;
         }
         break;
     case 5:
@@ -1651,17 +1651,17 @@ void func_021DBFB0(int *a,int *state,char *p)
                 *(char **)(p+0xc0)=source;
                 *(char **)(p+0xc4)=source+0x80;*state=6;
             } else {
-                func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-            func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);
-            func_021F9BA0((unsigned int *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=12;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);
+            BR_PROC_SYS_PopEntry((unsigned int *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=12;
         }
         break;
     case 6: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=7;break;
@@ -1674,10 +1674,10 @@ void func_021DBFB0(int *a,int *state,char *p)
         break;
     case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=9;break;
     case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
-    case 10: func_021FD73C(a,(int)func_021DBD7C);break;
+    case 10: BR_UTIL_SetTaskStep(a,(int)func_021DBD7C);break;
     case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)a);break;
+    case 14: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)a);break;
     }
 }
 
@@ -1731,7 +1731,7 @@ void func_021DC228(int *a,int *state,char *p)
         else func_021DCE48(p,*(char **)(p+0xd0));
         func_021DD054(p,*(char **)(p+0xd0));
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
     case 3: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
     case 4: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
@@ -1743,7 +1743,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 6:
         ++*(int *)(p+0xbc);
         if(BR_NET_IsIdle(*(void **)(*(char **)(p+0xd0)+0x24)) && *(u32 *)(p+0xbc)>96) {
-            func_021FD860((void *)(*(int *)(p+12)), 0, 0);*state=7;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+12)), 0, 0);*state=7;
         }
         break;
     case 7:
@@ -1752,28 +1752,28 @@ void func_021DC228(int *a,int *state,char *p)
                 BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
-                func_021F9C50((S_021DB2E0 *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=8;
+                BR_PROC_SYS_SetupWindow((S_021DB2E0 *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=8;
             } else {
-                func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-            func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
         }
         break;
     case 8: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_ClearTaskStep((int *)(*(int *)(p+8)));}
         break;
     case 12: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
-    case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
+    case 14: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
     }
 }
 
@@ -1815,7 +1815,7 @@ void func_021DC4FC(int *a,int *state,char *p)
     switch(*state) {
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
+        BR_UTIL_SetWindowText(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
         BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
     case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
@@ -1831,7 +1831,7 @@ void func_021DC4FC(int *a,int *state,char *p)
         break;
     case 5: BR_FADE_Start((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
     case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
-    case 7: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
+    case 7: func_021DD0F4(p,*(char **)(p+0xd0));BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
     }
 }
 
@@ -1871,16 +1871,16 @@ void func_021DC638(int *a,int *state,char *p)
     case 9: func_021DD1D4(p,((struct CodeinWorkB *)p)->fD0);*state=13;break;
     case 10: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);++*state;break;
     case 11: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) ++*state;break;
-    case 12: func_021DD1D4(p,((struct CodeinWorkB *)p)->fD0);func_021FD73C(a,(int)func_021DBC68);break;
+    case 12: func_021DD1D4(p,((struct CodeinWorkB *)p)->fD0);BR_UTIL_SetTaskStep(a,(int)func_021DBC68);break;
     case 13: func_021DD0AC(p,((struct CodeinWorkB *)p)->fD0);*state=14;break;
     case 14:
-        func_021FD170(((struct CodeinWorkB *)p)->f18,(char *)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10),(void *)0x152);
+        BR_UTIL_SetWindowText(((struct CodeinWorkB *)p)->f18,(char *)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10),(void *)0x152);
         BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,0);*state=15;break;
     case 15: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=16;break;
     case 16: *state=17;break;
     case 17: GAME_DATA_SaveStart((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f28));*state=18;break;
     case 18:
-        if(GAME_DATA_SaveMain(*(u8 * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f28)==2) {func_021FD860((void *)(((struct CodeinWorkB *)p)->fC), 0, 0);*state=19;}
+        if(GAME_DATA_SaveMain(*(u8 * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f28)==2) {BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)p)->fC), 0, 0);*state=19;}
         break;
     case 19: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=20;break;
     case 20: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=21;break;
@@ -1888,8 +1888,8 @@ void func_021DC638(int *a,int *state,char *p)
         if(!GFL_USE_IsSeqPlaying(0x701)) {
             func_021DD0F4(p,((struct CodeinWorkB *)p)->fD0);
             **(int * *)&((struct CodeinWorkB *)p)->fD0=1;
-            func_021F9C50((S_021DB2E0 *)(*(S * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f14));
-            func_021FD744((int *)a);
+            BR_PROC_SYS_SetupWindow((S_021DB2E0 *)(*(S * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f14));
+            BR_UTIL_ClearTaskStep((int *)a);
         }
         break;
     }
@@ -1961,7 +1961,7 @@ void func_021DC8EC(char *p,char *q)
                 func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
                 func_0201F250(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
                 ready=1;break;
                 }
             case 1:
@@ -1969,7 +1969,7 @@ void func_021DC8EC(char *p,char *q)
                 u32 selector;
                 selector=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),3,0);
                 text=func_02045EC0(bank,selector+d->message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);ready=1;break;
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
             case 2:
                 {
@@ -1990,7 +1990,7 @@ void func_021DC8EC(char *p,char *q)
                 text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 func_0201EFA4(words,2,low,5,2,1);func_0201EFA4(words,1,middle,5,2,1);func_0201EFA4(words,0,high,2,2,1);
                 func_0201F250(words,text,message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
+                BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
@@ -2001,18 +2001,18 @@ void func_021DC8EC(char *p,char *q)
                     text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
                     func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);STRBUF_Delete((U16Vec *)message);
-                    func_021FC868(*(void **)(slot+0x30),0,1,1);ready=1;
+                    BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             case 4:
                 if(func_021DD25C(*(void **)(p+0xc4))) {
                     text=func_02045EC0(bank,d->message);
-                    func_021FC868(*(void **)(slot+0x30),0,1,1);ready=1;
+                    BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             }
             if(ready) {
-                func_021FC7C4(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
+                BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
             }
         }
         func_021DCBD8(p,*(void **)(q+0x18),*(void **)(p+0xc4),*(u16 *)(p+0xb4));
@@ -2146,7 +2146,7 @@ void func_021DCDD8(char *p, char *q)
         *(int *)(p+0xdc)=1;
         flag=1;
         if(*(int *)(*(char **)(p+0xd0)+8)==0) flag=0;
-        *(void **)(p+0x44)=func_021FD1C4((void *)(*(int *)(p+0xc0)),(char *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x18)),(void *)(*(int *)(p+4)),flag,*(unsigned short *)(p+0xb4));
+        *(void **)(p+0x44)=BR_UTIL_CreateProfileScreen((void *)(*(int *)(p+0xc0)),(char *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x18)),(void *)(*(int *)(p+4)),flag,*(unsigned short *)(p+0xb4));
     }
 }
 
@@ -2159,7 +2159,7 @@ void func_021DCDD8(char *p, char *q)
 
 
 
-void func_021DCE28(char *p,char *unused) { if(((struct CodeinWorkB *)p)->fDC && *(int * *)&((struct CodeinWorkB *)p)->f44) { func_021FD640(*(int * *)&((struct CodeinWorkB *)p)->f44); ((struct CodeinWorkB *)p)->f44=0; ((struct CodeinWorkB *)p)->fDC=0; } }
+void func_021DCE28(char *p,char *unused) { if(((struct CodeinWorkB *)p)->fDC && *(int * *)&((struct CodeinWorkB *)p)->f44) { BR_UTIL_DeleteProfileScreen(*(int * *)&((struct CodeinWorkB *)p)->f44); ((struct CodeinWorkB *)p)->f44=0; ((struct CodeinWorkB *)p)->fDC=0; } }
 
 
 
@@ -2218,20 +2218,20 @@ void func_021DCEE4(char *p,char *q)
             MI_CpuFill8(&d,0,8);
             d.a=24;d.b=168;d.c=0;d.flag=1;
             BR_RES_GetSprite(((struct CodeinArgB *)q)->f10,6,&t);
-            (*(void * *)&((struct CodeinWorkA *)p)->f1C)=func_021FB378(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
+            (*(void * *)&((struct CodeinWorkA *)p)->f1C)=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
             d.a=136;d.c=3;
-            (*(void * *)&((struct CodeinWorkA *)p)->f20)=func_021FB378(&d,84,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
+            (*(void * *)&((struct CodeinWorkA *)p)->f20)=BR_BTN_CreateFromMessage(&d,84,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
         } else {
             Params d;
             Triple t;
             MI_CpuFill8(&d,0,8);
             d.a=80;d.b=168;d.c=0;d.flag=1;
             BR_RES_GetSprite(((struct CodeinArgB *)q)->f10,6,&t);
-            (*(void * *)&((struct CodeinWorkA *)p)->f1C)=func_021FB378(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
+            (*(void * *)&((struct CodeinWorkA *)p)->f1C)=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)q)->f18,(*(int *)&((struct CodeinWorkA *)p)->f0),a,b,&t,((struct CodeinWorkA *)p)->fB4);
         }
         (*(void * *)&((struct CodeinWorkA *)p)->f28)=BR_UTIL_Create(4,8,3,16,2,14,((struct CodeinWorkA *)p)->f4,((struct CodeinWorkA *)p)->fB4);
-        if(((struct CodeinWorkA *)p)->fB0) func_021FC754(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
-        else func_021FC754(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
+        if(((struct CodeinWorkA *)p)->fB0) BR_UTIL_SetTextFromMessage(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
+        else BR_UTIL_SetTextFromMessage(((struct CodeinWorkA *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
     }
 }
 
@@ -2251,7 +2251,7 @@ void func_021DD054(char *p, char *q)
         if(((struct CodeinWorkB *)p)->f28) { BR_UTIL_Delete(((struct CodeinWorkB *)p)->f28); *(int *)&((struct CodeinWorkB *)p)->f28=0; }
         for(i=0;i<2;i++) {
             slot=p+i*4;
-            if(((struct CodeinSlotA *)slot)->f1C) { func_021FB494(((struct CodeinSlotA *)slot)->f1C); *(int *)&((struct CodeinSlotA *)slot)->f1C=0; }
+            if(((struct CodeinSlotA *)slot)->f1C) { BR_BTN_DeleteObject(((struct CodeinSlotA *)slot)->f1C); *(int *)&((struct CodeinSlotA *)slot)->f1C=0; }
         }
         func_020409B4(4);
         BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f10),6);
@@ -2272,10 +2272,10 @@ void func_021DD0AC(char *p, char *unused)
         Point args;
         ((struct CodeinWorkB *)p)->fE0 = 1;
         if (!((struct CodeinWorkB *)p)->f18)
-            ((struct CodeinWorkB *)p)->f18 = func_021FD12C(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
+            ((struct CodeinWorkB *)p)->f18 = BR_UTIL_CreateTextWin(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
         args.x = 0x80;
         args.y = 0x60;
-        func_021FD860((void *)(((struct CodeinWorkB *)p)->fC), 4, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)p)->fC), 4, &args);
     }
 }
 
@@ -2285,7 +2285,7 @@ void func_021DD0AC(char *p, char *unused)
 
 
 
-void func_021DD0F4(char *p, char *a1) { if(((struct CodeinWorkB *)p)->fE0) { func_021FD860(*(char * *)&((struct CodeinWorkB *)p)->fC,0,0); if(((struct CodeinWorkB *)p)->f18) { func_021FD15C(((struct CodeinWorkB *)p)->f18,((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10); *(int *)&((struct CodeinWorkB *)p)->f18=0; } ((struct CodeinWorkB *)p)->fE0=0; } }
+void func_021DD0F4(char *p, char *a1) { if(((struct CodeinWorkB *)p)->fE0) { BR_UTIL_StartEffect(*(char * *)&((struct CodeinWorkB *)p)->fC,0,0); if(((struct CodeinWorkB *)p)->f18) { BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)p)->f18,((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10); *(int *)&((struct CodeinWorkB *)p)->f18=0; } ((struct CodeinWorkB *)p)->fE0=0; } }
 
 
 
@@ -2301,8 +2301,8 @@ void func_021DD128(char *p, char *q)
         char *slot;
         ((struct CodeinWorkB *)p)->fE4 = 1;
         if (!((struct CodeinWorkB *)p)->f18)
-            ((struct CodeinWorkB *)p)->f18 = func_021FD12C(((struct CodeinArgA *)q)->f10, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
-        func_021FD170(((struct CodeinWorkB *)p)->f18, (char *)(((struct CodeinArgA *)q)->f10), (void *)0x14f);
+            ((struct CodeinWorkB *)p)->f18 = BR_UTIL_CreateTextWin(((struct CodeinArgA *)q)->f10, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
+        BR_UTIL_SetWindowText(((struct CodeinWorkB *)p)->f18, (char *)(((struct CodeinArgA *)q)->f10), (void *)0x14f);
         BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)q)->f10), 30, ((struct CodeinWorkB *)p)->fB4);
         first = BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)q)->f10);
         second = BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)q)->f10);
@@ -2310,7 +2310,7 @@ void func_021DD128(char *p, char *q)
             rec = &d_021E32A8[i];
             slot = p + i * 4;
             ((struct CodeinWorkC *)slot)->f28 = BR_UTIL_Create(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(((struct CodeinWorkB *)p)->f4), ((struct CodeinWorkB *)p)->fB4);
-            func_021FC754(((struct CodeinWorkC *)slot)->f28, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+            BR_UTIL_SetTextFromMessage(((struct CodeinWorkC *)slot)->f28, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
         }
     }
 }
@@ -2344,7 +2344,7 @@ void func_021DD1D4(char *p, char *q)
         func_020409B4(4);
         BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10, 30);
         if (((struct CodeinWorkB *)p)->f18) {
-            func_021FD15C(((struct CodeinWorkB *)p)->f18, ((struct CodeinArgA *)q)->f10);
+            BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)p)->f18, ((struct CodeinArgA *)q)->f10);
             *(int *)&((struct CodeinWorkB *)p)->f18 = 0;
         }
         ((struct CodeinWorkB *)p)->fE4 = 0;
@@ -2430,7 +2430,7 @@ int func_021DD27C(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)((*(int *)&((struct CodeinWorkA *)p)->f10)), 1, &args);
+        BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)p)->f10)), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2455,7 +2455,7 @@ int func_021DD2BC(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)((*(int *)&((struct CodeinWorkA *)p)->f10)), 1, &args);
+        BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)p)->f10)), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2480,7 +2480,7 @@ int func_021DD2FC(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)(((struct CodeinWorkB *)p)->f10), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)p)->f10), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2505,7 +2505,7 @@ int func_021DD33C(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)(((struct CodeinWorkB *)p)->f10), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)p)->f10), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2527,12 +2527,12 @@ int func_021DD33C(char *p, int a, int b)
  */
 int func_021DD37C(void *a, int unused, char *q)
 {
-    struct CodeinWorkA *p = PROCSYS_AllocProcWork(a, 0x80, func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC)));
+    struct CodeinWorkA *p = PROCSYS_AllocProcWork(a, 0x80, BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC)));
     MI_CpuFill8(p, 0, 0x80);
-    p->f7C = func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC));
+    p->f7C = BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC));
     p->f0 = BMP_OAM_CreateSys(p->f7C, (*(void * *)&((struct CodeinArgA *)q)->f4));
     p->f4 = (void *)PRINTSYS_QUE_Create((void *)(p->f7C));
-    p->f74 = func_021FD760((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)), (char *)(((struct CodeinArgA *)q)->f8), 1, p->f7C);
+    p->f74 = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)), (char *)(((struct CodeinArgA *)q)->f8), 1, p->f7C);
     BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)q)->f8, 13, p->f7C);
     func_021DDE2C(p, q);
     func_021DD5C8(p, q);
@@ -2556,7 +2556,7 @@ int func_021DD3F8(struct S020315D4 *a, int unused, char *q, char *p)
     func_020409B4(4);
     func_020409B4(1);
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 13);
-    func_021FD820(*(char * *)&((struct CodeinWorkA *)p)->f74);
+    BR_UTIL_DeleteHandles(*(char * *)&((struct CodeinWorkA *)p)->f74);
     PRINTSYS_QUE_Delete(((struct CodeinWorkA *)p)->f4);
     BMP_OAM_DeleteSys(((struct CodeinWorkA *)p)->f0);
     func_020315D4(a);
@@ -2587,9 +2587,9 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    ((struct CodeinWorkA *)p)->f78=func_021DDFA0(p,x,y);
    if(((struct CodeinWorkA *)p)->f78) *state=3;
-   if(func_021FB4B4((unsigned int *)((*(int *)&((struct CodeinWorkA *)p)->f20)),x,y)){
+   if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkA *)p)->f20)),x,y)){
     pair.x=x;pair.y=y;
-    func_021FD860((void *)(*(int *)&((struct CodeinWorkA *)p)->f74), 1, &pair);
+    BR_UTIL_StartEffect((void *)(*(int *)&((struct CodeinWorkA *)p)->f74), 1, &pair);
     *state=7;
    }
   }break;
@@ -2607,13 +2607,13 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
  case 6:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=2;break;
  case 7:BR_FADE_Start(((struct CodeinArgA *)q)->f0,2,3,1);*state=8;break;
  case 8:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f0)) *state=9;break;
- case 9:func_021F9BA0(((struct CodeinArgA *)q)->fC);return 1;
+ case 9:BR_PROC_SYS_PopEntry(((struct CodeinArgA *)q)->fC);return 1;
  }
- for(i=0;i<4;i++) if(*(void **)(p+i*4+0x24)) func_021FC830(*(void **)(p+i*4+0x24));
- for(i=0;i<16;i++) if(*(void **)(p+i*4+0x34)) func_021FC830(*(void **)(p+i*4+0x34));
+ for(i=0;i<4;i++) if(*(void **)(p+i*4+0x24)) BR_UTIL_FlushText(*(void **)(p+i*4+0x24));
+ for(i=0;i<16;i++) if(*(void **)(p+i*4+0x34)) BR_UTIL_FlushText(*(void **)(p+i*4+0x34));
  PRINTSYS_QUE_Main(((struct CodeinWorkA *)p)->f4);
- if((*(void * *)&((struct CodeinWorkA *)p)->f1C))func_021FD1BC((*(void * *)&((struct CodeinWorkA *)p)->f1C));
- func_021FD854(((struct CodeinWorkA *)p)->f74);
+ if((*(void * *)&((struct CodeinWorkA *)p)->f1C))BR_UTIL_FlushWindow((*(void * *)&((struct CodeinWorkA *)p)->f1C));
+ BR_UTIL_RunHandles(((struct CodeinWorkA *)p)->f74);
  return 0;
 }
 
@@ -2646,10 +2646,10 @@ void func_021DD5C8(struct CodeinWorkA *p, char *q)
     b = rec->b;
     c = rec->c;
     p->f34 = BR_UTIL_Create(1, a, b, c, d, 14, p->f4, p->f7C);
-    func_021FC868(p->f34, 0, 1, 0);
-    func_021FC754(p->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
-    (*(void * *)&p->f1C) = func_021FD12C(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&p->f4), p->f7C);
-    func_021FD170((*(void * *)&p->f1C), (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
+    BR_UTIL_SetTextLayout(p->f34, 0, 1, 0);
+    BR_UTIL_SetTextFromMessage(p->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+    (*(void * *)&p->f1C) = BR_UTIL_CreateTextWin(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&p->f4), p->f7C);
+    BR_UTIL_SetWindowText((*(void * *)&p->f1C), (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
     v = func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
     BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 13, (Triple *)((Triple *)&triple));
     func_021DE084((void *)((char *)p + 8), (void *)(((struct CodeinArgA *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, p->f7C);
@@ -2681,7 +2681,7 @@ void func_021DD684(char *p,char *q)
  for(index=0;index<8;index++){
   rec=&d_021E33C0[index];slot=p+index*4;
   *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
-  func_021FC868(*(void **)(slot+0x34),0,1,0);
+  BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
     obj=func_02045EC0((struct MsgBank *)second,func_021DE000((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))?0x83:0x7e);break;
@@ -2709,7 +2709,7 @@ void func_021DD684(char *p,char *q)
    }
    default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
   }
-  func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
@@ -2746,7 +2746,7 @@ void func_021DD858(char *p,char *q)
  for(index=0;index<8;index++){
   rec=&d_021E3400[index];slot=p+index*4;
   *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
-  func_021FC868(*(void **)(slot+0x34),0,1,0);
+  BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
     obj=func_02045EC0((struct MsgBank *)second,func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?0x84:0x7f);break;
@@ -2774,7 +2774,7 @@ void func_021DD858(char *p,char *q)
    }
    default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
   }
-  func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
@@ -2833,7 +2833,7 @@ void func_021DDA2C(char *p, char *q)
     rec = &d_021E3490[index];
     slot = p + (index * 4);
     *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
-    func_021FC868(*((void **) (slot + 0x34)), 0, 1, 0);
+    BR_UTIL_SetTextLayout(*((void **) (slot + 0x34)), 0, 1, 0);
     switch (index)
     {
       if (select2)
@@ -2914,7 +2914,7 @@ void func_021DDA2C(char *p, char *q)
     }
 
     tmp1 = (char **) (slot + 0x34);
-    func_021FC7C4(*tmp1, obj, (void *) first, 0x3da0);
+    BR_UTIL_SetTextFromBuffer(*tmp1, obj, (void *) first, 0x3da0);
     STRBUF_Delete(obj);
   }
 
@@ -2956,7 +2956,7 @@ void func_021DDCCC(char *p,char *q)
    func_0201F250((void *)third,obj,(void *)text);
    STRBUF_Delete((struct U16Vec *)text);
   }else obj=(void *)func_02045EC0((struct MsgBank *)second,rec->value);
-  func_021FC7C4(*(char * *)&((struct CodeinWorkC *)slot)->f34,obj,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinWorkC *)slot)->f34,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
  v=func_0200DABC((struct Blk1AC *)(((struct CodeinArgA *)q)->f10));
@@ -2985,7 +2985,7 @@ void func_021DDDE8(char *p, char *q)
     }
     BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 10);
     if ((*(void * *)&((struct CodeinWorkA *)p)->f1C)) {
-        func_021FD15C((*(void * *)&((struct CodeinWorkA *)p)->f1C), ((struct CodeinArgA *)q)->f8);
+        BR_UTIL_DeleteTextWin((*(void * *)&((struct CodeinWorkA *)p)->f1C), ((struct CodeinArgA *)q)->f8);
         *(int *)&((struct CodeinWorkA *)p)->f1C = 0;
     }
 }
@@ -3010,7 +3010,7 @@ void func_021DDE2C(struct CodeinWorkA *p,char *q)
  MI_CpuFill8(&pos,0,8);
  pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
  BR_RES_GetSprite((void *)(((struct CodeinArgA *)q)->f8), 6, (Triple *)((Triple *)&triple));
- (*(void * *)&p->f20)=func_021FB378(&pos,4,0x60,1,((struct CodeinArgA *)q)->f4,*(int *)&p->f0,first,second,&triple,p->f7C);
+ (*(void * *)&p->f20)=BR_BTN_CreateFromMessage(&pos,4,0x60,1,((struct CodeinArgA *)q)->f4,*(int *)&p->f0,first,second,&triple,p->f7C);
  for(i=0;i<4;i++){
   rec=&d_021E336C[i];slot=(char *)p+i*4;
   (*(void * *)&((struct CodeinWorkC *)slot)->f24)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f7C);
@@ -3020,7 +3020,7 @@ void func_021DDE2C(struct CodeinWorkA *p,char *q)
    case 2: if(func_021DE058((void *)(((struct CodeinArgA *)q)->f10),(void *)(((struct CodeinArgA *)q)->f14))) id=0x85;else id=0x80;break;
    case 3: id=0x81;break;
   }
-  func_021FC754((*(void * *)&((struct CodeinWorkC *)slot)->f24),(void *)second,(void *)id,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromMessage((*(void * *)&((struct CodeinWorkC *)slot)->f24),(void *)second,(void *)id,(void *)first,0x3da0);
  }
 }
 
@@ -3042,7 +3042,7 @@ void func_021DDF5C(char *p, char *q)
         }
     }
     if ((*(void * *)&((struct CodeinWorkA *)p)->f20)) {
-        func_021FB494((*(void * *)&((struct CodeinWorkA *)p)->f20));
+        BR_BTN_DeleteObject((*(void * *)&((struct CodeinWorkA *)p)->f20));
         *(int *)&((struct CodeinWorkA *)p)->f20 = 0;
     }
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 6);
@@ -3065,7 +3065,7 @@ int func_021DDFA0(char *p, int x, int y)
             Point args;
             args.x = x;
             args.y = y;
-            func_021FD860((void *)(*(int *)&((struct CodeinWorkA *)p)->f74), 1, &args);
+            BR_UTIL_StartEffect((void *)(*(int *)&((struct CodeinWorkA *)p)->f74), 1, &args);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return i;
         }
@@ -3206,12 +3206,12 @@ void func_021DE15C(char *p, u32 value)
 
 int func_021DE1C8(void *a, int b, char *q)
 {
-    char *p = PROCSYS_AllocProcWork(a, 0x70, func_021F9B9C(((struct CodeinArgA *)q)->fC));
+    char *p = PROCSYS_AllocProcWork(a, 0x70, BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)q)->fC));
     MI_CpuFill8(p, 0, 0x70);
-    ((struct CodeinWorkA *)p)->f6C = func_021F9B9C(((struct CodeinArgA *)q)->fC);
+    ((struct CodeinWorkA *)p)->f6C = BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)q)->fC);
     ((struct CodeinWorkA *)p)->f0 = BMP_OAM_CreateSys(((struct CodeinWorkA *)p)->f6C, (*(void * *)&((struct CodeinArgA *)q)->f0));
     ((struct CodeinWorkA *)p)->f4 = (void *)PRINTSYS_QUE_Create((void *)(((struct CodeinWorkA *)p)->f6C));
-    ((struct CodeinWorkA *)p)->f64 = func_021FD760((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f0)), (char *)(((struct CodeinArgA *)q)->f8), 1, ((struct CodeinWorkA *)p)->f6C);
+    ((struct CodeinWorkA *)p)->f64 = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f0)), (char *)(((struct CodeinArgA *)q)->f8), 1, ((struct CodeinWorkA *)p)->f6C);
     func_021DE3E4(p, q);
     func_021DE7C0(p, q);
     return 1;
@@ -3231,7 +3231,7 @@ int func_021DE234(void *a, int b, char *q, struct CodeinWorkA *p)
     func_021DE8FC(p, q);
     func_020409B4(4);
     func_020409B4(1);
-    func_021FD820(p->f64);
+    BR_UTIL_DeleteHandles(p->f64);
     PRINTSYS_QUE_Delete(p->f4);
     BMP_OAM_DeleteSys(p->f0);
     func_020315D4(a);
@@ -3257,9 +3257,9 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    p->f68=func_021DE940(p,x,y);
    if(p->f68) *state=3;
-   if(func_021FB4B4((unsigned int *)((*(int *)&p->fC)),x,y)){
+   if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&p->fC)),x,y)){
     pair.x=x;pair.y=y;
-    func_021FD860((void *)(*(int *)&p->f64), 1, &pair);
+    BR_UTIL_StartEffect((void *)(*(int *)&p->f64), 1, &pair);
     *state=7;
    }
   }break;
@@ -3276,13 +3276,13 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
  case 6:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=2;break;
  case 7:BR_FADE_Start(((struct CodeinArgA *)q)->f4,2,3,1);*state=8;break;
  case 8:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)q)->f4)) *state=9;break;
- case 9:func_021F9BA0(((struct CodeinArgA *)q)->fC);return 1;
+ case 9:BR_PROC_SYS_PopEntry(((struct CodeinArgA *)q)->fC);return 1;
  }
- for(i=0;i<3;i++) if(*(void **)((char *)p+i*4+0x10)) func_021FC830(*(void **)((char *)p+i*4+0x10));
- for(i=0;i<18;i++) if(*(void **)((char *)p+i*4+0x1c)) func_021FC830(*(void **)((char *)p+i*4+0x1c));
+ for(i=0;i<3;i++) if(*(void **)((char *)p+i*4+0x10)) BR_UTIL_FlushText(*(void **)((char *)p+i*4+0x10));
+ for(i=0;i<18;i++) if(*(void **)((char *)p+i*4+0x1c)) BR_UTIL_FlushText(*(void **)((char *)p+i*4+0x1c));
  PRINTSYS_QUE_Main(p->f4);
- func_021FD854(p->f64);
- if(p->f8)func_021FD1BC(p->f8);
+ BR_UTIL_RunHandles(p->f64);
+ if(p->f8)BR_UTIL_FlushWindow(p->f8);
  return 0;
 }
 
@@ -3296,8 +3296,8 @@ int func_021DE274(void *unused,u32 *state,char *q,struct CodeinWorkA *p)
 
 void func_021DE3E4(char *p, char *q)
 {
-    ((struct CodeinWorkA *)p)->f8 = func_021FD12C(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&((struct CodeinWorkA *)p)->f4), ((struct CodeinWorkA *)p)->f6C);
-    func_021FD170(((struct CodeinWorkA *)p)->f8, (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
+    ((struct CodeinWorkA *)p)->f8 = BR_UTIL_CreateTextWin(((struct CodeinArgA *)q)->f8, (void *)(*(int *)&((struct CodeinWorkA *)p)->f4), ((struct CodeinWorkA *)p)->f6C);
+    BR_UTIL_SetWindowText(((struct CodeinWorkA *)p)->f8, (char *)(((struct CodeinArgA *)q)->f8), (void *)0x86);
 }
 
 
@@ -3328,7 +3328,7 @@ void func_021DE404(struct CodeinWorkA *p,char *q)
         rec=&d_021E3574[i];
         slot=(char *)p+i*4;
         ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
-        func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
+        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         switch(i) {
         case 0: func_0201F02C((struct WordSet *)words,0,func_02012944((*(void * *)&((struct CodeinArgA *)q)->f10))); break;
         case 7: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,5,0),4,1,1); break;
@@ -3344,7 +3344,7 @@ void func_021DE404(struct CodeinWorkA *p,char *q)
             func_0201F250((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        func_021FC7C4(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3372,7 +3372,7 @@ void func_021DE55C(struct CodeinWorkA *p,char *q)
         rec=&d_021E3664[i];
         slot=(char *)p+i*4;
         ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
-        func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
+        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-3,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,2);flag=1;}
         else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
@@ -3383,7 +3383,7 @@ void func_021DE55C(struct CodeinWorkA *p,char *q)
             func_0201F250((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        func_021FC7C4(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3411,7 +3411,7 @@ void func_021DE66C(struct CodeinWorkA *p,char *q)
         rec=&d_021E35D4[i];
         slot=(char *)p+i*4;
         ((struct CodeinSlotA *)slot)->f1C=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
-        func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
+        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-13,2);flag=1;}
         else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
@@ -3422,7 +3422,7 @@ void func_021DE66C(struct CodeinWorkA *p,char *q)
             func_0201F250((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        func_021FC7C4(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->f1C,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3450,7 +3450,7 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
     }
     BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f8, 17);
     if (p->f8 != 0) {
-        func_021FD15C(p->f8, ((struct CodeinArgA *)q)->f8);
+        BR_UTIL_DeleteTextWin(p->f8, ((struct CodeinArgA *)q)->f8);
         p->f8 = 0;
     }
 }
@@ -3569,7 +3569,7 @@ void func_021DE7C0(char *p,char *q)
     MI_CpuFill8(&config,0,8);
     config.a=80; config.b=168; config.c=0; config.flag=1;
     BR_RES_GetSprite((void *)(*(void **)(q+8)), 6, (Triple *)&triple);
-    *(void **)(p+0xc)=func_021FB378(&config,4,96,1,*(int *)q,*(int *)p,font,bank,&triple,*(u16 *)(p+0x6c));
+    *(void **)(p+0xc)=BR_BTN_CreateFromMessage(&config,4,96,1,*(int *)q,*(int *)p,font,bank,&triple,*(u16 *)(p+0x6c));
     base=STRBUF_Create(128,*(u16 *)(p+0x6c));
     text=STRBUF_Create(128,*(u16 *)(p+0x6c));
     value=func_02012944(*(void **)(q+0x10));
@@ -3582,7 +3582,7 @@ void func_021DE7C0(char *p,char *q)
             func_0201F02C((struct WordSet *)words,0,value);
             func_0201F250((struct WordSet *)words,text,base);
         } else func_02045CAC((struct MsgBank *)bank,rec->value,text);
-        func_021FC7C4(*(char **)(slot+0x10),text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x10),text,(void *)font,0x3da0);
     }
     STRBUF_Delete(base);
     STRBUF_Delete(text);
@@ -3607,7 +3607,7 @@ void func_021DE8FC(struct CodeinWorkA *p, char *q)
         }
     }
     if (p->fC) {
-        func_021FB494(p->fC);
+        BR_BTN_DeleteObject(p->fC);
         p->fC = 0;
     }
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 6);
@@ -3632,7 +3632,7 @@ int func_021DE940(struct CodeinWorkA *p, int x, int y)
             Point args;
             args.x = x;
             args.y = y;
-            func_021FD860((void *)(*(int *)&p->f64), 1, &args);
+            BR_UTIL_StartEffect((void *)(*(int *)&p->f64), 1, &args);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return i;
         }
@@ -3650,20 +3650,20 @@ int func_021DE940(struct CodeinWorkA *p, int x, int y)
 
 int func_021DE9A0(void *a, int b, char *q)
 {
-    struct CodeinWorkD *p = PROCSYS_AllocProcWork(a, 0x10C, func_021F9B9C((*(void * *)&((struct CodeinArgA *)q)->f14)));
+    struct CodeinWorkD *p = PROCSYS_AllocProcWork(a, 0x10C, BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)q)->f14)));
     int i;
     MI_CpuFill8(p, 0, 0x10C);
     p->f108 = q;
-    p->f18 = func_021F9B9C((*(void * *)&((struct CodeinArgA *)q)->f14));
+    p->f18 = BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)q)->f14));
     p->f0 = BMP_OAM_CreateSys(p->f18, ((struct CodeinArgA *)q)->fC);
     p->f14 = (void *)PRINTSYS_QUE_Create((void *)(p->f18));
     for (i = 0; i < 2; i++)
-        *(void **)((char *)p + i * 4 + 0x1C) = func_021FD760((unsigned int)(((struct CodeinArgA *)q)->fC), (char *)(((struct CodeinArgA *)q)->f10), i, p->f18);
-    p->f10 = func_021FD6D8((int)p, (int)func_021DF0DC, p->f18);
+        *(void **)((char *)p + i * 4 + 0x1C) = BR_UTIL_CreateHandles((unsigned int)(((struct CodeinArgA *)q)->fC), (char *)(((struct CodeinArgA *)q)->f10), i, p->f18);
+    p->f10 = BR_UTIL_CreateTask((int)p, (int)func_021DF0DC, p->f18);
     if (((struct CodeinSubA *)(p->f108))->f4 != 0)
-        func_021FD73C(p->f10, (int)func_021DEB4C);
+        BR_UTIL_SetTaskStep(p->f10, (int)func_021DEB4C);
     else
-        func_021FD73C(p->f10, (int)func_021DF0DC);
+        BR_UTIL_SetTaskStep(p->f10, (int)func_021DF0DC);
     return 1;
 }
 
@@ -3691,7 +3691,7 @@ int func_021DEA30(void *a, int b, struct CodeinArgA *q, struct CodeinWorkA *p)
         p->f8 = 0;
     }
     if (p->f4 != 0) {
-        func_021FB494(p->f4);
+        BR_BTN_DeleteObject(p->f4);
         p->f4 = 0;
     }
     if (p->f104 != 0) {
@@ -3699,12 +3699,12 @@ int func_021DEA30(void *a, int b, struct CodeinArgA *q, struct CodeinWorkA *p)
         BR_RES_ApplyBgSet((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
         p->f104 = 0;
     }
-    func_021FD714(p->f10);
+    BR_UTIL_DeleteTask(p->f10);
     if (p->f24 != 0) {
-        func_021FD15C(p->f24, q->f10);
+        BR_UTIL_DeleteTextWin(p->f24, q->f10);
         p->f24 = 0;
     }
-    for (i = 0; i < 2; i++) func_021FD820(*(void **)((char *)p + 0x1C + i * 4));
+    for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(void **)((char *)p + 0x1C + i * 4));
     BMP_OAM_DeleteSys(p->f0);
     PRINTSYS_QUE_Delete(p->f14);
     func_020315D4(a);
@@ -3723,16 +3723,16 @@ int func_021DEADC(int a, int b, int c, struct CodeinWorkA *p)
 {
     int i;
     if (BR_NET_HandleNetError(((struct CodeinSubA *)(p->f108))->f18) == 2) {
-        func_021F9C6C((*(void * *)&((struct CodeinSubA *)(p->f108))->f14));
+        BR_PROC_SYS_FlushWindows((*(void * *)&((struct CodeinSubA *)(p->f108))->f14));
         return 1;
     }
-    func_021FD71C(p->f10);
-    if (func_021FD72C(p->f10) != 0) return 1;
-    for (i = 0; i < 2; i++) func_021FD854(*(void **)((char *)p + 0x1C + i * 4));
+    BR_UTIL_RunTask(p->f10);
+    if (BR_UTIL_IsTaskIdle(p->f10) != 0) return 1;
+    for (i = 0; i < 2; i++) BR_UTIL_RunHandles(*(void **)((char *)p + 0x1C + i * 4));
     PRINTSYS_QUE_Main(p->f14);
-    if (p->f8 != 0) func_021FC830(p->f8);
-    if (p->fC != 0) func_021FC830(p->fC);
-    if (p->f24 != 0) func_021FD1BC(p->f24);
+    if (p->f8 != 0) BR_UTIL_FlushText(p->f8);
+    if (p->fC != 0) BR_UTIL_FlushText(p->fC);
+    if (p->f24 != 0) BR_UTIL_FlushWindow(p->f24);
     return 0;
 }
 
@@ -3752,7 +3752,7 @@ void func_021DEB4C(int *task,int *state,struct CodeinWorkD *p)
     font=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
     bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(p->f108))->f10);
     if(p->f24) {
-        func_021FD15C(p->f24,((struct CodeinSubA *)(p->f108))->f10);
+        BR_UTIL_DeleteTextWin(p->f24,((struct CodeinSubA *)(p->f108))->f10);
         p->f24=0;
     }
     BR_RES_LoadBgGraphics((void *)(((struct CodeinSubA *)(p->f108))->f10),24,p->f18);
@@ -3762,15 +3762,15 @@ void func_021DEB4C(int *task,int *state,struct CodeinWorkD *p)
     config.a=80;config.b=168;config.c=0;config.flag=1;
     if(!BR_RES_GetSprite((void *)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 6, (Triple *)&triple))
         func_02034714(d_021E3964,0,d_021E3964);
-    p->f4=func_021FB378(&config,4,96,1,(*(int *)&((struct CodeinSubA *)(p->f108))->fC),(*(int *)&p->f0),font,bank,&triple,p->f18);
+    p->f4=BR_BTN_CreateFromMessage(&config,4,96,1,(*(int *)&((struct CodeinSubA *)(p->f108))->fC),(*(int *)&p->f0),font,bank,&triple,p->f18);
     p->f8=BR_UTIL_Create(4,11,6,10,4,14,p->f14,p->f18);
-    func_021FC754(*(char * *)&p->f8,(void *)bank,(void *)0x55,(void *)font,0x3da0);
+    BR_UTIL_SetTextFromMessage(*(char * *)&p->f8,(void *)bank,(void *)0x55,(void *)font,0x3da0);
     p->fC=BR_UTIL_Create(1,3,3,26,4,14,p->f14,p->f18);
-    func_021FC868(p->fC,0,1,0);
-    func_021FC754(*(char * *)&p->fC,(void *)bank,(void *)(**(int * *)&p->f108+0x57),(void *)font,0x3da0);
+    BR_UTIL_SetTextLayout(p->fC,0,1,0);
+    BR_UTIL_SetTextFromMessage(*(char * *)&p->fC,(void *)bank,(void *)(**(int * *)&p->f108+0x57),(void *)font,0x3da0);
     func_021DF1DC((Menu *)((char *)p+0x28), ((struct CodeinSubA *)(p->f108))->f1C, *(char * *)&((struct CodeinSubA *)(p->f108))->f10, (*(int *)&((struct CodeinSubA *)(p->f108))->fC), (u32)(p->f1C), (u32)((*(void * *)&p->f20)), *(u16 * *)&((struct CodeinSubA *)(p->f108))->f28, p->f18);
     p->f100=1;
-    func_021FD73C(task,(int)func_021DED14);
+    BR_UTIL_SetTaskStep(task,(int)func_021DED14);
 }
 
 
@@ -3791,12 +3791,12 @@ void func_021DECB0(void *a, int b, struct CodeinWorkA *p)
     p->f8 = 0;
     func_020409B4(4);
     func_020409B4(1);
-    func_021FB494(p->f4);
+    BR_BTN_DeleteObject(p->f4);
     p->f4 = 0;
     BR_RES_ReleaseSprite((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
     BR_RES_ApplyBgSet((int)((*(void * *)&((struct CodeinSubA *)(p->f108))->f10)), 24);
     p->f104 = 0;
-    func_021FD744((int *)a);
+    BR_UTIL_ClearTaskStep((int *)a);
 }
 
 
@@ -3818,7 +3818,7 @@ void func_021DED14(int *a, int *state, struct CodeinWorkA *p)
         if (BR_FADE_GetResult(((struct CodeinSubA *)(p->f108))->f8) != 0) *state = 2;
         break;
     case 2:
-        func_021FD73C(a, (int)func_021DEDB4);
+        BR_UTIL_SetTaskStep(a, (int)func_021DEDB4);
         break;
     }
 }
@@ -3842,7 +3842,7 @@ void func_021DED64(int *p, int *state, struct CodeinArgA *q)
         if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
         break;
     case 2:
-        func_021FD73C(p, (int)func_021DECB0);
+        BR_UTIL_SetTaskStep(p, (int)func_021DECB0);
         break;
     }
 }
@@ -3860,12 +3860,12 @@ void func_021DEDB4(int *task, int *state, char *p)
     u32 x,y;
     func_021DF3DC(p+0x28,((struct CodeinWorkD *)p)->f18);
     if (TOUCHPANEL_GetPointTrg(&x,&y)) {
-        if (func_021FB4B4((unsigned int *)((*(int *)&((struct CodeinWorkD *)p)->f4)),x,y)) {
+        if (BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkD *)p)->f4)),x,y)) {
             Point args;
             args.x=x; args.y=y;
-            func_021FD860((void *)(((struct CodeinWorkD *)p)->f20), 1, &args);
-            func_021F9BA0((*(void * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f14));
-            func_021FD73C(task,(int)func_021DED64);
+            BR_UTIL_StartEffect((void *)(((struct CodeinWorkD *)p)->f20), 1, &args);
+            BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f14));
+            BR_UTIL_SetTaskStep(task,(int)func_021DED64);
         }
         if (func_021DF8F0(x,y)) {
             u32 selection;
@@ -3874,10 +3874,10 @@ void func_021DEDB4(int *task, int *state, char *p)
             if (selection>=((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f1C))->f1718)
                 func_02034714(d_021E3964,0,d_021E3964);
             ((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f1C))->f171C=selection;
-            func_021F9BF4(*(unsigned * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f14,2);
-            func_021FD73C(task,(int)func_021DED64);
+            BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)p)->f108))->f14,2);
+            BR_UTIL_SetTaskStep(task,(int)func_021DED64);
             args.x=x; args.y=y;
-            func_021FD860((void *)(((struct CodeinWorkD *)p)->f20), 1, &args);
+            BR_UTIL_StartEffect((void *)(((struct CodeinWorkD *)p)->f20), 1, &args);
         }
     }
 }
@@ -3910,7 +3910,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
     case 1:
         ++*(u32 *)(p+0xfc);
         if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x108)+0x18)) && *(u32 *)(p+0xfc)>96) {
-            func_021FD860((void *)(*(int *)(p+0x1c)), 0, 0); *state=2;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x1c)), 0, 0); *state=2;
         } break;
     case 2: {
         int message,success,i;
@@ -3930,14 +3930,14 @@ void func_021DEE7C(int *task,u32 *state,char *p)
                 for(i=0;i<(*(struct Data_021DB2E0 **)(*(char **)(p+0x108)+0x1c))->count;i++) {
                     *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)BATTLE_REC_GetHeaderParam((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
                 }
-                func_021FD73C(task,(int)func_021DF18C);
+                BR_UTIL_SetTaskStep(task,(int)func_021DF18C);
             } else {
-                if(**(u32 **)(p+0x108)==3) func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)276);
-                else func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)339);
+                if(**(u32 **)(p+0x108)==3) BR_UTIL_SetWindowText(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)276);
+                else BR_UTIL_SetWindowText(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)339);
                 *state=3;
             }
         } else {
-            func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)message);
+            BR_UTIL_SetWindowText(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)message);
             *state=3;
         } break;
     }
@@ -3947,7 +3947,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);
             clicked.x=x; clicked.y=y;
-            func_021FD860((void *)(*(int *)(p+0x20)), 1, &clicked);
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x20)), 1, &clicked);
             GFL_USE_PlaySeDefaultVolume(0x703);
             BR_FADE_Start(*(int *)(*(char **)(p+0x108)+8),2,3,1);
             *state=4;
@@ -3957,7 +3957,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         if(BR_FADE_GetResult(*(int **)(*(char **)(p+0x108)+8))) *state=5;
         break;
     case 5:
-        func_021F9BA0(*(void **)(*(char **)(p+0x108)+0x14)); func_021FD744((int *)task); break;
+        BR_PROC_SYS_PopEntry(*(void **)(*(char **)(p+0x108)+0x14)); BR_UTIL_ClearTaskStep((int *)task); break;
     }
 }
 
@@ -3973,16 +3973,16 @@ void func_021DF0DC(int *p, int *state, struct CodeinArgA *q)
     switch (*state) {
     case 0:
         if (q->f24 == 0) {
-            q->f24 = (int)func_021FD12C(((struct CodeinSubA *)(q->f108))->f10, (void *)(q->f14), q->f18);
+            q->f24 = (int)BR_UTIL_CreateTextWin(((struct CodeinSubA *)(q->f108))->f10, (void *)(q->f14), q->f18);
         }
         if (**(int * *)&q->f108 == 3) {
-            func_021FD170((char *)(q->f24), (char *)(((struct CodeinSubA *)(q->f108))->f10), (void *)0x14B);
+            BR_UTIL_SetWindowText((char *)(q->f24), (char *)(((struct CodeinSubA *)(q->f108))->f10), (void *)0x14B);
         } else {
-            func_021FD170((char *)(q->f24), (char *)(((struct CodeinSubA *)(q->f108))->f10), (void *)0x13E);
+            BR_UTIL_SetWindowText((char *)(q->f24), (char *)(((struct CodeinSubA *)(q->f108))->f10), (void *)0x13E);
         }
         args.x = 0x80;
         args.y = 0x60;
-        func_021FD860((void *)(q->f1C), 4, &args);
+        BR_UTIL_StartEffect((void *)(q->f1C), 4, &args);
         *state = 1;
         break;
     case 1:
@@ -3993,7 +3993,7 @@ void func_021DF0DC(int *p, int *state, struct CodeinArgA *q)
         if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 3;
         break;
     case 3:
-        func_021FD73C(p, (int)func_021DEE7C);
+        BR_UTIL_SetTaskStep(p, (int)func_021DEE7C);
         break;
     }
 }
@@ -4015,7 +4015,7 @@ void func_021DF18C(int *p, int *state, struct CodeinArgA *q)
         if (BR_FADE_GetResult(((struct CodeinSubA *)(q->f108))->f8) != 0) *state = 2;
         break;
     case 2:
-        func_021FD73C(p, (int)func_021DEB4C);
+        BR_UTIL_SetTaskStep(p, (int)func_021DEB4C);
         break;
     }
 }
@@ -4048,7 +4048,7 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     cfg.cursor=p->c;
     cfg.other=p->d;
     cfg.selection=sel;
-    p->view=func_021FC8C8((const Config_021DF1DC *)&cfg, heap);
+    p->view=BR_UTIL_CreateListMenu((const Config_021DF1DC *)&cfg, heap);
     buf1=STRBUF_Create(0xff,heap);
     msg=func_02045EC0((struct MsgBank *)second,0x7a);
     buf2=STRBUF_Create(0xff,heap);
@@ -4060,12 +4060,12 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
         STRBUF_SetString(buf2,(const u16 *)(base+i*0xc4));
         PRINTSYS_PrintColor(bmp,(short)(16-func_0201D304(buf1,first,0)),4,buf1,(void *)first,0x3DA0);
         PRINTSYS_PrintColor(bmp,0x14,4,buf2,(void *)first,0x3DA0);
-        func_021FCDAC(p->view,(u16)i,(u32)bmp);
+        BR_UTIL_SetListItemBitmap(p->view,(u16)i,(u32)bmp);
     }
     STRBUF_Delete(buf2);
     STRBUF_Delete(buf1);
     STRBUF_Delete(msg);
-    func_021FCE50(p->view);
+    BR_UTIL_RefreshList(p->view);
     func_021DF428((struct State_021DF428 *)p,mgr,heap);
     for(i=0;i<*sel;i++)func_021DF620((struct State_021DF428 *)p,i+1,1,heap);
 }
@@ -4081,11 +4081,11 @@ void func_021DF388(char *p)
 {
     unsigned int i;
     func_021DF5B8(p);
-    for (i = 0; i < func_021FCE0C(((struct CodeinWorkG *)p)->f4, 3); i++) {
-        BMP_Delete((struct Obj020437AC *)func_021FCDE8(((struct CodeinWorkG *)p)->f4, i));
+    for (i = 0; i < BR_UTIL_GetListMenuField(((struct CodeinWorkG *)p)->f4, 3); i++) {
+        BMP_Delete((struct Obj020437AC *)BR_UTIL_GetListItemBitmap(((struct CodeinWorkG *)p)->f4, i));
     }
     func_0201ED04(((struct CodeinWorkG *)p)->f8);
-    func_021FCC80(((struct CodeinWorkG *)p)->f4);
+    BR_UTIL_DeleteListMenu(((struct CodeinWorkG *)p)->f4);
     BMP_MENUWORK_Delete(((struct CodeinWorkG *)p)->f0);
     MI_CpuFill8(p, 0, 0xD4);
 }
@@ -4101,10 +4101,10 @@ void func_021DF3DC(char *p, u16 a)
 {
     unsigned int old, current;
     s8 direction;
-    old = func_021FCE0C(((struct CodeinWorkD *)p)->f4, 1);
-    func_021FCD0C(((struct CodeinWorkD *)p)->f4);
-    current = func_021FCE0C(((struct CodeinWorkD *)p)->f4, 1);
-    direction = func_021FCE0C(((struct CodeinWorkD *)p)->f4, 2);
+    old = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)p)->f4, 1);
+    BR_UTIL_MainListMenu(((struct CodeinWorkD *)p)->f4);
+    current = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)p)->f4, 1);
+    direction = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)p)->f4, 2);
     if (direction != 0 && old != current) func_021DF620((struct State_021DF428 *)p, current, direction, a);
 }
 
@@ -4117,7 +4117,7 @@ void func_021DF3DC(char *p, u16 a)
 
 int func_021DF41C(char *p)
 {
-    return func_021FCDA8(*(char * *)&((struct CodeinWorkA *)p)->f4);
+    return BR_UTIL_GetListMenuField48(*(char * *)&((struct CodeinWorkA *)p)->f4);
 }
 
 
@@ -4372,15 +4372,15 @@ int func_021DF920(void *obj, int unused, struct CodeinArgB *q)
 {
     struct CodeinWorkA *p;
     int i;
-    p = PROCSYS_AllocProcWork(obj, 0x58, func_021F9B9C((struct Obj24810 *)(q->fC)));
+    p = PROCSYS_AllocProcWork(obj, 0x58, BR_PROC_SYS_GetSlotId((struct Obj24810 *)(q->fC)));
     MI_CpuFill8(p, 0, 0x58);
-    p->f54 = func_021F9B9C((struct Obj24810 *)(q->fC));
+    p->f54 = BR_PROC_SYS_GetSlotId((struct Obj24810 *)(q->fC));
     p->f48 = (void *)PRINTSYS_QUE_Create((void *)(p->f54));
     (*(void * *)&p->f44) = BMP_OAM_CreateSys(p->f54, q->f4);
-    (*(int *)&p->f38) = (int)func_021FD12C(q->f8, (void *)(*(int *)&p->f48), p->f54);
-    func_021FD170((char *)((*(int *)&p->f38)), (char *)(q->f8), (void *)0x6B);
+    (*(int *)&p->f38) = (int)BR_UTIL_CreateTextWin(q->f8, (void *)(*(int *)&p->f48), p->f54);
+    BR_UTIL_SetWindowText((char *)((*(int *)&p->f38)), (char *)(q->f8), (void *)0x6B);
     for (i = 0; i < 2; i++) {
-        *(int *)((char *)p + i * 4 + 0x3C) = (int)func_021FD760(*(int *)&q->f4, (char *)(q->f8), i, p->f54);
+        *(int *)((char *)p + i * 4 + 0x3C) = (int)BR_UTIL_CreateHandles(*(int *)&q->f4, (char *)(q->f8), i, p->f54);
     }
     q->f14 = 0xFFFF;
     q->f16 = 0xFF;
@@ -4403,8 +4403,8 @@ int func_021DF9C8(void *p, int unused, struct CodeinArgA *q, char *data)
     int i;
     func_021E037C(data, q);
     BR_RES_ReleaseSprite((char *)(q->f8), 6);
-    for (i = 0; i < 2; i++) func_021FD820(*(char **)(data + i * 4 + 0x3c));
-    func_021FD15C(((struct CodeinDataA *)data)->f38, q->f8);
+    for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(char **)(data + i * 4 + 0x3c));
+    BR_UTIL_DeleteTextWin(((struct CodeinDataA *)data)->f38, q->f8);
     BMP_OAM_DeleteSys(((struct CodeinDataA *)data)->f44);
     PRINTSYS_QUE_Delete(((struct CodeinDataA *)data)->f48);
     func_020315D4(p);
@@ -4440,11 +4440,11 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     case 11: if(BR_FADE_GetResult((int *)q[0])) *state=12; break;
     case 12: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) return 1; break;
     }
-    for(i=0;i<3;i++) if(*(void **)(p+i*4)) func_021FC830(*(void **)(p+i*4));
-    for(i=0;i<6;i++) if(*(void **)(p+0x20+i*4)) func_021FC830(*(void **)(p+0x20+i*4));
-    if(((struct CodeinWorkA *)p)->f38) func_021FD1BC(((struct CodeinWorkA *)p)->f38);
+    for(i=0;i<3;i++) if(*(void **)(p+i*4)) BR_UTIL_FlushText(*(void **)(p+i*4));
+    for(i=0;i<6;i++) if(*(void **)(p+0x20+i*4)) BR_UTIL_FlushText(*(void **)(p+0x20+i*4));
+    if(((struct CodeinWorkA *)p)->f38) BR_UTIL_FlushWindow(((struct CodeinWorkA *)p)->f38);
     PRINTSYS_QUE_Main(((struct CodeinWorkA *)p)->f48);
-    for(i=0;i<2;i++) func_021FD854(*(char **)(p+0x3c+i*4));
+    for(i=0;i<2;i++) BR_UTIL_RunHandles(*(char **)(p+0x3c+i*4));
     return 0;
 }
 
@@ -4470,14 +4470,14 @@ int func_021DFB90(struct CodeinWorkA *p,struct CodeinArgA *q)
     for(i=0;i<2;i++) {
         r=&d_021E3734[i];
         req.a=r->x; req.b=r->y; req.c=r->id; req.flag=1;
-        *(void **)((char *)p+0xc+i*4)=func_021FB378(&req,r->file,0x60,1,q->f4,p->f44,first,second,&triple,p->f54);
+        *(void **)((char *)p+0xc+i*4)=BR_BTN_CreateFromMessage(&req,r->file,0x60,1,q->f4,p->f44,first,second,&triple,p->f54);
     }
     for(i=0;i<3;i++) {
         s=&d_021E3740[i];
         *(void **)((char *)p+i*4)=BR_UTIL_Create(4,s->a,s->b,s->c,s->d,14,p->f48,p->f54);
-        func_021FC754(*(char **)((char *)p+i*4),(void *)second,s->value,(void *)first,0x3da0);
+        BR_UTIL_SetTextFromMessage(*(char **)((char *)p+i*4),(void *)second,s->value,(void *)first,0x3da0);
     }
-    func_021FD170(p->f38,(char *)(q->f8),(void *)107);
+    BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)107);
     return 1;
 }
 
@@ -4499,7 +4499,7 @@ int func_021DFC88(char *p, struct CodeinArgA *q)
     }
     for (i = 0; i < 2; i++) {
         if (*(void **)(p + i * 4 + 12) != 0) {
-            func_021FB494(*(void **)(p + i * 4 + 12));
+            BR_BTN_DeleteObject(*(void **)(p + i * 4 + 12));
             *(void **)(p + i * 4 + 12) = 0;
         }
     }
@@ -4526,11 +4526,11 @@ int func_021DFCD4(struct CodeinWorkB *p,struct CodeinArgB *q)
         u32 x,y;
         Point args;
         TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-        func_021FD860((void *)p->f40,1,&args);
+        BR_UTIL_StartEffect((void *)p->f40,1,&args);
         GFL_USE_PlaySeDefaultVolume(0x703);
         q->f18=19;
         func_021E03B0(p,q,0);
-        func_021FD170(p->f38,(char *)(q->f8),(void *)105);
+        BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)105);
         p->f50=1;
         return 1;
     }
@@ -4538,11 +4538,11 @@ int func_021DFCD4(struct CodeinWorkB *p,struct CodeinArgB *q)
         u32 x,y;
         Point args;
         TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-        func_021FD860((void *)p->f40,1,&args);
+        BR_UTIL_StartEffect((void *)p->f40,1,&args);
         GFL_USE_PlaySeDefaultVolume(0x703);
         q->f14=0xffff;
         func_021E03B0(p,q,1);
-        func_021FD170(p->f38,(char *)(q->f8),(void *)106);
+        BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)106);
         p->f50=2;
         return 1;
     }
@@ -4554,12 +4554,12 @@ int func_021DFCD4(struct CodeinWorkB *p,struct CodeinArgB *q)
         v=func_02012944(q->f10);
         a=func_0200856C(v);b=func_02008570(v);
         if(!a && !b) {
-            func_021FD170(p->f38,(char *)(q->f8),(void *)120);
+            BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)120);
             GFL_USE_PlaySeDefaultVolume(0x704);
             break;
         }
         TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-        func_021FD860((void *)p->f40,1,&args);
+        BR_UTIL_StartEffect((void *)p->f40,1,&args);
         GFL_USE_PlaySeDefaultVolume(0x703);
         if(q->f16==255){q->f16=a;q->f17=b;}
         else{q->f16=255;q->f17=255;}
@@ -4571,26 +4571,26 @@ int func_021DFCD4(struct CodeinWorkB *p,struct CodeinArgB *q)
     {
         u32 x,y;
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-            if(func_021FB4B4((unsigned int *)(p->fC),x,y)) {
+            if(BR_BTN_HitTestWithSound((unsigned int *)(p->fC),x,y)) {
                 Point args;
                 args.x=x;args.y=y;
-                func_021FD860((void *)p->f40,1,&args);
+                BR_UTIL_StartEffect((void *)p->f40,1,&args);
                 p->f50=-1;
-                func_021F9BA0((*(void * *)&q->fC));
+                BR_PROC_SYS_PopEntry((*(void * *)&q->fC));
                 return 1;
             }
-            if(func_021FB4CC((u32 *)(p->f10),x,y)) {
+            if(BR_BTN_TestHitBox((u32 *)(p->f10),x,y)) {
                 if(q->f14!=0xffff || q->f17!=255 || q->f18!=19) {
                     Point args;
                     args.x=x;args.y=y;
                     GFL_USE_PlaySeDefaultVolume(0x703);
-                    func_021FD860((void *)p->f40,1,&args);
+                    BR_UTIL_StartEffect((void *)p->f40,1,&args);
                     p->f50=-1;
-                    func_021F9BF4(*(unsigned * *)&q->fC,5);
+                    BR_PROC_SYS_PushEntry(*(unsigned * *)&q->fC,5);
                     return 1;
                 }
                 GFL_USE_PlaySeDefaultVolume(0x704);
-                func_021FD170(p->f38,(char *)(q->f8),(void *)108);
+                BR_UTIL_SetWindowText(p->f38,(char *)(q->f8),(void *)108);
             }
         }
     }
@@ -4617,11 +4617,11 @@ int func_021DFE98(struct CodeinWorkB *p,struct CodeinArgA *q)
     cfg=d_021E3758;
     cfg.words[0]=*(u32 *)&p->f14;cfg.words[1]=19;
     cfg.words[5]=*(u32 *)&q->f8;cfg.words[6]=(*(unsigned int *)&q->f4);
-    p->f18=func_021FC8C8((const Config_021DF1DC *)&cfg,p->f54);
+    p->f18=BR_UTIL_CreateListMenu((const Config_021DF1DC *)&cfg,p->f54);
     MI_CpuFill8(&params,0,8);
     BR_RES_GetSprite((void *)q->f8, 6, (Triple *)&triple);
     params.a=d_021E3728[0].x;params.b=d_021E3728[0].y;params.c=d_021E3728[0].id;params.flag=1;
-    (*(void * *)&p->fC)=func_021FB378(&params,d_021E3728[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
+    (*(void * *)&p->fC)=BR_BTN_CreateFromMessage(&params,d_021E3728[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
     return 1;
 }
 
@@ -4634,10 +4634,10 @@ int func_021DFE98(struct CodeinWorkB *p,struct CodeinArgA *q)
 int func_021DFF78(struct CodeinWorkB *p, struct CodeinArgA *q)
 {
     if ((*(void * *)&p->fC)) {
-        func_021FB494((*(void * *)&p->fC));
+        BR_BTN_DeleteObject((*(void * *)&p->fC));
         (*(void * *)&p->fC) = 0;
     }
-    func_021FCC80(p->f18);
+    BR_UTIL_DeleteListMenu(p->f18);
     p->f18 = 0;
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
@@ -4656,17 +4656,17 @@ int func_021DFFB0(struct CodeinWorkB *p, struct CodeinArgB *q)
 {
     int selected, pressed;
     unsigned int x, y;
-    func_021FCD0C(p->f18);
-    selected = func_021FCDA8(p->f18);
+    BR_UTIL_MainListMenu(p->f18);
+    selected = BR_UTIL_GetListMenuField48(p->f18);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
-    pressed &= func_021FB4B4((unsigned int *)(p->fC), x, y);
+    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(p->fC), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         Point args;
         TOUCHPANEL_GetPointTrg(&x1, &y1);
         args.x = x1;
         args.y = y1;
-        func_021FD860((void *)p->f40, 1, &args);
+        BR_UTIL_StartEffect((void *)p->f40, 1, &args);
         q->f18 = selected;
         func_021E03B0(p, q, 0);
         p->f50 = 0;
@@ -4677,7 +4677,7 @@ int func_021DFFB0(struct CodeinWorkB *p, struct CodeinArgB *q)
         TOUCHPANEL_GetPointTrg(&x2, &y2);
         args.x = x2;
         args.y = y2;
-        func_021FD860((void *)p->f40, 1, &args);
+        BR_UTIL_StartEffect((void *)p->f40, 1, &args);
         p->f50 = 0;
         return 1;
     }
@@ -4769,11 +4769,11 @@ int func_021E00D8(struct CodeinWorkB *p,struct CodeinArgA *q)
     cfg=d_021E3780;
     cfg.words[0]=*(u32 *)&p->f14;cfg.words[1]=1;
     cfg.words[5]=*(u32 *)&q->f8;cfg.words[6]=(*(unsigned int *)&q->f4);
-    p->f18=func_021FC8C8((const Config_021DF1DC *)&cfg,p->f54);
+    p->f18=BR_UTIL_CreateListMenu((const Config_021DF1DC *)&cfg,p->f54);
     MI_CpuFill8(&params,0,8);
     BR_RES_GetSprite((void *)q->f8, 6, (Triple *)&triple);
     params.a=d_021E372E[0].x;params.b=d_021E372E[0].y;params.c=d_021E372E[0].id;params.flag=1;
-    (*(void * *)&p->fC)=func_021FB378(&params,d_021E372E[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
+    (*(void * *)&p->fC)=BR_BTN_CreateFromMessage(&params,d_021E372E[0].file,96,1,q->f4,p->f44,first,second,&triple,p->f54);
     return 1;
 }
 
@@ -4785,10 +4785,10 @@ int func_021E00D8(struct CodeinWorkB *p,struct CodeinArgA *q)
 int func_021E0214(struct CodeinWorkB *p, struct CodeinArgA *q)
 {
     if ((*(void * *)&p->fC)) {
-        func_021FB494((*(void * *)&p->fC));
+        BR_BTN_DeleteObject((*(void * *)&p->fC));
         (*(void * *)&p->fC) = 0;
     }
-    func_021FCC80(p->f18);
+    BR_UTIL_DeleteListMenu(p->f18);
     p->f18 = 0;
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
@@ -4809,10 +4809,10 @@ int func_021E024C(struct CodeinWorkB *p, struct CodeinArgB *q)
 {
     int selected, pressed;
     unsigned int x, y;
-    func_021FCD0C(p->f18);
-    selected = func_021FCDA8(p->f18);
+    BR_UTIL_MainListMenu(p->f18);
+    selected = BR_UTIL_GetListMenuField48(p->f18);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
-    pressed &= func_021FB4B4((unsigned int *)(p->fC), x, y);
+    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(p->fC), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         Point args;
@@ -4821,7 +4821,7 @@ int func_021E024C(struct CodeinWorkB *p, struct CodeinArgB *q)
         TOUCHPANEL_GetPointTrg(&x1, &y1);
         args.x = x1;
         args.y = y1;
-        func_021FD860((void *)p->f40, 1, &args);
+        BR_UTIL_StartEffect((void *)p->f40, 1, &args);
         v = func_02012944(q->f10);
         a = func_0200856C(v);
         q->f17 = func_02008570(v);
@@ -4835,7 +4835,7 @@ int func_021E024C(struct CodeinWorkB *p, struct CodeinArgB *q)
         TOUCHPANEL_GetPointTrg(&x2, &y2);
         args.x = x2;
         args.y = y2;
-        func_021FD860((void *)p->f40, 1, &args);
+        BR_UTIL_StartEffect((void *)p->f40, 1, &args);
         p->f50 = 0;
         return 1;
     }
@@ -4857,8 +4857,8 @@ void func_021E02F8(struct CodeinWorkA *p, int *q)
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
         *(void **)((char *)p + i * 4 + 0x20) = BR_UTIL_Create(1, r->a, r->b, r->c, r->d, 14, p->f48, p->f54);
-        func_021FC868(*(void **)((char *)p + i * 4 + 0x20), 0, 1, 0);
-        func_021FC754(*(void **)((char *)p + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
+        BR_UTIL_SetTextLayout(*(void **)((char *)p + i * 4 + 0x20), 0, 1, 0);
+        BR_UTIL_SetTextFromMessage(*(void **)((char *)p + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
     }
 }
 
@@ -4885,16 +4885,16 @@ void func_021E03B0(struct CodeinWorkB *p,struct CodeinArgB *q,int mode)
     second=BR_RES_GetMsgData(*(char * *)&q->f8);
     switch(mode) {
     case 0:
-        if(q->f18!=19)func_021FC754(p->f24,(void *)second,(void *)(q->f18+205),(void *)first,0x3da0);
-        else func_021FC754(p->f24,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(q->f18!=19)BR_UTIL_SetTextFromMessage(p->f24,(void *)second,(void *)(q->f18+205),(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(p->f24,(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 1:
-        if(q->f14!=0xffff)func_021FC754(p->f2C,(void *)gSpeciesNameBank,(void *)(u32)q->f14,(void *)first,0x3da0);
-        else func_021FC754(p->f2C,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(q->f14!=0xffff)BR_UTIL_SetTextFromMessage(p->f2C,(void *)gSpeciesNameBank,(void *)(u32)q->f14,(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(p->f2C,(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 2:
         if(q->f16==255 && q->f17==255) {
-            func_021FC754(p->f34,(void *)second,(void *)117,(void *)first,0x3da0);
+            BR_UTIL_SetTextFromMessage(p->f34,(void *)second,(void *)117,(void *)first,0x3da0);
             return;
         }
         ws=BR_RES_GetWordSet(*(char * *)&q->f8);
@@ -4903,7 +4903,7 @@ void func_021E03B0(struct CodeinWorkB *p,struct CodeinArgB *q,int mode)
         if(!func_02025B64(q->f16))func_0201F048((void *)ws,0,q->f16);
         else func_0201F094((void *)ws,0,q->f16,q->f17);
         func_0201F250((void *)ws,text,data);
-        func_021FC7C4(p->f34,text,(void *)first,0x3da0);
+        BR_UTIL_SetTextFromBuffer(p->f34,text,(void *)first,0x3da0);
         STRBUF_Delete(data);STRBUF_Delete(text);
         break;
     }
@@ -4949,22 +4949,22 @@ int func_021E050C(void *task, int unused, struct CodeinArgA *q)
     int entries[3];
     BR_RES_GetFont((char *)(q->f8));
     BR_RES_GetMsgData(*(char * *)&q->f8);
-    p = PROCSYS_AllocProcWork(task, 24, func_021F9B9C(q->fC));
+    p = PROCSYS_AllocProcWork(task, 24, BR_PROC_SYS_GetSlotId(q->fC));
     MI_CpuFill8(p, 0, 24);
-    p->heap = func_021F9B9C(q->fC);
+    p->heap = BR_PROC_SYS_GetSlotId(q->fC);
     BR_RES_LoadBgGraphics((void *)(q->f8), 29, p->heap);
     BR_RES_LoadSprite(*(char * *)&q->f8, 11, p->heap);
     BR_RES_LoadSprite(*(char * *)&q->f8, 12, p->heap);
     BR_RES_LoadSprite(*(char * *)&q->f8, 6, p->heap);
-    p->e = func_021FD760((unsigned int)((*(void * *)&q->f4)), (char *)(q->f8), 1, p->heap);
+    p->e = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&q->f4)), (char *)(q->f8), 1, p->heap);
     entries[0] = 2;
     entries[1] = 5;
     entries[2] = 5;
     p->a = func_021E07A4(p->heap, 12, (*(void * *)&q->f4), (void *)(q->f8), p->e, entries);
     p->b = func_021E06D0(p->a, p->heap);
     p->d = (void *)PRINTSYS_QUE_Create((void *)p->heap);
-    p->c = func_021FD12C(q->f8, p->d, p->heap);
-    func_021FD170(p->c, (char *)(q->f8), (void *)104);
+    p->c = BR_UTIL_CreateTextWin(q->f8, p->d, p->heap);
+    BR_UTIL_SetWindowText(p->c, (char *)(q->f8), (void *)104);
     return 1;
 }
 
@@ -4978,11 +4978,11 @@ int func_021E050C(void *task, int unused, struct CodeinArgA *q)
  */
 int func_021E05C4(void *a, int unused, int *q, void **p)
 {
-    func_021FD15C((void *)((int)p[2]), q[2]);
+    BR_UTIL_DeleteTextWin((void *)((int)p[2]), q[2]);
     func_021E0774(p[1]);
     func_021E0808(p[0]);
     PRINTSYS_QUE_Delete(p[3]);
-    func_021FD820(p[5]);
+    BR_UTIL_DeleteHandles(p[5]);
     BR_RES_ApplyBgSet(q[2], 29);
     BR_RES_ReleaseSprite((char *)q[2], 6);
     BR_RES_ReleaseSprite((char *)q[2], 12);
@@ -5012,8 +5012,8 @@ int func_021E0618(int unused, int *state, int *q, int *p)
     case 2:
         func_021E0754((char *)p[1]);
         switch (func_021E075C((char *)p[1])) {
-        case 1: func_021F9BA0((unsigned int *)q[3]); *state = 3; break;
-        case 2: ((struct CodeinArgD *)q)->f10 = func_021E0764((char *)p[1]); func_021F9BF4((unsigned int *)q[3], 2); *state = 3; break;
+        case 1: BR_PROC_SYS_PopEntry((unsigned int *)q[3]); *state = 3; break;
+        case 2: ((struct CodeinArgD *)q)->f10 = func_021E0764((char *)p[1]); BR_PROC_SYS_PushEntry((unsigned int *)q[3], 2); *state = 3; break;
         }
         break;
     case 3:
@@ -5025,9 +5025,9 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         break;
     case 5: return 1;
     }
-    if (p[2]) func_021FD1BC((void *)p[2]);
+    if (p[2]) BR_UTIL_FlushWindow((void *)p[2]);
     PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
-    func_021FD854((char *)p[5]);
+    BR_UTIL_RunHandles((char *)p[5]);
     return 0;
 }
 
@@ -5910,7 +5910,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        func_021FD860((void *)(*(int *)(p + 0x348)), 1, &args);
+        BR_UTIL_StartEffect((void *)(*(int *)(p + 0x348)), 1, &args);
     } else if (idx == 0x17) {
         u32 x, y;
         Point args;
@@ -5920,7 +5920,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        func_021FD860((void *)(*(int *)(p + 0x348)), 1, &args);
+        BR_UTIL_StartEffect((void *)(*(int *)(p + 0x348)), 1, &args);
     } else {
         *(u16 *)(p + 0x1B8) = (idx - 12) % 5;
         *(u16 *)(p + 0x1BA) = (idx - 12) / 5;
@@ -5933,7 +5933,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        func_021FD860((void *)(*(int *)(p + 0x348)), 1, &args);
+        BR_UTIL_StartEffect((void *)(*(int *)(p + 0x348)), 1, &args);
         i = *(int *)(p + 0x188);
         v = idx - 11;
         CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)func_021E0E40(rec[i].tag = v, rec[i].mode));
@@ -6058,17 +6058,17 @@ int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
     struct CodeinWorkF *p;
     int i;
     Point pair;
-    p=PROCSYS_AllocProcWork(obj,32,func_021F9B9C((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC)));
+    p=PROCSYS_AllocProcWork(obj,32,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC)));
     MI_CpuFill8(p,0,32);
     p->f18=arg;
-    p->f8=func_021F9B9C((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC));
-    p->f4=(int)func_021FD6D8((int)p,(int)func_021E1DA8,p->f8);
+    p->f8=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC));
+    p->f4=(int)BR_UTIL_CreateTask((int)p,(int)func_021E1DA8,p->f8);
     p->f0=PRINTSYS_QUE_Create((void *)(p->f8));
-    p->fC=(int)func_021FD12C(((struct CodeinArgC *)arg)->f8,(void *)(p->f0),p->f8);
-    func_021FD170((char *)(p->fC),(char *)(((struct CodeinArgC *)arg)->f8),(void *)111);
-    for (i=0;i<2;i++) *(int *)((char *)p+i*4+0x10)=(int)func_021FD760(((struct CodeinArgC *)arg)->f4,(char *)(((struct CodeinArgC *)arg)->f8),i,p->f8);
+    p->fC=(int)BR_UTIL_CreateTextWin(((struct CodeinArgC *)arg)->f8,(void *)(p->f0),p->f8);
+    BR_UTIL_SetWindowText((char *)(p->fC),(char *)(((struct CodeinArgC *)arg)->f8),(void *)111);
+    for (i=0;i<2;i++) *(int *)((char *)p+i*4+0x10)=(int)BR_UTIL_CreateHandles(((struct CodeinArgC *)arg)->f4,(char *)(((struct CodeinArgC *)arg)->f8),i,p->f8);
     pair=d_021E38E0;
-    func_021FD860((void *)(p->f10), 4, &pair);
+    BR_UTIL_StartEffect((void *)(p->f10), 4, &pair);
     return 1;
 }
 
@@ -6077,7 +6077,7 @@ int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
 
 
 
-int func_021E1D10(struct S020315D4 *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)func_021FD820(*(char **)((char *)p+i*4+16));func_021FD15C(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);func_021FD714((void *)((*(int *)&p->f4)));func_020315D4(a);return 1;}
+int func_021E1D10(struct S020315D4 *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)p+i*4+16));BR_UTIL_DeleteTextWin(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);BR_UTIL_DeleteTask((void *)((*(int *)&p->f4)));func_020315D4(a);return 1;}
 
 
 
@@ -6088,14 +6088,14 @@ int func_021E1D48(int a,int b,int c,struct CodeinWorkB *p)
 {
     int i;
     if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f14)) && BR_NET_HandleNetError((char *)(((struct CodeinSubA *)(*(char * *)&p->f18))->f10))==2) {
-        func_021F9C6C((void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC)));
+        BR_PROC_SYS_FlushWindows((void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC)));
         return 1;
     }
-    func_021FD71C((u8 *)(p->f4));
-    if (func_021FD72C((int *)(p->f4))) return 1;
-    for (i=0;i<2;i++) func_021FD854((char *)(*(int *)((char *)p+i*4+0x10)));
+    BR_UTIL_RunTask((u8 *)(p->f4));
+    if (BR_UTIL_IsTaskIdle((int *)(p->f4))) return 1;
+    for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)(*(int *)((char *)p+i*4+0x10)));
     PRINTSYS_QUE_Main((struct PrintSys *)(p->f0));
-    func_021FD1BC((void *)(p->fC));
+    BR_UTIL_FlushWindow((void *)(p->fC));
     return 0;
 }
 
@@ -6108,7 +6108,7 @@ void func_021E1DA8(int a,int *state,struct CodeinWorkB *p)
     switch (*state) {
     case 0: BR_FADE_Start(**(int * *)&p->f18,2,3,0); *state=1; break;
     case 1: if (BR_FADE_GetResult((int *)(**(int * *)&p->f18))) *state=2; break;
-    case 2: func_021FD73C((int *)a,(int)func_021E1E3C); break;
+    case 2: BR_UTIL_SetTaskStep((int *)a,(int)func_021E1E3C); break;
     }
 }
 
@@ -6121,7 +6121,7 @@ void func_021E1DF0(int *a,int *state,struct CodeinWorkB *p)
     switch (*state) {
     case 0: BR_FADE_Start(**(int * *)&p->f18,2,3,1); *state=1; break;
     case 1: if (BR_FADE_GetResult((int *)(**(int * *)&p->f18))) *state=2; break;
-    case 2: func_021F9BA0((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC))); func_021FD744(a); break;
+    case 2: BR_PROC_SYS_PopEntry((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC))); BR_UTIL_ClearTaskStep(a); break;
     }
 }
 
@@ -6142,7 +6142,7 @@ void func_021E1E3C(int *task,int *state,struct CodeinWorkB *p) {
     switch(*state) {
     case 0:
         BATTLE_REC_Load(GAME_DATA_GetSaveControl((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f14)),89,&out,0);
-        if(out==1)*state=1;else func_021FD73C((int *)task,(int)func_021E1DF0);break;
+        if(out==1)*state=1;else BR_UTIL_SetTaskStep((int *)task,(int)func_021E1DF0);break;
     case 1:
         p->f1C=0;BR_NET_StartRequest((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),2,0);*state=2;break;
     case 2:
@@ -6161,19 +6161,19 @@ void func_021E1E3C(int *task,int *state,struct CodeinWorkB *p) {
                         func_0201EFA4(ws,1,(u32)(quotient%100000),5,2,1);
                         func_0201EFA4(ws,0,(u32)(quotient/100000),2,2,1);
                         func_0201F250(ws,expanded,str);
-                        func_021FD19C((char *)(p->fC),(void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8)),expanded);
+                        BR_UTIL_SetWindowTextBuf((char *)(p->fC),(void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8)),expanded);
                         STRBUF_Delete(expanded);STRBUF_Delete(str);
                     }
                 } else if(result==3) {
-                    func_021F9C6C((void *)((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC)));func_021FD744(task);break;
-                } else func_021FD170((char *)(p->fC),(char *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8)),(void *)msg);
-                func_021FD860((void *)(p->f10), 0, 0);*state=4;
+                    BR_PROC_SYS_FlushWindows((void *)((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->fC)));BR_UTIL_ClearTaskStep(task);break;
+                } else BR_UTIL_SetWindowText((char *)(p->fC),(char *)((*(int *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f8)),(void *)msg);
+                BR_UTIL_StartEffect((void *)(p->f10), 0, 0);*state=4;
             }
         }break;
-    case 3:func_021FD73C((int *)task,(int)func_021E1DF0);break;
+    case 3:BR_UTIL_SetTaskStep((int *)task,(int)func_021E1DF0);break;
     case 4:
         if(TOUCHPANEL_GetTrg()) {
-            TOUCHPANEL_GetPointTrg(&x,&y);pair.x=x;pair.y=y;func_021FD860((void *)((*(int *)&p->f14)), 1, &pair);
+            TOUCHPANEL_GetPointTrg(&x,&y);pair.x=x;pair.y=y;BR_UTIL_StartEffect((void *)((*(int *)&p->f14)), 1, &pair);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=3;
         }break;
     }
@@ -6187,14 +6187,14 @@ int func_021E2028(struct Obj0203159C *obj,int unused,char *arg)
     char *p;
     int i;
     if (((struct CodeinArgC *)arg)->f0>=4) func_02034714(d_021E39B4,0,d_021E39B4);
-    p=PROCSYS_AllocProcWork(obj,40,func_021F9B9C((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10)));
+    p=PROCSYS_AllocProcWork(obj,40,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10)));
     MI_CpuFill8(p,0,40);
     ((struct CodeinWorkC *)p)->f20=arg;
-    ((struct CodeinWorkC *)p)->f1C=func_021F9B9C((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10));
-    ((struct CodeinWorkC *)p)->f8=(int)func_021FD6D8((int)p,(int)func_021E214C,((struct CodeinWorkC *)p)->f1C);
+    ((struct CodeinWorkC *)p)->f1C=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10));
+    ((struct CodeinWorkC *)p)->f8=(int)BR_UTIL_CreateTask((int)p,(int)func_021E214C,((struct CodeinWorkC *)p)->f1C);
     ((struct CodeinWorkC *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct CodeinWorkC *)p)->f1C));
     func_021E23C8(p,(const Input *)arg);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)func_021FD760(((struct CodeinArgC *)arg)->f8,(char *)(((struct CodeinArgC *)arg)->fC),i,((struct CodeinWorkC *)p)->f1C);
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)BR_UTIL_CreateHandles(((struct CodeinArgC *)arg)->f8,(char *)(((struct CodeinArgC *)arg)->fC),i,((struct CodeinWorkC *)p)->f1C);
     return 1;
 }
 
@@ -6207,11 +6207,11 @@ int func_021E2028(struct Obj0203159C *obj,int unused,char *arg)
 int func_021E20A4(int obj,int b,char *arg,char *p)
 {
     int i;
-    for (i=0;i<2;i++) func_021FD820((char *)(*(int *)(p+i*4+0x14)));
+    for (i=0;i<2;i++) BR_UTIL_DeleteHandles((char *)(*(int *)(p+i*4+0x14)));
     if ((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f20))->f1C)) func_021E24AC(p,arg);
     else { func_021E24AC(p,arg); func_021E24C4(p,arg); }
     PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
-    func_021FD714((void *)((*(int *)&((struct CodeinWorkA *)p)->f8)));
+    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->f8)));
     func_020315D4((struct S020315D4 *)obj);
     return 1;
 }
@@ -6222,12 +6222,12 @@ int func_021E20A4(int obj,int b,char *arg,char *p)
 int func_021E20F8(int a,int b,int c,struct CodeinWorkA *p)
 {
     int i;
-    func_021FD71C((u8 *)((*(int *)&p->f8)));
-    if (func_021FD72C((int *)((*(int *)&p->f8)))) return 1;
-    for (i=0;i<2;i++) func_021FD854((char *)(*(int *)((char *)p+i*4+0x14)));
+    BR_UTIL_RunTask((u8 *)((*(int *)&p->f8)));
+    if (BR_UTIL_IsTaskIdle((int *)((*(int *)&p->f8)))) return 1;
+    for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)(*(int *)((char *)p+i*4+0x14)));
     PRINTSYS_QUE_Main((struct PrintSys *)((*(int *)&p->f0)));
-    if ((*(int *)&p->f4)) func_021FD1BC((void *)((*(int *)&p->f4)));
-    for (i=0;i<2;i++) if (*(int *)((char *)p+i*4+0xc)) func_021FC830((u8 *)(*(int *)((char *)p+i*4+0xc)));
+    if ((*(int *)&p->f4)) BR_UTIL_FlushWindow((void *)((*(int *)&p->f4)));
+    for (i=0;i<2;i++) if (*(int *)((char *)p+i*4+0xc)) BR_UTIL_FlushText((u8 *)(*(int *)((char *)p+i*4+0xc)));
     return 0;
 }
 
@@ -6239,7 +6239,7 @@ void func_021E214C(int *task,int *state,struct CodeinWorkA *p)
     switch (*state) {
     case 0: BR_FADE_Start(((struct CodeinSubA *)(p->f20))->f4,2,3,0); *state=1; break;
     case 1: if (BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
-    case 2: func_021FD73C(task,(int)func_021E21E0); break;
+    case 2: BR_UTIL_SetTaskStep(task,(int)func_021E21E0); break;
     }
 }
 
@@ -6251,7 +6251,7 @@ void func_021E2194(int *task,int *state,struct CodeinWorkA *p)
     switch (*state) {
     case 0: BR_FADE_Start(((struct CodeinSubA *)(p->f20))->f4,2,3,1); *state=1; break;
     case 1: if (BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(p->f20))->f4)) *state=2; break;
-    case 2: func_021F9BA0((unsigned int *)(((struct CodeinSubA *)(p->f20))->f10)); func_021FD744(task); break;
+    case 2: BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(p->f20))->f10)); BR_UTIL_ClearTaskStep(task); break;
     }
 }
 
@@ -6267,7 +6267,7 @@ void func_021E21E0(int task,int *state,char *p) {
     switch(*state) {
     case 0:
         if(TOUCHPANEL_GetPointTrg(&x0,&y0)) {
-            if(func_021E24F8(p,x0,y0)) {func_021FD170((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)322);*state=1;}
+            if(func_021E24F8(p,x0,y0)) {BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)322);*state=1;}
             else if(func_021E2538(p,x0,y0))*state=10;
         } break;
     case 1:
@@ -6279,8 +6279,8 @@ void func_021E21E0(int task,int *state,char *p) {
     case 3:
         if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4)) {
             func_021E24C4(p,((struct CodeinWorkC *)p)->f20);
-            func_021FD170((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)323);
-            first.x=128;first.y=96;func_021FD860((void *)(((struct CodeinWorkC *)p)->f14), 4,&first);
+            BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)323);
+            first.x=128;first.y=96;BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)p)->f14), 4,&first);
             ((struct CodeinWorkC *)p)->f24=0;++*state;
         } break;
     case 4:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f4,2,2,0);++*state;break;
@@ -6294,13 +6294,13 @@ void func_021E21E0(int task,int *state,char *p) {
         if((u32)(result-2)<=1) {(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->f1C)=1;*state=8;}break;
     case 8:
         old=((struct CodeinWorkC *)p)->f24;((struct CodeinWorkC *)p)->f24=old+1;
-        if(old>96) {func_021FD860((void *)(((struct CodeinWorkC *)p)->f14), 0,0);func_021FD170((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)324);*state=9;}break;
+        if(old>96) {BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)p)->f14), 0,0);BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)p)->f4)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)p)->f20))->fC)),(void *)324);*state=9;}break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x9,&y9);second.x=x9;second.y=y9;
-            func_021FD860((void *)(((struct CodeinWorkC *)p)->f18), 1,&second);GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
+            BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)p)->f18), 1,&second);GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
-    case 10:func_021FD73C((int *)task,(int)func_021E2194);break;
+    case 10:BR_UTIL_SetTaskStep((int *)task,(int)func_021E2194);break;
     }
 }
 
@@ -6322,7 +6322,7 @@ void func_021E23C8(char *p,const Input *q) {
     char *slot;
     u32 tmp1,tmp;
     u16 *tmp2;
-    if(!((struct CodeinWorkC *)p)->f4) ((struct CodeinWorkC *)p)->f4=func_021FD12C((int)q->owner,(void *)(((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
+    if(!((struct CodeinWorkC *)p)->f4) ((struct CodeinWorkC *)p)->f4=BR_UTIL_CreateTextWin((int)q->owner,(void *)(((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
     ws=(struct WordSet *)BR_RES_GetWordSet(q->owner);
     str=func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(q->owner),321);
     tmp2=(u16 *)(p+28);
@@ -6332,7 +6332,7 @@ void func_021E23C8(char *p,const Input *q) {
     func_0201EE0C(ws,0,*(void **)(q->base+tmp*4+16),
         *(u32 *)(tmp1+tmp*4+32),1,2);
     func_0201F250(ws,expanded,str);
-    func_021FD19C(((struct CodeinWorkC *)p)->f4,q->owner,expanded);
+    BR_UTIL_SetWindowTextBuf(((struct CodeinWorkC *)p)->f4,q->owner,expanded);
     STRBUF_Delete(expanded); STRBUF_Delete(str);
     BR_RES_LoadBgGraphics((void *)((int)q->owner),30,((struct CodeinWorkC *)p)->f1C);
     font=BR_RES_GetFont(q->owner);
@@ -6340,7 +6340,7 @@ void func_021E23C8(char *p,const Input *q) {
     for(i=0;i<2;i++) {
         r=&d_021E3900[i]; slot=p; slot=slot+i*4;
         ((struct CodeinWorkC *)slot)->fC=BR_UTIL_Create(4,r->a,r->b,r->c,r->d,14,(*(void * *)&((struct CodeinWorkC *)p)->f0),((struct CodeinWorkC *)p)->f1C);
-        func_021FC754(*(char * *)&((struct CodeinWorkC *)slot)->fC,(void *)bank,r->value,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkC *)slot)->fC,(void *)bank,r->value,(void *)font,0x3da0);
     }
 }
 
@@ -6351,7 +6351,7 @@ void func_021E23C8(char *p,const Input *q) {
 void func_021E24AC(char *p, char *a1)
 {
     if ((*(int *)&((struct CodeinWorkA *)p)->f4) != 0) {
-        func_021FD15C((void *)((*(int *)&((struct CodeinWorkA *)p)->f4)), ((struct CodeinA1A *)a1)->fC);
+        BR_UTIL_DeleteTextWin((void *)((*(int *)&((struct CodeinWorkA *)p)->f4)), ((struct CodeinA1A *)a1)->fC);
         (*(int *)&((struct CodeinWorkA *)p)->f4) = 0;
     }
 }
@@ -6384,7 +6384,7 @@ int func_021E24F8(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)(((struct CodeinWorkC *)p)->f18), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)p)->f18), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -6406,7 +6406,7 @@ int func_021E2538(char *p, int a, int b)
         Point args;
         args.x = a;
         args.y = b;
-        func_021FD860((void *)(((struct CodeinWorkC *)p)->f18), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)p)->f18), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -6423,14 +6423,14 @@ int func_021E2578(void *obj,int b,char *q)
 {
     struct CodeinWorkD *p;
     int i;
-    p=PROCSYS_AllocProcWork(obj,0x54,func_021F9B9C((*(void * *)&((struct CodeinArgA *)q)->f10)));
+    p=PROCSYS_AllocProcWork(obj,0x54,BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)q)->f10)));
     MI_CpuFill8(p,0,0x54);
     p->f3C=q;
-    p->f38=func_021F9B9C((*(void * *)&((struct CodeinArgA *)q)->f10));
+    p->f38=BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)q)->f10));
     p->f0=BMP_OAM_CreateSys(p->f38,(*(void * *)&((struct CodeinArgA *)q)->f4));
-    p->fC=func_021FD6D8((int)p,(int)func_021E26B8,p->f38);
+    p->fC=BR_UTIL_CreateTask((int)p,(int)func_021E26B8,p->f38);
     (*(unsigned int *)&p->f4)=PRINTSYS_QUE_Create((void *)(unsigned int)p->f38);
-    for (i=0;i<2;i++) *(void **)((char *)p+i*4+0x30)=func_021FD760((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)),(char *)(((struct CodeinArgA *)q)->f8),i,p->f38);
+    for (i=0;i<2;i++) *(void **)((char *)p+i*4+0x30)=BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)),(char *)(((struct CodeinArgA *)q)->f8),i,p->f38);
     return 1;
 }
 
@@ -6448,15 +6448,15 @@ int func_021E25E4(int obj,int b,int c,char *p)
 {
     int i;
     func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C));
-    for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0x30));
+    for (i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)(p+i*4+0x30));
     if (((struct CodeinWorkA *)p)->f8) {
-        func_021FD15C(((struct CodeinWorkA *)p)->f8,(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f8));
+        BR_UTIL_DeleteTextWin(((struct CodeinWorkA *)p)->f8,(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f8));
         *(int *)&((struct CodeinWorkA *)p)->f8=0;
     }
     PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkA *)p)->f4)));
-    func_021FD714((void *)((*(int *)&((struct CodeinWorkA *)p)->fC)));
+    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->fC)));
     BMP_OAM_DeleteSys((void *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
-    func_021F9BA0((unsigned int *)(((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f10));
+    BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f10));
     func_020315D4((struct S020315D4 *)obj);
     return 1;
 }
@@ -6472,15 +6472,15 @@ int func_021E2640(int a,int b,int c,struct CodeinWorkA *p)
 {
     int i;
     if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(p->f3C))->f14)) && BR_NET_HandleNetError((char *)((*(int *)&((struct CodeinSubA *)(p->f3C))->fC)))==2) {
-        func_021F9C6C((void *)(((struct CodeinSubA *)(p->f3C))->f10));
+        BR_PROC_SYS_FlushWindows((void *)(((struct CodeinSubA *)(p->f3C))->f10));
         return 1;
     }
-    func_021FD71C((u8 *)((*(int *)&p->fC)));
-    if (func_021FD72C((int *)((*(int *)&p->fC)))) return 1;
-    for (i=0;i<2;i++) func_021FD854((char *)(*(int *)((char *)p+i*4+0x30)));
+    BR_UTIL_RunTask((u8 *)((*(int *)&p->fC)));
+    if (BR_UTIL_IsTaskIdle((int *)((*(int *)&p->fC)))) return 1;
+    for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)(*(int *)((char *)p+i*4+0x30)));
     PRINTSYS_QUE_Main((struct PrintSys *)((*(int *)&p->f4)));
-    if ((*(int *)&p->f8)) func_021FD1BC((void *)((*(int *)&p->f8)));
-    for (i=0;i<2;i++) if (*(int *)((char *)p+i*4+0x28)) func_021FC830((u8 *)(*(int *)((char *)p+i*4+0x28)));
+    if ((*(int *)&p->f8)) BR_UTIL_FlushWindow((void *)((*(int *)&p->f8)));
+    for (i=0;i<2;i++) if (*(int *)((char *)p+i*4+0x28)) BR_UTIL_FlushText((u8 *)(*(int *)((char *)p+i*4+0x28)));
     return 0;
 }
 
@@ -6509,7 +6509,7 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
     case 4:
         ++*(u32 *)(p+0x44);
         if(BR_NET_IsIdle(*(void **)(*(char **)(p+0x3c)+12)) && *(u32 *)(p+0x44)>96) {
-            func_021FD860((void *)(*(int *)(p+0x30)), 0, 0);*state=5;
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x30)), 0, 0);*state=5;
         }break;
     case 5:
         result=BR_NET_PollErrorMessage(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
@@ -6521,22 +6521,22 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
                 for(;i<=3;i++) {
                     if(*(u64 *)(*(char **)(arg+0x18)+i*8+0x30)==value) {found=1;break;}
                 }
-                if(found==1) {func_021FD170((char *)(*(int *)(p+8)),(char *)(*(int *)(arg+8)),(void *)316);*state=9;}
+                if(found==1) {BR_UTIL_SetWindowText((char *)(*(int *)(p+8)),(char *)(*(int *)(arg+8)),(void *)316);*state=9;}
                 else *state=6;
-            } else {func_021FD170((char *)(*(int *)(p+8)),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)339);*state=9;}
-        } else {func_021FD170((char *)(*(int *)(p+8)),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)msg);*state=9;}
+            } else {BR_UTIL_SetWindowText((char *)(*(int *)(p+8)),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)339);*state=9;}
+        } else {BR_UTIL_SetWindowText((char *)(*(int *)(p+8)),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)msg);*state=9;}
         break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
-            TOUCHPANEL_GetPointTrg(&x,&y);click.x=x;click.y=y;func_021FD860((void *)(*(int *)(p+0x34)), 1, &click);
+            TOUCHPANEL_GetPointTrg(&x,&y);click.x=x;click.y=y;BR_UTIL_StartEffect((void *)(*(int *)(p+0x34)), 1, &click);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
     case 6:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=7;break;
     case 7:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=8;break;
-    case 8:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD73C((int *)task,(int)func_021E2910);break;
+    case 8:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_SetTaskStep((int *)task,(int)func_021E2910);break;
     case 10:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=11;break;
     case 11:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=12;break;
-    case 12:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));func_021FD744(task);break;
+    case 12:func_021E2E48((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_ClearTaskStep(task);break;
     }
 }
 
@@ -6564,30 +6564,30 @@ void func_021E2910(int *task,int *state,char *p) {
     case 3: {
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             for(i=0;i<=2;i++) {
-                if(func_021FB4B4((unsigned int *)(*(int *)(p+i*4+0x14)),x,y)) {
+                if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(p+i*4+0x14)),x,y)) {
                     first.x=x; first.y=y;
-                    func_021FD860((void *)((*(int *)&((struct CodeinWorkA *)p)->f34)), 1, &first);
+                    BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)p)->f34)), 1, &first);
                     (*(int *)&((struct CodeinWorkA *)p)->f10)=i;
                     if(*(int *)((u32)*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f18+(u32)i*4+4)) *state=7;
                     else *state=4;
                 }
             }
-            if(func_021FB4B4((unsigned int *)((*(int *)&((struct CodeinWorkA *)p)->f20)),x,y)) {
+            if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkA *)p)->f20)),x,y)) {
                 second.x=x; second.y=y;
-                func_021FD860((void *)((*(int *)&((struct CodeinWorkA *)p)->f34)), 1, &second); *state=10;
+                BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)p)->f34)), 1, &second); *state=10;
             }
         }
         break;
     }
     case 4: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=5; break;
     case 5: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=6; break;
-    case 6: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD73C(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2C2C); break;
+    case 6: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2C2C); break;
     case 7: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); ++*state; break;
     case 8: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) ++*state; break;
-    case 9: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD73C(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2AE0); break;
+    case 9: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct CodeinWorkA *)p)->fC,(int)func_021E2AE0); break;
     case 10: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1); *state=11; break;
     case 11: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)p)->f3C)) *state=12; break;
-    case 12: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); func_021FD744(task); break;
+    case 12: func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C)); BR_UTIL_ClearTaskStep(task); break;
     }
 }
 
@@ -6629,7 +6629,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 6:
         func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C));
-        func_021FD73C(task,(int)func_021E2C2C); break;
+        BR_UTIL_SetTaskStep(task,(int)func_021E2C2C); break;
     case 7:
         BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)p)->f3C,2,3,1);
         ++*state; break;
@@ -6638,7 +6638,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 9:
         func_021E2E48(p+0x4c,(int)p,(int)(((struct CodeinWorkA *)p)->f3C));
-        func_021FD73C(task,(int)func_021E2910); break;
+        BR_UTIL_SetTaskStep(task,(int)func_021E2910); break;
     }
 }
 
@@ -6679,10 +6679,10 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
     int r;
     switch(*state) {
     case 0:
-        if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(*(char **)(p+0x3c)+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
-        func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13d);
+        if(!*(void **)(p+8)) *(void **)(p+8)=BR_UTIL_CreateTextWin(*(int *)(*(char **)(p+0x3c)+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
+        BR_UTIL_SetWindowText(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13d);
         initial.x=0x80;initial.y=0x60;
-        func_021FD860((void *)(*(int *)(p+0x30)), 4, &initial);
+        BR_UTIL_StartEffect((void *)(*(int *)(p+0x30)), 4, &initial);
         BR_FADE_Start(**(int **)(p+0x3c),2,3,0);++*state;break;
     case 1:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 2:
@@ -6701,26 +6701,26 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         MI_CpuFill8(&cfg,0,8);
         cfg.wide=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
         BR_NET_StartRequest(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
-        func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
+        BR_UTIL_SetWindowText(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;
     case 5:
         ++*(unsigned *)(p+0x44);++*(unsigned *)(p+0x48);
         if(BR_NET_IsIdle(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
-            func_021FD860((void *)(*(int *)(p+0x30)), 0, 0);
-            func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x140);
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x30)), 0, 0);
+            BR_UTIL_SetWindowText(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x140);
             ++*state;
         }break;
     case 6:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            func_021FD860((void *)(*(int *)(p+0x34)), 1, &pair);
+            BR_UTIL_StartEffect((void *)(*(int *)(p+0x34)), 1, &pair);
             GFL_USE_PlaySeDefaultVolume((int)0x703);++*state;
         }break;
     case 7:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);++*state;break;
     case 8:if(BR_FADE_GetResult(**(int ***)(p+0x3c))) ++*state;break;
     case 9:
-        if(*(void **)(p+8)) {func_021FD15C(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8));*(int *)(p+8)=0;}
-        func_021FD744(task);break;
+        if(*(void **)(p+8)) {BR_UTIL_DeleteTextWin(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8));*(int *)(p+8)=0;}
+        BR_UTIL_ClearTaskStep(task);break;
     }
 }
 
@@ -6775,7 +6775,7 @@ void func_021E2E70(char *p, const char *q)
   void **tmp1;
   char *tmp2;
   if (!(*((void **) (p + 8))))
-    *((void **) (p + 8)) = func_021FD12C(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
+    *((void **) (p + 8)) = BR_UTIL_CreateTextWin(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
   a = (void *) BR_RES_GetWordSet(*((char **) (q + 8)));
   s = func_02045EC0((struct MsgBank *)BR_RES_GetMsgData(*((char **) (q + 8))), 0x141);
   b = STRBUF_Create(0x80, *((u16 *) (p + 0x38)));
@@ -6784,7 +6784,7 @@ void func_021E2E70(char *p, const char *q)
   base = *((unsigned *) (q + 0x18));
   func_0201EE0C(a, 0, (const void *)(*((unsigned *) ((base + index) + 0x14))), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
   func_0201F250(a, b, s);
-  func_021FD19C(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
+  BR_UTIL_SetWindowTextBuf(*((void **) (p + 8)), (void *)(*((int *) (q + 8))), b);
   STRBUF_Delete(b);
   STRBUF_Delete(s);
   BR_RES_LoadBgGraphics((void *)(*((int *) (q + 8))), 0x1e, *((u16 *) (p + 0x38)));
@@ -6798,7 +6798,7 @@ void func_021E2E70(char *p, const char *q)
     *((void **) ((p + (i * 4)) + 0x28)) = BR_UTIL_Create(4, r[0], r[1], r[2], r[3], 14, *((void **) tmp2), *((u16 *) (p + 0x38)));
     tmp1 = (void **) (0x28 + (p + (i * 4)));
     tmp = tmp1;
-    func_021FC754(*tmp, (void *)c, (void *)(*((int *) (r + 4))), (void *)h, 0x3da0);
+    BR_UTIL_SetTextFromMessage(*tmp, (void *)c, (void *)(*((int *) (r + 4))), (void *)h, 0x3da0);
   }
 
 }
@@ -6819,7 +6819,7 @@ void func_021E2F54(struct CodeinWorkA *p,struct CodeinArgA *q)
     func_020409B4(4);
     BR_RES_ApplyBgSet(q->f8,0x1e);
     if (p->f8) {
-        func_021FD15C(p->f8,q->f8);
+        BR_UTIL_DeleteTextWin(p->f8,q->f8);
         *(int *)&p->f8=0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0200E27C
+ * function: SYMBOL_SAVE_SetRank
  * address:  0x0200E27C
  * packet:   pkt_0200E1A8
  * region:   arm9
@@ -20,8 +20,8 @@
  * moves the divide to `_u32_div_f` and loses the site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E27C.c \
- *       --func func_0200E27C --addr 0x0200E27C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_SetRank.c \
+ *       --func SYMBOL_SAVE_SetRank --addr 0x0200E27C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 extern int _s32_div_f(int a, int b);
 
-void func_0200E27C(u8 *obj, int idx)
+void SYMBOL_SAVE_SetRank(u8 *obj, int idx)
 {
     u8 v = (idx - 0x32) / 0x3c - 1;
 

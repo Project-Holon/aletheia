@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE500 0x021DE500 thumb ov121
- *   func_021DE550 0x021DE550 thumb ov121
+ *   MYSTERY_NET_UpdateWifiError 0x021DE500 thumb ov121
+ *   MYSTERY_NET_Exit 0x021DE550 thumb ov121
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
  *   FADE_Start 0x0204E720 arm
@@ -52,9 +52,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021DE500(void *);
+extern int MYSTERY_NET_UpdateWifiError(void *);
 typedef signed int     s32;
-extern void func_021DE550(char *p);
+extern void MYSTERY_NET_Exit(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -86,10 +86,10 @@ extern char ov115_id[];
 void func_021D7EAC(void *task,u32 *state,u8 *p)
 {
     int result;
-    result=func_021DE500(((struct Obj00533 *)p)->f3B0);
+    result=MYSTERY_NET_UpdateWifiError(((struct Obj00533 *)p)->f3B0);
     switch(result) {
     case 1: case 2:
-        func_021DE550(((struct Obj00533 *)p)->f3B0);
+        MYSTERY_NET_Exit(((struct Obj00533 *)p)->f3B0);
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     }

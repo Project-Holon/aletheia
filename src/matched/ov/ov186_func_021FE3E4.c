@@ -1,5 +1,5 @@
 /*
- * function: func_021FE3E4
+ * function: BR_UTIL_StepSpiral
  * address: 0x021FE3E4
  * packet: pkt_ov186_021FE3E4
  * region: ov186
@@ -20,7 +20,7 @@
  */
 #pragma opt_common_subs off
 extern const short FX_SinCosTable_[];
-int func_021FE3E4(char *p, int *out, int step)
+int BR_UTIL_StepSpiral(char *p, int *out, int step)
 {
     int angle, i, x, y;
     angle = (unsigned short)(*(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14));

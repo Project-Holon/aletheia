@@ -1,5 +1,5 @@
 /*
- * function: func_021EEDD0
+ * function: BOX2_UI_CursorTagG
  * address:  0x021EEDD0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE408  0x021EE408  thumb  ov170
+ *   BOX2_UI_UpdateCursor  0x021EE408  thumb  ov170
  *
  * Ignore the two known tags, otherwise run the update.
  */
 
-extern void func_021EE408(char *p, int v);
+extern void BOX2_UI_UpdateCursor(char *p, int v);
 
-void func_021EEDD0(void *a, int tag)
+void BOX2_UI_CursorTagG(void *a, int tag)
 {
     if (tag != 0x22 && tag != 0x23)
-        func_021EE408(a, tag);
+        BOX2_UI_UpdateCursor(a, tag);
 }
 

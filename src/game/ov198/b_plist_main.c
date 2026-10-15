@@ -1,7 +1,7 @@
 /*
  * file:     b_plist_main.c
  * unit:     yes
- * function: func_0220F060, func_0220F138, func_0220F158, func_0220F1A4, func_0220F1F4, func_0220F22C, func_0220F2DC, func_0220F3E8, func_0220F478, func_0220F4E0, func_0220F65C, func_0220F698, func_0220F6C0, func_0220F7C4, func_0220F88C, func_0220F9F8, func_0220FB44, func_0220FCE0, func_0220FDD4, func_0220FED0, func_0220FFCC, func_022100A0, func_022100BC, func_022101AC, func_022101C0, func_022101D4, func_022101E8, func_022101FC, func_02210220, func_02210234, func_02210248, func_0221025C, func_02210290, func_022102A8, func_022102BC, func_0221034C, func_0221039C, func_022103B8, func_02210408, func_02210420, func_022104EC, func_022105E4, func_02210608, func_02210710, func_02210774, func_022107A8, func_0221099C, func_02210A4C, func_02210B00, func_02210B30, func_02210BFC, func_02210C88, func_02210D4C, func_02210DA8, func_02210E20, func_02210ED4, func_02210EFC, func_02210F04, func_02210F1C, func_02210F4C, func_02210F84, func_02210F98, func_02210FCC, func_02211034, func_022110B8, func_022110D4, func_022110E0, func_022110F8, func_02211128, func_02211168, func_02211190, func_022112AC, func_02211378, func_0221139C, func_022113B8, func_022113FC, func_02211420, func_02211810, func_02211844, func_0221189C, func_022118F4, func_02211944, func_02211958, func_02211970, func_02211984, func_02211998, func_022119E8, func_022119F8, func_02211A10, func_02211A24
+ * function: func_0220F060, func_0220F138, func_0220F158, func_0220F1A4, func_0220F1F4, func_0220F22C, func_0220F2DC, func_0220F3E8, func_0220F478, func_0220F4E0, func_0220F65C, func_0220F698, func_0220F6C0, func_0220F7C4, func_0220F88C, func_0220F9F8, func_0220FB44, func_0220FCE0, func_0220FDD4, func_0220FED0, func_0220FFCC, func_022100A0, func_022100BC, func_022101AC, func_022101C0, func_022101D4, func_022101E8, func_022101FC, func_02210220, func_02210234, func_02210248, func_0221025C, func_02210290, func_022102A8, func_022102BC, func_0221034C, func_0221039C, func_022103B8, func_02210408, func_02210420, func_022104EC, func_022105E4, func_02210608, func_02210710, func_02210774, func_022107A8, func_0221099C, func_02210A4C, func_02210B00, func_02210B30, func_02210BFC, func_02210C88, func_02210D4C, func_02210DA8, func_02210E20, func_02210ED4, func_02210EFC, func_02210F04, func_02210F1C, func_02210F4C, func_02210F84, func_02210F98, func_02210FCC, func_02211034, func_022110B8, func_022110D4, func_022110E0, func_022110F8, func_02211128, func_02211168, func_02211190, func_022112AC, func_02211378, func_0221139C, func_022113B8, func_022113FC, func_02211420, func_02211810, func_02211844, func_0221189C, func_022118F4, func_02211944, func_02211958, func_02211970, func_02211984, func_02211998, func_022119E8, func_022119F8, func_02211A10, func_02211A24, func_02211A40
  * address:  0x0220F060
  * region:   ov198
  * compiler: dsi/1.1p1
@@ -417,10 +417,8 @@ extern void PRINTSYS_PrintStreamReleasePause(void *p);
 extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void WIPE_SYS_ExeEnd(void);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void BGWINFRM_Delete(struct WinMgr *obj);
 extern void func_0220E74C(char *);
 extern void func_0220BE04(u8 *p);
@@ -434,7 +432,6 @@ extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void sub_02041B6C(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -2544,4 +2541,13 @@ void func_02211A24(u8 *p, u32_02211A24 idx)
     void *t = func_0202616C(*(void ** *)&((struct Obj10855 *)p)->f2184, idx);
 
     func_0220B000((int *)(((struct Obj10855 *)p)->f2188), (u8 *)((u32_02211A24)t));
+}
+
+
+
+
+void func_02211A40(u8 *p, unsigned idx)
+{
+    func_02211A24(p, idx);
+    func_02211A10(p, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021947C0
+ * function: ServerOpFloat
  * address:  0x021947C0
  * packet:   pkt_ov009_021947C0
  * region:   ov009
@@ -13,20 +13,20 @@
  *
  * symbols:
  *   func_021937D0 0x021937D0  arm
- *   g_021ADFE0   0x021ADFE0  data
+ *   gGstatsConn   0x021ADFE0  data
  */
 
 #include "../include/G_StatsConn.h"
 
 extern double *func_021937D0(void *set, char *name, int type, void *initialvalue);
-extern struct StatsConn g_021ADFE0;
+extern struct StatsConn gGstatsConn;
 
-double func_021947C0(int *game, char *name, double *(*func)(void *, char *, void *), double value)
+double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value)
 {
     double *ret;
 
     if (game == 0)
-        game = (int *)((int *)&g_021ADFE0)[3];
+        game = (int *)((int *)&gGstatsConn)[3];
     if (game == 0)
         ret = &value;
     else {

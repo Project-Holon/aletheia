@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B689C",
+   "name": "CDEMO_SCENE_CmdNoop3",
    "address": "0x021B689C",
    "kind": "game",
    "region": "ov179",

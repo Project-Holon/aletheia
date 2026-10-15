@@ -1,7 +1,17 @@
 /*
  * file:     block20_savedata.c
  * unit:     yes
- * function: sub_02009160, sub_020091AC, sub_020091FC, sub_02009200,, sub_02009210, sub_0200921C, sub_02009228, sub_02009230,
+ * function: BLOCK20_SAVEDATA_TestPanelMark, BLOCK20_SAVEDATA_SetPanelMark, BLOCK20_SAVEDATA_InitPanelMarks,
+ *           BLOCK20_SAVEDATA_SetPanelState, BLOCK20_SAVEDATA_GetPanelState, BLOCK20_SAVEDATA_GetBlock,
+ *           BLOCK20_SAVEDATA_GetBlockFromSys, BLOCK20_SAVEDATA_GetBlockSize, BLOCK20_SAVEDATA_InitBlock,
+ *           BLOCK20_SAVEDATA_GetPokemon, BLOCK20_SAVEDATA_SetPokemon, BLOCK20_SAVEDATA_TestBit,
+ *           BLOCK20_SAVEDATA_SetMode, BLOCK20_SAVEDATA_GetMode, BLOCK20_SAVEDATA_SetPending,
+ *           BLOCK20_SAVEDATA_GetPending, BLOCK20_SAVEDATA_SetActive, BLOCK20_SAVEDATA_GetActive,
+ *           BLOCK20_SAVEDATA_GetEntryId, BLOCK20_SAVEDATA_GetEntryValue, BLOCK20_SAVEDATA_SetEntry,
+ *           BLOCK20_SAVEDATA_ClearEntry, BLOCK20_SAVEDATA_CountEntries, BLOCK20_SAVEDATA_GetRecord,
+ *           BLOCK20_SAVEDATA_SetRecord, BLOCK20_SAVEDATA_GetDateStamp, BLOCK20_SAVEDATA_SetDateStamp,
+ *           BLOCK20_SAVEDATA_GetSavedValue, BLOCK20_SAVEDATA_SetSavedValue, BLOCK20_SAVEDATA_GetProgress,
+ *           BLOCK20_SAVEDATA_SetProgress, BLOCK20_SAVEDATA_GetFlag, BLOCK20_SAVEDATA_SetFlag
  * address:  0x02009160
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -20,66 +30,86 @@
  *   MI_CpuCopy8    0x02082D44  arm
  */
 struct Big;
-struct Sub020071CCCtrl;
+struct SaveControl;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Sub020090B0Obj {
-    u8  unk00[9][4];
-    u16 unk24;
-    u8  unk26;
-    u8  unk27;
-    u8  unk28;
-    u8  unk29;
-    u8  unk2A[2];
+/*
+ * The C-Gear save object (0x2C bytes), shared with the file that owns
+ * SAVE_CONTROL_GetBlock-family accessors.  panel is 9 rows of 4 cells: the
+ * low nibble is the value, bit 7 is the flag, and bits 4 to 6 are a
+ * three-valued mark these two functions read and write.
+ */
+struct CGearSave {
+    u8  panel[9][4];
+    u16 gsyncId;
+    u8  gsyncState;
+    u8  isObtained;
+    u8  powerSetting;
+    u8  commState;
+    u8  reserved[2];
 };
 
 typedef signed int     s32;
 
-struct Sub02009210Ent {
-    u16 unk00;
-    u8  unk02[0x18];
+/* One of the five 0x1A-byte records at +0x120 of the block. */
+struct CgearSaveRecord {
+    u16 id;
+    u8  payload[0x18];
 };
 
-struct Sub02009210Obj {
-    u32 unk000;
-    s32 unk004;
-    u8  unk008[0xDC];
-    u16 unk0E4[20];
-    u8  unk10C[20];
-    struct Sub02009210Ent unk120[5];
-    u8  unk1A2;
-    u8  unk1A3;
-    u8  unk1A4;
-    u8  unk1A5;
-    u8  unk1A6_0 : 7;
-    u8  unk1A6_7 : 1;
-    u8  unk1A7;
-    u8  unk1A8;
-    u8  unk1A9;
+/*
+ * The save block with id 0x20, 0x1AA bytes:
+ *   +0x000  u32              a date stamp (0xDA010100 until set)
+ *   +0x004  s32              a saved value, -1 until set
+ *   +0x008  u8[0xDC]         one PokemonParam copied in and out whole
+ *   +0x0E4  u16[20]          paired with
+ *   +0x10C  u8 [20]          ... one entry each
+ *   +0x120  record[5]        0x1A bytes each, first halfword seeded to 0x7E
+ *   +0x1A2  u8               reserved
+ *   +0x1A3  u8               isActive
+ *   +0x1A4  u8               mode
+ *   +0x1A5  u8               isPending
+ *   +0x1A6  bitfield         7-bit progress and 1-bit flag
+ *   +0x1A7  u8[3]            reserved
+ */
+struct CgearSaveBlock {
+    u32 dateStamp;
+    s32 savedValue;
+    u8  pokemon[0xDC];
+    u16 entryIds[20];
+    u8  entryValues[20];
+    struct CgearSaveRecord records[5];
+    u8  reservedByte;
+    u8  isActive;
+    u8  mode;
+    u8  isPending;
+    u8  progress : 7;
+    u8  flag : 1;
+    u8  reservedTail[3];
 };
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_020173EC(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
-void sub_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
-u8   sub_02009330(const struct Sub02009210Obj *obj, int i);
-void sub_020093CC(struct Sub02009210Obj *obj, u32 value);
-struct Sub02009210Obj *sub_02009210(void *sys);
-struct Sub02009210Obj *sub_0200921C(void *p);
-u32 sub_02009228(void);
+void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, u16 id, u8 value);
+u8   BLOCK20_SAVEDATA_GetEntryValue(const struct CgearSaveBlock *block, int index);
+void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, u32 value);
+struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);
+struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
+u32 BLOCK20_SAVEDATA_GetBlockSize(void);
 
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/001_02007664.s.
  *
- *           sub_02009208
+ *           BLOCK20_SAVEDATA_GetPanelState
  *
  * alias: the rest of the 0x2C-byte object of src/matched/unit_020090D8.c and
  * src/matched/unit_02009110.c.  None of these five carries a label: the first
@@ -94,9 +124,9 @@ u32 sub_02009228(void);
  * to 0x40, 3 to 0x20 and 2 to 0x10, in that source order, which no arithmetic
  * produces and which both functions spell out as the same three-armed chain.
  *
- * In sub_020091AC each arm of that chain assigns only the mask and the `orrs`
- * is emitted once, with the no-match path branching past it, so the `|=` is
- * inside the arms in the source; see
+ * In BLOCK20_SAVEDATA_SetPanelMark each arm of that chain assigns only the mask
+ * and the `orrs` is emitted once, with the no-match path branching past it, so
+ * the `|=` is inside the arms in the source; see
  * docs/idioms/switch-arms-tail-merge.md.
  *
  * `subs r5, r3, #1; cmp r5, #2; bhi` is the folded range check, and it has to
@@ -106,21 +136,21 @@ u32 sub_02009228(void);
  * to it do not fold, because they are written as two comparisons against a
  * signed index in the style of unit_02009110.c.
  *
- * In sub_02009160 the `movs r4, #0` sits *after* the range checks, so the mask
- * is declared without an initialiser and assigned once the guards have passed.
- * Written as `u32 mask = 0;` the compiler hoists it above the first `cmp` and
- * the whole prologue shifts by two bytes.
+ * In BLOCK20_SAVEDATA_TestPanelMark the `movs r4, #0` sits *after* the range
+ * checks, so the mask is declared without an initialiser and assigned once the
+ * guards have passed.  Written as `u32 mask = 0;` the compiler hoists it above
+ * the first `cmp` and the whole prologue shifts by two bytes.
  *
- * sub_02009200 and sub_02009208 pay an `adds r0, #0x29` before the `strb` and
- * the `ldrb`, because the byte offset 0x29 is past the 31 that the Thumb
- * immediate form reaches; see
+ * BLOCK20_SAVEDATA_SetPanelState and BLOCK20_SAVEDATA_GetPanelState pay an
+ * `adds r0, #0x29` before the `strb` and the `ldrb`, because the byte offset
+ * 0x29 is past the 31 that the Thumb immediate form reaches; see
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02009160.c \
  *       --addr 0x02009160 --thumb
  */
-u32 sub_02009160(const struct Sub020090B0Obj *obj, int row, int col, int kind)
+u32 BLOCK20_SAVEDATA_TestPanelMark(const struct CGearSave *save, int row, int col, int kind)
 {
     u32 mask;
 
@@ -138,13 +168,13 @@ u32 sub_02009160(const struct Sub020090B0Obj *obj, int row, int col, int kind)
     } else if (kind == 2) {
         mask = 0x10;
     }
-    if (obj->unk00[row][col] & mask) {
+    if (save->panel[row][col] & mask) {
         return 1;
     }
     return 0;
 }
 
-void sub_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind,
+void BLOCK20_SAVEDATA_SetPanelMark(struct CGearSave *save, int row, int col, int kind,
                   int marked, int flagged)
 {
     u32 value;
@@ -173,62 +203,55 @@ void sub_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind,
             value |= 0x10;
         }
     }
-    obj->unk00[row][col] = value;
+    save->panel[row][col] = value;
 }
 
-void sub_020091FC(void)
+void BLOCK20_SAVEDATA_InitPanelMarks(void)
 {
 }
 
-void sub_02009200(struct Sub020090B0Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetPanelState(struct CGearSave *save, u8 value)
 {
-    obj->unk29 = value;
+    save->commState = value;
 }
 
-u8 sub_02009208(const struct Sub020090B0Obj *obj)
+u8 BLOCK20_SAVEDATA_GetPanelState(const struct CGearSave *save)
 {
-    return obj->unk29;
+    return save->commState;
 }
 
 
-#define BLOCK_ID 0x20
+#define _CGEAR_BLOCK_ID 0x20
 
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/001_02007664.s.
  *
- *           sub_02009290, sub_02009294, sub_020092AC, sub_020092D0,
- *           sub_020092D8, sub_020092E0, sub_020092EC, sub_020092F8,
- *           sub_02009304, sub_02009310, sub_02009330, sub_02009348,
- *           sub_02009364, sub_02009370, sub_02009390, sub_020093A8,
- *           sub_020093C8, sub_020093CC, sub_020093D0, sub_020093D4,
- *           sub_020093D8, sub_020093F0, sub_02009418, sub_02009428
+ *           BLOCK20_SAVEDATA_GetRecord, BLOCK20_SAVEDATA_SetRecord,
+ *           BLOCK20_SAVEDATA_TestBit, BLOCK20_SAVEDATA_SetMode, BLOCK20_SAVEDATA_GetMode,
+ *           BLOCK20_SAVEDATA_SetPending, BLOCK20_SAVEDATA_GetPending, BLOCK20_SAVEDATA_SetActive,
+ *           BLOCK20_SAVEDATA_GetActive, BLOCK20_SAVEDATA_GetEntryId, BLOCK20_SAVEDATA_GetEntryValue,
+ *           BLOCK20_SAVEDATA_SetEntry, BLOCK20_SAVEDATA_ClearEntry, BLOCK20_SAVEDATA_CountEntries,
+ *           BLOCK20_SAVEDATA_GetRecord, BLOCK20_SAVEDATA_SetRecord, BLOCK20_SAVEDATA_GetDateStamp,
+ *           BLOCK20_SAVEDATA_SetDateStamp, BLOCK20_SAVEDATA_GetSavedValue, BLOCK20_SAVEDATA_SetSavedValue,
+ *           BLOCK20_SAVEDATA_GetProgress, BLOCK20_SAVEDATA_SetProgress, BLOCK20_SAVEDATA_GetFlag,
+ *           BLOCK20_SAVEDATA_SetFlag
  *
- * alias: the head of the save block with id 0x20, 0x1AC bytes.  The file opens
+ * alias: the head of the save block with id 0x20, 0x1AA bytes.  The file opens
  * the way every block file in this region does: a twelve byte thunk that is
  * `SAVE_CONTROL_GetBlock(sys, 0x20)`, a four byte function returning the block size, and
  * a constructor that clears exactly that size.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md; only eight of
  * these twenty-eight functions carry a label.
  *
- * The block is
- *
- *   +0x000  u32         a stamp, 0xDA010100, written through sub_020093CC
- *   +0x004  s32         initialised to -1
- *   +0x008  u8[0xDC]    a blob copied in and out whole
- *   +0x0E4  u16[20]     paired with
- *   +0x10C  u8 [20]     ... one entry each
- *   +0x120  Entry[5]    0x1A bytes each, first halfword seeded to 0x7E
- *   +0x1A2  u8[8]       flags, two of them bitfields
- *
  * The bound on the two parallel arrays is off by one in the original and it is
  * off by one in both directions: the guard is `i > 20` on twenty entry arrays,
  * so index 20 writes the first byte of the array after it, while the counter
- * in sub_02009370 stops at 19.  Writing the guard as `i >= 20` costs nothing
+ * in BLOCK20_SAVEDATA_CountEntries stops at 19.  Writing the guard as `i >= 20` costs nothing
  * in the C and changes the compare, so the off-by-one is part of the match.
  *
- * sub_020092AC is the signed-index bit test: `n >> 3` is a plain `lsrs` and
+ * BLOCK20_SAVEDATA_TestBit is the signed-index bit test: `n >> 3` is a plain `lsrs` and
  * `n % 8` is the four instruction `lsrs #31` / `lsls #29` / `subs` / `rors #29`
  * sequence, which is the same split docs/MATCHING.md records for
  * sub_0200A6BC.  `& 7` would be two instructions and `/ 8` would add a rounding
@@ -240,7 +263,7 @@ u8 sub_02009208(const struct Sub020090B0Obj *obj)
  * accessors on it say so: the getters end in `lsls #0x19` / `lsrs #0x19` and
  * `lsls #0x18` / `lsrs #0x1F`, widths that are not any integer type, which is
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.  Both setters
- * take `int`, not `u8`: the `cmp #5` in sub_020093F0 is `blt` rather than
+ * take `int`, not `u8`: the `cmp #5` in BLOCK20_SAVEDATA_SetProgress is `blt` rather than
  * `blo`, and both carry a `lsls #0x18` / `lsrs #0x18` truncation to u8 in
  * front of the field mask that an already-u8 parameter does not produce.
  *
@@ -248,51 +271,51 @@ u8 sub_02009208(const struct Sub020090B0Obj *obj)
  *   python tools/match.py tu --src src/matched/unit_02009210.c \
  *       --addr 0x02009210 --thumb
  */
-struct Sub02009210Obj *sub_02009210(void *sys)
+struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys)
 {
-    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, _CGEAR_BLOCK_ID);
 }
 
 
-struct Sub02009210Obj *sub_0200921C(void *p)
+struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p)
 {
-    return sub_02009210(GAME_DATA_GetSaveControl(p));
+    return BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(p));
 }
 
 
-u32 sub_02009228(void)
+u32 BLOCK20_SAVEDATA_GetBlockSize(void)
 {
-    return sizeof(struct Sub02009210Obj);
+    return sizeof(struct CgearSaveBlock);
 }
 
 
-void sub_02009230(struct Sub02009210Obj *obj)
+void BLOCK20_SAVEDATA_InitBlock(struct CgearSaveBlock *block)
 {
     u8 i;
 
-    MI_CpuFill8(obj, 0, sub_02009228());
-    sub_020093CC(obj, 0xDA010100);
-    obj->unk004 = -1;
-    obj->unk1A7 = 0;
-    obj->unk1A8 = 0;
-    obj->unk1A9 = 0;
-    obj->unk1A6_0 = 0x7F;
+    MI_CpuFill8(block, 0, BLOCK20_SAVEDATA_GetBlockSize());
+    BLOCK20_SAVEDATA_SetDateStamp(block, 0xDA010100);
+    block->savedValue = -1;
+    block->reservedTail[0] = 0;
+    block->reservedTail[1] = 0;
+    block->reservedTail[2] = 0;
+    block->progress = 0x7F;
     for (i = 0; i < 5; i++) {
-        obj->unk120[i].unk00 = 0x7E;
+        block->records[i].id = 0x7E;
     }
 }
 
-u8 *sub_02009290(struct Sub02009210Obj *obj)
+u8 *BLOCK20_SAVEDATA_GetPokemon(struct CgearSaveBlock *block)
 {
-    return obj->unk008;
+    return block->pokemon;
 }
 
-void sub_02009294(struct Sub02009210Obj *obj, const void *src)
+void BLOCK20_SAVEDATA_SetPokemon(struct CgearSaveBlock *block, const void *src)
 {
-    MI_CpuCopy8(src, obj->unk008, func_020173EC());
+    MI_CpuCopy8(src, block->pokemon, func_020173EC());
 }
 
-u32 sub_020092AC(const u8 *bits, int n)
+u32 BLOCK20_SAVEDATA_TestBit(const u8 *bits, int n)
 {
     u32 ret = 1;
 
@@ -302,129 +325,129 @@ u32 sub_020092AC(const u8 *bits, int n)
     return ret;
 }
 
-void sub_020092D0(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetMode(struct CgearSaveBlock *block, u8 value)
 {
-    obj->unk1A4 = value;
+    block->mode = value;
 }
 
-u8 sub_020092D8(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetMode(const struct CgearSaveBlock *block)
 {
-    return obj->unk1A4;
+    return block->mode;
 }
 
-void sub_020092E0(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetPending(struct CgearSaveBlock *block, u8 value)
 {
-    obj->unk1A5 = value;
+    block->isPending = value;
 }
 
-u8 sub_020092EC(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetPending(const struct CgearSaveBlock *block)
 {
-    return obj->unk1A5;
+    return block->isPending;
 }
 
-void sub_020092F8(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetActive(struct CgearSaveBlock *block, u8 value)
 {
-    obj->unk1A3 = value;
+    block->isActive = value;
 }
 
-u8 sub_02009304(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetActive(const struct CgearSaveBlock *block)
 {
-    return obj->unk1A3;
+    return block->isActive;
 }
 
-u16 sub_02009310(const struct Sub02009210Obj *obj, int i)
+u16 BLOCK20_SAVEDATA_GetEntryId(const struct CgearSaveBlock *block, int index)
 {
-    u16 value;
+    u16 id;
 
-    if (i > 20) {
+    if (index > 20) {
         return 0;
     }
-    value = obj->unk0E4[i];
-    if (value > 0x272) {
-        value = 0;
+    id = block->entryIds[index];
+    if (id > 0x272) {
+        id = 0;
     }
-    return value;
+    return id;
 }
 
-u8 sub_02009330(const struct Sub02009210Obj *obj, int i)
+u8 BLOCK20_SAVEDATA_GetEntryValue(const struct CgearSaveBlock *block, int index)
 {
     u8 value;
 
-    if (i > 20) {
+    if (index > 20) {
         return 0;
     }
-    value = obj->unk10C[i];
+    value = block->entryValues[index];
     if (value > 20) {
         value = 0;
     }
     return value;
 }
 
-void sub_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b)
+void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, u16 id, u8 value)
 {
-    if (i > 20) {
+    if (index > 20) {
         return;
     }
-    obj->unk0E4[i] = a;
-    obj->unk10C[i] = b;
+    block->entryIds[index] = id;
+    block->entryValues[index] = value;
 }
 
-void sub_02009364(struct Sub02009210Obj *obj, int i)
+void BLOCK20_SAVEDATA_ClearEntry(struct CgearSaveBlock *block, int index)
 {
-    sub_02009348(obj, i, 0, 0);
+    BLOCK20_SAVEDATA_SetEntry(block, index, 0, 0);
 }
 
-u32 sub_02009370(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_CountEntries(const struct CgearSaveBlock *block)
 {
     u32 count = 0;
     int i;
 
     for (i = 0; i < 20; i++) {
-        if (sub_02009330(obj, i) != 0) {
+        if (BLOCK20_SAVEDATA_GetEntryValue(block, i) != 0) {
             count++;
         }
     }
     return count;
 }
 
-struct Sub02009210Ent *sub_02009390(struct Sub02009210Obj *obj, int i)
+struct CgearSaveRecord *BLOCK20_SAVEDATA_GetRecord(struct CgearSaveBlock *block, int index)
 {
-    if (i < 5) {
-        return &obj->unk120[i];
+    if (index < 5) {
+        return &block->records[index];
     }
     return 0;
 }
 
-void sub_020093A8(struct Sub02009210Obj *obj, int i, const void *src)
+void BLOCK20_SAVEDATA_SetRecord(struct CgearSaveBlock *block, int index, const void *src)
 {
-    if (i < 5) {
-        MI_CpuCopy8(src, &obj->unk120[i], sizeof(obj->unk120[0]));
+    if (index < 5) {
+        MI_CpuCopy8(src, &block->records[index], sizeof(block->records[0]));
     }
 }
 
-u32 sub_020093C8(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetDateStamp(const struct CgearSaveBlock *block)
 {
-    return obj->unk000;
+    return block->dateStamp;
 }
 
-void sub_020093CC(struct Sub02009210Obj *obj, u32 value)
+void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, u32 value)
 {
-    obj->unk000 = value;
+    block->dateStamp = value;
 }
 
-s32 sub_020093D0(const struct Sub02009210Obj *obj)
+s32 BLOCK20_SAVEDATA_GetSavedValue(const struct CgearSaveBlock *block)
 {
-    return obj->unk004;
+    return block->savedValue;
 }
 
-void sub_020093D4(struct Sub02009210Obj *obj, s32 value)
+void BLOCK20_SAVEDATA_SetSavedValue(struct CgearSaveBlock *block, s32 value)
 {
-    obj->unk004 = value;
+    block->savedValue = value;
 }
 
-u32 sub_020093D8(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetProgress(const struct CgearSaveBlock *block)
 {
-    u32 value = obj->unk1A6_0;
+    u32 value = block->progress;
 
     if (value >= 5 && value != 0x7F) {
         value = 0x7F;
@@ -432,19 +455,19 @@ u32 sub_020093D8(const struct Sub02009210Obj *obj)
     return value;
 }
 
-void sub_020093F0(struct Sub02009210Obj *obj, int value)
+void BLOCK20_SAVEDATA_SetProgress(struct CgearSaveBlock *block, int value)
 {
     if (value < 5 || value == 0x7F) {
-        obj->unk1A6_0 = value;
+        block->progress = value;
     }
 }
 
-u32 sub_02009418(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetFlag(const struct CgearSaveBlock *block)
 {
-    return obj->unk1A6_7;
+    return block->flag;
 }
 
-void sub_02009428(struct Sub02009210Obj *obj, int value)
+void BLOCK20_SAVEDATA_SetFlag(struct CgearSaveBlock *block, int value)
 {
-    obj->unk1A6_7 = value;
+    block->flag = value;
 }

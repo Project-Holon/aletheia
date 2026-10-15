@@ -68,9 +68,9 @@
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   SYMBOL_MAP_CreateLinkRecord  0x021664CC  thumb  ov010
  *   INTRUDE_FIELD_SpawnSymbolMons  0x0217C37C  thumb  ov018
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   INTRUDE_FIELD_GetMmdlParam0  0x0217C294  thumb  ov018
- *   func_0200E18C  0x0200E18C  thumb
+ *   SYMBOL_SAVE_RemoveSlotAndCommit  0x0200E18C  thumb
  *   SYMBOL_MAP_MoveRecordToPairedBand  0x0216628C  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   func_0201EE84  0x0201EE84  thumb
@@ -88,7 +88,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SetPendingValue  0x0217688C  thumb  ov011
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_0200E2BC  0x0200E2BC  thumb
+ *   SYMBOL_SAVE_FindRecord  0x0200E2BC  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   func_0201292C  0x0201292C  thumb
@@ -298,9 +298,9 @@ extern struct GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(struct GameSystem *
 extern struct GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(struct GameSystem *gameSystem, int arg0, int arg1);
 
 /* Symbol map save and link records. */
-extern struct SymbolSave *func_0200E0B0(struct SaveControl *saveControl);
-extern void func_0200E18C(struct SymbolSave *save, u32 index);
-extern u32 func_0200E2BC(struct SaveControl *saveControl, SymbolKey *key, u32 heapId, u32 matchMode);
+extern struct SymbolSave *SYMBOL_SAVE_GetBlock(struct SaveControl *saveControl);
+extern void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index);
+extern u32 SYMBOL_SAVE_FindRecord(struct SaveControl *saveControl, SymbolKey *key, u32 heapId, u32 matchMode);
 extern SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, struct GameSystem *gameSystem, u32 *outStart);
 extern int SYMBOL_MAP_MoveRecordToPairedBand(struct SymbolSave *save, u32 index);
 extern int SYMBOL_MAP_IsHomeCell(int symbolMapFlag);
@@ -968,10 +968,10 @@ int SCRCMD_SYMBOL_SelectObjectEntry(ScriptVm *vm, ScrcmdWork *cmdWork)
     struct Mmdl *mmdl;
 
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    symbolSave = func_0200E0B0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    symbolSave = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     mmdl = SCRCMD_SYMBOL_GetMmdl(cmdWork, objId);
     if (mmdl != 0) {
-        func_0200E18C(symbolSave, INTRUDE_FIELD_GetMmdlParam0(mmdl));
+        SYMBOL_SAVE_RemoveSlotAndCommit(symbolSave, INTRUDE_FIELD_GetMmdlParam0(mmdl));
         SCRCMD_SYMBOL_SendEntryFlag(cmdWork);
     }
     return 0;
@@ -987,7 +987,7 @@ int SCRCMD_SYMBOL_MoveObjectEntryToPairedBand(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    symbolSave = func_0200E0B0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    symbolSave = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     mmdl = SCRCMD_SYMBOL_GetMmdl(cmdWork, objId);
     if (mmdl != 0) {
         *result = SYMBOL_MAP_MoveRecordToPairedBand(symbolSave, INTRUDE_FIELD_GetMmdlParam0(mmdl));
@@ -1039,7 +1039,7 @@ int SCRCMD_SYMBOL_GetState(ScriptVm *vm, ScrcmdWork *cmdWork)
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    func_0200E0B0(GAME_DATA_GetSaveControl(gameData));
+    SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     comm = func_02012138(gameSystem);
     switch (query) {
     case 0:
@@ -1139,7 +1139,7 @@ void SCRCMD_SYMBOL_SendEntryFlag(ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    func_0200E0B0(saveControl);
+    SYMBOL_SAVE_GetBlock(saveControl);
     linkState = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (linkState != 0) {
         INTRUDE_COMM_SetPendingValue(linkState, GAME_DATA_GetSymbolMapFlag(gameData));
@@ -1164,7 +1164,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     work->mon = mon;
     work->key = key;
     work->crc = func_0203F1FC(mon, func_020173EC());
-    if (func_0200E2BC(GAME_DATA_GetSaveControl(gameData), &key, heapId, 0) == 0)
+    if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 0) == 0)
         work->key.species = SYMBOL_UNSEEN_SPECIES;
     FIELD_ENCOUNT_SetFieldSituation(&work->scene, gameData, fieldMap);
     return event;
@@ -1202,7 +1202,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         key.species = func_02017E1C(mon, PARAM_SPECIES, 0);
         key.form = func_02017E1C(mon, PARAM_FORM, 0);
-        if (func_0200E2BC(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0)
             work->key.form = SYMBOL_UNSEEN_FORM;
         ENCEFF_Start(FIELDMAP_GetEncEff(work->fieldMap), event, 0);
         (*state)++;
@@ -1237,8 +1237,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         key.species = func_02017E1C(mon, PARAM_SPECIES, 0);
         key.form = func_02017E1C(mon, PARAM_FORM, 0);
-        if (func_0200E2BC(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0
-            || func_0200E2BC(GAME_DATA_GetSaveControl(gameData), &work->key, work->heapId, 0) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &key, heapId, 1) == 0
+            || SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), &work->key, work->heapId, 0) == 0)
             ok = 0;
         if (ok == 1)
             *work->resultOut = 1;

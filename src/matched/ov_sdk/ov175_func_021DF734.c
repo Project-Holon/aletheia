@@ -12,7 +12,7 @@
  * sdk:      DWCi_ScSetUseSSL (libdwcsc.TWL.HYB.a(dwc_sc.o))
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_021BF520  0x021BF520  arm  ov114
  *   gScStatsServiceUrl  0x021E52B4  data
  *   g_021AE01C  0x021AE01C  data
@@ -23,7 +23,7 @@
  *   sDwcScAuthUrlFormatSecure  0x021E40E4  data
  */
 
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern int func_021BF520(int a);
 extern char gScStatsServiceUrl[];
 extern char g_021AE01C[];
@@ -37,16 +37,16 @@ void DWCi_ScSetUseSSL(int ssl_type)
 {
 	switch (ssl_type) {
 	case 1:
-		func_02084F80(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure2, g_021AE01C);
+		OS_SNPrintf(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure2, g_021AE01C);
 		func_021BF520((int)gScStatsServiceUrl);
-		func_02084F80(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure2, g_021AE01C);
+		OS_SNPrintf(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure2, g_021AE01C);
 		func_021BF520((int)gWsAuthServiceUrl);
 		break;
 	case 0:
 	default:
-		func_02084F80(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure, g_021AE01C);
+		OS_SNPrintf(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure, g_021AE01C);
 		func_021BF520((int)gScStatsServiceUrl);
-		func_02084F80(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure, g_021AE01C);
+		OS_SNPrintf(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure, g_021AE01C);
 		func_021BF520((int)gWsAuthServiceUrl);
 		break;
 	}

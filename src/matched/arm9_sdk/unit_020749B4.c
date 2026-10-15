@@ -13,12 +13,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060468  0x02060468  arm
- *   func_02061124  0x02061124  arm
- *   func_020604AC  0x020604AC  arm
- *   func_02089D40  0x02089D40  arm
+ *   NNS_FndInitList  0x02060468  arm
+ *   NNS_FndAllocFromFrmHeapEx  0x02061124  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  */
 
 typedef unsigned char  u8;
@@ -30,23 +30,23 @@ struct Table {
     char list[0x1c];
 };
 
-extern void func_02060468(int p0, int p1);
-extern unsigned int func_02061124(char *p, int n, int v);
-extern void func_020604AC(void *list, void *node);
-extern u32 func_02089D40(void);
+extern void NNS_FndInitList(int p0, int p1);
+extern unsigned int NNS_FndAllocFromFrmHeapEx(char *p, int n, int v);
+extern void NNS_FndAppendListObject(void *list, void *node);
+extern u32 SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a0);
-extern void func_02089CD4(u32 tag);
+extern void SND_WaitForCommandProc(u32 tag);
 
 int NNSi_SndHeapAllocLevel(struct Table *t);
 
 void NNSi_SndHeapLevelInit(void *node)
 {
-    func_02060468((int)node, 0);
+    NNS_FndInitList((int)node, 0);
 }
 
 int NNSi_SndHeapInit(struct Table *t, void *heap)
 {
-    func_02060468((int)(&t->list), 0xc);
+    NNS_FndInitList((int)(&t->list), 0xc);
     t->heap = heap;
     if (NNSi_SndHeapAllocLevel(t)) {
         return 1;
@@ -56,18 +56,18 @@ int NNSi_SndHeapInit(struct Table *t, void *heap)
 
 int NNSi_SndHeapAllocLevel(struct Table *t)
 {
-    void *node = (void *)func_02061124(t->heap, 0x14, 4);
+    void *node = (void *)NNS_FndAllocFromFrmHeapEx(t->heap, 0x14, 4);
     if (!node) {
         return 0;
     }
     NNSi_SndHeapLevelInit(node);
-    func_020604AC(&t->list, node);
+    NNS_FndAppendListObject(&t->list, node);
     return 1;
 }
 
 void NNSi_SndHeapFlushCommands(void)
 {
-    void *p = (void *)func_02089D40();
+    void *p = (void *)SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4((u32)p);
+    SND_WaitForCommandProc((u32)p);
 }

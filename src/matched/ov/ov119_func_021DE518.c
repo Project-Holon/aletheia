@@ -15,7 +15,7 @@
  *   POKETRADE_NEGO_SetupWindowRegsOffers 0x021DEBD4 thumb ov119
  *   WIPE_SYS_Start 0x0202208C thumb
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepBrowseOffers 0x021DE3E8 thumb ov119
  */
@@ -30,7 +30,7 @@ extern void POKETRADE_2D_UpdateOfferIconHighlight(int p, int a, int b);
 extern void POKETRADE_NEGO_SetupWindowRegsOffers(void *);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepBrowseOffers(char *p);
 void POKETRADE_NEGO_StepOpenSummaryFromBrowse(State *p)
@@ -51,7 +51,7 @@ void POKETRADE_NEGO_StepOpenSummaryFromBrowse(State *p)
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
         WIPE_SYS_Start((void *)3,1,1,0,6,1,((struct Obj03775 *)b)->f5F4);
-        POKETRADE_PROC_ResetTouchbarBackButton((char *)p); func_021DD09C((char *)p);
+        POKETRADE_PROC_ResetTouchbarBackButton((char *)p); POKETRADE_PROC_UpdatePickedIcon((char *)p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffers);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD238
+ * function: BOX2_MAIN_PlayCursorSound
  * address:  0x021DD238
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -26,7 +26,7 @@ extern void func_020355D8(u8 v);
 extern u32 func_020260F0(struct Sound *obj);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 
-void func_021DD238(char *p)
+void BOX2_MAIN_PlayCursorSound(char *p)
 {
     func_020355D8(0);
     if (func_020260F0(((struct Obj18441 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70) == 0)

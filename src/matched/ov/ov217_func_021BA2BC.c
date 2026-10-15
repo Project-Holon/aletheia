@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2BC
+ * function: RESEARCH_TOP_DrawSelectorIdle
  * address:  0x021BA2BC
  * packet:   pkt_ov217_021BA2BC
  * region:   ov217
@@ -14,7 +14,7 @@ extern void func_020413B0(int, int, int, int, int, int);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
-void func_021BA2BC(int sel)
+void RESEARCH_TOP_DrawSelectorIdle(int sel)
 {
     int a, b, c, d, e, f;
     switch (sel) {

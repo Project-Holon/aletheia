@@ -1,5 +1,5 @@
 /*
- * function: func_021DE500
+ * function: MYSTERY_NET_UpdateWifiError
  * address: 0x021DE500
  * packet: pkt_ov121_021DE500
  * region: ov121
@@ -11,23 +11,23 @@
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_GetInitParam 0x0203D798 arm
- *   func_021DE5D8 0x021DE5D8 thumb ov121
- *   func_021DE570 0x021DE570 thumb ov121
- *   func_021DE5F8 0x021DE5F8 thumb ov121
+ *   MYSTERY_NET_ShowWifiError 0x021DE5D8 thumb ov121
+ *   MYSTERY_NET_HandleWifiError 0x021DE570 thumb ov121
+ *   MYSTERY_NET_ShowWifiErrorDw 0x021DE5F8 thumb ov121
  */
 extern int GFL_NET_GetRunState(void);
 extern char *GFL_NET_GetInitParam(void);
-extern int func_021DE5D8(void *);
-extern int func_021DE570(char *p);
-extern int func_021DE5F8(void *);
-int func_021DE500(void *p)
+extern int MYSTERY_NET_ShowWifiError(void *);
+extern int MYSTERY_NET_HandleWifiError(char *p);
+extern int MYSTERY_NET_ShowWifiErrorDw(void *);
+int MYSTERY_NET_UpdateWifiError(void *p)
 {
     int result=0;
     if (GFL_NET_GetRunState()) {
         switch (*(unsigned char *)(GFL_NET_GetInitParam()+0x65)) {
-        case 0: case 5: result=func_021DE5D8(p); break;
-        case 1: result=func_021DE570(p); break;
-        case 3: result=func_021DE5F8(p); break;
+        case 0: case 5: result=MYSTERY_NET_ShowWifiError(p); break;
+        case 1: result=MYSTERY_NET_HandleWifiError(p); break;
+        case 3: result=MYSTERY_NET_ShowWifiErrorDw(p); break;
         case 2: case 4: default: break;
         }
     }

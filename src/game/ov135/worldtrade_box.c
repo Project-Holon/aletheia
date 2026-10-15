@@ -134,8 +134,6 @@
  *   WORLDTRADE_DEPOSIT_BuildOffer 0x021F8554 thumb ov135
  */
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj12197.h"
-#include "../../matched/include/Obj09227.h"
 
 struct ArcFile;
 
@@ -152,19 +150,6 @@ typedef struct {
     u8 pad0[0x14];
     void *pixels;
 } CharData_p02;
-
-typedef struct {
-    u16 species;
-    u8 form;
-    u8 b3;
-    u8 b4;
-} WantTag;
-
-typedef struct {
-    u8 pad0[0xEC];
-    MonTag have;
-    WantTag want;
-} Deposit;
 
 typedef struct {
     s16 a;
@@ -319,13 +304,9 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 unit_02045730(u32 a);
 
@@ -333,7 +314,6 @@ extern void sub_020409B4(u32 index);
 
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
@@ -381,7 +361,7 @@ void WORLDTRADE_CloseTaskMenu(Work *p);
 
 int WORLDTRADE_UpdateTaskMenuYesNo(Work *p);
 
-void WORLDTRADE_OpenTaskMenuList(WorldtradeBoxObj1 *p, u16 a, int count, int b);
+void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b);
 
 u32 WORLDTRADE_UpdateTaskMenuList(Work *p);
 
@@ -401,7 +381,7 @@ int WORLDTRADE_BOX_Init(Work *p);
 
 void WORLDTRADE_BOX_Main(u8 *p);
 
-int WORLDTRADE_BOX_Exit(WorldtradeBoxObj1 *p);
+int WORLDTRADE_BOX_Exit(Work *p);
 
 void WORLDTRADE_BOX_SetupBgPlanes(void);
 
@@ -439,15 +419,15 @@ void WORLDTRADE_BOX_MoveCursorToSlot(u32 cursor, int i);
 
 int WORLDTRADE_BOX_GetColumnIndex(int a, int b, int c);
 
-int WORLDTRADE_BOX_StateCreateOfferMenu(WorldtradeBoxObj1 *p);
+int WORLDTRADE_BOX_StateCreateOfferMenu(Work *p);
 
 int WORLDTRADE_BOX_StateOfferMenuInput(Work *p);
 
-int WORLDTRADE_BOX_StateCreateRequestMenu(WorldtradeBoxObj1 *p);
+int WORLDTRADE_BOX_StateCreateRequestMenu(Work *p);
 
 int WORLDTRADE_BOX_StateRequestMenuInput(Work *p);
 
-int WORLDTRADE_BOX_StateStartWipeOut(WorldtradeBoxObj4 *p);
+int WORLDTRADE_BOX_StateStartWipeOut(Work *p);
 
 int WORLDTRADE_BOX_StateOpenCancelConfirm(Work *p);
 
@@ -467,7 +447,7 @@ int WORLDTRADE_BOX_StateOpenSelectConfirm(Work *p);
 
 int WORLDTRADE_BOX_StateSelectConfirmInput(Work *p);
 
-int WORLDTRADE_BOX_StateWaitCursorAnim(WorldtradeBoxObj1 *p);
+int WORLDTRADE_BOX_StateWaitCursorAnim(Work *p);
 
 int WORLDTRADE_BOX_StateWaitMessage(Work *p);
 
@@ -503,19 +483,19 @@ int WORLDTRADE_BOX_CheckMonRestrictionB(u32 handle);
 
 int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot);
 
-int WORLDTRADE_BOX_TagMatchesRequest(WorldtradeBoxObj9 *pa, WorldtradeBoxObj7 *pb);
+int WORLDTRADE_BOX_TagMatchesRequest(MonTag *pa, WantTag *pb);
 
-int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WorldtradeBoxObj7 *want);
+int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WantTag *want);
 
 void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p);
 
-void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WorldtradeBoxObj7 *key, Entry_021F6DB4 *ent);
+void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, Entry_021F6DB4 *ent);
 
 int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle);
 
 void WORLDTRADE_BOX_RestoreCursorSave(Work *p);
 
-void WORLDTRADE_DEPOSIT_BuildOffer(WorldtradeBoxObj5 *dst, Work *p);
+void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p);
 
 extern void (*g_02203B0C[])(u8 *);
 
@@ -576,7 +556,7 @@ void WORLDTRADE_BOX_Main(u8 *p)
     g_02203B0C[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_BOX_Exit(WorldtradeBoxObj1 *p)
+int WORLDTRADE_BOX_Exit(Work *p)
 {
     if (func_0207D55C((u16 *)0x0400106c)) {
         WORLDTRADE_SUBLCD_SetSlotActorPositionsLower((char *)p);
@@ -729,16 +709,14 @@ void WORLDTRADE_BOX_CreateActors(Work *p)
 void WORLDTRADE_BOX_DeleteActors(Work *p)
 {
     int i;
-    WorldtradeBoxObj10 *q;
     CLACT_DeleteActor((struct Obj *)(p->cursor_u));
     for (i = 0; i < 2; i++) {
         CLACT_DeleteActor((struct Obj *)(*(u32 *)((u8 *)p + 0xd2c + i * 4)));
     }
     CLACT_DeleteActor((struct Obj *)(p->cursor));
     for (i = 0; i < 30; i++) {
-        q = (WorldtradeBoxObj10 *) ((u8 *)p + i * 4);
-        CLACT_DeleteActor((struct Obj *)(q->fC00));
-        CLACT_DeleteActor((struct Obj *)(q->fC78));
+        CLACT_DeleteActor((struct Obj *)(p->icon[i]));
+        CLACT_DeleteActor((struct Obj *)(p->item[i]));
     }
     for (i = 0; i < 6; i++) {
         CLACT_DeleteActor((struct Obj *)(*(u32 *)((u8 *)p + 0xcf0 + i * 4)));
@@ -881,7 +859,7 @@ void WORLDTRADE_BOX_SelectMonForRequest(Work *p)
     switch (WORLDTRADE_BOX_GetMonTradeState(p->ctx->party, p->ctx->save, p->box, p->slot)) {
     case 1:
         mon = WORLDTRADE_BOX_GetPartyMon(p->ctx->party, p->ctx->save, p->box, p->slot);
-        if (WORLDTRADE_BOX_MonMatchesRequest(mon, (WorldtradeBoxObj7 *)(p->arr_entry1[p->cur].key)) != 0) {
+        if (WORLDTRADE_BOX_MonMatchesRequest(mon, (WantTag *)(p->arr_entry1[p->cur].key)) != 0) {
             if (WORLDTRADE_BOX_CanRemoveMon(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
                 WORLDTRADE_ADAPTER_CreateMonFromBox((u32)p->words, 0, (u32)mon);
                 WORLDTRADE_BOX_PrintMessage(p, 0x12, 1, 0, 0xF0F, 0);
@@ -1070,14 +1048,14 @@ int WORLDTRADE_BOX_GetColumnIndex(int a, int b, int c)
 /*
  * Create the resource, register the three 68/69/6a entries and latch state 0x8.
  */
-int WORLDTRADE_BOX_StateCreateOfferMenu(WorldtradeBoxObj1 *p)
+int WORLDTRADE_BOX_StateCreateOfferMenu(Work *p)
 {
-    *(u32 *)&p->fDE8 = (u32)BMP_MENUWORK_Create(3, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x68, 1, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x69, 2, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x6a, 3, 0x48);
+    *(u32 *)&p->de8 = (u32)BMP_MENUWORK_Create(3, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x68, 1, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x69, 2, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x6a, 3, 0x48);
     WORLDTRADE_OpenTaskMenuList(p, 0, 3, 0x14);
-    p->f28 = 0x8;
+    p->state = 8;
     return 2;
 }
 
@@ -1133,14 +1111,14 @@ int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
 /*
  * Create the resource, register the three 5d/5e/5f entries and latch state 0xa.
  */
-int WORLDTRADE_BOX_StateCreateRequestMenu(WorldtradeBoxObj1 *p)
+int WORLDTRADE_BOX_StateCreateRequestMenu(Work *p)
 {
-    *(u32 *)&p->fDE8 = (u32)BMP_MENUWORK_Create(3, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x5d, 1, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x5e, 2, 0x48);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->fDE8), *(u32 *)&p->fB6C, 0x5f, 3, 0x48);
+    *(u32 *)&p->de8 = (u32)BMP_MENUWORK_Create(3, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x5d, 1, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x5e, 2, 0x48);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(u32 *)&p->de8), p->bank_u, 0x5f, 3, 0x48);
     WORLDTRADE_OpenTaskMenuList(p, 0, 3, 0x14);
-    p->f28 = 0xa;
+    p->state = 10;
     return 2;
 }
 
@@ -1194,15 +1172,15 @@ int WORLDTRADE_BOX_StateRequestMenuInput(Work *p)
     return 2;
 }
 
-int WORLDTRADE_BOX_StateStartWipeOut(WorldtradeBoxObj4 *p)
+int WORLDTRADE_BOX_StateStartWipeOut(Work *p)
 {
-    if (p->f14 == 0 || p->f14 == 8 || p->f14 == 3) {
+    if (p->x14 == 0 || p->x14 == 8 || p->x14 == 3) {
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);
-        p->fEB4 = 1;
+        p->eb4 = 1;
     } else {
         WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);
     }
-    p->f28 = 0;
+    p->state = 0;
     return 3;
 }
 
@@ -1322,10 +1300,10 @@ int WORLDTRADE_BOX_StateSelectConfirmInput(Work *p)
 /*
  * While the +0xbfc buffer is free, feed the mode word at +0x20 to the dispatch.
  */
-int WORLDTRADE_BOX_StateWaitCursorAnim(WorldtradeBoxObj1 *p)
+int WORLDTRADE_BOX_StateWaitCursorAnim(Work *p)
 {
-    if (CLACT_IsActorAnimActive((struct Actor *)(p->fBFC)) == 0) {
-        WORLDTRADE_BOX_FinishByKind((Work *)(void *)p, p->f20);
+    if (CLACT_IsActorAnimActive((struct Actor *)(p->cursor_u)) == 0) {
+        WORLDTRADE_BOX_FinishByKind((Work *)(void *)p, p->kind);
     }
     return 2;
 }
@@ -1336,7 +1314,7 @@ int WORLDTRADE_BOX_StateWaitCursorAnim(WorldtradeBoxObj1 *p)
 int WORLDTRADE_BOX_StateWaitMessage(Work *p)
 {
     if (WORLDTRADE_ADAPTER_IsStreamDone(&p->printCtx) == 0) {
-        p->state = ((struct Obj12197 *)p)->f2C;
+        p->state = p->returnState;
     }
     return 2;
 }
@@ -1349,7 +1327,7 @@ int WORLDTRADE_BOX_StateWaitMessageOrKey(Work *p)
     if (WORLDTRADE_ADAPTER_IsStreamDone(&p->printCtx) == 0) {
         if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
             func_0201F7A8((void *)((*(unsigned int *)&p->dd0)), 0);
-            p->state = ((struct Obj09227 *)p)->f2C;
+            p->state = p->returnState;
         }
     }
     return 2;
@@ -1539,7 +1517,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
     BMP_Clear(BMP_WIN_GetBmp(p->fD4C), 0);
     WORLDTRADE_INPUT_PrintStringAlignedLine(p->fD4C, p->fB80, 0, 5, 1, 0x440, p->fFA0);
     if (p->kind == 6) {
-        WORLDTRADE_BOX_ScoreMatchingRecords((Rec_p03 *)p->info_p, (u32)p->icon, (WorldtradeBoxObj7 *)(p->arr[p->cur].key), (Entry_021F6DB4 *)icons);
+        WORLDTRADE_BOX_ScoreMatchingRecords((Rec_p03 *)p->info_p, (u32)p->icon, (WantTag *)(p->arr[p->cur].key), (Entry_021F6DB4 *)icons);
     }
     p->vblank_fn = WORLDTRADE_BOX_TransferIconPalette;
 }
@@ -1639,38 +1617,38 @@ int WORLDTRADE_BOX_GetMonTradeState(void *party, void *save, int box, int slot)
     return 1;
 }
 
-int WORLDTRADE_BOX_TagMatchesRequest(WorldtradeBoxObj9 *pa, WorldtradeBoxObj7 *pb)
+int WORLDTRADE_BOX_TagMatchesRequest(MonTag *pa, WantTag *pb)
 {
     signed char a3;
     signed char b3;
     signed char b4;
     signed char b2;
 
-    if (pa->f0 != pb->f0)
+    if (pa->species != pb->species)
         return 0;
-    b2 = pb->f2;
-    if (b2 != 3 && b2 != pa->f2)
+    b2 = pb->form;
+    if (b2 != 3 && b2 != pa->form)
         return 0;
-    a3 = pa->f3;
+    a3 = pa->gender;
     if (a3 == 0)
         return 0;
-    b3 = pb->f3;
+    b3 = pb->b3;
     if (b3 != 0 && b3 > a3)
         return 0;
-    b4 = pb->f4;
+    b4 = pb->b4;
     if (b4 != 0 && b4 < a3)
         return 0;
     return 1;
 }
 
-int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WorldtradeBoxObj7 *want)
+int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WantTag *want)
 {
     MonTag t;
 
     t.species = func_02017E88(mon, 5, 0);
     t.form = func_02017E88(mon, 0x6E, 0) + 1;
     t.gender = POKE_TOOL_CalcBoxLevel(mon);
-    return WORLDTRADE_BOX_TagMatchesRequest((WorldtradeBoxObj9 *)(&t), want);
+    return WORLDTRADE_BOX_TagMatchesRequest(&t, want);
 }
 
 void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
@@ -1683,7 +1661,7 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
     m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
     m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
-    WORLDTRADE_DEPOSIT_BuildOffer((WorldtradeBoxObj5 *)dst, p);
+    WORLDTRADE_DEPOSIT_BuildOffer((Entry *)dst, p);
     e = POKE_TOOL_GetBoxParam(p->list[p->cur]);
     w.species = func_02017E88(e, 5, 0);
     w.form = func_02017E88(e, 0x6E, 0) + 1;
@@ -1692,12 +1670,12 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
     dst->want = w;
 }
 
-void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WorldtradeBoxObj7 *key, Entry_021F6DB4 *ent)
+void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, Entry_021F6DB4 *ent)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
-        if (recs[i].a != 0 && WORLDTRADE_BOX_TagMatchesRequest((WorldtradeBoxObj9 *)(&recs[i]), key) == 0) {
+        if (recs[i].a != 0 && WORLDTRADE_BOX_TagMatchesRequest((MonTag *)(&recs[i]), key) == 0) {
             ent[i].f4 += 3;
         }
     }

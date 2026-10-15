@@ -1,5 +1,5 @@
 /*
- * function: func_020825F0
+ * function: MI_StopDma
  * address:  0x020825F0
  * packet:   pkt_020825F0
  * region:   arm9
@@ -31,7 +31,7 @@ typedef u32 OSIntrMode;
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_020825F0(u32 dmaNo)
+void MI_StopDma(u32 dmaNo)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
     vu32 *dmaCntp = (vu32 *)MI_DMA_REGADDR(dmaNo, REG_DMA0CNT_ADDR);

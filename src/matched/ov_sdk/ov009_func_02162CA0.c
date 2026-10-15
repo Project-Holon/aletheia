@@ -1,5 +1,5 @@
 /*
- * function: func_02162CA0
+ * function: CPSi_SslWrite2
  * address:  0x02162CA0
  * packet:   pkt_ov009_02162CA0
  * region:   ov009
@@ -13,10 +13,10 @@
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_021619CC  0x021619CC  arm  ov009
+ *   make_ciphertext  0x021619CC  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
- *   g_021A8280     0x021A8280  data ov009
- *   g_021A82B0     0x021A82B0  data ov009
+ *   CPSiAlloc     0x021A8280  data ov009
+ *   CPSiFree     0x021A82B0  data ov009
  *
  * Writes a two-part buffer as SSL application-data records of at most 2895 bytes; returns the bytes sent.
  */
@@ -26,16 +26,16 @@ typedef struct CPSSoc {
     void *con;
 } CPSSoc;
 
-extern void *(*g_021A8280)(unsigned long size);
-extern void (*g_021A82B0)(void *p);
-extern int func_021619CC(void *con, unsigned char *s);
+extern void *(*CPSiAlloc)(unsigned long size);
+extern void (*CPSiFree)(void *p);
+extern int make_ciphertext(void *con, unsigned char *s);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct _CPSSoc;
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
-unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc)
+unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc)
 {
     CPSSoc *con = (CPSSoc *)soc->con;
     unsigned char *tmp;
@@ -49,7 +49,7 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
     total_len = len + len2;
     do {
         this_len = (total_len > 2895) ? 2895 : total_len;
-        tmp = (unsigned char *)g_021A8280(this_len + 25);
+        tmp = (unsigned char *)CPSiAlloc(this_len + 25);
         if (!tmp) break;
         part1_len = (len >= (unsigned long)this_len) ? this_len : len;
         part2_len = this_len - part1_len;
@@ -63,9 +63,9 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
         tmp[3] = this_len >> 8;
         buf2 += part2_len;
         tmp[4] = this_len;
-        this_sent_len = func_021619CC(con, tmp);
+        this_sent_len = make_ciphertext(con, tmp);
         if (CPSi_TcpWrite2Raw(tmp, this_sent_len, 0, 0, (struct _CPSSoc *)soc) < (unsigned long)this_sent_len) this_len = 0;
-        g_021A82B0(tmp);
+        CPSiFree(tmp);
         total_sent_len += this_len;
         total_len -= this_len;
         if (total_len == 0) break;

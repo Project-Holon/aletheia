@@ -1,5 +1,5 @@
 /*
- * function: func_020606A8
+ * function: NNSi_FndFindListContainHeap
  * address:  0x020606A8
  * packet:   pkt_020606A8
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146B64       0x02146B64  data
- *   func_02060640    0x02060640  arm
+ *   NNSi_FndFindElem    0x02060640  arm
  */
 
 #include "../include/G_NNSFndList.h"
@@ -22,13 +22,13 @@ typedef unsigned int u32;
 
 struct DList;
 struct Elem;
-extern struct Elem *func_02060640(struct DList *list, u32 val);
+extern struct Elem *NNSi_FndFindElem(struct DList *list, u32 val);
 extern struct NNSFndList g_02146B64;
 
-void *func_020606A8(u32 a)
+void *NNSi_FndFindListContainHeap(u32 a)
 {
     void *r = &(*(u32 *)&g_02146B64);
-    u32 v = (u32)func_02060640((struct DList *)(&(*(u32 *)&g_02146B64)), a);
+    u32 v = (u32)NNSi_FndFindElem((struct DList *)(&(*(u32 *)&g_02146B64)), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);

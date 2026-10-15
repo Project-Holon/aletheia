@@ -1,5 +1,5 @@
 /*
- * function: func_02183EE0
+ * function: gsXmlCountChildren
  * address:  0x02183EE0
  * packet:   pkt_ov009_02183EE0
  * region:   ov009
@@ -40,7 +40,7 @@ extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
 
-int func_02183EE0(void *stream, char *matchtag)
+int gsXmlCountChildren(void *stream, char *matchtag)
 {
     struct GSIXmlStreamReader *reader = (struct GSIXmlStreamReader *)stream;
     struct GSIXmlElement *searchElem;

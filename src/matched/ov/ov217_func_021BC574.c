@@ -1,5 +1,5 @@
 /*
- * function: func_021BC574
+ * function: RESEARCH_LIST_StartPaletteAnime
  * address: 0x021BC574
  * packet: pkt_ov217_021BC574
  * region: ov217
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
 
-void func_021BC574(u8 **p, u32 i)
+void RESEARCH_LIST_StartPaletteAnime(u8 **p, u32 i)
 {
     RESEARCH_COMMON_StartPaletteAnime(*p, i);
 }

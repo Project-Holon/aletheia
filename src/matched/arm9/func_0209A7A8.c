@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209A7A8
+ * function: ldexp
  * address:  0x0209A7A8
  * packet:   pkt_02098B44
  * region:   arm9
@@ -16,7 +16,7 @@
  *           bytes match and all 12 relocations resolve.
  * symbols:
  *   func_020921F4  0x020921F4  arm
- *   func_0209A368  0x0209A368  arm
+ *   copysign  0x0209A368  arm
  *   _deq   0x0209BA3C  arm
  *   _dmul  0x0209B2E8  arm
  *   _dadd  0x0209AC04  arm
@@ -52,9 +52,9 @@ static const double huge    = 1.0e+300;
 static const double tiny    = 1.0e-300;
 
 extern int func_020921F4(double x);
-extern double func_0209A368(double x, double y);
+extern double copysign(double x, double y);
 
-double func_0209A7A8(double x, int n)
+double ldexp(double x, int n)
 {
     i32 k, hx, lx;
 
@@ -78,7 +78,7 @@ double func_0209A7A8(double x, int n)
         return x + x;
     k = k + n;
     if (k > 0x7fe)
-        return huge * func_0209A368(huge, x);
+        return huge * copysign(huge, x);
     if (k > 0)
     {
         HI(x) = (hx & 0x800fffff) | (k << 20);
@@ -87,9 +87,9 @@ double func_0209A7A8(double x, int n)
     if (k <= -54)
     {
         if (n > 50000)
-            return huge * func_0209A368(huge, x);
+            return huge * copysign(huge, x);
         else
-            return tiny * func_0209A368(tiny, x);
+            return tiny * copysign(tiny, x);
     }
     k += 54;
     HI(x) = (hx & 0x800fffff) | (k << 20);

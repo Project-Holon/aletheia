@@ -78,7 +78,6 @@ extern void func_02082A7C(u32 value, void *pDst, u32 size);
 extern void func_020834A8(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void func_0207CAE8(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
-extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
 extern void func_0207D918(const MtxFx43 *pMtx);
 extern void func_0207D934(const MtxFx33 *pMtx);
 extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);

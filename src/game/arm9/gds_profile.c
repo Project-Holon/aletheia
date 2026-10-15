@@ -28,6 +28,7 @@
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMS_WORD_MakeWordId  0x02024888  thumb
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  */
 #include "../../matched/include/Obj03045.h"
 
@@ -176,7 +177,7 @@ extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveDataObj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
-extern void func_0200E6FC(struct RecordData *src, int idx, struct RecordData *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct TrainerRec *obj);
@@ -376,7 +377,7 @@ void GDS_PROFILE_Init(struct GdsProfile_0200D59C *profile, void *sys)
     for (i = 0; i < 0x28; i++) {
         profile->record[i] = STRBUF_GetEosChar();
     }
-    func_0200E6FC(recordEnv, 0, (struct RecordData *)profile->record);
+    MISC_SAVEDATA_CopyQuadRecord(recordEnv, 0, (struct RecordData *)profile->record);
     profile->birthMonth = info.birthMonth;
     profile->trainerSprite = func_02008554(trainerRec);
     profile->gameVersion = 0x15;

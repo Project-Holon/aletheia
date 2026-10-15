@@ -1,7 +1,7 @@
 /*
  * file:     snd_alarm.c
  * unit:     yes
- * function: func_02089F88, func_02089FC0, func_02089FE0, func_0208A010
+ * function: SND_AlarmInit, func_02089FC0, SNDi_SetAlarmHandler, SNDi_CallAlarmHandler
  * address:  0x02089F88
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,18 +24,17 @@ typedef struct AlarmCallbackInfo {
     unsigned char id;
 } AlarmCallbackInfo;
 
-extern void g_02152F40(void);
-void func_02089F88(void);
+void SND_AlarmInit(void);
 asm void SNDi_IncAlarmId(void);
-unsigned char func_02089FE0(int alarmNo, SNDAlarmHandler handler, void *arg);
-void func_0208A010(int msg);
+unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg);
+void SNDi_CallAlarmHandler(int msg);
 extern AlarmCallbackInfo sCallbackTable[8];
 
 
 /*
  * sdk:      SND_AlarmInit (snd_alarm.o)
  */
-void func_02089F88(void)
+void SND_AlarmInit(void)
 {
     AlarmCallbackInfo *info;
     int alarmNo;
@@ -51,7 +50,7 @@ void func_02089F88(void)
 
 asm void SNDi_IncAlarmId(void)
 {
-    ldr r2, =g_02152F40
+    ldr r2, =sCallbackTable
     mov	r1, #0xc
     mla	r1, r0, r1, r2
     ldrb	r0, [r1, #8]
@@ -64,7 +63,7 @@ asm void SNDi_IncAlarmId(void)
 /*
  * sdk:      SNDi_SetAlarmHandler (snd_alarm.o)
  */
-unsigned char func_02089FE0(int alarmNo, SNDAlarmHandler handler, void *arg)
+unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg)
 {
     AlarmCallbackInfo *info = &sCallbackTable[alarmNo];
 
@@ -78,7 +77,7 @@ unsigned char func_02089FE0(int alarmNo, SNDAlarmHandler handler, void *arg)
 /*
  * sdk:      SNDi_CallAlarmHandler (snd_alarm.o)
  */
-void func_0208A010(int msg)
+void SNDi_CallAlarmHandler(int msg)
 {
     AlarmCallbackInfo *info = &sCallbackTable[msg & 0xff];
 

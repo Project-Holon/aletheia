@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EAA80",
+   "name": "BOX2_SEQ_InitBmpWins",
    "address": "0x021EAA80",
    "kind": "game",
    "region": "ov170",

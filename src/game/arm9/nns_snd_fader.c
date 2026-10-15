@@ -18,15 +18,7 @@
  * symbols:
  *   _s32_div_f      0x0209C0A4  arm
  */
-typedef unsigned int u32;
-typedef signed int s32;
-
-typedef struct SndFader {
-    s32 start;
-    s32 target;
-    s32 step;
-    s32 duration;
-} SndFader;
+#include "nns_snd_types.h"
 
 void NNSi_SndFaderSet(SndFader *fader, u32 target, u32 duration);
 s32 NNS_SndFaderGet(SndFader *fader);

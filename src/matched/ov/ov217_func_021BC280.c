@@ -1,5 +1,5 @@
 /*
- * function: func_021BC280
+ * function: RESEARCH_LIST_DampMomentum
  * address: 0x021BC280
  * packet: pkt_ov217_021BC280
  * region: ov217
@@ -16,7 +16,7 @@
  */
 struct S { char pad[0x4c]; int f4c; };
 
-void func_021BC280(struct S *p)
+void RESEARCH_LIST_DampMomentum(struct S *p)
 {
     double d = p->f4c;
     int v;

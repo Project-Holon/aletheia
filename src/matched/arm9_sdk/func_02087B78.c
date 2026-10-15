@@ -1,5 +1,5 @@
 /*
- * function: func_02087B78
+ * function: OS_InitReset
  * address:  0x02087B78
  * packet:   pkt_02087B78
  * region:   arm9
@@ -36,7 +36,7 @@ extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL
 extern void OSi_CommonCallback(int tag, u32 data, BOOL err);
 extern u16 OSi_IsInitReset;
 
-void func_02087B78(void)
+void OS_InitReset(void)
 {
     if (OSi_IsInitReset) {
         return;

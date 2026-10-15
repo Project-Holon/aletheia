@@ -1,5 +1,5 @@
 /*
- * function: func_02082390
+ * function: MIi_DmaFill32Async
  * address:  0x02082390
  * packet:   pkt_02082390
  * region:   arm9
@@ -52,7 +52,7 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-void func_02082390(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable)
+void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable)
 {
     if (size == 0) {
         MIi_CallCallback(callback, arg);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D72D0
+ * function: WIFI_BSUBWAY_GRAPHIC_SetupTextParam
  * address: 0x021D72D0
  * packet: pkt_ov116_021D72D0
  * region: ov116
@@ -27,7 +27,7 @@ extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 d_021D8574[], d_021DA62C[];
 extern u8 ov129_id[];
-void func_021D72D0(u8 *p, u32 heap)
+void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(u8 *p, u32 heap)
 {
     void *obj;
     obj = CODEIN_PARAM_Create(heap, 2, 10, 2, d_021D8574);

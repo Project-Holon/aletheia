@@ -1,5 +1,5 @@
 /*
- * function: func_021D7324
+ * function: WIFI_BSUBWAY_GRAPHIC_ParseCodeIn
  * address: 0x021D7324
  * packet: pkt_ov116_021D7324
  * region: ov116
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-u32 func_021D7324(u8 *p) {
+u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(u8 *p) {
     u16 end=STRBUF_GetEosChar();
     u16 *s=STRBUF_GetChars(((struct Obj22626 *)(*(u8 * *)&((struct Obj22625 *)p)->f1840))->f20);
     u32 value=0;

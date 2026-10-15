@@ -9,8 +9,8 @@
  * status: EXACT
  * resolved: unlabelled ov125 ARM leaf 0x021D8B3C attested by its matched shard.
  * symbols:
- *   func_02088168 0x02088168 arm
- *   func_02162248 0x02162248 arm
+ *   OS_GetLowEntropyData 0x02088168 arm
+ *   CPS_SslAddRandomSeed 0x02162248 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GDS_SOCKET_SetSslTemplate 0x021D8BC0 arm ov125
  *   GDS_SOCKET_SetRootCa 0x021D8BF8 arm ov125
@@ -25,8 +25,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 gGdsEntropyBuffer[], gGdsSslTemplate[];
 extern u32 gGdsSslTemplatePtr;
-extern void func_02088168(u32 *buffer);
-extern void func_02162248(void *, u32);
+extern void OS_GetLowEntropyData(u32 *buffer);
+extern void CPS_SslAddRandomSeed(void *, u32);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void GDS_SOCKET_SetSslTemplate(u32 value);
 extern void GDS_SOCKET_SetRootCa(int a, int b);
@@ -35,8 +35,8 @@ extern const u32 sGdsRootCaList[];
 extern int GDS_SOCKET_SslAuthCallback(void);
 void GDS_SOCKET_InitSslTemplate(void)
 {
-    func_02088168((u32 *)gGdsEntropyBuffer);
-    func_02162248(gGdsEntropyBuffer, 32);
+    OS_GetLowEntropyData((u32 *)gGdsEntropyBuffer);
+    CPS_SslAddRandomSeed(gGdsEntropyBuffer, 32);
     if (gGdsSslTemplatePtr) return;
     MI_CpuFill8(gGdsSslTemplate, 0, 0x830);
     *(u32 *)(gGdsSslTemplate + 0x800) = 0;

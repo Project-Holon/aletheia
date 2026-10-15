@@ -1,5 +1,5 @@
 /*
- * function: func_0208A38C
+ * function: SND_DestroyBank
  * address:  0x0208A38C
  * packet:   pkt_0208A38C
  * region:   arm9
@@ -45,7 +45,7 @@ extern void SNDi_LockMutex(void);
 extern void SNDi_UnlockMutex(void);
 extern void DC_StoreRange(const void *startAddr, unsigned long nBytes);
 
-void func_0208A38C(SNDBankData *bank)
+void SND_DestroyBank(SNDBankData *bank)
 {
     SNDWaveArc *waveArc;
     SNDWaveArcLink *prev;

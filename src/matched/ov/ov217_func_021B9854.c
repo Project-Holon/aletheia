@@ -1,5 +1,5 @@
 /*
- * function: func_021B9854
+ * function: RESEARCH_TOP_IncFrameCount
  * address:  0x021B9854
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B9854(void *p)
+void RESEARCH_TOP_IncFrameCount(void *p)
 {
     u32 *counter = (u32 *)((char *)p + 8);
     *counter += 1;

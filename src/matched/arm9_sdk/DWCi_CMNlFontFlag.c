@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087B04 0x02087B04 arm
+ *   OS_GetBootType 0x02087B04 arm
  *   g_020A5CD4 0x020A5CD4 data
  */
 typedef unsigned long u32;
-extern int func_02087B04(void);
+extern int OS_GetBootType(void);
 extern u32 g_020A5CD4[];
 
 static u32 OSi_DetectDeviceType(void)
 {
-    return g_020A5CD4[func_02087B04()];
+    return g_020A5CD4[OS_GetBootType()];
 }

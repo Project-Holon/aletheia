@@ -18,7 +18,7 @@
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02087E60  0x02087E60  arm
+ *   OS_GetParentalControlInfoPtr  0x02087E60  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  */
@@ -52,7 +52,7 @@ extern void MI_CpuFill8(void *p, int v, u32 n);
 extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern int OS_IsRunOnTwl(void);
-extern Flags *func_02087E60(void);
+extern Flags *OS_GetParentalControlInfoPtr(void);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -75,7 +75,7 @@ void GAME_BEACON_SEARCH_BuildBeaconHeader(Hdr *p, void *src)
     p->f03_1 = (u8)t;
     if (p->f02_7 == 1) {
         v = 1;
-        if (func_02087E60()->b0 == 0 || func_02087E60()->b5 == 0)
+        if (OS_GetParentalControlInfoPtr()->b0 == 0 || OS_GetParentalControlInfoPtr()->b5 == 0)
             v = 0;
         p->f02_6 = v;
     }

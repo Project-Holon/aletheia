@@ -2,10 +2,18 @@
  * Types of the union room communication work (ov012 union_comm.c,
  * union_main.c and the union command table).  The same work is passed to
  * ov019 (union_oneself.c), ov022 (union_app.c) and ov031 (union_subdisp.c).
- * Needs u8, u16, u32, s16 and VecFx32 from the including file.
+ * Defines the base integer types itself so the ov012 sources do not repeat
+ * them; VecFx32 still comes from the including file, since the includers use
+ * distinct anonymous or named definitions of it.
  */
 #ifndef UNION_COMM_TYPES_H
 #define UNION_COMM_TYPES_H
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef signed int s32;
 
 /* Sources in a subdirectory (unplaced/) include the ov010 header themselves,
  * since this relative path is resolved from the source file's directory. */

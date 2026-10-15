@@ -1,5 +1,5 @@
 /*
- * function: func_02084AB0
+ * function: OSi_SyncWithOtherProc
  * address:  0x02084AB0
  * packet:   pkt_02084AB0
  * region:   arm9
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 
 extern void SVC_WaitByLoop(int v);
 
-void func_02084AB0(int a0, volatile u8 *p)
+void OSi_SyncWithOtherProc(int a0, volatile u8 *p)
 {
     if (a0 == 0) {
         int i = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB934
+ * function: RESEARCH_LIST_SetEntryHandled
  * address:  0x021BB934
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
 
-void func_021BB934(u8 *a0, u32 a1)
+void RESEARCH_LIST_SetEntryHandled(u8 *a0, u32 a1)
 {
     RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct Obj02928 *)a0)->f0, a1);
 }

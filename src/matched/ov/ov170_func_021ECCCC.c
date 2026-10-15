@@ -1,5 +1,5 @@
 /*
- * function: func_021ECCCC
+ * function: BOX2_SEQ_LoadMonIconActor
  * address: 0x021ECCCC
  * packet: pkt_ov170_021ECCCC
  * region: ov170
@@ -23,8 +23,8 @@
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
- *   func_021EBEE0 0x021EBEE0 thumb ov170
- *   func_021EC000 0x021EC000 thumb ov170
+ *   BOX2_SEQ_CreateActorFromDesc 0x021EBEE0 thumb ov170
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb ov170
  *   d_021EFD80 0x021EFD80 data a4
  */
 typedef unsigned int u32;
@@ -42,11 +42,11 @@ extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u32,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void ARC_TOOL_DeleteHandle(int);
-extern void *func_021EBEE0(char *,const void *);
-extern void func_021EC000(char *,int,int);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *,const void *);
+extern void BOX2_SEQ_SetActorDrawEnable(char *,int,int);
 extern const char d_021EFD80[];
 #define W(p) (*(char **)((p)+44))
-void func_021ECCCC(char *p,void **mon,int index)
+void BOX2_SEQ_LoadMonIconActor(char *p,void **mon,int index)
 {
     int *bmp,*cell,*anim;
     int other;
@@ -69,8 +69,8 @@ void func_021ECCCC(char *p,void **mon,int index)
     *cell=POKEGRA_RegisterPalettePP(archive,*mon,0,1,mode,76);
     *anim=POKEGRA_RegisterCellAnimPP((u32)*mon,0,2,1,76);
     POKE_TOOL_EncodeBoxParam(*mon,state);ARC_TOOL_DeleteHandle(archive);
-    *(void **)((W(p)+index*4)+0x9E74)=func_021EBEE0(W(p),d_021EFD80+24*(u32)index);
-    func_021EC000(W(p),index,1);
-    if (*(void **)((W(p)+other*4)+0x9E74)) func_021EC000(W(p),other,0);
+    *(void **)((W(p)+index*4)+0x9E74)=BOX2_SEQ_CreateActorFromDesc(W(p),d_021EFD80+24*(u32)index);
+    BOX2_SEQ_SetActorDrawEnable(W(p),index,1);
+    if (*(void **)((W(p)+other*4)+0x9E74)) BOX2_SEQ_SetActorDrawEnable(W(p),other,0);
     *(u16 *)(W(p)+0xA164)^=1;
 }

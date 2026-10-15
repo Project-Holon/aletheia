@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FA1DC",
+   "name": "BR_BTN_PushPosPair",
    "address": "0x021FA1DC",
    "kind": "game",
    "region": "ov186",

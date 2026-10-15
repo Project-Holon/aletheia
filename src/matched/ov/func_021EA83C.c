@@ -1,5 +1,5 @@
 /*
- * function: func_021EA83C
+ * function: BOX2_SEQ_ResetEntry
  * address:  0x021EA83C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DD1E8  0x021DD1E8  thumb  ov170
- *   func_021E8FC0  0x021E8FC0  thumb  ov170
+ *   BOX2_MAIN_RefreshBoxUi  0x021DD1E8  thumb  ov170
+ *   BOX2_SEQ_SetSeqThird  0x021E8FC0  thumb  ov170
  *
  * Reset the entry then store the field with the dispatcher
  *   thumb-pointer 0x021E01C5 as its second argument.
  */
 
 
-extern void func_021DD1E8(char *);
-extern int func_021E8FC0(char *p, int a, int b);
-int func_021EA83C(char *p, int a)
+extern void BOX2_MAIN_RefreshBoxUi(char *);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+int BOX2_SEQ_ResetEntry(char *p, int a)
 {
-    func_021DD1E8(p);
-    return func_021E8FC0(p, 0x021E01C5, a);
+    BOX2_MAIN_RefreshBoxUi(p);
+    return BOX2_SEQ_SetSeqThird(p, 0x021E01C5, a);
 }

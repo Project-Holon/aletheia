@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FDA74 0x021FDA74 thumb ov132
+ *   STA_SLOT_Noop 0x021FDA74 thumb ov132
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  */
@@ -17,7 +17,7 @@
 #include "../include/Obj23296.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021FDA74(int a0, int a1, int a2);
+extern void STA_SLOT_Noop(int a0, int a1, int a2);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
@@ -26,7 +26,7 @@ int func_021FD76C(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct Obj23296 *)p)->f140;
     u32 id;
-    func_021FDA74(q[2], q[9], 1);
+    STA_SLOT_Noop(q[2], q[9], 1);
     id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
     return GFL_NET_SendData(id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (*(u32 **)(p + 0x140))[2], 1, 0, 1);
 }
@@ -35,7 +35,7 @@ void func_021FD7AC(void *a, void *b, void *c, u8 *p)
     u32 *q;
     ((struct Obj14138 *)p)->f174 = 1;
     q = *(u32 * *)&((struct Obj14138 *)p)->f140;
-    func_021FDA74(q[2], q[9], 11);
+    STA_SLOT_Noop(q[2], q[9], 11);
 }
 u32 func_021FD7C8(void *a, u8 *p)
 {

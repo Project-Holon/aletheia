@@ -176,7 +176,6 @@ extern u32 KEY_GetTrg(void);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
@@ -220,19 +219,14 @@ extern void WORLDTRADE_CloseTaskMenu(char *p);
 
 extern void func_0201F7A8(void *p, unsigned kind);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern int func_0207D55C(vu16 *reg);
 
 extern void func_02041B6C(u32 v);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
@@ -248,7 +242,6 @@ extern void WORLDTRADE_ClearSelectedSpecies(void *);
 
 extern int WORLDTRADE_QueryGameData(void);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 

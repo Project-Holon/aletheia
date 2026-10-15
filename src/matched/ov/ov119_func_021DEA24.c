@@ -15,7 +15,7 @@
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepOpenDeclineMenu 0x021DE9E8 thumb ov119
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -38,7 +38,7 @@ extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *),TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepOpenDeclineMenu(void *);
 extern int TOUCHPANEL_HitTrg(const void *);
@@ -58,7 +58,7 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
         MSGDATA_ReadString(*(struct MsgBank * *)&((struct Obj00251 *)p)->f720,148,((struct Obj00251 *)p)->f738);
         POKETRADE_SAVE_OpenMessageWindowTop(p);
         TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenDeclineMenu);
         return;
     }

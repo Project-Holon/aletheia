@@ -1,5 +1,5 @@
 /*
- * function: sub_02034734
+ * function: SAVEDATA_PanicFailPrintf
  * address:  0x02034734
  * packet:   pkt_02034734
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   g_Sink  0x0214699C  data
  *
- * The printf-shaped sibling of sub_02034714 (src/matched/unit_02034714.c):
+ * The printf-shaped sibling of SAVEDATA_PanicFail (src/matched/unit_02034714.c):
  * byte for byte the same body, dispatching the hook at g_Sink+0xC through
  * `blx` so a Thumb handler works, wrapped in a variadic frame.
  *
@@ -27,14 +27,14 @@
  * appears because this function never reads the variadic tail itself; the
  * registered handler does.
  *
- * As in sub_02034714, the hook is called with no C-visible arguments.  The
+ * As in SAVEDATA_PanicFail, the hook is called with no C-visible arguments.  The
  * named parameters survive into it only because nothing here clobbers
  * r0-r3 before the `blx`, so writing the call as `h(expr, line, file)`
  * would add `mov`s the original does not have.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034734.c \
- *       --func sub_02034734 --addr 0x02034734 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SAVEDATA_PanicFailPrintf.c \
+ *       --func SAVEDATA_PanicFailPrintf --addr 0x02034734 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -50,7 +50,7 @@ struct Sink {
 
 extern struct Sink g_Sink;
 
-void sub_02034734(const char *expr, u32 line, const char *file, ...)
+void SAVEDATA_PanicFailPrintf(const char *expr, u32 line, const char *file, ...)
 {
     AssertHandler h = g_Sink.handler;
 

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   data_02150FEC  0x02150FEC  data
- *   func_02087B04  0x02087B04  arm
+ *   OS_GetBootType  0x02087B04  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_SleepThread  0x020857B0  arm
  *   OS_DisableInterrupts  0x02087988  arm

@@ -10,7 +10,7 @@
   * status:   EXACT
  *
  * Unlabelled 4-byte tail-call veneer in a .word run; pool 0x021C29FC names
- * PALETTE_ANIME_StartImpl. Middle of the func_021BA31C blocker chain.
+ * PALETTE_ANIME_StartImpl. Middle of the RESEARCH_TOP_StartPaletteAnime blocker chain.
  *
  * symbols:
  *   PALETTE_ANIME_StartImpl  0x021C2A18  thumb  ov217

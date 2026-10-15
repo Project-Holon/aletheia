@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  *
- * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA08.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
+ * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
  * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags); ARM9 belongs to the integrator.
- *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
+ *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -29,8 +29,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
- *   func_0200E9F4 0x0200E9F4 thumb
- *   func_0200EA08 0x0200EA08 thumb
+ *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
+ *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   func_0203516C 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
@@ -61,8 +61,8 @@ extern void func_021E7E0C(void **,int);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern void *func_0200E9F4(void *);
-extern int func_0200EA08(int p);
+extern void *MISC_SAVEDATA_GetBlock3C(void *);
+extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void func_0203516C(int);
 extern const char d_0217E600[];
@@ -86,7 +86,7 @@ u8 *func_0217B984(Init *src,u32 heap)
     *(void ***)(p+0x1c)=func_021E7D20((void *)func_021E5548(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
     func_021E7E0C(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
-    *(void **)(p+0x34)=(void *)func_0200EA08((int)func_0200E9F4(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
+    *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)func_0203516C(8);
     return p;

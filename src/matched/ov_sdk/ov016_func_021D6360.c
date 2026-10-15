@@ -13,21 +13,21 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02060C5C  0x02060C5C  arm
+ *   NNS_FndCreateExpHeapEx  0x02060C5C  arm
  *   OS_Terminate   0x02088234  arm
  *   gHeapWork     0x021DE684  data
  */
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 typedef unsigned int   u32;
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
+extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u32 attr);
 extern void OS_Terminate(void);
 extern void *gHeapWork;
 
 void DWCi_HEAPlInit(void *address)
 {
     MI_CpuFill8(address, 0, 0x40000);
-    gHeapWork = func_02060C5C(address, 0x40000, 0);
+    gHeapWork = NNS_FndCreateExpHeapEx(address, 0x40000, 0);
     if (gHeapWork == 0)
         OS_Terminate();
 }

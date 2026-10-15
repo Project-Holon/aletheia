@@ -1,5 +1,5 @@
 /*
- * function: func_021E8FC0
+ * function: BOX2_SEQ_SetSeqThird
  * address:  0x021E8FC0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DC9A0  0x021DC9A0  thumb  ov170
+ *   BOX2_MAIN_InitSeq  0x021DC9A0  thumb  ov170
  *
  * Store the third argument, then reset the sub-object.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern void func_021DC9A0(char *, int);
-int func_021E8FC0(char *p, int a, int b)
+extern void BOX2_MAIN_InitSeq(char *, int);
+int BOX2_SEQ_SetSeqThird(char *p, int a, int b)
 {
     *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x68) = b;
-    func_021DC9A0(*(char * *)&((struct Obj00000 *)p)->f2C, a);
+    BOX2_MAIN_InitSeq(*(char * *)&((struct Obj00000 *)p)->f2C, a);
     return 5;
 }

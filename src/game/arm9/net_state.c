@@ -195,31 +195,20 @@ void GFL_NET_SYSTEM_ResetAll(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-int GFL_NET_SYSTEM_GetChildBitmap(void);
 
-int GFL_NET_SYSTEM_IsError(void);
 
-void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-void GFL_NET_SYSTEM_SetError(void);
 
-void GFL_NET_SYSTEM_ResetError(void);
 
-void GFL_NET_SYSTEM_SetNoSend(void);
 
-int GFL_NET_SYSTEM_IsSendEnable(void);
 
-int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
 void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 
-GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 
@@ -335,7 +324,6 @@ void GFL_NET_STATE_Exit(u32 exitCallback);
 
 void GFL_NET_STATE_ClearExitFlag(void);
 
-void GFL_NET_STATE_Idle(void);
 
 void GFL_NET_STATE_EndDevice(void);
 

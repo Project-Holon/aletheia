@@ -1,5 +1,5 @@
 /*
- * function: func_021B9574
+ * function: CTVT_TALK_SetMicMode
  * address:  0x021B9574
  * packet:   pkt_021B6100
  * region:   ov172
@@ -12,9 +12,9 @@
  * Tail call passing the field at +0x10.
  *
  * symbols:
- *   func_021BA094  0x021BA094  thumb  ov172
+ *   CTVT_MIC_SetMode  0x021BA094  thumb  ov172
  *
- * evidence: func_021BA094 is ov172's own code (a 2-byte "bx lr" right after
+ * evidence: CTVT_MIC_SetMode is ov172's own code (a 2-byte "bx lr" right after
  * the "pop {r4, pc}" at 0x021BA092), inside ov172's window, so only ov172 can
  * be resident there when this pool word is used.  Its start is seeded in
  * layout/function_starts.txt from this pointer word, the only reference;
@@ -30,9 +30,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021BA094(int v);
+extern void CTVT_MIC_SetMode(int v);
 
-void func_021B9574(int unused, char *p)
+void CTVT_TALK_SetMicMode(int unused, char *p)
 {
-    func_021BA094(((struct Obj24090 *)p)->f10);
+    CTVT_MIC_SetMode(((struct Obj24090 *)p)->f10);
 }

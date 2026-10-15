@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE14
+ * function: MYSTERY_NET_SetNdState
  * address: 0x021DEE14
  * packet: pkt_ov121_021DEE14
  * region: ov121
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj08104.h"
 extern int d_021DFC00[];
-void func_021DEE14(char *p, int *state, int value)
+void MYSTERY_NET_SetNdState(char *p, int *state, int value)
 {
     d_021DFC00[1] = 0;
     d_021DFC00[3] = 0;

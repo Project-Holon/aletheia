@@ -1,5 +1,5 @@
 /*
- * function: func_02089E74
+ * function: InitPXI
  * address:  0x02089E74
  * packet:   pkt_02089E74
  * region:   arm9
@@ -29,7 +29,7 @@ extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void OS_SpinWaitSysCycles(u32 cycle);
 extern void PxiFifoCallback(int tag, u32 data, BOOL err);
 
-void func_02089E74(void)
+void InitPXI(void)
 {
     PXI_SetFifoRecvCallback(7, PxiFifoCallback);
 

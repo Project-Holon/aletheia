@@ -1,5 +1,5 @@
 /*
- * function: func_021ECB84
+ * function: BOX2_SEQ_SwapSlotActors
  * address:  0x021ECB84
  * packet:   pkt_ov170_021ECB84
  * region:   ov170
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
- *   func_021EC08C 0x021EC08C thumb
- *   func_021EC768 0x021EC768 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
+ *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  */
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021EC768(char *p, unsigned i, int flag);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag);
 
-void func_021ECB84(char *w, unsigned i)
+void BOX2_SEQ_SwapSlotActors(char *w, unsigned i)
 {
     short xy[2];
     unsigned char *tbl = (unsigned char *)(w + 0x3DD2);
     unsigned char t;
-    func_021EC0B0(w, tbl[i], &xy[1], &xy[0], 0);
+    BOX2_SEQ_GetActorSurfacePos(w, tbl[i], &xy[1], &xy[0], 0);
     t = w[0x3DF6];
     w[0x3DF6] = tbl[i];
     tbl[i] = t;
-    func_021EC08C(w, tbl[i], xy[1], xy[0], 0);
-    func_021EC768(w, i, 1);
+    BOX2_SEQ_AddActorSurfacePos(w, tbl[i], xy[1], xy[0], 0);
+    BOX2_SEQ_SetSlotDrawPriority(w, i, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020755A8
+ * function: NNS_SndArcPlayerStartSeqEx
  * address:  0x020755A8
  * packet:   pkt_0207533C
  * region:   arm9
@@ -11,6 +11,7 @@
  *
  * symbols:
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNSi_SndArcPlayerStartSeq  0x02075698  arm
  */
 #include "../include/Obj08951.h"
 
@@ -19,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *NNS_SndArcGetSeqInfo(int index);
-extern u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1);
+extern u32 NNSi_SndArcPlayerStartSeq(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1);
 
-u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
+u32 NNS_SndArcPlayerStartSeqEx(u32 a, int b, int c, int d, u32 e)
 {
     u8 *p = NNS_SndArcGetSeqInfo(e);
 
@@ -29,5 +30,5 @@ u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
     if (d < 0) d = ((struct Obj08951 *)p)->f8;
     if (c < 0) c = ((struct Obj08951 *)p)->f4;
     if (b < 0) b = ((struct Obj08951 *)p)->f9;
-    return func_02075698(a, (u32)b, (u32)c, (u32)d, (u8 *)p, e);
+    return NNSi_SndArcPlayerStartSeq(a, (u32)b, (u32)c, (u32)d, (u8 *)p, e);
 }

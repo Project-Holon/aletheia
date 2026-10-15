@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208270C",
+   "name": "MIi_CheckDma0SourceAddress",
    "address": "0x0208270C",
    "kind": "sdk",
    "region": "arm9",

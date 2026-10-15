@@ -297,7 +297,7 @@ struct MailBoxWinDef {
     u8 w;
     u8 h;
     u16 palette;
-    u16 pad_0A;
+    /* 2 trailing bytes: the row is padded to the 4 byte alignment of bg. */
 };
 
 /* Row of the menu entry tables g_78B0 and g_78C0. */

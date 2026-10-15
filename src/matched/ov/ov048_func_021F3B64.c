@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
- *   func_0200EC14  0x0200EC14  thumb
- *   func_0200EC2C  0x0200EC2C  thumb
+ *   MISC_SAVEDATA_FindFreeRecordSlot  0x0200EC14  thumb
+ *   MISC_SAVEDATA_ExportRecord  0x0200EC2C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  */
@@ -32,10 +32,10 @@ typedef struct St {
 
 extern void *GAME_DATA_GetSaveBlock42(void **h);
 struct U16Vec;
-extern int func_0200EC14(char *p);
+extern int MISC_SAVEDATA_FindFreeRecordSlot(char *p);
 struct Src0200EC2C;
 struct Dst0200EC2C;
-extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
+extern void MISC_SAVEDATA_ExportRecord(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -46,11 +46,11 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt)
     St st;
 
     s = GAME_DATA_GetSaveBlock42((void **)(((int *)p)[2]));
-    *cnt = func_0200EC14(s);
+    *cnt = MISC_SAVEDATA_FindFreeRecordSlot(s);
     for (i = 0; i < *cnt; i++) {
         st.p0 = STRBUF_Create(0x40, p[0]);
         st.p1 = STRBUF_Create(0x40, p[0]);
-        func_0200EC2C(s, i, (struct Dst0200EC2C *)&st);
+        MISC_SAVEDATA_ExportRecord(s, i, (struct Dst0200EC2C *)&st);
         out[i] = st.c;
         STRBUF_Delete(st.p0);
         STRBUF_Delete(st.p1);

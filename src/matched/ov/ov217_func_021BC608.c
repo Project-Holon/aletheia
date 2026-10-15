@@ -1,5 +1,5 @@
 /*
- * function: func_021BC608
+ * function: RESEARCH_LIST_ClearKeyRepeatTimer
  * address:  0x021BC608
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC608(void *p)
+void RESEARCH_LIST_ClearKeyRepeatTimer(void *p)
 {
     ((struct Obj25864 *)p)->f54 = 0;
 }

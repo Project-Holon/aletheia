@@ -1,5 +1,5 @@
 /*
- * function: func_02060CD0
+ * function: NNS_FndResizeForMBlockExpHeap
  * address:  0x02060CD0
  * packet:   pkt_02060C5C
  * region:   arm9
@@ -25,8 +25,8 @@
  * dsi/1.1p1 with that loop is 356 bytes; this cluster's first sp2 pin.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02060CD0.c \
- *       --func func_02060CD0 --addr 0x02060CD0 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_FndResizeForMBlockExpHeap.c \
+ *       --func NNS_FndResizeForMBlockExpHeap --addr 0x02060CD0 --arm --cc ../2.0/sp2
  *   EXACT, 352 bytes, 6 of 6 relocation sites resolved (sp2p2 EXACT too).
  *
  * symbols:
@@ -80,7 +80,7 @@ extern void *sub_020607B8(int *p, void *node, int *a);
 extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
-u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
+u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size)
 {
     struct ExpHeapHead *pEHHead;
     struct MBlockHead *pMBlkFr;

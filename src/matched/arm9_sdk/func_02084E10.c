@@ -1,5 +1,5 @@
 /*
- * function: func_02084E10
+ * function: OS_UnlockCard
  * address:  0x02084E10
  * packet:   pkt_02084E10
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084CEC 0x02084CEC arm
- *   func_02084E98 0x02084E98 arm
+ *   OS_UnlockByWord 0x02084CEC arm
+ *   OSi_FreeCardBus 0x02084E98 arm
  */
 typedef signed int     s32;
 typedef unsigned short u16;
 struct OSLockWord;
-extern s32 func_02084CEC(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void));
-extern void func_02084E98(void);
+extern s32 OS_UnlockByWord(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void));
+extern void OSi_FreeCardBus(void);
 
-s32 func_02084E10(u16 lockID)
+s32 OS_UnlockCard(u16 lockID)
 {
-    return func_02084CEC(lockID, (struct OSLockWord *)0x02FFFFE0, func_02084E98);
+    return OS_UnlockByWord(lockID, (struct OSLockWord *)0x02FFFFE0, OSi_FreeCardBus);
 }

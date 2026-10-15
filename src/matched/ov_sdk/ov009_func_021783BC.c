@@ -18,7 +18,7 @@
  *   func_02178678  0x02178678  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   OS_Sleep  0x02085A38  arm
  *   func_02179CF4  0x02179CF4  arm  ov009
@@ -57,7 +57,7 @@ extern void OS_JoinThread(void *thread);
 extern void func_02178C48(int error);
 extern int func_02178678(void);
 extern unsigned long long func_020870D0(void);
-extern void func_02086028(OSMutex *mutex);
+extern void OS_LockMutex(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern void OS_Sleep(unsigned long msec);
 extern void func_02179CF4(char *http);
@@ -124,7 +124,7 @@ void func_021783BC(void)
 
         startwait = func_020870D0();
         while (((func_020870D0() - startwait) << 6) / 33514 < 5000) {
-            func_02086028(&((DWCAuth *)g_021AB184.auth)->mutex);
+            OS_LockMutex(&((DWCAuth *)g_021AB184.auth)->mutex);
             if (((DWCAuth *)g_021AB184.auth)->abort == 1) {
                 ((DWCAuth *)g_021AB184.auth)->error = 20100;
                 func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
@@ -136,7 +136,7 @@ void func_021783BC(void)
         }
 
         func_02179CF4((char *)((DWCAuth *)g_021AB184.auth)->http);
-        func_02086028(&((DWCAuth *)g_021AB184.auth)->mutex);
+        OS_LockMutex(&((DWCAuth *)g_021AB184.auth)->mutex);
         ((DWCAuth *)g_021AB184.auth)->result = func_021782B4(getwifiinfofromflash);
         if (((DWCAuth *)g_021AB184.auth)->result != 0) {
             ((DWCAuth *)g_021AB184.auth)->error = 20100;

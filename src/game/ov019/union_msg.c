@@ -118,7 +118,7 @@
  *   d_02180718     0x02180718  data   ov019 a4
  *   func_02009D50 0x02009D50 thumb
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
- *   sub_02034714   0x02034714  arm
+ *   SAVEDATA_PanicFail   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   UNION_ONESELF_TalkParentMain  0x0217C2AC  thumb  ov019
  *   UNION_ONESELF_TalkChildMain  0x0217C5A8  thumb  ov019

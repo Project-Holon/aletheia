@@ -76,14 +76,14 @@
  *   func_021B8B94 0x021B8B94 thumb ov172
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_021B9F98  0x021B9F98  thumb
+ *   CTVT_TALK_GetMic  0x021B9F98  thumb
  *   func_021B8720 0x021B8720 thumb ov172
  *   sub_0202EB0C  0x0202EB0C  thumb
  *   unit_0202EB14  0x0202EB14  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   d_021C7048 0x021C7048 data ov172
  *   d_021C704C 0x021C704C data ov172
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   TIME_ICON_CreateNode  0x0202EE8C  thumb
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GAME_DATA_Create 0x020124F4 thumb
@@ -93,6 +93,7 @@
  *   func_021BD1AC 0x021BD1AC thumb ov172
  *   func_021BD3B8 0x021BD3B8 thumb ov172
  *   func_021BD43C 0x021BD43C thumb ov172
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "ctvt_types.h"
 
@@ -133,7 +134,7 @@ typedef struct CtvtMarkerPlace {
 extern u32 func_021B8B8C(CtvtWork *work, struct CtvtComm *comm, int slot);
 extern u32 func_021B8BA4(CtvtWork *work, struct CtvtComm *comm, int slot);
 extern struct StrBuf *func_021B8B94(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern int func_021B9F98(CtvtWork *work, struct CtvtTalk *talk);
+extern int CTVT_TALK_GetMic(CtvtWork *work, struct CtvtTalk *talk);
 extern void func_021B8720(CtvtWork *work, struct CtvtComm *comm, s32 halfRes);
 extern void BMP_Clear(void *bmp, u8 value);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
@@ -155,8 +156,8 @@ extern u32 sub_0202EB0C(void);
 extern int unit_0202EB14(void);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(CtvtMenuTemplate *tmpl, struct TaskMenu *res);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
-extern struct SaveRecord *func_0200ED48(struct SaveControl *save);
-extern void func_0200ED54(struct SaveRecord *record, u32 value);
+extern struct SaveRecord *MISC_SAVEDATA_GetBlock44(struct SaveControl *save);
+extern void MISC_SAVEDATA_InsertRecentValue(struct SaveRecord *record, u32 value);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern struct GameData *GAME_DATA_Create(u16 heapId);
@@ -188,7 +189,7 @@ struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work)
 /* Tail call into the talk module with the talk record. */
 int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
 {
-    return func_021B9F98(work, work->talk);
+    return CTVT_TALK_GetMic(work, work->talk);
 }
 
 struct CtvtSprites *COMM_TVT_SYS_GetSprites(CtvtWork *work)
@@ -487,8 +488,8 @@ void COMM_TVT_SYS_HideSlotMarker(CtvtWork *work)
 /* Stores the peer record value in the save data. */
 void COMM_TVT_SYS_SavePeerRecord(CtvtWork *work, struct PeerObj *peer)
 {
-    struct SaveRecord *record = func_0200ED48(GAME_DATA_GetSaveControl(work->launch->gameData));
-    func_0200ED54(record, func_02008530(peer));
+    struct SaveRecord *record = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(work->launch->gameData));
+    MISC_SAVEDATA_InsertRecentValue(record, func_02008530(peer));
 }
 
 /* Rebuilds the time icon, retiring the old one first. */

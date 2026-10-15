@@ -1,5 +1,5 @@
 /*
- * function: func_021F8FB0
+ * function: BR_POKESEARCH_DestroyMsgbox
  * address:  0x021F8FB0
  * packet:   pkt_ov185_021F8FB0
  * region:   ov185
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021FD15C  0x021FD15C  thumb  ov186
+ *   BR_UTIL_DeleteTextWin  0x021FD15C  thumb  ov186
  */
 #include "../include/Obj10773.h"
 #include "../include/Obj24760.h"
 
-extern void func_021FD15C(void *p, int a1);
+extern void BR_UTIL_DeleteTextWin(void *p, int a1);
 
-void func_021F8FB0(char *p, char *a1)
+void BR_POKESEARCH_DestroyMsgbox(char *p, char *a1)
 {
     if (((struct Obj10773 *)p)->f4 != 0) {
-        func_021FD15C((void *)(((struct Obj10773 *)p)->f4), ((struct Obj24760 *)a1)->fC);
+        BR_UTIL_DeleteTextWin((void *)(((struct Obj10773 *)p)->f4), ((struct Obj24760 *)a1)->fC);
         ((struct Obj10773 *)p)->f4 = 0;
     }
 }

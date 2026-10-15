@@ -1,5 +1,5 @@
 /*
- * function: func_021BE630
+ * function: RESEARCH_GRAPH_ApplySelection
  * address:  0x021BE630
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE930  0x021BE930  thumb  ov217
- *   func_021BE934  0x021BE934  thumb  ov217
- *   func_021BE9B8  0x021BE9B8  thumb  ov217
- *   func_021BEFF8  0x021BEFF8  thumb  ov217
- *   func_021BF3D8  0x021BF3D8  thumb  ov217
- *   func_021BF4AC  0x021BF4AC  thumb  ov217
- *   func_021BF810  0x021BF810  thumb  ov217
+ *   RESEARCH_GRAPH_SetIndex  0x021BE930  thumb  ov217
+ *   RESEARCH_GRAPH_DrawIndexCursor  0x021BE934  thumb  ov217
+ *   RESEARCH_GRAPH_DrawIndexCursorDim  0x021BE9B8  thumb  ov217
+ *   RESEARCH_GRAPH_LayoutTouchRects  0x021BEFF8  thumb  ov217
+ *   RESEARCH_GRAPH_LayoutActors  0x021BF3D8  thumb  ov217
+ *   RESEARCH_GRAPH_LayoutMarkerActor  0x021BF4AC  thumb  ov217
+ *   RESEARCH_GRAPH_GetGroupValue  0x021BF810  thumb  ov217
  *
  * Sub-state step for a1 in {1,2}, gated on the +0x3C8 handle being busy;
  * otherwise the fixed call list runs unconditionally.
@@ -32,27 +32,27 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021BE930(void *p, u32 v);
-extern void func_021BE9B8(u8 *p);
-extern int func_021BE934(char *p);
-extern void func_021BEFF8(u8 *p);
-extern void func_021BF3D8(char *p);
-extern void func_021BF4AC(char *p);
-extern u32 func_021BF810(void *p);
-void func_021BE630(u8 *a0, u32 a1)
+extern void RESEARCH_GRAPH_SetIndex(void *p, u32 v);
+extern void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p);
+extern int RESEARCH_GRAPH_DrawIndexCursor(char *p);
+extern void RESEARCH_GRAPH_LayoutTouchRects(u8 *p);
+extern void RESEARCH_GRAPH_LayoutActors(char *p);
+extern void RESEARCH_GRAPH_LayoutMarkerActor(char *p);
+extern u32 RESEARCH_GRAPH_GetGroupValue(void *p);
+void RESEARCH_GRAPH_ApplySelection(u8 *a0, u32 a1)
 {
     if ((u32)(a1 - 1) <= 1) {
     if (((struct Obj00021 *)a0)->f3C8 == 0) {
     return;
     }
-    if (func_021BF810(a0) == 0) {
+    if (RESEARCH_GRAPH_GetGroupValue(a0) == 0) {
     return;
     }
     }
-    func_021BE9B8(a0);
-    func_021BE930(a0, a1);
-    func_021BE934((char *)a0);
-    func_021BF3D8((char *)a0);
-    func_021BF4AC((char *)a0);
-    func_021BEFF8(a0);
+    RESEARCH_GRAPH_DrawIndexCursorDim(a0);
+    RESEARCH_GRAPH_SetIndex(a0, a1);
+    RESEARCH_GRAPH_DrawIndexCursor((char *)a0);
+    RESEARCH_GRAPH_LayoutActors((char *)a0);
+    RESEARCH_GRAPH_LayoutMarkerActor((char *)a0);
+    RESEARCH_GRAPH_LayoutTouchRects(a0);
 }

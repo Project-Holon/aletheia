@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PARTICLE_KillAllEffects  0x02051620  arm
- *   func_0206168C  0x0206168C  arm
+ *   NNS_GfdLoadVramManager  0x0206168C  arm
  *   func_020621FC  0x020621FC  arm
  *   func_02061824  0x02061824  arm
  *   func_02062594  0x02062594  arm
@@ -20,7 +20,7 @@
  *   g_pParticleMan     0x02146A88  data
  *
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
- * whole through func_0206168C / func_02061824, or entry by entry through
+ * whole through NNS_GfdLoadVramManager / func_02061824, or entry by entry through
  * func_020621FC / func_02062594 depending on the flag byte at +0x258), drop
  * the block at +4 unless the +0x32 bit-0 bitfield says otherwise, unpublish
  * the emitter from the singleton's sixteen-slot table, release the 3D block
@@ -71,7 +71,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void PARTICLE_KillAllEffects(void);
-extern void func_0206168C(u32 *src);
+extern void NNS_GfdLoadVramManager(u32 *src);
 extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
@@ -87,7 +87,7 @@ void PARTICLE_DeleteSystem(u8 *p)
     PARTICLE_KillAllEffects();
 
     if (p[0x258] & 1) {
-        func_0206168C((u32 *)(p + 0x58));
+        NNS_GfdLoadVramManager((u32 *)(p + 0x58));
     } else if (p[0x258] & 2) {
         for (i = 0; i < 0x40; i++) {
             if (((u32 *)(p + 0x58))[i] != 0) {

@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8CB0",
+   "name": "CTVT_TALK_Delete",
    "address": "0x021B8CB0",
    "kind": "game",
    "region": "ov172",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8FB8",
+   "name": "CTVT_TALK_Exit",
    "address": "0x021B8FB8",
    "kind": "game",
    "region": "ov172",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B99B4",
+   "name": "CTVT_TALK_UpdateVoiceIcon",
    "address": "0x021B99B4",
    "kind": "game",
    "region": "ov172",

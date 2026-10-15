@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D426C  0x021D426C  thumb  ov115
+ *   WIFILOGIN_COMMON_SetStateHandler  0x021D426C  thumb  ov115
  *   func_021D5F7C  0x021D5F7C  thumb  ov115
  *   func_021D5D3C  0x021D5D3C  thumb  ov115
  *   func_021D5C94  0x021D5C94  thumb  ov115
@@ -25,7 +25,7 @@
  */
 #include "../include/Obj02825.h"
 
-extern void func_021D426C(unsigned char *p, unsigned int v);
+extern void WIFILOGIN_COMMON_SetStateHandler(unsigned char *p, unsigned int v);
 extern void func_021D5F7C(unsigned char *p);
 extern void func_021D5D3C(unsigned char *p);
 extern void func_021D5C94(unsigned char *p);
@@ -53,7 +53,7 @@ void func_021D4AB0(unsigned char *a)
         switch (r) {
         case 0:
             *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 0;
-            func_021D426C(a, (int)func_021D4B3C);
+            WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D4B3C);
             break;
         case 1:
             *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 1;
@@ -66,10 +66,10 @@ void func_021D4AB0(unsigned char *a)
             func_0200FBA0();
             GFL_NET_STATE_ClearErrorMode();
             func_021D5ED8((unsigned char *)(((struct Obj02825 *)a)->f38), 0x25);
-            func_021D426C(a, (int)func_021D460C);
+            WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D460C);
             break;
         }
     } else {
-        func_021D426C(a, (int)func_021D4B3C);
+        WIFILOGIN_COMMON_SetStateHandler(a, (int)func_021D4B3C);
     }
 }

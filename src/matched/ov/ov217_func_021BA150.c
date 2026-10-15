@@ -1,5 +1,5 @@
 /*
- * function: func_021BA150
+ * function: RESEARCH_TOP_SetCommandReady
  * address:  0x021BA150
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA150(void *p)
+void RESEARCH_TOP_SetCommandReady(void *p)
 {
     ((struct Obj25809 *)p)->f80 = 1;
 }

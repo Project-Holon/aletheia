@@ -42,7 +42,7 @@
  *   func_021F6F4C 0x021F6F4C thumb ov112
  *   func_021F6C7C 0x021F6C7C thumb ov112
  *   func_021F9E94 0x021F9E94 thumb ov132
- *   func_021F6A24 0x021F6A24 thumb ov112
+ *   STA_ACT_OBJ_Delete 0x021F6A24 thumb ov112
  *   func_021F7120 0x021F7120 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
@@ -67,7 +67,7 @@
  *   func_021FCE00 0x021FCE00 thumb ov132
  *   func_021F6F64 0x021F6F64 thumb ov112
  *   func_021F7160 0x021F7160 thumb ov112
- *   func_021F6A58 0x021F6A58 thumb ov112
+ *   STA_ACT_OBJ_Update 0x021F6A58 thumb ov112
  *   func_021F51E8 0x021F51E8 thumb ov112
  *   func_021F6CB0 0x021F6CB0 thumb ov112
  *   func_021F6E74 0x021F6E74 thumb ov112
@@ -139,13 +139,13 @@
  *   func_021F760C 0x021F760C thumb ov112
  *   func_021F8054 0x021F8054 thumb ov112
  *   d_021FDBE0 0x021FDBE0 data a4
- *   func_021F69E4 0x021F69E4 thumb ov112
+ *   STA_ACT_OBJ_Create 0x021F69E4 thumb ov112
  *   func_021F9E50 0x021F9E50 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F6F04 0x021F6F04 thumb ov112
  *   func_021F7098 0x021F7098 thumb ov112
  *   func_021F75DC 0x021F75DC thumb ov112
- *   func_021F6AF0 0x021F6AF0 thumb ov112
+ *   STA_ACT_OBJ_SetCount 0x021F6AF0 thumb ov112
  *   func_021FA57C 0x021FA57C thumb ov132
  *   KEY_GetCont 0x0203630C arm
  *   func_02048AFC 0x02048AFC arm
@@ -195,15 +195,15 @@
  *   func_021FD8C4 0x021FD8C4 thumb ov132
  *   func_021F79A8 0x021F79A8 thumb ov112
  *   func_02005728 0x02005728 thumb
- *   func_021FD9FC 0x021FD9FC thumb ov132
- *   func_021FD9A0 0x021FD9A0 thumb ov132
- *   func_021FDA18 0x021FDA18 thumb ov132
- *   func_021FD9D0 0x021FD9D0 thumb ov132
+ *   STA_SLOT_GetCurrentKey 0x021FD9FC thumb ov132
+ *   STA_SLOT_GetStateByKey 0x021FD9A0 thumb ov132
+ *   STA_SLOT_ClearCurrent 0x021FDA18 thumb ov132
+ *   STA_SLOT_ResetStateByKey 0x021FD9D0 thumb ov132
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_021FDA24 0x021FDA24 thumb ov132
+ *   STA_SLOT_PushRecord 0x021FDA24 thumb ov132
  *   func_021F5140 0x021F5140 thumb ov112
  *   MUSICAL_PROGRAM_GetCategoryShare 0x02157394 thumb ov010
- *   func_021FD974 0x021FD974 thumb ov132
+ *   STA_SLOT_SetValueByKey 0x021FD974 thumb ov132
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ll_mul 0x0209C054 arm
  *   _ull_mul 0x0209C054 arm
@@ -328,7 +328,7 @@ extern void func_021FA04C(u8 *p);
 extern void func_021F6F4C(u8 *p);
 extern void func_021F6C7C(char *p);
 extern void func_021F9E94(u8 *p);
-extern void func_021F6A24(char *p);
+extern void STA_ACT_OBJ_Delete(char *p);
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
@@ -357,7 +357,7 @@ extern int func_021F9ED4(u8 *a0);
 extern void func_021F9E4C(u8 *);
 extern void func_021F6F64(u8 *);
 extern void func_021F7160(u8 *);
-extern void func_021F6A58(char *p);
+extern void STA_ACT_OBJ_Update(char *p);
 extern void func_021F51E8(u8 *);
 extern void func_021F6CB0(char *p);
 extern void func_021F6E74(u8 *);
@@ -406,14 +406,14 @@ extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
 extern u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021F760C(void *,void *);
 extern void func_021F8054(void *unused, u32 *p, const u32 *q);
-extern Object *func_021F69E4(u16,void *);
+extern Object *STA_ACT_OBJ_Create(u16,void *);
 extern char *func_021F9E50(unsigned);
 extern u32 KEY_GetCont(void);
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *, void *, Vec *);
 extern void func_021F7098(u8 *p, u16 v);
 extern void func_021F75DC(u8 *p, u16 v);
-extern void func_021F6AF0(void *, u16);
+extern void STA_ACT_OBJ_SetCount(void *, u16);
 extern void func_021FA57C(void *unused, int x);
 extern void func_02048AFC(void *, const Vec *);
 extern void func_02048B44(void *, const Vec *);
@@ -451,15 +451,15 @@ extern int func_021F7A80(char *,char *);
 extern int func_021FD8C4(void *, int);
 extern void func_021F79A8(char *, char *, int);
 extern u32 func_02005728(u32);
-extern int func_021FD9FC(char *p);
-extern int func_021FD9A0(void *, unsigned);
-extern void func_021FDA18(unsigned char *p);
-extern void func_021FD9D0(unsigned char *p, unsigned char key);
+extern int STA_SLOT_GetCurrentKey(char *p);
+extern int STA_SLOT_GetStateByKey(void *, unsigned);
+extern void STA_SLOT_ClearCurrent(unsigned char *p);
+extern void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key);
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_021FDA24(void *, u32, u32, u32);
+extern void STA_SLOT_PushRecord(void *, u32, u32, u32);
 extern unsigned char func_021F5140(void *p, int i);
 extern u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1);
-extern void func_021FD974(char *p, u32 key, u8 value);
+extern void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value);
 extern u32 func_0203F0A8(void);
 extern char *func_021F9EDC(char *p, u32 a);
 extern void func_021F9F58(u8 *unused, u8 *p);
@@ -646,7 +646,7 @@ void func_021F8640(char *p)
     func_021F6F4C(((struct ActingScene *)p)->f3C);
     func_021F6C7C(((struct ActingScene *)p)->f90);
     func_021F9E94(((struct ActingScene *)p)->f6C);
-    func_021F6A24(((struct ActingScene *)p)->f54);
+    STA_ACT_OBJ_Delete(((struct ActingScene *)p)->f54);
     func_021F7120(((struct ActingScene *)p)->f40);
     func_021F51B0((int)(((struct ActingScene *)p)->f34));
     func_021F4948(((struct ActingScene *)p)->f38);
@@ -729,7 +729,7 @@ int func_021F879C(u8 *p)
     if(d_021FDE80==0) func_021FABD8((char *)(*(u8 * *)&((struct ActingScene *)p)->fB0));
     func_021F6F64(*(u8 * *)&((struct ActingScene *)p)->f3C);
     func_021F7160(*(u8 * *)&((struct ActingScene *)p)->f40);
-    func_021F6A58((char *)(*(u8 * *)&((struct ActingScene *)p)->f54));
+    STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->f54));
     func_021F9ECC(*(u8 * *)&((struct ActingScene *)p)->f6C);
     func_021F9374(p);
     func_021F51E8(*(u8 * *)&((struct ActingScene *)p)->f34);
@@ -922,7 +922,7 @@ void func_021F8DC4(u8 *p)
 
 
 
-void func_021F8E58(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct ActingScene *)p)->f54=func_021F69E4(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->fAC.p);}
+void func_021F8E58(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((u32)p+i*4+0x58)=0;*(Object * *)&((struct ActingScene *)p)->f54=STA_ACT_OBJ_Create(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->fAC.p);}
 
 
 
@@ -986,7 +986,7 @@ void func_021F8EA8(u8 *p)
         func_02040618(2, 0, *(u16 *)(p + 4));
         func_021F7098(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         func_021F75DC(*(void **)(p + 0x40), *(u16 *)(p + 4));
-        func_021F6AF0(*(void **)(p + 0x54), *(u16 *)(p + 4));
+        STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
         func_021FA57C(*(void **)(p + 0xB8), *(u16 *)(p + 4));
     }
     if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
@@ -1382,21 +1382,21 @@ void func_021F9794(char *p)
             ((struct ActingScene *)p)->fEC = 1;
         }
     } else {
-        index = func_021FD9FC(**(void ** *)&((struct ActingScene *)p)->f30);
+        index = STA_SLOT_GetCurrentKey(**(void ** *)&((struct ActingScene *)p)->f30);
         if ((unsigned)index < 4) {
             if (((struct ActingScene *)p)->f11C == 4) ((struct ActingScene *)p)->f120 = 1;
             else ((struct ActingScene *)p)->f120 = 0;
             ((struct ActingScene *)p)->f11E = 180;
             ((struct ActingScene *)p)->f11C = index;
-            ((struct ActingScene *)p)->f11D = func_021FD9A0(**(void ** *)&((struct ActingScene *)p)->f30, index);
+            ((struct ActingScene *)p)->f11D = STA_SLOT_GetStateByKey(**(void ** *)&((struct ActingScene *)p)->f30, index);
             ((struct ActingScene *)p)->fEC = 1;
-            func_021FDA18(**(void ** *)&((struct ActingScene *)p)->f30);
+            STA_SLOT_ClearCurrent(**(void ** *)&((struct ActingScene *)p)->f30);
         }
         for (i = 0; i < 4; i++) {
-            action = func_021FD9A0(**(void ** *)&((struct ActingScene *)p)->f30, i);
+            action = STA_SLOT_GetStateByKey(**(void ** *)&((struct ActingScene *)p)->f30, i);
             if (action != 10) {
                 func_021F79A8(*(char * *)&((struct ActingScene *)p)->f40, *(char **)(p + i * 4 + 0x44), action);
-                func_021FD9D0(**(void ** *)&((struct ActingScene *)p)->f30, i);
+                STA_SLOT_ResetStateByKey(**(void ** *)&((struct ActingScene *)p)->f30, i);
                 if (action == 7) *(int *)(p + i * 8 + 0x13C) = 1;
                 else if (action == 8) *(int *)(p + i * 8 + 0x140) = 1;
                 func_021F9AD8(p, 2, i);
@@ -1416,8 +1416,8 @@ void func_021F9794(char *p)
                 GFL_USE_PlaySeDefaultVolume(result);
             } else if (GFL_NET_IsParentAid() == 1) {
                 result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
-                if (result == 1580) func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 1);
-                else func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 2);
+                if (result == 1580) STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 1);
+                else STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 2);
             }
         }
         ((struct ActingScene *)p)->f11C = 4;
@@ -1449,7 +1449,7 @@ void func_021F9A48(char *p)
             *(u16 *)(p + i * 2 + 0x124) -= 1;
             if (*(u16 *)(p + i * 2 + 0x124) == 0) {
                 if (**(void ** *)&((struct ActingScene *)p)->f30 == 0) func_021F9754(p, i, *(int *)(p + i * 4 + 0x12c));
-                else func_021FD974(**(void ** *)&((struct ActingScene *)p)->f30, i, *(int *)(p + i * 4 + 0x12c));
+                else STA_SLOT_SetValueByKey(**(void ** *)&((struct ActingScene *)p)->f30, i, *(int *)(p + i * 4 + 0x12c));
             }
         }
     }

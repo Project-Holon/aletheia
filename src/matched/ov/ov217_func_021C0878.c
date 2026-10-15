@@ -1,5 +1,5 @@
 /*
- * function: func_021C0878
+ * function: RESEARCH_GRAPH_BindPaletteAnime
  * address:  0x021C0878
  * packet:   pkt_ov217_021C0878
  * region:   ov217
@@ -29,7 +29,7 @@ struct Ent {
 extern const struct Ent d_021C3A28[];
 extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
 
-void func_021C0878(u8 *p)
+void RESEARCH_GRAPH_BindPaletteAnime(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)

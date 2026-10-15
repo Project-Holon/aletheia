@@ -9,15 +9,15 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  bytes MATCH (352 B, 13 relocations); the callees func_02181E18 / func_02181E20 (ov009 gsxml
+ * blocker:  bytes MATCH (352 B, 13 relocations); the callees gsXmlWriterGetData / gsXmlWriterGetDataLength (ov009 gsxml
  *           getters) have no catalog row and no verified shard, so the 5 relocations to them
  *           cannot be attested; needs those two ov009 leaves matched first.
  *
  * sdk:      ghiPostXmlStateDoPosting (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  *
  * symbols:
- *   func_02181E20  0x02181E20  arm   ov009
- *   func_02181E18  0x02181E18  arm   ov009
+ *   gsXmlWriterGetDataLength  0x02181E20  arm   ov009
+ *   gsXmlWriterGetData  0x02181E18  arm   ov009
  *   ghiAppendDataToBuffer  0x021BFCEC  arm   ov114
  *   ghiEncryptDataToBuffer  0x021BFDEC  arm   ov114
  *   ghiResetBuffer  0x021C00FC  arm   ov114
@@ -66,8 +66,8 @@ typedef struct GHIConnection {
     int encryptState;
 } GHIConnection;
 
-extern int func_02181E20(void *);
-extern char *func_02181E18(void *);
+extern int gsXmlWriterGetDataLength(void *);
+extern char *gsXmlWriterGetData(void *);
 extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern void ghiResetBuffer(GHIBuffer *);
@@ -82,12 +82,12 @@ GRes ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *connection)
     GRes result;
 
     if (connection->postData->flag14 != 0) {
-        padlen = 4 - (func_02181E20(xml) % 4);
+        padlen = 4 - (gsXmlWriterGetDataLength(xml) % 4);
         if (padlen == 4)
             padlen = 0;
     }
     if (connection->encrypted != 0 && connection->encryptState == 1) {
-        if (ghiAppendDataToBuffer(&connection->sendBuffer, func_02181E18(xml), func_02181E20(xml)) == 0 ||
+        if (ghiAppendDataToBuffer(&connection->sendBuffer, gsXmlWriterGetData(xml), gsXmlWriterGetDataLength(xml)) == 0 ||
             ghiAppendDataToBuffer(&connection->sendBuffer, pad, padlen) == 0 ||
             ghiEncryptDataToBuffer(&connection->encoded, connection->sendBuffer.data, connection->sendBuffer.size) == 0)
             return 0;
@@ -98,7 +98,7 @@ GRes ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *connection)
             ghiResetBuffer(&connection->encoded);
         return 1;
     }
-    if (ghiTrySendThenBuffer(connection, func_02181E18(xml), func_02181E20(xml)) == 0)
+    if (ghiTrySendThenBuffer(connection, gsXmlWriterGetData(xml), gsXmlWriterGetDataLength(xml)) == 0)
         return 0;
     result = ghiTrySendThenBuffer(connection, pad, padlen);
     if (result == 0)

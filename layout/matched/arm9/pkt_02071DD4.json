@@ -112,7 +112,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072758",
+   "name": "NNS_SndBoot",
    "address": "0x02072758",
    "kind": "game",
    "region": "arm9",

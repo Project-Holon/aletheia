@@ -35,8 +35,8 @@
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
  *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
- *   func_0200C404   0x0200C404  thumb
- *   func_0200C468   0x0200C468  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys   0x0200C404  thumb
+ *   RECENT_ID_LIST_SAVEDATA_CountIds   0x0200C468  thumb
  *   d_02172960     0x02172960  data  a4
  *   func_02164480  0x02164480  thumb  ov010
  *   SHORTCUT_MENU_Main  0x021C5224  thumb  ov021
@@ -48,7 +48,7 @@
  *   func_02012B28  0x02012B28  thumb
  *   func_02012B70  0x02012B70  thumb
  *   func_02028754  0x02028754  thumb
- *   func_0200C464  0x0200C464  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
  *   func_02040588  0x02040588  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   FIELD_MSGBG_ReleaseBg  0x02190344  thumb
@@ -215,8 +215,8 @@ extern void FLDMMDL_SysPauseMove(void *map);
 extern u32 *FLDMMDL_SysResumeMove(void *map);
 extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, ShortcutFieldInfo *out);
 extern struct GameEvent *EVENTDATA_SYSTEM_CreateFieldLinkEvent(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern ShortcutList *func_0200C404(struct SaveControl *save);
-extern u16 func_0200C468(const ShortcutList *list);
+extern ShortcutList *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const ShortcutList *list);
 extern void func_02164480(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern void SHORTCUT_MENU_Main(void *commObj);
 extern void SHORTCUT_MENU_Start(void *commObj);
@@ -227,7 +227,7 @@ extern void *func_020127A4(const struct GameData *gameData);
 extern u32 func_02012B28(const void *eventWork);
 extern int func_02012B70(const struct GameData *gameData);
 extern u32 func_02028754(const ShortcutAvailMask *mask, u32 bit);
-extern u8 func_0200C464(const ShortcutList *list, u32 slot);
+extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const ShortcutList *list, u32 slot);
 extern int func_02040588();
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseBg();
@@ -276,7 +276,7 @@ extern ShortcutProc d_021712CC[];
  */
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem)
 {
-    if (func_0200C468(func_0200C404(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)))) != 0)
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)))) != 0)
         return 1;
 
     return 0;
@@ -294,8 +294,8 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     struct GameEvent *event;
     ShortcutMenuWork *work;
 
-    shortcuts = func_0200C404(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
-    if (func_0200C468(shortcuts) == 1) {
+    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 1) {
         event = func_020122C0(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
         event = func_020122C0(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
@@ -312,7 +312,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     work->link->gameSystem = work->gameSystem;
     work->link->fieldMap = work->fieldMap;
     work->link->event = event;
-    if (func_0200C468(shortcuts) != 1) {
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) != 1) {
         work->link->onResume = EVENT_SHORTCUT_MENU_ResumeLinkHook;
         work->link->onSuspend = EVENT_SHORTCUT_MENU_SuspendLinkHook;
         work->link->hookArg = work;
@@ -515,7 +515,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
 
     switch (*seq) {
     case 0:
-        shortcutId = func_0200C464(func_0200C404(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem))), 0);
+        shortcutId = RECENT_ID_LIST_SAVEDATA_GetIdAt(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem))), 0);
         blocked = 0;
         result = EVENT_SHORTCUT_MENU_ResolveShortcut(work->link, shortcutId);
         noEligibleMon = 0;
@@ -811,10 +811,10 @@ int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *wor
 {
     ShortcutList *shortcuts;
 
-    shortcuts = func_0200C404(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem)));
+    shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(func_020120F4(work->gameSystem)));
     switch (work->commCloseState) {
     case 0:
-        if (func_0200C468(shortcuts) == 0) {
+        if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 0) {
             work->commClosed = 1;
             work->commCloseState = 2;
         } else if (link->result - 1 <= 2) {

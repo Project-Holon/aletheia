@@ -12,19 +12,19 @@
  * Resolved: the ov121 region hint on the data symbol was contested by the
  * other overlays in the window; un-hinted, sole-ref/data picks the unique
  * overlay start, so the ABS32 pool relocation resolves (the PC24 to
- * func_02086028 was already `label`).
+ * OS_LockMutex was already `label`).
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   gGdsSocketMutex     0x021DA174  data  a4
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_02086028(void *);
+extern void OS_LockMutex(void *);
 extern char gGdsSocketMutex[];
 
 void GDS_SOCKET_Lock(void)
 {
-    func_02086028(gGdsSocketMutex);
+    OS_LockMutex(gGdsSocketMutex);
 }

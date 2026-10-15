@@ -1,5 +1,5 @@
 /*
- * function: func_02089E34
+ * function: SND_CountWaitingCommand
  * address:  0x02089E34
  * packet:   pkt_02089E34
  * region:   arm9
@@ -18,7 +18,7 @@
 int SND_CountFreeCommand(void);
 int SND_CountReservedCommand(void);
 
-int func_02089E34(void)
+int SND_CountWaitingCommand(void)
 {
     int freeCount = SND_CountFreeCommand();
     int reservedCount = SND_CountReservedCommand();

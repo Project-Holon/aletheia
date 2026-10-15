@@ -1,5 +1,5 @@
 /*
- * function: func_021DBB6C
+ * function: POKETRADE_PROC_UpdateTouchbarButtons
  * address: 0x021DBB6C
  * packet: pkt_ov119_021DBB6C
  * region: ov119
@@ -23,7 +23,7 @@ extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigne
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
-void func_021DBB6C(char *p)
+void POKETRADE_PROC_UpdateTouchbarButtons(char *p)
 {
     CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,1);
     TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,POKETRADE_NEGO_HasOffer(p));

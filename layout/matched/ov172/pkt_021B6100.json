@@ -504,7 +504,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B9574",
+   "name": "CTVT_TALK_SetMicMode",
    "address": "0x021B9574",
    "kind": "game",
    "region": "ov172",
@@ -528,7 +528,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA1D8",
+   "name": "CTVT_MIC_FreeChannel",
    "address": "0x021BA1D8",
    "kind": "game",
    "region": "ov172",
@@ -540,7 +540,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA1E4",
+   "name": "CTVT_MIC_PostUpdate",
    "address": "0x021BA1E4",
    "kind": "game",
    "region": "ov172",
@@ -552,7 +552,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BA244",
+   "name": "CTVT_MIC_GetPlayState",
    "address": "0x021BA244",
    "kind": "game",
    "region": "ov172",
@@ -564,7 +564,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA248",
+   "name": "CTVT_MIC_GetLength",
    "address": "0x021BA248",
    "kind": "game",
    "region": "ov172",
@@ -576,7 +576,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA24C",
+   "name": "CTVT_MIC_GetPlayPos",
    "address": "0x021BA24C",
    "kind": "game",
    "region": "ov172",
@@ -588,7 +588,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA254",
+   "name": "CTVT_MIC_GetPlayRatio",
    "address": "0x021BA254",
    "kind": "game",
    "region": "ov172",
@@ -600,7 +600,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA270",
+   "name": "CTVT_MIC_IsCaptureDone",
    "address": "0x021BA270",
    "kind": "game",
    "region": "ov172",

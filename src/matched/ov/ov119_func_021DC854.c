@@ -1,5 +1,5 @@
 /*
- * function: func_021DC854
+ * function: POKETRADE_PROC_AllocTradeWork
  * address: 0x021DC854
  * packet: pkt_ov119_021DC854
  * region: ov119
@@ -21,7 +21,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern char d_021E8560[];
-void *func_021DC854(void *a,int t) {
+void *POKETRADE_PROC_AllocTradeWork(void *a,int t) {
  void *p;
  GFL_HEAP_RegisterBlockHeap(d_021E8560,0xc000,0x91);
  GFL_HEAP_CreateChildHeap(1,31,t);

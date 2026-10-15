@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA8F8",
+   "name": "POKETRADE_PROC_StepRestoreBrowseScene",
    "address": "0x021DA8F8",
    "kind": "game",
    "region": "ov119",

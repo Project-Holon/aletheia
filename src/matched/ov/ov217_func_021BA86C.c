@@ -1,5 +1,5 @@
 /*
- * function: func_021BA86C
+ * function: RESEARCH_TOP_CreateLabels
  * address: 0x021BA86C
  * packet: pkt_ov217_021BA86C
  * region: ov217
@@ -24,7 +24,7 @@ struct Config;
 struct Record;
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 extern unsigned BgTextLabel_PrintMessage(unsigned,unsigned);
-void func_021BA86C(char *p)
+void RESEARCH_TOP_CreateLabels(char *p)
 {
     struct Desc desc;
     int i;

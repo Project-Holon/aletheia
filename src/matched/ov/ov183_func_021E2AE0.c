@@ -16,7 +16,7 @@
  *   func_021E3228 0x021E3228 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021E2C2C 0x021E2C2C thumb ov183
  *   func_021E2910 0x021E2910 thumb ov183
@@ -31,7 +31,7 @@ extern void BR_FADE_Start(int,int,int,int);
 typedef unsigned int   u32;
 extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void func_021E2C2C(int *task, unsigned *state, char *p);
 extern void func_021E2910(int *task, int *state, char *p);
 void func_021E2AE0(int *task,unsigned *state,char *p)
@@ -64,7 +64,7 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 6:
         func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
-        func_021FD73C(task,(int)func_021E2C2C); break;
+        BR_UTIL_SetTaskStep(task,(int)func_021E2C2C); break;
     case 7:
         BR_FADE_Start(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
@@ -73,6 +73,6 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         break;
     case 9:
         func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
-        func_021FD73C(task,(int)func_021E2910); break;
+        BR_UTIL_SetTaskStep(task,(int)func_021E2910); break;
     }
 }

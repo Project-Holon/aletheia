@@ -1,5 +1,5 @@
 /*
- * function: func_021DABE8
+ * function: POKETRADE_PROC_StepWaitNetSync22
  * address: 0x021DABE8
  * packet: pkt_ov119_021DABE8
  * region: ov119
@@ -13,7 +13,7 @@
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DABB0 0x021DABB0 thumb ov119
+ *   POKETRADE_PROC_StepLoadBoxIconGfx 0x021DABB0 thumb ov119
  */
 #include "../include/Obj22731.h"
 struct Entry;
@@ -24,12 +24,12 @@ typedef unsigned char  u8;
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void POKETRADE_PROC_SetStep(void *p, int v);
-extern void func_021DABB0(char *);
-void func_021DABE8(char *p) {
+extern void POKETRADE_PROC_StepLoadBoxIconGfx(char *);
+void POKETRADE_PROC_StepWaitNetSync22(char *p) {
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),22,8)) {
   GFL_NET_SetAutoExit(1);
   GFL_NET_SetLoginOption(1);
   ((struct Obj22731 *)p)->fF2C=0;
-  POKETRADE_PROC_SetStep(p,(int)func_021DABB0);
+  POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepLoadBoxIconGfx);
  }
 }

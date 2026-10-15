@@ -467,7 +467,6 @@ extern u32 func_02028590(int, int, int, u16);
 extern int APP_KEYCURSOR_Delete(int);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -489,7 +488,6 @@ extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_0201292C(const struct BigObj *p);

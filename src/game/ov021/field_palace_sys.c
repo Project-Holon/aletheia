@@ -90,7 +90,6 @@ void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, 
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern PalaceZoneFlag sPalaceZoneFlags[];
-int FIELD_PALACE_SYS_IsZoneFlagSet(struct GameData *gameData, int zoneId);
 
 /*
  * Created by the field map on load (fieldmap.c); the palette table goes to

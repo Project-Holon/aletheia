@@ -182,7 +182,7 @@
  *   MB_UTIL_MSG_CloseTaskMenu 0x021F19B8 thumb ov107
  *   d_021F6AF8 0x021F6AF8 data a4
  *   func_0200C1A4 0x0200C1A4 thumb
- *   func_0208459C 0x0208459C arm
+ *   OS_WaitIrq 0x0208459C arm
  *   func_0200C18C 0x0200C18C thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02008DAC  0x02008DAC  thumb
@@ -216,7 +216,7 @@
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   UI_SoftReset 0x02035544 arm
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
- *   func_02087D28 0x02087D28 arm
+ *   OS_GetOwnerInfoEx 0x02087D28 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_021F5904 0x021F5904 arm ov107
  *   MB_SetParentCommParam 0x021F5B4C arm ov107
@@ -388,7 +388,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 func_0201296C(const void *p);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
-extern void MB_UTIL_MSG_Delete(char *p);
+extern void MB_UTIL_MSG_Delete(struct MbMsgWork *p);
 extern u8 GAME_DATA_IsSaving(const u8 *);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -399,13 +399,13 @@ extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
-extern void MB_UTIL_MSG_PrintStreamSystemMsg(char *p, int a);
+extern void MB_UTIL_MSG_PrintStreamSystemMsg(struct MbMsgWork *p, int a);
 extern void MB_UTIL_MSG_SetKeyWaitFlag(void *,int);
 extern int MB_UTIL_MSG_IsStreamIdle(void *);
 extern int MB_UTIL_MSG_ProcessYesNoMenu(void *);
 extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
 extern void MB_UTIL_MSG_ClearWindow(void *);
-extern void MB_UTIL_MSG_ClearYesNoMenu(u8 *p);
+extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
 extern u32 func_020461E4(int);
 extern u32 func_0200C184(void *p);
 extern void *func_0200575C(u32);
@@ -484,7 +484,7 @@ extern u32 BMP_WIN_Delete(void *d);
 extern u8 *func_02012944(void *p);
 extern void MB_UTIL_MSG_CreateWordSet(void *);
 extern u16 func_02008534(const void *obj);
-extern void MB_UTIL_MSG_SetNumberZeroPad(unsigned char *a, int b, int c, int d);
+extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int d);
 extern void *MB_UTIL_MSG_GetMsgData(void *p);
 extern void *MB_UTIL_MSG_GetWordSet(void *p);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
@@ -505,7 +505,7 @@ extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
 extern void func_020351F8(u32 a, u32 b);
 extern void MB_UTIL_MSG_DeleteWordSet(void *);
 extern void MB_UTIL_MSG_PrintQueued(void *,int);
-extern void MB_UTIL_MSG_SetTimeIconPending(u8 *p, u32 v);
+extern void MB_UTIL_MSG_SetTimeIconPending(struct MbMsgWork *p, u32 v);
 extern void CLACT_SetActorAnimSeq(void *p, u16 value);
 extern int WIH_End(void (*cb)(int));
 extern int WM_GetLinkLevel(void);
@@ -514,14 +514,14 @@ extern void GFL_NET_WM_ICON_EasyMain(void);
 extern u16 WIH_GetMeasureChannel(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern int MB_UTIL_MSG_GetTaskMenuResult(unsigned char *a);
+extern int MB_UTIL_MSG_GetTaskMenuResult(struct MbMsgWork *a);
 extern u32 KEY_GetTrg(void);
 extern void CLACT_SetActorAutoAnim(void *,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void MB_UTIL_MSG_OpenYesNoTaskMenu(char *p, int kind);
-extern void MB_UTIL_MSG_CloseTaskMenu(unsigned char *a);
+extern void MB_UTIL_MSG_OpenYesNoTaskMenu(struct MbMsgWork *p, int kind);
+extern void MB_UTIL_MSG_CloseTaskMenu(struct MbMsgWork *a);
 extern u8 func_0200C1A4(void *p);
-extern void func_0208459C(int clear, u32 irqFlags);
+extern void OS_WaitIrq(int clear, u32 irqFlags);
 extern void func_0200C18C(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
 u32 func_02008DAC(void *obj, int i, u32 delta);
@@ -555,7 +555,7 @@ extern void GFL_NET_ERR_ShowScreen(int);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void UI_SoftReset(int);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_02087D28(void *info);
+extern void OS_GetOwnerInfoEx(void *info);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
 extern int func_021F5904(void *,MBUser *,int,int,u16);
 extern int MB_SetParentCommParam(u16,u16);
@@ -1642,13 +1642,13 @@ void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
     if (registered == 1)
         MB_PARENT_SYS_Cancel();
     while (MB_PARENT_SYS_GetState() != 0 && MB_PARENT_SYS_GetState() != 5)
-        func_0208459C(1, 1);
+        OS_WaitIrq(1, 1);
     if (p->wmActive == 1) {
         gMbParentUi.wmEndDone = 0;
         while (WIH_End((void (*)(int))((int)MB_COMM_SYS_WmEndCallback)))
-            func_0208459C(1, 1);
+            OS_WaitIrq(1, 1);
         while (gMbParentUi.wmEndDone == 0)
-            func_0208459C(1, 1);
+            OS_WaitIrq(1, 1);
     }
 }
 
@@ -2177,7 +2177,7 @@ void MB_PARENT_SYS_Init(int a, int b)
     u8 zeroBuffer[20];
     MbChildStageMasks *zero;
 
-    func_02087D28(&owner);
+    OS_GetOwnerInfoEx(&owner);
     userInfo.favoriteColour = owner.favoriteColor;
     userInfo.nameLength = owner.nicknameLength;
     MI_CpuCopy8(owner.nickname, userInfo.name, owner.nicknameLength * 2);

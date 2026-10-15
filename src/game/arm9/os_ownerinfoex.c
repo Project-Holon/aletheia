@@ -1,7 +1,7 @@
 /*
  * file:     os_ownerinfoex.c
  * unit:     yes
- * function: OSi_GetOwnerInfoExBuffer, func_02087D28, OS_IsAvailableWireless, func_02087DE0, func_02087E1C, OS_GetROMHeaderEULAVersion, func_02087E60, OS_IsForceDisableWireless
+ * function: OSi_GetOwnerInfoExBuffer, OS_GetOwnerInfoEx, OS_IsAvailableWireless, OS_IsAgreeEULA, OS_GetAgreedEULAVersion, OS_GetROMHeaderEULAVersion, OS_GetParentalControlInfoPtr, OS_IsForceDisableWireless
  * address:  0x02087D1C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -92,12 +92,12 @@ extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern BOOL OS_IsAvailableWireless_ltdmain(void);
 extern BOOL OS_IsForceDisableWireless_ltdmain(void);
 char *OSi_GetOwnerInfoExBuffer(void);
-void func_02087D28(OSOwnerInfoEx *info);
+void OS_GetOwnerInfoEx(OSOwnerInfoEx *info);
 BOOL OS_IsAvailableWireless(void);
-BOOL func_02087DE0(void);
-u8 func_02087E1C(void);
+BOOL OS_IsAgreeEULA(void);
+u8 OS_GetAgreedEULAVersion(void);
 u8 OS_GetROMHeaderEULAVersion(void);
-const void *func_02087E60(void);
+const void *OS_GetParentalControlInfoPtr(void);
 BOOL OS_IsForceDisableWireless(void);
 extern char g_020A5CE8[];
 
@@ -117,7 +117,7 @@ char *OSi_GetOwnerInfoExBuffer(void)
 /*
  * sdk:      OS_GetOwnerInfoEx (os_ownerinfoex.o)
  */
-void func_02087D28(OSOwnerInfoEx *info)
+void OS_GetOwnerInfoEx(OSOwnerInfoEx *info)
 {
     OSiNvramSystemWork *src = (OSiNvramSystemWork *)0x02FFFC80;
 
@@ -175,7 +175,7 @@ BOOL OS_IsAvailableWireless(void)
 /*
  * sdk:      OS_IsAgreeEULA (os_ownerinfoex.o)
  */
-BOOL func_02087DE0(void)
+BOOL OS_IsAgreeEULA(void)
 {
     if (OS_IsRunOnTwl()) {
         return ((*(u32 *)OSi_TWL_SETTINGS >> 24) & 1) ? 1 : 0;
@@ -199,7 +199,7 @@ BOOL func_02087DE0(void)
 /*
  * sdk:      OS_GetAgreedEULAVersion (os_ownerinfoex.o)
  */
-u8 func_02087E1C(void)
+u8 OS_GetAgreedEULAVersion(void)
 {
     if (OS_IsRunOnTwl()) {
         return OSi_TWL_SETTINGS[0x10];
@@ -231,7 +231,7 @@ u8 OS_GetROMHeaderEULAVersion(void)
 /*
  * sdk:      OS_GetParentalControlInfoPtr (os_ownerinfoex.o)
  */
-const void *func_02087E60(void)
+const void *OS_GetParentalControlInfoPtr(void)
 {
     if (OS_IsRunOnTwl()) {
         return OSi_TWL_SETTINGS + 0x94;

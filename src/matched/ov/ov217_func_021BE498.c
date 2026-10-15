@@ -1,5 +1,5 @@
 /*
- * function: func_021BE498
+ * function: RESEARCH_GRAPH_PushCommand
  * address:  0x021BE498
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RingQueue_Push(u32, u32);
 
-void func_021BE498(u8 *a0, u32 a1)
+void RESEARCH_GRAPH_PushCommand(u8 *a0, u32 a1)
 {
     RingQueue_Push((u32)(((struct Obj25904 *)a0)->f1C), a1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA328
+ * function: RESEARCH_TOP_ShowEntryActor
  * address:  0x021BA328
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BA3E0  0x021BA3E0  thumb  ov217
+ *   RESEARCH_TOP_GetEntryIconSource  0x021BA3E0  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
@@ -35,10 +35,10 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern u32 func_021BA3E0(void *p, u32 i);
-u32 func_021BA328(u32 a0)
+extern u32 RESEARCH_TOP_GetEntryIconSource(void *p, u32 i);
+u32 RESEARCH_TOP_ShowEntryActor(u32 a0)
 {
-    u32 v1 = func_021BA3E0((void *)a0, 0);
+    u32 v1 = RESEARCH_TOP_GetEntryIconSource((void *)a0, 0);
     CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
     CLACT_SetActorAutoAnim((struct Obj *)v1, 1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)v1, 4096);

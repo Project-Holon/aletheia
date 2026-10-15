@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * Clear the word at +4 of g_021CADE4 and set the word at +0 to 8.
+ * Clear the word at +4 of gJpegBitWriterState and set the word at +0 to 8.
  *
  * symbols:
- *   g_021CADE4  0x021CADE4  data  ov172
+ *   gJpegBitWriterState  0x021CADE4  data  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 g_021CADE4[];
+extern u32 gJpegBitWriterState[];
 
 void Yos_BitInit(void)
 {
-    g_021CADE4[1] = 0;
-    g_021CADE4[0] = 8;
+    gJpegBitWriterState[1] = 0;
+    gJpegBitWriterState[0] = 8;
 }

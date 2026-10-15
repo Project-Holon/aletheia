@@ -1,5 +1,5 @@
 /*
- * function: func_02087578
+ * function: OS_InitVAlarm
  * address:  0x02087578
  * packet:   pkt_02087578
  * region:   arm9
@@ -60,7 +60,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 extern u32 OS_DisableIrqMask(u32 intr);
 
-void func_02087578(void)
+void OS_InitVAlarm(void)
 {
     if (!g_0215134C.OSi_UseVAlarm) {
         g_0215134C.OSi_UseVAlarm = 1;

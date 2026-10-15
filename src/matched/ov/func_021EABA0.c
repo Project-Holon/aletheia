@@ -1,5 +1,5 @@
 /*
- * function: func_021EABA0
+ * function: BOX2_SEQ_MakeScreen
  * address:  0x021EABA0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int);
 
-void func_021EABA0(void **p)
+void BOX2_SEQ_MakeScreen(void **p)
 {
     BMP_WIN_MakeScreen(*p);
     func_02041B6C(BMP_WIN_GetBgLayer(*p));

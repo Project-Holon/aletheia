@@ -1,5 +1,5 @@
 /*
- * function: func_021DBE70
+ * function: POKETRADE_PROC_StepBrowseGrid
  * address:  0x021DBE70
  * packet:   pkt_ov119_021DBE70
  * region:   ov119
@@ -21,21 +21,21 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   POKETRADE_2D_GetVisibleColumnRange 0x021E4E0C thumb
- *   func_021DB4EC 0x021DB4EC thumb
+ *   POKETRADE_PROC_IsSlotVisible 0x021DB4EC thumb
  *   POKETRADE_2D_GetScrollColumn 0x021E4DBC thumb
- *   func_021DB4B4 0x021DB4B4 thumb
- *   func_021DB7AC 0x021DB7AC thumb
+ *   POKETRADE_PROC_GetSlotPosition 0x021DB4B4 thumb
+ *   POKETRADE_PROC_RedrawAndSyncGrid 0x021DB7AC thumb
  *   POKETRADE_PROC_RequestBoxRedraw 0x021D8B38 thumb
  *   POKETRADE_PROC_ShowDragIcon 0x021D8C84 thumb
  *   POKETRADE_PROC_UpdateDragState 0x021D8B54 thumb
  *   POKETRADE_PROC_UpdateDragIcon 0x021D8C0C thumb
- *   func_021DB52C 0x021DB52C thumb
+ *   POKETRADE_PROC_PollGridKeys 0x021DB52C thumb
  *   POKETRADE_NEGO_PollMarkerTouch 0x021DF7F0 thumb
  *   POKETRADE_PROC_GetBoxIndexForSlot 0x021D8AF4 thumb
  *   POKETRADE_PROC_GetSlotIndexInBox 0x021D8B0C thumb
  *   POKETRADE_PROC_LoadSlotMonAlt 0x021D8DD0 thumb
  *   func_02017E88 0x02017E88 thumb
- *   func_021DD0CC 0x021DD0CC thumb
+ *   POKETRADE_PROC_CanTradeMon 0x021DD0CC thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowAtPos 0x021E0FF4 thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb
@@ -45,16 +45,16 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   POKETRADE_NEGO_StepSendOfferRemoval 0x021DF708 thumb
  *   POKETRADE_2D_PlaceBoxIconActors 0x021E4A1C thumb
- *   func_021DBDB4 0x021DBDB4 thumb
+ *   POKETRADE_PROC_StepPeerSelectAction 0x021DBDB4 thumb
  *   POKETRADE_PROC_PollGridTouchDrag 0x021D9F24 thumb
- *   func_021D9548 0x021D9548 thumb
+ *   POKETRADE_PROC_IsSelectedOfferSlot 0x021D9548 thumb
  *   POKETRADE_PROC_ClearDragIcon 0x021D8C6C thumb
  *   POKETRADE_PROC_ShowCancelMessage 0x021DA0CC thumb
  *   POKETRADE_2D_StartIconFlight 0x021E6544 thumb
- *   func_021DBD3C 0x021DBD3C thumb
+ *   POKETRADE_PROC_StepWaitIconFlight 0x021DBD3C thumb
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_021DB89C 0x021DB89C thumb
- *   func_021DC2B0 0x021DC2B0 thumb
+ *   POKETRADE_PROC_DragScrollGrid 0x021DB89C thumb
+ *   POKETRADE_PROC_StepTouchbarAction 0x021DC2B0 thumb
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
@@ -73,21 +73,21 @@ extern u8 func_020355C4(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int POKETRADE_2D_GetVisibleColumnRange(char *p, int *out);
-extern int func_021DB4EC(char *p, int v);
+extern int POKETRADE_PROC_IsSlotVisible(char *p, int v);
 extern int POKETRADE_2D_GetScrollColumn(char *p);
-extern int func_021DB4B4(int v);
-extern void func_021DB7AC(char *p, int v, int w);
+extern int POKETRADE_PROC_GetSlotPosition(int v);
+extern void POKETRADE_PROC_RedrawAndSyncGrid(char *p, int v, int w);
 extern void POKETRADE_PROC_RequestBoxRedraw(char *p);
 extern void POKETRADE_PROC_ShowDragIcon(void *p);
 extern void POKETRADE_PROC_UpdateDragState(void *p);
 extern void POKETRADE_PROC_UpdateDragIcon(void *p);
-extern void func_021DB52C(char *p);
+extern void POKETRADE_PROC_PollGridKeys(char *p);
 extern void POKETRADE_NEGO_PollMarkerTouch(void *p);
 extern int POKETRADE_PROC_GetBoxIndexForSlot(int v, char *p);
 extern int POKETRADE_PROC_GetSlotIndexInBox(int a, int b);
 extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_021DD0CC(char *p, int e);
+extern int POKETRADE_PROC_CanTradeMon(char *p, int e);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *p, int a, int flag);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
@@ -97,17 +97,17 @@ extern int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void POKETRADE_NEGO_StepSendOfferRemoval(void *p);
 extern void POKETRADE_2D_PlaceBoxIconActors(char *p);
-extern int func_021DBDB4(char *p);
+extern int POKETRADE_PROC_StepPeerSelectAction(char *p);
 extern int POKETRADE_PROC_PollGridTouchDrag(char *p, int v);
-extern int func_021D9548(char *p, int a, int b);
+extern int POKETRADE_PROC_IsSelectedOfferSlot(char *p, int a, int b);
 extern void POKETRADE_PROC_ClearDragIcon(void *p);
 extern void POKETRADE_PROC_ShowCancelMessage(char *p);
 extern void POKETRADE_2D_StartIconFlight(char *p);
-extern void func_021DBD3C(char *p);
+extern void POKETRADE_PROC_StepWaitIconFlight(char *p);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
-extern void func_021DB89C(char *p);
-extern void func_021DC2B0(char *p);
+extern void POKETRADE_PROC_DragScrollGrid(char *p);
+extern void POKETRADE_PROC_StepTouchbarAction(char *p);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern void TOUCHBAR_Update(struct S *p);
@@ -132,7 +132,7 @@ static inline int poll_b(void)
     return r;
 }
 
-void func_021DBE70(char *p)
+void POKETRADE_PROC_StepBrowseGrid(char *p)
 {
     int n;
     int e;
@@ -149,7 +149,7 @@ void func_021DBE70(char *p)
             I(p, 0xF74) = v;
             if (v < 2 && I(p, 0xF78) >= 3)
                 I(p, 0xF78) = 2;
-        } else if (func_021DB4EC(p, I(p, 0xF74)) == 0) {
+        } else if (POKETRADE_PROC_IsSlotVisible(p, I(p, 0xF74)) == 0) {
             int end;
             int a;
             int t;
@@ -165,12 +165,12 @@ void func_021DBE70(char *p)
             if (b >= lim && cur < 0x14)
                 end = cur + (lim + 1);
             if (a < end)
-                H(p, 0x107C) = func_021DB4B4(cur + 1) - 0x100;
+                H(p, 0x107C) = POKETRADE_PROC_GetSlotPosition(cur + 1) - 0x100;
             else
-                H(p, 0x107C) = func_021DB4B4(cur);
+                H(p, 0x107C) = POKETRADE_PROC_GetSlotPosition(cur);
             H(p, 0x1080) = -1;
             I(p, 0x1084) = 1;
-            func_021DB7AC(p, 0, 1);
+            POKETRADE_PROC_RedrawAndSyncGrid(p, 0, 1);
             H(p, 0x107A) = 0;
             return;
         }
@@ -187,7 +187,7 @@ void func_021DBE70(char *p)
     }
     POKETRADE_PROC_UpdateDragState(p);
     POKETRADE_PROC_UpdateDragIcon(p);
-    func_021DB52C(p);
+    POKETRADE_PROC_PollGridKeys(p);
     POKETRADE_NEGO_PollMarkerTouch(p);
     if (poll_a() == 1) {
         func_020355D8(0);
@@ -202,7 +202,7 @@ void func_021DBE70(char *p)
         }
         e = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)I(p, 0x828), POKETRADE_PROC_GetBoxIndexForSlot(I(p, 0xF74), p), POKETRADE_PROC_GetSlotIndexInBox(I(p, 0xF74), I(p, 0xF78)), p);
         if (e && func_02017E88((void *)e, 0xA9, 0)) {
-            if (func_021DD0CC(p, e)) {
+            if (POKETRADE_PROC_CanTradeMon(p, e)) {
                 MSGDATA_ReadString((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
                 POKETRADE_SAVE_OpenMessageWindowAtPos(p, 1, 0);
                 POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepWaitKeyAfterMessage);
@@ -219,7 +219,7 @@ void func_021DBE70(char *p)
             POKETRADE_PROC_LoadSlotMonAlt((void *)I(p, 0x828), I(p, 0xF98), I(p, 0xF94), p);
             POKETRADE_PROC_ShowDragIcon(p);
             POKETRADE_2D_PlaceBoxIconActors(p);
-            func_021DBDB4(p);
+            POKETRADE_PROC_StepPeerSelectAction(p);
             return;
         }
     }
@@ -236,7 +236,7 @@ void func_021DBE70(char *p)
             if (I(p, 0x1088) && I(p, 0xF5C) && I(p, 0xF60)) {
                 I(p, 0x1088) = 0;
                 I(p, 0xF5C) = 0;
-                if (func_021D9548(p, I(p, 0xF80), I(p, 0xF7C))) {
+                if (POKETRADE_PROC_IsSelectedOfferSlot(p, I(p, 0xF80), I(p, 0xF7C))) {
                     I(p, 0xF80) = -1;
                     I(p, 0xF7C) = -1;
                     POKETRADE_PROC_ClearDragIcon(p);
@@ -252,13 +252,13 @@ void func_021DBE70(char *p)
                 TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
                 POKETRADE_2D_StartIconFlight(p);
                 GFL_USE_PlaySeDefaultVolume(0x72A);
-                POKETRADE_PROC_SetStep(p, (int)func_021DBD3C);
+                POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepWaitIconFlight);
                 return;
             }
             if (I(p, 0x1088) && I(p, 0xF60) && I(p, 0xF70)) {
                 I(p, 0xF98) = I(p, 0xF80);
                 I(p, 0xF94) = I(p, 0xF7C);
-                func_021DBDB4(p);
+                POKETRADE_PROC_StepPeerSelectAction(p);
                 return;
             }
             if (I(p, 0xF7C) != -1 && I(p, 0xF80) != -1) {
@@ -271,7 +271,7 @@ void func_021DBE70(char *p)
             I(p, 0xF5C) = 0;
             CLACT_SetActorAutoAnim((struct Obj *)I(p, 0xF04), 0);
         }
-        func_021DB89C(p);
+        POKETRADE_PROC_DragScrollGrid(p);
         if (TOUCHPANEL_GetCont())
             I(p, 0x1088) = 1;
         TOUCHBAR_Update((struct S *)I(p, 0x9C0));
@@ -279,7 +279,7 @@ void func_021DBE70(char *p)
         case 1:
         case 7:
         case 8:
-            POKETRADE_PROC_SetStep(p, (int)func_021DC2B0);
+            POKETRADE_PROC_SetStep(p, (int)POKETRADE_PROC_StepTouchbarAction);
             break;
         }
         break;

@@ -19,7 +19,7 @@
  *   BMP_Clear   0x02043B5C  arm
  *   unk_021469AC   0x021469AC  data
  *
- * Bring up the panic screen.  The assert path (sub_02034734 forwards here)
+ * Bring up the panic screen.  The assert path (SAVEDATA_PanicFailPrintf forwards here)
  * has to draw text after the game has already lost whatever video state it
  * was running, so this tears the display down to a known configuration and
  * rebuilds exactly one text layer on it:

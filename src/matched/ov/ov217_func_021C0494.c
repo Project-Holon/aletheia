@@ -1,5 +1,5 @@
 /*
- * function: func_021C0494
+ * function: RESEARCH_GRAPH_DeleteActors
  * address:  0x021C0494
  * packet:   pkt_021C0494
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021C0494(int *p)
+void RESEARCH_GRAPH_DeleteActors(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)

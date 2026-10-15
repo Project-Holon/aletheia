@@ -12,7 +12,7 @@
  * sdk:      DWCi_GdbSetUseSSL (libdwcgdb.TWL.HYB.a(dwc_gdb.o))
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_021BF520  0x021BF520  arm  ov114
  *   sakeSetFileUploadURL  0x021DD4B0  arm  ov175
  *   sakeSetFileDownloadURL  0x021DD3F8  arm  ov175
@@ -51,7 +51,7 @@ typedef struct {
     u8    work[2][56];
 } DWCiGdbEntity;
 
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_021BF520(int a);
 extern int sakeSetFileUploadURL(char *a, char *b);
 extern int sakeSetFileDownloadURL(char *a, char *b);
@@ -72,20 +72,20 @@ void DWCi_GdbSetUseSSL(int ssl_type)
 
     switch (ssl_type) {
     case 1:
-        func_02084F80(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure2, g_021AE01C);
+        OS_SNPrintf(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure2, g_021AE01C);
         func_021BF520((int)gDwcGdbStorageServerUrl);
-        func_02084F80(upload_url, 128, sDwcGdbUploadUrlFormatSecure2, g_021AE01C);
+        OS_SNPrintf(upload_url, 128, sDwcGdbUploadUrlFormatSecure2, g_021AE01C);
         func_021BF520((int)upload_url);
-        func_02084F80(download_url, 128, sDwcGdbDownloadUrlFormatSecure2, g_021AE01C);
+        OS_SNPrintf(download_url, 128, sDwcGdbDownloadUrlFormatSecure2, g_021AE01C);
         func_021BF520((int)download_url);
         break;
     case 0:
     default:
-        func_02084F80(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure, g_021AE01C);
+        OS_SNPrintf(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure, g_021AE01C);
         func_021BF520((int)gDwcGdbStorageServerUrl);
-        func_02084F80(upload_url, 128, sDwcGdbUploadUrlFormatSecure, g_021AE01C);
+        OS_SNPrintf(upload_url, 128, sDwcGdbUploadUrlFormatSecure, g_021AE01C);
         func_021BF520((int)upload_url);
-        func_02084F80(download_url, 128, sDwcGdbDownloadUrlFormatSecure, g_021AE01C);
+        OS_SNPrintf(download_url, 128, sDwcGdbDownloadUrlFormatSecure, g_021AE01C);
         func_021BF520((int)download_url);
         break;
     }

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gsiXmlUtilWriteString            0x0218325c arm
- *   g_021A3EEC                       0x021a3eec data
+ *   gGsXmlSoapEnvelopeEnd                       0x021a3eec data
  */
 
 struct GSIXmlStreamWriter
@@ -24,7 +24,7 @@ struct GSIXmlStreamWriter
     int bookkeeping;/* 0x0C */
 };
 
-extern char g_021A3EEC[];
+extern char gGsXmlSoapEnvelopeEnd[];
 extern int gsiXmlUtilWriteString(struct GSIXmlStreamWriter *stream, char *str);
 
 int gsXmlCloseWriter(void *stream)
@@ -32,7 +32,7 @@ int gsXmlCloseWriter(void *stream)
     struct GSIXmlStreamWriter * writer = (struct GSIXmlStreamWriter *)stream;
     int result;
 
-    if (gsiXmlUtilWriteString(writer, g_021A3EEC) == 0)
+    if (gsiXmlUtilWriteString(writer, gGsXmlSoapEnvelopeEnd) == 0)
         result = 0;
     else
     {

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02075E9C  0x02075E9C  arm
- *   func_02084DF4  0x02084DF4  arm
+ *   OS_LockCard  0x02084DF4  arm
  *   IRCi_CommWrite  0x0217A674  arm  ov015
  *   IRCi_WaitCommand  0x0217A5B4  arm  ov015
  *   OS_UnLockCard  0x02084E2C  arm
@@ -33,7 +33,7 @@ typedef struct {
 } IRCParam;
 
 extern void func_02075E9C(unsigned short lock_id);
-extern long func_02084DF4(unsigned short lockID);
+extern long OS_LockCard(unsigned short lockID);
 extern unsigned char IRCi_CommWrite(IRCParam *p);
 extern void IRCi_WaitCommand(void);
 extern void OS_UnLockCard();
@@ -52,7 +52,7 @@ void IRCi_Write(unsigned char *data, unsigned char size)
     gIrcCommParamAlias2.recv = 0;
     gIrcWriteBuffer[0] = 2;
     func_02075E9C(gIrcLockId);
-    func_02084DF4(gIrcLockId);
+    OS_LockCard(gIrcLockId);
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;
     *(volatile unsigned short *)0x040001A0 = 0xA042;

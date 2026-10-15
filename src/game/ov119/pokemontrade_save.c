@@ -183,7 +183,7 @@
  *   func_02010904 0x02010904 thumb
  *   func_02010934 0x02010934 thumb
  *   func_0203FB44 0x0203FB44 arm
- *   func_021DACE4 0x021DACE4 thumb ov119
+ *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   func_020275E8 0x020275E8 thumb
@@ -384,7 +384,7 @@ extern void POKETRADE_2D_SetDisplayConfig(int);
 
 #define WINOUT (*(volatile u16 *)0x0400104a)
 
-#define DISPCNT (*(volatile u32_021DEA24 *)0x04001000)
+#define DISPCNT (*(volatile u32 *)0x04001000)
 
 struct PerapVoice;
 
@@ -432,14 +432,11 @@ struct LightSlot;
 
 struct Rec12;
 
-typedef unsigned int u32_021DFD24;
 
-typedef unsigned int u32_021DFD30;
 
-typedef unsigned int   u32_021DFD3C;
 
 struct Packet {
-    u32_021DEA24 prefix[8];
+    u32 prefix[8];
     u16 first,second;
     u8 a,b;
     u8 mode:3;
@@ -455,15 +452,11 @@ typedef struct {
     u16  count;
 } Trade;
 
-typedef signed int     s32_021E0980;
 
-typedef signed int     s32_021E0B34;
 
-typedef signed int     s32_021E12AC;
 
-typedef struct {u32_021DEA24 heap;u8 count;u8 pad[3];const void *items;u32_021DEA24 flag;u8 x,y,a,b;} Template_021DEA24;
+typedef struct {u32 heap;u8 count;u8 pad[3];const void *items;u32 flag;u8 x,y,a,b;} Template_021DEA24;
 
-typedef short s16_021E1880;
 
 typedef struct { int v[5]; } T5;
 
@@ -475,7 +468,7 @@ typedef struct { int a,b,c,d; } Quad_021DEA24;
 
 typedef struct {int a,b;} Pair;
 
-typedef struct {u32_021DEA24 a,b,c,d;} Quad_021E2484;
+typedef struct {u32 a,b,c,d;} Quad_021E2484;
 
 typedef int BOOL;
 
@@ -493,10 +486,10 @@ typedef struct { VecFx32_021DEA24 trans; VecFx32_021DEA24 scale; MtxFx33 rot; } 
 
 typedef struct {
     char pad0[0x90];
-    u32_021DEA24 anim90;
-    u32_021DEA24 anim94;
-    u32_021DEA24 anim98;
-    u32_021DEA24 anim9c;
+    u32 anim90;
+    u32 anim94;
+    u32 anim98;
+    u32 anim9c;
     void *objA0;
     void *objA4;
     void *objA8;
@@ -516,63 +509,63 @@ extern void func_02045CAC(struct MsgBank *,unsigned,void *);
 
 extern void POKETRADE_PROC_SetStep(void *,int);
 
-extern void func_0207D658(u32_021DEBD4,int,int);
+extern void func_0207D658(u32,int,int);
 
-extern u32_021DEC4C WIPE_SYS_EndCheck(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
-extern void WIPE_SYS_Start(void *p1, u32_021DECA0 p2, u32_021DECA0 p3, u32_021DECA0 p4, u32_021DECA0 p5, u32_021DECA0 p6, u32_021DECA0 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 extern int POKETRADE_PROC_IsNetSession(void *);
 
-extern int GFL_NET_SendToHandle(struct Entry *a, u32_021DEDBC b, u32_021DEDBC c, u32_021DEDBC d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned,unsigned);
 
-extern u32_021DEF1C func_02017E1C(void *,u32_021DEF1C,u32_021DEF1C);
+extern u32 func_02017E1C(void *,u32,u32);
 
-extern void POKE_TOOL_SetPartyValue(void *,u32_021DEF1C,u32_021DEF1C);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
-extern u32_021DEF1C func_0202136C(u16);
+extern u32 func_0202136C(u16);
 
 extern void *MAIL_Create(int);
 
-extern struct MsgBank *func_02045B38(u32_021DEF1C resident, u32_021DEF1C arcId, u32_021DEF1C fileId, u32_021DEF1C heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32_021DEF1C MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern u32_021DEF1C func_020307B0(void *p);
+extern u32 func_020307B0(void *p);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32_021DF168 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
 extern void POKETRADE_PROC_StepBeginWipeOut(void *);
 
 extern int POKETRADE_PROC_IsHostSide(void *);
 
-extern void func_02041B6C(u32_021DF918 bit);
+extern void func_02041B6C(u32 bit);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 
-extern void *sub_02030734(u32_021DFB84 heapId, u32_021DFB84 size, int clear, const char *site, u16 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void MCSS_SetPosition(void *p, u32_021DFC28 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 
-extern void GFL_USE_FadeInBgmFull(u32_021DFD3C a);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern u32_021DEA24 CLACT_DeleteUnit(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32_021DEA24 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void GFL_USE_FadeOutBgm(u32_021DEA24 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void *func_0201F5DC(void *a0, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3);
+extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void *POKETRADE_PROC_GetSideMon(void *,int);
 
-extern void func_0201EEF4(struct WordSet *p, u32_021DEA24 i, void *mon);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
-extern void func_0201F02C(struct WordSet *p, u32_021DEA24 i, void *a);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 
 extern u8 *func_02012944(void *p);
 
@@ -584,13 +577,13 @@ extern u8 func_02009584(const struct Sub02009470Obj *obj);
 
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 
-extern u32_021DEA24 sub_02009454(void);
+extern u32 sub_02009454(void);
 
-extern u32_021DEA24 ZUKAN_SAVE_GetSize(void);
+extern u32 ZUKAN_SAVE_GetSize(void);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 
-extern u32_021DEA24 sub_02009D9C(void);
+extern u32 sub_02009D9C(void);
 
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
 
@@ -600,15 +593,15 @@ extern void *GAME_DATA_GetTrainerRecord(int *p);
 
 extern int GAME_DATA_GetPlayTime(int p0);
 
-extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32_021DEA24 box);
+extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32 box);
 
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 
-extern u32_021DEA24 func_02008FFC(void);
+extern u32 func_02008FFC(void);
 
-extern u32_021DEA24 func_02008C20(void);
+extern u32 func_02008C20(void);
 
-extern u32_021DEA24 func_02007AEC(void);
+extern u32 func_02007AEC(void);
 
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 
@@ -620,105 +613,105 @@ extern void *PERAPVOICE_IsRecorded(void **p);
 
 extern void PERAPVOICE_ClearRecorded(struct PerapVoice *p);
 
-extern u32_021DEA24 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 
-extern void *POKEPARTY_GetMember(void *p, u32_021DEA24 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
-extern u32_021DEA24 MAIL_GetBoxSize(void);
+extern u32 MAIL_GetBoxSize(void);
 
 extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
 
-extern u32_021DEA24 sub_02008C20(void);
+extern u32 sub_02008C20(void);
 
 extern void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out);
 
 extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *save);
 
-extern struct Party *POKEPARTY_Create(u32_021DEA24 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 
-extern u32_021DEA24 BOX_SAVEDATA_GetBoxPageSize(void);
+extern u32 BOX_SAVEDATA_GetBoxPageSize(void);
 
-extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32_021DEA24 box);
+extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
 
-extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32_021DEA24 unused, int i, const struct Sub02008F80Obj *src);
+extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 
-extern u32_021DEA24 func_02025C1C(u32_021DEA24 a, u32_021DEA24 b, u32_021DEA24 c);
+extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 
-extern u32_021DEA24 func_02025C30(u32_021DEA24 a, u32_021DEA24 b, u32_021DEA24 c);
+extern u32 func_02025C30(u32 a, u32 b, u32 c);
 
 extern void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 
-extern u32_021DEA24 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col);
+extern u32 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 
 extern void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
 
 extern void POKE_TOOL_HealFull(void *mon);
 
-extern void func_0202F190(void *a0, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3, u16 a4);
+extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
-extern u32_021DEA24 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
 
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 
 extern void sub_02009EB0(struct Sub02009D9CObj *obj);
 
-extern u32_021DEA24 POKE_TOOL_ChangeForm(void *p, u32_021DEA24 a);
+extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 
-extern void POKEPARTY_SetMember(struct Party *p, u32_021DEA24 idx, const struct PartyMon *src);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
-extern int func_020075B0(void *save, u32_021DEA24 box, u32_021DEA24 slot, const struct Sub020075B0Entry *src);
+extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 
-extern u32_021DEA24 sub_0201283C(const struct BigObj *p);
+extern u32 sub_0201283C(const struct BigObj *p);
 
 extern void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 
-extern int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32_021DEA24 *out);
+extern int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 
-extern void POKEPARTY_InitEx(struct Party *p, s32_021E0980 capacity);
+extern void POKEPARTY_InitEx(struct Party *p, int capacity);
 
-extern u32_021DEA24 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
 extern u8 func_020076A4(void *);
 
 extern u8 func_02012984(const struct BigObj *p);
 
-extern u32_021DEA24 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32_021DEA24 context, u32_021DEA24 param, u8 timezone, u32_021DEA24 *methodOut, u16 heap);
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32_021DEA24 a, u32_021DEA24 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void FADE_Start(u32_021DEA24 a, s32_021E0B34 b, s32_021E0B34 c, s32_021E0B34 d);
+extern void FADE_Start(u32 a, int b, int c, int d);
 
-extern void *func_020108C4(u32_021DEA24 heap, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3);
+extern void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3);
 
-extern u32_021DEA24 func_02010904(struct Sub0201088CObj *p);
+extern u32 func_02010904(struct Sub0201088CObj *p);
 
 extern void func_02010934(struct Sub0201088CObj *p);
 
-extern void func_0203FB44(u32_021DEA24 layer, u32_021DEA24 offset, u32_021DEA24 size);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
-extern void BG_SYS_SetMainVisiblePlanes(u32_021DEA24 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 
 extern void POKETRADE_2D_RegisterIconSpriteResources(int);
 
-extern void func_021DACE4(char *p);
+extern void POKETRADE_PROC_StepResetForNewRound(char *p);
 
 extern void CLACT_DeleteActor(struct Obj *p);
 
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 
-extern u32_021DEA24 func_020275E4(void);
+extern u32 func_020275E4(void);
 
-extern u32_021DEA24 func_020275E8(void);
+extern u32 func_020275E8(void);
 
-extern u32_021DEA24 func_020275F8(u32_021DEA24);
+extern u32 func_020275F8(u32);
 
-extern u32_021DEA24 func_020275FC(u32_021DEA24);
+extern u32 func_020275FC(u32);
 
-extern u32_021DEA24 func_02027600(u32_021DEA24);
+extern u32 func_02027600(u32);
 
 extern u8 func_020275EC(int i);
 
@@ -726,7 +719,7 @@ extern void UI_SCENE_LoadActorGfx(void *,Descriptor *,int,u16);
 
 extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
 
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32_021DEA24 v, u32_021DEA24 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 extern int func_02027720(int);
 
@@ -736,21 +729,21 @@ extern int func_02027738(int,int);
 
 extern int func_02027740(int,int);
 
-extern void func_02049B40(u32_021DEA24 a, u32_021DEA24 b, u32_021DEA24 c, u32_021DEA24 d, u32_021DEA24 e, u16 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32_021DEA24 BMP_WIN_Create(u32_021DEA24 layer, u8 a, u32_021DEA24 b, u32_021DEA24 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u8 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void GF_FONT_SetTextColor(u32_021DEA24,u32_021DEA24,u32_021DEA24);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 
 extern signed char func_02012FFC(void);
 
-extern u32_021DEA24 PRINTSYS_PrintStream(u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24,u16,u16);
+extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 
-extern void func_02028470(u8 *,u32_021DEA24);
+extern void func_02028470(u8 *,u32);
 
-extern void PRINTSYS_Print(void *,s16_021E0EF4,s16_021E0EF4,void *,void *);
+extern void PRINTSYS_Print(void *,short,short,void *,void *);
 
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
@@ -758,25 +751,25 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void TIME_ICON_Delete(u8 *p);
 
-extern u8 *TIME_ICON_CreateNode(u32_021DEA24 a, void *b, u8 c, u8 d, u16 e);
+extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 
-extern u32_021DEA24 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void func_0201F7A8(void *desc, u32_021DEA24 kind);
+extern void func_0201F7A8(void *desc, u32 kind);
 
-extern struct WordSet *func_0201EC64(u32_021DEA24 heap);
+extern struct WordSet *func_0201EC64(u32 heap);
 
-extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32_021DEA24 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct U16Vec *STRBUF_Create(u32_021DEA24 capacity, u32_021DEA24 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern u32_021DEA24 PRINTSYS_QUE_Create(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32_021DEA24 count, u32_021DEA24 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void *func_02028590(u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24);
+extern void *func_02028590(u32,u32,u32,u32);
 
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32_021DEA24 a2, u32_021DEA24 a3, u16 heap);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 
 extern void func_0200566C(void);
 
@@ -790,7 +783,7 @@ extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern unsigned int func_0201ED04(struct WordSet *p);
 
-extern u32_021DEA24 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
@@ -800,29 +793,29 @@ extern void TCBL_Destroy(struct S02031140 *p);
 
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 
-extern s32_021E12AC func_02028484(struct Blk *blk, void *h);
+extern int func_02028484(struct Blk *blk, void *h);
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-extern void func_0201EE84(struct WordSet *p, u32_021DEA24 i, void *mon);
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
-extern u16 *POKE_PERSONAL_LoadFormTable(u32_021DEA24 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
-extern void func_0201EFA4(struct WordSet *p, u32_021DEA24 i, u32_021DEA24 a, u32_021DEA24 b, u32_021DEA24 c, u32_021DEA24 d);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 extern void PRINTSYS_PrintColor(void *,short,short,int,int,int);
 
-extern void func_0201EF40(struct WordSet *p, u32_021DEA24 i, u32_021DEA24 v);
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 
-extern void func_0201EF34(struct WordSet *p, u32_021DEA24 i, u32_021DEA24 v);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 
 extern u8 func_02018598(void *p);
 
-extern void func_0201EF8C(struct WordSet *p, u32_021DEA24 i, u32_021DEA24 v);
+extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 
 extern int POKETRADE_PROC_IsWifiMode(char *p);
 
-extern void CLACT_SetActorBgPriority(void *,u32_021DEA24);
+extern void CLACT_SetActorBgPriority(void *,u32);
 
 extern void POKETRADE_2D_DeleteTouchbarActors(int a);
 
@@ -836,7 +829,7 @@ extern void POKETRADE_2D_CreateTouchbarActors(char *p);
 
 extern void func_020056A0(void (*)(void *,void *),void *,int);
 
-extern void POKETRADE_2D_UploadWindowPalette(char *,int,u32_021DEA24);
+extern void POKETRADE_2D_UploadWindowPalette(char *,int,u32);
 
 extern void POKETRADE_2D_CreateMarkingIcon(char *,int,void *);
 
@@ -850,23 +843,23 @@ extern void POKETRADE_2D_CreateSummaryIcons(char *,void *,int);
 
 extern void POKETRADE_2D_CreateOfferWindows(char *);
 
-extern void POKETRADE_2D_CreateOfferIconActor(char *,int,int,void *,int,u32_021DEA24);
+extern void POKETRADE_2D_CreateOfferIconActor(char *,int,int,void *,int,u32);
 
 extern void POKETRADE_2D_UpdateOfferWindowActors(int p);
 
 extern void POKETRADE_2D_DeleteOfferWindowActors(int p);
 
-extern u32_021DEA24 *APP_TASKMENU_WIN_CreateEx(u32_021DEA24 a0, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3, u8 a4, u8 a5, u32_021DEA24 a6, u32_021DEA24 a7, u16 a8);
+extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 
-extern u32_021DEA24 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
 extern int POKETRADE_NEGO_HasOffer(char *);
 
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32_021DEA24 heap);
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 
 extern void func_02048C58(struct LightSlot *slots);
 
-extern void G3D_SYSTEM_SetProjection(const u32_021DEA24 *src);
+extern void G3D_SYSTEM_SetProjection(const u32 *src);
 
 extern void func_02048C4C(void *);
 
@@ -874,11 +867,11 @@ extern void func_02048AFC(void *,Vec_021DEA24 *);
 
 extern void func_02048B44(void *,Vec_021DEA24 *);
 
-extern void func_02048B6C(struct Light *l, const u32_021DEA24 *in);
+extern void func_02048B6C(struct Light *l, const u32 *in);
 
 extern void func_02048B20(void *,Vec_021DEA24 *);
 
-extern void func_02048B60(struct Light *l, const u32_021DEA24 *in);
+extern void func_02048B60(struct Light *l, const u32 *in);
 
 extern void func_0207ADC4(MtxFx33 *m);
 
@@ -890,15 +883,15 @@ extern void G3X_SetFog(int, int, int, int);
 
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 
-extern void G3D_SYSTEM_SetLight(u32_021DEA24 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 
-extern u32_021DEA24 func_02011610(struct IcaAnime *t, struct Rec12 *out);
+extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *out);
 
 extern void BUTTON_MAN_SetEmitterPos(void *obj, VecFx32_021DEA24 *v);
 
-void POKETRADE_SAVE_FreeIfSet(u32_021DFD24 *p);
+void POKETRADE_SAVE_FreeIfSet(u32 *p);
 
-void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32_021DFD30 v);
+void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32 v);
 
 void POKETRADE_SAVE_PopBgmFadeIn60(void *p);
 
@@ -1138,9 +1131,9 @@ extern char d_021E79C8[];
 
 #define I(p, o) (*(void **)((p) + (o)))
 
-void POKETRADE_SAVE_FreeIfSet(u32_021DFD24 *p) { if (p) { func_020307B0((void *)((u32_021DFD24)p)); } }
+void POKETRADE_SAVE_FreeIfSet(u32 *p) { if (p) { func_020307B0((void *)((u32)p)); } }
 
-void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32_021DFD30 v) { (*(unsigned int *)&((TradeWork *)p)->fF2C) = v; }
+void POKETRADE_SAVE_SetWaitCounter(u8 *p, u32 v) { (*(unsigned int *)&((TradeWork *)p)->fF2C) = v; }
 
 /*
  * Decrement the +0x11f8 guard byte (both its condition and the store use
@@ -1319,7 +1312,7 @@ void POKETRADE_SAVE_SendTradeSummary(char *p)
     packet.b=func_02009584(saved);
     packet.mode=func_0200960C(saved);
     if(POKETRADE_PROC_IsNetSession(p)) {
-        if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc12,40,(u32_021DEA24)(&packet))) {
+        if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc12,40,(u32)(&packet))) {
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),23,8);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitSyncRange);
             return;
@@ -1327,7 +1320,7 @@ void POKETRADE_SAVE_SendTradeSummary(char *p)
     } else POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);
 }
 
-static inline void GFL_STD_MemCopy(const void *src, void *dst, u32_021DEA24 size)
+static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 {
     MI_CpuCopy8(src, dst, size);
 }
@@ -1396,7 +1389,7 @@ void POKETRADE_SAVE_FreeBackups(char *p)
 void POKETRADE_SAVE_RestoreBackups(char *p)
 {
     void *dest,*src;
-    u32_021DEA24 n;
+    u32 n;
     dest=((TradeWork *)p)->f60C;
     if(dest) {
         src=((TradeWork *)p)->f82C;
@@ -1522,10 +1515,10 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
                 int idx = MAIL_FindEmptySlot(o, 0);
                 if (idx != -1) {
                     void *buf = MAIL_Create(H(p, 0x5F4));
-                    func_02017E1C(mon, 0xA7, (u32_021DEA24)buf);
+                    func_02017E1C(mon, 0xA7, (u32)buf);
                     MAIL_SetSlot(o, 0, idx, buf);
                     func_02008EAC(buf);
-                    POKE_TOOL_SetPartyValue(mon, 0xA7, (u32_021DEA24)buf);
+                    POKE_TOOL_SetPartyValue(mon, 0xA7, (u32)buf);
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
                     func_020307B0(buf);
                 }
@@ -1536,8 +1529,8 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     {
         u8 a = func_0200856C(I(p, 0x834));
         u8 b = func_02008570(I(p, 0x834));
-        u32_021DEA24 ra = func_02025C1C(a, b, func_02008564(I(p, 0x834)));
-        u32_021DEA24 rb = func_02025C30(a, b, func_02008564(I(p, 0x834)));
+        u32 ra = func_02025C1C(a, b, func_02008564(I(p, 0x834)));
+        u32 rb = func_02025C30(a, b, func_02008564(I(p, 0x834)));
         if (a != ra || b != rb)
             func_02008574(I(p, 0x834), 0, 0);
     }
@@ -1561,9 +1554,9 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     obj = GAME_DATA_GetTrainerRecord(I(p, 0x82C));
     POKE_TOOL_HealFull(mon);
     if (func_02017E1C(mon, 0x4C, 0) == 0)
-        POKE_TOOL_SetPartyValue(mon, 9, (u32_021DEA24)((void *)0x46));
+        POKE_TOOL_SetPartyValue(mon, 9, (u32)((void *)0x46));
     if (func_02017E1C(mon, 0x4C, 0))
-        func_0202F190(mon, 6, (u32_021DEA24)I(p, 0x830), 0x7533, H(p, 0x5F4));
+        func_0202F190(mon, 6, (u32)I(p, 0x830), 0x7533, H(p, 0x5F4));
     switch (W(p, 0x118C)) {
     case 2:
     case 3:
@@ -1598,7 +1591,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
         break;
     case 0:
     case 1:
-        if (sub_02009D1C((void *)sub_0201283C(I(p, 0x82C)), I(p, 0x834), (u32_021DEA24 *)(&out)))
+        if (sub_02009D1C((void *)sub_0201283C(I(p, 0x82C)), I(p, 0x834), (u32 *)(&out)))
             sub_02009BB8((void *)sub_0201283C(I(p, 0x82C)), out, 0, 0, 1);
         break;
     }
@@ -1671,7 +1664,7 @@ void POKETRADE_SAVE_StepRegisterReceived(char *p)
 void POKETRADE_SAVE_StepCheckEvolution(char *p)
 {
     void *a,*b;
-    u32_021DEA24 out,result;
+    u32 out,result;
     if(*(int *)&((TradeWork *)p)->f82C==0) {
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);
         goto exit;
@@ -1680,7 +1673,7 @@ void POKETRADE_SAVE_StepCheckEvolution(char *p)
     if(*(int *)&((TradeWork *)p)->f8!=0) {
         if(POKETRADE_PROC_IsHostSide(p)) {a=POKETRADE_PROC_GetSideMon(p,0);b=POKETRADE_PROC_GetSideMon(p,1);}
         else {a=POKETRADE_PROC_GetSideMon(p,1);b=POKETRADE_PROC_GetSideMon(p,0);}
-        result=SHINKA_CHECK_CheckEvolution(0,a,1,(u32_021DEA24)b,func_02012984(((TradeWork *)p)->f82C),&out,((TradeWork *)p)->heapId);
+        result=SHINKA_CHECK_CheckEvolution(0,a,1,(u32)b,func_02012984(((TradeWork *)p)->f82C),&out,((TradeWork *)p)->heapId);
         if(result) {
             ((struct Obj22766 *)(((TradeWork *)p)->f8))->f8=1;
             ((struct Obj22767 *)(((TradeWork *)p)->f8))->fC=result;
@@ -1713,7 +1706,7 @@ void POKETRADE_SAVE_StepWaitSyncRange24(void *p)
     }
 }
 
-void POKETRADE_SAVE_StepStartSave(char *p) {if(POKETRADE_SAVE_IsMessagePrintDone(p)) {if(POKETRADE_PROC_IsNetSession(p)) {POKETRADE_SAVE_ApplyTradeResult(p);((TradeWork *)p)->fEF8=(int)func_020108C4(((TradeWork *)p)->heapId,*(int *)&((TradeWork *)p)->f82C,(u32_021DEA24)POKETRADE_SAVE_FreeBackups,(u32_021DEA24)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitSaveDone);return;}POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);}}
+void POKETRADE_SAVE_StepStartSave(char *p) {if(POKETRADE_SAVE_IsMessagePrintDone(p)) {if(POKETRADE_PROC_IsNetSession(p)) {POKETRADE_SAVE_ApplyTradeResult(p);((TradeWork *)p)->fEF8=(int)func_020108C4(((TradeWork *)p)->heapId,*(int *)&((TradeWork *)p)->f82C,(u32)POKETRADE_SAVE_FreeBackups,(u32)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitSaveDone);return;}POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginWipeOut);}}
 
 /*
  * 2026-10-02: byte-correct; the call to the tail-call stub 0x02010934 (inside
@@ -1746,7 +1739,7 @@ void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
         BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);POKETRADE_3D_CreateTouchbar(p);
         GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);
         ((TradeWork *)p)->f11FA=0;
-        POKETRADE_PROC_SetStep(p,(int)func_021DACE4);
+        POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }
 }
 
@@ -1784,12 +1777,12 @@ void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h)
     void *v;
     POKETRADE_SAVE_CloseMessageWindow(p);
     func_02049B40(23,5,4,448,32,((TradeWork *)p)->heapId);
-    v=(void *)BMP_WIN_Create(6,(u8)x,(u8)y,(u8)w,h,(u32_021DEA24)14,(u32_021DEA24)0);
+    v=(void *)BMP_WIN_Create(6,(u8)x,(u8)y,(u8)w,h,(u32)14,(u32)0);
     (*(void * *)&((TradeWork *)p)->f71C)=v;
     BMP_Clear(BMP_WIN_GetBmp(v),15);
     GF_FONT_SetTextColor(1,2,15);
     if(flag==0) {
-        (*(unsigned int *)&((TradeWork *)p)->printStream)=PRINTSYS_PrintStream((u32_021DEA24)v,0,0,*(u32_021DEA24 *)&((TradeWork *)p)->f738,*(u32_021DEA24 *)&((TradeWork *)p)->f728,func_02012FFC(),(*(unsigned int *)&((TradeWork *)p)->f744),2,((TradeWork *)p)->heapId,15);
+        (*(unsigned int *)&((TradeWork *)p)->printStream)=PRINTSYS_PrintStream((u32)v,0,0,*(u32 *)&((TradeWork *)p)->f738,*(u32 *)&((TradeWork *)p)->f728,func_02012FFC(),(*(unsigned int *)&((TradeWork *)p)->f744),2,((TradeWork *)p)->heapId,15);
         func_02028470((u8 *)p+0x11d4,2);
     } else {
         PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,(*(void * *)&((TradeWork *)p)->f738),((TradeWork *)p)->f728);
@@ -1815,7 +1808,7 @@ void POKETRADE_SAVE_ShowTimeIcon(char *p)
         TIME_ICON_Delete(((TradeWork *)p)->timeIcon);
         ((TradeWork *)p)->timeIcon = 0;
     }
-    ((TradeWork *)p)->timeIcon = TIME_ICON_CreateNode((u32_021DEA24)(((TradeWork *)p)->f744), (*(void * *)&((TradeWork *)p)->f71C), 0xF, 0x10, ((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->timeIcon = TIME_ICON_CreateNode((u32)(((TradeWork *)p)->f744), (*(void * *)&((TradeWork *)p)->f71C), 0xF, 0x10, ((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_SAVE_CloseMessageWindow(char *p)
@@ -1845,7 +1838,7 @@ void POKETRADE_SAVE_CreateMessageResources(char *p)
     GF_FONT_SetTextColor(1,2,15);
     ((TradeWork *)p)->f744=TCBL_Create(((TradeWork *)p)->heapId,((TradeWork *)p)->heapId,2,0);
     ((TradeWork *)p)->keyCursor=func_02028590(15,1,0,((TradeWork *)p)->heapId);
-    ((TradeWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(6,9,*(u32_021DEA24 *)&((TradeWork *)p)->f728,*(u32_021DEA24 *)&((TradeWork *)p)->printQueue,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->taskMenuRes=APP_TASKMENU_RES_Create(6,9,*(u32 *)&((TradeWork *)p)->f728,*(u32 *)&((TradeWork *)p)->printQueue,((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_SAVE_DeleteMessageResources(char *p)
@@ -1896,14 +1889,14 @@ void POKETRADE_SAVE_OpenTaskMenuAt(char *p,int *ids,int count,int x,int y)
     t.flag=1;
     t.x=x;t.y=y;t.a=13;t.b=3;
     for(i=0;i<count;i++) {
-        *(void **)(p+(u32_021DEA24)i*12+0x650)=STRBUF_Create(100,((TradeWork *)p)->heapId);
-        func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),ids[i],*(void **)(p+(u32_021DEA24)i*12+0x650));
-        *(u16 *)(p+(u32_021DEA24)i*12+0x654)=0x39e3;
-        if(ids[i]==5) *(int *)(p+(u32_021DEA24)i*12+0x658)=1;
-        else *(int *)(p+(u32_021DEA24)i*12+0x658)=0;
+        *(void **)(p+(u32)i*12+0x650)=STRBUF_Create(100,((TradeWork *)p)->heapId);
+        func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),ids[i],*(void **)(p+(u32)i*12+0x650));
+        *(u16 *)(p+(u32)i*12+0x654)=0x39e3;
+        if(ids[i]==5) *(int *)(p+(u32)i*12+0x658)=1;
+        else *(int *)(p+(u32)i*12+0x658)=0;
     }
     (*(void * *)&((TradeWork *)p)->taskMenu)=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t),((TradeWork *)p)->taskMenuRes);
-    for(i=0;i<count;i++) STRBUF_Delete(*(void **)(p+(u32_021DEA24)i*12+0x650));
+    for(i=0;i<count;i++) STRBUF_Delete(*(void **)(p+(u32)i*12+0x650));
 }
 
 void POKETRADE_SAVE_OpenTaskMenu(void *p, int *ids, int count)
@@ -1966,7 +1959,7 @@ void POKETRADE_SAVE_PrintStatValues(int a, int b, int c, int d, char *p)
         func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank), 0x28, (*(void * *)&((TradeWork *)p)->f734));
         func_0201EFA4((*(void * *)&((TradeWork *)p)->f724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
         func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f730), (*(void * *)&((TradeWork *)p)->f734));
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (s16_021E1880)c, (s16_021E1880)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (short)c, (short)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
     }
 }
 
@@ -2019,9 +2012,9 @@ void POKETRADE_SAVE_DrawOfferCardWindow(char *p,int i,void *mon)
     Pair_021DEA24 a=d_021E7934;
     Pair_021DEA24 b=d_021E7914;
     Pair_021DEA24 c=d_021E794C;
-    u32_021DEA24 flag;
+    u32 flag;
     const char *old;
-    u32_021DEA24 index;
+    u32 index;
     char *tmp;
     flag=func_02017E1C(mon,76,0);
     func_02049B40(23,5,0,448,32,((TradeWork *)p)->heapId);
@@ -2141,14 +2134,14 @@ void POKETRADE_SAVE_OpenSummaryScreen(char *p,void *a)
 /*
  * initialization: side is assigned 0/1 by the original signed p+f54 comparison; both Pair_021E1D68.v[2] snapshots are initialized by complete table copies.
  * arithmetic: ROM b={0,128} makes b.v[side]+16 equal 16/144; mode is forwarded unchanged and no input domain is added.
- * interface: 020450F0's second argument is explicitly narrowed to u8 at 021E1E5A/60; its own body accepts u32_021DEA24.
+ * interface: 020450F0's second argument is explicitly narrowed to u8 at 021E1E5A/60; its own body accepts u32.
  */
 void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
 {
     Pair_021E1D68 a=d_021E7944;
     Pair_021E1D68 b=d_021E793C;
     int side=0;
-    u32_021DEA24 flag;
+    u32 flag;
     if(I(0xf54)<128) side=1;
     POKETRADE_2D_UploadWindowPalette(p,11,4);
     if(P(0x6b4)) BMP_WIN_Delete(P(0x6b4));
@@ -2202,7 +2195,7 @@ void POKETRADE_SAVE_PrepareSummaryWindow(char *p, void *a, int b, int a3)
 
 void POKETRADE_SAVE_CreateTypeIcons(char *p,void *mon,Quad_021DEA24 *t)
 {
-    u32_021DEA24 a,b;
+    u32 a,b;
     POKETRADE_SAVE_DeleteTypeIconActor(p+0x900+t->a*20);
     POKETRADE_SAVE_DeleteTypeIconActor(p+0x900+t->b*20);
     POKETRADE_SAVE_CreateTypeIconActor(p+0x900+t->a*20,mon,0,((TradeWork *)p)->clactSystem,176,95,0,((TradeWork *)p)->heapId);
@@ -2250,8 +2243,8 @@ void POKETRADE_SAVE_ToggleTypeIconSet(char *p,int a)
  */
 void POKETRADE_SAVE_ShowSummaryMon(char *p,void *mon,int side,int flag)
 {
-    u32_021DEA24 flag76;
-    u32_021DEA24 v[3];
+    u32 flag76;
+    u32 v[3];
     int i;
     flag76=func_02017E1C(mon,76,0);
     POKETRADE_SAVE_PrepareSummaryWindow(p,mon,side,flag);
@@ -2339,7 +2332,7 @@ void POKETRADE_SAVE_DrawOfferListWindows(char *p, int a1)
 {
     void *arr[2];
     void *mon;
-    u32_021DEA24 flag76;
+    u32 flag76;
     char *q1,*q2;
     int j,n;
     int k;
@@ -2390,7 +2383,7 @@ void POKETRADE_SAVE_DeleteOfferListWindows(char *p)
 
 void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
 {
-    u32_021DEA24 v;
+    u32 v;
 
     func_0207D658(0x04001050, 0x1A, -8);
 
@@ -2404,8 +2397,8 @@ void POKETRADE_SAVE_SetupWindowRegsSummary(void *a0)
     *(volatile u16 *)0x04001046 = 0x00C0;
     v = (*(volatile u16 *)0x0400104A & ~0x3F) | 0x1F;
     *(volatile u16 *)0x0400104A = v;
-    *(volatile u32_021DEA24 *)0x04001000 =
-        (*(volatile u32_021DEA24 *)0x04001000 & 0xFFFF1FFF) | 0x6000;
+    *(volatile u32 *)0x04001000 =
+        (*(volatile u32 *)0x04001000 & 0xFFFF1FFF) | 0x6000;
 }
 
 /*
@@ -2418,9 +2411,9 @@ void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
     Pair b=d_021E791C;
     Quad_021E2484 colors=d_021E7974;
     Pair c=d_021E790C;
-    u32_021DEA24 flag;
+    u32 flag;
     int layer,idx2;
-    u32_021DEA24 col,col2;
+    u32 col,col2;
     int index;
     char *items,*items2;
     flag=func_02017E1C(mon,76,0);
@@ -2435,9 +2428,9 @@ void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
     items2=p+0x5cc;
     *(int *)(items2+index)=BMP_WIN_Create(1,layer,17,13,2,5,0);
     idx2=i*2;
-    col=((u32_021DEA24 *)&colors)[idx2];
+    col=((u32 *)&colors)[idx2];
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
-    col2=((u32_021DEA24 *)&colors)[idx2+1];
+    col2=((u32 *)&colors)[idx2+1];
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
     GF_FONT_SetTextColor(1,2,(u8)col);
     {
@@ -2484,7 +2477,7 @@ void *POKETRADE_SAVE_OpenTaskMenuWindow(char *p,int a) {
     func_02045CAC((*(void * *)&((TradeWork *)p)->messageBank),a,t);
     ((TradeWork *)p)->f654=0x39e3;
     ((TradeWork *)p)->f658=0;
-    ((TradeWork *)p)->taskMenuWindow=APP_TASKMENU_WIN_CreateEx((u32_021DEA24)(((TradeWork *)p)->taskMenuRes),(u32_021DEA24)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->taskMenuWindow=APP_TASKMENU_WIN_CreateEx((u32)(((TradeWork *)p)->taskMenuRes),(u32)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->heapId);
     STRBUF_Delete(((TradeWork *)p)->messageBuffer);
     CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),0);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),8,0);
@@ -2509,19 +2502,19 @@ int POKETRADE_SAVE_IsTouchOutsideArea(void *a0)
 }
 
 static inline void W1Inside(int wnd,BOOL effect) {
-    u32_021DEA24 tmp=(WININ & ~0x3f00)|((u32_021DEA24)wnd<<8);
+    u32 tmp=(WININ & ~0x3f00)|((u32)wnd<<8);
     if(effect) tmp|=0x2000;
     WININ=(u16)tmp;
 }
 
 static inline void W0Inside(int wnd,BOOL effect) {
-    u32_021DEA24 tmp=(WININ & ~0x3f)|((u32_021DEA24)wnd);
+    u32 tmp=(WININ & ~0x3f)|((u32)wnd);
     if(effect) tmp|=0x20;
     WININ=(u16)tmp;
 }
 
 static inline void Outside(int wnd,BOOL effect) {
-    u32_021DEA24 tmp=(WINOUT & ~0x3f)|((u32_021DEA24)wnd);
+    u32 tmp=(WINOUT & ~0x3f)|((u32)wnd);
     if(effect) tmp|=0x20;
     WINOUT=(u16)tmp;
 }
@@ -2558,7 +2551,7 @@ void POKETRADE_SAVE_Init3DProjection(int a) {
     func_02048C58(d_021F4560);
     c=d_021E7B1C;
     c.b=d_020A1DF8[12]; c.c=d_020A1DF8[13];
-    G3D_SYSTEM_SetProjection((const u32_021DEA24 *)(&c));
+    G3D_SYSTEM_SetProjection((const u32 *)(&c));
 }
 
 void POKETRADE_SAVE_Free3DLightSet(void)
@@ -2574,7 +2567,7 @@ void POKETRADE_SAVE_SetCameraSummary(char *p) {
     func_02048AFC(((TradeWork *)p)->subCamera,&a);
     func_02048B44(((TradeWork *)p)->subCamera,&b);
     a.z-=0x1000;
-    func_02048B6C(((TradeWork *)p)->subCamera,(const u32_021DEA24 *)(&a.z));
+    func_02048B6C(((TradeWork *)p)->subCamera,(const u32 *)(&a.z));
     b.x=0; b.y=0x1000; b.z=0;
     func_02048B20(((TradeWork *)p)->subCamera,&b);
 }
@@ -2588,8 +2581,8 @@ void POKETRADE_SAVE_SetCameraTrade(char *p) {
     b.x=0; b.y=0; b.z=0;
     func_02048AFC(((TradeWork *)p)->subCamera,&a);
     func_02048B44(((TradeWork *)p)->subCamera,&b);
-    func_02048B60(((TradeWork *)p)->subCamera,(const u32_021DEA24 *)(&d));
-    func_02048B6C(((TradeWork *)p)->subCamera,(const u32_021DEA24 *)(&c));
+    func_02048B60(((TradeWork *)p)->subCamera,(const u32 *)(&d));
+    func_02048B6C(((TradeWork *)p)->subCamera,(const u32 *)(&c));
     b.x=0; b.y=0x10000; b.z=0x1000;
     func_02048B20(((TradeWork *)p)->subCamera,&b);
 }

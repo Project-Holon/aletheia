@@ -126,7 +126,7 @@
  *   EVENT_FIELD_PROCLINK_ClearReturnResultSlot 0x02162038 thumb ov010
  *   EVENT_FIELD_PROCLINK_GetReturnPendingSlot 0x0216202C thumb ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk 0x02162040 thumb ov010
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   func_0216749C  0x0216749C  thumb ov010
  *   func_021673C4  0x021673C4  thumb ov010
  *   func_021673A8  0x021673A8  thumb ov010
@@ -222,7 +222,6 @@ typedef unsigned int u32;
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
-typedef unsigned long long u64;
 
 #include "../arm9/game_beacon_types.h"
 #include "../arm9/net_types.h"
@@ -437,7 +436,7 @@ int EVENT_FIELD_PROCLINK_GetReturnResultSlot(u8 *slots, int index, void *out);
 void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(u8 *slots, int index);
 int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(u8 *slots, void *out, u8 *index);
 void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(u8 *slots);
-void *func_0200E0B0(void *p);
+void *SYMBOL_SAVE_GetBlock(void *p);
 unsigned short func_0216749C(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
 u8 func_021673C4(void *symbolMap);
 u8 func_021673A8(void *symbolMap);
@@ -2727,7 +2726,7 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
     int netId;
     u8 count[4];
     page = &work->ownSymbolPage;
-    symbolMap = func_0200E0B0(GAME_DATA_GetSaveControl((struct GameData *)GAME_COMM_GetGameData(work->gameComm)));
+    symbolMap = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)GAME_COMM_GetGameData(work->gameComm)));
     func_0216749C(symbolMap, page->entries, 0x14, request->page, count);
     page->count = count[0];
     page->levelSmall = func_021673C4(symbolMap);

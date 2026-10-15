@@ -1,5 +1,5 @@
 /*
- * function: func_021DD210
+ * function: BOX2_MAIN_IsWrappedDistance
  * address:  0x021DD210
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -15,7 +15,7 @@
  * straddles half of the +0x15 counter, in the direction of the order.
  */
 
-int func_021DD210(unsigned char *p, unsigned a, unsigned b)
+int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b)
 {
     int d = a - b;
     if (d < 0)

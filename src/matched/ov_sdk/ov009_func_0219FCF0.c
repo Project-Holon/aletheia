@@ -1,5 +1,5 @@
 /*
- * function: func_0219FCF0
+ * function: BufferAddNTS
  * address:  0x0219FCF0
  * packet:   pkt_ov009_0219FCF0
  * region:   ov009
@@ -14,18 +14,18 @@
  * symbols:
  *   func_0209477C  0x0209477C  arm
  *   func_02092344  0x02092344  arm
- *   g_021A8230  0x021A8230  data
+ *   gSBEmptyString  0x021A8230  data
  */
 
-extern int g_021A8230;
+extern int gSBEmptyString;
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-void func_0219FCF0(char **buffer, char *str, int *len)
+void BufferAddNTS(char **buffer, char *str, int *len)
 {
 	int slen;
 	if (!str)
-		str = (char *)&g_021A8230;
+		str = (char *)&gSBEmptyString;
 	slen = func_0209477C((const u8 *)str) + 1;
 	func_02092344(*buffer, str, slen);
 	*len += slen;

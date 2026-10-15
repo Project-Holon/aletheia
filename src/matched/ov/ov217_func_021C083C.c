@@ -1,5 +1,5 @@
 /*
- * function: func_021C083C
+ * function: RESEARCH_GRAPH_CreatePaletteAnime
  * address:  0x021C083C
  * packet:   pkt_ov217_021C083C
  * region:   ov217
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 PALETTE_ANIME_Create(u32 a0);
 
-void func_021C083C(u8 *p)
+void RESEARCH_GRAPH_CreatePaletteAnime(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++)

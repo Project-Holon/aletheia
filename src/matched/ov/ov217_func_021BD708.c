@@ -1,5 +1,5 @@
 /*
- * function: func_021BD708
+ * function: RESEARCH_GRAPH_GetVisible
  * address:  0x021BD708
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BD708(void *p)
+u32 RESEARCH_GRAPH_GetVisible(void *p)
 {
     return ((struct Obj25895 *)p)->f3E0;
 }

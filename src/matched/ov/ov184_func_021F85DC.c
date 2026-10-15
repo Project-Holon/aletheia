@@ -18,7 +18,7 @@
  *   func_021F8670   0x021F8670  thumb
  *   BR_FADE_Start   0x021FE784  thumb
  *   BR_FADE_GetResult   0x021FE7B0  thumb
- *   func_021FD73C   0x021FD73C  thumb
+ *   BR_UTIL_SetTaskStep   0x021FD73C  thumb
  *
  * Three-state step over the object at *(p+0x30): submit on 0, poll on 1,
  *   finish through 0x21FD73C on 2.
@@ -29,7 +29,7 @@
 extern void func_021F8670(int a, int b, char *p);
 extern int BR_FADE_Start(int, int, int, int);
 extern int BR_FADE_GetResult(int);
-extern void func_021FD73C(int, void *);
+extern void BR_UTIL_SetTaskStep(int, void *);
 
 void func_021F85DC(int a, int *state, char *p)
 {
@@ -43,7 +43,7 @@ void func_021F85DC(int a, int *state, char *p)
             *state = 2;
         break;
     case 2:
-        func_021FD73C(a, func_021F8670);
+        BR_UTIL_SetTaskStep(a, func_021F8670);
         break;
     }
 }

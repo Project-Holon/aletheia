@@ -22,7 +22,7 @@
  *   WCM_CompareBssID       0x021666B8  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_02082E74  0x02082E74  arm
+ *   MI_CpuComp8  0x02082E74  arm
  *   func_02082EA4  0x02082EA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   NWM_GetVenderInfoElements  0x02703250  arm  twl
@@ -51,7 +51,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
-extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
+extern int MI_CpuComp8(const void *mem1, const void *mem2, u32 size);
 extern void func_02082EA4(const void *srcp, void *destp, u32 size);
 extern int OS_IsRunOnTwl(void);
 extern NWMInfoElements *NWM_GetVenderInfoElements();
@@ -403,7 +403,7 @@ void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
                 ieLength += (u8)(len + 2);
                 destBssDesc->elementCount++;
             } else if (id == 0xdd) {
-                if (func_02082E74(pSrc + 2, wpaTag, 4) == 0 || func_02082E74(pSrc + 2, wmmTag, 5) == 0) {
+                if (MI_CpuComp8(pSrc + 2, wpaTag, 4) == 0 || MI_CpuComp8(pSrc + 2, wmmTag, 5) == 0) {
                     func_02082EA4(pSrc, pDest, (u8)(len + 2));
                     pDest += len + 2;
                     ieLength += (u8)(len + 2);

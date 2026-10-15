@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02089660  0x02089660  arm
- *   func_020894B4  0x020894B4  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_SetupChannelPcm  0x02089660  arm
+ *   SND_StartTimer  0x020894B4  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   _ll_udiv       0x0209C00C  arm
  *
  * Starts one channel.  The ten-argument signature is not guessed: the single
@@ -78,9 +78,9 @@ typedef struct {
     u32 f10;
 } Obj;
 
-extern void func_02089660(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
-extern void func_020894B4(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
-extern u32  func_02089D40(void);
+extern void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
+extern void SND_StartTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
+extern u32  SND_GetCurrentCommandTag(void);
 
 int NNS_SndWaveOutStart(Obj *s, int fmt, void *data, int loop,
                   int start, int end, int rate, int vol, int freq, int e)
@@ -111,12 +111,12 @@ int NNS_SndWaveOutStart(Obj *s, int fmt, void *data, int loop,
     } else if (t > 0xFFFF) {
         t = 0xFFFF;
     }
-    func_02089660(s->f0, fmt, data, loop != 0 ? 1 : 2,
+    SND_SetupChannelPcm(s->f0, fmt, data, loop != 0 ? 1 : 2,
                   a, b, vol, 0, (u32)t, e);
-    func_020894B4(1 << s->f0, 0, 0, 0);
+    SND_StartTimer(1 << s->f0, 0, 0, 0);
     s->f8 = 1;
     s->fC = 0;
-    s->f10 = func_02089D40();
+    s->f10 = SND_GetCurrentCommandTag();
     s->f4 = rate;
     return 1;
 }

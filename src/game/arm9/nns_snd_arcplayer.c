@@ -1,7 +1,7 @@
 /*
  * file:     nns_snd_arcplayer.c
  * unit:     yes
- * function: func_02075560, func_020755A8, func_02075618, func_02075698, func_02075794, func_02075858, func_02075968, func_02075994, func_02075A2C, func_02075A94, func_02075AB8, func_02075B28, func_02075B54, func_02075B94
+ * function: NNS_SndArcPlayerStartSeq, NNS_SndArcPlayerStartSeqEx, NNS_SndArcPlayerStartSeqArc, NNSi_SndArcPlayerStartSeq, NNSi_SndArcPlayerStartSeqArc, NNSi_SndArcPlayerUpdate, NNSi_SndTrackDetachObject, NNSi_SndTrackStop, NNSi_SndTrackClose, NNSi_SndTrackReleaseRef, NNSi_SndTrackListUnlinkByValue, NNSi_SndTrackListUnlinkElem, NNSi_SndArcGetSeqEntry, NNSi_SndFaderReset
  * address:  0x02075560
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -38,81 +38,76 @@
  *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   OS_DisableInterrupts 0x02087988  arm
  *   OS_RestoreInterrupts 0x0208799C  arm
- *   func_02060614 0x02060614  arm
- *   func_020605B4 0x020605B4  arm
- *   func_020604AC 0x020604AC  arm
+ *   NNS_FndGetNextListObject 0x02060614  arm
+ *   NNS_FndRemoveListObject 0x020605B4  arm
+ *   NNS_FndAppendListObject 0x020604AC  arm
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
+ *   OS_LockMutex  0x02086028  arm
  */
 
 struct Entry;
+#include "nns_snd_types.h"
+
 struct Table;
 struct Node;
 struct SndTrack;
-struct LerpObj;
 struct DList;
-typedef unsigned char  u8;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32;
-
-typedef signed short s16;
-
-struct LerpObj {
-    int start;
-    int target;
-    int step;
-    int duration;
-};
-
-/* One of the four sound tracks at data_0214EAC0. */
+/*
+ * One of the four sound-track slots at data_0214EAC0 (0x17C bytes each): the
+ * NNSSndStrm state that nns_snd_strm.c fills in, then the volume fader and the
+ * callbacks this file drives.
+ */
 struct SndTrack {
-    u8  pad000[0xf0];
-    struct LerpObj lerp;
-    u8  pad100[0x118 - 0x100];
-    s32 b0 : 1;
-    s32 b1 : 1;
-    s32 b2 : 1;
-    s32 b3 : 1;
-    s32 brest : 28;
-    s32 f11c;
-    s32 f120;
-    u8  pad124[0x128 - 0x124];
-    int ref_count;
-    u8  pad12c[0x154 - 0x12c];
-    u32 *unk154;
-    u8  pad158[0x15c - 0x158];
-    s32 f15c;
-    s32 f160;
-    s32 f164;
-    u8  pad168[0x170 - 0x168];
-    void (*f170)(struct SndTrack *o);
-    u8  pad174[0x178 - 0x174];
-    void (*cb)(struct SndTrack *o);
+    SndStrm stream;          /* 0x000: the stream object (nns_snd_strm.c) */
+    u8  pad058[0x98];        /* 0x058: rest of the slot; never read here */
+    SndFader fader;          /* 0x0f0: volume ramp */
+    u8  pad100[0x18];        /* 0x100 */
+    s32 active : 1;          /* 0x118: slot carries a sequence */
+    s32 followFader : 1;     /* the fade drives the stream volume */
+    s32 startPending : 1;    /* a start is waiting for the slot */
+    s32 stopPending : 1;     /* stop once the fader has finished */
+    s32 reservedBits : 28;
+    s32 seqNo;               /* 0x11c: running sequence, 0 = idle */
+    s32 pendingSeqNo;        /* 0x120: sequence of a pending start */
+    u8  pad124[4];
+    int refCount;            /* 0x128 */
+    u8  pad12c[0x28];
+    u32 *attachedObject;     /* 0x154: object whose first word is cleared */
+    u8  pad158[4];
+    s32 volumeIndex;         /* 0x15c: index into the dB table data_020A5D08 */
+    s32 playerVolumeIndex;   /* 0x160: index into data_020A5D08 */
+    s32 appliedVolume;       /* 0x164: volume last sent to the stream */
+    u8  pad168[8];
+    void (*stopCallback)(struct SndTrack *o);      /* 0x170 */
+    u8  pad174[4];
+    void (*releaseCallback)(struct SndTrack *o);   /* 0x178 */
 };
 
-struct SndMedia { u32 f0; };
+/* The seq-arc record NNS_SndArcGetSeqArcInfo returns; only its file id is used. */
+struct SndMedia { u32 fileId; };
 
+/* A loaded sequence file: a 0x18-byte header, then the sequence data. */
 struct SndBlock {
     u8  pad00[0x18];
-    u32 f18;
+    u32 dataOffset;
 };
 
+/* One node of the track list: an 8-byte link then the track it carries. */
 struct DListElem {
     u8  pad00[8];
-    u32 f8;
+    u32 value;
 };
 
-struct Entry {   /* 0xC bytes each */
-    u32 f0;
-    u16 f4;
-    u8  f6;
-    u8  f7;
-    u8  f8;
-    u8  f9;
+/* One record of the archive's sequence info table (0xC bytes each). */
+struct Entry {
+    u32 seqOffset;      /* 0x0: FAT offset, 0xffffffff marks a free record */
+    u16 bankNo;         /* 0x4 */
+    u8  initialVolume;  /* 0x6 */
+    u8  pauseFlag;      /* 0x7 */
+    u8  priority;       /* 0x8 */
+    u8  playerNo;       /* 0x9 */
     u8  padA[2];
 };
 
@@ -131,34 +126,34 @@ extern void NNS_SndHandleSetInitialVolume(struct SndTrack *o, u8 v);
 extern void NNS_SndHandlePause(struct SndTrack *o, u32 v);
 extern void  NNSi_SndHandleSetSeqNo(u32 a, u32 b);
 extern void NNSi_SndHandleSetSeqArc(struct SndTrack *o, u32 a, u32 b);
-extern void NNS_SndStrmStart(struct SndTrack *a);
-extern void NNS_SndStrmSetVolume(struct SndTrack *, s32);
-extern s32 NNS_SndFaderGet(struct LerpObj *o);
-extern void NNS_SndFaderUpdate(struct LerpObj *obj);
-extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
-extern void func_02086028(void *p);
+extern void NNS_SndStrmStart(SndStrm *a);
+extern void NNS_SndStrmSetVolume(SndStrm *, s32);
+extern s32 NNS_SndFaderGet(SndFader *o);
+extern void NNS_SndFaderUpdate(SndFader *obj);
+extern int NNS_SndFaderIsFinished(SndFader *obj);
+extern void OS_LockMutex(void *p);
 extern void func_02086078(void *p);
-extern void NNSi_SndStrmStopIfSetup(struct SndTrack *o);
-extern void NNS_SndStrmFreeChannel(struct SndTrack *x);
-extern void func_020604AC(void *list, void *object);
+extern void NNSi_SndStrmStopIfSetup(SndStrm *o);
+extern void NNS_SndStrmFreeChannel(SndStrm *x);
+extern void NNS_FndAppendListObject(void *list, void *object);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_020605B4(volatile struct DList *list, void *elem);
-u32 func_02075560(u32 a, u32 b);
-u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
-u32 func_02075618(u32 a, u32 b, u32 c);
-u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1);
-u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBlock *s1, u32 s2, u32 s3);
-void func_02075858(void);
-void func_02075968(struct SndTrack *o);
-void func_02075994(struct SndTrack *o);
-void func_02075A2C(struct SndTrack *o);
-void func_02075A94(struct SndTrack *obj);
-void func_02075AB8(void *a, u32 v);
-void func_02075B28(void *p);
-struct Entry *func_02075B54(struct Table *t, int idx);
-void func_02075B94(struct LerpObj *obj);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
+u32 NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo);
+u32 NNS_SndArcPlayerStartSeqEx(u32 handle, int playerNo, int bankNo, int priority, u32 seqNo);
+u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index);
+u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, u32 seqNo);
+u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, struct SndBlock *block, u32 arcIndex, u32 index);
+void NNSi_SndArcPlayerUpdate(void);
+void NNSi_SndTrackDetachObject(struct SndTrack *track);
+void NNSi_SndTrackStop(struct SndTrack *track);
+void NNSi_SndTrackClose(struct SndTrack *track);
+void NNSi_SndTrackReleaseRef(struct SndTrack *track);
+void NNSi_SndTrackListUnlinkByValue(void *list, u32 value);
+void NNSi_SndTrackListUnlinkElem(void *elem);
+struct Entry *NNSi_SndArcGetSeqEntry(struct Table *table, int index);
+void NNSi_SndFaderReset(SndFader *fader);
 extern struct SndTrack data_0214EAC0[4];
 extern const s16 data_020A5D08[];
 extern u8  g_02150178[];
@@ -168,27 +163,27 @@ extern u8  g_02150190[];
 
 
 
-u32 func_02075560(u32 a, u32 b)
+u32 NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo)
 {
-    struct Entry *p = NNS_SndArcGetSeqInfo(b);
+    struct Entry *entry = NNS_SndArcGetSeqInfo(seqNo);
 
-    if (p == 0) return 0;
-    return func_02075698(a, (p)->f9, (p)->f4, (p)->f8,
-                         p, b);
+    if (entry == 0) return 0;
+    return NNSi_SndArcPlayerStartSeq(handle, (entry)->playerNo, (entry)->bankNo, (entry)->priority,
+                         entry, seqNo);
 }
 
 
 
 
-u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
+u32 NNS_SndArcPlayerStartSeqEx(u32 handle, int playerNo, int bankNo, int priority, u32 seqNo)
 {
-    struct Entry *p = NNS_SndArcGetSeqInfo(e);
+    struct Entry *entry = NNS_SndArcGetSeqInfo(seqNo);
 
-    if (p == 0) return 0;
-    if (d < 0) d = p->f8;
-    if (c < 0) c = p->f4;
-    if (b < 0) b = p->f9;
-    return func_02075698(a, (u32)b, (u32)c, (u32)d, p, e);
+    if (entry == 0) return 0;
+    if (priority < 0) priority = entry->priority;
+    if (bankNo < 0) bankNo = entry->bankNo;
+    if (playerNo < 0) playerNo = entry->playerNo;
+    return NNSi_SndArcPlayerStartSeq(handle, (u32)playerNo, (u32)bankNo, (u32)priority, entry, seqNo);
 }
 
 
@@ -198,45 +193,45 @@ u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
  * Four-step open path, each step gated on its predecessor's result and each
  * early exit answering 0: resolve the media handle (NNS_SndArcGetSeqArcInfo), take the
  * object the handle points at and look up its record (NNS_SndArcGetFileAddress), bind the
- * record to the caller's key (func_02075B54), then hand seven values to
- * func_02075794 - the caller's first argument, three fields of the record
+ * record to the caller's key (NNSi_SndArcGetSeqEntry), then hand seven values to
+ * NNSi_SndArcPlayerStartSeqArc - the caller's first argument, three fields of the record
  * (bytes at +9 and +8, the halfword at +4) and four words parked on the stack
  * (the record itself, the looked-up object, and the caller's second and third
  * arguments).
  *
  * UNBLOCKED 2026-09-22 (wave 7, pkt_02075404).  This file was previously capped
- * at MATCH on the `matched` class: func_02075794 (the PC24 at +0x0074) has no
+ * at MATCH on the `matched` class: NNSi_SndArcPlayerStartSeqArc (the PC24 at +0x0074) has no
  * branch outside 02075618..02075698, and the callee was left DIFF at 200 vs 196
- * bytes by an earlier lane (docs/notes/func_02075794.c.txt), so it could not be
+ * bytes by an earlier lane (docs/notes/NNSi_SndArcPlayerStartSeqArc.c.txt), so it could not be
  * filed and could not attest this call.  That DIFF was a compiler question, not
  * a source one: the same body is byte-exact under `--cc ../2.0/sp2` and is now
- * src/matched/func_02075794.c, so this site resolves as `matched` and all four
+ * src/matched/NNSi_SndArcPlayerStartSeqArc.c, so this site resolves as `matched` and all four
  * of this file's relocations resolve.  Compiled 128 bytes, original 128 bytes.
  * This file itself stays on the project default 1.1p1; the cluster is mixed,
  * see docs/families/cluster_02074A34.h.
  */
-u32 func_02075618(u32 a, u32 b, u32 c)
+u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index)
 {
-    struct SndMedia *r;
-    u32 q;
-    struct Entry *st;
+    struct SndMedia *media;
+    u32 blockAddr;
+    struct Entry *entry;
 
-    r = NNS_SndArcGetSeqArcInfo(b);
-    if (r == 0) {
+    media = NNS_SndArcGetSeqArcInfo(arcIndex);
+    if (media == 0) {
         return 0;
     }
 
-    q = NNS_SndArcGetFileAddress(r->f0);
-    if (q == 0) {
+    blockAddr = NNS_SndArcGetFileAddress(media->fileId);
+    if (blockAddr == 0) {
         return 0;
     }
 
-    st = func_02075B54((struct Table *)q, c);
-    if (st == 0) {
+    entry = NNSi_SndArcGetSeqEntry((struct Table *)blockAddr, index);
+    if (entry == 0) {
         return 0;
     }
 
-    return func_02075794(a, st->f9, st->f4, st->f8, st, (struct SndBlock *)q, b, c);
+    return NNSi_SndArcPlayerStartSeqArc(handle, entry->playerNo, entry->bankNo, entry->priority, entry, (struct SndBlock *)blockAddr, arcIndex, index);
 }
 
 
@@ -245,44 +240,44 @@ u32 func_02075618(u32 a, u32 b, u32 c)
 
 
 /*
- * Sibling of src/matched/func_02075794.c (same open / bind / release shape):
+ * Sibling of src/matched/NNSi_SndArcPlayerStartSeqArc.c (same open / bind / release shape):
  * open a handle with NNSi_SndPlayerAllocSeqPlayer, bind a slot through NNSi_SndArcLoadBank (kind
  * 6) and a block through NNSi_SndArcLoadSeq (kind 1, keyed by the sixth argument),
  * releasing the handle on either failure; then attach the block's +0x18
  * payload to the handle and apply the descriptor's bytes 6 and 7.  Called by
- * func_02075560 and func_020755A8 with the record pointer as s0 and the
+ * NNS_SndArcPlayerStartSeq and NNS_SndArcPlayerStartSeqEx with the record pointer as s0 and the
  * record id as s1.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02075698.c \
- *       --func func_02075698 --addr 0x02075698 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcPlayerStartSeq.c \
+ *       --func NNSi_SndArcPlayerStartSeq --addr 0x02075698 --arm --cc ../2.0/sp2
  *   EXACT, 252 bytes, 10 of 10 relocation sites resolved (sp2p2 EXACT too,
  *   dsi/1.1p1 260 bytes DIFF).
  */
-u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
+u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, u32 seqNo)
 {
-    void *h;
-    u32 v;
-    struct SndBlock *blk;
+    void *seqPlayer;
+    u32 heap;
+    struct SndBlock *block;
     u32 slot;
 
-    h = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)a0, a1, a3);
-    if (h == 0) {
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)handle, playerNo, priority);
+    if (seqPlayer == 0) {
         return 0;
     }
-    v = (u32)NNSi_SndPlayerAllocHeap(a1, h);
-    if (NNSi_SndArcLoadBank(a2, 6, v, 0, &slot) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(h);
+    heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
+    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &slot) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    if (NNSi_SndArcLoadSeq(s1, 1, v, 0, (u32 *)(&blk)) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(h);
+    if (NNSi_SndArcLoadSeq(seqNo, 1, heap, 0, (u32 *)(&block)) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    NNSi_SndPlayerStartSeqPlayer(h, (u32 *)((u8 *)blk + blk->f18), 0, (const void *)slot);
-    NNS_SndHandleSetInitialVolume((struct SndTrack *)a0, s0->f6);
-    NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
-    NNSi_SndHandleSetSeqNo(a0, s1);
+    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (u32 *)((u8 *)block + block->dataOffset), 0, (const void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndTrack *)handle, entry->initialVolume);
+    NNS_SndHandlePause((struct SndTrack *)handle, entry->pauseFlag);
+    NNSi_SndHandleSetSeqNo(handle, seqNo);
     return 1;
 }
 
@@ -292,13 +287,13 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
 
 
 /*
- * The four-step open/bind path behind func_02075618 and func_02075698: take a
+ * The four-step open/bind path behind NNS_SndArcPlayerStartSeqArc and NNSi_SndArcPlayerStartSeq: take a
  * voice handle (NNSi_SndPlayerAllocSeqPlayer), read its slot (NNSi_SndPlayerAllocHeap), load the wave
  * data through NNSi_SndArcLoadBank and release the handle if that fails, then bind
  * the loaded data and push the three per-voice parameters.  Eight arguments,
  * four in registers and four on the stack.
  *
- * THE BODY IS docs/notes/func_02075794.c.txt's BODY, UNCHANGED.  That note
+ * THE BODY IS docs/notes/NNSi_SndArcPlayerStartSeqArc.c.txt's BODY, UNCHANGED.  That note
  * measured it at 200 bytes against the original's 196 and recorded seven
  * rejected spellings, diagnosing a callee-saved permutation:
  *
@@ -317,36 +312,36 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
  * front end, not the source, exactly as docs/families/cluster_020737C0.h warns
  * for this address range.
  *
- * FILING THIS UNBLOCKS src/pending/func_02075618.c, whose header names the
+ * FILING THIS UNBLOCKS src/pending/NNS_SndArcPlayerStartSeqArc.c, whose header names the
  * PC24 at +0x0074 (this address, single caller image-wide) as the one site
  * keeping it at MATCH; with this entry EXACT the site resolves as `matched`.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02075794.c \
- *       --func func_02075794 --addr 0x02075794 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcPlayerStartSeqArc.c \
+ *       --func NNSi_SndArcPlayerStartSeqArc --addr 0x02075794 --arm --cc ../2.0/sp2
  */
-u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBlock *s1, u32 s2, u32 s3)
+u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, struct SndBlock *block, u32 arcIndex, u32 index)
 {
-    void *h;
-    u32 v;
+    void *seqPlayer;
+    u32 heap;
     u32 slot;
 
-    h = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)a0, a1, a3);
-    if (h == 0) {
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)handle, playerNo, priority);
+    if (seqPlayer == 0) {
         return 0;
     }
 
-    v = (u32)NNSi_SndPlayerAllocHeap(a1, h);
+    heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
 
-    if (NNSi_SndArcLoadBank(a2, 6, v, 0, &slot) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(h);
+    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &slot) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
 
-    NNSi_SndPlayerStartSeqPlayer(h, (u32 *)((u8 *)s1 + s1->f18), s0->f0, (const void *)slot);
-    NNS_SndHandleSetInitialVolume((struct SndTrack *)a0, s0->f6);
-    NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
-    NNSi_SndHandleSetSeqArc((struct SndTrack *)a0, s2, s3);
+    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (u32 *)((u8 *)block + block->dataOffset), entry->seqOffset, (const void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndTrack *)handle, entry->initialVolume);
+    NNS_SndHandlePause((struct SndTrack *)handle, entry->pauseFlag);
+    NNSi_SndHandleSetSeqArc((struct SndTrack *)handle, arcIndex, index);
     return 1;
 }
 
@@ -362,10 +357,10 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBl
  *
  * PINNED ../2.0/sp2 on the "kept branches" tell (docs/FRONTEND-PINS.md),
  * cross-jump form. The image writes the f11c == 0 arm's tail out in full --
- * `mov r0, r7` (`07 00 a0 e1`) at 0x02075884 / `bl func_02075994` at
+ * `mov r0, r7` (`07 00 a0 e1`) at 0x02075884 / `bl NNSi_SndTrackStop` at
  * 0x02075888 / `b 0x0207594c` (`2e 00 00 ea`) at 0x0207588C -- although the
  * bit-3 completion arm ends in a byte-identical `mov r0, r7` / `bl
- * func_02075994` pair at 0x02075944/0x02075948. dsi/1.1p1 -O4,p cross-jumps
+ * NNSi_SndTrackStop` pair at 0x02075944/0x02075948. dsi/1.1p1 -O4,p cross-jumps
  * the two, branching the f11c arm straight into the completion arm's pair,
  * giving 264 bytes against the original's 272 with everything after
  * 0x02075884 shifted by eight. An explicit `goto` past the else, the
@@ -373,56 +368,56 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBl
  * Under the pin the same C is 272 bytes, 0 mismatches: BYTE-CORRECT.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three
- * sites are unattested: the two PC24 to func_02075994, whose only branches
+ * sites are unattested: the two PC24 to NNSi_SndTrackStop, whose only branches
  * image-wide are these two `bl`s inside this function, and the ABS32 at
  * +0x108, whose only pool word image-wide is this function's own at
  * 0x02075960 (inside the 272-byte compared range), so `literal` refuses it.
- * Filing func_02075994 EXACT clears the two PC24 sites but not the ABS32.
+ * Filing NNSi_SndTrackStop EXACT clears the two PC24 sites but not the ABS32.
  *
- * NOTE for src/pending/func_02072758.c: that file names 0x02075858 as one
+ * NOTE for src/pending/NNS_SndBoot.c: that file names 0x02075858 as one
  * of its three blocking PC24 sites. This file is byte-correct but stays
- * MATCH, so it does NOT promote func_02072758 -- only a `matched` entry can.
+ * MATCH, so it does NOT promote NNS_SndBoot -- only a `matched` entry can.
  */
-void func_02075858(void)
+void NNSi_SndArcPlayerUpdate(void)
 {
-    s32 i;
-    s32 v;
-    s32 a, b, c, d;
-    struct SndTrack *s = data_0214EAC0;
+    s32 slot;
+    s32 volume;
+    s32 trackVolume, faderIndex, playerVolume, faderVolume;
+    struct SndTrack *track = data_0214EAC0;
 
-    for (i = 0; i < 4; i++) {
-        if (s->b0) {
-            if (s->f11c == 0) {
-                func_02075994(s);
+    for (slot = 0; slot < 4; slot++) {
+        if (track->active) {
+            if (track->seqNo == 0) {
+                NNSi_SndTrackStop(track);
                 goto next;
             } else {
-                if (s->b2 && s->f120 != 0) {
-                    NNS_SndStrmStart(s);
-                    s->b1 = 1;
-                    s->b2 = 0;
+                if (track->startPending && track->pendingSeqNo != 0) {
+                    NNS_SndStrmStart(&track->stream);
+                    track->followFader = 1;
+                    track->startPending = 0;
                 }
-                if (s->b1) {
-                    NNS_SndFaderUpdate(&s->lerp);
-                    a = data_020A5D08[s->f15c];
-                    b = NNS_SndFaderGet(&s->lerp) >> 8;
-                    c = s->f160;
-                    d = data_020A5D08[b];
-                    v = data_020A5D08[c] + (d + a);
+                if (track->followFader) {
+                    NNS_SndFaderUpdate(&track->fader);
+                    trackVolume = data_020A5D08[track->volumeIndex];
+                    faderIndex = NNS_SndFaderGet(&track->fader) >> 8;
+                    playerVolume = track->playerVolumeIndex;
+                    faderVolume = data_020A5D08[faderIndex];
+                    volume = data_020A5D08[playerVolume] + (faderVolume + trackVolume);
 
-                    if (v != s->f164) {
-                        NNS_SndStrmSetVolume(s, v);
-                        s->f164 = v;
+                    if (volume != track->appliedVolume) {
+                        NNS_SndStrmSetVolume(&track->stream, volume);
+                        track->appliedVolume = volume;
                     }
-                    if (s->b3) {
-                        if (NNS_SndFaderIsFinished(&s->lerp) != 0) {
-                            func_02075994(s);
+                    if (track->stopPending) {
+                        if (NNS_SndFaderIsFinished(&track->fader) != 0) {
+                            NNSi_SndTrackStop(track);
                         }
                     }
                 }
             }
         }
 next:
-        s++;
+        track++;
     }
 }
 
@@ -441,15 +436,15 @@ next:
  * anneal); ../2.0/sp2 and sp2p2 give the image's allocation for both the
  * bitfield and the three-statement mask spelling.
  */
-void func_02075968(struct SndTrack *o)
+void NNSi_SndTrackDetachObject(struct SndTrack *track)
 {
-    if (o->unk154 != 0) {
-        *o->unk154 = 0;
-        o->unk154 = 0;
+    if (track->attachedObject != 0) {
+        *track->attachedObject = 0;
+        track->attachedObject = 0;
     }
-    o->b0 = 0;
-    o->b2 = 0;
-    o->b1 = 0;
+    track->active = 0;
+    track->startPending = 0;
+    track->followFader = 0;
 }
 
 
@@ -462,7 +457,7 @@ void func_02075968(struct SndTrack *o)
  *   g_0214EA90  0x0214EA90  data
  *
  * Two relocation sites stay wildcarded, neither for want of C:
- *   +0064  bl func_02075A2C   `label`: 0x02075A2C's only branch image-wide is
+ *   +0064  bl NNSi_SndTrackClose   `label`: 0x02075A2C's only branch image-wide is
  *                             this function's own call (asm, single caller).
  *                             It is inside THIS packet; the callee is parked
  *                             (byte-correct MATCH, its own `bl 0x02075968`
@@ -476,22 +471,22 @@ void func_02075968(struct SndTrack *o)
  * concrete two-byte diff.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02075994.c \
- *       --func func_02075994 --addr 0x02075994 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNSi_SndTrackStop.c \
+ *       --func NNSi_SndTrackStop --addr 0x02075994 --arm --cc 1.1p1
  */
-void func_02075994(struct SndTrack *o)
+void NNSi_SndTrackStop(struct SndTrack *track)
 {
     u8 *p;
 
-    func_02086028(g_02150178);
+    OS_LockMutex(g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p != 0)
-        func_02086028(p + 0x10c8);
-    if (o->b1 != 0)
-        NNSi_SndStrmStopIfSetup(o);
-    if (o->b0 != 0)
-        o->cb(o);
-    func_02075A2C(o);
+        OS_LockMutex(p + 0x10c8);
+    if (track->followFader != 0)
+        NNSi_SndStrmStopIfSetup(&track->stream);
+    if (track->active != 0)
+        track->releaseCallback(track);
+    NNSi_SndTrackClose(track);
     func_02086078(g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p == 0)
@@ -509,30 +504,30 @@ void func_02075994(struct SndTrack *o)
  *           (2) ABS32 g_02150190: the data address is named by exactly one
  *           pool word in the image, this function's own, so `literal` has no
  *           second occurrence either.  The other four sites resolve
- *           (func_02075A94 and func_02075AB8 as `matched`, g_0214EA90 as
+ *           (NNSi_SndTrackReleaseRef and NNSi_SndTrackListUnlinkByValue as `matched`, g_0214EA90 as
  *           `literal x5`).  The body is byte-correct.
  */
-void func_02075A2C(struct SndTrack *o)
+void NNSi_SndTrackClose(struct SndTrack *track)
 {
     u8 *p;
 
-    if (o->b0 == 0) return;
-    func_02075A94(o);
-    o->f170(o);
-    func_02075AB8(g_02150190, (u32)o);
+    if (track->active == 0) return;
+    NNSi_SndTrackReleaseRef(track);
+    track->stopCallback(track);
+    NNSi_SndTrackListUnlinkByValue(g_02150190, (u32)track);
     p = *(u8 **)(g_0214EA90 + 4);
-    if (p != 0) func_02075AB8(p + 0x10e0, (u32)o);
-    func_02075968(o);
+    if (p != 0) NNSi_SndTrackListUnlinkByValue(p + 0x10e0, (u32)track);
+    NNSi_SndTrackDetachObject(track);
 }
 
 
 
 
-void func_02075A94(struct SndTrack *obj)
+void NNSi_SndTrackReleaseRef(struct SndTrack *track)
 {
-    if (obj->ref_count != 0) {
-        if (--obj->ref_count == 0) {
-            NNS_SndStrmFreeChannel(obj);
+    if (track->refCount != 0) {
+        if (--track->refCount == 0) {
+            NNS_SndStrmFreeChannel(&track->stream);
         }
     }
 }
@@ -546,30 +541,29 @@ void func_02075A94(struct SndTrack *obj)
  * the body; declaring `n` inside the loop (rather than hoisting it) is what
  * keeps r6 out of the prologue's push.
  */
-void func_02075AB8(void *a, u32 v)
+void NNSi_SndTrackListUnlinkByValue(void *list, u32 value)
 {
-    u32 state = OS_DisableInterrupts();
-    void *p = func_02060614(a, 0);
+    u32 intrState = OS_DisableInterrupts();
+    void *elem = NNS_FndGetNextListObject(list, 0);
 
-    while (p != 0) {
-        void *n = func_02060614(a, p);
+    while (elem != 0) {
+        void *nextElem = NNS_FndGetNextListObject(list, elem);
 
-        if (((struct DListElem *)p)->f8 == v) {
-            func_020605B4(a, p);
-            func_02075B28(p);
+        if (((struct DListElem *)elem)->value == value) {
+            NNS_FndRemoveListObject(list, elem);
+            NNSi_SndTrackListUnlinkElem(elem);
         }
-        p = n;
+        elem = nextElem;
     }
-    OS_RestoreInterrupts(state);
+    OS_RestoreInterrupts(intrState);
 }
 
 
-
-void func_02075B28(void *p)
+void NNSi_SndTrackListUnlinkElem(void *elem)
 {
-    u32 state = OS_DisableInterrupts();
-    func_020604AC(g_0214EA90 + 0xc, p);
-    OS_RestoreInterrupts(state);
+    u32 intrState = OS_DisableInterrupts();
+    NNS_FndAppendListObject(g_0214EA90 + 0xc, elem);
+    OS_RestoreInterrupts(intrState);
 }
 
 
@@ -580,24 +574,24 @@ void func_02075B28(void *p)
  *  * compared against a `u32` count gives; the -1 element test is the
  *  * R_ARM_ABS32-free third guard the tail ends on. No relocations at all.
  */
-struct Entry *func_02075B54(struct Table *t, int idx)
+struct Entry *NNSi_SndArcGetSeqEntry(struct Table *table, int index)
 {
-    struct Entry *e;
+    struct Entry *entry;
 
-    if (idx < 0) return 0;
-    if (idx >= t->count) return 0;
-    e = &t->arr[idx];
-    if (e->f0 == -1) return 0;
-    return e;
+    if (index < 0) return 0;
+    if (index >= table->count) return 0;
+    entry = &table->arr[index];
+    if (entry->seqOffset == -1) return 0;
+    return entry;
 }
 
 
 
 
-void func_02075B94(struct LerpObj *obj)
+void NNSi_SndFaderReset(SndFader *fader)
 {
-    obj->target = 0;
-    obj->start = 0;
-    obj->duration = 0;
-    obj->step = 0;
+    fader->target = 0;
+    fader->start = 0;
+    fader->duration = 0;
+    fader->step = 0;
 }

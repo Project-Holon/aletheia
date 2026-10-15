@@ -698,7 +698,7 @@ void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest)
 
 /*
  * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
- * ov170 func_021DD718.
+ * ov170 BOX2_MAIN_CanPlaceInBox.
  */
 unsigned int func_02019CF8(unsigned int item)
 {
@@ -803,7 +803,7 @@ int func_02019D58(u16 species, int value)
 
 
 /*
- * Witness leaf for ov119 func_021DD0CC: membership test in a 12 entry u16 table.
+ * Witness leaf for ov119 POKETRADE_PROC_CanTradeMon: membership test in a 12 entry u16 table.
  */
 int POKE_REGULATION_IsInSpeciesTable(unsigned short species)
 {

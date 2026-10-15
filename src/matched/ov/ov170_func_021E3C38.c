@@ -1,5 +1,5 @@
 /*
- * function: func_021E3C38
+ * function: BOX2_SEQ_StateOpenSummaryB
  * address: 0x021E3C38
  * packet: pkt_ov170_021E3C38
  * region: ov170
@@ -8,35 +8,35 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD530 0x021DD530 thumb ov170
- *   func_021EA1E8 0x021EA1E8 thumb ov170
- *   func_021EE3E4 0x021EE3E4 thumb ov170
- *   func_021ED55C 0x021ED55C thumb ov170
- *   func_021EE038 0x021EE038 thumb ov170
- *   func_021EBC58 0x021EBC58 thumb ov170
+ *   BOX2_MAIN_UpdateBoxSlots 0x021DD530 thumb ov170
+ *   BOX2_SEQ_Delete 0x021EA1E8 thumb ov170
+ *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
+ *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
+ *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23898.h"
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern void func_021DD530(unsigned char *);
-extern void func_021EA1E8(char *p);
+extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *);
+extern void BOX2_SEQ_Delete(char *p);
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(char **, unsigned);
-extern void func_021ED55C(char **, int);
-extern void func_021EE038(char *, int, int, int);
-extern void func_021EBC58(unsigned char *, int, int, int);
-int func_021E3C38(unsigned char *p)
+extern void BOX2_UI_SetCursorPos(char **, unsigned);
+extern void BOX2_SEQ_SetCursorDraw(char **, int);
+extern void BOX2_UI_DeleteSlotObjects(char *, int, int, int);
+extern void BOX2_SEQ_PrintPrompt(unsigned char *, int, int, int);
+int BOX2_SEQ_StateOpenSummaryB(unsigned char *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x667);
-    func_021DD530(p);
-    func_021EA1E8((char *)p);
+    BOX2_MAIN_UpdateBoxSlots(p);
+    BOX2_SEQ_Delete((char *)p);
     func_020260E4(((struct Obj23898 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70, 9);
-    func_021EE3E4((char **)p, 9);
-    func_021ED55C((char **)p, 1);
-    func_021EE038((char *)p, 0, 0, 1);
-    func_021EBC58(p, p[0x16], 1, 0x18);
+    BOX2_UI_SetCursorPos((char **)p, 9);
+    BOX2_SEQ_SetCursorDraw((char **)p, 1);
+    BOX2_UI_DeleteSlotObjects((char *)p, 0, 0, 1);
+    BOX2_SEQ_PrintPrompt(p, p[0x16], 1, 0x18);
     return 0x1b;
 }

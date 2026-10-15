@@ -1,5 +1,5 @@
 /*
- * function: func_02087A3C
+ * function: OS_WaitInterrupt
  * address:  0x02087A3C
  * packet:   pkt_02087A3C
  * region:   arm9
@@ -53,7 +53,7 @@ static inline BOOL OS_RestoreIrq(BOOL enable)
     return (BOOL)prep;
 }
 
-void func_02087A3C(BOOL clear, u32 irqFlags)
+void OS_WaitInterrupt(BOOL clear, u32 irqFlags)
 {
     OSIntrMode cpsrIrq = OS_DisableInterrupts();
     BOOL prevIrq = OS_EnableIrq();

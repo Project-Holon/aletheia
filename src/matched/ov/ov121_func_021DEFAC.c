@@ -1,5 +1,5 @@
 /*
- * function: func_021DEFAC
+ * function: MYSTERY_NET_BuildPokemonFromRecord
  * address: 0x021DEFAC
  * packet: pkt_ov121_021DEFAC
  * region: ov121
@@ -152,7 +152,7 @@ static inline int chk3(const struct Rec *r)
     return 0x30;
 }
 
-int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
+int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
 {
     int count;
     u8 type;

@@ -31,8 +31,8 @@
  *   func_021DA384 0x021DA384 thumb ov175
  *   func_021DA390 0x021DA390 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200ED48 0x0200ED48 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021DBC04 0x021DBC04 thumb ov175
@@ -69,8 +69,8 @@ extern void func_021DA36C(int);
 extern void func_021DA384(char *);
 extern int func_021DA390(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern void *func_0200ED48(void *);
-extern void func_0200ED54(struct L0200ED54 *, u32);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
@@ -134,8 +134,8 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         else *state = 5;
         break;
     case 5:
-        list = func_0200ED48(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
-        func_0200ED54(list, func_02008530((void *)Q(0x18)));
+        list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
+        MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)Q(0x18)));
         *state = 6;
         func_021DA384((char *)P(0x30));
         break;

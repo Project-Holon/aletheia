@@ -246,7 +246,6 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void func_021797D4(DWCHttp *http);
 extern void DWC_Auth_Abort(void);
-void func_0217B7E8(int error);
 void func_0217AAF4(void);
 static void DWCi_Netcheck_Thread(void *arg);
 

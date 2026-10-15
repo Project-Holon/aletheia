@@ -23,7 +23,7 @@
  * reports whether it currently is.
  *
  * The rest of this packet (sub_02034660, VMAN_Free, VMAN_GetOffset,
- * sub_020346EC) is a separate, non-contiguous piece of this same small
+ * SAVEDATA_SetPanicHandlers) is a separate, non-contiguous piece of this same small
  * file; see unit_020346D8.c and unit_020346EC.c for the two of those four
  * that matched cleanly. sub_02034660 (calls sub_0209C2B0 twice and
  * AREAMAN_Alloc) and VMAN_Free (calls AREAMAN_Free then this file's own

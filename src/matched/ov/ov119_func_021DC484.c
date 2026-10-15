@@ -1,5 +1,5 @@
 /*
- * function: func_021DC484
+ * function: POKETRADE_PROC_ExitDisplay
  * address: 0x021DC484
  * packet: pkt_ov119_021DC484
  * region: ov119
@@ -15,7 +15,7 @@
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-void func_021DC484(void *a0)
+void POKETRADE_PROC_ExitDisplay(void *a0)
 {
     CLACT_ExitSystem();
     BMP_WIN_Exit();

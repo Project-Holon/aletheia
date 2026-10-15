@@ -12,7 +12,7 @@
  * symbols:
  *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   NWMi_CheckState  0x027028E4  arm twl
- *   func_020821C0  0x020821C0  arm twl
+ *   MIi_DmaFill32  0x020821C0  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_SetCallbackTable  0x02703A34  arm twl
  *   NWMi_SetReceiveCallbackTable  0x02703A54  arm twl
@@ -42,7 +42,7 @@ typedef struct TwlWork {
 
 extern TwlWork *NWMi_GetSystemWork(void);
 extern u32 NWMi_CheckState(u32, u32, u32);
-extern void func_020821C0(u32, u32, u32, u32, u32);
+extern void MIi_DmaFill32(u32, u32, u32, u32, u32);
 extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void NWMi_SetReceiveCallbackTable(u32, u32);
@@ -58,7 +58,7 @@ u32 NWM_SetReceivingFrameBuffer(u32 a0, u32 a1, u32 a2, u32 a3) {
     if (r != 0 && r != 2) {
         return r;
     }
-    func_020821C0(w->h2280, a1, 0, a2, 1);
+    MIi_DmaFill32(w->h2280, a1, 0, a2, 1);
     func_020862D4((void *)a1, a2);
     NWMi_SetCallbackTable(0xA, (u32)NWMi_ReceivingFrameCallback);
     NWMi_SetReceiveCallbackTable(a3, a0);

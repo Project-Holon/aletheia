@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209A6E8
+ * function: frexp
  * address:  0x0209A6E8
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -26,7 +26,7 @@ typedef int i32;
 
 static const double two54 = 1.80143985094819840000e+16;
 
-double func_0209A6E8(double x, int *eptr)
+double frexp(double x, int *eptr)
 {
     int hx;
     int ix;

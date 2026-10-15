@@ -41,7 +41,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_02008510 0x02008510 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -256,6 +256,8 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb  arm9
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "ov120_types.h"
 struct GtsnegoDispCtx;
@@ -453,8 +455,8 @@ extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern void *func_0200ED48(void *p);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern void *func_02008510(void *, int);
 extern void MI_CpuFill8(void *, u8, u32);
@@ -467,7 +469,7 @@ extern int GFL_NET_SendToHandle(void *,u16,u16,u32);
 extern int func_021D7AF4(char *p);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern void *func_0200E6E8(u32 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
 extern u32 func_02009EA8(const struct Sub02009D9CObj *obj);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
@@ -952,7 +954,7 @@ void func_021D4608(struct GtsnegoDispCtx *p)
         }
         MYSTATUS_Copy((void *)value, func_02012950((struct Sub24 *)(*(int *)&p->f2C), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = func_02008530((const struct Sub0200852CObj *)value);
-        func_0200ED54(func_0200ED48((void *)(*(int *)&p->f30)), result);
+        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)(*(int *)&p->f30)), result);
         func_021D4244(((int *)p), func_021D4584, 0x283);
     }
 }
@@ -1053,7 +1055,7 @@ void func_021D4864(u8 *p)
             value = (int)func_0200E6E8(*(int *)&((struct GtsnegoDispCtx *)p)->f30);
             *(int *)&((struct GtsnegoMsgCtx *)q)->f4 = ((struct GtsnegoDispCtx *)p)->f144;
             *(int *)&((struct GtsnegoMsgCtx *)q)->f8 = ((struct GtsnegoDispCtx *)p)->f13C;
-            func_0200E6FC((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
+            MISC_SAVEDATA_CopyQuadRecord((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
             ((struct GtsnegoDispCtx *)p)->f170 = func_02009EA8(GAME_DATA_GetSaveBlock1F((void **)(*(int *)&((struct GtsnegoDispCtx *)p)->f2C)));
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
             func_021D4244(((int *)p), func_021D4808, 0x314);

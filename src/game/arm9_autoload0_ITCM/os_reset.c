@@ -123,7 +123,6 @@ extern void OSi_ReloadRomData(int);
 extern void OSi_VerifyStaticSegments(void);
 extern void OSi_DoBoot(void);
 void OSi_DoResetSystem(void);
-asm void OSi_DoBoot(void);
 asm void OSi_CpuClear32(u32 data, void *destp, u32 size);
 void OSi_ReadCardRom32(u32 src, void *dst, int len);
 

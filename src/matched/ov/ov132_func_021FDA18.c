@@ -1,5 +1,5 @@
 /*
- * function: func_021FDA18
+ * function: STA_SLOT_ClearCurrent
  * address: 0x021FDA18
  * packet: pkt_ov132_021FDA18
  * region: ov132
@@ -9,4 +9,4 @@
  * status: EXACT*
  * symbols:
  */
-void func_021FDA18(unsigned char *p) {p[384]=4;}
+void STA_SLOT_ClearCurrent(unsigned char *p) {p[384]=4;}

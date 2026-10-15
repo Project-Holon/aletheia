@@ -15,7 +15,7 @@
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
  *   POKETRADE_NEGO_CloseCancelMenu 0x021DD294 thumb ov119
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepBrowseOffersMain 0x021DEA24 thumb ov119
  */
@@ -29,11 +29,11 @@ extern int POKETRADE_NEGO_CheckCancelTouch(char *p);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
 
 void POKETRADE_NEGO_StepWaitSync25(unsigned char *p)
 {
-    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession(p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch((char *)p);return;} } POKETRADE_SAVE_CloseMessageWindowClear((char *)p);POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_ResetTouchbarBackButton((char *)p);func_021DD09C((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
+    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession(p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch((char *)p);return;} } POKETRADE_SAVE_CloseMessageWindowClear((char *)p);POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_ResetTouchbarBackButton((char *)p);POKETRADE_PROC_UpdatePickedIcon((char *)p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EAAC4
+ * function: BOX2_SEQ_DeleteBmpWins
  * address:  0x021EAAC4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021EAAC4(char *p)
+void BOX2_SEQ_DeleteBmpWins(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x1c; i++)

@@ -49,7 +49,7 @@
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0200E6E8  0x0200E6E8  thumb
- *   func_0200E6FC  0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   ov067_id       0x00000043  data
  *   func_02030734 0x02030734 arm
  *   func_021E58A4 0x021E58A4 thumb ov177
@@ -80,11 +80,11 @@
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA8 0x021E8AA8 thumb ov177
- *   func_0200E9F4 0x0200E9F4 thumb
- *   func_0200EA00 0x0200EA00 thumb
+ *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
+ *   MISC_SAVEDATA_GetStatsBase 0x0200EA00 thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_021E5D68 0x021E5D68 thumb ov177
- *   func_0200EA08 0x0200EA08 thumb
+ *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   func_021E5EF8 0x021E5EF8 thumb ov177
  *   func_020414EC 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
@@ -182,7 +182,7 @@ extern u32 func_020307B0(void *p);
 extern int MYSTATUS_GetSize(void);
 extern void OS_GetMacAddress(void *p);
 extern void *func_0200E6E8(u32 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021E58A4(int unused, int mode, unsigned color);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -211,11 +211,11 @@ extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_021E8AA8(int);
-extern void *func_0200E9F4(void *);
-extern int func_0200EA00(int p);
+extern void *MISC_SAVEDATA_GetBlock3C(void *);
+extern int MISC_SAVEDATA_GetStatsBase(int p);
 extern u16 BSUBWAY_SAVEDATA_GetStat(Row *, int, int);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
-extern int func_0200EA08(int p);
+extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern void func_021E5EF8(void *p);
 extern void func_020414EC(u32 i);
 extern void func_020409B4(u32 index);
@@ -414,7 +414,7 @@ void func_0217D2F0(u8 *p, u8 *q)
     x = (u32)func_02012944(r);
     MI_CpuCopy8((void *)x, p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
-    func_0200E6FC(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
+    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
     MI_CpuCopy8((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
@@ -713,10 +713,10 @@ void func_0217DC20(int a) { func_021E8AA8(a); }
 
 
 /*
- * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: func_0200EA00 and func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA00.c and func_0200EA08.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
+ * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: MISC_SAVEDATA_GetStatsBase and MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetStatsBase.c and MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
  * blockers: ARM9 0200EA00 and 0200EA08 have no outside witness; the integrator owns filing.
- *   unsigned char *func_0200EA00(unsigned char *p) { return p + 0x5a; }
- *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
+ *   unsigned char *MISC_SAVEDATA_GetStatsBase(unsigned char *p) { return p + 0x5a; }
+ *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
  * Lever: explicit unsigned left/right shifts pack the low bytes in 568 bytes;
  * byte casts followed by placement shifts compile to 584 bytes.
  * AE14's empty body leaves its incoming pointer in r0; caller saves it.
@@ -736,7 +736,7 @@ void func_0217DC28(int *p)
         obj = (struct Reg2 *)func_0200B1D4(base, p[5]);
         sub = func_0200B204((struct RecBig *)base, p[5]);
         reg = (struct Reg *)func_0200AE14(obj);
-        stats = func_0200E9F4(save);
+        stats = MISC_SAVEDATA_GetBlock3C(save);
         win = func_02012944((void *)p[12]);
         flag = func_021E5548((int *)p[11]);
         if (p[5] == 0) {
@@ -745,7 +745,7 @@ void func_0217DC28(int *p)
             int total, a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
-            table = (u16 (*)[3])func_0200EA00((int)stats);
+            table = (u16 (*)[3])MISC_SAVEDATA_GetStatsBase((int)stats);
             rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
             total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
             rec.v.total = total + BSUBWAY_SAVEDATA_GetStat(table, 10, 2);
@@ -762,7 +762,7 @@ void func_0217DC28(int *p)
             int a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
-            table = (const u8 *)func_0200EA08((int)stats);
+            table = (const u8 *)MISC_SAVEDATA_GetRecordBase((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);
             rec.v.h.a4 = func_0200E918(table, 0);
             rec.v.h.a6 = func_0200AE54(reg, 22);

@@ -1,7 +1,7 @@
 /*
  * file:     dgt_sha1.c
  * unit:     yes
- * function: MATHi_SHA1ProcessBlockForOverlay, MATHi_SHA1Fill, MATHi_SetOverlayTableMode, MATH_SHA1Init, MATH_SHA1Update, MATH_SHA1GetHash, MATH_CalcSHA1, func_020816FC
+ * function: MATHi_SHA1ProcessBlockForOverlay, MATHi_SHA1Fill, MATHi_SetOverlayTableMode, MATH_SHA1Init, MATH_SHA1Update, MATH_SHA1GetHash, MATH_CalcSHA1, MATH_CalcHMACSHA1
  * address:  0x020812E0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -29,20 +29,18 @@ typedef unsigned long u32;
 
 typedef unsigned char u8;
 
-typedef struct MATHSHA1Context_020812E0 {
+typedef struct MATHSHA1Context {
     u32 h[5];
     u8 block[MATH_SHA1_BLOCK_SIZE];
     u32 pool;
-    u32 blocks_low;
-    u32 blocks_high;
-} MATHSHA1Context_020812E0;
-
-typedef struct MATHSHA1Context_020816FC {
-    u32 h[5];
-    u32 block[16];
-    u32 pool;
-    unsigned long long length;
-} MATHSHA1Context_020816FC;
+    union {
+        struct {
+            u32 blocks_low;
+            u32 blocks_high;
+        };
+        unsigned long long length;
+    };
+} MATHSHA1Context;
 
 typedef struct MATHiHMACFuncs {
     u32 dlength;
@@ -54,16 +52,16 @@ typedef struct MATHiHMACFuncs {
     void (*HashGetDigest)(void *context, void *digest);
 } MATHiHMACFuncs;
 
-extern void MATHi_SHA1ProcessBlock(MATHSHA1Context_020812E0 *context);
+extern void MATHi_SHA1ProcessBlock(MATHSHA1Context *context);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MATHi_CalcHMAC(void *mac, const void *message, u32 message_length, const void *key, u32 key_length, MATHiHMACFuncs *funcs);
 int MATHi_SetOverlayTableMode(int flag);
-void MATH_SHA1Init(MATHSHA1Context_020812E0 *context);
-void MATH_SHA1Update(MATHSHA1Context_020812E0 *context, const void *input, u32 length);
-void MATH_SHA1GetHash(MATHSHA1Context_020812E0 *context, void *digest);
+void MATH_SHA1Init(MATHSHA1Context *context);
+void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length);
+void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest);
 void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength);
-void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
+void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern int MATHi_OverlayTableMode;
 extern const u8 _ZZ16MATH_SHA1GetHashP15MATHSHA1ContextPvE7padlead[1];
 extern const u8 _ZZ16MATH_SHA1GetHashP15MATHSHA1ContextPvE8padalign_0[8];
@@ -75,7 +73,7 @@ extern const u8 _ZZ16MATH_SHA1GetHashP15MATHSHA1ContextPvE8padalign_0[8];
 
 
 
-static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context_020812E0 *context)
+static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context *context)
 {
     u32 *block = (u32 *)context->block;
     u32 s0 = block[6];
@@ -95,7 +93,7 @@ static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context_020812E0 *context)
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context_020812E0 *context);
+extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
@@ -104,7 +102,7 @@ extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context_020812E0 *conte
 
 
 
-static void MATHi_SHA1Fill(MATHSHA1Context_020812E0 *context, u8 input, u32 length)
+static void MATHi_SHA1Fill(MATHSHA1Context *context, u8 input, u32 length)
 {
     while (length > 0) {
         u32 rest = MATH_SHA1_BLOCK_SIZE - context->pool;
@@ -132,7 +130,7 @@ static void MATHi_SHA1Fill(MATHSHA1Context_020812E0 *context, u8 input, u32 leng
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context_020812E0 *context);
+extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
@@ -159,7 +157,7 @@ int MATHi_SetOverlayTableMode(int flag)
 
 
 
-void MATH_SHA1Init(MATHSHA1Context_020812E0 *context)
+void MATH_SHA1Init(MATHSHA1Context *context)
 {
     context->blocks_low = 0;
     context->blocks_high = 0;
@@ -175,13 +173,13 @@ void MATH_SHA1Init(MATHSHA1Context_020812E0 *context)
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context_020812E0 *context);
+extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
 
 
-void MATH_SHA1Update(MATHSHA1Context_020812E0 *context, const void *input, u32 length)
+void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length)
 {
     while (length > 0) {
         u32 rest = MATH_SHA1_BLOCK_SIZE - context->pool;
@@ -207,7 +205,7 @@ void MATH_SHA1Update(MATHSHA1Context_020812E0 *context, const void *input, u32 l
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context_020812E0 *context);
+extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
@@ -220,7 +218,7 @@ static inline u32 MATHi_Swap32(u32 x)
 
 
 
-void MATH_SHA1GetHash(MATHSHA1Context_020812E0 *context, void *digest)
+void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest)
 {
     u32 footer[2];
 
@@ -246,7 +244,7 @@ void MATH_SHA1GetHash(MATHSHA1Context_020812E0 *context, void *digest)
 
 void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength)
 {
-    MATHSHA1Context_020812E0 context;
+    MATHSHA1Context context;
 
     MATH_SHA1Init(&context);
     MATH_SHA1Update(&context, data, dataLength);
@@ -259,9 +257,9 @@ void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength)
  *
  * sdk:      MATH_CalcHMACSHA1 (dgt_sha1.o)
  */
-void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len)
+void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len)
 {
-    MATHSHA1Context_020816FC context;
+    MATHSHA1Context context;
     u8 hash_buf[20];
     MATHiHMACFuncs hash2funcs = {
         20,

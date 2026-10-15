@@ -20,7 +20,7 @@
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
- *   sub_02034714   0x02034714  arm
+ *   SAVEDATA_PanicFail   0x02034714  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_02180814     0x02180814  data  ov019 a4
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
@@ -109,7 +109,7 @@ void func_02034714(const void *expr, u32 line, const void *file);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(void *self);
-extern void sub_02034714(const char *expr, u32 line, const char *file);
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int G3D_SYSTEM_FreeVramTexture(void *p);
 extern void func_02046EFC(void *p);

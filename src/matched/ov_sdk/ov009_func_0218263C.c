@@ -1,5 +1,5 @@
 /*
- * function: func_0218263C
+ * function: gsiXmlUtilDecodeString
  * address:  0x0218263C
  * packet:   pkt_ov009_0218263C
  * region:   ov009
@@ -30,14 +30,14 @@
  *   func_020964E0                    0x020964e0 arm
  *   func_02092364                    0x02092364 arm
  *   func_020923B0                    0x020923b0 arm
- *   g_021A3F1C                       0x021a3f1c data
- *   g_021A3F24                       0x021a3f24 data
- *   g_021A3F2C                       0x021a3f2c data
- *   g_021A3F34                       0x021a3f34 data
- *   g_021A3F3C                       0x021a3f3c data
- *   g_021A3F44                       0x021a3f44 data
- *   g_021A3F48                       0x021a3f48 data
- *   g_021A3F50                       0x021a3f50 data
+ *   gGsXmlEntityAmp                       0x021a3f1c data
+ *   gGsXmlEntityQuot                       0x021a3f24 data
+ *   gGsXmlEntityApos                       0x021a3f2c data
+ *   gGsXmlEntityLt                       0x021a3f34 data
+ *   gGsXmlEntityGt                       0x021a3f3c data
+ *   gGsXmlEntityHexPrefix                       0x021a3f44 data
+ *   gGsXmlHex8Format                       0x021a3f48 data
+ *   gGsXmlEntityDecPrefix                       0x021a3f50 data
  */
 
 typedef unsigned char  u8;
@@ -48,16 +48,16 @@ typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern void *func_02092364(void *dst, const void *src, unsigned int n);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
-extern char g_021A3F1C[];       /* "&amp;" */
-extern char g_021A3F24[];       /* "&quot;" */
-extern char g_021A3F2C[];       /* "&apos;" */
-extern char g_021A3F34[];       /* "&lt;" */
-extern char g_021A3F3C[];       /* "&gt;" */
-extern char g_021A3F44[];       /* "&#x" */
-extern char g_021A3F48[];       /* "%08x" */
-extern char g_021A3F50[];       /* "&#" */
+extern char gGsXmlEntityAmp[];       /* "&amp;" */
+extern char gGsXmlEntityQuot[];       /* "&quot;" */
+extern char gGsXmlEntityApos[];       /* "&apos;" */
+extern char gGsXmlEntityLt[];       /* "&lt;" */
+extern char gGsXmlEntityGt[];       /* "&gt;" */
+extern char gGsXmlEntityHexPrefix[];       /* "&#x" */
+extern char gGsXmlHex8Format[];       /* "%08x" */
+extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
-int func_0218263C(char *buffer, int *len)
+int gsiXmlUtilDecodeString(char *buffer, int *len)
 {
 	int readPos = 0;
 
@@ -71,32 +71,32 @@ int func_0218263C(char *buffer, int *len)
 			continue;
 		}
 
-		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F1C, 5)==0)
+		if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityAmp, 5)==0)
 		{
 			buffer[readPos++] = '&';
 			charsToRemove = 5-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F24, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityQuot, 6)==0)
 		{
 			buffer[readPos++] = '"';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F2C, 6)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityApos, 6)==0)
 		{
 			buffer[readPos++] = '\'';
 			charsToRemove = 6-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F34, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityLt, 4)==0)
 		{
 			buffer[readPos++] = '<';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F3C, 4)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityGt, 4)==0)
 		{
 			buffer[readPos++] = '>';
 			charsToRemove = 4-1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F44, 3)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityHexPrefix, 3)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';
@@ -110,7 +110,7 @@ int func_0218263C(char *buffer, int *len)
 			if (digitEnd - &buffer[readPos+3] > 8)
 				return 0;
 
-			func_0208CF34(&buffer[readPos+3], g_021A3F48, &digitValue);
+			func_0208CF34(&buffer[readPos+3], gGsXmlHex8Format, &digitValue);
 
 			for (i=0; i < 4; i++)
 			{
@@ -125,7 +125,7 @@ int func_0218263C(char *buffer, int *len)
 
 			charsToRemove = digitEnd - &buffer[readPos] + 1;
 		}
-		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)g_021A3F50, 2)==0)
+		else if (func_020949F4((const u8 *)(&buffer[readPos]), (const u8 *)gGsXmlEntityDecPrefix, 2)==0)
 		{
 			unsigned int digitValue = 0;
 			char ch = ' ';

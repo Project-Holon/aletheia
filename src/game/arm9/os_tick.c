@@ -1,7 +1,7 @@
 /*
  * file:     os_tick.c
  * unit:     yes
- * function: func_02086FE8, OS_IsTickAvailable, func_02087068, func_020870D0, func_02087170
+ * function: OS_InitTick, OS_IsTickAvailable, OSi_CountUpTick, func_020870D0, OS_GetTickLo
  * address:  0x02086FE8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -52,13 +52,12 @@ extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
 extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_CountUpTick(void);
 extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void), void *arg);
-void func_02086FE8(void);
+void OS_InitTick(void);
 BOOL OS_IsTickAvailable(void);
-void func_02087068(void);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 OSTick OS_GetTick(void);
-unsigned short func_02087170(void);
+unsigned short OS_GetTickLo(void);
 extern OsTickBss g_02151330;
 
 
@@ -76,7 +75,7 @@ extern OsTickBss g_02151330;
 /*
  * sdk:      OS_InitTick (os_tick.o)
  */
-void func_02086FE8(void)
+void OS_InitTick(void)
 {
     if (g_02151330.OSi_UseTick) {
         return;
@@ -107,7 +106,7 @@ BOOL OS_IsTickAvailable(void)
 /*
  * sdk:      OSi_CountUpTick (os_tick.o)
  */
-void func_02087068(void)
+void OSi_CountUpTick(void)
 {
     g_02151330.OSi_TickCounter++;
 
@@ -141,7 +140,7 @@ OSTick OS_GetTick(void)
 /*
  * note:     os_tick.o OS_GetTickLo.
  */
-unsigned short func_02087170(void)
+unsigned short OS_GetTickLo(void)
 {
     return *(volatile unsigned short *)0x04000100;
 }

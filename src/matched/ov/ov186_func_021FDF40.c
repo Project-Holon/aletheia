@@ -1,5 +1,5 @@
 /*
- * function: func_021FDF40,func_021FDFF0
+ * function: BR_UTIL_EffectFlyInSlow,BR_UTIL_EffectNoop
  * unit: yes
  * address: 0x021FDF40
  * packet: pkt_ov186_021FDF40
@@ -10,8 +10,8 @@
  * status: EXACT
  * follower: empty return at 021FDFF0; trailing two zero alignment bytes excluded.
  * symbols:
- *   func_021FE3B4 0x021FE3B4 thumb ov186
- *   func_021FE3E4 0x021FE3E4 thumb ov186
+ *   BR_UTIL_InitSpiral 0x021FE3B4 thumb ov186
+ *   BR_UTIL_StepSpiral 0x021FE3E4 thumb ov186
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
@@ -22,11 +22,11 @@ struct Obj;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Pair;
-extern int func_021FE3B4(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
+extern int BR_UTIL_InitSpiral(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_AddActorSurfacePos(int,ShortPair *,unsigned short);
-extern int func_021FE3E4(char *p, int *out, int step);
-void func_021FDF40(int unused,int *state,Motion *p)
+extern int BR_UTIL_StepSpiral(char *p, int *out, int step);
+void BR_UTIL_EffectFlyInSlow(int unused,int *state,Motion *p)
 {
     Pair full;
     ShortPair pos;
@@ -35,13 +35,13 @@ void func_021FDF40(int unused,int *state,Motion *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            func_021FE3B4((u8 *)p->record[i],(const struct Pair *)p,10,(i*0xFFFF)/6,90);
+            BR_UTIL_InitSpiral((u8 *)p->record[i],(const struct Pair *)p,10,(i*0xFFFF)/6,90);
             CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE3E4(p->record[i],(int *)(&full),p->timer);
+            BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
             CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
         }
@@ -49,6 +49,6 @@ void func_021FDF40(int unused,int *state,Motion *p)
         break;
     }
 }
-void func_021FDFF0(void)
+void BR_UTIL_EffectNoop(void)
 {
 }

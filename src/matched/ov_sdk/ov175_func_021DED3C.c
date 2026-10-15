@@ -17,8 +17,8 @@
  *   sReadTagTableid     0x021E3EFC  data
  *   sReadTagFilter     0x021E3F04  data
  *   sReadTagMax     0x021E3F1C  data
- *   func_02182AC0  0x02182AC0  arm
- *   func_02182CF0  0x02182CF0  arm
+ *   gsXmlWriteStringElement  0x02182AC0  arm
+ *   gsXmlWriteIntElement  0x02182CF0  arm
  *   sakeiFillSoapRequestFieldNames  0x021DE184  arm  ov175
  */
 
@@ -28,20 +28,20 @@ extern char sReadXmlNamespacePrefix[];
 extern char sReadTagTableid[];
 extern char sReadTagFilter[];
 extern char sReadTagMax[];
-extern void func_02182AC0(void *, void *, void *, void *);
-extern void func_02182CF0(void *, void *, void *, int);
+extern void gsXmlWriteStringElement(void *, void *, void *, void *);
+extern void gsXmlWriteIntElement(void *, void *, void *, int);
 extern void sakeiFillSoapRequestFieldNames(u32 ctx, u32 *arr, int n);
 
 int sakeiGetRandomRecordFillSoapRequest(u32 ctx)
 {
     u32 *p = *(u32 **)((char *)ctx + 8);
 
-    func_02182AC0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagTableid,
+    gsXmlWriteStringElement(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagTableid,
                   (void *)p[0]);
     if (p[3] != 0)
-        func_02182AC0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFilter,
+        gsXmlWriteStringElement(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFilter,
                       (void *)p[3]);
-    func_02182CF0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagMax, 1);
+    gsXmlWriteIntElement(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagMax, 1);
     sakeiFillSoapRequestFieldNames(ctx, (u32 *)p[1], p[2]);
     return 0;
 }

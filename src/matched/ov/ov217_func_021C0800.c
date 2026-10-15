@@ -1,5 +1,5 @@
 /*
- * function: func_021C0800
+ * function: RESEARCH_GRAPH_DeletePalAnm
  * address:  0x021C0800
  * packet:   pkt_021B9850
  * region:   ov217
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   PALANM_Delete  0x02021540  thumb
- *   func_021C0800  0x021C0800  thumb  ov217
+ *   RESEARCH_GRAPH_DeletePalAnm  0x021C0800  thumb  ov217
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb  arm9
  *
  *
@@ -35,7 +35,7 @@ typedef signed int     s32;
 extern u32 PALANM_Delete(void *a0);
 struct PalAnmSlot;
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-u32 func_021C0800(u32 a0)
+u32 RESEARCH_GRAPH_DeletePalAnm(u32 a0)
 {
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 0);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 2);

@@ -1,5 +1,5 @@
 /*
- * function: func_021FB4B4
+ * function: BR_BTN_HitTestWithSound
  * address:  0x021FB4B4
  * packet:   pkt_021FB4B4
  * region:   ov186
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FB4CC  0x021FB4CC  thumb  ov186
+ *   BR_BTN_TestHitBox  0x021FB4CC  thumb  ov186
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
-extern int func_021FB4CC(unsigned int *p, int a1, int a2);
+extern int BR_BTN_TestHitBox(unsigned int *p, int a1, int a2);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int func_021FB4B4(unsigned int *obj, int x, int y)
+int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y)
 {
-    int r = func_021FB4CC(obj, x, y);
+    int r = BR_BTN_TestHitBox(obj, x, y);
 
     if (r != 0)
         GFL_USE_PlaySeDefaultVolume(0x703);

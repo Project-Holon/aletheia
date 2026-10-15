@@ -1,5 +1,5 @@
 /*
- * function: func_02183BA4
+ * function: gsXmlReadChildAsDateTimeElement
  * address:  0x02183BA4
  * packet:   pkt_ov009_02183BA4
  * region:   ov009
@@ -17,7 +17,7 @@
  *   gsiXmlUtilTagMatches  0x02183D98 arm ov009
  *   func_0208CF34         0x0208CF34 arm
  *   func_0217F478         0x0217F478 arm ov009
- *   g_021A3FA0            0x021A3FA0 data
+ *   gGsXmlDateTimeFormatNoZ            0x021A3FA0 data
  */
 
 struct GSIXmlStreamReader
@@ -56,9 +56,9 @@ struct tm {
 
 extern int func_0208CF34(char *src, char *fmt, ...);
 extern long func_0217F478(struct tm *tb);
-extern char g_021A3FA0[];
+extern char gGsXmlDateTimeFormatNoZ[];
 
-int func_02183BA4(void *stream, char *matchtag, long *valueOut)
+int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut)
 {
     struct GSIXmlStreamReader *reader = (struct GSIXmlStreamReader *)stream;
     struct GSIXmlElement *searchValueElem;
@@ -76,7 +76,7 @@ int func_02183BA4(void *stream, char *matchtag, long *valueOut)
             reader->readIndex = i;
             if (searchValueElem->value == 0)
                 return 0;
-            func_0208CF34(searchValueElem->value, g_021A3FA0, &timePtr.tm_year, &timePtr.tm_mon,
+            func_0208CF34(searchValueElem->value, gGsXmlDateTimeFormatNoZ, &timePtr.tm_year, &timePtr.tm_mon,
                           &timePtr.tm_mday, &timePtr.tm_hour, &timePtr.tm_min, &timePtr.tm_sec);
             timePtr.tm_year -= 1900;
             timePtr.tm_mon -= 1;

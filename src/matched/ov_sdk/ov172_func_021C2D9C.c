@@ -22,6 +22,7 @@
  * symbols:
  *   g_021CAE28  0x021CAE28  data
  *   g_021CADF0  0x021CADF0  data
+ *   STD_CopyLString  0x0208CB10  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -33,9 +34,9 @@ typedef unsigned int   u32;
 extern char g_021CAE28[];
 extern u8   g_021CADF0[];
 
-int func_0208CB10(char *destp, const char *srcp, int siz);
+int STD_CopyLString(char *destp, const char *srcp, int siz);
 
 void SSP_SetJpegEncoderSoftware(const char *s)
 {
-    *(u32 *)(g_021CADF0 + 0xc) = func_0208CB10(g_021CAE28, s, 0x1e) + 1;
+    *(u32 *)(g_021CADF0 + 0xc) = STD_CopyLString(g_021CAE28, s, 0x1e) + 1;
 }

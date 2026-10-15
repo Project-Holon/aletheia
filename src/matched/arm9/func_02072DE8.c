@@ -13,7 +13,7 @@
  *   gSndPlayers     0x0214E464  data
  *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNS_SndHeapCreate  0x020746E8  arm
- *   func_020604AC  0x020604AC  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *
  * Allocate a node through NNS_SndHeapAlloc with NNSi_SndPlayerHeapDisposeCallback as its destructor,
  * seed three fields, load it from `src`, and on success link it into the
@@ -53,7 +53,7 @@ extern struct Slot gSndPlayers[];
 
 extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern u32 NNS_SndHeapCreate(u32 off, u32 size);
-extern void func_020604AC(void *list, void *node);
+extern void NNS_FndAppendListObject(void *list, void *node);
 
 u32 NNS_SndPlayerCreateHeap(int idx, u32 a, void *src)
 {
@@ -72,6 +72,6 @@ u32 NNS_SndPlayerCreateHeap(int idx, u32 a, void *src)
         return 0;
     }
     n->f08 = r;
-    func_020604AC(&gSndPlayers[idx].f0c, n);
+    NNS_FndAppendListObject(&gSndPlayers[idx].f0c, n);
     return 1;
 }

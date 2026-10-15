@@ -1,5 +1,5 @@
 /*
- * function: func_021D7420
+ * function: WIFI_BSUBWAY_GRAPHIC_NoopRetry
  * address:  0x021D7420
  * packet:   pkt_ov116_021D7420
  * region:   ov116
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D7420(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *a0) { }

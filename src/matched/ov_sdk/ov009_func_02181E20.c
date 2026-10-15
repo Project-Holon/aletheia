@@ -1,5 +1,5 @@
 /*
- * function: func_02181E20
+ * function: gsXmlWriterGetDataLength
  * address:  0x02181E20
  * packet:   pkt_ov009_02181E20
  * region:   ov009
@@ -22,7 +22,7 @@ typedef struct GSIXmlStreamWriter {
     int openElements;           /* +0x0c */
 } GSIXmlStreamWriter;
 
-int func_02181E20(void *stream)
+int gsXmlWriterGetDataLength(void *stream)
 {
     return ((GSIXmlStreamWriter *)stream)->len;
 }

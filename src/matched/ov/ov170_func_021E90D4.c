@@ -1,5 +1,5 @@
 /*
- * function: func_021E90D4
+ * function: BOX2_SEQ_StateUseItemWait
  * address: 0x021E90D4
  * packet: pkt_ov170_021E90D4
  * region: ov170
@@ -8,39 +8,39 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021ED6E4 0x021ED6E4 thumb ov170
- *   func_021EBA5C 0x021EBA5C thumb ov170
- *   func_021DD14C 0x021DD14C thumb ov170
- *   func_021DE728 0x021DE728 thumb ov170
- *   func_021EC94C 0x021EC94C thumb ov170
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
+ *   BOX2_MAIN_ResetMovers 0x021DE728 thumb ov170
+ *   BOX2_SEQ_ResetActorAffine 0x021EC94C thumb ov170
  *   func_020355C4 0x020355C4 arm
  *   func_020260F4 0x020260F4 thumb
- *   func_021ED55C 0x021ED55C thumb ov170
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
  */
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern void func_021DE728(unsigned char *p);
-extern void func_021EC94C(char *p);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_MAIN_ResetMovers(unsigned char *p);
+extern void BOX2_SEQ_ResetActorAffine(char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
 extern u8 func_020355C4(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern void func_021ED55C(char **p, int flag);
+extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 #define WORK(p) (*(char **)((p) + 0x2C))
-int func_021E90D4(unsigned char *p)
+int BOX2_SEQ_StateUseItemWait(unsigned char *p)
 {
-    func_021ED6E4((char **)p, 0);
-    func_021EBA5C(WORK(p), 0x18);
-    func_021DD14C((char *)p);
-    func_021DE728(p);
-    func_021EC94C(*(char **)(WORK(p) + 0xA190));
+    BOX2_SEQ_SetSlotDim((char **)p, 0);
+    BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
+    BOX2_MAIN_RefreshCursorBox((char *)p);
+    BOX2_MAIN_ResetMovers(p);
+    BOX2_SEQ_ResetActorAffine(*(char **)(WORK(p) + 0xA190));
     if (func_020355C4() == 1) {
         func_020260F4(*(void **)(WORK(p) + 0x70), 0);
     } else {
         func_020260F4(*(void **)(WORK(p) + 0x70), 1);
-        func_021ED55C((char **)p, 0);
+        BOX2_SEQ_SetCursorDraw((char **)p, 0);
     }
     return 0x5A;
 }

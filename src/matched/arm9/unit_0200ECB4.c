@@ -10,21 +10,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200ECB4, sub_0200ECC4, sub_0200ECD0
+ * function: MISC_SAVEDATA_GetRingIndex, MISC_SAVEDATA_GetRingRemaining, MISC_SAVEDATA_GetRingRecordIndex
  *
  * symbols:
  *   sub_0200EC14   0x0200EC14  thumb
  *
  * The tail of this packet: three unlabelled accessors of the object
- * func_0200EBD0 and func_0200EC2C work on (their bytes print as `.word`
+ * MISC_SAVEDATA_AppendPartyRecord and MISC_SAVEDATA_ExportRecord work on (their bytes print as `.word`
  * runs because none of them saves lr, see docs/idioms/
  * unlabelled-leaf-functions-hide-in-word-runs.md).  The byte range here is
  * 0x0200ECB4..0x0200ECF0, its two leading pad bytes belong to
- * sub_0200EC98 (which is not part of this file), and the three pool words
+ * MISC_SAVEDATA_GetRecordDate (which is not part of this file), and the three pool words
  * between the functions are each function's own.
  *
- * sub_0200ECD0 is a tail call through a pool word to
- * src/matched/func_0200EC14.c, and the pool word is the only reference to
+ * MISC_SAVEDATA_GetRingRecordIndex is a tail call through a pool word to
+ * src/matched/MISC_SAVEDATA_FindFreeRecordSlot.c, and the pool word is the only reference to
  * 0x0200EC14 anywhere in the image, so that entry is what makes this file
  * verifiable at all (the `matched` class).
  */
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern int sub_0200EC14(char *o);
 
-u32 sub_0200ECB4(char *o)
+u32 MISC_SAVEDATA_GetRingIndex(char *o)
 {
     u32 v = ((struct Obj17088 *)o)->f1558;
 
@@ -45,12 +45,12 @@ u32 sub_0200ECB4(char *o)
     return v;
 }
 
-u32 sub_0200ECC4(char *o, u32 n)
+u32 MISC_SAVEDATA_GetRingRemaining(char *o, u32 n)
 {
     return ((struct Obj17089 *)o)->f1558 - n;
 }
 
-int sub_0200ECD0(char *o, int idx)
+int MISC_SAVEDATA_GetRingRecordIndex(char *o, int idx)
 {
     int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
 

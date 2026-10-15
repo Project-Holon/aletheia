@@ -74,7 +74,7 @@
  *   sub_020124F4   0x020124F4  thumb
  *   sub_02012EBC   0x02012EBC  thumb
  *   sub_02009448   0x02009448  thumb
- *   sub_020092EC   0x020092EC  thumb
+ *   BLOCK20_SAVEDATA_GetPending   0x020092EC  thumb
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
  *   gNetSaveMainProc     0x021D6338  data  ov115
@@ -285,7 +285,7 @@ extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *sub_020124F4(u16 heapId);
 extern struct SaveControl *sub_02012EBC(void *gameData);
 extern struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
-extern u8 sub_020092EC(const struct GameSyncData *data);
+extern u8 BLOCK20_SAVEDATA_GetPending(const struct GameSyncData *data);
 extern void PROCSYS_PushGlobal(u32 overlayId, const void *procData, void *arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
 extern int GFL_USE_PollPowerExit(void);
@@ -1312,7 +1312,7 @@ int sub_02010A5C(void *proc)
     work->heapId = 0x67;
     gameData = sub_020124F4(0x67);
     work->gameData = gameData;
-    if (sub_020092EC(sub_02009448(sub_02012EBC(gameData))) != 0) {
+    if (BLOCK20_SAVEDATA_GetPending(sub_02009448(sub_02012EBC(gameData))) != 0) {
         work->state = 1;
         work->skipFinalSave = 1;
     } else {

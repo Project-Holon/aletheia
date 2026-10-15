@@ -1,5 +1,5 @@
 /*
- * function: func_0219FE10
+ * function: BufferAddData
  * address:  0x0219FE10
  * packet:   pkt_ov009_0219FE10
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern void *unit_02092344(void *dst, const void *src, unsigned long n);
 
-void func_0219FE10(char **buffer, char *data, int dlen, int *len)
+void BufferAddData(char **buffer, char *data, int dlen, int *len)
 {
     unit_02092344(*buffer, data, dlen);
     *len += dlen;

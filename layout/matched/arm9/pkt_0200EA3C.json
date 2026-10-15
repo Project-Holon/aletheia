@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200EA3C",
+   "name": "MISC_SAVEDATA_SnapshotParty",
    "address": "0x0200EA3C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200EBD0",
+   "name": "MISC_SAVEDATA_AppendPartyRecord",
    "address": "0x0200EBD0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200EC14",
+   "name": "MISC_SAVEDATA_FindFreeRecordSlot",
    "address": "0x0200EC14",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200EC2C",
+   "name": "MISC_SAVEDATA_ExportRecord",
    "address": "0x0200EC2C",
    "kind": "game",
    "region": "arm9",
@@ -66,9 +66,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200ECB4",
-    "sub_0200ECC4",
-    "sub_0200ECD0"
+    "MISC_SAVEDATA_GetRingIndex",
+    "MISC_SAVEDATA_GetRingRemaining",
+    "MISC_SAVEDATA_GetRingRecordIndex"
+   ],
+   "addresses": [
+    "0x0200ECB4",
+    "0x0200ECC4",
+    "0x0200ECD0"
    ]
   }
  ]

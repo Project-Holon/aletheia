@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082E74  0x02082E74  arm twl
+ *   MI_CpuComp8  0x02082E74  arm twl
  *   NWMi_GetSystemWork  0x027026DC  arm
  *   NWM_StartScanEx  0x02703088  arm
  *   NWM_GetInfoElements  0x02703208  arm
@@ -59,7 +59,7 @@ extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
-extern u32 func_02082E74(void *, void *, u32);
+extern u32 MI_CpuComp8(void *, void *, u32);
 u32 NWM_StartScanEx(u32 a0, const ApInfo *a1);
 u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
 u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2);
@@ -71,7 +71,7 @@ u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2) {
         return 0;
     }
     while (p + p[1] + 2 <= end) {
-        if (*p == a1 && func_02082E74(p + 2, a2, 4) == 0) {
+        if (*p == a1 && MI_CpuComp8(p + 2, a2, 4) == 0) {
             return p;
         }
         p += p[1] + 2;

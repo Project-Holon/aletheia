@@ -1,5 +1,5 @@
 /*
- * function: func_021DC720
+ * function: POKETRADE_PROC_DeleteAllResources
  * address: 0x021DC720
  * packet: pkt_ov119_021DC720
  * region: ov119
@@ -53,7 +53,7 @@ extern void POKETRADE_2D_ExitSubBgs(int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 #define P(o) (*(void **)(p+(o)))
-void func_021DC720(char *p)
+void POKETRADE_PROC_DeleteAllResources(char *p)
 {
     int i;
     *(volatile unsigned *)0x04001000 &= ~0xe000;

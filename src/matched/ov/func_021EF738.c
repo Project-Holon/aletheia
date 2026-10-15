@@ -1,5 +1,5 @@
 /*
- * function: func_021EF738
+ * function: BOX2_UI_PutInfoBar
  * address:  0x021EF738
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@ typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_021EF738(struct WinMgr *mgr)
+void BOX2_UI_PutInfoBar(struct WinMgr *mgr)
 {
     BGWINFRM_PutFrame(mgr, 9, 0x20, 0);
     BGWINFRM_StartMove(mgr, 9, -1, 0, 0xb);

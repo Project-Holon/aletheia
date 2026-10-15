@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060F90
+ * function: NNSi_FndGetMBlockSize
  * address:  0x02060F90
  * packet:   pkt_02060CD0
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02060F90(char *p){ return *(int *)(p - 0xc); }
+int NNSi_FndGetMBlockSize(char *p){ return *(int *)(p - 0xc); }

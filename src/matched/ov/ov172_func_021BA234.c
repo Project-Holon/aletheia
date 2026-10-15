@@ -1,5 +1,5 @@
 /*
- * function: func_021BA234
+ * function: CTVT_MIC_StopVoice
  * address: 0x021BA234
  * packet: pkt_ov172_021BA234
  * region: ov172
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Slot02072BDC Slot02072BDC;
 extern void NNS_SndWaveOutStop(Slot02072BDC *s);
-void func_021BA234(void *p)
+void CTVT_MIC_StopVoice(void *p)
 {
     ((struct Obj04555 *)p)->fC = 0;
     NNS_SndWaveOutStop(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);

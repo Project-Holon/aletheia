@@ -1,5 +1,5 @@
 /*
- * function: func_021BFC50
+ * function: RESEARCH_GRAPH_ClearGraphTable
  * address:  0x021BFC50
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(u32, u32, u32);
 
-void func_021BFC50(u8 *a0)
+void RESEARCH_GRAPH_ClearGraphTable(u8 *a0)
 {
     MI_CpuFill8((u32)(a0 + 56), 0, 640);
 }

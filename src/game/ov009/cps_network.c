@@ -57,7 +57,7 @@
  *   g_021A826C  0x021A826C  data
  *   OS_JoinThread  0x02085710  arm
  *   OS_DestroyThread  0x020855BC  arm
- *   func_020873F8  0x020873F8  arm
+ *   OS_CancelAlarm  0x020873F8  arm
  *   func_02157290  0x02157290  arm  ov009
  *   g_021A86A4  0x021A86A4  data
  *   g_021A82FC  0x021A82FC  data
@@ -100,23 +100,23 @@
  *   dt_rst            0x0215A0CC  arm  ov009
  *   g_021A8A64                       0x021a8a64 data
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02162968  0x02162968  arm  ov009
+ *   CPSi_SslConnect  0x02162968  arm  ov009
  *   _tcp_send_finack                 0x02159494 arm
  *   CPSi_SslShutdown                 0x02162dd8 arm
- *   func_02162E5C  0x02162E5C  arm  ov009
+ *   CPSi_SslClose  0x02162E5C  arm  ov009
  *   func_02157390  0x02157390  arm  ov009
- *   func_021629BC  0x021629BC  arm  ov009
+ *   CPSi_SslRead  0x021629BC  arm  ov009
  *   MI_CpuMove               0x02083194  arm
  *   OS_Terminate             0x02088234  arm
  *   CPSi_SslConsume                  0x02162a94 arm
  *   CPSi_SocConsumeRaw               0x0215af14 arm
  *   tcp_write_do                     0x0215b09c arm
  *   tcp_write_do2                    0x0215b15c arm ov009
- *   func_02162CA0  0x02162CA0  arm  ov009
+ *   CPSi_SslWrite2  0x02162CA0  arm  ov009
  *   func_02083194  0x02083194  arm
- *   func_02162C28  0x02162C28  arm  ov009
+ *   CPSi_SslGetLength  0x02162C28  arm  ov009
  *   d_021A826C     0x021A826C  data
- *   func_02162EC4  0x02162EC4  arm  ov009
+ *   CPSi_SslPeriodical  0x02162EC4  arm  ov009
  *   g_021A83E4     0x021A83E4  data
  *   g_021A88E4     0x021A88E4  data
  *   g_021A8764     0x021A8764  data
@@ -238,7 +238,7 @@ extern int OS_IsThreadTerminated(void *thread);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_JoinThread(void *thread);
 extern void OS_DestroyThread(void *thread);
-extern void func_020873F8(void *alarm);
+extern void OS_CancelAlarm(void *alarm);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern unsigned long is_broadcast(unsigned long ip);
 extern void func_02082EA4(void *src, void *dst, unsigned long size);
@@ -256,21 +256,21 @@ extern CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr);
 extern void OS_YieldThread(void);
 extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
 extern void dt_rst(unsigned char *iphdr, unsigned char *tcphdr);
-extern unsigned long func_02162968(struct _CPSSoc *soc);
+extern unsigned long CPSi_SslConnect(struct _CPSSoc *soc);
 void _tcp_send_finack(int a);
 extern void CPSi_SslShutdown(struct _CPSSoc *soc);
-extern void func_02162E5C(void *soc);
-extern unsigned char *func_021629BC(unsigned long *len, struct _CPSSoc *soc);
+extern void CPSi_SslClose(void *soc);
+extern unsigned char *CPSi_SslRead(unsigned long *len, struct _CPSSoc *soc);
 extern void MI_CpuMove(void *srcp, void *destp, unsigned long size);
 extern void OS_Terminate(void);
 extern void CPSi_SslConsume(unsigned long len, struct _CPSSoc *soc);
 extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
 extern unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct _CPSSoc *soc, int need_probe);
 extern void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
-extern unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct _CPSSoc *soc);
+extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct _CPSSoc *soc);
 extern void func_02083194(void *src, void *dst, unsigned long size);
-extern long func_02162C28(struct CPSSoc *soc);
-extern void func_02162EC4(unsigned long now);
+extern long CPSi_SslGetLength(struct CPSSoc *soc);
+extern void CPSi_SslPeriodical(unsigned long now);
 extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 void dacktimer_alarmhandler(void);
 extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
@@ -1338,7 +1338,7 @@ void dacktimer_reschedule(void)
 		}
 	}
 	if (nextdelay != 0xffffffff) {
-		func_020873F8(g_021A82FC);
+		OS_CancelAlarm(g_021A82FC);
 		func_0208738C(g_021A82FC, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
@@ -1553,7 +1553,7 @@ void scavenger(void)
             }
         }
 
-        func_02162EC4(now);
+        CPSi_SslPeriodical(now);
         if (g_021A826C.periodic)
             g_021A826C.periodic();
     }
@@ -1644,7 +1644,7 @@ long CPS_SocGetLength(void)
         if (*(unsigned char *)(soc + 8) == 4)
             _tcp_send_ack((CPSSoc *)soc, 1);
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_02162C28((struct CPSSoc *)soc);
+            return CPSi_SslGetLength((struct CPSSoc *)soc);
         count = *(long *)(soc + 0x50);
         if (count != 0)
             return count;
@@ -1717,7 +1717,7 @@ unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned cha
 				send_ping(buf2, len2, soc);
 			total_written = len + len2;
 		} else if (soc->ssl) {
-			total_written = func_02162CA0(buf, len, buf2, len2, (struct _CPSSoc *)soc);
+			total_written = CPSi_SslWrite2(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		} else {
 			total_written = CPSi_TcpWrite2Raw(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		}
@@ -1964,7 +1964,7 @@ unsigned char *CPS_SocRead(unsigned long *len)
         if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
             return udp_read_raw(len, (struct _CPSSoc *)soc);
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_021629BC(len, (struct _CPSSoc *)soc);
+            return CPSi_SslRead(len, (struct _CPSSoc *)soc);
         return CPSi_TcpReadRaw(len, soc);
     }
     *len = 0;
@@ -2059,7 +2059,7 @@ void CPS_TcpClose(void)
     if (soc == 0)
         return;
     if (*(unsigned char *)(soc + 9) != 0)
-        func_02162E5C(soc);
+        CPSi_SslClose(soc);
     start = (unsigned long)(func_020870D0() >> 16);
     while (g_021A826C.link_is_on() != 0 && *(unsigned char *)(soc + 8) != 0 &&
            (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x27)
@@ -2139,7 +2139,7 @@ unsigned long CPS_TcpConnect(void)
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_02162968((struct _CPSSoc *)soc);
+            return CPSi_SslConnect((struct _CPSSoc *)soc);
         return CPSi_TcpConnectRaw((struct _CPSSoc *)soc);
     }
     return 1;
@@ -4749,7 +4749,7 @@ void CPS_Cleanup(void)
     CPS_CalmDown();
     OS_JoinThread(((char *)&g_021A85E4));
     OS_DestroyThread(((char *)&g_021A86A4));
-    func_020873F8(g_021A82FC);
+    OS_CancelAlarm(g_021A82FC);
     enable = OS_DisableInterrupts();
     if (!OS_IsThreadTerminated(((char *)&g_021A8524)))
         OS_WakeupThreadDirect((struct _OSThread *)(((char *)&g_021A8524)));

@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  +0010 PC24 func_020895F8           -> unresolved: 020895F8 (arm, from header) has no witness outside 02072974..020729A4
+ * blocker:  +0010 PC24 SND_UnlockChannel           -> unresolved: 020895F8 (arm, from header) has no witness outside 02072974..020729A4
  *
  * symbols:
- *   func_020895F8    0x020895F8  arm
+ *   SND_UnlockChannel    0x020895F8  arm
  *   gNNSSndWaveOutState       0x0214DEC0  data
  *
  * Releases one channel of the allocator: unlocks it and clears the channel bit
@@ -25,7 +25,7 @@
 
 typedef unsigned int u32;
 
-extern void func_020895F8(u32 chan, u32 a);
+extern void SND_UnlockChannel(u32 chan, u32 a);
 extern u32  gNNSSndWaveOutState[];
 
 void SND_CHANNEL_UnlockChannels(u32 chan)
@@ -33,6 +33,6 @@ void SND_CHANNEL_UnlockChannels(u32 chan)
     if (chan == 0) {
         return;
     }
-    func_020895F8(chan, 0);
+    SND_UnlockChannel(chan, 0);
     gNNSSndWaveOutState[2] &= ~chan;
 }

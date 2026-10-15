@@ -24,14 +24,14 @@
  *   stand-ins (DWARF: jexif, cfg_encode_exif, 28 block-scoped `entry`).
  *
  * symbols:
- *   g_021CAE48 0x021CAE48 data ov172
- *   g_021CB728 0x021CB728 data
- *   g_021CC070 0x021CC070 data ov172
- *   g_021CAEE8 0x021CAEE8 data ov172
- *   g_021CB308 0x021CB308 data ov172
- *   g_021CBBA0 0x021CBBA0 data ov172
- *   g_021C8894 0x021C8894 data ov172
- *   g_021C88A0 0x021C88A0 data ov172
+ *   gExifIfdSlotManager 0x021CAE48 data ov172
+ *   gExifIfd0Slots 0x021CB728 data
+ *   gExifExifIfdSlots 0x021CC070 data ov172
+ *   gExifMakerNoteSlots 0x021CAEE8 data ov172
+ *   gExifInteropIfdSlots 0x021CB308 data ov172
+ *   gExifIfd1Slots 0x021CBBA0 data ov172
+ *   gExifMake 0x021C8894 data ov172
+ *   gExifModel 0x021C88A0 data ov172
  *   dateTimeDataFlag 0x021CADF0 data ov172
  *   encode_file_size 0x021CADF4 data ov172
  *   SSPiEncodeSignCheckMode 0x021CADF8 data ov172
@@ -43,13 +43,14 @@
  *   SSPiMakerNoteUserBuffer 0x021CAE10 data ov172
  *   dateTimeData 0x021CAE14 data ov172
  *   SSPiSoftware 0x021CAE28 data ov172
- *   g_021C88AC 0x021C88AC data ov172
- *   g_021C88B4 0x021C88B4 data ov172
- *   g_021CAE90 0x021CAE90 data
- *   g_021CAEC6 0x021CAEC6 data ov172
- *   g_021C88BC 0x021C88BC data ov172
- *   g_021C88C0 0x021C88C0 data ov172
+ *   gExifVersion 0x021C88AC data ov172
+ *   gExifFlashpixVersion 0x021C88B4 data ov172
+ *   gExifMakerNoteConfig 0x021CAE90 data
+ *   gExifMakerNoteConfigData 0x021CAEC6 data ov172
+ *   gExifInteropIndex 0x021C88BC data ov172
+ *   gExifRelatedImageFormat 0x021C88C0 data ov172
  *   write_exif_ifd_tables 0x021C3A28 arm ov172
+ *   STD_CopyLString  0x0208CB10  arm  arm9
  */
 
 #include "../include/G_Ae90.h"
@@ -110,14 +111,14 @@ struct UnkObj
   u8 *buffer;
   u32 field18;
 };
-extern struct SlotManager g_021CAE48;
-extern struct Slot g_021CB728[];
-extern struct Slot g_021CC070[];
-extern struct Slot g_021CAEE8[];
-extern struct Slot g_021CB308[];
-extern struct Slot g_021CBBA0[];
-extern const char g_021C8894[];
-extern const char g_021C88A0[];
+extern struct SlotManager gExifIfdSlotManager;
+extern struct Slot gExifIfd0Slots[];
+extern struct Slot gExifExifIfdSlots[];
+extern struct Slot gExifMakerNoteSlots[];
+extern struct Slot gExifInteropIfdSlots[];
+extern struct Slot gExifIfd1Slots[];
+extern const char gExifMake[];
+extern const char gExifModel[];
 static int dateTimeDataFlag = 0;
 static u8 *SSPiMakerNoteUserBuffer = 0;
 static u8 *SSPiMakerNoteBuffer = 0;
@@ -130,12 +131,12 @@ static u32 encode_file_size = 0;
 static char dateTimeData[20] = {0};
 static char SSPiSoftware[30] = {0};
 
-extern const char g_021C88AC[];
-extern const char g_021C88B4[];
-extern struct Ae90 g_021CAE90;
-extern const char g_021CAEC6[];
-extern const char g_021C88BC[];
-extern const char g_021C88C0[];
+extern const char gExifVersion[];
+extern const char gExifFlashpixVersion[];
+extern struct Ae90 gExifMakerNoteConfig;
+extern const char gExifMakerNoteConfigData[];
+extern const char gExifInteropIndex[];
+extern const char gExifRelatedImageFormat[];
 extern void STD_CopyLString(char *dst, const char *src, u32 n);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u8 *thumb_src, u32 thumb_size);
@@ -145,22 +146,22 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s16 cfg_encode_gray_scale;
   s16 cfg_input_width;
   s16 cfg_input_height;
-  struct SlotManager *sb = &g_021CAE48;
+  struct SlotManager *sb = &gExifIfdSlotManager;
   struct Slot *s;
   s16 cfg_encode_exif_;
-  sb->ptr0 = g_021CB728;
+  sb->ptr0 = gExifIfd0Slots;
   sb->count0 = 0;
   sb->field8 = 0;
-  sb->ptrC = g_021CC070;
+  sb->ptrC = gExifExifIfdSlots;
   sb->count1 = 0;
   sb->field14 = 0;
-  sb->ptr18 = g_021CAEE8;
+  sb->ptr18 = gExifMakerNoteSlots;
   sb->count2 = 0;
   sb->field20 = 0;
-  sb->ptr24 = g_021CB308;
+  sb->ptr24 = gExifInteropIfdSlots;
   sb->count3 = 0;
   sb->field2C = 0;
-  sb->ptr30 = g_021CBBA0;
+  sb->ptr30 = gExifIfd1Slots;
   sb->count4 = 0;
   sb->field38 = 0;
   if (encode_option & 1)
@@ -184,7 +185,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  STD_CopyLString(s->str, g_021C8894, 9);
+  STD_CopyLString(s->str, gExifMake, 9);
   s->field54 = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
@@ -196,7 +197,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_0208CB10(s->str, g_021C88A0, 11);
+  func_0208CB10(s->str, gExifModel, 11);
   s->field54 = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
@@ -280,7 +281,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(g_021C88AC, s->field18, 4);
+  func_02082EA4(gExifVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -346,7 +347,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(g_021C88B4, s->field18, 4);
+  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -384,15 +385,15 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   sb->count2 = 0;
   sb->count1++;
   s = &sb->ptr18[sb->count2];
-  s->tag = g_021CAE90.tag;
-  s->type = g_021CAE90.type;
-  s->count = g_021CAE90.count;
-  s->field8 = g_021CAE90.f8;
-  s->fieldA = g_021CAE90.fa;
-  s->fieldC = g_021CAE90.fc;
-  s->field10 = g_021CAE90.f10;
-  s->field14 = g_021CAE90.f14;
-  func_0208CB10(s->str, g_021CAEC6, s->count);
+  s->tag = gExifMakerNoteConfig.tag;
+  s->type = gExifMakerNoteConfig.type;
+  s->count = gExifMakerNoteConfig.count;
+  s->field8 = gExifMakerNoteConfig.f8;
+  s->fieldA = gExifMakerNoteConfig.fa;
+  s->fieldC = gExifMakerNoteConfig.fc;
+  s->field10 = gExifMakerNoteConfig.f10;
+  s->field14 = gExifMakerNoteConfig.f14;
+  func_0208CB10(s->str, gExifMakerNoteConfigData, s->count);
   s->field54 = 0;
   sb->count2++;
   if (SSPiMakerNoteBufferSize != 0)
@@ -433,7 +434,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_0208CB10(s->str, g_021C88BC, 4);
+  func_0208CB10(s->str, gExifInteropIndex, 4);
   s->field54 = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];
@@ -445,7 +446,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(g_021C88B4, s->field18, 4);
+  func_02082EA4(gExifFlashpixVersion, s->field18, 4);
   s->field54 = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];
@@ -457,7 +458,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_0208CB10(s->str, g_021C88C0, 18);
+  func_0208CB10(s->str, gExifRelatedImageFormat, 18);
   s->field54 = 0;
   sb->count4 = 0;
   sb->count3++;
@@ -519,13 +520,13 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     sb->count0++;
     if (sb->count2 != 0)
     {
-      if (((g_021CAE90.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
+      if (((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
       {
         struct Slot *m = &sb->ptrC[4];
         m->tag = 0x927C;
         m->type = 7;
         m->count = 6;
-        if (g_021CAE90.count != 0)
+        if (gExifMakerNoteConfig.count != 0)
         {
           m->count += 12;
         }
@@ -537,7 +538,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
         {
           m->count += 12;
         }
-        m->count = ((g_021CAE90.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) + m->count;
+        m->count = ((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) + m->count;
       }
     }
     if (sb->count3 != 0)
@@ -573,13 +574,13 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     sb->count0++;
     if (sb->count2 != 0)
     {
-      if (((g_021CAE90.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
+      if (((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
       {
         struct Slot *m = &sb->ptrC[4];
         m->tag = 0x927C;
         m->type = 7;
         m->count = 6;
-        if (g_021CAE90.count != 0)
+        if (gExifMakerNoteConfig.count != 0)
         {
           m->count += 12;
         }
@@ -591,7 +592,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
         {
           m->count += 12;
         }
-        m->count = ((g_021CAE90.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) + m->count;
+        m->count = ((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) + m->count;
       }
     }
     if (sb->count3 != 0)

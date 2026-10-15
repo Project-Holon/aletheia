@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF048",
+   "name": "BOX2_UI_HitTableTrg",
    "address": "0x021EF048",
    "kind": "game",
    "region": "ov170",

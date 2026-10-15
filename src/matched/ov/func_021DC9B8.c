@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9B8
+ * function: BOX2_MAIN_RestartSeq
  * address:  0x021DC9B8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DC9A0  0x021DC9A0  thumb  ov170
+ *   BOX2_MAIN_InitSeq  0x021DC9A0  thumb  ov170
  *
  * Re-run the reset helper with the stored word.
  */
 #include "../include/Obj05868.h"
 
-extern void func_021DC9A0(char *, int);
+extern void BOX2_MAIN_InitSeq(char *, int);
 
-void func_021DC9B8(char *p)
+void BOX2_MAIN_RestartSeq(char *p)
 {
-    func_021DC9A0(p, ((struct Obj05868 *)p)->f5C);
+    BOX2_MAIN_InitSeq(p, ((struct Obj05868 *)p)->f5C);
 }
 

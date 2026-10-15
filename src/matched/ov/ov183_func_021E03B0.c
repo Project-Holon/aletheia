@@ -12,8 +12,8 @@
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
- *   func_021FC754 0x021FC754 thumb ov186
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02025B64 0x02025B64 thumb
@@ -35,8 +35,8 @@ struct WordSet;
 extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
 extern int BR_RES_GetWordSet(char *);
-extern void func_021FC754(char *,void *,void *,void *,u16);
-extern void func_021FC7C4(char *,void *,void *,u16);
+extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
+extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 func_02025B64(u32);
@@ -52,16 +52,16 @@ void func_021E03B0(char *p,char *q,int mode)
     second=BR_RES_GetMsgData(*(char * *)&((struct Obj00351 *)q)->f8);
     switch(mode) {
     case 0:
-        if(((struct Obj00351 *)q)->f18!=19)func_021FC754(*(char * *)&((struct Obj00277 *)p)->f24,(void *)second,(void *)(((struct Obj00351 *)q)->f18+205),(void *)first,0x3da0);
-        else func_021FC754(*(char * *)&((struct Obj00277 *)p)->f24,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(((struct Obj00351 *)q)->f18!=19)BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00277 *)p)->f24,(void *)second,(void *)(((struct Obj00351 *)q)->f18+205),(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00277 *)p)->f24,(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 1:
-        if(((struct Obj00351 *)q)->f14!=0xffff)func_021FC754(*(char * *)&((struct Obj00277 *)p)->f2C,(void *)gSpeciesNameBank,(void *)(u32)((struct Obj00351 *)q)->f14,(void *)first,0x3da0);
-        else func_021FC754(*(char * *)&((struct Obj00277 *)p)->f2C,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(((struct Obj00351 *)q)->f14!=0xffff)BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00277 *)p)->f2C,(void *)gSpeciesNameBank,(void *)(u32)((struct Obj00351 *)q)->f14,(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00277 *)p)->f2C,(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 2:
         if(((struct Obj00351 *)q)->f16==255 && ((struct Obj00351 *)q)->f17==255) {
-            func_021FC754(*(char * *)&((struct Obj00277 *)p)->f34,(void *)second,(void *)117,(void *)first,0x3da0);
+            BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj00277 *)p)->f34,(void *)second,(void *)117,(void *)first,0x3da0);
             return;
         }
         ws=BR_RES_GetWordSet(*(char * *)&((struct Obj00351 *)q)->f8);
@@ -70,7 +70,7 @@ void func_021E03B0(char *p,char *q,int mode)
         if(!func_02025B64(((struct Obj00351 *)q)->f16))func_0201F048((void *)ws,0,((struct Obj00351 *)q)->f16);
         else func_0201F094((void *)ws,0,((struct Obj00351 *)q)->f16,((struct Obj00351 *)q)->f17);
         func_0201F250((void *)ws,text,data);
-        func_021FC7C4(*(char * *)&((struct Obj00277 *)p)->f34,text,(void *)first,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct Obj00277 *)p)->f34,text,(void *)first,0x3da0);
         STRBUF_Delete(data);STRBUF_Delete(text);
         break;
     }

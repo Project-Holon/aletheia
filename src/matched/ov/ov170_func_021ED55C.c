@@ -1,5 +1,5 @@
 /*
- * function: func_021ED55C
+ * function: BOX2_SEQ_SetCursorDraw
  * address:  0x021ED55C
  * packet:   pkt_ov170_021ED55C
  * region:   ov170
@@ -11,21 +11,21 @@
  *
  * symbols:
  *   func_020260F0 0x020260F0 thumb
- *   func_021EC000 0x021EC000 thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  */
 #include "../include/Obj24022.h"
 
 typedef unsigned int   u32;
 struct Sound;
 extern u32 func_020260F0(struct Sound *obj);
-extern void func_021EC000(char *p, int i, int v);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 
-void func_021ED55C(char **p, int flag)
+void BOX2_SEQ_SetCursorDraw(char **p, int flag)
 {
     if (flag == 1) {
         if (func_020260F0(((struct Obj24022 *)(p[11]))->f70) == 1)
-            func_021EC000(p[11], 4, 1);
+            BOX2_SEQ_SetActorDrawEnable(p[11], 4, 1);
     } else {
-        func_021EC000(p[11], 4, 0);
+        BOX2_SEQ_SetActorDrawEnable(p[11], 4, 0);
     }
 }

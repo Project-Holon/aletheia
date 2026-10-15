@@ -1,5 +1,5 @@
 /*
- * function: func_021EAA80
+ * function: BOX2_SEQ_InitBmpWins
  * address: 0x021EAA80
  * packet: pkt_ov170_021EAA80
  * region: ov170
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern const unsigned char d_021EFC20[];
-void func_021EAA80(unsigned char *p) {
+void BOX2_SEQ_InitBmpWins(unsigned char *p) {
  const unsigned char *x; unsigned i;
  BMP_WIN_Init(0x4C);
  x=d_021EFC20;

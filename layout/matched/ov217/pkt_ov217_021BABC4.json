@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BABC4",
+   "name": "RESEARCH_LIST_Update",
    "address": "0x021BABC4",
    "kind": "game",
    "region": "ov217",

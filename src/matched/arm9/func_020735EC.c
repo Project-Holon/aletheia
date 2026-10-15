@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  +0024 PC24 func_02089330           -> unresolved: 02089330 (arm, from header) has no witness outside 020735EC..02073624
+ * blocker:  +0024 PC24 SND_StopSeq           -> unresolved: 02089330 (arm, from header) has no witness outside 020735EC..02073624
  *
  * symbols:
  *   func_020893D0    0x020893D0  arm
- *   func_02089330    0x02089330  arm
+ *   SND_StopSeq    0x02089330  arm
  *   NNSi_SndSeqPlayerRelease    0x0207368C  arm
  *
  * Tears the player down: in state 2 first sets the volume to -723, then stops
@@ -35,7 +35,7 @@ typedef struct {
 } Obj020735EC;
 
 extern void func_020893D0(u32 player, int vol);
-extern void func_02089330(int playerNo);
+extern void SND_StopSeq(int playerNo);
 struct Voice;
 extern void NNSi_SndSeqPlayerRelease(struct Voice *v);
 
@@ -44,6 +44,6 @@ void NNSi_SndSeqPlayerStopNow(Obj020735EC *p)
     if (p->unk2c == 2) {
         func_020893D0(p->unk3c, -723);
     }
-    func_02089330(p->unk3c);
+    SND_StopSeq(p->unk3c);
     NNSi_SndSeqPlayerRelease((struct Voice *)p);
 }

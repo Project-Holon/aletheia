@@ -17,6 +17,8 @@
  *   sModifyTagTableid   0x021E3B4C  data
  *   sModifyTagRecordid   0x021E3B54  data
  *   sakeiFillSoapRequestFieldValues  0x021DDBE4  arm
+ *   gsXmlWriteStringElement  0x02182AC0  arm  ov009
+ *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
  *
  * Object teardown: the object's +8 table supplies the two title strings that
  * get unregistered from the shared group, then the object's own four table
@@ -25,8 +27,8 @@
 
 typedef unsigned int u32;
 
-extern void func_02182AC0(int a, int b, int c, int d);
-extern void func_02182CF0(int a, int b, int c, int d);
+extern void gsXmlWriteStringElement(int a, int b, int c, int d);
+extern void gsXmlWriteIntElement(int a, int b, int c, int d);
 struct SAKEField;
 struct SAKERequestInternal;
 extern void sakeiFillSoapRequestFieldValues(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
@@ -38,8 +40,8 @@ int sakeiUpdateRecordFillSoapRequest(int *p)
 {
     int *q = (int *)p[2];
 
-    func_02182AC0(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagTableid, q[0]);
-    func_02182CF0(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagRecordid, q[1]);
+    gsXmlWriteStringElement(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagTableid, q[0]);
+    gsXmlWriteIntElement(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagRecordid, q[1]);
     sakeiFillSoapRequestFieldValues((struct SAKERequestInternal *)p, (struct SAKEField *)q[2], q[3]);
     return 0;
 }

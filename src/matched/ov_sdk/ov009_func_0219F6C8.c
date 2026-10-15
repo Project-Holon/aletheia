@@ -1,5 +1,5 @@
 /*
- * function: func_0219F6C8
+ * function: SBServerListFindServerByIP
  * address:  0x0219F6C8
  * packet:   pkt_ov009_0219F6C8
  * region:   ov009
@@ -23,7 +23,7 @@ extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
 extern int SBServerGetPublicInetAddress(const int *p);
 extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
-int func_0219F6C8(struct SBL *slist, unsigned int ip, unsigned short port)
+int SBServerListFindServerByIP(struct SBL *slist, unsigned int ip, unsigned short port)
 {
 	int numservers;
 	void *server;

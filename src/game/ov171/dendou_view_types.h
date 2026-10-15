@@ -91,8 +91,8 @@ typedef struct DendouViewMember {
     u32 trainerId;              /* +0x0C */
     u16 species;                /* +0x10 */
     u8 level;                   /* +0x12 */
-    u8 form : 6;                /* +0x13 */
-    u8 gender : 2;              /* +0x13 0 male, 1 female */
+    u8 form : 6;                /* +0x13 copied from the arm9 loader */
+    u8 gender : 2;              /* +0x13 0 male 1 female (DrawMemberInfo shows the symbol per bit) */
     u16 moves[4];               /* +0x14 */
 } DendouViewMember;
 
@@ -102,7 +102,7 @@ typedef struct DendouViewRow {
     u32 year;           /* +0xA8 */
     u32 month;          /* +0xAC */
     u32 day;            /* +0xB0 */
-    u32 dateReserved;   /* +0xB4 the date loader writes 0 here */
+    u32 dateReserved;   /* +0xB4 the arm9 date loader (func_0200EC98/ED14) writes 0; no reader in ov171 */
     u16 memberCount;    /* +0xB8 */
     u16 hallNumber;     /* +0xBA ordinal printed in the title */
 } DendouViewRow;
@@ -127,7 +127,8 @@ typedef struct DendouViewActorTemplate {
     u16 argLast;      /* +0x16 last argument of CLACT_CreateActor before the heap */
 } DendouViewActorTemplate;
 
-/* Start angle and fade level of one Pokemon on the ellipse. */
+/* Start angle and fade level of one Pokemon on the ellipse, read from
+   sMemberSlotsByCount (d_021DEC94) indexed by memberCount-1 and slot. */
 typedef struct DendouViewSlot {
     u16 angle;
     u16 fadeLevel;
@@ -157,7 +158,7 @@ typedef struct DendouViewWork {
     u8 fadeSettled[DENDOU_VIEW_MEMBER_MAX];         /* +0xB34 */
     u8 fadeLevel[DENDOU_VIEW_MEMBER_MAX];           /* +0xB3A */
     u8 fadeTarget[DENDOU_VIEW_MEMBER_MAX];          /* +0xB40 */
-    u8 pad_B46[2];                                  /* +0xB46 */
+    u8 pad_B46[2];                                  /* +0xB46 alignment before windows[] at +0xB48 */
     DendouViewWindow windows[2];                    /* +0xB48 title, detail */
     struct GfFont *fontBody;                        /* +0xB58 */
     struct GfFont *fontLevelLabel;                  /* +0xB5C */
@@ -180,7 +181,7 @@ typedef struct DendouViewWork {
     u8 activeHalf;                                  /* +0xC60 1: actors 0-5 shown, 0: actors 6-11 */
     s8 rotationStep;                                /* +0xC61 degrees per frame */
     u8 rotationFramesLeft;                          /* +0xC62 */
-    u8 pad_C63;                                     /* +0xC63 */
+    u8 pad_C63;                                     /* +0xC63 alignment before buttonActor at +0xC64 */
     s32 buttonActor;                                /* +0xC64 */
     s32 stateAfterButton;                           /* +0xC68 */
     s32 state;                                      /* +0xC6C */

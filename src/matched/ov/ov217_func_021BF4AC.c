@@ -1,5 +1,5 @@
 /*
- * function: func_021BF4AC
+ * function: RESEARCH_GRAPH_LayoutMarkerActor
  * address: 0x021BF4AC
  * packet: pkt_ov217_021BF4AC
  * region: ov217
@@ -11,8 +11,8 @@
  * F910 preserves caller's visibly loaded r1; C11DC/C11FC index parameters are u8 from original truncations.
  * symbols:
  *   d_021C3850 0x021C3850 data a2
- *   func_021BF910 0x021BF910 thumb ov217
- *   func_021BF76C 0x021BF76C thumb ov217
+ *   RESEARCH_GRAPH_GetEntryIdBySave 0x021BF910 thumb ov217
+ *   RESEARCH_GRAPH_GetLeftCircle 0x021BF76C thumb ov217
  *   CircleGraph_GetPercentByKey 0x021C11DC thumb ov217
  *   CircleGraph_GetLabelPositionByKey 0x021C11FC thumb ov217
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -28,15 +28,15 @@ struct Obj; struct Actor;
 struct Vec2 { short x,y; };
 extern const u16 d_021C3850[];
 typedef unsigned int   u32;
-extern u32 func_021BF910(u8 *p);
-extern u8 *func_021BF76C(void *p);
+extern u32 RESEARCH_GRAPH_GetEntryIdBySave(u8 *p);
+extern u8 *RESEARCH_GRAPH_GetLeftCircle(void *p);
 extern u8 CircleGraph_GetPercentByKey(u8 *p, u8 key);
 extern void CircleGraph_GetLabelPositionByKey(u8 *h, u8 key, s32 *px, s32 *py);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
 extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
-void func_021BF4AC(char *p)
+void RESEARCH_GRAPH_LayoutMarkerActor(char *p)
 {
     struct Obj *obj;
     unsigned index;
@@ -47,10 +47,10 @@ void func_021BF4AC(char *p)
     table=d_021C3850;
     if (((struct Obj00021 *)p)->f3C8==0) { CLACT_SetActorDrawEnable(obj,0); return; }
     if (((struct Obj00021 *)p)->f34!=2) { CLACT_SetActorDrawEnable(obj,0); return; }
-    index=func_021BF910((u8 *)p);
-    if (CircleGraph_GetPercentByKey(func_021BF76C(p),index)==0) { CLACT_SetActorDrawEnable(obj,0); return; }
+    index=RESEARCH_GRAPH_GetEntryIdBySave((u8 *)p);
+    if (CircleGraph_GetPercentByKey(RESEARCH_GRAPH_GetLeftCircle(p),index)==0) { CLACT_SetActorDrawEnable(obj,0); return; }
     if (index==0) { CLACT_SetActorDrawEnable(obj,0); return; }
-    CircleGraph_GetLabelPositionByKey(func_021BF76C(p),index,&x,&y);
+    CircleGraph_GetLabelPositionByKey(RESEARCH_GRAPH_GetLeftCircle(p),index,&x,&y);
 
     pos.x=x;
     pos.y=y;

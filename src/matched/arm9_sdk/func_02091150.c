@@ -1,5 +1,5 @@
 /*
- * function: func_02091150
+ * function: CTRDGi_SendtoPxi
  * address:  0x02091150
  * packet:   pkt_02091150
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 PXI_SendWordByFifo(u32 a, u32 b, u32 c);
 extern void SVC_WaitByLoop(u32 v);
 
-void func_02091150(u32 a0)
+void CTRDGi_SendtoPxi(u32 a0)
 {
     if (PXI_SendWordByFifo(0xd, a0, 0) == 0)
         return;

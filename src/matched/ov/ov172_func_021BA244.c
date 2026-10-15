@@ -1,5 +1,5 @@
 /*
- * function: func_021BA244
+ * function: CTVT_MIC_GetPlayState
  * address:  0x021BA244
  * packet:   pkt_021B6100
  * region:   ov172
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA244(void *p)
+u32 CTVT_MIC_GetPlayState(void *p)
 {
     return ((struct Obj24097 *)p)->fC;
 }

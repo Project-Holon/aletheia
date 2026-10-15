@@ -1,5 +1,5 @@
 /*
- * function: func_021F9C84
+ * function: BR_PROC_SYS_InitEntry
  * address: 0x021F9C84
  * packet: pkt_ov186_021F9C84
  * region: ov186
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021F9C84(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
+void BR_PROC_SYS_InitEntry(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }

@@ -142,6 +142,14 @@ typedef struct {
     void *pixels; /* +0x14 */
 } CharData;
 
+/* A loaded palette block (same layout as McssPlttData in arm9/mcss.c). */
+typedef struct {
+    u32 fmt; /* +0x0 */
+    u32 extended; /* +0x4 */
+    u32 byteSize; /* +0x8 */
+    void *data; /* +0xC */
+} McssPlttData;
+
 typedef struct {
     void *a0; /* +0x0 */
     void *a4; /* +0x4 */
@@ -928,10 +936,40 @@ typedef struct {
 } Local;
 
 typedef struct {
-    u16 species;
-    u8 form;
-    u8 gender;
+    s16 species; /* sign-extending original loads: ldrsh / ldrsb */
+    s8 form;
+    s8 gender;
 } MonTag;
+
+/* The wanted mon of a trade deposit: species, form and two spare bytes. */
+typedef struct {
+    s16 species; /* sign-extending original loads: ldrsh / ldrsb */
+    s8 form;
+    s8 b3;
+    s8 b4;
+} WantTag;
+
+/* A deposit record: the offered mon header at +0xEC, the wanted tag at +0xF0. */
+typedef struct {
+    u8 pad0[0xEC];
+    MonTag have;
+    WantTag want;
+} Deposit;
+
+/* Deposit screen scratch, 0x30 bytes, allocated by WORLDTRADE_DEPOSIT_CreateStrings. */
+typedef struct {
+    u8 pad0[4];
+    u16 menuRow; /* +0x4, menu row saved by BMP_MENULIST_Delete */
+    u16 menuScroll; /* +0x6, menu scroll saved by BMP_MENULIST_Delete */
+    u16 restoreRow; /* +0x8, row restored through SelTable b[] */
+    u16 restoreScroll; /* +0xA, scroll restored through SelTable a[] */
+    u8 padC[0x14 - 0xC];
+    u8 *speciesFlags; /* +0x14, seen-species bitmap */
+    u16 *speciesList; /* +0x18, species id list */
+    u32 speciesCount; /* +0x1C */
+    u32 genderEvent; /* +0x20, Personal param 20 of the selected species */
+    u8 pad24[0x30 - 0x24];
+} DepositState;
 
 struct DispConfig {
     u32 unk_00;

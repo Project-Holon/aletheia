@@ -1,5 +1,5 @@
 /*
- * function: func_021DB7AC
+ * function: POKETRADE_PROC_RedrawAndSyncGrid
  * address: 0x021DB7AC
  * packet: pkt_ov119_021DB7AC
  * region: ov119
@@ -32,7 +32,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
-void func_021DB7AC(char *p,int a,int b)
+void POKETRADE_PROC_RedrawAndSyncGrid(char *p,int a,int b)
 {
     if(H(0x107c)<0) H(0x107c)+=(s16)I(0x63c);
     if(I(0x63c)<=H(0x107c)) H(0x107c)-=(s16)I(0x63c);

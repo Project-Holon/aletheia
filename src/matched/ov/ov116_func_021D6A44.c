@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * leaf: blocks func_021D7550.
+ * leaf: blocks WIFI_BSUBWAY_GRAPHIC_StepWithInput.
  */
 #include "../include/Obj22617.h"
 typedef unsigned char u8;

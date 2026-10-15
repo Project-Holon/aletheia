@@ -247,11 +247,7 @@
  *   ZUKAN_DETAIL_FORM_DrawFormLabelSub 0x021C4EAC thumb ov208
  *   ZUKAN_DETAIL_FORM_UpdateBgScrollForState 0x021C4F30 thumb ov208
  */
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_headbar_shared_types.h"
-#include "zukan_detail_graphic_shared_types.h"
-#include "zknd_tbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 #include "../../matched/include/Obj02547.h"
 #include "../../matched/include/Obj14660.h"
 #include "../../matched/include/Obj25510.h"

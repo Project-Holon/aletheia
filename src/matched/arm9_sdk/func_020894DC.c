@@ -1,5 +1,5 @@
 /*
- * function: func_020894DC
+ * function: SND_StopTimer
  * address:  0x020894DC
  * packet:   pkt_020894DC
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 extern void SNDi_IncAlarmId(int alarmNo);
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_020894DC(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags)
+void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags)
 {
     int alarmNo;
     u32 mask;

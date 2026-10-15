@@ -15,9 +15,9 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02091200 0x02091200 thumb
  *   func_02091230 0x02091230 thumb
- *   func_02087B04 0x02087B04 arm
+ *   OS_GetBootType 0x02087B04 arm
  *   func_020774B0 0x020774B0 arm
- *   func_02082C60 0x02082C60 arm
+ *   MI_CpuFill 0x02082C60 arm
  *   OS_Terminate 0x02088234 arm
  */
 typedef unsigned int u32;
@@ -25,9 +25,9 @@ extern u32 data_02732E98[], data_02732E34[];
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void func_02091200(void *ctx, void *data, u32 len);
 extern void func_02091230(void *ctx, void *out);
-extern int func_02087B04(void);
+extern int OS_GetBootType(void);
 extern void *func_020774B0(void);
-extern void func_02082C60(void *p, int v, u32 n);
+extern void MI_CpuFill(void *p, int v, u32 n);
 extern void OS_Terminate(void);
 void CARDi_CompareHash(u32 *expect, void *data, u32 len)
 {
@@ -49,8 +49,8 @@ void CARDi_CompareHash(u32 *expect, void *data, u32 len)
     diff |= expect[4] ^ digest[4];
     if (diff == 0)
         return;
-    if (func_02087B04() == 1 && func_020774B0() != 0) {
-        func_02082C60(data, 0, len);
+    if (OS_GetBootType() == 1 && func_020774B0() != 0) {
+        MI_CpuFill(data, 0, len);
         return;
     }
     OS_Terminate();

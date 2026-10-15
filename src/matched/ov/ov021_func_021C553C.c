@@ -20,7 +20,7 @@
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   BMP_MENULIST_GetItemValue 0x02020344 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0200C480 0x0200C480 thumb
+ *   RECENT_ID_LIST_SAVEDATA_InsertId 0x0200C480 thumb
  *   SHORTCUT_MENU_DeleteList 0x021C59A8 thumb ov021
  *   SHORTCUT_MENU_CreateList 0x021C58CC thumb ov021
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -45,7 +45,7 @@ extern void SHORTCUT_MENU_OnKeyDown(int *a, int b, int c, int *d);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern u32 BMP_MENULIST_GetItemValue(struct Obj *obj, u32 n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern u8 func_0200C480(u8 *a, int id, u8 pos);
+extern u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *a, int id, u8 pos);
 extern int SHORTCUT_MENU_DeleteList(u32 a, u32 b, u32 c);
 extern void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
@@ -100,9 +100,9 @@ void SHORTCUT_MENU_UpdateInput(char *p)
             sel = BMP_MENULIST_GetItemValue(((struct Obj00523 *)p)->f4, (u16)(((struct Obj00523 *)p)->f1C + ((struct Obj00523 *)p)->f1E));
             BMP_MENULIST_GetListIndex(((struct Obj00523 *)p)->f4, &b[0]);
             if (((struct Obj00523 *)p)->f40 != 0) {
-                sel = func_0200C480(((struct Obj00523 *)p)->f20, sel, 0xFF);
+                sel = RECENT_ID_LIST_SAVEDATA_InsertId(((struct Obj00523 *)p)->f20, sel, 0xFF);
             } else {
-                sel = func_0200C480(((struct Obj00523 *)p)->f20, sel, b[0]);
+                sel = RECENT_ID_LIST_SAVEDATA_InsertId(((struct Obj00523 *)p)->f20, sel, b[0]);
             }
             SHORTCUT_MENU_DeleteList((u32)p, (u32)(&a[0]), (u32)(&a[1]));
             if (b[0] - 1 == sel) {

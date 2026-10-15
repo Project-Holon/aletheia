@@ -1,5 +1,5 @@
 /*
- * function: func_0219F674
+ * function: SBServerListFindServer
  * address:  0x0219F674
  * packet:   pkt_ov009_0219F674
  * region:   ov009
@@ -19,7 +19,7 @@
 struct SBL { char pad0[4]; void *servers; };
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
-int func_0219F674(struct SBL *slist, void *findserver)
+int SBServerListFindServer(struct SBL *slist, void *findserver)
 {
 	int numservers, i;
 	numservers = func_02184200(slist->servers);

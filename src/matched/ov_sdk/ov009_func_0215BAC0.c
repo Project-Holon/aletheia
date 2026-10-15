@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_020870D0  0x020870D0  arm
  *   _tcp_send_ack  0x02159404  arm  ov009
- *   func_020873F8  0x020873F8  arm
+ *   OS_CancelAlarm  0x020873F8  arm
  *   func_0208738C  0x0208738C  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_02150FEC     0x02150FEC  data
@@ -48,7 +48,7 @@ struct ThreadInfo {
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long long func_020870D0(void);
 extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
-extern void func_020873F8(void *alarm);
+extern void OS_CancelAlarm(void *alarm);
 extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void dacktimer_alarmhandler(void *arg);
@@ -78,7 +78,7 @@ void dacktimer_reschedule(void)
 		}
 	}
 	if (nextdelay != 0xffffffff) {
-		func_020873F8(g_021A82FC);
+		OS_CancelAlarm(g_021A82FC);
 		func_0208738C(g_021A82FC, nextdelay, dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);

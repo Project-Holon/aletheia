@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6D0
+ * function: RESEARCH_LIST_GetInputFlag
  * address:  0x021BC6D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021BC63C  0x021BC63C  thumb  ov217
+ *   RESEARCH_LIST_GetOwner  0x021BC63C  thumb  ov217
  *   RESEARCH_COMMON_GetInputFlag  0x021C09F8  thumb  ov217
  *
  * Addresses are Black-image addresses.
@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BC63C(void *p);
+extern u32 RESEARCH_LIST_GetOwner(void *p);
 extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
-u32 func_021BC6D0(void *p)
+u32 RESEARCH_LIST_GetInputFlag(void *p)
 {
-    return RESEARCH_COMMON_GetInputFlag((void *)func_021BC63C(p));
+    return RESEARCH_COMMON_GetInputFlag((void *)RESEARCH_LIST_GetOwner(p));
 }
 

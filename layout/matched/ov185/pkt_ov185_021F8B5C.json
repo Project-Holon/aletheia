@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8B5C",
+   "name": "BR_POKESEARCH_ChangePageTask",
    "address": "0x021F8B5C",
    "kind": "game",
    "region": "ov185",

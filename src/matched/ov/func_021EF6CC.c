@@ -1,5 +1,5 @@
 /*
- * function: func_021EF6CC
+ * function: BOX2_UI_RepenTopBar
  * address:  0x021EF6CC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -21,7 +21,7 @@ typedef signed char s8;
 struct WinMgr;
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 
-void func_021EF6CC(struct WinMgr *mgr)
+void BOX2_UI_RepenTopBar(struct WinMgr *mgr)
 {
     BGWINFRM_StartMove(mgr, 7, 0, 1, 0x13);
 }

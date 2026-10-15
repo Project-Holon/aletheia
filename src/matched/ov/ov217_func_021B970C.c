@@ -1,5 +1,5 @@
 /*
- * function: func_021B970C
+ * function: RESEARCH_TOP_CloseSubState
  * address: 0x021B970C
  * packet: pkt_ov217_021B970C
  * region: ov217
@@ -9,21 +9,21 @@
  * status: EXACT*
  * tail: zero halfword alignment at 021B9772.
  * symbols:
- *   func_021B9AF8 0x021B9AF8 thumb ov217
- *   func_021BABB4 0x021BABB4 thumb ov217
- *   func_021BD61C 0x021BD61C thumb ov217
+ *   RESEARCH_TOP_DestroyListObject 0x021B9AF8 thumb ov217
+ *   RESEARCH_LIST_Destroy 0x021BABB4 thumb ov217
+ *   RESEARCH_GRAPH_Destroy 0x021BD61C thumb ov217
  */
 typedef unsigned int u32;
-extern u32 func_021B9AF8(void *a0);
-extern u32 func_021BABB4(void *a0);
-extern u32 func_021BD61C(void *a0);
-void func_021B970C(u32 *p, u32 *state)
+extern u32 RESEARCH_TOP_DestroyListObject(void *a0);
+extern u32 RESEARCH_LIST_Destroy(void *a0);
+extern u32 RESEARCH_GRAPH_Destroy(void *a0);
+void RESEARCH_TOP_CloseSubState(u32 *p, u32 *state)
 {
     switch (*state) {
     case 0: case 4: break;
-    case 1: func_021B9AF8((void *)p[4]); break;
-    case 2: func_021BABB4((void *)p[5]); break;
-    case 3: func_021BD61C((void *)p[6]); break;
+    case 1: RESEARCH_TOP_DestroyListObject((void *)p[4]); break;
+    case 2: RESEARCH_LIST_Destroy((void *)p[5]); break;
+    case 3: RESEARCH_GRAPH_Destroy((void *)p[6]); break;
     }
     switch (*state) {
     case 0: case 4: break;

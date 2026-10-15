@@ -1,5 +1,5 @@
 /*
- * function: func_02182F40
+ * function: gsXmlWriteBase64BinaryElement
  * address:  0x02182F40
  * packet:   pkt_ov009_02182F40
  * region:   ov009
@@ -39,7 +39,7 @@ typedef struct {
 extern void B64InitEncodeStream(B64StreamData *data, unsigned char *input, int len, int type);
 extern int B64EncodeStream(B64StreamData *data, char *output);
 
-int func_02182F40(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
+int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     B64StreamData streamData;

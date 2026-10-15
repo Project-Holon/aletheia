@@ -16,9 +16,9 @@
  *   g_021A8178  0x021A8178  data
  *   g_021A8164  0x021A8164  data
  *   g_021A81AC  0x021A81AC  data
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   func_0209477C  0x0209477C  arm
- *   func_0209ABEC  0x0209ABEC  arm
+ *   strnicmp  0x0209ABEC  arm
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
@@ -45,10 +45,10 @@ extern char g_021A8178[];
 extern char g_021A8164[];
 extern char g_021A81AC[];
 
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
-extern int func_0209ABEC(const char *s1, const char *s2, unsigned int n);
+extern int strnicmp(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
@@ -67,13 +67,13 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
 
     if (*data == '\0')
         return;
-    dlen = func_0219F978(data, len);
+    dlen = NTSLengthSB(data, len);
     if (dlen < 0)
         return;
     k = data;
     data += dlen;
     len -= dlen;
-    if (func_0209ABEC(g_021A816C, k, func_0209477C((const u8 *)g_021A816C)) != 0)
+    if (strnicmp(g_021A816C, k, func_0209477C((const u8 *)g_021A816C)) != 0)
         return;
 
     if (len < 1)
@@ -105,14 +105,14 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
             return;
         }
         while (*data != '\0') {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 return;
             k = data;
             data += dlen;
             len -= dlen;
             if (keyType == 0) {
-                dlen = func_0219F978(data, len);
+                dlen = NTSLengthSB(data, len);
                 if (dlen < 0)
                     return;
                 v = data;
@@ -127,7 +127,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
                 data++;
                 len--;
                 while (*data != '\0') {
-                    dlen = func_0219F978(data, len);
+                    dlen = NTSLengthSB(data, len);
                     if (dlen < 0)
                         return;
                     v = data;

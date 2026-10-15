@@ -1,5 +1,5 @@
 /*
- * function: func_02160E0C
+ * function: version_ok
  * address:  0x02160E0C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * True when the value is 3.
  */
 
-int func_02160E0C(int v)
+int version_ok(int v)
 {
     return v == 3;
 }

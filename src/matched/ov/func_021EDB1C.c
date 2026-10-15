@@ -1,5 +1,5 @@
 /*
- * function: func_021EDB1C
+ * function: BOX2_UI_DrawAllSlots
  * address:  0x021EDB1C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EDAB0  0x021EDAB0  thumb  ov170
+ *   BOX2_UI_DrawSlot  0x021EDAB0  thumb  ov170
  *
  * Clear all 24 entries.
  */
 
 
 
-extern void func_021EDAB0(char *p, int i);
-void func_021EDB1C(int p)
+extern void BOX2_UI_DrawSlot(char *p, int i);
+void BOX2_UI_DrawAllSlots(int p)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
-        func_021EDAB0((char *)p, i);
+        BOX2_UI_DrawSlot((char *)p, i);
 }

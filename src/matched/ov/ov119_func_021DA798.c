@@ -1,5 +1,5 @@
 /*
- * function: func_021DA798
+ * function: POKETRADE_PROC_StepResolveCursorResult
  * address: 0x021DA798
  * packet: pkt_ov119_021DA798
  * region: ov119
@@ -18,8 +18,8 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DA76C 0x021DA76C thumb ov119
- *   func_021DAEF0 0x021DAEF0 thumb ov119
+ *   POKETRADE_PROC_StepWaitCursorSync 0x021DA76C thumb ov119
+ *   POKETRADE_PROC_StepShowWaitMessageA 0x021DAEF0 thumb ov119
  */
 #include "../include/Obj08055.h"
 struct Entry;
@@ -38,9 +38,9 @@ extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DA76C(void *);
-extern void func_021DAEF0(char *p);
-void func_021DA798(char *p) {
+extern void POKETRADE_PROC_StepWaitCursorSync(void *);
+extern void POKETRADE_PROC_StepShowWaitMessageA(char *p);
+void POKETRADE_PROC_StepResolveCursorResult(char *p) {
  int i, j, v;
  unsigned char a, b;
  i = GFL_NET_GetHandleNetID((struct Link *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()));
@@ -53,7 +53,7 @@ void func_021DA798(char *p) {
  a = (p+i)[0x11e0];
  if(a==2 && ((unsigned char *)(p+j))[0x11e0]==2) {
   if(POKETRADE_PROC_IsNetSession(p)) GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),13,8);
-  POKETRADE_PROC_SetStep(p,(int)func_021DA76C);
+  POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepWaitCursorSync);
   return;
  }
  b = (p+j)[0x11e0];
@@ -73,5 +73,5 @@ void func_021DA798(char *p) {
  POKETRADE_SAVE_OpenMessageWindowTop(p);
  p[0x11e0]=0;
  p[0x11e1]=0;
- POKETRADE_PROC_SetStep(p,(int)func_021DAEF0);
+ POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepShowWaitMessageA);
 }

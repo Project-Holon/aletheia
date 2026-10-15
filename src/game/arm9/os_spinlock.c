@@ -1,7 +1,7 @@
 /*
  * file:     os_spinlock.c
  * unit:     yes
- * function: func_02084AB0, func_02084B90, func_02084C1C, func_02084C68, func_02084C78, func_02084CEC, func_02084CFC, func_02084D68, func_02084D78, OS_UnLockCartridge, func_02084DA4, func_02084DC4, func_02084DDC, func_02084DF4, func_02084E10, OS_UnLockCard, func_02084E38, func_02084E54, func_02084E98, OS_ReadOwnerOfLockWord, OS_GetLockID, func_02084F10
+ * function: OSi_SyncWithOtherProc, OS_InitLock, OSi_DoLockByWord, OS_LockByWord, OSi_DoUnlockByWord, OS_UnlockByWord, OSi_DoTryLockByWord, OS_TryLockByWord, OS_UnlockCartridge, OS_UnLockCartridge, func_02084DA4, OSi_AllocateCartridgeBus, OSi_FreeCartridgeBus, OS_LockCard, OS_UnlockCard, OS_UnLockCard, func_02084E38, OSi_AllocateCardBus, OSi_FreeCardBus, OS_ReadOwnerOfLockWord, OS_GetLockID, OS_ReleaseLockID
  * address:  0x02084AB0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,15 +31,11 @@
  *   OS_LockByWord        0x02084C68  arm
  *   OSi_AllocateCardBus  0x02084E54  arm
  */
-#include "../../matched/include/Obj16691.h"
-
-struct _FSFreeAreaSize;
-struct OSLockWord;
 typedef unsigned char u8;
 
 typedef unsigned long u32;
 
-typedef long s32_02084AB0;
+typedef long s32;
 
 typedef unsigned short u16;
 
@@ -53,48 +49,35 @@ typedef struct OSLockWord {
     volatile u16 extension;
 } OSLockWord;
 
-typedef signed int     s32_02084D98;
-
-typedef signed int     s32_02084DA4;
-
-typedef long s32_02084E38;
-
-typedef long s32_02084EB8;
-
 extern void SVC_WaitByLoop(int v);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
 extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern void OSi_SyncWithOtherProc(int type, void *syncBuf);
+extern void OSi_SyncWithOtherProc(int direction, volatile u8 *regs);
 extern u32 MI_SwapWord(u32 setData, volatile u32 *destp);
-extern s32_02084AB0 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
+extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 extern void OSi_FreeCartridgeBus(void);
-int OS_LockByWord(unsigned short lockID, void *lockBuf, void (*ctrlFuncp)(void));
+int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 void OSi_AllocateCardBus(void);
-void func_02084AB0(int a0, volatile u8 *p);
-void func_02084B90(void);
-void func_02084C1C(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
-void func_02084C68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
-s32_02084AB0 func_02084C78(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
-s32_02084AB0 func_02084CEC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
-s32_02084AB0 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
-s32_02084AB0 func_02084D68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
-s32_02084AB0 func_02084D78(u16 lockID);
+void OS_InitLock(void);
+void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
+s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
+s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
+s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
+s32 OS_UnlockCartridge(u16 lockID);
 asm void OS_UnLockCartridge(int lockID);
-s32_02084DA4 OS_TryLockCartridge(u16 lockID);
-void func_02084DC4(void);
-void func_02084DDC(void);
-int func_02084DF4(unsigned short lockID);
-s32_02084DA4 func_02084E10(u16 lockID);
+s32 OS_TryLockCartridge(u16 lockID);
+void OSi_AllocateCartridgeBus(void);
+int OS_LockCard(unsigned short lockID);
+s32 OS_UnlockCard(u16 lockID);
 asm void OS_UnLockCard(void);
-s32_02084E38 OS_TryLockCard(u16 lockID);
-void func_02084E54(void);
-void func_02084E98(void);
+s32 OS_TryLockCard(u16 lockID);
+void OSi_FreeCardBus(void);
 unsigned short OS_ReadOwnerOfLockWord(char *lock);
-asm s32_02084EB8 OS_GetLockID(void);
-asm void func_02084F10(u16 lockID);
+asm s32 OS_GetLockID(void);
+asm void OS_ReleaseLockID(u16 lockID);
 
 
 
@@ -103,47 +86,47 @@ asm void func_02084F10(u16 lockID);
 
 
 /*
- * Bit-banged ack protocol over a four-byte register window.  a0 == 0 selects
- * the send direction: the window is walked with the nibble counter in the top
- * bit, and the loop only advances when the peer answers p[2].  a0 != 0 is the
- * receive direction: p[1] mirrors p[0] and the mirrored bytes are accumulated
- * until the sum passes 0x300, then the window is re-armed and the final handshake
- * waits for p[3].
+ * Bit-banged ack protocol over a four-byte register window.  direction == 0
+ * selects the send direction: the window is walked with the nibble counter in
+ * the top bit, and the loop only advances when the peer answers regs[2].
+ * direction != 0 is the receive direction: regs[1] mirrors regs[0] and the
+ * mirrored bytes are accumulated until the sum passes 0x300, then the window is
+ * re-armed and the final handshake waits for regs[3].
  *
  * The window pointer is `volatile`: every store is followed by a fresh load of
  * the same byte in the image (strb r0,[r5] then ldrb r1,[r5]; strb r6,[r5,#1]
  * then ldrb r1,[r5,#1]), which a non-volatile pointer would let the compiler
  * forward.
  */
-void func_02084AB0(int a0, volatile u8 *p)
+void OSi_SyncWithOtherProc(int direction, volatile u8 *regs)
 {
-    if (a0 == 0) {
-        int i = 0;
+    if (direction == 0) {
+        int nibble = 0;
 
-        p[2] = 0;
+        regs[2] = 0;
         do {
-            p[0] = (u8)((i & 0xf) | 0x80);
-            while (p[0] != p[1] && p[2] == 0) {
+            regs[0] = (u8)((nibble & 0xf) | 0x80);
+            while (regs[0] != regs[1] && regs[2] == 0) {
                 SVC_WaitByLoop(0x400);
             }
-            i++;
-        } while (p[2] == 0);
-        p[3] = 1;
+            nibble++;
+        } while (regs[2] == 0);
+        regs[3] = 1;
     } else {
         int sum = 0;
 
-        p[1] = 0;
+        regs[1] = 0;
         while (sum < 0x300) {
-            if (p[1] != p[0]) {
-                p[1] = p[0];
-                sum += p[1];
+            if (regs[1] != regs[0]) {
+                regs[1] = regs[0];
+                sum += regs[1];
             } else {
                 SVC_WaitByLoop(0x400);
             }
         }
-        p[3] = 0;
-        p[2] = 1;
-        while (p[3] == 0) {
+        regs[3] = 0;
+        regs[2] = 1;
+        while (regs[3] == 0) {
             SVC_WaitByLoop(0x400);
         }
     }
@@ -164,7 +147,7 @@ void func_02084AB0(int a0, volatile u8 *p)
  *           `.bss 0x02150FCC data` names the member's .bss base, accepted by
  *           the section-relative rule (the witness is sole-ref/self).
  */
-void func_02084B90(void)
+void OS_InitLock(void)
 {
     static BOOL isInitialized;
     OSLockWord *lockp = (OSLockWord *)0x02FFFFB0;
@@ -189,13 +172,13 @@ void func_02084B90(void)
 
 
 
-void func_02084C1C(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
-    if (func_02084CFC(lockID, lockp, ctrlFuncp, disableFIQ) <= 0)
+    if (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) <= 0)
         return;
     do {
         SVC_WaitByLoop(0x400);
-    } while (func_02084CFC(lockID, lockp, ctrlFuncp, disableFIQ) > 0);
+    } while (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) > 0);
 }
 
 
@@ -204,11 +187,11 @@ void func_02084C1C(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL 
 
 
 /*
- * sdk:      FSi_HasEnoughSpaceToCreateUserFile (libfs.TWL.HYB.a fs_sysareaex.o)
+ * sdk:      OS_LockByWord (os_spinlock.o), the FIQ-disabled wrapper of OSi_DoLockByWord
  */
-void func_02084C68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
+int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
-    func_02084C1C(lockID, lockp, ctrlFuncp, 0);
+    OSi_DoLockByWord(lockID, lockp, ctrlFuncp, 0);
 }
 
 
@@ -219,7 +202,7 @@ void func_02084C68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 /*
  * sdk:      OSi_DoUnlockByWord (os_spinlock.o)
  */
-s32_02084AB0 func_02084C78(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
     OSIntrMode enabled;
 
@@ -251,9 +234,9 @@ s32_02084AB0 func_02084C78(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void
 
 
 
-s32_02084AB0 func_02084CEC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
+s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
-    return func_02084C78(lockID, lockp, ctrlFuncp, 0);
+    return OSi_DoUnlockByWord(lockID, lockp, ctrlFuncp, 0);
 }
 
 
@@ -263,9 +246,9 @@ s32_02084AB0 func_02084CEC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void
 /*
  * sdk:      OSi_DoTryLockByWord (os_spinlock.o)
  */
-s32_02084AB0 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
-    s32_02084AB0 lastLockFlag;
+    s32 lastLockFlag;
     OSIntrMode enabled;
 
     if (disableFIQ) {
@@ -274,7 +257,7 @@ s32_02084AB0 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void
         enabled = OS_DisableInterrupts();
     }
 
-    lastLockFlag = (s32_02084AB0)MI_SwapWord(lockID, &lockp->lockFlag);
+    lastLockFlag = (s32)MI_SwapWord(lockID, &lockp->lockFlag);
 
     if (!lastLockFlag) {
         if (ctrlFuncp) {
@@ -294,9 +277,9 @@ s32_02084AB0 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void
 
 
 
-s32_02084AB0 func_02084D68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
+s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
-    return func_02084CFC(lockID, lockp, ctrlFuncp, 0);
+    return OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, 0);
 }
 
 
@@ -308,7 +291,7 @@ s32_02084AB0 func_02084D68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void
  *           OSi_DoUnlockByWord (0x02084C78), so this row is OS_UnlockCartridge,
  *           not the catalogue's OS_LockCartridge (same 32-byte shape).
  */
-s32_02084AB0 func_02084D78(u16 lockID)
+s32 OS_UnlockCartridge(u16 lockID)
 {
     return OSi_DoUnlockByWord(lockID, (OSLockWord *)0x02FFFFE8, OSi_FreeCartridgeBus, 1);
 }
@@ -317,22 +300,22 @@ s32_02084AB0 func_02084D78(u16 lockID)
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void OS_UnLockCartridge(int lockID)
 {
-    ldr r1, =func_02084D78
+    ldr r1, =OS_UnlockCartridge
     bx r1
 }
 
 
 
-s32_02084DA4 OS_TryLockCartridge(u16 lockID)
+s32 OS_TryLockCartridge(u16 lockID)
 {
-    return func_02084CFC(lockID, (struct OSLockWord *)0x02FFFFE8, func_02084DC4, 1);
+    return OSi_DoTryLockByWord(lockID, (struct OSLockWord *)0x02FFFFE8, OSi_AllocateCartridgeBus, 1);
 }
 
 
 /*
  * note:     os_spinLock.o OSi_AllocateCartridgeBus (EXMEMCNT bit7 -> ARM9).
  */
-void func_02084DC4(void)
+void OSi_AllocateCartridgeBus(void)
 {
     unsigned int v = *(volatile unsigned short *)0x04000204;
 
@@ -344,7 +327,7 @@ void func_02084DC4(void)
 /*
  * note:     os_spinLock.o OSi_FreeCartridgeBus (EXMEMCNT bit7 -> ARM7).
  */
-void func_02084DDC(void)
+void OSi_FreeCartridgeBus(void)
 {
     *(volatile unsigned short *)0x04000204 |= 0x80;
 }
@@ -354,31 +337,31 @@ void func_02084DDC(void)
 /*
  * note:     os_spinLock.o OS_LockCard; HW_CARD_LOCK_BUF = 0x02FFFFE0.
  */
-int func_02084DF4(unsigned short lockID)
+int OS_LockCard(unsigned short lockID)
 {
-    return OS_LockByWord(lockID, (void *)0x02FFFFE0, OSi_AllocateCardBus);
+    return OS_LockByWord(lockID, (OSLockWord *)0x02FFFFE0, OSi_AllocateCardBus);
 }
 
 
 
-s32_02084DA4 func_02084E10(u16 lockID)
+s32 OS_UnlockCard(u16 lockID)
 {
-    return func_02084CEC(lockID, (struct OSLockWord *)0x02FFFFE0, func_02084E98);
+    return OS_UnlockByWord(lockID, (struct OSLockWord *)0x02FFFFE0, OSi_FreeCardBus);
 }
 
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void OS_UnLockCard(void)
 {
-    ldr r1, =func_02084E10
+    ldr r1, =OS_UnlockCard
     bx	r1
 }
 
 
 
-s32_02084E38 OS_TryLockCard(u16 lockID)
+s32 OS_TryLockCard(u16 lockID)
 {
-    return func_02084D68(lockID, (OSLockWord *)0x02FFFFE0, func_02084E54);
+    return OS_TryLockByWord(lockID, (OSLockWord *)0x02FFFFE0, OSi_AllocateCardBus);
 }
 
 
@@ -386,7 +369,7 @@ s32_02084E38 OS_TryLockCard(u16 lockID)
 /*
  * sdk:      OSi_AllocateCardBus (os_spinlock.o)
  */
-void func_02084E54(void)
+void OSi_AllocateCardBus(void)
 {
     if (((*(volatile u16 *)0x04004010 & 0xC) >> 2) == 2) {
         *(volatile u32 *)0x040001A4 |= 0x20000000;
@@ -398,7 +381,7 @@ void func_02084E54(void)
 /*
  * note:     os_spinLock.o OSi_FreeCardBus (EXMEMCNT bit11 -> ARM7).
  */
-void func_02084E98(void)
+void OSi_FreeCardBus(void)
 {
     *(volatile unsigned short *)0x04000204 |= 0x800;
 }
@@ -406,7 +389,7 @@ void func_02084E98(void)
 
 unsigned short OS_ReadOwnerOfLockWord(char *lock)
 {
-    return ((struct Obj16691 *)lock)->f4;
+    return ((OSLockWord *)lock)->ownerID;
 }
 
 
@@ -418,7 +401,7 @@ unsigned short OS_ReadOwnerOfLockWord(char *lock)
  *           strictly increasing line (836..898), the asm-function pattern.
  */
 /* hand-written in the original: clz and a lock-bit scan across two words, the asm OS_GetLockID shape */
-asm s32_02084EB8 OS_GetLockID(void)
+asm s32 OS_GetLockID(void)
 {
     ldr     r3, =0x02FFFFB0
     ldr     r1, [r3, #0]
@@ -455,12 +438,12 @@ _1:
 /*
  * hand-written in the original: the os_spinlock.o DWARF has the asm-function
  * pattern (above). mwccarm does emit pl/mi, but only after a flag-setting
- * subs (`if ((s32_02084EB8)(id - 0x60) >= 0)` gives subs/addpl/submi); a cmp it
+ * subs (`if ((s32)(id - 0x60) >= 0)` gives subs/addpl/submi); a cmp it
  * predicates with ge/lt. It also folds the mask shift into the orr (orr
  * rX, rY, rZ, lsr rW) and loads the word first. Here cmp is followed by a
  * recomputing subpl, a separate mov/lsr and a late ldr: not compiler output.
  */
-asm void func_02084F10(u16 lockID)
+asm void OS_ReleaseLockID(u16 lockID)
 {
     ldr     r3, =0x02FFFFB0
     cmp     r0, #0x60

@@ -1,5 +1,5 @@
 /*
- * function: func_0208CCFC
+ * function: STD_GetStringNLength
  * address:  0x0208CCFC
  * packet:   pkt_0208CCFC
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      STD_GetStringNLength (std_string.o)
  */
 
-int func_0208CCFC(const char *str, int len)
+int STD_GetStringNLength(const char *str, int len)
 {
     int n;
     const unsigned long *p32;

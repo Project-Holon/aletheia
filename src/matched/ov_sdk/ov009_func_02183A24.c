@@ -1,5 +1,5 @@
 /*
- * function: func_02183A24
+ * function: gsXmlReadChildAsInt
  * address:  0x02183A24
  * packet:   pkt_ov009_02183A24
  * region:   ov009
@@ -42,7 +42,7 @@ extern void *ArrayNth(void *array, int n);
 extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
 extern int atoi(const char *s);
 
-int func_02183A24(void *stream, char *matchtag, int *valueOut)
+int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut)
 {
     struct GSIXmlStreamReader *reader = (struct GSIXmlStreamReader *)stream;
     struct GSIXmlElement *searchValueElem;

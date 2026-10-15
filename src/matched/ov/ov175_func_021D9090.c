@@ -22,9 +22,9 @@
  *   func_021DC908 0x021DC908 thumb ov175
  *   func_02167ED8 0x02167ED8 arm ov009
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_02089004 0x02089004 arm
- *   func_020891E0 0x020891E0 arm
- *   func_02088F58 0x02088F58 arm
+ *   RTC_ConvertDateTimeToSecond 0x02089004 arm
+ *   RTC_ConvertSecondToDateTime 0x020891E0 arm
+ *   RTC_ConvertDateToDay 0x02088F58 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B078 0x0200B078 thumb
@@ -61,9 +61,9 @@ extern int GFL_NET_GetRunState(void);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
 typedef signed int     s32;
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
-extern void func_020891E0(struct RTCDate *,struct RTCTime *,s64);
-extern s32 func_02088F58(struct RTCDate *date);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
+extern void RTC_ConvertSecondToDateTime(struct RTCDate *,struct RTCTime *,s64);
+extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
@@ -89,16 +89,16 @@ void func_021D9090(u32 sys,int *state,char *p)
     case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
         if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
-        if(got)func_020891E0(&nowDate,&nowTime,func_02089004(&nowDate,&nowTime));
+        if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
         startDate.year=func_0200B078(reg,4);
         startDate.month=func_0200B078(reg,5);
         startDate.day=func_0200B078(reg,6);startDate.week=0;
         endDate.year=func_0200B078(reg,7);
         endDate.month=func_0200B078(reg,8);
         endDate.day=func_0200B078(reg,9);endDate.week=0;
-        startDay=func_02088F58(&startDate);
-        endDay=func_02088F58(&endDate);
-        nowDay=func_02088F58(&nowDate);
+        startDay=RTC_ConvertDateToDay(&startDate);
+        endDay=RTC_ConvertDateToDay(&endDate);
+        nowDay=RTC_ConvertDateToDay(&nowDate);
         if(got && nowDay<startDay) {((struct Obj00728 *)p)->f40=2;*state=2;}
         else if(got && startDay<=nowDay && nowDay<=endDay) {((struct Obj00728 *)p)->f40=0;*state=13;}
         else {((struct Obj00728 *)p)->f40=1;*state=3;}

@@ -1,5 +1,5 @@
 /*
- * function: func_021ECB74
+ * function: BOX2_SEQ_SetActorMode1
  * address:  0x021ECB74
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ECA6C  0x021ECA6C  thumb  ov170
+ *   BOX2_SEQ_SetSlotActorsMode  0x021ECA6C  thumb  ov170
  *
  * One range call with the selector pair fixed.
  */
 
 
 
-extern void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode);
-void func_021ECB74(char *a, int b)
+extern void BOX2_SEQ_SetSlotActorsMode(unsigned char *p, int flag, int i, unsigned end, int mode);
+void BOX2_SEQ_SetActorMode1(char *a, int b)
 {
-    func_021ECA6C((unsigned char *)a, 1, b, b + 1, 1);
+    BOX2_SEQ_SetSlotActorsMode((unsigned char *)a, 1, b, b + 1, 1);
 }

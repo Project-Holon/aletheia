@@ -14,7 +14,7 @@
  *   g_021469F8     0x021469F8  data
  *   g_020A7E4C     0x020A7E4C  data
  *   sub_02030734   0x02030734  arm
- *   func_020819B8  0x020819B8  arm
+ *   MATHi_CRC16InitTable  0x020819B8  arm
  *
  * TU: gf_standard.c.  The allocation site string at 0x020A7E4C reads
  * "gf_standard.c" and this is its only reference in the image, so the
@@ -24,7 +24,7 @@
  *
  * Constructor for the random-number state: 0xbcc bytes holding mt[624], the
  * generator index (set to 625, "exhausted"), a spare word and the constant
- * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that func_020819B8
+ * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that MATHi_CRC16InitTable
  * initialises.  The allocation tag 49 stays live in r5 afterwards and both
  * later constants are derived from it with a single `add`, which is why
  * neither 625 nor 4129 costs a pool word.
@@ -53,7 +53,7 @@ extern char g_020A7E4C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 struct MATHCRC16Table;
-extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
+extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 
 void func_0203EF5C(u32 heapId)
 {
@@ -61,5 +61,5 @@ void func_0203EF5C(u32 heapId)
     g_021469F8->index = 625;
     g_021469F8->unk_9c4 = 0;
     g_021469F8->unk_9c8 = 0x9908b0df;
-    func_020819B8((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
+    MATHi_CRC16InitTable((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
 }

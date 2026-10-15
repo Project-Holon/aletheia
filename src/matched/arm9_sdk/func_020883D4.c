@@ -1,5 +1,5 @@
 /*
- * function: func_020883D4
+ * function: OSi_InitPrevTitleId
  * address:  0x020883D4
  * packet:   pkt_020883D4
  * region:   arm9
@@ -62,7 +62,7 @@ extern s32 OS_EncodeDeliverArg(void);
 extern void OS_SetDeliverArgStateInvalid(void);
 extern u64 s_prevTitleId;
 
-void func_020883D4(void)
+void OSi_InitPrevTitleId(void)
 {
     OSDeliverArgInfo deliverArgInfo;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0200E7BC
+ * function: MISC_SAVEDATA_FillMonEntry
  * address:  0x0200E7BC
  * packet:   pkt_0200E7BC
  * region:   arm9
@@ -57,7 +57,7 @@ extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 m
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void *gSpeciesNameBank;
 
-void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
+void MISC_SAVEDATA_FillMonEntry(struct Rec0200E7BC *o, int idx, void *mon)
 {
     o[idx].bits.level = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
     if (POKE_TOOL_GetPartyValue(mon, 0x71, 0) != 0)

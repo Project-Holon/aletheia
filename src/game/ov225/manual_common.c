@@ -22,7 +22,7 @@
  *   func_020090E0 0x020090E0 thumb
  *   func_0201296C 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   func_0200EDEC  0x0200EDEC  thumb
  *   func_0200EE14 0x0200EE14 thumb
  *   func_021B9900 0x021B9900 thumb ov225
@@ -417,7 +417,7 @@ extern struct Sub02009210Obj *func_02009210(void *);
 extern u8 func_020090E0(const struct Sub020090B0Obj *);
 extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
-extern void *func_0200ED48(void *p);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern int func_0200EDEC(char *obj, int i);
 extern void func_0200EE14(char *obj, int i);
 extern void *func_021B9900(u32,u32);
@@ -699,12 +699,12 @@ int func_021B9C58(void *unused,int kind,void *save)
 
 int func_021B9C98(void *unused, int b, int c)
 {
-    return func_0200EDEC(func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)c)), b);
+    return func_0200EDEC(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)c)), b);
 }
 
 
 
-void func_021B9CB0(void *unused,int code,struct Big *save) {func_0200EE14(func_0200ED48(GAME_DATA_GetSaveControl(save)),code);}
+void func_021B9CB0(void *unused,int code,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),code);}
 
 
 

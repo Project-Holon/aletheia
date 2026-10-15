@@ -1,7 +1,7 @@
 /*
  * file:     os_system.c
  * unit:     yes
- * function: func_02087974, OS_DisableInterrupts, OS_RestoreInterrupts, func_020879B4, func_020879C8, func_020879E0, func_020879EC, func_020879F8, OS_SpinWaitSysCycles, func_02087A3C, OS_WaitVBlankIntr
+ * function: func_02087974, OS_DisableInterrupts, OS_RestoreInterrupts, func_020879B4, func_020879C8, func_020879E0, func_020879EC, OS_SpinWaitCpuCycles, OS_SpinWaitSysCycles, OS_WaitInterrupt, OS_WaitVBlankIntr
  * address:  0x02087974
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   OS_Halt                        0x020882D0  arm
  *   SDK_AUTOLOAD_DTCM_START        0x02FE0000  data
  *   SVC_WaitByLoop                  0x02004490  thumb
- *   func_0208459C                  0x0208459C  arm
+ *   OS_WaitIrq                  0x0208459C  arm
  */
 typedef unsigned long u32;
 
@@ -37,12 +37,11 @@ asm void OS_DisableInterrupts_IrqAndFiq(void);
 asm void OS_RestoreInterrupts_IrqAndFiq(void);
 asm unsigned int OS_GetCpsrIrq(void);
 asm unsigned int OS_GetProcMode(void);
-asm void func_020879F8(void);
 void OS_SpinWaitSysCycles(u32 cycle);
 extern void OS_Halt(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern void SVC_WaitByLoop(int v);
-extern void func_0208459C(int clear, u32 irqFlags);
+extern void OS_WaitIrq(int clear, u32 irqFlags);
 
 
 
@@ -123,10 +122,10 @@ asm unsigned int OS_GetProcMode(void)
 
 
 /* hand-written in the original: SDK OS_SpinWaitCpuCycles, cycle-exact subs/bhs delay loop */
-asm void func_020879F8(void)
+asm void OS_SpinWaitCpuCycles(u32 cycle)
 {
     subs	r0, r0, #4
-    bhs	func_020879F8
+    bhs	OS_SpinWaitCpuCycles
     bx	lr
 }
 
@@ -167,7 +166,7 @@ static inline BOOL OS_RestoreIrq(BOOL enable)
 /*
  * sdk:      OS_WaitInterrupt (os_system.o)
  */
-void func_02087A3C(BOOL clear, u32 irqFlags)
+void OS_WaitInterrupt(BOOL clear, u32 irqFlags)
 {
     OSIntrMode cpsrIrq = OS_DisableInterrupts();
     BOOL prevIrq = OS_EnableIrq();
@@ -191,5 +190,5 @@ void func_02087A3C(BOOL clear, u32 irqFlags)
 void OS_WaitVBlankIntr(void)
 {
     SVC_WaitByLoop(1);
-    func_0208459C(1, 1);
+    OS_WaitIrq(1, 1);
 }

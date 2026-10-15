@@ -1,5 +1,5 @@
 /*
- * function: func_020897DC
+ * function: SNDi_SetTrackParam
  * address:  0x020897DC
  * packet:   pkt_020897DC
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_020897DC(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size)
+void SNDi_SetTrackParam(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size)
 {
     PushCommand_impl(7, (u32)(playerNo | (size << 24)), trackBitMask, offset, data);
 }

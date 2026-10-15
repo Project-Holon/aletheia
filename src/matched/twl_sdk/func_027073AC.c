@@ -17,6 +17,7 @@
  *   AESi_InitLock  0x02707AEC  arm
  *   PXI_Init  0x02088498  arm  arm9
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
+ *   OS_InitMessageQueue  0x02085D94  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -36,7 +37,7 @@ extern Slot data_02735A9C;
    so the original referenced two distinct symbols there. */
 extern u32 data_02735A9C_msg[1];
 extern u32 data_02735AAC[];
-extern void func_02085D94(u32 *q, u32 *buf, u32 count);
+extern void OS_InitMessageQueue(u32 *q, u32 *buf, u32 count);
 extern void func_020885A0(u32 tag, void (*cb)(u32, u32, u32));
 extern u32 PXI_IsCallbackReady(u32 tag, u32 arg);
 extern void PXI_Init(void);
@@ -47,7 +48,7 @@ void AESi_Init(void) {
     if (data_02735A9C.ready != 0) {
         return;
     }
-    func_02085D94(data_02735AAC, data_02735A9C_msg, 1);
+    OS_InitMessageQueue(data_02735AAC, data_02735A9C_msg, 1);
     AESi_InitLock();
     PXI_Init();
     func_020885A0(0x13, PxiCallback);

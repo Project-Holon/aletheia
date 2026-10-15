@@ -1,5 +1,5 @@
 /*
- * function: func_021F8EE8
+ * function: BR_POKESEARCH_DestroyText
  * address:  0x021F8EE8
  * packet:   pkt_021F8EE8
  * region:   ov185
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FD640  0x021FD640  thumb  ov186
+ *   BR_UTIL_DeleteProfileScreen  0x021FD640  thumb  ov186
  */
 #include "../include/Obj10772.h"
 
-extern void func_021FD640(int *p);
+extern void BR_UTIL_DeleteProfileScreen(int *p);
 
-void func_021F8EE8(char *p, int *a1)
+void BR_POKESEARCH_DestroyText(char *p, int *a1)
 {
     if (((struct Obj10772 *)p)->f10 != 0) {
-        func_021FD640((int *)(((struct Obj10772 *)p)->f10));
+        BR_UTIL_DeleteProfileScreen((int *)(((struct Obj10772 *)p)->f10));
         ((struct Obj10772 *)p)->f10 = 0;
     }
 }

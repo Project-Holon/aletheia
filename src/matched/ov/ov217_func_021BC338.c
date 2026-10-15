@@ -1,5 +1,5 @@
 /*
- * function: func_021BC338
+ * function: RESEARCH_LIST_ApplyScrollRegs
  * address: 0x021BC338
  * packet: pkt_ov217_021BC338
  * region: ov217
@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BC3D4 0x021BC3D4 thumb ov217
- *   func_021BC3E0 0x021BC3E0 thumb ov217
+ *   RESEARCH_LIST_GetScrollMin 0x021BC3D4 thumb ov217
+ *   RESEARCH_LIST_GetScrollMax 0x021BC3E0 thumb ov217
  *   func_02041EE4 0x02041EE4 arm
  */
 #include "../include/Obj25856.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_021BC3D4(void);
-extern u32 func_021BC3E0(void);
+extern u32 RESEARCH_LIST_GetScrollMin(void);
+extern u32 RESEARCH_LIST_GetScrollMax(void);
 extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
-void func_021BC338(u8 *p)
+void RESEARCH_LIST_ApplyScrollRegs(u8 *p)
 {
     int position;
     int low;
     int high;
     position=((struct Obj25856 *)p)->f34;
-    low=func_021BC3D4();
-    high=func_021BC3E0();
+    low=RESEARCH_LIST_GetScrollMin();
+    high=RESEARCH_LIST_GetScrollMax();
     if(position<low) {
         position-=24;
         func_02041EE4(2,3,position);

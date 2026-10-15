@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060480",
+   "name": "NNSi_FndSetFirstObject",
    "address": "0x02060480",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020604AC",
+   "name": "NNS_FndAppendListObject",
    "address": "0x020604AC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060500",
+   "name": "NNS_FndPrependListObject",
    "address": "0x02060500",
    "kind": "game",
    "region": "arm9",

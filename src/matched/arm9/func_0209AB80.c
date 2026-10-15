@@ -1,5 +1,5 @@
 /*
- * function: func_0209AB80
+ * function: pow
  * address:  0x0209AB80
  * packet:   pkt_0209AB80
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void func_020979BC(void);
 
-void func_0209AB80(void)
+void pow(void)
 {
     func_020979BC();
 }

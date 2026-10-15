@@ -16,7 +16,7 @@
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
  *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm ov013
- *   func_020726D0  0x020726D0  arm
+ *   NNS_SndInit  0x020726D0  arm
  *   NNS_SndStrmInit  0x020737C0  arm
  *   func_02082AC0  0x02082AC0  arm
  *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
@@ -76,7 +76,7 @@
  *   gVctSendBuffer     0x021B42C0  data ov013 a4
  *   gVctMembers     0x021B3CB0  data ov013 a4
  *   gVctReceiveSources     0x021B3CBC  data ov013 a4
- *   func_02087170  0x02087170  arm
+ *   OS_GetTickLo  0x02087170  arm
  *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm ov013
  *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm ov013
  *   VCT_AUDIO_InitReceiveSource  0x021B19BC  arm ov013
@@ -115,7 +115,7 @@ extern int func_0208B480(void);
 extern int func_0208B528(void);
 
 /* Sound system and sound stream object (arm9 unit_020737C0). */
-extern void func_020726D0(void);
+extern void NNS_SndInit(void);
 extern void NNS_SndStrmInit(void *stream);
 extern int NNS_SndStrmAllocChannel(u8 *stream, int channelCount, u8 *channelNumbers);
 extern void NNS_SndStrmSetVolume(void *stream, s32 volume);
@@ -130,7 +130,7 @@ extern void func_02082AC0(int value, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void func_02082B0C(const void *src, void *dst, u32 size);
 extern u64 func_020870D0(void);
-extern u16 func_02087170(void);
+extern u16 OS_GetTickLo(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 /* Wi-Fi glue (ov009). */
@@ -229,7 +229,7 @@ void VCT_MAIN_InitAudio(void)
     func_0208BEF0(1);
     func_0208BF38(3);
     VCT_SESSION_SetSendEnabled(1);
-    func_020726D0();
+    NNS_SndInit();
     NNS_SndStrmInit(gVctWork->audioStream);
     func_02082AC0(0, gVctWork->playbackBuffers[1], VCT_BUFFER_BYTES);
     gVctWork->microsecondDebt = 0;
@@ -1170,7 +1170,7 @@ int VCT_SESSION_Init(void)
     u32 i;
     u32 codecMode;
 
-    gVctSendState.sequence = func_02087170();
+    gVctSendState.sequence = OS_GetTickLo();
     gVctSendEnabled = 1;
     gVctSendState.memberCount = 0;
     gVctSendState.memberMask = 0;
@@ -1244,7 +1244,7 @@ int VCT_SESSION_AddMember(VctPeer *peer)
     }
     if (gVctSendState.memberCount == 1) {
         VCT_DSP_ResetVoiceGate();
-        gVctSendState.sequence = func_02087170();
+        gVctSendState.sequence = OS_GetTickLo();
         gVctSendState.adpcmPredictor = 0;
         gVctSendState.adpcmStepIndex = 0;
         gVctSendState.markerRequest = 1;

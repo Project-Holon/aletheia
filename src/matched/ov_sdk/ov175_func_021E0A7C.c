@@ -23,15 +23,15 @@
  *   sSciTagAuthoritative  0x021E42E8  data
  *   gScStatsServiceUrl  0x021E52B4  data
  *   sSciSoapActionSetReportIntention  0x021E42F8  data
- *   func_021819B0  0x021819B0  arm  ov009
- *   func_021829AC  0x021829AC  arm  ov009
+ *   gsXmlCreateStreamWriter  0x021819B0  arm  ov009
+ *   gsXmlWriteOpenTag  0x021829AC  arm  ov009
  *   wsLoginCertWriteXML  0x021E2874  arm  ov175
- *   func_02182A2C  0x02182A2C  arm  ov009
- *   func_02182E90  0x02182E90  arm  ov009
- *   func_02182AC0  0x02182AC0  arm  ov009
- *   func_02182CF0  0x02182CF0  arm  ov009
- *   func_02181DE8  0x02181DE8  arm  ov009
- *   func_02181D84  0x02181D84  arm  ov009
+ *   gsXmlWriteCloseTag  0x02182A2C  arm  ov009
+ *   gsXmlWriteHexBinaryElement  0x02182E90  arm  ov009
+ *   gsXmlWriteStringElement  0x02182AC0  arm  ov009
+ *   gsXmlWriteIntElement  0x02182CF0  arm  ov009
+ *   gsXmlCloseWriter  0x02181DE8  arm  ov009
+ *   gsXmlFreeWriter  0x02181D84  arm  ov009
  *   func_0217FD7C  0x0217FD7C  arm  ov009
  *   sciWsSetReportIntentionCallback  0x021E0C68  arm  ov175
  *
@@ -82,15 +82,15 @@ extern char sSciTagAuthoritative[];
 extern char gScStatsServiceUrl[];
 extern char sSciSoapActionSetReportIntention[];
 
-extern void *func_021819B0(const char **namespaces, int count);
-extern int func_021829AC(void *stream, char *namespaceName, char *tag);
+extern void *gsXmlCreateStreamWriter(const char **namespaces, int count);
+extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int wsLoginCertWriteXML(struct GSLoginCertificate *cert, char *aNamespace, void *writer);
-extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
-extern int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int func_02181DE8(void *stream);
-extern void func_02181D84(void **p);
+extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
+extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
+extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
+extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
+extern int gsXmlCloseWriter(void *stream);
+extern void gsXmlFreeWriter(void **p);
 extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap,
                            void (*theCallbackFunc)(int, void *, void *, void *), void *theUserData);
 extern void sciWsSetReportIntentionCallback(int theHttpResult, int unused, void *theResponseData, void *theUserData);
@@ -104,21 +104,21 @@ int sciWsSetReportIntention(SCWebServices *theWebServices, unsigned int theGameI
 
     if (theWebServices->mSetReportIntentionPending)
         return 6;
-    aRequest = func_021819B0((const char **)gSciSoapNamespaces, 1);
+    aRequest = gsXmlCreateStreamWriter((const char **)gSciSoapNamespaces, 1);
     if (aRequest == 0)
         return 5;
-    if (!func_021829AC(aRequest, sSciNamespaceGsc, sSciTagSetReportIntention) ||
-        !func_021829AC(aRequest, sSciNamespaceGsc, sSciTagCertificate) ||
+    if (!gsXmlWriteOpenTag(aRequest, sSciNamespaceGsc, sSciTagSetReportIntention) ||
+        !gsXmlWriteOpenTag(aRequest, sSciNamespaceGsc, sSciTagCertificate) ||
         !wsLoginCertWriteXML(theCertificate, sSciNamespaceGsc, aRequest) ||
-        !func_02182A2C(aRequest, sSciNamespaceGsc, sSciTagCertificate) ||
-        !func_02182E90(aRequest, sSciNamespaceGsc, sSciTagProof, thePrivateData->mKeyHash, 16) ||
-        !func_02182AC0(aRequest, sSciNamespaceGsc, sSciTagCsid, theSessionId) ||
-        !func_02182AC0(aRequest, sSciNamespaceGsc, sSciTagCcid, theConnectionId) ||
-        !func_02182CF0(aRequest, sSciNamespaceGsc, sSciTagGameId, theGameId) ||
-        !func_02182CF0(aRequest, sSciNamespaceGsc, sSciTagAuthoritative, isAuthoritative ? 1 : 0) ||
-        !func_02182A2C(aRequest, sSciNamespaceGsc, sSciTagSetReportIntention) ||
-        !func_02181DE8(aRequest)) {
-        func_02181D84(aRequest);
+        !gsXmlWriteCloseTag(aRequest, sSciNamespaceGsc, sSciTagCertificate) ||
+        !gsXmlWriteHexBinaryElement(aRequest, sSciNamespaceGsc, sSciTagProof, thePrivateData->mKeyHash, 16) ||
+        !gsXmlWriteStringElement(aRequest, sSciNamespaceGsc, sSciTagCsid, theSessionId) ||
+        !gsXmlWriteStringElement(aRequest, sSciNamespaceGsc, sSciTagCcid, theConnectionId) ||
+        !gsXmlWriteIntElement(aRequest, sSciNamespaceGsc, sSciTagGameId, theGameId) ||
+        !gsXmlWriteIntElement(aRequest, sSciNamespaceGsc, sSciTagAuthoritative, isAuthoritative ? 1 : 0) ||
+        !gsXmlWriteCloseTag(aRequest, sSciNamespaceGsc, sSciTagSetReportIntention) ||
+        !gsXmlCloseWriter(aRequest)) {
+        gsXmlFreeWriter(aRequest);
         return 7;
     }
     theWebServices->mSetReportIntentionCallback = theCallback;

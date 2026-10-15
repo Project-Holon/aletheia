@@ -28,7 +28,7 @@
  *   func_021D6D80 0x021D6D80 thumb ov121
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
- *   func_021DE2A0 0x021DE2A0 thumb ov121
+ *   MYSTERY_NET_Create 0x021DE2A0 thumb ov121
  *   func_021D91BC 0x021D91BC thumb ov121
  *   func_021D9254 0x021D9254 thumb ov121
  *   func_021D9288 0x021D9288 thumb ov121
@@ -62,7 +62,7 @@ extern void *func_021DA854(void *, void *, u16);
 extern void func_021D6D80(void *a, int b, u8 *p);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
-extern void *func_021DE2A0(void *arg, int heap);
+extern void *MYSTERY_NET_Create(void *arg, int heap);
 extern void func_021D91BC(u8 *p, void *q, u16 h);
 extern void func_021D9254(char *p, int n);
 extern void func_021D9288(unsigned *p, unsigned v);
@@ -89,7 +89,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     *(void **)(p + 0x290) = func_021DA854(p, (void *)func_021D6D80, 29);
     *(void **)(p + 0x284) = func_021D9CA4(1, 15, *(void **)(p + 0x39C), *(void **)(p + 0x398), 29);
     func_021D9FFC(*(u8 **)(p + 0x284), 10, 14);
-    *(void **)(p + 0x3B0) = func_021DE2A0(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), 29);
+    *(void **)(p + 0x3B0) = MYSTERY_NET_Create(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), 29);
     func_021D91BC(p + 0x138, p + 0x294, 29);
     func_021D9254((char *)p + 0x138, 0);
     func_021D9288((unsigned int *)(p + 0x138), 1);

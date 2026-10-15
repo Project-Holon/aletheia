@@ -1,5 +1,5 @@
 /*
- * function: func_021FE54C
+ * function: BR_UTIL_StepFollow
  * address: 0x021FE54C
  * packet: pkt_ov186_021FE54C
  * region: ov186
@@ -30,7 +30,7 @@ static inline int roundFixed(int x)
     else f=(float)(x<<12)-0.5f;
     return (int)f;
 }
-int func_021FE54C(char *p,int *out)
+int BR_UTIL_StepFollow(char *p,int *out)
 {
     VecFx32 delta;
     int length,x,y;

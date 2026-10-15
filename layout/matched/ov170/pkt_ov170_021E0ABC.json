@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0ABC",
+   "name": "BOX2_MAIN_StateMachineCoin",
    "address": "0x021E0ABC",
    "kind": "game",
    "region": "ov170",

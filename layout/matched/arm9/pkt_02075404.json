@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075698",
+   "name": "NNSi_SndArcPlayerStartSeq",
    "address": "0x02075698",
    "kind": "game",
    "region": "arm9",
@@ -49,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075794",
+   "name": "NNSi_SndArcPlayerStartSeqArc",
    "address": "0x02075794",
    "kind": "game",
    "region": "arm9",

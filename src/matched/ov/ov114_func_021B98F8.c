@@ -21,7 +21,7 @@
  * NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  * func_02034714 0x02034714 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_0208CADC 0x0208CADC arm
+ * STD_CopyString 0x0208CADC arm
  */
 #include "../include/Obj10329.h"
 #include "../include/G_Pair.h"
@@ -39,7 +39,7 @@ extern int NHTTP_SetRootCA(int a, int b, int c);
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 extern void func_02034714(const char *, u32, const char *);
 extern void MI_CpuFill8(int, int, int);
-extern char *func_0208CADC(char *, const char *);
+extern char *STD_CopyString(char *, const char *);
 int NHTTP_RAP_CreatePostRequest(u8 *p)
 {
     int h;
@@ -49,7 +49,7 @@ int NHTTP_RAP_CreatePostRequest(u8 *p)
         return 0;
     }
     MI_CpuFill8((int)(p+0x410), 0, 4);
-    func_0208CADC((char *)(p+0x410), (char *)((u32 *)&sNHTTPRapRequestTable)[14]);
+    STD_CopyString((char *)(p+0x410), (char *)((u32 *)&sNHTTPRapRequestTable)[14]);
     h = (int)NHTTP_CreateConnection((char *)((u32 *)&sNHTTPRapRequestTable)[14], ((u32 *)&sNHTTPRapRequestTable)[15], (char *)(p+0x10), 0x400, (int (*)(void *, int,  void *))NHTTP_RAP_ConnectionCallback, 0);
     if (h == 0) {
         NHTTP_GetError();

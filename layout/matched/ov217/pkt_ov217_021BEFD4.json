@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEFD4",
+   "name": "RESEARCH_GRAPH_ShowPercentages",
    "address": "0x021BEFD4",
    "kind": "game",
    "region": "ov217",

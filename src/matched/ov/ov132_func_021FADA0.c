@@ -11,7 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02030DA8 0x02030DA8 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020604AC 0x020604AC arm
+ *   NNS_FndAppendListObject 0x020604AC arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  */
 #include "../include/Obj10542.h"
@@ -24,7 +24,7 @@ struct Ctx;
 struct Node;
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern u32 func_020307B0(void *p);
-extern void func_020604AC(void *, void *);
+extern void NNS_FndAppendListObject(void *, void *);
 void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key)
 {
     char *q;
@@ -32,7 +32,7 @@ void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key)
     ((struct Obj10542 *)q)->fC = func_02030DA8(((struct Obj14095 *)p)->f4, fn, arg, key);
     if (((struct Obj10542 *)q)->fC != 0) {
         ((struct Obj10542 *)q)->f8 = arg;
-        func_020604AC(p + 0x38, q);
+        NNS_FndAppendListObject(p + 0x38, q);
         return q;
     }
     func_020307B0(q);

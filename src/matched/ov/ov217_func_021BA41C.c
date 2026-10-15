@@ -1,5 +1,5 @@
 /*
- * function: func_021BA41C
+ * function: RESEARCH_TOP_UpdateEntryPaletteAnime
  * address:  0x021BA41C
  * packet:   pkt_021BA41C
  * region:   ov217
@@ -17,7 +17,7 @@
 
 extern void PALETTE_ANIME_Update(int);
 
-void func_021BA41C(int *p)
+void RESEARCH_TOP_UpdateEntryPaletteAnime(int *p)
 {
     int i;
     for (i = 0; i < 5; i++)

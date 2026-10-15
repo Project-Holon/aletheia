@@ -1,5 +1,5 @@
 /*
- * function: func_021EF1FC
+ * function: BOX2_UI_GetBackButtonPoint
  * address: 0x021EF1FC
  * packet: pkt_ov170_021EF1FC
  * region: ov170
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 extern int TOUCHPANEL_HitCont(const void*);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned*,unsigned*);
 extern const u8 d_021F0024[];
-int func_021EF1FC(unsigned*a,unsigned*b){if(TOUCHPANEL_HitCont(d_021F0024)!=-1){TOUCHPANEL_GetPointCont(a,b);return 1;}return 0;}
+int BOX2_UI_GetBackButtonPoint(unsigned*a,unsigned*b){if(TOUCHPANEL_HitCont(d_021F0024)!=-1){TOUCHPANEL_GetPointCont(a,b);return 1;}return 0;}

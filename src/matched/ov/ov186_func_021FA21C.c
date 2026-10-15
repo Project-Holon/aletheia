@@ -1,20 +1,20 @@
 /*
  * unit: yes
- * function: func_021FA21C,func_021FA274
+ * function: BR_BTN_SetTailSelection,BR_BTN_SetupInput
  * address: 0x021FA21C
  * packet: pkt_ov186_021FA21C
  * region: ov186
  * status: EXACT
  * symbols:
- *   func_021FAFC0 0x021FAFC0 thumb
- *   func_021FD73C 0x021FD73C thumb
- *   func_021FA284 0x021FA284 thumb
+ *   BR_BTN_SetSelected 0x021FAFC0 thumb
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb
+ *   BR_BTN_HandleInput 0x021FA284 thumb
  */
 #include "../include/Obj06627.h"
-extern void func_021FAFC0(char *p, unsigned value);
-extern int *func_021FD73C(int *p, int v);
-extern void func_021FA284(void *p, int *state, unsigned char *ctx);
-void func_021FA21C(unsigned char *ctx, int mode)
+extern void BR_BTN_SetSelected(char *p, unsigned value);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
+extern void BR_BTN_HandleInput(void *p, int *state, unsigned char *ctx);
+void BR_BTN_SetTailSelection(unsigned char *ctx, int mode)
 {
     int i, selected;
     for (i = 0; i < ctx[0x3b]; i++) {
@@ -23,12 +23,12 @@ void func_021FA21C(unsigned char *ctx, int mode)
         case 1: selected = (i >= ctx[0x3b] - 2); break;
         }
         if (selected)
-            func_021FAFC0(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 0);
+            BR_BTN_SetSelected(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 0);
         else
-            func_021FAFC0(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 1);
+            BR_BTN_SetSelected(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 1);
     }
 }
-void func_021FA274(void *p)
+void BR_BTN_SetupInput(void *p)
 {
-    func_021FD73C(p, (int)func_021FA284);
+    BR_UTIL_SetTaskStep(p, (int)BR_BTN_HandleInput);
 }

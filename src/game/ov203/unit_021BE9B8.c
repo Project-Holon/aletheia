@@ -95,7 +95,6 @@ extern int GFL_USE_GetSeSlot(unsigned);
 extern void GFL_USE_SetSeSlotVolume(int,unsigned);
 extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 extern void GFL_USE_StopSeSlot(int);
-extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
 extern int func_021BF7AC(char *p, int v);
 extern u32 FX_Div(u32,u32);

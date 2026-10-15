@@ -1,5 +1,5 @@
 /*
- * function: func_02085CBC
+ * function: OS_GetConsoleType
  * address:  0x02085CBC
  * packet:   pkt_02085CBC
  * region:   arm9
@@ -39,7 +39,7 @@ extern OsEmulatorData g_020A86A4;
 extern BOOL OS_IsRunOnTwl(void);
 extern u32 OSi_DetectDeviceType(void);
 
-u32 func_02085CBC(void)
+u32 OS_GetConsoleType(void)
 {
     if (g_020A86A4.OSi_ConsoleTypeCache == 0xFFFFFFFF) {
         if (OS_IsRunOnTwl()) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5F0
+ * function: RESEARCH_LIST_UpdateCommonPaletteAnime
  * address:  0x021BC5F0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RESEARCH_COMMON_UpdatePaletteAnime(u32);
 
-void func_021BC5F0(u8 *a0)
+void RESEARCH_LIST_UpdateCommonPaletteAnime(u8 *a0)
 {
     RESEARCH_COMMON_UpdatePaletteAnime((u32)(((struct Obj25861 *)a0)->f0));
 }

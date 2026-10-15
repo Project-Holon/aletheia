@@ -23,29 +23,29 @@
  *   GAME_BEACON_SetResearchTeamRank  0x02027138  thumb
  *   func_0200C32C  0x0200C32C  thumb
  *   func_0200C33C  0x0200C33C  thumb
- *   func_0200E394  0x0200E394  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0200C334  0x0200C334  thumb
  *   func_0200C344  0x0200C344  thumb
  *   func_0200C358  0x0200C358  thumb
  *   func_0203F524  0x0203F524  arm
  *   func_0200C384  0x0200C384  thumb
- *   func_0200E4F8  0x0200E4F8  thumb
- *   func_0200E4B0  0x0200E4B0  thumb
+ *   MISC_SAVEDATA_GetScoreValue  0x0200E4F8  thumb
+ *   MISC_SAVEDATA_GetTallyValue  0x0200E4B0  thumb
  *   sTallyCategoryEntryCount     0x0217219C  data  ov010  a1
  *   sTallyCategoryEntryIds     0x021721BC  data  ov010  a1
- *   func_0200E3A0  0x0200E3A0  thumb
- *   func_0200E3E8  0x0200E3E8  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireBits  0x0200E3A0  thumb
+ *   SYMBOL_SAVE_SetQuestionnaireAnswer  0x0200E3E8  thumb
  *   GAME_BEACON_SetQuestionnaire  0x02027100  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateReportTask  0x021670F8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   func_0200C0E8  0x0200C0E8  thumb
- *   func_0200E458 0x0200E458 thumb
- *   func_0200E47C 0x0200E47C thumb
+ *   MISC_SAVEDATA_GetHalfword 0x0200E458 thumb
+ *   MISC_SAVEDATA_GetTallyWord 0x0200E47C thumb
  *   func_0200C34C 0x0200C34C thumb
  *   func_0200C37C  0x0200C37C  thumb
- *   func_020891E0  0x020891E0  arm
+ *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   sMissionKind 0x021723BC data a1
  *   sMissionTargetCount 0x021723BD data a1
  *   sMissionTargetId0 0x021723BE data a1
@@ -89,7 +89,7 @@ extern u8 func_0200C32C(struct BeaconSave *beacon);
 
 extern int func_0200C33C(struct BeaconSave *beacon, u32 index);
 
-extern void *func_0200E394(void *saveControl);
+extern void *SYMBOL_SAVE_GetBitBlock(void *saveControl);
 
 extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *work);
 
@@ -103,13 +103,13 @@ extern u64 func_0203F524();
 
 extern void func_0200C384(struct BeaconSave *beacon, u32 lo, u32 hi);
 
-extern int func_0200E4F8(int tally, int category, int entry);
+extern int MISC_SAVEDATA_GetScoreValue(int tally, int category, int entry);
 
-extern u32 func_0200E4B0(u8 *tally, u32 category, u32 entry);
+extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 category, u32 entry);
 
-extern void *func_0200E3A0(void *survey);
+extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *survey);
 
-extern void func_0200E3E8(u8 *answers, int questionId, u32 answer);
+extern void SYMBOL_SAVE_SetQuestionnaireAnswer(u8 *answers, int questionId, u32 answer);
 
 extern void GAME_BEACON_SetQuestionnaire(const void *answers);
 
@@ -121,15 +121,15 @@ extern int SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
 
 extern void *func_0200C0E8(void *saveControl);
 
-extern u16 func_0200E458(const u16 *tally, int id);
+extern u16 MISC_SAVEDATA_GetHalfword(const u16 *tally, int id);
 
-extern u32 func_0200E47C(u8 *tally, int id);
+extern u32 MISC_SAVEDATA_GetTallyWord(u8 *tally, int id);
 
 extern u16 func_0200C34C(struct BeaconSave *beacon, u32 slot);
 
 extern unsigned long long func_0200C37C(struct BeaconSave *beacon);
 
-extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
+extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
 
 extern u8 sTallyCategoryEntryCount[];
 
@@ -275,7 +275,7 @@ int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork
     SCRCMD_WORK_GetScriptWork(scrWork);
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
     beacon = func_0200C0F0(saveControl);
-    func_0200E394(saveControl);
+    SYMBOL_SAVE_GetBitBlock(saveControl);
     missionIndex = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     targetId[0] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     targetId[1] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
@@ -301,7 +301,7 @@ int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrCmdWork
     SCRCMD_WORK_GetScriptWork(scrWork);
     saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
     beacon = func_0200C0F0(saveControl);
-    func_0200E394(saveControl);
+    SYMBOL_SAVE_GetBitBlock(saveControl);
     func_0200C334(beacon, 0);
     for (i = 0; i < 3; i++)
         func_0200C344(beacon, (u8)i, 0xFF);
@@ -320,14 +320,14 @@ int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct ScrCmd
     int entryCount;
 
     SCRCMD_WORK_GetScriptWork(scrWork);
-    tally = func_0200E394(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
+    tally = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
     category = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
     entryCount = sTallyCategoryEntryCount[category];
     best = -1;
     for (i = 0; i < entryCount; i++) {
-        int countA = func_0200E4F8((int)tally, category, i + 1);
-        int countB = func_0200E4B0(tally, category, i + 1);
+        int countA = MISC_SAVEDATA_GetScoreValue((int)tally, category, i + 1);
+        int countB = MISC_SAVEDATA_GetTallyValue(tally, category, i + 1);
         int score = countA + countB;
         if (best < score) {
             best = score;
@@ -346,10 +346,10 @@ int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrCmdW
     int answer;
 
     SCRCMD_WORK_GetScriptWork(scrWork);
-    answers = func_0200E3A0(func_0200E394(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork))));
+    answers = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork))));
     questionId = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     answer = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    func_0200E3E8(answers, (u8)questionId, answer);
+    SYMBOL_SAVE_SetQuestionnaireAnswer(answers, (u8)questionId, answer);
     GAME_BEACON_SetQuestionnaire(answers);
     return 0;
 }
@@ -420,7 +420,7 @@ int SCRCMD_RESEARCH_GetCurrentMissionStatus(void *saveControl, u16 *status)
     int missionIndex;
     int kind;
 
-    tally = func_0200E394(saveControl);
+    tally = SYMBOL_SAVE_GetBitBlock(saveControl);
     beacon = func_0200C0E8(saveControl);
     missionIndex = func_0200C32C(beacon);
     kind = (u8)SCRCMD_RESEARCH_GetMissionKind(missionIndex);
@@ -453,7 +453,7 @@ int SCRCMD_RESEARCH_GetMissionStatus(void *saveControl, int missionIndex, u16 *s
     const u16 *tally;
     int kind;
 
-    tally = func_0200E394(saveControl);
+    tally = SYMBOL_SAVE_GetBitBlock(saveControl);
     func_0200C0E8(saveControl);
     kind = (u8)SCRCMD_RESEARCH_GetMissionKind(missionIndex);
     if (kind == 0) {
@@ -478,8 +478,8 @@ int SCRCMD_RESEARCH_GetMissionStatus(void *saveControl, int missionIndex, u16 *s
 /* Tally of an id: both counters summed, capped at 999999. */
 u32 SCRCMD_RESEARCH_GetTallyTotal(const u16 *tally, int id)
 {
-    u32 total = func_0200E458(tally, id);
-    total += func_0200E47C((u8 *)tally, id);
+    u32 total = MISC_SAVEDATA_GetHalfword(tally, id);
+    total += MISC_SAVEDATA_GetTallyWord((u8 *)tally, id);
     if (total > 999999) total = 999999;
     return total;
 }
@@ -510,7 +510,7 @@ int SCRCMD_RESEARCH_IsMissionTimeUp(void *saveControl)
     int elapsedHours;
     void *beacon;
 
-    func_0200E394(saveControl);
+    SYMBOL_SAVE_GetBitBlock(saveControl);
     beacon = func_0200C0E8(saveControl);
     missionIndex = func_0200C32C(beacon);
     elapsedHours = SCRCMD_RESEARCH_GetMissionElapsedHours(saveControl);
@@ -561,7 +561,7 @@ u16 SCRCMD_RESEARCH_GetMissionShortfall(void *saveControl)
     void *tally;
     int missionIndex;
 
-    tally = func_0200E394(saveControl);
+    tally = SYMBOL_SAVE_GetBitBlock(saveControl);
     missionIndex = func_0200C32C(func_0200C0E8(saveControl));
     goal = SCRCMD_RESEARCH_GetMissionGoal(missionIndex);
     targetCount = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(missionIndex);
@@ -586,7 +586,7 @@ u16 SCRCMD_RESEARCH_GetMissionShortfall(void *saveControl)
 u16 SCRCMD_RESEARCH_GetMissionHoursLeft(void *saveControl)
 {
     int missionIndex, elapsedHours, hoursLeft;
-    func_0200E394(saveControl);
+    SYMBOL_SAVE_GetBitBlock(saveControl);
     missionIndex = func_0200C32C(func_0200C0E8(saveControl));
     elapsedHours = SCRCMD_RESEARCH_GetMissionElapsedHours(saveControl);
     hoursLeft = (int)((u32)SCRCMD_RESEARCH_GetMissionTimeLimitHours((u8)missionIndex) - (u32)elapsedHours);
@@ -609,7 +609,7 @@ int SCRCMD_RESEARCH_GetMissionElapsedHours(void *saveControl)
         return 0;
     }
     startTime = func_0200C37C(beacon);
-    func_020891E0((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, func_0203F524() - startTime);
+    RTC_ConvertSecondToDateTime((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, func_0203F524() - startTime);
     if (elapsed.date.year != 0 || elapsed.date.month > 1 || elapsed.date.day > 1) {
         return 24;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219FD64
+ * function: BufferAddInt
  * address:  0x0219FD64
  * packet:   pkt_ov009_0219FD64
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-void func_0219FD64(unsigned char **buffer, int ival, int *len)
+void BufferAddInt(unsigned char **buffer, int ival, int *len)
 {
 	unsigned char *d = *buffer;
 	unsigned char *src = (unsigned char *)&ival;

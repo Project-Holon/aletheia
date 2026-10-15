@@ -1,5 +1,5 @@
 /*
- * function: func_0206164C
+ * function: NNS_GfdSaveVramManager
  * address:  0x0206164C
  * packet:   pkt_020611D4
  * region:   arm9
@@ -15,7 +15,7 @@
  * SAVE half of the save/restore pair the NNS G2D multi-cell renderer uses
  * around a mode switch: it copies the first two words of each of the five
  * 0x18-byte records at 0x020A816C out into the caller's flat buffer, two
- * words per record.  func_0206168C at 0x0206168C is the exact mirror and
+ * words per record.  NNS_GfdLoadVramManager at 0x0206168C is the exact mirror and
  * restores them.
  *
  * The residue docs/notes/pkt_0206164C.c.txt recorded (10 concrete bytes, "which
@@ -32,7 +32,7 @@
  * carrying an empty init clause is byte-exact; `int j = 0` in any of the six
  * declaration orders leaves the two `mov`s swapped, which is the whole of the
  * previously recorded 10-byte residue.  This is the same shape the sibling
- * func_02061460 note describes (the original derives the second zero from the
+ * NNSi_GfdUpdateVramManager note describes (the original derives the second zero from the
  * first, the compiler materialises a second one), and the same fix applies.
  *
  * `t` sits between the two so the pointer, not `j`, takes ip; that ordering is
@@ -40,8 +40,8 @@
  * `add ip, ip, #0x18` / `add lr, lr, #2` pair.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206164C.c \
- *       --func func_0206164C --addr 0x0206164C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNS_GfdSaveVramManager.c \
+ *       --func NNS_GfdSaveVramManager --addr 0x0206164C --arm --cc 1.1p1
  *   EXACT, 64 bytes, 1 relocation site, resolved.
  */
 
@@ -51,7 +51,7 @@ struct Ent020A816C { u32 w[6]; };
 
 extern struct Ent020A816C g_020A816C[];
 
-void func_0206164C(u32 *dst)
+void NNS_GfdSaveVramManager(u32 *dst)
 {
     int i = 0;
     struct Ent020A816C *t = g_020A816C;

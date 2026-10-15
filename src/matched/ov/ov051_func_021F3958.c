@@ -18,7 +18,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  */
 #include "../include/Obj06158.h"
 
@@ -33,7 +33,7 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082C60(void *a, int b, int c);
+extern void MI_CpuFill(void *a, int b, int c);
 
 int FIELD_GIMMICK_D06_CreateSlideEvent(int a, int id, int arg)
 {
@@ -64,7 +64,7 @@ int FIELD_GIMMICK_D06_CreateSlideEvent(int a, int id, int arg)
     else
         sp1 = (int)func_020122C0((void *)sp8, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
     r6 = func_020124E8((struct Obj *)sp1);
-    func_02082C60(r6, 0, 0x10);
+    MI_CpuFill(r6, 0, 0x10);
     r6[0] = arg;
     *(char * *)&((struct Obj06158 *)r6)->fC = r5;
     r6[1] = i;

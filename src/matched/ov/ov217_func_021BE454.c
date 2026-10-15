@@ -1,5 +1,5 @@
 /*
- * function: func_021BE454
+ * function: RESEARCH_GRAPH_SetEntryHandled
  * address:  0x021BE454
  * packet:   pkt_021B9850
  * region:   ov217
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void RESEARCH_COMMON_SetEntryHandled(u8 *, u32);
 
-void func_021BE454(u8 *a0, u32 a1)
+void RESEARCH_GRAPH_SetEntryHandled(u8 *a0, u32 a1)
 {
     RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct Obj25899 *)a0)->f0, a1);
 }

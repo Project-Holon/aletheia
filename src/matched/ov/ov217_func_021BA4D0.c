@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4D0
+ * function: RESEARCH_TOP_SetHeapId
  * address:  0x021BA4D0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA4D0(void *p, u32 v)
+void RESEARCH_TOP_SetHeapId(void *p, u32 v)
 {
     ((struct Obj25826 *)p)->f4 = v;
 }

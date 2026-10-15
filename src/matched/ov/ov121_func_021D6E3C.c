@@ -11,7 +11,7 @@
  * symbols:
  *   func_0202EB44 0x0202EB44 thumb
  *   func_021DA84C 0x021DA84C thumb ov121
- *   func_021DE4D8 0x021DE4D8 thumb ov121
+ *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
  *   func_021D80F0 0x021D80F0 thumb ov121
  *   func_021D7B4C 0x021D7B4C thumb ov121
  *   func_021D72F0 0x021D72F0 thumb ov121
@@ -19,14 +19,14 @@
  *   func_021D7EAC 0x021D7EAC thumb ov121
  *   func_021D73DC 0x021D73DC thumb ov121
  *   func_021D7CF4 0x021D7CF4 thumb ov121
- *   func_021DE308 0x021DE308 thumb ov121
+ *   MYSTERY_NET_SetAction 0x021DE308 thumb ov121
  *   func_021D9F08 0x021D9F08 thumb ov121
- *   func_021DE3E0 0x021DE3E0 thumb ov121
- *   func_021DE4DC 0x021DE4DC thumb ov121
- *   func_021DEF6C 0x021DEF6C thumb ov121
+ *   MYSTERY_NET_GetAction 0x021DE3E0 thumb ov121
+ *   MYSTERY_NET_GetReceivedData 0x021DE4DC thumb ov121
+ *   MYSTERY_NET_ImportRecords 0x021DEF6C thumb ov121
  *   func_021D9554 0x021D9554 thumb ov121
- *   func_021DE500 0x021DE500 thumb ov121
- *   func_021DE550 0x021DE550 thumb ov121
+ *   MYSTERY_NET_UpdateWifiError 0x021DE500 thumb ov121
+ *   MYSTERY_NET_Exit 0x021DE550 thumb ov121
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021DA8C0 0x021DA8C0 thumb ov121
  *   func_021DA8C4 0x021DA8C4 thumb ov121
@@ -55,15 +55,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int y,m,d,week;} Date;
-extern void func_021DE308(char *,unsigned);
+extern void MYSTERY_NET_SetAction(char *,unsigned);
 struct RtcDate;
 extern void func_021D9F08(u8 *a, int b, int c, int d);
-extern int func_021DE3E0(void *);
-extern int func_021DE4DC(u8 *p, void *a, u32 b);
-extern int func_021DEF6C(char *,void *,u16);
+extern int MYSTERY_NET_GetAction(void *);
+extern int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b);
+extern int MYSTERY_NET_ImportRecords(char *,void *,u16);
 extern int func_021D9554(char *p, int n);
-extern int func_021DE500(void *);
-extern void func_021DE550(char *p);
+extern int MYSTERY_NET_UpdateWifiError(void *);
+extern void MYSTERY_NET_Exit(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
@@ -91,7 +91,7 @@ extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int func_0202EB44(void);
-extern void *func_021DE4D8(char *p);
+extern void *MYSTERY_NET_GetResult(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
 extern void func_021D80F0(void *a, int *state, u8 *p);
 extern void func_021D7B4C(void *task, u32 *state, u8 *p);
@@ -152,13 +152,13 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
             if(v==0) *state=5;else if(v==1) *state=0;
         }
         break;
-    case 5:func_021DE308(P(944),1);*state=6;break;
-    case 6:if(func_021DE3E0(P(944))==2) *state=7;break;
+    case 5:MYSTERY_NET_SetAction(P(944),1);*state=6;break;
+    case 6:if(MYSTERY_NET_GetAction(P(944))==2) *state=7;break;
     case 7:
         func_021D8380((char *)p);func_021D81B0(p,1,29);
         func_021D9F08(P(644),W(932),86,0);*state=8;break;
     case 8:
-        if(((u32)func_021DE4D8(P(944)))&32) func_021DA84C(P(624),0,1);
+        if(((u32)MYSTERY_NET_GetResult(P(944)))&32) func_021DA84C(P(624),0,1);
         else func_021DA84C(P(624),0,0);
         v=func_021D83B0((char *)p);
         if(v!=-1) {
@@ -187,19 +187,19 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
         }
         break;
     case 12:
-        if(func_021DE3E0(P(944))==2) {func_021DE308(P(944),3);*state=13;}
+        if(MYSTERY_NET_GetAction(P(944))==2) {MYSTERY_NET_SetAction(P(944),3);*state=13;}
         break;
     case 13:
-        if(func_021DE3E0(P(944))==0) {
+        if(MYSTERY_NET_GetAction(P(944))==0) {
             if(W(940)==1) func_021DA8B0(task,(u32)func_021D7EAC);
             else func_021DA8B0(task,(u32)func_021D73DC);
         }
         break;
     case 14:
-        if(func_021DE3E0(P(944))==2) {func_021DE308(P(944),3);*state=15;}
+        if(MYSTERY_NET_GetAction(P(944))==2) {MYSTERY_NET_SetAction(P(944),3);*state=15;}
         else *state=0;
         break;
-    case 15:if(func_021DE3E0(P(944))==0) *state=0;break;
+    case 15:if(MYSTERY_NET_GetAction(P(944))==0) *state=0;break;
     case 16:
         func_021D9F08(P(644),W(932),141,1);
         func_021DA8C0(task,17);*state=19;break;

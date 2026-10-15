@@ -1,5 +1,5 @@
 /*
- * function: func_02082594
+ * function: MI_WaitDma
  * address:  0x02082594
  * packet:   pkt_02082594
  * region:   arm9
@@ -31,7 +31,7 @@ typedef u32 OSIntrMode;
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_02082594(u32 dmaNo)
+void MI_WaitDma(u32 dmaNo)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
     vu32 *dmaCntp = (vu32 *)MI_DMA_REGADDR(dmaNo, REG_DMA0CNT_ADDR);

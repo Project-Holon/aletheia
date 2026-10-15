@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02082B44",
+   "name": "MI_Copy32B",
    "address": "0x02082B44",
    "kind": "sdk",
    "region": "arm9",

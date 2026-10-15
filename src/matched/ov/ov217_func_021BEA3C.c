@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA3C
+ * function: RESEARCH_GRAPH_CycleGroup
  * address:  0x021BEA3C
  * packet:   pkt_021BEA3C
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern int _s32_div_f(int, int);
 
-void func_021BEA3C(char *p, int a)
+void RESEARCH_GRAPH_CycleGroup(char *p, int a)
 {
     ((struct Obj14737 *)p)->f2B8 = (u8)((((struct Obj14737 *)p)->f2B8 + a + 3) % 3);
 }

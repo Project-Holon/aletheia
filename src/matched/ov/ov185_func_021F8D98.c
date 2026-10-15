@@ -1,5 +1,5 @@
 /*
- * function: func_021F8D98
+ * function: BR_POKESEARCH_CreateDetail
  * address: 0x021F8D98
  * packet: pkt_ov185_021F8D98
  * region: ov185
@@ -12,9 +12,9 @@
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_GRAPHIC_GetActorUnit 0x021FC4DC thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC754 0x021FC754 thumb ov186
+ *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
@@ -34,11 +34,11 @@ extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
 extern int BR_RES_GetSprite(void *,unsigned,void *);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_02034714(const char *,unsigned,const char *);
-extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
+extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
-extern void func_021FC754(char *,void *,void *,void *,u16);
+extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
-void func_021F8D98(char *p,char *q)
+void BR_POKESEARCH_CreateDetail(char *p,char *q)
 {
     int a,b;
     void *v;
@@ -52,9 +52,9 @@ void func_021F8D98(char *p,char *q)
         cfg.x=0x50;cfg.y=0xa8;cfg.z=0;cfg.a=1;
         v=(void *)BR_GRAPHIC_GetActorUnit(((struct Obj05490 *)q)->f8);
         if (!BR_RES_GetSprite(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714(d_021F90A0,0,d_021F90A0);
-        ((struct Obj03338 *)p)->f18=func_021FB378(&cfg,4,0x60,1,(int)v,((struct Obj03338 *)p)->f28,a,b,&triple,((struct Obj03338 *)p)->f30);
+        ((struct Obj03338 *)p)->f18=BR_BTN_CreateFromMessage(&cfg,4,0x60,1,(int)v,((struct Obj03338 *)p)->f28,a,b,&triple,((struct Obj03338 *)p)->f30);
         ((struct Obj03338 *)p)->f1C=BR_UTIL_Create(4,8,3,0x10,2,0xe,((struct Obj03338 *)p)->f2C,((struct Obj03338 *)p)->f30);
-        func_021FC754(*(char * *)&((struct Obj03338 *)p)->f1C,(void *)b,(void *)0x71,(void *)a,0x3da0);
+        BR_UTIL_SetTextFromMessage(*(char * *)&((struct Obj03338 *)p)->f1C,(void *)b,(void *)0x71,(void *)a,0x3da0);
         BR_RES_LoadBgGraphics((void *)(*(int *)&((struct Obj05490 *)q)->fC),0x16,((struct Obj03338 *)p)->f30);
     }
 }

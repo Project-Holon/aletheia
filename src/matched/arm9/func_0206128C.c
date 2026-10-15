@@ -1,5 +1,5 @@
 /*
- * function: func_0206128C
+ * function: NNSi_FndAllocFromExpHeapAllocator
  * address:  0x0206128C
  * packet:   pkt_0206128C
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060CA0  0x02060CA0  arm
+ *   NNS_FndAllocFromExpHeapEx  0x02060CA0  arm
  *
  * Allocator-table alloc for the expanded heap: tail call to
- * func_02060CA0(allocator->heap, size, allocator->param1).  Table word
+ * NNS_FndAllocFromExpHeapEx(allocator->heap, size, allocator->param1).  Table word
  * 0x0206128C at 0x020A1708.
  */
 
@@ -28,9 +28,9 @@ struct Allocator02061 {
 };
 
 struct ExpHeap;
-extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
+extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
 
-void *func_0206128C(struct Allocator02061 *allocator, u32 size)
+void *NNSi_FndAllocFromExpHeapAllocator(struct Allocator02061 *allocator, u32 size)
 {
-    return func_02060CA0(allocator->heap, size, (s32)allocator->param1);
+    return NNS_FndAllocFromExpHeapEx(allocator->heap, size, (s32)allocator->param1);
 }

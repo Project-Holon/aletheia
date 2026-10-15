@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBF3C",
+   "name": "RESEARCH_LIST_GetEntryScreenY",
    "address": "0x021BBF3C",
    "kind": "game",
    "region": "ov217",

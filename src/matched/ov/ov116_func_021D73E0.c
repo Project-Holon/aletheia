@@ -1,5 +1,5 @@
 /*
- * function: func_021D73E0
+ * function: WIFI_BSUBWAY_GRAPHIC_StartRetryProc
  * address: 0x021D73E0
  * packet: pkt_ov116_021D73E0
  * region: ov116
@@ -20,7 +20,7 @@ struct IcaAnime;
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 gNetSaveRetryProc[];
 extern u8 ov115_id[];
-void func_021D73E0(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *p) {
     ((struct Obj00671 *)p)->f9D8=*(u32 *)&((struct Obj00671 *)p)->f1844;
     ((struct Obj00671 *)p)->f9DC=0;
     ((struct Obj00671 *)p)->f9E0=1;

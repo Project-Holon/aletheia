@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7E0
+ * function: RESEARCH_TOP_LoadBackground2
  * address: 0x021BA7E0
  * packet: pkt_ov217_021BA7E0
  * region: ov217
@@ -27,7 +27,7 @@ extern void func_02041090(unsigned,unsigned,unsigned,unsigned,unsigned char,unsi
 extern void func_020409B4(unsigned);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BA7E0(char *p)
+void RESEARCH_TOP_LoadBackground2(char *p)
 {
     struct ArcFile *arc=func_020490F4(192,((struct Obj14728 *)p)->f4);
     void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct Obj14728 *)p)->f4);

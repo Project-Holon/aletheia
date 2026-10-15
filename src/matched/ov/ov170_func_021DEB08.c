@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB08
+ * function: BOX2_MAIN_IsMoveScene
  * address:  0x021DEB08
  * packet:   pkt_ov170_021DEB08
  * region:   ov170
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DEA6C 0x021DEA6C thumb
+ *   BOX2_MAIN_CheckSceneMode 0x021DEA6C thumb
  *
- * Steps the object with mode 0 (sibling of func_021DEAFC, which passes 1).
+ * Steps the object with mode 0 (sibling of BOX2_MAIN_IsSwapScene, which passes 1).
  */
 
-extern int func_021DEA6C(char *p, int a);
+extern int BOX2_MAIN_CheckSceneMode(char *p, int a);
 
-int func_021DEB08(unsigned char *p)
+int BOX2_MAIN_IsMoveScene(unsigned char *p)
 {
-    return func_021DEA6C((char *)p, 0);
+    return BOX2_MAIN_CheckSceneMode((char *)p, 0);
 }

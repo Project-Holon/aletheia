@@ -50,7 +50,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   g_ClactTransferFuncs     0x020A138C  data
  *   DC_FlushRange  0x020862F0  arm
- *   sub_02034714  0x02034714  arm
+ *   SAVEDATA_PanicFail  0x02034714  arm
  *   s_clact_assert_expr 0x020A7F7C data
  *   NNS_G2dSetRndCoreAffineOverwriteMode  0x02067AB8  arm
  *   NNS_G2dSetRndCoreFlipMode  0x02067B78  arm
@@ -571,7 +571,6 @@ extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
 extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u16 sub_02062F1C(const struct AnimCtrl *n);
 extern void func_02063078(void);
 extern unsigned int func_02063138(void *p, int a, int b, int which);
@@ -584,8 +583,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  func_02063294(struct OamManager *win, struct OamEntry *entry, u32 mode);
 extern void func_02063378(struct OamManager *a0, u32 a1);
 extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
-extern void sub_02034714(const char *file, u32 line, const char *expr);
-extern void MI_CpuFill8(void *dst, int value, u32 len);
+extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 extern void func_02063790(u32 *p);
 extern void func_020637D4(u32 *p);
 extern void func_02066748(int *a0, int a1, int a2);
@@ -4401,7 +4399,7 @@ struct Actor *CLACT_GetFreeActor(struct Unit *unit)
         }
     }
 
-    sub_02034714(s_clact_c, 5204, s_clact_assert_expr);
+    SAVEDATA_PanicFail(s_clact_c, 5204, s_clact_assert_expr);
     return 0;
 }
 

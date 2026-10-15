@@ -1,5 +1,5 @@
 /*
- * function: func_0206168C
+ * function: NNS_GfdLoadVramManager
  * address:  0x0206168C
  * packet:   pkt_020611D4
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   g_020A816C     0x020A816C  data
  *
- * RESTORE half of the pair whose save half is src/matched/func_0206164C.c:
+ * RESTORE half of the pair whose save half is src/matched/NNS_GfdSaveVramManager.c:
  * it copies two words per record back from the caller's flat buffer into the
  * first two words of each of the five 0x18-byte records at 0x020A816C.
  *
@@ -30,8 +30,8 @@
  * declaration-order-is-register-order idiom applied in both directions.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206168C.c \
- *       --func func_0206168C --addr 0x0206168C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNS_GfdLoadVramManager.c \
+ *       --func NNS_GfdLoadVramManager --addr 0x0206168C --arm --cc 1.1p1
  *   EXACT, 64 bytes, 1 relocation site, resolved.
  */
 
@@ -41,7 +41,7 @@ struct Ent020A816C { u32 w[6]; };
 
 extern struct Ent020A816C g_020A816C[];
 
-void func_0206168C(u32 *src)
+void NNS_GfdLoadVramManager(u32 *src)
 {
     int i = 0;
     int j = i;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219F7C4
+ * function: SBServerListNth
  * address:  0x0219F7C4
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char *func_02184208(int v);
 
-int func_0219F7C4(int *p)
+int SBServerListNth(int *p)
 {
     return *(int *)func_02184208(p[1]);
 }

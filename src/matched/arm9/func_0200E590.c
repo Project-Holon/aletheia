@@ -1,5 +1,5 @@
 /*
- * function: func_0200E590
+ * function: BATTLE_EXAMINATION_ClearBlock
  * address:  0x0200E590
  * packet:   pkt_0200E590
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Clears the 0x5C8-byte save block (func_0200E588 returns its size):
+ * Clears the 0x5C8-byte save block (BATTLE_EXAMINATION_GetBlockSize returns its size):
  * a tail call to MI_CpuFill8(p, 0, 0x5C8).
  *
  * symbols:
@@ -18,7 +18,7 @@
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
 
-void func_0200E590(void *p)
+void BATTLE_EXAMINATION_ClearBlock(void *p)
 {
     MI_CpuFill8(p, 0, 0x5C8);
 }

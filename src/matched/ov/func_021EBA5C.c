@@ -1,5 +1,5 @@
 /*
- * function: func_021EBA5C
+ * function: BOX2_SEQ_ShowWindowObject
  * address:  0x021EBA5C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -17,7 +17,7 @@
 
 extern void func_0201F7A8(void *, int);
 
-void func_021EBA5C(char *p, int i)
+void BOX2_SEQ_ShowWindowObject(char *p, int i)
 {
     func_0201F7A8(*(void **)(p + i * 8 + 0x94), 1);
 }

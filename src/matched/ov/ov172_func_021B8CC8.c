@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CC8
+ * function: CTVT_TALK_Init
  * address:  0x021B8CC8
  * packet:   pkt_ov172_021B8CC8
  * region:   ov172
@@ -35,7 +35,7 @@
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   func_021B8B68 0x021B8B68 thumb ov172
  *   COMM_TVT_SYS_PlaceSlotMarker 0x021BE210 thumb ov172
- *   func_021BA270 0x021BA270 thumb ov172
+ *   CTVT_MIC_IsCaptureDone 0x021BA270 thumb ov172
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -65,9 +65,9 @@ extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
 extern u32 COMM_TVT_SYS_GetComm(void *p);
 extern u8 func_021B8B68(int unused, char *p);
 extern void COMM_TVT_SYS_PlaceSlotMarker(void *a, u32 b);
-extern int func_021BA270(void *p);
+extern int CTVT_MIC_IsCaptureDone(void *p);
 
-void func_021B8CC8(void *a, char *p)
+void CTVT_TALK_Init(void *a, char *p)
 {
     u16 h;
     void *g;
@@ -133,6 +133,6 @@ void func_021B8CC8(void *a, char *p)
             *(u32 *)(p + 0xA4) = 2;
         }
     }
-    if (func_021BA270(*(void **)(p + 0x10)) == 0)
+    if (CTVT_MIC_IsCaptureDone(*(void **)(p + 0x10)) == 0)
         *(u32 *)(p + 0xA4) = 2;
 }

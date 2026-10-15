@@ -13,7 +13,7 @@
  *
  * symbols:
  *   g_021A8164  0x021A8164  data
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
@@ -28,7 +28,7 @@ typedef struct _SBServer _SBServer;
 
 extern char g_021A8164[];
 
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
@@ -48,13 +48,13 @@ void func_0219E3CC(_SBServer *server, char *data, int len)
     char tempkey[128];
 
     while (*data) {
-        dlen = func_0219F978(data, len);
+        dlen = NTSLengthSB(data, len);
         if (dlen < 0)
             return;
         k = data;
         data += dlen;
         len -= dlen;
-        dlen = func_0219F978(data, len);
+        dlen = NTSLengthSB(data, len);
         if (dlen < 0)
             return;
         v = data;
@@ -75,7 +75,7 @@ void func_0219E3CC(_SBServer *server, char *data, int len)
         keys = data;
         nkeys = 0;
         while (*data) {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 return;
             if (dlen > 100)
@@ -89,7 +89,7 @@ void func_0219E3CC(_SBServer *server, char *data, int len)
         for (i = 0; i < (int)nunits; i++) {
             k = keys;
             for (j = 0; j < nkeys; j++) {
-                dlen = func_0219F978(data, len);
+                dlen = NTSLengthSB(data, len);
                 if (dlen < 0)
                     return;
                 OS_SPrintf(tempkey, g_021A8164, k, i);

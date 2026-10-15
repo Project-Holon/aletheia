@@ -1,5 +1,5 @@
 /*
- * function: func_021BC330
+ * function: RESEARCH_LIST_SetScrollValue
  * address:  0x021BC330
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC330(void *p, u32 v)
+void RESEARCH_LIST_SetScrollValue(void *p, u32 v)
 {
     ((struct Obj14732 *)p)->f38 = v;
     ((struct Obj14732 *)p)->f34 = v;

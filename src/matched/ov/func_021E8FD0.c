@@ -1,5 +1,5 @@
 /*
- * function: func_021E8FD0
+ * function: BOX2_SEQ_SetSeqSecond
  * address:  0x021E8FD0
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DC9B8  0x021DC9B8  thumb  ov170
+ *   BOX2_MAIN_RestartSeq  0x021DC9B8  thumb  ov170
  *
  * Store the second argument, then re-seat the sub-object.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern void func_021DC9B8(char *);
-int func_021E8FD0(char *p, int a)
+extern void BOX2_MAIN_RestartSeq(char *);
+int BOX2_SEQ_SetSeqSecond(char *p, int a)
 {
     *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x68) = a;
-    func_021DC9B8(*(char * *)&((struct Obj00000 *)p)->f2C);
+    BOX2_MAIN_RestartSeq(*(char * *)&((struct Obj00000 *)p)->f2C);
     return 5;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BABC4
+ * function: RESEARCH_LIST_Update
  * address:  0x021BABC4
  * packet:   pkt_ov217_021BABC4
  * region:   ov217
@@ -10,78 +10,78 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB974  0x021BB974  thumb  ov217
- *   func_021BACA0  0x021BACA0  thumb  ov217
- *   func_021BAE00  0x021BAE00  thumb  ov217
- *   func_021BAF70  0x021BAF70  thumb  ov217
- *   func_021BB190  0x021BB190  thumb  ov217
- *   func_021BB200  0x021BB200  thumb  ov217
- *   func_021BB710  0x021BB710  thumb  ov217
- *   func_021BB69C  0x021BB69C  thumb  ov217
- *   func_021BB484  0x021BB484  thumb  ov217
- *   func_021BB2B4  0x021BB2B4  thumb  ov217
- *   func_021BB534  0x021BB534  thumb  ov217
- *   func_021BB37C  0x021BB37C  thumb  ov217
- *   func_021BB784  0x021BB784  thumb  ov217
- *   func_021BB5F4  0x021BB5F4  thumb  ov217
- *   func_021BB84C  0x021BB84C  thumb  ov217
- *   func_021BAC90  0x021BAC90  thumb  ov217
- *   func_021BC5F0  0x021BC5F0  thumb  ov217
- *   func_021BC5D4  0x021BC5D4  thumb  ov217
- *   func_021BB908  0x021BB908  thumb  ov217
- *   func_021BB94C  0x021BB94C  thumb  ov217
+ *   RESEARCH_LIST_GetState  0x021BB974  thumb  ov217
+ *   RESEARCH_LIST_EnterSetup  0x021BACA0  thumb  ov217
+ *   RESEARCH_LIST_HandleScrollInput  0x021BAE00  thumb  ov217
+ *   RESEARCH_LIST_HandleSelectInput  0x021BAF70  thumb  ov217
+ *   RESEARCH_LIST_UpdateOpen  0x021BB190  thumb  ov217
+ *   RESEARCH_LIST_UpdateDrag  0x021BB200  thumb  ov217
+ *   RESEARCH_LIST_UpdateFadeOutWait  0x021BB710  thumb  ov217
+ *   RESEARCH_LIST_UpdateFadeInWait  0x021BB69C  thumb  ov217
+ *   RESEARCH_LIST_UpdateShowEntry  0x021BB484  thumb  ov217
+ *   RESEARCH_LIST_HandleConfirm  0x021BB2B4  thumb  ov217
+ *   RESEARCH_LIST_UpdateHideEntry  0x021BB534  thumb  ov217
+ *   RESEARCH_LIST_HandleCancel  0x021BB37C  thumb  ov217
+ *   RESEARCH_LIST_UpdateReturn  0x021BB784  thumb  ov217
+ *   RESEARCH_LIST_UpdateSaveExit  0x021BB5F4  thumb  ov217
+ *   RESEARCH_LIST_EnterExit  0x021BB84C  thumb  ov217
+ *   RESEARCH_LIST_GetVisible  0x021BAC90  thumb  ov217
+ *   RESEARCH_LIST_UpdateCommonPaletteAnime  0x021BC5F0  thumb  ov217
+ *   RESEARCH_LIST_UpdatePaletteAnimes  0x021BC5D4  thumb  ov217
+ *   RESEARCH_LIST_IncStateTimer  0x021BB908  thumb  ov217
+ *   RESEARCH_LIST_ProcessCommand  0x021BB94C  thumb  ov217
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct S;
-extern u32 func_021BB974(void *p);
-extern void func_021BACA0(u8 *p);
-extern void func_021BAE00(u8 *p);
-extern void func_021BAF70(char *p);
-extern void func_021BB190(u8 *p);
-extern void func_021BB200(struct S *p);
-extern void func_021BB710(u8 *p);
-extern void func_021BB69C(u8 *p);
-extern void func_021BB484(u8 *p);
-extern void func_021BB2B4(char *p);
-extern void func_021BB534(u8 *p);
-extern void func_021BB37C(char *p);
-extern void func_021BB784(struct S *p);
-extern void func_021BB5F4(u8 *p);
-extern void func_021BB84C(u8 *p);
-extern u32 func_021BAC90(void *p);
-extern void func_021BC5F0(u8 *a0);
-extern void func_021BC5D4(int *p);
+extern u32 RESEARCH_LIST_GetState(void *p);
+extern void RESEARCH_LIST_EnterSetup(u8 *p);
+extern void RESEARCH_LIST_HandleScrollInput(u8 *p);
+extern void RESEARCH_LIST_HandleSelectInput(char *p);
+extern void RESEARCH_LIST_UpdateOpen(u8 *p);
+extern void RESEARCH_LIST_UpdateDrag(struct S *p);
+extern void RESEARCH_LIST_UpdateFadeOutWait(u8 *p);
+extern void RESEARCH_LIST_UpdateFadeInWait(u8 *p);
+extern void RESEARCH_LIST_UpdateShowEntry(u8 *p);
+extern void RESEARCH_LIST_HandleConfirm(char *p);
+extern void RESEARCH_LIST_UpdateHideEntry(u8 *p);
+extern void RESEARCH_LIST_HandleCancel(char *p);
+extern void RESEARCH_LIST_UpdateReturn(struct S *p);
+extern void RESEARCH_LIST_UpdateSaveExit(u8 *p);
+extern void RESEARCH_LIST_EnterExit(u8 *p);
+extern u32 RESEARCH_LIST_GetVisible(void *p);
+extern void RESEARCH_LIST_UpdateCommonPaletteAnime(u8 *a0);
+extern void RESEARCH_LIST_UpdatePaletteAnimes(int *p);
 extern void CLACT_DrawSystem(void);
-extern void func_021BB908(void *);
-extern void func_021BB94C(u32 a0);
+extern void RESEARCH_LIST_IncStateTimer(void *);
+extern void RESEARCH_LIST_ProcessCommand(u32 a0);
 
-void func_021BABC4(void *self)
+void RESEARCH_LIST_Update(void *self)
 {
-    switch (func_021BB974(self)) {
-    case 0: func_021BACA0(self); break;
-    case 1: func_021BAE00(self); break;
-    case 2: func_021BAF70(self); break;
-    case 3: func_021BB190(self); break;
-    case 4: func_021BB200(self); break;
-    case 6: func_021BB69C(self); break;
-    case 5: func_021BB710(self); break;
-    case 7: func_021BB484(self); break;
-    case 8: func_021BB2B4(self); break;
-    case 9: func_021BB534(self); break;
-    case 10: func_021BB37C(self); break;
-    case 11: func_021BB784(self); break;
-    case 12: func_021BB5F4(self); break;
-    case 13: func_021BB84C(self); break;
+    switch (RESEARCH_LIST_GetState(self)) {
+    case 0: RESEARCH_LIST_EnterSetup(self); break;
+    case 1: RESEARCH_LIST_HandleScrollInput(self); break;
+    case 2: RESEARCH_LIST_HandleSelectInput(self); break;
+    case 3: RESEARCH_LIST_UpdateOpen(self); break;
+    case 4: RESEARCH_LIST_UpdateDrag(self); break;
+    case 6: RESEARCH_LIST_UpdateFadeInWait(self); break;
+    case 5: RESEARCH_LIST_UpdateFadeOutWait(self); break;
+    case 7: RESEARCH_LIST_UpdateShowEntry(self); break;
+    case 8: RESEARCH_LIST_HandleConfirm(self); break;
+    case 9: RESEARCH_LIST_UpdateHideEntry(self); break;
+    case 10: RESEARCH_LIST_HandleCancel(self); break;
+    case 11: RESEARCH_LIST_UpdateReturn(self); break;
+    case 12: RESEARCH_LIST_UpdateSaveExit(self); break;
+    case 13: RESEARCH_LIST_EnterExit(self); break;
     case 14: break;
     }
-    if (!func_021BAC90(self)) {
-        func_021BC5F0(self);
-        func_021BC5D4(self);
+    if (!RESEARCH_LIST_GetVisible(self)) {
+        RESEARCH_LIST_UpdateCommonPaletteAnime(self);
+        RESEARCH_LIST_UpdatePaletteAnimes(self);
         CLACT_DrawSystem();
     }
-    func_021BB908(self);
-    func_021BB94C((u32)self);
+    RESEARCH_LIST_IncStateTimer(self);
+    RESEARCH_LIST_ProcessCommand((u32)self);
 }

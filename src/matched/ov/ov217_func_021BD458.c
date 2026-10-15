@@ -1,5 +1,5 @@
 /*
- * function: func_021BD458
+ * function: RESEARCH_LIST_DeleteOamObjects
  * address:  0x021BD458
  * packet:   pkt_021BD458
  * region:   ov217
@@ -18,7 +18,7 @@
 struct Grid;
 extern void BMP_OAM_Delete(struct Grid *g);
 
-void func_021BD458(int *p)
+void RESEARCH_LIST_DeleteOamObjects(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)

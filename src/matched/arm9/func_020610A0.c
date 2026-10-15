@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020610A0
+ * function: NNSi_FndResetFrmHeapHead
  * address:  0x020610A0
  * packet:   pkt_02060FA4
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj04082.h"
 
-void func_020610A0(void *p0){ ((struct Obj04082 *)p0)->f24 = (int)((struct Obj04082 *)p0)->f18; ((struct Obj04082 *)p0)->f2C = (int)0; }
+void NNSi_FndResetFrmHeapHead(void *p0){ ((struct Obj04082 *)p0)->f24 = (int)((struct Obj04082 *)p0)->f18; ((struct Obj04082 *)p0)->f2C = (int)0; }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEFA4",
+   "name": "BOX2_UI_PlaceCursorBetween",
    "address": "0x021EEFA4",
    "kind": "game",
    "region": "ov170",

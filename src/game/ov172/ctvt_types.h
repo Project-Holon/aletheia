@@ -25,6 +25,7 @@ struct TimeIcon;
 struct ArcHandle;
 struct ClActUnit;
 struct GameData;
+struct Bmp;
 
 /* Sub-system records behind the CtvtWork pointers. */
 struct CtvtComm;
@@ -145,6 +146,78 @@ typedef struct CtvtStroke {
     u8 kind;                /* pen size or stamp index, 2 = eraser */
     u8 pad7;                /* never read or written by the code seen so far */
 } CtvtStroke;
+
+/* Microphone capture and voice playback record (ctvt_mic.c). Size 0x24.
+ * The same record drives the microphone capture and the NNS wave out channel:
+ * capture uses capturedBytes/capturing/captureTicks, playback uses
+ * playing/playPos/length/freq/channel. */
+struct NnsWaveOutSlot;
+typedef struct CtvtMic {
+    u32 capturedBytes;              /* +0x00: valid bytes in buffer */
+    void *buffer;                   /* +0x04: 51200 byte sample buffer */
+    u32 capturing;                  /* +0x08: 1 while the microphone records */
+    u32 playing;                    /* +0x0C: 1 while a sample plays */
+    u8 captureTicks;                /* +0x10: capture frame counter, saturates at 180 */
+    u8 pad11[3];                    /* alignment before the playback position */
+    u32 playPos;                    /* +0x14: playback position counter */
+    u32 length;                     /* +0x18: sample length in bytes */
+    u32 freq;                       /* +0x1C: sample frequency */
+    struct NnsWaveOutSlot *channel; /* +0x20: NNS wave out channel */
+} CtvtMic;
+
+typedef char CtvtMicSizeCheck[(sizeof(CtvtMic) == 0x24) ? 1 : -1];
+
+/* One voice packet of the talk screen: a 6 byte header in front of the ADPCM
+ * payload (ctvt_talk.c). */
+typedef struct CtvtTalkPacket {
+    u16 length;             /* +0x00: payload length in bytes */
+    u16 position;           /* +0x02: sample position when the packet was cut */
+    u8 last;                /* +0x04: 1: final packet of the sample */
+    u8 index;               /* +0x05: packet counter */
+    u8 level;               /* +0x06: voice level index sent with the packet */
+} CtvtTalkPacket;
+
+/* Talk screen record (ctvt_talk.c). Size 0xAC. */
+typedef struct CtvtTalk {
+    s32 state;                      /* +0x00: screen state */
+    s32 substate;                   /* +0x04: voice send substate */
+    s32 shutterPending;             /* +0x08: 1: waiting for the shutter to go idle */
+    u8 sendCooldown;                /* +0x0C: frames before another send is allowed */
+    u8 levelIndex;                  /* +0x0D: voice level, 0..8, 4 = center */
+    u8 sliderChoice;                /* +0x0E: voice level slider choice, 0xFF = none */
+    u8 sliderHold;                  /* +0x0F: frames the slider choice has been held */
+    struct CtvtMic *mic;            /* +0x10: microphone and voice playback record */
+    u32 packetReady;                /* +0x14: 1: a packet was built and is being sent */
+    u8 packetCount;                 /* +0x18: packets sent so far */
+    u8 pad19[3];                    /* alignment before the packet pool */
+    void *packetPool;               /* +0x1C: 0x808 byte packet buffer */
+    CtvtTalkPacket *packet;         /* +0x20: packet being filled (= packetPool) */
+    void *packetPayload;            /* +0x24: payload pointer (= packetPool + 8) */
+    s32 messagePending;             /* +0x28: 1: the message window needs its transfer */
+    struct BmpWin *waveformWin;     /* +0x2C: voice waveform window */
+    u8 waveX;                       /* +0x30: waveform pen x */
+    u8 waveY;                       /* +0x31: waveform pen y */
+    s32 flashActive;                /* +0x34: 1: the palette flash is running */
+    u8 flashCounter;                /* +0x38: frames of the flash */
+    u8 pad39;                       /* alignment before the palettes */
+    u16 flashPalette[16];           /* +0x3A: white palette written on flash frames */
+    u16 savedPalette[16];           /* +0x5A: palette saved at init */
+    struct BmpWin *messageWin;      /* +0x7C: message and time icon window */
+    struct TaskMenu *confirmMenu;   /* +0x80: confirm menu */
+    s32 timeIconPending;            /* +0x84: 1: the time icon follows the transfer */
+    u16 promptTimer;                /* +0x88: frames spent on the leave prompt */
+    u8 pad8A[2];                    /* alignment before the voice state */
+    s32 voiceActive;                /* +0x8C: 1: a voice sample is playing */
+    struct ClActor *levelActor;     /* +0x90: voice level indicator */
+    struct ClActor *swapActor;      /* +0x94: view swap button */
+    struct ClActor *cancelActor;    /* +0x98: leave button */
+    struct ClActor *backActor;      /* +0x9C: back to talk button */
+    struct ClActor *voiceActor;     /* +0xA0: voice icon */
+    u32 voiceIconState;             /* +0xA4: voice icon state, 0, 1 or 2 */
+    u32 voiceIconPrev;              /* +0xA8: voice icon state already shown */
+} CtvtTalk;
+
+typedef char CtvtTalkSizeCheck[(sizeof(CtvtTalk) == 0xAC) ? 1 : -1];
 
 /* Accessors of CtvtWork fields and helpers (comm_tvt_sys.c). */
 extern CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);

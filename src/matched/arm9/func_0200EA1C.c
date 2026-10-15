@@ -1,5 +1,5 @@
 /*
- * function: func_0200EA1C
+ * function: MISC_SAVEDATA_ClearRingBlock
  * address: 0x0200EA1C
  * packet: pkt_arm9_0200EA1C
  * region: arm9
@@ -16,9 +16,9 @@
  */
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
-void func_0200EA1C(void *p);
+void MISC_SAVEDATA_ClearRingBlock(void *p);
 
-void func_0200EA1C(void *p)
+void MISC_SAVEDATA_ClearRingBlock(void *p)
 {
     MI_CpuFill8(p, 0, 0x155C);
 }

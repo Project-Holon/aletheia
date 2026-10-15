@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FCEDC",
+   "name": "BR_UTIL_PollScrollDrag",
    "address": "0x021FCEDC",
    "kind": "game",
    "region": "ov186",

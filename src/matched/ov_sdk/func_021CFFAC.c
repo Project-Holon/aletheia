@@ -11,8 +11,9 @@
  *
  * symbols:
  *   DWCi_SNDlPlay   0x021CFFAC  arm
+ *   NNS_SndArcPlayerStartSeqArc  0x02075618  arm  arm9
  *
- * Tail-call func_02075618 with the global object +0xa0, a zero and the argument.
+ * Tail-call NNS_SndArcPlayerStartSeqArc with the global object +0xa0, a zero and the argument.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -21,9 +22,9 @@
  */
 
 typedef unsigned int   u32;
-extern u32 func_02075618(u32 a, u32 b, u32 c);
+extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
 
 void DWCi_SNDlPlay(unsigned int v)
 {
-    func_02075618((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
+    NNS_SndArcPlayerStartSeqArc((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9580
+ * function: CTVT_TALK_HandleInput
  * address: 0x021B9580
  * packet: pkt_ov172_021B9580
  * region: ov172
@@ -14,20 +14,20 @@
  * symbols:
  *   COMM_TVT_SYS_GetComm 0x021BDFE4 thumb ov172
  *   COMM_TVT_SYS_GetMemberCount 0x021BE054 thumb ov172
- *   func_021B9DF8 0x021B9DF8 thumb ov172
+ *   CTVT_TALK_CheckEnd 0x021B9DF8 thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
  *   COMM_TVT_SYS_GetCamView 0x021BDFDC thumb ov172
  *   CTVT_CAMVIEW_SetCameraEffect 0x021B7B3C thumb ov172
- *   func_021BA270 0x021BA270 thumb ov172
+ *   CTVT_MIC_IsCaptureDone 0x021BA270 thumb ov172
  *   func_021B8B5C 0x021B8B5C thumb ov172
  *   func_021B8B68 0x021B8B68 thumb ov172
  *   func_021B8740 0x021B8740 thumb ov172
- *   func_021B9F4C 0x021B9F4C thumb ov172
+ *   CTVT_TALK_HitCenter 0x021B9F4C thumb ov172
  *   COMM_TVT_SYS_ToggleViewSwapped 0x021BE0B8 thumb ov172
  *   COMM_TVT_SYS_GetSelfSlot 0x021BE0A4 thumb ov172
  *   CTVT_CAMVIEW_IsLayoutChanging 0x021B77B4 thumb ov172
  *   COMM_TVT_SYS_ToggleHalfRes 0x021BE08C thumb ov172
- *   func_021B99F4 0x021B99F4 thumb ov172
+ *   CTVT_TALK_HandleLevelSlider 0x021B99F4 thumb ov172
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
@@ -43,20 +43,20 @@ typedef unsigned int u32;
 struct Obj;
 extern u32 COMM_TVT_SYS_GetComm(void *);
 extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
-extern int func_021B9DF8(void *p, int *out);
+extern int CTVT_TALK_CheckEnd(void *p, int *out);
 extern u32 COMM_TVT_SYS_GetViewSwapped(void *);
 extern u32 COMM_TVT_SYS_GetCamView(void *);
 extern void CTVT_CAMVIEW_SetCameraEffect(int x, int y, int z);
-extern int func_021BA270(void *p);
+extern int CTVT_MIC_IsCaptureDone(void *p);
 extern u32 func_021B8B5C(void *, u32);
 extern u8 func_021B8B68(int unused, char *p);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
-extern int func_021B9F4C(int a, int b, int mode);
+extern int CTVT_TALK_HitCenter(int a, int b, int mode);
 extern void COMM_TVT_SYS_ToggleViewSwapped(void *);
 extern u32 COMM_TVT_SYS_GetSelfSlot(void *);
 extern u32 CTVT_CAMVIEW_IsLayoutChanging(int unused, void *p);
 extern void COMM_TVT_SYS_ToggleHalfRes(void *);
-extern void func_021B99F4(void *unused, u8 *q);
+extern void CTVT_TALK_HandleLevelSlider(void *unused, u8 *q);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(u8 v);
@@ -66,13 +66,13 @@ extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern const u8 d_021C6F83[];
 extern const u8 d_021C6F77[];
 
-void func_021B9580(u8 *c, u8 *q)
+void CTVT_TALK_HandleInput(u8 *c, u8 *q)
 {
     u32 a = COMM_TVT_SYS_GetComm(c);
     u32 b = COMM_TVT_SYS_GetMemberCount(c);
     int r6;
 
-    if (func_021B9DF8(c, (int *)q) == 1)
+    if (CTVT_TALK_CheckEnd(c, (int *)q) == 1)
         return;
     if (*(int *)q <= 8 && COMM_TVT_SYS_GetViewSwapped(c) == 0) {
         u32 s = COMM_TVT_SYS_GetCamView(c);
@@ -81,7 +81,7 @@ void func_021B9580(u8 *c, u8 *q)
         if (KEY_GetTrg() & 0x80) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 1);
         if (KEY_GetTrg() & 0x20) CTVT_CAMVIEW_SetCameraEffect((int)c, s, 3);
     }
-    if (b == 1 || func_021BA270((void *)(*(u32 *)(q + 0x10))) == 0) {
+    if (b == 1 || CTVT_MIC_IsCaptureDone((void *)(*(u32 *)(q + 0x10))) == 0) {
         *(int *)(q + 0xa4) = 2;
     } else {
         u32 t = func_021B8B5C(c, a);
@@ -98,7 +98,7 @@ void func_021B9580(u8 *c, u8 *q)
             }
             *(int *)(q + 0xa4) = 2;
         } else {
-            u32 r = func_021B9F4C((int)c, (int)q, 0);
+            u32 r = CTVT_TALK_HitCenter((int)c, (int)q, 0);
             if ((KEY_GetTrg() & 0x101) || r == 1) {
                 *(int *)q = 6;
                 GFL_USE_PlaySeDefaultVolume(0x66C);
@@ -139,5 +139,5 @@ void func_021B9580(u8 *c, u8 *q)
             GFL_USE_PlaySeDefaultVolume(0x66C);
         }
     }
-    func_021B99F4(c, q);
+    CTVT_TALK_HandleLevelSlider(c, q);
 }

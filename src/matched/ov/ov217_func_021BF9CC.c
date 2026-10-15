@@ -1,5 +1,5 @@
 /*
- * function: func_021BF9CC
+ * function: RESEARCH_GRAPH_GetSaveBits
  * address:  0x021BF9CC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,14 +12,15 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021BF740  0x021BF740  thumb  ov217
- *   func_021BF7CC  0x021BF7CC  thumb  ov217
- *   func_0200E458  0x0200E458  thumb
+ *   RESEARCH_GRAPH_GetAppResource  0x021BF740  thumb  ov217
+ *   RESEARCH_GRAPH_GetGroupKey  0x021BF7CC  thumb  ov217
+ *   MISC_SAVEDATA_GetHalfword  0x0200E458  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb  arm9
  *
 
  * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
- *   +001C THM_CALL func_0200E458       -> unresolved: 0200E458 (arm, from name) has no witness outside 021BF9CC..021BF9EE
+ *   +001C THM_CALL MISC_SAVEDATA_GetHalfword       -> unresolved: 0200E458 (arm, from name) has no witness outside 021BF9CC..021BF9EE
  * Promote automatically when the target is matched.
  *
  * Addresses are Black-image addresses.
@@ -33,13 +34,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Big;
-extern void *func_0200E394(void *a0);
-extern u16 func_0200E458(const u16 *, int);
+extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
+extern u16 MISC_SAVEDATA_GetHalfword(const u16 *, int);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern u32 func_021BF740(u8 *);
-extern u32 func_021BF7CC(void *);
-u16 func_021BF9CC(u32 a0)
+extern u32 RESEARCH_GRAPH_GetAppResource(u8 *);
+extern u32 RESEARCH_GRAPH_GetGroupKey(void *);
+u16 RESEARCH_GRAPH_GetSaveBits(u32 a0)
 {
-    return func_0200E458((const u16 *)func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BF740((u8 *)a0))), func_021BF7CC((void *)a0));
+    return MISC_SAVEDATA_GetHalfword((const u16 *)SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource((u8 *)a0))), RESEARCH_GRAPH_GetGroupKey((void *)a0));
 }
 

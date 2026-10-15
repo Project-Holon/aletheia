@@ -1,5 +1,5 @@
 /*
- * function: func_021BB940
+ * function: RESEARCH_LIST_SetActive
  * address:  0x021BB940
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BB940(void *p, u32 v)
+void RESEARCH_LIST_SetActive(void *p, u32 v)
 {
     ((struct Obj25847 *)p)->f168 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B98A8
+ * function: RESEARCH_TOP_DestroyListView
  * address:  0x021B98A8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void ListViewState_Destroy(void *a0);
-u32 func_021B98A8(u32 a0)
+u32 RESEARCH_TOP_DestroyListView(u32 a0)
 {
     ListViewState_Destroy((void *)(((struct Obj08431 *)(((u8*)a0)))->f1C));
     ((struct Obj08431 *)(((u8*)a0)))->f1C = 0;

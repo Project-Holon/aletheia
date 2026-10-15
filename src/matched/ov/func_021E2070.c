@@ -1,5 +1,5 @@
 /*
- * function: func_021E2070
+ * function: BOX2_SEQ_StateRunStep
  * address:  0x021E2070
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -17,7 +17,7 @@
 #include "../include/Obj09224.h"
 
 
-int func_021E2070(char *p)
+int BOX2_SEQ_StateRunStep(char *p)
 {
     int (*f)(char *) = *(int (**)(char *))(((struct Obj09224 *)p)->f2C + 0x58);
     if (f != 0 && f(p) == 0) {

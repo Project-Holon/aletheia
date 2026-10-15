@@ -13,8 +13,9 @@
  *   func_02034768  0x02034768  arm
  *   func_020348A4  0x020348A4  arm
  *   func_02034900  0x02034900  arm
+ *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
  *
- * The default-handler registration trampoline: tail-calls sub_020346EC
+ * The default-handler registration trampoline: tail-calls SAVEDATA_SetPanicHandlers
  * (pkt_020345F8, the "register" half of the assert/panic hook: see
  * src/matched/unit_020346EC.c) with the addresses of this packet's own
  * three biggest functions, none of which is matched yet.
@@ -34,9 +35,9 @@ typedef unsigned int u32;
 extern void func_02034768(void);
 extern void func_020348A4(char *s);
 extern void func_02034900(void);
-extern void sub_020346EC(u32 a, u32 b, u32 c);
+extern void SAVEDATA_SetPanicHandlers(u32 a, u32 b, u32 c);
 
 void sub_02034978(void)
 {
-    sub_020346EC((u32)func_02034768, (u32)func_020348A4, (u32)func_02034900);
+    SAVEDATA_SetPanicHandlers((u32)func_02034768, (u32)func_020348A4, (u32)func_02034900);
 }

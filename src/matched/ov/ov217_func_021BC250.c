@@ -1,5 +1,5 @@
 /*
- * function: func_021BC250
+ * function: RESEARCH_LIST_UpdateMomentum
  * address:  0x021BC250
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC250(void *p)
+void RESEARCH_LIST_UpdateMomentum(void *p)
 {
     s32 a = *(u32 *)&((struct Obj00025 *)p)->f4C;
     s32 b = ((struct Obj00025 *)p)->f50;

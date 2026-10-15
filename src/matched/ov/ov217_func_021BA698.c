@@ -1,5 +1,5 @@
 /*
- * function: func_021BA698
+ * function: RESEARCH_TOP_InitOverlayBackgrounds
  * address: 0x021BA698
  * packet: pkt_ov217_021BA698
  * region: ov217
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 extern void BMP_WIN_Init(u16);
-void func_021BA698(char *p)
+void RESEARCH_TOP_InitOverlayBackgrounds(char *p)
 {
     func_0203FC28(&d_021C2EEC);
     func_0203FCA0(6,&d_021C2F78,0);func_0203FCA0(7,&d_021C2F18,0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0208A0A4
+ * function: SND_ReadTrackInfo
  * address:  0x0208A0A4
  * packet:   pkt_0208A0A4
  * region:   arm9
@@ -77,7 +77,7 @@ static inline SNDExChannel *ConvAddr(const SNDExChannel *p, const SNDWork *base,
     return (SNDExChannel *)((unsigned char *)info + ((unsigned long)p - (unsigned long)base));
 }
 
-BOOL func_0208A0A4(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo)
+BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo)
 {
     SNDExChannel *chp;
     unsigned char trackID;

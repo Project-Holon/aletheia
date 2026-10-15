@@ -1,5 +1,5 @@
 /*
- * function: func_020897B4
+ * function: SNDi_SetPlayerParam
  * address:  0x020897B4
  * packet:   pkt_020897B4
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_020897B4(int playerNo, u32 offset, u32 data, int size)
+void SNDi_SetPlayerParam(int playerNo, u32 offset, u32 data, int size)
 {
     PushCommand_impl(6, (u32)playerNo, offset, data, (u32)size);
 }

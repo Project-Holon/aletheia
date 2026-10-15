@@ -1,5 +1,5 @@
 /*
- * function: func_021EB7E8
+ * function: BOX2_SEQ_DrawBoxName
  * address:  0x021EB7E8
  * packet:   pkt_ov170_021EB7E8
  * region:   ov170
@@ -35,7 +35,7 @@ extern void PRINTSYS_PrintColor(void *x, short y, short z, void *s, void *w, uns
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 
-void func_021EB7E8(char **p, unsigned box, int i)
+void BOX2_SEQ_DrawBoxName(char **p, unsigned box, int i)
 {
     void *s = STRBUF_Create(0x14, 0x804C);
     unsigned n;

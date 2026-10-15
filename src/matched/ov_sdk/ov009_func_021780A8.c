@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_Abort (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   func_021797D4  0x021797D4  arm  ov009
  *   OS_IsThreadTerminated  0x0208574C  arm
@@ -39,7 +39,7 @@ struct DWCAuthCtx {
 
 extern struct DWCAuthGlobal g_021AB184;
 
-extern void func_02086028(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
 extern void func_021797D4(void *http);
 extern int OS_IsThreadTerminated(void *thread);
@@ -49,7 +49,7 @@ void func_021780A8(void)
 {
 	if (g_021AB184.ctx == 0)
 		return;
-	func_02086028(&g_021AB184.ctx->mutex);
+	OS_LockMutex(&g_021AB184.ctx->mutex);
 	g_021AB184.ctx->abort_flag = 1;
 	func_02086078(&g_021AB184.ctx->mutex);
 	if (g_021AB184.ctx->http != 0)

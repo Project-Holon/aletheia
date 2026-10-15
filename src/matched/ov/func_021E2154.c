@@ -1,5 +1,5 @@
 /*
- * function: func_021E2154
+ * function: BOX2_SEQ_StateDispatchFont
  * address:  0x021E2154
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 
 
 extern struct Ent { void (*fn)(void *); int a; int b; } g_021EFA28[];
-int func_021E2154(unsigned char *p)
+int BOX2_SEQ_StateDispatchFont(unsigned char *p)
 {
     struct Ent *e = &g_021EFA28[p[0x12]];
     e->fn(p);

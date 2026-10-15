@@ -1,5 +1,5 @@
 /*
- * function: func_0219FD40
+ * function: BufferAddByte
  * address:  0x0219FD40
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a byte through the pointer in *p, then advances the pointer and the counter.
  */
 
-void func_0219FD40(unsigned char **p, unsigned char v, int *n)
+void BufferAddByte(unsigned char **p, unsigned char v, int *n)
 {
     **p = v;
     (*n)++;

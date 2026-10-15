@@ -1,5 +1,5 @@
 /*
- * function: func_021FD9FC
+ * function: STA_SLOT_GetCurrentKey
  * address:  0x021FD9FC
  * packet:   pkt_021FD9FC
  * region:   ov132
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021FD9FC(char *p)
+int STA_SLOT_GetCurrentKey(char *p)
 {
     unsigned int i = ((struct Obj23306 *)p)->f180;
 

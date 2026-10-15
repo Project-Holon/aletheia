@@ -84,8 +84,8 @@
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
  *   func_02009EC8 0x02009EC8 thumb
  *   func_021E8AC0 0x021E8AC0 thumb ov177
- *   func_0200ED48 0x0200ED48 thumb
- *   func_0200ED54 0x0200ED54 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -109,7 +109,7 @@
  *   func_021E888C 0x021E888C thumb ov177
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_0200E6E8 0x0200E6E8 thumb
- *   func_0200E6FC 0x0200E6FC thumb
+ *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
  *   func_0201283C 0x0201283C thumb
  *   func_02009CC0 0x02009CC0 thumb
  *   func_020173EC 0x020173EC thumb
@@ -146,9 +146,9 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   BUTTON_MAN_ConvertUcs2ToSjis  0x02052274  arm
  *   func_02167ED8 0x02167ED8 arm ov009
- *   func_02089004 0x02089004 arm
- *   func_020891E0 0x020891E0 arm
- *   func_02088F58 0x02088F58 arm
+ *   RTC_ConvertDateTimeToSecond 0x02089004 arm
+ *   RTC_ConvertSecondToDateTime 0x020891E0 arm
+ *   RTC_ConvertDateToDay 0x02088F58 arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B074  0x0200B074  thumb
  *   func_021E5D68  0x021E5D68  thumb  ov177
@@ -1095,8 +1095,8 @@ extern void DWC_RAPCOMMON_SetHeapTag(int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void *func_02009EC8(void *sys);
 extern void func_021E8AC0(int, int);
-extern void *func_0200ED48(void *);
-extern void func_0200ED54(struct L0200ED54 *, u32_021D51BC);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32_021D51BC);
 extern u32_021D51BC func_02008530(const struct Sub0200852CObj *obj);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
@@ -1118,7 +1118,7 @@ extern void func_021E89D0(u32_021D65C8 p);
 extern int func_021E8A00(u32_021D65DC p);
 extern int MYSTATUS_GetSize(void);
 extern void *func_0200E6E8(u32_021D6698 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32_021D6698 func_0201283C(const struct BigObj *p);
 extern int func_02009CC0(void *a0);
 extern u32_021D67BC func_020173EC(void);
@@ -1154,9 +1154,9 @@ extern void func_0200B1F8(struct Rec1E *);
 extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32_021D7E18 n);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
-extern void func_020891E0(struct RTCDate *,struct RTCTime *,s64);
-extern s32 func_02088F58(struct RTCDate *date);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
+extern void RTC_ConvertSecondToDateTime(struct RTCDate *,struct RTCTime *,s64);
+extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 extern u8 *func_0200B074(struct Reg2 *p);
 extern char *func_021E5D68(char *info, u32_021D965C a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 extern void POKETRADE_2D_DeleteMarkingIcon(void *p);
@@ -2227,8 +2227,8 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         else *state = 5;
         break;
     case 5:
-        list = func_0200ED48(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
-        func_0200ED54(list, func_02008530((void *)Q(0x18)));
+        list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
+        MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)Q(0x18)));
         *state = 6;
         func_021DA384((char *)P(0x30));
         break;
@@ -3186,8 +3186,8 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         }
         break;
     case 4:
-        list = func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
-        func_0200ED54(list, func_02008530(((struct Obj02885 *)q)->f18));
+        list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
+        MISC_SAVEDATA_InsertRecentValue(list, func_02008530(((struct Obj02885 *)q)->f18));
         func_021E8AC0(**(int * *)&((struct Obj02885 *)q)->f8, **(int * *)&((struct Obj02885 *)q)->f2C);
         func_021DA384((char *)P(0x30));
         *state = 5;
@@ -3804,7 +3804,7 @@ void func_021D6698(u32_021D6698 *p,u32_021D6698 *q)
     p[17]=100;
     blob=(u32_021D6698)func_02012944((void *)save);
     MI_CpuCopy8((void *)blob,p,MYSTATUS_GetSize());
-    func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
+    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32_021D6698 *)q[16];
     if(ctx[0]==0) {
         p[10]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1]+5,1);
@@ -5091,8 +5091,8 @@ void func_021D8904(u32_021D8904 sys,int *state,char *p)
     case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
-    case 5:list=func_0200ED48(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
-        func_0200ED54(list,func_02008530(((struct Obj02512 *)q)->f18));
+    case 5:list=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
+        MISC_SAVEDATA_InsertRecentValue(list,func_02008530(((struct Obj02512 *)q)->f18));
         func_021DA384(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
     case 6:if(func_021DA390(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;
         switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
@@ -5379,16 +5379,16 @@ void func_021D9090(u32_021D9090 sys,int *state,char *p)
     case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
         if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
-        if(got)func_020891E0(&nowDate,&nowTime,func_02089004(&nowDate,&nowTime));
+        if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
         startDate.year=func_0200B078(reg,4);
         startDate.month=func_0200B078(reg,5);
         startDate.day=func_0200B078(reg,6);startDate.week=0;
         endDate.year=func_0200B078(reg,7);
         endDate.month=func_0200B078(reg,8);
         endDate.day=func_0200B078(reg,9);endDate.week=0;
-        startDay=func_02088F58(&startDate);
-        endDay=func_02088F58(&endDate);
-        nowDay=func_02088F58(&nowDate);
+        startDay=RTC_ConvertDateToDay(&startDate);
+        endDay=RTC_ConvertDateToDay(&endDate);
+        nowDay=RTC_ConvertDateToDay(&nowDate);
         if(got && nowDay<startDay) {((struct Obj00728 *)p)->f40=2;*state=2;}
         else if(got && startDay<=nowDay && nowDay<=endDay) {((struct Obj00728 *)p)->f40=0;*state=13;}
         else {((struct Obj00728 *)p)->f40=1;*state=3;}
@@ -5906,7 +5906,7 @@ void func_021D9A9C(char *dst, char *obj)
     u32_021D9A9C h;
 
     MYSTATUS_Copy(func_02012944((void *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
-    func_0200E6FC(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
+    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
         const struct Save_021D9A50 *s = *(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104;
         ((struct Obj01067 *)dst)->f28 = s->blk[2];

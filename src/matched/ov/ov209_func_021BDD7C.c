@@ -10,7 +10,7 @@
  * lever: write the template's two 3 values before assigning base=0x180; mwcc derives that base from the live 3 with lsls #7.
  * prototype: D7C8 only reads/forwards a0; stale trailing args omitted. D81C/D898 tail scalars occupy their exact word slots; both full bodies read only low halfword of final heap slot, never padding.
  * symbols:
- *   d_021BE9BC 0x021BE9BC data a4
+ *   gZukanListActorDesc 0x021BE9BC data a4
  *   ZUKAN_LIST_DeleteActor 0x021BDD40 thumb ov209
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -43,7 +43,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Template { u32 w0,w4,w8,wC,w10; u16 h14,h16; } Template;
 typedef struct Flags { u16 side:1; u16 rest:15; } Flags;
-extern const Template d_021BE9BC;
+extern const Template gZukanListActorDesc;
 extern void ZUKAN_LIST_DeleteActor(char *,unsigned);
 extern void CLACT_ReleaseCharacter(u32),CLACT_ReleasePalette(u32),CLACT_ReleaseCellAnim(u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -77,7 +77,7 @@ void ZUKAN_LIST_LoadSpeciesIcon(char *p,u16 species)
     unsigned out1,outForm,out2;
     unsigned other,index,base;
     void *personal;
-    t=d_021BE9BC;
+    t=gZukanListActorDesc;
     if (((Flags *)(p+0xc24))->side==0) {
         other=59; index=58; base=0x160;
     } else {

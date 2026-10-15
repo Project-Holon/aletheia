@@ -1,5 +1,5 @@
 /*
- * function: func_021D839C
+ * function: WIFI_BSUBWAY_GRAPHIC_Draw
  * address: 0x021D839C
  * packet: pkt_ov116_021D839C
  * region: ov116
@@ -11,4 +11,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void *);
-void func_021D839C(void *p) { func_020419E4(p); }
+void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { func_020419E4(p); }

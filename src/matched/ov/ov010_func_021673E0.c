@@ -15,9 +15,9 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0200E06C  0x0200E06C  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0200E024  0x0200E024  thumb
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
  */
 
 typedef unsigned char u8;
@@ -31,8 +31,8 @@ typedef struct Entry32 {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0200E06C(char *p);
-extern void func_0200E024(void *p);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
+extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 
 u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 {
@@ -40,9 +40,9 @@ u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 
     i = 0;
     MI_CpuFill8(out, 0, cap * 4);
-    func_0200E06C((char *)list);
+    SYMBOL_SAVE_FinalizeChecksum((char *)list);
     MI_CpuCopy8(&list[start], out, count * 4);
-    func_0200E024(list);
+    SYMBOL_SAVE_UpdateChecksum(list);
     for (i = 0; i < count; i++) {
         if (out[i].id == 0)
             break;

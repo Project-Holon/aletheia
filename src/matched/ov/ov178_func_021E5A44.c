@@ -1,5 +1,5 @@
 /*
- * function: func_021E5A44
+ * function: PARTY_STATUS_DestroySubWork
  * address:  0x021E5A44
  * packet:   pkt_021E5A44
  * region:   ov178
@@ -26,7 +26,7 @@ extern u8 ov175_id[];
 extern u8 ov114_id[];
 extern u8 ov067_id[];
 
-void func_021E5A44(void **pp, u32 *c)
+void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
 {
     if (*pp == 0)
         return;

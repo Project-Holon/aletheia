@@ -1,5 +1,5 @@
 /*
- * function: func_02075858
+ * function: NNSi_SndArcPlayerUpdate
  * address:  0x02075858
  * packet:   pkt_02075698
  * region:   arm9
@@ -16,10 +16,10 @@
  *
  * PINNED ../2.0/sp2 on the "kept branches" tell (docs/FRONTEND-PINS.md),
  * cross-jump form. The image writes the f11c == 0 arm's tail out in full --
- * `mov r0, r7` (`07 00 a0 e1`) at 0x02075884 / `bl func_02075994` at
+ * `mov r0, r7` (`07 00 a0 e1`) at 0x02075884 / `bl NNSi_SndTrackStop` at
  * 0x02075888 / `b 0x0207594c` (`2e 00 00 ea`) at 0x0207588C -- although the
  * bit-3 completion arm ends in a byte-identical `mov r0, r7` / `bl
- * func_02075994` pair at 0x02075944/0x02075948. dsi/1.1p1 -O4,p cross-jumps
+ * NNSi_SndTrackStop` pair at 0x02075944/0x02075948. dsi/1.1p1 -O4,p cross-jumps
  * the two, branching the f11c arm straight into the completion arm's pair,
  * giving 264 bytes against the original's 272 with everything after
  * 0x02075884 shifted by eight. An explicit `goto` past the else, the
@@ -27,22 +27,22 @@
  * Under the pin the same C is 272 bytes, 0 mismatches: BYTE-CORRECT.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three
- * sites are unattested: the two PC24 to func_02075994, whose only branches
+ * sites are unattested: the two PC24 to NNSi_SndTrackStop, whose only branches
  * image-wide are these two `bl`s inside this function, and the ABS32 at
  * +0x108, whose only pool word image-wide is this function's own at
  * 0x02075960 (inside the 272-byte compared range), so `literal` refuses it.
- * Filing func_02075994 EXACT clears the two PC24 sites but not the ABS32.
+ * Filing NNSi_SndTrackStop EXACT clears the two PC24 sites but not the ABS32.
  *
- * NOTE for src/pending/func_02072758.c: that file names 0x02075858 as one
+ * NOTE for src/pending/NNS_SndBoot.c: that file names 0x02075858 as one
  * of its three blocking PC24 sites. This file is byte-correct but stays
- * MATCH, so it does NOT promote func_02072758 -- only a `matched` entry can.
+ * MATCH, so it does NOT promote NNS_SndBoot -- only a `matched` entry can.
  *
  * symbols:
  *   data_0214EAC0  0x0214EAC0  data
  *   data_020A5D08  0x020A5D08  data
  *   NNS_SndStrmStart  0x02073A60  arm
  *   NNS_SndStrmSetVolume  0x02073AD0  arm
- *   func_02075994  0x02075994  arm
+ *   NNSi_SndTrackStop  0x02075994  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
@@ -79,12 +79,12 @@ struct Obj;
 struct Obj75994;
 extern void NNS_SndStrmStart(struct A *a);
 extern void NNS_SndStrmSetVolume(struct Slot *, s32);
-extern void func_02075994(struct Obj75994 *o);
+extern void NNSi_SndTrackStop(struct Obj75994 *o);
 extern s32 NNS_SndFaderGet(struct Obj *o);
 extern void NNS_SndFaderUpdate(struct LerpObj *obj);
 extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 
-void func_02075858(void)
+void NNSi_SndArcPlayerUpdate(void)
 {
     s32 i;
     s32 v;
@@ -94,7 +94,7 @@ void func_02075858(void)
     for (i = 0; i < 4; i++) {
         if (s->b0) {
             if (s->f11c == 0) {
-                func_02075994((struct Obj75994 *)s);
+                NNSi_SndTrackStop((struct Obj75994 *)s);
                 goto next;
             } else {
                 if (s->b2 && s->f120 != 0) {
@@ -116,7 +116,7 @@ void func_02075858(void)
                     }
                     if (s->b3) {
                         if (NNS_SndFaderIsFinished((struct LerpObj *)s->lerp) != 0) {
-                            func_02075994((struct Obj75994 *)s);
+                            NNSi_SndTrackStop((struct Obj75994 *)s);
                         }
                     }
                 }

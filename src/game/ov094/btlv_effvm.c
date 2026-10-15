@@ -303,7 +303,6 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 

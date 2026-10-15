@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF68
+ * function: RESEARCH_LIST_CreateUnits
  * address: 0x021BCF68
  * packet: pkt_ov217_021BCF68
  * region: ov217
@@ -23,7 +23,7 @@ extern const u16 d_021C3060[];
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-void func_021BCF68(struct S *p)
+void RESEARCH_LIST_CreateUnits(struct S *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

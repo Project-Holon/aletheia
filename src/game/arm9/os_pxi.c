@@ -1,7 +1,7 @@
 /*
  * file:     os_pxi.c
  * unit:     yes
- * function: func_02084A28, func_02084A38, func_02084A84
+ * function: OS_IsResetOccurred, OSi_CommonCallback, func_02084A84
  * address:  0x02084A28
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -33,8 +33,8 @@ typedef u32 OSIntrMode;
 
 extern void OS_Terminate(void);
 extern int PXI_SendWordByFifo(int fifotag, u32 data, int err);
-BOOL func_02084A28(void);
-void func_02084A38(int tag, u32 data, BOOL err);
+BOOL OS_IsResetOccurred(void);
+void OSi_CommonCallback(int tag, u32 data, BOOL err);
 void OSi_SendToPxi(u16 data);
 extern OsPxiBss g_02150FC8;
 extern char SDK_AUTOLOAD_DTCM_START[];
@@ -43,7 +43,7 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 /*
  * sdk:      OS_IsResetOccurred (os_pxi.o)
  */
-BOOL func_02084A28(void)
+BOOL OS_IsResetOccurred(void)
 {
     return g_02150FC8.OSi_IsResetOccurred;
 }
@@ -52,7 +52,7 @@ BOOL func_02084A28(void)
 /*
  * sdk:      OSi_CommonCallback (os_pxi.o)
  */
-void func_02084A38(int tag, u32 data, BOOL err)
+void OSi_CommonCallback(int tag, u32 data, BOOL err)
 {
     u16 command = (u16)((data & 0x7F00) >> 8);
 
@@ -69,8 +69,8 @@ void func_02084A38(int tag, u32 data, BOOL err)
 
 void OSi_SendToPxi(u16 data)
 {
-    u32 pxi_send_data = (u32)data << 8;
+    u32 pxiSendData = (u32)data << 8;
 
-    while (PXI_SendWordByFifo(12, pxi_send_data, 0) != 0) {
+    while (PXI_SendWordByFifo(12, pxiSendData, 0) != 0) {
     }
 }

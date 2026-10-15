@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02088168",
+   "name": "OS_GetLowEntropyData",
    "address": "0x02088168",
    "kind": "sdk",
    "region": "arm9",

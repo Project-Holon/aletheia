@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9B4
+ * function: BOX2_MAIN_SetSeqParam
  * address:  0x021DC9B4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -15,7 +15,7 @@
  */
 #include "../include/Obj18438.h"
 
-void func_021DC9B4(char *p, int v)
+void BOX2_MAIN_SetSeqParam(char *p, int v)
 {
     ((struct Obj18438 *)p)->f5C = v;
 }

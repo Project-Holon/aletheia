@@ -80,7 +80,7 @@
  *   FIELD_CLOCK_GetHour  0x02169100  thumb  ov010
  *   FIELD_CLOCK_GetMinute  0x02169110  thumb  ov010
  *   func_02012984  0x02012984  thumb
- *   func_02087D28 0x02087D28 arm
+ *   OS_GetOwnerInfoEx 0x02087D28 arm
  *   func_02008550   0x02008550  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C234 0x0200C234 thumb
@@ -363,7 +363,7 @@ extern void MI_CpuFill8(void *dest, int value, int size);
 extern u32 KEY_GetTrg(void);
 extern u32 func_020056EC(u32 range);
 extern u32 func_02025C88(u32 x);
-extern void func_02087D28(OwnerInfo *info);
+extern void OS_GetOwnerInfoEx(OwnerInfo *info);
 extern void func_0203F4E4(RtcDate *date);
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
 
@@ -895,7 +895,7 @@ int SCRCMD_WORK_CmdGetBirthday(struct ScriptVm *vm, ScrcmdWork *work)
     OwnerInfo info;
     retMonth = SCRIPT_WORK_ReadWorkPointer(vm, work);
     retDay = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    func_02087D28(&info);
+    OS_GetOwnerInfoEx(&info);
     *retMonth = info.month;
     *retDay = info.day;
     return 0;

@@ -11,8 +11,8 @@
  * function: GAME_DATA_SetSaveFlag
  *
  * symbols:
- *   func_0200C40C  0x0200C40C  thumb
- *   func_0200C418  0x0200C418  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
+ *   RECENT_ID_LIST_SAVEDATA_SetId  0x0200C418  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *
  * One function, 24 bytes, because the function immediately after it is a near
@@ -23,12 +23,12 @@
  *
  *     void GAME_DATA_CheckSaveFlag(void *p, u32 a)
  *     {
- *         func_0200C44C(func_0200C404(GAME_DATA_GetSaveControlWork(p)), a);
+ *         RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(p)), a);
  *     }
  *
- * with `func_0200C404 0x0200C404 thumb`, `func_0200C44C 0x0200C44C thumb` and
+ * with `RECENT_ID_LIST_SAVEDATA_GetBlockFromSys 0x0200C404 thumb`, `RECENT_ID_LIST_SAVEDATA_ContainsId 0x0200C44C thumb` and
  * `GAME_DATA_GetSaveControlWork 0x02012EC0 thumb`.  It caps at MATCH because the `bl` at
- * 0x02012C06 is the only branch to func_0200C44C anywhere in the image, so the
+ * 0x02012C06 is the only branch to RECENT_ID_LIST_SAVEDATA_ContainsId anywhere in the image, so the
  * `label` class has no witness outside the range and, this being the only
  * caller, no cut can create one.  Evidence class: label, 0 witnesses outside.
  * The other five call targets here all have witnesses elsewhere.
@@ -42,13 +42,13 @@
 
 typedef unsigned int u32;
 
-extern void *func_0200C40C(void *p);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *p);
 typedef unsigned char  u8;
-extern void func_0200C418(u8 *a, u32 id, u32 on);
+extern void RECENT_ID_LIST_SAVEDATA_SetId(u8 *a, u32 id, u32 on);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b)
 {
-    func_0200C418(func_0200C40C(GAME_DATA_GetSaveControl(p)), a, b);
+    RECENT_ID_LIST_SAVEDATA_SetId(RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(p)), a, b);
 }

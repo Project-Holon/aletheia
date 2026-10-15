@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D77C
+ * function: MSL_CONSOLE_IO_ReadChar
  * address:  0x0209D77C
  * packet:   pkt_0209D728
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0209D77C(void){ return 0; }
+int MSL_CONSOLE_IO_ReadChar(void){ return 0; }

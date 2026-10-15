@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7F4
+ * function: RESEARCH_GRAPH_GetEntryKey
  * address:  0x021BF7F4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BF7F4(void *p)
+u32 RESEARCH_GRAPH_GetEntryKey(void *p)
 {
     u32 i = ((u8 *)p)[0x2b8];
     u32 j = ((u8 *)p)[0x2b9];

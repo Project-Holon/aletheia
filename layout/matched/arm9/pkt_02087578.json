@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02087578",
+   "name": "OS_InitVAlarm",
    "address": "0x02087578",
    "kind": "sdk",
    "region": "arm9",

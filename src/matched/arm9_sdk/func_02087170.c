@@ -1,5 +1,5 @@
 /*
- * function: func_02087170
+ * function: OS_GetTickLo
  * address:  0x02087170
  * packet:   pkt_02087170
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     os_tick.o OS_GetTickLo.
  */
 
-unsigned short func_02087170(void)
+unsigned short OS_GetTickLo(void)
 {
     return *(volatile unsigned short *)0x04000100;
 }

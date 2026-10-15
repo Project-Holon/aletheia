@@ -1,5 +1,5 @@
 /*
- * function: func_021BA31C
+ * function: RESEARCH_TOP_StartPaletteAnime
  * address:  0x021BA31C
  * packet:   pkt_ov217_021BA31C
  * region:   ov217
@@ -31,7 +31,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
-void func_021BA31C(u8 *a0)
+void RESEARCH_TOP_StartPaletteAnime(u8 *a0)
 {
     RESEARCH_COMMON_StartPaletteAnime((u8 *)(((struct Obj25816 *)((u8*)a0))->f0), 0);
 }

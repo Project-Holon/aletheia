@@ -1,5 +1,5 @@
 /*
- * function: func_02194614
+ * function: ClosePendingCallbacks
  * address:  0x02194614
  * packet:   pkt_ov009_02194614
  * region:   ov009
@@ -15,38 +15,38 @@
  *
  * symbols:
  *   func_02184200 0x02184200  arm
- *   func_02193EB8 0x02193EB8  arm
- *   func_0219451C 0x0219451C  arm
+ *   xcode_buf 0x02193EB8  arm
+ *   CallReqCallback 0x0219451C  arm
  *   func_021841B0 0x021841B0  arm
- *   g_021ADFE0   0x021ADFE0  data
+ *   gGstatsConn   0x021ADFE0  data
  *   @14079       0x021A1A54  data
- *   g_021A5800   0x021A5800  data
- *   g_021A57C8   0x021A57C8  data
+ *   gGstatsCryptKey   0x021A5800  data
+ *   gGstatsSocket   0x021A57C8  data
  */
 
 #include "../include/G_StatsSocket.h"
 #include "../include/G_StatsConn.h"
 
 extern int func_02184200(const int *p);
-extern void func_02193EB8(char *buf, int len);
-extern void func_0219451C(int reqindex, int success, long modified, char *data, int length);
+extern void xcode_buf(char *buf, int len);
+extern void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
 extern void func_021841B0(void *array);
-extern struct StatsConn g_021ADFE0;
-extern struct StatsSocket g_021A57C8;
-extern char g_021A5800[];
+extern struct StatsConn gGstatsConn;
+extern struct StatsSocket gGstatsSocket;
+extern char gGstatsCryptKey[];
 
-void func_02194614(void)
+void ClosePendingCallbacks(void)
 {
     int i;
 
-    if (((int *)&g_021ADFE0)[5] == 0)
+    if (((int *)&gGstatsConn)[5] == 0)
         return;
-    for (i = func_02184200((void *)((int *)&g_021ADFE0)[5]) - 1; i >= 0; i--) {
+    for (i = func_02184200((void *)((int *)&gGstatsConn)[5]) - 1; i >= 0; i--) {
         char connerror[16] = {0x13, 0x1d, 0x01, 0x04, 0, 0, 0, 0x28, 0x1f, 0x06, 0x45, 0x34, 0x3f, 0x01, 0x1b, 0};
-        (*(char * *)&g_021A57C8) = g_021A5800;
-        func_02193EB8(connerror, 15);
-        func_0219451C(i, 0, 0, connerror, 0);
+        (*(char * *)&gGstatsSocket) = gGstatsCryptKey;
+        xcode_buf(connerror, 15);
+        CallReqCallback(i, 0, 0, connerror, 0);
     }
-    func_021841B0((void *)((int *)&g_021ADFE0)[5]);
-    ((int *)&g_021ADFE0)[5] = 0;
+    func_021841B0((void *)((int *)&gGstatsConn)[5]);
+    ((int *)&gGstatsConn)[5] = 0;
 }

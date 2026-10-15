@@ -1,5 +1,5 @@
 /*
- * function: func_021EAAE4
+ * function: BOX2_SEQ_SetDirtyBit
  * address:  0x021EAAE4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -16,7 +16,7 @@
  */
 
 
-void func_021EAAE4(unsigned char *p, unsigned i)
+void BOX2_SEQ_SetDirtyBit(unsigned char *p, unsigned i)
 {
     unsigned char *q = p + 0x174;
     q[i >> 3] |= (unsigned char)(1 << (i & 7));

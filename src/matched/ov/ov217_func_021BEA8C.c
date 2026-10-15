@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA8C
+ * function: RESEARCH_GRAPH_StepEntry
  * address: 0x021BEA8C
  * packet: pkt_ov217_021BEA8C
  * region: ov217
@@ -10,33 +10,33 @@
  * Prototypes: original loads r0/r1 and reads return at 021C11C8/11D0;
  * narrow argument truncations are explicit in the caller.
  * symbols:
- *   func_021BF76C 0x021BF76C thumb ov217
- *   func_021BF7CC 0x021BF7CC thumb ov217
- *   func_021BF7E0 0x021BF7E0 thumb ov217
- *   func_021BF7F4 0x021BF7F4 thumb ov217
+ *   RESEARCH_GRAPH_GetLeftCircle 0x021BF76C thumb ov217
+ *   RESEARCH_GRAPH_GetGroupKey 0x021BF7CC thumb ov217
+ *   RESEARCH_GRAPH_GetGroupCount 0x021BF7E0 thumb ov217
+ *   RESEARCH_GRAPH_GetEntryKey 0x021BF7F4 thumb ov217
  *   CircleGraph_FindSliceIndex 0x021C11C8 thumb ov217
  *   CircleGraph_GetSliceKey 0x021C11D0 thumb ov217
  *   GRAPHTABLE_FindEntry 0x021C26AC thumb ov217
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BF76C(void *p);
-extern u32 func_021BF7CC(void *);
-extern u32 func_021BF7E0(void *);
-extern u32 func_021BF7F4(void *);
+extern u8 *RESEARCH_GRAPH_GetLeftCircle(void *p);
+extern u32 RESEARCH_GRAPH_GetGroupKey(void *);
+extern u32 RESEARCH_GRAPH_GetGroupCount(void *);
+extern u32 RESEARCH_GRAPH_GetEntryKey(void *);
 extern u8 CircleGraph_FindSliceIndex(u8 *p, u8 key);
 extern u8 CircleGraph_GetSliceKey(u8 *p, u8 n);
 extern u32 GRAPHTABLE_FindEntry(const u8 *p, u8 unused, u8 key);
-void func_021BEA8C(u8 *p, int step)
+void RESEARCH_GRAPH_StepEntry(u8 *p, int step)
 {
     u8 *object;
     int kind;
     int count;
     int index;
-    object = func_021BF76C(p);
-    kind = func_021BF7CC(p);
-    count = func_021BF7E0(p);
-    index = func_021BF7F4(p);
+    object = RESEARCH_GRAPH_GetLeftCircle(p);
+    kind = RESEARCH_GRAPH_GetGroupKey(p);
+    count = RESEARCH_GRAPH_GetGroupCount(p);
+    index = RESEARCH_GRAPH_GetEntryKey(p);
     index = CircleGraph_FindSliceIndex(object, index);
 
     index = (count + (index + step)) % count;

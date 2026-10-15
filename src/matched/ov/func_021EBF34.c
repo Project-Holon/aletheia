@@ -1,5 +1,5 @@
 /*
- * function: func_021EBF34
+ * function: BOX2_SEQ_DeleteActorSlot
  * address:  0x021EBF34
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 struct S { char pad[0x9E74]; int arr[1]; };
-void func_021EBF34(struct S *p, int i)
+void BOX2_SEQ_DeleteActorSlot(struct S *p, int i)
 {
     if (p->arr[i] != 0) {
         CLACT_DeleteActor((struct Obj *)p->arr[i]);

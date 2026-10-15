@@ -1,5 +1,5 @@
 /*
- * function: func_021EBA30
+ * function: BOX2_SEQ_ClearMessageWindow
  * address:  0x021EBA30
  * packet:   pkt_ov170_021EBA30
  * region:   ov170
@@ -28,7 +28,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EBA30(unsigned char *p, void *win)
+void BOX2_SEQ_ClearMessageWindow(unsigned char *p, void *win)
 {
     BMP_Clear(BMP_WIN_GetBmp(win), 0xF);
     func_0201F73C(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);

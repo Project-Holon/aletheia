@@ -13,7 +13,7 @@
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_FLOW_QueryMoveRedirectEvent 0x021C676C thumb ov093
  *   func_021BFE30 0x021BFE30 thumb ov093
- *   func_021BFE40 0x021BFE40 thumb ov093
+ *   RESEARCH_GRAPH_InitTouchRects 0x021BFE40 thumb ov093
  *   func_021BFE50 0x021BFE50 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
@@ -29,7 +29,7 @@ extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern int BTL_SERVER_FLOW_QueryMoveRedirectEvent(u8 *, u8 *, u8 *, u16, u8 *, u32 *);
 extern int func_021BFE30(u8 *);
-extern u8 *func_021BFE40(u8 *, int);
+extern u8 *RESEARCH_GRAPH_InitTouchRects(u8 *, int);
 extern u8 func_021BFE50(void *, u8);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -51,7 +51,7 @@ int BTL_SERVER_FLOW_ProcMoveUseDecide(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
     if (r) {
         n = p[0x77f];
         if (func_021BFE30(d))
-            n = func_021BFE50(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(func_021BFE40(d, 0)));
+            n = func_021BFE50(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(RESEARCH_GRAPH_InitTouchRects(d, 0)));
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
     }
     BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 5173);

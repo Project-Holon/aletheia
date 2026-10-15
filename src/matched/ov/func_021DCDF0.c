@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDF0
+ * function: BOX2_MAIN_SetDisplayControl
  * address:  0x021DCDF0
  * packet:   pkt_021DCDF0
  * region:   ov170
@@ -21,7 +21,7 @@
  */
 
 extern void func_0207D63C(int, int, int, int, int);
-void func_021DCDF0(int a)
+void BOX2_MAIN_SetDisplayControl(int a)
 {
     if (a == 1)
         func_0207D63C(0x04000050, 0, 0x2a, 6, 0xa);

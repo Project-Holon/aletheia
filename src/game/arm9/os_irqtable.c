@@ -1,7 +1,7 @@
 /*
  * file:     os_irqtable.c
  * unit:     yes
- * function: func_02084614, func_0208469C, func_020846AC, func_020846BC, func_020846CC, func_020846DC, func_020846EC, func_020846FC, func_0208470C, func_0208471C, func_0208472C, func_0208473C, func_0208474C
+ * function: OSi_IrqCallback, OSi_IrqDma0, OSi_IrqDma1, OSi_IrqDma2, OSi_IrqDma3, OSi_IrqTimer0, OSi_IrqTimer1, OSi_IrqTimer2, OSi_IrqTimer3, OSi_IrqNDma0, OSi_IrqNDma1, OSi_IrqNDma2, OSi_IrqNDma3
  * address:  0x02084614
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -35,19 +35,18 @@ typedef struct OSIrqCallbackInfo {
 
 extern u32 OS_DisableIrqMask(u32 intr);
 void OSi_IrqCallback(int dmaNo);
-void func_02084614(int index);
-void func_0208469C(void);
-void func_020846AC(void);
-void func_020846BC(void);
-void func_020846CC(void);
-void func_020846DC(void);
-void func_020846EC(void);
-void func_020846FC(void);
-void func_0208470C(void);
-void func_0208471C(void);
-void func_0208472C(void);
-void func_0208473C(void);
-void func_0208474C(void);
+void OSi_IrqDma0(void);
+void OSi_IrqDma1(void);
+void OSi_IrqDma2(void);
+void OSi_IrqDma3(void);
+void OSi_IrqTimer0(void);
+void OSi_IrqTimer1(void);
+void OSi_IrqTimer2(void);
+void OSi_IrqTimer3(void);
+void OSi_IrqNDma0(void);
+void OSi_IrqNDma1(void);
+void OSi_IrqNDma2(void);
+void OSi_IrqNDma3(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OSIrqCallbackInfo OSi_IrqCallbackInfo[];
 extern u16 OSi_IrqCallbackInfoIndex[];
@@ -82,7 +81,7 @@ extern u16 OSi_IrqCallbackInfoIndex[];
 /*
  * sdk:      OSi_IrqCallback (os_irqtable.o)
  */
-void func_02084614(int index)
+void OSi_IrqCallback(int index)
 {
     u32 imask = 1UL << OSi_IrqCallbackInfoIndex[index];
     void (*callback)(void *) = OSi_IrqCallbackInfo[index].func;
@@ -114,7 +113,7 @@ void func_02084614(int index)
 /*
  * note:     os_irqTable.o OSi_IrqDma0; libmatch named the address CameraStandbyCallback.
  */
-void func_0208469C(void)
+void OSi_IrqDma0(void)
 {
     OSi_IrqCallback(0);
 }
@@ -133,7 +132,7 @@ void func_0208469C(void)
 /*
  * note:     os_irqTable.o OSi_IrqDma1; libmatch named the address DWC_EnableHotspot.
  */
-void func_020846AC(void)
+void OSi_IrqDma1(void)
 {
     OSi_IrqCallback(1);
 }
@@ -151,7 +150,7 @@ void func_020846AC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqDma2.
  */
-void func_020846BC(void)
+void OSi_IrqDma2(void)
 {
     OSi_IrqCallback(2);
 }
@@ -168,7 +167,7 @@ void func_020846BC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqDma3.
  */
-void func_020846CC(void)
+void OSi_IrqDma3(void)
 {
     OSi_IrqCallback(3);
 }
@@ -184,7 +183,7 @@ void func_020846CC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqTimer0.
  */
-void func_020846DC(void)
+void OSi_IrqTimer0(void)
 {
     OSi_IrqCallback(8);
 }
@@ -199,7 +198,7 @@ void func_020846DC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqTimer1.
  */
-void func_020846EC(void)
+void OSi_IrqTimer1(void)
 {
     OSi_IrqCallback(9);
 }
@@ -213,7 +212,7 @@ void func_020846EC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqTimer2.
  */
-void func_020846FC(void)
+void OSi_IrqTimer2(void)
 {
     OSi_IrqCallback(10);
 }
@@ -226,7 +225,7 @@ void func_020846FC(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqTimer3.
  */
-void func_0208470C(void)
+void OSi_IrqTimer3(void)
 {
     OSi_IrqCallback(11);
 }
@@ -238,7 +237,7 @@ void func_0208470C(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqNDma0.
  */
-void func_0208471C(void)
+void OSi_IrqNDma0(void)
 {
     OSi_IrqCallback(4);
 }
@@ -249,7 +248,7 @@ void func_0208471C(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqNDma1.
  */
-void func_0208472C(void)
+void OSi_IrqNDma1(void)
 {
     OSi_IrqCallback(5);
 }
@@ -259,7 +258,7 @@ void func_0208472C(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqNDma2.
  */
-void func_0208473C(void)
+void OSi_IrqNDma2(void)
 {
     OSi_IrqCallback(6);
 }
@@ -268,7 +267,7 @@ void func_0208473C(void)
 /*
  * note:     os_irqTable.o wrapper; symbols_sdk names it OSi_IrqNDma3.
  */
-void func_0208474C(void)
+void OSi_IrqNDma3(void)
 {
     OSi_IrqCallback(7);
 }

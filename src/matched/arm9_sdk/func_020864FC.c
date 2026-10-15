@@ -1,5 +1,5 @@
 /*
- * function: func_020864FC
+ * function: OS_InitArenaEx
  * address:  0x020864FC
  * packet:   pkt_020864FC
  * region:   arm9
@@ -80,7 +80,7 @@ extern BOOL OS_IsRunOnTwl(void);
 extern void OS_SetProtectionRegionEx(int regionNo, u32 address, u32 sizeDef);
 extern void OSi_InitArenaEx_ltdmain(void);
 
-void func_020864FC(void)
+void OS_InitArenaEx(void)
 {
     (void)OS_GetConsoleType();
 

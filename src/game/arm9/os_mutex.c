@@ -1,7 +1,7 @@
 /*
  * file:     os_mutex.c
  * unit:     yes
- * function: func_02086004, func_02086028, OS_UnlockMutex, func_02086088, func_020860D0, func_02086164, func_0208623C, func_02086260
+ * function: OS_InitMutex, OS_LockMutex, OS_UnlockMutex, OSi_UnlockAllMutex, OS_TryLockMutex, OSi_UnlockMutexCore, OSi_EnqueueTail, OSi_DequeueItem
  * address:  0x02086004
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -161,14 +161,11 @@ extern OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 extern void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex);
 extern void OSi_DequeueItem(OSThread *thread, OSMutex *mutex);
-void func_02086004(OSMutex *mutex);
-void func_02086028(OSMutex *mutex);
+void OS_InitMutex(OSMutex *mutex);
+void OS_LockMutex(OSMutex *mutex);
 asm void OS_UnlockMutex(void);
-void func_02086088(OSThread *thread);
-BOOL func_020860D0(OSMutex *mutex);
-void func_02086164(OSMutex *mutex, u32 type);
-void func_0208623C(OSThread *thread, OSMutex *mutex);
-void func_02086260(OSThread *thread, OSMutex *mutex);
+void OSi_UnlockAllMutex(OSThread *thread);
+void OSi_UnlockMutexCore(OSMutex *mutex, u32 type);
 extern OsThreadBss gOsThreadBss;
 extern OSThreadInfo OSi_ThreadInfo;
 
@@ -202,7 +199,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 /*
  * sdk:      OS_InitMutex (os_mutex.o)
  */
-void func_02086004(OSMutex *mutex)
+void OS_InitMutex(OSMutex *mutex)
 {
     mutex->queue.head = mutex->queue.tail = 0;
     mutex->thread = 0;
@@ -241,7 +238,7 @@ void func_02086004(OSMutex *mutex)
 /*
  * sdk:      OS_LockMutex (os_mutex.o)
  */
-void func_02086028(OSMutex *mutex)
+void OS_LockMutex(OSMutex *mutex)
 {
     OSIntrMode e = OS_DisableInterrupts();
     OSThread *currentThread = OSi_ThreadInfo.current;
@@ -264,7 +261,7 @@ void func_02086028(OSMutex *mutex)
 
 asm void OS_UnlockMutex(void)
 {
-    ldr ip, =func_02086164
+    ldr ip, =OSi_UnlockMutexCore
     mov r1, #0x10000000
     bx ip
 }
@@ -298,7 +295,7 @@ asm void OS_UnlockMutex(void)
 /*
  * sdk:      OSi_UnlockAllMutex (os_mutex.o)
  */
-void func_02086088(OSThread *thread)
+void OSi_UnlockAllMutex(OSThread *thread)
 {
     OSMutex *mutex;
 
@@ -339,7 +336,7 @@ void func_02086088(OSThread *thread)
 /*
  * sdk:      OS_TryLockMutex (os_mutex.o)
  */
-BOOL func_020860D0(OSMutex *mutex)
+BOOL OS_TryLockMutex(OSMutex *mutex)
 {
     OSIntrMode saved = OS_DisableInterrupts();
     OSThread *currentThread = OSi_ThreadInfo.current;
@@ -388,7 +385,7 @@ BOOL func_020860D0(OSMutex *mutex)
 /*
  * sdk:      OSi_UnlockMutexCore (os_mutex.o)
  */
-void func_02086164(OSMutex *mutex, u32 type)
+void OSi_UnlockMutexCore(OSMutex *mutex, u32 type)
 {
     OSIntrMode e = OS_DisableInterrupts();
     BOOL unlocked = 0;
@@ -433,7 +430,7 @@ void func_02086164(OSMutex *mutex, u32 type)
 /*
  * sdk:      OSi_EnqueueTail (os_mutex.o)
  */
-void func_0208623C(OSThread *thread, OSMutex *mutex)
+void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex)
 {
     OSMutex *prev = thread->mutexQueue.tail;
 
@@ -452,7 +449,7 @@ void func_0208623C(OSThread *thread, OSMutex *mutex)
 /*
  * sdk:      OSi_DequeueItem (os_mutex.o)
  */
-void func_02086260(OSThread *thread, OSMutex *mutex)
+void OSi_DequeueItem(OSThread *thread, OSMutex *mutex)
 {
     OSMutex *next = mutex->link.next;
     OSMutex *prev = mutex->link.prev;

@@ -1,5 +1,5 @@
 /*
- * function: func_021EBCB4
+ * function: BOX2_SEQ_PrintPromptB
  * address:  0x021EBCB4
  * packet:   pkt_ov170_021EBCB4
  * region:   ov170
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201EF40 0x0201EF40 thumb
- *   func_021EBA84 0x021EBA84 thumb
+ *   BOX2_SEQ_PrintMessageMsg 0x021EBA84 thumb
  *
  * Item-menu prompt for a kind; kinds 1 to 3 name the held item first.  An
  * out-of-range kind prints whatever msg holds; the image does not initialise it.
@@ -21,11 +21,11 @@ typedef unsigned int u32;
 
 struct WordSet;
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_021EBA84(unsigned char *p, int msg, int i);
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EBCB4(unsigned char *p, int kind, int i)
+void BOX2_SEQ_PrintPromptB(unsigned char *p, int kind, int i)
 {
     int msg;
     switch (kind) {
@@ -57,5 +57,5 @@ void func_021EBCB4(unsigned char *p, int kind, int i)
         msg = 0x2F;
         break;
     }
-    func_021EBA84(p, msg, i);
+    BOX2_SEQ_PrintMessageMsg(p, msg, i);
 }

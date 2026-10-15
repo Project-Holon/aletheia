@@ -1,5 +1,5 @@
 /*
- * function: func_021BC128
+ * function: RESEARCH_LIST_ShowEntryLabels
  * address:  0x021BC128
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 BgTextLabel_SetVisible();
-u32 func_021BC128(u32 a0)
+u32 RESEARCH_LIST_ShowEntryLabels(u32 a0)
 {
     BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fE4, 1);
     BgTextLabel_SetVisible(((struct Obj00025 *)((u8*)a0))->fE8, 1);

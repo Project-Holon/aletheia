@@ -1,7 +1,7 @@
 /*
  * file:     wifi_bsubway_graphic.c
  * unit:     yes
- * function: func_021D72D0, func_021D730C, func_021D7324, func_021D737C, func_021D73D0, func_021D73D4, func_021D73E0, func_021D7420, func_021D7424, func_021D7450, func_021D7550, func_021D77D0, func_021D7A3C, func_021D7A94, func_021D7AA8, func_021D7AC8, func_021D7B00, func_021D7B70, func_021D7C58, func_021D7CF4, func_021D7D0C, func_021D7F54, func_021D7FC4, func_021D8010, func_021D80CC, func_021D8118, func_021D8134, func_021D8168, func_021D8190, func_021D81B4, func_021D81D0, func_021D81EC, func_021D821C, func_021D82AC, func_021D82F8, func_021D8304, func_021D8364
+ * function: WIFI_BSUBWAY_GRAPHIC_SetupTextParam, WIFI_BSUBWAY_GRAPHIC_DeleteTextParam, WIFI_BSUBWAY_GRAPHIC_ParseCodeIn, WIFI_BSUBWAY_GRAPHIC_StartSaveProc, WIFI_BSUBWAY_GRAPHIC_Noop, WIFI_BSUBWAY_GRAPHIC_GetSaveState, WIFI_BSUBWAY_GRAPHIC_StartRetryProc, WIFI_BSUBWAY_GRAPHIC_NoopRetry, WIFI_BSUBWAY_GRAPHIC_DispatchTable, WIFI_BSUBWAY_GRAPHIC_Step, WIFI_BSUBWAY_GRAPHIC_StepWithInput, WIFI_BSUBWAY_GRAPHIC_StepRetry, WIFI_BSUBWAY_GRAPHIC_InitBt, WIFI_BSUBWAY_GRAPHIC_PollBt, WIFI_BSUBWAY_GRAPHIC_CancelBt, WIFI_BSUBWAY_GRAPHIC_EndBt, WIFI_BSUBWAY_GRAPHIC_CheckNetError, WIFI_BSUBWAY_GRAPHIC_CreateWindow, WIFI_BSUBWAY_GRAPHIC_DeleteWindow, WIFI_BSUBWAY_GRAPHIC_UpdateText, WIFI_BSUBWAY_GRAPHIC_SetupBgAnim, WIFI_BSUBWAY_GRAPHIC_StepBgAnim, WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim, WIFI_BSUBWAY_GRAPHIC_PrintMessage, WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream, WIFI_BSUBWAY_GRAPHIC_SetWord, WIFI_BSUBWAY_GRAPHIC_CreateYesNo, WIFI_BSUBWAY_GRAPHIC_ProcessYesNo, WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon, WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon, WIFI_BSUBWAY_GRAPHIC_StartSave, WIFI_BSUBWAY_GRAPHIC_UpdateSave, WIFI_BSUBWAY_GRAPHIC_Create, WIFI_BSUBWAY_GRAPHIC_Delete, WIFI_BSUBWAY_GRAPHIC_OnRedraw, WIFI_BSUBWAY_GRAPHIC_SetupBg, WIFI_BSUBWAY_GRAPHIC_TeardownBg, WIFI_BSUBWAY_GRAPHIC_Draw
  * address:  0x021D72D0
  * region:   ov116
  * compiler: dsi/1.1p1
@@ -136,7 +136,7 @@
  *   func_0201DD60 0x0201DD60 thumb
  *   d_021D858C 0x021D858C data a1
  *   d_021D83C0 0x021D83C0 data a4
- *   func_021D839C 0x021D839C thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_Draw 0x021D839C thumb ov116
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -388,7 +388,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021D839C(void *);
+extern void WIFI_BSUBWAY_GRAPHIC_Draw(void *);
 extern void func_0203F8F4(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -398,44 +398,44 @@ extern void func_02040588(u8,u8);
 void func_020403F4(u32_021D8364 i);
 void BMP_WIN_Exit(void);
 void func_0203F9B4(void);
-void func_021D72D0(u8 *p, u32 heap);
-void func_021D730C(u8 *p);
-u32 func_021D7324(u8 *p);
-void func_021D737C(u8 *p);
-void func_021D73D0(void *a0);
-int func_021D73D4(u8 *p);
-void func_021D73E0(u8 *p);
-void func_021D7420(void *a0);
-void func_021D7424(int **p, int x);
-int func_021D7450(u8 *p,int b);
-int func_021D7550(u8 *p,short heap);
-int func_021D77D0(u8 *p,short heap);
-void func_021D7A3C(u8 *p);
-int func_021D7A94(u8 *p);
-void func_021D7AA8(u8 *p);
-int func_021D7AC8(u8 *p);
-int func_021D7B00(u8 *p);
-int func_021D7B64(u8 *p);
-void func_021D7B70(u8 *p, short heap);
-void func_021D7C58(u8 *p);
-void func_021D7CF4(u8 *p);
-void func_021D7D0C(u8 *p, short heap);
-void func_021D7F54(void *unused,u8 *p);
-void func_021D7FC4(u8 *p);
-void func_021D8010(void *p,u32_021D8010 a);
-int func_021D80CC(void *p);
-void func_021D8118(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b);
-void func_021D8134(u8 *p);
-u32_021D8168 func_021D8168(u8 *p);
-void func_021D8190(u8 *p);
-void func_021D81B4(u8 *p);
-void func_021D81D0(u8 *p);
-int func_021D81EC(u8 *p);
-void *func_021D821C(int a,unsigned heap);
-void func_021D82AC(void *p);
-void func_021D82F8(void *a,void *b);
-void func_021D8304(void *p,unsigned heap);
-void func_021D8364(void *a0);
+void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(u8 *p, u32 heap);
+void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
+u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0);
+int WIFI_BSUBWAY_GRAPHIC_GetSaveState(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *a0);
+void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x);
+int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b);
+int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap);
+int WIFI_BSUBWAY_GRAPHIC_StepRetry(u8 *p,short heap);
+void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *p);
+int WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *p);
+int WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *p);
+int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *p);
+int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, short heap);
+void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap);
+void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32_021D8010 a);
+int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *p);
+void WIFI_BSUBWAY_GRAPHIC_SetWord(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b);
+void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p);
+u32_021D8168 WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p);
+void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *p);
+int WIFI_BSUBWAY_GRAPHIC_UpdateSave(u8 *p);
+void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap);
+void WIFI_BSUBWAY_GRAPHIC_Delete(void *p);
+void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b);
+void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *p,unsigned heap);
+void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0);
 extern u32 d_021D8574[];
 extern u32 d_021DA62C[];
 extern u8 ov129_id[];
@@ -452,7 +452,7 @@ extern char d_021D83F0[];
 extern u8 g_021D83F0[];
 
 
-void func_021D72D0(u8 *p, u32 heap)
+void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(u8 *p, u32 heap)
 {
     void *obj;
     obj = CODEIN_PARAM_Create(heap, 2, 10, 2, d_021D8574);
@@ -461,7 +461,7 @@ void func_021D72D0(u8 *p, u32 heap)
 }
 
 
-void func_021D730C(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p)
 {
     if (((struct Obj10340 *)p)->f1840) {
         func_0202E54C(((struct Obj10340 *)p)->f1840);
@@ -470,7 +470,7 @@ void func_021D730C(u8 *p)
 }
 
 
-u32 func_021D7324(u8 *p) {
+u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(u8 *p) {
     u16 end=STRBUF_GetEosChar();
     u16 *s=STRBUF_GetChars(((struct Obj22626 *)(*(u8 * *)&((struct Obj22625 *)p)->f1840))->f20);
     u32 value=0;
@@ -486,7 +486,7 @@ u32 func_021D7324(u8 *p) {
 }
 
 
-void func_021D737C(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(u8 *p) {
     ((struct Obj00671 *)p)->f9B0=*(u32 *)&((struct Obj00671 *)p)->f1844;
     ((struct Obj00671 *)p)->f9B4=0;
     ((struct Obj00671 *)p)->f9C8=1;
@@ -500,13 +500,13 @@ void func_021D737C(u8 *p) {
 /*
  * extent: two-byte zero alignment padding, then already matched getter ov116_func_021D73D4.c.
  */
-void func_021D73D0(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_Noop(void *a0) { }
 
 
-int func_021D73D4(u8 *p) { return ((struct Obj22628 *)p)->f9CC; }
+int WIFI_BSUBWAY_GRAPHIC_GetSaveState(u8 *p) { return ((struct Obj22628 *)p)->f9CC; }
 
 
-void func_021D73E0(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *p) {
     ((struct Obj00671 *)p)->f9D8=*(u32 *)&((struct Obj00671 *)p)->f1844;
     ((struct Obj00671 *)p)->f9DC=0;
     ((struct Obj00671 *)p)->f9E0=1;
@@ -516,10 +516,10 @@ void func_021D73E0(u8 *p) {
 
 
 
-void func_021D7420(void *a0) { }
+void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *a0) { }
 
 
-void func_021D7424(int **p, int x)
+void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x)
 {
     Tbl t = d_021D8580;
     t.f[**p](p, x);
@@ -530,11 +530,11 @@ void func_021D7424(int **p, int x)
  * ABI: incoming r1 is forwarded as fourth6E50 argument; 81EC reads
  * incoming r0 left intact by the switch. Both inputs are named.
  */
-int func_021D7450(u8 *p,int b)
+int WIFI_BSUBWAY_GRAPHIC_Step(u8 *p,int b)
 {
     int v;
     switch (((struct Obj01926 *)p)->fB6C) {
-    case 0: func_021D8010(p+4,7); ++((struct Obj01926 *)p)->fB6C; break;
+    case 0: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,7); ++((struct Obj01926 *)p)->fB6C; break;
     case 1: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 2:
         v=func_021D6EC4(p+0x1610,p+0x182c,0);
@@ -547,20 +547,20 @@ int func_021D7450(u8 *p,int b)
         break;
     case 5: func_021D7060(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
     case 6:
-        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
+        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
-    case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); func_021D81D0(p); ++((struct Obj01926 *)p)->fB6C; break;
+    case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:
-        if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,8); ++((struct Obj01926 *)p)->fB6C; }
+        if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,8); ++((struct Obj01926 *)p)->fB6C; }
         break;
-    case 9: if(func_021D80CC(p+4)!=0) ++((struct Obj01926 *)p)->fB6C; break;
+    case 9: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj01926 *)p)->fB6C; break;
     case 10: return 1;
     }
     return 0;
 }
 
 
-int func_021D7550(u8 *p,short heap)
+int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,short heap)
 {
     int v,box;
     u32 n;
@@ -570,13 +570,13 @@ int func_021D7550(u8 *p,short heap)
     case 0: func_021D69A8(p+0xb74,p+0x182c,(u32)func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
     case 1: if(func_021D69C0(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 2:
-        func_021D81B4(p+4); v=func_021D6A48(p+0xb74);
-        func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); func_021D8010(p+4,0); ++((struct Obj00494 *)p)->fB6C; break;
-    case 3: if(func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=func_021D6A48(p+0xb74);
+        WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,0); ++((struct Obj00494 *)p)->fB6C; break;
+    case 3: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 4: FADE_Start((int)3,0,16,1); ++((struct Obj00494 *)p)->fB6C; break;
-    case 5: if(FADE_IsActive()==0) { func_021D7C58(p+4); ++((struct Obj00494 *)p)->fB6C; } break;
+    case 5: if(FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++((struct Obj00494 *)p)->fB6C; } break;
     case 6: func_021D7278(p,heap); ++((struct Obj00494 *)p)->fB6C; break;
-    case 7: ((struct Obj00494 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); FADE_Start((int)3,16,0,1); ++((struct Obj00494 *)p)->fB6C; break;
+    case 7: ((struct Obj00494 *)p)->fB70=WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(p); WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(p); WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,heap); FADE_Start((int)3,16,0,1); ++((struct Obj00494 *)p)->fB6C; break;
     case 8:
         if(FADE_IsActive()==0) {
             box=func_021D6A40(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=func_021D6A48(p+0xb74);
@@ -584,75 +584,75 @@ int func_021D7550(u8 *p,short heap)
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
             if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             func_021D69EC(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
-            v=func_021D6A44(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
-            func_021D8118(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); func_021D8010(p+4,1); func_021D8190(p+4); ++((struct Obj00494 *)p)->fB6C;
+            v=func_021D6A44(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
+            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00494 *)p)->fB6C;
         } break;
-    case 9: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
-    case 10: func_021D6A5C(p+0xb74); func_021D6AF0(p+0xb74,((struct Obj00494 *)p)->f1854); func_021D6B30(p+0xb74,((struct Obj00494 *)p)->f1854); func_021D81D0(p); ++((struct Obj00494 *)p)->fB6C; break;
-    case 11: if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,3); ++((struct Obj00494 *)p)->fB6C; } break;
-    case 12: if(func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+    case 9: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+    case 10: func_021D6A5C(p+0xb74); func_021D6AF0(p+0xb74,((struct Obj00494 *)p)->f1854); func_021D6B30(p+0xb74,((struct Obj00494 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00494 *)p)->fB6C; break;
+    case 11: if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,3); ++((struct Obj00494 *)p)->fB6C; } break;
+    case 12: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 13: return 1;
-    case 14: func_021D8010(p+4,2); ++((struct Obj00494 *)p)->fB6C; break;
-    case 15: if(func_021D80CC(p+4)!=0) ((struct Obj00494 *)p)->fB6C=2; break;
-    case 16: func_021D8010(p+4,4); ++((struct Obj00494 *)p)->fB6C; break;
-    case 17: if(func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
-    case 18: func_021D8134(p+4); ++((struct Obj00494 *)p)->fB6C; break;
-    case 19: v=(int)func_021D8168(p+4); if(v==0) return 2; if(v==-2) ((struct Obj00494 *)p)->fB6C=2; break;
+    case 14: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,2); ++((struct Obj00494 *)p)->fB6C; break;
+    case 15: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ((struct Obj00494 *)p)->fB6C=2; break;
+    case 16: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,4); ++((struct Obj00494 *)p)->fB6C; break;
+    case 17: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
+    case 18: WIFI_BSUBWAY_GRAPHIC_CreateYesNo(p+4); ++((struct Obj00494 *)p)->fB6C; break;
+    case 19: v=(int)WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(p+4); if(v==0) return 2; if(v==-2) ((struct Obj00494 *)p)->fB6C=2; break;
     }
     return 0;
 }
 
 
-int func_021D77D0(u8 *p,short heap)
+int WIFI_BSUBWAY_GRAPHIC_StepRetry(u8 *p,short heap)
 {
     int v;
     u32 n;
     switch(((struct Obj00470 *)p)->fB6C) {
-    case 0: func_021D81B4(p+4); func_021D8010(p+4,5); ++((struct Obj00470 *)p)->fB6C; break;
-    case 1: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 0: WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,5); ++((struct Obj00470 *)p)->fB6C; break;
+    case 1: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 2: FADE_Start(3,0,16,1); ++((struct Obj00470 *)p)->fB6C; break;
-    case 3: if(FADE_IsActive()==0) { func_021D7C58(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
-    case 4: func_021D72D0(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
-    case 5: ((struct Obj00470 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); FADE_Start(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
+    case 3: if(FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 4: WIFI_BSUBWAY_GRAPHIC_SetupTextParam(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
+    case 5: ((struct Obj00470 *)p)->fB70=WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(p); WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(p); WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,heap); FADE_Start(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 6:
         if(FADE_IsActive()==0) {
             n=((struct Obj00470 *)p)->fB70;
             if(n>=1 && n<=10) {
-                func_021D69A8(p+0xb74,p+0x182c,n); func_021D8010(p+4,26); func_021D8190(p+4); ++((struct Obj00470 *)p)->fB6C;
+                func_021D69A8(p+0xb74,p+0x182c,n); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
             } else ((struct Obj00470 *)p)->fB6C=19;
         } break;
     case 7:
         if(func_021D69C0(p+0xb74,p+0x182c)!=0) {
-            func_021D81B4(p+4); v=func_021D6A48(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); func_021D8010(p+4,6); ++((struct Obj00470 *)p)->fB6C;
+            WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=func_021D6A48(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,6); ++((struct Obj00470 *)p)->fB6C;
         } break;
-    case 8: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 9: FADE_Start(3,0,16,1); ++((struct Obj00470 *)p)->fB6C; break;
-    case 10: if(FADE_IsActive()==0) { func_021D7C58(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 10: if(FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
     case 11: func_021D7278(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
-    case 12: ((struct Obj00470 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); FADE_Start(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
+    case 12: ((struct Obj00470 *)p)->fB70=WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(p); WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(p); WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,heap); FADE_Start(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 13:
         if(FADE_IsActive()==0) {
             v=func_021D6A48(p+0xb74); n=((struct Obj00470 *)p)->fB70;
             if(n<1 || n>(u32)v) { ((struct Obj00470 *)p)->fB6C=19; break; }
             func_021D69EC(p+0xb74,p+0x182c,n);
-            v=func_021D6A44(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
-            func_021D8118(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); func_021D8010(p+4,1); func_021D8190(p+4); ++((struct Obj00470 *)p)->fB6C;
+            v=func_021D6A44(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
+            WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00470 *)p)->fB6C;
         } break;
-    case 14: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
-    case 15: func_021D6A5C(p+0xb74); func_021D6B30(p+0xb74,((struct Obj00470 *)p)->f1854); func_021D81D0(p); ++((struct Obj00470 *)p)->fB6C; break;
-    case 16: if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,3); ++((struct Obj00470 *)p)->fB6C; } break;
-    case 17: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 14: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 15: func_021D6A5C(p+0xb74); func_021D6B30(p+0xb74,((struct Obj00470 *)p)->f1854); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++((struct Obj00470 *)p)->fB6C; break;
+    case 16: if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,3); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 17: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 18: return 1;
-    case 19: func_021D8010(p+4,9); ++((struct Obj00470 *)p)->fB6C; break;
-    case 20: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
-    case 21: func_021D8134(p+4); ++((struct Obj00470 *)p)->fB6C; break;
-    case 22: v=func_021D8168(p+4); if(v==0) return 2; if(v==-2) { func_021D6998(p+0xb74); ((struct Obj00470 *)p)->fB6C=0; } break;
+    case 19: WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,9); ++((struct Obj00470 *)p)->fB6C; break;
+    case 20: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 21: WIFI_BSUBWAY_GRAPHIC_CreateYesNo(p+4); ++((struct Obj00470 *)p)->fB6C; break;
+    case 22: v=WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(p+4); if(v==0) return 2; if(v==-2) { func_021D6998(p+0xb74); ((struct Obj00470 *)p)->fB6C=0; } break;
     }
     return 0;
 }
 
 
-void func_021D7A3C(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *p) {
     void *a=func_02009860(((struct Obj00671 *)p)->f184C);
     void *b;
     u64 value;
@@ -666,7 +666,7 @@ void func_021D7A3C(u8 *p) {
 }
 
 
-int func_021D7A94(u8 *p)
+int WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *p)
 {
     int result;
     return func_021D70EC(p + 0x182c, &result);
@@ -678,7 +678,7 @@ int func_021D7A94(u8 *p)
  * 2026-10-05 (wD8 lane09): re-run, still MATCH. Only open relocation: DPW_BT_IsAsyncEnd (ov114 ARM, SDK-side
  *   libext code, no witness). Nothing source-side to change.
  */
-void func_021D7AA8(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *p)
 {
     if (DPW_BT_IsAsyncEnd() == 0) {
         DPW_BT_CancelAsync();
@@ -687,7 +687,7 @@ void func_021D7AA8(u8 *p)
 }
 
 
-int func_021D7AC8(u8 *p)
+int WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *p)
 {
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;
@@ -700,7 +700,7 @@ int func_021D7AC8(u8 *p)
 }
 
 
-int func_021D7B00(u8 *p) {
+int WIFI_BSUBWAY_GRAPHIC_CheckNetError(u8 *p) {
     int yes=1;
     int no=0;
     if(DWC_RAPCOMMON_HandleNetError(1,0)!=0) return no;
@@ -712,15 +712,15 @@ int func_021D7B00(u8 *p) {
         int v;
         if(func_021D7200((int *)(p+0x182c))!=0) return no;
         v=func_021D7184((int *)(p+0x182c));
-        func_021D81B4(p+4);
-        func_021D8010(p+4,v);
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4);
+        WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,v);
         return yes;
     }
     return no;
 }
 
 
-int func_021D7B64(u8 *p) { return func_021D80CC(p+4); }
+int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(u8 *p) { return WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(p+4); }
 
 
 /*
@@ -728,11 +728,11 @@ int func_021D7B64(u8 *p) { return func_021D80CC(p+4); }
  * evidence: 0203101C's second parameter is wide here: original 021D7C26
  * copies full r6 to r1 with no truncation; its definition stores the low halfword.
  */
-void func_021D7B70(u8 *p, short heap)
+void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, short heap)
 {
-    P(8) = func_021D821C(1, heap);
+    P(8) = WIFI_BSUBWAY_GRAPHIC_Create(1, heap);
     ((struct Obj10342 *)p)->f4 = heap;
-    func_021D7D0C(p, heap);
+    WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
     func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
     BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);
@@ -752,7 +752,7 @@ void func_021D7B70(u8 *p, short heap)
 }
 
 
-void func_021D7C58(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
     if(((struct Obj01721 *)p)->f0!=0) {
         if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
@@ -761,21 +761,21 @@ void func_021D7C58(u8 *p) {
         GF_FONT_Delete(((struct Obj01721 *)p)->f998);
         STRBUF_Delete(((struct Obj01721 *)p)->f99C);
         STRBUF_Delete(((struct Obj01721 *)p)->f9A0);
-        func_021D7FC4(p);
-        func_021D81B4(p);
+        WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(p);
+        WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p);
         if(((struct Obj01721 *)p)->f980) {
             BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
         BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
-        func_021D82AC(((struct Obj01721 *)p)->f8);
+        WIFI_BSUBWAY_GRAPHIC_Delete(((struct Obj01721 *)p)->f8);
         func_0201DD68();
         MI_CpuFill8(p,0,0x9ac);
     }
 }
 
 
-void func_021D7CF4(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *p)
 {
     if (((struct Obj13869 *)p)->f0 != 0) TCBL_Main(((struct Obj13869 *)p)->f9A8);
 }
@@ -786,7 +786,7 @@ void func_021D7CF4(u8 *p)
  *   heap the last call hoisted the heap reload above `str r6,[sp]` (10 bytes, waves D3 to D9r). The
  *   image truncates heap only for func_02049F78 (u16 cast); the other callees take it unchanged.
  */
-void func_021D7D0C(u8 *p, short heap) {
+void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(u8 *p, short heap) {
     struct Arc *res;
     u8 *pa;
     u8 *pb;
@@ -839,7 +839,7 @@ void func_021D7D0C(u8 *p, short heap) {
     }
     DWCi_ScreenDC_FlushRange(p + 0x1f4, 0x780);
     *(u32_021D7D0C *)(p + 0x10) = 1;
-    *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
+    *(void **)(p + 0xc) = func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, p + 0xc, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     p[0x978] = 0;
     ARC_TOOL_DeleteHandle(arc);
@@ -851,7 +851,7 @@ void func_021D7D0C(u8 *p, short heap) {
 }
 
 
-void func_021D7F54(void *unused,u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,u8 *p) {
     if(((struct Obj03252 *)p)->f4!=0) {
         p[0x96b]^=1;
         if((p[0x96b]&1)==0) {
@@ -865,7 +865,7 @@ void func_021D7F54(void *unused,u8 *p) {
 }
 
 
-void func_021D7FC4(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(u8 *p) {
     u32_021D7FC4 x=((struct Obj05322 *)p)->f984;
     func_0203FB44(1,(u16)x,(u16)(x>>16));
     x=((struct Obj05322 *)p)->f988;
@@ -879,7 +879,7 @@ void func_021D7FC4(u8 *p) {
 }
 
 
-void func_021D8010(void *p,u32_021D8010 a) {
+void WIFI_BSUBWAY_GRAPHIC_PrintMessage(void *p,u32_021D8010 a) {
  if(I(0x9a4)!=0) {PRINTSYS_PrintStreamDelete((void *)I(0x9a4)); I(0x9a4)=0;}
  func_02045CAC((struct MsgBank *)I(0x990),a,(void *)I(0x99c));
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
@@ -891,7 +891,7 @@ void func_021D8010(void *p,u32_021D8010 a) {
 }
 
 
-int func_021D80CC(void *p) {
+int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *p) {
  int v;
  if(((struct Obj06418 *)p)->f9A4==0) return 1;
  v=PRINTSYS_PrintStreamGetState(((struct Obj06418 *)p)->f9A4);
@@ -901,7 +901,7 @@ int func_021D80CC(void *p) {
 }
 
 
-void func_021D8118(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b)
+void WIFI_BSUBWAY_GRAPHIC_SetWord(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b)
 {
     func_0201EFA4(((struct Obj22631 *)p)->f994, i, a, b, 2, 1);
 }
@@ -911,28 +911,28 @@ void func_021D8118(u8 *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b)
  * The duplicated 021D8560 pool words require separate extern names;
  * see the duplicated-pool-word idiom.
  */
-void func_021D8134(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateYesNo(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
 
 
-u32_021D8168 func_021D8168(u8 *p) { u32_021D8168 result=-2; if(*(u8 * *)&((struct Obj10343 *)p)->f980!=0) { result=BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj10343 *)p)->f980); if(result!=-1) *(u32_021D8168 *)&((struct Obj10343 *)p)->f980=0; } return result; }
+u32_021D8168 WIFI_BSUBWAY_GRAPHIC_ProcessYesNo(u8 *p) { u32_021D8168 result=-2; if(*(u8 * *)&((struct Obj10343 *)p)->f980!=0) { result=BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj10343 *)p)->f980); if(result!=-1) *(u32_021D8168 *)&((struct Obj10343 *)p)->f980=0; } return result; }
 
 
-void func_021D8190(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }
+void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }
 
 
-void func_021D81B4(u8 *p) { if(*(u8 * *)&((struct Obj10345 *)p)->f98C!=0) { TIME_ICON_Delete(*(u8 * *)&((struct Obj10345 *)p)->f98C); *(u32_021D81B4 *)&((struct Obj10345 *)p)->f98C=0; } }
+void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(u8 *p) { if(*(u8 * *)&((struct Obj10345 *)p)->f98C!=0) { TIME_ICON_Delete(*(u8 * *)&((struct Obj10345 *)p)->f98C); *(u32_021D81B4 *)&((struct Obj10345 *)p)->f98C=0; } }
 
 
-void func_021D81D0(u8 *p) { GAME_DATA_SaveStart(((struct Obj13870 *)p)->f1844); ((struct Obj13870 *)p)->fB6A=1; }
+void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *p) { GAME_DATA_SaveStart(((struct Obj13870 *)p)->f1844); ((struct Obj13870 *)p)->fB6A=1; }
 
 
-int func_021D81EC(u8 *p) { if(((struct Obj10346 *)p)->fB6A==0) return 1; if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj10346 *)p)->f1844)==2) { ((struct Obj10346 *)p)->fB6A=0; return 1; } return 0; }
+int WIFI_BSUBWAY_GRAPHIC_UpdateSave(u8 *p) { if(((struct Obj10346 *)p)->fB6A==0) return 1; if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj10346 *)p)->f1844)==2) { ((struct Obj10346 *)p)->fB6A=0; return 1; } return 0; }
 
 
 /*
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
  */
-void *func_021D821C(int a,unsigned heap) {
+void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  void *p;
  p=func_02030734(heap,16,0,d_021D858C,0x1bc);
  MI_CpuFill8(p,0,16);
@@ -943,14 +943,14 @@ void *func_021D821C(int a,unsigned heap) {
 
  BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); func_0204363C(a);
  BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); func_0201DD60();
- func_021D8304(p,heap);
- ((struct Obj22632 *)p)->fC=func_020056A0((void *)func_021D82F8,p,0);
+ WIFI_BSUBWAY_GRAPHIC_SetupBg(p,heap);
+ ((struct Obj22632 *)p)->fC=func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);
  return p;
 }
 
 
-void func_021D82AC(void *p) {
- func_02030EAC(((struct Obj22633 *)p)->fC); func_021D8364(p); func_0201DD68();
+void WIFI_BSUBWAY_GRAPHIC_Delete(void *p) {
+ func_02030EAC(((struct Obj22633 *)p)->fC); WIFI_BSUBWAY_GRAPHIC_TeardownBg(p); func_0201DD68();
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
@@ -960,10 +960,10 @@ void func_021D82AC(void *p) {
 }
 
 
-void func_021D82F8(void *a,void *b) {func_021D839C(b);}
+void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *a,void *b) {WIFI_BSUBWAY_GRAPHIC_Draw(b);}
 
 
-void func_021D8304(void *p,unsigned heap) {
+void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
  MI_CpuFill8(p,0,4);
  func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
@@ -976,7 +976,7 @@ void func_021D8304(void *p,unsigned heap) {
 
 
 
-void func_021D8364(void *a0)
+void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
 {
     unsigned int i;
 
@@ -987,3 +987,8 @@ void func_021D8364(void *a0)
     func_0203F9B4();
     MI_CpuFill8(a0, 0, 4);
 }
+
+
+
+extern void func_020419E4(void *);
+void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { func_020419E4(p); }

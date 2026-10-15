@@ -1,7 +1,7 @@
 /*
  * file:     os_arena.c
  * unit:     yes
- * function: func_020863E0, func_020864FC, func_0208656C, func_02086580, func_02086594, func_02086694, func_02086760, func_02086774, func_02086788
+ * function: OS_InitArena, OS_InitArenaEx, OS_GetArenaHi, OS_GetArenaLo, func_02086594, func_02086694, OS_SetArenaHi, OS_SetArenaLo, OS_AllocFromArenaLo
  * address:  0x020863E0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   OS_SetProtectionRegionEx  0x02086DB0  arm
  *   OSi_InitArenaEx_ltdmain   0x027312B4  arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02085CBC 0x02085CBC arm
+ *   OS_GetConsoleType 0x02085CBC arm
  *   SDK_SYS_STACKSIZE             0x00001800  data
  *   SDK_IRQ_STACKSIZE             0x00000800  data
  *   SDK_AUTOLOAD_DTCM_START       0x02FE0000  data
@@ -32,9 +32,7 @@
  *   SDK_SECTION_ARENA_EX_START    0x02400060  data
  *   SDK_SECTION_ARENA_ITCM_START  0x01FF8820  data
  */
-typedef unsigned int u32_020863E0;
-
-typedef unsigned long u32_020864FC;
+typedef unsigned long u32;
 
 typedef long s32;
 
@@ -42,7 +40,7 @@ typedef unsigned char u8;
 
 typedef int BOOL;
 
-typedef u32_020864FC OSIntrMode;
+typedef u32 OSIntrMode;
 
 typedef enum OSArenaId {
     OS_ARENA_MAIN = 0,
@@ -79,44 +77,26 @@ typedef struct OSHeapInfo {
     HeapDesc *heapArray;
 } OSHeapInfo;
 
-typedef unsigned int u32_0208656C;
-
-typedef unsigned int u32_02086580;
-
-typedef unsigned int   u32_4;
-
-typedef unsigned int   u32_5;
-
-typedef unsigned int u32_02086760;
-
-typedef unsigned int u32_02086774;
-
-typedef unsigned int u32_02086788;
-
-extern u32_020863E0  func_02086594(u32_020863E0 a0);
-extern u32_020863E0  func_02086694(u32_020863E0 a0);
+extern u32  func_02086594(u32 a0);
+extern u32  func_02086694(u32 a0);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32_020864FC OS_GetConsoleType(void);
-extern void OS_SetArenaHi(OSArenaId id, void *newHi);
-extern void OS_SetArenaLo(OSArenaId id, void *newLo);
+extern u32 OS_GetConsoleType(void);
+extern void OS_SetArenaHi(u32 arenaId, u32 newHi);
+extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
 extern BOOL OS_IsRunOnTwl(void);
-extern void OS_SetProtectionRegionEx(int regionNo, u32_020864FC address, u32_020864FC sizeDef);
+extern void OS_SetProtectionRegionEx(int regionNo, u32 address, u32 sizeDef);
 extern void OSi_InitArenaEx_ltdmain(void);
-extern int OS_IsRunOnTwl(void);
-extern u32_4 func_02085CBC(void);
-void func_020863E0(void);
-void func_020864FC(void);
-u32_0208656C func_0208656C(u32_0208656C idx);
-u32_02086580 func_02086580(u32_02086580 idx);
+void OS_InitArena(void);
+void OS_InitArenaEx(void);
+u32 OS_GetArenaHi(u32 idx);
+u32 OS_GetArenaLo(u32 idx);
 void *OS_GetInitArenaHi(int id);
 void *OS_GetInitArenaLo(int id);
-void func_02086760(u32_02086760 idx, u32_02086760 val);
-void func_02086774(u32_02086774 idx, u32_02086774 val);
-u32_02086788 func_02086788(u32_02086788 r7, u32_02086788 r6, u32_02086788 r5);
+u32 OS_AllocFromArenaLo(u32 r7, u32 r6, u32 r5);
 typedef struct OsArenaBss {
-    u32_020863E0 isInitialized;
-    u32_020863E0 exArenaEnabled;
+    u32 isInitialized;
+    u32 exArenaEnabled;
 } OsArenaBss;
 
 extern OsArenaBss g_02151264;
@@ -132,56 +112,56 @@ extern char SDK_SECTION_ARENA_ITCM_START[];
 extern OSHeapInfo *OSiHeapInfo[OS_ARENA_MAX];
 
 
-void func_020863E0(void)
+void OS_InitArena(void)
 {
-    u32_020863E0 r5;
-    u32_020863E0 r4;
+    u32 mainArenaId;
+    u32 arenaId;
 
     if (g_02151264.isInitialized != 0) {
         return;
     }
-    r5 = 0;
+    mainArenaId = 0;
     g_02151264.isInitialized = 1;
 
-    func_02086760(r5, func_02086594(r5));
-    func_02086774(r5, func_02086694(r5));
+    OS_SetArenaHi(mainArenaId, func_02086594(mainArenaId));
+    OS_SetArenaLo(mainArenaId, func_02086694(mainArenaId));
 
-    r4 = 2;
-    func_02086774(r4, r5);
-    func_02086760(r4, r5);
+    arenaId = 2;
+    OS_SetArenaLo(arenaId, mainArenaId);
+    OS_SetArenaHi(arenaId, mainArenaId);
 
-    r4 = 3;
-    func_02086760(r4, func_02086594(r4));
-    func_02086774(r4, func_02086694(r4));
+    arenaId = 3;
+    OS_SetArenaHi(arenaId, func_02086594(arenaId));
+    OS_SetArenaLo(arenaId, func_02086694(arenaId));
 
-    r4 = 4;
-    func_02086760(r4, func_02086594(r4));
-    func_02086774(r4, func_02086694(r4));
+    arenaId = 4;
+    OS_SetArenaHi(arenaId, func_02086594(arenaId));
+    OS_SetArenaLo(arenaId, func_02086694(arenaId));
 
-    r4 = 5;
-    func_02086760(r4, func_02086594(r4));
-    func_02086774(r4, func_02086694(r4));
+    arenaId = 5;
+    OS_SetArenaHi(arenaId, func_02086594(arenaId));
+    OS_SetArenaLo(arenaId, func_02086694(arenaId));
 
-    r4 = 6;
-    func_02086760(r4, func_02086594(r4));
-    func_02086774(r4, func_02086694(r4));
+    arenaId = 6;
+    OS_SetArenaHi(arenaId, func_02086594(arenaId));
+    OS_SetArenaLo(arenaId, func_02086694(arenaId));
 }
 
 
-#define OSi_ROUND(n, a)     (((u32_020864FC)(n) + (a) - 1) & ~((a) - 1))
+#define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
 
-#define OSi_TRUNC(n, a)     (((u32_020864FC)(n)) & ~((a) - 1))
+#define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
 
 
 /*
  * sdk:      OS_InitArenaEx (os_arena.o)
  */
-void func_020864FC(void)
+void OS_InitArenaEx(void)
 {
     (void)OS_GetConsoleType();
 
-    OS_SetArenaHi(OS_ARENA_MAINEX, OS_GetInitArenaHi(OS_ARENA_MAINEX));
-    OS_SetArenaLo(OS_ARENA_MAINEX, OS_GetInitArenaLo(OS_ARENA_MAINEX));
+    OS_SetArenaHi(OS_ARENA_MAINEX, (u32)OS_GetInitArenaHi(OS_ARENA_MAINEX));
+    OS_SetArenaLo(OS_ARENA_MAINEX, (u32)OS_GetInitArenaLo(OS_ARENA_MAINEX));
 
     if (!OS_IsRunOnTwl()) {
         OS_SetProtectionRegionEx(1, 0x02000000, 0x2A);
@@ -192,32 +172,32 @@ void func_020864FC(void)
 }
 
 
-u32_0208656C func_0208656C(u32_0208656C idx)
+u32 OS_GetArenaHi(u32 arenaId)
 {
-    return *(u32_0208656C *)((idx << 2) + 0x02FFFDC4);
+    return *(u32 *)((arenaId << 2) + 0x02FFFDC4);
 }
 
 
-u32_02086580 func_02086580(u32_02086580 idx)
+u32 OS_GetArenaLo(u32 arenaId)
 {
-    return *(u32_02086580 *)((idx << 2) + 0x02FFFDA0);
+    return *(u32 *)((arenaId << 2) + 0x02FFFDA0);
 }
 
 
-void *OS_GetInitArenaHi(int id)
+void *OS_GetInitArenaHi(int arenaId)
 {
-    switch (id) {
+    switch (arenaId) {
     case OS_ARENA_MAIN:
         return OS_IsRunOnTwl() ? (void *)0x02F80000 : (void *)0x023E0000;
     case OS_ARENA_MAINEX:
         {
             void *arena;
-            u32_020863E0 type;
+            u32 type;
 
             if (g_02151264.exArenaEnabled == 0) {
                 return 0;
             }
-            type = func_02085CBC() & 0xF;
+            type = OS_GetConsoleType() & 0xF;
             if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {
@@ -235,21 +215,21 @@ void *OS_GetInitArenaHi(int id)
         return (void *)0x02000000;
     case OS_ARENA_DTCM:
         {
-            u32_020863E0 start = (u32_020863E0)SDK_AUTOLOAD_DTCM_START;
-            u32_020863E0 end = start + 0x3F80;
-            u32_020863E0 top = end - (u32_020863E0)SDK_IRQ_STACKSIZE;
+            u32 start = (u32)SDK_AUTOLOAD_DTCM_START;
+            u32 end = start + 0x3F80;
+            u32 top = end - (u32)SDK_IRQ_STACKSIZE;
             s32 sysStack = (s32)SDK_SYS_STACKSIZE;
 
             if (sysStack == 0) {
-                u32_020863E0 arena = start;
+                u32 arena = start;
 
-                if (arena < (u32_020863E0)SDK_SECTION_ARENA_DTCM_START) {
-                    arena = (u32_020863E0)SDK_SECTION_ARENA_DTCM_START;
+                if (arena < (u32)SDK_SECTION_ARENA_DTCM_START) {
+                    arena = (u32)SDK_SECTION_ARENA_DTCM_START;
                 }
                 return (void *)arena;
             }
             if (sysStack < 0) {
-                return (void *)((u32_020863E0)SDK_SECTION_ARENA_DTCM_START - sysStack);
+                return (void *)((u32)SDK_SECTION_ARENA_DTCM_START - sysStack);
             }
             return (void *)(top - sysStack);
         }
@@ -263,20 +243,20 @@ void *OS_GetInitArenaHi(int id)
 }
 
 
-void *OS_GetInitArenaLo(int id)
+void *OS_GetInitArenaLo(int arenaId)
 {
-    switch (id) {
+    switch (arenaId) {
     case OS_ARENA_MAIN:
         return OS_IsRunOnTwl() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
     case OS_ARENA_MAINEX:
         {
             void *arena;
-            u32_020863E0 type;
+            u32 type;
 
             if (g_02151264.exArenaEnabled == 0) {
                 return 0;
             }
-            type = func_02085CBC() & 0xF;
+            type = OS_GetConsoleType() & 0xF;
             if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {
@@ -304,39 +284,41 @@ void *OS_GetInitArenaLo(int id)
 }
 
 
-void func_02086760(u32_02086760 idx, u32_02086760 val)
+void OS_SetArenaHi(u32 arenaId, u32 newHi)
 {
-    *(u32_02086760 *)((idx << 2) + 0x02FFFDC4) = val;
+    *(u32 *)((arenaId << 2) + 0x02FFFDC4) = newHi;
 }
 
 
-void func_02086774(u32_02086774 idx, u32_02086774 val)
+void OS_SetArenaLo(u32 arenaId, u32 newLo)
 {
-    *(u32_02086774 *)((idx << 2) + 0x02FFFDA0) = val;
+    *(u32 *)((arenaId << 2) + 0x02FFFDA0) = newLo;
 }
 
 
-u32_02086788 func_02086788(u32_02086788 r7, u32_02086788 r6, u32_02086788 r5)
+u32 OS_AllocFromArenaLo(u32 arenaId, u32 size, u32 alignment)
 {
-    u32_02086788 r0 = func_02086580(r7);
-    u32_02086788 r1, r2, r4;
+    u32 lo = OS_GetArenaLo(arenaId);
+    u32 inv;
+    u32 mask;
+    u32 result;
 
-    if (r0 == 0) {
+    if (lo == 0) {
         return 0;
     }
-    r1 = r5 - 1;
-    r2 = ~r1;
-    r0 = r0 + r5 - 1;
-    r4 = r2 & r0;
+    inv = alignment - 1;
+    mask = ~inv;
+    lo = lo + alignment - 1;
+    result = mask & lo;
 
-    r0 = r4 + r6;
-    r0 = r0 + r5 - 1;
-    r5 = r2 & r0;
+    lo = result + size;
+    lo = lo + alignment - 1;
+    alignment = mask & lo;
 
-    if (r5 > func_0208656C(r7)) {
+    if (alignment > OS_GetArenaHi(arenaId)) {
         return 0;
     }
 
-    func_02086774(r7, r5);
-    return r4;
+    OS_SetArenaLo(arenaId, alignment);
+    return result;
 }

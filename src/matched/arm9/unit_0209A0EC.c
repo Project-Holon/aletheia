@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0209A0EC
+ * function: __kernel_sin
  * address:  0x0209A0EC
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -16,7 +16,7 @@
  *   _dfix  0x0209C508  arm
  *
  * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
- * the disasm body label func_0209A0EC: 0x0209A0EC is the compiler's
+ * the disasm body label __kernel_sin: 0x0209A0EC is the compiler's
  * `push {r0-r3}` spilling the double arguments x (r0:r1) and y (r2:r3), so
  * the body reads them from the stack and pops 16 bytes on every return.
  * Both the stub address and the body label are worklist entries, so the unit
@@ -38,7 +38,7 @@ extern double func_0209AC04(double x, double y);
 extern double func_0209AF34(double x, double y);
 extern int func_0209C508(double x);
 
-double func_0209A0EC(double x, double y, int iy)
+double __kernel_sin(double x, double y, int iy)
 {
     static const double half = 5.00000000000000000000e-01;
     static const double S1 = -1.66666666666666324348e-01;

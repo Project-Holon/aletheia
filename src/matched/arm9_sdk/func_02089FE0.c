@@ -1,5 +1,5 @@
 /*
- * function: func_02089FE0
+ * function: SNDi_SetAlarmHandler
  * address:  0x02089FE0
  * packet:   pkt_02089FE0
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct AlarmCallbackInfo {
 
 extern AlarmCallbackInfo sCallbackTable[8];
 
-unsigned char func_02089FE0(int alarmNo, SNDAlarmHandler handler, void *arg)
+unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg)
 {
     AlarmCallbackInfo *info = &sCallbackTable[alarmNo];
 

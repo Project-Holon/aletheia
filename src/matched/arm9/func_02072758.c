@@ -1,5 +1,5 @@
 /*
- * function: func_02072758
+ * function: NNS_SndBoot
  * address:  0x02072758
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Not a member of the 0x02071CDC constructor family: the subsystem's boot
- * sequence. Spins until func_02089978(0) reports ready, runs the three
+ * sequence. Spins until SND_RecvCommandReply(0) reports ready, runs the three
  * initialisers, then hands 0 to func_02089B38.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md).
@@ -26,7 +26,7 @@
  * difference is gone.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three of
- * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, func_02075858) have no
+ * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, NNSi_SndArcPlayerUpdate) have no
  * branch anywhere in the image outside this function's own 48 bytes, and
  * nothing under src/matched/ reproduces the ranges that define them, so the
  * `label` and `matched` classes both refuse. There is nothing to split: this
@@ -35,17 +35,17 @@
  * is filed EXACT elsewhere, or a second caller of one is decompiled.
  *
  * symbols:
- *   func_02089978  0x02089978  arm
+ *   SND_RecvCommandReply  0x02089978  arm
  *   NNS_SndPlayerMain  0x020731E0  arm
  *   NNS_SndMain  0x02073D7C  arm
- *   func_02075858  0x02075858  arm
+ *   NNSi_SndArcPlayerUpdate  0x02075858  arm
  *   func_02089B38  0x02089B38  arm
   *
  * 2026-09-21, unblock lane: ONE OF THE THREE BLOCKING SITES IS NOW CLEARED.
  * NNS_SndPlayerMain (the +0x18 site) was promoted to src/matched/ this pass and
  * resolves `matched x1`; the file is now MATCH* with 3 of 5 relocations
  * resolved.  The two that remain are +0x1C (NNS_SndMain, 128 bytes at
- * 0x02073D7C) and +0x20 (func_02075858, 272 bytes at 0x02075858), neither of
+ * 0x02073D7C) and +0x20 (NNSi_SndArcPlayerUpdate, 272 bytes at 0x02075858), neither of
  * which has any branch outside this function's own bytes.  Both must be
  * written and filed EXACT in their own right -- there is no second caller to
  * find for either -- and then this file promotes with no change to the C.
@@ -55,19 +55,19 @@ typedef int s32;
 
 typedef unsigned int   u32;
 struct SNDCommand;
-extern const struct SNDCommand *func_02089978(u32 flags);
+extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
 extern void NNS_SndPlayerMain(void);
 extern void NNS_SndMain(void);
-extern void func_02075858(void);
+extern void NNSi_SndArcPlayerUpdate(void);
 extern void func_02089B38(s32 a);
 
-void func_02072758(void)
+void NNS_SndBoot(void)
 {
-    while (func_02089978(0) != 0)
+    while (SND_RecvCommandReply(0) != 0)
         ;
 
     NNS_SndPlayerMain();
     NNS_SndMain();
-    func_02075858();
+    NNSi_SndArcPlayerUpdate();
     func_02089B38(0);
 }

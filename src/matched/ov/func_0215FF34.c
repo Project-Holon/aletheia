@@ -15,8 +15,8 @@
  * symbols:
  *   GAMESYSTEM_GetGameData   0x020120F4  thumb
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
- *   func_0200C404   0x0200C404  thumb
- *   func_0200C468   0x0200C468  thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys   0x0200C404  thumb
+ *   RECENT_ID_LIST_SAVEDATA_CountIds   0x0200C468  thumb
  */
 
 typedef unsigned char u8;
@@ -27,12 +27,12 @@ struct Big;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200C404(void *sys);
-extern u16 func_0200C468(const u8 *a);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
 
 int EVENT_SHORTCUT_MENU_HasShortcuts(void *sys)
 {
-    if (func_0200C468(func_0200C404(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(sys)))) != 0)
+    if (RECENT_ID_LIST_SAVEDATA_CountIds(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(sys)))) != 0)
         return 1;
 
     return 0;

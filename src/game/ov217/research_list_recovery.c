@@ -25,7 +25,7 @@
  *   ListViewState_SetMode 0x021C0DFC thumb ov217
  *   func_02030734  0x02030734  arm
  */
-#include "research_top_shared_types.h"
+#include "research_shared_types.h"
 
 /* Saved state of the research list view, 12 bytes. */
 struct ListViewState {

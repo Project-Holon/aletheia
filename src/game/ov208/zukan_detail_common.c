@@ -95,8 +95,7 @@
 #include "../../matched/include/Obj02252.h"
 #include "../../matched/include/Obj12112.h"
 #include "../../matched/include/Obj07226.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 struct Obj02021EE4;
 
@@ -104,14 +103,7 @@ struct PalAnmSlot;
 
 struct S02021D50;
 
-typedef struct {
-    char pad[0x18];
-    unsigned short *tbl;
-    char pad2[4];
-    unsigned short *idx;
-} S;
-
-struct Ov208Cur { void *blk; int f4; int f8; int fc; int f10; int f14; u16 *ids; u16 wrap; u16 pad; u16 *cur; };
+struct Ov208Cur;
 
 struct Ov208Blend {
     int plane1;
@@ -204,25 +196,25 @@ void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *
 
 void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0);
 
-int ZUKAN_DETAIL_COMMON_GetSource(int *p);
+int ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p);
 
-int ZUKAN_DETAIL_COMMON_GetDisplay(int *p);
+int ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p);
 
-int ZUKAN_DETAIL_COMMON_GetFont(int *p);
+int ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p);
 
-int ZUKAN_DETAIL_COMMON_GetGraphics(int *p);
+int ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p);
 
-int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
+int ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p);
 
-int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
+int ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p);
 
-u16 ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
+u16 ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p);
 
-unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(S *p);
+unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(struct Ov208Ctx *p);
 
-void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p);
+void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p);
 
-void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p);
+void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
@@ -289,17 +281,17 @@ extern const struct Ov208BgArc data_021C80F0[2];
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h,
                     unsigned short i, void *j)
 {
-    int *p = (int *)func_02030734(a, 0x24, 1, d_021C8D98, 0x60);
+    struct Ov208Ctx *p = (struct Ov208Ctx *)func_02030734(a, 0x24, 1, d_021C8D98, 0x60);
 
-    p[0] = (int)b;
-    p[1] = (int)c;
-    p[2] = (int)d;
-    p[3] = (int)e;
-    p[4] = (int)f;
-    p[5] = (int)g;
-    p[6] = h;
-    ((struct Obj03064 *)p)->f1C = i;
-    p[8] = (int)j;
+    p->blk = b;
+    p->display = c;
+    p->font = d;
+    p->graphics = e;
+    p->work = f;
+    p->headbar = g;
+    p->speciesTable = (unsigned short *)h;
+    p->entryCount = i;
+    p->cursorPtr = (unsigned short *)j;
     return p;
 }
 
@@ -314,79 +306,79 @@ void ZUKAN_DETAIL_COMMON_DeleteContext(void *a0)
 /*
  * Returns the word at +0 of the object.
  */
-int ZUKAN_DETAIL_COMMON_GetSource(int *p)
+int ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p)
 {
-    return p[0];
+    return (int)p->blk;
 }
 
 /*
  * Returns the word at +4.
  */
-int ZUKAN_DETAIL_COMMON_GetDisplay(int *p)
+int ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p)
 {
-    return p[1];
+    return (int)p->display;
 }
 
-int ZUKAN_DETAIL_COMMON_GetFont(int *p)
+int ZUKAN_DETAIL_COMMON_GetFont(struct Ov208Ctx *p)
 {
-    return p[2];
+    return (int)p->font;
 }
 
-int ZUKAN_DETAIL_COMMON_GetGraphics(int *p)
+int ZUKAN_DETAIL_COMMON_GetGraphics(struct Ov208Ctx *p)
 {
-    return p[3];
+    return (int)p->graphics;
 }
 
 /*
  * Returns the word at +0x10.
  */
-int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p)
+int ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p)
 {
-    return p[4];
+    return (int)p->work;
 }
 
-int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p)
+int ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p)
 {
-    return ((struct Obj18183 *)p)->f14;
+    return (int)p->headbar;
 }
 
-u16 ZUKAN_DETAIL_COMMON_GetMaxValue(char *p)
+u16 ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p)
 {
-    return ((struct Obj25414 *)p)->f1C;
+    return p->entryCount;
 }
 
 /*
  * Returns the halfword of the table at +0x18 indexed by the halfword read through the pointer at +0x20.
  */
-unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(S *p)
+unsigned short ZUKAN_DETAIL_COMMON_GetCurrentEntry(struct Ov208Ctx *p)
 {
-    return p->tbl[*p->idx];
+    return p->speciesTable[*p->cursorPtr];
 }
 
-void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(char *p)
+void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p)
 {
-    unsigned short old=**(unsigned short * *)&((struct Obj01178 *)p)->f20;
-    void *owner=ZUKAN_SAVE_GetFromGameData((void *)(*(int *)&((struct Obj01178 *)p)->f0));
+    unsigned short old=*p->cursorPtr;
+    void *owner=ZUKAN_SAVE_GetFromGameData(p->blk);
     do {
-        ++**(unsigned short * *)&((struct Obj01178 *)p)->f20;
-        if(**(unsigned short * *)&((struct Obj01178 *)p)->f20>=((struct Obj01178 *)p)->f1C)
-            **(unsigned short * *)&((struct Obj01178 *)p)->f20=0;
-        if(**(unsigned short * *)&((struct Obj01178 *)p)->f20==old)break;
-    }while(ZUKAN_SAVE_IsSeen(owner,(*(unsigned short **)(p+0x18))[**(unsigned short * *)&((struct Obj01178 *)p)->f20])==0);
+        ++*p->cursorPtr;
+        if(*p->cursorPtr>=p->entryCount)
+            *p->cursorPtr=0;
+        if(*p->cursorPtr==old)break;
+    }while(ZUKAN_SAVE_IsSeen(owner,p->speciesTable[*p->cursorPtr])==0);
 }
 
-void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Cur *p)
+void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p)
 {
-    u16 start = *p->cur;
+    u16 start = *p->cursorPtr;
     u32 h = (u32)ZUKAN_SAVE_GetFromGameData(p->blk);
     do {
-        if (*p->cur == 0)
-            *p->cur = p->wrap - 1;
+        if (*p->cursorPtr == 0)
+            *p->cursorPtr = p->entryCount - 1;
         else
-            *p->cur = *p->cur - 1;
-        if (*p->cur == start)
+            *p->cursorPtr = *p->cursorPtr - 1;
+        if (*p->cursorPtr == start)
             break;
-    } while (ZUKAN_SAVE_IsSeen((struct Blk37 *)h, p->ids[*p->cur]) == 0);
+    } while (ZUKAN_SAVE_IsSeen((struct Blk37 *)h, p->speciesTable[*p->cursorPtr]) == 0);
 }
 
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap)

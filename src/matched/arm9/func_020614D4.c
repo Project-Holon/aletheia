@@ -1,5 +1,5 @@
 /*
- * function: func_020614D4
+ * function: NNSi_GfdDefaultAllocTexVram
  * address:  0x020614D4
  * packet:   pkt_020611D4
  * region:   arm9
@@ -15,7 +15,7 @@
  *
  * The descriptor-bank allocator of the NNS G2D multi-cell VRAM manager
  * (docs/families/cluster_020611D4.h, subsystem B), installed into the
- * 0x020A8140 callback slot by func_020613D8.  Round the request to 16
+ * 0x020A8140 callback slot by NNS_GfdInitVramManager.  Round the request to 16
  * (0 -> 16), refuse >= 0x7FFF0, then
  *   which != 0: walk the TWO slots at 0x020A8150; a live slot with room
  *     picks a companion by its halfword kind -- kind 0 -> &g_020A816C[1]
@@ -56,12 +56,12 @@
  * sibling allocator func_020616CC carries.
  *
  * EXACT* (not a byte difference): the listing extent (376) runs over the
- * unlabelled 8-byte stub func_02061644 at 0x02061644, already its own
+ * unlabelled 8-byte stub NNSi_GfdDefaultFreeTexVram at 0x02061644, already its own
  * EXACT entry; the function is 348 code bytes plus a 20-byte pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020614D4.c \
- *       --func func_020614D4 --addr 0x020614D4 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_GfdDefaultAllocTexVram.c \
+ *       --func NNSi_GfdDefaultAllocTexVram --addr 0x020614D4 --arm --cc ../2.0/sp2
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -84,7 +84,7 @@ extern struct Slot g_020A816C[5];
 /* free extent of a slot, read through a signed word view */
 #define ROOM(s) ((u32)((int *)(s))[1] - (u32)((int *)(s))[0])
 
-u32 func_020614D4(u32 size, u32 which)
+u32 NNSi_GfdDefaultAllocTexVram(u32 size, u32 which)
 {
     u32 addr;
     u32 ok;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC1AC
+ * function: RESEARCH_LIST_GetScrollbarY
  * address: 0x021BC1AC
  * packet: pkt_ov217_021BC1AC
  * region: ov217
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BC3AC 0x021BC3AC thumb ov217
- *   func_021BC40C 0x021BC40C thumb ov217
+ *   RESEARCH_LIST_GetScrollY 0x021BC3AC thumb ov217
+ *   RESEARCH_LIST_GetScrollRange 0x021BC40C thumb ov217
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _fmul 0x0209C77C arm
@@ -18,17 +18,17 @@
  * 021BC40C forwards live r0 to 021BC6DC's +0x30 getter despite legacy void prototype.
  */
 typedef unsigned int   u32;
-extern int func_021BC3AC(void);
-extern int func_021BC40C(void *p);
-int func_021BC1AC(void *p)
+extern int RESEARCH_LIST_GetScrollY(void);
+extern int RESEARCH_LIST_GetScrollRange(void *p);
+int RESEARCH_LIST_GetScrollbarY(void *p)
 {
     int scroll;
     int height;
     float top;
     float span;
     int result;
-    scroll=func_021BC3AC();
-    height=func_021BC40C(p);
+    scroll=RESEARCH_LIST_GetScrollY();
+    height=RESEARCH_LIST_GetScrollRange(p);
     scroll+=24;
     height+=24;
     top=(float)scroll;

@@ -17,6 +17,20 @@ typedef struct IRCNetPacket {
 typedef int (*IRCNetRecvFn)(u16 id, u8 *data, u16 len);
 typedef int (*IRCNetFilterFn)(u8 groupId, u8 packetGroupId);
 
+/* Command byte of a link packet (IRCNetPacket.type, also passed to IRC_Send and
+ * IRCi_Send). The values were read from the flow in irc.c: IRC_Connect sends
+ * 0x56, the answer to it is 0xFA, the confirm is 0xF8, a retry request is 0xF6,
+ * a reset is 0xFC, a shutdown frame is 0xF4 and an empty keep-alive is 0xEE. */
+typedef enum IRCCommand {
+    IRC_CMD_CONNECT_REQUEST = 0x56,
+    IRC_CMD_KEEPALIVE       = 0xEE,
+    IRC_CMD_FINISH          = 0xF4,
+    IRC_CMD_RESTORE         = 0xF6,
+    IRC_CMD_CONNECT_CONFIRM = 0xF8,
+    IRC_CMD_CONNECT_ACK     = 0xFA,
+    IRC_CMD_DISCONNECT      = 0xFC
+} IRCCommand;
+
 /* State of the infrared link layer (0xE8 bytes, cleared by IRCNET_InitWork). */
 typedef struct IRCNetWork {
     IRCNetRecvFn recvCallback;   /* 0x00 */

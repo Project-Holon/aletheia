@@ -1,5 +1,5 @@
 /*
- * function: func_021ECCA4
+ * function: BOX2_SEQ_InitIconSlots
  * address:  0x021ECCA4
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -11,12 +11,12 @@
  *
  * symbols:
  *
- * candidate func_021ECCA4: clear six ints
+ * candidate BOX2_SEQ_InitIconSlots: clear six ints
  */
 #include "../include/Obj02214.h"
 
 
-void func_021ECCA4(char *p)
+void BOX2_SEQ_InitIconSlots(char *p)
 {
     ((struct Obj02214 *)p)->fA088 = -1;
     ((struct Obj02214 *)p)->fA10C = -1;

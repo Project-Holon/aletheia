@@ -1,5 +1,5 @@
 /*
- * function: func_021D7A3C
+ * function: WIFI_BSUBWAY_GRAPHIC_InitBt
  * address: 0x021D7A3C
  * packet: pkt_ov116_021D7A3C
  * region: ov116
@@ -33,7 +33,7 @@ extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata)
 extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void DPW_BT_GetServerStateAsync(void);
 extern void func_021D70E4(u8 *p);
-void func_021D7A3C(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_InitBt(u8 *p) {
     void *a=func_02009860(((struct Obj00671 *)p)->f184C);
     void *b;
     u64 value;

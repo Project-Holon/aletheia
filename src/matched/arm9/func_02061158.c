@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02061158
+ * function: NNS_FndFreeToFrmHeap
  * address:  0x02061158
  * packet:   pkt_02060CD0
  * region:   arm9
@@ -9,14 +9,18 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNSi_FndResetFrmHeapHead  0x020610A0  arm
+ *   NNSi_FndResetFrmHeapState  0x020610B4  arm
  */
 
-extern void func_020610A0(void *p);
-extern void func_020610B4(int *p);
-void func_02061158(void *p, int flags)
+extern void NNSi_FndResetFrmHeapHead(void *p);
+extern void NNSi_FndResetFrmHeapState(int *p);
+void NNS_FndFreeToFrmHeap(void *p, int flags)
 {
     if (flags & 1)
-        func_020610A0(p);
+        NNSi_FndResetFrmHeapHead(p);
     if (flags & 2)
-        func_020610B4(p);
+        NNSi_FndResetFrmHeapState(p);
 }

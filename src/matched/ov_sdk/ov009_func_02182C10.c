@@ -1,5 +1,5 @@
 /*
- * function: func_02182C10
+ * function: gsXmlWriteUnicodeStringElement
  * address:  0x02182C10
  * packet:   pkt_ov009_02182C10
  * region:   ov009
@@ -31,7 +31,7 @@ extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsUnicodeStringLen(unsigned short *str);
 extern int gsiXmlUtilWriteUnicodeString(struct GSIXmlStreamWriter *stream, unsigned short *str);
 
-int func_02182C10(void *stream, char *namespaceName, char *tag, unsigned short *value)
+int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag, unsigned short *value)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     int len = gsUnicodeStringLen(value);

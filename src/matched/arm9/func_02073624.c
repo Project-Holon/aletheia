@@ -11,8 +11,8 @@
  * symbols:
  *   gSndFreeSeqList     0x0214E00C  data
  *   gSndActiveSeqList     0x0214E018  data
- *   func_02060614  0x02060614  arm
- *   func_020605B4  0x020605B4  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
  *   NNSi_SndInsertActiveSeqPlayer  0x02073598  arm
  *
@@ -53,8 +53,8 @@ extern char gSndActiveSeqList[];
 
 struct DList;
 struct Obj_02073548;
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_020605B4(volatile struct DList *list, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 extern void NNSi_SndSeqPlayerStopNow(struct Voice *v);
 extern void NNSi_SndInsertActiveSeqPlayer(struct Obj_02073548 *obj);
 
@@ -62,15 +62,15 @@ struct Voice *NNSi_SndAllocFreeSeqPlayer(s32 pri)
 {
     struct Voice *v;
 
-    v = func_02060614((struct DList *)gSndFreeSeqList, 0);
+    v = NNS_FndGetNextListObject((struct DList *)gSndFreeSeqList, 0);
     if (v == 0) {
-        v = func_02060614((struct DList *)gSndActiveSeqList, 0);
+        v = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, 0);
         if (pri < v->b3d) {
             return 0;
         }
         NNSi_SndSeqPlayerStopNow(v);
     }
-    func_020605B4((volatile struct DList *)gSndFreeSeqList, v);
+    NNS_FndRemoveListObject((volatile struct DList *)gSndFreeSeqList, v);
     v->b3d = (u8)pri;
     NNSi_SndInsertActiveSeqPlayer((struct Obj_02073548 *)v);
     return v;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FD15C
+ * function: BR_UTIL_DeleteTextWin
  * address:  0x021FD15C
  * packet:   pkt_ov186_021FD15C
  * region:   ov186
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 
-void func_021FD15C(void *p, int a1)
+void BR_UTIL_DeleteTextWin(void *p, int a1)
 {
     BR_UTIL_Delete(p);
     BR_RES_ApplyBgSet(a1, 2);

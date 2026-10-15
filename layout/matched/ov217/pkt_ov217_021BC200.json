@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC200",
+   "name": "RESEARCH_LIST_GetScrollYFromPosition",
    "address": "0x021BC200",
    "kind": "game",
    "region": "ov217",

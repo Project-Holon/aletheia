@@ -36,7 +36,7 @@
  *   CAMERA_SetMasterInterruptCore  0x02702208  arm twl a2
  *   func_02084774  0x02084774  arm twl a2
  *   OS_EnableIrqMask  0x02084968  arm twl a2
- *   func_02085D94  0x02085D94  arm twl a2
+ *   OS_InitMessageQueue  0x02085D94  arm twl a2
  *   OS_CreateThread  0x020853C0  arm twl a2
  *   OS_WakeupThreadDirect  0x02085868  arm twl a2
  *   CameraPxiCallback  0x02701AA0  arm twl a2
@@ -143,7 +143,7 @@ extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, TwlFn);
 extern void OS_EnableIrqMask(u32);
-extern void func_02085D94(u32*, u32*, u32);
+extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
 extern void CAMERA_CameraIntr(void);
@@ -213,7 +213,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f194 = 1;
     data_02733FC8.f198 = 1;
     data_02733FC8.f19C = 0;
-    func_02085D94(data_0273417C, data_0273419C, 1);
+    OS_InitMessageQueue(data_0273417C, data_0273419C, 1);
     OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
     OS_WakeupThreadDirect(data_0273302C);
     return 0;

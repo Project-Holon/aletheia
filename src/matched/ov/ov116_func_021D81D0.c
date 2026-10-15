@@ -1,5 +1,5 @@
 /*
- * function: func_021D81D0
+ * function: WIFI_BSUBWAY_GRAPHIC_StartSave
  * address: 0x021D81D0
  * packet: pkt_ov116_021D81D0
  * region: ov116
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int GAME_DATA_SaveStart(int);
-void func_021D81D0(u8 *p) { GAME_DATA_SaveStart(((struct Obj13870 *)p)->f1844); ((struct Obj13870 *)p)->fB6A=1; }
+void WIFI_BSUBWAY_GRAPHIC_StartSave(u8 *p) { GAME_DATA_SaveStart(((struct Obj13870 *)p)->f1844); ((struct Obj13870 *)p)->fB6A=1; }

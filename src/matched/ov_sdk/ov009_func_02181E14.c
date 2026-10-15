@@ -1,5 +1,5 @@
 /*
- * function: func_02181E14
+ * function: gsiXmlUtilAttributeFree
  * address:  0x02181E14
  * packet:   pkt_ov009_02181E14
  * region:   ov009
@@ -17,6 +17,6 @@
  *           Seeded in layout/function_starts.txt.
  */
 
-void func_02181E14(void)
+void gsiXmlUtilAttributeFree(void)
 {
 }

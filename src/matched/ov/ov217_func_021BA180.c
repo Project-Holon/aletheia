@@ -1,5 +1,5 @@
 /*
- * function: func_021BA180
+ * function: RESEARCH_TOP_StartCommand
  * address:  0x021BA180
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA180(void *p, u32 v)
+void RESEARCH_TOP_StartCommand(void *p, u32 v)
 {
     ((struct Obj00511 *)p)->f18 = v;
     ((struct Obj00511 *)p)->f1C = 0;

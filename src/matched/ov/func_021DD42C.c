@@ -1,5 +1,5 @@
 /*
- * function: func_021DD42C
+ * function: BOX2_MAIN_ShiftMemberToEnd
  * address:  0x021DD42C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@ extern unsigned int POKEPARTY_GetCount(void *);
 typedef unsigned int   u32;
 struct Party;
 extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
-void func_021DD42C(int *p, unsigned char *a)
+void BOX2_MAIN_ShiftMemberToEnd(int *p, unsigned char *a)
 {
     unsigned i = ((struct Obj18447 *)a)->f4 - 0x1e;
     while (i < POKEPARTY_GetCount(*(void **)(*p + 8)) - 1) {

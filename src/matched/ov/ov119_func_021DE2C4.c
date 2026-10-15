@@ -21,7 +21,7 @@
  *   POKETRADE_PROC_IsMonValid 0x021D89EC thumb ov119
  *   POKETRADE_PROC_SetSideMon 0x021D9468 thumb ov119
  *   POKETRADE_NEGO_SetupWindowRegsOffers 0x021DEBD4 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepBrowseOffersMain 0x021DEA24 thumb ov119
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
@@ -44,7 +44,7 @@ extern void *POKETRADE_PROC_GetSideMon(void *,int);
 extern int POKETRADE_PROC_IsMonValid(const u8 *p);
 extern void POKETRADE_PROC_SetSideMon(void *,int,void *);
 extern void POKETRADE_NEGO_SetupWindowRegsOffers(void *);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
@@ -76,7 +76,7 @@ void POKETRADE_NEGO_StepReturnFromSummary(char *p)
             POKETRADE_PROC_SetSideMon(p,slot,mon);
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         WIPE_SYS_Start((void *)3,1,1,0,6,1,((struct Obj06426 *)p)->f5F4);

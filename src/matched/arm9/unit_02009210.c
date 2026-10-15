@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009210, sub_0200921C, sub_02009228, sub_02009230,
- *           sub_02009290, sub_02009294, sub_020092AC, sub_020092D0,
- *           sub_020092D8, sub_020092E0, sub_020092EC, sub_020092F8,
- *           sub_02009304, sub_02009310, sub_02009330, sub_02009348,
- *           sub_02009364, sub_02009370, sub_02009390, sub_020093A8,
- *           sub_020093C8, sub_020093CC, sub_020093D0, sub_020093D4,
- *           sub_020093D8, sub_020093F0, sub_02009418, sub_02009428
+ * function: BLOCK20_SAVEDATA_GetBlock, BLOCK20_SAVEDATA_GetBlockFromSys, BLOCK20_SAVEDATA_GetBlockSize, BLOCK20_SAVEDATA_InitBlock,
+ *           BLOCK20_SAVEDATA_GetPokemon, BLOCK20_SAVEDATA_SetPokemon, BLOCK20_SAVEDATA_TestBit, BLOCK20_SAVEDATA_SetMode,
+ *           BLOCK20_SAVEDATA_GetMode, BLOCK20_SAVEDATA_SetPending, BLOCK20_SAVEDATA_GetPending, BLOCK20_SAVEDATA_SetActive,
+ *           BLOCK20_SAVEDATA_GetActive, BLOCK20_SAVEDATA_GetEntryId, BLOCK20_SAVEDATA_GetEntryValue, BLOCK20_SAVEDATA_SetEntry,
+ *           BLOCK20_SAVEDATA_ClearEntry, BLOCK20_SAVEDATA_CountEntries, BLOCK20_SAVEDATA_GetRecord, BLOCK20_SAVEDATA_SetRecord,
+ *           BLOCK20_SAVEDATA_GetDateStamp, BLOCK20_SAVEDATA_SetDateStamp, BLOCK20_SAVEDATA_GetSavedValue, BLOCK20_SAVEDATA_SetSavedValue,
+ *           BLOCK20_SAVEDATA_GetProgress, BLOCK20_SAVEDATA_SetProgress, BLOCK20_SAVEDATA_GetFlag, BLOCK20_SAVEDATA_SetFlag
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
@@ -35,7 +35,7 @@
  *
  * The block is
  *
- *   +0x000  u32         a stamp, 0xDA010100, written through sub_020093CC
+ *   +0x000  u32         a stamp, 0xDA010100, written through BLOCK20_SAVEDATA_SetDateStamp
  *   +0x004  s32         initialised to -1
  *   +0x008  u8[0xDC]    a blob copied in and out whole
  *   +0x0E4  u16[20]     paired with
@@ -46,10 +46,10 @@
  * The bound on the two parallel arrays is off by one in the original and it is
  * off by one in both directions: the guard is `i > 20` on twenty entry arrays,
  * so index 20 writes the first byte of the array after it, while the counter
- * in sub_02009370 stops at 19.  Writing the guard as `i >= 20` costs nothing
+ * in BLOCK20_SAVEDATA_CountEntries stops at 19.  Writing the guard as `i >= 20` costs nothing
  * in the C and changes the compare, so the off-by-one is part of the match.
  *
- * sub_020092AC is the signed-index bit test: `n >> 3` is a plain `lsrs` and
+ * BLOCK20_SAVEDATA_TestBit is the signed-index bit test: `n >> 3` is a plain `lsrs` and
  * `n % 8` is the four instruction `lsrs #31` / `lsls #29` / `subs` / `rors #29`
  * sequence, which is the same split docs/MATCHING.md records for
  * sub_0200A6BC.  `& 7` would be two instructions and `/ 8` would add a rounding
@@ -61,7 +61,7 @@
  * accessors on it say so: the getters end in `lsls #0x19` / `lsrs #0x19` and
  * `lsls #0x18` / `lsrs #0x1F`, widths that are not any integer type, which is
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.  Both setters
- * take `int`, not `u8`: the `cmp #5` in sub_020093F0 is `blt` rather than
+ * take `int`, not `u8`: the `cmp #5` in BLOCK20_SAVEDATA_SetProgress is `blt` rather than
  * `blo`, and both carry a `lsls #0x18` / `lsrs #0x18` truncation to u8 in
  * front of the field mask that an already-u8 parameter does not produce.
  *
@@ -108,33 +108,33 @@ struct Sub02009210Obj {
     u8  unk1A9;
 };
 
-struct Sub02009210Obj *sub_02009210(void *sys);
-u32  sub_02009228(void);
-void sub_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
-u8   sub_02009330(const struct Sub02009210Obj *obj, int i);
-void sub_020093CC(struct Sub02009210Obj *obj, u32 value);
+struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
+u32  BLOCK20_SAVEDATA_GetBlockSize(void);
+void BLOCK20_SAVEDATA_SetEntry(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
+u8   BLOCK20_SAVEDATA_GetEntryValue(const struct Sub02009210Obj *obj, int i);
+void BLOCK20_SAVEDATA_SetDateStamp(struct Sub02009210Obj *obj, u32 value);
 
-struct Sub02009210Obj *sub_02009210(void *sys)
+struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
-struct Sub02009210Obj *sub_0200921C(void *p)
+struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlockFromSys(void *p)
 {
-    return sub_02009210(GAME_DATA_GetSaveControl(p));
+    return BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(p));
 }
 
-u32 sub_02009228(void)
+u32 BLOCK20_SAVEDATA_GetBlockSize(void)
 {
     return sizeof(struct Sub02009210Obj);
 }
 
-void sub_02009230(struct Sub02009210Obj *obj)
+void BLOCK20_SAVEDATA_InitBlock(struct Sub02009210Obj *obj)
 {
     u8 i;
 
-    MI_CpuFill8(obj, 0, sub_02009228());
-    sub_020093CC(obj, 0xDA010100);
+    MI_CpuFill8(obj, 0, BLOCK20_SAVEDATA_GetBlockSize());
+    BLOCK20_SAVEDATA_SetDateStamp(obj, 0xDA010100);
     obj->unk004 = -1;
     obj->unk1A7 = 0;
     obj->unk1A8 = 0;
@@ -145,17 +145,17 @@ void sub_02009230(struct Sub02009210Obj *obj)
     }
 }
 
-u8 *sub_02009290(struct Sub02009210Obj *obj)
+u8 *BLOCK20_SAVEDATA_GetPokemon(struct Sub02009210Obj *obj)
 {
     return obj->unk008;
 }
 
-void sub_02009294(struct Sub02009210Obj *obj, const void *src)
+void BLOCK20_SAVEDATA_SetPokemon(struct Sub02009210Obj *obj, const void *src)
 {
     MI_CpuCopy8(src, obj->unk008, func_020173EC());
 }
 
-u32 sub_020092AC(const u8 *bits, int n)
+u32 BLOCK20_SAVEDATA_TestBit(const u8 *bits, int n)
 {
     u32 ret = 1;
 
@@ -165,37 +165,37 @@ u32 sub_020092AC(const u8 *bits, int n)
     return ret;
 }
 
-void sub_020092D0(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetMode(struct Sub02009210Obj *obj, u8 value)
 {
     obj->unk1A4 = value;
 }
 
-u8 sub_020092D8(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetMode(const struct Sub02009210Obj *obj)
 {
     return obj->unk1A4;
 }
 
-void sub_020092E0(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetPending(struct Sub02009210Obj *obj, u8 value)
 {
     obj->unk1A5 = value;
 }
 
-u8 sub_020092EC(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj)
 {
     return obj->unk1A5;
 }
 
-void sub_020092F8(struct Sub02009210Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetActive(struct Sub02009210Obj *obj, u8 value)
 {
     obj->unk1A3 = value;
 }
 
-u8 sub_02009304(const struct Sub02009210Obj *obj)
+u8 BLOCK20_SAVEDATA_GetActive(const struct Sub02009210Obj *obj)
 {
     return obj->unk1A3;
 }
 
-u16 sub_02009310(const struct Sub02009210Obj *obj, int i)
+u16 BLOCK20_SAVEDATA_GetEntryId(const struct Sub02009210Obj *obj, int i)
 {
     u16 value;
 
@@ -209,7 +209,7 @@ u16 sub_02009310(const struct Sub02009210Obj *obj, int i)
     return value;
 }
 
-u8 sub_02009330(const struct Sub02009210Obj *obj, int i)
+u8 BLOCK20_SAVEDATA_GetEntryValue(const struct Sub02009210Obj *obj, int i)
 {
     u8 value;
 
@@ -223,7 +223,7 @@ u8 sub_02009330(const struct Sub02009210Obj *obj, int i)
     return value;
 }
 
-void sub_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b)
+void BLOCK20_SAVEDATA_SetEntry(struct Sub02009210Obj *obj, int i, u16 a, u8 b)
 {
     if (i > 20) {
         return;
@@ -232,25 +232,25 @@ void sub_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b)
     obj->unk10C[i] = b;
 }
 
-void sub_02009364(struct Sub02009210Obj *obj, int i)
+void BLOCK20_SAVEDATA_ClearEntry(struct Sub02009210Obj *obj, int i)
 {
-    sub_02009348(obj, i, 0, 0);
+    BLOCK20_SAVEDATA_SetEntry(obj, i, 0, 0);
 }
 
-u32 sub_02009370(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_CountEntries(const struct Sub02009210Obj *obj)
 {
     u32 count = 0;
     int i;
 
     for (i = 0; i < 20; i++) {
-        if (sub_02009330(obj, i) != 0) {
+        if (BLOCK20_SAVEDATA_GetEntryValue(obj, i) != 0) {
             count++;
         }
     }
     return count;
 }
 
-struct Sub02009210Ent *sub_02009390(struct Sub02009210Obj *obj, int i)
+struct Sub02009210Ent *BLOCK20_SAVEDATA_GetRecord(struct Sub02009210Obj *obj, int i)
 {
     if (i < 5) {
         return &obj->unk120[i];
@@ -258,34 +258,34 @@ struct Sub02009210Ent *sub_02009390(struct Sub02009210Obj *obj, int i)
     return 0;
 }
 
-void sub_020093A8(struct Sub02009210Obj *obj, int i, const void *src)
+void BLOCK20_SAVEDATA_SetRecord(struct Sub02009210Obj *obj, int i, const void *src)
 {
     if (i < 5) {
         MI_CpuCopy8(src, &obj->unk120[i], sizeof(obj->unk120[0]));
     }
 }
 
-u32 sub_020093C8(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetDateStamp(const struct Sub02009210Obj *obj)
 {
     return obj->unk000;
 }
 
-void sub_020093CC(struct Sub02009210Obj *obj, u32 value)
+void BLOCK20_SAVEDATA_SetDateStamp(struct Sub02009210Obj *obj, u32 value)
 {
     obj->unk000 = value;
 }
 
-s32 sub_020093D0(const struct Sub02009210Obj *obj)
+s32 BLOCK20_SAVEDATA_GetSavedValue(const struct Sub02009210Obj *obj)
 {
     return obj->unk004;
 }
 
-void sub_020093D4(struct Sub02009210Obj *obj, s32 value)
+void BLOCK20_SAVEDATA_SetSavedValue(struct Sub02009210Obj *obj, s32 value)
 {
     obj->unk004 = value;
 }
 
-u32 sub_020093D8(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetProgress(const struct Sub02009210Obj *obj)
 {
     u32 value = obj->unk1A6_0;
 
@@ -295,19 +295,19 @@ u32 sub_020093D8(const struct Sub02009210Obj *obj)
     return value;
 }
 
-void sub_020093F0(struct Sub02009210Obj *obj, int value)
+void BLOCK20_SAVEDATA_SetProgress(struct Sub02009210Obj *obj, int value)
 {
     if (value < 5 || value == 0x7F) {
         obj->unk1A6_0 = value;
     }
 }
 
-u32 sub_02009418(const struct Sub02009210Obj *obj)
+u32 BLOCK20_SAVEDATA_GetFlag(const struct Sub02009210Obj *obj)
 {
     return obj->unk1A6_7;
 }
 
-void sub_02009428(struct Sub02009210Obj *obj, int value)
+void BLOCK20_SAVEDATA_SetFlag(struct Sub02009210Obj *obj, int value)
 {
     obj->unk1A6_7 = value;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF754
+ * function: RESEARCH_GRAPH_SetOwner
  * address:  0x021BF754
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF754(void *p, u32 v)
+void RESEARCH_GRAPH_SetOwner(void *p, u32 v)
 {
     ((struct Obj25937 *)p)->f0 = v;
 }

@@ -14,7 +14,7 @@
  *
  * sdk:      taskSound (libdwcutil.TWL.HYB.a sound.o, static)
  * Task callback DWCi_SNDlInit (DWCi_SNDlInit) registers: a tail call to
- * func_02072758.
+ * NNS_SndBoot.
  *
  * symbols:
  *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
@@ -34,8 +34,9 @@
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   NNS_SndHandleSetVolume  0x02072F34  arm  arm9
  *   NNS_SndHandleSetTrackPitch  0x02073018  arm  arm9
- *   func_02072758  0x02072758  arm
+ *   NNS_SndBoot  0x02072758  arm
  *   NNS_SndHandleStopSeq  0x02072E7C  arm  arm9
+ *   NNS_SndArcPlayerStartSeqArc  0x02075618  arm  arm9
  */
 struct Obj;
 typedef struct SND {
@@ -61,11 +62,11 @@ extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, u
 extern void func_021D0034(void);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
-extern u32 func_02075618(u32 a, u32 b, u32 c);
+extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
 extern void NNS_SndHandleSetVolume(char *, unsigned int);
 extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
-extern void func_02072758(void);
+extern void NNS_SndBoot(void);
 void DWCi_SNDlInit(void);
 void DWCi_SNDlEnd(void);
 void DWCi_SNDlPlay(unsigned int v);
@@ -113,7 +114,7 @@ void DWCi_SNDlEnd(void)
 
 void DWCi_SNDlPlay(unsigned int v)
 {
-    func_02075618((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
+    NNS_SndArcPlayerStartSeqArc((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
 }
 
 
@@ -153,5 +154,5 @@ void DWCi_SNDlStop(void)
 
 void taskSound(void)
 {
-    func_02072758();
+    NNS_SndBoot();
 }

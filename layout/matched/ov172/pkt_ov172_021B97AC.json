@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B97AC",
+   "name": "CTVT_TALK_UpdateVoiceSend",
    "address": "0x021B97AC",
    "kind": "game",
    "region": "ov172",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9600
+ * function: RESEARCH_TOP_ReleaseProc
  * address:  0x021B9600
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,9 +12,9 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021B9884  0x021B9884  thumb  ov217
- *   func_021B98A8  0x021B98A8  thumb  ov217
- *   func_021B990C  0x021B990C  thumb  ov217
+ *   RESEARCH_TOP_DestroyCommon  0x021B9884  thumb  ov217
+ *   RESEARCH_TOP_DestroyListView  0x021B98A8  thumb  ov217
+ *   RESEARCH_TOP_ExitBackgrounds  0x021B990C  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -28,14 +28,14 @@ typedef signed int     s32;
 
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern u32 func_021B9884(u32 a0);
-extern u32 func_021B98A8(u32 a0);
-extern u32 func_021B990C();
-u32 func_021B9600(u32 a0, u32 a1, u32 a2, u32 a3)
+extern u32 RESEARCH_TOP_DestroyCommon(u32 a0);
+extern u32 RESEARCH_TOP_DestroyListView(u32 a0);
+extern u32 RESEARCH_TOP_ExitBackgrounds();
+u32 RESEARCH_TOP_ReleaseProc(u32 a0, u32 a1, u32 a2, u32 a3)
 {
-    func_021B98A8(a3);
-    func_021B9884(a3);
-    func_021B990C();
+    RESEARCH_TOP_DestroyListView(a3);
+    RESEARCH_TOP_DestroyCommon(a3);
+    RESEARCH_TOP_ExitBackgrounds();
     func_020315D4((struct S020315D4 *)a0);
     return 1;
 }

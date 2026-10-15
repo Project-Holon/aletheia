@@ -21,7 +21,7 @@ extern int gMementoHandlers[];
 /*
  * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
  * The image computes r + 0x1E
- * separately for func_021DEFEC and for the call after it; the (int) cast on
+ * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
 int *HAND_WAZA_AddMemento(int *p)

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0820
+ * function: RESEARCH_GRAPH_ClearPaletteAnime
  * address:  0x021C0820
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C0820(void *p)
+void RESEARCH_GRAPH_ClearPaletteAnime(void *p)
 {
     int i;
     for (i = 0; i < 8; i++)

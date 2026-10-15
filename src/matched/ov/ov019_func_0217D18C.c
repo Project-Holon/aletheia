@@ -18,11 +18,11 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200ED48  0x0200ED48  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02030734  0x02030734  arm
  *   POKEPARTY_Create  0x0201A920  thumb
  *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
@@ -75,11 +75,11 @@ struct Sub0200852CObj;
 struct Sub24;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200ED48(void *p);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
@@ -110,8 +110,8 @@ int UNION_ONESELF_TradeMain(u8 *a, int b, u8 *c, u8 *d)
     case 2:
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             x = (int)GAMESYSTEM_GetGameData((const struct Ctx *)((*(int **)a)[3]));
-            y = (int)func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)x));
-            func_0200ED54((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
+            y = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)x));
+            MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
             (*d)++;
         }
         break;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020610E0",
+   "name": "NNS_FndCreateFrmHeap",
    "address": "0x020610E0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061118",
+   "name": "NNS_FndDestroyFrmHeap",
    "address": "0x02061118",
    "kind": "game",
    "region": "arm9",

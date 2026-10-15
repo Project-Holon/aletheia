@@ -1,5 +1,5 @@
 /*
- * function: func_021BF764
+ * function: RESEARCH_GRAPH_SetGraphKind
  * address:  0x021BF764
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF764(void *p, u32 v)
+void RESEARCH_GRAPH_SetGraphKind(void *p, u32 v)
 {
     ((struct Obj25938 *)p)->f2CC = v;
 }

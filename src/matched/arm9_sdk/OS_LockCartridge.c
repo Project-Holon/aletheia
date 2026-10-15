@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084CFC 0x02084CFC arm
- *   func_02084DC4 0x02084DC4 arm
+ *   OSi_DoTryLockByWord 0x02084CFC arm
+ *   OSi_AllocateCartridgeBus 0x02084DC4 arm
  */
 typedef signed int     s32;
 typedef unsigned short u16;
 struct OSLockWord;
-extern s32 func_02084CFC(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void), int disableFIQ);
-extern void func_02084DC4(void);
+extern s32 OSi_DoTryLockByWord(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void), int disableFIQ);
+extern void OSi_AllocateCartridgeBus(void);
 
 s32 OS_TryLockCartridge(u16 lockID)
 {
-    return func_02084CFC(lockID, (struct OSLockWord *)0x02FFFFE8, func_02084DC4, 1);
+    return OSi_DoTryLockByWord(lockID, (struct OSLockWord *)0x02FFFFE8, OSi_AllocateCartridgeBus, 1);
 }

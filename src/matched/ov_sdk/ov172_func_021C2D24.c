@@ -19,7 +19,7 @@
  * then handed to SSP_SetJpegEncoderDateTime, which copies it out to g_021CAE14.
  *
  * symbols:
- *   g_021C8874  0x021C8874  data
+ *   gExifDateTimeFormat  0x021C8874  data
  *   SSP_GetDateTime  0x021C2D0C  arm  ov172
  *   SSP_SetJpegEncoderDateTime  0x021C2CDC  arm  ov172
  *
@@ -40,7 +40,7 @@ struct DateTime {
     u32 field18;
 };
 
-extern const char g_021C8874[];
+extern const char gExifDateTimeFormat[];
 
 int SSP_GetDateTime(void *a, void *b);
 void func_0208D7E0(char *dst, const char *fmt, ...);
@@ -54,7 +54,7 @@ int SSP_SetJpegEncoderDateTimeNow(void)
     if (SSP_GetDateTime(&d.year, &d) != 1)
         return 0;
 
-    func_0208D7E0(buf, g_021C8874,
+    func_0208D7E0(buf, gExifDateTimeFormat,
                   d.year + 0x7d0, d.month, d.day,
                   d.hour, d.min, d.sec);
     SSP_SetJpegEncoderDateTime((u8 *)buf);

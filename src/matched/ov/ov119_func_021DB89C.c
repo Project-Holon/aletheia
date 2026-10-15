@@ -1,5 +1,5 @@
 /*
- * function: func_021DB89C
+ * function: POKETRADE_PROC_DragScrollGrid
  * address: 0x021DB89C
  * packet: pkt_ov119_021DB89C
  * region: ov119
@@ -10,18 +10,18 @@
  * symbols:
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_021DB7AC 0x021DB7AC thumb ov119
+ *   POKETRADE_PROC_RedrawAndSyncGrid 0x021DB7AC thumb ov119
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
 typedef short s16;
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Obj;
-extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int),POKETRADE_PROC_RedrawAndSyncGrid(char *,int,int);
 extern int TOUCHPANEL_GetCont(void);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
-void func_021DB89C(char *p)
+void POKETRADE_PROC_DragScrollGrid(char *p)
 {
     int x,y,i;
     if(I(0xf60)) return;
@@ -34,8 +34,8 @@ void func_021DB89C(char *p)
                 H(0x107a)=(x-previous)*2;
                 H(0x1078)=x;
                 H(0x107c)-=H(0x107a);
-                if(H(0x107a)>12) func_021DB7AC(p,1,1);
-                else func_021DB7AC(p,0,1);
+                if(H(0x107a)>12) POKETRADE_PROC_RedrawAndSyncGrid(p,1,1);
+                else POKETRADE_PROC_RedrawAndSyncGrid(p,0,1);
             } else H(0x107a)=0;
         }
         H(0x1078)=x;
@@ -46,6 +46,6 @@ void func_021DB89C(char *p)
             if(H(0x107a)>0) H(0x107a)--;
         }
         H(0x107c)-=H(0x107a);
-        func_021DB7AC(p,1,1);
+        POKETRADE_PROC_RedrawAndSyncGrid(p,1,1);
     }
 }

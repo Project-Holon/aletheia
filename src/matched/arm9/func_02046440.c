@@ -25,7 +25,7 @@
  *   func_020307C8      0x020307C8  arm
  *   func_0206210C      0x0206210C  arm
  *   func_02062114      0x02062114  arm
- *   func_020613D8      0x020613D8  arm
+ *   NNS_GfdInitVramManager      0x020613D8  arm
  *   func_0206246C      0x0206246C  arm
  *   func_02062474      0x02062474  arm
  *   G3D_SYSTEM_SetProjection      0x02046858  arm
@@ -98,7 +98,7 @@ extern void  NNS_G3dGeSetBuffer(u32 *p);
 extern void  func_020307C8(void *p, u16 heap, u32 n);
 extern int func_0206210C(int v);
 extern void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void  func_020613D8(u32 mode, u32 flag);
+extern void  NNS_GfdInitVramManager(u32 mode, u32 flag);
 extern int func_0206246C(int v);
 extern void func_02062474(u32 a, u32 b, u32 c, u32 d);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
@@ -137,7 +137,7 @@ void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
         _G3dSystem->f14 = func_02030734(_G3dSystem->heap_id, size, 0, G3D_SYSTEM_FileName, 0x7e);
         func_02062114(texSize << 17, 0, (u32)_G3dSystem->f14, size, 1);
     } else {
-        func_020613D8((u16)texSize, 1);
+        NNS_GfdInitVramManager((u16)texSize, 1);
         _G3dSystem->f14 = 0;
     }
 
@@ -146,7 +146,7 @@ void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
         _G3dSystem->f10 = func_02030734(_G3dSystem->heap_id, size, 0, G3D_SYSTEM_FileName, 0x8d);
         func_02062474(plttSize << 14, (u32)_G3dSystem->f10, size, 1);
     } else {
-        func_020613D8((u16)(plttSize << 14), 1);
+        NNS_GfdInitVramManager((u16)(plttSize << 14), 1);
         _G3dSystem->f14 = 0;
     }
 

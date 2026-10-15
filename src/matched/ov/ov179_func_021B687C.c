@@ -1,5 +1,5 @@
 /*
- * function: func_021B687C
+ * function: CDEMO_SCENE_CmdStopBgm
  * address:  0x021B687C
  * packet:   pkt_ov179_021B687C
  * region:   ov179
@@ -17,7 +17,7 @@
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-int func_021B687C(void)
+int CDEMO_SCENE_CmdStopBgm(void)
 {
     GFL_USE_CancelChangeAndStopBgm();
     return 1;

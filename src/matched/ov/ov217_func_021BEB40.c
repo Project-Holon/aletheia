@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB40
+ * function: RESEARCH_GRAPH_SetHighlightSelected
  * address:  0x021BEB40
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,8 +12,8 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BF594  0x021BF594  thumb  ov217
- *   func_021BF5BC  0x021BF5BC  thumb  ov217
+ *   RESEARCH_GRAPH_StartSlotPaletteAnime  0x021BF594  thumb  ov217
+ *   RESEARCH_GRAPH_StopSlotPaletteAnime  0x021BF5BC  thumb  ov217
  *   BMP_OAM_SetPalette  0x02025A54  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -28,13 +28,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void BMP_OAM_SetPalette(u8 *g, u32 a);
-extern u32 func_021BF594();
-extern void func_021BF5BC(u8 *a0, u32 a1);
-u32 func_021BEB40(u32 a0)
+extern u32 RESEARCH_GRAPH_StartSlotPaletteAnime();
+extern void RESEARCH_GRAPH_StopSlotPaletteAnime(u8 *a0, u32 a1);
+u32 RESEARCH_GRAPH_SetHighlightSelected(u32 a0)
 {
     BMP_OAM_SetPalette((u8 *)(((struct Obj25912 *)(((u8*)a0)))->f3AC), 0);
-    func_021BF5BC((u8 *)a0, 5);
-    func_021BF5BC((u8 *)a0, 6);
-    return func_021BF594(a0, 2);
+    RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 5);
+    RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)a0, 6);
+    return RESEARCH_GRAPH_StartSlotPaletteAnime(a0, 2);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1D8
+ * function: CTVT_MIC_FreeChannel
  * address:  0x021BA1D8
  * packet:   pkt_021B6100
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void NNSi_SndWaveOutUnlockChannel(u32 *p);
 
-void func_021BA1D8(void *p)
+void CTVT_MIC_FreeChannel(void *p)
 {
     NNSi_SndWaveOutUnlockChannel((u32 *)((struct Obj24096 *)p)->f20);
 }

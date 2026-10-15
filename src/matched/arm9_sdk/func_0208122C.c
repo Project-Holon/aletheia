@@ -1,5 +1,5 @@
 /*
- * function: func_0208122C
+ * function: MATH_MD5GetHash
  * address:  0x0208122C
  * packet:   pkt_0208122C
  * region:   arm9
@@ -47,7 +47,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 /* MATH_MD5GetHash's function-local static "padding" */
 extern const u8 _ZZ15MATH_MD5GetHashP14MATHMD5ContextPvE7padding[64];
 
-void func_0208122C(MATHMD5Context *context, void *digest)
+void MATH_MD5GetHash(MATHMD5Context *context, void *digest)
 {
     unsigned long long total_length;
     u32 buffer_index;

@@ -1,5 +1,5 @@
 /*
- * function: func_02086348
+ * function: OSi_WaitVCount0
  * address:  0x02086348
  * packet:   pkt_02086348
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_02086348(void)
+asm void OSi_WaitVCount0(void)
 {
     mov r12, #0x4000000
     ldr r1, [r12, #0x208]

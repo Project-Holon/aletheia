@@ -1,5 +1,5 @@
 /*
- * function: func_021BA078
+ * function: RESEARCH_TOP_AdvanceListScroll
  * address:  0x021BA078
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA150  0x021BA150  thumb  ov217
- *   func_021BA37C  0x021BA37C  thumb  ov217
- *   func_021BA384  0x021BA384  thumb  ov217
+ *   RESEARCH_TOP_SetCommandReady  0x021BA150  thumb  ov217
+ *   RESEARCH_TOP_GetStateTimer  0x021BA37C  thumb  ov217
+ *   RESEARCH_TOP_GetStateTimerLimit  0x021BA384  thumb  ov217
  *
- * Steps the record through func_021BA150 while the running count is below
- * func_021BA37C().
+ * Steps the record through RESEARCH_TOP_SetCommandReady while the running count is below
+ * RESEARCH_TOP_GetStateTimer().
  *
  * Addresses are Black-image addresses.
  */
@@ -27,13 +27,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021BA150(void *p);
-extern u32 func_021BA37C(void *p);
-extern u32 func_021BA384(void *p);
-void func_021BA078(u32 a0)
+extern void RESEARCH_TOP_SetCommandReady(void *p);
+extern u32 RESEARCH_TOP_GetStateTimer(void *p);
+extern u32 RESEARCH_TOP_GetStateTimerLimit(void *p);
+void RESEARCH_TOP_AdvanceListScroll(u32 a0)
 {
-    u32 v1 = func_021BA384((void *)a0);
-    if (v1 < func_021BA37C((void *)a0)) {
-    func_021BA150((void *)a0);
+    u32 v1 = RESEARCH_TOP_GetStateTimerLimit((void *)a0);
+    if (v1 < RESEARCH_TOP_GetStateTimer((void *)a0)) {
+    RESEARCH_TOP_SetCommandReady((void *)a0);
     }
 }

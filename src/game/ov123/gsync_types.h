@@ -1,506 +1,117 @@
 /*
- * Object layouts for the ov123 game-sync code, built by merging the per-function views.
- * Fields are named f<hex offset>. Where views disagree on the type at an offset,
- * the fields sit in a union named u<hex offset>.
+ * Named object layouts for the ov123 Game Sync state code (gsync_state.c).
+ * Built from the per-function offset scan of the old f<offset> views.
  */
 #ifndef GSYNC_TYPES_H
 #define GSYNC_TYPES_H
 
+/*
+ * Work area of the Game Sync state proc (gsync_state.c), 0xB0 bytes.
+ * GFL_HEAP_CreateChildHeap/PROCSYS_AllocProcWork allocate it in GSYNC_STATE_ProcInit.
+ */
+typedef struct GsyncStateWork {
+    u16 heapId;                 /* 0x000, heap the child work is allocated from */
+    u8 pad_002[6];
+    int downloadWork;           /* 0x008, GSYNC_DOWNLOAD work pointer, cast when passed */
+    void *receivedMon;          /* 0x00C, box mon record built by POKE_TOOL_CreateFromBoxParam */
+    void *httpConnection;       /* 0x010, NHTTP_RAP connection handle */
+    void *displayWork;          /* 0x014, GsyncDispWork pointer */
+    void *messageWork;          /* 0x018, GsyncMessageWork pointer */
+    void *confirmMenu;          /* 0x01C, TaskMenu pointer from GSYNC_MESSAGE_OpenYesNoMenu */
+    void *connection;           /* 0x020, GsyncConn pointer, network connection record */
+    void *boxSave;              /* 0x024, box save handle for func_020076D0/func_02007A18 */
+    void *saveControl;          /* 0x028, save control returned by GAME_DATA_GetSaveControl */
+    int saveData;               /* 0x02C, save data word passed to the save API */
+    void *musicalSave;          /* 0x030, MusicalDist record built by MUSICAL_DIST_SAVE_CreateFromData */
+    void *receivedMonCopy;      /* 0x034, buffer copied back by GSYNC_STATE_CommitReceivedMon */
+    u8 *listBuffer;             /* 0x038, received-list buffer */
+    void *extraSaveBuffer;      /* 0x03C, extra save block loaded by SAVE_CONTROL_LoadExtraSaveWithBuffer */
+    void *iconBuffer;           /* 0x040, extra save icon buffer allocated by func_02030734 */
+    void *auxBuffer;            /* 0x044, spare allocation freed on exit */
+    int boxIndex;               /* 0x048, box passed to the box save helpers */
+    int slotIndex;              /* 0x04C, slot passed to the box save helpers */
+    unsigned int stateHandler;  /* 0x050, address of the next GSYNC_STATE_State* handler */
+    u8 pad_054[12];
+    int timer;                  /* 0x060, countdown timer used by the animation states */
+    int blinkTimer;             /* 0x064, %110 drives the button beep */
+    int progressStep;           /* 0x068, secondary progress counter, 0..100 */
+    int messageArg;             /* 0x06C, argument of GSYNC_MESSAGE_SetMonName */
+    int progressPercent;        /* 0x070, progress bar percent, 0..100 */
+    int waitTicks;              /* 0x074, idle counter, prints a message at 360/720/1080 */
+    int bgmWait;                /* 0x078, countdown before the ending bgm is played */
+    int entryId;                /* 0x07C, id of the current received-list entry */
+    int errorCode;              /* 0x080, error code shown by GSYNC_STATE_StateErrorMessage */
+    u8 pad_084[32];
+    u8 wantExtraSave;           /* 0x0A4, extra save block requested */
+    u8 wantMusicalSave;         /* 0x0A5, musical save requested */
+    u8 wantRecordSave;          /* 0x0A6, trainer record save requested */
+    u8 downloadKind;            /* 0x0A7, 0 extra save, 1 musical save, 2 record save */
+    u8 downloadFlags;           /* 0x0A8, bit0 musical, bit1 extra, bit2 record */
+    u8 hasListEntry;            /* 0x0A9, GSYNC_STATE_GetListEntry result */
+    u8 monStored;               /* 0x0AA, set by GSYNC_STATE_StateStoreReceivedMon */
+    u8 saveInProgress;          /* 0x0AB, set while a save is running */
+    u8 responsePending;         /* 0x0AC, response flag copied from func_020092EC */
+    u8 saveActive;              /* 0x0AD, save must be cancelled on input */
+    u8 netDone;                 /* 0x0AE, network step finished */
+    u8 responseValid;           /* 0x0AF, last response was accepted */
+} GsyncStateWork;
 
-struct GsyncObj171 {
-    unsigned char pad_0[12];
-    unsigned int fC;
-    unsigned char pad_10[24];
-    unsigned int f28;
-    unsigned char pad_2C[20];
-    void * f40;
-    unsigned char pad_44[24];
-    unsigned int f5C;
-    unsigned char pad_60[72];
-    void * fA8;
-    unsigned char pad_AC[17176];
-    unsigned short f43C4;
-};
+/*
+ * Network connection record of the Game Sync state proc (also the init parameter
+ * and the received-list header). Every view of this object shares this layout.
+ */
+typedef struct GsyncConn {
+    int statusWord;             /* 0x000, response status read as a word */
+    void *saveData;             /* 0x004, save data handle passed to the save API */
+    u8 pad_008[4];
+    u16 rapState;               /* 0x00C, NHTTP RAP state */
+    u8 pad_00E[0x42];
+    int rapFlags;               /* 0x050, NHTTP RAP flag word */
+    u16 listFlags;              /* 0x054, received-list header flags */
+    u8 pad_056[0x2A];
+    u16 responseCode;           /* 0x080, response code of the received buffer */
+    u8 pad_082[0x146];
+    int state;                  /* 0x1C8, connection state 0..7 */
+    u8 pad_1CC[4];
+    u16 boxIndex;               /* 0x1D0, box of the request */
+    u16 slotIndex;              /* 0x1D2, slot of the request */
+} GsyncConn;
 
-struct GsyncObj172 {
-    unsigned char pad_0[12];
-    void * fC;
-};
+/* Response record of the NHTTP receive buffer. */
+typedef struct GsyncHttpResponse {
+    int resultCode;             /* 0x00 */
+} GsyncHttpResponse;
 
-struct GsyncObj173 {
-    unsigned char pad_0[456];
-    int f1C8;
-};
+/* Header of the received mon in GSYNC_STATE_StateSaveStart. */
+typedef struct GsyncMonHeader {
+    u16 unknown_00;             /* 0x00 */
+    u16 species;                /* 0x02, species argument of GSYNC_STATE_BuildMonEntry */
+    u16 arg;                    /* 0x04, second species argument */
+} GsyncMonHeader;
 
-struct GsyncObj174 {
-    unsigned char pad_0[4];
-    void * f4;
-};
+/* One 8-byte entry of the received-list buffer. */
+typedef struct GsyncListEntry {
+    u16 unknown_00;             /* 0x00 */
+    u16 unknown_02;             /* 0x02 */
+    u16 species;                /* 0x04 */
+    u16 arg;                    /* 0x06 */
+    u8 form;                    /* 0x08 */
+    u8 gender;                  /* 0x09 */
+    u8 value;                   /* 0x0A */
+    u8 unknown_0B;              /* 0x0B */
+} GsyncListEntry;
 
-struct GsyncObj175 {
-    unsigned char pad_0[80];
-    int f50;
-    unsigned char pad_54[372];
-    int f1C8;
-};
+/* Message id table indexed by the download kind. */
+typedef struct GsyncMessageIdTable {
+    int ids[8];                 /* 0x00 */
+} GsyncMessageIdTable;
 
-struct GsyncObj176 {
-    unsigned char pad_0[456];
-    int f1C8;
-};
-
-struct GsyncObj177 {
-    unsigned char pad_0[456];
-    int f1C8;
-};
-
-typedef struct GsyncStateObj1 {
-    unsigned short f0;
-    unsigned char pad2[6];
-    int f8;
-    void *fC;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    void *f20;
-    void *f24;
-    void *f28;
-    int f2C;
-    void *f30;
-    void *f34;
-    int f38;
-    void *f3C;
-    void *f40;
-    void *f44;
-    int f48;
-    int f4C;
-    unsigned int f50;
-    unsigned char pad54[12];
-    int f60;
-    int f64;
-    int f68;
-    int f6C;
-    int f70;
-    int f74;
-    int f78;
-    int f7C;
-    int f80;
-    unsigned char pad84[32];
-    unsigned char fA4;
-    unsigned char fA5;
-    unsigned char fA6;
-    unsigned char fA7;
-    unsigned char fA8;
-    unsigned char padA9[1];
-    unsigned char fAA;
-    unsigned char fAB;
-    unsigned char fAC;
-    unsigned char fAD;
-    unsigned char fAE;
-    unsigned char fAF;
-    unsigned char padB0[4];
-    int fB4;
-    int fB8;
-    unsigned char padBC[12];
-    int fC8;
-    int fCC;
-    int fD0;
-    unsigned char padD4[17536];
-    int f4554;
-    int f4558;
-} GsyncStateObj1;
-
-typedef struct GsyncStateObj2 {
-    unsigned int f0;
-    unsigned int f4;
-    unsigned int f8;
-    void *fC;
-    void *f10;
-    void *f14;
-    unsigned char pad18[4];
-    void *f1C;
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-    void *f3C;
-    void *f40;
-    void *f44;
-    void *f48;
-    void *f4C;
-    void *f50;
-    void *f54;
-    void *f58;
-    void *f5C;
-    unsigned char pad60[12];
-    void *f6C;
-    unsigned char pad70[12];
-    void *f7C;
-    void *f80;
-    void *f84;
-    void *f88;
-    void *f8C;
-    void *f90;
-    unsigned char pad94[16];
-    void *fA4;
-    void *fA8;
-    void *fAC;
-    unsigned char padB0[4];
-    void *fB4;
-    void *fB8;
-    unsigned char padBC[17160];
-    unsigned short f43C4;
-    short f43C6;
-    unsigned char pad43C8[404];
-    int f455C;
-} GsyncStateObj2;
-
-typedef struct GsyncStateObj3 {
-    void *f0;
-    void *f4;
-    int f8;
-    unsigned short fC;
-    unsigned char padE[10];
-    void *f18;
-    unsigned char pad1C[4];
-    void *f20;
-    void *f24;
-    void *f28;
-    unsigned char pad2C[4];
-    void *f30;
-    unsigned char pad34[4];
-    void *f38;
-    void *f3C;
-    unsigned int f40;
-    unsigned char pad44[4];
-    void *f48;
-    unsigned char pad4C[8];
-    unsigned short f54;
-    unsigned char pad56[42];
-    unsigned short f80;
-    unsigned char pad82[6];
-    unsigned int f88;
-    unsigned char pad8C[4];
-    void *f90;
-    unsigned char pad94[28];
-    unsigned short fB0;
-    unsigned char padB2[278];
-    unsigned int f1C8;
-    unsigned char pad1CC[4];
-    unsigned short f1D0;
-    unsigned short f1D2;
-    unsigned char pad1D4[80];
-    void *f224;
-    void *f228;
-    void *f22C;
-    void *f230;
-    unsigned int f234;
-    void *f238;
-    void *f23C;
-    unsigned short f240;
-    unsigned char pad242[6];
-    void *f248;
-    unsigned short f24C;
-    unsigned char pad24E[6];
-    void *f254;
-    void *f258;
-    unsigned char pad25C[4];
-    void *f260;
-    void *f264;
-    unsigned char pad268[8];
-    unsigned int f270;
-    unsigned char pad274[4];
-    unsigned int f278;
-    unsigned int f27C;
-    void *f280;
-    void *f284;
-    void *f288;
-    unsigned char pad28C[4];
-    void *f290;
-    void *f294;
-    void *f298;
-    unsigned char pad29C[4];
-    void *f2A0;
-    unsigned char pad2A4[8];
-    void *f2AC;
-    void *f2B0;
-    unsigned char pad2B4[17072];
-    int f4564;
-} GsyncStateObj3;
-
-typedef struct GsyncStateObj4 {
-    unsigned short f0;
-    unsigned char pad2[6];
-    void *f8;
-    void *fC;
-    void *f10;
-    void *f14;
-    unsigned char pad18[4];
-    void *f1C;
-    void *f20;
-    unsigned char pad24[4];
-    int f28;
-    unsigned char pad2C[4];
-    int f30;
-    unsigned char pad34[56];
-    int f6C;
-    unsigned int f70;
-} GsyncStateObj4;
-
-typedef struct GsyncStateObj5 {
-    unsigned char pad0[4];
-    int f4;
-    int f8;
-    unsigned char padC[20];
-    void *f20;
-    unsigned char pad24[4];
-    void *f28;
-    void *f2C;
-    unsigned char pad30[20];
-    void *f44;
-    void *f48;
-    void *f4C;
-    unsigned char pad50[48];
-    void *f80;
-    void *f84;
-    void *f88;
-    unsigned char pad8C[36];
-    unsigned short fB0;
-} GsyncStateObj5;
-
-typedef struct GsyncStateObj6 {
-    unsigned char pad0[8];
-    int f8;
-    unsigned char padC[24];
-    void *f24;
-    void *f28;
-    unsigned char pad2C[4];
-    void *f30;
-    unsigned char pad34[4];
-    void *f38;
-    unsigned int f3C;
-    unsigned char pad40[484];
-    void *f224;
-    void *f228;
-    void *f22C;
-    void *f230;
-    void *f234;
-    void *f238;
-    unsigned char pad23C[24];
-    void *f254;
-    unsigned char pad258[12];
-    void *f264;
-    int f268;
-    unsigned char pad26C[12];
-    int f278;
-    int f27C;
-    void *f280;
-    void *f284;
-    void *f288;
-    int f28C;
-    void *f290;
-    void *f294;
-    void *f298;
-    unsigned char pad29C[16];
-    void *f2AC;
-    void *f2B0;
-} GsyncStateObj6;
-
-typedef struct GsyncStateObj8 {
-    void *f0;
-    void *f4;
-    void *f8;
-    unsigned char padC[20];
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    unsigned char pad34[84];
-    void *f88;
-    unsigned int f8C;
-    unsigned char pad90[28];
-    void *fAC;
-    unsigned short fB0;
-} GsyncStateObj8;
-
-typedef struct GsyncStateObj10 {
-    unsigned char pad0[8];
-    void *f8;
-    void *fC;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    unsigned char pad20[16];
-    void *f30;
-    unsigned char pad34[4];
-    void *f38;
-    void *f3C;
-    void *f40;
-    void *f44;
-} GsyncStateObj10;
-
-typedef struct GsyncStateObj12 {
-    unsigned char pad0[8];
-    void *f8;
-    void *fC;
-    unsigned char pad10[2412];
-    void *f97C;
-    void *f980;
-    void *f984;
-    unsigned char pad988[92];
-    unsigned short f9E4;
-} GsyncStateObj12;
-
-typedef struct GsyncStateObj13 {
-    unsigned char pad0[4];
-    int f4;
-    unsigned char pad8[2400];
-    short f968;
-    unsigned char pad96A[1];
-    unsigned char f96B;
-    unsigned char f96C;
-} GsyncStateObj13;
-
-typedef struct GsyncStateObj14 {
-    void *f0;
-    int f4;
-    unsigned short f8;
-    unsigned char padA[2];
-    int fC;
-    int f10;
-} GsyncStateObj14;
-
-typedef struct GsyncStateObj15 {
-    unsigned char pad0[12];
-    unsigned int fC;
-    unsigned char pad10[20];
-    unsigned int f24;
-    unsigned char pad28[20];
-    void *f3C;
-    unsigned char pad40[24];
-    unsigned int f58;
-    unsigned char pad5C[80];
-    void *fAC;
-    unsigned char padB0[17172];
-    unsigned short f43C4;
-} GsyncStateObj15;
-
-typedef struct GsyncStateObj16 {
-    unsigned int f0;
-    unsigned int f4;
-    unsigned char pad8[704];
-    int f2C8;
-} GsyncStateObj16;
-
-typedef struct GsyncStateObj17 {
-    unsigned char pad0[12];
-    unsigned int fC;
-    unsigned char pad10[16];
-    unsigned int f20;
-    unsigned char pad24[20];
-    void *f38;
-    unsigned char pad3C[24];
-    unsigned int f54;
-    unsigned char pad58[17260];
-    unsigned short f43C4;
-} GsyncStateObj17;
-
-typedef struct GsyncStateObj18 {
-    unsigned char pad0[116];
-    void *f74;
-} GsyncStateObj18;
-
-typedef struct GsyncStateObj19 {
-    int f0;
-} GsyncStateObj19;
-
-typedef struct GsyncStateObj20 {
-    unsigned char pad0[2480];
-    void *f9B0;
-} GsyncStateObj20;
-
-typedef struct GsyncStateObj21 {
-    unsigned char pad0[4];
-    unsigned short f4;
-    unsigned short f6;
-} GsyncStateObj21;
-
-typedef struct GsyncStateObj22 {
-    unsigned char pad0[12];
-    unsigned short fC;
-    unsigned char padE[66];
-    int f50;
-    unsigned char pad54[372];
-    int f1C8;
-} GsyncStateObj22;
-
-typedef struct GsyncStateObj23 {
-    unsigned char pad0[12];
-    void *fC;
-} GsyncStateObj23;
-
-typedef struct GsyncStateObj24 {
-    unsigned char pad0[20];
-    void *f14;
-} GsyncStateObj24;
-
-typedef struct GsyncStateObj26 {
-    unsigned char pad0[12];
-    unsigned short fC;
-    unsigned char padE[66];
-    int f50;
-} GsyncStateObj26;
-
-typedef struct GsyncStateObj27 {
-    unsigned char pad0[12];
-    unsigned short fC;
-    unsigned char padE[66];
-    int f50;
-} GsyncStateObj27;
-
-typedef struct GsyncStateObj28 {
-    unsigned char pad0[2];
-    unsigned short f2;
-    unsigned short f4;
-} GsyncStateObj28;
-
-typedef struct GsyncStateObj29 {
-    unsigned char pad0[456];
-    int f1C8;
-} GsyncStateObj29;
-
-typedef struct GsyncStateObj30 {
-    unsigned char pad0[12];
-    void *fC;
-} GsyncStateObj30;
-
-typedef struct GsyncStateObj31 {
-    unsigned char pad0[9728];
-    unsigned short f2600;
-} GsyncStateObj31;
-
-typedef struct GsyncStateObj32 {
-    unsigned char pad0[25088];
-    unsigned short f6200;
-} GsyncStateObj32;
-
-typedef struct GsyncStateObj33 {
-    int f0;
-} GsyncStateObj33;
-
-typedef struct GsyncStateObj34 {
-    int f0;
-} GsyncStateObj34;
-
-typedef struct GsyncStateObj35 {
-    unsigned char pad0[16];
-    int f10;
-} GsyncStateObj35;
+/* RTC date record used by func_0203F4E4 and func_0203F540. */
+typedef struct GsyncRtcDate {
+    u32 year;                   /* 0x00 */
+    u32 month;                  /* 0x04 */
+    u32 day;                    /* 0x08 */
+    u32 week;                   /* 0x0C */
+} GsyncRtcDate;
 
 #endif

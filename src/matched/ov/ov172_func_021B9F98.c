@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F98
+ * function: CTVT_TALK_GetMic
  * address:  0x021B9F98
  * packet:   pkt_ov172_021B9F98
  * region:   ov172
@@ -14,7 +14,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021B9F98(int unused, int *p)
+int CTVT_TALK_GetMic(int unused, int *p)
 {
     return p[4];
 }

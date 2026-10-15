@@ -1,5 +1,5 @@
 /*
- * function: func_021B68A0
+ * function: CDEMO_SCENE_CmdReset
  * address:  0x021B68A0
  * packet:   pkt_ov179_021B68A0
  * region:   ov179
@@ -13,7 +13,7 @@
  * data.  Entry of the ov179 command table (pool word 0x021B68A1 at 0x021B6A88).
  */
 #include "../include/Obj03875.h"
-int func_021B68A0(char *p)
+int CDEMO_SCENE_CmdReset(char *p)
 {
     ((struct Obj03875 *)p)->f603C = 0;
     ((struct Obj03875 *)p)->f603E = 0;

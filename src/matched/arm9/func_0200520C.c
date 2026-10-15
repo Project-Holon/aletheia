@@ -12,6 +12,7 @@
  * symbols:
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   GFL_USE_CallVBlankHook  0x02005640  thumb
+ *   MI_WaitDma  0x02082594  arm
  *
  * One of the three callers of the boot path's scene switch (.text init
  * helpers): run GFL_USE_CallVBlankHook, set bit 0 of the word at the end of the
@@ -36,12 +37,12 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void GFL_USE_CallVBlankHook(void);
-extern void func_02082594(u32 dmaNo);
+extern void MI_WaitDma(u32 dmaNo);
 extern u32  SDK_AUTOLOAD_MAIN_TWL_START[];
 
 void GFL_USE_VBlankHandler(void)
 {
     GFL_USE_CallVBlankHook();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
-    func_02082594(3);
+    MI_WaitDma(3);
 }

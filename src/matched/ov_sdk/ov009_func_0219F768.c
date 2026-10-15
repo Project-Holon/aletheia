@@ -1,5 +1,5 @@
 /*
- * function: func_0219F768
+ * function: SBServerListRemoveAt
  * address:  0x0219F768
  * packet:   pkt_ov009_0219F768
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   func_02184208  0x02184208  arm  ov009
  *   func_0218437C  0x0218437C  arm  ov009
- *   func_0219F738  0x0219F738  arm  ov009
+ *   AddServerToDeadlist  0x0219F738  arm  ov009
  */
 
 struct SBS;
@@ -31,12 +31,12 @@ extern void *func_02184208(void *a, int n);
 extern void func_0218437C(int a, int b);
 struct SBServer;
 struct SBServerList;
-extern void func_0219F738(struct SBServerList *slist, struct SBServer *server);
-void func_0219F768(struct SBL *slist, int index)
+extern void AddServerToDeadlist(struct SBServerList *slist, struct SBServer *server);
+void SBServerListRemoveAt(struct SBL *slist, int index)
 {
 	struct SBS *server;
 	server = *(struct SBS **)func_02184208(slist->servers, index);
 	slist->cb(slist, 2, server, slist->ud);
 	func_0218437C((int)slist->servers, index);
-	func_0219F738((struct SBServerList *)slist, (struct SBServer *)server);
+	AddServerToDeadlist((struct SBServerList *)slist, (struct SBServer *)server);
 }

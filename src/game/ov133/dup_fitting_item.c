@@ -1,7 +1,7 @@
 /*
  * file:     dup_fitting_item.c
  * unit:     yes
- * function: func_021B6100, func_021B6294, func_021B63BC, func_021B6884, func_021B69AC, func_021B6BA4, func_021B6E4C, func_021B6E74, func_021B6F00, func_021B7368, func_021B7458, func_021B7498, func_021B75E0, func_021B765C, func_021B7A18, func_021B7A70, func_021B7CFC, func_021B7F00, func_021B7F54, func_021B8140, func_021B8254, func_021B82E8, func_021B8444, func_021B8680, func_021B8930, func_021B8A30, func_021B8AC8, func_021B8B78, func_021B8BB4, func_021B8C6C, func_021B8FA8, func_021B8FF4, func_021B9028, func_021B9118, func_021B918C, func_021B940C, func_021B94C0, func_021B952C, func_021B95AC, func_021B96D8, func_021B9784, func_021B9818, func_021B987C, func_021B98A0, func_021B9990, func_021B9A88, func_021B9AC0, func_021B9B48, func_021B9BD0, func_021B9C08, func_021B9C90, func_021B9CBC, func_021B9D54, func_021B9DE8, func_021B9F24, func_021B9F5C, func_021BA098, func_021BA0C8, func_021BA0CC, func_021BA0F8, func_021BA100, func_021BA124, func_021BA148, func_021BA184, func_021BA188, func_021BA18C, func_021BA19C, func_021BA1D8, func_021BA1EC, func_021BA208, func_021BA20C, func_021BA210, func_021BA214, func_021BA218, func_021BA21C, func_021BA228, func_021BA22C, func_021BA238, func_021BA23C, func_021BA240, func_021BA244, func_021BA248, func_021BA24C, func_021BA250, func_021BA254, func_021BA258, func_021BA25C
+ * function: func_021B6100, func_021B6294, func_021B63BC, func_021B6884, func_021B69AC, func_021B6BA4, func_021B6E4C, func_021B6E74, func_021B6F00, func_021B7368, func_021B7458, func_021B7498, func_021B75E0, func_021B765C, func_021B7A18, func_021B7A70, func_021B7CFC, func_021B7F00, func_021B7F54, func_021B8140, func_021B8254, func_021B82E8, func_021B8444, func_021B8680, func_021B8930, func_021B8A30, func_021B8AC8, func_021B8B78, func_021B8BB4, func_021B8C6C, func_021B8FA8, func_021B8FF4, func_021B9028, func_021B9118, func_021B918C, func_021B940C, func_021B94C0, func_021B952C, func_021B95AC, func_021B96D8, func_021B9784, func_021B9818, func_021B987C, func_021B98A0, func_021B9990, func_021B9A88, func_021B9AC0, func_021B9B48, func_021B9BD0, func_021B9C08, func_021B9C90, func_021B9CBC, func_021B9D54, func_021B9DE8, func_021B9F24, func_021B9F5C, func_021BA098, func_021BA0C8, func_021BA0CC, func_021BA0F8, func_021BA100, func_021BA124, func_021BA148, func_021BA184, func_021BA188, func_021BA18C, func_021BA19C, func_021BA1D8, func_021BA1EC, func_021BA208, func_021BA20C, func_021BA210, func_021BA214, func_021BA218, func_021BA21C, func_021BA228, func_021BA22C, func_021BA238, func_021BA23C, func_021BA240, func_021BA244, func_021BA248, func_021BA24C, func_021BA250, func_021BA254, func_021BA258, func_021BA25C, func_021BA324
  * address:  0x021B6100
  * region:   ov133
  * compiler: dsi/1.1p1
@@ -215,7 +215,6 @@
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021BA324 0x021BA324 thumb ov133
  *   func_0207CFB8 0x0207CFB8 arm
  *   func_0200A604 0x0200A604 thumb
  *   func_020413B0 0x020413B0 arm
@@ -3298,4 +3297,28 @@ int func_021BA25C(u8 *p, int x, int y)
     }
     if (rx < 16 && rx > -16 && ry < 16 && ry > -16) return 1;
     return 0;
+}
+
+unsigned int func_021BA324(u8 *p, int x, int y)
+{
+    s16_021BA25C s;
+    int pos[2];
+    u16 angle;
+    s16_021BA25C c;
+    int dx, dy;
+    s16_021BA25C rx, ry;
+    func_021F4F04((u8 *)((struct Obj04524 *)p)->fC, (Pair_021B8140 *)pos);
+    if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
+        func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
+        s = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2];
+        c = ((const s16_021BA25C *)FX_SinCosTable_)[(angle >> 4) * 2 + 1];
+        dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
+        dy = (int)((float)(pos[0] * s + pos[1] * c) / 4096.0f);
+        rx = ((struct Obj04524 *)p)->f10 - dx - x;
+        ry = ((struct Obj04524 *)p)->f14 - dy - y;
+    } else {
+        rx = ((struct Obj04524 *)p)->f10 - x;
+        ry = ((struct Obj04524 *)p)->f14 - y;
+    }
+    return rx * rx + ry * ry;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5F8
+ * function: RESEARCH_TOP_CreateMessages
  * address:  0x021BA5F8
  * packet:   pkt_ov217_021BA5F8
  * region:   ov217
@@ -21,7 +21,7 @@ struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 d_021C2ED8[];
 
-void func_021BA5F8(char *self)
+void RESEARCH_TOP_CreateMessages(char *self)
 {
     int i = 0;
     do {

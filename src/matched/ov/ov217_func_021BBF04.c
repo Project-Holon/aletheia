@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF04
+ * function: RESEARCH_LIST_GetRowOffset
  * address:  0x021BBF04
  * packet:   pkt_021B9850
  * region:   ov217
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBC50  0x021BBC50  thumb  ov217
+ *   RESEARCH_LIST_FindSaveIndex  0x021BBC50  thumb  ov217
  *
- * Returns 2, or 1 when func_021BBC50() reports the caller's own a1.
+ * Returns 2, or 1 when RESEARCH_LIST_FindSaveIndex() reports the caller's own a1.
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u8 func_021BBC50(u8 *p);
-u32 func_021BBF04(u32 a0, u32 a1)
+extern u8 RESEARCH_LIST_FindSaveIndex(u8 *p);
+u32 RESEARCH_LIST_GetRowOffset(u32 a0, u32 a1)
 {
     u8 v = 2;
-    if (a1 == func_021BBC50((u8 *)a0)) {
+    if (a1 == RESEARCH_LIST_FindSaveIndex((u8 *)a0)) {
     v -= 1;
     }
     return v;

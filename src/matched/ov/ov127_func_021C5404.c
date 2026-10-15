@@ -10,7 +10,7 @@
  * symbols:
  *   func_021C49A4 0x021C49A4 thumb ov127
  *   func_021C54EC 0x021C54EC thumb ov127
- *   func_021C5550 0x021C5550 thumb ov127
+ *   WF2DMAP_ACTOR_FIND_HasMatch 0x021C5550 thumb ov127
  *   func_021C5564 0x021C5564 thumb ov127
  */
 #include "../include/Obj04502.h"
@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern int func_021C54EC(void *, void *, int);
-extern int func_021C5550(void *, void *, int);
+extern int WF2DMAP_ACTOR_FIND_HasMatch(void *, void *, int);
 extern void func_021C5564(u8 *out, void *p, int kind, int index, int value);
 int func_021C5404(void *p, void *q, void *r, const u8 *s, void *t)
 {
     int v = func_021C49A4(p, 5);
-    if (v == 0 && func_021C54EC(p, q, s[2]) != 1 && func_021C5550(p, r, s[2]) != 1) {
+    if (v == 0 && func_021C54EC(p, q, s[2]) != 1 && WF2DMAP_ACTOR_FIND_HasMatch(p, r, s[2]) != 1) {
         func_021C5564(t, p, ((struct Obj04502 *)s)->f0, s[3], s[2]);
         return 1;
     }

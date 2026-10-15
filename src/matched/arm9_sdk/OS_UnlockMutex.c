@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02086164 0x02086164 arm
+ *   OSi_UnlockMutexCore 0x02086164 arm
  */
 
-extern void func_02086164(void);
+extern void OSi_UnlockMutexCore(void);
 asm void OS_UnlockMutex(void)
 {
-    ldr ip, =func_02086164
+    ldr ip, =OSi_UnlockMutexCore
     mov r1, #0x10000000
     bx ip
 }

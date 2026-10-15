@@ -1,5 +1,5 @@
 /*
- * function: func_020898A8
+ * function: SND_CommandInit
  * address:  0x020898A8
  * packet:   pkt_020898A8
  * region:   arm9
@@ -63,7 +63,7 @@ extern SNDCommand *SND_AllocCommand(u32 flags);
 extern void SND_PushCommand(SNDCommand *command);
 extern int SND_FlushCommand(u32 flags);
 
-void func_020898A8(void)
+void SND_CommandInit(void)
 {
     SNDCommand *command;
     int i;

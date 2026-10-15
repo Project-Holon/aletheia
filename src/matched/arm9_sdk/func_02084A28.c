@@ -1,5 +1,5 @@
 /*
- * function: func_02084A28
+ * function: OS_IsResetOccurred
  * address:  0x02084A28
  * packet:   pkt_02084A28
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct OsPxiBss OsPxiBss;
 
 extern struct OsPxiBss g_02150FC8;
 
-BOOL func_02084A28(void)
+BOOL OS_IsResetOccurred(void)
 {
     return g_02150FC8.OSi_IsResetOccurred;
 }

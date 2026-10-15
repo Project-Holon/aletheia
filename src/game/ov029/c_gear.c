@@ -551,7 +551,6 @@ void C_GEAR_HideCommIndicator(CGearWork *work);
 void C_GEAR_HideOffIndicator(CGearWork *work);
 void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette);
 int C_GEAR_StepFadeFx(CGearFadeFx *fx);
-struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
 int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req);
 void C_GEAR_DeleteActorSlots(CGearWork *work);
 int C_GEAR_AreActorSlotsIdle(CGearWork *work);

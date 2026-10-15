@@ -1,5 +1,5 @@
 /*
- * function: func_021DA1DC
+ * function: POKETRADE_PROC_StepSendAddOffer
  * address: 0x021DA1DC
  * packet: pkt_ov119_021DA1DC
  * region: ov119
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_PROC_StepAddSelectedOffer(char *p);
-void func_021DA1DC(char *p) {
+void POKETRADE_PROC_StepSendAddOffer(char *p) {
     int v=0;
     int n;
     if(((struct Obj08053 *)p)->fF88==((struct Obj08053 *)p)->f630) v=1;

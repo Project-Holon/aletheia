@@ -15,7 +15,7 @@
  * attests as `runtime` and every relocation resolves:
  *
  *   +0034 PC24 func_02094B8C   -> 02094B8C  [runtime x1, e.g. 02094B8C]
- *   +0058 PC24 func_0209A504   -> 0209A504  [label x15, e.g. 02093310]
+ *   +0058 PC24 fabs   -> 0209A504  [label x15, e.g. 02093310]
  *   +0080 ABS32 func_020946D8  -> 020946D8  [literal x15, e.g. 02095F38]
  *   +0084 ABS32 g_02153FAC     -> 02153FAC  [literal x35, e.g. 02091D34]
  *
@@ -28,7 +28,7 @@
  * symbols:
  *   func_020946D8  0x020946D8  arm
  *   func_02094B8C  0x02094B8C  arm
- *   func_0209A504  0x0209A504  arm
+ *   fabs  0x0209A504  arm
  *   g_02153FAC     0x02153FAC  data
  */
 
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 
 extern u64 func_02094B8C(u32 a0, u32 cb, u32 *buf, u32 *end, u32 *flag);
-extern void func_0209A504(u32 lo, u32 hi);
+extern void fabs(u32 lo, u32 hi);
 extern int func_020946D8(u32 *p, u32 a1, u32 a2);
 extern u32 g_02153FAC;
 
@@ -50,7 +50,7 @@ u64 func_02095AA4(u32 a0, u32 *a1)
     r = func_02094B8C(0x7FFFFFFFu, (u32)func_020946D8, buf, &buf[3], &buf[2]);
     if (a1 != 0)
         *a1 = a0 + buf[3];
-    func_0209A504((u32)r, (u32)(r >> 32));
+    fabs((u32)r, (u32)(r >> 32));
     if (buf[2] != 0)
         g_02153FAC = 0x22;
     return r;

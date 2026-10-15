@@ -1,5 +1,5 @@
 /*
- * function: func_021F98A8
+ * function: BR_PROC_SYS_CopyWordsA
  * address: 0x021F98A8
  * packet: pkt_ov186_021F98A8
  * region: ov186
@@ -14,6 +14,6 @@
 
 typedef struct { int w0, w4, w8, wc, w10, w14, w18; } A_021F98A8;
 typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int pad; int v; } *q; } *w18; } B_021F98A8;
-void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b);
+void BR_PROC_SYS_CopyWordsA(A_021F98A8 *a, B_021F98A8 *b);
 
-void func_021F98A8(A_021F98A8 *a, B_021F98A8 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
+void BR_PROC_SYS_CopyWordsA(A_021F98A8 *a, B_021F98A8 *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }

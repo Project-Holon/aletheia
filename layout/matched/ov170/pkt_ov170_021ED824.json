@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ED824",
+   "name": "BOX2_UI_CreatePartyActors",
    "address": "0x021ED824",
    "kind": "game",
    "region": "ov170",

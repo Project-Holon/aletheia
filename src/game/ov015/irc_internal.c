@@ -20,9 +20,9 @@
  *   OS_GetLockID  0x02084EB8  arm
  *   gIrcLockId     0x0217AAB4  data
  *   gIrcCommParamAlias2     0x0217AC90  data
- *   func_02084F10  0x02084F10  arm
+ *   OS_ReleaseLockID  0x02084F10  arm
  *   func_02075E9C  0x02075E9C  arm
- *   func_02084DF4  0x02084DF4  arm
+ *   OS_LockCard  0x02084DF4  arm
  *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
  *   gIrcReadBuffer     0x0217ACA0  data
@@ -43,9 +43,9 @@ typedef struct IRCParam {
 
 extern unsigned long long func_020870D0(void);
 extern long OS_GetLockID(void);
-extern void func_02084F10(unsigned short lockID);
+extern void OS_ReleaseLockID(unsigned short lockID);
 extern void func_02075E9C(u16 id);
-extern long func_02084DF4(u16 id);
+extern long OS_LockCard(u16 id);
 extern void OS_UnLockCard();
 extern void func_02075EAC(u16 id);
 void IRCi_WaitCommand(void);
@@ -107,7 +107,7 @@ void IRCi_End(void)
 {
     if (gIrcLockId == -3)
         return;
-    func_02084F10(gIrcLockId);
+    OS_ReleaseLockID(gIrcLockId);
     gIrcLockId = -3;
 }
 
@@ -228,7 +228,7 @@ int IRCi_Read(u8 *buf)
     gIrcReadBuffer[0] = 1;
     buf[0] = 0;
     func_02075E9C(gIrcLockId);
-    func_02084DF4(gIrcLockId);
+    OS_LockCard(gIrcLockId);
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
     *(volatile u16 *)0x040001A0 = 0xA042;
@@ -273,7 +273,7 @@ void IRCi_Write(unsigned char *data, unsigned char size)
     gIrcCommParamAlias2.recv = 0;
     gIrcWriteBuffer[0] = 2;
     func_02075E9C(gIrcLockId);
-    func_02084DF4(gIrcLockId);
+    OS_LockCard(gIrcLockId);
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;
     *(volatile unsigned short *)0x040001A0 = 0xA042;

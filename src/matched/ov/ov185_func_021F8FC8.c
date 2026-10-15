@@ -1,5 +1,5 @@
 /*
- * function: func_021F8FC8
+ * function: BR_POKESEARCH_HitTab
  * address:  0x021F8FC8
  * packet:   pkt_021F8FC8
  * region:   ov185
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021FD860   0x021FD860  thumb
+ *   BR_UTIL_StartEffect   0x021FD860  thumb
  *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *
  * Range-gate the pair then hand them to 0x21FD860 as a two-word record.
@@ -18,18 +18,18 @@
 #include "../include/Obj24761.h"
 
 
-extern void func_021FD860(int, int, int *);
+extern void BR_UTIL_StartEffect(int, int, int *);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int func_021F8FC8(int a, int b, int c)
+int BR_POKESEARCH_HitTab(int a, int b, int c)
 {
     int ok = ((unsigned)(b - 0x40) <= 0x78) & ((unsigned)(c - 0x10) <= 0x20);
     if (ok) {
         int buf[2];
         buf[0] = b;
         buf[1] = c;
-        func_021FD860(((struct Obj24761 *)a)->f3C, 1, buf);
+        BR_UTIL_StartEffect(((struct Obj24761 *)a)->f3C, 1, buf);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;

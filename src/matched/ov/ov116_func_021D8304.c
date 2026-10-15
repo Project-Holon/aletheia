@@ -1,5 +1,5 @@
 /*
- * function: func_021D8304
+ * function: WIFI_BSUBWAY_GRAPHIC_SetupBg
  * address: 0x021D8304
  * packet: pkt_ov116_021D8304
  * region: ov116
@@ -31,7 +31,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern char d_021D83B0[],d_021D83F0[];
-void func_021D8304(void *p,unsigned heap) {
+void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
  MI_CpuFill8(p,0,4);
  func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);

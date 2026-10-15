@@ -20,8 +20,8 @@
  *   g_02150FEC     0x02150FEC  data
  *   arr_02153B8C   0x02153B8C  data
  *   arr_02153BB0   0x02153BB0  data
- *   func_020860D0  0x020860D0  arm
- *   func_02086028  0x02086028  arm
+ *   OS_TryLockMutex  0x020860D0  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   func_02091E44  0x02091E44  arm
  */
@@ -40,8 +40,8 @@ extern struct H g_02150FEC;
 extern u32 arr_02153B8C[];
 extern u32 arr_02153BB0[];
 
-extern s32 func_020860D0(void *blk);
-extern void func_02086028(void *blk);
+extern s32 OS_TryLockMutex(void *blk);
+extern void OS_LockMutex(void *blk);
 extern void func_02086078(void *blk);
 extern s32 func_02091E44(u32 a0, u32 a1, u32 a2);
 
@@ -52,7 +52,7 @@ s32 func_02092004(u32 a0, u32 a1, u32 a2)
     u8 *blk = g_02153BD4 + idx * 0x18;
     s32 r;
 
-    if (func_020860D0(blk) == 0) {
+    if (OS_TryLockMutex(blk) == 0) {
         arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
         arr_02153BB0[idx] = 1;
     } else {
@@ -62,7 +62,7 @@ s32 func_02092004(u32 a0, u32 a1, u32 a2)
         if (cur == ref) {
             arr_02153BB0[idx]++;
         } else {
-            func_02086028(blk);
+            OS_LockMutex(blk);
             arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
             arr_02153BB0[idx] = 1;
         }

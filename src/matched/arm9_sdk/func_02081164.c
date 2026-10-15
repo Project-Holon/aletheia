@@ -1,5 +1,5 @@
 /*
- * function: func_02081164
+ * function: MATH_MD5Update
  * address:  0x02081164
  * packet:   pkt_02081164
  * region:   arm9
@@ -39,7 +39,7 @@ typedef struct MATHMD5Context {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void ProcessBlock(MATHMD5Context *context);
 
-void func_02081164(MATHMD5Context *context, const void *input, u32 length)
+void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length)
 {
     const u8 *p = (const u8 *)input;
     long i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E002C
+ * function: BOX2_MAIN_StateMachineOpen
  * address: 0x021E002C
  * packet: pkt_ov170_021E002C
  * region: ov170
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DE5F8 0x021DE5F8 thumb ov170
- *   func_021DD930 0x021DD930 thumb ov170
- *   func_021DE66C 0x021DE66C thumb ov170
+ *   BOX2_MAIN_StartMover 0x021DE5F8 thumb ov170
+ *   BOX2_MAIN_WaitCursorMove 0x021DD930 thumb ov170
+ *   BOX2_MAIN_SetMoverEntry 0x021DE66C thumb ov170
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj08232.h"
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 id,slot,src,used;int vx,vy;short dx,dy,x,y;} Entry;
-extern void func_021DE5F8(u8 *,unsigned);
-extern int func_021DD930(u8 *);
-extern void func_021DE66C(char *,Entry *);
-int func_021E002C(u8 *p){char *s;s=*(char * *)&((struct Obj00000 *)p)->f2C+0x58;switch(((struct Obj08232 *)s)->fC){case 0:func_021DE5F8(p,p[0x16]);(((struct Obj08232 *)s)->fC)++;case 1:if(func_021DD930(p)==0){func_021DE66C((char *)p,*(Entry * *)&((struct Obj08232 *)s)->f8);((struct Obj08232 *)s)->fC=0;return 0;}break;}return 1;}
+extern void BOX2_MAIN_StartMover(u8 *,unsigned);
+extern int BOX2_MAIN_WaitCursorMove(u8 *);
+extern void BOX2_MAIN_SetMoverEntry(char *,Entry *);
+int BOX2_MAIN_StateMachineOpen(u8 *p){char *s;s=*(char * *)&((struct Obj00000 *)p)->f2C+0x58;switch(((struct Obj08232 *)s)->fC){case 0:BOX2_MAIN_StartMover(p,p[0x16]);(((struct Obj08232 *)s)->fC)++;case 1:if(BOX2_MAIN_WaitCursorMove(p)==0){BOX2_MAIN_SetMoverEntry((char *)p,*(Entry * *)&((struct Obj08232 *)s)->f8);((struct Obj08232 *)s)->fC=0;return 0;}break;}return 1;}

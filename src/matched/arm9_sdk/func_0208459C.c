@@ -1,5 +1,5 @@
 /*
- * function: func_0208459C
+ * function: OS_WaitIrq
  * address:  0x0208459C
  * packet:   pkt_0208459C
  * region:   arm9
@@ -39,7 +39,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern OSThreadQueue OSi_IrqThreadQueue;
 
-void func_0208459C(BOOL clear, u32 irqFlags)
+void OS_WaitIrq(BOOL clear, u32 irqFlags)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

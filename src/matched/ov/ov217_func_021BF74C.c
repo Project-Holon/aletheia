@@ -1,5 +1,5 @@
 /*
- * function: func_021BF74C
+ * function: RESEARCH_GRAPH_SetHeapId
  * address:  0x021BF74C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF74C(void *p, u16 v)
+void RESEARCH_GRAPH_SetHeapId(void *p, u16 v)
 {
     ((struct Obj25935 *)p)->f4 = v;
 }

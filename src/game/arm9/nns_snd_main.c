@@ -1,7 +1,7 @@
 /*
  * file:     nns_snd_main.c
  * unit:     yes
- * function: func_02073CEC, NNSi_SndMainReset, NNS_SndMain, NNSi_SndShutdown, NNS_SndStartTimer, NNSi_SndCaptureReset, NNS_SndArcInit, NNSi_SndArcLoadTables, NNS_SndArcInitOnMemory
+ * function: NNSi_SndStrmStart, NNSi_SndMainReset, NNS_SndMain, NNSi_SndShutdown, NNS_SndStartTimer, NNSi_SndCaptureReset, NNS_SndArcInit, NNSi_SndArcLoadTables, NNS_SndArcInitOnMemory
  * address:  0x02073CEC
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -25,20 +25,20 @@
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
- *   func_02089638  0x02089638  arm
+ *   SND_SetChannelVolume  0x02089638  arm
  *   gNNSSndMessageQueue     0x0214E9BC  data
- *   func_020894DC  0x020894DC  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  *   func_02085E50  0x02085E50  arm
  *   SND_CHANNEL_ClearClaimedMask  0x020729A4  arm
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
- *   func_0208972C  0x0208972C  arm
+ *   SND_SetOutputSelector  0x0208972C  arm
  *   func_02082A7C  0x02082A7C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_020894B4  0x020894B4  arm
+ *   SND_StartTimer  0x020894B4  arm
  *   gNNSSndCurrentArc   0x0214EA50  data
  *   func_020788D8  0x020788D8  arm
  *   FS_InitFile  0x020788AC  arm
@@ -62,20 +62,20 @@ struct Obj;
 extern void NNSi_SndStrmUpdate(NNSSndStrm *, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void func_020894B4(u32, u32, u32, u32);
+extern void SND_StartTimer(u32, u32, u32, u32);
 extern void NNS_SndFaderUpdate(struct LerpObj *fader);
 extern int NNS_SndFaderIsFinished(struct LerpObj *fader);
 extern s32 NNS_SndFaderGet(struct Obj *fader);
-extern void func_02089638(u32 chBitMask, s32 volume, s32 shift);
-extern void func_020894DC(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, s32 flags);
-extern s32  func_02089D40(void);
+extern void SND_SetChannelVolume(u32 chBitMask, s32 volume, s32 shift);
+extern void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, s32 flags);
+extern s32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(s32 flush);
-extern void func_02089CD4(s32 commandTag);
+extern void SND_WaitForCommandProc(s32 commandTag);
 extern s32  func_02085E50(void *messageQueue, s32 message, s32 flags);
 extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
-extern void func_0208972C(s32 left, s32 right, s32 mix, s32 flags);
+extern void SND_SetOutputSelector(s32 left, s32 right, s32 mix, s32 flags);
 extern void func_02082A7C(u32 value, u32 dst, u32 size);
 extern void DWCi_ScreenDC_FlushRange(u32 start, u32 size);
 extern u32  func_020788D8(FSFileID *id, const char *path);
@@ -89,7 +89,7 @@ extern void  NNSi_SndArcDisposeInfo(void *block, u32 size, NNSSndArc *arc);
 extern void  NNSi_SndArcDisposeFat(void *block, u32 size, NNSSndArc *arc);
 extern void  NNSi_SndArcDisposeSymbol(void *block, u32 size, NNSSndArc *arc);
 extern void MIi_CpuCopy32(void *dst, void *src, u32 length);
-void func_02073CEC(NNSSndStrm *strm);
+void NNSi_SndStrmStart(NNSSndStrm *strm);
 void NNSi_SndMainReset(void);
 void NNS_SndMain(void);
 void NNSi_SndShutdown(void);
@@ -104,7 +104,7 @@ extern u8   gNNSSndMessageQueue[];
 extern NNSSndArc *gNNSSndCurrentArc;
 
 /* Drains the pending frames of a stream, then starts its channel timer. */
-void func_02073CEC(NNSSndStrm *strm) {
+void NNSi_SndStrmStart(NNSSndStrm *strm) {
     u32 savedIrq;
     if (!strm->isStarted) return;
     while (strm->pendingFrames != 0) {
@@ -112,7 +112,7 @@ void func_02073CEC(NNSSndStrm *strm) {
         NNSi_SndStrmUpdate(strm, 1);
         OS_RestoreInterrupts(savedIrq);
     }
-    func_020894B4(strm->channelMask, 0, 1u << strm->alarmNo, 0);
+    SND_StartTimer(strm->channelMask, 0, 1u << strm->alarmNo, 0);
 }
 
 /* Marks the sound system as not initialized. */
@@ -151,7 +151,7 @@ void NNS_SndMain(void)
     if (volume == sndSystem->lastVolume) {
         return;
     }
-    func_02089638(sndSystem->timerChannelMask, volume, 0);
+    SND_SetChannelVolume(sndSystem->timerChannelMask, volume, 0);
     sndSystem->lastVolume = volume;
 }
 
@@ -179,12 +179,12 @@ void NNSi_SndShutdown(void)
     }
 
     hasAlarm = (sndSystem->timerAlarmNo >= 0);
-    func_020894DC(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, hasAlarm ? (u32)(1 << sndSystem->timerAlarmNo) : 0, 0);
+    SND_StopTimer(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, hasAlarm ? (u32)(1 << sndSystem->timerAlarmNo) : 0, 0);
 
     if (hasAlarm) {
-        commandTag = func_02089D40();
+        commandTag = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(commandTag);
+        SND_WaitForCommandProc(commandTag);
         zero = 0;
         while (func_02085E50(gNNSSndMessageQueue, zero, zero) != 0)
             ;
@@ -200,7 +200,7 @@ void NNSi_SndShutdown(void)
         NNS_SndWaveOutFreeChannel(sndSystem->timerAlarmNo);
     }
     if (sndSystem->mode == 1) {
-        func_0208972C(0, 0, 0, 0);
+        SND_SetOutputSelector(0, 0, 0, 0);
     }
     sndSystem->initialized = 0;
 }
@@ -212,10 +212,10 @@ void NNS_SndStartTimer(void) {
     if (sndSystem->initialized == 0) return;
     if ((int)sndSystem->timerAlarmNo >= 0) alarmMask = 1u << sndSystem->timerAlarmNo;
     else alarmMask = 0;
-    func_020894DC(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
-    commandTag = func_02089D40();
+    SND_StopTimer(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
+    commandTag = SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4(commandTag);
+    SND_WaitForCommandProc(commandTag);
 }
 
 /*
@@ -239,7 +239,7 @@ void NNSi_SndCaptureReset(void)
     DWCi_ScreenDC_FlushRange(sndSystem->effectBufferR, sndSystem->effectBufferSize);
     if (sndSystem->timerAlarmNo >= 0) alarmMask = 1u << sndSystem->timerAlarmNo;
     else alarmMask = 0;
-    func_020894B4(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
+    SND_StartTimer(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
 }
 
 /*

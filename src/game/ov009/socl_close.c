@@ -91,8 +91,6 @@ extern unsigned long OS_DisableInterrupts(void);
 extern int SOCL_SocketIsInTrash(Socket * socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0215CEB0(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), Socket *socket, long flag);
 extern void func_0215CEFC(int a, int b);

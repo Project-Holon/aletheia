@@ -1,5 +1,5 @@
 /*
- * function: func_021DAA18
+ * function: POKETRADE_PROC_StepBeginWipeToRestore
  * address: 0x021DAA18
  * packet: pkt_ov119_021DAA18
  * region: ov119
@@ -10,14 +10,14 @@
  * symbols:
  *   WIPE_SYS_Start 0x0202208C thumb
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DA9F0 0x021DA9F0 thumb ov119
+ *   POKETRADE_PROC_StepWaitThenRestoreScene 0x021DA9F0 thumb ov119
  */
 #include "../include/Obj22730.h"
 typedef unsigned int   u32;
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DA9F0(void *);
-void func_021DAA18(char *p) {
+extern void POKETRADE_PROC_StepWaitThenRestoreScene(void *);
+void POKETRADE_PROC_StepBeginWipeToRestore(char *p) {
  WIPE_SYS_Start((void *)4,0,0,0,6,1,((struct Obj22730 *)p)->f5F4);
- POKETRADE_PROC_SetStep(p,(int)func_021DA9F0);
+ POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepWaitThenRestoreScene);
 }

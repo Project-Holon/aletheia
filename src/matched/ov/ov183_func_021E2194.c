@@ -10,8 +10,8 @@
  * symbols:
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FD744 0x021FD744 thumb ov186
- *   func_021F9BA0 0x021F9BA0 thumb ov186
+ *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
+ *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
  */
 #include "../include/Obj10760.h"
 #include "../include/Obj24651.h"
@@ -19,13 +19,13 @@
 #include "../include/Obj24653.h"
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
-extern int func_021FD744(int *a);
-extern void func_021F9BA0(unsigned *ctx);
+extern int BR_UTIL_ClearTaskStep(int *a);
+extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
 void func_021E2194(int *task,int *state,char *p)
 {
     switch (*state) {
     case 0: BR_FADE_Start(((struct Obj24651 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f4,2,3,1); *state=1; break;
     case 1: if (BR_FADE_GetResult(*(int * *)&((struct Obj24652 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f4)) *state=2; break;
-    case 2: func_021F9BA0((unsigned int *)(((struct Obj24653 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f10)); func_021FD744(task); break;
+    case 2: BR_PROC_SYS_PopEntry((unsigned int *)(((struct Obj24653 *)(*(char * *)&((struct Obj10760 *)p)->f20))->f10)); BR_UTIL_ClearTaskStep(task); break;
     }
 }

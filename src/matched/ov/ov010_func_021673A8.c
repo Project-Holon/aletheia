@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * Reads the byte at +0x848 of the shared state under its lock
- * (func_0200E06C / func_0200E024).
+ * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  *
  * symbols:
- *   func_0200E06C  0x0200E06C  thumb
- *   func_0200E024  0x0200E024  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
  */
 
 typedef unsigned char u8;
 
-extern void func_0200E06C(char *p);
-extern void func_0200E024(void *p);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
+extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 
 u8 func_021673A8(u8 *p)
 {
     u8 v;
 
-    func_0200E06C((char *)p);
+    SYMBOL_SAVE_FinalizeChecksum((char *)p);
     v = p[0x848];
-    func_0200E024(p);
+    SYMBOL_SAVE_UpdateChecksum(p);
     return v;
 }

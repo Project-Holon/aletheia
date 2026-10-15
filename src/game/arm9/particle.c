@@ -51,7 +51,7 @@
  *   func_02052DC8  0x02052DC8  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   PARTICLE_KillAllEffects  0x02051620  arm
- *   func_0206168C  0x0206168C  arm
+ *   NNS_GfdLoadVramManager  0x0206168C  arm
  *   func_020621FC  0x020621FC  arm
  *   func_02061824  0x02061824  arm
  *   func_02062594  0x02062594  arm
@@ -59,7 +59,7 @@
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   G3D_SYSTEM_GetTexManagerMode  0x02046BFC  arm
  *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
- *   func_0206164C  0x0206164C  arm
+ *   NNS_GfdSaveVramManager  0x0206164C  arm
  *   func_02061808  0x02061808  arm
  *   func_02052A50  0x02052A50  arm
  *   func_02030DA8  0x02030DA8  arm
@@ -335,7 +335,7 @@ extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 extern struct ParticleEngine *func_02052DC8(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void func_0206168C(u32 *table);
+extern void NNS_GfdLoadVramManager(u32 *table);
 extern u32 func_020621FC(u32 handle);
 extern void func_02061824(u32 *table);
 extern int func_02062594(u32 handle);
@@ -343,7 +343,7 @@ extern u32 G3D_CAMERA_Delete(struct ParticleCamera *camera);
 extern struct ParticleCamera *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern int G3D_SYSTEM_GetTexManagerMode(void);
 extern int G3D_SYSTEM_GetPlttManagerMode(void);
-extern void func_0206164C(u32 *table);
+extern void NNS_GfdSaveVramManager(u32 *table);
 extern void func_02061808(u32 *table);
 extern void func_02052A50(struct ParticleEngine *engine, void *block);
 extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
@@ -1672,7 +1672,7 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
 
 /*
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
- * whole through func_0206168C / func_02061824, or entry by entry through
+ * whole through NNS_GfdLoadVramManager / func_02061824, or entry by entry through
  * func_020621FC / func_02062594 depending on the flag byte at +0x258), drop
  * the block at +4 unless the +0x32 bit-0 bitfield says otherwise, unpublish
  * the emitter from the singleton's sixteen-slot table, release the 3D block
@@ -1720,7 +1720,7 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
     PARTICLE_KillAllEffects(sys);
 
     if (sys->loadMode & PARTICLE_LOAD_TEX_BULK) {
-        func_0206168C(sys->texHandles);
+        NNS_GfdLoadVramManager(sys->texHandles);
     } else if (sys->loadMode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++) {
             if (sys->texHandles[i] != 0) {
@@ -2068,7 +2068,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     mode |= palMode;
     sys->loadMode = (u8)mode;
     if (mode & PARTICLE_LOAD_TEX_BULK) {
-        func_0206164C(sys->texHandles);
+        NNS_GfdSaveVramManager(sys->texHandles);
         sys->texLoadFn = BUTTON_MAN_Func1A3C;
     } else if (mode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++)

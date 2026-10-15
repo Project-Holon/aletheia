@@ -1,5 +1,5 @@
 /*
- * function: func_021DC5D0
+ * function: POKETRADE_PROC_FreeMons
  * address: 0x021DC5D0
  * packet: pkt_ov119_021DC5D0
  * region: ov119
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021DC5D0(char *p, int a1)
+void POKETRADE_PROC_FreeMons(char *p, int a1)
 {
     unsigned i;
     for (i = 0; i < 3; i++)

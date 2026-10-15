@@ -1,5 +1,5 @@
 /*
- * function: func_021C842C
+ * function: VIEWER_ACTOR_HandleTouchDrag
  * address:  0x021C842C
  * packet:   pkt_ov111_021C842C
  * region:   ov111
@@ -58,7 +58,7 @@ static inline int Delta(s8 *dir, u32 prev, u32 cur)
 }
 #define PREV_Y (p->prevY)
 
-void func_021C842C(Work *p, int idx)
+void VIEWER_ACTOR_HandleTouchDrag(Work *p, int idx)
 {
     int hit = 0;
     u32 x = 0xFFFF;

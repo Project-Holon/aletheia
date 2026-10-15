@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200E1A8",
+   "name": "SYMBOL_SAVE_WriteRecord",
    "address": "0x0200E1A8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200E27C",
+   "name": "SYMBOL_SAVE_SetRank",
    "address": "0x0200E27C",
    "kind": "game",
    "region": "arm9",

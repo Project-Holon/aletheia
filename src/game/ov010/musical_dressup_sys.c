@@ -104,8 +104,8 @@
  *   func_021FD8EC  0x021FD8EC  thumb  ov132
  *   func_021FCE28  0x021FCE28  thumb  ov132
  *   func_021FD83C  0x021FD83C  thumb  ov132
- *   func_0200ED48  0x0200ED48  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_02030B50  0x02030B50  arm
@@ -118,7 +118,7 @@
  *   func_021F6888  0x021F6888  thumb
  *   func_021FD948  0x021FD948  thumb  ov132
  *   func_021FD4F8  0x021FD4F8  thumb  ov132
- *   func_021FD964  0x021FD964  thumb  ov186
+ *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
  *   func_021F4F14  0x021F4F14  thumb  ov112
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_021F4F40  0x021F4F40  thumb  ov112
@@ -648,8 +648,8 @@ extern u32 func_021FD8D4(void *session);
 extern u8 func_021FD8EC(void *session, int index);
 extern void *func_021FCE28(void *session, u32 index);
 extern u32 func_021FD83C(void *session);
-extern void *func_0200ED48(void *saveControl);
-extern void func_0200ED54(void *list, u32 id);
+extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
+extern void MISC_SAVEDATA_InsertRecentValue(void *list, u32 id);
 extern u32 func_02008530(const void *myStatus);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02030B50(void *p);
@@ -659,7 +659,7 @@ extern void func_021FD938(void *session);
 extern int func_021F6888(void *musicalSystem);
 extern void func_021FD948(void *session, void *performer);
 extern MusicalPerformer *func_021FD4F8(void *session, u8 slot);
-extern u32 func_021FD964(void *session, u32 player, u32 index);
+extern u32 BR_UTIL_EffectIdle(void *session, u32 player, u32 index);
 extern void *func_021F4F14(int heapId);
 extern unsigned char func_021F5140(void *table, int propId);
 extern void func_021F4F40(void **table);
@@ -1276,12 +1276,12 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
             }
             func_021FD918(work->link->session, packedBonus, packedPicks);
             work->state = MUSICAL_EVENT_STATE_LINK_WAIT_START;
-            list = func_0200ED48(work->saveControl);
+            list = MISC_SAVEDATA_GetBlock44(work->saveControl);
             for (i = 0; i < 4; i++) {
                 if (func_021FD8D4(work->link->session) != func_021FD8EC(work->link->session, i)) {
                     void *peerStatus = func_021FCE28(work->link->session, i);
                     if (peerStatus != 0)
-                        func_0200ED54(list, func_02008530(peerStatus));
+                        MISC_SAVEDATA_InsertRecentValue(list, func_02008530(peerStatus));
                 }
             }
         } else if (work->aborted == 1) {
@@ -1549,7 +1549,7 @@ void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
         for (i = 0; i < 4; i++) {
             performer = work->stage->performers[i];
             for (j = 0; j < 2; j++) {
-                index = func_021FD964(work->session, i, j);
+                index = BR_UTIL_EffectIdle(work->session, i, j);
                 if (index != 0xFF)
                     performer->equipUsed[index] = 1;
             }

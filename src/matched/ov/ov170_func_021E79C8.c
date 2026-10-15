@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E79C8, func_021E7A04
+ * function: BOX2_SEQ_SetBox2MainD, BOX2_SEQ_StateCloseItemC
  * address: 0x021E79C8
  * packet: pkt_ov170_021E79C8
  * region: ov170
@@ -9,34 +9,34 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EF57C 0x021EF57C thumb ov170
- *   func_021ED6E4 0x021ED6E4 thumb ov170
- *   func_021EBA5C 0x021EBA5C thumb ov170
- *   func_021DD14C 0x021DD14C thumb ov170
- *   func_021E8FC0 0x021E8FC0 thumb ov170
- *   func_021E070C 0x021E070C thumb ov170
- *   func_021E8FE0 0x021E8FE0 thumb ov170
- *   func_021E95CC 0x021E95CC thumb ov170
+ *   BOX2_UI_OpenListPack 0x021EF57C thumb ov170
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
+ *   BOX2_MAIN_SceneWaitScroll 0x021E070C thumb ov170
+ *   BOX2_SEQ_SetState 0x021E8FE0 thumb ov170
+ *   BOX2_SEQ_GotoBox2Ui 0x021E95CC thumb ov170
  */
 struct WinMgr;
-extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E070C(char *p);
-extern int func_021E8FE0(char *p, int v);
-extern int func_021E95CC(unsigned char *p, unsigned char v);
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_SceneWaitScroll(char *p);
+extern int BOX2_SEQ_SetState(char *p, int v);
+extern int BOX2_SEQ_GotoBox2Ui(unsigned char *p, unsigned char v);
 #define WORK(p) (*(char **)((p) + 0x2C))
-void func_021E79C8(unsigned char *p)
+void BOX2_SEQ_SetBox2MainD(unsigned char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
-    func_021ED6E4((char **)p, 0);
-    func_021EBA5C(WORK(p), 0x18);
-    func_021DD14C((char *)p);
-    func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4B));
+    BOX2_UI_OpenListPack(*(struct WinMgr **)(WORK(p) + 0x74));
+    BOX2_SEQ_SetSlotDim((char **)p, 0);
+    BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
+    BOX2_MAIN_RefreshCursorBox((char *)p);
+    BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_SceneWaitScroll, BOX2_SEQ_SetState((char *)p, 0x4B));
 }
-int func_021E7A04(unsigned char *p)
+int BOX2_SEQ_StateCloseItemC(unsigned char *p)
 {
-    return func_021E95CC(p, 0);
+    return BOX2_SEQ_GotoBox2Ui(p, 0);
 }

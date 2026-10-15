@@ -1,5 +1,5 @@
 /*
- * function: func_021D8A18
+ * function: POKETRADE_PROC_GetStoredBoxIndex
  * address:  0x021D8A18
  * packet:   pkt_ov119_021D8A18
  * region:   ov119
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 func_021D8A18(u8 *p) { return ((struct Obj22701 *)p)->f11F2; }
+u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *p) { return ((struct Obj22701 *)p)->f11F2; }

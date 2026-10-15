@@ -1,5 +1,5 @@
 /*
- * function: func_021DB030
+ * function: POKETRADE_PROC_StepSummaryMenuChoice
  * address: 0x021DB030
  * packet: pkt_ov119_021DB030
  * region: ov119
@@ -16,8 +16,8 @@
  *   POKETRADE_2D_UpdateVisibleColumns 0x021E4E64 thumb ov119
  *   POKETRADE_2D_SetupSubBlend 0x021E6700 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DAFB8 0x021DAFB8 thumb ov119
- *   func_021DBE70 0x021DBE70 thumb ov119
+ *   POKETRADE_PROC_StepSendStartRound 0x021DAFB8 thumb ov119
+ *   POKETRADE_PROC_StepBrowseGrid 0x021DBE70 thumb ov119
  */
 #include "../include/Obj00001.h"
 typedef short s16;
@@ -31,15 +31,15 @@ extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b);
 extern void POKETRADE_2D_SetupSubBlend(void *);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DAFB8(char *p);
-extern void func_021DBE70(char *p);
-void func_021DB030(char *p) {
+extern void POKETRADE_PROC_StepSendStartRound(char *p);
+extern void POKETRADE_PROC_StepBrowseGrid(char *p);
+void POKETRADE_PROC_StepSummaryMenuChoice(char *p) {
  int v;
  if(APP_TASKMENU_IsFinish((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
   v=APP_TASKMENU_GetCursorPos((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));POKETRADE_SAVE_CloseTaskMenu(p);*(int *)&((struct Obj00001 *)p)->f64C=0;
   switch(v) {
-  case 0:POKETRADE_PROC_SetStep(p,(int)func_021DAFB8);return;
-  case 1:POKETRADE_SAVE_CloseMessageWindowClear(p);POKETRADE_PROC_SetStep(p,(int)func_021DBE70);
+  case 0:POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSendStartRound);return;
+  case 1:POKETRADE_SAVE_CloseMessageWindowClear(p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBrowseGrid);
    ((struct Obj00001 *)p)->f1080=-1;POKETRADE_2D_UpdateVisibleColumns(*(int *)&((struct Obj00001 *)p)->f828,p,0);POKETRADE_2D_SetupSubBlend(p);return;
   }
  }

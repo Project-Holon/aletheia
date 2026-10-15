@@ -1,5 +1,5 @@
 /*
- * function: func_021EA908
+ * function: BOX2_SEQ_ToggleHandSlot
  * address:  0x021EA908
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DF110  0x021DF110  thumb  ov170
+ *   BOX2_MAIN_SetHandSlots  0x021DF110  thumb  ov170
  *
- * candidate func_021EA908: xor bit
+ * candidate BOX2_SEQ_ToggleHandSlot: xor bit
  */
 #include "../include/Obj00000.h"
 
 
-extern void func_021DF110(char *p, int b);
-void func_021EA908(int p, int bit)
+extern void BOX2_MAIN_SetHandSlots(char *p, int b);
+void BOX2_SEQ_ToggleHandSlot(int p, int bit)
 {
     *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA174) ^= 1 << bit;
-    func_021DF110((char *)p, *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA174));
+    BOX2_MAIN_SetHandSlots((char *)p, *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA174));
 }
 

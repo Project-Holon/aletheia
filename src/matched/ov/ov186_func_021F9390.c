@@ -1,5 +1,5 @@
 /*
- * function: func_021F9390,func_021F93D0
+ * function: BR_PROC_SYS_BuildBasicRecord,BR_PROC_SYS_NoopA
  * address: 0x021F9390
  * packet: pkt_ov186_021F9390
  * region: ov186
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
-void func_021F9390(int *out,int *source,int unused,int type)
+void BR_PROC_SYS_BuildBasicRecord(int *out,int *source,int unused,int type)
 {
     out[3]=source[1];
     out[2]=source[3];
@@ -26,6 +26,6 @@ void func_021F9390(int *out,int *source,int unused,int type)
     else if(((int *)source[6])[1]==0) out[0]=0;
     else out[0]=2;
 }
-void func_021F93D0(void)
+void BR_PROC_SYS_NoopA(void)
 {
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  *   FLDMMDL_GetOldAttr  0x0216D7E4  thumb  ov010
  *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
@@ -38,7 +38,7 @@ typedef struct {
     u8 i;
 } S;
 
-extern void func_02082C60();
+extern void MI_CpuFill();
 extern u32 FLDMMDL_GetOldAttr(void *p);
 extern u32 FLDMMDL_GetNowAttr(void *p);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
@@ -54,7 +54,7 @@ void FLDMMDL_MOVE_InitAttrInfo(int a, S *s)
     int b;
     u32 h;
 
-    func_02082C60(s, 0, 0x1c);
+    MI_CpuFill(s, 0, 0x1c);
     s->a = FLDMMDL_GetOldAttr((void *)a);
     b = FLDMMDL_GetNowAttr((void *)a);
     s->b = b;

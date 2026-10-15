@@ -21,8 +21,8 @@
  *   g_021469F8     0x021469F8  data
  *   g_020A7E4C     0x020A7E4C  data
  *   sub_02030734   0x02030734  arm
- *   func_020819B8  0x020819B8  arm
- *   func_02081B8C  0x02081B8C  arm
+ *   MATHi_CRC16InitTable  0x020819B8  arm
+ *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   sub_02088168   0x02088168  arm
  *   sub_020813D8   0x020813D8  arm
  *   sub_0208142C   0x0208142C  arm
@@ -105,6 +105,8 @@
  *   GX_LoadBGPltt  0x0207E3D0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   RTC_Init  0x02088788  arm
+ *   RTC_ConvertDateToDay  0x02088F58  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  */
 #include "../../matched/include/Obj16002.h"
 #include "../../matched/include/Obj16005.h"
@@ -298,9 +300,9 @@ struct Bg_020432E4 {
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
+extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern int STD_CompareString(const char *s1, const char *s2);
-extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
+extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 extern void sub_02088168(u32 *buffer);
 extern void sub_020813D8(void *p);
 extern void sub_0208142C(void *ctx, void *buf, u32 n);
@@ -311,8 +313,8 @@ extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern u32  func_02088944(struct RtcDate *date, struct RtcTime *time,
                           void (*done)(u32, struct RtcRequest *),
                           struct RtcRequest *arg);
-extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
-extern s32 func_02088F58(struct RTCDate *date);
+extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
+extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 extern int _s32_div_f(int n, int d);
 extern void VEC_Subtract(const struct VecFx32 *a, const struct VecFx32 *b,
                          struct VecFx32 *out);
@@ -514,7 +516,7 @@ extern u8 func_02043130_File[];
  *
  * Constructor for the random-number state: 0xbcc bytes holding mt[624], the
  * generator index (set to 625, "exhausted"), a spare word and the constant
- * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that func_020819B8
+ * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that MATHi_CRC16InitTable
  * initialises.  The allocation tag 49 stays live in r5 afterwards and both
  * later constants are derived from it with a single `add`, which is why
  * neither 625 nor 4129 costs a pool word.
@@ -529,7 +531,7 @@ void func_0203EF5C(u32 heapId)
     g_021469F8->mti = 625;
     g_021469F8->mag01[0] = 0;
     g_021469F8->mag01[1] = 0x9908b0df;
-    func_020819B8((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
+    MATHi_CRC16InitTable((struct MATHCRC16Table *)g_021469F8->unk_9cc, 4129);
 }
 
 
@@ -695,9 +697,9 @@ u16 func_0203F1FC(const u8 *src, u32 len)
 
         pair[0] = src[0];
         pair[1] = src[0];
-        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
     } else {
-        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
+        return MATH_CalcCRC16CCITT((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
     }
 }
 
@@ -1053,7 +1055,7 @@ u32 func_0203F4FC(void)
  */
 void func_0203F524(void)
 {
-    func_02089004((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
+    RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }
 
 
@@ -1091,7 +1093,7 @@ void func_0203F524(void)
  * WHAT IT IS.  Day-of-year from an RtcDate: the cumulative days before the
  * month out of the halfword table, plus the day, plus one if the month is
  * March or later and the year is a leap year.  It then copies the date to a
- * stack temp with month and day forced to 1 and runs func_02088F58 over
+ * stack temp with month and day forced to 1 and runs RTC_ConvertDateToDay over
  * that temp and over the caller's date (the normalise/weekday pass), and
  * returns the day-of-year.
  *
@@ -1128,8 +1130,8 @@ s32 func_0203F540(struct RtcDate_0203F540 *d)
     t = *d;
     t.month = 1;
     t.day = 1;
-    func_02088F58((struct RTCDate *)(&t));
-    func_02088F58((struct RTCDate *)d);
+    RTC_ConvertDateToDay((struct RTCDate *)(&t));
+    RTC_ConvertDateToDay((struct RTCDate *)d);
     return n;
 }
 

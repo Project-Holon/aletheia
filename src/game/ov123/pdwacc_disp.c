@@ -59,7 +59,7 @@
  *   func_020315D4 0x020315D4 arm
  *   ov067_id 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
- *   d_020A1464 0x020A1464 data a4
+ *   gGsyncClactConfig 0x020A1464 data a4
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
  *   GX_LoadBGPltt 0x0207E3D0 arm
@@ -326,7 +326,7 @@ int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *
 
 extern char ov067_id[];
 
-extern const u32 d_020A1464[];
+extern const u32 gGsyncClactConfig[];
 
 extern unsigned char ov_id[];
 
@@ -356,7 +356,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     func_0203F8F4(p->heap);
-    CLACT_InitSystem(d_020A1464,(u32)d_021DABCC,p->heap);
+    CLACT_InitSystem(gGsyncClactConfig,(u32)d_021DABCC,p->heap);
     p->clactUnit=CLACT_CreateUnit(40,0,p->heap);
     BG_SYS_SetVramBanks(d_021DABCC);
     func_0203FC28(d_021DABBC);

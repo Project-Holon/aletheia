@@ -1,5 +1,5 @@
 /*
- * function: func_021C04FC
+ * function: RESEARCH_GRAPH_DrawBmps
  * address: 0x021C04FC
  * packet: pkt_ov217_021C04FC
  * region: ov217
@@ -33,7 +33,7 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern u32 func_020307B0(void *p);
 extern void BMP_Delete(struct Obj020437AC *);
-void func_021C04FC(u8 *p)
+void RESEARCH_GRAPH_DrawBmps(u8 *p)
 {
     const struct Entry *q;
     struct Bmp *bmp;

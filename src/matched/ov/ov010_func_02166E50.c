@@ -38,7 +38,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
- *   func_0200E714  0x0200E714  thumb
+ *   MISC_SAVEDATA_StoreQuadRecord  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
@@ -84,7 +84,7 @@ extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6F0(u32 a);
-extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
+extern void MISC_SAVEDATA_StoreQuadRecord(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
 extern void  PMSI_PARAM_Delete(void *t);
 
 extern char ov110_id[];
@@ -121,7 +121,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode)
             } else {
                 PMSI_PARAM_GetSentence(t, &r8);
                 if (w->f18 != 0) {
-                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
+                    MISC_SAVEDATA_StoreQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
                 }
                 *w->out0 = r8.a;
                 v = r8.b;

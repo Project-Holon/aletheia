@@ -1,5 +1,5 @@
 /*
- * function: func_021FB378
+ * function: BR_BTN_CreateFromMessage
  * address: 0x021FB378
  * packet: pkt_ov186_021FB378
  * region: ov186
@@ -11,20 +11,20 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FB3BC 0x021FB3BC thumb ov186
+ *   BR_BTN_CreateObject 0x021FB3BC thumb ov186
  */
 typedef unsigned int   u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
-void *func_021FB378(void *ctx, int file, int a, int b, int c, int d, int e, int archive, void *config, unsigned short heap)
+extern void *BR_BTN_CreateObject(void *, void *, int, int, int, int, int, void *, unsigned short);
+void *BR_BTN_CreateFromMessage(void *ctx, int file, int a, int b, int c, int d, int e, int archive, void *config, unsigned short heap)
 {
     void *data;
     void *result;
     data = func_02045EC0((struct MsgBank *)archive, file);
-    result = func_021FB3BC(ctx, data, a, b, c, d, e, config, heap);
+    result = BR_BTN_CreateObject(ctx, data, a, b, c, d, e, config, heap);
     STRBUF_Delete(data);
     return result;
 }

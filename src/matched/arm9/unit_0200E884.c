@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200E884, sub_0200E89C, sub_0200E8B0, sub_0200E8B8,
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
+ * function: MISC_SAVEDATA_SaveScratch16, MISC_SAVEDATA_LoadScratch16, MISC_SAVEDATA_GetBigBlockSize, MISC_SAVEDATA_ClearBigBlock,
+ *           MISC_SAVEDATA_EmptyHook, MISC_SAVEDATA_GetScratchBase, MISC_SAVEDATA_GetFlags6200, MISC_SAVEDATA_SetFlags6200,
+ *           MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, MISC_SAVEDATA_GetBlock41, MISC_SAVEDATA_InitMac
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
@@ -21,17 +21,17 @@
  *   OS_GetMacAddress 0x02087C6C  arm
  *
  * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
+ * working the same field at +0x6200/+0x6204.  MISC_SAVEDATA_SaveScratch16 and MISC_SAVEDATA_LoadScratch16
  * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from SAVE_CONTROL_GetBlock(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
+ * from SAVE_CONTROL_GetBlock(id 0x40); MISC_SAVEDATA_GetBigBlockSize hands back the constant 0x6204,
+ * which MISC_SAVEDATA_ClearBigBlock uses as the zero-fill size for the whole object;
+ * MISC_SAVEDATA_EmptyHook is an empty hook; MISC_SAVEDATA_GetScratchBase hands out the address 0x6000
+ * bytes into the object; MISC_SAVEDATA_GetFlags6200/MISC_SAVEDATA_SetFlags6200 are a plain word
+ * getter/setter on the field at +0x6200; MISC_SAVEDATA_GetMacSize returns the constant
+ * 0x5c, which MISC_SAVEDATA_ClearMacArea's tail call to MI_CpuFill8 also uses directly
  * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * SAVE_CONTROL_GetBlock(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
+ * MISC_SAVEDATA_GetMacSize, but the tail call inlines it); MISC_SAVEDATA_GetBlock41 tail calls
+ * SAVE_CONTROL_GetBlock(sys, 0x41); MISC_SAVEDATA_InitMac zero-fills a separate 0x5a-byte
  * scratch object and hands it to OS_GetMacAddress.
  *
  * Four of the twelve carry no label in the generated listing: they are
@@ -41,7 +41,7 @@
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
  * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
+ * (MISC_SAVEDATA_SaveScratch16.c, MISC_SAVEDATA_LoadScratch16.c, MISC_SAVEDATA_GetBigBlockSize.c, MISC_SAVEDATA_InitMac.c) and
  * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
  * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
  * range still reproduces EXACT as a single translation unit.
@@ -62,63 +62,63 @@ extern void  MIi_CpuCopy32(void *dest, const void *src, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  OS_GetMacAddress(void *obj);
 
-void sub_0200E884(void *sys, void *src)
+void MISC_SAVEDATA_SaveScratch16(void *sys, void *src)
 {
     void *obj = SAVE_CONTROL_GetBlock(src, 0x40);
     MIi_CpuCopy32(sys, obj, 0x10);
 }
 
-void sub_0200E89C(void *sys, void *dest)
+void MISC_SAVEDATA_LoadScratch16(void *sys, void *dest)
 {
     void *obj = SAVE_CONTROL_GetBlock(sys, 0x40);
     MIi_CpuCopy32(obj, dest, 0x10);
 }
 
-u32 sub_0200E8B0(void)
+u32 MISC_SAVEDATA_GetBigBlockSize(void)
 {
     return 0x6204;
 }
 
-void sub_0200E8B8(void *dest)
+void MISC_SAVEDATA_ClearBigBlock(void *dest)
 {
-    MI_CpuFill8(dest, 0, sub_0200E8B0());
+    MI_CpuFill8(dest, 0, MISC_SAVEDATA_GetBigBlockSize());
 }
 
-void sub_0200E8CC(void)
+void MISC_SAVEDATA_EmptyHook(void)
 {
 }
 
-void *sub_0200E8D0(void *obj)
+void *MISC_SAVEDATA_GetScratchBase(void *obj)
 {
     return (u8 *)obj + 0x6000;
 }
 
-u32 sub_0200E8D8(const void *obj)
+u32 MISC_SAVEDATA_GetFlags6200(const void *obj)
 {
     return *(const u32 *)&((struct Obj17085 *)obj)->f6200;
 }
 
-void sub_0200E8E0(void *obj, u32 value)
+void MISC_SAVEDATA_SetFlags6200(void *obj, u32 value)
 {
     ((struct Obj17086 *)obj)->f6200 = value;
 }
 
-u32 sub_0200E8E8(void)
+u32 MISC_SAVEDATA_GetMacSize(void)
 {
     return 0x5c;
 }
 
-void sub_0200E8EC(void *dest)
+void MISC_SAVEDATA_ClearMacArea(void *dest)
 {
     MI_CpuFill8(dest, 0, 0x5c);
 }
 
-void *sub_0200E8F8(void *sys)
+void *MISC_SAVEDATA_GetBlock41(void *sys)
 {
     return SAVE_CONTROL_GetBlock(sys, 0x41);
 }
 
-void sub_0200E904(void *obj)
+void MISC_SAVEDATA_InitMac(void *obj)
 {
     MI_CpuFill8(obj, 0, 0x5a);
     OS_GetMacAddress(obj);

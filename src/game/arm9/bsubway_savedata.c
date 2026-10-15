@@ -1,7 +1,7 @@
 /*
  * file:     bsubway_savedata.c
  * unit:     yes
- * function: func_0200DE5C, func_0200DE64, BSUBWAY_SAVEDATA_SetTrainers, func_0200DE94, BSUBWAY_SAVEDATA_GetTrainersTagB, func_0200DEA8, BSUBWAY_SAVEDATA_SetHistory, BSUBWAY_SAVEDATA_AllocHistoryCopy, BSUBWAY_SAVEDATA_CountHistoryEntries, BSUBWAY_SAVEDATA_GetHistoryEntryScore, BSUBWAY_SAVEDATA_InitStats, BSUBWAY_SAVEDATA_GetStat, BSUBWAY_SAVEDATA_SetStat, BSUBWAY_SAVEDATA_IncStat, func_0200E024, func_0200E06C, func_0200E090, func_0200E098, func_0200E0B0, func_0200E0BC, func_0200E0E8, func_0200E124, func_0200E164, func_0200E184, func_0200E18C, func_0200E1A8, func_0200E27C, func_0200E2BC, func_0200E368, func_0200E370, func_0200E394, func_0200E3A0, func_0200E3A4, func_0200E3E8, func_0200E440
+ * function: BSUBWAY_SAVEDATA_GetTrainersPresent, BSUBWAY_SAVEDATA_GetHistoryPresent, BSUBWAY_SAVEDATA_SetTrainers, BSUBWAY_SAVEDATA_GetTrainersTagA, BSUBWAY_SAVEDATA_GetTrainersTagB, func_0200DEA8, BSUBWAY_SAVEDATA_SetHistory, BSUBWAY_SAVEDATA_AllocHistoryCopy, BSUBWAY_SAVEDATA_CountHistoryEntries, BSUBWAY_SAVEDATA_GetHistoryEntryScore, BSUBWAY_SAVEDATA_InitStats, BSUBWAY_SAVEDATA_GetStat, BSUBWAY_SAVEDATA_SetStat, BSUBWAY_SAVEDATA_IncStat, SYMBOL_SAVE_UpdateChecksum, SYMBOL_SAVE_FinalizeChecksum, SYMBOL_SAVE_GetBlockSize, SYMBOL_SAVE_InitBlock, SYMBOL_SAVE_GetBlock, SYMBOL_SAVE_FindBand, SYMBOL_SAVE_FindFreeSlot, SYMBOL_SAVE_RemoveSlot, SYMBOL_SAVE_RemoveSlotAndFind, SYMBOL_SAVE_FindBandThunk, SYMBOL_SAVE_RemoveSlotAndCommit, SYMBOL_SAVE_WriteRecord, SYMBOL_SAVE_SetRank, SYMBOL_SAVE_FindRecord, SYMBOL_SAVE_GetBitBlockSize, SYMBOL_SAVE_InitBitBlock, SYMBOL_SAVE_GetBitBlock, SYMBOL_SAVE_GetQuestionnaireBits, SYMBOL_SAVE_GetQuestionnaireAnswer, SYMBOL_SAVE_SetQuestionnaireAnswer, SYMBOL_SAVE_SetBitDescriptor
  * address:  0x0200DE5C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   func_02167380  0x02167380  thumb  ov010
  *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
  */
-#define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
+#define _RANDOM32 (*(volatile u32 *)0x02FFFC3C)
 struct SaveBlockTable;
 typedef unsigned char  u8;
 
@@ -45,7 +45,7 @@ typedef signed int     s32;
 struct HistoryEntry {
     u16 id;
     u8  name[0x12];
-    u8  score_le[4];
+    u8  scoreLe[4];
     u8  trailer[0x0A];
 };
 
@@ -56,23 +56,23 @@ struct HistoryBuf {
 /* One 0xF0 byte stored team entry. */
 struct TrainerEntry {
     u8 pokemon[0xB4];
-    u8 trainer_name[0x10];
-    u8 pad_C4[0x11];
+    u8 trainerName[0x10];
+    u8 reserved0[0x11];
     u8 gender;
     u8 greeting[8];
-    u8 win_message[8];
-    u8 lose_message[8];
-    u8 pad_EE[2];
+    u8 winMessage[8];
+    u8 loseMessage[8];
+    u8 reserved1[2];
 };
 
 struct BsubwaySave {
     u8 header[0xFE];
-    u8 trainers_present;
-    u8 history_present;
-    u8 trainers_tag_b;
-    u8 trainers_tag_a;
-    u8 history_tag_b;
-    u8 history_tag_a;
+    u8 trainersPresent;
+    u8 historyPresent;
+    u8 trainersTagB;
+    u8 trainersTagA;
+    u8 historyTagB;
+    u8 historyTagA;
     struct TrainerEntry trainers[7];
     struct HistoryBuf history;
 };
@@ -83,12 +83,12 @@ typedef enum { BAND_FIRST = 0, BAND_COUNT = 4 } BandIdx;
 
 struct BandRange { u16 first; u16 limit; };
 
-/* Symbol save block, 0x850 bytes (func_0200E024 refreshes its checksum). */
+/* Symbol save block, 0x850 bytes (SYMBOL_SAVE_UpdateChecksum refreshes its checksum). */
 struct SymbolSave {
     u32 records[530];
-    u8  kind2_count;
+    u8  kind2Count;
     u8  rank;
-    u8  pad_84A[2];
+    u8  reserved[2];
     u16 checksum;
     u16 seed;
 };
@@ -101,13 +101,13 @@ struct SymbolBitSave {
 
 /* One exported battle subway record: 0x30 byte header then the 0xB4 byte body. */
 struct TrainerExport {
-    u32 trainer_id;
+    u32 trainerId;
     u16 gender;
-    u8  pad_06[2];
-    u8  trainer_name[0x10];
+    u8  reserved2[2];
+    u8  trainerName[0x10];
     u8  greeting[8];
-    u8  win_message[8];
-    u8  lose_message[8];
+    u8  winMessage[8];
+    u8  loseMessage[8];
     u8  pokemon[0xB4];
 };
 
@@ -133,43 +133,43 @@ extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u3
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern u8 func_02167380(u32 id);
 extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
-u8 func_0200DE5C(struct BsubwaySave *save);
-u8 func_0200DE64(struct BsubwaySave *save);
-void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b);
-u8 func_0200DE94(struct BsubwaySave *save);
+u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save);
+u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwaySave *save);
+void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, const void *src, u8 tagA, u8 tagB);
+u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save);
 u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save);
 void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index);
-void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b);
+void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tagA, u8 tagB);
 int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save);
 u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save);
-struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heap_id);
+struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId);
 u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
 u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
 void BSUBWAY_SAVEDATA_InitStats(void *stats);
 u16 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, int row, int col);
 void BSUBWAY_SAVEDATA_SetStat(StatRow *stats, int row, int col, int value);
 void BSUBWAY_SAVEDATA_IncStat(u8 *stats, int row, int col);
-void func_0200E024(struct SymbolSave *save);
-void func_0200E06C(struct SymbolSave *save);
-u32 func_0200E090(void);
-void func_0200E098(struct SymbolSave *save);
-void *func_0200E0B0(void *savedata);
-u32 func_0200E0BC(u32 value);
-u32 func_0200E0E8(const struct SymbolRec *records, int band);
-void func_0200E124(u32 *records, u32 index);
-u32 func_0200E164(struct SymbolSave *save, u32 band);
-unsigned int func_0200E184(unsigned int value);
-void func_0200E18C(struct SymbolSave *save, u32 index);
-void func_0200E1A8(struct SymbolSave *save, u16 id, u16 param, u8 flags, u8 category, u8 status, u32 kind);
-void func_0200E27C(struct SymbolSave *save, int index);
-u32 func_0200E2BC(void *savedata, u32 *key_word, void *heap_id, u32 match_mode);
-int func_0200E368(void);
-void func_0200E370(struct SymbolBitSave *save);
-void *func_0200E394(void *savedata);
-u8 *func_0200E3A0(struct SymbolBitSave *save);
-u32 sub_0200E3A4(const u8 *bits, int field_id);
-void sub_0200E3E8(u8 *bits, int field_id, u32 value);
-void func_0200E440(struct SymbolBitSave *save, int value, int index);
+void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
+void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save);
+u32 SYMBOL_SAVE_GetBlockSize(void);
+void SYMBOL_SAVE_InitBlock(struct SymbolSave *save);
+void *SYMBOL_SAVE_GetBlock(void *saveData);
+u32 SYMBOL_SAVE_FindBand(u32 value);
+u32 SYMBOL_SAVE_FindFreeSlot(const struct SymbolRec *records, int band);
+void SYMBOL_SAVE_RemoveSlot(u32 *records, u32 index);
+u32 SYMBOL_SAVE_RemoveSlotAndFind(struct SymbolSave *save, u32 band);
+unsigned int SYMBOL_SAVE_FindBandThunk(unsigned int value);
+void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index);
+void SYMBOL_SAVE_WriteRecord(struct SymbolSave *save, u16 id, u16 param, u8 flags, u8 category, u8 status, u32 kind);
+void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index);
+u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 matchMode);
+int SYMBOL_SAVE_GetBitBlockSize(void);
+void SYMBOL_SAVE_InitBitBlock(struct SymbolBitSave *save);
+void *SYMBOL_SAVE_GetBitBlock(void *saveData);
+u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
+u32 sub_0200E3A4(const u8 *bits, int fieldId);
+void sub_0200E3E8(u8 *bits, int fieldId, u32 value);
+void SYMBOL_SAVE_SetBitDescriptor(struct SymbolBitSave *save, int value, int index);
 extern const char sFileName_bsubway_savedata[];
 extern const struct BandRange sSymbolBandRanges[];
 extern char  sFileName_symbol_save[];
@@ -208,36 +208,36 @@ extern char  sFileName_symbol_save[];
  * whose reach is 31, so both are register-offset loads; see
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
  */
-u8 func_0200DE5C(struct BsubwaySave *save)
+u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save)
 {
-    return save->trainers_present;
+    return save->trainersPresent;
 }
 
 
 
 
-u8 func_0200DE64(struct BsubwaySave *save)
+u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwaySave *save)
 {
-    return save->history_present;
+    return save->historyPresent;
 }
 
 
 
 
-void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b)
+void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, const void *src, u8 tagA, u8 tagB)
 {
     MI_CpuCopy8(src, save->trainers, sizeof(save->trainers));
-    save->trainers_tag_a = tag_a;
-    save->trainers_tag_b = tag_b;
-    save->trainers_present = 1;
+    save->trainersTagA = tagA;
+    save->trainersTagB = tagB;
+    save->trainersPresent = 1;
 }
 
 
 
 
-u8 func_0200DE94(struct BsubwaySave *save)
+u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save)
 {
-    return save->trainers_tag_a;
+    return save->trainersTagA;
 }
 
 
@@ -245,7 +245,7 @@ u8 func_0200DE94(struct BsubwaySave *save)
 
 u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save)
 {
-    return save->trainers_tag_b;
+    return save->trainersTagB;
 }
 
 
@@ -257,12 +257,12 @@ void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExpo
 {
     struct TrainerEntry *trainer = &save->trainers[index];
 
-    out->trainer_id = 0xffff;
+    out->trainerId = 0xffff;
     out->gender = trainer->gender;
-    MI_CpuCopy8(trainer->trainer_name, out->trainer_name, 0x10);
+    MI_CpuCopy8(trainer->trainerName, out->trainerName, 0x10);
     MI_CpuCopy8(trainer->greeting, out->greeting, 8);
-    MI_CpuCopy8(trainer->win_message, out->win_message, 8);
-    MI_CpuCopy8(trainer->lose_message, out->lose_message, 8);
+    MI_CpuCopy8(trainer->winMessage, out->winMessage, 8);
+    MI_CpuCopy8(trainer->loseMessage, out->loseMessage, 8);
     MI_CpuCopy8(trainer->pokemon, out->pokemon, 0xb4);
 }
 
@@ -306,12 +306,12 @@ void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExpo
  *    with or without casts on the operands, produces exactly these bytes, so
  *    the schedule says nothing about how it was written.
  */
-void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b)
+void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tagA, u8 tagB)
 {
     MI_CpuCopy8(src, &save->history, sizeof(save->history));
-    save->history_tag_a = tag_a;
-    save->history_tag_b = tag_b;
-    save->history_present = 1;
+    save->historyTagA = tagA;
+    save->historyTagB = tagB;
+    save->historyPresent = 1;
 }
 
 
@@ -319,7 +319,7 @@ void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 t
 
 int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save)
 {
-    return save->history_tag_a;
+    return save->historyTagA;
 }
 
 
@@ -327,15 +327,15 @@ int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save)
 
 u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save)
 {
-    return save->history_tag_b;
+    return save->historyTagB;
 }
 
 
 
 
-struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heap_id)
+struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId)
 {
-    struct HistoryBuf *copy = func_02030734(heap_id, sizeof(save->history), 1,
+    struct HistoryBuf *copy = func_02030734(heapId, sizeof(save->history), 1,
                                         sFileName_bsubway_savedata, 0x508);
 
     MI_CpuCopy8(&save->history, copy, sizeof(save->history));
@@ -363,8 +363,8 @@ u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history)
 
 u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry)
 {
-    return entry->score_le[0] | (entry->score_le[1] << 8) | (entry->score_le[2] << 16)
-           | (entry->score_le[3] << 24);
+    return entry->scoreLe[0] | (entry->scoreLe[1] << 8) | (entry->scoreLe[2] << 16)
+           | (entry->scoreLe[3] << 24);
 }
 
 
@@ -444,15 +444,15 @@ void BSUBWAY_SAVEDATA_IncStat(u8 *stats, int row, int col)
  * func_0203F328 writes it back with the +0x84E halfword as the high word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E024.c \
- *       --func func_0200E024 --addr 0x0200E024 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_UpdateChecksum.c \
+ *       --func SYMBOL_SAVE_UpdateChecksum --addr 0x0200E024 --cc 1.1p1 --thumb
  */
-void func_0200E024(struct SymbolSave *save)
+void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save)
 {
-    u32 hi = unk_02FFFC3C;
-    u32 lo = unk_02FFFC3C;
+    u32 seedHigh = _RANDOM32;
+    u32 seedLow = _RANDOM32;
 
-    save->seed = hi << 8 | lo;
+    save->seed = seedHigh << 8 | seedLow;
     if (save->seed == 0) {
         save->seed = 1;
     }
@@ -466,7 +466,7 @@ void func_0200E024(struct SymbolSave *save)
 
 
 
-void func_0200E06C(struct SymbolSave *save)
+void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save)
 {
     func_0203F37C(save, 0x84c,
         save->checksum + (save->seed << 16));
@@ -480,9 +480,9 @@ void func_0200E06C(struct SymbolSave *save)
 
 /*
  * Save-table size callback: returns 0x850, the size of the block whose
- * init is func_0200E098.  Pointer word 0x0200E091 at 0x0209DD08.
+ * init is SYMBOL_SAVE_InitBlock.  Pointer word 0x0200E091 at 0x0209DD08.
  */
-u32 func_0200E090(void)
+u32 SYMBOL_SAVE_GetBlockSize(void)
 {
     return 0x850;
 }
@@ -496,13 +496,13 @@ u32 func_0200E090(void)
  * Zeroes 0x850 bytes then runs the initialiser.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E098.c \
- *       --func func_0200E098 --addr 0x0200E098 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_InitBlock.c \
+ *       --func SYMBOL_SAVE_InitBlock --addr 0x0200E098 --thumb --cc 1.1p1
  */
-void func_0200E098(struct SymbolSave *save)
+void SYMBOL_SAVE_InitBlock(struct SymbolSave *save)
 {
     MI_CpuFill8(save, 0, 0x850);
-    func_0200E024(save);
+    SYMBOL_SAVE_UpdateChecksum(save);
 }
 
 
@@ -512,9 +512,9 @@ void func_0200E098(struct SymbolSave *save)
 /*
  * Unlabelled leaf: tail-calls func_020071CC(p, 0x3d).
  */
-void *func_0200E0B0(void *savedata)
+void *SYMBOL_SAVE_GetBlock(void *saveData)
 {
-    return func_020071CC(savedata, 0x3d);
+    return func_020071CC(saveData, 0x3d);
 }
 
 
@@ -523,7 +523,7 @@ void *func_0200E0B0(void *savedata)
 
 /*
  * Band lookup: the index of the first of four records whose .b bound is
- * above value, or 3. func_0200E124 indexes the same table with the result.
+ * above value, or 3. SYMBOL_SAVE_RemoveSlot indexes the same table with the result.
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 44/44, 9 out, the "pool load
  * in the preheader" wall of docs/notes/pkt_0200E0BC.c.txt): the counter AND
@@ -533,7 +533,7 @@ void *func_0200E0B0(void *savedata)
  * bound is compared unsigned (`(u32)BAND_COUNT`) for the image's bhs/blo; with
  * that compare a u32 result swaps r3/r4, an enum result does not.
  */
-u32 func_0200E0BC(u32 value)
+u32 SYMBOL_SAVE_FindBand(u32 value)
 {
     BandIdx band;
     BandIdx result = 3;
@@ -554,26 +554,26 @@ u32 func_0200E0BC(u32 value)
 /*
  * Wave 17 lane untried_small. Three levers together: the range table read as
  * `struct BandRange { u16 first; u16 limit; }` (two pool words, tbl and tbl + 2, as in
- * func_0200E124); the slot word read as an 11-bit bitfield (the image masks
+ * SYMBOL_SAVE_RemoveSlot); the slot word read as an 11-bit bitfield (the image masks
  * with `lsls #21; lsrs #21`, which `& 0x7ff` never produces); and an element
  * pointer walked beside the index in a `while` loop.
  */
-u32 func_0200E0E8(const struct SymbolRec *records, int band)
+u32 SYMBOL_SAVE_FindFreeSlot(const struct SymbolRec *records, int band)
 {
-    u32 found = 0xffff;
-    u32 i = sSymbolBandRanges[band].first;
-    u32 end = sSymbolBandRanges[band].limit;
-    const struct SymbolRec *rec = &records[i];
+    u32 freeSlot = 0xffff;
+    u32 slot = sSymbolBandRanges[band].first;
+    u32 bandLimit = sSymbolBandRanges[band].limit;
+    const struct SymbolRec *record = &records[slot];
 
-    while (i < end) {
-        if (rec->id == 0) {
-            found = i;
+    while (slot < bandLimit) {
+        if (record->id == 0) {
+            freeSlot = slot;
             break;
         }
-        i++;
-        rec++;
+        slot++;
+        record++;
     }
-    return found;
+    return freeSlot;
 }
 
 
@@ -599,17 +599,17 @@ u32 func_0200E0E8(const struct SymbolRec *records, int band)
  * different instruction order in the argument set-up.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E124.c \
- *       --func func_0200E124 --addr 0x0200E124 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_RemoveSlot.c \
+ *       --func SYMBOL_SAVE_RemoveSlot --addr 0x0200E124 --cc 1.1p1 --thumb
  */
-void func_0200E124(u32 *records, u32 index)
+void SYMBOL_SAVE_RemoveSlot(u32 *records, u32 index)
 {
-    u32 hi = sSymbolBandRanges[func_0200E0BC(index)].limit;
-    u32 *base = records;
+    u32 bandLimit = sSymbolBandRanges[SYMBOL_SAVE_FindBand(index)].limit;
+    u32 *recordBase = records;
 
-    if (index < hi)
-        MI_CpuCopy8(base + (index + 1), base + index, (hi - (index + 1)) * 4);
-    base[hi - 1] &= 0xfffff800;
+    if (index < bandLimit)
+        MI_CpuCopy8(recordBase + (index + 1), recordBase + index, (bandLimit - (index + 1)) * 4);
+    recordBase[bandLimit - 1] &= 0xfffff800;
 }
 
 
@@ -618,20 +618,20 @@ void func_0200E124(u32 *records, u32 index)
 
 
 /*
- * Runs func_0200E06C, then func_0200E0E8, then the initialiser, returning
+ * Runs SYMBOL_SAVE_FinalizeChecksum, then SYMBOL_SAVE_FindFreeSlot, then the initialiser, returning
  * the middle result.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E164.c \
- *       --func func_0200E164 --addr 0x0200E164 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_RemoveSlotAndFind.c \
+ *       --func SYMBOL_SAVE_RemoveSlotAndFind --addr 0x0200E164 --thumb --cc 1.1p1
  */
-u32 func_0200E164(struct SymbolSave *save, u32 band)
+u32 SYMBOL_SAVE_RemoveSlotAndFind(struct SymbolSave *save, u32 band)
 {
-    func_0200E06C(save);
+    SYMBOL_SAVE_FinalizeChecksum(save);
     {
-        u32 found = func_0200E0E8((const struct SymbolRec *)save->records, (int)band);
+        u32 found = SYMBOL_SAVE_FindFreeSlot((const struct SymbolRec *)save->records, (int)band);
 
-        func_0200E024(save);
+        SYMBOL_SAVE_UpdateChecksum(save);
         return found;
     }
 }
@@ -640,11 +640,11 @@ u32 func_0200E164(struct SymbolSave *save, u32 band)
 
 
 /*
- * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to func_0200E0BC; a tail call. Witness for the call in ov010 SYMBOL_MAP_MoveRecordToPairedBand (2026-10-05, lane W-B).
+ * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to SYMBOL_SAVE_FindBand; a tail call. Witness for the call in ov010 SYMBOL_MAP_MoveRecordToPairedBand (2026-10-05, lane W-B).
  */
-unsigned int func_0200E184(unsigned int value)
+unsigned int SYMBOL_SAVE_FindBandThunk(unsigned int value)
 {
-    return func_0200E0BC(value);
+    return SYMBOL_SAVE_FindBand(value);
 }
 
 
@@ -652,17 +652,17 @@ unsigned int func_0200E184(unsigned int value)
 
 
 /*
- * Runs func_0200E06C, then func_0200E124, then the initialiser.
+ * Runs SYMBOL_SAVE_FinalizeChecksum, then SYMBOL_SAVE_RemoveSlot, then the initialiser.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E18C.c \
- *       --func func_0200E18C --addr 0x0200E18C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_RemoveSlotAndCommit.c \
+ *       --func SYMBOL_SAVE_RemoveSlotAndCommit --addr 0x0200E18C --thumb --cc 1.1p1
  */
-void func_0200E18C(struct SymbolSave *save, u32 index)
+void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index)
 {
-    func_0200E06C(save);
-    func_0200E124(save->records, index);
-    func_0200E024(save);
+    SYMBOL_SAVE_FinalizeChecksum(save);
+    SYMBOL_SAVE_RemoveSlot(save->records, index);
+    SYMBOL_SAVE_UpdateChecksum(save);
 }
 
 
@@ -671,9 +671,9 @@ void func_0200E18C(struct SymbolSave *save, u32 index)
 
 
 /*
- * The record writer of the same two-field table object func_0200E124 walks:
+ * The record writer of the same two-field table object SYMBOL_SAVE_RemoveSlot walks:
  * it appends (or overwrites) one 32-bit packed record in the ring at
- * obj[slot] and then runs the checksum refresh at func_0200E024.
+ * obj[slot] and then runs the checksum refresh at SYMBOL_SAVE_UpdateChecksum.
  *
  * The record is six unsigned bitfields in one u32, laid out 11 / 10 / 2 /
  * 6 / 3 from bit 0; the pool masks 0xFFFFF800, 0xFFE007FF, 0xFF9FFFFF,
@@ -684,7 +684,7 @@ void func_0200E18C(struct SymbolSave *save, u32 index)
  * their own.
  *
  * sSymbolBandRanges is the { u16 first; u16 limit; } record table of
- * src/matched/func_0200E124.c; this function reads BOTH fields of the same
+ * src/matched/SYMBOL_SAVE_RemoveSlot.c; this function reads BOTH fields of the same
  * row (a into the stack slot at sp+0xC, b into r7), so the two pool words
  * 0x0209DE90 and 0x0209DE92 are one symbol at two field offsets, not two
  * symbols.  See docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
@@ -698,40 +698,40 @@ void func_0200E18C(struct SymbolSave *save, u32 index)
  * wrong in the first ten.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E1A8.c \
- *       --func func_0200E1A8 --addr 0x0200E1A8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_WriteRecord.c \
+ *       --func SYMBOL_SAVE_WriteRecord --addr 0x0200E1A8 --cc 1.1p1 --thumb
  */
-void func_0200E1A8(struct SymbolSave *save, u16 id, u16 param, u8 flags, u8 category, u8 status, u32 kind)
+void SYMBOL_SAVE_WriteRecord(struct SymbolSave *save, u16 id, u16 param, u8 flags, u8 category, u8 status, u32 kind)
 {
-    struct SymbolRec *rec;
-    u32 limit, first, slot;
+    struct SymbolRec *record;
+    u32 bandLimit, bandFirst, freeSlot;
     u32 band;
 
-    func_0200E06C(save);
+    SYMBOL_SAVE_FinalizeChecksum(save);
     band = kind;
-    first = sSymbolBandRanges[band].first;
-    limit = sSymbolBandRanges[band].limit;
-    slot = func_0200E0E8((const struct SymbolRec *)save->records, band);
-    if (slot == 0xFFFF) {
-        func_0200E124(save->records, first);
-        rec = (struct SymbolRec *)(save->records + (limit - 1));
+    bandFirst = sSymbolBandRanges[band].first;
+    bandLimit = sSymbolBandRanges[band].limit;
+    freeSlot = SYMBOL_SAVE_FindFreeSlot((const struct SymbolRec *)save->records, band);
+    if (freeSlot == 0xFFFF) {
+        SYMBOL_SAVE_RemoveSlot(save->records, bandFirst);
+        record = (struct SymbolRec *)(save->records + (bandLimit - 1));
     } else {
-        rec = (struct SymbolRec *)(save->records + slot);
+        record = (struct SymbolRec *)(save->records + freeSlot);
     }
 
-    rec->id = id;
-    rec->param = param;
-    rec->flags = flags;
-    rec->category = category;
-    rec->status = status;
+    record->id = id;
+    record->param = param;
+    record->flags = flags;
+    record->category = category;
+    record->status = status;
 
     if (band == 2) {
-        if (save->kind2_count < 1)
-            save->kind2_count++;
+        if (save->kind2Count < 1)
+            save->kind2Count++;
     } else if (band == 3) {
-        func_0200E27C(save, (u16)slot);
+        SYMBOL_SAVE_SetRank(save, (u16)freeSlot);
     }
-    func_0200E024(save);
+    SYMBOL_SAVE_UpdateChecksum(save);
 }
 
 
@@ -748,10 +748,10 @@ void func_0200E1A8(struct SymbolSave *save, u16 id, u16 param, u8 flags, u8 cate
  * moves the divide to `_u32_div_f` and loses the site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E27C.c \
- *       --func func_0200E27C --addr 0x0200E27C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_SetRank.c \
+ *       --func SYMBOL_SAVE_SetRank --addr 0x0200E27C --cc 1.1p1 --thumb
  */
-void func_0200E27C(struct SymbolSave *save, int index)
+void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index)
 {
     u8 rank = (index - 0x32) / 0x3c - 1;
 
@@ -775,26 +775,26 @@ void func_0200E27C(struct SymbolSave *save, int index)
 
 
 
-u32 func_0200E2BC(void *savedata, u32 *key_word, void *heap_id, u32 match_mode)
+u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 matchMode)
 {
     struct SymbolSave *save;
-    struct SymbolRec *key = (struct SymbolRec *)key_word;
+    struct SymbolRec *keyRecord = (struct SymbolRec *)keyWord;
     u32 found = 0;
-    s32 i;
-    s32 j;
+    s32 slotIndex;
+    s32 recordIndex;
 
-    save = func_02030734((u32)heap_id, 0x850, 1, sFileName_symbol_save, 0x1ac);
-    for (i = 0; i < 2; i++) {
-        if (SAVE_CONTROL_ReadRecordFromFlash(savedata, 0x3d, i, save, 0x850) == 1) {
-            func_0200E06C(save);
-            for (j = 0; j < 530; j++) {
-                if (match_mode == 1) {
-                    if (key->id != ((struct SymbolRec *)save->records)[j].id) continue;
-                    if (key->category != ((struct SymbolRec *)save->records)[j].category) continue;
+    save = func_02030734((u32)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
+    for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+        if (SAVE_CONTROL_ReadRecordFromFlash(saveData, 0x3d, slotIndex, save, 0x850) == 1) {
+            SYMBOL_SAVE_FinalizeChecksum(save);
+            for (recordIndex = 0; recordIndex < 530; recordIndex++) {
+                if (matchMode == 1) {
+                    if (keyRecord->id != ((struct SymbolRec *)save->records)[recordIndex].id) continue;
+                    if (keyRecord->category != ((struct SymbolRec *)save->records)[recordIndex].category) continue;
                     found = 1;
                     break;
                 } else {
-                    if (memcmp(&save->records[j], key_word, 4) != 0) continue;
+                    if (memcmp(&save->records[recordIndex], keyWord, 4) != 0) continue;
                     found = 1;
                     break;
                 }
@@ -809,7 +809,7 @@ u32 func_0200E2BC(void *savedata, u32 *key_word, void *heap_id, u32 match_mode)
 
 
 
-int func_0200E368(void)
+int SYMBOL_SAVE_GetBitBlockSize(void)
 {
     return 0xa1 * 4;
 }
@@ -822,10 +822,10 @@ int func_0200E368(void)
  * Zeroes 0x284 bytes and sets the three trailing descriptor bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E370.c \
- *       --func func_0200E370 --addr 0x0200E370 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_InitBitBlock.c \
+ *       --func SYMBOL_SAVE_InitBitBlock --addr 0x0200E370 --thumb --cc 1.1p1
  */
-void func_0200E370(struct SymbolBitSave *save)
+void SYMBOL_SAVE_InitBitBlock(struct SymbolBitSave *save)
 {
     MI_CpuFill8(save, 0, 0x284);
     save->descriptor[0] = 0;
@@ -836,9 +836,9 @@ void func_0200E370(struct SymbolBitSave *save)
 
 
 
-void *func_0200E394(void *savedata)
+void *SYMBOL_SAVE_GetBitBlock(void *saveData)
 {
-    return func_020071CC(savedata, 0x3f);
+    return func_020071CC(saveData, 0x3f);
 }
 
 
@@ -849,10 +849,10 @@ void *func_0200E394(void *savedata)
  * Returns the argument plus 0xd2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E3A0.c \
- *       --func func_0200E3A0 --addr 0x0200E3A0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_GetQuestionnaireBits.c \
+ *       --func SYMBOL_SAVE_GetQuestionnaireBits --addr 0x0200E3A0 --thumb --cc 1.1p1
  */
-u8 *func_0200E3A0(struct SymbolBitSave *save)
+u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save)
 {
     return &save->bits[0xd2];
 }
@@ -866,20 +866,20 @@ u8 *func_0200E3A0(struct SymbolBitSave *save)
  *           leaves matched in src/matched/func_02167380.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  */
-u32 sub_0200E3A4(const u8 *bits, int field_id)
+u32 sub_0200E3A4(const u8 *bits, int fieldId)
 {
-    u32 bit_pos  = func_02167380(field_id);
-    u32 width    = QUESTIONNAIRE_GetAnswerBitWidth(field_id);
-    u32 byte_index = bit_pos >> 3;
-    u32 bit_in_byte    = bit_pos & 7;
+    u32 bitPos  = func_02167380(fieldId);
+    u32 width    = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);
+    u32 byteIndex = bitPos >> 3;
+    u32 bitInByte    = bitPos & 7;
     u32 result  = 0;
     u32 i    = 0;
 
     while (width != 0) {
-        result |= (u32)((bits[byte_index] >> bit_in_byte) & 1) << i;
-        if (++bit_in_byte > 7) {
-            byte_index++;
-            bit_in_byte = 0;
+        result |= (u32)((bits[byteIndex] >> bitInByte) & 1) << i;
+        if (++bitInByte > 7) {
+            byteIndex++;
+            bitInByte = 0;
         }
         i++;
         width--;
@@ -906,20 +906,20 @@ u32 sub_0200E3A4(const u8 *bits, int field_id)
  *   - inside the wrap test, `byte++` must precede `b = 0`; the reverse
  *     order emits `movs #0` before the `adds` and shifts the allocation.
  */
-void sub_0200E3E8(u8 *bits, int field_id, u32 value)
+void sub_0200E3E8(u8 *bits, int fieldId, u32 value)
 {
-    u32 bit_pos = func_02167380(field_id);
-    u32 width   = QUESTIONNAIRE_GetAnswerBitWidth(field_id);
-    u32 byte_index = bit_pos >> 3;
-    u32 bit_in_byte    = bit_pos & 7;
+    u32 bitPos = func_02167380(fieldId);
+    u32 width   = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);
+    u32 byteIndex = bitPos >> 3;
+    u32 bitInByte    = bitPos & 7;
 
     while (width != 0) {
-        bits[byte_index] &= (u8)(0xFFu ^ (1u << bit_in_byte));
-        bits[byte_index] |= (u8)((value & 1) << bit_in_byte);
-        bit_in_byte++;
-        if (bit_in_byte > 7) {
-            byte_index++;
-            bit_in_byte = 0;
+        bits[byteIndex] &= (u8)(0xFFu ^ (1u << bitInByte));
+        bits[byteIndex] |= (u8)((value & 1) << bitInByte);
+        bitInByte++;
+        if (bitInByte > 7) {
+            byteIndex++;
+            bitInByte = 0;
         }
         value >>= 1;
         width--;
@@ -927,7 +927,7 @@ void sub_0200E3E8(u8 *bits, int field_id, u32 value)
 }
 
 
-void func_0200E440(struct SymbolBitSave *save, int value, int index)
+void SYMBOL_SAVE_SetBitDescriptor(struct SymbolBitSave *save, int value, int index)
 {
     save->descriptor[index] = value;
 }

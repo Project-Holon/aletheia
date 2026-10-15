@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA28
+ * function: RESEARCH_TOP_DeleteUnits
  * address:  0x021BAA28
  * packet:   pkt_021BAA28
  * region:   ov217
@@ -19,7 +19,7 @@ struct Bank;
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021BAA28(int *p)
+void RESEARCH_TOP_DeleteUnits(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)

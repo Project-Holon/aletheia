@@ -21,7 +21,7 @@
  *   func_021D5C94 0x021D5C94 thumb ov115
  *   func_021D5ED8 0x021D5ED8 thumb ov115
  *   func_0202EB0C 0x0202EB0C thumb
- *   func_021D426C 0x021D426C thumb ov115
+ *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
  *   func_021D4310 0x021D4310 thumb ov115
  *   func_021D4BB4 0x021D4BB4 thumb ov115
  *   func_021D4AB0 0x021D4AB0 thumb ov115
@@ -35,7 +35,7 @@ extern void func_021D5D3C(u8 *p);
 extern void func_021D5C94(u8 *p);
 extern void func_021D5ED8(u8 *p, u32 n);
 extern u32 func_0202EB0C(void);
-extern void func_021D426C(u8 *,u32);
+extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32);
 extern void func_021D4310(u8 *);
 extern void func_021D4BB4(u8 *);
 extern void func_021D4AB0(unsigned char *a);
@@ -43,5 +43,5 @@ extern int func_021D4644(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D4360(u8 *p) {
- if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
+ if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4BB4); } else { WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D4AB0); } } else func_021D4644(p);
 }

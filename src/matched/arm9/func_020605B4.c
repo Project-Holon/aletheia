@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020605B4
+ * function: NNS_FndRemoveListObject
  * address:  0x020605B4
  * packet:   pkt_02060550
  * region:   arm9
@@ -22,11 +22,11 @@
  * `ldrh [r0, #0xa]`, the second inside the `ne` arm (`ldrhne r1, [r0, #0xa]`),
  * which is what pins that one access to the field rather than the local.
  * The `volatile` on the list pointer is the cluster-wide shape documented on
- * func_02060480: it keeps the count read after the link stores.
+ * NNSi_FndSetFirstObject: it keeps the count read after the link stores.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020605B4.c \
- *       --func func_020605B4 --addr 0x020605B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_FndRemoveListObject.c \
+ *       --func NNS_FndRemoveListObject --addr 0x020605B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ struct DListNode {
     void *next;
 };
 
-void func_020605B4(volatile struct DList *list, void *elem)
+void NNS_FndRemoveListObject(volatile struct DList *list, void *elem)
 {
     u16               off  = list->node_offset;
     struct DListNode *node = (struct DListNode *)((char *)elem + off);

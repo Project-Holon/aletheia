@@ -1,5 +1,5 @@
 /*
- * function: func_021B6888
+ * function: CDEMO_SCENE_CmdPlayFanfare
  * address:  0x021B6888
  * packet:   pkt_021B6888
  * region:   ov179
@@ -19,7 +19,7 @@
 
 extern void GFL_USE_PlayFanfare(void *arg);
 
-int func_021B6888(void *ctx, unsigned int *rec)
+int CDEMO_SCENE_CmdPlayFanfare(void *ctx, unsigned int *rec)
 {
     GFL_USE_PlayFanfare((void *)rec[1]);
     return 1;

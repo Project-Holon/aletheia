@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021FD73C",
+   "name": "BR_UTIL_SetTaskStep",
    "address": "0x021FD73C",
    "kind": "game",
    "region": "ov186",

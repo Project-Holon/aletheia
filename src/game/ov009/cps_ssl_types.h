@@ -165,13 +165,13 @@ typedef struct CPSSoc {
     unsigned long rcvbufp;                /* 0x50 */
 } CPSSoc;
 
-/* g_021A1D40: the supported cipher methods and the handshake priority */
+/* gCpsSslConfig: the supported cipher methods and the handshake priority */
 typedef struct CPSSslConfig {
     unsigned short methods[2];            /* 0x0 */
     unsigned long priority;               /* 0x4 */
 } CPSSslConfig;
 
-extern CPSSslConfig g_021A1D40;
+extern CPSSslConfig gCpsSslConfig;
 extern void *(*CPSiAlloc)(unsigned long size);   /* 0x021A8280 */
 extern void (*CPSiFree)(void *ptr);              /* 0x021A82B0 */
 

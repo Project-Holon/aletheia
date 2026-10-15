@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060614  0x02060614  arm
- *   func_02060550  0x02060550  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
+ *   NNS_FndInsertListObject  0x02060550  arm
  */
 
 typedef unsigned char u8;
@@ -25,18 +25,18 @@ typedef struct Obj_02073548 {
 } Obj_02073548;
 
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_02060550(volatile struct DList *list, void *before, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem);
 
 void NNSi_SndPlayerInsertSeqPlayer(void *list, Obj_02073548 *obj)
 {
-    Obj_02073548 *curr = (Obj_02073548 *)func_02060614(list, 0);
+    Obj_02073548 *curr = (Obj_02073548 *)NNS_FndGetNextListObject(list, 0);
     while (curr != 0) {
         if (obj->b3d < curr->b3d) {
             break;
         }
-        curr = (Obj_02073548 *)func_02060614(list, curr);
+        curr = (Obj_02073548 *)NNS_FndGetNextListObject(list, curr);
     }
-    func_02060550(list, curr, obj);
+    NNS_FndInsertListObject(list, curr, obj);
     obj->f4 = list;
 }

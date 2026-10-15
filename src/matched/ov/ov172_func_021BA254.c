@@ -1,5 +1,5 @@
 /*
- * function: func_021BA254
+ * function: CTVT_MIC_GetPlayRatio
  * address:  0x021BA254
  * packet:   pkt_021B6100
  * region:   ov172
@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern u32 func_0209C2B0(u32 a, u32 b);
 
-int func_021BA254(void *p)
+int CTVT_MIC_GetPlayRatio(void *p)
 {
     return (u16)func_0209C2B0(((struct Obj14306 *)p)->f18 << 15,
                               ((struct Obj14306 *)p)->f1C * 0x10e);

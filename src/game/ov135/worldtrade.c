@@ -367,9 +367,7 @@ extern void GAME_DATA_SaveCancel(char *p);
 
 extern void func_0200F7C0(u32 c);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 int WORLDTRADE_ProcInit(void *proc, int *seq, Args_021F4580 *args);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC3C
+ * function: RESEARCH_LIST_DummyListBg
  * address:  0x021BCC3C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BCC3C(u8 *a0)
+void RESEARCH_LIST_DummyListBg(u8 *a0)
 {
 }

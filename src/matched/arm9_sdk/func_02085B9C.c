@@ -1,5 +1,5 @@
 /*
- * function: func_02085B9C
+ * function: OS_InitContext
  * address:  0x02085B9C
  * packet:   pkt_02085B9C
  * region:   arm9
@@ -33,7 +33,7 @@ typedef struct OSContext {
     CPContext cp_context;
 } OSContext;
 
-asm void func_02085B9C(OSContext *context, u32 newpc, u32 newsp)
+asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp)
 {
     add     r1, r1, #4
     str     r1, [r0, #0x40]

@@ -34,7 +34,7 @@
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   sRingtoneTransitions   0x0209FED4  data  a1
- *   func_02072788  0x02072788  arm
+ *   NNS_SndSetMasterVolume  0x02072788  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
@@ -226,7 +226,7 @@ extern void GFL_USE_StopSeSlot(int slot);
 extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern int GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
-extern void func_02072788(int volume);
+extern void NNS_SndSetMasterVolume(int volume);
 extern void NNS_SndPlayerSetPlayerVolume(int playerNo, int volume);
 extern void PLAYER_VOLUME_FADER_SetMute(struct Fader *fader, int mute);
 
@@ -1451,21 +1451,21 @@ void RINGTONE_SYS_PostEvent(Ringtone *ringtone, int event)
 
     switch (nextState) {
     case RINGTONE_STATE_IDLE:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted(ringtone, 0);
         RINGTONE_SYS_StopRing(ringtone);
         break;
     case RINGTONE_STATE_RINGING:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted(ringtone, 1);
         RINGTONE_SYS_StartRing(ringtone);
         break;
     case RINGTONE_STATE_ASLEEP:
-        func_02072788(0);
+        NNS_SndSetMasterVolume(0);
         RINGTONE_SYS_StopRing(ringtone);
         break;
     case RINGTONE_STATE_RINGING_ASLEEP:
-        func_02072788(0x7f);
+        NNS_SndSetMasterVolume(0x7f);
         RINGTONE_SYS_SetBgmMuted(ringtone, 1);
         RINGTONE_SYS_StartRing(ringtone);
         break;

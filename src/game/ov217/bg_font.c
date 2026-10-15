@@ -42,10 +42,7 @@
  *   func_0201D304  0x0201D304  thumb
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
-#include "research_top_shared_types.h"
-#include "research_list_shared_types.h"
-#include "research_graph_shared_types.h"
-#include "research_common_shared_types.h"
+#include "research_shared_types.h"
 
 struct BmpWin;
 struct BmpPixels;

@@ -1,5 +1,5 @@
 /*
- * function: func_021FCC80
+ * function: BR_UTIL_DeleteListMenu
  * address: 0x021FCC80
  * packet: pkt_ov186_021FCC80
  * region: ov186
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BMP_Delete 0x020437AC arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -19,7 +19,7 @@
 #include "../include/Obj01571.h"
 struct Descriptor;
 struct Obj;
-extern void func_021FD860(int,int,void *);
+extern void BR_UTIL_StartEffect(int,int,void *);
 extern void CLACT_DeleteActor(struct Obj *p);
 struct Obj020437AC;
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -28,10 +28,10 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FCC80(char *p)
+void BR_UTIL_DeleteListMenu(char *p)
 {
     int i;
-    if(((struct Obj01571 *)p)->f1C) func_021FD860(((struct Obj01571 *)p)->f1C,0,0);
+    if(((struct Obj01571 *)p)->f1C) BR_UTIL_StartEffect(((struct Obj01571 *)p)->f1C,0,0);
     for(i=0;i<4;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+0x28+i*4)));
     for(i=0;(unsigned)i<((struct Obj01571 *)p)->f4;i++) {
         if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) BMP_Delete((struct Obj020437AC *)(*(int *)(p+0x8C+i*4)));

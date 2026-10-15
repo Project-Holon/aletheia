@@ -1,5 +1,5 @@
 /*
- * function: func_021EA858
+ * function: BOX2_SEQ_ResetEntryB
  * address:  0x021EA858
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF75C  0x021EF75C  thumb  ov170
- *   func_021E8FC0  0x021E8FC0  thumb  ov170
+ *   BOX2_UI_CloseInfoBar  0x021EF75C  thumb  ov170
+ *   BOX2_SEQ_SetSeqThird  0x021E8FC0  thumb  ov170
  *
- * Same forward as func_021EA83C but after restarting the queue.
+ * Same forward as BOX2_SEQ_ResetEntry but after restarting the queue.
  */
 #include "../include/Obj00000.h"
 
 
 struct WinMgr;
-extern void func_021EF75C(struct WinMgr *mgr);
-extern int func_021E8FC0(char *p, int a, int b);
-int func_021EA858(char *p, int a)
+extern void BOX2_UI_CloseInfoBar(struct WinMgr *mgr);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+int BOX2_SEQ_ResetEntryB(char *p, int a)
 {
-    func_021EF75C(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
-    return func_021E8FC0(p, 0x021E01E1, a);
+    BOX2_UI_CloseInfoBar(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
+    return BOX2_SEQ_SetSeqThird(p, 0x021E01E1, a);
 }

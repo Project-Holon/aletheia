@@ -12,7 +12,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   d_021DAB78 0x021DAB78 data a1
+ *   gGsyncStateAllocSource 0x021DAB78 data a1
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
  *   func_020093D4 0x020093D4 thumb
@@ -41,7 +41,7 @@ struct Sub02007454Entry;
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
-extern const char d_021DAB78[];
+extern const char gGsyncStateAllocSource[];
 void GSYNC_STATE_LoadReceivedMon(char *p)
 {
     void *g;
@@ -54,7 +54,7 @@ void GSYNC_STATE_LoadReceivedMon(char *p)
         ((struct Obj01736 *)p)->fC=0;
     }
     if (func_020076D0(((struct Obj01736 *)p)->f24,(int *)(p+0x48),(int *)(p+0x4c))) {
-        q=func_02030734(((struct Obj01736 *)p)->f0,POKE_TOOL_GetPartyParamSize(),1,d_021DAB78,0x245);
+        q=func_02030734(((struct Obj01736 *)p)->f0,POKE_TOOL_GetPartyParamSize(),1,gGsyncStateAllocSource,0x245);
         size=POKE_TOOL_GetPartyParamSize();
         MI_CpuCopy8(func_02009290(g),q,size);
         if (((struct Obj01736 *)p)->f6C) {

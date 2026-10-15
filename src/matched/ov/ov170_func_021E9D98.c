@@ -1,5 +1,5 @@
 /*
- * function: func_021E9D98
+ * function: BOX2_SEQ_SelectSlotB
  * address:  0x021E9D98
  * packet:   pkt_ov170_021E9D98
  * region:   ov170
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC768 0x021EC768 thumb
- *   func_021ECB84 0x021ECB84 thumb
- *   func_021ED594 0x021ED594 thumb
- *   func_021EA1C0 0x021EA1C0 thumb
- *   func_021EE038 0x021EE038 thumb
- *   func_021EBA5C 0x021EBA5C thumb
- *   func_021DD14C 0x021DD14C thumb
- *   func_021EF670 0x021EF670 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E1B1C 0x021E1B1C thumb
+ *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
+ *   BOX2_SEQ_SwapSlotActors 0x021ECB84 thumb
+ *   BOX2_SEQ_MoveCursorActor 0x021ED594 thumb
+ *   BOX2_SEQ_Create 0x021EA1C0 thumb
+ *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
+ *   BOX2_UI_ShowWindowA 0x021EF670 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_SEQ_StateMachineScroll 0x021E1B1C thumb
  */
 
 
@@ -40,30 +40,30 @@ typedef struct {
     char *work;
 } Obj;
 
-extern void func_021EC768(char *p, unsigned i, int flag);
-extern void func_021ECB84(char *w, unsigned i);
-extern void func_021ED594(char *p, unsigned i);
-extern void func_021EA1C0(void *p);
-extern void func_021EE038(char *p, int a, int b, int c);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern void func_021EF670(char *w);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E1B1C(unsigned char *p);
+extern void BOX2_SEQ_SetSlotDrawPriority(char *p, unsigned i, int flag);
+extern void BOX2_SEQ_SwapSlotActors(char *w, unsigned i);
+extern void BOX2_SEQ_MoveCursorActor(char *p, unsigned i);
+extern void BOX2_SEQ_Create(void *p);
+extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_UI_ShowWindowA(char *w);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_SEQ_StateMachineScroll(unsigned char *p);
 
-void func_021E9D98(Obj *p, unsigned char i)
+void BOX2_SEQ_SelectSlotB(Obj *p, unsigned char i)
 {
     p->b16 = i;
     p->b17 = p->b14;
     p->b1B = 0;
-    func_021EC768(p->work, p->b16, 0);
-    func_021ECB84(p->work, p->b16);
-    func_021ED594((char *)p, 0x24);
-    func_021EA1C0(p);
-    func_021EE038((char *)p, 2, 2, 1);
-    func_021EBA5C(p->work, 0x18);
-    func_021DD14C((char *)p);
+    BOX2_SEQ_SetSlotDrawPriority(p->work, p->b16, 0);
+    BOX2_SEQ_SwapSlotActors(p->work, p->b16);
+    BOX2_SEQ_MoveCursorActor((char *)p, 0x24);
+    BOX2_SEQ_Create(p);
+    BOX2_UI_DeleteSlotObjects((char *)p, 2, 2, 1);
+    BOX2_SEQ_ShowWindowObject(p->work, 0x18);
+    BOX2_MAIN_RefreshCursorBox((char *)p);
     p->b1A = 0;
     p->next = 0x20;
-    func_021E8FC0((char *)p, (int)func_021E1B1C, 0x24);
+    BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_SEQ_StateMachineScroll, 0x24);
 }

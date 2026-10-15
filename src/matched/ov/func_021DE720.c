@@ -1,5 +1,5 @@
 /*
- * function: func_021DE720
+ * function: BOX2_MAIN_GetMinusOne
  * address:  0x021DE720
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -15,7 +15,7 @@
  */
 
 
-int func_021DE720(void)
+int BOX2_MAIN_GetMinusOne(void)
 {
     return -1;
 }

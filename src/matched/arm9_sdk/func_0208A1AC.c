@@ -1,5 +1,5 @@
 /*
- * function: func_0208A1AC
+ * function: SNDi_GetFinishedCommandTag
  * address:  0x0208A1AC
  * packet:   pkt_0208A1AC
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct SNDSharedWork {
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern SNDSharedWork *SNDi_SharedWork;
 
-unsigned long func_0208A1AC(void)
+unsigned long SNDi_GetFinishedCommandTag(void)
 {
     DC_InvalidateRange(&SNDi_SharedWork->finishCommandTag, 4);
     return SNDi_SharedWork->finishCommandTag;

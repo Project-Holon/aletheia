@@ -234,7 +234,6 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg,
 BOOL MBi_MakeBlockInfoTable(MB_BlockInfoTable *table, MbDownloadFileInfoHeader *mdfi);
 BOOL MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table, u32 block, MbDownloadFileInfoHeader *mdfi);
 int MBi_IsAbleToRecv(u8 segment_no, u32 address, u32 size);
-int IsAbleToLoad(u8 segment_no, u32 address, u32 size);
 extern char d_021F6E54[];
 extern CARDRomRegion mbi_seg_header_default[3];
 extern CARDRomRegion *mbi_seg_header;

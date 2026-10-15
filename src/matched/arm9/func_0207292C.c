@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020895D8  0x020895D8  arm
+ *   SND_LockChannel  0x020895D8  arm
  *   gNNSSndWaveOutState     0x0214DEC0  data
  *
  * Channel allocator, claim-by-mask.  Refuses an empty mask (returns 1), refuses
  * a mask that overlaps the in-use word at gNNSSndWaveOutState+8 (returns 0), otherwise
- * locks it through func_020895D8 and ORs it in.  Matched SND_CHANNEL_UnlockChannels is the
+ * locks it through SND_LockChannel and ORs it in.  Matched SND_CHANNEL_UnlockChannels is the
  * matching release and reads the same +0x08 word.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md, and
@@ -39,13 +39,13 @@
 
 extern struct Global0214DEC0 gNNSSndWaveOutState;
 typedef unsigned int   u32;
-extern void func_020895D8(u32 chBitMask, u32 flags);
+extern void SND_LockChannel(u32 chBitMask, u32 flags);
 
 int NNSi_SndWaveOutLockChannels(int mask)
 {
     if (mask == 0) return 1;
     if ((mask & gNNSSndWaveOutState.flags8) != 0) return 0;
-    func_020895D8(mask, 0);
+    SND_LockChannel(mask, 0);
     gNNSSndWaveOutState.flags8 |= mask;
     return 1;
 }

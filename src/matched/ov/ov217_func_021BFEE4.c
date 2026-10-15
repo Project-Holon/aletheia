@@ -1,5 +1,5 @@
 /*
- * function: func_021BFEE4
+ * function: RESEARCH_GRAPH_ClearPercentages
  * address:  0x021BFEE4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BFEE4(void *p)
+void RESEARCH_GRAPH_ClearPercentages(void *p)
 {
     int i;
     for (i = 0; i < 10; i++)

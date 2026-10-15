@@ -1,5 +1,5 @@
 /*
- * function: func_02060FEC
+ * function: NNSi_FndAllocFromFrmHeapHead
  * address:  0x02060FEC
  * packet:   pkt_02060FA4
  * region:   arm9
@@ -23,7 +23,7 @@ struct Heap {
 
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
-u32 func_02060FEC(struct Heap *h, u32 size, u32 align)
+u32 NNSi_FndAllocFromFrmHeapHead(struct Heap *h, u32 size, u32 align)
 {
     u32 amask = align - 1;
     u32 p = (amask + h->cur) & ~amask;

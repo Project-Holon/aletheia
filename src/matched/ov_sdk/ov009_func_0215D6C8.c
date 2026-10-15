@@ -14,8 +14,8 @@
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_020879EC  0x020879EC  arm
- *   func_020860D0  0x020860D0  arm
- *   func_02086028  0x02086028  arm
+ *   OS_TryLockMutex  0x020860D0  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_0215D7FC  0x0215D7FC  arm  ov009
  *   func_02086078  0x02086078  arm
  *
@@ -38,8 +38,8 @@ struct SOCLSocket {
 
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_020879EC(void);
-extern int func_020860D0(void *mutex);
-extern void func_02086028(void *mutex);
+extern int OS_TryLockMutex(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern int func_0215D7FC(char *a, int b, int c, int d, int e, int f, int g);
 extern void func_02086078(void *mutex);
 
@@ -84,10 +84,10 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
     }
     recv_pipe = socket->recv_pipe;
     if (!(flag_block & 1)) {
-        if (!func_020860D0(recv_pipe->mutex))
+        if (!OS_TryLockMutex(recv_pipe->mutex))
             return -6;
     } else {
-        func_02086028(recv_pipe->mutex);
+        OS_LockMutex(recv_pipe->mutex);
     }
     result = func_0215D7FC((char *)socket, (int)buffer, buffer_len, (int)remote_port, (int)remote_ip, flag_block, flags);
     func_02086078(recv_pipe->mutex);

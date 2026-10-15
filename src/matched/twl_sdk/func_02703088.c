@@ -20,6 +20,7 @@
  *   NWMi_SendCommandDirect  0x02703B24  arm twl
  *   NWM_GetInfoElements  0x02703208  arm
  *   NWM_GetVenderInfoElements  0x02703250  arm
+ *   MI_CpuComp8  0x02082E74  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -60,7 +61,7 @@ extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
-extern u32 func_02082E74(void *, void *, u32);
+extern u32 MI_CpuComp8(void *, void *, u32);
 u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
 u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2);
 

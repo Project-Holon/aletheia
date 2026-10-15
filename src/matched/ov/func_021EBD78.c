@@ -1,5 +1,5 @@
 /*
- * function: func_021EBD78
+ * function: BOX2_SEQ_PrintYesNo
  * address:  0x021EBD78
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EBA84  0x021EBA84  thumb  ov170
+ *   BOX2_SEQ_PrintMessageMsg  0x021EBA84  thumb  ov170
  *
  * Index 0x35 when the flag is clear, 0x36 when set.
  */
 
 
-extern void func_021EBA84(unsigned char *p, int msg, int i);
-void func_021EBD78(char *p, int b)
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
+void BOX2_SEQ_PrintYesNo(char *p, int b)
 {
     if (b == 0)
-        func_021EBA84((unsigned char *)p, 0x35, 0x1b);
+        BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0x35, 0x1b);
     else
-        func_021EBA84((unsigned char *)p, 0x36, 0x1b);
+        BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0x36, 0x1b);
 }

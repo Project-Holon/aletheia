@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF5C
+ * function: RESEARCH_GRAPH_DestroyPercentages
  * address:  0x021BFF5C
  * packet:   pkt_021BFF5C
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 PERCENTAGE_Destroy(void *a0);
 
-void func_021BFF5C(int *p)
+void RESEARCH_GRAPH_DestroyPercentages(int *p)
 {
     int i;
     for (i = 0; i < 10; i++)

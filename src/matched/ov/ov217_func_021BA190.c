@@ -1,5 +1,5 @@
 /*
- * function: func_021BA190
+ * function: RESEARCH_TOP_GetCommandTimer
  * address:  0x021BA190
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA190(void *p)
+u32 RESEARCH_TOP_GetCommandTimer(void *p)
 {
     return ((struct Obj25810 *)p)->f1C;
 }

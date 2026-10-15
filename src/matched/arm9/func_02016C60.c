@@ -21,7 +21,7 @@
  *
  * symbols:
  *   _s32_to_double  0x0209B750  arm
- *   func_0209AB80   0x0209AB80  arm
+ *   pow   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
  */
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern double _s32_to_double(s32 v);
-extern double func_0209AB80(double a, double b);
+extern double pow(double a, double b);
 extern s32 _d2s(double d);
 struct Rec
 {
@@ -104,7 +104,7 @@ void MCSS_ApplyMosaic(struct Work *a0, struct Task *a1)
   {
     return;
   }
-  scale = _d2s(func_0209AB80(2.0, _s32_to_double(a0->fa8 + 2)));
+  scale = _d2s(pow(2.0, _s32_to_double(a0->fa8 + 2)));
   base = a1->f00[5];
   k = 0;
   while (((u32) k) < ((u32) a0->f2c[0]))

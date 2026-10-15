@@ -12,7 +12,7 @@
  * Teardown guarded on bit 1 of the flags word at +0x2C: releases the slot
  * mask built from +0x48, tears down the two sub-objects at +0x08 and +0x18,
  * clears the bit, then brackets func_02089B38(1) with the save/restore pair
- * func_02089D40 / func_02089CD4. The unguarded tail call to NNSi_SndStrmReleaseTimer
+ * SND_GetCurrentCommandTag / SND_WaitForCommandProc. The unguarded tail call to NNSi_SndStrmReleaseTimer
  * runs either way.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, per the 2026-09-19
@@ -41,12 +41,12 @@
  * frees either: +0040 func_0208C884 and +006C NNSi_SndStrmReleaseTimer.
  *
  * symbols:
- *   func_020894DC  0x020894DC  arm
+ *   SND_StopTimer  0x020894DC  arm
  *   func_0208C86C  0x0208C86C  arm
  *   func_0208C884  0x0208C884  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
- *   func_02089CD4  0x02089CD4  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  *   NNSi_SndStrmReleaseTimer  0x02073BB0  arm
  *
  * Verified with:
@@ -70,12 +70,12 @@ struct Obj {
     u32 f4c;          /* 0x4c */
 };
 
-extern void func_020894DC(u32 a, u32 b, u32 c, u32 d);
+extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void func_0208C86C(void *p);
 extern void func_0208C884(void *p);
-extern u32  func_02089D40(void);
+extern u32  SND_GetCurrentCommandTag(void);
 extern void func_02089B38(u32 a);
-extern void func_02089CD4(u32 a);
+extern void SND_WaitForCommandProc(u32 a);
 struct X;
 extern void NNSi_SndStrmReleaseTimer(struct X *x);
 
@@ -84,13 +84,13 @@ void NNS_SndStrmStop(struct Obj *o)
     if (o->b1) {
         u32 saved;
 
-        func_020894DC(o->f4c, 0, 1u << o->f48, 0);
+        SND_StopTimer(o->f4c, 0, 1u << o->f48, 0);
         func_0208C86C(&o->f08);
         func_0208C884(&o->f18);
         o->b1 = 0;
-        saved = func_02089D40();
+        saved = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(saved);
+        SND_WaitForCommandProc(saved);
     }
     NNSi_SndStrmReleaseTimer((struct X *)o);
 }

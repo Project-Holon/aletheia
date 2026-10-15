@@ -31,7 +31,7 @@
  *   PMSI_PARAM_Create  0x02024044  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
- *   func_0200E6FC  0x0200E6FC  thumb
+ *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
  *   PMSI_PARAM_SetSentence  0x02024108  thumb
  *   SYMBOL_MAP_PmsInputTaskMain  0x02166E50  thumb  ov010
  */
@@ -68,7 +68,7 @@ extern struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag, void
 extern void *func_020120F4(const struct Ctx *p);
 struct Rec0200E6FC;
 extern void *func_0200E6F0(u32 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode);
 
@@ -137,7 +137,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *c, void *vm)
     }
     w->win = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(heap), 1);
     if (w->hasMsg) {
-        func_0200E6FC(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
+        MISC_SAVEDATA_CopyQuadRecord(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
         PMSI_PARAM_SetSentence(w->win, (const u16 *)buf);
     }
     SCRIPT_SYS_CallEvent(owner, task);

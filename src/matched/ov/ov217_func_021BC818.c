@@ -1,5 +1,5 @@
 /*
- * function: func_021BC818
+ * function: RESEARCH_LIST_Free
  * address:  0x021BC818
  * packet:   pkt_021B9850
  * region:   ov217
@@ -21,7 +21,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_021BC818(void *a0)
+u32 RESEARCH_LIST_Free(void *a0)
 {
     return func_020307B0(a0);
 }

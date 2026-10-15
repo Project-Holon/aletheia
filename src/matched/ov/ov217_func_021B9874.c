@@ -1,5 +1,5 @@
 /*
- * function: func_021B9874
+ * function: RESEARCH_TOP_CreateCommon
  * address:  0x021B9874
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int RESEARCH_COMMON_Create(int a0, int a1);
-void func_021B9874(u32 a0)
+void RESEARCH_TOP_CreateCommon(u32 a0)
 {
     ((struct Obj01438 *)(((u8*)a0 + 0)))->fC = RESEARCH_COMMON_Create(((struct Obj01438 *)((u8*)a0))->f0, ((struct Obj01438 *)(((u8*)a0 + 0)))->f4);
 }

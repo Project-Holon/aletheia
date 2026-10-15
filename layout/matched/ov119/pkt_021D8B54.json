@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DADAC",
+   "name": "POKETRADE_PROC_StepSendNewRound",
    "address": "0x021DADAC",
    "kind": "game",
    "region": "ov119",

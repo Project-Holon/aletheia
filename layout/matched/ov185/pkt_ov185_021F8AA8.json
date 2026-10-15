@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F8AA8",
+   "name": "BR_POKESEARCH_EnterListTask",
    "address": "0x021F8AA8",
    "kind": "game",
    "region": "ov185",

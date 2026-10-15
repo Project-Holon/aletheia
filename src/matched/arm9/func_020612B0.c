@@ -1,5 +1,5 @@
 /*
- * function: func_020612B0
+ * function: NNSi_FndAllocFromFrmHeapAllocator
  * address:  0x020612B0
  * packet:   pkt_020612B0
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02061124  0x02061124  arm
+ *   NNS_FndAllocFromFrmHeapEx  0x02061124  arm
  *
  * Allocator-table alloc for the frame heap: tail call to
- * func_02061124(allocator->heap, size, allocator->param1).  Table word
+ * NNS_FndAllocFromFrmHeapEx(allocator->heap, size, allocator->param1).  Table word
  * 0x020612B0 at 0x020A1700.
  */
 
@@ -27,9 +27,9 @@ struct Allocator02061 {
     u32 param2;
 };
 
-extern unsigned int func_02061124(char *p, int n, int v);
+extern unsigned int NNS_FndAllocFromFrmHeapEx(char *p, int n, int v);
 
-void *func_020612B0(struct Allocator02061 *allocator, u32 size)
+void *NNSi_FndAllocFromFrmHeapAllocator(struct Allocator02061 *allocator, u32 size)
 {
-    return (void *)func_02061124(allocator->heap, size, (s32)allocator->param1);
+    return (void *)NNS_FndAllocFromFrmHeapEx(allocator->heap, size, (s32)allocator->param1);
 }

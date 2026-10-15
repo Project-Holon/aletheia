@@ -1,5 +1,5 @@
 /*
- * function: func_021B622C
+ * function: CDEMO_MAIN_SetScript
  * address:  0x021B622C
  * packet:   pkt_ov179_021B622C
  * region:   ov179
@@ -17,7 +17,7 @@
 
 extern int d_021B68E4[];
 
-void func_021B622C(char *p)
+void CDEMO_MAIN_SetScript(char *p)
 {
     unsigned short idx = ((struct Obj24463 *)(((struct Obj10716 *)p)->f0))->f0;
     int v = d_021B68E4[idx];

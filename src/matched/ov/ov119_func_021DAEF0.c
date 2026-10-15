@@ -1,5 +1,5 @@
 /*
- * function: func_021DAEF0
+ * function: POKETRADE_PROC_StepShowWaitMessageA
  * address: 0x021DAEF0
  * packet: pkt_ov119_021DAEF0
  * region: ov119
@@ -18,8 +18,8 @@
  *   POKETRADE_SAVE_ShowTimeIcon 0x021E1030 thumb ov119
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   func_021DAEC8 0x021DAEC8 thumb ov119
- *   func_021DBA80 0x021DBA80 thumb ov119
+ *   POKETRADE_PROC_StepWaitMessageThenClear 0x021DAEC8 thumb ov119
+ *   POKETRADE_PROC_StepResetGrid 0x021DBA80 thumb ov119
  */
 #include "../include/Obj00001.h"
 
@@ -36,17 +36,17 @@ extern void POKETRADE_SAVE_ShowTimeIcon(char *p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void func_021DAEC8(void *);
-extern void func_021DBA80(char *p);
+extern void POKETRADE_PROC_StepWaitMessageThenClear(void *);
+extern void POKETRADE_PROC_StepResetGrid(char *p);
 static inline int poll_a(void) {int r=KEY_GetTrg();if(r)func_020355D8(0);return r;}
 static inline int poll_b(void) {int r=TOUCHPANEL_GetTrg();if(r)func_020355D8(1);return r;}
-void func_021DAEF0(char *p) {
+void POKETRADE_PROC_StepShowWaitMessageA(char *p) {
  if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
   if(poll_a() || poll_b()) {
    POKETRADE_SAVE_CloseMessageWindowClear(p);
    if(POKETRADE_PROC_IsNetSession(p)) {
-    MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),50,(void *)(*(int *)&((struct Obj00001 *)p)->f738));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_PROC_SetStep(p,(int)func_021DAEC8);
-   } else POKETRADE_PROC_SetStep(p,(int)func_021DBA80);
+    MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),50,(void *)(*(int *)&((struct Obj00001 *)p)->f738));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepWaitMessageThenClear);
+   } else POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetGrid);
   }
  }
 }

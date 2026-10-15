@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4DC
+ * function: RESEARCH_GRAPH_GetSubState
  * address:  0x021BE4DC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BE4DC(void *p)
+u32 RESEARCH_GRAPH_GetSubState(void *p)
 {
     return ((struct Obj25905 *)p)->f24;
 }

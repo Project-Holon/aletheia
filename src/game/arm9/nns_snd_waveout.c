@@ -30,20 +30,21 @@
  *     if/else (two independent ifs if-convert and no longer match).
  *
  * symbols:
- *   func_020895D8  0x020895D8  arm
+ *   SND_LockChannel  0x020895D8  arm
  *   gNNSSndWaveOutState     0x0214DEC0  data
- *   func_020895F8    0x020895F8  arm
+ *   SND_UnlockChannel    0x020895F8  arm
  *   gNNSSndWaveOutHandles       0x0214DECC  data
- *   func_02089660  0x02089660  arm
- *   func_020894B4  0x020894B4  arm
- *   func_02089D40  0x02089D40  arm
+ *   SND_SetupChannelPcm  0x02089660  arm
+ *   SND_StartTimer  0x020894B4  arm
+ *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_020894DC  0x020894DC  arm
- *   func_02089618  0x02089618  arm
- *   func_02089D6C 0x02089D6C  arm
- *   func_0208A07C 0x0208A07C  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_SetChannelTimer  0x02089618  arm
+ *   SND_IsFinishedCommandTag 0x02089D6C  arm
+ *   SND_GetChannelStatus 0x0208A07C  arm
  *   func_02089B38   0x02089B38  arm
- *   func_02089CD4   0x02089CD4  arm
+ *   SND_WaitForCommandProc   0x02089CD4  arm
+ *   SND_SetChannelVolume  0x02089638  arm
  */
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -66,18 +67,18 @@ typedef struct NNSSndWaveOutHandle {
     u32 commandTag;  /* 0x10  SND command tag to wait for */
 } NNSSndWaveOutHandle;
 
-extern void func_020895D8(u32 chBitMask, u32 flags);
-extern void func_020895F8(u32 channelMask, u32 flags);
-extern void func_02089660(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
-extern void func_020894B4(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
-extern u32  func_02089D40(void);
-extern void func_020894DC(u32 chan, u32 a, u32 b, u32 c);
-extern void func_02089638(u32 chBitMask, int volume, int shift);
-extern void func_02089618(u32 chBitMask, int timer);
-extern int func_02089D6C(u32 tag);
-extern u32 func_0208A07C(void);
+extern void SND_LockChannel(u32 chBitMask, u32 flags);
+extern void SND_UnlockChannel(u32 channelMask, u32 flags);
+extern void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
+extern void SND_StartTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
+extern u32  SND_GetCurrentCommandTag(void);
+extern void SND_StopTimer(u32 chan, u32 a, u32 b, u32 c);
+extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
+extern void SND_SetChannelTimer(u32 chBitMask, int timer);
+extern int SND_IsFinishedCommandTag(u32 tag);
+extern u32 SND_GetChannelStatus(void);
 extern void func_02089B38(int v);
-extern void func_02089CD4(u32 tag);
+extern void SND_WaitForCommandProc(u32 tag);
 int NNSi_SndWaveOutLockChannels(int mask);
 void SND_CHANNEL_UnlockChannels(u32 channelMask);
 void SND_CHANNEL_ClearClaimedMask(u32 channelMask);
@@ -100,7 +101,7 @@ int NNSi_SndWaveOutLockChannels(int mask)
 {
     if (mask == 0) return 1;
     if ((mask & gNNSSndWaveOutState.lockedChannelMask) != 0) return 0;
-    func_020895D8(mask, 0);
+    SND_LockChannel(mask, 0);
     gNNSSndWaveOutState.lockedChannelMask |= mask;
     return 1;
 }
@@ -111,7 +112,7 @@ void SND_CHANNEL_UnlockChannels(u32 channelMask)
     if (channelMask == 0) {
         return;
     }
-    func_020895F8(channelMask, 0);
+    SND_UnlockChannel(channelMask, 0);
     gNNSSndWaveOutState.lockedChannelMask &= ~channelMask;
 }
 
@@ -218,12 +219,12 @@ int NNS_SndWaveOutStart(NNSSndWaveOutHandle *handle, int format, void *waveData,
     } else if (timer > 0xFFFF) {
         timer = 0xFFFF;
     }
-    func_02089660(handle->channelNo, format, waveData, loopFlag != 0 ? 1 : 2,
+    SND_SetupChannelPcm(handle->channelNo, format, waveData, loopFlag != 0 ? 1 : 2,
                   loopStartUnits, loopLength, volume, 0, (u32)timer, pan);
-    func_020894B4(1 << handle->channelNo, 0, 0, 0);
+    SND_StartTimer(1 << handle->channelNo, 0, 0, 0);
     handle->active = 1;
     handle->started = 0;
-    handle->commandTag = func_02089D40();
+    handle->commandTag = SND_GetCurrentCommandTag();
     handle->baseRate = sampleRate;
     return 1;
 }
@@ -234,14 +235,14 @@ void NNS_SndWaveOutStop(NNSSndWaveOutHandle *handle)
     if (handle->active == 0) {
         return;
     }
-    func_020894DC(1 << handle->channelNo, 0, 0, 0);
+    SND_StopTimer(1 << handle->channelNo, 0, 0, 0);
     handle->active = 0;
 }
 
 void NNS_SndWaveOutSetVolume(NNSSndWaveOutHandle *handle, u32 volume)
 {
     if (handle->active == 0) return;
-    func_02089638(1 << handle->channelNo, volume, 0);
+    SND_SetChannelVolume(1 << handle->channelNo, volume, 0);
 }
 
 /* Writes the channel timer period: 0x7FD87F8000 / baseRate / speed, clamped (see file header). */
@@ -259,7 +260,7 @@ void NNS_SndWaveOutSetSpeed(NNSSndWaveOutHandle *handle, int speed)
     else if (timer > 0xFFFF) {
         timer = 0xFFFF;
     }
-    func_02089618(1 << handle->channelNo, (u32)timer);
+    SND_SetChannelTimer(1 << handle->channelNo, (u32)timer);
 }
 
 int NNS_SndWaveOutIsPlaying(NNSSndWaveOutHandle *handle)
@@ -268,10 +269,10 @@ int NNS_SndWaveOutIsPlaying(NNSSndWaveOutHandle *handle)
 
     if (handle->active == 0) return 0;
     if (handle->started == 0) {
-        if (func_02089D6C(handle->commandTag) == 0) return 1;
+        if (SND_IsFinishedCommandTag(handle->commandTag) == 0) return 1;
         handle->started = 1;
     }
-    channelStatus = func_0208A07C();
+    channelStatus = SND_GetChannelStatus();
     if (channelStatus & (1u << handle->channelNo)) return 1;
     handle->active = 0;
     return 0;
@@ -287,17 +288,17 @@ void NNS_SndWaveOutWaitIdle(NNSSndWaveOutHandle *handle)
     u32 commandTag;
 
     if (handle->active == 0) {
-        if ((func_0208A07C() & (1 << handle->channelNo)) == 0)
+        if ((SND_GetChannelStatus() & (1 << handle->channelNo)) == 0)
             return;
-        commandTag = func_02089D40();
+        commandTag = SND_GetCurrentCommandTag();
         func_02089B38(1);
-        func_02089CD4(commandTag);
+        SND_WaitForCommandProc(commandTag);
     } else {
         if (handle->started == 0) {
-            func_02089CD4(handle->commandTag);
+            SND_WaitForCommandProc(handle->commandTag);
             handle->started = 1;
         }
-        while (func_0208A07C() & (1 << handle->channelNo))
+        while (SND_GetChannelStatus() & (1 << handle->channelNo))
             ;
     }
 }

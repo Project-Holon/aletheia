@@ -1,5 +1,5 @@
 /*
- * function: func_021DB52C
+ * function: POKETRADE_PROC_PollGridKeys
  * address: 0x021DB52C
  * packet: pkt_ov119_021DB52C
  * region: ov119
@@ -10,12 +10,12 @@
  * symbols:
  *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
- *   func_021DD018 0x021DD018 thumb ov119
+ *   POKETRADE_PROC_ClampScrollColumn 0x021DD018 thumb ov119
  *   POKETRADE_2D_GetVisibleColumnRange 0x021E4E0C thumb ov119
- *   func_021DB4EC 0x021DB4EC thumb ov119
- *   func_021DB4B4 0x021DB4B4 thumb ov119
+ *   POKETRADE_PROC_IsSlotVisible 0x021DB4EC thumb ov119
+ *   POKETRADE_PROC_GetSlotPosition 0x021DB4B4 thumb ov119
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021DB7AC 0x021DB7AC thumb ov119
+ *   POKETRADE_PROC_RedrawAndSyncGrid 0x021DB7AC thumb ov119
  *   d_021E7FE0 0x021E7FE0 data a4
  */
 #include "../include/Obj00130.h"
@@ -23,14 +23,14 @@ extern unsigned int KEY_GetRepeat(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
-extern void func_021DD018(char *, int);
+extern void POKETRADE_PROC_ClampScrollColumn(char *, int);
 extern int POKETRADE_2D_GetVisibleColumnRange(char *, int *);
-extern int func_021DB4EC(char *, int);
-extern int func_021DB4B4(int);
+extern int POKETRADE_PROC_IsSlotVisible(char *, int);
+extern int POKETRADE_PROC_GetSlotPosition(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021DB7AC(char *, int, int);
+extern void POKETRADE_PROC_RedrawAndSyncGrid(char *, int, int);
 extern const int d_021E7FE0[];
-void func_021DB52C(char *p)
+void POKETRADE_PROC_PollGridKeys(char *p)
 {
     int changed = 0;
     int i, v;
@@ -50,7 +50,7 @@ void func_021DB52C(char *p)
             changed = 1;
             ((struct Obj00130 *)p)->f107C = d_021E7FE0[0];
         }
-        func_021DD018(p, changed);
+        POKETRADE_PROC_ClampScrollColumn(p, changed);
     } else if (k & 0x200) {
         func_020355D8(0);
         for (i = ((struct Obj00130 *)p)->f630; i >= 0; i--) {
@@ -64,7 +64,7 @@ void func_021DB52C(char *p)
             changed = 1;
             ((struct Obj00130 *)p)->f107C = d_021E7FE0[((struct Obj00130 *)p)->f630];
         }
-        func_021DD018(p, changed);
+        POKETRADE_PROC_ClampScrollColumn(p, changed);
     } else if (KEY_GetRepeat() == 0x40) {
         func_020355D8(0);
         if (POKETRADE_2D_GetVisibleColumnRange(p, &v) == 0)
@@ -98,8 +98,8 @@ void func_021DB52C(char *p)
             ((struct Obj00130 *)p)->fF74 = v;
         } else {
             ((struct Obj00130 *)p)->fF74 = ((struct Obj00130 *)p)->fF74 + 1;
-            if (func_021DB4EC(p, ((struct Obj00130 *)p)->fF74) == 0) {
-                ((struct Obj00130 *)p)->f107C = func_021DB4B4(((struct Obj00130 *)p)->fF74 + 1) - 0x100;
+            if (POKETRADE_PROC_IsSlotVisible(p, ((struct Obj00130 *)p)->fF74) == 0) {
+                ((struct Obj00130 *)p)->f107C = POKETRADE_PROC_GetSlotPosition(((struct Obj00130 *)p)->fF74 + 1) - 0x100;
                 ((struct Obj00130 *)p)->f1080 = -1;
             }
         }
@@ -117,8 +117,8 @@ void func_021DB52C(char *p)
             ((struct Obj00130 *)p)->fF74 = ((struct Obj00130 *)p)->fF74 - 1;
             if (((struct Obj00130 *)p)->fF74 < 0)
                 ((struct Obj00130 *)p)->fF74 = ((struct Obj00130 *)p)->f634 - 1;
-            if (func_021DB4EC(p, ((struct Obj00130 *)p)->fF74) == 0) {
-                ((struct Obj00130 *)p)->f107C = func_021DB4B4(((struct Obj00130 *)p)->fF74);
+            if (POKETRADE_PROC_IsSlotVisible(p, ((struct Obj00130 *)p)->fF74) == 0) {
+                ((struct Obj00130 *)p)->f107C = POKETRADE_PROC_GetSlotPosition(((struct Obj00130 *)p)->fF74);
                 ((struct Obj00130 *)p)->f1080 = -1;
             }
         }
@@ -130,6 +130,6 @@ void func_021DB52C(char *p)
     if (changed) {
         ((struct Obj00130 *)p)->f1084 = 1;
         GFL_USE_PlaySeDefaultVolume(0x548);
-        func_021DB7AC(p, 0, 1);
+        POKETRADE_PROC_RedrawAndSyncGrid(p, 0, 1);
     }
 }

@@ -13,12 +13,12 @@
  * output buffer a1 (advancing the cursor *a2), accumulates their sum, then
  * appends `sum` more bytes from a0+0x424.  Both the pre-check and the post-check
  * compare the cursor (plus 0x10, then plus sum) against the limit at +8 of
- * g_021CADE4 and return 0 when the buffer would overrun; returns 1 otherwise.
+ * gJpegBitWriterState and return 0 when the buffer would overrun; returns 1 otherwise.
  * The limit is re-read from the global at each of the two sites (the global is
  * volatile in the original), which is what makes the pool word load twice.
  *
  * symbols:
- *   g_021CADE4  0x021CADE4  data  ov172
+ *   gJpegBitWriterState  0x021CADE4  data  ov172
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern volatile u32 g_021CADE4[];
+extern volatile u32 gJpegBitWriterState[];
 
 int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
 {
@@ -34,7 +34,7 @@ int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
     u32 i;
     u32 sum = 0;
 
-    if (*a2 + 0x10 >= g_021CADE4[2])
+    if (*a2 + 0x10 >= gJpegBitWriterState[2])
         return 0;
 
     for (i = 0; i < 0x10; i++) {
@@ -44,7 +44,7 @@ int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *a0, u8 *a1, u32 *a2)
         sum += v;
     }
 
-    if (*a2 + sum >= g_021CADE4[2])
+    if (*a2 + sum >= gJpegBitWriterState[2])
         return 0;
 
     for (i = 0; i < sum; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02084DC4
+ * function: OSi_AllocateCartridgeBus
  * address:  0x02084DC4
  * packet:   pkt_02084DC4
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     os_spinLock.o OSi_AllocateCartridgeBus (EXMEMCNT bit7 -> ARM9).
  */
 
-void func_02084DC4(void)
+void OSi_AllocateCartridgeBus(void)
 {
     unsigned int v = *(volatile unsigned short *)0x04000204;
 

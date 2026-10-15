@@ -1,5 +1,5 @@
 /*
- * function: func_0219FFD4
+ * function: SBServerListConnectAndQuery
  * address:  0x0219FFD4
  * packet:   pkt_ov009_0219FFD4
  * region:   ov009
@@ -13,17 +13,17 @@
  *
  * symbols:
  *   strlen  0x0209477C  arm
- *   func_0219FBB8  0x0219FBB8  arm  ov009
- *   func_0219FE44  0x0219FE44  arm  ov009
- *   func_0219FD40  0x0219FD40  arm  ov009
- *   func_0219FDB8  0x0219FDB8  arm  ov009
- *   func_0219FCF0  0x0219FCF0  arm  ov009
- *   func_0219FE10  0x0219FE10  arm  ov009
- *   func_0219FD64  0x0219FD64  arm  ov009
+ *   ServerListConnect  0x0219FBB8  arm  ov009
+ *   SetupListChallenge  0x0219FE44  arm  ov009
+ *   BufferAddByte  0x0219FD40  arm  ov009
+ *   BufferAddIntLE  0x0219FDB8  arm  ov009
+ *   BufferAddNTS  0x0219FCF0  arm  ov009
+ *   BufferAddData  0x0219FE10  arm  ov009
+ *   BufferAddInt  0x0219FD64  arm  ov009
  *   func_0217EC90  0x0217EC90  arm  ov009
- *   func_021A02E0  0x021A02E0  arm  ov009
+ *   SBServerListDisconnect  0x021A02E0  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
- *   g_021A8230  0x021A8230  data
+ *   gSBEmptyString  0x021A8230  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -64,19 +64,19 @@ typedef enum {
     sbe_duplicateupdateerror
 } SBError;
 
-extern SBError func_0219FBB8(SBServerList *slist);
-extern void func_0219FE44(SBServerList *slist);
-extern void func_0219FD40(char **buffer, unsigned char bval, int *len);
-extern void func_0219FDB8(char **buffer, int ival, int *len);
-extern void func_0219FCF0(char **buffer, char *str, int *len);
-extern void func_0219FE10(char **buffer, char *data, int dlen, int *len);
-extern void func_0219FD64(char **buffer, int ival, int *len);
+extern SBError ServerListConnect(SBServerList *slist);
+extern void SetupListChallenge(SBServerList *slist);
+extern void BufferAddByte(char **buffer, unsigned char bval, int *len);
+extern void BufferAddIntLE(char **buffer, int ival, int *len);
+extern void BufferAddNTS(char **buffer, char *str, int *len);
+extern void BufferAddData(char **buffer, char *data, int dlen, int *len);
+extern void BufferAddInt(char **buffer, int ival, int *len);
 extern int func_0217EC90(int sock, char *buf, int len, int flags);
-extern void func_021A02E0(SBServerList *slist);
+extern void SBServerListDisconnect(SBServerList *slist);
 extern void *func_0217EAB0(unsigned long size);
-extern char g_021A8230[];
+extern char gSBEmptyString[];
 
-SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
+SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers)
 {
     SBError err;
     int ret;
@@ -86,39 +86,39 @@ SBError func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, 
     char outgoingRequest[1023];
 
     if (fieldList == 0)
-        fieldList = g_021A8230;
+        fieldList = gSBEmptyString;
     if (serverFilter == 0)
-        serverFilter = g_021A8230;
+        serverFilter = gSBEmptyString;
     if (strlen(fieldList) > 256)
         return sbe_paramerror;
     if (strlen(serverFilter) > 511)
         return sbe_paramerror;
-    err = func_0219FBB8(slist);
+    err = ServerListConnect(slist);
     if (err != sbe_noerror)
         return err;
     slist->queryoptions = options;
-    func_0219FE44(slist);
+    SetupListChallenge(slist);
     requestLen = 2;
     requestBuf = outgoingRequest + 2;
-    func_0219FD40(&requestBuf, 0, &requestLen);
-    func_0219FD40(&requestBuf, 1, &requestLen);
-    func_0219FD40(&requestBuf, 3, &requestLen);
-    func_0219FDB8(&requestBuf, slist->fromgamever, &requestLen);
-    func_0219FCF0(&requestBuf, slist->queryforgamename, &requestLen);
-    func_0219FCF0(&requestBuf, slist->queryfromgamename, &requestLen);
-    func_0219FE10(&requestBuf, slist->mychallenge, 8, &requestLen);
-    func_0219FCF0(&requestBuf, serverFilter, &requestLen);
-    func_0219FCF0(&requestBuf, fieldList, &requestLen);
-    func_0219FD64(&requestBuf, SWAP32((unsigned int)options), &requestLen);
+    BufferAddByte(&requestBuf, 0, &requestLen);
+    BufferAddByte(&requestBuf, 1, &requestLen);
+    BufferAddByte(&requestBuf, 3, &requestLen);
+    BufferAddIntLE(&requestBuf, slist->fromgamever, &requestLen);
+    BufferAddNTS(&requestBuf, slist->queryforgamename, &requestLen);
+    BufferAddNTS(&requestBuf, slist->queryfromgamename, &requestLen);
+    BufferAddData(&requestBuf, slist->mychallenge, 8, &requestLen);
+    BufferAddNTS(&requestBuf, serverFilter, &requestLen);
+    BufferAddNTS(&requestBuf, fieldList, &requestLen);
+    BufferAddInt(&requestBuf, SWAP32((unsigned int)options), &requestLen);
     if (slist->queryoptions & 8)
-        func_0219FD64(&requestBuf, slist->srcip, &requestLen);
+        BufferAddInt(&requestBuf, slist->srcip, &requestLen);
     if (slist->queryoptions & 0x80)
-        func_0219FDB8(&requestBuf, maxServers, &requestLen);
+        BufferAddIntLE(&requestBuf, maxServers, &requestLen);
     netLen = SWAP16((unsigned short)requestLen);
     memcpy(outgoingRequest, &netLen, 2);
     ret = func_0217EC90(slist->slsocket, outgoingRequest, requestLen, 0);
     if (ret <= 0) {
-        func_021A02E0(slist);
+        SBServerListDisconnect(slist);
         return sbe_connecterror;
     }
     slist->state = 3;

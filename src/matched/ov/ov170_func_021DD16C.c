@@ -1,5 +1,5 @@
 /*
- * function: func_021DD16C
+ * function: BOX2_MAIN_StopSeq
  * address:  0x021DD16C
  * packet:   pkt_ov170_021DD16C
  * region:   ov170
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EBFA8 0x021EBFA8 thumb
- *   func_021EC35C 0x021EC35C thumb
- *   func_021DEDCC 0x021DEDCC thumb
- *   func_021DEC98 0x021DEC98 thumb
+ *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
+ *   BOX2_SEQ_LoadMonIcon 0x021EC35C thumb
+ *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
  */
 #include "../include/Obj00000.h"
 
-extern void func_021EBFA8(char *p, int i, int v);
-extern void func_021EC35C(char **p, int box);
-extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, void *a, int dir);
+extern void BOX2_SEQ_SetActorAnimSeq(char *p, int i, int v);
+extern void BOX2_SEQ_LoadMonIcon(char **p, int box);
+extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
 
-void func_021DD16C(unsigned char *p, int dir)
+void BOX2_MAIN_StopSeq(unsigned char *p, int dir)
 {
     if (dir == 0) {
         p[0x14] = p[0x14] == 0 ? p[0x15] - 1 : p[0x14] - 1;
-        func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 0, 2);
+        BOX2_SEQ_SetActorAnimSeq(*(char * *)&((struct Obj00000 *)p)->f2C, 0, 2);
     } else {
         p[0x14] = p[0x14] == p[0x15] - 1 ? 0 : p[0x14] + 1;
-        func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 1, 4);
+        BOX2_SEQ_SetActorAnimSeq(*(char * *)&((struct Obj00000 *)p)->f2C, 1, 4);
     }
-    func_021EC35C((char **)p, p[0x14]);
-    func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), dir);
+    BOX2_SEQ_LoadMonIcon((char **)p, p[0x14]);
+    BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxFormId((char *)p, p[0x14]), dir);
 }

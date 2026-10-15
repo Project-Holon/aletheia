@@ -1,5 +1,5 @@
 /*
- * function: func_0200E18C
+ * function: SYMBOL_SAVE_RemoveSlotAndCommit
  * address:  0x0200E18C
  * packet:   pkt_0200E024
  * region:   arm9
@@ -9,23 +9,28 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Runs func_0200E06C, then func_0200E124, then the initialiser.
+ * Runs SYMBOL_SAVE_FinalizeChecksum, then SYMBOL_SAVE_RemoveSlot, then the initialiser.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E18C.c \
- *       --func func_0200E18C --addr 0x0200E18C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_RemoveSlotAndCommit.c \
+ *       --func SYMBOL_SAVE_RemoveSlotAndCommit --addr 0x0200E18C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   SYMBOL_SAVE_UpdateChecksum  0x0200E024  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum  0x0200E06C  thumb
+ *   SYMBOL_SAVE_RemoveSlot  0x0200E124  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0200E06C(char *p);
-extern void func_0200E124(u32 *p, u32 a);
-extern void func_0200E024(void *obj);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
+extern void SYMBOL_SAVE_RemoveSlot(u32 *p, u32 a);
+extern void SYMBOL_SAVE_UpdateChecksum(void *obj);
 
-void func_0200E18C(u32 *p, u32 a)
+void SYMBOL_SAVE_RemoveSlotAndCommit(u32 *p, u32 a)
 {
-    func_0200E06C((char *)p);
-    func_0200E124((u32 *)p, a);
-    func_0200E024(p);
+    SYMBOL_SAVE_FinalizeChecksum((char *)p);
+    SYMBOL_SAVE_RemoveSlot((u32 *)p, a);
+    SYMBOL_SAVE_UpdateChecksum(p);
 }

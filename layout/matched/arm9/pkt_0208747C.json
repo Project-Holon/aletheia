@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208747C",
+   "name": "OSi_AlarmHandler",
    "address": "0x0208747C",
    "kind": "sdk",
    "region": "arm9",

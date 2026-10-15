@@ -29,10 +29,10 @@
  *   func_021DA854 0x021DA854 thumb ov121
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
- *   func_021DE2A0 0x021DE2A0 thumb ov121
+ *   MYSTERY_NET_Create 0x021DE2A0 thumb ov121
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   ov114_id 0x00000072 data
- *   func_021DE2F0 0x021DE2F0 thumb ov121
+ *   MYSTERY_NET_Delete 0x021DE2F0 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021DA890 0x021DA890 thumb ov121
  *   func_021D96C4 0x021D96C4 thumb ov121
@@ -42,7 +42,7 @@
  *   OS_ResetSystem 0x02087BCC arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
- *   func_021DE300 0x021DE300 thumb ov121
+ *   MYSTERY_NET_Step 0x021DE300 thumb ov121
  *   func_021DA898 0x021DA898 thumb ov121
  *   func_021D9718 0x021D9718 thumb ov121
  *   func_021D972C 0x021D972C thumb ov121
@@ -87,13 +87,13 @@
  *   FADE_IsActive 0x0204E804 arm
  *   func_0202EB44 0x0202EB44 thumb
  *   func_021DA84C 0x021DA84C thumb ov121
- *   func_021DE4D8 0x021DE4D8 thumb ov121
- *   func_021DE308 0x021DE308 thumb ov121
- *   func_021DE3E0 0x021DE3E0 thumb ov121
- *   func_021DE4DC 0x021DE4DC thumb ov121
- *   func_021DEF6C 0x021DEF6C thumb ov121
- *   func_021DE500 0x021DE500 thumb ov121
- *   func_021DE550 0x021DE550 thumb ov121
+ *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
+ *   MYSTERY_NET_SetAction 0x021DE308 thumb ov121
+ *   MYSTERY_NET_GetAction 0x021DE3E0 thumb ov121
+ *   MYSTERY_NET_GetReceivedData 0x021DE4DC thumb ov121
+ *   MYSTERY_NET_ImportRecords 0x021DEF6C thumb ov121
+ *   MYSTERY_NET_UpdateWifiError 0x021DE500 thumb ov121
+ *   MYSTERY_NET_Exit 0x021DE550 thumb ov121
  *   func_021DA8C0 0x021DA8C0 thumb ov121
  *   func_021DA8C4 0x021DA8C4 thumb ov121
  *   func_021DA178 0x021DA178 thumb ov121
@@ -343,9 +343,9 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_021DA854(void *, void *, u16);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
-extern void *func_021DE2A0(void *arg, int heap);
+extern void *MYSTERY_NET_Create(void *arg, int heap);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
-extern void func_021DE2F0(u8 *p);
+extern void MYSTERY_NET_Delete(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -360,7 +360,7 @@ extern void func_020306F0(unsigned int);
 extern void OS_ResetSystem(u32 parameter);
 extern void func_02034A5C(int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void func_021DE300(char *p);
+extern void MYSTERY_NET_Step(char *p);
 extern void func_021DA898(char *p);
 extern void func_021D9718(u8 *p);
 extern void func_021D972C(char *p);
@@ -404,12 +404,12 @@ extern void func_021DA8B0(u32 *p, u32 a);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern void func_021DE308(char *,unsigned);
-extern int func_021DE3E0(void *);
-extern int func_021DE4DC(u8 *p, void *a, u32 b);
-extern int func_021DEF6C(char *,void *,u16);
-extern int func_021DE500(void *);
-extern void func_021DE550(char *p);
+extern void MYSTERY_NET_SetAction(char *,unsigned);
+extern int MYSTERY_NET_GetAction(void *);
+extern int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b);
+extern int MYSTERY_NET_ImportRecords(char *,void *,u16);
+extern int MYSTERY_NET_UpdateWifiError(void *);
+extern void MYSTERY_NET_Exit(char *p);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
 extern int func_021DA178(char *);
@@ -424,7 +424,7 @@ extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int func_0202EB44(void);
-extern void *func_021DE4D8(char *p);
+extern void *MYSTERY_NET_GetResult(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
 extern void func_021D9750(u8 *p);
 extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
@@ -611,7 +611,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     *(void **)(p + 0x290) = func_021DA854(p, (void *)func_021D6D80, 29);
     *(void **)(p + 0x284) = func_021D9CA4(1, 15, *(void **)(p + 0x39C), *(void **)(p + 0x398), 29);
     func_021D9FFC(*(u8 **)(p + 0x284), 10, 14);
-    *(void **)(p + 0x3B0) = func_021DE2A0(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), 29);
+    *(void **)(p + 0x3B0) = MYSTERY_NET_Create(GAME_DATA_GetSaveControl(*(void **)(p + 0x3B8)), 29);
     func_021D91BC(p + 0x138, p + 0x294, 29);
     func_021D9254((char *)p + 0x138, 0);
     func_021D9288((unsigned int *)(p + 0x138), 1);
@@ -626,7 +626,7 @@ int func_021D6660(void *a, u32 b, u32 c)
 int func_021D67D4(void *a, int b, int c, char *p)
 {
     func_021D9228(p + 0x138);
-    func_021DE2F0(((struct Obj02176 *)p)->f3B0);
+    MYSTERY_NET_Delete(((struct Obj02176 *)p)->f3B0);
     if (((struct Obj02176 *)p)->f284) func_021D9E04(((struct Obj02176 *)p)->f284);
     func_021DA890(((struct Obj02176 *)p)->f290);
     func_0201ED04(((struct Obj02176 *)p)->f3A8);
@@ -656,7 +656,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
  */
 int func_021D6888(int a, int b, int c, char *p)
 {
-    func_021DE300(((struct Obj01402 *)p)->f3B0);
+    MYSTERY_NET_Step(((struct Obj01402 *)p)->f3B0);
     func_021DA898(((struct Obj01402 *)p)->f290);
     if (((struct Obj01402 *)p)->f394) {
         func_021D9718(((struct Obj01402 *)p)->f394);
@@ -1012,13 +1012,13 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
             if(v==0) *state=5;else if(v==1) *state=0;
         }
         break;
-    case 5:func_021DE308(P(944),1);*state=6;break;
-    case 6:if(func_021DE3E0(P(944))==2) *state=7;break;
+    case 5:MYSTERY_NET_SetAction(P(944),1);*state=6;break;
+    case 6:if(MYSTERY_NET_GetAction(P(944))==2) *state=7;break;
     case 7:
         func_021D8380((char *)p);func_021D81B0(p,1,29);
         func_021D9F08(P(644),W(932),86,0);*state=8;break;
     case 8:
-        if(((u32)func_021DE4D8(P(944)))&32) func_021DA84C(P(624),0,1);
+        if(((u32)MYSTERY_NET_GetResult(P(944)))&32) func_021DA84C(P(624),0,1);
         else func_021DA84C(P(624),0,0);
         v=func_021D83B0((char *)p);
         if(v!=-1) {
@@ -1047,19 +1047,19 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
         }
         break;
     case 12:
-        if(func_021DE3E0(P(944))==2) {func_021DE308(P(944),3);*state=13;}
+        if(MYSTERY_NET_GetAction(P(944))==2) {MYSTERY_NET_SetAction(P(944),3);*state=13;}
         break;
     case 13:
-        if(func_021DE3E0(P(944))==0) {
+        if(MYSTERY_NET_GetAction(P(944))==0) {
             if(W(940)==1) func_021DA8B0(task,(u32)func_021D7EAC);
             else func_021DA8B0(task,(u32)func_021D73DC);
         }
         break;
     case 14:
-        if(func_021DE3E0(P(944))==2) {func_021DE308(P(944),3);*state=15;}
+        if(MYSTERY_NET_GetAction(P(944))==2) {MYSTERY_NET_SetAction(P(944),3);*state=15;}
         else *state=0;
         break;
-    case 15:if(func_021DE3E0(P(944))==0) *state=0;break;
+    case 15:if(MYSTERY_NET_GetAction(P(944))==0) *state=0;break;
     case 16:
         func_021D9F08(P(644),W(932),141,1);
         func_021DA8C0(task,17);*state=19;break;
@@ -1124,32 +1124,32 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
     switch(*state) {
     case 0:
         switch(W(940)) {
-        case 1:func_021DE308(P(944),4);break;
-        case 0:func_021DE308(P(944),7);break;
-        case 2:func_021DE308(P(944),10);break;
+        case 1:MYSTERY_NET_SetAction(P(944),4);break;
+        case 0:MYSTERY_NET_SetAction(P(944),7);break;
+        case 2:MYSTERY_NET_SetAction(P(944),10);break;
         }
         func_021D9F08(P(644),W(932),105,0);
         W(964)=0;*state=1;break;
     case 1:
-        if(func_021DE3E0(P(944))==0) {
-            v=func_021DE4DC(P(944),p+972,720);
+        if(MYSTERY_NET_GetAction(P(944))==0) {
+            v=MYSTERY_NET_GetReceivedData(P(944),p+972,720);
             if(v==1) {
-                v=func_021DEF6C((char *)p+972,P(952),32797);
+                v=MYSTERY_NET_ImportRecords((char *)p+972,P(952),32797);
                 if(func_021D9554((char *)(p+972),v)) *state=5;
                 else *state=12;
             } else if(v==2) *state=2;
         }
-        v=func_021DE500(P(944));
-        switch(v) {case 1:case 2:func_021DE550(P(944));func_021DA8B0(task,(u32)func_021D6E3C);break;}
+        v=MYSTERY_NET_UpdateWifiError(P(944));
+        switch(v) {case 1:case 2:MYSTERY_NET_Exit(P(944));func_021DA8B0(task,(u32)func_021D6E3C);break;}
         if((KEY_GetTrg()&2) || W(964)++>7200) {
             flag=0;
             switch(W(940)) {
             case 1:
-                if(func_021DE3E0(P(944))==4) {func_021DE308(P(944),5);flag=1;}break;
+                if(MYSTERY_NET_GetAction(P(944))==4) {MYSTERY_NET_SetAction(P(944),5);flag=1;}break;
             case 0:
-                if(func_021DE3E0(P(944))==8) {func_021DE308(P(944),9);flag=1;}break;
+                if(MYSTERY_NET_GetAction(P(944))==8) {MYSTERY_NET_SetAction(P(944),9);flag=1;}break;
             case 2:
-                if(func_021DE3E0(P(944))==11) {func_021DE308(P(944),12);flag=1;}break;
+                if(MYSTERY_NET_GetAction(P(944))==11) {MYSTERY_NET_SetAction(P(944),12);flag=1;}break;
             }
             if(flag) {*state=2;W(964)=0;}
         }
@@ -1159,7 +1159,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         func_021DA8C0(task,3);*state=14;break;
     case 3:
         W(964)++;
-        if(func_021DE3E0(P(944))==0 && W(964)>30) {
+        if(MYSTERY_NET_GetAction(P(944))==0 && W(964)>30) {
             W(964)=0;
             func_021D9F08(P(644),W(932),139,1);
             func_021DA8C0(task,4);*state=14;
@@ -1493,10 +1493,10 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
 void func_021D7EAC(void *task,u32 *state,u8 *p)
 {
     int result;
-    result=func_021DE500(((struct Obj00533 *)p)->f3B0);
+    result=MYSTERY_NET_UpdateWifiError(((struct Obj00533 *)p)->f3B0);
     switch(result) {
     case 1: case 2:
-        func_021DE550(((struct Obj00533 *)p)->f3B0);
+        MYSTERY_NET_Exit(((struct Obj00533 *)p)->f3B0);
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     }

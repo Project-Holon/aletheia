@@ -1,5 +1,5 @@
 /*
- * function: func_02182FF8
+ * function: gsXmlWriteDateTimeElement
  * address:  0x02182FF8
  * packet:   pkt_ov009_02182FF8
  * region:   ov009
@@ -17,7 +17,7 @@
  *   gsXmlWriteOpenTag      0x021829AC arm ov009
  *   gsiXmlUtilWriteString  0x0218325C arm ov009
  *   gsXmlWriteCloseTag     0x02182A2C arm ov009
- *   g_021A3F64             0x021A3F64 data
+ *   gGsXmlDateTimeFormat             0x021A3F64 data
  */
 
 struct GSIXmlStreamWriter
@@ -45,16 +45,16 @@ struct tm {
 
 extern struct tm *gsiSecondsToDate(long *timp);
 extern int sprintf(char *buf, const char *fmt, ...);
-extern char g_021A3F64[];
+extern char gGsXmlDateTimeFormat[];
 
-int func_02182FF8(void *stream, char *namespaceName, char *tag, long value)
+int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value)
 {
     struct GSIXmlStreamWriter *writer = (struct GSIXmlStreamWriter *)stream;
     char timeString[21];
     struct tm *timePtr;
 
     timePtr = gsiSecondsToDate(&value);
-    sprintf(timeString, g_021A3F64, timePtr->tm_year + 1900, timePtr->tm_mon + 1, timePtr->tm_mday, timePtr->tm_hour, timePtr->tm_min, timePtr->tm_sec);
+    sprintf(timeString, gGsXmlDateTimeFormat, timePtr->tm_year + 1900, timePtr->tm_mon + 1, timePtr->tm_mday, timePtr->tm_hour, timePtr->tm_min, timePtr->tm_sec);
     if (!(gsXmlWriteOpenTag(writer, namespaceName, tag)
         && gsiXmlUtilWriteString(writer, timeString)
         && gsXmlWriteCloseTag(writer, namespaceName, tag)))

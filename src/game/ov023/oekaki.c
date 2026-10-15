@@ -191,6 +191,8 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb  arm9
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 typedef unsigned int u32;
 
@@ -449,9 +451,9 @@ extern u8 APP_TASKMENU_GetCursorPos(TaskMenu *menu);
 extern void APP_TASKMENU_CloseMenu(TaskMenu *);
 extern u32 APP_TASKMENU_RES_Delete(TaskMenuRes *s);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern MetList *func_0200ED48(void *p);
+extern MetList *MISC_SAVEDATA_GetBlock44(void *p);
 extern u32 func_02008530(const UnionAppEntry *obj);
-extern void func_0200ED54(MetList *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(MetList *l, u32 val);
 extern u32 PRINTSYS_QUE_Main(TextPrinter *ps);
 extern u32 PRINTSYS_QUE_IsExistTarget(TextPrinter *p, void *v);
 extern const ButtonLayout gOekakiButtonLayout[];
@@ -2426,12 +2428,12 @@ void OEKAKI_RegisterMetPlayers(OekakiWork *p)
     MetList *list;
     UnionAppEntry *entry;
 
-    list = func_0200ED48(GAME_DATA_GetSaveControl(p->param->gameData));
+    list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(p->param->gameData));
     for (i = 0; i < 5; i++) {
         entry = UNION_APP_GetMemberEntry(p->param->app, (u8)i);
         if (entry != 0) {
             if (i != GFL_NET_SYSTEM_GetCurrentAid()) {
-                func_0200ED54(list, func_02008530(entry));
+                MISC_SAVEDATA_InsertRecentValue(list, func_02008530(entry));
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAA4
+ * function: RESEARCH_LIST_SelectEntry
  * address:  0x021BBAA4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,10 +12,10 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BBD38  0x021BBD38  thumb  ov217
- *   func_021BBD68  0x021BBD68  thumb  ov217
- *   func_021BBDAC  0x021BBDAC  thumb  ov217
- *   func_021BC580  0x021BC580  thumb  ov217
+ *   RESEARCH_LIST_SetCursorSlot  0x021BBD38  thumb  ov217
+ *   RESEARCH_LIST_ShowCursor  0x021BBD68  thumb  ov217
+ *   RESEARCH_LIST_HideCursor  0x021BBDAC  thumb  ov217
+ *   RESEARCH_LIST_StartListPaletteAnime  0x021BC580  thumb  ov217
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Addresses are Black-image addresses.
@@ -29,16 +29,16 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021BBD38(void *p, u8 v);
-extern void func_021BBD68(u8 *p);
-extern void func_021BBDAC(u8 *p);
-extern u32 func_021BC580();
-u32 func_021BBAA4(u32 a0, u8 a1)
+extern void RESEARCH_LIST_SetCursorSlot(void *p, u8 v);
+extern void RESEARCH_LIST_ShowCursor(u8 *p);
+extern void RESEARCH_LIST_HideCursor(u8 *p);
+extern u32 RESEARCH_LIST_StartListPaletteAnime();
+u32 RESEARCH_LIST_SelectEntry(u32 a0, u8 a1)
 {
-    func_021BBDAC((u8 *)a0);
-    func_021BBD38((void *)a0, a1);
-    func_021BBD68((u8 *)a0);
+    RESEARCH_LIST_HideCursor((u8 *)a0);
+    RESEARCH_LIST_SetCursorSlot((void *)a0, a1);
+    RESEARCH_LIST_ShowCursor((u8 *)a0);
     GFL_USE_PlaySeDefaultVolume(1352);
-    return func_021BC580(a0, 1);
+    return RESEARCH_LIST_StartListPaletteAnime(a0, 1);
 }
 

@@ -400,7 +400,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   func_02006BD0 0x02006BD0 thumb
+ *   PM_VOICE_IsSlotActive 0x02006BD0 thumb
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm

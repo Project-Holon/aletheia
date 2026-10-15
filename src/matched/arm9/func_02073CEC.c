@@ -1,5 +1,5 @@
 /*
- * function: func_02073CEC
+ * function: NNSi_SndStrmStart
  * address:  0x02073CEC
  * packet:   pkt_02073BF0
  * region:   arm9
@@ -13,6 +13,7 @@
  *   NNSi_SndStrmUpdate  0x02073BF0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
+ *   SND_StartTimer  0x020894B4  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -34,8 +35,8 @@ struct A {
 extern void NNSi_SndStrmUpdate(struct A *, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void func_020894B4(u32, u32, u32, u32);
-void func_02073CEC(struct A *a) {
+extern void SND_StartTimer(u32, u32, u32, u32);
+void NNSi_SndStrmStart(struct A *a) {
     u32 r;
     if (!a->b1) return;
     while (a->f40 != 0) {
@@ -43,5 +44,5 @@ void func_02073CEC(struct A *a) {
         NNSi_SndStrmUpdate(a, 1);
         OS_RestoreInterrupts(r);
     }
-    func_020894B4(a->f4c, 0, 1u << a->f48, 0);
+    SND_StartTimer(a->f4c, 0, 1u << a->f48, 0);
 }

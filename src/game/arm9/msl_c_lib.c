@@ -21,10 +21,10 @@
  *   OSi_IsRunOnTwl    0x02085D88  arm
  *   OS_Terminate    0x02088234  arm
  *   g_02153B88  0x02153B88  data
- *   func_02086028  0x02086028  arm
- *   func_020860D0  0x020860D0  arm
+ *   OS_LockMutex  0x02086028  arm
+ *   OS_TryLockMutex  0x020860D0  arm
  *   func_02086078  0x02086078  arm
- *   func_0209D728  0x0209D728  arm
+ *   MSL_CONSOLE_IO_RegisterDestructor  0x0209D728  arm
  *   g_02150FEC  0x02150FEC  data
  *   g_02153B8C  0x02153B8C  data
  *   g_02153BB0  0x02153BB0  data
@@ -46,7 +46,7 @@
  *   _u32_div_f  0x0209C2B0  arm
  *   _ll_udiv  0x0209C00C  arm
  *   _ull_mod  0x0209C018  arm
- *   func_0209A504  0x0209A504  arm
+ *   fabs  0x0209A504  arm
  *   _dneq  0x0209BAC8  arm
  *   _dls  0x0209B9A0  arm
  *   g_020A8A78  0x020A8A78  data
@@ -59,11 +59,11 @@
  *   FATFSi_FormatDriveEx  0x02095AA4  arm
  *   _deq  0x0209BA3C  arm
  *   func_0209AF34  0x0209AF34  arm
- *   func_0209A6E8  0x0209A6E8  arm
- *   func_0209A7A8  0x0209A7A8  arm
+ *   frexp  0x0209A6E8  arm
+ *   ldexp  0x0209A7A8  arm
  *   func_0209C554  0x0209C554  arm
- *   func_0209A368  0x0209A368  arm
- *   func_0209AB80  0x0209AB80  arm
+ *   copysign  0x0209A368  arm
+ *   pow  0x0209AB80  arm
  *   _dfltu  0x0209B790  arm
  *   _dmul  0x0209B2E8  arm
  *   _dadd  0x0209AC04  arm
@@ -116,7 +116,7 @@
  *   __float_nan  0x020A8818  data
  *   errno  0x02153FAC  data
  *   _dfix  0x0209C508  arm
- *   func_0209953C  0x0209953C  arm
+ *   __kernel_rem_pio2  0x0209953C  arm
  *   npio2_hw  0x020A6320  data
  *   two_over_pi  0x020A63A0  data
  */
@@ -496,32 +496,32 @@ typedef int i32;
 
 extern int OSi_IsRunOnTwl(void);
 extern void OS_Terminate(void);
-extern void func_02086028(void *a0);
-extern int func_020860D0(void *a0);
+extern void OS_LockMutex(void *a0);
+extern int OS_TryLockMutex(void *a0);
 extern void func_02086078(void *a0);
-extern int func_0209D728(int a);
+extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 extern double func_0209BD38(int x);
 extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
 extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
 u32 ENV_InsertResourceSet(void *prev, void *resSet);
 extern void func_020913E8(void *p);
 extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
-extern double func_0209A504(double x);
+extern double fabs(double x);
 extern u32 _u32_div_f(u32 a, u32 b);
 extern int func_020965B4(u8 *p, int i);
 extern double func_0209AF34(double a, double b);
-extern double func_0209A6E8(double x, int *eptr);
-extern double func_0209A7A8(double x, int n);
+extern double frexp(double x, int *eptr);
+extern double ldexp(double x, int n);
 extern u64 func_0209C554(double x);
-extern double func_0209A368(double x, double y);                        /* copysign */
-extern double func_0209AB80(double x, double y);                        /* pow */
+extern double copysign(double x, double y);                        /* copysign */
+extern double pow(double x, double y);                        /* pow */
 void func_02731754(u32 a);
 void func_02731760(u32 a, u32 b, u32 c);
 void func_02731764(u32 a, u32 b);
 void func_02731920(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern double func_0209C5E0(double x);
 extern double scalbn(double x, int n);
-extern int func_0209953C(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
+extern int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
 void func_020911D4(void);
 void func_020911D8(u32 a);
 void func_02091200(u32 a, u32 b, u32 c);
@@ -798,16 +798,16 @@ void func_0209128C(int x)
 
 /*
  *           `bl` at +0x90 inside this very function.  `label` needs a site from
- *           outside 020912A8..02091374 and there is none, and func_0209D728 is
- *           itself parked at MATCH in src/pending/func_0209D728.c, so the
+ *           outside 020912A8..02091374 and there is none, and MSL_CONSOLE_IO_RegisterDestructor is
+ *           itself parked at MATCH in src/pending/MSL_CONSOLE_IO_RegisterDestructor.c, so the
  *           `matched` class has no manifest entry to cite either.  Filing the
  *           callee is the fix, but it lives in pkt_0209D728, which is not one
  *           of this lane's packets (write-set rule 9).
  *
  * harness output:
  *   MATCH  compiled 204 = original 204, 7 of 8 sites resolved
- *     +0010 func_020860D0 [label x20]   +0070 func_02086028 [label x25]
- *     +0090 func_0209D728 [UNRESOLVED - no witness outside this range]
+ *     +0010 OS_TryLockMutex [label x20]   +0070 OS_LockMutex [label x25]
+ *     +0090 MSL_CONSOLE_IO_RegisterDestructor [UNRESOLVED - no witness outside this range]
  *     +00B0 func_02086078 [label x25]
  *     +00BC g_02153BD4 [literal x15]    +00C0 g_02150FEC [literal x60]
  *     +00C4 g_02153B8C [literal x15]    +00C8 g_02153BB0 [literal x15]
@@ -817,17 +817,17 @@ u32 func_020912A8(u32 a0)
 {
     u32 r;
 
-    if (func_020860D0(g_02153BD4) == 0) {
+    if (OS_TryLockMutex(g_02153BD4) == 0) {
         g_02153B8C = g_02150FEC.unk04[0x1b];
         g_02153BB0 = 1;
     } else if (g_02153B8C == g_02150FEC.unk04[0x1b]) {
         g_02153BB0 = g_02153BB0 + 1;
     } else {
-        func_02086028(g_02153BD4);
+        OS_LockMutex(g_02153BD4);
         g_02153B8C = g_02150FEC.unk04[0x1b];
         g_02153BB0 = 1;
     }
-    r = func_0209D728(a0);
+    r = MSL_CONSOLE_IO_RegisterDestructor(a0);
     if (--g_02153BB0 == 0) {
         func_02086078(g_02153BD4);
     }
@@ -1173,7 +1173,7 @@ s32_020911D4 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
     u8 *blk = g_02153BD4 + idx * 0x18;
     s32_020911D4 r;
 
-    if (func_020860D0(blk) == 0) {
+    if (OS_TryLockMutex(blk) == 0) {
         arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
         arr_02153BB0[idx] = 1;
     } else {
@@ -1183,7 +1183,7 @@ s32_020911D4 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
         if (cur == ref) {
             arr_02153BB0[idx]++;
         } else {
-            func_02086028(blk);
+            OS_LockMutex(blk);
             arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
             arr_02153BB0[idx] = 1;
         }
@@ -1427,7 +1427,7 @@ int func_02091B5C(struct P02091B5C *p)
 
 /*
  * Bounded case-insensitive string compare (the `strncmp` twin of
- * src/matched/func_0209AB8C.c, which is the unbounded `strcmp`): each byte is
+ * src/matched/stricmp.c, which is the unbounded `strcmp`): each byte is
  * mapped through the 256-byte table at 0x020A60DC when it is below 0x80, then
  * compared as unsigned, for at most n bytes.
  *
@@ -1586,7 +1586,7 @@ s32_02091D38 func_02091D38(u32 a0)
     u8 *blk = g_02153BD4 + idx * 0x18;
     s32_02091D38 r;
 
-    if (func_020860D0(blk) == 0) {
+    if (OS_TryLockMutex(blk) == 0) {
         arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
         arr_02153BB0[idx] = 1;
     } else {
@@ -1596,7 +1596,7 @@ s32_02091D38 func_02091D38(u32 a0)
         if (cur == ref) {
             arr_02153BB0[idx]++;
         } else {
-            func_02086028(blk);
+            OS_LockMutex(blk);
             arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
             arr_02153BB0[idx] = 1;
         }
@@ -1695,7 +1695,7 @@ s32_020911D4 func_02092004(u32 a0, u32 a1, u32 a2)
     u8 *blk = g_02153BD4 + idx * 0x18;
     s32_020911D4 r;
 
-    if (func_020860D0(blk) == 0) {
+    if (OS_TryLockMutex(blk) == 0) {
         arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
         arr_02153BB0[idx] = 1;
     } else {
@@ -1705,7 +1705,7 @@ s32_020911D4 func_02092004(u32 a0, u32 a1, u32 a2)
         if (cur == ref) {
             arr_02153BB0[idx]++;
         } else {
-            func_02086028(blk);
+            OS_LockMutex(blk);
             arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
             arr_02153BB0[idx] = 1;
         }
@@ -2481,7 +2481,7 @@ unsigned char *func_02092C38(long long num, unsigned char *buff, print_format fo
  *           star is that 4-byte listing extent, the body is 1196 bytes with
  *           its pool).  Wants a seed at 0x02092F0C and the 0x02092F10 label
  *           removed.  Callees: func_020972F0 = __num2dec, func_020929E8 =
- *           long2str (for the binary exponent), func_0209A504 = fabs,
+ *           long2str (for the binary exponent), fabs = fabs,
  *           0x0209BAC8 = the runtime double `!=` (__dcmp_6 in
  *           layout/runtime_arm9.txt).
  *           The inf/nan spellings are MSL's `strcpy(p, "-INF")` etc.; the
@@ -2607,7 +2607,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
     if (format.precision || format.alternate_form)
         *--p = '.';
 
-    if (func_0209A504(ld) != 0.0)
+    if (fabs(ld) != 0.0)
         *--p = '1';
     else
         *--p = '0';
@@ -4430,7 +4430,7 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
  * attests as `runtime` and every relocation resolves:
  *
  *   +0034 PC24 func_02094B8C   -> 02094B8C  [runtime x1, e.g. 02094B8C]
- *   +0058 PC24 func_0209A504   -> 0209A504  [label x15, e.g. 02093310]
+ *   +0058 PC24 fabs   -> 0209A504  [label x15, e.g. 02093310]
  *   +0080 ABS32 func_020946D8  -> 020946D8  [literal x15, e.g. 02095F38]
  *   +0084 ABS32 g_02153FAC     -> 02153FAC  [literal x35, e.g. 02091D34]
  *
@@ -4450,7 +4450,7 @@ u64 func_02095AA4(u32 a0, u32 *a1)
     r = ((u64 (*)(u32, u32, u32 *, u32 *, u32 *))func_02094B8C)(0x7FFFFFFFu, (u32)func_020946D8, buf, &buf[3], &buf[2]);
     if (a1 != 0)
         *a1 = a0 + buf[3];
-    ((void (*)(u32, u32))func_0209A504)((u32)r, (u32)(r >> 32));
+    ((void (*)(u32, u32))fabs)((u32)r, (u32)(r >> 32));
     if (buf[2] != 0)
         g_02153FAC = 0x22;
     return r;
@@ -5709,12 +5709,12 @@ void func_02097170(DB *r, double x)
     }
     if (neg)
         x = func_0209AF34(0.0, x);
-    f = func_0209A6E8(x, &e);
+    f = frexp(x, &e);
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;
     k = 0x35 - func_02092144((v & -v) - 1);
     func_02096990((struct decimal2 *)(&b), e - k);
-    func_020966B0((struct decimal2 *)(&a), func_0209C554(func_0209A7A8(f, k)));
+    func_020966B0((struct decimal2 *)(&a), func_0209C554(ldexp(f, k)));
     func_02096774((struct decimal2 *)r, (const struct decimal2 *)(&a), (const struct decimal2 *)(&b));
     r->f0 = neg;
 }
@@ -5761,13 +5761,13 @@ void func_020972F0(const decform *f, double x, decimal *p)
 double func_0209739C(const decimal2 *d)
 {
     if (d->sig.length <= 0)
-        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+        return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
 
     switch (d->sig.text[0]) {
     case '0':
-        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+        return copysign(0.0, d->sign == 0 ? 1.0 : -1.0);
     case 'I':
-        return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+        return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
     case 'N':
         {
             double result;
@@ -5798,7 +5798,7 @@ double func_0209739C(const decimal2 *d)
 
             func_020968F4((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
             if (func_02096DF0((Str *)&max, (Str *)&dec))
-                return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+                return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }
 
         i = dec.sig.text;
@@ -5823,11 +5823,11 @@ double func_0209739C(const decimal2 *d)
         }
 
         if (exponent < 0)
-            first_guess /= func_0209AB80(5.0, -exponent);
+            first_guess /= pow(5.0, -exponent);
         else
-            first_guess *= func_0209AB80(5.0, exponent);
+            first_guess *= pow(5.0, exponent);
 
-        first_guess = func_0209A7A8(first_guess, exponent);
+        first_guess = ldexp(first_guess, exponent);
         if (isinf(first_guess))
             *(unsigned long long *)&first_guess = 0x7FEFFFFFFFFFFFFFULL;
 
@@ -5888,9 +5888,9 @@ done:
 double func_02097990(double x, int n)
 {
     int t;
-    double v = func_0209A6E8(x, &t);
+    double v = frexp(x, &t);
     t += n;
-    return func_0209A7A8(v, t);
+    return ldexp(v, t);
 }
 
 
@@ -5928,7 +5928,7 @@ ivln2_l  =  1.92596299112661746887e-08;
 
 /*
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
- * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
+ * docs/notes/pkt_020979C0.c.txt.  fabs = fabs, sqrt = func_0209C5E0.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
  * doubles), four bytes before the disasm body label func_020979BC.
  *
@@ -5993,7 +5993,7 @@ double func_020979BC(double x, double y)
 	    }
 	}
 
-	ax   = func_0209A504(x);
+	ax   = fabs(x);
 	if(lx==0) {
 	    if(ix==0x7ff00000||ix==0||ix==0x3ff00000){
 		z = ax;
@@ -6149,7 +6149,7 @@ pio2_3t =  8.47842766036889956997e-32;
  *
  * Front end dsi/1.2 (wave 17): the loop store tx[i] = (double)(int)z is two
  * str (1.1p1 merges them into stm), the same pin that fits __ieee754_pow at
- * 0x020979BC.  Fabs = func_0209A504, __kernel_rem_pio2 = func_0209953C;
+ * 0x020979BC.  Fabs = fabs, __kernel_rem_pio2 = __kernel_rem_pio2;
  * npio2_hw and two_over_pi resolve through the sole-ref/data class.
  */
 int func_02098B44(double x, double *y)
@@ -6203,7 +6203,7 @@ int func_02098B44(double x, double *y)
     }
     if (ix <= 0x413921fb)
     {
-        t = func_0209A504(x);
+        t = fabs(x);
         n = (int)(t * invpio2 + half);
         fn = (double)n;
         r = t - fn * pio2_1;
@@ -6262,7 +6262,7 @@ int func_02098B44(double x, double *y)
     nx = 3;
     while (tx[nx - 1] == zero)
         nx--;
-    n = func_0209953C(tx, y, e0, nx, 2, two_over_pi);
+    n = __kernel_rem_pio2(tx, y, e0, nx, 2, two_over_pi);
     if (hx < 0)
     {
         y[0] = -y[0];

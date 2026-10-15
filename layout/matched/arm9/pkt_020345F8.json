@@ -57,7 +57,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020346EC",
+   "name": "SAVEDATA_SetPanicHandlers",
    "address": "0x020346EC",
    "kind": "game",
    "region": "arm9",

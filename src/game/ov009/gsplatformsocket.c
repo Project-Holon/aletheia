@@ -63,7 +63,6 @@ struct SOCInAddr {
 
 extern int func_0215F428(void);
 extern int SOC_Close(int s);
-extern int SOC_Close(int s);
 extern int SOCL_IsReleased(int s);
 extern int CheckRcode(int rcode, int errCode);
 extern int SOC_Shutdown(int s, int how);

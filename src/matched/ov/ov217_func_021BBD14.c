@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD14
+ * function: RESEARCH_LIST_SetSelectionModeField
  * address:  0x021BBD14
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BBD14(void *p, u32 v)
+void RESEARCH_LIST_SetSelectionModeField(void *p, u32 v)
 {
     ((struct Obj25853 *)p)->f2C = v;
 }

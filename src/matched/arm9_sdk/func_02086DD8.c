@@ -1,5 +1,5 @@
 /*
- * function: func_02086DD8
+ * function: OS_InitException
  * address:  0x02086DD8
  * packet:   pkt_02086DD8
  * region:   arm9
@@ -35,7 +35,7 @@ extern OsExceptionBss g_02151290;
 extern BOOL OS_IsRunOnTwl(void);
 extern void OSi_ExceptionHandler(void);
 
-void func_02086DD8(void)
+void OS_InitException(void)
 {
     u32 ex = *(u32 *)0x02FFFD9C;
 

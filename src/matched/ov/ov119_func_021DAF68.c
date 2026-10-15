@@ -1,5 +1,5 @@
 /*
- * function: func_021DAF68
+ * function: POKETRADE_PROC_StepSendContinue
  * address: 0x021DAF68
  * packet: pkt_ov119_021DAF68
  * region: ov119
@@ -26,7 +26,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void POKETRADE_PROC_StepIntro(char *p);
-void func_021DAF68(void *p) {
+void POKETRADE_PROC_StepSendContinue(void *p) {
  unsigned id=(unsigned)GFL_NET_HANDLE_GetCurrentHandle();
  u8 b;
  if(POKETRADE_SAVE_IsMessagePrintDone(p)) {

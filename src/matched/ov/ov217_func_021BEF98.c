@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF98
+ * function: RESEARCH_GRAPH_HideAllPercentages
  * address:  0x021BEF98
  * packet:   pkt_ov217_021BEF98
  * region:   ov217
@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void PERCENTAGE_SetVisible(u32 a, u32 b);
-void func_021BEF98(char *p)
+void RESEARCH_GRAPH_HideAllPercentages(char *p)
 {
     int i;
     u8 z = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02034734",
+   "name": "SAVEDATA_PanicFailPrintf",
    "address": "0x02034734",
    "kind": "game",
    "region": "arm9",

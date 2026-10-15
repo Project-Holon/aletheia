@@ -1,5 +1,5 @@
 /*
- * function: func_02087EA8
+ * function: OSi_InitVramExclusive
  * address:  0x02087EA8
  * packet:   pkt_02087EA8
  * region:   arm9
@@ -31,7 +31,7 @@ typedef long s32;
 extern u32 OSi_vramExclusive;
 extern u16 OSi_vramLockId[9];
 
-void func_02087EA8(void)
+void OSi_InitVramExclusive(void)
 {
     s32 i;
 

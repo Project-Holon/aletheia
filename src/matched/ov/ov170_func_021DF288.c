@@ -1,5 +1,5 @@
 /*
- * function: func_021DF288
+ * function: BOX2_MAIN_PushPartyScene
  * address: 0x021DF288
  * packet: pkt_ov170_021DF288
  * region: ov170
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021DD2D0 0x021DD2D0 thumb ov170
+ *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb ov170
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   d_021F1400 0x021F1400 data a1
@@ -30,19 +30,19 @@ typedef struct {
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_021DD2D0(void ***p, int a, unsigned b);
+extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern unsigned POKEPARTY_GetCount(void *p);
 extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
 extern const unsigned gPokeStatusProcData[];
 extern const char ov131_id[];
-int func_021DF288(char *p)
+int BOX2_MAIN_PushPartyScene(char *p)
 {
     Request *r;
     unsigned mode;
     r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
     if (((struct Obj05437 *)p)->f16 < 30) {
-        r->mon = (void *)func_021DD2D0((void ***)p, ((struct Obj05437 *)p)->f17, 0);
+        r->mon = (void *)BOX2_MAIN_GetMonAt((void ***)p, ((struct Obj05437 *)p)->f17, 0);
         r->kind = 2;
         r->count = 30;
         r->slot = ((struct Obj05437 *)p)->f16;

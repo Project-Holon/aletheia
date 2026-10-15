@@ -1,5 +1,5 @@
 /*
- * function: func_021EBF74
+ * function: BOX2_SEQ_DrawActors
  * address:  0x021EBF74
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -29,7 +29,7 @@ extern void CLACT_DrawSystem(void);
 extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
-void func_021EBF74(char *p)
+void BOX2_SEQ_DrawActors(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x2d; i++) {

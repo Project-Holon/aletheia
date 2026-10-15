@@ -14,7 +14,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0201EC64 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
- *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_Create 0x02043678 arm
@@ -24,9 +24,9 @@
  *   STRBUF_SetString 0x02045924 arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
- *   func_021FCDAC 0x021FCDAC thumb ov186
+ *   BR_UTIL_SetListItemBitmap 0x021FCDAC thumb ov186
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FCE50 0x021FCE50 thumb ov186
+ *   BR_UTIL_RefreshList 0x021FCE50 thumb ov186
  *   func_021DF428 0x021DF428 thumb ov183
  *   func_021DF620 0x021DF620 thumb ov183
  *   d_021E3700 0x021E3700 data a4
@@ -54,7 +54,7 @@ extern int BR_RES_GetMsgData(char *p);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern Slot *BMP_MENUWORK_Create(u32,u32);
-extern void *func_021FC8C8(const Config *,u16);
+extern void *BR_UTIL_CreateListMenu(const Config *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -64,9 +64,9 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_021FCDAC(u8 *p, u16 i, u32 v);
+extern void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021FCE50(char *p);
+extern void BR_UTIL_RefreshList(char *p);
 extern void func_021DF428(struct State *p, u32 mgr, u16 heap);
 extern void func_021DF620(struct State *p, int first, short step, u16 heap);
 void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u16 heap)
@@ -93,7 +93,7 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
     cfg.cursor=p->c;
     cfg.other=p->d;
     cfg.selection=sel;
-    p->view=func_021FC8C8(&cfg,heap);
+    p->view=BR_UTIL_CreateListMenu(&cfg,heap);
     buf1=STRBUF_Create(0xff,heap);
     msg=func_02045EC0((struct MsgBank *)second,0x7a);
     buf2=STRBUF_Create(0xff,heap);
@@ -105,12 +105,12 @@ void func_021DF1DC(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 a6,u16 *sel,u
         STRBUF_SetString(buf2,(const u16 *)(base+i*0xc4));
         PRINTSYS_PrintColor(bmp,(short)(16-func_0201D304(buf1,first,0)),4,buf1,(void *)first,0x3DA0);
         PRINTSYS_PrintColor(bmp,0x14,4,buf2,(void *)first,0x3DA0);
-        func_021FCDAC(p->view,(u16)i,(u32)bmp);
+        BR_UTIL_SetListItemBitmap(p->view,(u16)i,(u32)bmp);
     }
     STRBUF_Delete(buf2);
     STRBUF_Delete(buf1);
     STRBUF_Delete(msg);
-    func_021FCE50(p->view);
+    BR_UTIL_RefreshList(p->view);
     func_021DF428((struct State *)p,mgr,heap);
     for(i=0;i<*sel;i++)func_021DF620((struct State *)p,i+1,1,heap);
 }

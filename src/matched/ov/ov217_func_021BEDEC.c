@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDEC
+ * function: RESEARCH_GRAPH_DrawSliceColor
  * address: 0x021BEDEC
  * packet: pkt_ov217_021BEDEC
  * region: ov217
@@ -11,7 +11,7 @@
  * volatile: hardware writes at 021BEE54,021BEE58,021BEE6A,021BEE70..021BEE88.
  * F810 retains original guard fields visibly loaded in r1/r2.
  * symbols:
- *   func_021BF810 0x021BF810 thumb ov217
+ *   RESEARCH_GRAPH_GetGroupValue 0x021BF810 thumb ov217
  *   GRAPHTABLE_GetEntryRed 0x021C2654 thumb ov217
  *   GRAPHTABLE_GetEntryGreen 0x021C2664 thumb ov217
  *   GRAPHTABLE_GetEntryBlue 0x021C2674 thumb ov217
@@ -20,15 +20,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021BF810(void *p);
+extern u32 RESEARCH_GRAPH_GetGroupValue(void *p);
 extern unsigned GRAPHTABLE_GetEntryRed(void *,unsigned,unsigned);
 extern unsigned GRAPHTABLE_GetEntryGreen(void *,unsigned,unsigned);
 extern unsigned GRAPHTABLE_GetEntryBlue(void *,unsigned,unsigned);
-void func_021BEDEC(char *p)
+void RESEARCH_GRAPH_DrawSliceColor(char *p)
 {
     unsigned r,g,b;
     void *color;
-    if (((struct Obj00021 *)p)->f3C8==0 || ((struct Obj00021 *)p)->f3D0==1 || func_021BF810(p)==0) return;
+    if (((struct Obj00021 *)p)->f3C8==0 || ((struct Obj00021 *)p)->f3D0==1 || RESEARCH_GRAPH_GetGroupValue(p)==0) return;
     color=p+56;
     r=GRAPHTABLE_GetEntryRed(color,((struct Obj00021 *)p)->f2B8,((struct Obj00021 *)p)->f2B9);
     g=GRAPHTABLE_GetEntryGreen(color,((struct Obj00021 *)p)->f2B8,((struct Obj00021 *)p)->f2B9);

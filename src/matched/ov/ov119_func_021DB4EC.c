@@ -1,5 +1,5 @@
 /*
- * function: func_021DB4EC
+ * function: POKETRADE_PROC_IsSlotVisible
  * address: 0x021DB4EC
  * packet: pkt_ov119_021DB4EC
  * region: ov119
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DB4B4 0x021DB4B4 thumb ov119
+ *   POKETRADE_PROC_GetSlotPosition 0x021DB4B4 thumb ov119
  */
 #include "../include/Obj13893.h"
-extern int func_021DB4B4(int);
-int func_021DB4EC(char *p, int index)
+extern int POKETRADE_PROC_GetSlotPosition(int);
+int POKETRADE_PROC_IsSlotVisible(char *p, int index)
 {
-    int position = func_021DB4B4(index);
+    int position = POKETRADE_PROC_GetSlotPosition(index);
     int start = ((struct Obj13893 *)p)->f107C;
     if (start < position && start + 0xe0 > position)
         return 1;

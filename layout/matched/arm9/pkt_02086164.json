@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02086164",
+   "name": "OSi_UnlockMutexCore",
    "address": "0x02086164",
    "kind": "sdk",
    "region": "arm9",

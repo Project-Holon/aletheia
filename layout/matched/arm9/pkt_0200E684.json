@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E684",
-    "sub_0200E6B0"
+    "BATTLE_EXAMINATION_RefreshMarker",
+    "BATTLE_EXAMINATION_GetGreetingSize"
+   ],
+   "addresses": [
+    "0x0200E684",
+    "0x0200E6B0"
    ]
   },
   {
@@ -34,8 +38,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E6E8",
-    "sub_0200E6F0"
+    "SAVEDATA_GetExtraBlockThunk",
+    "SAVEDATA_GetExtraBlock"
+   ],
+   "addresses": [
+    "0x0200E6E8",
+    "0x0200E6F0"
    ]
   },
   {
@@ -50,16 +58,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E730",
-    "sub_0200E734",
-    "sub_0200E740",
-    "sub_0200E74C",
-    "sub_0200E76C",
-    "sub_0200E780",
-    "sub_0200E788",
-    "sub_0200E7A4",
-    "sub_0200E7AC",
-    "sub_0200E7B4"
+    "MISC_SAVEDATA_GetMonEntrySize",
+    "MISC_SAVEDATA_ClearMonEntry",
+    "MISC_SAVEDATA_GetMonEntryFlag",
+    "MISC_SAVEDATA_GetMonEntryLevel",
+    "MISC_SAVEDATA_IsMonEntrySet",
+    "MISC_SAVEDATA_GetMonEntryTag",
+    "MISC_SAVEDATA_GetMonEntryCost",
+    "MISC_SAVEDATA_GetMonEntryPid",
+    "MISC_SAVEDATA_GetMonEntryName",
+    "MISC_SAVEDATA_GetMonEntryExperience"
+   ],
+   "addresses": [
+    "0x0200E730",
+    "0x0200E734",
+    "0x0200E740",
+    "0x0200E74C",
+    "0x0200E76C",
+    "0x0200E780",
+    "0x0200E788",
+    "0x0200E7A4",
+    "0x0200E7AC",
+    "0x0200E7B4"
    ]
   },
   {
@@ -74,18 +94,32 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E884",
-    "sub_0200E89C",
-    "sub_0200E8B0",
-    "sub_0200E8B8",
-    "sub_0200E8CC",
-    "sub_0200E8D0",
-    "sub_0200E8D8",
-    "sub_0200E8E0",
-    "sub_0200E8E8",
-    "sub_0200E8EC",
-    "sub_0200E8F8",
-    "sub_0200E904"
+    "MISC_SAVEDATA_SaveScratch16",
+    "MISC_SAVEDATA_LoadScratch16",
+    "MISC_SAVEDATA_GetBigBlockSize",
+    "MISC_SAVEDATA_ClearBigBlock",
+    "MISC_SAVEDATA_EmptyHook",
+    "MISC_SAVEDATA_GetScratchBase",
+    "MISC_SAVEDATA_GetFlags6200",
+    "MISC_SAVEDATA_SetFlags6200",
+    "MISC_SAVEDATA_GetMacSize",
+    "MISC_SAVEDATA_ClearMacArea",
+    "MISC_SAVEDATA_GetBlock41",
+    "MISC_SAVEDATA_InitMac"
+   ],
+   "addresses": [
+    "0x0200E884",
+    "0x0200E89C",
+    "0x0200E8B0",
+    "0x0200E8B8",
+    "0x0200E8CC",
+    "0x0200E8D0",
+    "0x0200E8D8",
+    "0x0200E8E0",
+    "0x0200E8E8",
+    "0x0200E8EC",
+    "0x0200E8F8",
+    "0x0200E904"
    ]
   },
   {
@@ -100,8 +134,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E918",
-    "sub_0200E920"
+    "MISC_SAVEDATA_GetKeyByte",
+    "MISC_SAVEDATA_AddKeyByte"
+   ],
+   "addresses": [
+    "0x0200E918",
+    "0x0200E920"
    ]
   },
   {
@@ -116,9 +154,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200E938",
-    "sub_0200E958",
-    "sub_0200E978"
+    "MISC_SAVEDATA_GetKey",
+    "MISC_SAVEDATA_SetKey",
+    "MISC_SAVEDATA_SetKeyField"
+   ],
+   "addresses": [
+    "0x0200E938",
+    "0x0200E958",
+    "0x0200E978"
    ]
   },
   {

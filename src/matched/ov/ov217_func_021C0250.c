@@ -1,5 +1,5 @@
 /*
- * function: func_021C0250
+ * function: RESEARCH_GRAPH_RegisterEntryResources
  * address: 0x021C0250
  * packet: pkt_ov217_021C0250
  * region: ov217
@@ -24,7 +24,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C0250(char *p)
+void RESEARCH_GRAPH_RegisterEntryResources(char *p)
 {
     u16 heap = ((struct Obj08438 *)p)->f4;
     void *h = func_020490F4(192, heap);

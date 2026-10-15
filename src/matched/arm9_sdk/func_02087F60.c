@@ -1,5 +1,5 @@
 /*
- * function: func_02087F60
+ * function: OS_InitDeliverArgInfo
  * address:  0x02087F60
  * packet:   pkt_02087F60
  * region:   arm9
@@ -48,7 +48,7 @@ extern struct OsArgumentBss g_02151384;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-void func_02087F60(OSDeliverArgInfo *info, int binSize)
+void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize)
 {
     g_02151384.sBufferPtr = info;
     MI_CpuFill8(info, 0, sizeof(OSDeliverArgInfo));

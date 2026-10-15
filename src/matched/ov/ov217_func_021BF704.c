@@ -1,5 +1,5 @@
 /*
- * function: func_021BF704
+ * function: RESEARCH_GRAPH_ClearUpdatedFlag
  * address:  0x021BF704
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF704(void *p)
+void RESEARCH_GRAPH_ClearUpdatedFlag(void *p)
 {
     ((struct Obj25932 *)p)->f3D8 = 0;
 }

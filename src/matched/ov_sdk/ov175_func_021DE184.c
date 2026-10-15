@@ -17,9 +17,9 @@
  *   sReadXmlNamespacePrefix     0x021E3DF8  data
  *   sReadTagFields     0x021E3DFC  data
  *   sReadTagString     0x021E3E04  data
- *   func_021829AC  0x021829AC  arm
- *   func_02182AC0  0x02182AC0  arm
- *   func_02182A2C  0x02182A2C  arm
+ *   gsXmlWriteOpenTag  0x021829AC  arm
+ *   gsXmlWriteStringElement  0x02182AC0  arm
+ *   gsXmlWriteCloseTag  0x02182A2C  arm
  */
 
 typedef unsigned int u32;
@@ -27,17 +27,17 @@ typedef unsigned int u32;
 extern char sReadXmlNamespacePrefix[];
 extern char sReadTagFields[];
 extern char sReadTagString[];
-extern void func_021829AC(void *, void *, void *);
-extern void func_02182AC0(void *, void *, void *, void *);
-extern void func_02182A2C(void *, void *, void *);
+extern void gsXmlWriteOpenTag(void *, void *, void *);
+extern void gsXmlWriteStringElement(void *, void *, void *, void *);
+extern void gsXmlWriteCloseTag(void *, void *, void *);
 
 void sakeiFillSoapRequestFieldNames(u32 ctx, u32 *arr, int n)
 {
     int i;
 
-    func_021829AC(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFields);
+    gsXmlWriteOpenTag(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFields);
     for (i = 0; i < n; i++)
-        func_02182AC0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagString,
+        gsXmlWriteStringElement(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagString,
                       (void *)arr[i]);
-    func_02182A2C(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFields);
+    gsXmlWriteCloseTag(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFields);
 }

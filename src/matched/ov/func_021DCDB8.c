@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDB8
+ * function: BOX2_MAIN_CreatePalAnm
  * address:  0x021DCDB8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ struct PalAnmSlot;
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-void func_021DCDB8(char *p)
+void BOX2_MAIN_CreatePalAnm(char *p)
 {
     int v = (int)PALANM_Create(0x4c);
 

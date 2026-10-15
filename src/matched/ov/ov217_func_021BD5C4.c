@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5C4
+ * function: RESEARCH_LIST_RegisterVBlank
  * address:  0x021BD5C4
  * packet:   pkt_021BD5C4
  * region:   ov217
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020056A0  0x020056A0  thumb
- *   func_021BC610  0x021BC610  thumb  ov217
+ *   RESEARCH_LIST_VBlankHandler  0x021BC610  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -19,9 +19,9 @@
 
 extern int func_020056A0(void (*)(void), void *, int);
 typedef unsigned int   u32;
-extern void func_021BC610(u32 a0, u32 a1);
+extern void RESEARCH_LIST_VBlankHandler(u32 a0, u32 a1);
 
-void func_021BD5C4(char *p)
+void RESEARCH_LIST_RegisterVBlank(char *p)
 {
-    ((struct Obj25894 *)p)->f154 = func_020056A0((void (*)(void))func_021BC610, p, 0);
+    ((struct Obj25894 *)p)->f154 = func_020056A0((void (*)(void))RESEARCH_LIST_VBlankHandler, p, 0);
 }

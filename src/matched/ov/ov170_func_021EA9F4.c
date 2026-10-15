@@ -1,5 +1,5 @@
 /*
- * function: func_021EA9F4
+ * function: BOX2_SEQ_GotoBox2MainPlaySe
  * address:  0x021EA9F4
  * packet:   pkt_ov170_021EA9F4
  * region:   ov170
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021EF5E8 0x021EF5E8 thumb
- *   func_021DD238 0x021DD238 thumb
- *   func_021E8F50 0x021E8F50 thumb
+ *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
+ *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  */
 
 typedef struct {
@@ -24,20 +24,20 @@ typedef struct {
 
 struct WinMgr;
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021DD238(char *p);
-extern int func_021E8F50(char *p, int v);
+extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
+extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 
 #define MGR(p) (*(struct WinMgr **)(*(char **)((char *)(p) + 0x2C) + 0x74))
 
-void func_021EA9F4(Obj *p, int v)
+void BOX2_SEQ_GotoBox2MainPlaySe(Obj *p, int v)
 {
     GFL_USE_PlaySeDefaultVolume(0x54C);
-    if (func_021EF5E8(MGR(p)) == 1)
+    if (BOX2_UI_IsListOpen(MGR(p)) == 1)
         p->lo = 2;
     else
         p->lo = 1;
     p->hi = 0;
-    func_021DD238((char *)p);
-    func_021E8F50((char *)p, v);
+    BOX2_MAIN_PlayCursorSound((char *)p);
+    BOX2_SEQ_ReturnAfterClear((char *)p, v);
 }

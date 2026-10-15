@@ -1,5 +1,5 @@
 /*
- * function: func_021EF680
+ * function: BOX2_UI_HideWindowA
  * address:  0x021EF680
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 
-void func_021EF680(char *p)
+void BOX2_UI_HideWindowA(char *p)
 {
     BGWINFRM_HideFrame(*(struct WinMgr * *)&((struct Obj18535 *)p)->f74, 0xa);
 }

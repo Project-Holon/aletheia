@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EDC0C",
+   "name": "BOX2_UI_LoadMonIcon",
    "address": "0x021EDC0C",
    "kind": "game",
    "region": "ov170",

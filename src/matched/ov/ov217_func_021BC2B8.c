@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2B8
+ * function: RESEARCH_LIST_SetMomentumDirection
  * address:  0x021BC2B8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC2B8(void *p)
+void RESEARCH_LIST_SetMomentumDirection(void *p)
 {
     if (((struct Obj00025 *)p)->f4C < 0) {
         ((struct Obj00025 *)p)->f50 = 1;

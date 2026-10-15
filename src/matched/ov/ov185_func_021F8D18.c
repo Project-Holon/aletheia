@@ -1,5 +1,5 @@
 /*
- * function: func_021F8D18
+ * function: BR_POKESEARCH_CreateSidebar
  * address:  0x021F8D18
  * packet:   pkt_021F8D18
  * region:   ov185
@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 extern int WORLDTRADE_DETAIL_StateStartWipeOut(u8 *p, int a1);
 extern int func_021F3AF0(int, int);
 
-void func_021F8D18(char *a, int *r4)
+void BR_POKESEARCH_CreateSidebar(char *a, int *r4)
 {
     if (((struct Obj06622 *)a)->f14 == 0) {
         BR_SIDEBAR_SetVisibleBySpace(r4[1], 0, 0);

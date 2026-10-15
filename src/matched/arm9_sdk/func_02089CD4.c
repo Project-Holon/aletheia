@@ -1,5 +1,5 @@
 /*
- * function: func_02089CD4
+ * function: SND_WaitForCommandProc
  * address:  0x02089CD4
  * packet:   pkt_02089CD4
  * region:   arm9
@@ -24,7 +24,7 @@ extern BOOL SND_IsFinishedCommandTag(u32 tag);
 extern const void *SND_RecvCommandReply(u32 flags);
 extern void RequestCommandProc(void);
 
-void func_02089CD4(u32 tag)
+void SND_WaitForCommandProc(u32 tag)
 {
     if (SND_IsFinishedCommandTag(tag)) {
         return;

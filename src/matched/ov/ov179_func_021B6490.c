@@ -1,5 +1,5 @@
 /*
- * function: func_021B6490
+ * function: CDEMO_SCENE_GetResult
  * address:  0x021B6490
  * packet:   pkt_021B6490
  * region:   ov179
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-u32 func_021B6490(char *p)
+u32 CDEMO_SCENE_GetResult(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj24472 *)p)->f6054;

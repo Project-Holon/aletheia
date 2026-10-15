@@ -1,5 +1,5 @@
 /*
- * function: func_020604AC
+ * function: NNS_FndAppendListObject
  * address:  0x020604AC
  * packet:   pkt_0205D1BC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060480  0x02060480  arm
+ *   NNSi_FndSetFirstObject  0x02060480  arm
  *
  * NitroSystem fnd/list.c, NNS_FndAppendListObject (append at the tail).  The library was identified from
  * the shape (head, tail, u16 count, u16 link offset) and the body follows the
@@ -21,11 +21,11 @@
  * the volatile; with the u32 add the middle is exact under both compilers and
  * the remaining count-load hoist is a 1.1p1 artefact: it closes under
  * ../2.0/sp2 (also sp1, sp2p2..sp2p4), DIFF 8 bytes under 1.1p1.
- * func_02060480 is the list's SetFirstObject step.
+ * NNSi_FndSetFirstObject is the list's SetFirstObject step.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020604AC.c \
- *       --func func_020604AC --addr 0x020604AC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_FndAppendListObject.c \
+ *       --func NNS_FndAppendListObject --addr 0x020604AC --arm --cc ../2.0/sp2
  */
 
 typedef unsigned short u16;
@@ -34,12 +34,12 @@ typedef struct { void *prevObject; void *nextObject; } NNSFndLink;
 typedef struct { void *headObject; void *tailObject; u16 numObjects; u16 offset; } NNSFndList;
 #define GetLink(list, obj) ((NNSFndLink *)(((u32)(obj)) + (list)->offset))
 struct DList;
-extern void func_02060480(volatile struct DList *list, void *elem);
-void func_020604AC(NNSFndList *list, void *object)
+extern void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
+void NNS_FndAppendListObject(NNSFndList *list, void *object)
 {
     if (list->headObject == 0)
     {
-        func_02060480((volatile struct DList *)list, object);
+        NNSi_FndSetFirstObject((volatile struct DList *)list, object);
     }
     else
     {

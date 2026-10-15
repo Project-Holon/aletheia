@@ -13,13 +13,13 @@
  *   g_02146BC8     0x02146BC8  data  a4
  *   GXi_DmaId     0x020A84C0  data  a4
  *   func_020862B8  0x020862B8  arm
- *   func_020821C0  0x020821C0  arm
+ *   MIi_DmaFill32  0x020821C0  arm
  *   func_02082A7C  0x02082A7C  arm
  *
  * NitroSystem g2d_OAM.c NNS_G2dResetOamManagerBuffer(pMan).  Fast-transfer
  * managers: DC_InvalidateRange (func_020862B8) over the managed OAM span,
  * then NNSi_G2dDmaFill32(NNS_G2D_DMA_NO, span, 0xC0, size) -- MIi_DmaFill32
- * (func_020821C0, five arguments, the fifth on the stack) on the default
+ * (MIi_DmaFill32, five arguments, the fifth on the stack) on the default
  * DMA channel, MIi_CpuClear32 (func_02082A7C) when GX_GetDefaultDMA()
  * reports GX_DMA_NOT_USE; otherwise ResetOam_ writes 0xC0 into attr0 of
  * each entry.  Both cursors are then rewound to fromIdx.
@@ -139,7 +139,7 @@ static inline BOOL HasEnoughCapacity_(const NNSG2dOAMManageArea *pArea, u16 num)
 
 extern u32 GXi_DmaId;                  /* GXi_DmaId */
 extern void func_020862B8(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
-extern void func_020821C0(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
+extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
 extern void func_02082A7C(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
 
 static inline u32 GX_GetDefaultDMA(void)
@@ -149,7 +149,7 @@ static inline u32 GX_GetDefaultDMA(void)
 
 static inline void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)
 {
-    func_020821C0(dmaNo, dest, data, size, 1);
+    MIi_DmaFill32(dmaNo, dest, data, size, 1);
 }
 
 static inline void MI_CpuFill32(void *dest, u32 data, u32 size)

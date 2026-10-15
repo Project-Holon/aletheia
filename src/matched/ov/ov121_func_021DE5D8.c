@@ -1,5 +1,5 @@
 /*
- * function: func_021DE5D8
+ * function: MYSTERY_NET_ShowWifiError
  * address: 0x021DE5D8
  * packet: pkt_ov121_021DE5D8
  * region: ov121
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void),func_0200FBA0(void);
-int func_021DE5D8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}
+int MYSTERY_NET_ShowWifiError(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}

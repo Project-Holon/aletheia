@@ -1,5 +1,5 @@
 /*
- * function: func_021EAC28
+ * function: BOX2_SEQ_PrintTextWinEx
  * address:  0x021EAC28
  * packet:   pkt_ov170_021EAC28
  * region:   ov170
@@ -34,7 +34,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color)
+void BOX2_SEQ_PrintTextWinEx(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color)
 {
     u32 print;
     void *s;

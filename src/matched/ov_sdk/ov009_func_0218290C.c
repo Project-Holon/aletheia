@@ -1,5 +1,5 @@
 /*
- * function: func_0218290C
+ * function: gsiXmlUtilParseValue
  * address:  0x0218290C
  * packet:   pkt_ov009_0218290C
  * region:   ov009
@@ -25,7 +25,7 @@ struct GSIXmlString
 extern int gsiXmlUtilSkipWhiteSpace(void *stream, char *buffer, int len, int *pos);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
 
-int func_0218290C(void *stream, char *buffer, int len, int *pos, struct GSIXmlString *strOut)
+int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, struct GSIXmlString *strOut)
 {
     char *strStart = 0;
 

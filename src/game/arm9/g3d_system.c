@@ -34,7 +34,7 @@
  *   ARC_TOOL_LoadMember      0x02048F60  arm
  *   ARC_TOOL_LoadMemberFromPath      0x02048F9C  arm
  *   ARC_TOOL_LoadHandleMember      0x02049250  arm
- *   func_020613D8      0x020613D8  arm
+ *   NNS_GfdInitVramManager      0x020613D8  arm
  *   func_0206210C      0x0206210C  arm
  *   func_02062114      0x02062114  arm
  *   func_0206246C      0x0206246C  arm
@@ -304,7 +304,7 @@ extern int   func_02030BC8(u32 buffer);
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 dataId, u16 heapId);
-extern void  func_020613D8(u32 size, u32 useAsDefault);
+extern void  NNS_GfdInitVramManager(u32 size, u32 useAsDefault);
 extern int   func_0206210C(int numBlocks);
 extern void  func_02062114(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
 extern int   func_0206246C(int numBlocks);
@@ -478,7 +478,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
         _G3dSystem.work->texManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x7e);
         func_02062114(texManSize << 17, 0, (u32)_G3dSystem.work->texManagerWork, workSize, 1);
     } else {
-        func_020613D8((u16)texManSize, 1);
+        NNS_GfdInitVramManager((u16)texManSize, 1);
         _G3dSystem.work->texManagerWork = 0;
     }
 
@@ -487,7 +487,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
         _G3dSystem.work->plttManagerWork = func_02030734(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x8d);
         func_02062474(plttManSize << 14, (u32)_G3dSystem.work->plttManagerWork, workSize, 1);
     } else {
-        func_020613D8((u16)(plttManSize << 14), 1);
+        NNS_GfdInitVramManager((u16)(plttManSize << 14), 1);
         _G3dSystem.work->texManagerWork = 0;
     }
 

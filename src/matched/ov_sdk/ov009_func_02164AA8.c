@@ -19,8 +19,8 @@
  *   CPSi_big_sub_small  0x02164160  arm  ov009
  *   CPSi_big_div        0x021644D0  arm  ov009
  *   CPSi_big_montmult   0x0216497C  arm  ov009
- *   g_021A8280          0x021A8280  data
- *   g_021A82B0          0x021A82B0  data
+ *   CPSiAlloc          0x021A8280  data
+ *   CPSiFree          0x021A82B0  data
  */
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -30,8 +30,8 @@ extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *
 extern void CPSi_big_sub_small(unsigned short *c, unsigned short *a, unsigned short _b, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
 extern void CPSi_big_montmult(unsigned short *c, unsigned short *a, unsigned short *b, int digits, int rdigits, unsigned short *n, unsigned short *np, unsigned short *m, unsigned short *m2);
-extern unsigned short *(*g_021A8280)(unsigned long size);
-extern void (*g_021A82B0)(void *ptr);
+extern unsigned short *(*CPSiAlloc)(unsigned long size);
+extern void (*CPSiFree)(void *ptr);
 
 void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n)
 {
@@ -45,7 +45,7 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
     unsigned short *tmp3;
     unsigned short *divwork;
 
-    tmp_var = g_021A8280(digits * 22);
+    tmp_var = CPSiAlloc(digits * 22);
     if (tmp_var == 0)
         return;
     i = 0;
@@ -71,5 +71,5 @@ void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e,
             CPSi_big_montmult(c, tmp3, mr, digits, rdigits, n, ri, tmp, tmp2);
     }
     CPSi_big_montmult(c, tmp3, 0, digits, rdigits, n, ri, tmp, tmp2);
-    g_021A82B0(tmp_var);
+    CPSiFree(tmp_var);
 }

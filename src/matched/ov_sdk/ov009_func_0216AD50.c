@@ -16,7 +16,7 @@
  *   func_0219ED4C  0x0219ED4C  arm  ov009
  *   func_02176B34  0x02176B34  arm  ov009
  *   func_02169FF8  0x02169FF8  arm  ov009
- *   func_02193D00  0x02193D00  arm  ov009
+ *   CloseStatsConnection  0x02193D00  arm  ov009
  *   func_0216A00C  0x0216A00C  arm  ov009
  *   func_0218597C  0x0218597C  arm  ov009
  *   func_02185948  0x02185948  arm  ov009
@@ -54,7 +54,7 @@ extern void qr2_shutdown(struct qr2_implementation_s *qrec);
 extern void func_0219ED4C(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern void func_02169FF8(void);
-extern void func_02193D00(void);
+extern void CloseStatsConnection(void);
 extern void func_0216A00C(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int func_02185948(void **conn);
@@ -81,7 +81,7 @@ void DWC_ShutdownFriendsMatch(void)
     }
     func_02176B34();
     func_02169FF8();
-    func_02193D00();
+    CloseStatsConnection();
     func_0216A00C();
     if (((Ctl *)g_021AA878.st)->gpConn != 0) {
         func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 0, 0, 0);

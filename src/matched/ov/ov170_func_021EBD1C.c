@@ -1,5 +1,5 @@
 /*
- * function: func_021EBD1C
+ * function: BOX2_SEQ_PrintMenuRow
  * address:  0x021EBD1C
  * packet:   pkt_ov170_021EBD1C
  * region:   ov170
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBA84  0x021EBA84  thumb  ov170
+ *   BOX2_SEQ_PrintMessageMsg  0x021EBA84  thumb  ov170
  *
  * Maps a menu row to its message index, then tail-calls the printer.
  */
 
-extern void func_021EBA84(unsigned char *p, int msg, int i);
+extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 
-void func_021EBD1C(char *p, int row, int b)
+void BOX2_SEQ_PrintMenuRow(char *p, int row, int b)
 {
     switch (row) {
     case 2:
@@ -33,5 +33,5 @@ void func_021EBD1C(char *p, int row, int b)
         row = 0x33;
         break;
     }
-    func_021EBA84((unsigned char *)p, row, b);
+    BOX2_SEQ_PrintMessageMsg((unsigned char *)p, row, b);
 }

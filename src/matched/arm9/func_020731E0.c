@@ -11,31 +11,31 @@
  * symbols:
  *   gSndActiveSeqList  0x0214E018  data
  *   g_020A5D08  0x020A5D08  data
- *   func_0208A054  0x0208A054  arm
- *   func_02060614  0x02060614  arm
- *   func_02089D6C  0x02089D6C  arm
+ *   SND_GetPlayerStatus  0x0208A054  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
+ *   SND_IsFinishedCommandTag  0x02089D6C  arm
  *   NNSi_SndSeqPlayerRelease  0x0207368C  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   func_020893D0  0x020893D0  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
- *   func_02089378  0x02089378  arm
+ *   SND_StartPreparedSeq  0x02089378  arm
  *
  * Byte-correct: 356 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1
  * -O4,p.  No compiler pin taken or needed.
  *
  * PROMOTED TO EXACT, 2026-09-21 (unblock lane), with NO change to the C.
- * It was parked at MATCH because the two PC24 sites at +0x04 (func_0208A054)
- * and +0x13C (func_02089378) had no `label` witness: both targets are defined
+ * It was parked at MATCH because the two PC24 sites at +0x04 (SND_GetPlayerStatus)
+ * and +0x13C (SND_StartPreparedSeq) had no `label` witness: both targets are defined
  * and labelled in asm/arm9/src/028_02087E60.s, but the only `bl` reaching
  * either one anywhere in the image (arm9 and all of asm/overlays) was inside
  * this function's own 356 bytes -- the `bl` at 0x020731E4 and the one at
  * 0x0207331C respectively -- so `label` refused both for want of an OUTSIDE
  * branch and a split could not help.  There is no second caller to find.
  * Both callees were therefore written and filed directly instead:
- * src/matched/func_02089378.c (32 bytes, shard pkt_02089378) and
- * src/matched/func_0208A054.c (40 bytes, shard pkt_0208A054), each EXACT on
+ * src/matched/SND_StartPreparedSeq.c (32 bytes, shard pkt_02089378) and
+ * src/matched/SND_GetPlayerStatus.c (40 bytes, shard pkt_0208A054), each EXACT on
  * its own evidence.  Both sites now resolve `matched x1` and all 13 of this
  * file's relocations are attested.
  *
@@ -85,19 +85,19 @@ struct Voice {
 extern char gSndActiveSeqList[];
 extern s16 g_020A5D08[];
 
-extern u32 func_0208A054(void);
+extern u32 SND_GetPlayerStatus(void);
 struct DList;
 struct LerpObj;
 struct Obj;
-extern void *func_02060614(struct DList *list, void *elem);
-extern int func_02089D6C(u32 tag);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern int SND_IsFinishedCommandTag(u32 tag);
 extern void NNSi_SndSeqPlayerRelease(struct Voice *v);
 extern void NNS_SndFaderUpdate(struct LerpObj *obj);
 extern s32 NNS_SndFaderGet(struct Obj *o);
 extern void func_020893D0(u32 player, s32 vol);
 extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 extern void NNSi_SndSeqPlayerStopNow(struct Voice *v);
-extern void func_02089378(u32 player);
+extern void SND_StartPreparedSeq(u32 player);
 
 void NNS_SndPlayerMain(void)
 {
@@ -108,8 +108,8 @@ void NNS_SndPlayerMain(void)
     struct Voice *next;
     s32 vol;
 
-    mask = func_0208A054();
-    v = func_02060614((struct DList *)gSndActiveSeqList, 0);
+    mask = SND_GetPlayerStatus();
+    v = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, 0);
     if (v == 0) {
         return;
     }
@@ -117,9 +117,9 @@ void NNS_SndPlayerMain(void)
     tbl = g_020A5D08;
 
     do {
-        next = func_02060614((struct DList *)gSndActiveSeqList, v);
+        next = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, v);
         if (v->b2d == 0) {
-            if (func_02089D6C(*(u32 *)&v->p30[0]) != 0) {
+            if (SND_IsFinishedCommandTag(*(u32 *)&v->p30[0]) != 0) {
                 v->b2d = 1;
             }
         }
@@ -148,7 +148,7 @@ void NNS_SndPlayerMain(void)
                 NNSi_SndSeqPlayerStopNow(v);
             }
             if (v->b2f != 0) {
-                func_02089378(v->b3c);
+                SND_StartPreparedSeq(v->b3c);
                 v->b2f = 0;
             }
         }

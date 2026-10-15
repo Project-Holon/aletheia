@@ -1,5 +1,5 @@
 /*
- * function: func_021BB948
+ * function: RESEARCH_LIST_GetFadeWaitFrames
  * address:  0x021BB948
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BB948  0x021BB948  thumb  ov217
+ *   RESEARCH_LIST_GetFadeWaitFrames  0x021BB948  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 
-u32 func_021BB948(u8 *a0)
+u32 RESEARCH_LIST_GetFadeWaitFrames(u8 *a0)
 {
     return ((struct Obj25848 *)(((u8*)a0)))->f28;
 }

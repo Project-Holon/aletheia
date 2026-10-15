@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB70
+ * function: RESEARCH_LIST_LoadBackground2
  * address: 0x021BCB70
  * packet: pkt_ov217_021BCB70
  * region: ov217
@@ -28,7 +28,7 @@ extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_02041B6C(u32 bit);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BCB70(char *p)
+void RESEARCH_LIST_LoadBackground2(char *p)
 {
     void *arc;
     void *buf;

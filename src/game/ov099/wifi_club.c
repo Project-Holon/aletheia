@@ -301,7 +301,7 @@
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   sub_0203CD98  0x0203CD98  arm
  *   BUTTON_MAN_Create 0x02051B84 arm
@@ -342,6 +342,7 @@
  *   OS_GetMacAddress 0x02087C6C arm
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "wifi_club_work.h"
 #include "wifi_club.h"
@@ -624,8 +625,8 @@ extern u32 GFL_NET_GetHandleNetID(struct NetHandle *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern void *func_02012950(void *gameData, u32 index);
 extern void MYSTATUS_Copy(void *, void *);
-extern void *func_0200ED48(void *);
-extern void func_0200ED54(void *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void MISC_SAVEDATA_InsertRecentValue(void *l, u32 val);
 extern int MYSTATUS_GetSize(void);
 extern int func_0200F4E4(void *o);
 extern int GFL_NET_GetRunState(void);
@@ -6355,8 +6356,8 @@ void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedS
     if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
         friendStatus = func_02012950(work->gameData, friendIndex);
         MYSTATUS_Copy(receivedStatus, friendStatus);
-        friendRecords = func_0200ED48(work->saveData);
-        func_0200ED54(friendRecords, func_02008530(friendStatus));
+        friendRecords = MISC_SAVEDATA_GetBlock44(work->saveData);
+        MISC_SAVEDATA_InsertRecentValue(friendRecords, func_02008530(friendStatus));
     }
 }
 

@@ -14,7 +14,7 @@
  * truncation of func_021F5140's result ahead of the w->f38 load.
  *
  * symbols:
- *   func_021FD964  0x021FD964  thumb  ov186
+ *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
  *   func_021F4F14  0x021F4F14  thumb  ov112
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_021F4F40  0x021F4F40  thumb  ov112
@@ -54,7 +54,7 @@ typedef struct Work {
     void *f38;          /* 0x38 */
 } Work;
 
-extern u32 func_021FD964(void *p, u32 i, u32 j);
+extern u32 BR_UTIL_EffectIdle(void *p, u32 i, u32 j);
 extern u32 *func_021F4F14(int heap);
 extern unsigned char func_021F5140(void *p, int i);
 extern void func_021F4F40(void **p);
@@ -73,7 +73,7 @@ void MUSICAL_EVENT_ScorePerformers(Work *w)
         for (i = 0; i < 4; i++) {
             m = w->party->members[i];
             for (j = 0; j < 2; j++) {
-                k = func_021FD964(w->f28, i, j);
+                k = BR_UTIL_EffectIdle(w->f28, i, j);
                 if (k != 0xFF)
                     m->used[k] = 1;
             }

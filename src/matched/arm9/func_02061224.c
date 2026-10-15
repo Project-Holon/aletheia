@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02061224
+ * function: NNSi_FndPopFreeBlock
  * address:  0x02061224
  * packet:   pkt_02061184
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-void *func_02061224(int **p)
+void *NNSi_FndPopFreeBlock(int **p)
 {
     int *r = *p;
     if (r != 0)

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021FCE0C",
-    "func_021FCE50"
+    "BR_UTIL_GetListMenuField",
+    "BR_UTIL_RefreshList"
+   ],
+   "addresses": [
+    "0x021FCE0C",
+    "0x021FCE50"
    ],
    "evidence": {
     "sole-ref": [

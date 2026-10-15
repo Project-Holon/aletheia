@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02060E30",
+   "name": "NNS_FndFreeToExpHeap",
    "address": "0x02060E30",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060E6C",
+   "name": "NNSi_FndGetListTotalSize",
    "address": "0x02060E6C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02060F90",
+   "name": "NNSi_FndGetMBlockSize",
    "address": "0x02060F90",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020610B4",
+   "name": "NNSi_FndResetFrmHeapState",
    "address": "0x020610B4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061124",
+   "name": "NNS_FndAllocFromFrmHeapEx",
    "address": "0x02061124",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061158",
+   "name": "NNS_FndFreeToFrmHeap",
    "address": "0x02061158",
    "kind": "game",
    "region": "arm9",

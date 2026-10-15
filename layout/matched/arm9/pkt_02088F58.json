@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02088F58",
+   "name": "RTC_ConvertDateToDay",
    "address": "0x02088F58",
    "kind": "sdk",
    "region": "arm9",

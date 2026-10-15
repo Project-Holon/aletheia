@@ -1,5 +1,5 @@
 /*
- * function: func_021DB0A0
+ * function: POKETRADE_PROC_SendSideMon
  * address: 0x021DB0A0
  * packet: pkt_ov119_021DB0A0
  * region: ov119
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_020307B0(void *p);
 extern void POKETRADE_PROC_SetSideMon(void *,int,void *);
-int func_021DB0A0(char *p)
+int POKETRADE_PROC_SendSideMon(char *p)
 {
     int t=(int)POKETRADE_PROC_LoadSlotMon(*(void ** *)&((struct Obj00001 *)p)->f828,((struct Obj00001 *)p)->fF88,((struct Obj00001 *)p)->fF84,p);
     if(POKETRADE_PROC_IsNetSession(p)) {

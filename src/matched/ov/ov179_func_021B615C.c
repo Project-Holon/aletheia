@@ -1,5 +1,5 @@
 /*
- * function: func_021B615C
+ * function: CDEMO_MAIN_SetupVram
  * address:  0x021B615C
  * packet:   pkt_021B615C
  * region:   ov179
@@ -16,7 +16,7 @@
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021B615C(void)
+void CDEMO_MAIN_SetupVram(void)
 {
     BG_SYS_SetVramBanks((void *)0x021B68F0);
 }

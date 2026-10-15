@@ -29,7 +29,7 @@
  *   func_021F6F4C 0x021F6F4C thumb ov112
  *   func_021F6C7C 0x021F6C7C thumb ov112
  *   func_021F9E94 0x021F9E94 thumb ov132
- *   func_021F6A24 0x021F6A24 thumb ov112
+ *   STA_ACT_OBJ_Delete 0x021F6A24 thumb ov112
  *   func_021F7120 0x021F7120 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
@@ -73,7 +73,7 @@ extern void func_021FA04C(u8 *p);
 extern void func_021F6F4C(u8 *p);
 extern void func_021F6C7C(char *p);
 extern void func_021F9E94(u8 *p);
-extern void func_021F6A24(char *p);
+extern void STA_ACT_OBJ_Delete(char *p);
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
@@ -110,7 +110,7 @@ void func_021F8640(char *p)
     func_021F6F4C(((struct Obj00675 *)p)->f3C);
     func_021F6C7C(((struct Obj00675 *)p)->f90);
     func_021F9E94(((struct Obj00675 *)p)->f6C);
-    func_021F6A24(((struct Obj00675 *)p)->f54);
+    STA_ACT_OBJ_Delete(((struct Obj00675 *)p)->f54);
     func_021F7120(((struct Obj00675 *)p)->f40);
     func_021F51B0((int)(((struct Obj00675 *)p)->f34));
     func_021F4948(((struct Obj00675 *)p)->f38);

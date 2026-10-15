@@ -13,10 +13,10 @@
  *
  * symbols:
  *   GetTaggedPayloadSize    0x02069C14  arm
- *   func_02061330    0x02061330  arm
+ *   NNS_G2dCallVtableSlot0    0x02061330  arm
  *
  * Forwards the two tail arguments through GetTaggedPayloadSize and hands the result,
- * with the first argument, to func_02061330 -- the argument shuffle is why the
+ * with the first argument, to NNS_G2dCallVtableSlot0 -- the argument shuffle is why the
  * first parameter moves into r4 before either call.
  *
  * Verified with:
@@ -30,9 +30,9 @@ typedef unsigned char  u8;
 struct Node;
 struct Obj02061330;
 extern u32 GetTaggedPayloadSize(const u8 *tag, const struct Node *n);
-extern void func_02061330(struct Obj02061330 *o, u32 x);
+extern void NNS_G2dCallVtableSlot0(struct Obj02061330 *o, u32 x);
 
 void NNS_G3dAllocAnmObj(u32 a, u32 b, u32 c)
 {
-    func_02061330((struct Obj02061330 *)a, GetTaggedPayloadSize((const u8 *)b, (const struct Node *)c));
+    NNS_G2dCallVtableSlot0((struct Obj02061330 *)a, GetTaggedPayloadSize((const u8 *)b, (const struct Node *)c));
 }

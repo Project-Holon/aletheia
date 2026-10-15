@@ -24,9 +24,9 @@ typedef struct MATHMD5Context {
     unsigned char buffer[64];
 } MATHMD5Context;
 
-extern void func_02081120(MATHMD5Context *context);
-extern void func_02081164(MATHMD5Context *context, const void *input, unsigned long length);
-extern void func_0208122C(MATHMD5Context *context, void *digest);
+extern void MATH_MD5Init(MATHMD5Context *context);
+extern void MATH_MD5Update(MATHMD5Context *context, const void *input, unsigned long length);
+extern void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
 static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
@@ -34,8 +34,8 @@ static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
     unsigned char temp[17];
     MATHMD5Context context;
 
-    func_02081120(&context);
-    func_02081164(&context, seed, 24);
-    func_0208122C(&context, temp);
+    MATH_MD5Init(&context);
+    MATH_MD5Update(&context, seed, 24);
+    MATH_MD5GetHash(&context, temp);
     MI_CpuCopy8(&temp[3], wepkey, 13);
 }

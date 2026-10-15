@@ -1,5 +1,5 @@
 /*
- * function: func_021FD940
+ * function: BR_UTIL_SetHandlesAnimSeq
  * address: 0x021FD940
  * packet: pkt_ov186_021FD940
  * region: ov186
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-void func_021FD940(u8 *p,u32 value)
+void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value)
 {
     int i;
     u16 narrow;

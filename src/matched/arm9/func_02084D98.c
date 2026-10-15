@@ -12,15 +12,15 @@
  *           tail call spends ip in ARM, never r1), wave 17 lane untried_small
  *
  * symbols:
- *   func_02084D78  0x02084D78  arm
+ *   OS_UnlockCartridge  0x02084D78  arm
  */
 
 typedef signed int     s32;
 typedef unsigned short u16;
-extern s32 func_02084D78(u16 lockID);
+extern s32 OS_UnlockCartridge(u16 lockID);
 
 asm void OS_UnLockCartridge(int a)
 {
-    ldr r1, =func_02084D78
+    ldr r1, =OS_UnlockCartridge
     bx r1
 }

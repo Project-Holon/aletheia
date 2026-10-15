@@ -1,5 +1,5 @@
 /*
- * function: func_02194494
+ * function: ProcessInBuffer
  * address:  0x02194494
  * packet:   pkt_ov009_02194494
  * region:   ov009
@@ -12,37 +12,37 @@
  * sdk:      ProcessInBuffer (gstats.o)
  *
  * symbols:
- *   func_02193FF4 0x02193FF4  arm
- *   func_02193EB8 0x02193EB8  arm
- *   func_021943A4 0x021943A4  arm
- *   g_021A57F0   0x021A57F0  data
- *   g_021A57C8   0x021A57C8  data
+ *   FindFinal 0x02193FF4  arm
+ *   xcode_buf 0x02193EB8  arm
+ *   ProcessStatement 0x021943A4  arm
+ *   gGstatsNullKey   0x021A57F0  data
+ *   gGstatsSocket   0x021A57C8  data
  */
 
 #include "../include/G_StatsSocket.h"
 
-extern char *func_02193FF4(char *buff, int len);
-extern void func_02193EB8(char *buf, int len);
-extern void func_021943A4(char *buff, int len);
-extern struct StatsSocket g_021A57C8;
-extern char g_021A57F0[];
+extern char *FindFinal(char *buff, int len);
+extern void xcode_buf(char *buf, int len);
+extern void ProcessStatement(char *buff, int len);
+extern struct StatsSocket gGstatsSocket;
+extern char gGstatsNullKey[];
 
-int func_02194494(char *buff, int len)
+int ProcessInBuffer(char *buff, int len)
 {
     char *pos;
     int oldlen;
 
     oldlen = len;
-    pos = func_02193FF4(buff, len);
+    pos = FindFinal(buff, len);
 
     while (len > 0 && pos != 0) {
-        (*(char * *)&g_021A57C8) = g_021A57F0;
-        func_02193EB8(buff, pos - buff);
-        func_021943A4(buff, pos - buff);
+        (*(char * *)&gGstatsSocket) = gGstatsNullKey;
+        xcode_buf(buff, pos - buff);
+        ProcessStatement(buff, pos - buff);
         len -= (pos - buff) + 7;
         buff = pos + 7;
         if (len > 0)
-            pos = func_02193FF4(buff, len);
+            pos = FindFinal(buff, len);
     }
     return oldlen - len;
 }

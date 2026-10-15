@@ -15,7 +15,7 @@
  *           star is that 4-byte listing extent, the body is 1196 bytes with
  *           its pool).  Wants a seed at 0x02092F0C and the 0x02092F10 label
  *           removed.  Callees: func_020972F0 = __num2dec, func_020929E8 =
- *           long2str (for the binary exponent), func_0209A504 = fabs,
+ *           long2str (for the binary exponent), fabs = fabs,
  *           0x0209BAC8 = the runtime double `!=` (__dcmp_6 in
  *           layout/runtime_arm9.txt).
  *           The inf/nan spellings are MSL's `strcpy(p, "-INF")` etc.; the
@@ -30,7 +30,7 @@
  * symbols:
  *   func_020929E8  0x020929E8  arm
  *   func_020972F0  0x020972F0  arm
- *   func_0209A504  0x0209A504  arm
+ *   fabs  0x0209A504  arm
  *   _dneq          0x0209BAC8  arm
  *   s_020A8A40     0x020A8A40  data  a1
  *   s_020A8A48     0x020A8A48  data  a1
@@ -62,7 +62,7 @@ typedef struct {
 
 extern unsigned char *func_020929E8(long num, unsigned char *buff, print_format format);
 extern void func_020972F0(const decform *f, double x, decimal *d);
-extern double func_0209A504(double x);
+extern double fabs(double x);
 extern char s_020A8A40[5]; /* "-INF" */
 extern char s_020A8A48[5]; /* "-inf" */
 extern char s_020A8A50[4]; /* "INF"  */
@@ -186,7 +186,7 @@ unsigned char *func_02092F0C(double num, unsigned char *buff, print_format forma
     if (format.precision || format.alternate_form)
         *--p = '.';
 
-    if (func_0209A504(ld) != 0.0)
+    if (fabs(ld) != 0.0)
         *--p = '1';
     else
         *--p = '0';

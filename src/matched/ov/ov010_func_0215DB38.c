@@ -54,7 +54,7 @@
  *   func_02030734  0x02030734  arm
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   func_021FCDEC  0x021FCDEC  thumb  ov132
- *   func_021FDA6C  0x021FDA6C  thumb  ov132
+ *   STA_SLOT_GetRecordTable  0x021FDA6C  thumb  ov132
  *   d_02172914     0x02172914  data  a1
  *   d_021BB6A4     0x021BB6A4  data  ov100
  *   ov100_id       0x00000064  data
@@ -118,7 +118,7 @@ extern u32 func_0200FB24(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 COMM_ENTRY_MENU_Create(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_021FCDEC(int a, int b);
-extern unsigned char *func_021FDA6C(void *h);
+extern unsigned char *STA_SLOT_GetRecordTable(void *h);
 
 int SCRCMD_MUSICAL_LinkControl(void *c, void *vm)
 {
@@ -201,7 +201,7 @@ int SCRCMD_MUSICAL_LinkControl(void *c, void *vm)
         w->link = l;
         l->f30 = dst;
         l->f0c = h;
-        l->f2c = (u32)func_021FDA6C(h);
+        l->f2c = (u32)STA_SLOT_GetRecordTable(h);
         l->f28 = arg == 0 ? 9 : 10;
         SCRIPT_SYS_CallEvent(evt, FIELD_STATUS_CreateSubProcCallbackEvent(proc, (int)sys, (u32)ov100_id, (int)d_021BB6A4, (int)(&l->f0c), (int)SCRCMD_MUSICAL_LinkProcCallback, (int)w));
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02089004
+ * function: RTC_ConvertDateTimeToSecond
  * address:  0x02089004
  * packet:   pkt_02089004
  * region:   arm9
@@ -29,7 +29,7 @@ typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
 s32 RTC_ConvertDateToDay(RTCDate *date);
 s32 RTCi_ConvertTimeToSecond(RTCTime *time);
 
-s64 func_02089004(RTCDate *date, RTCTime *time)
+s64 RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time)
 {
     s32 day;
     s32 sec;

@@ -36,6 +36,7 @@
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  *   PXI_SendWordByFifo  0x02088610  arm  arm9
  *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
+ *   OS_InitMessageQueue  0x02085D94  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -133,7 +134,7 @@ extern void func_0208C848(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
 extern void func_02084774(u32, TwlFn);
 extern void OS_EnableIrqMask(u32);
-extern void func_02085D94(u32*, u32*, u32);
+extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
 extern void func_0208C86C(u32*);
@@ -604,7 +605,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f194 = 1;
     data_02733FC8.f198 = 1;
     data_02733FC8.f19c = 0;
-    func_02085D94(data_0273417C, data_0273419C, 1);
+    OS_InitMessageQueue(data_0273417C, data_0273419C, 1);
     OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
     OS_WakeupThreadDirect(data_0273302C);
     return 0;

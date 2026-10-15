@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3E0
+ * function: RESEARCH_TOP_GetEntryIconSource
  * address:  0x021BA3E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA3E0(void *p, u32 i)
+u32 RESEARCH_TOP_GetEntryIconSource(void *p, u32 i)
 {
     return *(u32 *)((char *)p + i * 4 + 0x7c);
 }

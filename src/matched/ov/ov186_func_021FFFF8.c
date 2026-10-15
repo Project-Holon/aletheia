@@ -44,7 +44,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   gBrPokeSearchAssertString 0x02200DAC data
  *   gSpeciesNameBank 0x020A7370 data
  *   gBrPokeSearchListConfig 0x02200CA8 data
@@ -66,7 +66,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_021FC8C8(Config *,u32);
+extern void *BR_UTIL_CreateListMenu(Config *,u32);
 void BR_POKESEARCH_CreateSpeciesList(char *p)
 {
     Config cfg;
@@ -90,5 +90,5 @@ void BR_POKESEARCH_CreateSpeciesList(char *p)
     cfg.v[6]=*(u32 *)(p+0x34);
     cfg.v[7]=*(u32 *)(p+0x74);
     cfg.v[8]=*(u32 *)(p+0x78);
-    *(void **)(p+0x68)=func_021FC8C8(&cfg,*(u16 *)(p+0x24));
+    *(void **)(p+0x68)=BR_UTIL_CreateListMenu(&cfg,*(u16 *)(p+0x24));
 }

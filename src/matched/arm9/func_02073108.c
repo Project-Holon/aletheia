@@ -13,6 +13,9 @@
  * Returns 0 to the caller when the guarded pointer is null, and forwards its
  *  * own v and w to the callee (they are already in r1/r2, so the call sets only
  *  * r0).
+ *
+ * symbols:
+ *   NNS_SndReadTrackInfo  0x02072894  arm
  */
 
 typedef unsigned char  u8;
@@ -22,10 +25,10 @@ typedef unsigned int   u32;
 struct Sub { u8 pad00[0x2c]; u8 b2c; u8 pad2[0x3c - 0x2d]; u8 b3c; };
 struct Obj { struct Sub * volatile p; };
 struct SNDTrackInfo;
-extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
 int NNS_SndHandleReadTrackInfo(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     if (o->p == 0) return 0;
-    return func_02072894(o->p->b3c, trackNo, trackInfo);
+    return NNS_SndReadTrackInfo(o->p->b3c, trackNo, trackInfo);
 }

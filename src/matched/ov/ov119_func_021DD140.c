@@ -1,5 +1,5 @@
 /*
- * function: func_021DD140
+ * function: POKETRADE_PROC_TickWifiTimer
  * address: 0x021DD140
  * packet: pkt_ov119_021DD140
  * region: ov119
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj00001.h"
 extern int POKETRADE_PROC_IsWifiMode(char *p);
-int func_021DD140(char *p)
+int POKETRADE_PROC_TickWifiTimer(char *p)
 {
     if (((struct Obj00001 *)p)->f11F1) {
         if (POKETRADE_PROC_IsWifiMode(p))

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5D4
+ * function: RESEARCH_LIST_UpdatePaletteAnimes
  * address:  0x021BC5D4
  * packet:   pkt_ov217_021BC5D4
  * region:   ov217
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * This address is also matched as func_021BC5D4 in ov021; the ov217 copy is a
+ * This address is also matched as RESEARCH_LIST_UpdatePaletteAnimes in ov021; the ov217 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -20,7 +20,7 @@
 
 extern void PALETTE_ANIME_Update(int);
 
-void func_021BC5D4(int *p)
+void RESEARCH_LIST_UpdatePaletteAnimes(int *p)
 {
     int i;
     for (i = 0; i < 6; i++)

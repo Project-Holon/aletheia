@@ -1,5 +1,5 @@
 /*
- * function: func_02194890
+ * function: TeamOpInt
  * address:  0x02194890
  * packet:   pkt_ov009_02194890
  * region:   ov009
@@ -12,20 +12,20 @@
  * sdk:      TeamOpInt (libdwcgsgstats.TWL.HYB.a(gstats.o))
  *
  * symbols:
- *   func_021946F4  0x021946F4  arm  ov009
+ *   GetTeamIndex  0x021946F4  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   func_02194754  0x02194754  arm  ov009
+ *   ServerOpInt  0x02194754  arm  ov009
  *   d_021A590C     0x021A590C  data  a4
  */
 
-extern int func_021946F4(int *game, int tnum);
+extern int GetTeamIndex(int *game, int tnum);
 extern void OS_SPrintf(char *buf, const char *fmt, int b, int n);
-extern void func_02194754(int a, char *buf, int c, int d, int e);
+extern void ServerOpInt(int a, char *buf, int c, int d, int e);
 extern char d_021A590C[];
 
-void func_02194890(int a, int b, int c, int d, int e)
+void TeamOpInt(int a, int b, int c, int d, int e)
 {
     char buf[0x40];
-    OS_SPrintf(buf, d_021A590C, b, func_021946F4((int *)a, e));
-    func_02194754(a, buf, c, d, e);
+    OS_SPrintf(buf, d_021A590C, b, GetTeamIndex((int *)a, e));
+    ServerOpInt(a, buf, c, d, e);
 }

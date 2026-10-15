@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA30
+ * function: RESEARCH_GRAPH_InitFields
  * address:  0x021BFA30
  * packet:   pkt_ov217_021BFA30
  * region:   ov217
@@ -11,20 +11,20 @@
  *
  * symbols:
  *   func_020056BC 0x020056BC thumb
- *   func_021BFC50 0x021BFC50 thumb ov217
- *   func_021BFB0C 0x021BFB0C thumb ov217
- *   func_021BFBDC 0x021BFBDC thumb ov217
- *   func_021BFE80 0x021BFE80 thumb ov217
- *   func_021BFEE4 0x021BFEE4 thumb ov217
- *   func_021BFB60 0x021BFB60 thumb ov217
- *   func_021BFBB8 0x021BFBB8 thumb ov217
- *   func_021BFB30 0x021BFB30 thumb ov217
- *   func_021C019C 0x021C019C thumb ov217
- *   func_021C0384 0x021C0384 thumb ov217
- *   func_021C03EC 0x021C03EC thumb ov217
- *   func_021C04B0 0x021C04B0 thumb ov217
- *   func_021C07B0 0x021C07B0 thumb ov217
- *   func_021C0820 0x021C0820 thumb ov217
+ *   RESEARCH_GRAPH_ClearGraphTable 0x021BFC50 thumb ov217
+ *   RESEARCH_GRAPH_ClearCommandQueue 0x021BFB0C thumb ov217
+ *   RESEARCH_GRAPH_ClearCircles 0x021BFBDC thumb ov217
+ *   RESEARCH_GRAPH_ClearArrow 0x021BFE80 thumb ov217
+ *   RESEARCH_GRAPH_ClearPercentages 0x021BFEE4 thumb ov217
+ *   RESEARCH_GRAPH_ClearMessages 0x021BFB60 thumb ov217
+ *   RESEARCH_GRAPH_ClearWordSet 0x021BFBB8 thumb ov217
+ *   RESEARCH_GRAPH_ClearFont 0x021BFB30 thumb ov217
+ *   RESEARCH_GRAPH_ClearLabels 0x021C019C thumb ov217
+ *   RESEARCH_GRAPH_ClearUnits 0x021C0384 thumb ov217
+ *   RESEARCH_GRAPH_ClearActors 0x021C03EC thumb ov217
+ *   RESEARCH_GRAPH_ClearBmps 0x021C04B0 thumb ov217
+ *   RESEARCH_GRAPH_ClearPalAnm 0x021C07B0 thumb ov217
+ *   RESEARCH_GRAPH_ClearPaletteAnime 0x021C0820 thumb ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -34,21 +34,21 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_020056BC(void);
-extern void func_021BFC50(u8 *a0);
-extern void func_021BFB0C(void *p);
-extern void func_021BFBDC(void *p);
-extern void func_021BFE80(void *p);
-extern void func_021BFEE4(void *p);
-extern void func_021BFB60(void *p);
-extern void func_021BFBB8(void *p);
-extern void func_021BFB30(void *p);
-extern void func_021C019C(void *p);
-extern void func_021C0384(void *p);
-extern void func_021C03EC(void *p);
-extern void func_021C04B0(void *p);
-extern void func_021C07B0(void *p);
-extern void func_021C0820(void *p);
-void func_021BFA30(char *p)
+extern void RESEARCH_GRAPH_ClearGraphTable(u8 *a0);
+extern void RESEARCH_GRAPH_ClearCommandQueue(void *p);
+extern void RESEARCH_GRAPH_ClearCircles(void *p);
+extern void RESEARCH_GRAPH_ClearArrow(void *p);
+extern void RESEARCH_GRAPH_ClearPercentages(void *p);
+extern void RESEARCH_GRAPH_ClearMessages(void *p);
+extern void RESEARCH_GRAPH_ClearWordSet(void *p);
+extern void RESEARCH_GRAPH_ClearFont(void *p);
+extern void RESEARCH_GRAPH_ClearLabels(void *p);
+extern void RESEARCH_GRAPH_ClearUnits(void *p);
+extern void RESEARCH_GRAPH_ClearActors(void *p);
+extern void RESEARCH_GRAPH_ClearBmps(void *p);
+extern void RESEARCH_GRAPH_ClearPalAnm(void *p);
+extern void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
+void RESEARCH_GRAPH_InitFields(char *p)
 {
     int i;
     ((struct Obj00926 *)p)->f20 = 0;
@@ -75,18 +75,18 @@ void func_021BFA30(char *p)
     for (i = 0; i < 7; i++) {
         *(u32 *)(p + i * 4 + 0x368) = 0;
     }
-    func_021BFC50((u8 *)p);
-    func_021BFB0C(p);
-    func_021BFBDC(p);
-    func_021BFE80(p);
-    func_021BFEE4(p);
-    func_021BFB60(p);
-    func_021BFBB8(p);
-    func_021BFB30(p);
-    func_021C019C(p);
-    func_021C0384(p);
-    func_021C03EC(p);
-    func_021C04B0(p);
-    func_021C07B0(p);
-    func_021C0820(p);
+    RESEARCH_GRAPH_ClearGraphTable((u8 *)p);
+    RESEARCH_GRAPH_ClearCommandQueue(p);
+    RESEARCH_GRAPH_ClearCircles(p);
+    RESEARCH_GRAPH_ClearArrow(p);
+    RESEARCH_GRAPH_ClearPercentages(p);
+    RESEARCH_GRAPH_ClearMessages(p);
+    RESEARCH_GRAPH_ClearWordSet(p);
+    RESEARCH_GRAPH_ClearFont(p);
+    RESEARCH_GRAPH_ClearLabels(p);
+    RESEARCH_GRAPH_ClearUnits(p);
+    RESEARCH_GRAPH_ClearActors(p);
+    RESEARCH_GRAPH_ClearBmps(p);
+    RESEARCH_GRAPH_ClearPalAnm(p);
+    RESEARCH_GRAPH_ClearPaletteAnime(p);
 }

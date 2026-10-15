@@ -16,7 +16,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_020870D0  0x020870D0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021AA664  0x021AA664  data
+ *   gCpsSslSessionCache  0x021AA664  data
  */
 
 #include "../include/G_CPSSslSession.h"
@@ -30,7 +30,7 @@ typedef struct CPSSslConnection {
     unsigned char session_id[0x20];     /* +0x74 */
 } CPSSslConnection;
 
-extern struct CPSSslSession g_021AA664[4];
+extern struct CPSSslSession gCpsSslSessionCache[4];
 
 extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
@@ -46,7 +46,7 @@ static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned shor
     enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
-        p = &g_021AA664[i];
+        p = &gCpsSslSessionCache[i];
         if (p->valid != 0 && p->ip == ip && p->port == port) {
             MI_CpuCopy8(p, con->session_id, 0x20);
             MI_CpuCopy8(p->master, con, 0x30);

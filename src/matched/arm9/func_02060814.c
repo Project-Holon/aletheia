@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060814
+ * function: NNSi_FndCreateExpHeap
  * address:  0x02060814
  * packet:   pkt_02060764
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020606D0  0x020606D0  arm
- *   func_020607E8  0x020607E8  arm
+ *   NNSi_FndInitHeapHead  0x020606D0  arm
+ *   NNSi_FndInitMBlock  0x020607E8  arm
  *
  * COMPILER PIN: this function is byte-exact only under `--cc ../2.0/sp2` and
  * is DIFF under the project default dsi/1.1p1.  Every instruction and both
@@ -25,15 +25,15 @@
  * rematerialises `mov r0, #0` and `mov r1, #0` exactly as the image does.
  * The C body is identical under both front ends; only the pin differs.
  *
- * The expanded heap's layout pass, reached from func_02060C5C once the arena
+ * The expanded heap's layout pass, reached from NNS_FndCreateExpHeapEx once the arena
  * has been word-aligned and size-checked.  The 0x38-byte handle is written at
- * the arena's own start: func_020606D0 fills the common header (signature,
+ * the arena's own start: NNSi_FndInitHeapHead fills the common header (signature,
  * bounds, attribute, child list) and the rest of this function lays out the
  * expanded heap's own record -- group id and feature halfwords at +0x34/+0x36,
  * a single free block spanning the whole remaining arena on the free list at
  * +0x24/+0x28, and an empty used list at +0x2c/+0x30.
  *
- * Argument order to func_020606D0 is read off the register moves, not guessed:
+ * Argument order to NNSi_FndInitHeapHead is read off the register moves, not guessed:
  * `mov r3, r1` puts this function's own second parameter in the FOURTH
  * argument slot and `ldr r1, [pc, #0x50]` puts the 'EXPH' signature word
  * (0x45585048, at the pool word 0x02060880) in the second, so the call is
@@ -46,8 +46,8 @@
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md shape.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060814.c \
- *       --func func_02060814 --addr 0x02060814 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndCreateExpHeap.c \
+ *       --func NNSi_FndCreateExpHeap --addr 0x02060814 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char  u8;
@@ -73,16 +73,16 @@ struct ExpHeap {
     u8                pad_38[0];
 };
 
-extern void           func_020606D0(struct ExpHeap *h, void *sig, void *self,
+extern void           NNSi_FndInitHeapHead(struct ExpHeap *h, void *sig, void *self,
                                     void *lo, u32 attr);
-extern void *func_020607E8(int *p, int v);
+extern void *NNSi_FndInitMBlock(int *p, int v);
 
-void *func_02060814(struct ExpHeap *heap, void *lo, u32 attr)
+void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u32 attr)
 {
     int  pair[2];
     u16  feature;
 
-    func_020606D0(heap, (void *)0x45585048, (void *)((u8 *)heap + 0x38), lo, attr);
+    NNSi_FndInitHeapHead(heap, (void *)0x45585048, (void *)((u8 *)heap + 0x38), lo, attr);
 
     heap->groupId = 0;
     heap->feature = 0;
@@ -90,7 +90,7 @@ void *func_02060814(struct ExpHeap *heap, void *lo, u32 attr)
 
     pair[0] = (int)heap->lo;
     pair[1] = (int)heap->hi;
-    heap->freeList.head = func_020607E8(pair, 0x4652);
+    heap->freeList.head = NNSi_FndInitMBlock(pair, 0x4652);
     heap->freeList.tail = heap->freeList.head;
     heap->usedList.head = 0;
     heap->usedList.tail = 0;

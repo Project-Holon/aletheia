@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9D8
+ * function: BOX2_MAIN_GetDispVram
  * address:  0x021DC9D8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -15,7 +15,7 @@
  */
 
 
-void *func_021DC9D8(void)
+void *BOX2_MAIN_GetDispVram(void)
 {
     return (void *)0x021EF7CC;
 }

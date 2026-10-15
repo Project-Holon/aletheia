@@ -1,5 +1,5 @@
 /*
- * function: func_021D737C
+ * function: WIFI_BSUBWAY_GRAPHIC_StartSaveProc
  * address: 0x021D737C
  * packet: pkt_ov116_021D737C
  * region: ov116
@@ -20,7 +20,7 @@ struct IcaAnime;
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 gNetSaveMainProc[];
 extern u8 ov115_id[];
-void func_021D737C(u8 *p) {
+void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(u8 *p) {
     ((struct Obj00671 *)p)->f9B0=*(u32 *)&((struct Obj00671 *)p)->f1844;
     ((struct Obj00671 *)p)->f9B4=0;
     ((struct Obj00671 *)p)->f9C8=1;

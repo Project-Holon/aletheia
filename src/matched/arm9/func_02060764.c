@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060764
+ * function: NNSi_FndGetMBlockRegion
  * address:  0x02060764
  * packet:   pkt_02060764
  * region:   arm9
@@ -22,14 +22,14 @@
  * folds into its operand.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060764.c \
- *       --func func_02060764 --addr 0x02060764 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndGetMBlockRegion.c \
+ *       --func NNSi_FndGetMBlockRegion --addr 0x02060764 --cc 1.1p1 --arm
  */
 #include "../include/Obj00512.h"
 
 typedef unsigned short u16;
 
-void func_02060764(int *out, int *blk)
+void NNSi_FndGetMBlockRegion(int *out, int *blk)
 {
     int f = ((struct Obj00512 *)blk)->f2;
 

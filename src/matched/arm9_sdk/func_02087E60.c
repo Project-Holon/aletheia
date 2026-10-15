@@ -1,5 +1,5 @@
 /*
- * function: func_02087E60
+ * function: OS_GetParentalControlInfoPtr
  * address:  0x02087E60
  * packet:   pkt_02087E60
  * region:   arm9
@@ -63,7 +63,7 @@ extern BOOL OS_IsRunOnTwl(void);
 /* HW_PARAM_TWL_SETTINGS_DATA: a pointer at 0x02FFFDFC to the TWL settings. */
 #define OSi_TWL_SETTINGS (*(u8 **)0x02FFFDFC)
 
-const void *func_02087E60(void)
+const void *OS_GetParentalControlInfoPtr(void)
 {
     if (OS_IsRunOnTwl()) {
         return OSi_TWL_SETTINGS + 0x94;

@@ -1,5 +1,5 @@
 /*
- * function: func_02089160
+ * function: RTCi_ConvertSecondToTime
  * address:  0x02089160
  * packet:   pkt_02089160
  * region:   arm9
@@ -22,7 +22,7 @@ typedef enum RTCWeek { RTC_WEEK_SUNDAY = 0, RTC_WEEK_MAX = 7 } RTCWeek;
 typedef struct RTCDate { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate;
 typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
 
-void func_02089160(RTCTime *time, s32 sec)
+void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec)
 {
     if (sec < 0) {
         sec = 0;

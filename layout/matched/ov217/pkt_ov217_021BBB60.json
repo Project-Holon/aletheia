@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBB60",
+   "name": "RESEARCH_LIST_ComputeReturnScroll",
    "address": "0x021BBB60",
    "kind": "game",
    "region": "ov217",

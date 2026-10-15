@@ -176,15 +176,8 @@
  *   func_02041090 0x02041090 arm
  */
 #include "zukan_detail_types.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_headbar_shared_types.h"
-#include "zukan_detail_graphic_shared_types.h"
-#include "zknd_tbar_shared_types.h"
-#include "zukan_detail_touchbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 #include "zukan_detail_form_types.h"
-#include "zukan_detail_info_shared_types.h"
-#include "zukan_detail_area_shared_types.h"
 
 extern u32 func_020307B0(void *p);
 

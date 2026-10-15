@@ -1,5 +1,5 @@
 /*
- * function: func_021DADAC
+ * function: POKETRADE_PROC_StepSendNewRound
  * address:  0x021DADAC
  * packet:   pkt_021D8B54
  * region:   ov119
@@ -37,7 +37,7 @@ struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-void func_021DADAC(void *p)
+void POKETRADE_PROC_StepSendNewRound(void *p)
 {
     u8 b = 3;
 

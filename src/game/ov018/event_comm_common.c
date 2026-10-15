@@ -240,32 +240,13 @@ struct WordSet;
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 /*
- * Common head of the talk events (0x98 bytes). The talk and talked events
- * fill it; each follow-up event gets a copy at the start of its own work.
- */
-typedef struct EventCommCommonWork {
-    u16 heapId;                     /* 0x00 */
-    u16 pad02;
-    struct FldMmdl *playerMmdl;     /* 0x04: field object of this player */
-    struct FldMmdl *partnerMmdl;    /* 0x08: field object of the partner */
-    struct FieldMap *fieldMap;      /* 0x0C */
-    EventCommMsgBox msgBox;         /* 0x10 */
-    u8 peerSlot;                    /* 0x40: net ID of the partner */
-    u8 talkType;                    /* 0x41: selects the follow-up event */
-    u8 msgIndex;                    /* 0x42: talk status of the partner, index into the message ID tables */
-    u8 pad43;
-    IntrudeMemberRecord member;     /* 0x44: mission record of the partner */
-    u8 myStatus[0x20];              /* 0x78: MyStatus of the partner */
-} EventCommCommonWork;
-
-/*
  * Work of the message event (0xAC bytes for the plain variant, 0xA0 for the
  * script variant): the first 0x98 bytes are a copy of the work of the event
  * that starts it.
  */
 typedef struct EventCommMsgWork {
     EventCommCommonWork common;     /* 0x00 */
-    u32 unused98;                   /* 0x98: never read or written by this file (open_items) */
+    u32 reserved98;                 /* 0x98: variant slot; the talk and mission variants use it, this event does not */
     u16 msgId;                      /* 0x9C: message the event prints */
 } EventCommMsgWork;
 
@@ -525,7 +506,7 @@ extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 func_0200C274(void *miscSave);
 extern u32 func_0200C29C(void *miscSave, u32 amount);
 extern u32 func_02007E3C(void *myItem, u16 itemId, u16 count, u16 heapId);
-extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommTalkWork *work, u8 *answerSeq);
+extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(struct GameSystem *gameSystem, int mode);
 extern struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 zoneId, int mode);
@@ -1523,7 +1504,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
         }
         break;
     case 3:
-        switch (INTRUDE_SUBDISP_MainRequestAnswerSeq(sys, work, &work->answerSeq)) {
+        switch (INTRUDE_SUBDISP_MainRequestAnswerSeq(sys, (EventCommCommonWork *)work, &work->answerSeq)) {
         case 1:
             INTRUDE_COMM_ClearRequestResult(sys);
             *seq = 4;

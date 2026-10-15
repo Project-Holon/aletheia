@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194834",
+   "name": "ServerOpString",
    "address": "0x02194834",
    "kind": "sdk",
    "region": "ov009",

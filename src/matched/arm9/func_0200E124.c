@@ -1,5 +1,5 @@
 /*
- * function: func_0200E124
+ * function: SYMBOL_SAVE_RemoveSlot
  * address:  0x0200E124
  * packet:   pkt_0200E0BC
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sSymbolBandRanges     0x0209DE90  data
- *   func_0200E0BC  0x0200E0BC  thumb
+ *   SYMBOL_SAVE_FindBand  0x0200E0BC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *
  * The third pass's one in-lane conversion (lane 1 of the 0-64 byte band).
@@ -31,8 +31,8 @@
  * different instruction order in the argument set-up.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200E124.c \
- *       --func func_0200E124 --addr 0x0200E124 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_SAVE_RemoveSlot.c \
+ *       --func SYMBOL_SAVE_RemoveSlot --addr 0x0200E124 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_Rec.h"
@@ -41,12 +41,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern struct Rec sSymbolBandRanges[];
-extern u32 func_0200E0BC(u32 value);
+extern u32 SYMBOL_SAVE_FindBand(u32 value);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
-void func_0200E124(u32 *obj, u32 idx)
+void SYMBOL_SAVE_RemoveSlot(u32 *obj, u32 idx)
 {
-    u32 hi = sSymbolBandRanges[func_0200E0BC(idx)].b;
+    u32 hi = sSymbolBandRanges[SYMBOL_SAVE_FindBand(idx)].b;
     u32 *o = obj;
 
     if (idx < hi)

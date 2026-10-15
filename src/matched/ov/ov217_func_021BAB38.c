@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB38
+ * function: RESEARCH_TOP_RestorePaletteAnime
  * address:  0x021BAB38
  * packet:   pkt_ov217_021BAB38
  * region:   ov217
@@ -15,7 +15,7 @@
 
 extern int PALETTE_ANIME_Restore(char *p);
 
-void func_021BAB38(char *self)
+void RESEARCH_TOP_RestorePaletteAnime(char *self)
 {
     int i;
     for (i = 0; i < 5; i++) {

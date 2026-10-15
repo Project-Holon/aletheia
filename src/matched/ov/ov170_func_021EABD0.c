@@ -1,5 +1,5 @@
 /*
- * function: func_021EABD0
+ * function: BOX2_SEQ_PrintTextWin
  * address: 0x021EABD0
  * packet: pkt_ov170_021EABD0
  * region: ov170
@@ -24,7 +24,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
+void BOX2_SEQ_PrintTextWin(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
  void *s; unsigned print;
  s=func_02045EC0(bank,idx);
  print=((struct Obj23962 *)w)->f8C;

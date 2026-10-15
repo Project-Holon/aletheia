@@ -1,5 +1,5 @@
 /*
- * function: func_021DB4B4
+ * function: POKETRADE_PROC_GetSlotPosition
  * address: 0x021DB4B4
  * packet: pkt_ov119_021DB4B4
  * region: ov119
@@ -15,7 +15,7 @@
  * symbols:
  *   _s32_div_f 0x0209C0A4 arm
  */
-int func_021DB4B4(int a)
+int POKETRADE_PROC_GetSlotPosition(int a)
 {
     int b, q;
 

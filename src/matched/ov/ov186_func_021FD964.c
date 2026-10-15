@@ -1,5 +1,5 @@
 /*
- * function: func_021FD964
+ * function: BR_UTIL_EffectIdle
  * address: 0x021FD964
  * packet: pkt_ov186_021FD964
  * region: ov186
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-void func_021FD964(void *unused,int *state,u8 *p)
+void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
 {
     int i;
     switch(*state) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: CDEMO_MAIN_Create
  * address:  0x021B6100
  * packet:   pkt_021B6100
  * region:   ov179
@@ -22,7 +22,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-int func_021B6100(struct Obj0203159C *p, u32 b, u32 c)
+int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c)
 {
     char *r;
 

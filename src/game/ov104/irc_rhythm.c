@@ -120,7 +120,7 @@
  *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  *   IRC_APPBAR_SetActive 0x021B72A0 thumb ov101
  *   OS_IsTickAvailable 0x02087058 arm
- *   func_02086FE8 0x02086FE8 arm
+ *   OS_InitTick 0x02086FE8 arm
  *   func_020870D0 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
  *   COMPATIBLE_IRC_SYS_AddCommandTable 0x021B64F0 thumb ov101
@@ -326,7 +326,7 @@ extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern int OS_IsTickAvailable(void);
-extern void func_02086FE8(void);
+extern void OS_InitTick(void);
 extern unsigned long long func_020870D0(void);
 extern void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys, u32 a, u32 b, u32 c, u32 d);
 extern void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys, u32 a);
@@ -802,7 +802,7 @@ void IRC_RHYTHM_StateAbort(IrcRhythm *work,u16 *step) { switch(*step) { case 0: 
 
 void IRC_RHYTHM_InitRecord(IrcRhythmRecord *record) { MI_CpuFill8(record, 0, 0x84); }
 
-void IRC_RHYTHM_StartRecord(IrcRhythmRecord *record) { if(OS_IsTickAvailable()) func_02086FE8(); *(unsigned long long *)record->startTime=(func_020870D0()<<6)/33514; }
+void IRC_RHYTHM_StartRecord(IrcRhythmRecord *record) { if(OS_IsTickAvailable()) OS_InitTick(); *(unsigned long long *)record->startTime=(func_020870D0()<<6)/33514; }
 
 int IRC_RHYTHM_IsRecordFull(IrcRhythmRecord *record) { if(record->tapCount>=10) return 1; return 0; }
 

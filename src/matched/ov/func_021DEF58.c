@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF58
+ * function: BOX2_MAIN_DeleteHandle
  * address:  0x021DEF58
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021DEF58(void *s)
+void BOX2_MAIN_DeleteHandle(void *s)
 {
     func_020307B0(s);
 }

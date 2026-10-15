@@ -16,7 +16,7 @@
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   func_021DE058 0x021DE058 thumb ov183
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   func_021FC868 0x021FC868 thumb ov186
+ *   BR_UTIL_SetTextLayout 0x021FC868 thumb ov186
  *   func_0200DB44 0x0200DB44 thumb
  *   func_0200DAC4 0x0200DAC4 thumb
  *   func_0200DAD8 0x0200DAD8 thumb
@@ -25,7 +25,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   func_0200DABC 0x0200DABC thumb
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   func_021DE084 0x021DE084 thumb ov183
@@ -57,7 +57,7 @@ extern int BR_RES_GetMsgData(char *);
 extern int BR_RES_GetWordSet(char *);
 struct MsgBank;
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
-extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
 extern int func_021DE058(void *p, void *q);
 extern void *BR_UTIL_Create(u16, unsigned, u16, u16, u8, u8, void *, u16);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
@@ -68,7 +68,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021FC7C4(char *, void *, void *, u16);
+extern void BR_UTIL_SetTextFromBuffer(char *, void *, void *, u16);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern int BR_RES_GetSprite(int, int, struct Triple *);
 extern void func_021DE084(char *, void *, const char *, unsigned, short, short, u16);
@@ -112,7 +112,7 @@ void func_021DDA2C(char *p, char *q)
     rec = &d_021E3490[index];
     slot = p + (index * 4);
     *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (p + 4)), *((u16 *) (p + 0x7c)));
-    func_021FC868(*((void **) (slot + 0x34)), 0, 1, 0);
+    BR_UTIL_SetTextLayout(*((void **) (slot + 0x34)), 0, 1, 0);
     switch (index)
     {
       if (select2)
@@ -193,7 +193,7 @@ void func_021DDA2C(char *p, char *q)
     }
 
     tmp1 = (char **) (slot + 0x34);
-    func_021FC7C4(*tmp1, obj, (void *) first, 0x3da0);
+    BR_UTIL_SetTextFromBuffer(*tmp1, obj, (void *) first, 0x3da0);
     STRBUF_Delete(obj);
   }
 

@@ -213,7 +213,6 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 n);
 

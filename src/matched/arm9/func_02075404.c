@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0208A46C  0x0208A46C  arm
+ *   SND_GetFirstInstDataPos  0x0208A46C  arm
  *   func_0208A48C  0x0208A48C  arm
  *   NNSi_SndArcLoadWave  0x0207533C  arm
  *
  * "Load every bank this sequence needs for one group": open an iterator over
- * the sequence (func_0208A46C), copy it to a working cursor, then step it
+ * the sequence (SND_GetFirstInstDataPos), copy it to a working cursor, then step it
  * (func_0208A48C) and, for every record of kind 1 whose group id matches the
  * caller's, pull the bank in with NNSi_SndArcLoadWave.  Any failed load answers 0;
  * a run to exhaustion answers 1.  The null-sequence guard answers 0 and is
@@ -52,7 +52,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct { u32 a; u32 b; } Iter;
 typedef struct { u8 kind; u8 p1; u16 h2; u16 h4; u16 h6; u32 w8; } Rec;
 
-extern void func_0208A46C(Iter *it, u32 a, u32 b, u32 c);
+extern void SND_GetFirstInstDataPos(Iter *it, u32 a, u32 b, u32 c);
 extern u32  func_0208A48C(u32 seq, Rec *r, Iter *it);
 extern u32  NNSi_SndArcLoadWave(u32 o, u32 i, u32 h, u32 *heap);
 
@@ -62,7 +62,7 @@ u32 NNSi_SndArcLoadBankWaves(u32 o, u32 seq, u32 want, u32 h, u32 *heap)
     Iter it;
     Iter it0;
 
-    func_0208A46C(&it0, seq, want, h);
+    SND_GetFirstInstDataPos(&it0, seq, want, h);
     it = it0;
     if (seq == 0) return 0;
     if (func_0208A48C(seq, &r, &it) != 0) {

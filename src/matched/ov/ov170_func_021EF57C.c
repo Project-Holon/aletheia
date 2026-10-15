@@ -1,5 +1,5 @@
 /*
- * function: func_021EF57C
+ * function: BOX2_UI_OpenListPack
  * address:  0x021EF57C
  * packet:   pkt_ov170_021EF57C
  * region:   ov170
@@ -21,7 +21,7 @@ struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 
-void func_021EF57C(struct WinMgr *mgr)
+void BOX2_UI_OpenListPack(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;

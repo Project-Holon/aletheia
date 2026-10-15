@@ -1,5 +1,5 @@
 /*
- * function: func_02084DDC
+ * function: OSi_FreeCartridgeBus
  * address:  0x02084DDC
  * packet:   pkt_02084DDC
  * region:   arm9
@@ -11,7 +11,7 @@
  * note:     os_spinLock.o OSi_FreeCartridgeBus (EXMEMCNT bit7 -> ARM7).
  */
 
-void func_02084DDC(void)
+void OSi_FreeCartridgeBus(void)
 {
     *(volatile unsigned short *)0x04000204 |= 0x80;
 }

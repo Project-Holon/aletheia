@@ -1,5 +1,5 @@
 /*
- * function: func_021EC94C
+ * function: BOX2_SEQ_ResetActorAffine
  * address: 0x021EC94C
  * packet: pkt_ov170_021EC94C
  * region: ov170
@@ -22,7 +22,7 @@ struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Pt;
 extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src);
-void func_021EC94C(char *p)
+void BOX2_SEQ_ResetActorAffine(char *p)
 {
     int pair[2];
     unsigned short shape[2];

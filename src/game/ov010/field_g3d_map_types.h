@@ -142,10 +142,10 @@ typedef struct FieldG3dMap {
     unsigned int bufferOffset;            /* 0xB4, bytes of the buffer already filled */
     unsigned int loadedBytes;             /* 0xB8 */
     unsigned int totalBytes;              /* 0xBC, size of the archive member */
-    unsigned int loadStageA;              /* 0xC0 */
-    unsigned int loadStageB;              /* 0xC4 */
-    unsigned int loadStageC;              /* 0xC8 */
-    unsigned int loadStageD;              /* 0xCC */
+    unsigned int resetFlag;               /* 0xC0, cleared with the load state */
+    unsigned int spareWord;               /* 0xC4, not read here */
+    unsigned int readFinished;            /* 0xC8, set when the member has been read */
+    unsigned int buildStarted;            /* 0xCC, set when the build step begins */
     unsigned int dataReady;               /* 0xD0 */
     unsigned char *buffer;                /* 0xD4 */
     unsigned int userParam;               /* 0xD8 */

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC580
+ * function: RESEARCH_LIST_StartListPaletteAnime
  * address: 0x021BC580
  * packet: pkt_ov217_021BC580
  * region: ov217
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
 
-void func_021BC580(char *p, int i)
+void RESEARCH_LIST_StartListPaletteAnime(char *p, int i)
 {
     PALETTE_ANIME_Start((u8 *)(*(int *)(p + 0x9c + i * 4)), d_021C326C[i].a, d_021C326C[i].b);
 }

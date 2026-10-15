@@ -1,5 +1,5 @@
 /*
- * function: func_021EE224
+ * function: BOX2_UI_SetSlotOamEnabled
  * address:  0x021EE224
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -17,7 +17,7 @@
 
 extern void BMP_OAM_SetEnabled(int, int);
 
-void func_021EE224(char *p, int i, int v)
+void BOX2_UI_SetSlotOamEnabled(char *p, int i, int v)
 {
     BMP_OAM_SetEnabled(*(int *)(p + i * 8 + 4), v);
 }

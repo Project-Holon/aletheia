@@ -1,5 +1,5 @@
 /*
- * function: func_021BA434
+ * function: RESEARCH_TOP_CountUnlockedEntries
  * address: 0x021BA434
  * packet: pkt_ov217_021BA434
  * region: ov217
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
-unsigned char func_021BA434(char *p)
+unsigned char RESEARCH_TOP_CountUnlockedEntries(char *p)
 {
     void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct Obj25823 *)p)->f0));
     int count=1;

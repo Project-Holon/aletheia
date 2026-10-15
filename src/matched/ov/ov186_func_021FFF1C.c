@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FB494 0x021FB494 thumb ov186
+ *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  */
 #include "../include/Obj24877.h"
-extern void func_021FB494(char *p);
-void BR_POKESEARCH_DestroyBackButton(char *p) {func_021FB494(((struct Obj24877 *)p)->f2C);}
+extern void BR_BTN_DeleteObject(char *p);
+void BR_POKESEARCH_DestroyBackButton(char *p) {BR_BTN_DeleteObject(((struct Obj24877 *)p)->f2C);}

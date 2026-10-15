@@ -147,7 +147,6 @@ extern int strncmp(const char *a, const char *b, unsigned int n);
 extern void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
 extern void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
 extern int gt2GetOutgoingBufferFreeSpace(void *connection);
-extern unsigned char DWC_GetMyAID(void);
 extern TransInfo *g_021AB180;
 extern char g_021A2344[];
 extern char g_021A2348[];

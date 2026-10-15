@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB40
+ * function: BOX2_MAIN_LoadBgCharTile
  * address:  0x021DEB40
  * packet:   pkt_021DEB40
  * region:   ov170
@@ -23,7 +23,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern u32 func_020307B0(void *p);
 
-void func_021DEB40(u32 a, int b, void *c)
+void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
 {
     void *out;
     void *r;

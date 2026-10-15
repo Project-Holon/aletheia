@@ -1,5 +1,5 @@
 /*
- * function: func_021DF378
+ * function: BOX2_MAIN_PopSubArgs
  * address:  0x021DF378
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-int func_021DF378(char *p)
+int BOX2_MAIN_PopSubArgs(char *p)
 {
     char *q = *(char * *)&((struct Obj12156 *)p)->fC;
 

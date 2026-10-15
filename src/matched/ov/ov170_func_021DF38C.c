@@ -1,5 +1,5 @@
 /*
- * function: func_021DF38C
+ * function: BOX2_MAIN_PushNameScene
  * address: 0x021DF38C
  * packet: pkt_ov170_021DF38C
  * region: ov170
@@ -36,7 +36,7 @@ extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
 extern const unsigned gNameInProcData[];
 extern const char ov194_id[];
-int func_021DF38C(char *p)
+int BOX2_MAIN_PushNameScene(char *p)
 {
     int value;
     Request *r;

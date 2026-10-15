@@ -15,7 +15,7 @@
  *   func_02059B40  0x02059B40  arm
  *   func_0209477C  0x0209477C  arm
  *   func_0217A15C  0x0217A15C  arm  ov009
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   g_021A2688     0x021A2688  data ov009
  *   g_021A268C     0x021A268C  data ov009
  */
@@ -38,7 +38,7 @@ extern int func_02059B40(const char *src, unsigned long srclen, char *dst, unsig
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_0217A15C(DWCHttp *http, DWCHttpBuffer *buf, int size);
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
 extern const char g_021A2688[];
 extern const char g_021A268C[];
@@ -68,7 +68,7 @@ int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len
         buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     }
 
-    result_len = func_02084F80(temp_buffer->write_index, buf_remain, format, label);
+    result_len = OS_SNPrintf(temp_buffer->write_index, buf_remain, format, label);
     temp_buffer->write_index += result_len;
 
     result_len = func_02059B40(data, data_len, temp_buffer->write_index,

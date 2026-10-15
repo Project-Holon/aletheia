@@ -16,7 +16,7 @@
  *   sub_020124F4   0x020124F4  thumb
  *   sub_02012EBC   0x02012EBC  thumb
  *   sub_02009448   0x02009448  thumb
- *   sub_020092EC   0x020092EC  thumb
+ *   BLOCK20_SAVEDATA_GetPending   0x020092EC  thumb
  */
 #include "../include/Obj04833.h"
 
@@ -34,7 +34,7 @@ struct Sub02009448Obj;
 extern void *sub_02012EBC(struct Big *p);
 extern struct Sub02009448Obj *sub_02009448(void *sys);
 struct Sub02009210Obj;
-extern u8 sub_020092EC(const struct Sub02009210Obj *obj);
+extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj);
 
 int sub_02010A5C(void *a0)
 {
@@ -47,7 +47,7 @@ int sub_02010A5C(void *a0)
     ((struct Obj04833 *)p)->f1D0 = 0x67;
     sys = sub_020124F4(0x67);
     ((struct Obj04833 *)p)->f44 = sys;
-    if (sub_020092EC((const struct Sub02009210Obj *)sub_02009448(sub_02012EBC(sys))) != 0) {
+    if (BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)sub_02009448(sub_02012EBC(sys))) != 0) {
         ((struct Obj04833 *)p)->f1D4 = 1;
         ((struct Obj04833 *)p)->f54 = 1;
     } else {

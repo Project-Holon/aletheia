@@ -294,7 +294,6 @@ extern const u8 gCrowdChatterSlotX[];
 extern const u8 gCrowdChatterSlotY[];
 struct FieldMsgBg;
 /* One speech window slot (8 bytes); same layout as CrowdChatterSlot in field_gimmick_crowd.c. */
-extern void CROWD_ClearChatterSlot(CrowdChatterSlot *slot);
 
 /* Start of the sub process: load the zone setup, create the people and the chatter. */
 void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)

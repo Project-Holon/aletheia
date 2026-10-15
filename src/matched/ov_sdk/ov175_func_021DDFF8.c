@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02183A24  0x02183A24  arm
+ *   gsXmlReadChildAsInt  0x02183A24  arm
  *   sModifyTagRecordid     0x021E3B54  data
  *
  * Hand the +0x1c handle, the shared 0x021E3B54 descriptor and the +0x0c value
- * to func_02183A24; a refusal (0) is reported as 5.
+ * to gsXmlReadChildAsInt; a refusal (0) is reported as 5.
  */
 
 typedef unsigned int u32;
 
 extern u32 sModifyTagRecordid[];
-extern int func_02183A24(u32, u32 *, u32);
+extern int gsXmlReadChildAsInt(u32, u32 *, u32);
 
 int sakeiCreateRecordProcessSoapResponse(char *p)
 {
-    return func_02183A24(*(u32 *)(p + 0x1c), sModifyTagRecordid, *(u32 *)(p + 0xc)) == 0 ? 5 : 0;
+    return gsXmlReadChildAsInt(*(u32 *)(p + 0x1c), sModifyTagRecordid, *(u32 *)(p + 0xc)) == 0 ? 5 : 0;
 }

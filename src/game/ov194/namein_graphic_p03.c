@@ -432,7 +432,6 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
 extern void UI_SetInputMode(unsigned char);
-extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern int func_021F2190(char *,u16);

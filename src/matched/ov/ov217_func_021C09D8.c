@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled 4-byte tail-call veneer in a .word run; pool 0x021C09DC names
- * RESEARCH_COMMON_StartPaletteAnimeImpl.  Top of the func_021BA31C blocker chain.
+ * RESEARCH_COMMON_StartPaletteAnimeImpl.  Top of the RESEARCH_TOP_StartPaletteAnime blocker chain.
  *
  * symbols:
  *   RESEARCH_COMMON_StartPaletteAnimeImpl  0x021C0D38  thumb  ov217

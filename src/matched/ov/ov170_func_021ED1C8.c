@@ -1,5 +1,5 @@
 /*
- * function: func_021ED1C8
+ * function: BOX2_SEQ_CreateHandSlotActorsB
  * address:  0x021ED1C8
  * packet:   pkt_ov170_021ED1C8
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EC0B0 0x021EC0B0 thumb
+ *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
  *   CLACT_GetActorDrawPriority 0x0204B838 arm
  *   CLACT_GetActorBgPriority 0x0204B864 arm
- *   func_021EBEE0 0x021EBEE0 thumb
+ *   BOX2_SEQ_CreateActorFromDesc 0x021EBEE0 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_021EC08C 0x021EC08C thumb
- *   func_021EC048 0x021EC048 thumb
- *   func_021EC030 0x021EC030 thumb
- *   func_021EC000 0x021EC000 thumb
+ *   BOX2_SEQ_AddActorSurfacePos 0x021EC08C thumb
+ *   BOX2_SEQ_SetActorDrawPriority 0x021EC048 thumb
+ *   BOX2_SEQ_SetActorBgPriority 0x021EC030 thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   d_021EFE70 0x021EFE70 data a1
  *   d_021EFCD0 0x021EFCD0 data a1
  *   d_021EFCC8 0x021EFCC8 data a1
@@ -42,18 +42,18 @@ typedef struct {
     unsigned short d;
 } Desc;
 
-extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
+extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsigned short space);
 extern int CLACT_GetActorDrawPriority(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
 extern u32 CLACT_GetActorBgPriority(u8 *a0);
-extern void *func_021EBEE0(char *w, const Desc *s);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *w, const Desc *s);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_021EC048(char *p, int i, int c);
-extern void func_021EC030(char *p, int i, int c);
-extern void func_021EC000(char *p, int i, int v);
+extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_SetActorDrawPriority(char *p, int i, int c);
+extern void BOX2_SEQ_SetActorBgPriority(char *p, int i, int c);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 extern const Desc d_021EFE70;
 extern const signed char d_021EFCD0[];
 extern const signed char d_021EFCC8[];
@@ -64,7 +64,7 @@ static inline void setup(Desc *dp, void **res)
     dp->b7 = CLACT_GetActorBgPriority(*res);
 }
 
-void func_021ED1C8(char *w)
+void BOX2_SEQ_CreateHandSlotActorsB(char *w)
 {
     int j;
     Desc d;
@@ -72,7 +72,7 @@ void func_021ED1C8(char *w)
     if (((struct Obj08247 *)w)->fA16C == 0)
         return;
     j = 0;
-    func_021EC0B0(w, 10, &xy[1], &xy[0], 0);
+    BOX2_SEQ_GetActorSurfacePos(w, 10, &xy[1], &xy[0], 0);
     if (((struct Obj08247 *)w)->f9FD4 == 0) {
         d = d_021EFE70;
         setup(&d, (void **)(w + 0x9E9C));
@@ -82,18 +82,18 @@ void func_021ED1C8(char *w)
         for (; j < 8u; j++) {
             d.x = xy[1] + d_021EFCD0[j];
             d.y = xy[0] + d_021EFCC8[j];
-            *(void **)(w + j * 4 + 0x9FD4) = func_021EBEE0(w, &d);
+            *(void **)(w + j * 4 + 0x9FD4) = BOX2_SEQ_CreateActorFromDesc(w, &d);
             CLACT_SetActorPaletteOffset(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
-            func_021EC000(w, j + 0x58, 0);
+            BOX2_SEQ_SetActorDrawEnable(w, j + 0x58, 0);
         }
     } else {
         int n6 = CLACT_GetActorDrawPriority((int)(((struct Obj08247 *)w)->f9E9C));
         int n7 = CLACT_GetActorBgPriority(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
-            func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
-            func_021EC048(w, j + 0x58, n6 + 1);
-            func_021EC030(w, j + 0x58, n7);
-            func_021EC000(w, j + 0x58, 0);
+            BOX2_SEQ_AddActorSurfacePos(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
+            BOX2_SEQ_SetActorDrawPriority(w, j + 0x58, n6 + 1);
+            BOX2_SEQ_SetActorBgPriority(w, j + 0x58, n7);
+            BOX2_SEQ_SetActorDrawEnable(w, j + 0x58, 0);
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
  * file:     ctvt_mic.c
  * unit:     yes
- * function: func_021B9F9C, func_021BA01C, func_021BA050, func_021BA094, func_021BA098, func_021BA0BC, func_021BA114, func_021BA120, func_021BA158, func_021BA15C, func_021BA170, func_021BA174, func_021BA194, func_021BA1B4, func_021BA1D8, func_021BA1E4, func_021BA1E8, func_021BA234, func_021BA244, func_021BA248, func_021BA24C, func_021BA254, func_021BA270
+ * function: CTVT_MIC_Create, CTVT_MIC_Delete, CTVT_MIC_Update, CTVT_MIC_SetMode, CTVT_MIC_OnVBlank, CTVT_MIC_StartCapture, CTVT_MIC_OnCaptureComplete, CTVT_MIC_StopCapture, CTVT_MIC_IsCapturing, CTVT_MIC_GetReadyBytes, CTVT_MIC_GetBuffer, CTVT_MIC_EncodeAdpcm, CTVT_MIC_DecodeAdpcm, CTVT_MIC_InitChannel, CTVT_MIC_FreeChannel, CTVT_MIC_PostUpdate, CTVT_MIC_PlayVoice, CTVT_MIC_StopVoice, CTVT_MIC_GetPlayState, CTVT_MIC_GetLength, CTVT_MIC_GetPlayPos, CTVT_MIC_GetPlayRatio, CTVT_MIC_IsCaptureDone
  * address:  0x021B9F9C
  * region:   ov172
  * compiler: dsi/1.1p1
@@ -19,30 +19,41 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02082A7C 0x02082A7C arm
  *   func_02034714 0x02034714 arm
+ *   CTVT_MIC_Create 0x021B9F9C thumb ov172
+ *   CTVT_MIC_Delete 0x021BA01C thumb ov172
+ *   CTVT_MIC_Update 0x021BA050 thumb ov172
+ *   CTVT_MIC_SetMode 0x021BA094 thumb ov172
+ *   CTVT_MIC_OnVBlank 0x021BA098 thumb ov172
+ *   CTVT_MIC_StartCapture 0x021BA0BC thumb ov172
+ *   CTVT_MIC_OnCaptureComplete 0x021BA114 thumb ov172
+ *   CTVT_MIC_StopCapture 0x021BA120 thumb ov172
+ *   CTVT_MIC_IsCapturing 0x021BA158 thumb ov172
+ *   CTVT_MIC_GetReadyBytes 0x021BA15C thumb ov172
+ *   CTVT_MIC_GetBuffer 0x021BA170 thumb ov172
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_021BA234 0x021BA234 thumb ov172
- *   func_021BA1E8 0x021BA1E8 thumb ov172
- *   func_021BA194 0x021BA194 thumb ov172
- *   func_021BA270 0x021BA270 thumb ov172
- *   func_021BA244 0x021BA244 thumb ov172
- *   func_021BA248 0x021BA248 thumb ov172
- *   func_021BA24C 0x021BA24C thumb ov172
- *   func_021BA254 0x021BA254 thumb ov172
- *   func_021BA174 0x021BA174 thumb ov172
+ *   CTVT_MIC_StopVoice 0x021BA234 thumb ov172
+ *   CTVT_MIC_PlayVoice 0x021BA1E8 thumb ov172
+ *   CTVT_MIC_DecodeAdpcm 0x021BA194 thumb ov172
+ *   CTVT_MIC_IsCaptureDone 0x021BA270 thumb ov172
+ *   CTVT_MIC_GetPlayState 0x021BA244 thumb ov172
+ *   CTVT_MIC_GetLength 0x021BA248 thumb ov172
+ *   CTVT_MIC_GetPlayPos 0x021BA24C thumb ov172
+ *   CTVT_MIC_GetPlayRatio 0x021BA254 thumb ov172
+ *   CTVT_MIC_EncodeAdpcm 0x021BA174 thumb ov172
  *   func_0208B24C 0x0208B24C arm
  *   func_0208B8B0 0x0208B8B0 arm
  *   func_0208BEF0 0x0208BEF0 arm
  *   func_0208BF54 0x0208BF54 arm
- *   func_021BA1B4 0x021BA1B4 thumb ov172
+ *   CTVT_MIC_InitChannel 0x021BA1B4 thumb ov172
  *   func_02005654 0x02005654 thumb
- *   d_021C7218 0x021C7218 data a4
- *   d_021C720C 0x021C720C data a4
- *   g_021C88EC 0x021C88EC data a4
+ *   gCtvtMicAllocSite 0x021C7218 data a4
+ *   gCtvtMicIirFilter 0x021C720C data a4
+ *   gCtvtMic 0x021C88EC data a4
  *   func_0200566C  0x0200566C  thumb
- *   func_021BA1D8  0x021BA1D8  thumb  ov172
+ *   CTVT_MIC_FreeChannel  0x021BA1D8  thumb  ov172
  *   func_0208B4B8 0x0208B4B8 arm
  *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
- *   func_021BA1E4 0x021BA1E4 thumb ov172
+ *   CTVT_MIC_PostUpdate 0x021BA1E4 thumb ov172
  *   func_0208B500 0x0208B500 arm
  *   func_0208B528 0x0208B528 arm
  *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
@@ -55,21 +66,9 @@
  *   NNS_SndWaveOutStop 0x02072BDC arm
  *   func_0209C2B0  0x0209C2B0  arm
  */
-#include "../../matched/include/Obj04554.h"
-#include "../../matched/include/Obj08260.h"
-#include "../../matched/include/Obj05447.h"
-#include "../../matched/include/Obj24096.h"
-#include "../../matched/include/Obj04555.h"
-#include "../../matched/include/Obj24097.h"
-#include "../../matched/include/Obj24098.h"
-#include "../../matched/include/Obj24099.h"
-#include "../../matched/include/Obj14306.h"
-#include "../../matched/include/Obj24100.h"
-#include "draw_system_shared_types.h"
+#include "ctvt_types.h"
 
 extern u32 func_020307B0(void *p);
-
-struct O;
 
 typedef enum MICResult { MIC_SUCCESS, MIC_BUSY, MIC_ILLEGAL, MIC_SEND_ERROR } MICResult;
 
@@ -101,251 +100,237 @@ extern u32 func_0208BEF0(u32);
 
 extern u32 func_0208BF54(u8);
 
-extern void func_021BA1B4(char *, u32);
+extern void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap);
 
 extern int func_02005654(int, int);
 
 extern void func_0200566C(void);
 
-extern void func_021BA1D8(void *p);
+extern void CTVT_MIC_FreeChannel(CtvtMic *mic);
 
 extern void *func_0208B4B8(void);
 
-extern int NNS_SndWaveOutIsPlaying(struct O *);
+extern int NNS_SndWaveOutIsPlaying(struct NnsWaveOutSlot *);
 
-extern void func_021BA1E4(void *);
+extern void CTVT_MIC_PostUpdate(CtvtMic *mic);
 
 extern MICResult func_0208B500(MICAutoParam *);
 
 extern int func_0208B528(void);
 
-void *func_021B9F9C(u32 heap);
+CtvtMic *CTVT_MIC_Create(u32 heap);
 
 void SNDEXi_SetIirFilter(int, void *);
 
-void func_021BA01C(char *p);
+void CTVT_MIC_Delete(CtvtMic *mic);
 
-void func_021BA050(u32 *p);
+void CTVT_MIC_Update(CtvtMic *mic);
 
-void func_021BA094(int v);
+void CTVT_MIC_SetMode(int mode);
 
-void func_021BA098(void);
+void CTVT_MIC_OnVBlank(void);
 
-int func_021BA0BC(u32 *p);
+int CTVT_MIC_StartCapture(CtvtMic *mic);
 
-void func_021BA114(MICResult result, void *arg);
+void CTVT_MIC_OnCaptureComplete(MICResult result, void *arg);
 
-int func_021BA120(u32 *p);
+int CTVT_MIC_StopCapture(CtvtMic *mic);
 
-u32 func_021BA158(u32 *p);
+u32 CTVT_MIC_IsCapturing(CtvtMic *mic);
 
-u32 func_021BA15C(u32 *p);
+u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic);
 
-u32 func_021BA170(u32 *p);
+u32 CTVT_MIC_GetBuffer(CtvtMic *mic);
 
-extern const char d_021C7218[], d_021C720C[];
+extern const char gCtvtMicAllocSite[], gCtvtMicIirFilter[];
 
-extern void *g_021C88EC;
+extern CtvtMic *gCtvtMic;
 
-void *func_021B9F9C(u32 heap)
+CtvtMic *CTVT_MIC_Create(u32 heap)
 {
-    u32 *p = func_02030734(heap, 36, 1, d_021C7218, 87);
+    CtvtMic *mic = func_02030734(heap, 36, 1, gCtvtMicAllocSite, 87);
     func_0208B24C();
     func_0208B8B0();
     func_0208BEF0(1);
     func_0208BF54(80);
-    if (OS_IsRunOnTwl() == 1) SNDEXi_SetIirFilter(0, (void *)d_021C720C);
-    func_021BA1B4((char *)p, heap);
-    p[1] = (u32)GFL_NET_AllocAligned(heap, 51200, d_021C7218, 134);
-    p[0] = 0;
-    p[2] = 0;
-    *((u8 *)p + 16) = 0;
-    g_021C88EC = p;
-    func_02005654((int)func_021BA098, 0);
-    return p;
+    if (OS_IsRunOnTwl() == 1) SNDEXi_SetIirFilter(0, (void *)gCtvtMicIirFilter);
+    CTVT_MIC_InitChannel(mic, heap);
+    mic->buffer = GFL_NET_AllocAligned(heap, 51200, gCtvtMicAllocSite, 134);
+    mic->capturedBytes = 0;
+    mic->capturing = 0;
+    mic->captureTicks = 0;
+    gCtvtMic = mic;
+    func_02005654((int)CTVT_MIC_OnVBlank, 0);
+    return mic;
 }
 
-void func_021BA01C(char *p)
+void CTVT_MIC_Delete(CtvtMic *mic)
 {
     func_0200566C();
-    *(u32 *)0x021C88EC = 0;
-    func_021BA120((u32 *)p);
-    func_021BA1D8(p);
+    gCtvtMic = 0;
+    CTVT_MIC_StopCapture(mic);
+    CTVT_MIC_FreeChannel(mic);
     func_0208BEF0(0);
-    GFL_NET_FreeAligned(((struct Obj04554 *)p)->f4);
-    func_020307B0(p);
+    GFL_NET_FreeAligned(mic->buffer);
+    func_020307B0(mic);
 }
 
-void func_021BA050(u32 *p)
+void CTVT_MIC_Update(CtvtMic *mic)
 {
     u32 n;
-    if (p[2] == 1) {
+    if (mic->capturing == 1) {
         n = (u32)func_0208B4B8();
-        if (n == 0) p[0] = 0;
+        if (n == 0) mic->capturedBytes = 0;
         else {
-            p[0] = n - p[1] + 4;
-            if (p[0] > 51200) p[0] = 51200;
+            mic->capturedBytes = n - (u32)mic->buffer + 4;
+            if (mic->capturedBytes > 51200) mic->capturedBytes = 51200;
         }
     }
-    if (p[3] == 1) {
-        if (NNS_SndWaveOutIsPlaying((struct O *)p[8]) == 0) p[3] = 0;
+    if (mic->playing == 1) {
+        if (NNS_SndWaveOutIsPlaying(mic->channel) == 0) mic->playing = 0;
     }
-    func_021BA1E4(p);
+    CTVT_MIC_PostUpdate(mic);
 }
 
-void func_021BA094(int v)
+void CTVT_MIC_SetMode(int mode)
 {
 }
 
-void func_021BA098(void)
+void CTVT_MIC_OnVBlank(void)
 {
-    u8 *p = g_021C88EC;
-    if (((struct Obj08260 *)p)->fC == 1) (((struct Obj08260 *)p)->f14)++;
-    p = g_021C88EC;
-    if (p[16] < 180) p[16]++;
+    CtvtMic *mic = gCtvtMic;
+    if (mic->playing == 1) mic->playPos++;
+    mic = gCtvtMic;
+    if (mic->captureTicks < 180) mic->captureTicks++;
 }
 
 /*
  * extent: Callback at 021BA114 stores zero at r1+8 and 51200 at r1.
  */
-int func_021BA0BC(u32 *p)
+int CTVT_MIC_StartCapture(CtvtMic *mic)
 {
     MICAutoParam param;
     param.type = 3;
     param.size = 51200;
-    param.buffer = (void *)p[1];
+    param.buffer = mic->buffer;
     func_02082A7C(0, param.buffer, param.size);
     if (param.size & 31) param.size &= ~31;
-    param.callback = func_021BA114;
+    param.callback = CTVT_MIC_OnCaptureComplete;
     param.loop = 0;
     param.rate = 4097;
-    param.arg = p;
+    param.arg = mic;
     if (func_0208B500(&param) == 0) {
-        p[2] = 1;
-        p[0] = 0;
+        mic->capturing = 1;
+        mic->capturedBytes = 0;
         return 1;
     }
     return 0;
 }
 
-void func_021BA114(MICResult result, void *arg)
+void CTVT_MIC_OnCaptureComplete(MICResult result, void *arg)
 {
-    u32 *p = arg;
-    p[2] = 0;
-    p[0] = 51200;
+    CtvtMic *mic = arg;
+    mic->capturing = 0;
+    mic->capturedBytes = 51200;
 }
 
-int func_021BA120(u32 *p)
+int CTVT_MIC_StopCapture(CtvtMic *mic)
 {
-    if (p[2] == 0) return 1;
+    if (mic->capturing == 0) return 1;
     if (func_0208B528() == 0) {
-        p[0] = (u32)func_0208B4B8() - p[1] + 4;
-        if (p[0] > 51200) p[0] = 51200;
-        p[2] = 0;
+        mic->capturedBytes = (u32)func_0208B4B8() - (u32)mic->buffer + 4;
+        if (mic->capturedBytes > 51200) mic->capturedBytes = 51200;
+        mic->capturing = 0;
         return 1;
     }
     return 0;
 }
 
-u32 func_021BA158(u32 *p) { return p[2]; }
+u32 CTVT_MIC_IsCapturing(CtvtMic *mic) { return mic->capturing; }
 
-u32 func_021BA15C(u32 *p)
+u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic)
 {
-    if (p[0] > 2048) return p[0] - 2048;
+    if (mic->capturedBytes > 2048) return mic->capturedBytes - 2048;
     return 0;
 }
 
-u32 func_021BA170(u32 *p) { return p[1]; }
-
-typedef unsigned int   u32_021BA1B4;
-
-typedef unsigned int   u32_021BA1D8;
-
-typedef struct Slot02072BDC Slot02072BDC;
-
-typedef unsigned int   u32_021BA244;
-
-typedef unsigned int   u32_021BA254;
+u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (u32)mic->buffer; }
 
 extern void MI_CpuFill8(void *p, int v, int n);
 
 extern int CTVT_ADPCM_Encode(void *a0, unsigned a1, void *a2);
 
-extern void func_02082A7C(int v, void *p, unsigned n);
 
 extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
 extern int  NNS_SndWaveOutAllocChannel(int size);
 
-extern void func_02034714(const char *expr, u32_021BA1B4 line, const char *file);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
-extern void NNSi_SndWaveOutUnlockChannel(u32_021BA1D8 *p);
+extern void NNSi_SndWaveOutUnlockChannel(struct NnsWaveOutSlot *slot);
 
 extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
                          int start, int end, int rate, int vol, int freq, int e);
 
-extern void NNS_SndWaveOutStop(Slot02072BDC *s);
+extern void NNS_SndWaveOutStop(struct NnsWaveOutSlot *slot);
 
-extern u32_021BA254 func_0209C2B0(u32_021BA254 a, u32_021BA254 b);
+extern u32 func_0209C2B0(u32 a, u32 b);
 
-int func_021BA174(int unused, void *a, void *buf, unsigned n);
+int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n);
 
-int func_021BA194(int unused, int a, void *buf, unsigned n);
+int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
 
-void func_021BA1B4(char *p, u32_021BA1B4 a1);
 
-void func_021BA1D8(void *p);
 
-void func_021BA1E4(void *a0);
 
-int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq);
+int CTVT_MIC_PlayVoice(CtvtMic *mic, char *buf, unsigned n, int vol, int freq);
 
-void func_021BA234(void *p);
+void CTVT_MIC_StopVoice(CtvtMic *mic);
 
-u32_021BA244 func_021BA244(void *p);
+u32 CTVT_MIC_GetPlayState(CtvtMic *mic);
 
-int func_021BA248(void *p);
+int CTVT_MIC_GetLength(CtvtMic *mic);
 
-int func_021BA24C(void *p);
+int CTVT_MIC_GetPlayPos(CtvtMic *mic);
 
-int func_021BA254(void *p);
+int CTVT_MIC_GetPlayRatio(CtvtMic *mic);
 
-int func_021BA270(void *p);
+int CTVT_MIC_IsCaptureDone(CtvtMic *mic);
 
 /*
  * Zero-fills a byte buffer, then runs CTVT_ADPCM_Encode over it.
  *
  * Addresses are Black-image addresses.
  */
-int func_021BA174(int unused, void *a, void *buf, unsigned n)
+int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n)
 {
     MI_CpuFill8(buf, 0, n);
     return CTVT_ADPCM_Encode(a, n, buf);
 }
 
-int func_021BA194(int unused, int a, void *buf, unsigned n)
+int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
 {
     func_02082A7C(0, buf, n << 2);
     return CTVT_ADPCM_Decode(a, (int)n, (int)buf);
 }
 
-void func_021BA1B4(char *p, u32_021BA1B4 a1)
+void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)
 {
-    u32_021BA1B4 v = NNS_SndWaveOutAllocChannel(7);
+    struct NnsWaveOutSlot *v = (struct NnsWaveOutSlot *)NNS_SndWaveOutAllocChannel(7);
 
-    ((struct Obj05447 *)p)->f20 = v;
+    mic->channel = v;
     if (v == 0) {
         func_02034714((void *)0x021C7224, 0, (void *)0x021C7224);
     }
-    ((struct Obj05447 *)p)->fC = 0;
+    mic->playing = 0;
 }
 
-void func_021BA1D8(void *p)
+void CTVT_MIC_FreeChannel(CtvtMic *mic)
 {
-    NNSi_SndWaveOutUnlockChannel((u32_021BA1D8 *)((struct Obj24096 *)p)->f20);
+    NNSi_SndWaveOutUnlockChannel(mic->channel);
 }
 
-void func_021BA1E4(void *a0)
+void CTVT_MIC_PostUpdate(CtvtMic *mic)
 {
 }
 
@@ -354,44 +339,43 @@ void func_021BA1E4(void *a0)
  *
  * Addresses are Black-image addresses.
  */
-int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq)
+int CTVT_MIC_PlayVoice(CtvtMic *mic, char *buf, unsigned n, int vol, int freq)
 {
     if (n > 0x20) {
-        int r = NNS_SndWaveOutStart((void *)self[8], 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
-        self[3] = r;
-        self[5] = 0;
-        self[6] = (int)n;
-        self[7] = freq;
+        int r = NNS_SndWaveOutStart(mic->channel, 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
+        mic->playing = r;
+        mic->playPos = 0;
+        mic->length = (int)n;
+        mic->freq = freq;
         return r;
     }
     return 0;
 }
 
-void func_021BA234(void *p)
+void CTVT_MIC_StopVoice(CtvtMic *mic)
 {
-    ((struct Obj04555 *)p)->fC = 0;
-    NNS_SndWaveOutStop(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);
+    mic->playing = 0;
+    NNS_SndWaveOutStop(mic->channel);
 }
 
-u32_021BA244 func_021BA244(void *p)
+u32 CTVT_MIC_GetPlayState(CtvtMic *mic)
 {
-    return ((struct Obj24097 *)p)->fC;
+    return mic->playing;
 }
 
-int func_021BA248(void *p)
+int CTVT_MIC_GetLength(CtvtMic *mic)
 {
-    return ((struct Obj24098 *)p)->f18;
+    return mic->length;
 }
 
-int func_021BA24C(void *p)
+int CTVT_MIC_GetPlayPos(CtvtMic *mic)
 {
-    return (u16)((struct Obj24099 *)p)->f14;
+    return (u16)mic->playPos;
 }
 
-int func_021BA254(void *p)
+int CTVT_MIC_GetPlayRatio(CtvtMic *mic)
 {
-    return (u16)func_0209C2B0(((struct Obj14306 *)p)->f18 << 15,
-                              ((struct Obj14306 *)p)->f1C * 0x10e);
+    return (u16)func_0209C2B0(mic->length << 15, mic->freq * 0x10e);
 }
 
 /*
@@ -399,9 +383,9 @@ int func_021BA254(void *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021BA270(void *p)
+int CTVT_MIC_IsCaptureDone(CtvtMic *mic)
 {
-    if (((struct Obj24100 *)p)->f10 >= 0xb4) {
+    if (mic->captureTicks >= 0xb4) {
         return 1;
     }
     return 0;

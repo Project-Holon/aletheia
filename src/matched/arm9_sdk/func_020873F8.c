@@ -1,5 +1,5 @@
 /*
- * function: func_020873F8
+ * function: OS_CancelAlarm
  * address:  0x020873F8
  * packet:   pkt_020873F8
  * region:   arm9
@@ -55,7 +55,7 @@ extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OSi_SetTimer(OSAlarm *alarm);
 
-void func_020873F8(OSAlarm *alarm)
+void OS_CancelAlarm(OSAlarm *alarm)
 {
     OSAlarm *next;
     OSIntrMode enabled = OS_DisableInterrupts();

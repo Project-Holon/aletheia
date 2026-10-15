@@ -1,5 +1,5 @@
 /*
- * function: func_021EC000
+ * function: BOX2_SEQ_SetActorDrawEnable
  * address:  0x021EC000
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -18,7 +18,7 @@
 
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-void func_021EC000(char *p, int i, int v)
+void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v)
 {
     int x = *(int *)(p + i * 4 + 0x9E74);
     if (x != 0)

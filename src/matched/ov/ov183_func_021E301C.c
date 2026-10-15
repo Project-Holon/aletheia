@@ -103,13 +103,13 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_021FB3BC 0x021FB3BC thumb ov186
- *   func_021FB378 0x021FB378 thumb ov186
+ *   BR_BTN_CreateObject 0x021FB3BC thumb ov186
+ *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
- *   func_021FD12C 0x021FD12C thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   func_0200D6EC 0x0200D6EC thumb
- *   func_021FD19C 0x021FD19C thumb ov186
+ *   BR_UTIL_SetWindowTextBuf 0x021FD19C thumb ov186
  *   STRBUF_Delete 0x02045808 arm
  */
 typedef unsigned short u16;
@@ -131,13 +131,13 @@ struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *func_021FB3BC(void *,void *,int,int,int,int,int,void *,u16);
-extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
+extern void *BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,u16);
+extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
-extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern u32 func_0200D6EC(struct RecGet *p);
-extern void func_021FD19C(char *p, void *q, void *text);
+extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021E301C(char *p,char *q)
 {
@@ -163,17 +163,17 @@ void func_021E301C(char *p,char *q)
             func_0201EE0C(a,0,(const void *)(*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x10)),*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x20),1,2);
             func_0201F250(a,b,s);
         }else func_02045CAC((struct MsgBank *)c,9,b);
-        *(void **)(p+i*4+0x14)=func_021FB3BC(&d,b,0xa0,1,*(int *)(q+4),*(int *)p,h,&t,*(u16 *)(p+0x38));
+        *(void **)(p+i*4+0x14)=BR_BTN_CreateObject(&d,b,0xa0,1,*(int *)(q+4),*(int *)p,h,&t,*(u16 *)(p+0x38));
         d.y=d.y+0x28;
     }
     d.n=1;
-    *(void **)(p+0x20)=func_021FB378(&d,4,0xa0,1,*(int *)(q+4),*(int *)p,h,c,&t,*(u16 *)(p+0x38));
+    *(void **)(p+0x20)=BR_BTN_CreateFromMessage(&d,4,0xa0,1,*(int *)(q+4),*(int *)p,h,c,&t,*(u16 *)(p+0x38));
     owner=BATTLE_REC_GetWork();
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((*(u16 *)(p+0x38)&0x7fff)|0x8000));
-    if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
+    if(!*(void **)(p+8)) *(void **)(p+8)=BR_UTIL_CreateTextWin(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
     func_02045CAC((struct MsgBank *)c,0x5c,s);
     func_0201EE0C(a,0,(const void *)tmp,func_0200D6EC(owner),1,2);
     func_0201F250(a,b,s);
-    func_021FD19C(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
+    BR_UTIL_SetWindowTextBuf(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);
 }

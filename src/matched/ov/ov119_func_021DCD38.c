@@ -1,5 +1,5 @@
 /*
- * function: func_021DCD38
+ * function: POKETRADE_PROC_Main
  * address: 0x021DCD38
  * packet: pkt_ov119_021DCD38
  * region: ov119
@@ -40,7 +40,7 @@
  *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
- *   func_021DC818 0x021DC818 thumb ov119
+ *   POKETRADE_PROC_ExitBgm 0x021DC818 thumb ov119
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  */
 typedef unsigned char u8;
@@ -82,12 +82,12 @@ extern void DWC_RAP_SetErrorCallback(int,int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void func_021DC818(char *);
+extern void POKETRADE_PROC_ExitBgm(char *);
 extern void WIPE_SetBrightnessFadeOut(unsigned,unsigned);
 #define I(o) (*(int *)(p+(o)))
 #define P(o) (*(void **)(p+(o)))
 #define B(o) (*(u8 *)(p+(o)))
-int func_021DCD38(int a,int b,int c,char *p)
+int POKETRADE_PROC_Main(int a,int b,int c,char *p)
 {
     int result=1;
     void (*callback)(char *)=*(void (**)(char *))(p+0x5ec);
@@ -127,7 +127,7 @@ int func_021DCD38(int a,int b,int c,char *p)
         if(GFL_NET_IsNetTypeWifi()) DWC_RAPCOMMON_HandleNetError(1,1);
         else if(I(0x118c)!=1) GFL_NET_ERR_RequestScreen();
         *(int *)((char *)P(8)+8)=2;
-        func_021DC818(p);
+        POKETRADE_PROC_ExitBgm(p);
         result=1;
         WIPE_SetBrightnessFadeOut(0,0);WIPE_SetBrightnessFadeOut(1,0);
     }

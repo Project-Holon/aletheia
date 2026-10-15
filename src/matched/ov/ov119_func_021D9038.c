@@ -1,5 +1,5 @@
 /*
- * function: func_021D9038
+ * function: POKETRADE_PROC_RecvMonChunkCommon
  * address: 0x021D9038
  * packet: pkt_ov119_021D9038
  * region: ov119
@@ -25,4 +25,4 @@ extern unsigned int POKE_TOOL_GetPartyValue(void *,unsigned int,unsigned int);
 extern void POKETRADE_NEGO_StoreRemoteOffer(char *p, int i, void *src);
 extern void POKETRADE_2D_CreateOfferIconActor(char *p, int i, int j, void *mon, int selected, u32 visible);
 extern void POKETRADE_NEGO_ShowOfferSlotMon(void *,int,void *);
-void func_021D9038(int a,int b,int c,u8 *p,int e,int f) { int z;if(e==(int)GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) {z=0;if(POKE_TOOL_GetPartyValue((void *)*(int *)(p+0x1064+a*4),169,0)) {POKETRADE_NEGO_StoreRemoteOffer((char *)p,f,(void *)(*(int *)(p+0x1064+a*4)));POKETRADE_2D_CreateOfferIconActor((char *)p,1,f,(void *)(*(int *)(p+0x1064+a*4)),1,z);POKETRADE_NEGO_ShowOfferSlotMon(p,1,*(void **)(p+0x1064+a*4));}p[0x11fb]=(p[0x11fb]&~240)|16;} } }
+void POKETRADE_PROC_RecvMonChunkCommon(int a,int b,int c,u8 *p,int e,int f) { int z;if(e==(int)GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) {z=0;if(POKE_TOOL_GetPartyValue((void *)*(int *)(p+0x1064+a*4),169,0)) {POKETRADE_NEGO_StoreRemoteOffer((char *)p,f,(void *)(*(int *)(p+0x1064+a*4)));POKETRADE_2D_CreateOfferIconActor((char *)p,1,f,(void *)(*(int *)(p+0x1064+a*4)),1,z);POKETRADE_NEGO_ShowOfferSlotMon(p,1,*(void **)(p+0x1064+a*4));}p[0x11fb]=(p[0x11fb]&~240)|16;} } }

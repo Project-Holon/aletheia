@@ -1,5 +1,5 @@
 /*
- * function: func_02193FF4
+ * function: FindFinal
  * address:  0x02193FF4
  * packet:   pkt_ov009_02193FF4
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-char *func_02193FF4(char *buff, int len)
+char *FindFinal(char *buff, int len)
 {
     char *pos = buff;
 

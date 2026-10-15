@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3B0
+ * function: RESEARCH_TOP_SetSelection
  * address:  0x021BA3B0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA3B0(void *p, u32 v)
+void RESEARCH_TOP_SetSelection(void *p, u32 v)
 {
     ((struct Obj25821 *)p)->f28 = v;
 }

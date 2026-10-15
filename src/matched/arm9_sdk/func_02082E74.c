@@ -1,5 +1,5 @@
 /*
- * function: func_02082E74
+ * function: MI_CpuComp8
  * address:  0x02082E74
  * packet:   pkt_02082E74
  * region:   arm9
@@ -15,7 +15,7 @@
 typedef unsigned long u32;
 typedef unsigned char u8;
 
-int func_02082E74(const void *mem1, const void *mem2, u32 size)
+int MI_CpuComp8(const void *mem1, const void *mem2, u32 size)
 {
     const u8 *p1 = (const u8 *)mem1;
     const u8 *p2 = (const u8 *)mem2;

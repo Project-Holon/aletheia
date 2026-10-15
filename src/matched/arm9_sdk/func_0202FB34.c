@@ -1,5 +1,5 @@
 /*
- * function: func_0202FB34
+ * function: CRYPTO_RC4Encrypt
  * address:  0x0202FB34
  * packet:   pkt_0202FB34
  * region:   arm9
@@ -17,7 +17,7 @@
  *   (none)
  */
 
-asm void func_0202FB34(void)
+asm void CRYPTO_RC4Encrypt(void)
 {
     stmfd sp!, {r4-r9, lr}
     ldrb r7, [r0]

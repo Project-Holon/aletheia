@@ -1,5 +1,5 @@
 /*
- * function: func_0208CC14
+ * function: STD_SearchString
  * address:  0x0208CC14
  * packet:   pkt_0208CC14
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      STD_SearchString (std_string.o)
  */
 
-char *func_0208CC14(const char *srcp, const char *str)
+char *STD_SearchString(const char *srcp, const char *str)
 {
     int i;
     int n;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA174
+ * function: CTVT_MIC_EncodeAdpcm
  * address:  0x021BA174
  * packet:   pkt_ov172_021BA174
  * region:   ov172
@@ -21,7 +21,7 @@
 extern void MI_CpuFill8(void *p, int v, int n);
 extern int CTVT_ADPCM_Encode(void *a0, unsigned a1, void *a2);
 
-int func_021BA174(int unused, void *a, void *buf, unsigned n)
+int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n)
 {
     MI_CpuFill8(buf, 0, n);
     return CTVT_ADPCM_Encode(a, n, buf);

@@ -109,7 +109,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_SendDataMask 0x0203D4D0 arm
  *   gGuru2PointerAngleTable 0x021E1FDC data a2
- *   func_0200ED48 0x0200ED48 thumb
+ *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
  *   GURU2_MAIN_BroadcastResult 0x021E19C0 thumb ov137
  *   func_020056EC 0x020056EC thumb
  *   func_0201292C 0x0201292C thumb
@@ -225,6 +225,7 @@
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   GURU2_MAIN_RotateAll   0x021E1604  thumb  ov137
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
  */
 #include "ov137_types.h"
 #include "guru2_shared_types.h"
@@ -527,7 +528,6 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern void func_02008500(void *,void *);
 
@@ -569,9 +569,9 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern void *func_0200ED48(void *);
+extern void *MISC_SAVEDATA_GetBlock44(void *);
 
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
 
 extern void GURU2_MAIN_BroadcastResult(char *,int);
 
@@ -601,7 +601,6 @@ extern void func_02048B6C(struct Light *l, const u32 *in);
 
 extern void func_02048AD0(struct Light *l);
 
-extern void func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void);
 
 extern void NNS_G3dGlbLightVector(int,int,int,int),NNS_G3dGlbLightColor(int,u32),NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32),NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
 
@@ -711,83 +710,83 @@ extern int GFL_USE_IsBgmPlaying(void);
 
 extern int GFL_USE_PopBgm(void);
 
-int GURU2_MAIN_ProcInit(void *obj,int unused,u8 *q);
+int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q);
 
-int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p);
+int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, struct Guru2Game *p);
 
-int GURU2_MAIN_ProcMain(int a, int b, int c, u8 *p);
+int GURU2_MAIN_ProcMain(int a, int b, int c, struct Guru2Game *p);
 
-void GURU2_MAIN_ClearTransferFlags(char *p);
+void GURU2_MAIN_ClearTransferFlags(struct Guru2Game *p);
 
-int GURU2_MAIN_StateStart(u8 *p);
+int GURU2_MAIN_StateStart(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitWipeIn(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitWipeIn(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitIntroMessage(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitIntroMessage(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendReady(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateSendReady(struct Guru2Game *p);
 
-void *GURU2_MAIN_GetUnionApp(char *p);
+void *GURU2_MAIN_GetUnionApp(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitAllMembers(char *p);
+int GURU2_MAIN_StateWaitAllMembers(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendPlayerCount(char *p);
+int GURU2_MAIN_StateSendPlayerCount(struct Guru2Game *p);
 
-int GURU2_MAIN_StateCollectReadyMasks(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateCollectReadyMasks(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendAbort(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateSendAbort(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendCancel(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateSendCancel(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitCancelMessage(char *p);
+int GURU2_MAIN_StateWaitCancelMessage(struct Guru2Game *p);
 
-int GURU2_MAIN_StateStartSync1(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateStartSync1(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitSync1(struct Guru2MainCtx3 *p);
+int GURU2_MAIN_StateWaitSync1(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendSelectedSlot(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateSendSelectedSlot(struct Guru2Game *p);
 
-int GURU2_MAIN_StateBroadcastPlayerData(u8 *p);
+int GURU2_MAIN_StateBroadcastPlayerData(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitPlayerData(u8 *p);
+int GURU2_MAIN_StateWaitPlayerData(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitBranch(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitBranch(struct Guru2Game *p);
 
-int GURU2_MAIN_StateBuildPlayerSlots(SlotObj *obj);
+int GURU2_MAIN_StateBuildPlayerSlots(struct Guru2Game *p);
 
 int GURU2_MAIN_StateAnimateSlots(char *p);
 
 int GURU2_MAIN_StateWaitAllSlotsReady(char *p);
 
-int GURU2_MAIN_StateDelayRole(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateDelayRole(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSendRoleChild(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateSendRoleChild(struct Guru2Game *p);
 
-void GURU2_MAIN_RegisterPlayerRecords(SlotObj *obj);
+void GURU2_MAIN_RegisterPlayerRecords(struct Guru2Game *obj);
 
-int GURU2_MAIN_StateWaitRoleMessage(char *p);
+int GURU2_MAIN_StateWaitRoleMessage(struct Guru2Game *p);
 
-int GURU2_MAIN_StateStartSync2(int *p);
+int GURU2_MAIN_StateStartSync2(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitSync2(int *p);
+int GURU2_MAIN_StateWaitSync2(struct Guru2Game *p);
 
-int GURU2_MAIN_StateShowRound(char *p);
+int GURU2_MAIN_StateShowRound(struct Guru2Game *p);
 
-int GURU2_MAIN_StateRoundDelay(u8 *p);
+int GURU2_MAIN_StateRoundDelay(struct Guru2Game *p);
 
-int GURU2_MAIN_StateToPlay(struct Guru2MainCtx3 *p);
+int GURU2_MAIN_StateToPlay(struct Guru2Game *p);
 
 int GURU2_MAIN_StatePlayRound(char *p);
 
-int GURU2_MAIN_StateRoundEnd(u8 *p);
+int GURU2_MAIN_StateRoundEnd(struct Guru2Game *p);
 
-int GURU2_MAIN_StateRoundEndChild(char *p);
+int GURU2_MAIN_StateRoundEndChild(struct Guru2Game *p);
 
 int GURU2_MAIN_StepAngle(SelectObj *obj);
 
-int GURU2_MAIN_StateStartSync3(int *p);
+int GURU2_MAIN_StateStartSync3(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitSync3(int *p);
+int GURU2_MAIN_StateWaitSync3(struct Guru2Game *p);
 
 int GURU2_MAIN_SendAngles(AngleObj *obj);
 
@@ -797,39 +796,39 @@ int GURU2_MAIN_ShowResultNames(u8 *p);
 
 int GURU2_MAIN_StateResultDelay(u8 *p);
 
-int GURU2_MAIN_StateWaitSe(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitSe(struct Guru2Game *p);
 
-int GURU2_MAIN_StateComputeReward(u8 *p);
+int GURU2_MAIN_StateComputeReward(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitEffectToEnd(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitEffectToEnd(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitEffectToMessage(u8 *p);
+int GURU2_MAIN_StateWaitEffectToMessage(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p);
 
-int GURU2_MAIN_StateSaveResult(u8 *p);
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p);
 
-int GURU2_MAIN_StateAfterSync4(u8 *p);
+int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitSaveDone(u8 *p);
+int GURU2_MAIN_StateWaitSaveDone(struct Guru2Game *p);
 
-int GURU2_MAIN_StateShowEndMessage(u8 *p);
+int GURU2_MAIN_StateShowEndMessage(struct Guru2Game *p);
 
-int GURU2_MAIN_StateEndDelay(struct Guru2MainCtx *p);
+int GURU2_MAIN_StateEndDelay(struct Guru2Game *p);
 
-int GURU2_MAIN_StateStartSync5(u8 *p);
+int GURU2_MAIN_StateStartSync5(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitSync5(u8 *p);
+int GURU2_MAIN_StateWaitSync5(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitUnionAppReset(char *p);
+int GURU2_MAIN_StateWaitUnionAppReset(struct Guru2Game *p);
 
-int GURU2_MAIN_StateStartWipeOut(int *p);
+int GURU2_MAIN_StateStartWipeOut(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitWipeOut(int *p);
+int GURU2_MAIN_StateWaitWipeOut(struct Guru2Game *p);
 
 int GURU2_MAIN_StateFinished(void);
 
-void GURU2_MAIN_VBlank(void *arg,struct Guru2MainCtx *p);
+void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p);
 
 void GURU2_MAIN_SetupAll(char *p);
 
@@ -1041,25 +1040,25 @@ void GURU2_MAIN_SetPlayerInput(int *p,int a);
 
 void GURU2_MAIN_StoreRoundResult(char *p, const FiveRecord *q);
 
-char *GURU2_MAIN_ClearSendBuffer(char *p, int n);
+char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int n);
 
-char *GURU2_MAIN_GetSendBuffer(char *p);
+char *GURU2_MAIN_GetSendBuffer(struct Guru2Game *p);
 
-int GURU2_MAIN_IsMemberFlagSet(char *p, int mask);
+int GURU2_MAIN_IsMemberFlagSet(struct Guru2Game *p, int mask);
 
-int GURU2_MAIN_AreAllOthersReady(const char *p);
+int GURU2_MAIN_AreAllOthersReady(const struct Guru2Game *p);
 
-int GURU2_MAIN_CountReadyMembers(char *p);
+int GURU2_MAIN_CountReadyMembers(struct Guru2Game *p);
 
 void GURU2_MAIN_StoreSlotAssignment(char *p,unsigned short *q);
 
 void GURU2_MAIN_SyncPlayerCount(char *p, int a1);
 
-int GURU2_MAIN_IsMemberPresent(char *p, int i);
+int GURU2_MAIN_IsMemberPresent(struct Guru2Game *p, int i);
 
-void GURU2_MAIN_CopyMemberPokemon(char *p, int i);
+void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int i);
 
-int GURU2_MAIN_CountActiveMembers(char *p);
+int GURU2_MAIN_CountActiveMembers(struct Guru2Game *p);
 
 void GURU2_MAIN_SetPlayerSelectedSlot(int *p,int a,int b);
 
@@ -1069,11 +1068,11 @@ int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index);
 
 int GURU2_MAIN_PartyHasEligiblePokemon(void *p);
 
-int GURU2_MAIN_AnyMemberHasEligiblePokemon(char *p);
+int GURU2_MAIN_AnyMemberHasEligiblePokemon(struct Guru2Game *p);
 
-int GURU2_MAIN_CountContinueVotes(struct Guru2MainCtx *p);
+int GURU2_MAIN_CountContinueVotes(struct Guru2Game *p);
 
-int GURU2_MAIN_IsAbortVoted(struct Guru2MainCtx *p);
+int GURU2_MAIN_IsAbortVoted(struct Guru2Game *p);
 
 void GURU2_MAIN_PushAndPlayBgm(unsigned int n);
 
@@ -1123,9 +1122,10 @@ extern const IntPair gGuru2FadeValues;
 
 extern struct RangeList gGuru2PlayerAngleRangeLists[];
 
-int GURU2_MAIN_ProcInit(void *obj,int unused,u8 *q)
+int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q)
 {
-    u8 *p,*s;
+    struct Guru2Game *p;
+    struct Guru2Spinner *s;
     void *r;
     int i,n,player;
     GFL_NET_SetAutoExit(1);
@@ -1133,53 +1133,53 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,u8 *q)
     p=PROCSYS_AllocProcWork(obj,0xdac,114);
     i=0;
     MI_CpuFill8(p,0,0xdac);
-    *(u8 * *)&((struct Guru2MainCtx *)q)->f1C=p;
-    *(u8 * *)&((struct Guru2MainCtx *)p)->fD8=q;
-    ((struct Guru2MainCtx *)p)->fDC=*(void * *)&((struct Guru2MainCtx *)q)->f18;
-    ((struct Guru2MainCtx *)p)->f24=func_02012934(((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->gameData);
-    ((struct Guru2MainCtx *)p)->fD58=func_020490F4(183,114);
+    q->gameWork=p;
+    p->session=q;
+    p->comm=q->comm;
+    p->party=func_02012934(p->session->param->gameData);
+    p->arcHandle=func_020490F4(183,114);
     GURU2_MAIN_SetupAll((char *)p);
-    ((struct Guru2MainCtx *)p)->fD9C=func_020056A0((void (*)(int,  void *))GURU2_MAIN_VBlank,p,1);
-    ((struct Guru2MainCtx *)p)->fAF4=G3D_UTIL_Create(20,11,114);
-    GURU2_MAIN_AddBackgroundUnit(p);GURU2_MAIN_AddPlayerUnits((char *)p);GURU2_MAIN_AddCenterUnit(p);
+    p->taskMain=func_020056A0((void (*)(int,  void *))GURU2_MAIN_VBlank,p,1);
+    p->g3dUtil=G3D_UTIL_Create(20,11,114);
+    GURU2_MAIN_AddBackgroundUnit((u8 *)p);GURU2_MAIN_AddPlayerUnits((char *)p);GURU2_MAIN_AddCenterUnit((u8 *)p);
     n=0;
     player=GFL_NET_SYSTEM_GetCurrentAid();
-    s=p+0xe0;
-    q=*(u8 * *)&((struct Guru2MainCtx *)p)->fD8;
+    s=&p->spinner;
+    q=p->session;
     for(;i<5;i++) {
-        if(*(unsigned int *)&((struct Guru2MainCtx *)q)->fC&(1<<i)) {if(i==player) break;n++;}
+        if(q->memberMask&(1<<i)) {if(i==player) break;n++;}
     }
-    ((struct Guru2MainCtx3 *)s)->f40=gGuru2SlotAngleTable[*(int *)&((struct Guru2MainCtx *)q)->f8][n]<<12;
+    s->speed=gGuru2SlotAngleTable[q->playerCount][n]<<12;
     r=func_02030734(0x8072,func_02030CB0(32),0,gGuru2MainAllocFileName,0x4ec);
-    ((struct Guru2MainCtx *)p)->fD94=r;
-    ((struct Guru2MainCtx *)p)->fD98=func_02030CBC(32,r);
+    p->taskCtx=r;
+    p->taskMgr=func_02030CBC(32,r);
     GURU2_MAIN_CreateBounceEffectTask((char *)p);GURU2_MAIN_CreateSettleEffectTask((char *)p);GURU2_MAIN_CreateWobbleEffectTask((char *)p);GURU2_MAIN_CreateEntranceEffectTask((char *)p);GURU2_MAIN_CreateScreenFlashTask((char *)p);GURU2_MAIN_CreatePulseEffectTask((char *)p);
     WIPE_SYS_Start(0,1,1,0,8,1,114);
     GFL_NET_SetLoginOption(1);
     return 1;
 }
 
-int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
+int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, struct Guru2Game *p)
 {
-    PRINTSYS_QUE_Clear(*(struct PrintSys **)(p + 0xD38));
-    PRINTSYS_QUE_Delete(*(struct PrintSys **)(p + 0xD38));
-    if (*(u8 **)(p + 0xDA8) != 0) TIME_ICON_Delete(*(u8 **)(p + 0xDA8));
-    GURU2_MAIN_DeleteBounceEffectTask(p);
-    GURU2_MAIN_DeleteSettleEffectTask(p);
-    GURU2_MAIN_DeleteWobbleEffectTask(p);
-    GURU2_MAIN_DeleteEntranceEffectTask(p);
-    GURU2_MAIN_DeleteScreenFlashTask(p);
-    GURU2_MAIN_DeletePulseEffectTask(p);
-    func_02030DA4(*(void **)(p + 0xD98));
-    func_020307B0(*(void **)(p + 0xD94));
+    PRINTSYS_QUE_Clear(p->windows.printQueue);
+    PRINTSYS_QUE_Delete(p->windows.printQueue);
+    if (p->timeIcon != 0) TIME_ICON_Delete(p->timeIcon);
+    GURU2_MAIN_DeleteBounceEffectTask((u8 *)p);
+    GURU2_MAIN_DeleteSettleEffectTask((u8 *)p);
+    GURU2_MAIN_DeleteWobbleEffectTask((u8 *)p);
+    GURU2_MAIN_DeleteEntranceEffectTask((u8 *)p);
+    GURU2_MAIN_DeleteScreenFlashTask((u8 *)p);
+    GURU2_MAIN_DeletePulseEffectTask((u8 *)p);
+    func_02030DA4(p->taskMgr);
+    func_020307B0(p->taskCtx);
     GURU2_MAIN_RemoveBackgroundUnit((char *)p);
-    GURU2_MAIN_RemoveCenterUnit(p);
+    GURU2_MAIN_RemoveCenterUnit((u8 *)p);
     GURU2_MAIN_RemovePlayerUnits((char *)p);
-    G3D_UTIL_Delete(*(void **)(p + 0xAF4));
+    G3D_UTIL_Delete(p->g3dUtil);
     G3D_SYSTEM_Exit();
     GURU2_MAIN_TeardownAll((char *)p);
-    func_02030EAC(*(void **)(p + 0xD9C));
-    ARC_TOOL_DeleteHandle(*(void **)(p + 0xD58));
+    func_02030EAC(p->taskMain);
+    ARC_TOOL_DeleteHandle(p->arcHandle);
     func_020315D4(a);
     func_020306F0(0x72);
     func_020351A0(8);
@@ -1188,144 +1188,143 @@ int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
 
 extern int (*const gGuru2MainStateTable[])(void *);
 
-int GURU2_MAIN_ProcMain(int a, int b, int c, u8 *p)
+int GURU2_MAIN_ProcMain(int a, int b, int c, struct Guru2Game *p)
 {
     int result;
-    do { result = gGuru2MainStateTable[*(int *)p](p); } while (result == 1);
+    do { result = gGuru2MainStateTable[p->state](p); } while (result == 1);
     if (result == 2) return 1;
-    GURU2_MAIN_UpdateCenterTransform(p);
+    GURU2_MAIN_UpdateCenterTransform((u8 *)p);
     GURU2_MAIN_UpdatePlayerRecords((char *)p);
-    GURU2_MAIN_Draw3D(p);
-    GURU2_MAIN_ClearTransferFlags((char *)p);
-    func_02030D28(((struct Guru2MainCtx *)p)->fD98);
+    GURU2_MAIN_Draw3D((u8 *)p);
+    GURU2_MAIN_ClearTransferFlags(p);
+    func_02030D28(p->taskMgr);
     if (WIPE_SYS_EndCheck() && func_0200FB24()) return 1;
     return 0;
 }
 
-void GURU2_MAIN_ClearTransferFlags(char *p) { *(unsigned int *)&((struct Guru2MainCtx *)p)->f34=0;*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C=0; }
+void GURU2_MAIN_ClearTransferFlags(struct Guru2Game *p) { p->unknown_34=0;p->unknown_3C=0; }
 
-int GURU2_MAIN_StateStart(u8 *p)
+int GURU2_MAIN_StateStart(struct Guru2Game *p)
 {
-    GURU2_MAIN_PrintMessage(p, 0);
-    *(unsigned int *)&((struct Guru2MainCtx *)p)->f0 = 1;
+    GURU2_MAIN_PrintMessage((u8 *)p, 0);
+    p->state = 1;
     return 0;
 }
 
-int GURU2_MAIN_StateWaitWipeIn(struct Guru2MainCtx *p)
+int GURU2_MAIN_StateWaitWipeIn(struct Guru2Game *p)
 {
     if (WIPE_SYS_EndCheck()) {
-        p->f0 = GFL_NET_SYSTEM_GetCurrentAid() == 0 ? 2 : 8;
-        p->fDA8 = TIME_ICON_Create(p->fD98, p->fCF0, 15, 16, 114);
+        p->state = GFL_NET_SYSTEM_GetCurrentAid() == 0 ? 2 : 8;
+        p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
         return 1;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateWaitIntroMessage(struct Guru2MainCtx *p)
+int GURU2_MAIN_StateWaitIntroMessage(struct Guru2Game *p)
 {
-    if (GURU2_MAIN_AreAllOthersReady((const char *)p)) {
-        *(unsigned int *)&p->f0 = 3;
+    if (GURU2_MAIN_AreAllOthersReady(p)) {
+        p->state = 3;
         return 1;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateSendReady(struct Guru2MainCtx *p) {u16 v=1;if(GURU2_COMM_Send(p->fDC,0x2805,&v,2)==1){p->f0=4;return 1;}return 0;}
+int GURU2_MAIN_StateSendReady(struct Guru2Game *p) {u16 v=1;if(GURU2_COMM_Send(p->comm,0x2805,&v,2)==1){p->state=4;return 1;}return 0;}
 
 /*
  * extent: two trailing bytes of zero alignment padding.
  */
-void *GURU2_MAIN_GetUnionApp(char *p) {return ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->unionApp;}
+void *GURU2_MAIN_GetUnionApp(struct Guru2Game *p) {return p->session->param->unionApp;}
 
-int GURU2_MAIN_StateWaitAllMembers(char *p) {unsigned v;v=GURU2_MAIN_CountReadyMembers(p)+1;if(v!=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp(p)))return 0;((struct Guru2MainCtx *)p)->f0=5;return 1;}
+int GURU2_MAIN_StateWaitAllMembers(struct Guru2Game *p) {unsigned v;v=GURU2_MAIN_CountReadyMembers(p)+1;if(v!=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp(p)))return 0;p->state=5;return 1;}
 
-int GURU2_MAIN_StateSendPlayerCount(char *p) {((struct Guru2MainCtx *)p)->f30=GURU2_MAIN_CountReadyMembers(p)+1;if(GURU2_COMM_Send(((struct Guru2MainCtx *)p)->fDC,0x280A,p+48,4)==1){((struct Guru2MainCtx *)p)->f14=0;((struct Guru2MainCtx *)p)->f0=6;}return 0;}
+int GURU2_MAIN_StateSendPlayerCount(struct Guru2Game *p) {p->playerCount=GURU2_MAIN_CountReadyMembers(p)+1;if(GURU2_COMM_Send(p->comm,0x280A,&p->playerCount,4)==1){p->sendCount=0;p->state=6;}return 0;}
 
-int GURU2_MAIN_StateCollectReadyMasks(struct Guru2MainCtx *p)
+int GURU2_MAIN_StateCollectReadyMasks(struct Guru2Game *p)
 {
     u16 buf[2];
     int i, count;
     u16 mask;
-    if (p->f14 == 0) {
+    if (p->sendCount == 0) {
         buf[1] = 0; buf[0] = 0;
-        if (GURU2_COMM_Send(p->fDC, 10249, buf, 4) == 1) (p->f14)++;
+        if (GURU2_COMM_Send(p->comm, 10249, buf, 4) == 1) (p->sendCount)++;
         return 0;
     }
     i = 1;
-    mask = ((struct Guru2Comm *)p->fDC)->ackMask;
+    mask = p->comm->ackMask;
     for (count = 1; i < 5; i++) {
         if (mask & (1 << i)) {
-            if (count >= p->f14) {
-                buf[1] = i; buf[0] = p->f14;
-                if (GURU2_COMM_Send(p->fDC, 10249, buf, 4) == 1) (p->f14)++;
+            if (count >= p->sendCount) {
+                buf[1] = i; buf[0] = p->sendCount;
+                if (GURU2_COMM_Send(p->comm, 10249, buf, 4) == 1) (p->sendCount)++;
                 break;
             }
             count++;
         }
     }
-    if (p->f14 >= p->f30) p->f0 = 7;
+    if (p->sendCount >= p->playerCount) p->state = 7;
     return 0;
 }
 
-int GURU2_MAIN_StateSendAbort(struct Guru2MainCtx *p) {u16 v=8;if(GURU2_COMM_Send(p->fDC,0x2805,&v,2)==1)p->f0=10;return 0;}
+int GURU2_MAIN_StateSendAbort(struct Guru2Game *p) {u16 v=8;if(GURU2_COMM_Send(p->comm,0x2805,&v,2)==1)p->state=10;return 0;}
 
-int GURU2_MAIN_StateSendCancel(struct Guru2MainCtx *p) {if(GURU2_COMM_Send(p->fDC,0x2806,0,0)==1){p->f0=9;*(int *)&p->f10=0;return 0;}return 0;}
+int GURU2_MAIN_StateSendCancel(struct Guru2Game *p) {if(GURU2_COMM_Send(p->comm,0x2806,0,0)==1){p->state=9;p->waitCount=0;return 0;}return 0;}
 
-int GURU2_MAIN_StateWaitCancelMessage(char *p) {if(GURU2_MAIN_IsMemberFlagSet(p,8)==1){((struct Guru2MainCtx *)p)->f30=GURU2_MAIN_CountReadyMembers(p)+1;((struct Guru2MainCtx *)p)->f0=10;}return 0;}
+int GURU2_MAIN_StateWaitCancelMessage(struct Guru2Game *p) {if(GURU2_MAIN_IsMemberFlagSet(p,8)==1){p->playerCount=GURU2_MAIN_CountReadyMembers(p)+1;p->state=10;}return 0;}
 
-int GURU2_MAIN_StateStartSync1(struct Guru2MainCtx *p) {void *v;v=GFL_NET_HANDLE_GetCurrentHandle();TIME_ICON_Delete(p->fDA8);p->fDA8=0;GFL_NET_HANDLE_SetTimingSyncRange(v,202,40);p->f0=11;return 0;}
+int GURU2_MAIN_StateStartSync1(struct Guru2Game *p) {void *v;v=GFL_NET_HANDLE_GetCurrentHandle();TIME_ICON_Delete(p->timeIcon);p->timeIcon=0;GFL_NET_HANDLE_SetTimingSyncRange(v,202,40);p->state=11;return 0;}
 
-int GURU2_MAIN_StateWaitSync1(struct Guru2MainCtx3 *p) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),202,40))p->f0=12;return 0;}
+int GURU2_MAIN_StateWaitSync1(struct Guru2Game *p) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),202,40))p->state=12;return 0;}
 
-int GURU2_MAIN_StateSendSelectedSlot(struct Guru2MainCtx *p) {if(GURU2_COMM_Send(p->fDC,0x280B,*(char * *)&p->fD8+4,4))p->f0=13;return 0;}
+int GURU2_MAIN_StateSendSelectedSlot(struct Guru2Game *p) {if(GURU2_COMM_Send(p->comm,0x280B,(char *)p->session+4,4))p->state=13;return 0;}
 
-int GURU2_MAIN_StateBroadcastPlayerData(u8 *p)
+int GURU2_MAIN_StateBroadcastPlayerData(struct Guru2Game *p)
 {
     void *q;
     q = GFL_NET_HANDLE_GetCurrentHandle();
-    if ((int)GFL_NET_SendDataMask((u32)q, (u8)((int)UNION_APP_GetJoinedBits(GURU2_MAIN_GetUnionApp((char *)p))), (int)10255, (int)1428, (u32)(((struct Guru2MainCtx *)p)->f24), (int)1, (int)1, (int)1))
-        ((struct Guru2MainCtx *)p)->f0 = 14;
+    if ((int)GFL_NET_SendDataMask((u32)q, (u8)((int)UNION_APP_GetJoinedBits(GURU2_MAIN_GetUnionApp(p))), (int)10255, (int)1428, (u32)(p->party), (int)1, (int)1, (int)1))
+        p->state = 14;
     return 0;
 }
 
-int GURU2_MAIN_StateWaitPlayerData(u8 *p)
+int GURU2_MAIN_StateWaitPlayerData(struct Guru2Game *p)
 {
-    if (((struct Guru2MainCtx *)p)->f30 == GURU2_MAIN_CountActiveMembers((char *)p)) {
-        if (GURU2_MAIN_AnyMemberHasEligiblePokemon((char *)p) == 1) {
-            GURU2_COMM_Send(((struct Guru2MainCtx *)p)->fDC, 10253, 0, 0);
-            ((struct Guru2MainCtx *)p)->f0 = 45;
+    if (p->playerCount == GURU2_MAIN_CountActiveMembers(p)) {
+        if (GURU2_MAIN_AnyMemberHasEligiblePokemon(p) == 1) {
+            GURU2_COMM_Send(p->comm, 10253, 0, 0);
+            p->state = 45;
         } else {
-            GURU2_COMM_Send(((struct Guru2MainCtx *)p)->fDC, 10254, 0, 0);
-            ((struct Guru2MainCtx *)p)->f0 = 15;
+            GURU2_COMM_Send(p->comm, 10254, 0, 0);
+            p->state = 15;
         }
     }
     return 0;
 }
 
-int GURU2_MAIN_StateWaitBranch(struct Guru2MainCtx *p) {if(GURU2_MAIN_IsAbortVoted(p)==1)p->f0=45;else if(p->f30==GURU2_MAIN_CountContinueVotes(p))p->f0=16;return 0;}
+int GURU2_MAIN_StateWaitBranch(struct Guru2Game *p) {if(GURU2_MAIN_IsAbortVoted(p)==1)p->state=45;else if(p->playerCount==GURU2_MAIN_CountContinueVotes(p))p->state=16;return 0;}
 
-int GURU2_MAIN_StateBuildPlayerSlots(SlotObj *obj)
+int GURU2_MAIN_StateBuildPlayerSlots(struct Guru2Game *p)
 {
-    u8 *p = (u8 *)obj;
-    u8 *q;
+    struct Guru2SeatInit *slot;
     int i, count;
-    q = (u8 *)GURU2_MAIN_ClearSendBuffer((char *)p, 24);
-    *(int *)&((struct Guru2MainCtx *)q)->f10 = *(int *)&((struct Guru2MainCtx *)p)->f2C;
-    count = ((struct Guru2MainCtx *)p)->f30;
-    ((struct Guru2MainCtx *)q)->f14 = count;
-    *(int *)&((struct Guru2MainCtx *)q)->f4 = gGuru2SlotAngleTable[count][*(int *)&((struct Guru2MainCtx *)p)->f2C];
+    slot = (struct Guru2SeatInit *)GURU2_MAIN_ClearSendBuffer(p, 24);
+    slot->nextSlot = p->seat;
+    count = p->playerCount;
+    slot->playerCount = count;
+    slot->seatAngle = gGuru2SlotAngleTable[count][p->seat];
     for (i = 0; i < 5; i++) {
-        if (GURU2_MAIN_IsMemberPresent((char *)p, i)) {
-            obj->slots[i] = UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp((char *)p), (u8)i);
-            func_02008500(obj->slots[i], obj->other[i]);
+        if (GURU2_MAIN_IsMemberPresent(p, i)) {
+            p->memberEntry[i] = UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp(p), (u8)i);
+            func_02008500(p->memberEntry[i], p->nameBuf[i]);
         }
     }
-    GURU2_MAIN_RegisterPlayerRecords((SlotObj *)p);
-    ((struct Guru2MainCtx *)p)->f120 = *(int *)&((struct Guru2MainCtx *)q)->f4 << 12;
-    ((struct Guru2MainCtx *)p)->f0 = 17;
+    GURU2_MAIN_RegisterPlayerRecords(p);
+    p->spinner.speed = slot->seatAngle << 12;
+    p->state = 17;
     GFL_USE_CancelChangeAndPlayBgm(1157, 65535);
-    ((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->resultFlag = 1;
-    GURU2_MAIN_ClearMessageWindow(p);
+    p->session->param->resultFlag = 1;
+    GURU2_MAIN_ClearMessageWindow((u8 *)p);
     return 1;
 }
 
@@ -1339,7 +1338,7 @@ int GURU2_MAIN_StateAnimateSlots(char *p)
     int value, a, row;
     if (--((struct Guru2MainCtx *)p)->fC>0) return 0;
     ((struct Guru2MainCtx *)p)->fC=15;
-    r=(int *)GURU2_MAIN_GetSendBuffer(p);
+    r=(int *)GURU2_MAIN_GetSendBuffer((struct Guru2Game *)p);
     row=r[5]*10;
     value=*(const u16 *)((unsigned)gGuru2PointerAngleTable+row+r[4]*2);
     a=*(u16 *)(p+0x7e + r[4]*4);
@@ -1369,39 +1368,38 @@ int GURU2_MAIN_StateWaitAllSlotsReady(char *p)
     return 0;
 }
 
-int GURU2_MAIN_StateDelayRole(struct Guru2MainCtx *p) {if(++p->fC>30){p->fC=0;if(GFL_NET_SYSTEM_GetCurrentAid()==0)p->f0=20;else p->f0=21;}return 0;}
+int GURU2_MAIN_StateDelayRole(struct Guru2Game *p) {if(++p->timer>30){p->timer=0;if(GFL_NET_SYSTEM_GetCurrentAid()==0)p->state=20;else p->state=21;}return 0;}
 
-int GURU2_MAIN_StateSendRoleChild(struct Guru2MainCtx *p) { u16 buf; buf=4; if(GURU2_COMM_Send(p->fDC,0x2805,&buf,2)==1) p->f0=22; return 0; }
+int GURU2_MAIN_StateSendRoleChild(struct Guru2Game *p) { u16 buf; buf=4; if(GURU2_COMM_Send(p->comm,0x2805,&buf,2)==1) p->state=22; return 0; }
 
-void GURU2_MAIN_RegisterPlayerRecords(SlotObj *obj)
+void GURU2_MAIN_RegisterPlayerRecords(struct Guru2Game *obj)
 {
-    u8 *p = (u8 *)obj;
     void *q;
     int i;
-    q = func_0200ED48(GAME_DATA_GetSaveControl(((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->gameData));
+    q = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(obj->session->param->gameData));
     for (i = 0; i < 5; i++) {
-        if (obj->slots[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
-            func_0200ED54(q, func_02008530(obj->slots[i]));
+        if (obj->memberEntry[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
+            MISC_SAVEDATA_InsertRecentValue(q, func_02008530(obj->memberEntry[i]));
     }
 }
 
 /*
  * trailing: Two zero alignment bytes.
  */
-int GURU2_MAIN_StateWaitRoleMessage(char *p) { if(GURU2_MAIN_IsMemberFlagSet(p,4)==1) { ((struct Guru2MainCtx *)p)->f0=22; return 1; } return 0; }
+int GURU2_MAIN_StateWaitRoleMessage(struct Guru2Game *p) { if(GURU2_MAIN_IsMemberFlagSet(p,4)==1) { p->state=22; return 1; } return 0; }
 
-int GURU2_MAIN_StateStartSync2(int *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),203,40); *p=23; return 0; }
+int GURU2_MAIN_StateStartSync2(struct Guru2Game *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),203,40); p->state=23; return 0; }
 
-int GURU2_MAIN_StateWaitSync2(int *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),203,40)) *p=24; return 0; }
+int GURU2_MAIN_StateWaitSync2(struct Guru2Game *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),203,40)) p->state=24; return 0; }
 
-int GURU2_MAIN_StateShowRound(char *p) { GURU2_MAIN_StartBlendFade(p,1); GURU2_MAIN_CreateCenterActorTask(p); ((struct Guru2MainCtx *)p)->f0=25; return 0; }
+int GURU2_MAIN_StateShowRound(struct Guru2Game *p) { GURU2_MAIN_StartBlendFade((char *)p,1); GURU2_MAIN_CreateCenterActorTask((char *)p); p->state=25; return 0; }
 
-int GURU2_MAIN_StateRoundDelay(u8 *p) { int i; ((struct Guru2MainCtx *)p)->fC+=1; if(((struct Guru2MainCtx *)p)->fC<95) return 0; for(i=0;i<((struct Guru2MainCtx *)p)->f30;i++) GURU2_MAIN_ClearNameWindow(p,i); ((struct Guru2MainCtx *)p)->fC=0; ((struct Guru2MainCtx *)p)->f0=26; return 0; }
+int GURU2_MAIN_StateRoundDelay(struct Guru2Game *p) { int i; p->timer+=1; if(p->timer<95) return 0; for(i=0;i<p->playerCount;i++) GURU2_MAIN_ClearNameWindow((u8 *)p,i); p->timer=0; p->state=26; return 0; }
 
-int GURU2_MAIN_StateToPlay(struct Guru2MainCtx3 *p)
+int GURU2_MAIN_StateToPlay(struct Guru2Game *p)
 {
     GFL_NET_SYSTEM_GetCurrentAid();
-    *(unsigned int *)&p->f0 = 0x1b;
+    p->state = 0x1b;
     return 0;
 }
 
@@ -1448,23 +1446,23 @@ int GURU2_MAIN_StatePlayRound(char *p)
     return 0;
 }
 
-int GURU2_MAIN_StateRoundEnd(u8 *p)
+int GURU2_MAIN_StateRoundEnd(struct Guru2Game *p)
 {
     GURU2_MAIN_StartBlendFade((char *)p, 0);
-    *(u8 * *)&((struct Guru2MainCtx *)p)->f28 = GURU2_MAIN_FindNearestPlayerRecord((Obj *)p);
+    p->current = GURU2_MAIN_FindNearestPlayerRecord((Obj *)p);
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
-        if (((struct Guru2MainCtx_f28 *)((struct Guru2MainCtx *)p)->f28)->fC == GFL_NET_SYSTEM_GetCurrentAid())
-            ((struct Guru2MainCtx *)p)->f0 = 29;
+        if (p->current->aid == GFL_NET_SYSTEM_GetCurrentAid())
+            p->state = 29;
         else
-            ((struct Guru2MainCtx *)p)->f0 = 30;
+            p->state = 30;
     } else {
-        ((struct Guru2MainCtx *)p)->f0 = 31;
+        p->state = 31;
     }
     GFL_USE_PlaySeDefaultVolume(1833);
     return 1;
 }
 
-int GURU2_MAIN_StateRoundEndChild(char *p) { GURU2_MAIN_BroadcastResult(p,0x4000); *(u8 * *)&((struct Guru2MainCtx2 *)p)->f28=GURU2_MAIN_FindNearestPlayerRecord((Obj *)p); if(((struct Guru2MainCtx2_f28 *)((struct Guru2MainCtx2 *)p)->f28)->fC!=GFL_NET_SYSTEM_GetCurrentAid()) *(int *)&((struct Guru2MainCtx2 *)p)->f0=30; return 0; }
+int GURU2_MAIN_StateRoundEndChild(struct Guru2Game *p) { GURU2_MAIN_BroadcastResult((char *)p,0x4000); p->current=GURU2_MAIN_FindNearestPlayerRecord((Obj *)p); if(p->current->aid!=GFL_NET_SYSTEM_GetCurrentAid()) p->state=30; return 0; }
 
 #pragma opt_propagation off
 
@@ -1506,9 +1504,9 @@ int GURU2_MAIN_StepAngle(SelectObj *obj)
 
 #pragma opt_propagation reset
 
-int GURU2_MAIN_StateStartSync3(int *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40); *p=32; return 0; }
+int GURU2_MAIN_StateStartSync3(struct Guru2Game *p) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40); p->state=32; return 0; }
 
-int GURU2_MAIN_StateWaitSync3(int *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40)) { if(GFL_NET_SYSTEM_GetCurrentAid()==0) *p=33; else *p=34; } return 0; }
+int GURU2_MAIN_StateWaitSync3(struct Guru2Game *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40)) { if(GFL_NET_SYSTEM_GetCurrentAid()==0) p->state=33; else p->state=34; } return 0; }
 
 int GURU2_MAIN_SendAngles(AngleObj *obj)
 {
@@ -1585,68 +1583,68 @@ int GURU2_MAIN_StateResultDelay(u8 *p)
     return 0;
 }
 
-int GURU2_MAIN_StateWaitSe(struct Guru2MainCtx *p) { if(p->fC<120) p->fC+=1; else if(!GURU2_MAIN_PopBgmWhenDone()) { p->fC=0; p->f0=38; } return 0; }
+int GURU2_MAIN_StateWaitSe(struct Guru2Game *p) { if(p->timer<120) p->timer+=1; else if(!GURU2_MAIN_PopBgmWhenDone()) { p->timer=0; p->state=38; } return 0; }
 
 /*
  * lever: Mutable range table is reloaded after RNG; updating low in place preserves r4/r5 colouring.
  */
-int GURU2_MAIN_StateComputeReward(u8 *p)
+int GURU2_MAIN_StateComputeReward(struct Guru2Game *p)
 {
     u32 low, high, value;
     int count;
     GURU2_MAIN_AddPulseEffectsForMask((const char *)p);
-    if ((*(unsigned int *)&((struct Guru2MainCtx *)p)->f1C & (1 << (*(int * *)&((struct Guru2MainCtx *)p)->f28)[3])) == 0) {
-        ((struct Guru2MainCtx *)p)->f0 = 42;
+    if ((p->resultMask & (1 << p->current->aid)) == 0) {
+        p->state = 42;
         return 0;
     }
-    count = ((struct Guru2MainCtx *)p)->f30;
+    count = p->playerCount;
     low = gGuru2RewardRangeTable[count].low;
     high = gGuru2RewardRangeTable[count].high;
     low += func_020056EC(65535) % (high - low + 1);
     if (low < gGuru2RewardRangeTable[count].low) low = gGuru2RewardRangeTable[count].low;
     else if (low > high) low = high;
-    GURU2_MAIN_PrintMessageWithNumber(p, 3, low);
-    value = func_02007E50(func_0201292C((((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->gameData)), low, 1, 114);
+    GURU2_MAIN_PrintMessageWithNumber((u8 *)p, 3, low);
+    value = func_02007E50(func_0201292C((p->session->param->gameData)), low, 1, 114);
     GURU2_MAIN_PushAndPlayBgm(1302);
-    if (value == 1) ((struct Guru2MainCtx *)p)->f0 = 39;
-    else ((struct Guru2MainCtx *)p)->f0 = 40;
+    if (value == 1) p->state = 39;
+    else p->state = 40;
     return 0;
 }
 
-int GURU2_MAIN_StateWaitEffectToEnd(struct Guru2MainCtx *p) { if(p->fC<180) p->fC+=1; if(!GURU2_MAIN_PopBgmWhenDone()) { p->fC=0; p->f0=42; } return 0; }
+int GURU2_MAIN_StateWaitEffectToEnd(struct Guru2Game *p) { if(p->timer<180) p->timer+=1; if(!GURU2_MAIN_PopBgmWhenDone()) { p->timer=0; p->state=42; } return 0; }
 
-int GURU2_MAIN_StateWaitEffectToMessage(u8 *p)
+int GURU2_MAIN_StateWaitEffectToMessage(struct Guru2Game *p)
 {
-    if (((struct Guru2MainCtx *)p)->fC < 180) {
-        ((struct Guru2MainCtx *)p)->fC += 1;
+    if (p->timer < 180) {
+        p->timer += 1;
     } else if (GURU2_MAIN_PopBgmWhenDone() == 0) {
-        ((struct Guru2MainCtx *)p)->fC = 0;
-        ((struct Guru2MainCtx *)p)->f0 = 41;
-        GURU2_MAIN_PrintMessage(p, 4);
+        p->timer = 0;
+        p->state = 41;
+        GURU2_MAIN_PrintMessage((u8 *)p, 4);
     }
     return 0;
 }
 
-int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2MainCtx *p)
+int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p)
 {
-    if (p->fC < 180) {
-        p->fC += 1;
+    if (p->timer < 180) {
+        p->timer += 1;
     } else {
-        p->fC = 0;
-        p->f0 = 42;
+        p->timer = 0;
+        p->state = 42;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateSaveResult(u8 *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); func_02008DF0(*(struct Sub02008C20Obj * *)&((struct Guru2Session *)((struct Guru2MainCtx *)p)->fD8)->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); ((struct Guru2MainCtx *)p)->f0=43; func_0203516C(8); return 0; }
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); func_02008DF0(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage((u8 *)p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; func_0203516C(8); return 0; }
 
-int GURU2_MAIN_StateAfterSync4(u8 *p)
+int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 205, 40)) {
-        GURU2_MAIN_CopyMemberPokemon((char *)p, (*(int * *)&((struct Guru2MainCtx *)p)->f28)[3]);
-        ((struct Guru2MainCtx *)p)->fDA0 = func_0201088C(114, (*(unsigned **)(*(u8 * *)&((struct Guru2MainCtx *)p)->fD8 + 20))[1]);
-        ((struct Guru2MainCtx *)p)->fDA8 = TIME_ICON_Create(((struct Guru2MainCtx *)p)->fD98, ((struct Guru2MainCtx *)p)->fCF0, 15, 16, 114);
-        ((struct Guru2MainCtx *)p)->f0 = 44;
+        GURU2_MAIN_CopyMemberPokemon(p, p->current->aid);
+        p->errScreen = func_0201088C(114, (unsigned)p->session->param->gameData);
+        p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
+        p->state = 44;
     }
     return 0;
 }
@@ -1656,10 +1654,10 @@ int GURU2_MAIN_StateAfterSync4(u8 *p)
  *   void func_02010934(void *p) { func_020307B0(p); }
  * tail: 021DF6A2..021DF6A4 is two zero alignment bytes.
  */
-int GURU2_MAIN_StateWaitSaveDone(u8 *p)
+int GURU2_MAIN_StateWaitSaveDone(struct Guru2Game *p)
 {
     int ready;
-    ready = func_02010904(*(void **)(p + 3488));
+    ready = func_02010904(p->errScreen);
     if (func_0200FB24()) {
         func_0200FBB0();
         GFL_NET_ERR_ShowScreen(1);
@@ -1668,55 +1666,55 @@ int GURU2_MAIN_StateWaitSaveDone(u8 *p)
         return 0;
     }
     if (ready) {
-        TIME_ICON_Delete(*(void **)(p + 3496));
-        *(void **)(p + 3496) = 0;
-        func_02010934(*(void **)(p + 3488));
-        *(int *)p = 47;
+        TIME_ICON_Delete(p->timeIcon);
+        p->timeIcon = 0;
+        func_02010934(p->errScreen);
+        p->state = 47;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateShowEndMessage(u8 *p){GURU2_MAIN_PrintMessage(p,12);((struct Guru2MainCtx *)p)->f0=46;return 0;}
+int GURU2_MAIN_StateShowEndMessage(struct Guru2Game *p){GURU2_MAIN_PrintMessage((u8 *)p,12);p->state=46;return 0;}
 
 /*
  * follower: unlabelled timer inside handed 021DF6A4 extent, followed by 2-byte zero padding.
  */
-int GURU2_MAIN_StateEndDelay(struct Guru2MainCtx *p){if(++p->fC>=180){p->fC=0;p->f0=47;return 1;}return 0;}
+int GURU2_MAIN_StateEndDelay(struct Guru2Game *p){if(++p->timer>=180){p->timer=0;p->state=47;return 1;}return 0;}
 
-int GURU2_MAIN_StateStartSync5(u8 *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!((struct Guru2MainCtx *)p)->f18)GFL_NET_HANDLE_SetTimingSyncRange(ctx,206,40);GURU2_MAIN_PrintMessage(p,10);((struct Guru2MainCtx *)p)->f0=48;return 0;}
+int GURU2_MAIN_StateStartSync5(struct Guru2Game *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!p->modeFlag)GFL_NET_HANDLE_SetTimingSyncRange(ctx,206,40);GURU2_MAIN_PrintMessage((u8 *)p,10);p->state=48;return 0;}
 
-int GURU2_MAIN_StateWaitSync5(u8 *p)
+int GURU2_MAIN_StateWaitSync5(struct Guru2Game *p)
 {
     void *ctx;
     ctx = GFL_NET_HANDLE_GetCurrentHandle();
-    if (((struct Guru2MainCtx *)p)->f18 == 0) {
+    if (p->modeFlag == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange(ctx, 206, 40)) {
-            ((struct Guru2MainCtx *)p)->fDA8 = TIME_ICON_Create(((struct Guru2MainCtx *)p)->fD98, ((struct Guru2MainCtx *)p)->fCF0, 15, 16, 114);
+            p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
             GFL_NET_SetLoginOption(0);
             GFL_NET_COMMAND_DeleteCommandTable(10240);
-            UNION_APP_RequestReset(GURU2_MAIN_GetUnionApp((char *)p));
-            ((struct Guru2MainCtx *)p)->f0 = 49;
+            UNION_APP_RequestReset(GURU2_MAIN_GetUnionApp(p));
+            p->state = 49;
         }
     } else {
-        ((struct Guru2MainCtx *)p)->fC += 1;
-        if (((struct Guru2MainCtx *)p)->fC >= 180) {
-            ((struct Guru2MainCtx *)p)->fC = 0;
-            if ((*(int * *)&((struct Guru2MainCtx *)p)->fDC)[15] == 0) GFL_NET_SetAutoExit(0);
-            ((struct Guru2MainCtx *)p)->f0 = 49;
+        p->timer += 1;
+        if (p->timer >= 180) {
+            p->timer = 0;
+            if (p->comm->unknown_3C == 0) GFL_NET_SetAutoExit(0);
+            p->state = 49;
         }
     }
     return 0;
 }
 
-int GURU2_MAIN_StateWaitUnionAppReset(char *p){if(UNION_APP_IsResetDone(GURU2_MAIN_GetUnionApp(p))){TIME_ICON_Delete(((struct Guru2MainCtx *)p)->fDA8);((struct Guru2MainCtx *)p)->fDA8=0;((struct Guru2MainCtx *)p)->f0=50;return 1;}return 0;}
+int GURU2_MAIN_StateWaitUnionAppReset(struct Guru2Game *p){if(UNION_APP_IsResetDone(GURU2_MAIN_GetUnionApp(p))){TIME_ICON_Delete(p->timeIcon);p->timeIcon=0;p->state=50;return 1;}return 0;}
 
-int GURU2_MAIN_StateStartWipeOut(int *p){WIPE_SYS_Start((void *)2,0,0,0,8,1,114);*p=51;return 0;}
+int GURU2_MAIN_StateStartWipeOut(struct Guru2Game *p){WIPE_SYS_Start((void *)2,0,0,0,8,1,114);p->state=51;return 0;}
 
-int GURU2_MAIN_StateWaitWipeOut(int *p){if(WIPE_SYS_EndCheck()){*p=52;return 1;}return 0;}
+int GURU2_MAIN_StateWaitWipeOut(struct Guru2Game *p){if(WIPE_SYS_EndCheck()){p->state=52;return 1;}return 0;}
 
 int GURU2_MAIN_StateFinished(void){return 2;}
 
-void GURU2_MAIN_VBlank(void *arg,struct Guru2MainCtx *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&p->fD78);CLACT_VBlankSystem();func_020419E4();}
+void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&p->palAnm);CLACT_VBlankSystem();func_020419E4();}
 
 void GURU2_MAIN_SetupAll(char *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem((u8 *)p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem((u8 *)p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows((u8 *)p);GURU2_MAIN_LoadActorResources((u8 *)p);GURU2_MAIN_ShowPlanes(p);}
 
@@ -2042,7 +2040,7 @@ void GURU2_MAIN_PrintMessageWithName(u8 *p,int message,void *value)
     void *window,*text,*owner,*data;
     s=p+3296;
     window=((struct Guru2MainCtx *)s)->f10;
-    func_0201F02C(*(void * *)&((struct Guru2MainCtx *)s)->fC,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp((char *)p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
+    func_0201F02C(*(void * *)&((struct Guru2MainCtx *)s)->fC,1,UNION_APP_GetMemberEntry(GURU2_MAIN_GetUnionApp((struct Guru2Game *)p),(u8)GFL_NET_SYSTEM_GetCurrentAid()));
     func_0201F02C(*(void * *)&((struct Guru2MainCtx *)s)->fC,2,value);
     text=STRBUF_Create(256,114);
     func_02045CAC(((struct Guru2MainCtx *)s)->f8,message,text);
@@ -2968,20 +2966,20 @@ void GURU2_MAIN_StoreRoundResult(char *p, const FiveRecord *q)
     *(FiveRecord *)(p + 0x58) = *q;
 }
 
-char *GURU2_MAIN_ClearSendBuffer(char *p, int n)
+char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int n)
 {
-    MI_CpuFill8(p + 0xb8, 0, 32);
-    return p + 0xb8;
+    MI_CpuFill8(&p->seatInit, 0, 32);
+    return (char *)&p->seatInit;
 }
 
-char *GURU2_MAIN_GetSendBuffer(char *p)
+char *GURU2_MAIN_GetSendBuffer(struct Guru2Game *p)
 {
-    return p + 0xb8;
+    return (char *)&p->seatInit;
 }
 
-int GURU2_MAIN_IsMemberFlagSet(char *p, int mask)
+int GURU2_MAIN_IsMemberFlagSet(struct Guru2Game *p, int mask)
 {
-    return (((struct Guru2Comm *)((struct Guru2MainCtx *)p)->fDC)->statusFlags & mask) != 0;
+    return (p->comm->statusFlags & mask) != 0;
 }
 
 /*
@@ -2989,15 +2987,15 @@ int GURU2_MAIN_IsMemberFlagSet(char *p, int mask)
  * Direct bound use left a four-byte zero/subtraction scheduling swap; bounded permuter found the copy spelling.
  * trailing: Two zero alignment bytes.
  */
-int GURU2_MAIN_AreAllOthersReady(const char *p)
+int GURU2_MAIN_AreAllOthersReady(const struct Guru2Game *p)
 {
   unsigned int count;
   int bound;
   unsigned int x;
   int bound_;
   count = 0;
-  bound = (*((int *) ((*((char **) (p + 0xd8))) + 8))) - 1;
-  x = *((unsigned short *) ((*((char **) (p + 0xdc))) + 0x42));
+  bound = p->session->playerCount - 1;
+  x = p->comm->ackMask;
   bound_ = bound;
   while (x)
   {
@@ -3013,7 +3011,7 @@ int GURU2_MAIN_AreAllOthersReady(const char *p)
  * lever: Initialize count before loading x; declare count before x.
  * Existing result-before-input and declaration-order idioms cover this.
  */
-int GURU2_MAIN_CountReadyMembers(char *p) { int count; unsigned int x; count=0;x=((struct Guru2Comm *)((struct Guru2MainCtx *)p)->fDC)->ackMask;while(x) { count+=x&1; x>>=1; }return count; }
+int GURU2_MAIN_CountReadyMembers(struct Guru2Game *p) { int count; unsigned int x; count=0;x=p->comm->ackMask;while(x) { count+=x&1; x>>=1; }return count; }
 
 /*
  * extent: 42-byte body followed by two bytes of zero alignment padding.
@@ -3021,20 +3019,20 @@ int GURU2_MAIN_CountReadyMembers(char *p) { int count; unsigned int x; count=0;x
  */
 void GURU2_MAIN_StoreSlotAssignment(char *p,unsigned short *q) { unsigned int index;unsigned short value; index=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;value=*(volatile unsigned short *)&((struct Guru2MainCtx4 *)q)->f0;*(unsigned short *)(p+index*4+0x7c)=value;*(unsigned short *)(p+index*4+0x7e)=q[1];if(q[1]==GFL_NET_SYSTEM_GetCurrentAid())((struct Guru2MainCtx *)p)->f2C=q[0]; }
 
-void GURU2_MAIN_SyncPlayerCount(char *p, int a1) { ((struct Guru2MainCtx *)p)->f30=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp(p)); }
+void GURU2_MAIN_SyncPlayerCount(char *p, int a1) { ((struct Guru2MainCtx *)p)->f30=UNION_APP_GetMemberCount(GURU2_MAIN_GetUnionApp((struct Guru2Game *)p)); }
 
 /*
  * The `&` operand order names the temporary: `field & (1 << i)` (field into
  * r2, mask into r0) reproduces the original; `(1 << i) & field` rotates them.
  */
-int GURU2_MAIN_IsMemberPresent(char *p, int i)
+int GURU2_MAIN_IsMemberPresent(struct Guru2Game *p, int i)
 {
-    if (i != 0 && (((struct Guru2Comm *)((struct Guru2MainCtx *)p)->fDC)->ackMask & (1 << i)) == 0)
+    if (i != 0 && (p->comm->ackMask & (1 << i)) == 0)
         return 0;
     return 1;
 }
 
-void GURU2_MAIN_CopyMemberPokemon(char *p, int i)
+void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int i)
 {
     void *party;
     void *other;
@@ -3042,20 +3040,20 @@ void GURU2_MAIN_CopyMemberPokemon(char *p, int i)
     void *a;
     void *b;
     void *q;
-    party = ((struct Guru2MainCtx *)p)->f24;
-    other = GURU2_COMM_GetPartyCopy(((struct Guru2MainCtx *)p)->fDC, i);
-    slot = *(int *)(p + 0x44 + i * 4);
-    a = POKEPARTY_GetMember(party, (*(int * *)&((struct Guru2MainCtx *)p)->fD8)[1]);
+    party = p->party;
+    other = GURU2_COMM_GetPartyCopy(p->comm, i);
+    slot = p->partySlot[i];
+    a = POKEPARTY_GetMember(party, p->session->selectedSlot);
     b = POKEPARTY_GetMember(other, slot);
     q = GURU2_MAIN_GetUnionApp(p);
     func_0202F190(b, (int)6, (u32)UNION_APP_GetMemberEntry(q, (u8)GFL_NET_SYSTEM_GetCurrentAid()), (int)30002, (int)114);
     func_02019CE0(b, a);
 }
 
-int GURU2_MAIN_CountActiveMembers(char *p)
+int GURU2_MAIN_CountActiveMembers(struct Guru2Game *p)
 {
     int count = 0;
-    unsigned bits = ((struct Guru2Comm *)((struct Guru2MainCtx *)p)->fDC)->partyReceivedMask;
+    unsigned bits = p->comm->partyReceivedMask;
     while (bits) {
         count += bits & 1;
         bits >>= 1;
@@ -3115,23 +3113,23 @@ int GURU2_MAIN_PartyHasEligiblePokemon(void *p)
     return 0;
 }
 
-int GURU2_MAIN_AnyMemberHasEligiblePokemon(char *p)
+int GURU2_MAIN_AnyMemberHasEligiblePokemon(struct Guru2Game *p)
 {
     int i;
-    if (GURU2_MAIN_PartyHasEligiblePokemon(((struct Guru2MainCtx *)p)->f24) == 1)
+    if (GURU2_MAIN_PartyHasEligiblePokemon(p->party) == 1)
         return 1;
     for (i = 0; i < 5; i++) {
-        if (GURU2_MAIN_IsMemberPresent(p, i) != 0 && GURU2_MAIN_PartyHasEligiblePokemon(GURU2_COMM_GetPartyCopy(((struct Guru2MainCtx *)p)->fDC, i)) == 1)
+        if (GURU2_MAIN_IsMemberPresent(p, i) != 0 && GURU2_MAIN_PartyHasEligiblePokemon(GURU2_COMM_GetPartyCopy(p->comm, i)) == 1)
             return 1;
     }
     return 0;
 }
 
-int GURU2_MAIN_CountContinueVotes(struct Guru2MainCtx *p) { int count; unsigned int x; count=0;x=((struct Guru2Comm *)p->fDC)->continueMask;while(x) { count+=x&1; x>>=1; }return count; }
+int GURU2_MAIN_CountContinueVotes(struct Guru2Game *p) { int count; unsigned int x; count=0;x=p->comm->continueMask;while(x) { count+=x&1; x>>=1; }return count; }
 
-int GURU2_MAIN_IsAbortVoted(struct Guru2MainCtx *p)
+int GURU2_MAIN_IsAbortVoted(struct Guru2Game *p)
 {
-    return ((struct Guru2Comm *)p->fDC)->abortMask != 0;
+    return p->comm->abortMask != 0;
 }
 
 void GURU2_MAIN_PushAndPlayBgm(unsigned int n) { GFL_USE_SetBgmPlayerParam((void *)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(n,65535); }

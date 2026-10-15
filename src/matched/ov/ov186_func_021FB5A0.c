@@ -1,5 +1,5 @@
 /*
- * function: func_021FB5A0
+ * function: BR_BTN_SetObjectBgPriority
  * address:  0x021FB5A0
  * packet:   pkt_021FB5A0
  * region:   ov186
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void BMP_OAM_SetBgPriority(u8 *g, u32 a);
 
-void func_021FB5A0(int *p, int b)
+void BR_BTN_SetObjectBgPriority(int *p, int b)
 {
     CLACT_SetActorBgPriority(p[0], b);
     BMP_OAM_SetBgPriority((u8 *)p[1], b);

@@ -1,5 +1,5 @@
 /*
- * function: func_02089350
+ * function: SND_PrepareSeq
  * address:  0x02089350
  * packet:   pkt_02089350
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089350(int playerNo, const void *base, u32 offset, struct SNDBankData *bank)
+void SND_PrepareSeq(int playerNo, const void *base, u32 offset, struct SNDBankData *bank)
 {
     PushCommand_impl(2, (u32)playerNo, (u32)base, offset, (u32)bank);
 }

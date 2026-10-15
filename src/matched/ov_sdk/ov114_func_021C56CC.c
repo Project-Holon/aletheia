@@ -12,7 +12,7 @@
  * symbols:
  *   OS_JoinThread  0x02085710  arm
  *   DWCi_NdFree  0x021C56B4  arm  ov114
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   gDwcNdState     0x021D3B68  data ov114
  *   gDwcNdMutex     0x021D3B84  data ov114
@@ -30,7 +30,7 @@ extern char        gDwcNdMutex;
 
 void OS_JoinThread(void *p);
 void DWCi_NdFree(int a);
-void func_02086028(void *p, int a);
+void OS_LockMutex(void *p, int a);
 void func_02086078(void *p, int a);
 
 void DWCi_NdCleanupCallback(void)
@@ -38,7 +38,7 @@ void DWCi_NdCleanupCallback(void)
     OS_JoinThread((char *)gDwcNdState.f18 + 0x1b8 + 0x800);
     DWCi_NdFree((int)((void *)gDwcNdState.f18));
     gDwcNdState.f18 = 0;
-    func_02086028(&gDwcNdMutex, 0);
+    OS_LockMutex(&gDwcNdMutex, 0);
     gDwcNdState.f14 = 3;
     gDwcNdState.f10 = 4;
     func_02086078(&gDwcNdMutex, 4);

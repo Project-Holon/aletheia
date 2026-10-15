@@ -1,5 +1,5 @@
 /*
- * function: func_021BD078
+ * function: RESEARCH_LIST_ClearBmps
  * address:  0x021BD078
  * packet:   pkt_021B9850
  * region:   ov217
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BD078(void *p)
+void RESEARCH_LIST_ClearBmps(void *p)
 {
     int i;
     for (i = 0; i < 4; i++)

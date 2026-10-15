@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021829AC",
+   "name": "gsXmlWriteOpenTag",
    "address": "0x021829AC",
    "kind": "sdk",
    "region": "ov009",

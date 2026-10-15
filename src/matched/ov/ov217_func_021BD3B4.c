@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3B4
+ * function: RESEARCH_LIST_CreateOamObjects
  * address:  0x021BD3B4
  * packet:   pkt_ov217_021BD3B4
  * region:   ov217
@@ -17,7 +17,7 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_021BC708  0x021BC708  thumb  ov217
+ *   RESEARCH_LIST_GetResourceId  0x021BC708  thumb  ov217
  *   BMP_OAM_Create  0x020255A0  thumb
  *   BMP_OAM_SetEnabled  0x02025774  thumb
  *   BMP_OAM_UploadChars  0x020257D0  thumb
@@ -37,11 +37,11 @@ struct Sys;
 struct Grid;
 struct Obj;
 extern const struct Entry d_021C31BC[];
-extern u32 func_021BC708(void *,u32);
+extern u32 RESEARCH_LIST_GetResourceId(void *,u32);
 extern struct Grid *BMP_OAM_Create(struct Sys *,const struct Param *);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
 extern void BMP_OAM_UploadChars(struct Obj *);
-void func_021BD3B4(u8 *p)
+void RESEARCH_LIST_CreateOamObjects(u8 *p)
 {
     int sysOff,outOff,callOff,uploadOff;
     struct Param param;
@@ -57,7 +57,7 @@ void func_021BD3B4(u8 *p)
         param.bmp=((struct Obj25887 *)dest)->f140;
         q=&d_021C31BC[i];
         param.x=q->x; param.y=q->y;
-        param.f8=func_021BC708(p,q->f8);
+        param.f8=RESEARCH_LIST_GetResourceId(p,q->f8);
         param.fc=q->fc;
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;

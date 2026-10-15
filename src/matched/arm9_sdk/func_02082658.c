@@ -1,5 +1,5 @@
 /*
- * function: func_02082658
+ * function: MI_StopAllDma
  * address:  0x02082658
  * packet:   pkt_02082658
  * region:   arm9
@@ -15,7 +15,7 @@
 
 void MI_StopDma(unsigned int dmaNo);
 
-void func_02082658(void)
+void MI_StopAllDma(void)
 {
     MI_StopDma(0);
     MI_StopDma(1);

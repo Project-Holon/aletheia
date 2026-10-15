@@ -1,5 +1,5 @@
 /*
- * function: func_021BFC60
+ * function: RESEARCH_GRAPH_BuildGraphTable
  * address:  0x021BFC60
  * packet:   pkt_ov217_021BFC60
  * region:   ov217
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF740 0x021BF740 thumb ov217
- *   func_021BF8B0 0x021BF8B0 thumb ov217
+ *   RESEARCH_GRAPH_GetAppResource 0x021BF740 thumb ov217
+ *   RESEARCH_GRAPH_GetFirstSaveGroup 0x021BF8B0 thumb ov217
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200E394 0x0200E394 thumb
- *   func_0200E44C 0x0200E44C thumb
- *   func_0200E458 0x0200E458 thumb
- *   func_0200E47C 0x0200E47C thumb
- *   func_0200E4B0 0x0200E4B0 thumb
- *   func_0200E4F8 0x0200E4F8 thumb
+ *   SYMBOL_SAVE_GetBitBlock 0x0200E394 thumb
+ *   MISC_SAVEDATA_GetStatusByte 0x0200E44C thumb
+ *   MISC_SAVEDATA_GetHalfword 0x0200E458 thumb
+ *   MISC_SAVEDATA_GetTallyWord 0x0200E47C thumb
+ *   MISC_SAVEDATA_GetTallyValue 0x0200E4B0 thumb
+ *   MISC_SAVEDATA_GetScoreValue 0x0200E4F8 thumb
  *   d_021C367C 0x021C367C data a1
  *   d_021C3D44 0x021C3D44 data a1
  *   d_021C386C 0x021C386C data a1
@@ -45,7 +45,7 @@
  * locals (grp[x] re-read, the compiler CSE temp takes the sp+8 slot below the
  * loop temps); no `a` local for va[k]; `s = sh[k][j]` before `r = q + j*12`.
  * Only blocker: arm9 callee 0x0200E47C had no label. Filed it as
- * src/matched/arm9/func_0200E47C.c (EXACT, 10 bytes); this goes EXACT once
+ * src/matched/arm9/MISC_SAVEDATA_GetTallyWord.c (EXACT, 10 bytes); this goes EXACT once
  * that file has a shard (integrator).
  * Note 2026-10-04 (wD1 lane06): Not retried (203 bytes, stack slot order only). No new finding.
  */
@@ -61,16 +61,16 @@ extern struct Bg d_021C386C;
 extern u8 d_021C3900[];
 extern u8 d_021C3994[];
 struct Big;
-extern u32 func_021BF740(u8 *a0);
-extern u8 func_021BF8B0(u8 *p);
+extern u32 RESEARCH_GRAPH_GetAppResource(u8 *a0);
+extern u8 RESEARCH_GRAPH_GetFirstSaveGroup(u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E394(void *a0);
-extern int func_0200E44C(int p0, int p1);
-extern u16 func_0200E458(const u16 *p, int i);
-extern u32 func_0200E47C(u8 *p, int i);
-extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
-extern int func_0200E4F8(int a0, int a1, int a2);
-void func_021BFC60(char *p)
+extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
+extern int MISC_SAVEDATA_GetStatusByte(int p0, int p1);
+extern u16 MISC_SAVEDATA_GetHalfword(const u16 *p, int i);
+extern u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
+extern u32 MISC_SAVEDATA_GetTallyValue(u8 *a0, u32 a1, u32 a2);
+extern int MISC_SAVEDATA_GetScoreValue(int a0, int a1, int a2);
+void RESEARCH_GRAPH_BuildGraphTable(char *p)
 {
     u16 sh[3][17];
     u32 A[3][17];
@@ -83,28 +83,28 @@ void func_021BFC60(char *p)
     int i, j, k;
     void *h;
     u8 first;
-    h = func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BF740((u8 *)p)));
-    first = func_021BF8B0((u8 *)p);
+    h = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource((u8 *)p)));
+    first = RESEARCH_GRAPH_GetFirstSaveGroup((u8 *)p);
     i = 0;
-    grp[0] = func_0200E44C((int)h, 0);
-    grp[1] = func_0200E44C((int)h, 1);
-    grp[2] = func_0200E44C((int)h, 2);
+    grp[0] = MISC_SAVEDATA_GetStatusByte((int)h, 0);
+    grp[1] = MISC_SAVEDATA_GetStatusByte((int)h, 1);
+    grp[2] = MISC_SAVEDATA_GetStatusByte((int)h, 2);
     cnt[0] = d_021C367C[grp[0]];
     cnt[1] = d_021C367C[grp[1]];
     cnt[2] = d_021C367C[grp[2]];
-    va[0] = func_0200E458(h, grp[0]);
-    va[1] = func_0200E458(h, grp[1]);
-    va[2] = func_0200E458(h, grp[2]);
-    vb[0] = func_0200E47C(h, grp[0]);
-    vb[1] = func_0200E47C(h, grp[1]);
-    vb[2] = func_0200E47C(h, grp[2]);
+    va[0] = MISC_SAVEDATA_GetHalfword(h, grp[0]);
+    va[1] = MISC_SAVEDATA_GetHalfword(h, grp[1]);
+    va[2] = MISC_SAVEDATA_GetHalfword(h, grp[2]);
+    vb[0] = MISC_SAVEDATA_GetTallyWord(h, grp[0]);
+    vb[1] = MISC_SAVEDATA_GetTallyWord(h, grp[1]);
+    vb[2] = MISC_SAVEDATA_GetTallyWord(h, grp[2]);
     for (i = 0; i < 3; i++) {
         u8 g = grp[i];
         n = cnt[i];
         for (j = 0; j < n; j++) {
             sh[i][j] = d_021C3D44[g][j];
-            A[i][j] = func_0200E4B0(h, g, j + 1);
-            B[i][j] = func_0200E4F8((int)h, g, j + 1);
+            A[i][j] = MISC_SAVEDATA_GetTallyValue(h, g, j + 1);
+            B[i][j] = MISC_SAVEDATA_GetScoreValue((int)h, g, j + 1);
         }
     }
     *(u8 *)(p + 0x38) = first;

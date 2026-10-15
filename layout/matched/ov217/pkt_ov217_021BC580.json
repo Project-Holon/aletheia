@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC580",
+   "name": "RESEARCH_LIST_StartListPaletteAnime",
    "address": "0x021BC580",
    "kind": "game",
    "region": "ov217",

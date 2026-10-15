@@ -1,5 +1,5 @@
 /*
- * function: func_021FCF90
+ * function: BR_UTIL_ScrollRows
  * address: 0x021FCF90
  * packet: pkt_ov186_021FCF90
  * region: ov186
@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * follower: scroll range update after func_021FCF54.
+ * follower: scroll range update after BR_UTIL_BlitRows.
  */
 #include "../include/Obj05503.h"
-int func_021FCF90(char *p,int change)
+int BR_UTIL_ScrollRows(char *p,int change)
 {
     if(((struct Obj05503 *)p)->f42!=0 && change==-1) {
         ((struct Obj05503 *)p)->f42+=(unsigned short)change;

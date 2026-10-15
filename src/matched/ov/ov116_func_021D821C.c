@@ -1,5 +1,5 @@
 /*
- * function: func_021D821C
+ * function: WIFI_BSUBWAY_GRAPHIC_Create
  * address: 0x021D821C
  * packet: pkt_ov116_021D821C
  * region: ov116
@@ -17,11 +17,11 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   func_021D8304 0x021D8304 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_SetupBg 0x021D8304 thumb ov116
  *   func_020056A0 0x020056A0 thumb
  *   d_021D858C 0x021D858C data a1
  *   d_021D83C0 0x021D83C0 data a4
- *   func_021D82F8 0x021D82F8 thumb ov116
+ *   WIFI_BSUBWAY_GRAPHIC_OnRedraw 0x021D82F8 thumb ov116
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
  */
 #include "../include/Obj22632.h"
@@ -37,11 +37,11 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void func_021D8304(void *,unsigned);
+extern void WIFI_BSUBWAY_GRAPHIC_SetupBg(void *,unsigned);
 extern void *func_020056A0(void *,void *,int);
-extern void func_021D82F8(void *,void *);
+extern void WIFI_BSUBWAY_GRAPHIC_OnRedraw(void *,void *);
 extern char d_021D858C[], d_021D83C0[];
-void *func_021D821C(int a,unsigned heap) {
+void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  void *p;
  p=func_02030734(heap,16,0,d_021D858C,0x1bc);
  MI_CpuFill8(p,0,16);
@@ -52,7 +52,7 @@ void *func_021D821C(int a,unsigned heap) {
 
  BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); func_0204363C(a);
  BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); func_0201DD60();
- func_021D8304(p,heap);
- ((struct Obj22632 *)p)->fC=func_020056A0((void *)func_021D82F8,p,0);
+ WIFI_BSUBWAY_GRAPHIC_SetupBg(p,heap);
+ ((struct Obj22632 *)p)->fC=func_020056A0((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);
  return p;
 }

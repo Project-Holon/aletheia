@@ -1,5 +1,5 @@
 /*
- * function: func_021BCAC0
+ * function: RESEARCH_LIST_ExitBackgrounds
  * address:  0x021BCAC0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing (.inst decoded).
  *
  * symbols:
- *   func_021BCAC0  0x021BCAC0  thumb  ov217
+ *   RESEARCH_LIST_ExitBackgrounds  0x021BCAC0  thumb  ov217
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 extern u32 func_020403F4();
 extern void BMP_WIN_Exit(void);
-u32 func_021BCAC0(u8 *a0)
+u32 RESEARCH_LIST_ExitBackgrounds(u8 *a0)
 {
     BMP_WIN_Exit();
     func_020403F4(3);

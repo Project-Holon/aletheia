@@ -1,5 +1,5 @@
 /*
- * function: func_021DD314
+ * function: BOX2_MAIN_ClearSlot
  * address:  0x021DD314
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -25,7 +25,7 @@ struct Party;
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
-void func_021DD314(char **p, int a, unsigned b)
+void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
         func_02007664((void *)(((struct Obj18443 *)(*p))->f4), a, b);

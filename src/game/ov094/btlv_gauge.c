@@ -165,7 +165,6 @@ extern int GFL_USE_PopBgm(void);
 
 extern void *TCBL_GetTaskUserData(void *task);
 
-extern void *TCBL_GetTaskUserData(void *task);
 
 extern u32 KEY_GetTrg(void);
 

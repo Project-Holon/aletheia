@@ -1,5 +1,5 @@
 /*
- * function: func_02087744
+ * function: OSi_SetNextVAlarm
  * address:  0x02087744
  * packet:   pkt_02087744
  * region:   arm9
@@ -65,7 +65,7 @@ extern void GX_SetVCountEqVal(s32 val);
 extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_VAlarmHandler(void);
 
-void func_02087744(OSVAlarm *alarm)
+void OSi_SetNextVAlarm(OSVAlarm *alarm)
 {
     OS_SetIrqFunction(4, OSi_VAlarmHandler);
     GX_SetVCountEqVal(alarm->fire);

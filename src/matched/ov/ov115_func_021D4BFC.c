@@ -25,7 +25,7 @@
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   func_0200FBB0 0x0200FBB0 thumb
  *   func_0200FBA0 0x0200FBA0 thumb
- *   func_021D426C 0x021D426C thumb ov115
+ *   WIFILOGIN_COMMON_SetStateHandler 0x021D426C thumb ov115
  *   func_021D497C 0x021D497C thumb ov115
  *   func_021D5CCC 0x021D5CCC thumb ov115
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -55,7 +55,7 @@ extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_STATE_SetWifiError(void),GFL_NET_STATE_ClearErrorMode(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
-extern void func_021D426C(u8 *,u32);
+extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32);
 extern void func_021D497C(u8 *);
 extern void func_021D5CCC(u8 *,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
@@ -80,7 +80,7 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
         func_0200FBB0();
         func_0200FBA0();
     }
-    func_021D426C(p,(u32)func_021D497C);
+    WIFILOGIN_COMMON_SetStateHandler(p,(u32)func_021D497C);
     if(((struct Obj22596 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f4==0) {
         func_021D5CCC(*(u8 * *)&((struct Obj01719 *)p)->f38,35);
         if(((struct Obj22597 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);

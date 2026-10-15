@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAEF0",
+   "name": "POKETRADE_PROC_StepShowWaitMessageA",
    "address": "0x021DAEF0",
    "kind": "game",
    "region": "ov119",

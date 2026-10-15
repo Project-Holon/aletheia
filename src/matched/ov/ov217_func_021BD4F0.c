@@ -1,5 +1,5 @@
 /*
- * function: func_021BD4F0
+ * function: RESEARCH_LIST_CreatePaletteAnime
  * address:  0x021BD4F0
  * packet:   pkt_021BD4F0
  * region:   ov217
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 PALETTE_ANIME_Create(u32 a0);
 
-void func_021BD4F0(char *p)
+void RESEARCH_LIST_CreatePaletteAnime(char *p)
 {
     int i;
     for (i = 0; i < 6; i++)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020846FC",
+   "name": "OSi_IrqTimer2",
    "address": "0x020846FC",
    "kind": "sdk",
    "region": "arm9",

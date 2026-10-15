@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020607B8
+ * function: NNSi_FndInsertMBlock
  * address:  0x020607B8
  * packet:   pkt_02060764
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj00512.h"
 
-void *func_020607B8(int *p, void *node, int *a)
+void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 {
     int *b;
     ((struct Obj00512 *)node)->f8 = (int)a;

@@ -19,8 +19,8 @@
  *   func_021C4800  0x021C4800  thumb  ov127
  *   func_021C4880  0x021C4880  thumb  ov127
  *   func_021C59D0  0x021C59D0  thumb  ov127
- *   func_021C5EEC  0x021C5EEC  thumb  ov127
- *   func_021C5F30  0x021C5F30  thumb  ov127
+ *   WF2DMAP_CMDQ_CreateStore  0x021C5EEC  thumb  ov127
+ *   WF2DMAP_CMDQ_DeleteStore  0x021C5F30  thumb  ov127
  *   func_021C48C0  0x021C48C0  thumb  ov127
  *   func_021C47E4  0x021C47E4  thumb  ov127
  *   func_021C48E8  0x021C48E8  thumb  ov127
@@ -44,7 +44,7 @@
  *   func_021C4A54  0x021C4A54  thumb  ov127
  *   func_021C48D4  0x021C48D4  thumb  ov127
  *   func_021C5370  0x021C5370  thumb  ov127
- *   func_021C5F80  0x021C5F80  thumb  ov127
+ *   WF2DMAP_CMDQ_Pop  0x021C5F80  thumb  ov127
  *   func_021C4BA4  0x021C4BA4  thumb  ov127
  *   func_021C5590 0x021C5590 thumb ov127
  *   func_021C5664 0x021C5664 thumb ov127
@@ -79,7 +79,7 @@
  *   _ll_mul        0x0209C054  arm
  *   func_021C5898  0x021C5898  thumb  ov127
  *   func_021C57F4  0x021C57F4  thumb  ov127
- *   func_021C5F44  0x021C5F44  thumb  ov127
+ *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
  *   sub_020307B0  0x020307B0  arm
@@ -122,8 +122,8 @@ extern void *func_021C47A0(u32 width, u32 height, u32 heapId);
 extern void func_021C4800(u8 *tileMap, void *mapData);
 extern void *func_021C4880(u32 count, u32 heapId);
 extern void func_021C59D0(void *layerState);
-extern void *func_021C5EEC(int count, int heapId);
-extern void func_021C5F30(u8 *cmdQueue);
+extern void *WF2DMAP_CMDQ_CreateStore(int count, int heapId);
+extern void WF2DMAP_CMDQ_DeleteStore(u8 *cmdQueue);
 extern void func_021C48C0(u8 *entityMgr);
 extern void func_021C47E4(u8 *tileMap);
 extern void func_021C48E8(u8 *entityMgr);
@@ -143,7 +143,7 @@ extern unsigned char func_021C4A8C(int direction);
 extern void func_021C5864(u8 *sprite, int value);
 extern void func_021C5814(void *sprite, TilePos pos);
 extern TilePos func_021C4A54(TilePos pos, int direction);
-extern int func_021C5F80(void *cmdQueue, int *out);
+extern int WF2DMAP_CMDQ_Pop(void *cmdQueue, int *out);
 extern int func_021C5370(void *tileMap, void *entityMgr, const u8 *desc, int *out);
 extern void func_021C48D4(void *entityMgr, u8 *entry);
 extern u8 *func_021C4BA4(u8 *key, void *entityMgr, int direction);
@@ -181,7 +181,7 @@ extern void CLACT_SetActorPos(void *actor, TilePos *pos);
 extern void CLACT_SetActorDrawPriority(void *actor, u32 priority);
 extern u32 KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
-extern void func_021C5F44(void *cmdQueue, void *command);
+extern void WF2DMAP_CMDQ_Push(void *cmdQueue, void *command);
 extern void *func_02049F34(u32 archive, u32 fileIndex, u32 outData, u32 heapId);
 extern u32 sub_020307B0(void *handle);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
@@ -316,14 +316,14 @@ void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 
     WIFICLUBACTOR_InitLayer(sys, heapId, clactResArc, mapIndex);
     WIFICLUBACTOR_LoadPalette(sys->reserved10, heapId, clactResArc, paletteArc);
     WIFICLUBACTOR_InitBlink(sys, &sys->blink, clactResArc, paletteArc);
-    sys->cmdQueue = func_021C5EEC(0x80, heapId);
+    sys->cmdQueue = WF2DMAP_CMDQ_CreateStore(0x80, heapId);
     sys->ready = 1;
 }
 
 
 void WIFICLUBACTOR_Exit(WifiClubActorSys *sys)
 {
-    func_021C5F30(sys->cmdQueue);
+    WF2DMAP_CMDQ_DeleteStore(sys->cmdQueue);
     WIFICLUBACTOR_ExitLayer(sys);
     WIFICLUBACTOR_ExitBlink((int)sys, &sys->blink);
     WIFICLUBACTOR_FreeAllActors(sys);
@@ -633,7 +633,7 @@ void WIFICLUBACTOR_ProcessSpawnCommands(WifiClubActorSys *sys)
     int command;
     int spawned[2];
 
-    while (func_021C5F80(sys->cmdQueue, &command) == 1) {
+    while (WF2DMAP_CMDQ_Pop(sys->cmdQueue, &command) == 1) {
         if (func_021C5370(sys->tileMap, sys->entityMgr, (const u8 *)&command, spawned) == 1)
             func_021C48D4(sys->entityMgr, (u8 *)spawned);
     }
@@ -1159,7 +1159,7 @@ void WIFICLUBACTOR_QueueMoveCommand(WifiClubActorSys *sys, int action, int direc
     command.action = action;
     command.direction = direction;
     command.actorId = actorId;
-    func_021C5F44(sys->cmdQueue, &command);
+    WF2DMAP_CMDQ_Push(sys->cmdQueue, &command);
 }
 
 

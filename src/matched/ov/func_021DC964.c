@@ -1,5 +1,5 @@
 /*
- * function: func_021DC964
+ * function: BOX2_MAIN_DeleteVBlankTask
  * address:  0x021DC964
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021DC964(char *p)
+void BOX2_MAIN_DeleteVBlankTask(char *p)
 {
     func_02030EAC(((struct Obj18437 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f54);
 }

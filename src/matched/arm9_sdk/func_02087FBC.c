@@ -1,5 +1,5 @@
 /*
- * function: func_02087FBC
+ * function: OS_EncodeDeliverArg
  * address:  0x02087FBC
  * packet:   pkt_02087AE4
  * region:   arm9
@@ -35,8 +35,8 @@
  * 0x02151390 resolves as sole-ref (its only pool word is this function's).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02087FBC.c \
- *       --func func_02087FBC --addr 0x02087FBC --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/OS_EncodeDeliverArg.c \
+ *       --func OS_EncodeDeliverArg --addr 0x02087FBC --arm --cc 1.1p1
  */
 
 #include "../include/G_OsArgumentBss.h"
@@ -58,7 +58,7 @@ extern u64      s_02151390;
 extern u16 SVC_GetCRC16(u32 start, const void *data, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-int func_02087FBC(void)
+int OS_EncodeDeliverArg(void)
 {
     if ((s_02151384.sBufferState & 1) == 0) return -1;
     ((ArgHeader *)s_02151384.sBufferPtr)->makerCode = *(u16 *)0x02FFE010;

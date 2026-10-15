@@ -122,7 +122,7 @@
  *   HALL_OF_FAME_UpdatePlatePositions 0x021B7C08 thumb ov180
  *   HALL_OF_FAME_LoadUiPalette 0x021B7750 thumb ov180
  *   PM_VOICE_Start 0x02006A64 thumb
- *   func_02006BD0 0x02006BD0 thumb
+ *   PM_VOICE_IsSlotActive 0x02006BD0 thumb
  *   func_0204363C 0x0204363C arm
  *   HALL_OF_FAME_CreateTrainerSceneObjects 0x021B7D80 thumb ov180
  *   HALL_OF_FAME_AddVBlankTaskTrainer 0x021B6170 thumb ov180
@@ -316,7 +316,7 @@ extern unsigned WIPE_SYS_EndCheck(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int GFL_USE_IsSeqPlaying(u32);
 extern int PM_VOICE_Start(u32);
-extern u32 func_02006BD0(u32 i);
+extern u32 PM_VOICE_IsSlotActive(u32 i);
 extern void func_0204363C(u32 swap);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -892,7 +892,7 @@ int HALL_OF_FAME_StateMonSequence(HallOfFameWork *work)
         }
         break;
     case 12:
-        if (func_02006BD0(work->voiceHandle) == 0 && HALL_OF_FAME_IsActorAnimActive(work, HOF_ACTOR_VOICE_MARK) == 0)
+        if (PM_VOICE_IsSlotActive(work->voiceHandle) == 0 && HALL_OF_FAME_IsActorAnimActive(work, HOF_ACTOR_VOICE_MARK) == 0)
             ++work->step;
         break;
     case 13:

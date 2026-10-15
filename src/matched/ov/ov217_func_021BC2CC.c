@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2CC
+ * function: RESEARCH_LIST_StartScrollAnim
  * address:  0x021BC2CC
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC2CC(void *p, u32 a, u32 b, u32 c)
+void RESEARCH_LIST_StartScrollAnim(void *p, u32 a, u32 b, u32 c)
 {
     ((struct Obj01084 *)p)->f3C = a;
     ((struct Obj01084 *)p)->f40 = b;

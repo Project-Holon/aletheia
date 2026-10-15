@@ -1,5 +1,5 @@
 /*
- * function: func_0208C988
+ * function: SCFG_SetCpuSpeed
  * address:  0x0208C988
  * packet:   pkt_0208C988
  * region:   arm9
@@ -27,7 +27,7 @@ OSIntrMode OS_DisableInterrupts(void);
 OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 void SCFGi_SwitchCpuSpeed(int cpuSpeed);
 
-void func_0208C988(int cpuSpeed)
+void SCFG_SetCpuSpeed(int cpuSpeed)
 {
     OSIntrMode enable = OS_DisableInterrupts();
 

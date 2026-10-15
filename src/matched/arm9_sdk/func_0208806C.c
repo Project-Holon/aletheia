@@ -1,5 +1,5 @@
 /*
- * function: func_0208806C
+ * function: OS_DecodeDeliverArg
  * address:  0x0208806C
  * packet:   pkt_02087FBC
  * region:   arm9
@@ -35,7 +35,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   SVC_GetCRC16  0x02004632  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02088118  0x02088118  arm
+ *   OS_SetDeliverArgStateInvalid  0x02088118  arm
  */
 
 typedef unsigned int   u32;
@@ -46,9 +46,9 @@ extern int  func_02088150(void);
 extern void MI_CpuCopy8(u32 bus, u32 p, u32 n);
 extern u32  SVC_GetCRC16(u32 a, u32 p, u32 n);
 extern void MI_CpuFill8(u32 p, u32 c, u32 n);
-extern void func_02088118(void);
+extern void OS_SetDeliverArgStateInvalid(void);
 
-int func_0208806C(void)
+int OS_DecodeDeliverArg(void)
 {
     u32 *base;
     u32  old;
@@ -68,7 +68,7 @@ int func_0208806C(void)
 
     if (old != *(u16 *)(base[2] + 0x10)) {
         MI_CpuFill8(base[2], 0, 0x300);
-        func_02088118();
+        OS_SetDeliverArgStateInvalid();
         return 0;
     }
 

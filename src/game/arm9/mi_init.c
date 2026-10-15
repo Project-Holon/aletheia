@@ -1,6 +1,6 @@
 /*
  * file:     mi_init.c
- * function: func_0208361C
+ * function: MI_Init
  * address:  0x0208361C
  * packet:   pkt_0208361C
  * region:   arm9
@@ -24,7 +24,7 @@ int OS_IsRunOnTwl(void);
 void MI_InitNDma(void);
 void MI_StopDma(unsigned long dmaNo);
 
-void func_0208361C(void)
+void MI_Init(void)
 {
     MI_SetWramBank(3);
     if (OS_IsRunOnTwl()) {

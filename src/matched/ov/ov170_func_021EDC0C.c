@@ -1,5 +1,5 @@
 /*
- * function: func_021EDC0C
+ * function: BOX2_UI_LoadMonIcon
  * address:  0x021EDC0C
  * packet:   pkt_ov170_021EDC0C
  * region:   ov170
@@ -39,7 +39,7 @@ extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
-void func_021EDC0C(int **a, int box, u8 *dest)
+void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest)
 {
     void *e;
     u32 sv;

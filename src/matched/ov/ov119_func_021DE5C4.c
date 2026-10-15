@@ -16,7 +16,7 @@
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   POKETRADE_NEGO_SetupWindowRegsOffers 0x021DEBD4 thumb ov119
  *   POKETRADE_PROC_ResetTouchbarBackButton 0x021D8980 thumb ov119
- *   func_021DD09C 0x021DD09C thumb ov119
+ *   POKETRADE_PROC_UpdatePickedIcon 0x021DD09C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_NEGO_StepBeginConfirm 0x021DE12C thumb ov119
  *   POKETRADE_NEGO_StepOpenSummaryFromBrowse 0x021DE518 thumb ov119
@@ -35,7 +35,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern void POKETRADE_NEGO_SetupWindowRegsOffers(void *);
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_NEGO_StepBeginConfirm(char *p);
 extern void POKETRADE_NEGO_StepOpenSummaryFromBrowse(void *);
@@ -54,7 +54,7 @@ void POKETRADE_NEGO_StepOfferActionChoice(char *p)
             TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepOpenSummaryFromBrowse); return;
         case 2:
-            POKETRADE_NEGO_SetupWindowRegsOffers(p); POKETRADE_PROC_ResetTouchbarBackButton(p); func_021DD09C(p);
+            POKETRADE_NEGO_SetupWindowRegsOffers(p); POKETRADE_PROC_ResetTouchbarBackButton(p); POKETRADE_PROC_UpdatePickedIcon(p);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepBrowseOffersMain); return;
         }
     }

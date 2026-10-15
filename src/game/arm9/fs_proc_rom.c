@@ -269,7 +269,7 @@ typedef struct FSiRomState
 } FSiRomState;
 
 extern char *func_02078530(FSArchive *arc);
-extern int func_0208CD94(const char *str1, const char *str2);
+extern int STD_CompareString(const char *str1, const char *str2);
 extern int OS_IsRunOnTwl(void);
 extern void *func_020774B0(void);
 extern void func_02078734(FSArchive *arc, FSResult ret);
@@ -322,7 +322,7 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset)
 {
     int result = 0;
 
-    if (func_0208CD94(func_02078530(arc), fsi_str_rom) == 0 && !OS_IsRunOnTwl()) {
+    if (STD_CompareString(func_02078530(arc), fsi_str_rom) == 0 && !OS_IsRunOnTwl()) {
         CARDRomHeader *header = CARD_GetOwnRomHeader();
         if (offset >= (u32)header->twl_ltd_area_rom_offset * 0x80000) {
             result = 1;

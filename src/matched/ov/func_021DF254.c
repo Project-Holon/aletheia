@@ -1,5 +1,5 @@
 /*
- * function: func_021DF254
+ * function: BOX2_MAIN_HitPartyGrid
  * address:  0x021DF254
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF224  0x021EF224  thumb  ov170
+ *   BOX2_UI_GetGridSlotPoint  0x021EF224  thumb  ov170
  *
  * Wrap the -1/0xff query into the 0xc0..0xff window and hand the
  *   wrapped value back; 0xff is the error.  The three byte fields are
@@ -18,11 +18,11 @@
  */
 #include "../include/Obj00000.h"
 
-extern int func_021EF224(int, int);
-extern int func_021EF224(int, int);
-int func_021DF254(unsigned char *p, short x, short y)
+extern int BOX2_UI_GetGridSlotPoint(int, int);
+extern int BOX2_UI_GetGridSlotPoint(int, int);
+int BOX2_MAIN_HitPartyGrid(unsigned char *p, short x, short y)
 {
-    int v = func_021EF224(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),
+    int v = BOX2_UI_GetGridSlotPoint(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),
                           *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA184));
     unsigned w;
     if (v == 0xff)

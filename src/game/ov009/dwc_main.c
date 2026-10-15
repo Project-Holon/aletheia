@@ -24,6 +24,7 @@
  *   DWCi_NodeInfoList_RemoveAID  0x02176164  arm
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm
  *   qr2_shutdown  0x0219B540  arm
+ *   CloseStatsConnection  0x02193D00  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -74,7 +75,7 @@ extern void qr2_shutdown(qr2_implementation_s *qrec);
 extern void func_0219ED4C(void *sb);
 extern void func_02176B34(void);
 extern void func_02169FF8(void);
-extern void func_02193D00(void);
+extern void CloseStatsConnection(void);
 extern void func_0216A00C(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int func_02185948(void **conn);
@@ -298,7 +299,7 @@ void DWC_ShutdownFriendsMatch(void)
     }
     func_02176B34();
     func_02169FF8();
-    func_02193D00();
+    CloseStatsConnection();
     func_0216A00C();
     if (g_021AA878.st->gp != 0) {
         func_0218597C(&g_021AA878.st->gp, 0, 0, 0);

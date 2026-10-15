@@ -1,7 +1,7 @@
 /*
  * file:     os_protectionunit.c
  * unit:     yes
- * function: func_02086CF4, func_02086D04
+ * function: func_02086CF4, OS_DisableProtectionUnit
  * address:  0x02086CF4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 asm void OS_EnableProtectionUnit(void);
-asm void func_02086D04(void);
+asm void OS_DisableProtectionUnit(void);
 
 asm void OS_EnableProtectionUnit(void)
 {
@@ -28,7 +28,7 @@ asm void OS_EnableProtectionUnit(void)
  * asm:      needs mrc/mcr on cp15 c1 (no C spelling); the object agrees: no
  *           DW_TAG_variable and one strictly increasing line per instruction.
  */
-asm void func_02086D04(void)
+asm void OS_DisableProtectionUnit(void)
 {
     mrc     p15, 0, r0, c1, c0, 0
     bic     r0, r0, #1

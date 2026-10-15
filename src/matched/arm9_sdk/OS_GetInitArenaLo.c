@@ -11,7 +11,7 @@
  *
  * symbols:
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02085CBC 0x02085CBC arm
+ *   OS_GetConsoleType 0x02085CBC arm
  *   g_02151264 0x02151264 data
  *   SDK_LTDMAIN_ARENA_LO          0x02735B40  data
  *   SDK_MAIN_ARENA_LO             0x02213D20  data
@@ -29,7 +29,7 @@ typedef struct OsArenaBss {
 } OsArenaBss;
 
 extern int OS_IsRunOnTwl(void);
-extern u32 func_02085CBC(void);
+extern u32 OS_GetConsoleType(void);
 extern OsArenaBss g_02151264;
 extern char SDK_LTDMAIN_ARENA_LO[];
 extern char SDK_MAIN_ARENA_LO[];
@@ -51,7 +51,7 @@ void *OS_GetInitArenaLo(int id)
             if (g_02151264.exArenaEnabled == 0) {
                 return 0;
             }
-            type = func_02085CBC() & 0xF;
+            type = OS_GetConsoleType() & 0xF;
             if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {

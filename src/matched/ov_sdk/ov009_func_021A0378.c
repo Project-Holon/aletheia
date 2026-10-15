@@ -1,5 +1,5 @@
 /*
- * function: func_021A0378
+ * function: InitCryptKey
  * address:  0x021A0378
  * packet:   pkt_ov009_021A0378
  * region:   ov009
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 struct GOACryptState;
 extern int func_0209477C(const u8 *s);
 extern void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
-void func_021A0378(struct SBL *slist, char *key, int keylen)
+void InitCryptKey(struct SBL *slist, char *key, int keylen)
 {
 	int i;
 	int seckeylen;

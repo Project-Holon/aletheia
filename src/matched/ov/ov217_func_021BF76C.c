@@ -1,5 +1,5 @@
 /*
- * function: func_021BF76C
+ * function: RESEARCH_GRAPH_GetLeftCircle
  * address:  0x021BF76C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 *func_021BF76C(void *p)
+u8 *RESEARCH_GRAPH_GetLeftCircle(void *p)
 {
     u32 i = ((struct Obj25939 *)p)->f2CC;
     return *(u8 **)((char *)p + i * 4 + 0x2bc);

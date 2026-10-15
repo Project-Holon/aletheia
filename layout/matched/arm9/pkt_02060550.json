@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02060550",
+   "name": "NNS_FndInsertListObject",
    "address": "0x02060550",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020605B4",
+   "name": "NNS_FndRemoveListObject",
    "address": "0x020605B4",
    "kind": "game",
    "region": "arm9",

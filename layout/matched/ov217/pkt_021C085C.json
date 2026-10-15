@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C085C",
+   "name": "RESEARCH_GRAPH_DestroyPaletteAnime",
    "address": "0x021C085C",
    "kind": "game",
    "region": "ov217",

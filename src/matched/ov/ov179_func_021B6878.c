@@ -1,5 +1,5 @@
 /*
- * function: func_021B6878
+ * function: CDEMO_SCENE_CmdNoop0
  * address:  0x021B6878
  * packet:   pkt_ov179_021B6878
  * region:   ov179
@@ -12,7 +12,7 @@
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B6879 at 0x021B6A70).
  */
-int func_021B6878(void)
+int CDEMO_SCENE_CmdNoop0(void)
 {
     return 1;
 }

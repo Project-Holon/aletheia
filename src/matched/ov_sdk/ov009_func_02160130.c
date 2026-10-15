@@ -1,5 +1,5 @@
 /*
- * function: func_02160130
+ * function: get_rootCA
  * address:  0x02160130
  * packet:   pkt_ov009_02160130
  * region:   ov009
@@ -29,7 +29,7 @@ typedef struct {
 
 extern int func_020948E0(const char *s1, const char *s2);
 
-CaInfo *func_02160130(Con *con, char *dn)
+CaInfo *get_rootCA(Con *con, char *dn)
 {
 	int i = 0;
 	CaInfo **list;

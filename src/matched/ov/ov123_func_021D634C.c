@@ -15,7 +15,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
- *   d_021DAACC 0x021DAACC data a4
+ *   gGsyncSlotPositions 0x021DAACC data a4
  */
 #include "../include/Obj02836.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 struct Entry { int x,y,n; };
-extern struct Entry d_021DAACC[];
+extern struct Entry gGsyncSlotPositions[];
 struct Actor;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -37,8 +37,8 @@ void GSYNC_DISP_CreateSlotActorAt(u8 *p, unsigned int i)
 {
     struct Point pt;
     if (*(void **)(p + i*4 + 0x74)) CLACT_DeleteActor(*(void **)(p+i*4+0x74));
-    pt.x = d_021DAACC[i].x; pt.y = d_021DAACC[i].y;
-    pt.f4 = i; pt.f6 = d_021DAACC[i].n; pt.f7 = 1;
+    pt.x = gGsyncSlotPositions[i].x; pt.y = gGsyncSlotPositions[i].y;
+    pt.f4 = i; pt.f6 = gGsyncSlotPositions[i].n; pt.f7 = 1;
     ((void **)(p + 0x74))[i] = CLACT_CreateActor((void *)((struct Obj02836 *)p)->fC, (u32)((struct Obj02836 *)p)->f38, ((struct Obj02836 *)p)->f20, ((struct Obj02836 *)p)->f54, &pt, 0, ((struct Obj02836 *)p)->f43C4);
     CLACT_SetActorAnimFrame(((void **)(p+0x74))[i],0);
     CLACT_SetActorAutoAnim(((void **)(p+0x74))[i],1);

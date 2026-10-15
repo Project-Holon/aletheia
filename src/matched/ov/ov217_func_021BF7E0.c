@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7E0
+ * function: RESEARCH_GRAPH_GetGroupCount
  * address:  0x021BF7E0
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BF7E0(void *p)
+u32 RESEARCH_GRAPH_GetGroupCount(void *p)
 {
     u32 i = ((struct Obj25942 *)p)->f2B8;
     return *(u8 *)((char *)p + i * 0xd4 + 0x3d);

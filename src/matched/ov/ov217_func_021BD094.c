@@ -1,5 +1,5 @@
 /*
- * function: func_021BD094
+ * function: RESEARCH_LIST_CreateBmps
  * address: 0x021BD094
  * packet: pkt_ov217_021BD094
  * region: ov217
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-void func_021BD094(struct S *p)
+void RESEARCH_LIST_CreateBmps(struct S *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

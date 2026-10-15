@@ -1,5 +1,5 @@
 /*
- * function: func_0200E440
+ * function: SYMBOL_SAVE_SetBitDescriptor
  * address:  0x0200E440
  * packet:   pkt_0200E440
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-void func_0200E440(u8 *p, int value, int index)
+void SYMBOL_SAVE_SetBitDescriptor(u8 *p, int value, int index)
 {
     (p + index)[640] = value;
 }

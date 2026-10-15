@@ -14,7 +14,7 @@
  *
  * symbols:
  *   NHTTPi_IsCreateCommThreadMessageQueue 0x021BBEB8 arm ov114
- *   func_02085D94 0x02085D94 arm
+ *   OS_InitMessageQueue 0x02085D94 arm
  *   NHTTPi_IsCreateCommThreadMessageQueueOn 0x021BBEA0 arm ov114
  *   OS_CreateThread 0x020853C0 arm
  *   OS_WakeupThreadDirect 0x02085868 arm
@@ -34,7 +34,7 @@ typedef struct {
 } OSInfo;
 
 extern int NHTTPi_IsCreateCommThreadMessageQueue(NHTTPThreadInfo *threadInfo_p);
-extern void func_02085D94(void *msgQueue_p, void **msgArray, s32 msgCount);
+extern void OS_InitMessageQueue(void *msgQueue_p, void **msgArray, s32 msgCount);
 extern void NHTTPi_IsCreateCommThreadMessageQueueOn(NHTTPThreadInfo *threadInfo_p);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
@@ -48,7 +48,6 @@ void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bg
 void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread);
-void NHTTPi_CommThreadProc(void *p);
 extern void NHTTPi_CommThreadProcMain(void);
 extern OSInfo g_02150FEC;
 
@@ -56,7 +55,7 @@ extern OSInfo g_02150FEC;
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
 {
     if (NHTTPi_IsCreateCommThreadMessageQueue(threadInfo_p) == 0) {
-        func_02085D94(threadInfo_p->msgQueue, threadInfo_p->msgArray, 3);
+        OS_InitMessageQueue(threadInfo_p->msgQueue, threadInfo_p->msgArray, 3);
         NHTTPi_IsCreateCommThreadMessageQueueOn(threadInfo_p);
     }
     OS_CreateThread(threadInfo_p->commThread, NHTTPi_CommThreadProc, 0, (char *)stack_p + 0x2000, 0x2000, priority);

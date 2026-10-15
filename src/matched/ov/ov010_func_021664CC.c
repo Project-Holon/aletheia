@@ -26,7 +26,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200E0B0  0x0200E0B0  thumb
+ *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
@@ -63,7 +63,7 @@ struct Big;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200E0B0(void *p);
+extern void *SYMBOL_SAVE_GetBlock(void *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *field, void *p);
 extern int GAME_DATA_GetSymbolMapFlag(u8 *p);
@@ -87,7 +87,7 @@ LinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heap, void *sys, u32 *start)
     u8 n;
 
     p = GAMESYSTEM_GetGameData(sys);
-    st = func_0200E0B0(GAME_DATA_GetSaveControl(p));
+    st = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(p));
     field = (void *)GAMESYSTEM_GetGameComm(sys);
     if (INTRUDE_COMM_GetPartnerSlot(field, p) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(p);

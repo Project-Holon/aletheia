@@ -1,5 +1,5 @@
 /*
- * function: func_021B9884
+ * function: RESEARCH_TOP_DestroyCommon
  * address:  0x021B9884
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 RESEARCH_COMMON_Destroy(void *a0);
-u32 func_021B9884(u32 a0)
+u32 RESEARCH_TOP_DestroyCommon(u32 a0)
 {
     RESEARCH_COMMON_Destroy((void *)(((struct Obj08431 *)(((u8*)a0)))->fC));
     ((struct Obj08431 *)(((u8*)a0)))->fC = 0;

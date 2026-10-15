@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084610",
+   "name": "OS_IrqDummy",
    "address": "0x02084610",
    "kind": "game",
    "region": "arm9",

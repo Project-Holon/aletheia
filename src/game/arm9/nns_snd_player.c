@@ -14,66 +14,68 @@
  *   gSndPlayers       0x0214E464  data
  *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNS_SndHeapCreate  0x020746E8  arm
- *   func_020604AC  0x020604AC  arm
+ *   NNS_FndAppendListObject  0x020604AC  arm
  *   gSndActiveSeqList  0x0214E018  data
- *   func_02060614  0x02060614  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
  *   NNSi_SndFaderSet  0x02075BAC  arm
  *   g_020A5D08     0x020A5D08  data
- *   func_02072894  0x02072894  arm
+ *   NNS_SndReadTrackInfo  0x02072894  arm
  *   gSndFreeSeqList  0x0214E00C  data
  *   gSndSeqPlayers  0x0214E024  data
- *   func_02060468  0x02060468  arm
- *   func_0208A054  0x0208A054  arm
- *   func_02089D6C  0x02089D6C  arm
+ *   NNS_FndInitList  0x02060468  arm
+ *   SND_GetPlayerStatus  0x0208A054  arm
+ *   SND_IsFinishedCommandTag  0x02089D6C  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   func_020893D0  0x020893D0  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
- *   func_02089378  0x02089378  arm
+ *   SND_StartPreparedSeq  0x02089378  arm
  *   SND_PrepareSeq                  0x02089350  arm
  *   SND_SetTrackAllocatableChannel  0x0208948C  arm
  *   SND_GetCurrentCommandTag        0x02089D40  arm
- *   func_02075B94  0x02075B94  arm
- *   func_02089398    0x02089398  arm
- *   func_020605B4  0x020605B4  arm
+ *   NNSi_SndFaderReset  0x02075B94  arm
+ *   SND_PauseSeq    0x02089398  arm
+ *   NNS_FndRemoveListObject  0x020605B4  arm
  *   NNS_SndHeapClear  0x02074770  arm
  *   NNS_SndHeapDestroy  0x02074758  arm
- *   func_02060550  0x02060550  arm
- *   func_02089330    0x02089330  arm
+ *   NNS_FndInsertListObject  0x02060550  arm
+ *   SND_StopSeq    0x02089330  arm
+ *   SND_SetTrackMute  0x02089580  arm
+ *   SND_SetTrackMuteEx  0x020895B0  arm
  */
 #include "nns_snd_types.h"
 
 struct SNDTrackInfo;
 extern NNSSndHeap *NNS_SndHeapCreate(u32 start, u32 size);
 extern void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, u32 data1, u32 data2);
-extern void func_020604AC(NNSFndList *list, void *object);
-extern void *func_02060614(NNSFndList *list, void *object);
+extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
+extern void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
 extern void NNSi_SndFaderSet(SndFader *fader, s32 target, u32 frames);
 extern void func_020893E8(u8 playerNo, u32 value);
-extern void func_02089580(int playerNo, u32 trackBitMask, int flag);
-extern void func_020895B0(int playerNo, u32 trackBitMask, int mute);
+extern void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag);
+extern void SND_SetTrackMuteEx(int playerNo, u32 trackBitMask, int mute);
 extern void func_02089400(u8 playerNo, u32 trackBitMask, int volume);
 extern void func_0208941C(u8 playerNo, u32 trackBitMask, u32 pitch);
 extern void func_02089438(u8 playerNo, u32 trackBitMask, u32 pan);
 extern void func_02089454(u8 playerNo, u32 trackBitMask, u32 depth);
 extern void func_02089470(u8 playerNo, u32 trackBitMask, u32 speed);
 extern void func_020893B8(u8 playerNo, u32 value);
-extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void func_020605B4(volatile NNSFndList *list, void *object);
-extern void func_02060468(NNSFndList *list, int offset);
-extern void func_02060550(volatile NNSFndList *list, void *before, void *object);
+extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *object);
+extern void NNS_FndInitList(NNSFndList *list, int offset);
+extern void NNS_FndInsertListObject(volatile NNSFndList *list, void *before, void *object);
 extern void NNS_SndHeapClear(NNSSndHeap *heap);
 extern void NNS_SndHeapDestroy(NNSSndHeap *heap);
-extern u32 func_0208A054(void);
-extern int func_02089D6C(u32 tag);
+extern u32 SND_GetPlayerStatus(void);
+extern int SND_IsFinishedCommandTag(u32 tag);
 extern void NNS_SndFaderUpdate(SndFader *fader);
 extern s32 NNS_SndFaderGet(SndFader *fader);
 extern int NNS_SndFaderIsFinished(SndFader *fader);
-extern int func_02075B94(SndFader *fader, int value);
+extern int NNSi_SndFaderReset(SndFader *fader, int value);
 extern void func_020893D0(u32 playerNo, int volume);
-extern void func_02089378(u32 playerNo);
-extern void func_02089330(int playerNo);
-extern void func_02089398(int playerNo, int flag);
+extern void SND_StartPreparedSeq(u32 playerNo);
+extern void SND_StopSeq(int playerNo);
+extern void SND_PauseSeq(int playerNo, int flag);
 extern void SND_PrepareSeq(int playerNo, const void *seqBase, u32 seqOffset, const void *bankData);
 extern void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask);
 extern u32  SND_GetCurrentCommandTag(void);
@@ -191,7 +193,7 @@ u32 NNS_SndPlayerCreateHeap(int playerNo, NNSSndHeap *heap, u32 size)
         return 0;
     }
     pPlayerHeap->heap = subHeap;
-    func_020604AC(&gSndPlayers[playerNo].heapList, pPlayerHeap);
+    NNS_FndAppendListObject(&gSndPlayers[playerNo].heapList, pPlayerHeap);
     return 1;
 }
 
@@ -240,12 +242,12 @@ s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo)
     s32 count;
 
     count = 0;
-    seqPlayer = func_02060614(&gSndActiveSeqList, 0);
+    seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
     while (seqPlayer != 0) {
         if (seqPlayer->seqType == SND_SEQ_TYPE_SEQ && seqPlayer->seqNo == seqNo) {
             count++;
         }
-        seqPlayer = func_02060614(&gSndActiveSeqList, seqPlayer);
+        seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, seqPlayer);
     }
     return count;
 }
@@ -308,7 +310,7 @@ void NNS_SndHandlePause(SndHandle *handle, u32 value)
 void NNS_SndHandleSetTrackPause(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_02089580(handle->player->playerNo, trackMask, value);
+    SND_SetTrackMute(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -316,7 +318,7 @@ void NNS_SndHandleSetTrackPause(SndHandle *handle, u32 trackMask, u32 value)
 void NNS_SndHandleSetTrackMute(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
-    func_020895B0(handle->player->playerNo, trackMask, value);
+    SND_SetTrackMuteEx(handle->player->playerNo, trackMask, value);
 }
 
 
@@ -402,7 +404,7 @@ void NNSi_SndHandleSetSeqArc(SndHandle *handle, u32 seqArcNo, u32 seqArcIndex)
 int NNS_SndHandleReadTrackInfo(SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     if (handle->player == 0) return 0;
-    return func_02072894(handle->player->playerNo, trackNo, trackInfo);
+    return NNS_SndReadTrackInfo(handle->player->playerNo, trackNo, trackInfo);
 }
 
 
@@ -432,18 +434,18 @@ void NNS_SndPlayerInit(void)
     SndSeqPlayer *seqPlayer;
     SndPlayer *player;
 
-    func_02060468(&gSndActiveSeqList, 0x14);
-    func_02060468(&gSndFreeSeqList, 0x14);
+    NNS_FndInitList(&gSndActiveSeqList, 0x14);
+    NNS_FndInitList(&gSndFreeSeqList, 0x14);
 
     for (i = 0, seqPlayer = gSndSeqPlayers; i < 0x10; i++, seqPlayer++) {
         seqPlayer->state = SND_SEQ_STATE_FREE;
         seqPlayer->playerNo = (u8)i;
-        func_020604AC(&gSndFreeSeqList, seqPlayer);
+        NNS_FndAppendListObject(&gSndFreeSeqList, seqPlayer);
     }
 
     for (i = 0, player = gSndPlayers; i < 0x20; i++, player++) {
-        func_02060468(&player->seqList, 0xc);
-        func_02060468(&player->heapList, 0);
+        NNS_FndInitList(&player->seqList, 0xc);
+        NNS_FndInitList(&player->heapList, 0);
         player->volume = 0x7f;
         player->playableSeqCount = 1;
         player->allocatableChannelMask = 0;
@@ -482,17 +484,17 @@ void NNS_SndPlayerMain(void)
     SndSeqPlayer *next;
     s32 volume;
 
-    mask = func_0208A054();
-    seqPlayer = func_02060614(&gSndActiveSeqList, 0);
+    mask = SND_GetPlayerStatus();
+    seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
     if (seqPlayer == 0) {
         return;
     }
     lo = -0x8000;
     tbl = g_020A5D08;
     do {
-        next = func_02060614(&gSndActiveSeqList, seqPlayer);
+        next = NNS_FndGetNextListObject(&gSndActiveSeqList, seqPlayer);
         if (seqPlayer->isPrepared == 0) {
-            if (func_02089D6C(seqPlayer->commandTag) != 0) {
+            if (SND_IsFinishedCommandTag(seqPlayer->commandTag) != 0) {
                 seqPlayer->isPrepared = 1;
             }
         }
@@ -521,7 +523,7 @@ void NNS_SndPlayerMain(void)
                 NNSi_SndSeqPlayerStopNow(seqPlayer);
             }
             if (seqPlayer->startPending != 0) {
-                func_02089378(seqPlayer->playerNo);
+                SND_StartPreparedSeq(seqPlayer->playerNo);
                 seqPlayer->startPending = 0;
             }
         }
@@ -546,7 +548,7 @@ SndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(SndHandle *handle, s32 playerNo, s32 
         NNS_SndHandleReleaseSeq(handle);
     }
     if (player->seqList.numObjects >= player->playableSeqCount) {
-        seqPlayer = func_02060614(&player->seqList, 0);
+        seqPlayer = NNS_FndGetNextListObject(&player->seqList, 0);
         if (seqPlayer == 0) {
             return 0;
         }
@@ -615,7 +617,7 @@ void NNSi_SndSeqPlayerStop(SndSeqPlayer *seqPlayer, int fadeFrame)
 void NNSi_SndSeqPlayerPause(SndSeqPlayer *seqPlayer, u8 flag)
 {
     if (seqPlayer != 0 && flag != seqPlayer->isPaused) {
-        func_02089398(seqPlayer->playerNo, flag);
+        SND_PauseSeq(seqPlayer->playerNo, flag);
         seqPlayer->isPaused = flag;
     }
 }
@@ -629,10 +631,10 @@ void NNSi_SndSeqPlayerPause(SndSeqPlayer *seqPlayer, u8 flag)
 NNSSndHeap *NNSi_SndPlayerAllocHeap(s32 playerNo, SndSeqPlayer *seqPlayer)
 {
     SndPlayer *player = &gSndPlayers[playerNo];
-    SndPlayerHeap *pPlayerHeap = func_02060614(&player->heapList, 0);
+    SndPlayerHeap *pPlayerHeap = NNS_FndGetNextListObject(&player->heapList, 0);
 
     if (pPlayerHeap == 0) return 0;
-    func_020605B4(&player->heapList, pPlayerHeap);
+    NNS_FndRemoveListObject(&player->heapList, pPlayerHeap);
     pPlayerHeap->pOwner = seqPlayer;
     seqPlayer->pPlayerHeap = pPlayerHeap;
     NNS_SndHeapClear(pPlayerHeap->heap);
@@ -650,7 +652,7 @@ void NNSi_SndSeqPlayerResetState(SndSeqPlayer *seqPlayer)
     seqPlayer->appliedVolume = 0;
     seqPlayer->initialVolume = 0x7f;
     seqPlayer->volume = 0x7f;
-    func_02075B94(&seqPlayer->volumeFader, 0x7f);
+    NNSi_SndFaderReset(&seqPlayer->volumeFader, 0x7f);
     NNSi_SndFaderSet(&seqPlayer->volumeFader, 0x7f00, 1);
 }
 
@@ -658,14 +660,14 @@ void NNSi_SndSeqPlayerResetState(SndSeqPlayer *seqPlayer)
 /* Inserts the sequence player into the slot's sequence list, sorted by priority, and records the slot. */
 void NNSi_SndPlayerInsertSeqPlayer(SndPlayer *player, SndSeqPlayer *seqPlayer)
 {
-    SndSeqPlayer *curr = (SndSeqPlayer *)func_02060614(&player->seqList, 0);
+    SndSeqPlayer *curr = (SndSeqPlayer *)NNS_FndGetNextListObject(&player->seqList, 0);
     while (curr != 0) {
         if (seqPlayer->priority < curr->priority) {
             break;
         }
-        curr = (SndSeqPlayer *)func_02060614(&player->seqList, curr);
+        curr = (SndSeqPlayer *)NNS_FndGetNextListObject(&player->seqList, curr);
     }
-    func_02060550(&player->seqList, curr, seqPlayer);
+    NNS_FndInsertListObject(&player->seqList, curr, seqPlayer);
     seqPlayer->pPlayer = player;
 }
 
@@ -673,14 +675,14 @@ void NNSi_SndPlayerInsertSeqPlayer(SndPlayer *player, SndSeqPlayer *seqPlayer)
 /* Inserts the sequence player into the active list, sorted by priority. */
 void NNSi_SndInsertActiveSeqPlayer(SndSeqPlayer *seqPlayer)
 {
-    SndSeqPlayer *curr = func_02060614(&gSndActiveSeqList, 0);
+    SndSeqPlayer *curr = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
     while (curr != 0) {
         if (seqPlayer->priority < curr->priority) {
             break;
         }
-        curr = func_02060614(&gSndActiveSeqList, curr);
+        curr = NNS_FndGetNextListObject(&gSndActiveSeqList, curr);
     }
-    func_02060550(&gSndActiveSeqList, curr, seqPlayer);
+    NNS_FndInsertListObject(&gSndActiveSeqList, curr, seqPlayer);
 }
 
 
@@ -690,7 +692,7 @@ void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer)
     if (seqPlayer->state == SND_SEQ_STATE_STOPPING) {
         func_020893D0(seqPlayer->playerNo, SND_VOLUME_SILENT);
     }
-    func_02089330(seqPlayer->playerNo);
+    SND_StopSeq(seqPlayer->playerNo);
     NNSi_SndSeqPlayerRelease(seqPlayer);
 }
 
@@ -704,15 +706,15 @@ void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer)
 SndSeqPlayer *NNSi_SndAllocFreeSeqPlayer(s32 priority)
 {
     SndSeqPlayer *seqPlayer;
-    seqPlayer = func_02060614(&gSndFreeSeqList, 0);
+    seqPlayer = NNS_FndGetNextListObject(&gSndFreeSeqList, 0);
     if (seqPlayer == 0) {
-        seqPlayer = func_02060614(&gSndActiveSeqList, 0);
+        seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
         if (priority < seqPlayer->priority) {
             return 0;
         }
         NNSi_SndSeqPlayerStopNow(seqPlayer);
     }
-    func_020605B4(&gSndFreeSeqList, seqPlayer);
+    NNS_FndRemoveListObject(&gSndFreeSeqList, seqPlayer);
     seqPlayer->priority = (u8)priority;
     NNSi_SndInsertActiveSeqPlayer(seqPlayer);
     return seqPlayer;
@@ -732,15 +734,15 @@ void NNSi_SndSeqPlayerRelease(SndSeqPlayer *seqPlayer)
         seqPlayer->pHandle = 0;
     }
     player = seqPlayer->pPlayer;
-    func_020605B4(&player->seqList, seqPlayer);
+    NNS_FndRemoveListObject(&player->seqList, seqPlayer);
     seqPlayer->pPlayer = 0;
     if (seqPlayer->pPlayerHeap != 0) {
-        func_020604AC(&player->heapList, seqPlayer->pPlayerHeap);
+        NNS_FndAppendListObject(&player->heapList, seqPlayer->pPlayerHeap);
         seqPlayer->pPlayerHeap->pOwner = 0;
         seqPlayer->pPlayerHeap = 0;
     }
-    func_020605B4(&gSndActiveSeqList, seqPlayer);
-    func_020604AC(&gSndFreeSeqList, seqPlayer);
+    NNS_FndRemoveListObject(&gSndActiveSeqList, seqPlayer);
+    NNS_FndAppendListObject(&gSndFreeSeqList, seqPlayer);
     seqPlayer->state = SND_SEQ_STATE_FREE;
 }
 
@@ -755,7 +757,7 @@ void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap)
     if (pPlayerHeap->heap == 0) return;
     NNS_SndHeapDestroy(pPlayerHeap->heap);
     if (pPlayerHeap->pOwner != 0) { pPlayerHeap->pOwner->pPlayerHeap = 0; return; }
-    func_020605B4(&gSndPlayers[pPlayerHeap->playerNo].heapList, pPlayerHeap);
+    NNS_FndRemoveListObject(&gSndPlayers[pPlayerHeap->playerNo].heapList, pPlayerHeap);
 }
 
 
@@ -763,8 +765,8 @@ void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap)
 void NNSi_SndSeqPlayerSetPriority(SndSeqPlayer *seqPlayer, u32 priority)
 {
     SndPlayer *player = seqPlayer->pPlayer;
-    if (player != 0) { func_020605B4(&player->seqList, seqPlayer); seqPlayer->pPlayer = 0; }
-    func_020605B4(&gSndActiveSeqList, seqPlayer);
+    if (player != 0) { NNS_FndRemoveListObject(&player->seqList, seqPlayer); seqPlayer->pPlayer = 0; }
+    NNS_FndRemoveListObject(&gSndActiveSeqList, seqPlayer);
     seqPlayer->priority = (u8)priority;
     if (player != 0) NNSi_SndPlayerInsertSeqPlayer(player, seqPlayer);
     NNSi_SndInsertActiveSeqPlayer(seqPlayer);

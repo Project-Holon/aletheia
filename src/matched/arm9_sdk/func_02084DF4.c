@@ -1,5 +1,5 @@
 /*
- * function: func_02084DF4
+ * function: OS_LockCard
  * address:  0x02084DF4
  * packet:   pkt_02084DF4
  * region:   arm9
@@ -18,7 +18,7 @@
 int OS_LockByWord(unsigned short lockID, void *lockBuf, void (*ctrlFuncp)(void));
 void OSi_AllocateCardBus(void);
 
-int func_02084DF4(unsigned short lockID)
+int OS_LockCard(unsigned short lockID)
 {
     return OS_LockByWord(lockID, (void *)0x02FFFFE0, OSi_AllocateCardBus);
 }

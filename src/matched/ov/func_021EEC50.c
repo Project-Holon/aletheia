@@ -1,5 +1,5 @@
 /*
- * function: func_021EEC50
+ * function: BOX2_UI_PlayAndUpdateCursorC
  * address:  0x021EEC50
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE408  0x021EE408  thumb  ov170
+ *   BOX2_UI_UpdateCursor  0x021EE408  thumb  ov170
  *
- * Twin of func_021EEC1C.
+ * Twin of BOX2_UI_PlayAndUpdateCursorB.
  */
 #include "../include/Obj18532.h"
 
@@ -20,9 +20,9 @@
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE408(char *, int);
-void func_021EEC50(char *p, unsigned int a)
+extern void BOX2_UI_UpdateCursor(char *, int);
+void BOX2_UI_PlayAndUpdateCursorC(char *p, unsigned int a)
 {
     func_020260E4((struct Sound *)(*(int *)(((struct Obj18532 *)p)->f2C + 0x70)), (unsigned char)a);
-    func_021EE408(p, a);
+    BOX2_UI_UpdateCursor(p, a);
 }

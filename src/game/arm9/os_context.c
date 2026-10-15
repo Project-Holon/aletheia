@@ -1,7 +1,7 @@
 /*
  * file:     os_context.c
  * unit:     yes
- * function: func_02085B9C, func_02085C08, func_02085C54
+ * function: OS_InitContext, func_02085C08, func_02085C54
  * address:  0x02085B9C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -38,7 +38,7 @@ typedef struct OSContext {
 extern void CP_SaveContext(void);
 extern void CPi_RestoreContext(void);
 extern int OS_IsRunOnTwl(void);
-asm void func_02085B9C(OSContext *context, u32 newpc, u32 newsp);
+asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp);
 asm void OS_SaveContext(void);
 asm void OS_LoadContext(void);
 
@@ -51,7 +51,7 @@ asm void OS_LoadContext(void);
  *           schedules the stores and uses tst, not ands.
  */
 /* hand-written in the original: OS_InitContext, one instruction per source line in the object */
-asm void func_02085B9C(OSContext *context, u32 newpc, u32 newsp)
+asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp)
 {
     add     r1, r1, #4
     str     r1, [r0, #0x40]

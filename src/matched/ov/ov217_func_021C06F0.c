@@ -1,5 +1,5 @@
 /*
- * function: func_021C06F0
+ * function: RESEARCH_GRAPH_CreateOamObjects
  * address: 0x021C06F0
  * packet: pkt_ov217_021C06F0
  * region: ov217
@@ -16,7 +16,7 @@
  *
  * symbols:
  *   d_021C377C 0x021C377C data a4
- *   func_021BF9F0 0x021BF9F0 thumb ov217
+ *   RESEARCH_GRAPH_GetClactUnit 0x021BF9F0 thumb ov217
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
@@ -32,11 +32,11 @@ struct Sys;
 struct Grid;
 struct Obj;
 extern const struct Entry d_021C377C[];
-extern u32 func_021BF9F0(void *,u32);
+extern u32 RESEARCH_GRAPH_GetClactUnit(void *,u32);
 extern struct Grid *BMP_OAM_Create(struct Sys *,const struct Param *);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
 extern void BMP_OAM_UploadChars(struct Obj *);
-void func_021C06F0(u8 *p)
+void RESEARCH_GRAPH_CreateOamObjects(u8 *p)
 {
     int sysOff,outOff,callOff,uploadOff;
     struct Param param;
@@ -52,7 +52,7 @@ void func_021C06F0(u8 *p)
         param.bmp=((struct Obj25967 *)dest)->f3B0;
         q=&d_021C377C[i];
         param.x=q->x; param.y=q->y;
-        param.f8=func_021BF9F0(p,q->f8);
+        param.f8=RESEARCH_GRAPH_GetClactUnit(p,q->f8);
         param.fc=q->fc;
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;

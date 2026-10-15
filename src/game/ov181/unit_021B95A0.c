@@ -246,7 +246,6 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32),BG_SYS_SetSubVisiblePlanes(u32),GF_OVERLAY_Unload(int);
-extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);

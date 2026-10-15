@@ -71,7 +71,7 @@
  *   func_020081DC  0x020081DC  thumb
  *   func_020212B0  0x020212B0  thumb
  *   GAME_DATA_GetSaveBlock43  0x02012FD8  thumb
- *   func_0200E7BC  0x0200E7BC  thumb
+ *   MISC_SAVEDATA_FillMonEntry  0x0200E7BC  thumb
  *   SCRIPT_WORK_GetTempBuffer  0x02158F7C  thumb ov010
  *   func_0200E740  0x0200E740  thumb
  *   func_0200E7AC  0x0200E7AC  thumb
@@ -292,7 +292,7 @@ extern u32 func_020056EC(u32);
 extern u16 *func_020081DC(void *, int, u16);
 extern u16 func_020212B0(u16);
 extern void *GAME_DATA_GetSaveBlock43(void **p);
-extern void func_0200E7BC(struct StoredNames *o, int idx, void *mon);
+extern void MISC_SAVEDATA_FillMonEntry(struct StoredNames *o, int idx, void *mon);
 extern u32 SCRIPT_WORK_GetTempBuffer(u8 *p);
 extern u32 func_0200E740(const void *obj, u32 idx);
 extern void *func_0200E7AC(void *obj, u32 idx);
@@ -1132,7 +1132,7 @@ u32 SCRCMD_POKEMON_FLD_StoreMonName(struct ScriptVm *vm, struct ScrcmdWork *work
     gameData = GAME_DATA_GetMyParty(gameData);
     partySlot = SCRIPT_WORK_ReadWorkValue(vm, work);
     nameSlot = SCRIPT_WORK_ReadWorkValue(vm, work);
-    func_0200E7BC(nameStore, nameSlot, POKEPARTY_GetMember(gameData, partySlot));
+    MISC_SAVEDATA_FillMonEntry(nameStore, nameSlot, POKEPARTY_GetMember(gameData, partySlot));
     return 0;
 }
 

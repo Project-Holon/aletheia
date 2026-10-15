@@ -14,6 +14,8 @@
  *   DSPi_CommitWram 0x0270541C arm twl
  *   MI_GetWramMapStart 0x02730414 arm twl
  *   MIi_CpuClearFast  0x02082AC0  arm  arm9
+ *   STD_SearchString  0x0208CC14  arm  arm9
+ *   STD_CompareString  0x0208CD94  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -53,8 +55,8 @@ static inline u32 clz32(u32 x)
     return x;
 }
 
-extern s32 func_0208CD94(char *a, char *b);
-extern s32 func_0208CC14(char *a, char *b);
+extern s32 STD_CompareString(char *a, char *b);
+extern s32 STD_SearchString(char *a, char *b);
 extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
 extern u32 MI_GetWramMapStart(s32 sel);
 u32 DSPi_ReadProcessImage(Chan *p, u32 a, void *buf, s32 len);
@@ -88,19 +90,19 @@ s32 DSPi_MapAndLoadProcessImageCallback(Chan *c, Hdr *h, Ent *e)
         }
         name = buf;
     }
-    if (func_0208CD94(name, (char *)0x02732D54) == 0) {
+    if (STD_CompareString(name, (char *)0x02732D54) == 0) {
         c->f1c |= 1;
     }
     if (e->flags & 8) {
         size = e->f8 * 2;
         f = (e->flags & 0x20) ? 1 : 0;
-        if (func_0208CC14(name, (char *)0x02732D64)) {
+        if (STD_SearchString(name, (char *)0x02732D64)) {
             selv[n] = 1;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (func_0208CC14(name, (char *)0x02732D68)) {
+        if (STD_SearchString(name, (char *)0x02732D68)) {
             selv[n] = 1;
             sizev[n] = size + 0x20000;
             flagv[n] = f;
@@ -110,13 +112,13 @@ s32 DSPi_MapAndLoadProcessImageCallback(Chan *c, Hdr *h, Ent *e)
     if (e->flags & 0x10) {
         size = e->fC * 2;
         f = (e->flags & 0x40) ? 1 : 0;
-        if (func_0208CC14(name, (char *)0x02732D6C)) {
+        if (STD_SearchString(name, (char *)0x02732D6C)) {
             selv[n] = 2;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (func_0208CC14(name, (char *)0x02732D70)) {
+        if (STD_SearchString(name, (char *)0x02732D70)) {
             selv[n] = 2;
             sizev[n] = size + 0x20000;
             flagv[n] = f;

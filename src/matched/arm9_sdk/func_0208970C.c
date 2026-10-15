@@ -1,5 +1,5 @@
 /*
- * function: func_0208970C
+ * function: SND_SetMasterVolume
  * address:  0x0208970C
  * packet:   pkt_0208970C
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_0208970C(int volume)
+void SND_SetMasterVolume(int volume)
 {
     PushCommand_impl(0x17, (u32)volume, 0, 0, 0);
 }

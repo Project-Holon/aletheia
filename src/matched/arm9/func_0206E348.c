@@ -9,9 +9,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_G2dCallVtableSlot0  0x02061330  arm
  */
 
 typedef unsigned int   u32;
 struct Obj02061330;
-extern void func_02061330(struct Obj02061330 *o, u32 x);
-void NNS_G3dAllocRenderObj(int a0, int a1, int a2, int a3){ func_02061330((struct Obj02061330 *)((int)a0), (int)0x54); }
+extern void NNS_G2dCallVtableSlot0(struct Obj02061330 *o, u32 x);
+void NNS_G3dAllocRenderObj(int a0, int a1, int a2, int a3){ NNS_G2dCallVtableSlot0((struct Obj02061330 *)((int)a0), (int)0x54); }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   DAT_02150fec  0x02150fec  data twl
- *   func_02085D94  0x02085D94  arm twl
+ *   OS_InitMessageQueue  0x02085D94  arm twl
  *   func_02085E50  0x02085E50  arm twl
  *   SNDEXi_SetIirFilterAsync  0x027044F8  arm twl
  *   SyncCallback  0x02704B58  arm twl
@@ -50,7 +50,7 @@ typedef struct {
 } State;
 
 extern u32 DAT_02150fec[];
-extern void func_02085D94(void *, void *, u32);
+extern void OS_InitMessageQueue(void *, void *, u32);
 extern void func_02085E50(void *, void *, u32);
 u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3);
 void SyncCallback(u32 a0, void *a1);
@@ -62,7 +62,7 @@ u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
     if (DAT_02150fec[1] == 0) {
         return 4;
     }
-    func_02085D94(q, buf, 1);
+    OS_InitMessageQueue(q, buf, 1);
     result = SNDEXi_SetIirFilterAsync(a0, a1, SyncCallback, q);
     if (result == 0) {
         func_02085E50(q, &result, 1);

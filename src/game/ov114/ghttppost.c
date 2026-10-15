@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_0217EAE0  0x0217EAE0  arm
- *   func_02181D84  0x02181D84  arm
+ *   gsXmlFreeWriter  0x02181D84  arm
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   func_02184144                  0x02184144  arm ov009
  *   ghiRequestToConnection  0x021C0DA4  arm  ov114
@@ -31,7 +31,7 @@
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_0209477C  0x0209477C  arm
- *   func_02181E20  0x02181E20  arm  ov009
+ *   gsXmlWriterGetDataLength  0x02181E20  arm  ov009
  *   strlen         0x0209477C  arm
  *   sGhttpQrGSDD     0x021CEE58  data
  *   sGhttpCidId     0x021CEE80  data
@@ -56,7 +56,7 @@
  *   sGhttpUrlEscapeTemplate     0x021CE0B4  data
  *   sGhttpHexDigits     0x021CEEB4  data
  *   sGhttpUrlSafeChars     0x021CED88  data
- *   func_02181E18  0x02181E18  arm   ov009
+ *   gsXmlWriterGetData  0x02181E18  arm   ov009
  *   ghiEncryptDataToBuffer  0x021BFDEC  arm   ov114
  *   func_020916D4  0x020916D4  arm
  *   ghiDoSend                    0x021c0684 arm  ov114
@@ -110,7 +110,7 @@ typedef struct GSIDimeHeader {
 } GSIDimeHeader;
 
 extern void func_0217EAE0(void *);
-extern void func_02181D84(void *);
+extern void gsXmlFreeWriter(void *);
 extern void *func_0217EAB0(unsigned long size);
 extern void *func_02184144(int, int, void (*)(void *));
 extern void func_021841B0(void *);
@@ -121,7 +121,7 @@ extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *, int);
 extern int func_0209477C(const u8 *s);
-extern int func_02181E20(void *);
+extern int gsXmlWriterGetDataLength(void *);
 extern int func_02092004(void *, int, int);
 extern s32 func_02091D38(u32 a0);
 extern int func_02092120(void *);
@@ -138,7 +138,7 @@ extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
 extern GHITrySendResult ghiTrySendThenBuffer(GHIConnection *, char *, int);
 extern int ghiSendBufferedData(GHIConnection *);
 extern void ghiResetBuffer(GHIBuffer *);
-extern char *func_02181E18(void *);
+extern char *gsXmlWriterGetData(void *);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
 extern int ghiDoSend(struct GHIConnection *connection, char *buffer, int len);
@@ -199,7 +199,7 @@ void ghiPostDataFree(void *element)
         func_0217EAE0(data->data.fileMemory.reportFilename);
         func_0217EAE0(data->data.fileMemory.contentType);
     } else if (data->type == 3) {
-        func_02181D84(data->data.xml.xml);
+        gsXmlFreeWriter(data->data.xml.xml);
     }
 }
 
@@ -368,7 +368,7 @@ int ghiPostGetNoFilesContentLength(GHIConnection *connection)
             total += data->data.string.escapedCount * 2;
             total += 1;
         } else if (data->type == 3)
-            total += func_02181E20(data->data.fileMemory.buffer);
+            total += gsXmlWriterGetDataLength(data->data.fileMemory.buffer);
     }
     return total + (num - 1);
 }
@@ -457,8 +457,8 @@ int ghiPostGetHasFilesContentLength(GHIConnection *connection)
         else if (data->type == 3)
         {
             total += xmlBaseLen;
-            total += func_02181E20(data->data.xml.xml);
-            GHI_DIME_PAD(total, func_02181E20(data->data.xml.xml));
+            total += gsXmlWriterGetDataLength(data->data.xml.xml);
+            GHI_DIME_PAD(total, gsXmlWriterGetDataLength(data->data.xml.xml));
             total += strlen(sGhttpCidId);
             GHI_DIME_PAD(total, (int)strlen(sGhttpCidId));
             total += strlen(sGhttpHttpSchemasXmlsoapOrgSoap);
@@ -679,12 +679,12 @@ GHIPostingResult ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *co
     int result;
 
     if (connection->post->useDIME != 0) {
-        padlen = 4 - (func_02181E20(xml) % 4);
+        padlen = 4 - (gsXmlWriterGetDataLength(xml) % 4);
         if (padlen == 4)
             padlen = 0;
     }
     if (connection->encryptor.engine != 0 && connection->encryptor.encryptOnBuffer == 1) {
-        if (ghiAppendDataToBuffer(&connection->encodeBuffer, func_02181E18(xml), func_02181E20(xml)) == 0 ||
+        if (ghiAppendDataToBuffer(&connection->encodeBuffer, gsXmlWriterGetData(xml), gsXmlWriterGetDataLength(xml)) == 0 ||
             ghiAppendDataToBuffer(&connection->encodeBuffer, pad, padlen) == 0 ||
             ghiEncryptDataToBuffer(&connection->sendBuffer, connection->encodeBuffer.data, connection->encodeBuffer.len) == 0)
             return 0;
@@ -695,7 +695,7 @@ GHIPostingResult ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *co
             ghiResetBuffer(&connection->sendBuffer);
         return 1;
     }
-    if (ghiTrySendThenBuffer(connection, func_02181E18(xml), func_02181E20(xml)) == 0)
+    if (ghiTrySendThenBuffer(connection, gsXmlWriterGetData(xml), gsXmlWriterGetDataLength(xml)) == 0)
         return 0;
     result = ghiTrySendThenBuffer(connection, pad, padlen);
     if (result == 0)
@@ -858,7 +858,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                     header.mOptionsLength = 0;
                     header.mIdLength = htons((short)strlen(sGhttpCidId));
                     header.mTypeLength = htons((short)strlen(sGhttpHttpSchemasXmlsoapOrgSoap));
-                    header.mDataLength = htonl(func_02181E20(state->data->data.xml.xml));
+                    header.mDataLength = htonl(gsXmlWriterGetDataLength(state->data->data.xml.xml));
                     memcpy(&buffer[writePos], &header, sizeof(GSIDimeHeader));
                     writePos += sizeof(GSIDimeHeader);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021ECA38
+ * function: BOX2_SEQ_ResetActorTransform
  * address:  0x021ECA38
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -30,7 +30,7 @@ struct Obj;
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void func_021ECA38(int *p)
+void BOX2_SEQ_ResetActorTransform(int *p)
 {
     struct { unsigned short a[2]; int b[2]; } s;
     s.a[0] = 0;

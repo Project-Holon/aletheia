@@ -23,7 +23,7 @@
  */
 
 /*
- * 2026-10-04 (wave D2 lane05): MATCH, rechecked: two relocations unresolved, DPW_BT_IsAsyncEnd and DPW_BT_GetAsyncResult, both ov114 ARM code at 0x021C93D0/0x021C940C. Neither has a matched witness in ov114 (matched files at those addresses belong to ov021/ov212 and are different Thumb code). ov114 is pengy's overlay, so no leaf was filed. The ARM state query at 0x021C93D0 (64 bytes incl. data, reads 0x021D4084) is a tiny leaf that would unblock this file and func_021D7AA8.
+ * 2026-10-04 (wave D2 lane05): MATCH, rechecked: two relocations unresolved, DPW_BT_IsAsyncEnd and DPW_BT_GetAsyncResult, both ov114 ARM code at 0x021C93D0/0x021C940C. Neither has a matched witness in ov114 (matched files at those addresses belong to ov021/ov212 and are different Thumb code). ov114 is pengy's overlay, so no leaf was filed. The ARM state query at 0x021C93D0 (64 bytes incl. data, reads 0x021D4084) is a tiny leaf that would unblock this file and WIFI_BSUBWAY_GRAPHIC_CancelBt.
  */
 
 typedef unsigned char u8;

@@ -1,5 +1,5 @@
 /*
- * function: func_02060F40
+ * function: NNSi_FndSetGroupId
  * address:  0x02060F40
  * packet:   pkt_02060F40
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 func_02060F40(char *p, u16 v)
+u16 NNSi_FndSetGroupId(char *p, u16 v)
 {
     u16 old = *(u16 *)(p + 0x34);
     *(u16 *)(p + 0x34) = v;

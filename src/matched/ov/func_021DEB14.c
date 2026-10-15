@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB14
+ * function: BOX2_MAIN_WrapOffset
  * address:  0x021DEB14
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -16,7 +16,7 @@
  * result is at or above the unsigned byte.
  */
 
-unsigned char func_021DEB14(unsigned char *p, int a)
+unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a)
 {
     signed char v = (signed char)p[0x19] + a;
     if (v < 0)

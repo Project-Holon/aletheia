@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8F8
+ * function: BOX2_MAIN_DeleteFormTable
  * address:  0x021DD8F8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021DD8F8(char *p)
+void BOX2_MAIN_DeleteFormTable(char *p)
 {
     func_020307B0(((struct Obj18452 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f180);
 }

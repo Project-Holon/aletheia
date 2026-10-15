@@ -1,5 +1,5 @@
 /*
- * function: func_02089580
+ * function: SND_SetTrackMute
  * address:  0x02089580
  * packet:   pkt_02089580
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned long u32;
 
 extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
-void func_02089580(int playerNo, u32 trackBitMask, int flag)
+void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag)
 {
     PushCommand_impl(8, (u32)playerNo, trackBitMask, flag ? 3 : 0, 0);
 }

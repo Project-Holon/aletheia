@@ -1,5 +1,5 @@
 /*
- * function: func_021BF710
+ * function: RESEARCH_GRAPH_TickTimer
  * address:  0x021BF710
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BF710(void *p)
+void RESEARCH_GRAPH_TickTimer(void *p)
 {
     if (((struct Obj00021 *)p)->f30 < 0xf0) {
         ((struct Obj00021 *)p)->f30 += 1;

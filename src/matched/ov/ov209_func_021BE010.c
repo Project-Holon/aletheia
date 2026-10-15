@@ -14,13 +14,13 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   ZUKAN_LIST_SetActorObjMode 0x021BD908 thumb ov209
  *   ZUKAN_LIST_SetActorVisible 0x021BD8D8 thumb ov209
- *   d_021BE9A4 0x021BE9A4 data a4
+ *   gZukanListSpeciesActor 0x021BE9A4 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct R { u16 f0; u16 f2; u32 f4; u32 f8; u32 fC; u32 f10; u16 f14; u16 f16; };
-extern const struct R d_021BE9A4;
+extern const struct R gZukanListSpeciesActor;
 struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 struct Actor;
@@ -35,8 +35,8 @@ void ZUKAN_LIST_UpdateSpeciesActors(char *p) {
     u32 i;
     u32 j;
     u32 k;
-    a = d_021BE9A4;
-    b = d_021BE9A4;
+    a = gZukanListSpeciesActor;
+    b = gZukanListSpeciesActor;
     b.fC = *(u32 *)(p + 0xBF4);
     b.f10 = *(u32 *)(p + 0xC0C);
     for (i = 0; i < 16; i++) {

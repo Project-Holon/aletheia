@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   SND_SetChannelVolume  0x02089638  arm
  */
 
 typedef unsigned char  u8;
@@ -15,10 +18,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct S { u32 f0; u32 f4; u32 f8; };
-extern void func_02089638(u32 chBitMask, int volume, int shift);
+extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 
 void NNS_SndWaveOutSetVolume(struct S *s, u32 v)
 {
     if (s->f8 == 0) return;
-    func_02089638(1 << s->f0, v, 0);
+    SND_SetChannelVolume(1 << s->f0, v, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C06C8
+ * function: RESEARCH_GRAPH_CreateOamSys
  * address:  0x021C06C8
  * packet:   pkt_ov217_021C06C8
  * region:   ov217
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern int BMP_OAM_CreateSys(u16 heap, int a);
 
-void func_021C06C8(u8 *p)
+void RESEARCH_GRAPH_CreateOamSys(u8 *p)
 {
     ((struct Obj10961 *)p)->f3A4 = BMP_OAM_CreateSys(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
 }

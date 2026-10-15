@@ -213,6 +213,11 @@ objects follow the same rule with the `s` or `g` prefix in front of the module
 word (`sVctWork`, `gIrcCommandTable`). Internal helpers of a file keep the module
 prefix of the file, not the prefix of the caller.
 
+Wave 6 applied it to the four small-overlay sweep blocks, ov094 btlv_input, ov119,
+ov123, ov135, ov137, ov170, ov172, ov186, ov208, ov209, ov217 and the ARM9 os, mi,
+heap, lib, save and sound clusters. The applied names fit the table above, so no
+new convention was needed.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

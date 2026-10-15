@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_cmdq.c
  * unit:     yes
- * function: func_021C5EEC, func_021C5F30, func_021C5F44
+ * function: WF2DMAP_CMDQ_CreateStore, WF2DMAP_CMDQ_DeleteStore, WF2DMAP_CMDQ_Push, WF2DMAP_CMDQ_Pop
  * address:  0x021C5EEC
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -14,46 +14,52 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021C6158 0x021C6158 data a1
+ *   sWf2dmapCmdqFileName 0x021C6158 data a1
  *   func_020307B0  0x020307B0  arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021C5F80 0x021C5F80 thumb ov127
  */
-#include "../../matched/include/Obj23061.h"
 
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
+typedef signed int s32;
 
-typedef signed short s16;
+/* A cell coordinate (the command queue carries grid positions). */
+typedef struct Wf2dmapCmdPos {
+    u16 x;
+    u16 y;
+} Wf2dmapCmdPos;
 
-typedef struct { void *entries; u32 count; u16 used, capacity; } Container;
+/* Ring buffer of positions; readIndex == writeIndex means empty. */
+typedef struct Wf2dmapCmdRing {
+    Wf2dmapCmdPos *entries;
+    u32 slotCount;
+    u16 readIndex;
+    u16 writeIndex;
+} Wf2dmapCmdRing;
 
-typedef signed int     s32;
+/* Heap store the queue allocates through; entries is a 4-byte slot array. */
+typedef struct Wf2dmapCmdStore {
+    void *entries;
+    u32 slotCount;
+    u16 usedCount;
+    u16 capacity;
+} Wf2dmapCmdStore;
 
-typedef struct {u16 x,y;} Entry;
-
-typedef struct {Entry *data;u32 count;u16 r,w;} S;
-
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *func_02030734(u16, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
-extern u32 _u32_div_f(u32,u32);
-extern int func_021C5F80(S *,Entry *);
-Container *func_021C5EEC(int n, int heap);
-void func_021C5F30(u8 *p);
-void func_021C5F44(S *p,const Entry *q);
-extern const char d_021C6158[];
+extern u32 _u32_div_f(u32, u32);
+extern int WF2DMAP_CMDQ_Pop(Wf2dmapCmdRing *, Wf2dmapCmdPos *);
+extern const char sWf2dmapCmdqFileName[];
 
-Container *func_021C5EEC(int n, int heap)
+Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int n, int heap)
 {
-    Container *p;
-    p=func_02030734(heap,12,1,d_021C6158,211);
-    p->count=n+1;
-    p->entries=func_02030734(heap,p->count*4,1,d_021C6158,216);
-    p->used=0;
-    p->capacity=0;
+    Wf2dmapCmdStore *p;
+    p = func_02030734(heap, 12, 1, sWf2dmapCmdqFileName, 211);
+    p->slotCount = n + 1;
+    p->entries = func_02030734(heap, p->slotCount * 4, 1, sWf2dmapCmdqFileName, 216);
+    p->usedCount = 0;
+    p->capacity = 0;
     return p;
 }
 
@@ -61,10 +67,19 @@ Container *func_021C5EEC(int n, int heap)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021C5F30(u8 *p)
+void WF2DMAP_CMDQ_DeleteStore(u8 *p)
 {
-    func_020307B0(((struct Obj23061 *)p)->f0);
+    func_020307B0(((Wf2dmapCmdStore *)p)->entries);
     func_020307B0(p);
 }
 
-void func_021C5F44(S *p,const Entry *q) {Entry tmp; if((p->w+1u)%p->count==p->r) func_021C5F80(p,&tmp);p->data[p->w]=*q;p->w=(p->w+1u)%p->count;}
+void WF2DMAP_CMDQ_Push(Wf2dmapCmdRing *p, const Wf2dmapCmdPos *q) { Wf2dmapCmdPos tmp; if ((p->writeIndex + 1u) % p->slotCount == p->readIndex) WF2DMAP_CMDQ_Pop(p, &tmp); p->entries[p->writeIndex] = *q; p->writeIndex = (p->writeIndex + 1u) % p->slotCount; }
+
+int WF2DMAP_CMDQ_Pop(Wf2dmapCmdRing *a, Wf2dmapCmdPos *out)
+{
+    if (a->writeIndex == a->readIndex)
+        return 0;
+    *out = a->entries[a->readIndex];
+    a->readIndex = (a->readIndex + 1) % a->slotCount;
+    return 1;
+}

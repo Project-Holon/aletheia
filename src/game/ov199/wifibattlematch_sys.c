@@ -40,8 +40,8 @@
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
- *   func_0200E9F4 0x0200E9F4 thumb
- *   func_0200EA04 0x0200EA04 thumb
+ *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
+ *   MISC_SAVEDATA_GetStatsBase2 0x0200EA04 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   POKE_REGULATION_Load 0x0201A354 thumb
  *   func_0200AE14 0x0200AE14 thumb
@@ -280,8 +280,8 @@ extern u32_022126F4 GFL_NET_ERR_ShowScreen(u32_022126F4 a0);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
-extern void *func_0200E9F4(void *p);
-extern int func_0200EA04(int);
+extern void *MISC_SAVEDATA_GetBlock3C(void *p);
+extern int MISC_SAVEDATA_GetStatsBase2(int);
 extern void POKEPARTY_Init(struct Party *p);
 extern void *POKE_REGULATION_Load(int, int);
 extern void *func_0200AE14(void *);
@@ -529,7 +529,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     p[16] = (int)(ctx + 0x8ac);
     {
         void *q = GAME_DATA_GetSaveControl(((struct Obj06657 *)ctx)->f4);
-        p[4] = func_0200EA04((int)func_0200E9F4(q));
+        p[4] = MISC_SAVEDATA_GetStatsBase2((int)MISC_SAVEDATA_GetBlock3C(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;

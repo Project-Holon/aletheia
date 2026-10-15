@@ -115,7 +115,7 @@
  *   func_021F709C 0x021F709C thumb ov112
  *   func_021F760C 0x021F760C thumb ov112
  *   func_021F80B0 0x021F80B0 thumb ov112
- *   func_021F8154 0x021F8154 thumb ov112
+ *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   func_021F6BD8 0x021F6BD8 thumb ov112
  *   func_021F40D0 0x021F40D0 thumb ov112
  *   func_021F8054 0x021F8054 thumb ov112
@@ -304,7 +304,7 @@ extern u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021F760C(u8 *, u8 *);
 extern void func_021F5438(void **p, int b);
 extern void func_021F80B0(int, int);
-extern int func_021F8154(int, int *, int);
+extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
 extern void *func_021F6BD8(u16, void *);
 extern u8 *func_021F6E78(u8 *p, int v);
 extern u32 func_021F40D0(void *p, u32 i, u16 c);
@@ -663,7 +663,7 @@ void func_021F3F00(Context *p)
     {
       *((void **) (row + 0x30)) = q;
       func_021F80B0((int)p->render, (int)q);
-      func_021F8154((int) p->render, *((int **) (row + 0x30)), 1);
+      STA_ACT_LIGHT_SetElemValue((int) p->render, *((int **) (row + 0x30)), 1);
     }
   }
 

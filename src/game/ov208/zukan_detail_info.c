@@ -105,9 +105,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot 0x021BDC80 thumb ov208
  */
 #include "zukan_detail_types.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_headbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 #include "../../matched/include/Obj03362.h"
 #include "../../matched/include/Obj00442.h"
 #include "../../matched/include/Obj02254.h"
@@ -116,9 +114,6 @@
 #include "../../matched/include/Obj10901.h"
 #include "../../matched/include/Obj18262.h"
 #include "../../matched/include/Obj25493.h"
-#include "zknd_tbar_shared_types.h"
-#include "zukan_detail_touchbar_shared_types.h"
-#include "zukan_detail_info_shared_types.h"
 
 extern u32 func_020307B0(void *p);
 
@@ -262,7 +257,7 @@ extern s32_021BD574 func_02061CA4(void *p, u32 a, u32 b, s32_021BD574 size);
 
 extern int func_02034AC4(s32_021BD574 handle);
 
-extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Buf *p, u32 size, u32 heap);
+extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap);
 
 extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
@@ -552,7 +547,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             if (p->f14 == 2)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(scn, 0);
         } else if (p->f18 != 0) {
-            if (ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(h, (struct S_021BEFA0 *)((struct S *)p), ctx) == 0)
+            if (ZUKAN_DETAIL_INFO_HandleTouchLanguageButton(h, (struct S_021BEFA0 *)((struct Ov208AreaState *)p), ctx) == 0)
                 ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(h, (char *)p, (int)ctx);
         }
         break;

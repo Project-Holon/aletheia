@@ -20,7 +20,7 @@
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNS_SndArcGetBankInfo  0x020743EC  arm
  *   NNS_SndArcSetFileAddress  0x02074694  arm
- *   func_02075560  0x02075560  arm
+ *   NNS_SndArcPlayerStartSeq  0x02075560  arm
  *
  * Three short entry points that take the current connection slot's payload
  * from GFL_USE_GetCurrentSndHandle, which is the last function of
@@ -40,11 +40,11 @@ extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
 extern u32 *NNS_SndArcGetSeqInfo(u32 a);
 extern u32 *NNS_SndArcGetBankInfo(u32 a);
 extern void NNS_SndArcSetFileAddress(u32 a, u32 b);
-extern u32 func_02075560(u32 a, u32 b);
+extern u32 NNS_SndArcPlayerStartSeq(u32 a, u32 b);
 
 void GFL_USE_StartSeq(u32 a)
 {
-    func_02075560((u32)GFL_USE_GetCurrentSndHandle(), a);
+    NNS_SndArcPlayerStartSeq((u32)GFL_USE_GetCurrentSndHandle(), a);
 }
 
 void GFL_USE_StopSeqAndUnload(void)

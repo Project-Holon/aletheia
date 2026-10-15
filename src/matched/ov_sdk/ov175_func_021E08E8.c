@@ -12,10 +12,10 @@
  * sdk:      sciWsCreateSessionCallback (sciwebservices.o)
  *
  * symbols:
- *   func_021834D0  0x021834D0  arm  ov009
- *   func_021834E8  0x021834E8  arm  ov009
- *   func_02183A24  0x02183A24  arm  ov009
- *   func_0218372C  0x0218372C  arm  ov009
+ *   gsXmlMoveToStart  0x021834D0  arm  ov009
+ *   gsXmlMoveToNext  0x021834E8  arm  ov009
+ *   gsXmlReadChildAsInt  0x02183A24  arm  ov009
+ *   gsXmlReadChildAsStringNT  0x0218372C  arm  ov009
  *   sciInterfaceSetSessionId  0x021DF928  arm  ov175
  *   sciInterfaceSetConnectionId  0x021DF948  arm  ov175
  *   sSciTagCreateSessionResponse  0x021E4250  data
@@ -53,10 +53,10 @@ typedef struct {
     int mInit;
 } SCWebServices;
 
-extern int func_021834D0(int *p);
-extern int func_021834E8(void *stream, char *matchtag);
-extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
-extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
+extern int gsXmlMoveToStart(int *p);
+extern int gsXmlMoveToNext(void *stream, char *matchtag);
+extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
+extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern void sciInterfaceSetSessionId(char *obj, int v);
 extern void sciInterfaceSetConnectionId(char *obj, int v);
 extern char sSciTagCreateSessionResponse[];
@@ -79,18 +79,18 @@ void sciWsCreateSessionCallback(int theHttpResult, int unused, void *theResponse
         return;
     if (theHttpResult == 0) {
         createResult = 0;
-        if (!func_021834D0(theResponseData))
+        if (!gsXmlMoveToStart(theResponseData))
             aTranslatedResult = 9;
-        else if (!func_021834E8(theResponseData, sSciTagCreateSessionResponse) && !func_021834E8(theResponseData, sSciTagCreateMatchlessSessionResponse))
+        else if (!gsXmlMoveToNext(theResponseData, sSciTagCreateSessionResponse) && !gsXmlMoveToNext(theResponseData, sSciTagCreateMatchlessSessionResponse))
             aTranslatedResult = 9;
-        if (!func_021834E8(theResponseData, sSciTagCreateSessionResult) && !func_021834E8(theResponseData, sSciTagCreateMatchlessSessionResult))
+        if (!gsXmlMoveToNext(theResponseData, sSciTagCreateSessionResult) && !gsXmlMoveToNext(theResponseData, sSciTagCreateMatchlessSessionResult))
             aTranslatedResult = 9;
-        if (!func_02183A24(theResponseData, sSciTagResult, &createResult))
+        if (!gsXmlReadChildAsInt(theResponseData, sSciTagResult, &createResult))
             aTranslatedResult = 9;
         else if (aTranslatedResult != 9) {
             if (createResult == 0) {
-                if (!func_0218372C(theResponseData, sSciTagCsid, csid, 255) ||
-                    !func_0218372C(theResponseData, sSciTagCcid, ccid, 255)) {
+                if (!gsXmlReadChildAsStringNT(theResponseData, sSciTagCsid, csid, 255) ||
+                    !gsXmlReadChildAsStringNT(theResponseData, sSciTagCcid, ccid, 255)) {
                     aTranslatedResult = 9;
                 } else {
                     sciInterfaceSetSessionId(aWebServices->mInterface, (int)csid);

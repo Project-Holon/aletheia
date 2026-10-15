@@ -1,5 +1,5 @@
 /*
- * function: func_021BC490
+ * function: RESEARCH_LIST_FadeOut
  * address:  0x021BC490
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021BC490  0x021BC490  thumb  ov217
+ *   RESEARCH_LIST_FadeOut  0x021BC490  thumb  ov217
  *   FADE_Start  0x0204E720  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-void func_021BC490(void)
+void RESEARCH_LIST_FadeOut(void)
 {
     FADE_Start(3, 0, 16, 0);
 }

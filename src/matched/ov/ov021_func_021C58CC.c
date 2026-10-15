@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200C468 0x0200C468 thumb
- *   func_0200C464 0x0200C464 thumb
+ *   RECENT_ID_LIST_SAVEDATA_CountIds 0x0200C468 thumb
+ *   RECENT_ID_LIST_SAVEDATA_GetIdAt 0x0200C464 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   SHORTCUT_MENU_ClampListWindow 0x021C5880 thumb ov021
@@ -44,11 +44,11 @@ typedef struct {
 
 extern const Tmpl gShortcutMenuListTemplate;
 
-extern u16 func_0200C468(const u8 *a);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
 struct Obj;
 struct Slot;
 struct Src;
-extern u8 func_0200C464(const u8 *a, u32 i);
+extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern void *BMP_MENUWORK_Create(int n, u32 heap);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void SHORTCUT_MENU_ClampListWindow(u16 *a, u16 *b, u16 c);
@@ -61,10 +61,10 @@ void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap)
     u32 n;
     u32 i;
 
-    n = func_0200C468(((struct Obj00874 *)p)->f20);
+    n = RECENT_ID_LIST_SAVEDATA_CountIds(((struct Obj00874 *)p)->f20);
     ((struct Obj00874 *)p)->f0 = BMP_MENUWORK_Create(n, heap);
     for (i = 0; i < n; i++) {
-        u8 v = func_0200C464(((struct Obj00874 *)p)->f20, (u8)i);
+        u8 v = RECENT_ID_LIST_SAVEDATA_GetIdAt(((struct Obj00874 *)p)->f20, (u8)i);
         BMP_MENUWORK_AddMsgItem(((struct Obj00874 *)p)->f0, ((struct Obj00874 *)p)->f38, (int)v, (int)v, heap);
     }
     while (b + a >= n) {

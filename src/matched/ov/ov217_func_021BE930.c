@@ -1,5 +1,5 @@
 /*
- * function: func_021BE930
+ * function: RESEARCH_GRAPH_SetIndex
  * address:  0x021BE930
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BE930(void *p, u32 v)
+void RESEARCH_GRAPH_SetIndex(void *p, u32 v)
 {
     ((struct Obj25907 *)p)->f34 = v;
 }

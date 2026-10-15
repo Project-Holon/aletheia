@@ -1,5 +1,5 @@
 /*
- * function: func_021D730C
+ * function: WIFI_BSUBWAY_GRAPHIC_DeleteTextParam
  * address: 0x021D730C
  * packet: pkt_ov116_021D730C
  * region: ov116
@@ -18,7 +18,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj0202E54C;
 extern void func_0202E54C(struct Obj0202E54C *p);
-void func_021D730C(u8 *p)
+void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p)
 {
     if (((struct Obj10340 *)p)->f1840) {
         func_0202E54C(((struct Obj10340 *)p)->f1840);

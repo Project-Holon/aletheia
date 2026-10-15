@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020819B8  0x020819B8  arm
+ *   MATHi_CRC16InitTable  0x020819B8  arm
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
  *   SAVEDATA_GetTotalSize  0x02033BF8  arm
@@ -137,7 +137,7 @@ typedef struct SaveRecordFooter {
 extern void *func_02030734(u16 heap_id, u32 size, int align, const char *file,
                          u16 line);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
-extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
+extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern void func_02034714(const char *file, u32 line, const char *expr);
 extern u32 func_020307B0(void *mem);
 extern void  func_02034F84(u32 flag);
@@ -250,7 +250,7 @@ void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
 
     svsys = work;
     func_02082A7C(0, work, 0x210);
-    func_020819B8((struct MATHCRC16Table *)svsys->crc_table, 0x1100 - 0xdf);
+    MATHi_CRC16InitTable((struct MATHCRC16Table *)svsys->crc_table, 0x1100 - 0xdf);
     svsys->read_error_func = (void (*)(void))read_error_func;
     work = svsys;
     work->write_error_func = write_error_func;
@@ -1146,7 +1146,7 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
  * answer 0.  Otherwise check the footer (BACKUP_SYSTEM_GetFooterInfo; with mode == 1 a
  * generation other than arg3 counts as bad), answer 3 or 0 for a bad footer,
  * then walk every record checking its stored CRC against the footer's CRC
- * table and recomputing it (func_02081B8C over svsys's inline table),
+ * table and recomputing it (MATH_CalcCRC16CCITT over svsys's inline table),
  * marking each record 0, or 1 on a recompute mismatch.  A completed walk marks
  * the two trailing slots 1 and commits the footer's generation
  * (BACKUP_SYSTEM_SetSaveCount); a broken one answers 3.  The one-copy twin of

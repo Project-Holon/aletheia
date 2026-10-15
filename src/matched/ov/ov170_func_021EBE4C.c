@@ -1,5 +1,5 @@
 /*
- * function: func_021EBE4C
+ * function: BOX2_SEQ_ReleaseBoxGraphics
  * address: 0x021EBE4C
  * packet: pkt_ov170_021EBE4C
  * region: ov170
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021EBE4C(char *p)
+void BOX2_SEQ_ReleaseBoxGraphics(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x45; i++)

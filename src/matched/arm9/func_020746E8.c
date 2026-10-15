@@ -11,7 +11,7 @@
  *
  * Carves one sub-allocation out of an (offset, size) window: round the offset
  * up to four, refuse the window if the rounded offset already ran past its end
- * or if fewer than 0x10 bytes remain, then allocate through func_020610E0 with
+ * or if fewer than 0x10 bytes remain, then allocate through NNS_FndCreateFrmHeap with
  * a 0x10-byte header reserved and register the block with NNSi_SndHeapInit. A
  * failed registration frees the block again and answers 0; success answers the
  * aligned offset.
@@ -32,14 +32,14 @@
  * original source declared them in; writing `aligned` first makes mwcc emit
  * the `bic` before the `add`.
  *
- * The note's third finding, that func_020610E0 has no branch witness outside
+ * The note's third finding, that NNS_FndCreateFrmHeap has no branch witness outside
  * this range, no longer caps the file: the 2026-09-21 sole-ref/code widening
  * attests it at its own function start.
  *
  * symbols:
- *   func_020610E0  0x020610E0  arm
+ *   NNS_FndCreateFrmHeap  0x020610E0  arm
  *   NNSi_SndHeapInit  0x020749C4  arm
- *   func_02061118  0x02061118  arm
+ *   NNS_FndDestroyFrmHeap  0x02061118  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_SndHeapCreate.c \
@@ -49,9 +49,9 @@
 typedef unsigned int u32;
 
 struct Table;
-extern void *func_020610E0(void *mem, u32 size, u32 opt);
+extern void *NNS_FndCreateFrmHeap(void *mem, u32 size, u32 opt);
 extern int NNSi_SndHeapInit(struct Table *t, void *heap);
-extern void  func_02061118(void *p);
+extern void  NNS_FndDestroyFrmHeap(void *p);
 
 u32 NNS_SndHeapCreate(u32 off, u32 size)
 {
@@ -67,10 +67,10 @@ u32 NNS_SndHeapCreate(u32 off, u32 size)
     rest = end - aligned;
     if (rest < 0x10) return 0;
 
-    p = func_020610E0((void *)(aligned + 0x10), rest - 0x10, 0);
+    p = NNS_FndCreateFrmHeap((void *)(aligned + 0x10), rest - 0x10, 0);
     if (p == 0) return 0;
     if (NNSi_SndHeapInit((struct Table *)aligned, p) != 0) return aligned;
 
-    func_02061118(p);
+    NNS_FndDestroyFrmHeap(p);
     return 0;
 }

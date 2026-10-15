@@ -63,11 +63,7 @@
  *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies  0x021BE844  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_SetIconForm  0x021BE854  thumb  ov208
  */
-#include "zukan_detail_types.h"
-#include "../../matched/include/Obj05867.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_headbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 extern u32 func_020307B0(void *p);
 
@@ -87,10 +83,6 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
-struct Ov208Icon_021BE710 { u16 heap,pad2; unsigned f4,f8; int fc; unsigned pad10[2],f18,f1c,f20,f24,f28,f2c,f30; };
-
-struct Ov208Icon_021BE7A4 { u16 heap,pad2; unsigned f4,f8; int fc; unsigned char count,pad11[7]; unsigned f18,f1c,f20,f24,f28,f2c,f30; };
-
 struct Ov208PalTbl {
     u32 v[5];
 };
@@ -107,13 +99,13 @@ extern void func_0204047C(int,u16);
 
 extern u32 func_02040804(u32 layer);
 
-extern void func_021BE920(struct Ov208Icon_021BE710 *);
+extern void func_021BE920(struct Ov208Icon *);
 
 extern void func_021BE864(void *);
 
 extern unsigned PRINTSYS_QUE_Create(void *);
 
-extern void func_021BE9CC(struct Ov208Icon_021BE7A4 *);
+extern void func_021BE9CC(struct Ov208Icon *);
 
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 
@@ -157,27 +149,25 @@ extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 
 extern void func_02041B6C(u32 layer);
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
 
-struct Ov208Icon_021BE710 *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
+void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m);
 
-void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Scene *m);
+void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon_021BE7A4 *p);
+void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon_021BE82C *p, int kind);
+int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p);
 
-int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon_021BE840 *p);
+void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon_021BE844 *p);
-
-void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon_021BE854 *p);
+void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
 
 void ZUKAN_DETAIL_HEADBAR_NoOp(void *p);
 
-void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Gfx *g);
+void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g);
 
-void ZUKAN_DETAIL_HEADBAR_DeleteWindows(char *p);
+void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p);
 
 void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p);
 
@@ -189,84 +179,84 @@ extern const char d_021C8DFC[];
 
 extern const struct Ov208PalTbl data_021C84F4;
 
-struct Ov208Icon_021BE710 *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
+struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
 {
-    struct Ov208Icon_021BE710 *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
-    p->heap=heap;p->f4=arg;p->f8=0;p->fc=5;
+    struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
+    p->heap=heap;p->font=arg;p->state=0;p->kind=5;
     func_02040618(5,3,24);
     func_0204047C(5,0);
-    ZUKAN_DETAIL_HEADBAR_CreateWindows((struct Ov208Gfx *)p);
+    ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     func_021BE920(p);
-    p->f28=(unsigned)func_020056A0((unsigned)func_021BE864,(unsigned)p,1);
-    p->f2c=PRINTSYS_QUE_Create((void *)(unsigned)p->heap);
-    p->f30=0;
+    p->task=func_020056A0((unsigned)func_021BE864,(unsigned)p,1);
+    p->queue=PRINTSYS_QUE_Create((void *)(unsigned)p->heap);
+    p->dirty=0;
     return p;
 }
 
 /*
  * tail: two zero alignment bytes after the function (listing extent is 2 bytes longer).
  */
-void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Scene *m)
+void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m)
 {
-    PRINTSYS_QUE_Clear((void *)m->f2c);
-    PRINTSYS_QUE_Delete((struct PrintSys *)m->f2c);
-    func_02030EAC((struct Node *)m->f28);
+    PRINTSYS_QUE_Clear((void *)m->queue);
+    PRINTSYS_QUE_Delete((struct PrintSys *)m->queue);
+    func_02030EAC((struct Node *)m->task);
     ZUKAN_DETAIL_HEADBAR_ClearIcon(m);
-    ZUKAN_DETAIL_HEADBAR_DeleteWindows((char *)m);
+    ZUKAN_DETAIL_HEADBAR_DeleteWindows(m);
     func_020307B0(m);
 }
 
 /*
  * matching: direct byte field access avoids a persistent extracted pointer register.
  */
-void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon_021BE7A4 *p)
+void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
 {
-    switch(p->f8) {
+    switch(p->state) {
     case 0: case 2: break;
     case 1:
         if(p->count==0) {
             if((int)func_02040804(5)<=0) {
-                func_02041EE4(5,3,0);p->f8=2;
+                func_02041EE4(5,3,0);p->state=2;
             } else {func_02041EE4(5,5,3);p->count=0;}
         } else --p->count;
         break;
     case 3:
         if(p->count==0) {
             if((int)func_02040804(5)>=24) {
-                func_02041EE4(5,3,24);p->f8=0;
+                func_02041EE4(5,3,24);p->state=0;
             } else {func_02041EE4(5,4,3);p->count=0;}
         } else --p->count;
         break;
     }
     func_021BE9CC(p);
-    PRINTSYS_QUE_Main((struct PrintSys *)p->f2c);
+    PRINTSYS_QUE_Main((struct PrintSys *)p->queue);
 }
 
-void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon_021BE82C *p, int kind)
+void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind)
 {
-    p->fc = kind;
+    p->kind = kind;
     ZUKAN_DETAIL_HEADBAR_ClearIcon();
-    ZUKAN_DETAIL_HEADBAR_DrawIcon((struct Ov208Icon *)p);
+    ZUKAN_DETAIL_HEADBAR_DrawIcon(p);
 }
 
-int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon_021BE840 *p)
+int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p)
 {
     return p->state;
 }
 
-void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon_021BE844 *p)
+void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p)
 {
     if (p->state != 2) {
         p->state = 1;
-        p->step = 0;
+        p->count = 0;
     }
 }
 
-void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon_021BE854 *p)
+void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p)
 {
     if (p->state != 0) {
         p->state = 3;
-        p->step = 0;
+        p->count = 0;
     }
 }
 
@@ -277,25 +267,25 @@ void ZUKAN_DETAIL_HEADBAR_NoOp(void *p)
 /*
  * tail: two zero alignment bytes after the function (listing extent is 2 bytes longer).
  */
-void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Gfx *g)
+void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
 {
-    g->f14 = BMP_WIN_Create(5, 0, 0, 0x10, 1, 13, 0);
-    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)g->f14)), 0);
-    BMP_WIN_TransferChars((struct Descriptor *)g->f14);
-    g->f18 = BMP_CreateFromArchive(0x9f, 14, 0, g->heap);
-    g->f20 = BMP_GetByteSize(g->f18);
-    g->f1c = func_02040B58(5, BMP_GetPixels(g->f18), g->f20);
-    ARC_UTIL_UploadBgPaletteAddFromArchive(0x9f, 0x25, 5, 0, g->f1c, 0xc0, 0, g->heap);
+    g->window = BMP_WIN_Create(5, 0, 0, 0x10, 1, 13, 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)g->window)), 0);
+    BMP_WIN_TransferChars((struct Descriptor *)g->window);
+    g->bmp = BMP_CreateFromArchive(0x9f, 14, 0, g->heap);
+    g->size = BMP_GetByteSize(g->bmp);
+    g->tile = func_02040B58(5, BMP_GetPixels(g->bmp), g->size);
+    ARC_UTIL_UploadBgPaletteAddFromArchive(0x9f, 0x25, 5, 0, g->tile, 0xc0, 0, g->heap);
     func_020413B0(5, 0, 0, 0x20, 0x18, 13);
-    g->f24 = (int)func_02045B38(0, 2, 0xea, g->heap);
+    g->msg = func_02045B38(0, 2, 0xea, g->heap);
 }
 
-void ZUKAN_DETAIL_HEADBAR_DeleteWindows(char *p)
+void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
 {
-    MSGDATA_Delete((struct Rec *)(((struct Obj05867 *)p)->f24));
-    func_0203FB44(5, ((struct Obj05867 *)p)->f1C, ((struct Obj05867 *)p)->f20);
-    BMP_Delete((struct Obj020437AC *)(((struct Obj05867 *)p)->f18));
-    BMP_WIN_Delete((struct Descriptor *)(((struct Obj05867 *)p)->f14));
+    MSGDATA_Delete((struct Rec *)p->msg);
+    func_0203FB44(5, p->tile, p->size);
+    BMP_Delete((struct Obj020437AC *)p->bmp);
+    BMP_WIN_Delete((struct Descriptor *)p->window);
 }
 
 void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
@@ -304,19 +294,19 @@ void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
     void *h;
     u32 s;
 
-    if (p->fc < 0 || p->fc >= 5)
+    if (p->kind < 0 || p->kind >= 5)
         return;
     h = func_020490F4(0x9f, p->heap);
     pal = data_021C84F4;
-    ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, pal.v[p->fc] << 5, 0x1a0, 0x20, p->heap);
+    ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, pal.v[p->kind] << 5, 0x1a0, 0x20, p->heap);
     ARC_TOOL_DeleteHandle(h);
     h = BMP_CreateFromArchive(0x9f, 0xe, 0, p->heap);
-    BMP_CopyPixels(h, (const struct Bmp *)p->f18);
+    BMP_CopyPixels(h, (const struct Bmp *)p->bmp);
     BMP_Delete(h);
-    s = (u32)func_02045EC0((struct MsgBank *)p->f24, p->fc + 0xb2);
-    PRINTSYS_PrintQueColor((void *)p->f2c, p->f18, 0x18, 5, s, p->f4, 0x3dc0);
+    s = (u32)func_02045EC0(p->msg, p->kind + 0xb2);
+    PRINTSYS_PrintQueColor((void *)p->queue, (u32)p->bmp, 0x18, 5, s, p->font, 0x3dc0);
     STRBUF_Delete((struct U16Vec *)s);
-    p->f30 = 1;
+    p->dirty = 1;
     ZUKAN_DETAIL_HEADBAR_FlushIcon(p);
 }
 
@@ -326,9 +316,9 @@ void ZUKAN_DETAIL_HEADBAR_ClearIcon()
 
 void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
-    if (p->f30 != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->f2c, (void *)p->f18) == 0) {
-        func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->f18), p->f20, p->f1c);
+    if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->queue, (void *)p->bmp) == 0) {
+        func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
         func_02041B6C(5);
-        p->f30 = 0;
+        p->dirty = 0;
     }
 }

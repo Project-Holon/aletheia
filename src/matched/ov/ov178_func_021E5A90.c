@@ -1,5 +1,5 @@
 /*
- * function: func_021E5A90
+ * function: PARTY_STATUS_NetSync2
  * address: 0x021E5A90
  * packet: pkt_ov178_021E5A90
  * region: ov178
@@ -29,7 +29,7 @@ extern int func_0217E258(int unused, int arg);
 typedef unsigned char  u8;
 extern int func_0217E298(u8 *p, const void *q);
 extern void func_0217E074(void *);
-unsigned func_021E5A90(void **d,unsigned *c,unsigned *state)
+unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state)
 {
  if(func_0200FB24()!=0){GFL_NET_ERR_RequestScreen();c[2]=2;return 1;}
  switch(*state) {

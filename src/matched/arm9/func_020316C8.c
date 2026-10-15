@@ -29,7 +29,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020819B8  0x020819B8  arm
+ *   MATHi_CRC16InitTable  0x020819B8  arm
  *   FLASH_ACCESS_Identify  0x02033534  arm
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
@@ -48,7 +48,7 @@ extern void *func_02030734(u32 heap, u32 size, int align, const char *file,
                          u16 line);
 extern void func_02082A7C(u32 a, void *p, u32 n);
 struct MATHCRC16Table;
-extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
+extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern int FLASH_ACCESS_Identify(u32 a);
 extern const u8 str_020A7848[];
 extern u8 *svsys;
@@ -59,7 +59,7 @@ void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2)
 
     svsys = p;
     func_02082A7C(0, p, 0x210);
-    func_020819B8((struct MATHCRC16Table *)(svsys + 4), 0x1100 - 0xdf);
+    MATHi_CRC16InitTable((struct MATHCRC16Table *)(svsys + 4), 0x1100 - 0xdf);
     *(u32 *)(svsys + 0x204) = a1;
     p = svsys;
     ((struct Obj15875 *)p)->f208 = a2;

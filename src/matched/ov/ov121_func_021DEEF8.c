@@ -1,5 +1,5 @@
 /*
- * function: func_021DEEF8
+ * function: MYSTERY_NET_ParseHexValue
  * address: 0x021DEEF8
  * packet: pkt_ov121_021DEEF8
  * region: ov121
@@ -13,7 +13,7 @@
  */
 extern const signed char d_021DFA8C[][2];
 typedef enum { NO_DIGIT = -1 } Digit;
-int func_021DEEF8(const signed char *p)
+int MYSTERY_NET_ParseHexValue(const signed char *p)
 {
     unsigned i;
     Digit digit;

@@ -1,5 +1,5 @@
 /*
- * function: func_02084D78
+ * function: OS_UnlockCartridge
  * address:  0x02084D78
  * packet:   pkt_02084D78
  * region:   arm9
@@ -39,7 +39,7 @@ extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 extern void OSi_FreeCartridgeBus(void);
 
-s32 func_02084D78(u16 lockID)
+s32 OS_UnlockCartridge(u16 lockID)
 {
     return OSi_DoUnlockByWord(lockID, (OSLockWord *)0x02FFFFE8, OSi_FreeCartridgeBus, 1);
 }

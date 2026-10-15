@@ -1,5 +1,5 @@
 /*
- * function: func_02082B44
+ * function: MI_Copy32B
  * address:  0x02082B44
  * packet:   pkt_02082B44
  * region:   arm9
@@ -15,7 +15,7 @@
  * void MI_Copy32B(void *pSrc, void *pDest).
  */
 
-asm void func_02082B44(void)
+asm void MI_Copy32B(void)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1!, {r2, r3, r12}

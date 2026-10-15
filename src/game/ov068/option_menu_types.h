@@ -178,7 +178,7 @@ typedef struct ClPos {
 typedef struct OptionMenuGfx {
     struct BmpWindow *windows[OPTION_WINDOW_COUNT]; /* 0x00 */
     u16 blinkAngle;                                  /* 0x4C */
-    u16 pad4E;                                       /* 0x4E never accessed; open item (not alignment) */
+    u16 pad4E;                                       /* 0x4E reserved: twin of arm9 BlinkPalAnm.reserved12, never accessed here */
     u16 blinkColor;                                  /* 0x50 */
     u16 pad52;                                       /* 0x52 alignment before the pointer */
     void *screenBuffer;                              /* 0x54 */
@@ -284,7 +284,7 @@ typedef struct OptionMenuList {
     int scrollY;                    /* 0x34 */
     u32 repeatCounter;              /* 0x38 */
     u32 inputTrail;                 /* 0x3C */
-    u32 pad40;                      /* 0x40 never accessed; open item (not alignment) */
+    u32 pad40;                      /* 0x40 reserved: gap between inputTrail and settings, never accessed */
     OptionSettings settings;        /* 0x44 */
     int redraw;                     /* 0x50 */
     int highlight;                  /* 0x54 */

@@ -12,8 +12,8 @@
  * sdk:      SOCLi_EnableSslCallBack (libsoc.TWL.HYB.a(socl_ssl.o))
  *
  * symbols:
- *   func_02086028  0x02086028  arm
- *   func_02162E94  0x02162E94  arm  ov009
+ *   OS_LockMutex  0x02086028  arm
+ *   CPS_SetSsl  0x02162E94  arm  ov009
  *   func_02086078  0x02086078  arm
  */
 
@@ -43,8 +43,8 @@ typedef struct {
 	void *con;
 } Cmd;
 
-extern void func_02086028(void *mutex);
-extern void func_02162E94(int mode);
+extern void OS_LockMutex(void *mutex);
+extern void CPS_SetSsl(int mode);
 extern void func_02086078(void *mutex);
 
 int func_0215FD40(void *arg)
@@ -54,14 +54,14 @@ int func_0215FD40(void *arg)
 	Pipe *recv_pipe = socket->recv_pipe;
 	Cps *cpsoc = recv_pipe->cpsoc;
 
-	func_02086028(recv_pipe->mutex);
+	OS_LockMutex(recv_pipe->mutex);
 	if (cpacket->con != 0) {
 		cpsoc->ssl = cpacket->con;
-		func_02162E94(1);
+		CPS_SetSsl(1);
 		socket->flag_mode = 4;
 	} else {
 		socket->flag_mode = 0;
-		func_02162E94(0);
+		CPS_SetSsl(0);
 		cpsoc->ssl = 0;
 	}
 	func_02086078(recv_pipe->mutex);

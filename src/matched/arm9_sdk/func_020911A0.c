@@ -1,5 +1,5 @@
 /*
- * function: func_020911A0
+ * function: CTRDG_DummyInit
  * address:  0x020911A0
  * packet:   pkt_020911A0
  * region:   arm9
@@ -26,7 +26,7 @@ extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL
 extern void CTRDGi_SendtoPxi(u32 data);
 extern void CTRDGi_DummyCallback(int tag, u32 data, BOOL err);
 
-void func_020911A0(void)
+void CTRDG_DummyInit(void)
 {
     CTRDGi_InitCommon();
     PXI_SetFifoRecvCallback(13, 0);

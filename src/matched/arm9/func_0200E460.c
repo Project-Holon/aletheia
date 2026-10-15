@@ -1,5 +1,5 @@
 /*
- * function: func_0200E460
+ * function: MISC_SAVEDATA_AddHalfwordClamped
  * address:  0x0200E460
  * packet:   pkt_0200E460
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-void func_0200E460(char *p, int idx, int v)
+void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v)
 {
     unsigned short *q = (unsigned short *)(p + idx * 2);
     *q = *q + (unsigned short)v;

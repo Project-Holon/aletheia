@@ -1,4 +1,0 @@
-#ifndef BR_BTN_DATA_SHARED_TYPES_H
-#define BR_BTN_DATA_SHARED_TYPES_H
-
-#endif

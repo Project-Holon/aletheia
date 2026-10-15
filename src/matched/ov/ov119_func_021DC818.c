@@ -1,5 +1,5 @@
 /*
- * function: func_021DC818
+ * function: POKETRADE_PROC_ExitBgm
  * address: 0x021DC818
  * packet: pkt_ov119_021DC818
  * region: ov119
@@ -17,7 +17,7 @@ extern int GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-void func_021DC818(char *p)
+void POKETRADE_PROC_ExitBgm(char *p)
 {
     switch (((struct Obj00001 *)p)->f11F8) {
     case 0:

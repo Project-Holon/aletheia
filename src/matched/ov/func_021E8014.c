@@ -1,5 +1,5 @@
 /*
- * function: func_021E8014
+ * function: BOX2_SEQ_StateDeleteHandle
  * address:  0x021E8014
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-int func_021E8014(char *p)
+int BOX2_SEQ_StateDeleteHandle(char *p)
 {
     func_020307B0(((struct Obj18467 *)(*(char * *)&((struct Obj18466 *)p)->f2C))->f60);
     return 0x56;

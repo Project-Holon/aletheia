@@ -1,5 +1,5 @@
 /*
- * function: func_02182414
+ * function: gsiXmlUtilParseName
  * address:  0x02182414
  * packet:   pkt_ov009_02182414
  * region:   ov009
@@ -15,7 +15,7 @@
  *   func_02181E28  0x02181e28  arm   ov009
  *   strchr         0x02094a28  arm
  *   g_020A61DC     0x020a61dc  data
- *   g_021A3F14     0x021a3f14  data
+ *   gGsXmlWhiteSpaceChars     0x021a3f14  data
  *
  * notes: DIFF, 7 words: original loads the first char into r3 and the pointer
  *   buffer+*pos into r2, ours swaps r2/r3 (rest of the function is identical,
@@ -43,12 +43,12 @@ typedef struct GSIXmlString {
 extern int func_02181E28(void *, char *, int, int *);
 extern char *strchr(const char *, int);
 extern const unsigned short g_020A61DC[];
-extern char g_021A3F14[];
+extern char gGsXmlWhiteSpaceChars[];
 
 #define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x9))
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x8))
 
-int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
+int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
 {
     int haveNamespace = 0;
     char c;
@@ -63,7 +63,7 @@ int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *s
     strOut->mData = buffer + *pos;
     strOut->mLen = 1;
     (*pos)++;
-    while (*pos < len && strchr(g_021A3F14, c = buffer[*pos]) == 0) {
+    while (*pos < len && strchr(gGsXmlWhiteSpaceChars, c = buffer[*pos]) == 0) {
         if (c == ':') {
             if (haveNamespace)
                 return 0;

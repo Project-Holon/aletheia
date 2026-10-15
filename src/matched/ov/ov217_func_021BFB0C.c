@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB0C
+ * function: RESEARCH_GRAPH_ClearCommandQueue
  * address:  0x021BFB0C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BFB0C(void *p)
+void RESEARCH_GRAPH_ClearCommandQueue(void *p)
 {
     ((struct Obj25948 *)p)->f1C = 0;
 }

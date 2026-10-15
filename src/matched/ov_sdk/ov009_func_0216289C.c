@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02162418  0x02162418  arm  ov009
- *   func_02161F98  0x02161F98  arm  ov009
- *   func_021612C8  0x021612C8  arm  ov009
- *   func_0216286C  0x0216286C  arm  ov009
- *   func_021622C0  0x021622C0  arm  ov009
- *   func_021625B8  0x021625B8  arm  ov009
- *   func_02161264  0x02161264  arm  ov009
+ *   parse_record  0x02161F98  arm  ov009
+ *   create_key_block  0x021612C8  arm  ov009
+ *   mustget_change_cipher_spec_and_finished  0x0216286C  arm  ov009
+ *   send_change_cipher_spec_and_finished  0x021622C0  arm  ov009
+ *   send_client_key_exchange  0x021625B8  arm  ov009
+ *   create_master_secret  0x02161264  arm  ov009
  *   func_0215FEE0  0x0215FEE0  arm  ov009
  */
 
@@ -41,12 +41,12 @@ typedef struct CPSSoc {
 } CPSSoc;
 
 extern void func_02162418(CPSSoc *soc);
-extern int func_02161F98(CPSSoc *soc);
-extern void func_021612C8(CPSSslConnection *con);
-extern int func_0216286C(CPSSoc *soc);
-extern void func_021622C0(CPSSoc *soc);
-extern void func_021625B8(CPSSoc *soc);
-extern void func_02161264(CPSSslConnection *con);
+extern int parse_record(CPSSoc *soc);
+extern void create_key_block(CPSSslConnection *con);
+extern int mustget_change_cipher_spec_and_finished(CPSSoc *soc);
+extern void send_change_cipher_spec_and_finished(CPSSoc *soc);
+extern void send_client_key_exchange(CPSSoc *soc);
+extern void create_master_secret(CPSSslConnection *con);
 extern void func_0215FEE0(CPSSslConnection *con, unsigned long ip, unsigned short port);
 
 static int func_0216289C(CPSSoc *soc)
@@ -57,7 +57,7 @@ static int func_0216289C(CPSSoc *soc)
     con = soc->con;
     func_02162418(soc);
     for (;;) {
-        state = func_02161F98(soc);
+        state = parse_record(soc);
         if (state == 9)
             return 1;
         if (state == 4)
@@ -66,18 +66,18 @@ static int func_0216289C(CPSSoc *soc)
             break;
     }
     if (con->resumed != 0) {
-        func_021612C8(con);
-        if (func_0216286C(soc) != 0)
+        create_key_block(con);
+        if (mustget_change_cipher_spec_and_finished(soc) != 0)
             return 1;
-        func_021622C0(soc);
+        send_change_cipher_spec_and_finished(soc);
     } else {
-        func_021625B8(soc);
-        func_02161264(con);
+        send_client_key_exchange(soc);
+        create_master_secret(con);
         if (con->cache != 0)
             func_0215FEE0(con, soc->ip, soc->port);
-        func_021612C8(con);
-        func_021622C0(soc);
-        if (func_0216286C(soc) != 0)
+        create_key_block(con);
+        send_change_cipher_spec_and_finished(soc);
+        if (mustget_change_cipher_spec_and_finished(soc) != 0)
             return 1;
     }
     con->state = 8;

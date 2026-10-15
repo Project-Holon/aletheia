@@ -1,5 +1,5 @@
 /*
- * function: func_02086164
+ * function: OSi_UnlockMutexCore
  * address:  0x02086164
  * packet:   pkt_02086164
  * region:   arm9
@@ -167,7 +167,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 extern void OSi_DequeueItem(OSThread *thread, OSMutex *mutex);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 
-void func_02086164(OSMutex *mutex, u32 type)
+void OSi_UnlockMutexCore(OSMutex *mutex, u32 type)
 {
     OSIntrMode e = OS_DisableInterrupts();
     BOOL unlocked = 0;

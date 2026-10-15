@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF28
+ * function: RESEARCH_LIST_GetEntryScreenX
  * address:  0x021BBF28
  * packet:   pkt_021BBF28
  * region:   ov217
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BBF04  0x021BBF04  thumb  ov217
+ *   RESEARCH_LIST_GetRowOffset  0x021BBF04  thumb  ov217
  *   func_02041648  0x02041648  arm
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_021BBF04(unsigned int p, unsigned int slot);
+extern unsigned int RESEARCH_LIST_GetRowOffset(unsigned int p, unsigned int slot);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02041648(u8 channel);
 
-int func_021BBF28(unsigned char *p, unsigned int slot)
+int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot)
 {
-    int t = func_021BBF04((unsigned int)p, slot) << 3;
+    int t = RESEARCH_LIST_GetRowOffset((unsigned int)p, slot) << 3;
     return t - func_02041648(2);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02088118
+ * function: OS_SetDeliverArgStateInvalid
  * address:  0x02088118
  * packet:   pkt_02088118
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern struct OsArgumentBss g_02151384;
 
-void func_02088118(void)
+void OS_SetDeliverArgStateInvalid(void)
 {
     ((int *)&g_02151384)[1] = 0;
 }

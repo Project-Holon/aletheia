@@ -1,5 +1,5 @@
 /*
- * function: func_0208CB10
+ * function: STD_CopyLString
  * address:  0x0208CB10
  * packet:   pkt_0208CB10
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern int STD_GetStringLength(const char *str);
 
-int func_0208CB10(char *destp, const char *srcp, int siz)
+int STD_CopyLString(char *destp, const char *srcp, int siz)
 {
     const char *s;
     unsigned long y;

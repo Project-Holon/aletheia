@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   OS_Terminate  0x02088234  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   OS_GetMacAddress  0x02087C6C  arm
@@ -87,7 +87,7 @@ typedef struct OSOwnerInfo {
 } OSOwnerInfo;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void OS_Terminate(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void OS_GetMacAddress(unsigned char *macAddress);
@@ -125,10 +125,10 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     MI_CpuFill8(cal, 0, sizeof(DWCCalInfo));
 
     if (wifiinfo->attestedUserId != 0)
-        func_02084F80(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->attestedUserId);
+        OS_SNPrintf(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->attestedUserId);
     else
-        func_02084F80(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->notAttestedId);
-    func_02084F80(cal->passwd, sizeof(cal->passwd), g_021A2498, wifiinfo->pass);
+        OS_SNPrintf(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->notAttestedId);
+    OS_SNPrintf(cal->passwd, sizeof(cal->passwd), g_021A2498, wifiinfo->pass);
 
     if (*(unsigned char *)0x02FFFE0C == 0)
         OS_Terminate();
@@ -146,14 +146,14 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     OS_GetOwnerInfo(&ownerinfo);
     if (ownerinfo.language >= 8)
         ownerinfo.language = 1;
-    func_02084F80(cal->lang, sizeof(cal->lang), g_021A24A0, ownerinfo.language);
+    OS_SNPrintf(cal->lang, sizeof(cal->lang), g_021A24A0, ownerinfo.language);
     MI_CpuCopy8(ownerinfo.nickName, cal->devname, 20);
-    func_02084F80(cal->birth, sizeof(cal->birth), g_021A24A8,
+    OS_SNPrintf(cal->birth, sizeof(cal->birth), g_021A24A8,
                   ownerinfo.birthday.month, ownerinfo.birthday.day);
 
     if (func_020889C0(&rtcdate, &rtctime) != 0)
         return 0;
-    func_02084F80(cal->devtime, sizeof(cal->devtime), g_021A24B4,
+    OS_SNPrintf(cal->devtime, sizeof(cal->devtime), g_021A24B4,
                   rtcdate.year, rtcdate.month, rtcdate.day,
                   rtctime.hour, rtctime.minute, rtctime.second);
 
@@ -171,7 +171,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     aptype = func_0205BDD0();
     if (aptype == 0xff || aptype > 99)
         aptype = 99;
-    func_02084F80(cal->apinfo, sizeof(cal->apinfo), g_021A24D0, aptype);
+    OS_SNPrintf(cal->apinfo, sizeof(cal->apinfo), g_021A24D0, aptype);
 
     wcmessid = func_021663C8(&wcmessidlen);
     func_020862B8(wcmessid, 32);

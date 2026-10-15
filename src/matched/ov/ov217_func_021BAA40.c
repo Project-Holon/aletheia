@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA40
+ * function: RESEARCH_TOP_ClearActor
  * address:  0x021BAA40
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BAA40(void *p)
+void RESEARCH_TOP_ClearActor(void *p)
 {
     ((struct Obj25837 *)p)->f7C = 0;
 }

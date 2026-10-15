@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060614  0x02060614  arm
- *   func_02060550  0x02060550  arm
+ *   NNS_FndGetNextListObject  0x02060614  arm
+ *   NNS_FndInsertListObject  0x02060550  arm
  *   gSndActiveSeqList     0x0214E018  data
  *
  * Priority-ordered insert into the gSndActiveSeqList list.  Walks the list with the
- * generic iterator func_02060614 (a null cursor asks for the head, a node asks
+ * generic iterator NNS_FndGetNextListObject (a null cursor asks for the head, a node asks
  * for its successor), stops at the first node whose b3d priority byte is
  * strictly greater than the new object's, and inserts before it with
- * func_02060550.  Running off the end leaves `curr` null, which is
- * func_02060550's "append" case, so one loop serves both.
+ * NNS_FndInsertListObject.  Running off the end leaves `curr` null, which is
+ * NNS_FndInsertListObject's "append" case, so one loop serves both.
  *
  * TWO INDEPENDENT ERRORS were fixed to close this, and only the first is
  * interesting:
@@ -62,17 +62,17 @@ typedef struct Obj_02073548 {
 
 extern char gSndActiveSeqList[];
 struct DList;
-extern void *func_02060614(struct DList *list, void *elem);
-extern void func_02060550(volatile struct DList *list, void *before, void *elem);
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
+extern void NNS_FndInsertListObject(volatile struct DList *list, void *before, void *elem);
 
 void NNSi_SndInsertActiveSeqPlayer(Obj_02073548 *obj)
 {
-    Obj_02073548 *curr = func_02060614((struct DList *)gSndActiveSeqList, 0);
+    Obj_02073548 *curr = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, 0);
     while (curr != 0) {
         if (obj->b3d < curr->b3d) {
             break;
         }
-        curr = func_02060614((struct DList *)gSndActiveSeqList, curr);
+        curr = NNS_FndGetNextListObject((struct DList *)gSndActiveSeqList, curr);
     }
-    func_02060550((volatile struct DList *)gSndActiveSeqList, curr, obj);
+    NNS_FndInsertListObject((volatile struct DList *)gSndActiveSeqList, curr, obj);
 }

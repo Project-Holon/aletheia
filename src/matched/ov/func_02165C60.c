@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200E3A4  0x0200E3A4  thumb
+ *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0200E3A4(const u8 *bits, int id);
+extern u32 SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *bits, int id);
 
 int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0)
 {
@@ -25,7 +25,7 @@ int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0)
 
 a0 = a0 + 0x50;
 a1 = 0x1a;
-    a0 = func_0200E3A4((const u8 *)a0, a1);
+    a0 = SYMBOL_SAVE_GetQuestionnaireAnswer((const u8 *)a0, a1);
 loc_02165C6A:
     if (a0 != 0) goto loc_02165C72;
 loc_02165C6E:

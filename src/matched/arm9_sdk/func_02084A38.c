@@ -1,5 +1,5 @@
 /*
- * function: func_02084A38
+ * function: OSi_CommonCallback
  * address:  0x02084A38
  * packet:   pkt_02084A38
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct OsPxiBss OsPxiBss;
 
 extern struct OsPxiBss g_02150FC8;
 
-void func_02084A38(int tag, u32 data, BOOL err)
+void OSi_CommonCallback(int tag, u32 data, BOOL err)
 {
     u16 command = (u16)((data & 0x7F00) >> 8);
 

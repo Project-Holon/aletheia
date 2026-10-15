@@ -54,9 +54,9 @@ extern void decodeSSID(char *ssid, unsigned char *buf);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey);
 extern int db64(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize);
-extern void func_02081120(MATHMD5Context *context);
-extern void func_02081164(MATHMD5Context *context, const void *input, unsigned long length);
-extern void func_0208122C(MATHMD5Context *context, void *digest);
+extern void MATH_MD5Init(MATHMD5Context *context);
+extern void MATH_MD5Update(MATHMD5Context *context, const void *input, unsigned long length);
+extern void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
 extern long codetovalue(unsigned char c);
 int func_0205EA08(char *ssid);
 void func_0205EA44(char *ssid, unsigned char *wep);
@@ -196,9 +196,9 @@ static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
     unsigned char temp[17];
     MATHMD5Context context;
 
-    func_02081120(&context);
-    func_02081164(&context, seed, 24);
-    func_0208122C(&context, temp);
+    MATH_MD5Init(&context);
+    MATH_MD5Update(&context, seed, 24);
+    MATH_MD5GetHash(&context, temp);
     MI_CpuCopy8(&temp[3], wepkey, 13);
 }
 

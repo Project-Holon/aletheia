@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_Np_GetConsoleIdPrefix  0x02167E94  arm  ov009
  *   func_02167E88  0x02167E88  arm  ov009
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
  *   func_0216A460  0x0216A460  arm  ov009
  *   func_02178F00  0x02178F00  arm  ov009
@@ -64,7 +64,7 @@ extern DWCstLoginControl *g_021AA874;
 
 extern void *DWCi_Np_GetConsoleIdPrefix(void);
 extern long long func_02167E88(void);
-extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
 extern int func_0216A460(int result);
 extern u64 func_02178F00(void);
@@ -87,7 +87,7 @@ static void func_0216A4D4(void **pconnection, GPConnectResponseArg *arg)
 
     g_021AA874->connectFlag = 0;
 
-    func_02084F80(firstname, sizeof(firstname), "%s:%016llu", DWCi_Np_GetConsoleIdPrefix(), func_02167E88());
+    OS_SNPrintf(firstname, sizeof(firstname), "%s:%016llu", DWCi_Np_GetConsoleIdPrefix(), func_02167E88());
     gpResult = func_02185CB4(pconnection, 0x704, firstname);
     if (func_0216A460(gpResult))
         return;

@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_020860D0  0x020860D0  arm
- *   func_02086028  0x02086028  arm
+ *   OS_TryLockMutex  0x020860D0  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_0215E138  0x0215E138  arm  ov009
  *   func_02086078  0x02086078  arm
  *
@@ -72,8 +72,8 @@ struct SOCLiCommandWrite {
 };
 
 extern int func_0215F3D0(struct SOCLSocket *socket);
-extern int func_020860D0(void *mutex);
-extern void func_02086028(void *mutex);
+extern int OS_TryLockMutex(void *mutex);
+extern void OS_LockMutex(void *mutex);
 extern int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block);
 extern void func_02086078(void *mutex);
@@ -113,11 +113,11 @@ int func_0215E024(int s, void *buffer, int buffer_len, unsigned short remote_por
     }
     send_pipe = socket->send_pipe;
     if ((flags & 4) || socket->flag_block == 0) {
-        if (!func_020860D0(send_pipe->mutex))
+        if (!OS_TryLockMutex(send_pipe->mutex))
             return -6;
         flag_block = 0;
     } else {
-        func_02086028(send_pipe->mutex);
+        OS_LockMutex(send_pipe->mutex);
         flag_block = 1;
     }
     result = func_0215E138(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);

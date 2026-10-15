@@ -1,5 +1,5 @@
 /*
- * function: func_021DC458
+ * function: POKETRADE_PROC_InitDisplay
  * address: 0x021DC458
  * packet: pkt_ov119_021DC458
  * region: ov119
@@ -21,7 +21,7 @@ extern void BMP_WIN_Init(unsigned short);
 extern void POKETRADE_2D_InitDisplayAndClact(char *p);
 extern void POKETRADE_2D_SetupMainBgs(void *);
 extern void POKETRADE_2D_SetupSubBgs(char *p);
-void func_021DC458(char *p)
+void POKETRADE_PROC_InitDisplay(char *p)
 {
     func_0203F8F4(0x91);
     BMP_WIN_Init(((struct Obj22734 *)p)->f5F4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021EC994
+ * function: BOX2_SEQ_ShrinkActor
  * address: 0x021EC994
  * packet: pkt_ov170_021EC994
  * region: ov170
@@ -16,7 +16,7 @@
 struct Obj;
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
-int func_021EC994(char *p)
+int BOX2_SEQ_ShrinkActor(char *p)
 {
     int pair[2];
     (((struct Obj05439 *)p)->f7)++;

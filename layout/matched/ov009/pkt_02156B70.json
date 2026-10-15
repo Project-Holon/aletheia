@@ -109,7 +109,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02162DD8",
+   "name": "CPSi_SslShutdown",
    "address": "0x02162DD8",
    "kind": "sdk",
    "region": "ov009",
@@ -225,7 +225,7 @@
    }
   },
   {
-   "name": "func_02183E50",
+   "name": "gsXmlReadChildAsLargeInt",
    "address": "0x02183E50",
    "kind": "sdk",
    "region": "ov009",
@@ -266,7 +266,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A0440",
+   "name": "FullRulesPresent",
    "address": "0x021A0440",
    "kind": "sdk",
    "region": "ov009",

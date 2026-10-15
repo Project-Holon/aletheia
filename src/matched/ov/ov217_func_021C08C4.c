@@ -1,5 +1,5 @@
 /*
- * function: func_021C08C4
+ * function: RESEARCH_GRAPH_RestartNetwork
  * address:  0x021C08C4
  * packet:   pkt_021B9850
  * region:   ov217
@@ -12,7 +12,7 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C08C4  0x021C08C4  thumb  ov217
+ *   RESEARCH_GRAPH_RestartNetwork  0x021C08C4  thumb  ov217
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-void func_021C08C4(u32 a0)
+void RESEARCH_GRAPH_RestartNetwork(u32 a0)
 {
     GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj25973 *)(((u8*)a0 + 0)))->f4);
 }

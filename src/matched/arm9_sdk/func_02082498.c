@@ -1,5 +1,5 @@
 /*
- * function: func_02082498
+ * function: MIi_DmaCopy32Async
  * address:  0x02082498
  * packet:   pkt_02082498
  * region:   arm9
@@ -53,7 +53,7 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-void func_02082498(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable)
+void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable)
 {
     MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, 0);
 

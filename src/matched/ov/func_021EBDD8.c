@@ -1,5 +1,5 @@
 /*
- * function: func_021EBDD8
+ * function: BOX2_SEQ_DeleteBox2UiScene
  * address:  0x021EBDD8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,23 +10,23 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EE200  0x021EE200  thumb  ov170
- *   func_021EBF50  0x021EBF50  thumb  ov170
- *   func_021EBE4C  0x021EBE4C  thumb  ov170
+ *   BOX2_UI_DeleteBmpOam  0x021EE200  thumb  ov170
+ *   BOX2_SEQ_DeleteAllActors  0x021EBF50  thumb  ov170
+ *   BOX2_SEQ_ReleaseBoxGraphics  0x021EBE4C  thumb  ov170
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *
  * Three teardown steps then the SDK pool release.
  */
 
 
-extern void func_021EE200(char *);
-extern void func_021EBF50(char *);
-extern void func_021EBE4C(char *);
+extern void BOX2_UI_DeleteBmpOam(char *);
+extern void BOX2_SEQ_DeleteAllActors(char *);
+extern void BOX2_SEQ_ReleaseBoxGraphics(char *);
 extern void CLACT_ExitSystem(void);
-void func_021EBDD8(char *p)
+void BOX2_SEQ_DeleteBox2UiScene(char *p)
 {
-    func_021EE200(p);
-    func_021EBF50(p);
-    func_021EBE4C(p);
+    BOX2_UI_DeleteBmpOam(p);
+    BOX2_SEQ_DeleteAllActors(p);
+    BOX2_SEQ_ReleaseBoxGraphics(p);
     CLACT_ExitSystem();
 }

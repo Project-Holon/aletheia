@@ -3,6 +3,7 @@
 /* Types of the DWC download (nd) front end (dwc_nd.o). */
 
 #include "dwci_nd_types.h"
+#include "dwc_svl_types.h"
 
 #ifndef OV114_BASIC_TYPES
 #define OV114_BASIC_TYPES
@@ -10,13 +11,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 #endif
-
-/* Result of the service locator (SVL) token request: host and token for the download server. */
-typedef struct DWCSvlResult {
-    int reserved;               /* +0x00 */
-    char svlHost[0x41];         /* +0x04 */
-    char svlToken[0x12f];       /* +0x45 */
-} DWCSvlResult;
 
 /* Heap block of one nd session: credentials, SVL result and the token wait thread with its stack. */
 typedef struct NdParam {

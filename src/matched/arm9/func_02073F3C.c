@@ -12,7 +12,7 @@
  * Shutdown of the global sequence object gNNSSndSystem: clear +0x1C, unbind both
  * channel handles (+0x0C and +0x10) from the owner at +0x14 through
  * func_02082A7C then DWCi_ScreenDC_FlushRange, and finally release the channel mask built
- * from +0x2C with func_020894B4.
+ * from +0x2C with SND_StartTimer.
  *
  * PINNED ../2.0/sp2, the pin six cluster siblings now carry (NNS_SndStrmInit,
  * NNS_SndStrmSetVolume, NNS_SndStrmStop, NNSi_SndStrmAlarmHandler, NNS_SndHeapCreate, NNS_SndHeapSaveState).
@@ -34,7 +34,7 @@
  *   gNNSSndSystem     0x0214E9FC  data
  *   func_02082A7C  0x02082A7C  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
- *   func_020894B4  0x020894B4  arm
+ *   SND_StartTimer  0x020894B4  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNSi_SndCaptureReset.c \
@@ -64,7 +64,7 @@ struct G {
 extern struct St gNNSSndSystem;
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
-extern void func_020894B4(u32 a, u32 b, u32 c, u32 d);
+extern void SND_StartTimer(u32 a, u32 b, u32 c, u32 d);
 
 void NNSi_SndCaptureReset(void)
 {
@@ -79,5 +79,5 @@ void NNSi_SndCaptureReset(void)
     DWCi_ScreenDC_FlushRange(g->f10, g->f14);
     if (g->f2c >= 0) m = 1u << g->f2c;
     else m = 0;
-    func_020894B4(g->f24, g->f28, m, 0);
+    SND_StartTimer(g->f24, g->f28, m, 0);
 }

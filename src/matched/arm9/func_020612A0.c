@@ -1,5 +1,5 @@
 /*
- * function: func_020612A0
+ * function: NNSi_FndFreeToExpHeapAllocator
  * address:  0x020612A0
  * packet:   pkt_020612A0
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060E30  0x02060E30  arm
+ *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *
  * Allocator-table free for the expanded heap: tail call to
- * func_02060E30(allocator->heap, block).  Table word 0x020612A0 at
+ * NNS_FndFreeToExpHeap(allocator->heap, block).  Table word 0x020612A0 at
  * 0x020A170C.
  *
  * NitroSystem fnd code, compiled like the fnd heap neighbours
- * (func_020611D4) with ../2.0/sp2: dsi/1.1p1 issues the pool load after
+ * (NNS_FndFreeByStateToFrmHeap) with ../2.0/sp2: dsi/1.1p1 issues the pool load after
  * the argument load, the transposition in
  * docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write.md.
  * The other four allocator stubs match under either compiler and use the
@@ -34,9 +34,9 @@ struct Allocator02061 {
 };
 
 struct ExpHeap;
-extern void func_02060E30(struct ExpHeap *heap, void *block);
+extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
-void func_020612A0(struct Allocator02061 *allocator, void *block)
+void NNSi_FndFreeToExpHeapAllocator(struct Allocator02061 *allocator, void *block)
 {
-    func_02060E30(allocator->heap, block);
+    NNS_FndFreeToExpHeap(allocator->heap, block);
 }

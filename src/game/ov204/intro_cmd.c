@@ -44,7 +44,7 @@
  *   func_0200854C 0x0200854C thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
- *   func_02006BD0  0x02006BD0  thumb
+ *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   func_021BF864  0x021BF864  thumb ov204
  *   func_0207D63C 0x0207D63C arm
  *   func_021BFCE8 0x021BFCE8 thumb ov204
@@ -319,7 +319,7 @@ extern void func_0200854C(struct Sub0200852CObj*,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int  GFL_USE_IsAnySeBusy(void);
 extern int PM_VOICE_Start(u32 idx);
-extern u32 func_02006BD0(u32 i);
+extern u32 PM_VOICE_IsSlotActive(u32 i);
 extern int func_021BF864(char *p, int delta, int limit);
 extern void func_0207D63C(volatile void *, int, int, int, int);
 extern void func_021BFCE8(u32*,u32,u32,u32);
@@ -840,7 +840,7 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 3:
-        if (func_02006BD0(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
+        if (PM_VOICE_IsSlotActive(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
             *q = 0;
             return 1;
         }

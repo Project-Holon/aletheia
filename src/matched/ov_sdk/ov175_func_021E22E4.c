@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   func_0217D254  0x0217D254  arm
  *   g_021ACEF8     0x021ACEF8  data
  *   g_021ACEFC     0x021ACEFC  data
@@ -19,7 +19,7 @@
  *   gWsAuthServiceUrl     0x021E53BC  data
  *
  * Session state probe: state 1 initialises the 0x021E53BC flag through
- * func_02084F80 and reports the flag; any other state asks func_0217D254 to
+ * OS_SNPrintf and reports the flag; any other state asks func_0217D254 to
  * bring the 0x021E4A18 scene up (3/1).
  */
 
@@ -32,14 +32,14 @@ extern u32 g_021ACEFC[];
 extern u32 sWsAuthUrlFormat[];
 extern u32 sWsNoAvailabilityMessage[];
 extern s8 gWsAuthServiceUrl[];
-extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern void func_0217D254(int, int, int, u32 *);
 
 s32 wsGetServiceUrl(void)
 {
     if (g_021ACEF8 == 1) {
         if (gWsAuthServiceUrl[0] == 0)
-            func_02084F80((char *)gWsAuthServiceUrl, 0x80, (const char *)sWsAuthUrlFormat, g_021ACEFC);
+            OS_SNPrintf((char *)gWsAuthServiceUrl, 0x80, (const char *)sWsAuthUrlFormat, g_021ACEFC);
         return (s32)gWsAuthServiceUrl;
     }
     func_0217D254(0, 3, 1, sWsNoAvailabilityMessage);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5A8
+ * function: RESEARCH_LIST_StopListPaletteAnime
  * address:  0x021BC5A8
  * packet:   pkt_021B9850
  * region:   ov217
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void PALETTE_ANIME_Stop(u32 a0);
 
-void func_021BC5A8(u8 *a0, int a1)
+void RESEARCH_LIST_StopListPaletteAnime(u8 *a0, int a1)
 {
     PALETTE_ANIME_Stop((u32)(*(u32*)(a0 + (a1)*4 + 156)));
 }

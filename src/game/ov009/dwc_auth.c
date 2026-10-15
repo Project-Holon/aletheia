@@ -18,12 +18,12 @@
  *   g_021A2358  0x021A2358  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   g_021AB184  0x021AB184  data  ov009
- *   func_02086004  0x02086004  arm
+ *   OS_InitMutex  0x02086004  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   g_021AB188     0x021AB188  data
- *   func_02086028  0x02086028  arm
+ *   OS_LockMutex  0x02086028  arm
  *   func_02086078  0x02086078  arm
  *   func_021797D4  0x021797D4  arm  ov009
  *   OS_JoinThread  0x02085710  arm
@@ -156,11 +156,11 @@ typedef struct {
 } OSThreadInfo;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_02086004(OSMutex *mutex);
+extern void OS_InitMutex(OSMutex *mutex);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
-extern void func_02086028(OSMutex *mutex);
+extern void OS_LockMutex(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern void func_021797D4(DWCHttp *http);
 extern void OS_JoinThread(void *thread);
@@ -279,7 +279,7 @@ int func_02177EE8(DWCAuthParam *param, DWCHttp *http)
  */
 void func_02177FFC(void)
 {
-	func_02086004(&g_021AB184.auth->mutex);
+	OS_InitMutex(&g_021AB184.auth->mutex);
 	g_021AB184.auth->abort_flag = 0;
 	if (g_021AB184.auth->started != 0) {
 		if (OS_IsThreadTerminated(g_021AB184.auth->thread) == 0)
@@ -300,7 +300,7 @@ void func_021780A8(void)
 {
 	if (g_021AB184.auth == 0)
 		return;
-	func_02086028(&g_021AB184.auth->mutex);
+	OS_LockMutex(&g_021AB184.auth->mutex);
 	g_021AB184.auth->abort_flag = 1;
 	func_02086078(&g_021AB184.auth->mutex);
 	if (g_021AB184.auth->http != 0)
@@ -361,7 +361,7 @@ int func_021781DC(void)
 
 	if (g_021AB184.auth == 0)
 		return 0x16;
-	func_02086028(&g_021AB184.auth->mutex);
+	OS_LockMutex(&g_021AB184.auth->mutex);
 	error = g_021AB184.auth->error;
 	func_02086078(&g_021AB184.auth->mutex);
 	return error;
@@ -488,7 +488,7 @@ void func_021783BC(void *arg)
 
         startwait = func_020870D0();
         while (((func_020870D0() - startwait) << 6) / 33514 < 5000) {
-            func_02086028(&g_021AB184.auth->mutex);
+            OS_LockMutex(&g_021AB184.auth->mutex);
             if (g_021AB184.auth->abort_flag == 1) {
                 g_021AB184.auth->result.returncode = 20100;
                 func_02086078(&g_021AB184.auth->mutex);
@@ -500,7 +500,7 @@ void func_021783BC(void *arg)
         }
 
         func_02179CF4(g_021AB184.auth->http);
-        func_02086028(&g_021AB184.auth->mutex);
+        OS_LockMutex(&g_021AB184.auth->mutex);
         g_021AB184.auth->error = func_021782B4(getwifiinfofromflash);
         if (g_021AB184.auth->error != 0) {
             g_021AB184.auth->result.returncode = 20100;
@@ -680,7 +680,7 @@ int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn)
  */
 void func_02178C48(int error)
 {
-	func_02086028(&g_021AB184.auth->mutex);
+	OS_LockMutex(&g_021AB184.auth->mutex);
 	g_021AB184.auth->error = error;
 	func_02086078(&g_021AB184.auth->mutex);
 }

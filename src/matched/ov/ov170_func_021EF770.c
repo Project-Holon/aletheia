@@ -1,5 +1,5 @@
 /*
- * function: func_021EF770
+ * function: BOX2_UI_IsInfoBarOpen
  * address:  0x021EF770
  * packet:   pkt_021EF770
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF770 0x021EF770 thumb
+ *   BOX2_UI_IsInfoBarOpen 0x021EF770 thumb
  *   BGWINFRM_GetPos 0x0202CF98 thumb
  */
 
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 
-int func_021EF770(struct WinMgr *mgr)
+int BOX2_UI_IsInfoBarOpen(struct WinMgr *mgr)
 {
     s8 buf[2];
     BGWINFRM_GetPos(mgr, 9, &buf[1], &buf[0]);

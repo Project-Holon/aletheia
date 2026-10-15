@@ -1,5 +1,5 @@
 /*
- * function: func_02075A94
+ * function: NNSi_SndTrackReleaseRef
  * address:  0x02075A94
  * packet:   pkt_02075794
  * region:   arm9
@@ -21,7 +21,7 @@ struct SndObj2 {
 struct X;
 extern void NNS_SndStrmFreeChannel(struct X *x);
 
-void func_02075A94(struct SndObj2 *obj)
+void NNSi_SndTrackReleaseRef(struct SndObj2 *obj)
 {
     if (obj->ref_count != 0) {
         if (--obj->ref_count == 0) {

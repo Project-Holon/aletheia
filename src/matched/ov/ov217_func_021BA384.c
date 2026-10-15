@@ -1,5 +1,5 @@
 /*
- * function: func_021BA384
+ * function: RESEARCH_TOP_GetStateTimerLimit
  * address:  0x021BA384
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BA384(void *p)
+u32 RESEARCH_TOP_GetStateTimerLimit(void *p)
 {
     return ((struct Obj25820 *)p)->f24;
 }

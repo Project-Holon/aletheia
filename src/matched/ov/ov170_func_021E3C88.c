@@ -1,5 +1,5 @@
 /*
- * function: func_021E3C88
+ * function: BOX2_SEQ_StateSummaryB
  * address:  0x021E3C88
  * packet:   pkt_ov170_021E3C88
  * region:   ov170
@@ -11,35 +11,35 @@
  *
  * symbols:
  *   func_020260E0 0x020260E0 thumb
- *   func_021EF480 0x021EF480 thumb
- *   func_021DEFEC 0x021DEFEC thumb
- *   func_021EBA5C 0x021EBA5C thumb
- *   func_021DD14C 0x021DD14C thumb
- *   func_021EF68C 0x021EF68C thumb
- *   func_021ED6E4 0x021ED6E4 thumb
- *   func_021ED55C 0x021ED55C thumb
- *   func_021EF57C 0x021EF57C thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E0190 0x021E0190 thumb
- *   func_021E01B0 0x021E01B0 thumb
+ *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
+ *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
+ *   BOX2_UI_ShowWindowB 0x021EF68C thumb
+ *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
+ *   BOX2_UI_OpenListPack 0x021EF57C thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_MAIN_IsWindowMoving 0x021E0190 thumb
+ *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021EBD78 0x021EBD78 thumb
- *   func_021EF3D8 0x021EF3D8 thumb
- *   func_021EF35C 0x021EF35C thumb
- *   func_021EF36C 0x021EF36C thumb
- *   func_021EC5A0 0x021EC5A0 thumb
- *   func_021ECB20 0x021ECB20 thumb
- *   func_021ED888 0x021ED888 thumb
- *   func_021EE038 0x021EE038 thumb
- *   func_021EE364 0x021EE364 thumb
- *   func_021ED544 0x021ED544 thumb
- *   func_021DD25C 0x021DD25C thumb
- *   func_021EF680 0x021EF680 thumb
- *   func_021EF69C 0x021EF69C thumb
+ *   BOX2_SEQ_PrintYesNo 0x021EBD78 thumb
+ *   BOX2_UI_SlideBarIn 0x021EF3D8 thumb
+ *   BOX2_UI_PutBottomBarClosed 0x021EF35C thumb
+ *   BOX2_UI_CloseBar 0x021EF36C thumb
+ *   BOX2_SEQ_HidePartialSlots 0x021EC5A0 thumb
+ *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
+ *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
+ *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
+ *   BOX2_UI_MoveCursor 0x021EE364 thumb
+ *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
+ *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
+ *   BOX2_UI_HideWindowA 0x021EF680 thumb
+ *   BOX2_UI_HideWindowB 0x021EF69C thumb
  *   func_02026124 0x02026124 thumb
- *   func_021ED508 0x021ED508 thumb
- *   func_021ECB84 0x021ECB84 thumb
- *   func_021EA0BC 0x021EA0BC thumb
+ *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
+ *   BOX2_SEQ_SwapSlotActors 0x021ECB84 thumb
+ *   BOX2_SEQ_HideSlotWindow 0x021EA0BC thumb
  *
  * Three-step state machine on the work word at 0xA194: restore the cursor,
  * close the prompt, then redraw the box.  The dispatch and the step-1
@@ -53,35 +53,35 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
-extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021DEFEC(char *p, int b);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern void func_021EF68C(char *w);
-extern void func_021ED6E4(char **p, int v);
-extern void func_021ED55C(char **p, int flag);
-extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E0190(char *p);
-extern int func_021E01B0(unsigned char *p);
+extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_UI_ShowWindowB(char *w);
+extern void BOX2_SEQ_SetSlotDim(char **p, int v);
+extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
+extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_IsWindowMoving(char *p);
+extern int BOX2_MAIN_IsWindowBusy(unsigned char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern void func_021EBD78(char *p, int b);
-extern void func_021EF3D8(struct WinMgr *mgr);
-extern void func_021EF35C(struct WinMgr *mgr);
-extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EC5A0(char **p, int flag);
-extern void func_021ECB20(char *p, int f, int c);
-extern void func_021ED888(char *w, int a);
-extern void func_021EE038(char *p, int a, int b, int c);
-extern void func_021EE364(char **p, int idx, int v);
-extern void func_021ED544(char *p, int b);
-extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021EF680(char *w);
-extern void func_021EF69C(char *w);
+extern void BOX2_SEQ_PrintYesNo(char *p, int b);
+extern void BOX2_UI_SlideBarIn(struct WinMgr *mgr);
+extern void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr);
+extern void BOX2_UI_CloseBar(struct WinMgr *mgr);
+extern void BOX2_SEQ_HidePartialSlots(char **p, int flag);
+extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
+extern void BOX2_UI_ToggleSlotPair(char *w, int a);
+extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
+extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
+extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
+extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern void BOX2_UI_HideWindowA(char *w);
+extern void BOX2_UI_HideWindowB(char *w);
 extern void func_02026124(struct Sound *obj, u32 idx);
-extern void func_021ED508(unsigned char *p, int a, int b);
-extern void func_021ECB84(char *w, unsigned i);
-extern int func_021EA0BC(unsigned char *p, unsigned char i);
+extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
+extern void BOX2_SEQ_SwapSlotActors(char *w, unsigned i);
+extern int BOX2_SEQ_HideSlotWindow(unsigned char *p, unsigned char i);
 
 typedef struct {
     unsigned char lo : 4;
@@ -96,7 +96,7 @@ typedef struct {
 #define NIB(p) ((Nib *)((p) + 0x1C))
 #define TOP(p) (*(char **)(p))
 
-int func_021E3C88(unsigned char *p)
+int BOX2_SEQ_StateSummaryB(unsigned char *p)
 {
     char *w = WORK(p);
     switch (((struct Obj14266 *)w)->fA194) {
@@ -104,7 +104,7 @@ int func_021E3C88(unsigned char *p)
         if (NIB(p)->lo == 1) {
             p[0x17] = 0xFF;
             p[0x16] = func_020260E0(OBJ(p));
-            if (func_021EF480(MGR(p)) == 1) {
+            if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1) {
                 if (p[0x16] >= 6)
                     p[0x16] = 0x1E;
                 else
@@ -112,65 +112,65 @@ int func_021E3C88(unsigned char *p)
             } else if (p[0x16] >= 0x1E) {
                 p[0x16] = 0;
             }
-            func_021DEFEC((char *)p, p[0x16]);
+            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
         } else {
-            if (func_021EF480(MGR(p)) == 1)
+            if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1)
                 p[0x17] = 0xFF;
             else
                 p[0x17] = p[0x14];
-            func_021EBA5C(WORK(p), 0x18);
-            func_021DD14C((char *)p);
-            func_021EF68C(WORK(p));
-            func_021ED6E4((char **)p, 0);
+            BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
+            BOX2_MAIN_RefreshCursorBox((char *)p);
+            BOX2_UI_ShowWindowB(WORK(p));
+            BOX2_SEQ_SetSlotDim((char **)p, 0);
         }
-        func_021ED55C((char **)p, 0);
-        func_021EF57C(MGR(p));
+        BOX2_SEQ_SetCursorDraw((char **)p, 0);
+        BOX2_UI_OpenListPack(MGR(p));
         STEP(p)++;
-        return func_021E8FC0((char *)p, (int)func_021E0190, 0x1F);
+        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowMoving, 0x1F);
     case 1:
         if (*(int *)(TOP(p) + 0x24) == 4 && *(int *)(TOP(p) + 0x14) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x557);
-            func_021EBD78((char *)p, 0);
+            BOX2_SEQ_PrintYesNo((char *)p, 0);
             NIB(p)->lo = 0;
             STEP(p) = 0;
             STATE(p) = 0x2B;
             return 6;
         }
         (((struct Obj14266 *)w)->fA194)++;
-        if (func_021EF480(MGR(p)) == 1) {
-            func_021EF3D8(MGR(p));
+        if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1) {
+            BOX2_UI_SlideBarIn(MGR(p));
         } else {
-            func_021EF35C(MGR(p));
-            func_021EF36C(MGR(p));
-            func_021EC5A0((char **)p, 0);
+            BOX2_UI_PutBottomBarClosed(MGR(p));
+            BOX2_UI_CloseBar(MGR(p));
+            BOX2_SEQ_HidePartialSlots((char **)p, 0);
         }
         GFL_USE_PlaySeDefaultVolume(0x669);
-        return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1F);
+        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowBusy, 0x1F);
     case 2:
-        func_021ECB20((char *)p, 1, 0);
-        func_021ED888(WORK(p), 1);
-        func_021EE038((char *)p, 0, 1, 0);
-        func_021EE364((char **)p, 6, p[0x16]);
-        func_021ED544((char *)p, 6);
+        BOX2_SEQ_SetSlotActors((char *)p, 1, 0);
+        BOX2_UI_ToggleSlotPair(WORK(p), 1);
+        BOX2_UI_DeleteSlotObjects((char *)p, 0, 1, 0);
+        BOX2_UI_MoveCursor((char **)p, 6, p[0x16]);
+        BOX2_SEQ_SetCursorFrame((char *)p, 6);
         *(int *)(WORK(p) + 0xA168) = p[0x16];
         STEP(p) = 0;
         if (NIB(p)->lo == 1) {
-            if (func_021DD25C((void ***)p, p[0x16], p[0x14], 0xA9, 0) == 0)
-                func_021EE038((char *)p, 0, 1, 2);
+            if (BOX2_MAIN_GetPartyValueAt((void ***)p, p[0x16], p[0x14], 0xA9, 0) == 0)
+                BOX2_UI_DeleteSlotObjects((char *)p, 0, 1, 2);
             if (*(int *)(TOP(p) + 0x24) == 4) {
-                func_021EF680(WORK(p));
-                func_021EF69C(WORK(p));
+                BOX2_UI_HideWindowA(WORK(p));
+                BOX2_UI_HideWindowB(WORK(p));
                 func_02026124(OBJ(p), 0x27);
             }
-            func_021ED508(p, 0xD, 1);
+            BOX2_SEQ_SetWindow9(p, 0xD, 1);
             return 0x20;
         }
         if (NIB(p)->lo == 2)
-            func_021ED508(p, 0xD, 1);
+            BOX2_SEQ_SetWindow9(p, 0xD, 1);
         else
-            func_021ED508(p, 0xE, 1);
-        func_021ECB84(WORK(p), p[0x16]);
-        return func_021EA0BC(p, p[0x16]);
+            BOX2_SEQ_SetWindow9(p, 0xE, 1);
+        BOX2_SEQ_SwapSlotActors(WORK(p), p[0x16]);
+        return BOX2_SEQ_HideSlotWindow(p, p[0x16]);
     }
     return 0x1F;
 }

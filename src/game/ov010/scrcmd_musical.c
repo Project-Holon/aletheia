@@ -85,7 +85,7 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   func_021FCDEC  0x021FCDEC  thumb  ov132
- *   func_021FDA6C  0x021FDA6C  thumb  ov132
+ *   STA_SLOT_GetRecordTable  0x021FDA6C  thumb  ov132
  *   d_021BB6A4     0x021BB6A4  data  ov100
  *   ov100_id       0x00000064  data
  *   GAME_DATA_SetExternalWork  0x02012F74  thumb
@@ -507,8 +507,7 @@ extern u32 func_02008530(struct MyStatus *myStatus);
 extern u32 func_0200FB24(void);
 extern u32 COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_021FCDEC(int session, int memberCount);
-extern unsigned char *func_021FDA6C(struct GameData *gameData);
-extern u32 func_020307B0(void *ptr);
+extern unsigned char *STA_SLOT_GetRecordTable(struct GameData *gameData);
 extern void func_021FC644(int mode, void *procArg, void *comm, int arg);
 extern int func_021FC684(void *session);
 extern u32 GAME_COMM_GetKind(struct GameComm *comm);
@@ -1280,7 +1279,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         wait->link = link;
         link->resultOut = resultVar;
         link->gameData = gameData;
-        link->procWork = (u32)func_021FDA6C(gameData);
+        link->procWork = (u32)STA_SLOT_GetRecordTable(gameData);
         link->procMode = arg == 0 ? 9 : 10;
         SCRIPT_SYS_CallEvent(scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
         return 1;

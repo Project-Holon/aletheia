@@ -34,7 +34,7 @@
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   OS_InitMutex  0x02086004  arm
  *   OS_IsTickAvailable 0x02087058 arm
- *   func_02086FE8 0x02086FE8 arm
+ *   OS_InitTick 0x02086FE8 arm
  *   gGdsSocket 0x021D9E40 data a4
  *   GDS_SOCKET_RunConnection  0x021D7874  arm  ov125
  *   gGdsConnectThread 0x021DA0B4 data a4
@@ -73,8 +73,8 @@
  *   GDS_SOCKET_GetReplySizeUnlocked  0x021D7C14  arm ov125
  *   GDS_SOCKET_SendRequest 0x021D7A10 arm ov125
  *   sGdsRequestIds 0x021D8CD0 data a4
- *   func_02088168 0x02088168 arm
- *   func_02162248 0x02162248 arm
+ *   OS_GetLowEntropyData 0x02088168 arm
+ *   CPS_SslAddRandomSeed 0x02162248 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   gGdsEntropyBuffer 0x021DAA8C data a4
  *   gGdsSslTemplatePtr 0x021DAA88 data a4
@@ -83,7 +83,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_0208CC78 0x0208CC78 arm
  *   GDS_SOCKET_Alloc 0x021D7C7C arm ov125
- *   func_0208CADC 0x0208CADC arm
+ *   STD_CopyString 0x0208CADC arm
  *   GDS_SOCKET_Free  0x021D7C90  arm  ov125
  */
 
@@ -124,7 +124,7 @@ extern int SOC_Send(int socket, void *buf, int len, int flags);
 extern int SOC_Recv(int socket, void *buf, int len, int flags);
 extern void OS_DestroyThread(void *thread);
 extern void OS_Sleep(u32_021D8438 msec);
-extern int DWC_SVLGetTokenAsync(const char *svl, GdsSvlResult *result);
+extern int DWC_SVLGetTokenAsync(const char *svl, DWCSvlResult *result);
 extern int DWC_SVLProcess(void);
 extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);
 extern void GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client);
@@ -552,7 +552,7 @@ void GDS_SOCKET_Sleep(int msec)
 
 int GDS_SOCKET_WaitToken(void)
 {
-    GdsSvlResult svl;
+    DWCSvlResult svl;
     int errorType, errorCode;
     int r;
 

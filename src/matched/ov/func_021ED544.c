@@ -1,5 +1,5 @@
 /*
- * function: func_021ED544
+ * function: BOX2_SEQ_SetCursorFrame
  * address:  0x021ED544
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBFA8  0x021EBFA8  thumb  ov170
+ *   BOX2_SEQ_SetActorAnimSeq  0x021EBFA8  thumb  ov170
  *
  * Offset by four when the low nibble of 0x1c is set.
  */
@@ -19,10 +19,10 @@
 
 
 struct Slot { unsigned char a[0x1c]; unsigned char f : 4; };
-extern void func_021EBFA8(char *, int, int);
-void func_021ED544(char *p, int b)
+extern void BOX2_SEQ_SetActorAnimSeq(char *, int, int);
+void BOX2_SEQ_SetCursorFrame(char *p, int b)
 {
     if (((struct Slot *)p)->f)
         b += 4;
-    func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 4, b);
+    BOX2_SEQ_SetActorAnimSeq(*(char * *)&((struct Obj00000 *)p)->f2C, 4, b);
 }

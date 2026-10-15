@@ -1,5 +1,5 @@
 /*
- * function: func_020876B8
+ * function: OS_SetVAlarm
  * address:  0x020876B8
  * packet:   pkt_020876B8
  * region:   arm9
@@ -65,7 +65,7 @@ extern void OS_Terminate(void);
 extern s32 OSi_GetVFrame(s32 vcount);
 extern void OSi_InsertVAlarm(OSVAlarm *alarm);
 
-void func_020876B8(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg)
+void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
     s32 currentVFrame;

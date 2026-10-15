@@ -1,5 +1,5 @@
 /*
- * function: func_02081BB8
+ * function: MATH_CalcCRC32
  * address:  0x02081BB8
  * packet:   pkt_02081BB8
  * region:   arm9
@@ -36,7 +36,7 @@ typedef struct MATHCRC32Table
 
 extern void MATHi_CRC32UpdateRev(MATHCRC32Table *table, u32 *context, void *input, u32 length);
 
-u32 func_02081BB8(MATHCRC32Table *table, void *data, u32 dataLength)
+u32 MATH_CalcCRC32(MATHCRC32Table *table, void *data, u32 dataLength)
 {
     u32 context = ~0;
 

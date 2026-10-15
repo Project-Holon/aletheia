@@ -18,7 +18,7 @@
  *   func_02163C9C  0x02163C9C  arm  ov009
  *   func_02163CF0  0x02163CF0  arm  ov009
  *   func_02163DA8  0x02163DA8  arm  ov009
- *   func_02160130  0x02160130  arm  ov009
+ *   get_rootCA  0x02160130  arm  ov009
  *   func_02160764  0x02160764  arm  ov009
  */
 
@@ -45,7 +45,7 @@ extern void func_021634F0(void *ctx, unsigned char *digest);
 extern void func_02163C9C(void *ctx);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
-extern SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn);
+extern SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
 extern int func_02160764(struct CPSSslConnection *con, struct SOCLCaInfo *ca);
 
 static int func_0216090C(CPSSslConnection *con)
@@ -74,7 +74,7 @@ static int func_0216090C(CPSSslConnection *con)
     default:
         return result | 3;
     }
-    p = func_02160130(con, con->dn);
+    p = get_rootCA(con, con->dn);
     if (p == 0)
         return result | 1;
     return result | func_02160764(con, p);

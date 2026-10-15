@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009160, sub_020091AC, sub_020091FC, sub_02009200,
- *           sub_02009208
+ * function: BLOCK20_SAVEDATA_TestPanelMark, BLOCK20_SAVEDATA_SetPanelMark, BLOCK20_SAVEDATA_InitPanelMarks, BLOCK20_SAVEDATA_SetPanelState,
+ *           BLOCK20_SAVEDATA_GetPanelState
  *
  * alias: the rest of the 0x2C-byte object of src/matched/unit_020090D8.c and
  * src/matched/unit_02009110.c.  None of these five carries a label: the first
@@ -27,7 +27,7 @@
  * to 0x40, 3 to 0x20 and 2 to 0x10, in that source order, which no arithmetic
  * produces and which both functions spell out as the same three-armed chain.
  *
- * In sub_020091AC each arm of that chain assigns only the mask and the `orrs`
+ * In BLOCK20_SAVEDATA_SetPanelMark each arm of that chain assigns only the mask and the `orrs`
  * is emitted once, with the no-match path branching past it, so the `|=` is
  * inside the arms in the source; see
  * docs/idioms/switch-arms-tail-merge.md.
@@ -39,12 +39,12 @@
  * to it do not fold, because they are written as two comparisons against a
  * signed index in the style of unit_02009110.c.
  *
- * In sub_02009160 the `movs r4, #0` sits *after* the range checks, so the mask
+ * In BLOCK20_SAVEDATA_TestPanelMark the `movs r4, #0` sits *after* the range checks, so the mask
  * is declared without an initialiser and assigned once the guards have passed.
  * Written as `u32 mask = 0;` the compiler hoists it above the first `cmp` and
  * the whole prologue shifts by two bytes.
  *
- * sub_02009200 and sub_02009208 pay an `adds r0, #0x29` before the `strb` and
+ * BLOCK20_SAVEDATA_SetPanelState and BLOCK20_SAVEDATA_GetPanelState pay an `adds r0, #0x29` before the `strb` and
  * the `ldrb`, because the byte offset 0x29 is past the 31 that the Thumb
  * immediate form reaches; see
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
@@ -68,7 +68,7 @@ struct Sub020090B0Obj {
     u8  unk2A[2];
 };
 
-u32 sub_02009160(const struct Sub020090B0Obj *obj, int row, int col, int kind)
+u32 BLOCK20_SAVEDATA_TestPanelMark(const struct Sub020090B0Obj *obj, int row, int col, int kind)
 {
     u32 mask;
 
@@ -92,7 +92,7 @@ u32 sub_02009160(const struct Sub020090B0Obj *obj, int row, int col, int kind)
     return 0;
 }
 
-void sub_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind,
+void BLOCK20_SAVEDATA_SetPanelMark(struct Sub020090B0Obj *obj, int row, int col, int kind,
                   int marked, int flagged)
 {
     u32 value;
@@ -124,16 +124,16 @@ void sub_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind,
     obj->unk00[row][col] = value;
 }
 
-void sub_020091FC(void)
+void BLOCK20_SAVEDATA_InitPanelMarks(void)
 {
 }
 
-void sub_02009200(struct Sub020090B0Obj *obj, u8 value)
+void BLOCK20_SAVEDATA_SetPanelState(struct Sub020090B0Obj *obj, u8 value)
 {
     obj->unk29 = value;
 }
 
-u8 sub_02009208(const struct Sub020090B0Obj *obj)
+u8 BLOCK20_SAVEDATA_GetPanelState(const struct Sub020090B0Obj *obj)
 {
     return obj->unk29;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA68C
+ * function: RESEARCH_TOP_DestroyCommandQueue
  * address:  0x021BA68C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -29,7 +29,7 @@ typedef struct {
 
 extern void RingQueue_Destroy(void *p);
 
-void func_021BA68C(Rec *p)
+void RESEARCH_TOP_DestroyCommandQueue(Rec *p)
 {
     RingQueue_Destroy((void *)p->a);
 }

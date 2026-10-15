@@ -12,7 +12,7 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_0200E588  0x0200E588  thumb
+ *   BATTLE_EXAMINATION_GetBlockSize  0x0200E588  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 extern int d_021DE674;
 
 typedef unsigned int   u32;
-extern u32 func_0200E588(void);
+extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
 struct Big;
 struct Ctx;
 struct Party;
@@ -42,7 +42,7 @@ void *TRIAL_HOUSE_CreateWork(int a)
     char *p;
     int r7;
 
-    r7 = func_0200E588();
+    r7 = BATTLE_EXAMINATION_GetBlockSize();
     GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)a));
     p = func_02030734(5, 0x154, 1, (const char *)&d_021DE674, 0x5D);
     ((struct Obj07595 *)p)->f120 = 5;

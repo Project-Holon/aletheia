@@ -13,8 +13,8 @@
  *
  * symbols:
  *   ghiEncryptorGetRootCAList  0x021c1230  arm   ov114
- *   func_02088168  0x02088168  arm
- *   func_02162248  0x02162248  arm   ov009
+ *   OS_GetLowEntropyData  0x02088168  arm
+ *   CPS_SslAddRandomSeed  0x02162248  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
  *   func_020923B0  0x020923b0  arm
  *   func_0217D254  0x0217d254  arm   ov009
@@ -42,8 +42,8 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern void *ghiEncryptorGetRootCAList(char *url);
-extern void func_02088168(unsigned long *);
-extern void func_02162248(void *, unsigned long);
+extern void OS_GetLowEntropyData(unsigned long *);
+extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
 extern void *func_020923B0(void *, int, unsigned long);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
@@ -62,8 +62,8 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
     rootCaList = ghiEncryptorGetRootCAList(url);
     if (rootCaList != 0) {
         if (rootCaList->certs != 0 && rootCaList->count > 0) {
-            func_02088168(gGhttpSslRandomSeed);
-            func_02162248(gGhttpSslRandomSeed, 0x20);
+            OS_GetLowEntropyData(gGhttpSslRandomSeed);
+            CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
             sslCon = func_0217EAB0(0x830);
             if (sslCon != 0) {
                 func_020923B0(sslCon, 0, 0x830);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216009C",
+   "name": "enter_computebound",
    "address": "0x0216009C",
    "kind": "sdk",
    "region": "ov009",

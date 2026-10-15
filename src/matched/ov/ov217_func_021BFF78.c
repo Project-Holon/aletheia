@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF78
+ * function: RESEARCH_GRAPH_InitScreen
  * address: 0x021BFF78
  * packet: pkt_ov217_021BFF78
  * region: ov217
@@ -22,7 +22,7 @@ extern void func_0207D988(void);
 extern void func_0207DB1C(void);
 extern void func_0207DCF8(const void *);
 extern const u16 d_021C365C[];
-void func_021BFF78(void)
+void RESEARCH_GRAPH_InitScreen(void)
 {
     func_0207D988();
     func_0207DB1C();

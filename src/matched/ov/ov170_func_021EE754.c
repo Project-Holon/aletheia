@@ -1,5 +1,5 @@
 /*
- * function: func_021EE754
+ * function: BOX2_UI_SelectSlot
  * address:  0x021EE754
  * packet:   pkt_ov170_021EE754
  * region:   ov170
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF45C 0x021EF45C thumb
- *   func_021DD25C 0x021DD25C thumb
- *   func_021EE038 0x021EE038 thumb
+ *   BOX2_UI_IsTopBarOpen 0x021EF45C thumb
+ *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
+ *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj24038.h"
@@ -23,11 +23,11 @@ typedef struct {
 } Top;
 
 struct WinMgr;
-extern int func_021EF45C(struct WinMgr *mgr);
-extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021EE038(char *p, int a, int b, int c);
+extern int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr);
+extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 
-void func_021EE754(unsigned char *p, unsigned r)
+void BOX2_UI_SelectSlot(unsigned char *p, unsigned r)
 {
     int a = 0;
     int f = 0;
@@ -38,11 +38,11 @@ void func_021EE754(unsigned char *p, unsigned r)
     } else if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         f = 1;
     } else if (r >= 0x1E) {
-        if (func_021EF45C(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0 || func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
+        if (BOX2_UI_IsTopBarOpen(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0 || BOX2_MAIN_GetPartyValueAt((void ***)p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     } else {
-        if (func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
+        if (BOX2_MAIN_GetPartyValueAt((void ***)p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     }
-    func_021EE038((char *)p, a, 1, f);
+    BOX2_UI_DeleteSlotObjects((char *)p, a, 1, f);
 }

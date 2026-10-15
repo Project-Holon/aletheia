@@ -1,7 +1,7 @@
 /*
  * file:     nns_snd_system.c
  * unit:     yes
- * function: func_02072374, func_02072440, func_020724E4, func_02072524, func_02072548, func_020726D0, func_02072758, func_02072788, func_02072794, func_020727B4, func_02072894, func_020728E8, func_02072920
+ * function: func_02072374, func_02072440, func_020724E4, func_02072524, func_02072548, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
  * address:  0x02072374
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -24,12 +24,12 @@
  *   NNS_SndWaveOutInit  0x02072A28  arm
  *   NNSi_SndMainReset  0x02073D5C  arm
  *   NNS_SndPlayerInit  0x0207312C  arm
- *   func_02089978  0x02089978  arm
+ *   SND_RecvCommandReply  0x02089978  arm
  *   NNS_SndPlayerMain  0x020731E0  arm
  *   NNS_SndMain  0x02073D7C  arm
- *   func_02075858  0x02075858  arm
+ *   NNSi_SndArcPlayerUpdate  0x02075858  arm
  *   func_02089B38  0x02089B38  arm
- *   func_0208970C  0x0208970C  arm
+ *   SND_SetMasterVolume  0x0208970C  arm
  *   g_0214BB00     0x0214BB00  data
  *   SND_RecvCommandReply      0x02089978  arm
  *   SND_IsFinishedCommandTag  0x02089D6C  arm
@@ -37,9 +37,13 @@
  *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   DC_InvalidateRange        0x020862B8  arm
  *   SND_FlushCommand          0x02089B38  arm
- *   func_0208A0A4 0x0208A0A4  arm
+ *   SND_ReadTrackInfo 0x0208A0A4  arm
  *   NNSi_SndCaptureReset  0x02073F3C  arm
  *   NNS_SndStartTimer  0x02073EE4  arm
+ *   SND_StopTimer  0x020894DC  arm
+ *   SND_SetMasterPan  0x02089754  arm
+ *   SND_ResetMasterPan  0x02089774  arm
+ *   SND_WaitForCommandProc  0x02089CD4  arm
  */
 struct SNDCommand;
 struct SNDDriverInfo;
@@ -48,24 +52,33 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-typedef short          s16_02072374;
+typedef signed short   s16;
 
 typedef int            s32;
 
-typedef long long      s64_02072374;
+typedef long long      s64;
 
-struct SRC_02072374 {
+typedef unsigned int   u32;
+
+/*
+ * Operand of the (DST, SRC) matrix-constructor family at 0x02071EAC, kept with
+ * the five constructors that live at the top of this file; see
+ * docs/families/cluster_02071EAC.h.  f2e is volatile because func_02072374
+ * reads it twice and the image keeps both loads.
+ */
+struct SRC {
     u8  pad_00[0x18];
     s32 f18;
     s32 f1c;
-    s16_02072374 f20;
-    s16_02072374 f22;
-    u8  pad_24[8];
+    s16 f20;
+    s16 f22;
+    s32 f24;
+    s32 f28;
     u16 f2c;
     volatile u16 f2e;
 };
 
-struct DST_02072374 {
+struct DST {
     s32 f00;
     s32 f04;
     u8  pad_08[8];
@@ -76,75 +89,43 @@ struct DST_02072374 {
     s32 f34;
 };
 
-typedef unsigned int   u32;
-
-struct SRC_02072440 {
-    u8  pad_00[0x18];
-    s32 f18;
-    s32 f1c;
-    s16_02072374 f20;
-    s16_02072374 f22;
-    u8  pad_24[8];
-    u16 f2c;
-    u16 f2e;
-};
-
-typedef int           s32_02072524;
-
-struct DST_02072524 {
-    s32_02072524 f00;
-    s32_02072524 f04;
-    u8  pad_08[8];
-    s32_02072524 f10;
-    s32_02072524 f14;
-    u8  pad_18[0x18];
-    s32_02072524 f30;
-    s32_02072524 f34;
-};
-
-typedef signed short s16_02072524;
-
-typedef signed int   s32_02072548;
-
-typedef signed long long s64_02072524;
-
 typedef struct Obj {
     u32 f00;
     u8  pad04[0x18 - 4];
-    s32_02072548 f18;
-    s32_02072548 f1c;
-    s16_02072524 h20;
-    s16_02072524 h22;
-    s32_02072548 f24;
-    s32_02072548 f28;
+    s32 f18;
+    s32 f1c;
+    s16 h20;
+    s16 h22;
+    s32 f24;
+    s32 f28;
     u8  pad2c[0x30 - 0x2c];
-    volatile s32_02072548 f30;
-    volatile s32_02072548 f34;
+    volatile s32 f30;
+    volatile s32 f34;
 } Obj;
 
 typedef struct Rec {
     u32 hdr;
-    s32_02072548 f04;
-    s32_02072548 f08;
-    s32_02072548 f0c;
-    s32_02072548 f10;
-    s32_02072548 f14;
-    s32_02072548 f18;
-    s32_02072548 f1c;
-    s32_02072548 f20;
-    s32_02072548 f24;
-    s32_02072548 f28;
-    s32_02072548 f2c;
-    s32_02072548 f30;
-    s32_02072548 f34;
-    s32_02072548 f38;
-    s32_02072548 f3c;
-    s32_02072548 f40;
-    s32_02072548 f44;
-    s32_02072548 f48;
+    s32 f04;
+    s32 f08;
+    s32 f0c;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+    s32 f1c;
+    s32 f20;
+    s32 f24;
+    s32 f28;
+    s32 f2c;
+    s32 f30;
+    s32 f34;
+    s32 f38;
+    s32 f3c;
+    s32 f40;
+    s32 f44;
+    s32 f48;
 } Rec;
 
-typedef void (*Fill)(s32_02072548 *out, Obj *o);
+typedef void (*Fill)(s32 *out, Obj *o);
 
 struct SleepCb { void (*fn)(void *); void *arg; void *p08; void *p0c; };
 
@@ -169,39 +150,37 @@ extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
 extern void NNS_SndWaveOutInit(void);
 extern void NNSi_SndMainReset(void);
 extern void NNS_SndPlayerInit(void);
-extern const struct SNDCommand *func_02089978(u32 flags);
+extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
 extern void NNS_SndPlayerMain(void);
 extern void NNS_SndMain(void);
-extern void func_02075858(void);
+extern void NNSi_SndArcPlayerUpdate(void);
 extern void func_02089B38(s32 a);
-extern void func_0208970C(int volume);
-extern void func_02089754(int pan);
-extern void func_02089774(void);
-extern u32  SND_RecvCommandReply(u32 mode);
+extern void SND_SetMasterVolume(int volume);
+extern void SND_SetMasterPan(int pan);
+extern void SND_ResetMasterPan(void);
 extern u32  SND_IsFinishedCommandTag(u32 tag);
 extern void SND_ReadDriverInfo(void *dst);
 extern u32  SND_GetCurrentCommandTag(void);
 extern void DC_InvalidateRange(void *p, u32 n);
 extern void SND_FlushCommand(u32 flags);
-extern int func_0208A0A4(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+extern int SND_ReadTrackInfo(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 extern void NNS_SndStartTimer(void);
-extern void func_020894DC(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_02089D40(void);
-extern void func_02089CD4(u32 a);
+extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
+extern void SND_WaitForCommandProc(u32 a);
 extern void NNSi_SndCaptureReset(void);
-void func_02072374(struct DST_02072374 *d, struct SRC_02072374 *s);
-void func_02072440(struct DST_02072374 *d, struct SRC_02072440 *s);
-void func_020724E4(struct DST_02072374 *d, struct SRC_02072440 *s);
-void func_02072524(struct DST_02072524 *d);
+void func_02072374(struct DST *d, struct SRC *s);
+void func_02072440(struct DST *d, struct SRC *s);
+void func_020724E4(struct DST *d, struct SRC *s);
+void func_02072524(struct DST *d);
 void func_02072548(Obj *o);
-void func_020726D0(void);
-void func_02072758(void);
-void func_02072788(int volume);
-void func_02072794(u32 flag);
-u32 func_020727B4(void);
-int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-void func_020728E8(void);
-void func_02072920(void *p);
+void NNS_SndInit(void);
+void NNS_SndBoot(void);
+void NNS_SndSetMasterVolume(int volume);
+void NNS_SndSetMasterPan(u32 flag);
+u32 NNS_SndReadDriverInfo(void);
+int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+void NNS_SndPrependPostSleepCallback(void);
+void NNS_SndAppendPostSleepCallback(void *p);
 extern Fill data_020A8478[];
 extern struct Sys g_0214BAC0;
 extern u8 g_0214BB00[];
@@ -313,7 +292,7 @@ extern u8 g_0214BB00[];
  * better, and the 8-vs-14 gap the note measured was an artefact of the
  * mis-ordered store, not a front-end tell.
  */
-void func_02072374(struct DST_02072374 *d, struct SRC_02072374 *s)
+void func_02072374(struct DST *d, struct SRC *s)
 {
     s32 e, a, c, b;
     s32 q, r;
@@ -328,11 +307,11 @@ void func_02072374(struct DST_02072374 *d, struct SRC_02072374 *s)
     b = (s32)s->f20;
     c = s->f1c;
 
-    q = (s32)(((s64_02072374)e * b) >> 12);
-    r = (s32)(((s64_02072374)c * a) >> 12);
-    d->f00 = (s32)(((s64_02072374)e * a) >> 12);
+    q = (s32)(((s64)e * b) >> 12);
+    r = (s32)(((s64)c * a) >> 12);
+    d->f00 = (s32)(((s64)e * a) >> 12);
     d->f14 = r;
-    d->f04 = ((s32)(((s64_02072374)c * b) >> 12) * func_0207C86C()) >> 12;
+    d->f04 = ((s32)(((s64)c * b) >> 12) * func_0207C86C()) >> 12;
 
     func_0207C930(f12, e12);
 
@@ -372,7 +351,7 @@ void func_02072374(struct DST_02072374 *d, struct SRC_02072374 *s)
  * spellings all give the same 3-instruction swap; see
  * docs/notes/func_02071EFC.c.txt.
  */
-void func_02072440(struct DST_02072374 *d, struct SRC_02072440 *s)
+void func_02072440(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t;
 
@@ -398,7 +377,7 @@ void func_02072440(struct DST_02072374 *d, struct SRC_02072440 *s)
 
 
 
-void func_020724E4(struct DST_02072374 *d, struct SRC_02072440 *s)
+void func_020724E4(struct DST *d, struct SRC *s)
 {
     d->f00 = s->f18;
     d->f14 = s->f1c;
@@ -427,7 +406,7 @@ void func_020724E4(struct DST_02072374 *d, struct SRC_02072440 *s)
  * constants bound to locals, zero derived from the live 0x1000, re-read of
  * a stored field). Under the pin the same C is 36 bytes, 0 mismatches.
  */
-void func_02072524(struct DST_02072524 *d)
+void func_02072524(struct DST *d)
 {
     d->f00 = 0x1000;
     d->f04 = 0;
@@ -510,12 +489,12 @@ void func_02072524(struct DST_02072524 *d)
 void func_02072548(Obj *o)
 {
     Rec r;
-    s32_02072548 z;
-    s32_02072548 three = 3;
-    s32_02072548 two = 2;
-    s32_02072548 unit = 0x1000;
+    s32 zero;
+    s32 three = 3;
+    s32 two = 2;
+    s32 unit = 0x1000;
 
-    z = 0;
+    zero = 0;
     if (o->f00 & 8) {
         r.hdr = 0x00101610;
     } else {
@@ -523,16 +502,16 @@ void func_02072548(Obj *o)
     }
     r.f04 = three;
     r.f48 = two;
-    r.f40 = z;
+    r.f40 = zero;
     r.f44 = unit;
-    r.f34 = z;
-    r.f30 = z;
-    r.f2c = z;
-    r.f28 = z;
-    r.f24 = z;
-    r.f20 = z;
-    r.f14 = z;
-    r.f10 = z;
+    r.f34 = zero;
+    r.f30 = zero;
+    r.f2c = zero;
+    r.f28 = zero;
+    r.f24 = zero;
+    r.f20 = zero;
+    r.f14 = zero;
+    r.f10 = zero;
 
     if (o->f00 & 1) {
         o->f1c = unit;
@@ -550,25 +529,25 @@ void func_02072548(Obj *o)
     data_020A8478[o->f00 & 7](&r.f08, o);
 
     {
-        s32_02072548 s = o->f30;
+        s32 s = o->f30;
         if (s != 0x1000) {
-            r.f08 = (s32_02072548)(((s64_02072524)s * r.f08) >> 12);
-            r.f0c = (s32_02072548)(((s64_02072524)o->f30 * r.f0c) >> 12);
-            r.f38 = (s32_02072548)(((s64_02072524)o->f30 * r.f38) >> 12);
+            r.f08 = (s32)(((s64)s * r.f08) >> 12);
+            r.f0c = (s32)(((s64)o->f30 * r.f0c) >> 12);
+            r.f38 = (s32)(((s64)o->f30 * r.f38) >> 12);
         }
     }
     {
-        s32_02072548 s = o->f34;
+        s32 s = o->f34;
         if (s != 0x1000) {
-            r.f18 = (s32_02072548)(((s64_02072524)s * r.f18) >> 12);
-            r.f1c = (s32_02072548)(((s64_02072524)o->f34 * r.f1c) >> 12);
-            r.f3c = (s32_02072548)(((s64_02072524)o->f34 * r.f3c) >> 12);
+            r.f18 = (s32)(((s64)s * r.f18) >> 12);
+            r.f1c = (s32)(((s64)o->f34 * r.f1c) >> 12);
+            r.f3c = (s32)(((s64)o->f34 * r.f3c) >> 12);
         }
     }
 
     {
-        s32_02072548 *base = (s32_02072548 *)&r;
-        NNS_G3dGeBufferOP_N(r.hdr, base + 1, 0x12);
+        s32 *matrixWords = (s32 *)&r;
+        NNS_G3dGeBufferOP_N(r.hdr, matrixWords + 1, 0x12);
     }
 }
 
@@ -610,16 +589,16 @@ void func_02072548(Obj *o)
  * folding the pool to two words: 124 bytes against the original's 136, 75
  * concrete bytes out.  Under the pin the same C is 136 bytes, 0 mismatches.
  */
-void func_020726D0(void)
+void NNS_SndInit(void)
 {
     if (g_0214BAC0.f0c != 0) {
         return;
     }
     g_0214BAC0.f0c = 1;
     SND_Init();
-    g_0214BAC0.cb10.fn = (void (*)(void *))func_020728E8;
+    g_0214BAC0.cb10.fn = (void (*)(void *))NNS_SndPrependPostSleepCallback;
     g_0214BAC0.cb10.arg = 0;
-    g_0214BAC0.cb20.fn = func_02072920;
+    g_0214BAC0.cb20.fn = NNS_SndAppendPostSleepCallback;
     g_0214BAC0.cb20.arg = 0;
     PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);
@@ -636,7 +615,7 @@ void func_020726D0(void)
 
 /*
  * Not a member of the 0x02071CDC constructor family: the subsystem's boot
- * sequence. Spins until func_02089978(0) reports ready, runs the three
+ * sequence. Spins until SND_RecvCommandReply(0) reports ready, runs the three
  * initialisers, then hands 0 to func_02089B38.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md).
@@ -652,7 +631,7 @@ void func_020726D0(void)
  * difference is gone.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three of
- * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, func_02075858) have no
+ * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, NNSi_SndArcPlayerUpdate) have no
  * branch anywhere in the image outside this function's own 48 bytes, and
  * nothing under src/matched/ reproduces the ranges that define them, so the
  * `label` and `matched` classes both refuse. There is nothing to split: this
@@ -664,38 +643,38 @@ void func_020726D0(void)
  * NNS_SndPlayerMain (the +0x18 site) was promoted to src/matched/ this pass and
  * resolves `matched x1`; the file is now MATCH* with 3 of 5 relocations
  * resolved.  The two that remain are +0x1C (NNS_SndMain, 128 bytes at
- * 0x02073D7C) and +0x20 (func_02075858, 272 bytes at 0x02075858), neither of
+ * 0x02073D7C) and +0x20 (NNSi_SndArcPlayerUpdate, 272 bytes at 0x02075858), neither of
  * which has any branch outside this function's own bytes.  Both must be
  * written and filed EXACT in their own right -- there is no second caller to
  * find for either -- and then this file promotes with no change to the C.
  * Verify it with `--cc ../2.0/sp2 --arm`, not the default 1.1p1.
  */
-void func_02072758(void)
+void NNS_SndBoot(void)
 {
-    while (func_02089978(0) != 0)
+    while (SND_RecvCommandReply(0) != 0)
         ;
 
     NNS_SndPlayerMain();
     NNS_SndMain();
-    func_02075858();
+    NNSi_SndArcPlayerUpdate();
     func_02089B38(0);
 }
 
 
-void func_02072788(int volume)
+void NNS_SndSetMasterVolume(int volume)
 {
-    func_0208970C(volume);
+    SND_SetMasterVolume(volume);
 }
 
 
 
 
-void func_02072794(u32 flag)
+void NNS_SndSetMasterPan(u32 flag)
 {
     if (flag != 0) {
-        func_02089754(0x40);
+        SND_SetMasterPan(0x40);
     } else {
-        func_02089774();
+        SND_ResetMasterPan();
     }
 }
 
@@ -704,7 +683,7 @@ void func_02072794(u32 flag)
 
 /*
  * Double-buffered SND_ReadDriverInfo pump over the 0x0214BAC0 control block
- * (the same base src/pending/func_020726D0.c initialises) and the pair of
+ * (the same base src/pending/NNS_SndInit.c initialises) and the pair of
  * 0x11E0-byte info buffers at 0x0214BB00.
  *
  * BYTE-CORRECT at 212 bytes, 0 concrete mismatches.  PARKED, NOT FILED: the two
@@ -731,7 +710,7 @@ void func_02072794(u32 flag)
  * instruction late and is 6 bytes out; `volatile` on the struct and on the
  * field alone are both 6 out as well.
  */
-u32 func_020727B4(void)
+u32 NNS_SndReadDriverInfo(void)
 {
     if (g_0214BAC0.pending == 0) {
         while (SND_RecvCommandReply(0) != 0)
@@ -772,7 +751,7 @@ u32 func_020727B4(void)
  * call; the fourth argument (c) is copied into r3 first for the same reason,
  * r2 being needed for b again at the call.
  */
-int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo)
+int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     s8 idx = g_0214BAC0.idx;
     u8 *p;
@@ -780,25 +759,25 @@ int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo)
     if (idx < 0) p = 0;
     else         p = g_0214BB00 + idx * 0x11E0;
     if (p == 0) return 0;
-    return func_0208A0A4((struct SNDDriverInfo *)p, playerNo, trackNo, trackInfo);
+    return SND_ReadTrackInfo((struct SNDDriverInfo *)p, playerNo, trackNo, trackInfo);
 }
 
 
 
 
-void func_020728E8(void)
+void NNS_SndPrependPostSleepCallback(void)
 {
     u32 res;
 
     NNS_SndStartTimer();
-    func_020894DC(0, 0, 0, 0);
-    res = func_02089D40();
+    SND_StopTimer(0, 0, 0, 0);
+    res = SND_GetCurrentCommandTag();
     func_02089B38(1);
-    func_02089CD4(res);
+    SND_WaitForCommandProc(res);
 }
 
 
-void func_02072920(void *p)
+void NNS_SndAppendPostSleepCallback(void *p)
 {
     NNSi_SndCaptureReset();
 }

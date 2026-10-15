@@ -1,5 +1,5 @@
 /*
- * function: func_021FD73C
+ * function: BR_UTIL_SetTaskStep
  * address:  0x021FD73C
  * packet:   pkt_021FD73C
  * region:   ov186
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int *func_021FD73C(int *p, int v)
+int *BR_UTIL_SetTaskStep(int *p, int v)
 {
     p[0] = v;
     p[1] = 0;

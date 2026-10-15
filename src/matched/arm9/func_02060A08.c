@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02060A08
+ * function: NNSi_FndAllocFromExpHeapHead
  * address:  0x02060A08
  * packet:   pkt_02060764
  * region:   arm9
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02060888  0x02060888  arm
+ *   NNSi_FndAllocFromExpHeap  0x02060888  arm
  *
  * The head-end half of the expanded-heap allocator that sits under the game's
- * own heap layer: src/matched/sub_02030098.c calls func_02060CA0, which
- * dispatches here for a non-negative alignment and to func_02060ABC for a
+ * own heap layer: src/matched/sub_02030098.c calls NNS_FndAllocFromExpHeapEx, which
+ * dispatches here for a non-negative alignment and to NNSi_FndAllocFromExpHeapTail for a
  * negative one.
  *
  * Walk the free list from the head keeping the smallest block that can still
  * hold the request once its data start is rounded up to the alignment, then
- * hand the winner to func_02060888, which carves the region out of the block
+ * hand the winner to NNSi_FndAllocFromExpHeap, which carves the region out of the block
  * and moves it to the used list.  The search stops early on the first hit
  * when the heap's allocation mode is "first", and on an exact size fit in
  * either mode.
@@ -36,8 +36,8 @@
  * as a local before the loop is the same code.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02060A08.c \
- *       --func func_02060A08 --addr 0x02060A08 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_FndAllocFromExpHeapHead.c \
+ *       --func NNSi_FndAllocFromExpHeapHead --addr 0x02060A08 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -66,9 +66,9 @@ struct ExpHeap {
     u16               feature;
 };
 
-extern void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
+extern void *NNSi_FndAllocFromExpHeap(struct ExpHeap *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
 
-void *func_02060A08(struct ExpHeap *heap, u32 size, s32 align)
+void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align)
 {
     int            allocFirst;
     struct MBlock *found;
@@ -99,5 +99,5 @@ void *func_02060A08(struct ExpHeap *heap, u32 size, s32 align)
     if (found == 0) {
         return 0;
     }
-    return func_02060888((struct ExpHeap *)(&heap->freeList), found, foundPtr, size, 0);
+    return NNSi_FndAllocFromExpHeap((struct ExpHeap *)(&heap->freeList), found, foundPtr, size, 0);
 }

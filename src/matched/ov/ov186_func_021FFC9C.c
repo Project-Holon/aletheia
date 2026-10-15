@@ -11,11 +11,11 @@
  * symbols:
  *   BR_POKESEARCH_PollGroupTouch 0x022000F0 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_021FB4B4 0x021FB4B4 thumb ov186
- *   func_021FD860 0x021FD860 thumb ov186
- *   func_021FCD0C 0x021FCD0C thumb ov186
- *   func_021FCDA8 0x021FCDA8 thumb ov186
- *   func_021FD938 0x021FD938 thumb ov186
+ *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
+ *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
+ *   BR_UTIL_GetListMenuField48 0x021FCDA8 thumb ov186
+ *   BR_UTIL_IsEffectDone 0x021FD938 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   BR_POKESEARCH_DestroyGroupWindows 0x021FFFCC thumb ov186
@@ -36,10 +36,10 @@ extern int BR_POKESEARCH_PollGroupTouch(char *);
 typedef unsigned char  u8;
 struct Work;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int func_021FB4B4(unsigned int *obj, int x, int y);
-extern void func_021FD860(char *,u32,const Pair *);
-extern void func_021FCD0C(char *);
-extern int func_021FCDA8(char *),func_021FD938(char *),BR_FADE_GetResult(int *);
+extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
+extern void BR_UTIL_StartEffect(char *,u32,const Pair *);
+extern void BR_UTIL_MainListMenu(char *);
+extern int BR_UTIL_GetListMenuField48(char *),BR_UTIL_IsEffectDone(char *),BR_FADE_GetResult(int *);
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern void BR_POKESEARCH_DestroyGroupWindows(u8 *p);
 extern void BR_POKESEARCH_DestroySpeciesList(u8 *p);
@@ -61,9 +61,9 @@ int BR_POKESEARCH_Main(char *p)
             Pair pair;
             ((struct Obj00221 *)p)->fC=BR_POKESEARCH_PollGroupTouch(p);
             held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
-            if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
+            if (BR_BTN_HitTestWithSound((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
-                func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
+                BR_UTIL_StartEffect(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
                 *(int *)&((struct Obj00221 *)p)->f0=8; ((struct Obj00221 *)p)->f8=1;
             } else if (((struct Obj00221 *)p)->fC!=9) {
                 *(int *)&((struct Obj00221 *)p)->f0=4; ((struct Obj00221 *)p)->f4=3;
@@ -73,12 +73,12 @@ int BR_POKESEARCH_Main(char *p)
         case 3: {
             int x,y,held;
             Pair pair;
-            func_021FCD0C(*(char * *)&((struct Obj00221 *)p)->f68);
-            ((struct Obj00221 *)p)->f10=func_021FCDA8(*(char * *)&((struct Obj00221 *)p)->f68);
+            BR_UTIL_MainListMenu(*(char * *)&((struct Obj00221 *)p)->f68);
+            ((struct Obj00221 *)p)->f10=BR_UTIL_GetListMenuField48(*(char * *)&((struct Obj00221 *)p)->f68);
             held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
-            if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
+            if (BR_BTN_HitTestWithSound((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
-                func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
+                BR_UTIL_StartEffect(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
                 *(int *)&((struct Obj00221 *)p)->f0=4; ((struct Obj00221 *)p)->f4=2;
             } else if (((struct Obj00221 *)p)->f10!=-1) {
                 *(int *)&((struct Obj00221 *)p)->f0=8; ((struct Obj00221 *)p)->f8=2;
@@ -86,7 +86,7 @@ int BR_POKESEARCH_Main(char *p)
             break;
         }
         case 4:
-            if (func_021FD938(*(char * *)&((struct Obj00221 *)p)->f78)) {
+            if (BR_UTIL_IsEffectDone(*(char * *)&((struct Obj00221 *)p)->f78)) {
                 BR_FADE_Start((int)(((struct Obj00221 *)p)->f30),2,2,1);
                 (((struct Obj00221 *)p)->f0)++;
             }

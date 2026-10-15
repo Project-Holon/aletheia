@@ -1,7 +1,7 @@
 /*
  * file:     msl_fdlibm.c
  * unit:     yes
- * function: func_0209953C, func_0209A0EC, func_0209A368, func_0209A390, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA08, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8
+ * function: __kernel_rem_pio2, __kernel_sin, copysign, func_0209A390, fabs, func_0209A524, frexp, ldexp, sin, pow, stricmp, strnicmp, strcmp_nocase
  * address:  0x0209953C
  * region:   arm9
  * compiler: dsi/1.2
@@ -35,9 +35,9 @@
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
 /* Matched units compiled in this file, entered 4 bytes before their function:
- * unit_0209A0EC (0x0209A0EC) holds func_0209A0EC
+ * unit_0209A0EC (0x0209A0EC) holds __kernel_sin
  * unit_0209A390 (0x0209A390) holds func_0209A390
- * unit_0209AA08 (0x0209AA08) holds func_0209AA08
+ * unit_0209AA08 (0x0209AA08) holds sin
  */
 
 typedef int i32;
@@ -52,24 +52,23 @@ extern double func_0209AC04(double x, double y);
 extern double func_0209AF34(double x, double y);
 extern int func_0209C508(double x);
 extern double func_02099224(double x, double y);
-extern double func_0209A0EC(double x, double y, int iy);
+extern double __kernel_sin(double x, double y, int iy);
 extern int func_02098B44(double x, double *y);
 extern int func_020921F4(double x);
 extern double func_020979BC(double x, double y);
 extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
-int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
-double func_0209A0EC(double x, double y, int iy);
-double func_0209A368(double x, double y);
+int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
+double copysign(double x, double y);
 double func_0209A390(double x);
-double func_0209A504(double x);
+double fabs(double x);
 double func_0209A524(double x);
-double func_0209A6E8(double x, int *eptr);
-double func_0209A7A8(double x, int n);
-double func_0209AA08(double x);
-double func_0209AB80(double x, double y);
-int func_0209AB8C(const u8 *s1, const u8 *s2);
-int func_0209ABEC(const u8 *s1, const u8 *s2, int n);
-int func_0209ABF8(const u8 *s1, const u8 *s2);
+double frexp(double x, int *eptr);
+double ldexp(double x, int n);
+double sin(double x);
+double pow(double x, double y);
+int stricmp(const u8 *s1, const u8 *s2);
+int strnicmp(const u8 *s1, const u8 *s2, int n);
+int strcmp_nocase(const u8 *s1, const u8 *s2);
 asm void _double_arith_prelude(void);
 asm void __dmul(void);
 asm void _d2f(void);
@@ -87,7 +86,7 @@ twon24 = 5.96046447753906250000e-08;
 
 
 
-int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2)
+int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2)
 {
 	int jz,jx,jv,jp,jk,carry,n,iq[20],i,j,k,m,q0,ih;
 	double z,fw,f[20],fq[20],q[20];
@@ -229,7 +228,7 @@ recompute:
 
 /*
  * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
- * the disasm body label func_0209A0EC: 0x0209A0EC is the compiler's
+ * the disasm body label __kernel_sin: 0x0209A0EC is the compiler's
  * `push {r0-r3}` spilling the double arguments x (r0:r1) and y (r2:r3), so
  * the body reads them from the stack and pops 16 bytes on every return.
  * Both the stub address and the body label are worklist entries, so the unit
@@ -241,7 +240,7 @@ recompute:
  *   func_0209AF34  __dsub(double, double)
  *   func_0209C508  __d2s (double -> int)
  */
-double func_0209A0EC(double x, double y, int iy)
+double __kernel_sin(double x, double y, int iy)
 {
     static const double half = 5.00000000000000000000e-01;
     static const double S1 = -1.66666666666666324348e-01;
@@ -280,7 +279,7 @@ double func_0209A0EC(double x, double y, int iy)
  * of the second, reading both hi words off the stack after `push {r0-r3}`
  * (the address-of-a-register-parameter idiom, doubled for two doubles).
  */
-double func_0209A368(double x, double y)
+double copysign(double x, double y)
 {
     ((u32 *)&x)[1] = (((u32 *)&x)[1] & 0x7fffffff) | (((u32 *)&y)[1] & 0x80000000);
     return x;
@@ -306,7 +305,7 @@ double func_0209A368(double x, double y)
  *
  * Callees by address:
  *   func_02099224  __kernel_cos(double, double)
- *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   __kernel_sin  __kernel_sin(double, double, int)
  *   func_02098B44  __ieee754_rem_pio2(double, double *)
  */
 double func_0209A390(double x)
@@ -329,11 +328,11 @@ double func_0209A390(double x)
         case 0:
             return func_02099224(y[0], y[1]);
         case 1:
-            return -func_0209A0EC(y[0], y[1], 1);
+            return -__kernel_sin(y[0], y[1], 1);
         case 2:
             return -func_02099224(y[0], y[1]);
         default:
-            return func_0209A0EC(y[0], y[1], 1);
+            return __kernel_sin(y[0], y[1], 1);
         }
     }
 }
@@ -344,7 +343,7 @@ double func_0209A390(double x)
  * address-of-a-register-parameter idiom and produces `push {r0-r3}`; the
  * mask folds to `bic r1, r1, #0x80000000`.
  */
-double func_0209A504(double x)
+double fabs(double x)
 {
     ((u32 *)&x)[1] &= 0x7fffffff;
     return x;
@@ -452,7 +451,7 @@ static const double two54 = 1.80143985094819840000e+16;
  * inline double constant two54; the compiler keeps its zero low word in r5
  * and only pools the 0x43500000 high half.
  */
-double func_0209A6E8(double x, int *eptr)
+double frexp(double x, int *eptr)
 {
     int hx;
     int ix;
@@ -510,7 +509,7 @@ static const double tiny    = 1.0e-300;
  * [sp, #0x10]/[sp, #0x14] through &x, and every return pops 16 bytes.
  * See the cluster header docs/families/cluster_02098B44.h.
  */
-double func_0209A7A8(double x, int n)
+double ldexp(double x, int n)
 {
     i32 k, hx, lx;
 
@@ -534,7 +533,7 @@ double func_0209A7A8(double x, int n)
         return x + x;
     k = k + n;
     if (k > 0x7fe)
-        return huge * func_0209A368(huge, x);
+        return huge * copysign(huge, x);
     if (k > 0)
     {
         HI(x) = (hx & 0x800fffff) | (k << 20);
@@ -543,9 +542,9 @@ double func_0209A7A8(double x, int n)
     if (k <= -54)
     {
         if (n > 50000)
-            return huge * func_0209A368(huge, x);
+            return huge * copysign(huge, x);
         else
-            return tiny * func_0209A368(tiny, x);
+            return tiny * copysign(tiny, x);
     }
     k += 54;
     HI(x) = (hx & 0x800fffff) | (k << 20);
@@ -555,7 +554,7 @@ double func_0209A7A8(double x, int n)
 
 /*
  * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
- * disasm body label func_0209AA08: the stub is the compiler's `push {r0-r3}`
+ * disasm body label sin: the stub is the compiler's `push {r0-r3}`
  * spilling the register-passed double argument, so the body reads x from the
  * stack and pops 16 bytes on every return.  The unit is anchored at the stub
  * and the function list records the body label the worklist names.
@@ -565,12 +564,12 @@ double func_0209A7A8(double x, int n)
  * and x-x lower to the MSL soft-float subtract helper _dsub.
  *
  * Callees by address:
- *   func_0209A0EC  __kernel_sin(double, double, int)
+ *   __kernel_sin  __kernel_sin(double, double, int)
  *   func_02099224  __kernel_cos(double, double)
  *   func_02098B44  __ieee754_rem_pio2(double, double *)
  *   func_0209AF34  __dsub(double, double)
  */
-double func_0209AA08(double x)
+double sin(double x)
 {
     double y[2];
     double z = 0.0;
@@ -579,7 +578,7 @@ double func_0209AA08(double x)
 
     ix = HI(x) & 0x7fffffff;
     if (ix <= 0x3fe921fb)
-        return func_0209A0EC(x, z, 0);
+        return __kernel_sin(x, z, 0);
     else if (ix >= 0x7ff00000)
         return x - x;
     else
@@ -588,11 +587,11 @@ double func_0209AA08(double x)
         switch (n & 3)
         {
         case 0:
-            return func_0209A0EC(y[0], y[1], 1);
+            return __kernel_sin(y[0], y[1], 1);
         case 1:
             return func_02099224(y[0], y[1]);
         case 2:
-            return -func_0209A0EC(y[0], y[1], 1);
+            return -__kernel_sin(y[0], y[1], 1);
         default:
             return -func_02099224(y[0], y[1]);
         }
@@ -600,7 +599,7 @@ double func_0209AA08(double x)
 }
 
 
-double func_0209AB80(double x, double y)
+double pow(double x, double y)
 {
     return func_020979BC(x, y);
 }
@@ -622,7 +621,7 @@ double func_0209AB80(double x, double y)
  * is what the original does.  Declaring the two mask temps together instead
  * swaps those two scratch registers (9-byte DIFF).
  */
-int func_0209AB8C(const u8 *s1, const u8 *s2)
+int stricmp(const u8 *s1, const u8 *s2)
 {
     const u8 *tab = g_020A60DC;
     int c1;
@@ -651,12 +650,12 @@ int func_0209AB8C(const u8 *s1, const u8 *s2)
     }
 }
 
-int func_0209ABEC(const u8 *s1, const u8 *s2, int n)
+int strnicmp(const u8 *s1, const u8 *s2, int n)
 {
     return func_02091C40(s1, s2, n);
 }
 
-int func_0209ABF8(const u8 *s1, const u8 *s2)
+int strcmp_nocase(const u8 *s1, const u8 *s2)
 {
-    return func_0209AB8C(s1, s2);
+    return stricmp(s1, s2);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     convert.c
  * unit:     yes
- * function: func_02088F58, RTCi_ConvertTimeToSecond, func_02089004, func_02089060, func_02089160, func_020891E0, func_02089274
+ * function: RTC_ConvertDateToDay, RTCi_ConvertTimeToSecond, RTC_ConvertDateTimeToSecond, RTC_ConvertDayToDate, RTCi_ConvertSecondToTime, RTC_ConvertSecondToDateTime, func_02089274
  * address:  0x02088F58
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,29 +34,13 @@ typedef struct RTCDate { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate;
 
 typedef struct RTCTime { u32 hour; u32 minute; u32 second; } RTCTime;
 
-typedef struct RTCDate_02089060 { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate_02089060;
-
-typedef struct RTCDate_02089160 { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate_02089160;
-
-typedef struct RTCDate_020891E0 { u32 year; u32 month; u32 day; RTCWeek week; } RTCDate_020891E0;
-
-typedef struct RTCDate_3 {
-    unsigned long year;
-    unsigned long month;
-    unsigned long day;
-    RTCWeek week;
-} RTCDate_3;
-
 s32 RTC_ConvertDateToDay(RTCDate *date);
-void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec);
-void RTC_ConvertDayToDate(RTCDate_020891E0 *date, s32 day);
-s32 func_02088F58(RTCDate *date);
 asm s32 RTCi_ConvertTimeToSecond(RTCTime *time);
-s64 func_02089004(RTCDate *date, RTCTime *time);
-void func_02089060(RTCDate_02089060 *date, s32 day);
-void func_02089160(RTCTime *time, s32 sec);
-void func_020891E0(RTCDate_020891E0 *date, RTCTime *time, s64 sec);
-RTCWeek RTC_GetDayOfWeek(RTCDate_3 *date);
+s64 RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
+void RTC_ConvertDayToDate(RTCDate *date, s32 day);
+void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec);
+void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
+RTCWeek RTC_GetDayOfWeek(RTCDate *date);
 extern s32 sDayOfYear[12];
 
 
@@ -64,7 +48,7 @@ extern s32 sDayOfYear[12];
 /*
  * sdk:      RTC_ConvertDateToDay (librtc.TWL.HYB.a convert.o)
  */
-s32 func_02088F58(RTCDate *date)
+s32 RTC_ConvertDateToDay(RTCDate *date)
 {
     s32 dayNum;
 
@@ -96,7 +80,7 @@ asm s32 RTCi_ConvertTimeToSecond(RTCTime *time)
 /*
  * sdk:      RTC_ConvertDateTimeToSecond (librtc.TWL.HYB.a convert.o)
  */
-s64 func_02089004(RTCDate *date, RTCTime *time)
+s64 RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time)
 {
     s32 day;
     s32 sec;
@@ -118,7 +102,7 @@ s64 func_02089004(RTCDate *date, RTCTime *time)
 /*
  * sdk:      RTC_ConvertDayToDate (librtc.TWL.HYB.a convert.o)
  */
-void func_02089060(RTCDate_02089060 *date, s32 day)
+void RTC_ConvertDayToDate(RTCDate *date, s32 day)
 {
     u32 year;
     s32 month;
@@ -174,7 +158,7 @@ void func_02089060(RTCDate_02089060 *date, s32 day)
 /*
  * sdk:      RTCi_ConvertSecondToTime (librtc.TWL.HYB.a convert.o)
  */
-void func_02089160(RTCTime *time, s32 sec)
+void RTCi_ConvertSecondToTime(RTCTime *time, s32 sec)
 {
     if (sec < 0) {
         sec = 0;
@@ -193,7 +177,7 @@ void func_02089160(RTCTime *time, s32 sec)
 /*
  * sdk:      RTC_ConvertSecondToDateTime (librtc.TWL.HYB.a convert.o)
  */
-void func_020891E0(RTCDate_020891E0 *date, RTCTime *time, s64 sec)
+void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec)
 {
     if (sec < 0) {
         sec = 0;
@@ -207,7 +191,7 @@ void func_020891E0(RTCDate_020891E0 *date, RTCTime *time, s64 sec)
 
 
 
-RTCWeek RTC_GetDayOfWeek(RTCDate_3 *date)
+RTCWeek RTC_GetDayOfWeek(RTCDate *date)
 {
     int cent;
     int year = (int)(2000 + date->year);

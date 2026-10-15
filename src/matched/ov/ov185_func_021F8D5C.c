@@ -1,5 +1,5 @@
 /*
- * function: func_021F8D5C
+ * function: BR_POKESEARCH_ShowBg
  * address: 0x021F8D5C
  * packet: pkt_ov185_021F8D5C
  * region: ov185
@@ -26,4 +26,4 @@ extern void BR_GRAPHIC_End3d(void *,unsigned);
 extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
 extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
 extern void BR_SIDEBAR_SetVisibleBySpace(char *p, int mode, u32 value);
-void func_021F8D5C(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;BR_GRAPHIC_End3d(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);BR_RES_LoadUiPalette(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_RES_LoadBgGraphics(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_SIDEBAR_SetVisibleBySpace((char *)(((struct Obj04583 *)q)->f4),0,1);} }
+void BR_POKESEARCH_ShowBg(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;BR_GRAPHIC_End3d(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);BR_RES_LoadUiPalette(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_RES_LoadBgGraphics(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);BR_SIDEBAR_SetVisibleBySpace((char *)(((struct Obj04583 *)q)->f4),0,1);} }

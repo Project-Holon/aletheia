@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021FD12C 0x021FD12C thumb ov186
- *   func_021FD170 0x021FD170 thumb ov186
- *   func_021FD860 0x021FD860 thumb ov186
+ *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
+ *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
+ *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
- *   func_021FD73C 0x021FD73C thumb ov186
+ *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   func_021DEE7C 0x021DEE7C thumb ov183
  */
 #include "../include/Obj01962.h"
@@ -23,12 +23,12 @@
 #include "../include/Obj24615.h"
 #include "../include/Obj24616.h"
 typedef unsigned short u16;
-extern void *func_021FD12C(int a, void *owner, u16 heap);
-extern void func_021FD170(char *p, char *q, void *text);
-extern void func_021FD860(int, int, int *);
+extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
+extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
+extern void BR_UTIL_StartEffect(int, int, int *);
 extern void BR_FADE_Start(int a, int b, int c, int d);
 extern int BR_FADE_GetResult(int *);
-extern int *func_021FD73C(int *p, int v);
+extern int *BR_UTIL_SetTaskStep(int *p, int v);
 typedef unsigned int   u32;
 extern void func_021DEE7C(int *task, u32 *state, char *p);
 void func_021DF0DC(int *p, int *state, char *q)
@@ -37,16 +37,16 @@ void func_021DF0DC(int *p, int *state, char *q)
     switch (*state) {
     case 0:
         if (((struct Obj01962 *)q)->f24 == 0) {
-            ((struct Obj01962 *)q)->f24 = (int)func_021FD12C(((struct Obj24611 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10, (void *)(((struct Obj01962 *)q)->f14), ((struct Obj01962 *)q)->f18);
+            ((struct Obj01962 *)q)->f24 = (int)BR_UTIL_CreateTextWin(((struct Obj24611 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10, (void *)(((struct Obj01962 *)q)->f14), ((struct Obj01962 *)q)->f18);
         }
         if (**(int * *)&((struct Obj01962 *)q)->f108 == 3) {
-            func_021FD170((char *)(((struct Obj01962 *)q)->f24), (char *)(((struct Obj24613 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10), (void *)0x14B);
+            BR_UTIL_SetWindowText((char *)(((struct Obj01962 *)q)->f24), (char *)(((struct Obj24613 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10), (void *)0x14B);
         } else {
-            func_021FD170((char *)(((struct Obj01962 *)q)->f24), (char *)(((struct Obj24614 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10), (void *)0x13E);
+            BR_UTIL_SetWindowText((char *)(((struct Obj01962 *)q)->f24), (char *)(((struct Obj24614 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f10), (void *)0x13E);
         }
         args[0] = 0x80;
         args[1] = 0x60;
-        func_021FD860(((struct Obj01962 *)q)->f1C, 4, args);
+        BR_UTIL_StartEffect(((struct Obj01962 *)q)->f1C, 4, args);
         *state = 1;
         break;
     case 1:
@@ -57,7 +57,7 @@ void func_021DF0DC(int *p, int *state, char *q)
         if (BR_FADE_GetResult(*(int * *)&((struct Obj24616 *)(*(char * *)&((struct Obj01962 *)q)->f108))->f8) != 0) *state = 3;
         break;
     case 3:
-        func_021FD73C(p, (int)func_021DEE7C);
+        BR_UTIL_SetTaskStep(p, (int)func_021DEE7C);
         break;
     }
 }

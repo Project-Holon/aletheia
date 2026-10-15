@@ -1,5 +1,5 @@
 /*
- * function: func_021BC380
+ * function: RESEARCH_LIST_SetListScroll
  * address: 0x021BC380
  * packet: pkt_ov217_021BC380
  * region: ov217
@@ -10,23 +10,23 @@
  * status: EXACT
  *
  * symbols:
- *   func_021BC40C 0x021BC40C thumb ov217
- *   func_021BC3B8 0x021BC3B8 thumb ov217
+ *   RESEARCH_LIST_GetScrollRange 0x021BC40C thumb ov217
+ *   RESEARCH_LIST_SetScrollY 0x021BC3B8 thumb ov217
  */
 struct S { char pad[0x34]; int f34; };
 
 typedef unsigned int   u32;
-extern int func_021BC40C(void *p);
-extern void func_021BC3B8(u32 a0);
+extern int RESEARCH_LIST_GetScrollRange(void *p);
+extern void RESEARCH_LIST_SetScrollY(u32 a0);
 
-void func_021BC380(struct S *p)
+void RESEARCH_LIST_SetListScroll(struct S *p)
 {
     int v = p->f34 - 24;
     if (v < -24) {
         v = -24;
     }
-    if (func_021BC40C(p) < v) {
-        v = func_021BC40C(p);
+    if (RESEARCH_LIST_GetScrollRange(p) < v) {
+        v = RESEARCH_LIST_GetScrollRange(p);
     }
-    func_021BC3B8(v);
+    RESEARCH_LIST_SetScrollY(v);
 }

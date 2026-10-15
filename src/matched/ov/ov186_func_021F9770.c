@@ -1,5 +1,5 @@
 /*
- * function: func_021F9770
+ * function: BR_PROC_SYS_NoopF
  * address: 0x021F9770
  * packet: pkt_ov186_021F9770
  * region: ov186
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021F9770(void) {}
+void BR_PROC_SYS_NoopF(void) {}

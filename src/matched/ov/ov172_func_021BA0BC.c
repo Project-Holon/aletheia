@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA0BC, func_021BA114
+ * function: CTVT_MIC_StartCapture, CTVT_MIC_OnCaptureComplete
  * address: 0x021BA0BC
  * packet: pkt_ov172_021BA0BC
  * region: ov172
@@ -26,8 +26,8 @@ typedef struct MICAutoParam {
 } MICAutoParam;
 extern void func_02082A7C(u32, void *, u32);
 extern MICResult func_0208B500(MICAutoParam *);
-void func_021BA114(MICResult, void *);
-int func_021BA0BC(u32 *p)
+void CTVT_MIC_OnCaptureComplete(MICResult, void *);
+int CTVT_MIC_StartCapture(u32 *p)
 {
     MICAutoParam param;
     param.type = 3;
@@ -35,7 +35,7 @@ int func_021BA0BC(u32 *p)
     param.buffer = (void *)p[1];
     func_02082A7C(0, param.buffer, param.size);
     if (param.size & 31) param.size &= ~31;
-    param.callback = func_021BA114;
+    param.callback = CTVT_MIC_OnCaptureComplete;
     param.loop = 0;
     param.rate = 4097;
     param.arg = p;
@@ -46,7 +46,7 @@ int func_021BA0BC(u32 *p)
     }
     return 0;
 }
-void func_021BA114(MICResult result, void *arg)
+void CTVT_MIC_OnCaptureComplete(MICResult result, void *arg)
 {
     u32 *p = arg;
     p[2] = 0;

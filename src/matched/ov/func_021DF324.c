@@ -1,5 +1,5 @@
 /*
- * function: func_021DF324
+ * function: BOX2_MAIN_PushPartySceneB
  * address:  0x021DF324
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -21,7 +21,7 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_021DF324(char *p)
+int BOX2_MAIN_PushPartySceneB(char *p)
 {
     int q = ((struct Obj04901 *)p)->fC;
     if (((struct Obj04901 *)p)->f18 == 0) {

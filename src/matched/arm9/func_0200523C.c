@@ -31,7 +31,7 @@
  *     relocations keep both pool words, which is the original's shape.
  *
  * symbols:
- *   func_02034704   0x02034704  arm
+ *   SAVEDATA_SetFailHook   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
  *   PM_VOICE_GetCryIndex   0x02006C00  thumb
  *   PM_VOICE_PrepareCry   0x02006C2C  thumb
@@ -73,7 +73,7 @@ extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
 extern void func_02012FF0(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
-extern void func_02034704(u32 a0);
+extern void SAVEDATA_SetFailHook(u32 a0);
 extern void func_0201F344(u16 heap);
 extern void POKE_TOOL_InitSystem(u32 heap);
 extern void GFL_USE_InitSound(void);
@@ -105,7 +105,7 @@ void GFL_USE_InitGameSystems(void)
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
-    func_02034704((u32)&func_0200FB6C);
+    SAVEDATA_SetFailHook((u32)&func_0200FB6C);
     func_0201F344(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();

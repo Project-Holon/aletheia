@@ -1,5 +1,5 @@
 /*
- * function: func_0208A2BC
+ * function: SND_AssignWaveArc
  * address:  0x0208A2BC
  * packet:   pkt_0208A2BC
  * region:   arm9
@@ -45,7 +45,7 @@ extern void SNDi_LockMutex(void);
 extern void SNDi_UnlockMutex(void);
 extern void DC_StoreRange(const void *startAddr, unsigned long nBytes);
 
-void func_0208A2BC(SNDBankData *bank, int index, SNDWaveArc *waveArc)
+void SND_AssignWaveArc(SNDBankData *bank, int index, SNDWaveArc *waveArc)
 {
     SNDWaveArcLink *prev;
     SNDWaveArcLink *next;

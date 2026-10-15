@@ -12,7 +12,7 @@
  * symbols:
  *   func_021C48D4  0x021C48D4  thumb  ov127
  *   func_021C5370  0x021C5370  thumb  ov127
- *   func_021C5F80  0x021C5F80  thumb  ov127
+ *   WF2DMAP_CMDQ_Pop  0x021C5F80  thumb  ov127
  */
 typedef struct {
     char pad[0x588];
@@ -22,7 +22,7 @@ typedef struct {
     void *f59c;             /* 0x59c */
 } Work;
 
-extern int func_021C5F80(void *q, int *out);
+extern int WF2DMAP_CMDQ_Pop(void *q, int *out);
 typedef unsigned char  u8;
 extern int func_021C5370(void *a, void *b, const u8 *desc, int *out);
 extern void func_021C48D4(void *a, u8 *q);
@@ -32,7 +32,7 @@ void WIFICLUBACTOR_ProcessSpawnCommands(Work *w)
     int a;
     int b[2];
 
-    while (func_021C5F80(w->f59c, &a) == 1) {
+    while (WF2DMAP_CMDQ_Pop(w->f59c, &a) == 1) {
         if (func_021C5370(w->f588, w->f58c, (const u8 *)(&a), b) == 1)
             func_021C48D4(w->f58c, (u8 *)b);
     }

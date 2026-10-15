@@ -1,5 +1,5 @@
 /*
- * function: func_021E81D0
+ * function: BOX2_SEQ_StateMoveItemF
  * address:  0x021E81D0
  * packet:   pkt_ov170_021E81D0
  * region:   ov170
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBBC8 0x021EBBC8 thumb
- *   func_021DD314 0x021DD314 thumb
- *   func_021EBA5C 0x021EBA5C thumb
- *   func_021DD14C 0x021DD14C thumb
- *   func_021DF040 0x021DF040 thumb
- *   func_021EDAB0 0x021EDAB0 thumb
- *   func_021EDB34 0x021EDB34 thumb
- *   func_021EF670 0x021EF670 thumb
+ *   BOX2_SEQ_PrintMonName 0x021EBBC8 thumb
+ *   BOX2_MAIN_ClearSlot 0x021DD314 thumb
+ *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
+ *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
+ *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
+ *   BOX2_UI_DrawSlot 0x021EDAB0 thumb
+ *   BOX2_UI_DrawSlotByName 0x021EDB34 thumb
+ *   BOX2_UI_ShowWindowA 0x021EF670 thumb
  *   func_020260E4 0x020260E4 thumb
- *   func_021EE3E4 0x021EE3E4 thumb
- *   func_021ED55C 0x021ED55C thumb
- *   func_021ED888 0x021ED888 thumb
- *   func_021ECB20 0x021ECB20 thumb
- *   func_021ED508 0x021ED508 thumb
- *   func_021EA1C0 0x021EA1C0 thumb
- *   func_021E8FC0 0x021E8FC0 thumb
- *   func_021E002C 0x021E002C thumb
- *   func_021EA1E8 0x021EA1E8 thumb
- *   func_021DEFEC 0x021DEFEC thumb
- *   func_021EF68C 0x021EF68C thumb
+ *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
+ *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
+ *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb
+ *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
+ *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
+ *   BOX2_SEQ_Create 0x021EA1C0 thumb
+ *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
+ *   BOX2_MAIN_StateMachineOpen 0x021E002C thumb
+ *   BOX2_SEQ_Delete 0x021EA1E8 thumb
+ *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_UI_ShowWindowB 0x021EF68C thumb
  *
  * Four-step machine on the work word at 0xA194 for releasing a Pokemon:
  * two confirmation messages, then the release itself (box slot in place,
@@ -38,26 +38,26 @@
 
 typedef unsigned char  u8;
 struct Sound;
-extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
-extern void func_021DD314(char **p, int a, unsigned b);
-extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(char *p);
-extern void func_021DF040(char *p);
-extern void func_021EDAB0(char *p, int i);
-extern void func_021EDB34(char *p, int a);
-extern void func_021EF670(char *w);
+extern void BOX2_SEQ_PrintMonName(unsigned char *p, unsigned kind, int i);
+extern void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b);
+extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
+extern void BOX2_MAIN_RefreshCursorBox(char *p);
+extern void BOX2_MAIN_ResetBoxView(char *p);
+extern void BOX2_UI_DrawSlot(char *p, int i);
+extern void BOX2_UI_DrawSlotByName(char *p, int a);
+extern void BOX2_UI_ShowWindowA(char *w);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(char **p, unsigned idx);
-extern void func_021ED55C(char **p, int flag);
-extern void func_021ED888(char *w, int a);
-extern void func_021ECB20(char *p, int f, int c);
-extern void func_021ED508(unsigned char *p, int a, int b);
-extern void func_021EA1C0(void *p);
-extern int func_021E8FC0(char *p, int a, int b);
-extern int func_021E002C(unsigned char *p);
-extern void func_021EA1E8(char *p);
-extern void func_021DEFEC(char *p, int b);
-extern void func_021EF68C(char *w);
+extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
+extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
+extern void BOX2_UI_ToggleSlotPair(char *w, int a);
+extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
+extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
+extern void BOX2_SEQ_Create(void *p);
+extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
+extern int BOX2_MAIN_StateMachineOpen(unsigned char *p);
+extern void BOX2_SEQ_Delete(char *p);
+extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_UI_ShowWindowB(char *w);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
@@ -65,60 +65,60 @@ extern void func_021EF68C(char *w);
 #define STATE(p) (*(int *)((p) + 0x28))
 #define MODE(p) (*(int *)(*(char **)(p) + 0x24))
 
-int func_021E81D0(unsigned char *p)
+int BOX2_SEQ_StateMoveItemF(unsigned char *p)
 {
     switch (STEP(p)) {
     case 0:
-        func_021EBBC8(p, 1, 0x18);
+        BOX2_SEQ_PrintMonName(p, 1, 0x18);
         STATE(p) = 0x5B;
         STEP(p)++;
         return 6;
     case 1:
-        func_021EBBC8(p, 2, 0x18);
+        BOX2_SEQ_PrintMonName(p, 2, 0x18);
         STATE(p) = 0x5B;
         STEP(p)++;
         return 6;
     case 2:
-        func_021DD314((char **)p, p[0x14], p[0x16]);
-        func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C((char *)p);
-        func_021DF040((char *)p);
+        BOX2_MAIN_ClearSlot((char **)p, p[0x14], p[0x16]);
+        BOX2_SEQ_ShowWindowObject(WORK(p), 0x18);
+        BOX2_MAIN_RefreshCursorBox((char *)p);
+        BOX2_MAIN_ResetBoxView((char *)p);
         if (p[0x16] < 0x1E) {
-            func_021EDAB0((char *)p, p[0x14]);
-            func_021EDB34((char *)p, p[0x14]);
+            BOX2_UI_DrawSlot((char *)p, p[0x14]);
+            BOX2_UI_DrawSlotByName((char *)p, p[0x14]);
             if (MODE(p) == 1) {
                 STATE(p) = 0x2C;
             } else {
                 STATE(p) = 0x11;
-                func_021EF670(WORK(p));
+                BOX2_UI_ShowWindowA(WORK(p));
             }
             func_020260E4(OBJ(p), p[0x16]);
-            func_021EE3E4((char **)p, p[0x16]);
-            func_021ED55C((char **)p, 1);
-            func_021ED888(WORK(p), 1);
-            func_021ECB20((char *)p, 1, 0);
-            func_021ED508(p, 0xE, 1);
+            BOX2_UI_SetCursorPos((char **)p, p[0x16]);
+            BOX2_SEQ_SetCursorDraw((char **)p, 1);
+            BOX2_UI_ToggleSlotPair(WORK(p), 1);
+            BOX2_SEQ_SetSlotActors((char *)p, 1, 0);
+            BOX2_SEQ_SetWindow9(p, 0xE, 1);
             p[0x16] = 0xFF;
             STEP(p) = 0;
             return STATE(p);
         }
-        func_021EA1C0(p);
+        BOX2_SEQ_Create(p);
         p[0x1A] = 1;
-        func_021ECB20((char *)p, 2, 0);
+        BOX2_SEQ_SetSlotActors((char *)p, 2, 0);
         STEP(p)++;
-        return func_021E8FC0((char *)p, (int)func_021E002C, 0x5B);
+        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineOpen, 0x5B);
     case 3:
         STEP(p) = 0;
-        func_021EA1E8((char *)p);
-        func_021DEFEC((char *)p, p[0x16]);
+        BOX2_SEQ_Delete((char *)p);
+        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
         func_020260E4(OBJ(p), p[0x16] - 0x1E);
-        func_021EE3E4((char **)p, p[0x16] - 0x1E);
-        func_021ED55C((char **)p, 1);
+        BOX2_UI_SetCursorPos((char **)p, p[0x16] - 0x1E);
+        BOX2_SEQ_SetCursorDraw((char **)p, 1);
         p[0x16] = 0xFF;
         if (MODE(p) == 0)
             return 0x31;
-        func_021ED508(p, 0xE, 1);
-        func_021EF68C(WORK(p));
+        BOX2_SEQ_SetWindow9(p, 0xE, 1);
+        BOX2_UI_ShowWindowB(WORK(p));
         return 0x1B;
     }
     return 0x5B;

@@ -1,5 +1,5 @@
 /*
- * function: func_020860D0
+ * function: OS_TryLockMutex
  * address:  0x020860D0
  * packet:   pkt_020860D0
  * region:   arm9
@@ -165,7 +165,7 @@ extern OSThreadInfo OSi_ThreadInfo;
 
 extern void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex);
 
-BOOL func_020860D0(OSMutex *mutex)
+BOOL OS_TryLockMutex(OSMutex *mutex)
 {
     OSIntrMode saved = OS_DisableInterrupts();
     OSThread *currentThread = OSi_ThreadInfo.current;

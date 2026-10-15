@@ -1,5 +1,5 @@
 /*
- * function: func_021A060C
+ * function: ParseServer
  * address:  0x021A060C
  * packet:   pkt_ov009_021A060C
  * region:   ov009
@@ -58,7 +58,7 @@ extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
 
-int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist)
+int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist)
 {
     int numkeys;
     int i;

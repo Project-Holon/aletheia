@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02084CEC 0x02084CEC arm
- *   func_02084F10 0x02084F10 arm
+ *   OS_UnlockByWord 0x02084CEC arm
+ *   OS_ReleaseLockID 0x02084F10 arm
  */
 typedef unsigned int u32;
 
-extern void func_02084CEC(u32, void *, void *);
-extern void func_02084F10(u32);
+extern void OS_UnlockByWord(u32, void *, void *);
+extern void OS_ReleaseLockID(u32);
 
 void MI_UnlockWramManager(u32 id)
 {
-    func_02084CEC(id, (void *)0x02FFF680, 0);
-    func_02084F10(id);
+    OS_UnlockByWord(id, (void *)0x02FFF680, 0);
+    OS_ReleaseLockID(id);
 }

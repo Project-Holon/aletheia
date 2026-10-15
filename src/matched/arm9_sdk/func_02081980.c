@@ -1,5 +1,5 @@
 /*
- * function: func_02081980
+ * function: MATHi_CRC8Update
  * address:  0x02081980
  * packet:   pkt_02081980
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct MATHCRC32Table
     u32 table[256];
 } MATHCRC32Table;
 
-void func_02081980(MATHCRC8Table *table, u8 *context, void *input, u32 length)
+void MATHi_CRC8Update(MATHCRC8Table *table, u8 *context, void *input, u32 length)
 {
     u32 r, i;
     u8 *data;

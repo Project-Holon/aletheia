@@ -64,7 +64,7 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_02082C60  0x02082C60  arm
+ *   MI_CpuFill  0x02082C60  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
@@ -257,7 +257,7 @@ typedef struct FieldG3dObjCtrl {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02082C60(void *p, int v, int n);
+extern void MI_CpuFill(void *p, int v, int n);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern void func_0207ADC4(MtxFx33 *m);
 /* Palette block of a texture resource (NNSG3dResTex, only what is read here). */
@@ -846,7 +846,7 @@ void FIELD_G3DOBJ_FreeResource(FieldG3dObjRes *res)
         for (i = 0; i < res->animeCount; i++)
             func_02046EFC(res->anime[i]);
     }
-    func_02082C60(res, 0, sizeof(FieldG3dObjRes));
+    MI_CpuFill(res, 0, sizeof(FieldG3dObjRes));
     res->state = FIELD_G3DOBJ_RES_READY;
 }
 
@@ -906,7 +906,7 @@ void FIELD_G3DOBJ_DestroyObject(FieldG3dObj *obj, FieldG3dObjRes *res)
         G3D_SYSTEM_DeleteObject(obj->object);
         G3D_SYSTEM_DeleteRender(render);
     }
-    func_02082C60(obj, 0, sizeof(FieldG3dObj));
+    MI_CpuFill(obj, 0, sizeof(FieldG3dObj));
 }
 
 /*

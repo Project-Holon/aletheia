@@ -33,7 +33,7 @@
  *   g_021A8104  0x021A8104  data
  *   func_020964E0  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
- *   func_0219F978  0x0219F978  arm  ov009
+ *   NTSLengthSB  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   func_020949F4  0x020949F4  arm
@@ -71,7 +71,7 @@ extern int closesocket(int sock);
 extern void QEStartQuery(SBQueryEngine *engine, SBServer *server);
 extern int func_020964E0(u32 a0);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
-extern int func_0219F978(char *buf, int len);
+extern int NTSLengthSB(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
@@ -397,7 +397,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
         }
     } else if (server->state & 0x04) {
         for (i = 0; i < engine->numserverkeys; i++) {
-            dlen = func_0219F978(data, len);
+            dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
             if (!func_0219D114(g_021A7C90[engine->serverkeys[i]]))

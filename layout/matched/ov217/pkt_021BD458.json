@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD458",
+   "name": "RESEARCH_LIST_DeleteOamObjects",
    "address": "0x021BD458",
    "kind": "game",
    "region": "ov217",

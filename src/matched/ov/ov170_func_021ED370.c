@@ -1,5 +1,5 @@
 /*
- * function: func_021ED370
+ * function: BOX2_SEQ_CreateCursorObjects
  * address:  0x021ED370
  * packet:   pkt_ov170_021ED370
  * region:   ov170
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EBEE0 0x021EBEE0 thumb
- *   func_021EC000 0x021EC000 thumb
- *   func_021ED508 0x021ED508 thumb
+ *   BOX2_SEQ_CreateActorFromDesc 0x021EBEE0 thumb
+ *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
+ *   BOX2_SEQ_SetWindow9 0x021ED508 thumb
  *   d_021EFD80 0x021EFD80 data
  *
  * Builds the cell objects of the box screen from the descriptor table
@@ -35,9 +35,9 @@ typedef struct {
     unsigned short d;
 } Desc;
 
-extern void *func_021EBEE0(char *w, const Desc *s);
-extern void func_021EC000(char *p, int i, int v);
-extern void func_021ED508(unsigned char *p, int a, int b);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *w, const Desc *s);
+extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
+extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
 typedef struct {
     Desc a[13];
     Desc b[6];
@@ -50,33 +50,33 @@ extern const DescTable d_021EFD80;
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define CELL(w, k) (*(void **)((w) + (k) * 4 + 0x9E74))
 
-void func_021ED370(unsigned char *p)
+void BOX2_SEQ_CreateCursorObjects(unsigned char *p)
 {
     char *w = WORK(p);
     unsigned i;
 
-    CELL(w, 0) = func_021EBEE0(w, &d_021EFD80.a[0]);
-    CELL(w, 1) = func_021EBEE0(w, &d_021EFD80.a[1]);
-    CELL(w, 2) = func_021EBEE0(w, &d_021EFD80.a[2]);
-    CELL(w, 3) = func_021EBEE0(w, &d_021EFD80.a[3]);
-    CELL(w, 4) = func_021EBEE0(w, &d_021EFD80.a[4]);
-    CELL(w, 5) = func_021EBEE0(w, &d_021EFD80.a[5]);
-    CELL(w, 10) = func_021EBEE0(w, &d_021EFD80.a[10]);
-    CELL(w, 6) = func_021EBEE0(w, &d_021EFD80.a[6]);
-    CELL(w, 7) = func_021EBEE0(w, &d_021EFD80.a[7]);
-    CELL(w, 8) = func_021EBEE0(w, &d_021EFD80.a[8]);
-    CELL(w, 9) = func_021EBEE0(w, &d_021EFD80.a[9]);
+    CELL(w, 0) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[0]);
+    CELL(w, 1) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[1]);
+    CELL(w, 2) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[2]);
+    CELL(w, 3) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[3]);
+    CELL(w, 4) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[4]);
+    CELL(w, 5) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[5]);
+    CELL(w, 10) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[10]);
+    CELL(w, 6) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[6]);
+    CELL(w, 7) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[7]);
+    CELL(w, 8) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[8]);
+    CELL(w, 9) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.a[9]);
     for (i = 0; i < 6; i++) {
-        *(void **)(w + i * 4 + 0x9EA8) = func_021EBEE0(w, (const Desc *)((const char *)&d_021EFD80 + (i * 0x18 + 0x138)));
-        *(void **)(w + i * 4 + 0x9EC0) = func_021EBEE0(w, (const Desc *)((const char *)&d_021EFD80 + (i * 0x18 + 0x1C8)));
+        *(void **)(w + i * 4 + 0x9EA8) = BOX2_SEQ_CreateActorFromDesc(w, (const Desc *)((const char *)&d_021EFD80 + (i * 0x18 + 0x138)));
+        *(void **)(w + i * 4 + 0x9EC0) = BOX2_SEQ_CreateActorFromDesc(w, (const Desc *)((const char *)&d_021EFD80 + (i * 0x18 + 0x1C8)));
     }
-    CELL(w, 25) = func_021EBEE0(w, &d_021EFD80.d[0]);
-    CELL(w, 26) = func_021EBEE0(w, &d_021EFD80.d[1]);
-    CELL(w, 27) = func_021EBEE0(w, &d_021EFD80.d[2]);
-    func_021EC000(w, 5, 0);
-    func_021EC000(w, 10, 0);
-    func_021EC000(w, 0x19, 0);
-    func_021EC000(w, 0x1A, 0);
-    func_021EC000(w, 0x1B, 0);
-    func_021ED508(p, 0xE, 1);
+    CELL(w, 25) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.d[0]);
+    CELL(w, 26) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.d[1]);
+    CELL(w, 27) = BOX2_SEQ_CreateActorFromDesc(w, &d_021EFD80.d[2]);
+    BOX2_SEQ_SetActorDrawEnable(w, 5, 0);
+    BOX2_SEQ_SetActorDrawEnable(w, 10, 0);
+    BOX2_SEQ_SetActorDrawEnable(w, 0x19, 0);
+    BOX2_SEQ_SetActorDrawEnable(w, 0x1A, 0);
+    BOX2_SEQ_SetActorDrawEnable(w, 0x1B, 0);
+    BOX2_SEQ_SetWindow9(p, 0xE, 1);
 }

@@ -10,15 +10,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200E938, sub_0200E958, sub_0200E978
+ * function: MISC_SAVEDATA_GetKey, MISC_SAVEDATA_SetKey, MISC_SAVEDATA_SetKeyField
  *
  * symbols:
  *   _u32_div_f    0x0209C2B0  arm
  *   MI_CpuCopy8   0x02082D44  arm
  *
  * alias: three accessors on an array of 6-byte records that starts 0xa bytes
- * into the object, indexed by "id mod 10".  sub_0200E938 reads a record out,
- * sub_0200E958 stores one in, and sub_0200E978 writes a single byte field at
+ * into the object, indexed by "id mod 10".  MISC_SAVEDATA_GetKey reads a record out,
+ * MISC_SAVEDATA_SetKey stores one in, and MISC_SAVEDATA_SetKeyField writes a single byte field at
  * +0x10 past an extra caller-given offset from the same slot.  Each divides
  * by 10 for the remainder only; the
  * quotient the helper also returns is never used, per
@@ -35,21 +35,21 @@ typedef unsigned int  u32;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void sub_0200E938(u8 *obj, u32 id, void *dest)
+void MISC_SAVEDATA_GetKey(u8 *obj, u32 id, void *dest)
 {
     u32 idx = id % 10;
 
     MI_CpuCopy8(obj + 0xa + idx * 8, dest, 6);
 }
 
-void sub_0200E958(u8 *obj, u32 id, const void *src)
+void MISC_SAVEDATA_SetKey(u8 *obj, u32 id, const void *src)
 {
     u32 idx = id % 10;
 
     MI_CpuCopy8(src, obj + 0xa + idx * 8, 6);
 }
 
-void sub_0200E978(u8 *obj, u32 id, u32 extra, u8 value)
+void MISC_SAVEDATA_SetKeyField(u8 *obj, u32 id, u32 extra, u8 value)
 {
     u32 idx = id % 10;
     u8 *p = obj + idx * 8;

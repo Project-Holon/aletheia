@@ -1,5 +1,5 @@
 /*
- * function: func_021BF100
+ * function: RESEARCH_GRAPH_PrintTitle
  * address:  0x021BF100
  * packet:   pkt_021BF100
  * region:   ov217
@@ -24,7 +24,7 @@ extern unsigned char d_021C3628[];
 typedef unsigned int   u32;
 extern u32 BgTextLabel_PrintMessage(u32 a0, u32 a1);
 
-void func_021BF100(char *p)
+void RESEARCH_GRAPH_PrintTitle(char *p)
 {
     BgTextLabel_PrintMessage(((struct Obj14738 *)p)->f348, d_021C3628[((struct Obj14738 *)p)->f38]);
 }

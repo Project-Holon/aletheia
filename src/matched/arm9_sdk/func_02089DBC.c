@@ -1,5 +1,5 @@
 /*
- * function: func_02089DBC
+ * function: SND_CountFreeCommand
  * address:  0x02089DBC
  * packet:   pkt_02089DBC
  * region:   arm9
@@ -25,7 +25,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommand *sFreeList;
 
-int func_02089DBC(void)
+int SND_CountFreeCommand(void)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
     SNDCommand *command;

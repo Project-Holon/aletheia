@@ -1,5 +1,5 @@
 /*
- * function: func_020822E8
+ * function: MIi_DmaCopy16
  * address:  0x020822E8
  * packet:   pkt_020822E8
  * region:   arm9
@@ -51,7 +51,7 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-void func_020822E8(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable)
+void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable)
 {
     vu32 *dmaCntp;
 

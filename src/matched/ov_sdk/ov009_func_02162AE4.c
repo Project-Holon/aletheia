@@ -1,5 +1,5 @@
 /*
- * function: func_02162AE4
+ * function: try_fill_record
  * address:  0x02162AE4
  * packet:   pkt_ov009_02162AE4
  * region:   ov009
@@ -15,8 +15,8 @@
  *   CPSi_TcpReadRaw  0x0215AE18  arm  ov009
  *   MI_CpuCopy8    0x02082D44  arm
  *   CPSi_SocConsumeRaw  0x0215AF14  arm  ov009
- *   func_02161C80  0x02161C80  arm  ov009
- *   g_021A8280     0x021A8280  data ov009
+ *   parse_record_in_buf  0x02161C80  arm  ov009
+ *   CPSiAlloc     0x021A8280  data ov009
  *
  * Static SSL record reassembly: reads the socket receive buffer into an allocated record buffer, parses it when complete.
  */
@@ -38,14 +38,14 @@ typedef struct CPSSslConnection {
     long inbuf_pnt;
 } CPSSslConnection;
 
-extern unsigned char *(*g_021A8280)(unsigned long size);
+extern unsigned char *(*CPSiAlloc)(unsigned long size);
 struct _CPSSoc;
 extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
-extern void func_02161C80(CPSSslConnection *con, unsigned char *buf);
+extern void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
 
-void func_02162AE4(CPSSoc *soc)
+void try_fill_record(CPSSoc *soc)
 {
     int got_all;
     unsigned long len;
@@ -60,7 +60,7 @@ void func_02162AE4(CPSSoc *soc)
             con->state = 9;
             return;
         }
-        con->inbuf = g_021A8280(len);
+        con->inbuf = CPSiAlloc(len);
         if (con->inbuf == 0) {
             con->state = 9;
             return;
@@ -81,7 +81,7 @@ void func_02162AE4(CPSSoc *soc)
     MI_CpuCopy8(s, con->inbuf + con->inbuf_pnt, len);
     CPSi_SocConsumeRaw(len, (struct _CPSSoc *)soc);
     if (got_all) {
-        func_02161C80(con, con->inbuf);
+        parse_record_in_buf(con, con->inbuf);
         if (con->inbuf_decrypted == 0) con->inbuf = 0;
     } else {
         con->inbuf_pnt += len;

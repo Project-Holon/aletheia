@@ -12,7 +12,7 @@
  * symbols:
  *   POKETRADE_PROC_ResetTouchbarBackButton  0x021D8980  thumb  ov119
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
- *   func_021DD09C  0x021DD09C  thumb  ov119
+ *   POKETRADE_PROC_UpdatePickedIcon  0x021DD09C  thumb  ov119
  *   POKETRADE_NEGO_SetupWindowRegsOffers  0x021DEBD4  thumb  ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear  0x021E1098  thumb  ov119
  *   POKETRADE_SAVE_CloseTaskMenu  0x021E12F8  thumb  ov119
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 
 extern int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 extern void POKETRADE_PROC_SetStep(void *p, int v);
-extern void func_021DD09C(char *p);
+extern void POKETRADE_PROC_UpdatePickedIcon(char *p);
 extern void POKETRADE_NEGO_SetupWindowRegsOffers(void *p);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
@@ -55,7 +55,7 @@ void POKETRADE_NEGO_StepQuitMenuChoice(void *p)
     case 1:
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
-        func_021DD09C(p);
+        POKETRADE_PROC_UpdatePickedIcon(p);
         POKETRADE_PROC_SetStep(p, 0x021DEA25);
         return;
     }

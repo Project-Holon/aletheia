@@ -1,5 +1,5 @@
 /*
- * function: func_021DC924
+ * function: BOX2_MAIN_Exit
  * address:  0x021DC924
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -24,7 +24,7 @@ extern void func_0203133C(struct S020314B8 *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-int func_021DC924(int a, int b, int c, int *d)
+int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
     func_0200780C((void *)(*(int *)(*d + 4)), ((struct Obj09220 *)d)->f14);
     func_0203133C((struct S020314B8 *)d[1]);

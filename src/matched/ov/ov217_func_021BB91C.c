@@ -1,5 +1,5 @@
 /*
- * function: func_021BB91C
+ * function: RESEARCH_LIST_SetCommandReady
  * address:  0x021BB91C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BB91C(void *p)
+void RESEARCH_LIST_SetCommandReady(void *p)
 {
     ((struct Obj25845 *)p)->f158 = 1;
 }

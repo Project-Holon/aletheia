@@ -49,10 +49,7 @@ typedef union PXIFifoMessage {
 
 typedef void (*PXIFifoCallback)(int tag, u32 data, BOOL err);
 
-typedef struct OSSystemWork {
-    unsigned char pad[0x388];
-    u32 pxiHandleChecker[2];
-} OSSystemWork;
+#include "os_system_work_types.h"
 
 typedef enum PXIFifoTag { PXI_FIFO_TAG_EX = 0, PXI_MAX_FIFO_TAG = 32 } PXIFifoTag;
 
@@ -68,7 +65,6 @@ void PXI_InitFifo(void);
 void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback);
 BOOL PXI_IsCallbackReady(int fifotag, int proc);
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u16 FifoCtrlInit;
 extern PXIFifoCallback FifoRecvCallbackTable[32];
 

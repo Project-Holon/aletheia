@@ -1,5 +1,5 @@
 /*
- * function: func_021BC93C
+ * function: RESEARCH_LIST_CreateCommandQueue
  * address:  0x021BC93C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int RingQueue_Create(int a0, int a1);
-void func_021BC93C(u32 a0)
+void RESEARCH_LIST_CreateCommandQueue(u32 a0)
 {
     ((struct Obj00025 *)(((u8*)a0 + 0)))->f18 = RingQueue_Create(10, ((struct Obj00025 *)(((u8*)a0 + 0)))->f8);
 }

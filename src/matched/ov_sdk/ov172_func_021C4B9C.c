@@ -17,8 +17,8 @@
  * SSP_SetJpegEncoderDateTimeNow (SSP_SetJpegEncoderDateTimeNow) and jpeg_encode_main
  * (jpeg_encode_main, still a documented DIFF near miss).
  *
- * JPEG encode driver.  Sets up the g_021CAE90 encoder config (0x1000/7 and a
- * 28-byte payload clamped to 30), zeroes the g_021CAEC6 string scratch, builds
+ * JPEG encode driver.  Sets up the gExifMakerNoteConfig encoder config (0x1000/7 and a
+ * 28-byte payload clamped to 30), zeroes the gExifMakerNoteConfigData string scratch, builds
  * a 4-byte id at `local` (0 unless OS_IsRunOnTwl() reports the firmware id, in
  * which case the hardware word at 0x02FFE230 is taken), copies it into the
  * local buf and NUL-terminates so SSP_SetJpegEncoderSoftware can publish it as the string
@@ -29,14 +29,14 @@
  * a fatal error (OS_Terminate).  The tail clears the g_021CADF0 state and
  * returns its +4 slot, which the encoder filled with the result.
  *
- * The opening block keeps g_021CAE90 in ip and g_021CADF0 in lr; storing
+ * The opening block keeps gExifMakerNoteConfig in ip and g_021CADF0 in lr; storing
  * g_021CADF0.f14 before the config block is what reproduces that allocator
  * choice (see docs/idioms/two-live-pool-global-bases-swap-ip-and-lr.md).
  *
  * symbols:
- *   g_021CAE90  0x021CAE90  data
+ *   gExifMakerNoteConfig  0x021CAE90  data
  *   g_021CADF0  0x021CADF0  data  ov172
- *   g_021CAEC6  0x021CAEC6  data  ov172
+ *   gExifMakerNoteConfigData  0x021CAEC6  data  ov172
  *   jpeg_encode_main  0x021C3DF4  arm  ov172
  *   SSP_SetJpegEncoderDateTimeNow  0x021C2D24  arm  ov172
  *   SSP_SetJpegEncoderSoftware  0x021C2D9C  arm  ov172
@@ -70,9 +70,9 @@ struct Adf0 {
     u8  f37;
 };
 
-extern struct Ae90 g_021CAE90;
+extern struct Ae90 gExifMakerNoteConfig;
 extern struct Adf0 g_021CADF0;
-extern u8  g_021CAEC6[];
+extern u8  gExifMakerNoteConfigData[];
 
 void MI_CpuFill8(void *dst, int val, u32 n);
 int  OS_IsRunOnTwl(void);
@@ -90,17 +90,17 @@ u32 SSP_ExifEncode(int a0, int a1, int a2, u8 *a3, u32 a4)
     u32 local;
 
     g_021CADF0.f14 = a0;
-    g_021CAE90.tag = 0x1000;
-    g_021CAE90.type = 7;
-    g_021CAE90.count = 0x1C;
-    if (g_021CAE90.count > 0x1E)
-        g_021CAE90.count = 0x1E;
-    g_021CAE90.f8 = 0;
-    g_021CAE90.fa = 0;
-    g_021CAE90.fc = 0;
-    g_021CAE90.f10 = 0;
-    g_021CAE90.f14 = 0;
-    MI_CpuFill8(g_021CAEC6, 0, g_021CAE90.count);
+    gExifMakerNoteConfig.tag = 0x1000;
+    gExifMakerNoteConfig.type = 7;
+    gExifMakerNoteConfig.count = 0x1C;
+    if (gExifMakerNoteConfig.count > 0x1E)
+        gExifMakerNoteConfig.count = 0x1E;
+    gExifMakerNoteConfig.f8 = 0;
+    gExifMakerNoteConfig.fa = 0;
+    gExifMakerNoteConfig.fc = 0;
+    gExifMakerNoteConfig.f10 = 0;
+    gExifMakerNoteConfig.f14 = 0;
+    MI_CpuFill8(gExifMakerNoteConfigData, 0, gExifMakerNoteConfig.count);
 
     local = 0;
     if (OS_IsRunOnTwl() == 1)

@@ -1,5 +1,5 @@
 /*
- * function: func_021EABB8
+ * function: BOX2_SEQ_ClearScreen
  * address:  0x021EABB8
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -23,7 +23,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int);
 
-void func_021EABB8(void **p)
+void BOX2_SEQ_ClearScreen(void **p)
 {
     BMP_WIN_ClearScreen(*p);
     func_02041B6C(BMP_WIN_GetBgLayer(*p));

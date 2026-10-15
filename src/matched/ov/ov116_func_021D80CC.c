@@ -1,5 +1,5 @@
 /*
- * function: func_021D80CC
+ * function: WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream
  * address: 0x021D80CC
  * packet: pkt_ov116_021D80CC
  * region: ov116
@@ -23,7 +23,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
-int func_021D80CC(void *p) {
+int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *p) {
  int v;
  if(((struct Obj06418 *)p)->f9A4==0) return 1;
  v=PRINTSYS_PrintStreamGetState(((struct Obj06418 *)p)->f9A4);

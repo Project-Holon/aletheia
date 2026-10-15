@@ -9,7 +9,7 @@
  * status: EXACT*
  * follower: two zero padding bytes at 0x021D6922.
  * symbols:
- *   func_021DE300 0x021DE300 thumb ov121
+ *   MYSTERY_NET_Step 0x021DE300 thumb ov121
  *   func_021DA898 0x021DA898 thumb ov121
  *   func_021D9718 0x021D9718 thumb ov121
  *   func_021D972C 0x021D972C thumb ov121
@@ -25,7 +25,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct PrintSys;
-extern void func_021DE300(char *p);
+extern void MYSTERY_NET_Step(char *p);
 extern void func_021DA898(char *p);
 extern void func_021D9718(u8 *p);
 extern void func_021D972C(char *p);
@@ -38,7 +38,7 @@ extern int func_021DA840(void **);
 extern int func_021DA8AC(u32 *p);
 int func_021D6888(int a, int b, int c, char *p)
 {
-    func_021DE300(((struct Obj01402 *)p)->f3B0);
+    MYSTERY_NET_Step(((struct Obj01402 *)p)->f3B0);
     func_021DA898(((struct Obj01402 *)p)->f290);
     if (((struct Obj01402 *)p)->f394) {
         func_021D9718(((struct Obj01402 *)p)->f394);

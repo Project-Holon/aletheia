@@ -334,12 +334,13 @@ typedef struct IntrudeCommSys {
     u8 pendingReplies[4];                       /* 0x948: per net ID, sequence of a reply that came early */
 } IntrudeCommSys;
 
-/* Save block that holds the entry picks; only the used fields. */
+/* One battle record slot (0x10 bytes) of GameData.battleRecSlot[4][0x10]
+ * (btl_setup_types.h). GAME_DATA_GetLastBattleRecSlot returns slot 3. */
 typedef struct IntrudeSaveSlot {
-    u8 picks[6];                /* table row picked for each kind */
-    u8 outcomes[6];             /* 0 open, 1 or 2 done */
-    u16 pointsA;
-    u16 pointsB;
+    u8 picks[6];                /* 0x00: table row picked for each kind */
+    u8 outcomes[6];             /* 0x06: 0 open, 1 or 2 done */
+    u16 pointsA;                /* 0x0C */
+    u16 pointsB;                /* 0x0E */
 } IntrudeSaveSlot;
 
 /* Work block of the link proc (INTRUDE_LINK_ProcExit frees the two owned objects). */

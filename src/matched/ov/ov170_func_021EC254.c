@@ -1,5 +1,5 @@
 /*
- * function: func_021EC254
+ * function: BOX2_SEQ_RegisterIconRes
  * address: 0x021EC254
  * packet: pkt_ov170_021EC254
  * region: ov170
@@ -28,7 +28,7 @@ extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021EC254(char *p)
+void BOX2_SEQ_RegisterIconRes(char *p)
 {
     void *h = func_020490F4(7, 0x4C);
     ((struct Obj02214 *)p)->fA108 = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), 0, 0x60, 0x4C);

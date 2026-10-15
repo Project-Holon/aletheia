@@ -14,7 +14,7 @@
  * symbols:
  *   func_0209477C  0x0209477C  arm
  *   func_0217A15C  0x0217A15C  arm  ov009
- *   func_02084F80  0x02084F80  arm
+ *   OS_SNPrintf  0x02084F80  arm
  *   g_021A2694     0x021A2694  data
  */
 
@@ -27,7 +27,7 @@ extern char g_021A2694[];
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_0217A15C(char *http, Buf *buf, int size);
-extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
 int func_0217A044(char *http, char *data)
 {
@@ -45,7 +45,7 @@ int func_0217A044(char *http, char *data)
         }
         buf_remain = temp_buffer->end - temp_buffer->cur;
     }
-    temp = func_02084F80(temp_buffer->cur, buf_remain, g_021A2694, data);
+    temp = OS_SNPrintf(temp_buffer->cur, buf_remain, g_021A2694, data);
     if (temp != result_len) {
         return 1;
     }

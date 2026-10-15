@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B80
+ * function: RESEARCH_TOP_IsListObjectDone
  * address:  0x021B9B80
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021B9B80(void *p)
+int RESEARCH_TOP_IsListObjectDone(void *p)
 {
     if (((struct Obj25806 *)p)->f88 != 0) {
         return 1;

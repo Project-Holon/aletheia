@@ -19,7 +19,7 @@
  *   func_02076B98 0x02076B98  arm
  *   CARD_WaitBackupAsync 0x02076B80  arm
  *   func_02075EAC 0x02075EAC  arm
- *   func_02084F10 0x02084F10  arm
+ *   OS_ReleaseLockID 0x02084F10  arm
  */
 
 typedef unsigned int u32;
@@ -29,7 +29,7 @@ extern u32 CARD_TryWaitBackupAsync(void);
 extern void func_02076B98(void);
 extern void CARD_WaitBackupAsync(void);
 extern void func_02075EAC(u32 a);
-extern void func_02084F10(u32 a);
+extern void OS_ReleaseLockID(u32 a);
 
 void FLASH_ACCESS_CancelWrite(u32 a)
 {
@@ -41,6 +41,6 @@ void FLASH_ACCESS_CancelWrite(u32 a)
         return;
     }
     func_02075EAC(a);
-    func_02084F10(a);
+    OS_ReleaseLockID(a);
     g_02146998 = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0208766C
+ * function: OSi_DetachVAlarm
  * address:  0x0208766C
  * packet:   pkt_0208766C
  * region:   arm9
@@ -57,7 +57,7 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 #define reg_GX_VCOUNT (*(volatile u16 *)0x04000006)
 
-void func_0208766C(OSVAlarm *alarm)
+void OSi_DetachVAlarm(OSVAlarm *alarm)
 {
     OSVAlarm *prev;
     OSVAlarm *next;

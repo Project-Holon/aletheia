@@ -1,5 +1,5 @@
 /*
- * function: func_021BC634
+ * function: RESEARCH_LIST_SetHeapId
  * address:  0x021BC634
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BC634(void *p, u16 v)
+void RESEARCH_LIST_SetHeapId(void *p, u16 v)
 {
     ((struct Obj25867 *)p)->f8 = v;
 }

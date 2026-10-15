@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02061048
+ * function: NNSi_FndAllocFromFrmHeapTail
  * address:  0x02061048
  * packet:   pkt_02060FA4
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 
 extern void func_02082A7C(int a, int b, int c);
-unsigned int func_02061048(unsigned int *p, unsigned int a, unsigned int b)
+unsigned int NNSi_FndAllocFromFrmHeapTail(unsigned int *p, unsigned int a, unsigned int b)
 {
     unsigned int v = (p[1] - a) & ~(b - 1);
     unsigned int r2;

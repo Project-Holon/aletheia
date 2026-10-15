@@ -1,5 +1,5 @@
 /*
- * function: func_021B6338
+ * function: CDEMO_WIPE_LoadPalette
  * address:  0x021B6338
  * packet:   pkt_ov179_021B6338
  * region:   ov179
@@ -23,7 +23,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a
 extern void MIi_CpuCopy32(int, int, int);
 extern u32 func_020307B0(void *p);
 
-void func_021B6338(void *obj, int a, int b)
+void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
 {
     void *ptr;
     int t;

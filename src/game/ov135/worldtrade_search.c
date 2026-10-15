@@ -217,7 +217,6 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
@@ -336,13 +335,9 @@ extern void WORLDTRADE_CloseTaskMenu(char *p);
 
 extern void func_0201F7A8(void *p, unsigned kind);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
@@ -350,7 +345,6 @@ extern int func_0207D55C(vu16 *reg);
 
 extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 

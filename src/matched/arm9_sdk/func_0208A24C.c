@@ -1,5 +1,5 @@
 /*
- * function: func_0208A24C
+ * function: SND_CalcChannelVolume
  * address:  0x0208A24C
  * packet:   pkt_0208A24C
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern const unsigned char VolumeTable[724];
 
-unsigned short func_0208A24C(int dB)
+unsigned short SND_CalcChannelVolume(int dB)
 {
     unsigned char volume;
     int shift;

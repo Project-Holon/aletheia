@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8E0
+ * function: RESEARCH_TOP_DestroyLabels
  * address:  0x021BA8E0
  * packet:   pkt_021BA8E0
  * region:   ov217
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 extern void BgTextLabel_Destroy(u8 *p);
 
-void func_021BA8E0(int *p)
+void RESEARCH_TOP_DestroyLabels(int *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

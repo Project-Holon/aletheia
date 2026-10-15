@@ -1,5 +1,5 @@
 /*
- * function: func_02084CEC
+ * function: OS_UnlockByWord
  * address:  0x02084CEC
  * packet:   pkt_02084CEC
  * region:   arm9
@@ -13,13 +13,14 @@
  *
  * symbols:
  *   FSi_HasEnoughSpaceInFreeArea  0x02084C78  arm
+ *   OSi_DoUnlockByWord  0x02084C78  arm
  */
 
 struct _FSFreeAreaSize;
 
-extern int func_02084C78(struct _FSFreeAreaSize *freesize, char *path, unsigned long size, int bSysApp);
+extern int OSi_DoUnlockByWord(struct _FSFreeAreaSize *freesize, char *path, unsigned long size, int bSysApp);
 
-int func_02084CEC(struct _FSFreeAreaSize *freesize, char *path, unsigned long size)
+int OS_UnlockByWord(struct _FSFreeAreaSize *freesize, char *path, unsigned long size)
 {
-    return func_02084C78(freesize, path, size, 0);
+    return OSi_DoUnlockByWord(freesize, path, size, 0);
 }

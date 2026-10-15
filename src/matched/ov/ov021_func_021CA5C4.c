@@ -67,15 +67,15 @@
  *   func_0200DB44  0x0200DB44  thumb
  *   func_0200DB80  0x0200DB80  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
- *   func_0200DE5C  0x0200DE5C  thumb
- *   func_0200DE64  0x0200DE64  thumb
- *   func_0200DE94  0x0200DE94  thumb
+ *   BSUBWAY_SAVEDATA_GetTrainersPresent  0x0200DE5C  thumb
+ *   BSUBWAY_SAVEDATA_GetHistoryPresent  0x0200DE64  thumb
+ *   BSUBWAY_SAVEDATA_GetTrainersTagA  0x0200DE94  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryTagA  0x0200DF40  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryTagB  0x0200DF4C  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
- *   func_0200ED48  0x0200ED48  thumb
- *   func_0200ED54  0x0200ED54  thumb
+ *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_02011330  0x02011330  thumb
@@ -326,10 +326,10 @@ extern u32 func_020307B0(void *p);
 extern void *func_021CB9BC(void *a, u32 owner, u32 result, u32 arg);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int EVENT_BSUBWAY_COMM_Start(int x, struct Pair *p);
-extern u8 func_0200DE94(struct RecSlot *p);
-extern u8 func_0200DE5C(struct RecSlot *p);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct RecSlot *p);
 extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
-extern u8 func_0200DE64(struct RecSlot *p);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct RecSlot *p);
 extern void *NAMEIN_SETUP_StartHistoryScreenEvent(void *a);
 extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct RecSlot *p);
 extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct RecSlot *p);
@@ -391,8 +391,8 @@ extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u3
 extern void BSUBWAY_COMM_SetSendData(struct Obj *o, u32 cmd, u32 arg);
 extern void BSUBWAY_COMM_SetRecvMode(u8 *w, u8 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-extern void *func_0200ED48(void *p);
+extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern u32 func_0200FB24(void);
@@ -732,10 +732,10 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         ret = 1;
         break;
     case 106:
-        *dst = func_0200DE94((struct RecSlot *)s34);
+        *dst = BSUBWAY_SAVEDATA_GetTrainersTagA((struct RecSlot *)s34);
         break;
     case 107:
-        *dst = func_0200DE5C((struct RecSlot *)s34);
+        *dst = BSUBWAY_SAVEDATA_GetTrainersPresent((struct RecSlot *)s34);
         break;
     case 108:
         t108 = p1;
@@ -745,7 +745,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = func_0200D884((struct Blk3C *)s40, 11, 0);
         break;
     case 110:
-        *dst = func_0200DE64((struct RecSlot *)s34);
+        *dst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct RecSlot *)s34);
         break;
     case 111:
         SCRIPT_SYS_CallEvent(h, NAMEIN_SETUP_StartHistoryScreenEvent((void *)x));
@@ -1139,7 +1139,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         }
         break;
     case 410:
-        func_0200ED54(func_0200ED48((void *)s48), ((struct Obj00335 *)w)->f73C);
+        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)s48), ((struct Obj00335 *)w)->f73C);
         break;
     case 411:
         *dst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)s30)) : w[0x749], 0);

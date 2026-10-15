@@ -23,7 +23,7 @@ struct ArrowResources {
     u32 cellId;
     u16 space;
     u16 animSeq[4];                     /* one per part kind */
-    u16 unknown1E;                      /* copied with the rest, never read, see open_items */
+    u16 animSeqExtra;                   /* copied with the record, never read, see open_items */
 };
 
 /* One segment of the arrow: an actor shown when the timer reaches startTime. */

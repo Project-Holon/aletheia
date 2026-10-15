@@ -15,8 +15,8 @@
  * are exact.
  *
  * symbols:
- *   func_02182AC0   0x02182AC0  arm
- *   func_02182CF0   0x02182CF0  arm
+ *   gsXmlWriteStringElement   0x02182AC0  arm
+ *   gsXmlWriteIntElement   0x02182CF0  arm
  *   sakeiFillSoapRequestOwnerIds   0x021DE26C  arm  ov175
  *   sakeiFillSoapRequestFieldNames   0x021DE184  arm  ov175
  *   sReadXmlNamespacePrefix      0x021E3DF8  data  ov175
@@ -51,8 +51,8 @@ typedef struct O {
     void *f18;
 } O;
 
-extern void func_02182AC0(void *log, void *a, void *b, int v);
-extern void func_02182CF0(void *log, void *a, void *b, int v);
+extern void gsXmlWriteStringElement(void *log, void *a, void *b, int v);
+extern void gsXmlWriteIntElement(void *log, void *a, void *b, int v);
 typedef unsigned int   u32;
 extern void sakeiFillSoapRequestOwnerIds(u32 ctx, u32 *arr, int n);
 extern void sakeiFillSoapRequestFieldNames(u32 ctx, u32 *arr, int n);
@@ -70,21 +70,21 @@ int sakeiSearchForRecordsFillSoapRequest(O *o)
 {
     S *s = o->f8;
 
-    func_02182AC0(o->f18, sReadXmlNamespacePrefix, sReadTagTableid, s->f0);
+    gsXmlWriteStringElement(o->f18, sReadXmlNamespacePrefix, sReadTagTableid, s->f0);
     if (s->fc) {
-        func_02182AC0(o->f18, sReadXmlNamespacePrefix, sReadTagFilter, s->fc);
+        gsXmlWriteStringElement(o->f18, sReadXmlNamespacePrefix, sReadTagFilter, s->fc);
     }
     if (s->f10) {
-        func_02182AC0(o->f18, sReadXmlNamespacePrefix, sReadTagSort, s->f10);
+        gsXmlWriteStringElement(o->f18, sReadXmlNamespacePrefix, sReadTagSort, s->f10);
     }
-    func_02182CF0(o->f18, sReadXmlNamespacePrefix, sReadTagOffset, s->f14);
-    func_02182CF0(o->f18, sReadXmlNamespacePrefix, sReadTagMax, s->f18);
+    gsXmlWriteIntElement(o->f18, sReadXmlNamespacePrefix, sReadTagOffset, s->f14);
+    gsXmlWriteIntElement(o->f18, sReadXmlNamespacePrefix, sReadTagMax, s->f18);
     if (s->f1c) {
-        func_02182AC0(o->f18, sReadXmlNamespacePrefix, sReadTagTargetfilter, s->f1c);
+        gsXmlWriteStringElement(o->f18, sReadXmlNamespacePrefix, sReadTagTargetfilter, s->f1c);
     }
-    func_02182CF0(o->f18, sReadXmlNamespacePrefix, sReadTagSurrounding, s->f20);
+    gsXmlWriteIntElement(o->f18, sReadXmlNamespacePrefix, sReadTagSurrounding, s->f20);
     sakeiFillSoapRequestOwnerIds((u32)o, (u32 *)s->f24, s->f28);
-    func_02182CF0(o->f18, sReadXmlNamespacePrefix, sReadTagCacheFlag, s->f2c);
+    gsXmlWriteIntElement(o->f18, sReadXmlNamespacePrefix, sReadTagCacheFlag, s->f2c);
     sakeiFillSoapRequestFieldNames((u32)o, (u32 *)s->f4, s->f8);
     return 0;
 }

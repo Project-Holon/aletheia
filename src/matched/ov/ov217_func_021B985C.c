@@ -1,5 +1,5 @@
 /*
- * function: func_021B985C
+ * function: RESEARCH_TOP_ResetProc
  * address:  0x021B985C
  * packet:   pkt_021B9850
  * region:   ov217
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021B985C(void *p, u32 value)
+void RESEARCH_TOP_ResetProc(void *p, u32 value)
 {
     ((struct Obj01438 *)p)->f0 = 1;
     ((struct Obj01438 *)p)->f4 = value;

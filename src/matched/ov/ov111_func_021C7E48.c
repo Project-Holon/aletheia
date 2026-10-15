@@ -17,7 +17,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021C7F2C  0x021C7F2C  thumb
  *   func_021C7CD0  0x021C7CD0  thumb
- *   func_021C842C  0x021C842C  thumb
+ *   VIEWER_ACTOR_HandleTouchDrag  0x021C842C  thumb
  *   d_021C898C  0x021C898C  data
  *   d_021C8808  0x021C8808  data
  *
@@ -105,7 +105,7 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C7F2C(Work *p, int sel, int flag);
 extern void func_021C7CD0(Work *p, int a, int b, int x);
-extern void func_021C842C(Work *p, int idx);
+extern void VIEWER_ACTOR_HandleTouchDrag(Work *p, int idx);
 extern const unsigned char d_021C898C[];
 extern const unsigned char d_021C8808[];
 
@@ -138,6 +138,6 @@ int func_021C7E48(Work *p)
     }
     func_021C7F2C(p, ret, flag);
     func_021C7CD0(p, b, c + 1, x);
-    func_021C842C(p, a);
+    VIEWER_ACTOR_HandleTouchDrag(p, a);
     return ret;
 }

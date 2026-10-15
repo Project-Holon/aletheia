@@ -1,5 +1,5 @@
 /*
- * function: func_0200E2BC
+ * function: SYMBOL_SAVE_FindRecord
  * address:  0x0200E2BC
  * packet:   pkt_0200E2BC
  * region:   arm9
@@ -13,7 +13,7 @@
  *   func_02030734     0x02030734  arm
  *   func_020307B0     0x020307B0  arm
  *   SAVE_CONTROL_ReadRecordFromFlash     0x02007248  thumb
- *   func_0200E06C     0x0200E06C  thumb
+ *   SYMBOL_SAVE_FinalizeChecksum     0x0200E06C  thumb
  *   memcmp            0x0203EFC8  arm
  *   sFileName_symbol_save    0x020A720C  data
  */
@@ -33,11 +33,11 @@ typedef struct {
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
-extern void func_0200E06C(char *p);
+extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern char  sFileName_symbol_save[];
 
-u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode)
+u32 SYMBOL_SAVE_FindRecord(void *a0, u32 *a1, void *heap, u32 mode)
 {
     u32 *buf;
     Key *key = (Key *)a1;
@@ -48,7 +48,7 @@ u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode)
     buf = func_02030734((u32)heap, 0x850, 1, sFileName_symbol_save, 0x1ac);
     for (i = 0; i < 2; i++) {
         if (SAVE_CONTROL_ReadRecordFromFlash(a0, 0x3d, i, buf, 0x850) == 1) {
-            func_0200E06C((char *)buf);
+            SYMBOL_SAVE_FinalizeChecksum((char *)buf);
             for (j = 0; j < 530; j++) {
                 if (mode == 1) {
                     if (key->lo != ((Key *)buf)[j].lo) continue;

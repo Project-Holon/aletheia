@@ -103,11 +103,7 @@
 #include "../../matched/include/Obj25442.h"
 #include "../../matched/include/Obj14652.h"
 #include "../../matched/include/Obj03931.h"
-#include "zukan_detail_procsys_shared_types.h"
-#include "zukan_detail_common_shared_types.h"
-#include "zukan_detail_graphic_shared_types.h"
-#include "zknd_tbar_shared_types.h"
-#include "zukan_detail_touchbar_shared_types.h"
+#include "zukan_detail_shared_types.h"
 
 extern u32 func_020307B0(void *p);
 

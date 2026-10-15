@@ -1,5 +1,5 @@
 /*
- * function: func_0208270C
+ * function: MIi_CheckDma0SourceAddress
  * address:  0x0208270C
  * packet:   pkt_0208270C
  * region:   arm9
@@ -32,7 +32,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 void OS_Terminate(void);
 
-void func_0208270C(u32 dmaNo, u32 src, u32 size, u32 dir)
+void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir)
 {
     if (dmaNo == 0) {
         u32 addStart = src & 0xFF000000;

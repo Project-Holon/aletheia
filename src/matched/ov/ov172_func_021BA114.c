@@ -1,5 +1,5 @@
 /*
- * function: func_021BA114
+ * function: CTVT_MIC_OnCaptureComplete
  * address: 0x021BA114
  * packet: pkt_ov172_021BA114
  * region: ov172
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021BA114(int result,void *arg) {unsigned *p=arg;p[2]=0;p[0]=51200;}
+void CTVT_MIC_OnCaptureComplete(int result,void *arg) {unsigned *p=arg;p[2]=0;p[0]=51200;}

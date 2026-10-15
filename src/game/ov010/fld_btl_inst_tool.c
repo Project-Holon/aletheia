@@ -109,8 +109,8 @@
  *   func_02008B14  0x02008B14  thumb
  *   func_0203F49C  0x0203F49C  arm
  *   func_02008BE0  0x02008BE0  thumb
- *   func_02089004  0x02089004  arm
- *   func_02088F58  0x02088F58  arm
+ *   RTC_ConvertDateTimeToSecond  0x02089004  arm
+ *   RTC_ConvertDateToDay  0x02088F58  arm
  *   func_0201296C  0x0201296C  thumb
  *   ZONEDATA_ClearTimeFlags  0x020143F0  thumb
  *   MOVE_POKEMON_SAVE_RollStartLocation  0x0200D440  thumb
@@ -120,8 +120,8 @@
  *   func_02009470  0x02009470  thumb
  *   func_0200952C  0x0200952C  thumb
  *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
- *   func_0200E394  0x0200E394  thumb
- *   func_0200E518  0x0200E518  thumb
+ *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
+ *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   func_0200AB04  0x0200AB04  thumb
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
@@ -517,8 +517,8 @@ extern void GAME_EVENT_CallProc(GameEvent *event, u32 overlayId, u32 procTemplat
 extern FieldClock *func_02008B14(SaveControl *saveControl);
 extern void func_0203F49C(RTCDate *date, RTCTime *time);
 extern void func_02008BE0(FieldClock *clock, u32 minutes);
-extern long long func_02089004(RTCDate *date, RTCTime *time);
-extern int func_02088F58(RTCDate *date);
+extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
+extern int RTC_ConvertDateToDay(RTCDate *date);
 extern u32 func_0201296C(GameData *gameData);
 extern void ZONEDATA_ClearTimeFlags(u32 eventWork);
 extern void MOVE_POKEMON_SAVE_RollStartLocation(SaveControl *saveControl);
@@ -528,8 +528,8 @@ extern void func_02008E30(void *trainerRecord);
 extern void *func_02009470(SaveControl *saveControl);
 extern void func_0200952C(void *obj);
 extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int a);
-extern void *func_0200E394(SaveControl *saveControl);
-extern void func_0200E518(void *obj);
+extern void *SYMBOL_SAVE_GetBitBlock(SaveControl *saveControl);
+extern void MISC_SAVEDATA_FoldTally(void *obj);
 extern void *func_0200A8A0(SaveControl *saveControl);
 extern void func_0200AB04(void *obj);
 extern PartySave *POKEPARTY_GetSaveData(SaveControl *saveControl);
@@ -1695,9 +1695,9 @@ void FIELD_CLOCK_Update(GameData *gameData)
  */
 int FIELD_CLOCK_CalcElapsed(FieldClock *clock, RTCDate *date, RTCTime *time, int *outDays, int *outMinutes)
 {
-    s64 savedSeconds = func_02089004(&clock->date, &clock->time);
-    s64 nowSeconds = func_02089004(date, time);
-    int dayNumber = func_02088F58(date);
+    s64 savedSeconds = RTC_ConvertDateTimeToSecond(&clock->date, &clock->time);
+    s64 nowSeconds = RTC_ConvertDateTimeToSecond(date, time);
+    int dayNumber = RTC_ConvertDateToDay(date);
     int minutes;
     *outDays = 0;
     *outMinutes = 0;
@@ -1735,7 +1735,7 @@ int FIELD_CLOCK_CalcElapsed(FieldClock *clock, RTCDate *date, RTCTime *time, int
  * no lr, right after the "pop {r4, pc}" at 0x0200E516) that the prologue
  * sweep misses.  The bl at +0x52 is its only reference in the image; its
  * start is seeded in layout/function_starts.txt, and the callee itself is
- * matched EXACT* (src/matched/arm9/func_0200E518.c), so +0x52 attests as
+ * matched EXACT* (src/matched/arm9/MISC_SAVEDATA_FoldTally.c), so +0x52 attests as
  * `matched`.
  */
 void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
@@ -1749,7 +1749,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     func_02008E30(GAME_DATA_GetTrainerRecord(gameData));
     func_0200952C(func_02009470(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
-    func_0200E518(func_0200E394(saveControl));
+    MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));
     func_0200AB04(func_0200A8A0(saveControl));
 }
 

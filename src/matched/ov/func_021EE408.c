@@ -1,5 +1,5 @@
 /*
- * function: func_021EE408
+ * function: BOX2_UI_UpdateCursor
  * address:  0x021EE408
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE3E4  0x021EE3E4  thumb  ov170
- *   func_021ECC1C  0x021ECC1C  thumb  ov170
+ *   BOX2_UI_SetCursorPos  0x021EE3E4  thumb  ov170
+ *   BOX2_SEQ_RefreshHandSlot  0x021ECC1C  thumb  ov170
  *
  * Update the sub-object, then rebuild the panel.
  */
 
 
 
-extern void func_021EE3E4(char **p, unsigned idx);
-extern void func_021ECC1C(unsigned char *p);
-void func_021EE408(char *p, int v)
+extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
+extern void BOX2_SEQ_RefreshHandSlot(unsigned char *p);
+void BOX2_UI_UpdateCursor(char *p, int v)
 {
-    func_021EE3E4((char **)p, v);
-    func_021ECC1C((unsigned char *)p);
+    BOX2_UI_SetCursorPos((char **)p, v);
+    BOX2_SEQ_RefreshHandSlot((unsigned char *)p);
 }

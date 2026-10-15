@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB0C
+ * function: RESEARCH_TOP_BindPaletteAnime
  * address:  0x021BAB0C
  * packet:   pkt_ov217_021BAB0C
  * region:   ov217
@@ -23,7 +23,7 @@ struct Ent { u32 a; u32 b; u8 c; u8 pad[11]; };
 extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
 extern struct Ent d_021C2FF8[];
 
-void func_021BAB0C(char *self)
+void RESEARCH_TOP_BindPaletteAnime(char *self)
 {
     int i;
     for (i = 0; i < 5; i++) {

@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020897B4 0x020897B4 arm
+ *   SNDi_SetPlayerParam 0x020897B4 arm
  */
 
 typedef unsigned int   u32;
-extern void func_020897B4(int playerNo, u32 offset, u32 data, int size);
+extern void SNDi_SetPlayerParam(int playerNo, u32 offset, u32 data, int size);
 
 void SND_SetPlayerVolume(int playerNo, int volume)
 {
-    func_020897B4(playerNo, 0x6, (u32)volume, 2);
+    SNDi_SetPlayerParam(playerNo, 0x6, (u32)volume, 2);
 }

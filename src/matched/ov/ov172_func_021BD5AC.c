@@ -12,7 +12,7 @@
  * symbols:
  *   CTVT_CAMVIEW_UploadWindows  0x021B71B8  thumb  ov172
  *   DRAW_SYSTEM_FlushStrokes  0x021B6C4C  thumb  ov172
- *   func_021B9574  0x021B9574  thumb  ov172
+ *   CTVT_TALK_SetMicMode  0x021B9574  thumb  ov172
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
 #include "../include/Obj10666.h"
@@ -23,12 +23,12 @@ struct Q;
 extern void CTVT_CAMVIEW_UploadWindows(void *p, struct Q *q);
 extern void CLACT_VBlankSystem(void);
 extern void DRAW_SYSTEM_FlushStrokes(char *p);
-extern void func_021B9574(int unused, char *p);
+extern void CTVT_TALK_SetMicMode(int unused, char *p);
 
 void func_021BD5AC(int unused, char *ctx)
 {
     CTVT_CAMVIEW_UploadWindows(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
     CLACT_VBlankSystem();
     DRAW_SYSTEM_FlushStrokes((char *)(((struct Obj10666 *)ctx)->f1F4));
-    func_021B9574((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
+    CTVT_TALK_SetMicMode((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
 }

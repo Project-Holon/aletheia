@@ -65,6 +65,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   PXI_IsCallbackReady  0x020885EC  arm  arm9
+ *   OS_InitMessageQueue  0x02085D94  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -120,7 +121,7 @@ extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, TwlFn);
 extern void OS_EnableIrqMask(u32);
-extern void func_02085D94(u32*, u32*, u32);
+extern void OS_InitMessageQueue(u32*, u32*, u32);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
 extern void func_0208C86C(u32*);

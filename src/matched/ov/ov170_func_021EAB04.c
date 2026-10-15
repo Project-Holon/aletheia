@@ -1,5 +1,5 @@
 /*
- * function: func_021EAB04
+ * function: BOX2_SEQ_FlushDirtyBmpWins
  * address: 0x021EAB04
  * packet: pkt_ov170_021EAB04
  * region: ov170
@@ -13,7 +13,7 @@
 #define WORK(p) (*(char **)((p)+0x2C))
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021EAB04(unsigned char *w) {
+void BOX2_SEQ_FlushDirtyBmpWins(unsigned char *w) {
  unsigned i; unsigned char mask; unsigned char index;
  for(i=0;i<28;i++) {
   if(*(void **)(w+0x94+i*8)!=0) {

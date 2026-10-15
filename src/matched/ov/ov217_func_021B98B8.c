@@ -1,5 +1,5 @@
 /*
- * function: func_021B98B8
+ * function: RESEARCH_TOP_InitBackgrounds
  * address:  0x021B98B8
  * packet:   pkt_ov217_021B98B8
  * region:   ov217
@@ -34,7 +34,7 @@ extern int d_021C2E60;
 extern int d_021C2E40;
 extern int d_021C2E80;
 
-void func_021B98B8(unsigned short heapId)
+void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
 {
     func_0203F8F4(heapId);
     func_0203FC28((struct DispConfig *)(&d_021C2E30));

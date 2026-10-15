@@ -1,5 +1,5 @@
 /*
- * function: func_02089D40
+ * function: SND_GetCurrentCommandTag
  * address:  0x02089D40
  * packet:   pkt_02089D40
  * region:   arm9
@@ -43,7 +43,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern SNDCommandState sFreeList;
 
-u32 func_02089D40(void)
+u32 SND_GetCurrentCommandTag(void)
 {
     unsigned long bak_psr = OS_DisableInterrupts();
     u32 tag;
