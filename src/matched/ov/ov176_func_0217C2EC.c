@@ -11,7 +11,7 @@
  * symbols:
  *   func_0217D028 0x0217D028 thumb ov176
  *   func_0217D1A0 0x0217D1A0 thumb ov176
- *   func_0217D188 0x0217D188 thumb ov176
+ *   func_0217D188 0x0217D188 arm ov176
  *   func_0217D194 0x0217D194 thumb ov176
  *   func_0217D174 0x0217D174 thumb ov176
  *   func_0217CFE8 0x0217CFE8 thumb ov176

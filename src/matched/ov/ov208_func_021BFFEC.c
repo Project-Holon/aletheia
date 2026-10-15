@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   ZUKAN_DETAIL_AREA_DisableWindowsAndBrightness 0x021C239C thumb ov208
- *   ZUKAN_DETAIL_AREA_ResetBlendAlpha 0x021C2304 thumb ov208
+ *   ZUKAN_DETAIL_AREA_ResetBlendAlpha 0x021C2304 arm ov208
  *   ZUKAN_DETAIL_AREA_ApplyBrightness 0x021C231C thumb ov208
  *   ZUKAN_DETAIL_AREA_SetupSplitWindows 0x021C232C thumb ov208
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull 0x021BC4F4 thumb ov208

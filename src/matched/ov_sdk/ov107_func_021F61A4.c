@@ -14,7 +14,7 @@
  * symbols:
  *   func_021F6158 0x021F6158 arm ov107
  *   g_021F6F90 0x021F6F90 data
- *   func_021F4EFC 0x021F4EFC arm ov107
+ *   func_021F4EFC 0x021F4EFC thumb ov107
  */
 
 #include "../include/G_WmBase.h"

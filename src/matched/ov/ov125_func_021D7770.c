@@ -12,7 +12,7 @@
  *   gGdsHostTail 0x021DA040 data a4
  *   GDS_SOCKET_NopBegin 0x021D8588 arm ov125
  *   GDS_SOCKET_InitTick 0x021D7CF4 arm ov125
- *   func_021D7CD4 0x021D7CD4 arm ov125
+ *   func_021D7CD4 0x021D7CD4 thumb ov125
  *   GDS_SOCKET_ResetConnection 0x021D7808 arm ov125
  *   strcpy  0x02094798  arm  arm9
  */

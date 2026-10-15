@@ -11,7 +11,7 @@
  *   func_021C1C48 0x021C1C48 thumb ov093
  *   func_021C1C58 0x021C1C58 thumb ov093
  *   func_021C1C68 0x021C1C68 thumb ov093
- *   ghiEncryptorSslSendFunc 0x021C1C78 thumb ov093
+ *   ghiEncryptorSslSendFunc 0x021C1C78 arm ov093
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093

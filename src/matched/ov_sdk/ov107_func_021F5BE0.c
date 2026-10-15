@@ -15,7 +15,7 @@
  *   func_021F6148 0x021F6148 arm ov107
  *   WM_Initialize 0x0208F370 arm
  *   WM_SetIndCallback 0x0208EAC8 arm
- *   func_021F4628 0x021F4628 arm ov107
+ *   func_021F4628 0x021F4628 thumb ov107
  *   g_021F6F90 0x021F6F90 data
  */
 

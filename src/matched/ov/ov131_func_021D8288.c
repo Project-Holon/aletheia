@@ -25,9 +25,9 @@
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
- *   WORDSET_Create  0x0201EC74  arm  arm9
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
- *   GF_FONT_CountLine  0x0201D2C8  arm  arm9
+ *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"

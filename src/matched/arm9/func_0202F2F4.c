@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   func_0202F358  0x0202F358  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  thumb
+ *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  */
 typedef unsigned int  u32;

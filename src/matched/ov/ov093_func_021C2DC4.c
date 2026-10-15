@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   jpeg_exif_set_tag_value  0x021C2E1C  thumb  ov093
+ *   jpeg_exif_set_tag_value  0x021C2E1C  arm  ov093
  *   func_021C2E2C  0x021C2E2C  thumb  ov093
  *   func_021C2E3C  0x021C2E3C  thumb  ov093
  *   BTL_SERVER_FLOW_ProcMoveRankEffects  0x021C2E64  thumb  ov093

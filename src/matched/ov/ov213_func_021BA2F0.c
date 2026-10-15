@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   STRBUF_Delete 0x02045808 arm
- *   func_021BA014 0x021BA014 thumb ov213
+ *   func_021BA014 0x021BA014 arm ov213
  *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj14694.h"

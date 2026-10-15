@@ -17,7 +17,7 @@
  *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
- *   runHttp  0x021C70D4  thumb  ov093
+ *   runHttp  0x021C70D4  arm  ov093
  *   BTL_CALC_GetTypeAffinity  0x021D794C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;

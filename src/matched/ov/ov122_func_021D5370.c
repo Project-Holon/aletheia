@@ -43,7 +43,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   WORDSET_Create  0x0201EC74  arm  arm9
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
  */
 #include "../include/Obj00073.h"
 #include "../include/Obj13967.h"

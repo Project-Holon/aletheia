@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_021B6884  0x021B6884  arm  ov172
+ *   func_021B6884  0x021B6884  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */

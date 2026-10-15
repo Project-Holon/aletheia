@@ -32,7 +32,7 @@
  *       --addr 0x0201EC64 --thumb
  *
  * symbols:
- *   WORDSET_Create  0x0201EC74  arm
+ *   WORDSET_Create  0x0201EC74  thumb
  */
 
 typedef unsigned int u32;

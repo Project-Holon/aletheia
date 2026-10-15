@@ -34,8 +34,8 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   WORDSET_Set  0x0201F0F8  arm
- *   BMP_OAM_Get  0x02025B94  arm
+ *   WORDSET_Set  0x0201F0F8  thumb
+ *   BMP_OAM_Get  0x02025B94  thumb
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
 

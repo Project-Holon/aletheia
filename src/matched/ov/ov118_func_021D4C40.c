@@ -34,7 +34,7 @@
  *   POKETRADE_NEGO_PlaySeByKeyA  0x021DFA60  thumb  ov119
  *   POKETRADE_MCSS_SlideBegin  0x021DFB4C  thumb  ov119
  *   func_021D4A34  0x021D4A34  thumb  ov118
- *   func_021D4A94  0x021D4A94  thumb  ov118
+ *   func_021D4A94  0x021D4A94  arm  ov118
  *   _dflt          0x0209B750  arm
  *   _dmul          0x0209B2E8  arm
  *   _dfix          0x0209C508  arm

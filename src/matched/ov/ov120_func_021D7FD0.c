@@ -18,7 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  arm  arm9
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
  */
 #include "../include/Obj00131.h"
 typedef unsigned char u8;

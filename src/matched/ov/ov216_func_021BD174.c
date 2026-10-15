@@ -40,7 +40,7 @@
  *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BCE7C 0x021BCE7C thumb ov216
+ *   func_021BCE7C 0x021BCE7C arm ov216
  */
 #include "../include/Obj00051.h"
 #include "../include/Obj05555.h"

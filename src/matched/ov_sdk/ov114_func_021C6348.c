@@ -17,7 +17,7 @@
  *   strAlloc  0x021C62FC  arm  ov114
  *   DWCi_Ndi_encodeBASE64  0x021C60C8  arm  ov114
  *   DWCi_Ndi_initHttpCallback  0x021C7908  arm  ov114
- *   func_021C78C4  0x021C78C4  arm  ov114
+ *   func_021C78C4  0x021C78C4  thumb  ov114
  *   NHTTP_Startup  0x021BE648  arm  ov114
  *   DWCi_Ndi_getApInfo  0x021C6704  arm  ov114
  *   DWCi_Ndi_freeLockGlobal  0x021C78DC  arm  ov114

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0217D028  0x0217D028  thumb  ov176
- *   func_0217D188  0x0217D188  thumb  ov176
+ *   func_0217D188  0x0217D188  arm  ov176
  */
 
 typedef unsigned char  u8;

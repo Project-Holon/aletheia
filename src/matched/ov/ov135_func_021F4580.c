@@ -35,7 +35,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
- *   WORDSET_Create  0x0201EC74  arm  arm9
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
  */
 
 typedef signed char s8;

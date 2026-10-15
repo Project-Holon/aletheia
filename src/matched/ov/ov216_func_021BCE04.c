@@ -13,7 +13,7 @@
  *   GAME_BEACON_ACCESSOR_GetDetailsTrainerNo 0x02165DBC thumb ov010
  *   GAME_BEACON_ACCESSOR_GetZoneId 0x02165D28 thumb ov010
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
- *   WORDSET_Callback  0x0201EE60  arm  arm9
+ *   WORDSET_Callback  0x0201EE60  thumb  arm9
  */
 struct Bits;
 extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *);

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D439C 0x021D439C thumb ov120
+ *   func_021D439C 0x021D439C arm ov120
  *   func_021D435C 0x021D435C thumb ov120
  *   func_021D437C 0x021D437C thumb ov120
  *   func_021D7E88 0x021D7E88 thumb ov120

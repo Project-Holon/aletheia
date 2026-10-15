@@ -17,7 +17,7 @@
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_020490F4 0x020490F4 arm
  *   func_021C6698 0x021C6698 thumb ov128
- *   func_021C66A8 0x021C66A8 thumb ov128
+ *   func_021C66A8 0x021C66A8 arm ov128
  *   func_021C67A8 0x021C67A8 thumb ov128
  *   func_021C692C 0x021C692C thumb ov128
  *   func_021C69C4 0x021C69C4 thumb ov128

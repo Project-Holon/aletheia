@@ -23,9 +23,9 @@
  *   BTL_SERVER_FLOW_ProcTargetChange 0x021CB1D4 thumb ov093
  *   func_021CAC24 0x021CAC24 thumb ov093
  *   func_021CAC34 0x021CAC34 thumb ov093
- *   DWCi_SceneSetRakuButton_DetectFold 0x021CAC44 thumb ov093
+ *   DWCi_SceneSetRakuButton_DetectFold 0x021CAC44 arm ov093
  *   func_021CAC54 0x021CAC54 thumb ov093
- *   DWCi_SceneSetRakuButton1 0x021CAC64 thumb ov093
+ *   DWCi_SceneSetRakuButton1 0x021CAC64 arm ov093
  *   func_021CAC74 0x021CAC74 thumb ov093
  *   func_021CAC84 0x021CAC84 thumb ov093
  *   func_021CAC94 0x021CAC94 thumb ov093
@@ -33,7 +33,7 @@
  *   func_021CACB4 0x021CACB4 thumb ov093
  *   func_021CACC4 0x021CACC4 thumb ov093
  *   func_021CACD4 0x021CACD4 thumb ov093
- *   CRYPTOi__BN_new 0x021CACE4 thumb ov093
+ *   CRYPTOi__BN_new 0x021CACE4 arm ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

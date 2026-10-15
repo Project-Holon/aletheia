@@ -22,7 +22,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  arm  arm9
+ *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
  */
 typedef unsigned short u16;
 typedef struct { unsigned char bg, x, y, w; } WinTemplate;

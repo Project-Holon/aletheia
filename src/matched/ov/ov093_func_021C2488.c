@@ -13,7 +13,7 @@
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   func_021C2564 0x021C2564 thumb ov093
  *   func_021C2574 0x021C2574 thumb ov093
- *   ghiPostAddXml 0x021C2584 thumb ov093
+ *   ghiPostAddXml 0x021C2584 arm ov093
  *   func_021C2594 0x021C2594 thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveSickOnTarget 0x021C25A4 thumb ov093
  *   BTL_SERVER_FLOW_PushMsgStdFailed 0x021C5718 thumb ov093

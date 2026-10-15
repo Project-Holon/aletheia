@@ -16,7 +16,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   FILE_UTIL_Get  0x02020E60  arm  arm9
+ *   FILE_UTIL_Get  0x02020E60  thumb  arm9
  */
 #include "../include/Obj01544.h"
 typedef unsigned char u8;

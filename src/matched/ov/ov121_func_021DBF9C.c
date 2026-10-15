@@ -12,7 +12,7 @@
  *   func_021DC024 0x021DC024 thumb ov121
  *   func_021DC02C 0x021DC02C thumb ov121
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
- *   FILE_UTIL_Get  0x02020E60  arm  arm9
+ *   FILE_UTIL_Get  0x02020E60  thumb  arm9
  */
 #include "../include/Obj06452.h"
 typedef unsigned short u16;

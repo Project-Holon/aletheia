@@ -20,7 +20,7 @@
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   WORDSET_Create  0x0201EC74  arm  arm9
+ *   WORDSET_Create  0x0201EC74  thumb  arm9
  */
 #include "../include/Obj00496.h"
 typedef unsigned short u16;

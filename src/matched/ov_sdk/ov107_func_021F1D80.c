@@ -19,7 +19,7 @@
  *   MBi_CommParentSendData  0x021F2CBC  arm  ov107
  *   MB_UpdateGameInfoMember  0x021F3E9C  arm  ov107
  *   func_021F628C  0x021F628C  arm  ov107
- *   func_021F62A0  0x021F62A0  arm  ov107
+ *   func_021F62A0  0x021F62A0  thumb  ov107
  *   func_021F62B4  0x021F62B4  arm  ov107
  *   MB_SendGameInfoBeacon  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107

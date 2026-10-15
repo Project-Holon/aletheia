@@ -12,7 +12,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   func_021BD89C 0x021BD89C thumb ov216
  *   func_021BCCC4 0x021BCCC4 thumb ov216
- *   func_021BCD00 0x021BCD00 thumb ov216
+ *   func_021BCD00 0x021BCD00 arm ov216
  *   func_021BD6F0 0x021BD6F0 thumb ov216
  *   KEY_GetTrg  0x020362DC  arm  arm9
  */

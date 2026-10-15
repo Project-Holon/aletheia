@@ -22,7 +22,7 @@
  *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BCE8C 0x021BCE8C thumb ov216
- *   func_021BCE7C 0x021BCE7C thumb ov216
+ *   func_021BCE7C 0x021BCE7C arm ov216
  *   BMP_Clear 0x02043B5C arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_021BCEA4 0x021BCEA4 thumb ov216
